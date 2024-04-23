@@ -18,34 +18,30 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>datafactory.azure.com/v1api20180601 | Azure Service Operator</title>
-<meta name="description" content="datafactory.azure.com/v1api20180601  Package v1api20180601 contains API Schema definitions for the datafactory v1api20180601 API group
- Resource Types:  APIVersion (string alias)      Value Description   &amp;#34;2018-06-01&amp;#34;
-    CMKIdentityDefinition   (Appears on:EncryptionConfiguration)  Managed Identity used for CMK.
-    Field Description      userAssignedIdentityReference  genruntime.ResourceReference     UserAssignedIdentityReference: The resource id of the user assigned identity to authenticate to customer&amp;rsquo;s key vault.">
-<meta property="og:title" content="datafactory.azure.com/v1api20180601" />
-<meta property="og:description" content="datafactory.azure.com/v1api20180601  Package v1api20180601 contains API Schema definitions for the datafactory v1api20180601 API group
- Resource Types:  APIVersion (string alias)      Value Description   &#34;2018-06-01&#34;
-    CMKIdentityDefinition   (Appears on:EncryptionConfiguration)  Managed Identity used for CMK.
-    Field Description      userAssignedIdentityReference  genruntime.ResourceReference     UserAssignedIdentityReference: The resource id of the user assigned identity to authenticate to customer&rsquo;s key vault." />
+<title>Ownership | Azure Service Operator</title>
+<meta name="description" content="What is an owner? Most Azure Service Operator resources have an owner field, like so:
+ owner: name: aso-sample-rg The Go type for this is either KnownResourceReference or ArbitraryOwnerReference, depending on if the resource supports only a single kind of owner (StorageAccounts are always owned by ResourceGroups), or many kinds of owner (RoleAssignment can be owned by any type of resource).
+You can tell what type of resource the owner should point to by looking at the reference documentation.">
+<meta property="og:title" content="Ownership" />
+<meta property="og:description" content="What is an owner? Most Azure Service Operator resources have an owner field, like so:
+ owner: name: aso-sample-rg The Go type for this is either KnownResourceReference or ArbitraryOwnerReference, depending on if the resource supports only a single kind of owner (StorageAccounts are always owned by ResourceGroups), or many kinds of owner (RoleAssignment can be owned by any type of resource).
+You can tell what type of resource the owner should point to by looking at the reference documentation." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/datafactory/v1api20180601/" /><meta property="article:section" content="reference" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/ownership/" /><meta property="article:section" content="guide" />
 
 
 
-<meta itemprop="name" content="datafactory.azure.com/v1api20180601">
-<meta itemprop="description" content="datafactory.azure.com/v1api20180601  Package v1api20180601 contains API Schema definitions for the datafactory v1api20180601 API group
- Resource Types:  APIVersion (string alias)      Value Description   &#34;2018-06-01&#34;
-    CMKIdentityDefinition   (Appears on:EncryptionConfiguration)  Managed Identity used for CMK.
-    Field Description      userAssignedIdentityReference  genruntime.ResourceReference     UserAssignedIdentityReference: The resource id of the user assigned identity to authenticate to customer&rsquo;s key vault.">
+<meta itemprop="name" content="Ownership">
+<meta itemprop="description" content="What is an owner? Most Azure Service Operator resources have an owner field, like so:
+ owner: name: aso-sample-rg The Go type for this is either KnownResourceReference or ArbitraryOwnerReference, depending on if the resource supports only a single kind of owner (StorageAccounts are always owned by ResourceGroups), or many kinds of owner (RoleAssignment can be owned by any type of resource).
+You can tell what type of resource the owner should point to by looking at the reference documentation.">
 
-<meta itemprop="wordCount" content="2440">
+<meta itemprop="wordCount" content="405">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="datafactory.azure.com/v1api20180601"/>
-<meta name="twitter:description" content="datafactory.azure.com/v1api20180601  Package v1api20180601 contains API Schema definitions for the datafactory v1api20180601 API group
- Resource Types:  APIVersion (string alias)      Value Description   &#34;2018-06-01&#34;
-    CMKIdentityDefinition   (Appears on:EncryptionConfiguration)  Managed Identity used for CMK.
-    Field Description      userAssignedIdentityReference  genruntime.ResourceReference     UserAssignedIdentityReference: The resource id of the user assigned identity to authenticate to customer&rsquo;s key vault."/>
+<meta name="twitter:title" content="Ownership"/>
+<meta name="twitter:description" content="What is an owner? Most Azure Service Operator resources have an owner field, like so:
+ owner: name: aso-sample-rg The Go type for this is either KnownResourceReference or ArbitraryOwnerReference, depending on if the resource supports only a single kind of owner (StorageAccounts are always owned by ResourceGroups), or many kinds of owner (RoleAssignment can be owned by any type of resource).
+You can tell what type of resource the owner should point to by looking at the reference documentation."/>
 
 
 
@@ -66,7 +62,7 @@
   <div class="td-navbar-nav-scroll ml-md-auto" id="main_navbar">
     <ul class="navbar-nav mt-2 mt-lg-0">
       <li class="nav-item mr-4 mb-2 mb-lg-0">
-        <a class="nav-link" href="/azure-service-operator/guide/"><span>Guide</span></a>
+        <a class="nav-link active" href="/azure-service-operator/guide/"><span class="active">Guide</span></a>
       </li>
       <li class="nav-item mr-4 mb-2 mb-lg-0">
         <a class="nav-link" href="/azure-service-operator/tutorials/"><span>Tutorials</span></a>
@@ -75,7 +71,7 @@
         <a class="nav-link" href="/azure-service-operator/tools/"><span>Tools</span></a>
       </li>
       <li class="nav-item mr-4 mb-2 mb-lg-0">
-        <a class="nav-link active" href="/azure-service-operator/reference/"><span class="active">Supported Resources</span></a>
+        <a class="nav-link" href="/azure-service-operator/reference/"><span>Supported Resources</span></a>
       </li>
       <li class="nav-item mr-4 mb-2 mb-lg-0">
         <a class="nav-link" href="/azure-service-operator/contributing/"><span>Contributing</span></a>
@@ -109,24 +105,24 @@
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operator-li">
   <a href="/azure-service-operator/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-azure-service-operator"><span class="">Azure Service Operator v2</span></a>
   <ul class="ul-1">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguide-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguide-li">
   <a href="/azure-service-operator/guide/" title="User’s Guide" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguide"><span class="">Guide</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideinstalling-from-helm-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideinstalling-from-helm-li">
   <a href="/azure-service-operator/guide/installing-from-helm/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideinstalling-from-helm"><span class="">Installation: From Helm</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideinstalling-from-yaml-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideinstalling-from-yaml-li">
   <a href="/azure-service-operator/guide/installing-from-yaml/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideinstalling-from-yaml"><span class="">Installation: From YAML</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidecrd-management-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidecrd-management-li">
   <a href="/azure-service-operator/guide/crd-management/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidecrd-management"><span class="">CRD management in ASO</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideupgrading-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideupgrading-li">
   <a href="/azure-service-operator/guide/upgrading/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideupgrading"><span class="">Upgrading</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidefrequently-asked-questions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidefrequently-asked-questions-li">
   <a href="/azure-service-operator/guide/frequently-asked-questions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidefrequently-asked-questions"><span class="">FAQ</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideadoption-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideadoption-li">
   <a href="/azure-service-operator/guide/adoption/" title="Adopting existing Azure resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideadoption"><span class="">Adoption</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideannotations-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideannotations-li">
   <a href="/azure-service-operator/guide/annotations/" title="Annotations understood by the operator" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideannotations"><span class="">Annotations</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguideauthentication-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguideauthentication-li">
   <a href="/azure-service-operator/guide/authentication/" title="Authentication in Azure Service Operator" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguideauthentication"><span class="">Authentication</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthenticationcredential-format-li">
@@ -139,14 +135,14 @@
   <a href="/azure-service-operator/guide/authentication/reducing-access/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationreducing-access"><span class="">Reducing Access</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidebest-practices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebest-practices-li">
   <a href="/azure-service-operator/guide/best-practices/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebest-practices"><span class="">Best Practices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebest-practicessecurity-li">
   <a href="/azure-service-operator/guide/best-practices/security/" title="Security Best Practices" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebest-practicessecurity"><span class="">Security</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidebreaking-changes-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebreaking-changes-li">
   <a href="/azure-service-operator/guide/breaking-changes/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebreaking-changes"><span class="">Breaking Changes</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v240-li">
@@ -163,23 +159,23 @@
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0-beta.4/" title="v2.0.0-beta.4 Breaking Changes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4"><span class="">v2.0.0-beta.4</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideconditions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideconditions-li">
   <a href="/azure-service-operator/guide/conditions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconditions"><span class="">Conditions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideaso-controller-settings-options-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideaso-controller-settings-options-li">
   <a href="/azure-service-operator/guide/aso-controller-settings-options/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideaso-controller-settings-options"><span class="">Configuring ASO</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidediagnosing-problems-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidediagnosing-problems-li">
   <a href="/azure-service-operator/guide/diagnosing-problems/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidediagnosing-problems"><span class="">Diagnosing problems</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidesecrets-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidesecrets-li">
   <a href="/azure-service-operator/guide/secrets/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidesecrets"><span class="">Handling secrets</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidekeyvaults-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidekeyvaults-li">
   <a href="/azure-service-operator/guide/keyvaults/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidekeyvaults"><span class="">KeyVaults</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidemetrics-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidemetrics-li">
   <a href="/azure-service-operator/guide/metrics/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidemetrics"><span class="">Metrics</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideownership-li">
-  <a href="/azure-service-operator/guide/ownership/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideownership"><span class="">Ownership</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideconfigmaps-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorguideownership-li">
+  <a href="/azure-service-operator/guide/ownership/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideownership"><span class="td-sidebar-nav-active-item">Ownership</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideconfigmaps-li">
   <a href="/azure-service-operator/guide/configmaps/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconfigmaps"><span class="">Sharing data through ConfigMaps</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguideasov1-asov2-migration-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguideasov1-asov2-migration-li">
   <a href="/azure-service-operator/guide/asov1-asov2-migration/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguideasov1-asov2-migration"><span class="">ASOv1 to ASOv2 migration guide</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationazuresql-li">
@@ -200,7 +196,7 @@
   <a href="/azure-service-operator/guide/asov1-asov2-migration/storagecontainer/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationstoragecontainer"><span class="">Storage Container</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideuninstalling-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideuninstalling-li">
   <a href="/azure-service-operator/guide/uninstalling/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideuninstalling"><span class="">Uninstalling</span></a>
 </li>
   </ul>
@@ -226,10 +222,10 @@
   <a href="/azure-service-operator/tools/generator/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatortoolsgenerator"><span class="">generator</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreference-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreference-li">
   <a href="/azure-service-operator/reference/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreference"><span class="">Supported Resources</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceapimanagement-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceapimanagement-li">
   <a href="/azure-service-operator/reference/apimanagement/" title="ApiManagement Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceapimanagement"><span class="">ApiManagement</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceapimanagementv1api20220801-li">
@@ -238,14 +234,14 @@
   <a href="/azure-service-operator/reference/apimanagement/v1api20230501preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceapimanagementv1api20230501preview"><span class="">apimanagement.azure.com/v1api20230501preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceappconfiguration-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceappconfiguration-li">
   <a href="/azure-service-operator/reference/appconfiguration/" title="AppConfiguration Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceappconfiguration"><span class="">AppConfiguration</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceappconfigurationv1api20220501-li">
   <a href="/azure-service-operator/reference/appconfiguration/v1api20220501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappconfigurationv1api20220501"><span class="">appconfiguration.azure.com/v1api20220501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceauthorization-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceauthorization-li">
   <a href="/azure-service-operator/reference/authorization/" title="Authorization Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceauthorization"><span class="">Authorization</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceauthorizationv1api20200801preview-li">
@@ -254,14 +250,14 @@
   <a href="/azure-service-operator/reference/authorization/v1api20220401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1api20220401"><span class="">authorization.azure.com/v1api20220401</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencebatch-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencebatch-li">
   <a href="/azure-service-operator/reference/batch/" title="Batch Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencebatch"><span class="">Batch</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencebatchv1api20210101-li">
   <a href="/azure-service-operator/reference/batch/v1api20210101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebatchv1api20210101"><span class="">batch.azure.com/v1api20210101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecache-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecache-li">
   <a href="/azure-service-operator/reference/cache/" title="Cache Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecache"><span class="">Cache</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20201201-li">
@@ -274,7 +270,7 @@
   <a href="/azure-service-operator/reference/cache/v1api20230701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230701"><span class="">cache.azure.com/v1api20230701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecdn-li">
   <a href="/azure-service-operator/reference/cdn/" title="Cdn Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecdn"><span class="">Cdn</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecdnv1api20210601-li">
@@ -283,7 +279,7 @@
   <a href="/azure-service-operator/reference/cdn/v1api20230501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecdnv1api20230501"><span class="">cdn.azure.com/v1api20230501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecompute-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecompute-li">
   <a href="/azure-service-operator/reference/compute/" title="Compute Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecompute"><span class="">Compute</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20200930-li">
@@ -298,21 +294,21 @@
   <a href="/azure-service-operator/reference/compute/v1api20220702/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20220702"><span class="">compute.azure.com/v1api20220702</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerinstance-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerinstance-li">
   <a href="/azure-service-operator/reference/containerinstance/" title="ContainerInstance Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerinstance"><span class="">ContainerInstance</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerinstancev1api20211001-li">
   <a href="/azure-service-operator/reference/containerinstance/v1api20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerinstancev1api20211001"><span class="">containerinstance.azure.com/v1api20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerregistry-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerregistry-li">
   <a href="/azure-service-operator/reference/containerregistry/" title="ContainerRegistry Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerregistry"><span class="">ContainerRegistry</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1api20210901-li">
   <a href="/azure-service-operator/reference/containerregistry/v1api20210901/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1api20210901"><span class="">containerregistry.azure.com/v1api20210901</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerservice-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerservice-li">
   <a href="/azure-service-operator/reference/containerservice/" title="ContainerService Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerservice"><span class="">ContainerService</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20210501-li">
@@ -329,14 +325,14 @@
   <a href="/azure-service-operator/reference/containerservice/v1api20231102preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20231102preview"><span class="">containerservice.azure.com/v1api20231102preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferencedatafactory-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedatafactory-li">
   <a href="/azure-service-operator/reference/datafactory/" title="DataFactory Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedatafactory"><span class="">DataFactory</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorreferencedatafactoryv1api20180601-li">
-  <a href="/azure-service-operator/reference/datafactory/v1api20180601/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedatafactoryv1api20180601"><span class="td-sidebar-nav-active-item">datafactory.azure.com/v1api20180601</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedatafactoryv1api20180601-li">
+  <a href="/azure-service-operator/reference/datafactory/v1api20180601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedatafactoryv1api20180601"><span class="">datafactory.azure.com/v1api20180601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedataprotection-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedataprotection-li">
   <a href="/azure-service-operator/reference/dataprotection/" title="DataProtection Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedataprotection"><span class="">DataProtection</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedataprotectionv1api20230101-li">
@@ -345,14 +341,14 @@
   <a href="/azure-service-operator/reference/dataprotection/v1api20231101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedataprotectionv1api20231101"><span class="">dataprotection.azure.com/v1api20231101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformariadb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbformariadb-li">
   <a href="/azure-service-operator/reference/dbformariadb/" title="DBforMariaDB Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformariadb"><span class="">DBforMariaDB</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformariadbv1api20180601-li">
   <a href="/azure-service-operator/reference/dbformariadb/v1api20180601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformariadbv1api20180601"><span class="">dbformariadb.azure.com/v1api20180601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformysql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbformysql-li">
   <a href="/azure-service-operator/reference/dbformysql/" title="DBforMySQL Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformysql"><span class="">DBforMySQL</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1-li">
@@ -365,7 +361,7 @@
   <a href="/azure-service-operator/reference/dbformysql/v1api20230630/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20230630"><span class="">dbformysql.azure.com/v1api20230630</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbforpostgresql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbforpostgresql-li">
   <a href="/azure-service-operator/reference/dbforpostgresql/" title="DBforPostgreSQL Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbforpostgresql"><span class="">DBforPostgreSQL</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1-li">
@@ -380,35 +376,35 @@
   <a href="/azure-service-operator/reference/dbforpostgresql/v1api20230601preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20230601preview"><span class="">dbforpostgresql.azure.com/v1api20230601preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedevices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedevices-li">
   <a href="/azure-service-operator/reference/devices/" title="Devices Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedevices"><span class="">Devices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedevicesv1api20210702-li">
   <a href="/azure-service-operator/reference/devices/v1api20210702/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedevicesv1api20210702"><span class="">devices.azure.com/v1api20210702</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedocumentdb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedocumentdb-li">
   <a href="/azure-service-operator/reference/documentdb/" title="DocumentDB Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedocumentdb"><span class="">DocumentDB</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1api20210515-li">
   <a href="/azure-service-operator/reference/documentdb/v1api20210515/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1api20210515"><span class="">documentdb.azure.com/v1api20210515</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventgrid-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceeventgrid-li">
   <a href="/azure-service-operator/reference/eventgrid/" title="EventGrid Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventgrid"><span class="">EventGrid</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventgridv1api20200601-li">
   <a href="/azure-service-operator/reference/eventgrid/v1api20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventgridv1api20200601"><span class="">eventgrid.azure.com/v1api20200601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventhub-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceeventhub-li">
   <a href="/azure-service-operator/reference/eventhub/" title="EventHub Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventhub"><span class="">EventHub</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventhubv1api20211101-li">
   <a href="/azure-service-operator/reference/eventhub/v1api20211101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1api20211101"><span class="">eventhub.azure.com/v1api20211101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceinsights-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceinsights-li">
   <a href="/azure-service-operator/reference/insights/" title="Insights Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceinsights"><span class="">Insights</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20180301-li">
@@ -425,7 +421,7 @@
   <a href="/azure-service-operator/reference/insights/v1api20230101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20230101"><span class="">insights.azure.com/v1api20230101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekeyvault-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencekeyvault-li">
   <a href="/azure-service-operator/reference/keyvault/" title="KeyVault Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekeyvault"><span class="">KeyVault</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekeyvaultv1api20210401preview-li">
@@ -434,21 +430,21 @@
   <a href="/azure-service-operator/reference/keyvault/v1api20230701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekeyvaultv1api20230701"><span class="">keyvault.azure.com/v1api20230701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekubernetesconfiguration-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencekubernetesconfiguration-li">
   <a href="/azure-service-operator/reference/kubernetesconfiguration/" title="KubernetesConfiguration Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekubernetesconfiguration"><span class="">KubernetesConfiguration</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20230501-li">
   <a href="/azure-service-operator/reference/kubernetesconfiguration/v1api20230501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20230501"><span class="">kubernetesconfiguration.azure.com/v1api20230501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemachinelearningservices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemachinelearningservices-li">
   <a href="/azure-service-operator/reference/machinelearningservices/" title="MachineLearningServices Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemachinelearningservices"><span class="">MachineLearningServices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
   <a href="/azure-service-operator/reference/machinelearningservices/v1api20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701"><span class="">machinelearningservices.azure.com/v1api20210701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemanagedidentity-li">
   <a href="/azure-service-operator/reference/managedidentity/" title="ManagedIdentity Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemanagedidentity"><span class="">ManagedIdentity</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1api20181130-li">
@@ -459,14 +455,14 @@
   <a href="/azure-service-operator/reference/managedidentity/v1api20230131/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1api20230131"><span class="">managedidentity.azure.com/v1api20230131</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetworkfrontdoor-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencenetworkfrontdoor-li">
   <a href="/azure-service-operator/reference/network.frontdoor/" title="Network Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetworkfrontdoor"><span class="">Network</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkfrontdoorv1api20220501-li">
   <a href="/azure-service-operator/reference/network.frontdoor/v1api20220501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkfrontdoorv1api20220501"><span class="">network.frontdoor.azure.com/v1api20220501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetwork-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencenetwork-li">
   <a href="/azure-service-operator/reference/network/" title="Network Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetwork"><span class="">Network</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20180501-li">
@@ -483,28 +479,28 @@
   <a href="/azure-service-operator/reference/network/v1api20220701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220701"><span class="">network.azure.com/v1api20220701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceoperationalinsights-li">
   <a href="/azure-service-operator/reference/operationalinsights/" title="OperationalInsights Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceoperationalinsights"><span class="">OperationalInsights</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceoperationalinsightsv1api20210601-li">
   <a href="/azure-service-operator/reference/operationalinsights/v1api20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv1api20210601"><span class="">operationalinsights.azure.com/v1api20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceresources-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceresources-li">
   <a href="/azure-service-operator/reference/resources/" title="Resources Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceresources"><span class="">Resources</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceresourcesv1api20200601-li">
   <a href="/azure-service-operator/reference/resources/v1api20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceresourcesv1api20200601"><span class="">resources.azure.com/v1api20200601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesearch-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesearch-li">
   <a href="/azure-service-operator/reference/search/" title="Search Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesearch"><span class="">Search</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesearchv1api20220901-li">
   <a href="/azure-service-operator/reference/search/v1api20220901/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesearchv1api20220901"><span class="">search.azure.com/v1api20220901</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceservicebus-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceservicebus-li">
   <a href="/azure-service-operator/reference/servicebus/" title="ServiceBus Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceservicebus"><span class="">ServiceBus</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv1api20210101preview-li">
@@ -515,14 +511,14 @@
   <a href="/azure-service-operator/reference/servicebus/v1api20221001preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1api20221001preview"><span class="">servicebus.azure.com/v1api20221001preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesignalrservice-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesignalrservice-li">
   <a href="/azure-service-operator/reference/signalrservice/" title="SignalRService Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesignalrservice"><span class="">SignalRService</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesignalrservicev1api20211001-li">
   <a href="/azure-service-operator/reference/signalrservice/v1api20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesignalrservicev1api20211001"><span class="">signalrservice.azure.com/v1api20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesql-li">
   <a href="/azure-service-operator/reference/sql/" title="Sql Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesql"><span class="">Sql</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesqlv1-li">
@@ -531,7 +527,7 @@
   <a href="/azure-service-operator/reference/sql/v1api20211101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesqlv1api20211101"><span class="">sql.azure.com/v1api20211101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencestorage-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencestorage-li">
   <a href="/azure-service-operator/reference/storage/" title="Storage Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencestorage"><span class="">Storage</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1api20210401-li">
@@ -542,21 +538,21 @@
   <a href="/azure-service-operator/reference/storage/v1api20230101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1api20230101"><span class="">storage.azure.com/v1api20230101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesubscription-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesubscription-li">
   <a href="/azure-service-operator/reference/subscription/" title="Subscription Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesubscription"><span class="">Subscription</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesubscriptionv1api20211001-li">
   <a href="/azure-service-operator/reference/subscription/v1api20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesubscriptionv1api20211001"><span class="">subscription.azure.com/v1api20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesynapse-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesynapse-li">
   <a href="/azure-service-operator/reference/synapse/" title="Synapse Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesynapse"><span class="">Synapse</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesynapsev1api20210601-li">
   <a href="/azure-service-operator/reference/synapse/v1api20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesynapsev1api20210601"><span class="">synapse.azure.com/v1api20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceweb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceweb-li">
   <a href="/azure-service-operator/reference/web/" title="Web Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceweb"><span class="">Web</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencewebv1api20220301-li">
@@ -683,7 +679,22 @@
 
 </div>
 
-            
+            <div class="td-toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#what-is-an-owner">What is an owner?</a></li>
+    <li><a href="#what-is-ownership-for">What is ownership for?</a>
+      <ul>
+        <li><a href="#what-path-is-this-resource-at">What &ldquo;path&rdquo; is this resource at?</a></li>
+        <li><a href="#which-kubernetes-resource-owns-the-resource">Which Kubernetes resource owns the resource?</a></li>
+      </ul>
+    </li>
+    <li><a href="#using-arm-id-for-ownership">Using ARM ID for ownership</a></li>
+    <li><a href="#other-reading">Other reading</a></li>
+  </ul>
+</nav>
+      </div>
+    
             
 
 	
@@ -712,19 +723,16 @@
             <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
   <li class="breadcrumb-item">
-    <a href="https://azure.github.io/azure-service-operator/reference/">Supported Resources</a>
-  </li>
-  <li class="breadcrumb-item">
-    <a href="https://azure.github.io/azure-service-operator/reference/datafactory/">DataFactory</a>
+    <a href="https://azure.github.io/azure-service-operator/guide/">Guide</a>
   </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="https://azure.github.io/azure-service-operator/reference/datafactory/v1api20180601/" aria-disabled="true" class="btn-link disabled">datafactory.azure.com/v1api20180601</a>
+    <a href="https://azure.github.io/azure-service-operator/guide/ownership/" aria-disabled="true" class="btn-link disabled">Ownership</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>datafactory.azure.com/v1api20180601</h1>
+	<h1>Ownership</h1>
 	
 	<header class="article-meta">
 		
@@ -741,3471 +749,77 @@
 
 		
 	</header>    
-	<h2 id="datafactory.azure.com/v1api20180601">datafactory.azure.com/v1api20180601</h2>
-<div>
-<p>Package v1api20180601 contains API Schema definitions for the datafactory v1api20180601 API group</p>
+	<h2 id="what-is-an-owner">What is an owner?</h2>
+<p>Most Azure Service Operator resources have an <code>owner</code> field, like so:</p>
+<pre tabindex="0"><code>  owner:
+    name: aso-sample-rg
+</code></pre><p>The Go type for this is either
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">KnownResourceReference</a>
+or
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ArbitraryOwnerReference">ArbitraryOwnerReference</a>, depending
+on if the resource supports only a single kind of owner (<code>StorageAccount</code>s are always owned by <code>ResourceGroup</code>s),
+or many kinds of owner (<code>RoleAssignment</code> can be owned by any type of resource).</p>
+<p>You can tell what type of resource the owner should point to by looking at the reference documentation. For example:</p>
+<p><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20230101/#storage.azure.com/v1api20230101.StorageAccount">StorageAccount owner</a></p>
+<blockquote>
+<p>Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</p>
+</blockquote>
+<p><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20230101/#storage.azure.com/v1api20230101.StorageAccounts_BlobService_Spec">BlobService owner</a></p>
+<blockquote>
+<p>Owner is expected to be a reference to a storage.azure.com/StorageAccount resource</p>
+</blockquote>
+<p><a href="https://azure.github.io/azure-service-operator/reference/authorization/v1api20220401/#authorization.azure.com/v1api20220401.RoleAssignment">RoleAssignment owner</a></p>
+<blockquote>
+<p>This resource is an extension resource, which means that any other Azure resource can be its owner.</p>
+</blockquote>
+<h2 id="what-is-ownership-for">What is ownership for?</h2>
+<p>Ownership tells ASO two things:</p>
+<h3 id="what-path-is-this-resource-at">What &ldquo;path&rdquo; is this resource at?</h3>
+<p>For example: which <code>ResourceGroup</code> should this <code>StorageAccount</code> be deployed into?
+The owner represents the bolded part of this storage account ARM ID:</p>
+<blockquote>
+<p><strong>/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}</strong>/providers/Microsoft.Storage/storageAccounts/mystorageaccount</p>
+</blockquote>
+<p>and</p>
+<blockquote>
+<p><strong>/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}</strong>/agentPools/myagentpool</p>
+</blockquote>
+<p>for an AKS <code>AgentPool</code>.</p>
+<h3 id="which-kubernetes-resource-owns-the-resource">Which Kubernetes resource owns the resource?</h3>
+<p>This is for <a href="https://kubernetes.io/docs/concepts/architecture/garbage-collection">garbage collection</a>.</p>
+
+
+<div class="alert alert-primary" role="alert">
+<h4 class="alert-heading">Note</h4>
+
+    <p>Unlike BICEP/ARM templates, which use two fields <code>parent</code> and <code>scope</code>, ASO uses the same <code>owner</code> property regardless of
+if the resource is a standard resource such as a <code>StorageAccount</code> with only one type of owner (a <code>ResourceGroup</code>),
+<em>or</em> if the resource is an extension resource such as <code>RoleAssignment</code>.</p>
+<p>This is because the actual semantics of <code>parent</code> and <code>scope</code> are identical, each defines the URI path of the
+resource and what Kubernetes resource owns it for garbage collection.</p>
+
+
 </div>
-Resource Types:
-<ul></ul>
-<h3 id="datafactory.azure.com/v1api20180601.APIVersion">APIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2018-06-01&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.CMKIdentityDefinition">CMKIdentityDefinition
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.EncryptionConfiguration">EncryptionConfiguration</a>)
-</p>
-<div>
-<p>Managed Identity used for CMK.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>userAssignedIdentityReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>UserAssignedIdentityReference: The resource id of the user assigned identity to authenticate to customer&rsquo;s key vault.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.CMKIdentityDefinition_ARM">CMKIdentityDefinition_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.EncryptionConfiguration_ARM">EncryptionConfiguration_ARM</a>)
-</p>
-<div>
-<p>Managed Identity used for CMK.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>userAssignedIdentity</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.CMKIdentityDefinition_STATUS">CMKIdentityDefinition_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.EncryptionConfiguration_STATUS">EncryptionConfiguration_STATUS</a>)
-</p>
-<div>
-<p>Managed Identity used for CMK.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>userAssignedIdentity</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>UserAssignedIdentity: The resource id of the user assigned identity to authenticate to customer&rsquo;s key vault.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.CMKIdentityDefinition_STATUS_ARM">CMKIdentityDefinition_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.EncryptionConfiguration_STATUS_ARM">EncryptionConfiguration_STATUS_ARM</a>)
-</p>
-<div>
-<p>Managed Identity used for CMK.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>userAssignedIdentity</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>UserAssignedIdentity: The resource id of the user assigned identity to authenticate to customer&rsquo;s key vault.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.EncryptionConfiguration">EncryptionConfiguration
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.Factory_Spec">Factory_Spec</a>)
-</p>
-<div>
-<p>Definition of CMK for the factory.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.CMKIdentityDefinition">
-CMKIdentityDefinition
-</a>
-</em>
-</td>
-<td>
-<p>Identity: User assigned identity to use to authenticate to customer&rsquo;s key vault. If not provided Managed Service
-Identity will be used.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>keyName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>KeyName: The name of the key in Azure Key Vault to use as Customer Managed Key.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>keyVersion</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>KeyVersion: The version of the key used for CMK. If not provided, latest version will be used.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>vaultBaseUrl</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>VaultBaseUrl: The url of the Azure Key Vault used for CMK.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.EncryptionConfiguration_ARM">EncryptionConfiguration_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryProperties_ARM">FactoryProperties_ARM</a>)
-</p>
-<div>
-<p>Definition of CMK for the factory.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.CMKIdentityDefinition_ARM">
-CMKIdentityDefinition_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Identity: User assigned identity to use to authenticate to customer&rsquo;s key vault. If not provided Managed Service
-Identity will be used.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>keyName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>KeyName: The name of the key in Azure Key Vault to use as Customer Managed Key.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>keyVersion</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>KeyVersion: The version of the key used for CMK. If not provided, latest version will be used.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>vaultBaseUrl</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>VaultBaseUrl: The url of the Azure Key Vault used for CMK.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.EncryptionConfiguration_STATUS">EncryptionConfiguration_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.Factory_STATUS">Factory_STATUS</a>)
-</p>
-<div>
-<p>Definition of CMK for the factory.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.CMKIdentityDefinition_STATUS">
-CMKIdentityDefinition_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Identity: User assigned identity to use to authenticate to customer&rsquo;s key vault. If not provided Managed Service
-Identity will be used.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>keyName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>KeyName: The name of the key in Azure Key Vault to use as Customer Managed Key.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>keyVersion</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>KeyVersion: The version of the key used for CMK. If not provided, latest version will be used.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>vaultBaseUrl</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>VaultBaseUrl: The url of the Azure Key Vault used for CMK.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.EncryptionConfiguration_STATUS_ARM">EncryptionConfiguration_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryProperties_STATUS_ARM">FactoryProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>Definition of CMK for the factory.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.CMKIdentityDefinition_STATUS_ARM">
-CMKIdentityDefinition_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Identity: User assigned identity to use to authenticate to customer&rsquo;s key vault. If not provided Managed Service
-Identity will be used.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>keyName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>KeyName: The name of the key in Azure Key Vault to use as Customer Managed Key.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>keyVersion</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>KeyVersion: The version of the key used for CMK. If not provided, latest version will be used.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>vaultBaseUrl</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>VaultBaseUrl: The url of the Azure Key Vault used for CMK.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.Factory">Factory
-</h3>
-<div>
-<p>Generator information:
-- Generated from: /datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/datafactory.json
-- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.DataFactory/&#x200b;factories/&#x200b;{factoryName}</&#x200b;p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>metadata</code><br/>
-<em>
-<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
-Kubernetes meta/v1.ObjectMeta
-</a>
-</em>
-</td>
-<td>
-Refer to the Kubernetes API documentation for the fields of the
-<code>metadata</code> field.
-</td>
-</tr>
-<tr>
-<td>
-<code>spec</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.Factory_Spec">
-Factory_Spec
-</a>
-</em>
-</td>
-<td>
-<br/>
-<br/>
-<table>
-<tr>
-<td>
-<code>additionalProperties</code><br/>
-<em>
-<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
-map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>encryption</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.EncryptionConfiguration">
-EncryptionConfiguration
-</a>
-</em>
-</td>
-<td>
-<p>Encryption: Properties to enable Customer Managed Key for the factory.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>globalParameters</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.GlobalParameterSpecification">
-map[string]./api/datafactory/v1api20180601.GlobalParameterSpecification
-</a>
-</em>
-</td>
-<td>
-<p>GlobalParameters: List of parameters for factory.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryIdentity">
-FactoryIdentity
-</a>
-</em>
-</td>
-<td>
-<p>Identity: Managed service identity of the factory.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The resource location.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a resources.azure.com/ResourceGroup resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccess</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryProperties_PublicNetworkAccess">
-FactoryProperties_PublicNetworkAccess
-</a>
-</em>
-</td>
-<td>
-<p>PublicNetworkAccess: Whether or not public network access is allowed for the data factory.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>purviewConfiguration</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.PurviewConfiguration">
-PurviewConfiguration
-</a>
-</em>
-</td>
-<td>
-<p>PurviewConfiguration: Purview information of the factory.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>repoConfiguration</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryRepoConfiguration">
-FactoryRepoConfiguration
-</a>
-</em>
-</td>
-<td>
-<p>RepoConfiguration: Git repo information of the factory.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: The resource tags.</p>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.Factory_STATUS">
-Factory_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration">FactoryGitHubConfiguration
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryRepoConfiguration">FactoryRepoConfiguration</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>accountName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AccountName: Account name.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>clientId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ClientId: GitHub bring your own app client id.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>clientSecret</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.GitHubClientSecret">
-GitHubClientSecret
-</a>
-</em>
-</td>
-<td>
-<p>ClientSecret: GitHub bring your own app client secret information.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>collaborationBranch</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CollaborationBranch: Collaboration branch.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>disablePublish</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>DisablePublish: Disable manual publish operation in ADF studio to favor automated publish.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>hostName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>HostName: GitHub Enterprise host name. For example: <code>https://github.mydomain.com</code></p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastCommitId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastCommitId: Last commit id.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>repositoryName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>RepositoryName: Repository name.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>rootFolder</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>RootFolder: Root folder.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration_Type">
-FactoryGitHubConfiguration_Type
-</a>
-</em>
-</td>
-<td>
-<p>Type: Type of repo configuration.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration_ARM">FactoryGitHubConfiguration_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryRepoConfiguration_ARM">FactoryRepoConfiguration_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>accountName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AccountName: Account name.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>clientId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ClientId: GitHub bring your own app client id.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>clientSecret</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.GitHubClientSecret_ARM">
-GitHubClientSecret_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ClientSecret: GitHub bring your own app client secret information.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>collaborationBranch</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CollaborationBranch: Collaboration branch.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>disablePublish</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>DisablePublish: Disable manual publish operation in ADF studio to favor automated publish.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>hostName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>HostName: GitHub Enterprise host name. For example: <code>https://github.mydomain.com</code></p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastCommitId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastCommitId: Last commit id.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>repositoryName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>RepositoryName: Repository name.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>rootFolder</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>RootFolder: Root folder.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration_Type">
-FactoryGitHubConfiguration_Type
-</a>
-</em>
-</td>
-<td>
-<p>Type: Type of repo configuration.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration_STATUS">FactoryGitHubConfiguration_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryRepoConfiguration_STATUS">FactoryRepoConfiguration_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>accountName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AccountName: Account name.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>clientId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ClientId: GitHub bring your own app client id.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>clientSecret</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.GitHubClientSecret_STATUS">
-GitHubClientSecret_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>ClientSecret: GitHub bring your own app client secret information.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>collaborationBranch</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CollaborationBranch: Collaboration branch.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>disablePublish</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>DisablePublish: Disable manual publish operation in ADF studio to favor automated publish.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>hostName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>HostName: GitHub Enterprise host name. For example: <code>https://github.mydomain.com</code></p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastCommitId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastCommitId: Last commit id.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>repositoryName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>RepositoryName: Repository name.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>rootFolder</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>RootFolder: Root folder.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration_Type_STATUS">
-FactoryGitHubConfiguration_Type_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Type: Type of repo configuration.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration_STATUS_ARM">FactoryGitHubConfiguration_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryRepoConfiguration_STATUS_ARM">FactoryRepoConfiguration_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>accountName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AccountName: Account name.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>clientId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ClientId: GitHub bring your own app client id.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>clientSecret</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.GitHubClientSecret_STATUS_ARM">
-GitHubClientSecret_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ClientSecret: GitHub bring your own app client secret information.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>collaborationBranch</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CollaborationBranch: Collaboration branch.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>disablePublish</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>DisablePublish: Disable manual publish operation in ADF studio to favor automated publish.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>hostName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>HostName: GitHub Enterprise host name. For example: <code>https://github.mydomain.com</code></p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastCommitId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastCommitId: Last commit id.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>repositoryName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>RepositoryName: Repository name.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>rootFolder</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>RootFolder: Root folder.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration_Type_STATUS">
-FactoryGitHubConfiguration_Type_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Type: Type of repo configuration.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration_Type">FactoryGitHubConfiguration_Type
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration">FactoryGitHubConfiguration</a>, <a href="#datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration_ARM">FactoryGitHubConfiguration_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;FactoryGitHubConfiguration&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration_Type_STATUS">FactoryGitHubConfiguration_Type_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration_STATUS">FactoryGitHubConfiguration_STATUS</a>, <a href="#datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration_STATUS_ARM">FactoryGitHubConfiguration_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;FactoryGitHubConfiguration&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.FactoryIdentity">FactoryIdentity
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.Factory_Spec">Factory_Spec</a>)
-</p>
-<div>
-<p>Identity properties of the factory resource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryIdentity_Type">
-FactoryIdentity_Type
-</a>
-</em>
-</td>
-<td>
-<p>Type: The identity type.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>userAssignedIdentities</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.UserAssignedIdentityDetails">
-[]UserAssignedIdentityDetails
-</a>
-</em>
-</td>
-<td>
-<p>UserAssignedIdentities: List of user assigned identities for the factory.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.FactoryIdentity_ARM">FactoryIdentity_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.Factory_Spec_ARM">Factory_Spec_ARM</a>)
-</p>
-<div>
-<p>Identity properties of the factory resource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryIdentity_Type">
-FactoryIdentity_Type
-</a>
-</em>
-</td>
-<td>
-<p>Type: The identity type.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>userAssignedIdentities</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.UserAssignedIdentityDetails_ARM">
-map[string]./api/datafactory/v1api20180601.UserAssignedIdentityDetails_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.FactoryIdentity_STATUS">FactoryIdentity_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.Factory_STATUS">Factory_STATUS</a>)
-</p>
-<div>
-<p>Identity properties of the factory resource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>principalId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PrincipalId: The principal id of the identity.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tenantId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TenantId: The client tenant id of the identity.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryIdentity_Type_STATUS">
-FactoryIdentity_Type_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Type: The identity type.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>userAssignedIdentities</code><br/>
-<em>
-<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
-map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
-</a>
-</em>
-</td>
-<td>
-<p>UserAssignedIdentities: List of user assigned identities for the factory.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.FactoryIdentity_STATUS_ARM">FactoryIdentity_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.Factory_STATUS_ARM">Factory_STATUS_ARM</a>)
-</p>
-<div>
-<p>Identity properties of the factory resource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>principalId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PrincipalId: The principal id of the identity.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tenantId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TenantId: The client tenant id of the identity.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryIdentity_Type_STATUS">
-FactoryIdentity_Type_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Type: The identity type.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>userAssignedIdentities</code><br/>
-<em>
-<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
-map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
-</a>
-</em>
-</td>
-<td>
-<p>UserAssignedIdentities: List of user assigned identities for the factory.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.FactoryIdentity_Type">FactoryIdentity_Type
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryIdentity">FactoryIdentity</a>, <a href="#datafactory.azure.com/v1api20180601.FactoryIdentity_ARM">FactoryIdentity_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;SystemAssigned&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SystemAssigned,UserAssigned&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;UserAssigned&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.FactoryIdentity_Type_STATUS">FactoryIdentity_Type_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryIdentity_STATUS">FactoryIdentity_STATUS</a>, <a href="#datafactory.azure.com/v1api20180601.FactoryIdentity_STATUS_ARM">FactoryIdentity_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;SystemAssigned&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SystemAssigned,UserAssigned&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;UserAssigned&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.FactoryProperties_ARM">FactoryProperties_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.Factory_Spec_ARM">Factory_Spec_ARM</a>)
-</p>
-<div>
-<p>Factory resource properties.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>encryption</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.EncryptionConfiguration_ARM">
-EncryptionConfiguration_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Encryption: Properties to enable Customer Managed Key for the factory.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>globalParameters</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.GlobalParameterSpecification_ARM">
-map[string]./api/datafactory/v1api20180601.GlobalParameterSpecification_ARM
-</a>
-</em>
-</td>
-<td>
-<p>GlobalParameters: List of parameters for factory.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccess</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryProperties_PublicNetworkAccess">
-FactoryProperties_PublicNetworkAccess
-</a>
-</em>
-</td>
-<td>
-<p>PublicNetworkAccess: Whether or not public network access is allowed for the data factory.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>purviewConfiguration</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.PurviewConfiguration_ARM">
-PurviewConfiguration_ARM
-</a>
-</em>
-</td>
-<td>
-<p>PurviewConfiguration: Purview information of the factory.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>repoConfiguration</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryRepoConfiguration_ARM">
-FactoryRepoConfiguration_ARM
-</a>
-</em>
-</td>
-<td>
-<p>RepoConfiguration: Git repo information of the factory.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.FactoryProperties_PublicNetworkAccess">FactoryProperties_PublicNetworkAccess
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryProperties_ARM">FactoryProperties_ARM</a>, <a href="#datafactory.azure.com/v1api20180601.Factory_Spec">Factory_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Enabled&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.FactoryProperties_PublicNetworkAccess_STATUS">FactoryProperties_PublicNetworkAccess_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryProperties_STATUS_ARM">FactoryProperties_STATUS_ARM</a>, <a href="#datafactory.azure.com/v1api20180601.Factory_STATUS">Factory_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Enabled&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.FactoryProperties_STATUS_ARM">FactoryProperties_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.Factory_STATUS_ARM">Factory_STATUS_ARM</a>)
-</p>
-<div>
-<p>Factory resource properties.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>createTime</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreateTime: Time the factory was created in ISO8601 format.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>encryption</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.EncryptionConfiguration_STATUS_ARM">
-EncryptionConfiguration_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Encryption: Properties to enable Customer Managed Key for the factory.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>globalParameters</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.GlobalParameterSpecification_STATUS_ARM">
-map[string]./api/datafactory/v1api20180601.GlobalParameterSpecification_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>GlobalParameters: List of parameters for factory.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ProvisioningState: Factory provisioning state, example Succeeded.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccess</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryProperties_PublicNetworkAccess_STATUS">
-FactoryProperties_PublicNetworkAccess_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>PublicNetworkAccess: Whether or not public network access is allowed for the data factory.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>purviewConfiguration</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.PurviewConfiguration_STATUS_ARM">
-PurviewConfiguration_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>PurviewConfiguration: Purview information of the factory.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>repoConfiguration</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryRepoConfiguration_STATUS_ARM">
-FactoryRepoConfiguration_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>RepoConfiguration: Git repo information of the factory.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>version</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Version: Version of the factory.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.FactoryRepoConfiguration">FactoryRepoConfiguration
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.Factory_Spec">Factory_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>factoryGitHubConfiguration</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration">
-FactoryGitHubConfiguration
-</a>
-</em>
-</td>
-<td>
-<p>FactoryGitHub: Mutually exclusive with all other properties</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>factoryVSTSConfiguration</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryVSTSConfiguration">
-FactoryVSTSConfiguration
-</a>
-</em>
-</td>
-<td>
-<p>FactoryVSTS: Mutually exclusive with all other properties</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.FactoryRepoConfiguration_ARM">FactoryRepoConfiguration_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryProperties_ARM">FactoryProperties_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>factoryGitHubConfiguration</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration_ARM">
-FactoryGitHubConfiguration_ARM
-</a>
-</em>
-</td>
-<td>
-<p>FactoryGitHub: Mutually exclusive with all other properties</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>factoryVSTSConfiguration</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryVSTSConfiguration_ARM">
-FactoryVSTSConfiguration_ARM
-</a>
-</em>
-</td>
-<td>
-<p>FactoryVSTS: Mutually exclusive with all other properties</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.FactoryRepoConfiguration_STATUS">FactoryRepoConfiguration_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.Factory_STATUS">Factory_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>factoryGitHubConfiguration</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration_STATUS">
-FactoryGitHubConfiguration_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>FactoryGitHub: Mutually exclusive with all other properties</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>factoryVSTSConfiguration</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryVSTSConfiguration_STATUS">
-FactoryVSTSConfiguration_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>FactoryVSTS: Mutually exclusive with all other properties</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.FactoryRepoConfiguration_STATUS_ARM">FactoryRepoConfiguration_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryProperties_STATUS_ARM">FactoryProperties_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>factoryGitHubConfiguration</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration_STATUS_ARM">
-FactoryGitHubConfiguration_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>FactoryGitHub: Mutually exclusive with all other properties</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>factoryVSTSConfiguration</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryVSTSConfiguration_STATUS_ARM">
-FactoryVSTSConfiguration_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>FactoryVSTS: Mutually exclusive with all other properties</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.FactoryVSTSConfiguration">FactoryVSTSConfiguration
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryRepoConfiguration">FactoryRepoConfiguration</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>accountName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AccountName: Account name.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>collaborationBranch</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CollaborationBranch: Collaboration branch.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>disablePublish</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>DisablePublish: Disable manual publish operation in ADF studio to favor automated publish.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastCommitId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastCommitId: Last commit id.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>projectName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ProjectName: VSTS project name.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>repositoryName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>RepositoryName: Repository name.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>rootFolder</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>RootFolder: Root folder.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tenantId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TenantId: VSTS tenant id.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryVSTSConfiguration_Type">
-FactoryVSTSConfiguration_Type
-</a>
-</em>
-</td>
-<td>
-<p>Type: Type of repo configuration.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.FactoryVSTSConfiguration_ARM">FactoryVSTSConfiguration_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryRepoConfiguration_ARM">FactoryRepoConfiguration_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>accountName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AccountName: Account name.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>collaborationBranch</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CollaborationBranch: Collaboration branch.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>disablePublish</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>DisablePublish: Disable manual publish operation in ADF studio to favor automated publish.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastCommitId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastCommitId: Last commit id.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>projectName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ProjectName: VSTS project name.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>repositoryName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>RepositoryName: Repository name.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>rootFolder</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>RootFolder: Root folder.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tenantId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TenantId: VSTS tenant id.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryVSTSConfiguration_Type">
-FactoryVSTSConfiguration_Type
-</a>
-</em>
-</td>
-<td>
-<p>Type: Type of repo configuration.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.FactoryVSTSConfiguration_STATUS">FactoryVSTSConfiguration_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryRepoConfiguration_STATUS">FactoryRepoConfiguration_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>accountName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AccountName: Account name.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>collaborationBranch</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CollaborationBranch: Collaboration branch.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>disablePublish</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>DisablePublish: Disable manual publish operation in ADF studio to favor automated publish.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastCommitId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastCommitId: Last commit id.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>projectName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ProjectName: VSTS project name.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>repositoryName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>RepositoryName: Repository name.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>rootFolder</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>RootFolder: Root folder.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tenantId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TenantId: VSTS tenant id.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryVSTSConfiguration_Type_STATUS">
-FactoryVSTSConfiguration_Type_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Type: Type of repo configuration.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.FactoryVSTSConfiguration_STATUS_ARM">FactoryVSTSConfiguration_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryRepoConfiguration_STATUS_ARM">FactoryRepoConfiguration_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>accountName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AccountName: Account name.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>collaborationBranch</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CollaborationBranch: Collaboration branch.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>disablePublish</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>DisablePublish: Disable manual publish operation in ADF studio to favor automated publish.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastCommitId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastCommitId: Last commit id.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>projectName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ProjectName: VSTS project name.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>repositoryName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>RepositoryName: Repository name.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>rootFolder</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>RootFolder: Root folder.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tenantId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TenantId: VSTS tenant id.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryVSTSConfiguration_Type_STATUS">
-FactoryVSTSConfiguration_Type_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Type: Type of repo configuration.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.FactoryVSTSConfiguration_Type">FactoryVSTSConfiguration_Type
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryVSTSConfiguration">FactoryVSTSConfiguration</a>, <a href="#datafactory.azure.com/v1api20180601.FactoryVSTSConfiguration_ARM">FactoryVSTSConfiguration_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;FactoryVSTSConfiguration&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.FactoryVSTSConfiguration_Type_STATUS">FactoryVSTSConfiguration_Type_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryVSTSConfiguration_STATUS">FactoryVSTSConfiguration_STATUS</a>, <a href="#datafactory.azure.com/v1api20180601.FactoryVSTSConfiguration_STATUS_ARM">FactoryVSTSConfiguration_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;FactoryVSTSConfiguration&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.Factory_STATUS">Factory_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.Factory">Factory</a>)
-</p>
-<div>
-<p>Factory resource type.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>additionalProperties</code><br/>
-<em>
-<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
-map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>conditions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
-[]genruntime/conditions.Condition
-</a>
-</em>
-</td>
-<td>
-<p>Conditions: The observed state of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createTime</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreateTime: Time the factory was created in ISO8601 format.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>eTag</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ETag: Etag identifies change in the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>encryption</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.EncryptionConfiguration_STATUS">
-EncryptionConfiguration_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Encryption: Properties to enable Customer Managed Key for the factory.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>globalParameters</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.GlobalParameterSpecification_STATUS">
-map[string]./api/datafactory/v1api20180601.GlobalParameterSpecification_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>GlobalParameters: List of parameters for factory.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: The resource identifier.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryIdentity_STATUS">
-FactoryIdentity_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Identity: Managed service identity of the factory.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The resource location.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The resource name.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ProvisioningState: Factory provisioning state, example Succeeded.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccess</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryProperties_PublicNetworkAccess_STATUS">
-FactoryProperties_PublicNetworkAccess_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>PublicNetworkAccess: Whether or not public network access is allowed for the data factory.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>purviewConfiguration</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.PurviewConfiguration_STATUS">
-PurviewConfiguration_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>PurviewConfiguration: Purview information of the factory.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>repoConfiguration</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryRepoConfiguration_STATUS">
-FactoryRepoConfiguration_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>RepoConfiguration: Git repo information of the factory.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: The resource tags.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The resource type.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>version</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Version: Version of the factory.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.Factory_STATUS_ARM">Factory_STATUS_ARM
-</h3>
-<div>
-<p>Factory resource type.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>additionalProperties</code><br/>
-<em>
-<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
-map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>eTag</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ETag: Etag identifies change in the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: The resource identifier.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryIdentity_STATUS_ARM">
-FactoryIdentity_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Identity: Managed service identity of the factory.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The resource location.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The resource name.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryProperties_STATUS_ARM">
-FactoryProperties_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: Properties of the factory.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: The resource tags.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The resource type.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.Factory_Spec">Factory_Spec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.Factory">Factory</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>additionalProperties</code><br/>
-<em>
-<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
-map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>encryption</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.EncryptionConfiguration">
-EncryptionConfiguration
-</a>
-</em>
-</td>
-<td>
-<p>Encryption: Properties to enable Customer Managed Key for the factory.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>globalParameters</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.GlobalParameterSpecification">
-map[string]./api/datafactory/v1api20180601.GlobalParameterSpecification
-</a>
-</em>
-</td>
-<td>
-<p>GlobalParameters: List of parameters for factory.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryIdentity">
-FactoryIdentity
-</a>
-</em>
-</td>
-<td>
-<p>Identity: Managed service identity of the factory.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The resource location.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a resources.azure.com/ResourceGroup resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccess</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryProperties_PublicNetworkAccess">
-FactoryProperties_PublicNetworkAccess
-</a>
-</em>
-</td>
-<td>
-<p>PublicNetworkAccess: Whether or not public network access is allowed for the data factory.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>purviewConfiguration</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.PurviewConfiguration">
-PurviewConfiguration
-</a>
-</em>
-</td>
-<td>
-<p>PurviewConfiguration: Purview information of the factory.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>repoConfiguration</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryRepoConfiguration">
-FactoryRepoConfiguration
-</a>
-</em>
-</td>
-<td>
-<p>RepoConfiguration: Git repo information of the factory.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: The resource tags.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.Factory_Spec_ARM">Factory_Spec_ARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>additionalProperties</code><br/>
-<em>
-<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
-map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryIdentity_ARM">
-FactoryIdentity_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Identity: Managed service identity of the factory.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The resource location.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryProperties_ARM">
-FactoryProperties_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: Properties of the factory.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: The resource tags.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.GitHubClientSecret">GitHubClientSecret
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration">FactoryGitHubConfiguration</a>)
-</p>
-<div>
-<p>Client secret information for factory&rsquo;s bring your own app repository configuration.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>byoaSecretAkvUrl</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ByoaSecretAkvUrl: Bring your own app client secret AKV URL.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>byoaSecretName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ByoaSecretName: Bring your own app client secret name in AKV.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.GitHubClientSecret_ARM">GitHubClientSecret_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration_ARM">FactoryGitHubConfiguration_ARM</a>)
-</p>
-<div>
-<p>Client secret information for factory&rsquo;s bring your own app repository configuration.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>byoaSecretAkvUrl</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ByoaSecretAkvUrl: Bring your own app client secret AKV URL.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>byoaSecretName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ByoaSecretName: Bring your own app client secret name in AKV.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.GitHubClientSecret_STATUS">GitHubClientSecret_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration_STATUS">FactoryGitHubConfiguration_STATUS</a>)
-</p>
-<div>
-<p>Client secret information for factory&rsquo;s bring your own app repository configuration.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>byoaSecretAkvUrl</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ByoaSecretAkvUrl: Bring your own app client secret AKV URL.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>byoaSecretName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ByoaSecretName: Bring your own app client secret name in AKV.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.GitHubClientSecret_STATUS_ARM">GitHubClientSecret_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration_STATUS_ARM">FactoryGitHubConfiguration_STATUS_ARM</a>)
-</p>
-<div>
-<p>Client secret information for factory&rsquo;s bring your own app repository configuration.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>byoaSecretAkvUrl</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ByoaSecretAkvUrl: Bring your own app client secret AKV URL.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>byoaSecretName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ByoaSecretName: Bring your own app client secret name in AKV.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.GlobalParameterSpecification">GlobalParameterSpecification
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.Factory_Spec">Factory_Spec</a>)
-</p>
-<div>
-<p>Definition of a single parameter for an entity.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.GlobalParameterSpecification_Type">
-GlobalParameterSpecification_Type
-</a>
-</em>
-</td>
-<td>
-<p>Type: Global Parameter type.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>value</code><br/>
-<em>
-<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
-map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
-</a>
-</em>
-</td>
-<td>
-<p>Value: Value of parameter.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.GlobalParameterSpecification_ARM">GlobalParameterSpecification_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryProperties_ARM">FactoryProperties_ARM</a>)
-</p>
-<div>
-<p>Definition of a single parameter for an entity.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.GlobalParameterSpecification_Type">
-GlobalParameterSpecification_Type
-</a>
-</em>
-</td>
-<td>
-<p>Type: Global Parameter type.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>value</code><br/>
-<em>
-<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
-map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
-</a>
-</em>
-</td>
-<td>
-<p>Value: Value of parameter.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.GlobalParameterSpecification_STATUS">GlobalParameterSpecification_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.Factory_STATUS">Factory_STATUS</a>)
-</p>
-<div>
-<p>Definition of a single parameter for an entity.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.GlobalParameterSpecification_Type_STATUS">
-GlobalParameterSpecification_Type_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Type: Global Parameter type.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>value</code><br/>
-<em>
-<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
-map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
-</a>
-</em>
-</td>
-<td>
-<p>Value: Value of parameter.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.GlobalParameterSpecification_STATUS_ARM">GlobalParameterSpecification_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryProperties_STATUS_ARM">FactoryProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>Definition of a single parameter for an entity.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#datafactory.azure.com/v1api20180601.GlobalParameterSpecification_Type_STATUS">
-GlobalParameterSpecification_Type_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Type: Global Parameter type.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>value</code><br/>
-<em>
-<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
-map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
-</a>
-</em>
-</td>
-<td>
-<p>Value: Value of parameter.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.GlobalParameterSpecification_Type">GlobalParameterSpecification_Type
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.GlobalParameterSpecification">GlobalParameterSpecification</a>, <a href="#datafactory.azure.com/v1api20180601.GlobalParameterSpecification_ARM">GlobalParameterSpecification_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Array&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Bool&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Float&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Int&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Object&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;String&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.GlobalParameterSpecification_Type_STATUS">GlobalParameterSpecification_Type_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.GlobalParameterSpecification_STATUS">GlobalParameterSpecification_STATUS</a>, <a href="#datafactory.azure.com/v1api20180601.GlobalParameterSpecification_STATUS_ARM">GlobalParameterSpecification_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Array&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Bool&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Float&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Int&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Object&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;String&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.PurviewConfiguration">PurviewConfiguration
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.Factory_Spec">Factory_Spec</a>)
-</p>
-<div>
-<p>Purview configuration.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>purviewResourceReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>PurviewResourceReference: Purview resource id.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.PurviewConfiguration_ARM">PurviewConfiguration_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryProperties_ARM">FactoryProperties_ARM</a>)
-</p>
-<div>
-<p>Purview configuration.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>purviewResourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.PurviewConfiguration_STATUS">PurviewConfiguration_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.Factory_STATUS">Factory_STATUS</a>)
-</p>
-<div>
-<p>Purview configuration.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>purviewResourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PurviewResourceId: Purview resource id.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.PurviewConfiguration_STATUS_ARM">PurviewConfiguration_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryProperties_STATUS_ARM">FactoryProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>Purview configuration.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>purviewResourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PurviewResourceId: Purview resource id.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.UserAssignedIdentityDetails">UserAssignedIdentityDetails
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryIdentity">FactoryIdentity</a>)
-</p>
-<div>
-<p>Information about the user assigned identity for the resource</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>reference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="datafactory.azure.com/v1api20180601.UserAssignedIdentityDetails_ARM">UserAssignedIdentityDetails_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryIdentity_ARM">FactoryIdentity_ARM</a>)
-</p>
-<div>
-<p>Information about the user assigned identity for the resource</p>
-</div>
-<hr/>
+
+<h2 id="using-arm-id-for-ownership">Using ARM ID for ownership</h2>
+<p>The <code>owner</code> field supports pointing to an ARM ID rather than the Kubernetes resource. This mechanism of ownership
+exists to make using ASO alongside other resource management tools easier.</p>
+<pre tabindex="0"><code>owner:
+  armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myrg
+</code></pre><p>This option should only be used if ASO is <em>not</em> managing the owning resource. If the resource is being managed by ASO then
+always prefer the <code>owner.name</code> option.</p>
+<p>Disadvantages of using <code>owner.armId</code>:</p>
+<ul>
+<li>No automatic Kubernetes garbage collection if parent resource is deleted. Instead, resources whose owner.armId points
+to a non-existent Azure resource will report an error in their ready condition.</li>
+<li>Makes it more difficult to deploy the same ASO resources into multiple namespaces and have them end up in multiple
+subscriptions, as now the subscriptionId is in some <code>owner.armId</code> fields and will need to be templated using
+something like Kustomize or Helm.</li>
+</ul>
+<h2 id="other-reading">Other reading</h2>
+<ul>
+<li><a href="/azure-service-operator/design/type-references-and-ownership/">Type references and ownership design document</a>.</li>
+</ul>
 
 	
 	

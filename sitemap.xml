@@ -14,6 +14,32 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/frequently-asked-questions/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/adoption/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/annotations/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/authentication/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/best-practices/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/conditions/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/aso-controller-settings-options/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/diagnosing-problems/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/secrets/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/keyvaults/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/metrics/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/ownership/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/configmaps/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/tools/asoctl/</loc>
@@ -98,8 +124,6 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/guide/annotations/</loc>
-  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/apimanagement/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/apimanagement/v1api20220801/</loc>
@@ -109,8 +133,6 @@
     <loc>https://azure.github.io/azure-service-operator/reference/appconfiguration/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/appconfiguration/v1api20220501/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/guide/authentication/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/authorization/</loc>
   </url><url>
@@ -125,10 +147,6 @@
     <loc>https://azure.github.io/azure-service-operator/reference/batch/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/batch/v1api20210101/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/guide/best-practices/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/cache/</loc>
   </url><url>
@@ -167,10 +185,6 @@
     <loc>https://azure.github.io/azure-service-operator/reference/compute/v1api20220301/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/compute/v1api20220702/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/guide/conditions/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/guide/aso-controller-settings-options/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerinstance/</loc>
   </url><url>
@@ -250,8 +264,6 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/devices/v1api20210702/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/guide/diagnosing-problems/</loc>
-  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/documentdb/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/documentdb/v1api20210515/</loc>
@@ -267,8 +279,6 @@
     <loc>https://azure.github.io/azure-service-operator/reference/eventhub/v1api20211101/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/versioning/case-studies/fixed-storage-version/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/guide/secrets/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/reconcile-interface/</loc>
   </url><url>
@@ -292,8 +302,6 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/keyvault/v1api20230701/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/guide/keyvaults/</loc>
-  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/kubernetesconfiguration/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/kubernetesconfiguration/v1api20230501/</loc>
@@ -309,8 +317,6 @@
     <loc>https://azure.github.io/azure-service-operator/reference/managedidentity/v1api20220131preview/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/managedidentity/v1api20230131/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/guide/metrics/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/authentication/multitenant-deployment/</loc>
   </url><url>
@@ -369,8 +375,6 @@
     <loc>https://azure.github.io/azure-service-operator/reference/servicebus/v1api20211101/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/servicebus/v1api20221001preview/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/guide/configmaps/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/signalrservice/</loc>
   </url><url>
