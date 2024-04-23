@@ -1,6 +1,7 @@
 ---
 title: "Best Practices"
 linkTitle: "Best Practices"
+weight: 1 # This is the default weight if you just want to be ordered alphabetically
 ---
 
 ## Managing multiple copies of the same resource

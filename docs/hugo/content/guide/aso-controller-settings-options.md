@@ -1,6 +1,7 @@
 ---
 title: Configuring ASO
 linktitle: Configuring ASO
+weight: 1 # This is the default weight if you just want to be ordered alphabetically
 ---
 
 Configuration of ASO is done primarily through a secret in the `azureserviceoperator-system` 

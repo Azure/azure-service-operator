@@ -1,6 +1,7 @@
 ---
 title: "Breaking Changes"
 linkTitle: "Breaking Changes"
+weight: 1 # This is the default weight if you just want to be ordered alphabetically
 ---
 We go to great lengths to avoid breaking changes as much as possible, as we're well aware that they can cause issues for our users. However, they do occasionally occur, so we've committed to providing good documentation each time this occurs.
 

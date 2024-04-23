@@ -82,6 +82,10 @@ jobs:
             > You must specify the CRDs that you want to use as part of `crdPattern`, for example `'resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;apimanagement.azure.com/*'`.
 
             It is only intended for developers wishing to try out the latest feature, some of which may not be fully implemented.
+            
+            It is not recommended to run the experimental release for a long period of time, as the docker image referenced by the deployment is 
+            `mcr.microsoft.com/k8s/azureserviceoperator:experimental`, which is always being updated. Test what you want to test and then uninstall the operator. 
+            Running the operator for long periods of time on the `experimental` tag is not supported and will likely cause problems eventually.
 
       - name: Docker login
         run: |

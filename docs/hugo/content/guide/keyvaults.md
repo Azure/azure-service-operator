@@ -1,6 +1,7 @@
 ---
 title: "KeyVaults"
 linktitle: "KeyVaults"
+weight: 1 # This is the default weight if you just want to be ordered alphabetically
 ---
 
 The standard options for `createMode` when creating a new KeyVault assume you know whether there is an existing soft-deleted KeyVault already present.
@@ -17,12 +18,12 @@ However, with a goal seeking system that expects to maintain resources over time
 * `purgeThenCreate` - If an existing soft-deleted KeyVault has the same name, purge it first; then create a brand new one. **Dangerous**
 
 {{% alert title="Warning" color="warning" %}}
-Purging a KeyVault is a permanent action from which there is no recovery. 
+Purging a KeyVault is a permanent action from which there is no recovery.
 {{% /alert %}}
 
 ## Motivation
 
-One of the core value propositions of ASO is its active management of the deployed resources. If they drift from the desired configuration, ASO will act to bring them back into the required state. 
+One of the core value propositions of ASO is its active management of the deployed resources. If they drift from the desired configuration, ASO will act to bring them back into the required state.
 
 KeyVaults are a key piece of infrastructure, containing secrets and credentials required for an application to operate. If a KeyVault is deleted (whether accidentally, or maliciously), it's desirable for ASO to be able to automatically recover so that normal operation of the application can be restored. These new options for `createMode` allow that to happen.
 
