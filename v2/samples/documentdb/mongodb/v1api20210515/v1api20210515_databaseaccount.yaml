@@ -1,7 +1,7 @@
 apiVersion: documentdb.azure.com/v1api20210515
 kind: DatabaseAccount
 metadata:
-  name: sample-mongodb-account
+  name: mongodb-acc-v20210515
   namespace: default
 spec:
   location: eastus

@@ -6,7 +6,7 @@ metadata:
 spec:
   location: eastus
   owner:
-    name: sample-mongodb-account
+    name: mongodb-acc-v20210515
   options:
     autoscaleSettings:
       maxThroughput: 4000
