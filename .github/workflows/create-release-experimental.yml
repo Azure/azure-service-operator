@@ -80,8 +80,13 @@ jobs:
 
             > ⚠️ The provided YAML manifest does not configure any CRDs to install by default, but is required.
             > You must specify the CRDs that you want to use as part of `crdPattern`, for example `'resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;apimanagement.azure.com/*'`.
+            
+            The recommended way to supply `crdPattern` is using [asoctl template](https://azure.github.io/azure-service-operator/tools/asoctl/#template):
+            ```bash
+            asoctl template https://github.com/Azure/azure-service-operator/releases/download/experimental/azureserviceoperator_experimental.yaml --crd-pattern "<pattern>" | kubectl apply -f -`
+            ```
 
-            It is only intended for developers wishing to try out the latest feature, some of which may not be fully implemented.
+            This release is only intended for developers wishing to try out the latest features, some of which may not be fully implemented.
             
             It is not recommended to run the experimental release for a long period of time, as the docker image referenced by the deployment is 
             `mcr.microsoft.com/k8s/azureserviceoperator:experimental`, which is always being updated. Test what you want to test and then uninstall the operator. 
