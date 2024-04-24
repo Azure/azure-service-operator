@@ -353,6 +353,7 @@ Development of these new resources is complete and they will be available in the
 | SqlDatabaseContainerTrigger                | 2023-11-15  | v1api20231115 | v2.7.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20231115/v1api20231115_sqldatabasecontainertrigger.yaml)             |
 | SqlDatabaseContainerUserDefinedFunction    | 2023-11-15  | v1api20231115 | v2.7.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20231115/v1api20231115_sqldatabasecontaineruserdefinedfunction.yaml) |
 | SqlDatabaseThroughputSetting               | 2023-11-15  | v1api20231115 | v2.7.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20231115/v1api20231115_sqldatabasethroughputsetting.yaml)            |
+| SqlRoleAssignment                          | 2023-11-15  | v1api20231115 | v2.7.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20231115/v1api20231115_sqlroleassignment.yaml)                       |
 
 ### Released
 

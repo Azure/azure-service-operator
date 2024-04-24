@@ -150,7 +150,7 @@ To fix up the missing property, we revisit the configuration file and copy the c
           - SecondaryReadonlyMasterKey
           - DocumentEndpoint
 ```
-tRunning `task` again, is fails with this error:
+Running `task` again, is fails with this error:
 
 ``` bash
 task: [controller:verify-samples] /workspaces/azure-service-operator/scripts/v2/check_samples.py v2/

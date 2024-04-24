@@ -2092,6 +2092,10 @@ objectModelConfiguration:
       DatabaseAccounts_SqlDatabases_ThroughputSetting:
         $exportAs: SqlDatabaseThroughputSetting
         $supportedFrom: v2.7.0
+      DatabaseAccounts_SqlRoleAssignment:
+        $exportAs: SqlRoleAssignment
+        $supportedFrom: v2.7.0
+        $defaultAzureName: false
       MongoDBCollectionResource:
         Id:
           $armReference: false
@@ -2104,6 +2108,9 @@ objectModelConfiguration:
       SqlContainerResource:
         Id:
           $armReference: false
+      SqlRoleAssignmentResource:
+        PrincipalId:
+          $importConfigMapMode: optional
       SqlTriggerResource:
         Id:
           $armReference: false

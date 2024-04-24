@@ -20,6 +20,9 @@ func Test_DocumentDB_MongoDatabase_v20231115_CRUD(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
 
+	// The normal default region has capacity constraints, so we use australiaeast instead
+	tc.AzureRegion = to.Ptr("australiaeast")
+
 	// Create our resource group
 	rg := tc.CreateTestResourceGroupAndWait()
 
@@ -29,7 +32,7 @@ func Test_DocumentDB_MongoDatabase_v20231115_CRUD(t *testing.T) {
 	acct := documentdb.DatabaseAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("db")),
 		Spec: documentdb.DatabaseAccount_Spec{
-			Location: to.Ptr("australiaeast"), // Capacity constraints //  tc.AzureRegion,
+			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Kind:     &kind,
 			Capabilities: []documentdb.Capability{{
@@ -38,7 +41,7 @@ func Test_DocumentDB_MongoDatabase_v20231115_CRUD(t *testing.T) {
 			DatabaseAccountOfferType: &offerType,
 			Locations: []documentdb.Location{
 				{
-					LocationName: to.Ptr("australiaeast"), // Capacity constraints //  tc.AzureRegion,
+					LocationName: tc.AzureRegion,
 				},
 			},
 		},
@@ -49,7 +52,7 @@ func Test_DocumentDB_MongoDatabase_v20231115_CRUD(t *testing.T) {
 	db := documentdb.MongodbDatabase{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
 		Spec: documentdb.DatabaseAccounts_MongodbDatabase_Spec{
-			Location: to.Ptr("australiaeast"), // Capacity constraints //  tc.AzureRegion,
+			Location: tc.AzureRegion,
 			Options: &documentdb.CreateUpdateOptions{
 				AutoscaleSettings: &documentdb.AutoscaleSettings{
 					MaxThroughput: to.Ptr(4000),
@@ -122,7 +125,7 @@ func DocumentDB_MongoDB_Collection_v20231115_CRUD(tc *testcommon.KubePerTestCont
 	collection := documentdb.MongodbDatabaseCollection{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
 		Spec: documentdb.DatabaseAccounts_MongodbDatabases_Collection_Spec{
-			Location: to.Ptr("australiaeast"), // Capacity constraints //  tc.AzureRegion,
+			Location: tc.AzureRegion,
 			Options: &documentdb.CreateUpdateOptions{
 				Throughput: to.Ptr(400),
 			},

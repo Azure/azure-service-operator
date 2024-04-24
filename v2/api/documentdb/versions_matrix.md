@@ -103,8 +103,8 @@
 | DatabaseAccounts_SqlDatabases_ThroughputSetting_Name_Spec                 | v1api20210515 | v1api20231115 |
 | DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS                    | v1api20210515 | v1api20231115 |
 | DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec                      | v1api20210515 | v1api20231115 |
-| DatabaseAccounts_SqlRoleAssignment_STATUS                                 | v1api20210515 |               |
-| DatabaseAccounts_SqlRoleAssignment_Spec                                   | v1api20210515 |               |
+| DatabaseAccounts_SqlRoleAssignment_STATUS                                 | v1api20210515 | v1api20231115 |
+| DatabaseAccounts_SqlRoleAssignment_Spec                                   | v1api20210515 | v1api20231115 |
 | DatabaseRestoreResource                                                   |               | v1api20231115 |
 | DatabaseRestoreResource_STATUS                                            |               | v1api20231115 |
 | ExcludedPath                                                              | v1api20210515 | v1api20231115 |
@@ -190,9 +190,9 @@
 | SqlDatabaseGetProperties_STATUS                                           | v1api20210515 | v1api20231115 |
 | SqlDatabaseResource                                                       | v1api20210515 | v1api20231115 |
 | SqlDatabaseThroughputSetting                                              | v1api20210515 | v1api20231115 |
-| SqlRoleAssignment                                                         | v1api20210515 |               |
-| SqlRoleAssignmentResource                                                 | v1api20210515 |               |
-| SqlRoleAssignmentResource_STATUS                                          | v1api20210515 |               |
+| SqlRoleAssignment                                                         | v1api20210515 | v1api20231115 |
+| SqlRoleAssignmentResource                                                 | v1api20210515 | v1api20231115 |
+| SqlRoleAssignmentResource_STATUS                                          | v1api20210515 | v1api20231115 |
 | SqlStoredProcedureCreateUpdateProperties                                  | v1api20210515 | v1api20231115 |
 | SqlStoredProcedureGetProperties_Resource_STATUS                           | v1api20210515 | v1api20231115 |
 | SqlStoredProcedureGetProperties_STATUS                                    | v1api20210515 | v1api20231115 |

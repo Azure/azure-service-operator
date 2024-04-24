@@ -640,21 +640,6 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{
-		Obj: new(documentdb_v20210515s.SqlRoleAssignment),
-		Indexes: []registration.Index{
-			{
-				Key:  ".spec.principalIdFromConfig",
-				Func: indexDocumentdbSqlRoleAssignmentPrincipalIdFromConfig,
-			},
-		},
-		Watches: []registration.Watch{
-			{
-				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.principalIdFromConfig"}, &documentdb_v20210515s.SqlRoleAssignmentList{}),
-			},
-		},
-	})
 	result = append(result, &registration.StorageType{Obj: new(documentdb_v20231115s.DatabaseAccount)})
 	result = append(result, &registration.StorageType{Obj: new(documentdb_v20231115s.MongodbDatabase)})
 	result = append(result, &registration.StorageType{Obj: new(documentdb_v20231115s.MongodbDatabaseCollection)})
@@ -667,6 +652,21 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(documentdb_v20231115s.SqlDatabaseContainerTrigger)})
 	result = append(result, &registration.StorageType{Obj: new(documentdb_v20231115s.SqlDatabaseContainerUserDefinedFunction)})
 	result = append(result, &registration.StorageType{Obj: new(documentdb_v20231115s.SqlDatabaseThroughputSetting)})
+	result = append(result, &registration.StorageType{
+		Obj: new(documentdb_v20231115s.SqlRoleAssignment),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.principalIdFromConfig",
+				Func: indexDocumentdbSqlRoleAssignmentPrincipalIdFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.principalIdFromConfig"}, &documentdb_v20231115s.SqlRoleAssignmentList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20200601s.Domain)})
 	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20200601s.DomainsTopic)})
 	result = append(result, &registration.StorageType{
@@ -1509,7 +1509,8 @@ func getKnownTypes() []client.Object {
 		new(documentdb_v20231115.SqlDatabaseContainerThroughputSetting),
 		new(documentdb_v20231115.SqlDatabaseContainerTrigger),
 		new(documentdb_v20231115.SqlDatabaseContainerUserDefinedFunction),
-		new(documentdb_v20231115.SqlDatabaseThroughputSetting))
+		new(documentdb_v20231115.SqlDatabaseThroughputSetting),
+		new(documentdb_v20231115.SqlRoleAssignment))
 	result = append(
 		result,
 		new(documentdb_v20231115s.DatabaseAccount),
@@ -1523,7 +1524,8 @@ func getKnownTypes() []client.Object {
 		new(documentdb_v20231115s.SqlDatabaseContainerThroughputSetting),
 		new(documentdb_v20231115s.SqlDatabaseContainerTrigger),
 		new(documentdb_v20231115s.SqlDatabaseContainerUserDefinedFunction),
-		new(documentdb_v20231115s.SqlDatabaseThroughputSetting))
+		new(documentdb_v20231115s.SqlDatabaseThroughputSetting),
+		new(documentdb_v20231115s.SqlRoleAssignment))
 	result = append(
 		result,
 		new(eventgrid_v20200601.Domain),
@@ -2952,9 +2954,9 @@ func indexDevicesIotHubStorageEndpointsConnectionString(rawObj client.Object) []
 	return result
 }
 
-// indexDocumentdbSqlRoleAssignmentPrincipalIdFromConfig an index function for documentdb_v20210515s.SqlRoleAssignment .spec.principalIdFromConfig
+// indexDocumentdbSqlRoleAssignmentPrincipalIdFromConfig an index function for documentdb_v20231115s.SqlRoleAssignment .spec.principalIdFromConfig
 func indexDocumentdbSqlRoleAssignmentPrincipalIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*documentdb_v20210515s.SqlRoleAssignment)
+	obj, ok := rawObj.(*documentdb_v20231115s.SqlRoleAssignment)
 	if !ok {
 		return nil
 	}

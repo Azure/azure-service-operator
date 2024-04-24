@@ -813,6 +813,8 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515/storage
 ├── augmentConversionForDatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec: Interface
 ├── augmentConversionForDatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS: Interface
 ├── augmentConversionForDatabaseAccounts_SqlDatabases_ThroughputSetting_Spec: Interface
+├── augmentConversionForDatabaseAccounts_SqlRoleAssignment_STATUS: Interface
+├── augmentConversionForDatabaseAccounts_SqlRoleAssignment_Spec: Interface
 ├── augmentConversionForExcludedPath: Interface
 ├── augmentConversionForExcludedPath_STATUS: Interface
 ├── augmentConversionForFailoverPolicy_STATUS: Interface
@@ -862,6 +864,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515/storage
 ├── augmentConversionForSqlDatabaseGetProperties_Resource_STATUS: Interface
 ├── augmentConversionForSqlDatabaseResource: Interface
 ├── augmentConversionForSqlDatabaseThroughputSetting: Interface
+├── augmentConversionForSqlRoleAssignment: Interface
 ├── augmentConversionForSqlStoredProcedureGetProperties_Resource_STATUS: Interface
 ├── augmentConversionForSqlStoredProcedureResource: Interface
 ├── augmentConversionForSqlTriggerGetProperties_Resource_STATUS: Interface

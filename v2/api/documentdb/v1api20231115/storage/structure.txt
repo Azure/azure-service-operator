@@ -862,51 +862,71 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage
 │       │   └── Ts: *float64
 │       ├── Tags: map[string]string
 │       └── Type: *string
-└── SqlDatabaseThroughputSetting: Resource
-    ├── Owner: documentdb/v1api20231115.SqlDatabase
-    ├── Spec: Object (6 properties)
-    │   ├── Location: *string
+├── SqlDatabaseThroughputSetting: Resource
+│   ├── Owner: documentdb/v1api20231115.SqlDatabase
+│   ├── Spec: Object (6 properties)
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Resource: *Object (3 properties)
+│   │   │   ├── AutoscaleSettings: *Object (3 properties)
+│   │   │   │   ├── AutoUpgradePolicy: *Object (2 properties)
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── ThroughputPolicy: *Object (3 properties)
+│   │   │   │   │       ├── IncrementPercent: *int
+│   │   │   │   │       ├── IsEnabled: *bool
+│   │   │   │   │       └── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── MaxThroughput: *int
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Throughput: *int
+│   │   └── Tags: map[string]string
+│   └── Status: Object (8 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Resource: *Object (10 properties)
+│       │   ├── AutoscaleSettings: *Object (4 properties)
+│       │   │   ├── AutoUpgradePolicy: *Object (2 properties)
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── ThroughputPolicy: *Object (3 properties)
+│       │   │   │       ├── IncrementPercent: *int
+│       │   │   │       ├── IsEnabled: *bool
+│       │   │   │       └── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── MaxThroughput: *int
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── TargetMaxThroughput: *int
+│       │   ├── Etag: *string
+│       │   ├── InstantMaximumThroughput: *string
+│       │   ├── MinimumThroughput: *string
+│       │   ├── OfferReplacePending: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── Rid: *string
+│       │   ├── SoftAllowedMaximumThroughput: *string
+│       │   ├── Throughput: *int
+│       │   └── Ts: *float64
+│       ├── Tags: map[string]string
+│       └── Type: *string
+└── SqlRoleAssignment: Resource
+    ├── Owner: documentdb/v1api20231115.DatabaseAccount
+    ├── Spec: Object (8 properties)
+    │   ├── AzureName: string
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
+    │   ├── PrincipalId: *string
+    │   ├── PrincipalIdFromConfig: *genruntime.ConfigMapReference
     │   ├── PropertyBag: genruntime.PropertyBag
-    │   ├── Resource: *Object (3 properties)
-    │   │   ├── AutoscaleSettings: *Object (3 properties)
-    │   │   │   ├── AutoUpgradePolicy: *Object (2 properties)
-    │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   │   └── ThroughputPolicy: *Object (3 properties)
-    │   │   │   │       ├── IncrementPercent: *int
-    │   │   │   │       ├── IsEnabled: *bool
-    │   │   │   │       └── PropertyBag: genruntime.PropertyBag
-    │   │   │   ├── MaxThroughput: *int
-    │   │   │   └── PropertyBag: genruntime.PropertyBag
-    │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   └── Throughput: *int
-    │   └── Tags: map[string]string
+    │   ├── RoleDefinitionId: *string
+    │   └── Scope: *string
     └── Status: Object (8 properties)
         ├── Conditions: conditions.Condition[]
         ├── Id: *string
-        ├── Location: *string
         ├── Name: *string
+        ├── PrincipalId: *string
         ├── PropertyBag: genruntime.PropertyBag
-        ├── Resource: *Object (10 properties)
-        │   ├── AutoscaleSettings: *Object (4 properties)
-        │   │   ├── AutoUpgradePolicy: *Object (2 properties)
-        │   │   │   ├── PropertyBag: genruntime.PropertyBag
-        │   │   │   └── ThroughputPolicy: *Object (3 properties)
-        │   │   │       ├── IncrementPercent: *int
-        │   │   │       ├── IsEnabled: *bool
-        │   │   │       └── PropertyBag: genruntime.PropertyBag
-        │   │   ├── MaxThroughput: *int
-        │   │   ├── PropertyBag: genruntime.PropertyBag
-        │   │   └── TargetMaxThroughput: *int
-        │   ├── Etag: *string
-        │   ├── InstantMaximumThroughput: *string
-        │   ├── MinimumThroughput: *string
-        │   ├── OfferReplacePending: *string
-        │   ├── PropertyBag: genruntime.PropertyBag
-        │   ├── Rid: *string
-        │   ├── SoftAllowedMaximumThroughput: *string
-        │   ├── Throughput: *int
-        │   └── Ts: *float64
-        ├── Tags: map[string]string
+        ├── RoleDefinitionId: *string
+        ├── Scope: *string
         └── Type: *string
