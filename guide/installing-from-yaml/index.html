@@ -19,21 +19,29 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>Installation: From YAML | Azure Service Operator</title>
-<meta name="description" content="Prerequisites  You have installed Cert Manager as per the installation instructions up to the &amp;ldquo;install from Helm&amp;rdquo; step. You have the AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET environment variables set from the installation instructions.  Installation  Install the latest v2&#43; release of Azure Service Operator. kubectl apply --server-side=true -f https://github.com/Azure/azure-service-operator/releases/download/v2.0.0/azureserviceoperator_v2.0.0.yaml  Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as.">
+<meta name="description" content="Prerequisites  You have installed Cert Manager as per the installation instructions up to the &amp;ldquo;install from Helm&amp;rdquo; step. You have the AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET environment variables set from the installation instructions.  Installation (operator)   Download and install the latest version of asoctl.
+  Install the latest v2&#43; release of Azure Service Operator.
+asoctl export template --version v2.6.0 --crd-pattern &amp;#34;&amp;lt;your pattern&amp;gt;&amp;#34; | kubectl apply -f - When specifying --crd-pattern, ensure you choose only the CRDs you need, for example: --crd-pattern &amp;quot;resources.">
 <meta property="og:title" content="Installation: From YAML" />
-<meta property="og:description" content="Prerequisites  You have installed Cert Manager as per the installation instructions up to the &ldquo;install from Helm&rdquo; step. You have the AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET environment variables set from the installation instructions.  Installation  Install the latest v2&#43; release of Azure Service Operator. kubectl apply --server-side=true -f https://github.com/Azure/azure-service-operator/releases/download/v2.0.0/azureserviceoperator_v2.0.0.yaml  Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as." />
+<meta property="og:description" content="Prerequisites  You have installed Cert Manager as per the installation instructions up to the &ldquo;install from Helm&rdquo; step. You have the AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET environment variables set from the installation instructions.  Installation (operator)   Download and install the latest version of asoctl.
+  Install the latest v2&#43; release of Azure Service Operator.
+asoctl export template --version v2.6.0 --crd-pattern &#34;&lt;your pattern&gt;&#34; | kubectl apply -f - When specifying --crd-pattern, ensure you choose only the CRDs you need, for example: --crd-pattern &quot;resources." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/installing-from-yaml/" /><meta property="article:section" content="guide" />
 
 
 
 <meta itemprop="name" content="Installation: From YAML">
-<meta itemprop="description" content="Prerequisites  You have installed Cert Manager as per the installation instructions up to the &ldquo;install from Helm&rdquo; step. You have the AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET environment variables set from the installation instructions.  Installation  Install the latest v2&#43; release of Azure Service Operator. kubectl apply --server-side=true -f https://github.com/Azure/azure-service-operator/releases/download/v2.0.0/azureserviceoperator_v2.0.0.yaml  Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as.">
+<meta itemprop="description" content="Prerequisites  You have installed Cert Manager as per the installation instructions up to the &ldquo;install from Helm&rdquo; step. You have the AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET environment variables set from the installation instructions.  Installation (operator)   Download and install the latest version of asoctl.
+  Install the latest v2&#43; release of Azure Service Operator.
+asoctl export template --version v2.6.0 --crd-pattern &#34;&lt;your pattern&gt;&#34; | kubectl apply -f - When specifying --crd-pattern, ensure you choose only the CRDs you need, for example: --crd-pattern &quot;resources.">
 
-<meta itemprop="wordCount" content="185">
+<meta itemprop="wordCount" content="309">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Installation: From YAML"/>
-<meta name="twitter:description" content="Prerequisites  You have installed Cert Manager as per the installation instructions up to the &ldquo;install from Helm&rdquo; step. You have the AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET environment variables set from the installation instructions.  Installation  Install the latest v2&#43; release of Azure Service Operator. kubectl apply --server-side=true -f https://github.com/Azure/azure-service-operator/releases/download/v2.0.0/azureserviceoperator_v2.0.0.yaml  Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as."/>
+<meta name="twitter:description" content="Prerequisites  You have installed Cert Manager as per the installation instructions up to the &ldquo;install from Helm&rdquo; step. You have the AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET environment variables set from the installation instructions.  Installation (operator)   Download and install the latest version of asoctl.
+  Install the latest v2&#43; release of Azure Service Operator.
+asoctl export template --version v2.6.0 --crd-pattern &#34;&lt;your pattern&gt;&#34; | kubectl apply -f - When specifying --crd-pattern, ensure you choose only the CRDs you need, for example: --crd-pattern &quot;resources."/>
 
 
 
@@ -675,10 +683,10 @@
         <nav id="TableOfContents">
   <ul>
     <li><a href="#prerequisites">Prerequisites</a></li>
-    <li><a href="#installation">Installation</a></li>
-    <li><a href="#troubleshooting">Troubleshooting</a>
+    <li><a href="#installation-operator">Installation (operator)</a></li>
+    <li><a href="#installation-crds">Installation (crds)</a>
       <ul>
-        <li><a href="#metadata-too-long">Metadata too long</a></li>
+        <li><a href="#troubleshooting">Troubleshooting</a></li>
       </ul>
     </li>
   </ul>
@@ -745,14 +753,22 @@
 <li>You have the <code>AZURE_SUBSCRIPTION_ID</code>, <code>AZURE_TENANT_ID</code>, <code>AZURE_CLIENT_ID</code> and <code>AZURE_CLIENT_SECRET</code> environment variables set from the
 <a href="../../#installation">installation instructions</a>.</li>
 </ol>
-<h2 id="installation">Installation</h2>
+<h2 id="installation-operator">Installation (operator)</h2>
 <ol>
-<li>Install <a href="https://github.com/Azure/azure-service-operator/releases">the latest <strong>v2+</strong> release</a> of Azure Service Operator.
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply --server-side<span style="color:#f92672">=</span>true -f https://github.com/Azure/azure-service-operator/releases/download/v2.0.0/azureserviceoperator_v2.0.0.yaml
-</code></pre></div></li>
-<li>Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as.
+<li>
+<p>Download and install the latest version of <a href="/azure-service-operator/tools/asoctl/#installation">asoctl</a>.</p>
+</li>
+<li>
+<p>Install <a href="https://github.com/Azure/azure-service-operator/releases">the latest <strong>v2+</strong> release</a> of Azure Service Operator.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">asoctl export template --version v2.6.0 --crd-pattern <span style="color:#e6db74">&#34;&lt;your pattern&gt;&#34;</span> | kubectl apply -f -
+</code></pre></div><p>When specifying <code>--crd-pattern</code>, ensure you choose only the CRDs you need, for example:
+<code>--crd-pattern &quot;resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*&quot;</code>.
+For more information about what <code>--crd-pattern</code> means, see <a href="/azure-service-operator/guide/crd-management/">CRD management in ASO</a>.</p>
+</li>
+<li>
+<p>Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as.
 Make sure that you have the 4 environment variables from the <a href="../../#installation">Helm installation instructions</a> set.
-To learn more about other authentication options, see the <a href="../authentication/">authentication documentation</a>:
+To learn more about other authentication options, see the <a href="../authentication/">authentication documentation</a>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
 </span><span style="color:#e6db74">apiVersion: v1
 </span><span style="color:#e6db74">kind: Secret
@@ -767,8 +783,31 @@ To learn more about other authentication options, see the <a href="../authentica
 </span><span style="color:#e6db74">EOF</span>
 </code></pre></div></li>
 </ol>
-<h2 id="troubleshooting">Troubleshooting</h2>
-<h3 id="metadata-too-long">Metadata too long</h3>
+<h2 id="installation-crds">Installation (crds)</h2>
+<p>The operator manages its own CRDs by default, based on the <code>--crd-pattern</code> specified during installation.</p>
+
+
+<div class="alert alert-warning" role="alert">
+<h4 class="alert-heading">Warning</h4>
+
+    If you specified <code>--crd-pattern</code> when installing ASO, you don&rsquo;t need to do any of the below.
+
+</div>
+
+<p>If you don&rsquo;t want the operator to manage the CRDs itself, you can install the latest version of the CRDs yourself:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply --server-side<span style="color:#f92672">=</span>true -f https://github.com/Azure/azure-service-operator/releases/download/v2.6.0/azureserviceoperator_customresourcedefinitions_v2.6.0.yaml
+</code></pre></div>
+
+<div class="alert alert-warning" role="alert">
+<h4 class="alert-heading">Warning</h4>
+
+    The azureserviceoperator_customresourcedefinitions_v2.6.0.yaml file contains <em>all</em> the supported CRDs. We recommend filtering
+it locally to only the CRDs you want.
+
+</div>
+
+<h3 id="troubleshooting">Troubleshooting</h3>
+<h4 id="metadata-too-long">Metadata too long</h4>
 <p>If you omit the <code>--server-side=true</code> flag from the <code>kubectl apply</code> command, you will see an error like the following:</p>
 <pre tabindex="0"><code>CustomResourceDefinition.apiextensions.k8s.io &quot;storageaccounts.storage.azure.com&quot; is invalid:
 metadata.annotations: Too long: must have at most 262144 bytes
