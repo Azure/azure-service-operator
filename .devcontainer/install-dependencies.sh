@@ -270,7 +270,8 @@ fi
 write-verbose "Checking for $TOOL_DEST/cmctl"
 if should-install "$TOOL_DEST/cmctl"; then 
     write-info "Installing cmctl-${os}_${arch}..."
-    curl -L "https://github.com/jetstack/cert-manager/releases/latest/download/cmctl-${os}-${arch}.tar.gz" | tar -xz -C "$TOOL_DEST"
+    curl -fL "https://github.com/cert-manager/cmctl/releases/latest/download/cmctl_${os}_${arch}" --output "$TOOL_DEST/cmctl"
+    chmod +x "$TOOL_DEST/cmctl"
 fi
 
 write-verbose "Checking for $BUILDX_DEST/docker-buildx"
