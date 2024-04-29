@@ -21,12 +21,12 @@ Add a new property on RoleAssignment spec to control this behaviour.
 
 To use random uuid: 
 ```yaml
-uuidGeneration: Random
+uuidGeneration: random
 ```
 
 To use deterministic uuid(default)
 ```yaml
-uuidGeneration: Default
+uuidGeneration: stable
 ```
 
 **Pro**: Backward compatible
@@ -37,16 +37,17 @@ uuidGeneration: Default
 
 ### Option 2: Using annotations
 
-We can use annotation below to control the name generation behaviour
+We can use annotation below to control the name generation behaviour. 
+In this case, If user does not specify any annotation and does not specify AzureName, ASO sets the default annotation below and follows the default behaviour of stable UUID generation.  
 
 To use random uuid:
 ```yaml
-serviceoperator.azure.com/uuid-generation: Random 
+serviceoperator.azure.com/uuid-generation: random 
 ```
 
 To use deterministic uuid(default)
 ```yaml
-serviceoperator.azure.com/uuid-generation: Default
+serviceoperator.azure.com/uuid-generation: stable
 ```
 
 **Pro**: Backward compatible
