@@ -39,7 +39,7 @@
   Go to the releases page and draft a new release.
   In the tag dropdown, type the name of the new tag you&rsquo;d like to create (it should match the pattern of previous releases tags, for example: v2.0.0-beta.3). The release target should be main (the default).">
 
-<meta itemprop="wordCount" content="871">
+<meta itemprop="wordCount" content="821">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Creating a new release"/>
 <meta name="twitter:description" content="Ensure that the controller CVE scan action is green.
@@ -789,12 +789,12 @@ service Swagger specifications. We must validate each breaking change so that we
 <ol>
 <li>
 <p>Download the CRD definitions for the prior release (in this example, v2.5.0):</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget https://github.com/Azure/azure-service-operator/releases/download/v2.5.0/azureserviceoperator_v2.5.0.yaml
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget https://github.com/Azure/azure-service-operator/releases/download/v2.6.0/azureserviceoperator_customresourcedefinitions_v2.6.0.yaml
 </code></pre></div></li>
 <li>
 <p>Download the CRD definitions for the new release (in this example, v2.6.0):</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget https://github.com/Azure/azure-service-operator/releases/download/v2.6.0/azureserviceoperator_v2.6.0.yaml
-</code></pre></div><p>This will only be available when the GitHub action trigged by publishing the release has finished.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget https://github.com/Azure/azure-service-operator/releases/download/v2.7.0/azureserviceoperator_customresourcedefinitions_v2.7.0.yaml
+</code></pre></div><p>This will only be available when the GitHub action triggered by publishing the release has finished.</p>
 </li>
 <li>
 <p>Produce a diff between these files and examine it.</p>
@@ -830,20 +830,15 @@ service Swagger specifications. We must validate each breaking change so that we
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">task controller:make-sp-secret
 </code></pre></div></li>
 <li>
-<p>Download the operator from MCR.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget https://github.com/Azure/azure-service-operator/releases/download/v2.3.0/azureserviceoperator_v2.3.0.yaml
-
+<p>Download asoctl</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">curl -L https://github.com/Azure/azure-service-operator/releases/latest/download/asoctl-linux-amd64.gz -o asoctl.gz
+gunzip asoctl.gz
+chmod +x asoctl
 </code></pre></div></li>
 <li>
-<p>Configure <a href="https://azure.github.io/azure-service-operator/guide/crd-management/"><code>crd-patterns</code></a> to use with new release.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sed -i <span style="color:#e6db74">&#39;s_--crd-pattern=.*_--crd-pattern=resources.azure.com/*;network.azure.com/*_g&#39;</span> azureserviceoperator_v2.3.0.yaml
-</code></pre></div><p>We use <code>sed</code> to replace the blank setting included in the release with the one we want to use, including both resource group and network CRDs.</p>
-</li>
-<li>
-<p>Install the operator into your cluster</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply --server-side<span style="color:#f92672">=</span>true -f azureserviceoperator_v2.0.0-beta.3.yaml
-</code></pre></div><p>(We need to use <a href="https://kubernetes.io/docs/reference/using-api/server-side-apply/">server-side apply</a> because the CRD for VirtualMachines is large enough that it can&rsquo;t fit in the <code>last-applied-configuration</code> annotation client-side <code>kubectl apply</code> uses.)</p>
-</li>
+<p>Use asoctl to install the new release</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">./asoctl export template --version v2.7.0 --crd-pattern <span style="color:#e6db74">&#34;resources.azure.com/*;network.azure.com/*&#34;</span> | kubectl apply -f -
+</code></pre></div></li>
 <li>
 <p>Watch while ASO starts</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl get all -n azureserviceoperator-system
