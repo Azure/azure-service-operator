@@ -26,16 +26,16 @@ service Swagger specifications. We must validate each breaking change so that we
 1. Download the CRD definitions for the prior release (in this example, v2.5.0):
 
    ``` bash
-   wget https://github.com/Azure/azure-service-operator/releases/download/v2.5.0/azureserviceoperator_v2.5.0.yaml
+   wget https://github.com/Azure/azure-service-operator/releases/download/v2.6.0/azureserviceoperator_customresourcedefinitions_v2.6.0.yaml
    ```
 
 2. Download the CRD definitions for the new release (in this example, v2.6.0):
 
    ``` bash
-   wget https://github.com/Azure/azure-service-operator/releases/download/v2.6.0/azureserviceoperator_v2.6.0.yaml
+   wget https://github.com/Azure/azure-service-operator/releases/download/v2.7.0/azureserviceoperator_customresourcedefinitions_v2.7.0.yaml
    ```
 
-   This will only be available when the GitHub action trigged by publishing the release has finished.
+   This will only be available when the GitHub action triggered by publishing the release has finished.
 
 3. Produce a diff between these files and examine it.
 
@@ -74,39 +74,32 @@ Perform a simple smoke test to make sure the new release is capable of starting 
    task controller:make-sp-secret
    ```
 
-6. Download the operator from MCR.
+6. Download asoctl
 
    ``` bash 
-   wget https://github.com/Azure/azure-service-operator/releases/download/v2.3.0/azureserviceoperator_v2.3.0.yaml
-
-7. Configure [`crd-patterns`](https://azure.github.io/azure-service-operator/guide/crd-management/) to use with new release.
-
-   ``` bash
-   sed -i 's_--crd-pattern=.*_--crd-pattern=resources.azure.com/*;network.azure.com/*_g' azureserviceoperator_v2.3.0.yaml
+   curl -L https://github.com/Azure/azure-service-operator/releases/latest/download/asoctl-linux-amd64.gz -o asoctl.gz
+   gunzip asoctl.gz
+   chmod +x asoctl
    ```
 
-   We use `sed` to replace the blank setting included in the release with the one we want to use, including both resource group and network CRDs.
+7. Use asoctl to install the new release
 
-8. Install the operator into your cluster
-   
    ``` bash
-   kubectl apply --server-side=true -f azureserviceoperator_v2.0.0-beta.3.yaml
+   ./asoctl export template --version v2.7.0 --crd-pattern "resources.azure.com/*;network.azure.com/*" | kubectl apply -f -
    ```
 
-   (We need to use [server-side apply](https://kubernetes.io/docs/reference/using-api/server-side-apply/) because the CRD for VirtualMachines is large enough that it can't fit in the `last-applied-configuration` annotation client-side `kubectl apply` uses.)
-
-7. Watch while ASO starts
+8. Watch while ASO starts
    ``` bash
    kubectl get all -n azureserviceoperator-system
    ```
 
-8. Create a resource group and a vnet in it (the vnet is to check that conversion webhooks are working, since there aren't any for RGs):
+9. Create a resource group and a vnet in it (the vnet is to check that conversion webhooks are working, since there aren't any for RGs):
 
    ``` bash
    kubectl apply -f v2/samples/resources/v1api/v1api20200601_resourcegroup.yaml
    kubectl apply -f v2/samples/network/v1api20201101/v1api20201101_virtualnetwork.yaml
    ```
-8. Make sure they deploy successfully - check in the portal as well.
+10. Make sure they deploy successfully - check in the portal as well.
 
 ## Create and test the Helm chart
 
