@@ -255,7 +255,10 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
 	ctx context.Context,
 ) (ctrl.Result, error) {
 	if r.Obj.AzureName() == "" {
-		err := errors.New("AzureName was not set. A webhook should default this to .metadata.name if it was omitted. Is the ASO webhook service running?")
+
+		err := errors.Errorf(
+			"AzureName was not set on %s. A webhook should default this to .metadata.name if it was omitted. Is the ASO webhook service running?",
+			r.Obj.GetType())
 		return ctrl.Result{},
 			conditions.NewReadyConditionImpactingError(
 				err, conditions.ConditionSeverityError, conditions.ReasonFailed)
