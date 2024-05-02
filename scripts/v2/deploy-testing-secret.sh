@@ -25,7 +25,7 @@ if [ ! $MODE_SP ] && [ ! $MODE_WORKLOAD_IDENTITY ]; then
   exit 1
 fi
 
-if [ $MODE_SP = true ]; then
+if [ $MODE_SP = true ]; then # TODO: We possibly should just remove the below path?
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Secret
