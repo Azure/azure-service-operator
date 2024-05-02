@@ -63,4 +63,4 @@ if [ $(az group exists --name ${RESOURCE_GROUP}) = true ]; then
   echo "Done deleting resourceGroup: ${RESOURCE_GROUP}"
 fi
 
-rm -rf "${DIR}/azure"
+rm -rf "${DIR}"
