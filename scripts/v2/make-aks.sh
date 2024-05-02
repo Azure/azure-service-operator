@@ -6,7 +6,7 @@ set -o pipefail
 
 
 print_usage() {
-  echo "Usage: make-aks.sh -l <LOCATION> [-g <RESOURCE_GROUP> -a <ACR_NAME> -c <CLUSTER_NAME>]"
+  echo "Usage: make-aks.sh -l <LOCATION> -d <DIR> [-g <RESOURCE_GROUP> -a <ACR_NAME> -c <CLUSTER_NAME>]"
 }
 
 # TODO maybe just make all of these arguments required?
@@ -14,19 +14,21 @@ RESOURCE_GROUP=
 ACR_NAME=
 CLUSTER_NAME=
 LOCATION=
-while getopts 'g:l:a:c:' flag; do
+DIR=
+while getopts 'g:l:a:c:d:' flag; do
   case "${flag}" in
     g) RESOURCE_GROUP="${OPTARG}" ;;
     l) LOCATION="${OPTARG}" ;;
     a) ACR_NAME="${OPTARG}" ;;
     c) CLUSTER_NAME="${OPTARG}" ;;
+    d) DIR="${OPTARG}" ;;
     *) print_usage
        exit 1 ;;
   esac
 done
 
 # Deal with required parameters
-if [[ -z "$LOCATION" ]]; then
+if [[ -z "$LOCATION" ]] || [[ -z "$DIR" ]]; then
   print_usage
   exit 1
 fi
@@ -52,6 +54,12 @@ az acr create --resource-group ${RESOURCE_GROUP} --name ${ACR_NAME} --sku Basic 
 echo "Creating AKS cluster: ${CLUSTER_NAME}..."
 az aks create --resource-group ${RESOURCE_GROUP} --name ${CLUSTER_NAME} --attach-acr ${ACR_NAME} \
   --enable-managed-identity --node-count 3 --generate-ssh-keys --network-dataplane cilium \
-  --network-plugin azure --network-plugin-mode overlay --tier standard -o none
+  --network-plugin azure --network-plugin-mode overlay --tier standard -o none \
+  --enable-oidc-issuer
 az aks get-credentials --resource-group ${RESOURCE_GROUP} --name ${CLUSTER_NAME} --overwrite-existing
 
+# Make a directory to save OIDC issuer details to
+mkdir -p "${DIR}/azure"
+
+# Get OIDC issuer URL and save it
+az aks show --resource-group ${RESOURCE_GROUP} --name ${CLUSTER_NAME} --query "oidcIssuerProfile.issuerUrl" -otsv > "${DIR}/azure/saissuer.txt"
