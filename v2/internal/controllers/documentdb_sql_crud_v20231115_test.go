@@ -12,7 +12,7 @@ import (
 	. "github.com/onsi/gomega"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	documentdb "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515"
+	documentdb "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115"
 	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -133,11 +133,6 @@ func CosmosDB_SQL_Container_v20231115_CRUD(tc *testcommon.KubePerTestContext, db
 	}
 
 	tc.CreateResourceAndWait(&container)
-	defer func() {
-		tc.LogSubsectionf("Cleaning up container %q", name)
-		tc.DeleteResourceAndWait(&container)
-	}()
-
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "CosmosDB SQL Trigger CRUD",
@@ -195,10 +190,6 @@ func CosmosDB_SQL_Trigger_v20231115_CRUD(tc *testcommon.KubePerTestContext, cont
 	}
 
 	tc.CreateResourceAndWait(&trigger)
-	defer func() {
-		tc.LogSubsectionf("Cleaning up trigger %q", name)
-		tc.DeleteResourceAndWait(&trigger)
-	}()
 
 	tc.LogSubsectionf("Updating the trigger type on trigger %q", name)
 	post := documentdb.SqlTriggerResource_TriggerType_Post
@@ -240,10 +231,6 @@ func CosmosDB_SQL_StoredProcedure_v20231115_CRUD(tc *testcommon.KubePerTestConte
 	}
 
 	tc.CreateResourceAndWait(&storedProcedure)
-	defer func() {
-		tc.LogSubsectionf("Cleaning up stored procedure %q", name)
-		tc.DeleteResourceAndWait(&storedProcedure)
-	}()
 
 	old := storedProcedure.DeepCopy()
 	newBody := "your code doesn't work!"
@@ -281,10 +268,6 @@ func CosmosDB_SQL_UserDefinedFunction_v20231115_CRUD(tc *testcommon.KubePerTestC
 
 	// Create the resource
 	tc.CreateResourceAndWait(&userDefinedFunction)
-	defer func() {
-		tc.LogSubsectionf("Cleaning up user-defined function %q", name)
-		tc.DeleteResourceAndWait(&userDefinedFunction)
-	}()
 
 	old := userDefinedFunction.DeepCopy()
 	newBody := "wonder what to do?"

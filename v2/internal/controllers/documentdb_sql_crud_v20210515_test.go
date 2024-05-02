@@ -128,7 +128,6 @@ func CosmosDB_SQL_Container_CRUD(tc *testcommon.KubePerTestContext, db client.Ob
 
 	tc.T.Logf("Creating SQL container %q", name)
 	tc.CreateResourceAndWait(&container)
-	defer tc.DeleteResourceAndWait(&container)
 
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
