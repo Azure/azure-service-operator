@@ -14,6 +14,7 @@ import (
 	"github.com/pkg/errors"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/pkg/common/config"
 )
@@ -33,14 +34,51 @@ type AzureIDs struct {
 	BillingInvoiceID string
 }
 
+// getCredentials returns the token credential authentication modes supported by
+// the test framework.
+// We primarily support two modes of authentication:
+// - EnvironmentCredential
+// - CLICredential
+// We don't use NewDefaultAzureCredential because it puts CLI credentials last
+// which can cause issues when trying to do CLI auth from clients such as Virtual DevBoxes (which have a UMI
+// that gets preferred over the CLI credentials).
+func getCredentials() (*azidentity.ChainedTokenCredential, error) {
+	var result []azcore.TokenCredential
+	var errs []error
+	cliCred, err := azidentity.NewAzureCLICredential(nil)
+	if err != nil {
+		errs = append(errs, err)
+	} else {
+		result = append(result, cliCred)
+	}
+
+	envCred, err := azidentity.NewEnvironmentCredential(nil)
+	if err != nil {
+		errs = append(errs, err)
+	} else {
+		result = append(result, envCred)
+	}
+
+	if len(result) > 0 {
+		var chained *azidentity.ChainedTokenCredential
+		chained, err = azidentity.NewChainedTokenCredential(result, nil)
+		if err != nil {
+			return nil, err
+		}
+		return chained, nil
+	} else {
+		return nil, kerrors.NewAggregate(errs)
+	}
+}
+
 func GetCreds() (azcore.TokenCredential, AzureIDs, error) {
 	if cachedCreds != nil {
 		return cachedCreds, cachedIds, nil
 	}
 
-	creds, err := azidentity.NewDefaultAzureCredential(nil)
+	creds, err := getCredentials()
 	if err != nil {
-		return nil, AzureIDs{}, errors.Wrapf(err, "creating default credential")
+		return nil, AzureIDs{}, errors.Wrapf(err, "creating credentials")
 	}
 
 	subscriptionID := os.Getenv(config.AzureSubscriptionID)
