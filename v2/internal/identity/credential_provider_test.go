@@ -10,6 +10,7 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/google/uuid"
 	. "github.com/onsi/gomega"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -32,8 +33,10 @@ const (
 )
 
 type testCredentialProviderResources struct {
-	Provider   CredentialProvider
-	kubeClient kubeclient.Client
+	Provider                    CredentialProvider
+	kubeClient                  kubeclient.Client
+	fakeProvider                CredentialProvider
+	fakeTokenCredentialProvider *mockTokenCredentialProvider
 }
 
 func NewTestCredentialProvider(client kubeclient.Client) (CredentialProvider, error) {
@@ -43,7 +46,7 @@ func NewTestCredentialProvider(client kubeclient.Client) (CredentialProvider, er
 	}
 
 	creds := NewDefaultCredential(tokenCreds, testPodNamespace, testSubscriptionID)
-	return NewCredentialProvider(creds, client), nil
+	return NewCredentialProvider(creds, client, nil), nil
 }
 
 func testCredentialProviderSetup() (*testCredentialProviderResources, error) {
@@ -55,9 +58,17 @@ func testCredentialProviderSetup() (*testCredentialProviderResources, error) {
 		return nil, err
 	}
 
+	fakeTokenCredentialProvider := &mockTokenCredentialProvider{}
+	fakeProvider := NewCredentialProvider(
+		nil,
+		client,
+		&CredentialProviderOptions{TokenProvider: fakeTokenCredentialProvider})
+
 	return &testCredentialProviderResources{
-		Provider:   provider,
-		kubeClient: client,
+		Provider:                    provider,
+		kubeClient:                  client,
+		fakeTokenCredentialProvider: fakeTokenCredentialProvider,
+		fakeProvider:                fakeProvider,
 	}, nil
 }
 
@@ -69,7 +80,7 @@ func TestCredentialProvider_DefaultCredentialNotSet_ReturnsErrorWhenTryToUseGlob
 	s := createTestScheme()
 	kubeClient := NewFakeKubeClient(s)
 
-	providerWithNoDefaultCred := NewCredentialProvider(nil, kubeClient)
+	providerWithNoDefaultCred := NewCredentialProvider(nil, kubeClient, nil)
 	rg := newResourceGroup("")
 
 	_, err := providerWithNoDefaultCred.GetCredential(ctx, rg)
@@ -185,6 +196,129 @@ func TestCredentialProvider_GlobalCredential_IsReturned(t *testing.T) {
 
 	g.Expect(cred.SubscriptionID()).To(BeEquivalentTo(testSubscriptionID))
 	g.Expect(cred.CredentialFrom()).To(BeEquivalentTo(types.NamespacedName{Namespace: testPodNamespace, Name: globalCredentialSecretName}))
+}
+
+func TestCredentialProvider_ServicePrincipalCredential_IsConfiguredCorrectly(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	ctx := context.TODO()
+
+	res, err := testCredentialProviderSetup()
+	g.Expect(err).ToNot(HaveOccurred())
+
+	clientID := uuid.New().String()
+	tenantID := uuid.New().String()
+	clientSecret := uuid.New().String()
+
+	secret := &v1.Secret{
+		ObjectMeta: metav1.ObjectMeta{
+			Namespace: "test-namespace",
+			Name:      NamespacedSecretName,
+		},
+		Data: map[string][]byte{
+			config.AzureSubscriptionID: []byte(testSubscriptionID),
+			config.AzureClientID:       []byte(clientID),
+			config.AzureTenantID:       []byte(tenantID),
+			config.AzureClientSecret:   []byte(clientSecret),
+		},
+	}
+	err = res.kubeClient.Create(ctx, secret)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	rg := newResourceGroup("test-namespace")
+	err = res.kubeClient.Create(ctx, rg)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	cred, err := res.fakeProvider.GetCredential(ctx, rg)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	g.Expect(cred.SubscriptionID()).To(BeEquivalentTo(testSubscriptionID))
+	g.Expect(res.fakeTokenCredentialProvider.ClientID).To(Equal(clientID))
+	g.Expect(res.fakeTokenCredentialProvider.TenantID).To(Equal(tenantID))
+	g.Expect(res.fakeTokenCredentialProvider.ClientSecret).To(Equal(clientSecret))
+}
+
+func TestCredentialProvider_CertificateCredential_IsConfiguredCorrectly(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	ctx := context.TODO()
+
+	res, err := testCredentialProviderSetup()
+	g.Expect(err).ToNot(HaveOccurred())
+
+	clientID := uuid.New().String()
+	tenantID := uuid.New().String()
+	cert := uuid.New().String()
+	certPassword := uuid.New().String()
+
+	secret := &v1.Secret{
+		ObjectMeta: metav1.ObjectMeta{
+			Namespace: "test-namespace",
+			Name:      NamespacedSecretName,
+		},
+		Data: map[string][]byte{
+			config.AzureSubscriptionID:            []byte(testSubscriptionID),
+			config.AzureClientID:                  []byte(clientID),
+			config.AzureTenantID:                  []byte(tenantID),
+			config.AzureClientCertificate:         []byte(cert),
+			config.AzureClientCertificatePassword: []byte(certPassword),
+		},
+	}
+
+	err = res.kubeClient.Create(ctx, secret)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	rg := newResourceGroup("test-namespace")
+	err = res.kubeClient.Create(ctx, rg)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	cred, err := res.fakeProvider.GetCredential(ctx, rg)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	g.Expect(cred.SubscriptionID()).To(BeEquivalentTo(testSubscriptionID))
+	g.Expect(res.fakeTokenCredentialProvider.ClientID).To(Equal(clientID))
+	g.Expect(res.fakeTokenCredentialProvider.TenantID).To(Equal(tenantID))
+	g.Expect(res.fakeTokenCredentialProvider.ClientCertificate).To(Equal([]byte(cert)))
+	g.Expect(res.fakeTokenCredentialProvider.Password).To(Equal([]byte(certPassword)))
+}
+
+func TestCredentialProvider_WorkloadIdentityCredential_IsConfiguredCorrectly(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	ctx := context.TODO()
+
+	res, err := testCredentialProviderSetup()
+	g.Expect(err).ToNot(HaveOccurred())
+
+	clientID := uuid.New().String()
+	tenantID := uuid.New().String()
+
+	secret := &v1.Secret{
+		ObjectMeta: metav1.ObjectMeta{
+			Namespace: "test-namespace",
+			Name:      NamespacedSecretName,
+		},
+		Data: map[string][]byte{
+			config.AzureSubscriptionID: []byte(testSubscriptionID),
+			config.AzureClientID:       []byte(clientID),
+			config.AzureTenantID:       []byte(tenantID),
+		},
+	}
+
+	err = res.kubeClient.Create(ctx, secret)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	rg := newResourceGroup("test-namespace")
+	err = res.kubeClient.Create(ctx, rg)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	cred, err := res.fakeProvider.GetCredential(ctx, rg)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	g.Expect(cred.SubscriptionID()).To(BeEquivalentTo(testSubscriptionID))
+	g.Expect(res.fakeTokenCredentialProvider.ClientID).To(Equal(clientID))
+	g.Expect(res.fakeTokenCredentialProvider.TenantID).To(Equal(tenantID))
+	g.Expect(res.fakeTokenCredentialProvider.TokenFilePath).To(Equal(FederatedTokenFilePath))
 }
 
 func newResourceGroup(namespace string) *resources.ResourceGroup {

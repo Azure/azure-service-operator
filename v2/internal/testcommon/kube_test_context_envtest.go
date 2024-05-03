@@ -489,7 +489,7 @@ func createEnvtestContext() (BaseTestContextFactory, context.CancelFunc) {
 				cfg.PodNamespace,
 				perTestContext.AzureSubscription)
 
-			credentialProvider := identity.NewCredentialProvider(defaultCred, envtest.KubeClient)
+			credentialProvider := identity.NewCredentialProvider(defaultCred, envtest.KubeClient, nil)
 			// register resources needed by controller for namespace
 			armClientCache := arm.NewARMClientCache(
 				credentialProvider,
