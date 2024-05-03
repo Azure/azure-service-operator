@@ -49,7 +49,7 @@ func NewTestCredentialProvider(client kubeclient.Client) (identity.CredentialPro
 	}
 
 	creds := identity.NewDefaultCredential(tokenCreds, testPodNamespace, testSubscriptionID)
-	return identity.NewCredentialProvider(creds, client), nil
+	return identity.NewCredentialProvider(creds, client, nil), nil
 }
 
 func NewTestARMClientCache(client kubeclient.Client) (*ARMClientCache, error) {
@@ -106,7 +106,7 @@ func Test_DefaultCredential_NotSet_ReturnsErrorWhenTryToUseGlobalCredential(t *t
 	cfg, err := config.ReadFromEnvironment()
 	g.Expect(err).To(BeNil())
 
-	providerWithNoDefaultCred := identity.NewCredentialProvider(nil, kubeClient)
+	providerWithNoDefaultCred := identity.NewCredentialProvider(nil, kubeClient, nil)
 	clientWithNoDefaultCred := NewARMClientCache(providerWithNoDefaultCred, kubeClient, cfg.Cloud(), nil, metrics.NewARMClientMetrics())
 
 	rg := newResourceGroup("")

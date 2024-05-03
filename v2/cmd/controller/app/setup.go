@@ -356,7 +356,7 @@ func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
 	}
 
 	kubeClient := kubeclient.NewClient(mgr.GetClient())
-	credentialProvider := identity.NewCredentialProvider(credential, kubeClient)
+	credentialProvider := identity.NewCredentialProvider(credential, kubeClient, nil)
 
 	armClientCache := armreconciler.NewARMClientCache(
 		credentialProvider,
