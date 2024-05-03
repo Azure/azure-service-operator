@@ -20,10 +20,13 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func Test_CosmosDB_SQLDatabase_CRUD(t *testing.T) {
+func Test_CosmosDB_SQLDatabase_v20210515_CRUD(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
 	rg := tc.CreateTestResourceGroupAndWait()
+
+	// Moving the test due to capacity restrictions
+	tc.AzureRegion = to.Ptr("australiaeast")
 
 	// Custom namer because cosmosdb accounts have stricter name
 	// requirements - no hyphens allowed.
