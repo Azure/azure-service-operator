@@ -6,9 +6,9 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   ingress:
-  - from:
-    - ipBlock:
-        cidr: 0.0.0.0/0
+  # Not restricting any ingress. We previously used 0.0.0.0/0 here but Cilium doesn't honor that
+  # see https://docs.cilium.io/en/latest/security/policy/language/#ip-cidr-based
+  - {}
   podSelector:
     matchLabels:
       control-plane: controller-manager
