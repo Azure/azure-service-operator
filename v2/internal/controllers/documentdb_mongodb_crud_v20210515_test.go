@@ -23,6 +23,10 @@ func Test_CosmosDB_MongoDatabase_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
+	// Moving test to a different region:
+	// "Sorry, we are currently experiencing high demand in West US 2 region, and cannot fulfill your request at this time"
+	tc.AzureRegion = to.Ptr("australiaeast")
+
 	// Create a Cosmos DB account
 	kind := documentdb.DatabaseAccount_Kind_Spec_MongoDB
 	offerType := documentdb.DatabaseAccountOfferType_Standard
