@@ -193,7 +193,7 @@ func Test_ConfigMapInDifferentNamespace_ConfigMapNotFound(t *testing.T) {
 
 	configMap := &v1.ConfigMap{
 		ObjectMeta: ctrl.ObjectMeta{
-			Namespace: tc.Namespace,
+			Namespace: namespaceName,
 			Name:      configMapName,
 		},
 		Data: map[string]string{
@@ -248,11 +248,11 @@ func Test_UserConfigMapInDifferentNamespace_ShouldNotTriggerReconcile(t *testing
 
 	rg := tc.NewTestResourceGroup()
 	rg.Namespace = ns1
-	tc.CreateResourceGroupAndWait(rg)
+	tc.CreateResourceAndWait(rg)
 
 	rg2 := tc.NewTestResourceGroup()
 	rg2.Namespace = ns2
-	tc.CreateResourceGroupAndWait(rg2)
+	tc.CreateResourceAndWait(rg2)
 
 	mi := &managedidentity.UserAssignedIdentity{
 		ObjectMeta: metav1.ObjectMeta{

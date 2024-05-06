@@ -52,7 +52,7 @@ func TestTargetNamespaces(t *testing.T) {
 		},
 		Spec: standardSpec,
 	}
-	tc.CreateResourceGroupAndWait(&rgDefault)
+	tc.CreateResourceAndWait(&rgDefault)
 	// Check that the instance is annotated with the operator namespace.
 	checkNamespaceAnnotation(tc, &rgDefault, podNamespace)
 
@@ -64,7 +64,7 @@ func TestTargetNamespaces(t *testing.T) {
 		},
 		Spec: standardSpec,
 	}
-	tc.CreateResourceGroupAndWait(&rgWatched)
+	tc.CreateResourceAndWait(&rgWatched)
 	checkNamespaceAnnotation(tc, &rgWatched, podNamespace)
 
 	// But the unwatched namespace isn't...
@@ -77,8 +77,7 @@ func TestTargetNamespaces(t *testing.T) {
 		},
 		Spec: standardSpec,
 	}
-	_, err = tc.CreateResourceGroup(&rgUnwatched)
-	tc.Expect(err).ToNot(HaveOccurred())
+	tc.CreateResource(&rgUnwatched)
 
 	// We can tell that the resource isn't being reconciled if it
 	// never gets a finalizer.
@@ -169,8 +168,7 @@ func TestOperatorNamespacePreventsReconciling(t *testing.T) {
 			Tags:     testcommon.CreateTestResourceGroupDefaultTags(),
 		},
 	}
-	_, err := tc.CreateResourceGroup(&notMine)
-	tc.Expect(err).NotTo(HaveOccurred())
+	tc.CreateResource(&notMine)
 
 	checkNeverGetsFinalizer(tc, &notMine, "instance claimed by some other operator got finalizer")
 
@@ -201,5 +199,5 @@ func TestOperatorNamespacePreventsReconciling(t *testing.T) {
 			Tags:     testcommon.CreateTestResourceGroupDefaultTags(),
 		},
 	}
-	tc.CreateResourceGroupAndWait(&mine)
+	tc.CreateResourceAndWait(&mine)
 }

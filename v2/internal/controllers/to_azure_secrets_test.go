@@ -149,11 +149,11 @@ func Test_UserSecretInDifferentNamespace_ShouldNotTriggerReconcile(t *testing.T)
 
 	rg := tc.NewTestResourceGroup()
 	rg.Namespace = ns1
-	tc.CreateResourceGroupAndWait(rg)
+	tc.CreateResourceAndWait(rg)
 
 	rg2 := tc.NewTestResourceGroup()
 	rg2.Namespace = ns2
-	tc.CreateResourceGroupAndWait(rg2)
+	tc.CreateResourceAndWait(rg2)
 
 	// VM1 with same secret name in ns1
 	vm1 := createNamespacedVM(tc, rg, ns1, ns1Secret)
