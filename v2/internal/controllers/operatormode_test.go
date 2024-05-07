@@ -32,8 +32,7 @@ func TestOperatorMode_Webhooks(t *testing.T) {
 	}
 	tc.Expect(rg.Spec.AzureName).To(Equal(""))
 
-	_, err := tc.CreateResourceGroup(&rg)
-	tc.Expect(err).ToNot(HaveOccurred())
+	tc.CreateResource(&rg)
 	// AzureName should have been defaulted on the group on the
 	// way in (it doesn't require waiting for a reconcile).
 	tc.Expect(rg.Spec.AzureName).To(Equal(rg.ObjectMeta.Name))
@@ -60,7 +59,7 @@ func TestOperatorMode_Watchers(t *testing.T) {
 	}
 	tc.Expect(rg.Spec.AzureName).To(Equal(""))
 
-	_, err := tc.CreateResourceGroup(&rg)
+	err := tc.CreateResourceExpectRequestFailure(&rg)
 	// We should fail because the webhook isn't registered (in a real
 	// multi-operator deployment it would be routed to a different
 	// operator running in webhook-only mode).
@@ -89,8 +88,7 @@ func TestOperatorMode_Both(t *testing.T) {
 	}
 	tc.Expect(rg.Spec.AzureName).To(Equal(""))
 
-	_, err := tc.CreateResourceGroup(&rg)
-	tc.Expect(err).NotTo(HaveOccurred())
+	tc.CreateResource(&rg)
 
 	// AzureName should have been defaulted on the group on the
 	// way in (it doesn't require waiting for a reconcile).

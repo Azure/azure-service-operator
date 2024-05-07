@@ -53,8 +53,7 @@ func storageAccountAndResourceGroupProvisionedOutOfOrderHelper(t *testing.T, wai
 	waitHelper(tc, acct)
 
 	// The resource group should be created successfully
-	_, err := tc.CreateResourceGroup(rg)
-	tc.Expect(err).ToNot(HaveOccurred())
+	tc.CreateResource(rg)
 
 	// The storage account should also be created successfully
 	tc.Eventually(acct).Should(tc.Match.BeProvisioned(0))

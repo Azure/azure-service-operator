@@ -6,7 +6,6 @@ Licensed under the MIT license.
 package testcommon
 
 import (
-	"context"
 	"fmt"
 	"math"
 	"os"
@@ -227,36 +226,6 @@ const (
 	DoNotWait       WaitCondition = false
 )
 
-// CreateResourceGroupAndWait creates the specified resource group, registers it to be deleted when the
-// context is cleaned up, and waits for it to finish being created.
-func (tc *KubePerTestContext) CreateResourceGroupAndWait(rg *resources.ResourceGroup) *resources.ResourceGroup {
-	gen := rg.GetGeneration()
-	createdResourceGroup, err := tc.CreateResourceGroup(rg)
-	tc.Expect(err).ToNot(gomega.HaveOccurred())
-	tc.Eventually(createdResourceGroup).Should(tc.Match.BeProvisioned(gen))
-	return createdResourceGroup
-}
-
-// CreateResourceGroup creates a new resource group and registers it
-// to be deleted up when the test context is cleaned up.
-func (tc *KubePerTestContext) CreateResourceGroup(rg *resources.ResourceGroup) (*resources.ResourceGroup, error) {
-	ctx := context.Background()
-
-	tc.LogSubsectionf("Create test resource group %s", rg.Name)
-
-	err := tc.kubeClient.Create(ctx, rg)
-	if err != nil {
-		return nil, errors.Wrapf(err, "creating resource group")
-	}
-
-	// register the RG for cleanup
-	// important to do this before waiting for it, so that
-	// we delete it even if we time out
-	tc.registerCleanup(rg)
-
-	return rg, nil
-}
-
 // registerCleanup registers the resource for cleanup at the end of the test. We must do this for every resource
 // for two reasons:
 //  1. Because OwnerReferences based deletion doesn't even run in EnvTest, see:
@@ -376,7 +345,10 @@ func (tc *KubePerTestContext) ExpectResourceIsDeletedInAzure(armId string, apiVe
 }
 
 func (tc *KubePerTestContext) CreateTestResourceGroupAndWait() *resources.ResourceGroup {
-	return tc.CreateResourceGroupAndWait(tc.NewTestResourceGroup())
+	rg := tc.NewTestResourceGroup()
+	tc.CreateResourceAndWait(rg)
+
+	return rg
 }
 
 // CreateResource creates a resource and registers it for cleanup. It does not wait for the resource
