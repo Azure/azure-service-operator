@@ -2055,7 +2055,7 @@ objectModelConfiguration:
     2023-11-15:
       DatabaseAccount:
         $export: true
-        $supportedFrom: v2.7.0
+        $supportedFrom: v2.8.0
         $azureGeneratedSecrets:
           - PrimaryMasterKey
           - SecondaryMasterKey
@@ -2067,40 +2067,40 @@ objectModelConfiguration:
           $armReference: true
       DatabaseAccounts_MongodbDatabase:
         $exportAs: MongodbDatabase
-        $supportedFrom: v2.7.0
+        $supportedFrom: v2.8.0
       DatabaseAccounts_MongodbDatabases_Collection:
         $exportAs: MongodbDatabaseCollection
-        $supportedFrom: v2.7.0
+        $supportedFrom: v2.8.0
       DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting:
         $exportAs: MongodbDatabaseCollectionThroughputSetting
-        $supportedFrom: v2.7.0
+        $supportedFrom: v2.8.0
       DatabaseAccounts_MongodbDatabases_ThroughputSetting:
         $exportAs: MongodbDatabaseThroughputSetting
-        $supportedFrom: v2.7.0
+        $supportedFrom: v2.8.0
       DatabaseAccounts_SqlDatabase:
         $exportAs: SqlDatabase
-        $supportedFrom: v2.7.0
+        $supportedFrom: v2.8.0
       DatabaseAccounts_SqlDatabases_Container:
         $exportAs: SqlDatabaseContainer
-        $supportedFrom: v2.7.0
+        $supportedFrom: v2.8.0
       DatabaseAccounts_SqlDatabases_Containers_StoredProcedure:
         $exportAs: SqlDatabaseContainerStoredProcedure
-        $supportedFrom: v2.7.0
+        $supportedFrom: v2.8.0
       DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting:
         $exportAs: SqlDatabaseContainerThroughputSetting
-        $supportedFrom: v2.7.0
+        $supportedFrom: v2.8.0
       DatabaseAccounts_SqlDatabases_Containers_Trigger:
         $exportAs: SqlDatabaseContainerTrigger
-        $supportedFrom: v2.7.0
+        $supportedFrom: v2.8.0
       DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction:
         $exportAs: SqlDatabaseContainerUserDefinedFunction
-        $supportedFrom: v2.7.0
+        $supportedFrom: v2.8.0
       DatabaseAccounts_SqlDatabases_ThroughputSetting:
         $exportAs: SqlDatabaseThroughputSetting
-        $supportedFrom: v2.7.0
+        $supportedFrom: v2.8.0
       DatabaseAccounts_SqlRoleAssignment:
         $exportAs: SqlRoleAssignment
-        $supportedFrom: v2.7.0
+        $supportedFrom: v2.8.0
         $defaultAzureName: false
       MongoDBCollectionResource:
         Id:
