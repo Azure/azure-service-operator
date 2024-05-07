@@ -16,6 +16,7 @@ description: "How to contribute new resources to Azure Service Operator v2"
 
 * [Developer Setup]( {{< relref "developer-setup" >}} ).
 * [Adding a new code-generator resource]( {{< relref "add-a-new-code-generated-resource" >}} ).
+* [Example walkthrough of adding a new resource version]( {{< relref "upgrade-resource-version" >}}).
 * [Generator code overview]( {{< relref "generator-overview" >}} ).
 * [Running a development version of ASO]( {{< relref "running-a-development-version" >}} ).
 * [Testing]( {{< relref "testing" >}} ).

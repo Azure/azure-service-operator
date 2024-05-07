@@ -20,6 +20,8 @@ Find the documentation page for the resource version you want to upgrade and che
 
 Staring with a [web search](https://www.bing.com/search?q=azure+arm+bicep+Microsoft+documentdb), we find the latest stable version is `2023-11-15`. It is usually a good idea to upgrade to the latest **stable** version, unless you have a specific preview feature in mind.
 
+![DocumentDB](microsoft-documentdb-database-accounts.png)
+
 ### Check the specs
 
 Another approach is to look at the actual OpenAPI (Swagger) specifications imported by the Azure Service Operator code generator. Navigate to the [Azure REST API specs](https://github.com/Azure/azure-rest-api-specs) repository:
@@ -464,16 +466,18 @@ First use of the test context is to create a dedicated resource group for this t
 	rg := tc.CreateTestResourceGroupAndWait()
 ```
 
-We declare `acct` as a `DatabaseAccount` object, and set the properties we want to use for testing with a MongoDB database. At the time of writing, we couldn't deploy these into the usual ASO test region, so the test is hard coded to use `australiaeast`.
+We declare `acct` as a `DatabaseAccount` object, and set the properties we want to use for testing with a MongoDB database.
 
 ``` go
+	tc.AzureRegion = to.Ptr("australiaeast")
+
 	// Declare a Cosmos DB account for our MongoDB database
 	kind := documentdb.DatabaseAccount_Kind_Spec_MongoDB
 	offerType := documentdb.DatabaseAccountOfferType_Standard
 	acct := documentdb.DatabaseAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("db")),
 		Spec: documentdb.DatabaseAccount_Spec{
-			Location: to.Ptr("australiaeast"), // Capacity constraints //  tc.AzureRegion,
+			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Kind:     &kind,
 			Capabilities: []documentdb.Capability{{
@@ -488,6 +492,7 @@ We declare `acct` as a `DatabaseAccount` object, and set the properties we want 
 		},
 	}
 ```
+At the time of writing, we couldn't deploy these into the usual ASO test region, so the test is hard coded to use `australiaeast`: by overriding the default value for `tc.AzureRegion`. Applying the override in this way ensures all the resources in the test are co-located in the same region.
 
 Next we declare a MongoDB database called `db` and configure that as well. Key here is the configuration of its `Owner` as the account we just created.
 
