@@ -14,12 +14,17 @@ import (
 
 	documentdb "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 func Test_CosmosDB_DatabaseAccount_SecretsFromAzure(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
+
+	// Moving test to a different region:
+	// "Sorry, we are currently experiencing high demand in West US 2 region, and cannot fulfill your request at this time"
+	tc.AzureRegion = to.Ptr("australiaeast")
 
 	rg := tc.CreateTestResourceGroupAndWait()
 	// Custom namer because cosmosdb accounts have stricter name
