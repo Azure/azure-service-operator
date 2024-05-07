@@ -159,19 +159,3 @@ func NewScopedManagedIdentitySecret(
 
 	return secret
 }
-
-func NewScopedServicePrincipalCertificateSecret(
-	subscriptionID string,
-	tenantID string,
-	clientID string,
-	clientCert string,
-	name string,
-	namespace string,
-) *v1.Secret {
-	secret := newScopedCredentialSecret(subscriptionID, tenantID, name, namespace)
-
-	secret.Data[config.AzureClientID] = []byte(clientID)
-	secret.Data[config.AzureClientCertificate] = []byte(clientCert)
-
-	return secret
-}
