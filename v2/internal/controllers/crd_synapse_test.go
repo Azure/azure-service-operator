@@ -45,6 +45,8 @@ func Test_Workspace_BigDataPool(t *testing.T) {
 		},
 	}
 
+	tc.CreateResourcesAndWait(sa)
+
 	ws := &synapse.Workspace{
 		ObjectMeta: tc.MakeObjectMeta("workspace"),
 		Spec: synapse.Workspace_Spec{
@@ -66,7 +68,7 @@ func Test_Workspace_BigDataPool(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourcesAndWait(sa, ws)
+	tc.CreateResourcesAndWait(ws)
 
 	tc.Expect(ws.Status.Id).ToNot(BeNil())
 	wsArmId := *ws.Status.Id
