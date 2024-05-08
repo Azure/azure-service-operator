@@ -47,34 +47,36 @@ service Swagger specifications. We must validate each breaking change so that we
 
 Perform a simple smoke test to make sure the new release is capable of starting up and creating some Azure resources.
 
-1. Create a kind cluster
+1. Ensure you have the following environment variables exported:
+   * AZURE_SUBSCRIPTION_ID
+   * AZURE_TENANT_ID
+
+2. Create a kind cluster
    ``` bash
-   task controller:kind-create
+   task controller:kind-create-wi
    ```
 
-2. Install cert-manager
+3. Enable workload identity on that cluster:
+   ```
+   task: controller:create-mi-for-workload-identity
+   ```
+
+4. Install cert-manager
    ``` bash
    task controller:install-cert-manager
    ```
 
-3. Create the namespace for the operator
+5. Create the namespace for the operator
    ``` bash
    kubectl create namespace azureserviceoperator-system
    ```
 
-4. Ensure you have a [Service Principal](https://azure.github.io/azure-service-operator/#installation) and export these environment variables:
-
-   * AZURE_SUBSCRIPTION
-   * AZURE_TENANT_ID
-   * AZURE_CLIENT_ID
-   * AZURE_CLIENT_SECRET
-
-5. Create a secret in your cluster with the Service Principal credentials for ASO to use:
+6. Create a secret in your cluster with the Workload Identity credentials for ASO to use:
    ``` bash
-   task controller:make-sp-secret
+   task controller:make-workload-identity-secret
    ```
 
-6. Download asoctl
+7. Download asoctl
 
    ``` bash 
    curl -L https://github.com/Azure/azure-service-operator/releases/latest/download/asoctl-linux-amd64.gz -o asoctl.gz
@@ -82,51 +84,65 @@ Perform a simple smoke test to make sure the new release is capable of starting 
    chmod +x asoctl
    ```
 
-7. Use asoctl to install the new release
+8. Use asoctl to install the new release
 
    ``` bash
    ./asoctl export template --version v2.7.0 --crd-pattern "resources.azure.com/*;network.azure.com/*" | kubectl apply -f -
    ```
 
-8. Watch while ASO starts
+9. Watch while ASO starts
    ``` bash
    kubectl get all -n azureserviceoperator-system
    ```
 
-9. Create a resource group and a vnet in it (the vnet is to check that conversion webhooks are working, since there aren't any for RGs):
+10. Create a resource group and a vnet in it (the vnet is to check that conversion webhooks are working, since there aren't any for RGs):
 
-   ``` bash
-   kubectl apply -f v2/samples/resources/v1api/v1api20200601_resourcegroup.yaml
-   kubectl apply -f v2/samples/network/v1api20201101/v1api20201101_virtualnetwork.yaml
-   ```
-10. Make sure they deploy successfully - check in the portal as well.
+    ``` bash
+    kubectl apply -f v2/samples/resources/v1api/v1api20200601_resourcegroup.yaml
+    kubectl apply -f v2/samples/network/v1api20201101/v1api20201101_virtualnetwork.yaml
+    ```
+11. Make sure they deploy successfully - check in the portal as well.
 
 ## Create and test the Helm chart
 
-> **Note:** A PR that does this should be automatically generated when a new release is published. 
-> These steps are documented here in case that process fails.
+{{% alert title="Note" %}}
+A PR that does this should be automatically generated when a new release is published.
+These steps are documented here in case that process fails.
+{{% /alert %}}
 
 1. Create a new branch from `<NEW_RELEASE_TAG>` HEAD
 2. Generate helm manifest for new release: `task controller:gen-helm-manifest`
 3. Check the version in `/v2/charts/azure-service-operator/Chart.yaml` if matches with the latest release tag.
-4. Install helm chart:
+4. Create a kind cluster
+   ``` bash
+   task controller:kind-create-wi
+   ```
+5. Enable workload identity on that cluster:
+   ```
+   task: controller:create-mi-for-workload-identity
+   ```
+6. Install cert-manager
+   ``` bash
+   task controller:install-cert-manager
+   ```
+7. Install helm chart:
     ```
    helm install --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
    --set azureTenantID=$AZURE_TENANT_ID \
-   --set azureClientSecret=$AZURE_CLIENT_SECRET \
    --set azureClientID=$AZURE_CLIENT_ID \
+   --set useWorkloadIdentityAuth=true \
    asov2 -n azureserviceoperator-system --create-namespace ./v2/charts/azure-service-operator/.
     ```
-5. Wait for the chart installation.
-6. Wait for it to start: `k get all -n azureserviceoperator-system`
-7. Create a resource group and a vnet in it (the vnet is to check that conversion webhooks are working, since there aren't any for RGs):
-   ```
-   k apply -f v2/samples/resources/v1beta/v1beta20200601_resourcegroup.yaml
-   k apply -f v2/samples/network/v1beta/v1beta20201101_virtualnetwork.yaml
-   ```
-8. Make sure they deploy successfully - check in the portal as well.
-9. If installed successfully, commit the files under `v2/charts/azure-service-operator`.
-10. Send a PR.
+8. Wait for the chart installation.
+9. Wait for it to start: `k get all -n azureserviceoperator-system`
+10. Create a resource group and a vnet in it (the vnet is to check that conversion webhooks are working, since there aren't any for RGs):
+    ```
+    k apply -f v2/samples/resources/v1beta/v1beta20200601_resourcegroup.yaml
+    k apply -f v2/samples/network/v1beta/v1beta20201101_virtualnetwork.yaml
+    ```
+11. Make sure they deploy successfully - check in the portal as well.
+12. If installed successfully, commit the files under `v2/charts/azure-service-operator`.
+13. Send a PR.
 
 ## Update Resource Documentation
 

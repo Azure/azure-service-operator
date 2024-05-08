@@ -17,10 +17,11 @@ To do this, delete the recordings for the failing tests (under `{test-dir}/recor
 include with your change. All authentication and subscription information is removed from the recording.
 
 To run the test and produce a new recording you will need to have set the required authentication environment variables 
-for an Azure Service Principal: `AZURE_SUBSCRIPTION_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, and `AZURE_CLIENT_SECRET`. 
-This Service Principal will need access to the subscription to create and delete resources.
+`AZURE_SUBSCRIPTION_ID` and `AZURE_TENANT_ID`, _and_ logged in via `az login` (or you just use the `task` commands 
+mentioned below and it will prompt you to `az login` if needed for that specific command). 
+Note that you must be `Owner` on the subscription to execute some tests in record mode.
 
-A few tests also need the `TEST_BILLING_ID` variable set to a valid Azure Billing ID when running in record mode. 
+A few tests also need the `TEST_BILLING_ID` environment variable set to a valid Azure Billing ID when running in record mode. 
 In replay mode this variable is never required. Note that the billing ID is redacted from all recording files so that 
 the resulting file can be replayed by anybody, even somebody who does not know the Billing ID the test was recorded with.
 
@@ -31,33 +32,11 @@ set `TIMEOUT` to a suitable value when running task. For example, to give your t
 TIMEOUT=60m task controller:test-integration-envtest
 ```
 
-If you need to create a new Azure Service Principal, run the following commands:
-
-```console
-$ az login
-… follow the instructions …
-$ az account set --subscription {the subscription ID you would like to use}
-Creating a role assignment under the scope of "/subscriptions/{subscription ID you chose}"
-…
-$ az ad sp create-for-rbac --role contributor --name {the name you would like to use}
-{
-  "appId": "…",
-  "displayName": "{name you chose}",
-  "name": "{name you chose}",
-  "password": "…",
-  "tenant": "…"
-}
-```
-The output contains `appId` (`AZURE_CLIENT_ID`), `password` (`AZURE_CLIENT_SECRET`), and `tenant` (`AZURE_TENANT_ID`). 
-Store these somewhere safe as the password cannot be viewed again, only reset. The Service Principal will be created as 
-a “contributor” to your subscription which means it can create and delete resources, so 
-**ensure you keep the secrets secure**.
-
 ### Running live tests
 
 If you want to skip all recordings and run all tests directly against live Azure resources, you can use the 
 `controller:test-integration-envtest-live` task. This will also require you to set the authentication environment 
-variables, as detailed above.
+variables and `az login`, as detailed above.
 
 ### Running a single test
 By default `task controller:test-integration-envtest` and its variants run all tests. This is often undesirable 
