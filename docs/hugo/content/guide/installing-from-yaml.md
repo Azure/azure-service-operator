@@ -4,8 +4,8 @@ weight: -4
 ---
 ## Prerequisites
 1. You have installed Cert Manager as per the [installation instructions](../../#installation) up to the "install from Helm" step.
-2. You have the `AZURE_SUBSCRIPTION_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_ID` and `AZURE_CLIENT_SECRET` environment variables set from the
-   [installation instructions](../../#installation).
+2. You have followed the [instructions for creating a Managed Identity or Service Principal](../../#create-a-managed-identity-or-service-principal)
+   and set the appropriate environment variables.
 
 ## Installation (operator)
 
@@ -19,9 +19,9 @@ weight: -4
    `--crd-pattern "resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*"`. 
    For more information about what `--crd-pattern` means, see [CRD management in ASO]({{<relref "crd-management">}}).
 
-3. Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as. 
-   Make sure that you have the 4 environment variables from the [Helm installation instructions](../../#installation) set.
-   To learn more about other authentication options, see the [authentication documentation](../authentication/):
+3. Create the Azure Service Operator v2 global secret. This secret contains the identity that Azure Service Operator will run as. 
+   Make sure that you have the 4 environment variables from the 
+   [create a service principal step of the Helm instructions](../../#create-a-managed-identity-or-service-principal) set.
    ```bash
    cat <<EOF | kubectl apply -f -
    apiVersion: v1
@@ -36,6 +36,9 @@ weight: -4
      AZURE_CLIENT_SECRET: "$AZURE_CLIENT_SECRET"
    EOF
    ```
+
+   Note that unlike the Helm installation instructions, we use the ASO global secret here. To learn more about different
+   secret scopes and formats, see the [authentication documentation](../authentication/).
 
 ## Installation (crds)
 
@@ -67,5 +70,5 @@ CustomResourceDefinition.apiextensions.k8s.io "storageaccounts.storage.azure.com
 metadata.annotations: Too long: must have at most 262144 bytes
 ```
 
-Why does this happen? ASO CRDs are a complete representation of the Azure Resource surface area, including documentation. This is tremendously useful - but also means they are quite large.
-
+Why does this happen? ASO CRDs are a complete representation of the Azure Resource surface area, including documentation. 
+This is tremendously useful - but also means they are quite large.
