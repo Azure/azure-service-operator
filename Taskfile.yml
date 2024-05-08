@@ -1138,20 +1138,21 @@ tasks:
       - '{{.SCRIPTS_ROOT}}/delete-old-resourcegroups.sh -p "{{.TEST_LIVE_RESOURCE_PREFIX}}" -a 10800'
 
   az-login:
-    desc: Runs AZ login
+    desc: Runs AZ login. In the context of GitHub actions, uses an MSI token, in a local (non-actions) context, uses an interactive login
     cmds:
-      # az cli has 2 tokens, an access token (valid for ~60m) and a refres token (valid for ~12h)
-      # If the access token is expired, but the refresh token is still valid, the below command will get a new access token via the refresh token without asking for a re-auth
-      # If the refresh token is expired, re-auth is required.
-      # TODO: It's likely that this will not work out of the box in the CI env?
-      - if ! az account get-access-token --tenant {{.AZURE_TENANT_ID}} --query "expiresOn" --output tsv > /dev/null; then az login; fi
+      # For interactive login: az cli has 2 tokens, an access token (valid for ~60m) and a refresh token (valid for ~12h)
+      # If the access token is expired, but the refresh token is still valid, the below command will get a new access token
+      # via the refresh token without asking for re-authentication.
+      # If the refresh token is expired, re-authentication is required.
+      # In practice this means that you should be asked for authentication once a (working) day, unless you're working for more
+      # than 12 hours in which case you'll be prompted twice.
+      - if [ "${GITHUB_ACTIONS}" = true ]; then az login --identity; elif ! az account get-access-token --tenant {{.AZURE_TENANT_ID}} --query "expiresOn" --output tsv > /dev/null; then az login; fi
       - az account set --subscription {{.AZURE_SUBSCRIPTION_ID}}
 
   docker-login:
     desc: Docker login
     cmds:
       - 'if [ -z "{{.DOCKER_REGISTRY}}" ]; then echo "Error: DOCKER_REGISTRY must be set"; exit 1; fi'
-      # - docker login {{.DOCKER_REGISTRY}} --username {{.AZURE_CLIENT_ID}} --password {{.AZURE_CLIENT_SECRET}}  # TODO: This needs to be fixed so that it works with a non-SP CI, I think by using az acr login instead
       - az acr login --name {{.DOCKER_REGISTRY}}
 
   header-check:

@@ -6,9 +6,8 @@ var sku = 'Standard_D8ds_v4'
 // Base 1ES Image Resource IDs
 var ubuntu2204GalleryVersionResourceId = '/subscriptions/723b64f0-884d-4994-b6de-8960d049cb7e/resourceGroups/CloudTestImages/providers/Microsoft.Compute/galleries/CloudTestGallery/images/MMSUbuntu22.04-Secure/versions/latest'
 
-
 var poolSettings = {
-  maxPoolSize: 4 // We run 2 jobs per CI run on this pool, so a max of 4 means we can run 2 CI builds in parallel
+  maxPoolSize: 8 // We run 2 jobs per CI run on this pool, so a max of 8 means we can run 4 CI builds in parallel
   resourcePredictions: [
     {
       '21:00': 2  // 9 AM Monday NZT
@@ -39,6 +38,13 @@ var poolSettings = {
   ]
 }
 
+var msiName = 'aso-ci-identity'
+
+resource msi 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' = {
+  name: msiName
+  location: location
+}
+
 resource agentImage 'Microsoft.CloudTest/images@2020-05-07' = {
   name: '1es-ubuntu-22.04'
   location: location
@@ -47,7 +53,6 @@ resource agentImage 'Microsoft.CloudTest/images@2020-05-07' = {
     resourceId: ubuntu2204GalleryVersionResourceId
   }
 }
-
 
 resource hostedPool 'Microsoft.CloudTest/hostedpools@2020-05-07' = {
   name: poolName
@@ -74,5 +79,32 @@ resource hostedPool 'Microsoft.CloudTest/hostedpools@2020-05-07' = {
       type: 'Stateless'
       resourcePredictions: poolSettings.resourcePredictions
     }
+    networkProfile: {
+      firewallProfile: {
+          policyName:  'Default' // allows access to everything apart from a list of known malicious endpoints
+      }
+    }
+  }
+  identity: {
+    type: 'UserAssigned'
+    userAssignedIdentities: {
+      '${msi.id}': {}
+    }
+  }
+}
+
+var roleDefinitionId = '8e3af657-a8ff-443c-a75c-2fe8c4bcb635' // Owner
+
+// This has to be in a module due to the following error:
+// Error BCP120: This expression is being used in an assignment to the "name" property of the "Microsoft.Authorization/roleAssignments"
+// type, which requires a value that can be calculated at the start of the deployment. Properties of msi which can be
+// calculated at the start include "apiVersion", "id", "name", "type".
+module roleAssignment 'identity.bicep' = {
+  name: '${deployment().name}-identity'
+  scope: subscription()
+  params: {
+    principalId: msi.properties.principalId
+    principalType: 'ServicePrincipal'
+    roleDefinitionId: roleDefinitionId
   }
 }
