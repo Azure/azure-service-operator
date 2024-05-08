@@ -277,9 +277,9 @@ The best way to do this is to start from an [existing test](https://github.com/A
 
 Every new resource should have a handwritten test as there is always the possibility that the way a particular resource provider behaves will change with a new version. 
 
-Given that we don't want to have to maintain tests for every version of every resource, and each additional test makes our CI test suite take lo
-nger, consider removing tests for older versions of resources when we add tests for newer versions. This is a judgment call, and we recommend di
-scussion with the team first.
+Given that we don't want to have to maintain tests for every version of every resource, and each additional test makes our CI test suite take 
+longer, consider removing tests for older versions of resources when we add tests for newer versions. This is a judgment call, and we recommend 
+discussion with the team first.
 
 As an absolute minimum, we want to have tests for
 
