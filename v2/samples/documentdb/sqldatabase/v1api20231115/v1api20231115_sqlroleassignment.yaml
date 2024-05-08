@@ -1,0 +1,14 @@
+apiVersion: documentdb.azure.com/v1api20231115
+kind: SqlRoleAssignment
+metadata:
+  name: sample-role-assignment
+  namespace: default
+spec:
+  owner:
+    name: sample-sqldb-account
+  principalIdFromConfig:
+    name: identity-settings
+    key: principalId
+  # This RoleDefinition corresponds to "Cosmos DB Built-in Data Contributor". See https://docs.microsoft.com/en-us/azure/cosmos-db/how-to-setup-rbac#built-in-role-definitions for more.
+  roleDefinitionId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account/sqlRoleDefinitions/00000000-0000-0000-0000-000000000002
+  scope: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account

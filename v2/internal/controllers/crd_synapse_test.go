@@ -29,7 +29,7 @@ func Test_Workspace_BigDataPool(t *testing.T) {
 	sa := &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("adlstore")),
 		Spec: storage.StorageAccount_Spec{
-			Location:     to.Ptr("eastus2"),
+			Location:     tc.AzureRegion,
 			Owner:        testcommon.AsOwner(rg),
 			Kind:         to.Ptr(storage.StorageAccount_Kind_Spec_StorageV2),
 			Sku:          &storage.Sku{Name: to.Ptr(storage.SkuName_Standard_LRS)},
@@ -45,6 +45,8 @@ func Test_Workspace_BigDataPool(t *testing.T) {
 		},
 	}
 
+	tc.CreateResourcesAndWait(sa)
+
 	ws := &synapse.Workspace{
 		ObjectMeta: tc.MakeObjectMeta("workspace"),
 		Spec: synapse.Workspace_Spec{
@@ -58,7 +60,7 @@ func Test_Workspace_BigDataPool(t *testing.T) {
 				},
 				Filesystem: to.Ptr("default"),
 			},
-			Location: to.Ptr("eastus2"),
+			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Tags: map[string]string{
 				"cheese": "blue",
@@ -66,7 +68,7 @@ func Test_Workspace_BigDataPool(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourcesAndWait(sa, ws)
+	tc.CreateResourcesAndWait(ws)
 
 	tc.Expect(ws.Status.Id).ToNot(BeNil())
 	wsArmId := *ws.Status.Id
@@ -103,7 +105,7 @@ func WorkspacesBigDataPool_CRUD(tc *testcommon.KubePerTestContext, workspaces *s
 	pool := &synapse.WorkspacesBigDataPool{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("")),
 		Spec: synapse.Workspaces_BigDataPool_Spec{
-			Location:       to.Ptr("eastus2"),
+			Location:       tc.AzureRegion,
 			Owner:          testcommon.AsOwner(workspaces),
 			SparkVersion:   to.Ptr("3.3"),
 			NodeCount:      to.Ptr(4),

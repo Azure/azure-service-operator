@@ -49,22 +49,36 @@ var _ conversion.Convertible = &SqlDatabaseContainerTrigger{}
 
 // ConvertFrom populates our SqlDatabaseContainerTrigger from the provided hub SqlDatabaseContainerTrigger
 func (trigger *SqlDatabaseContainerTrigger) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210515s.SqlDatabaseContainerTrigger)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20210515/storage/SqlDatabaseContainerTrigger but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210515s.SqlDatabaseContainerTrigger
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return trigger.AssignProperties_From_SqlDatabaseContainerTrigger(source)
+	err = trigger.AssignProperties_From_SqlDatabaseContainerTrigger(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to trigger")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub SqlDatabaseContainerTrigger from our SqlDatabaseContainerTrigger
 func (trigger *SqlDatabaseContainerTrigger) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210515s.SqlDatabaseContainerTrigger)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20210515/storage/SqlDatabaseContainerTrigger but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210515s.SqlDatabaseContainerTrigger
+	err := trigger.AssignProperties_To_SqlDatabaseContainerTrigger(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from trigger")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return trigger.AssignProperties_To_SqlDatabaseContainerTrigger(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1api20210515-sqldatabasecontainertrigger,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=sqldatabasecontainertriggers,verbs=create;update,versions=v1api20210515,name=default.v1api20210515.sqldatabasecontainertriggers.documentdb.azure.com,admissionReviewVersions=v1
@@ -89,17 +103,6 @@ func (trigger *SqlDatabaseContainerTrigger) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the SqlDatabaseContainerTrigger resource
 func (trigger *SqlDatabaseContainerTrigger) defaultImpl() { trigger.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &SqlDatabaseContainerTrigger{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (trigger *SqlDatabaseContainerTrigger) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS); ok {
-		return trigger.Spec.Initialize_From_DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &SqlDatabaseContainerTrigger{}
 
@@ -617,31 +620,6 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) AssignProp
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS populates our DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec from the provided source DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS
-func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) Initialize_From_DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS(source *DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS) error {
-
-	// Location
-	trigger.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Resource
-	if source.Resource != nil {
-		var resource SqlTriggerResource
-		err := resource.Initialize_From_SqlTriggerGetProperties_Resource_STATUS(source.Resource)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SqlTriggerGetProperties_Resource_STATUS() to populate field Resource")
-		}
-		trigger.Resource = &resource
-	} else {
-		trigger.Resource = nil
-	}
-
-	// Tags
-	trigger.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1209,35 +1187,6 @@ func (resource *SqlTriggerResource) AssignProperties_To_SqlTriggerResource(desti
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SqlTriggerGetProperties_Resource_STATUS populates our SqlTriggerResource from the provided source SqlTriggerGetProperties_Resource_STATUS
-func (resource *SqlTriggerResource) Initialize_From_SqlTriggerGetProperties_Resource_STATUS(source *SqlTriggerGetProperties_Resource_STATUS) error {
-
-	// Body
-	resource.Body = genruntime.ClonePointerToString(source.Body)
-
-	// Id
-	resource.Id = genruntime.ClonePointerToString(source.Id)
-
-	// TriggerOperation
-	if source.TriggerOperation != nil {
-		triggerOperation := SqlTriggerResource_TriggerOperation(*source.TriggerOperation)
-		resource.TriggerOperation = &triggerOperation
-	} else {
-		resource.TriggerOperation = nil
-	}
-
-	// TriggerType
-	if source.TriggerType != nil {
-		triggerType := SqlTriggerResource_TriggerType(*source.TriggerType)
-		resource.TriggerType = &triggerType
-	} else {
-		resource.TriggerType = nil
 	}
 
 	// No error

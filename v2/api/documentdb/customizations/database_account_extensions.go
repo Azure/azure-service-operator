@@ -16,9 +16,10 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
-	documentdb "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515/storage"
+	documentdb "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
@@ -162,4 +163,45 @@ func isCapacityError(err *genericarmclient.CloudError) bool {
 	}
 
 	return err.Code() == "ServiceUnavailable" && strings.Contains(err.Message(), "currently experiencing high demand")
+}
+
+var _ extensions.PreReconciliationChecker = &DatabaseAccountExtension{}
+
+// PreReconcileCheck does a pre-reconcile check to see if the resource is in a state that can be reconciled.
+// ARM resources should implement this to avoid reconciliation attempts that cannot possibly succeed.
+// Returns ProceedWithReconcile if the reconciliation should go ahead.
+// Returns BlockReconcile and a human-readable reason if the reconciliation should be skipped.
+// ctx is the current operation context.
+// obj is the resource about to be reconciled. The resource's State will be freshly updated.
+// kubeClient allows access to the cluster for any required queries.
+// armClient allows access to ARM for any required queries.
+// log is the logger for the current operation.
+// next is the next (nested) implementation to call.
+func (ext *DatabaseAccountExtension) PreReconcileCheck(
+	ctx context.Context,
+	obj genruntime.MetaObject,
+	owner genruntime.MetaObject,
+	resourceResolver *resolver.Resolver,
+	armClient *genericarmclient.GenericClient,
+	log logr.Logger,
+	next extensions.PreReconcileCheckFunc,
+) (extensions.PreReconcileCheckResult, error) {
+	// This has to be the current hub storage version of the account.
+	// It will need to be updated if the hub storage version changes.
+	account, ok := obj.(*documentdb.DatabaseAccount)
+	if !ok {
+		return extensions.PreReconcileCheckResult{}, errors.Errorf("cannot run on unknown resource type %T, expected *documentdb.DatabaseAccount", obj)
+	}
+
+	// Type assert that we are the hub type. This will fail to compile if
+	// the hub type has been changed but this extension has not
+	var _ conversion.Hub = account
+
+	// If the account is already deleting, we have to wait for that to finish
+	// before trying anything else
+	if account.Status.ProvisioningState != nil && strings.EqualFold(*account.Status.ProvisioningState, "Deleting") {
+		return extensions.BlockReconcile("reconcile blocked while account is at status deleting"), nil
+	}
+
+	return next(ctx, obj, owner, resourceResolver, armClient, log)
 }

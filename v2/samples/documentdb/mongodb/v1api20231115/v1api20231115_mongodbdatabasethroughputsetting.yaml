@@ -1,0 +1,11 @@
+apiVersion: documentdb.azure.com/v1api20231115
+kind: MongodbDatabaseThroughputSetting
+metadata:
+  name: sample-mongodb-throughput
+  namespace: default
+spec:
+  owner:
+    name: sample-mongodb
+  resource:
+    autoscaleSettings:
+      maxThroughput: 4000
