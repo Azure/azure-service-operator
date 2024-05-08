@@ -95,11 +95,9 @@ jobs:
       - name: Docker login
         run: |
           container_id=${{env.container_id}}
-          docker exec -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e DOCKER_REGISTRY "$container_id" task VERSION=${{ env.ARTIFACT_VERSION }} LATEST_VERSION_TAG=${{ env.ARTIFACT_VERSION }} docker-login
+          docker exec -e DOCKER_REGISTRY "$container_id" task VERSION=${{ env.ARTIFACT_VERSION }} LATEST_VERSION_TAG=${{ env.ARTIFACT_VERSION }} docker-login
         env:
           DOCKER_REGISTRY: ${{ secrets.REGISTRY_LOGIN }}
-          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
 
       - name: Build, tag and push docker image
         run: |
