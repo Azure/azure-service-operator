@@ -354,9 +354,16 @@ func (tc *KubePerTestContext) CreateTestResourceGroupAndWait() *resources.Resour
 // CreateResource creates a resource and registers it for cleanup. It does not wait for the resource
 // to be created, use CreateResourceAndWait for that
 func (tc *KubePerTestContext) CreateResource(obj client.Object) {
-	tc.LogSubsectionf(
-		"Creating resource %s",
-		obj.GetName())
+	if arm, ok := obj.(genruntime.ARMMetaObject); ok {
+		tc.LogSubsectionf(
+			"Creating %s resource %s",
+			arm.GetType(),
+			obj.GetName())
+	} else {
+		tc.LogSubsectionf(
+			"Creating resource %s",
+			obj.GetName())
+	}
 
 	tc.CreateResourceUntracked(obj)
 	tc.registerCleanup(obj)
