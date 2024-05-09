@@ -33,7 +33,7 @@ What resources can be code generated? Any ARM resource can be generated. If you&
 <meta itemprop="description" content="This document discusses how to add a new resource to the ASO v2 code generation configuration. Check out this PR if you&rsquo;d like to see what the end product looks like.
 What resources can be code generated? Any ARM resource can be generated. If you&rsquo;re not sure if the resource you are interested in is an ARM resource, check if it is defined in a resource-manager folder in the Azure REST API specs repo.">
 
-<meta itemprop="wordCount" content="2029">
+<meta itemprop="wordCount" content="2027">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Adding a new code generated resource to ASO v2"/>
 <meta name="twitter:description" content="This document discusses how to add a new resource to the ASO v2 code generation configuration. Check out this PR if you&rsquo;d like to see what the end product looks like.
@@ -574,6 +574,8 @@ What resources can be code generated? Any ARM resource can be generated. If you&
   <a href="/azure-service-operator/contributing/running-a-development-version/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingrunning-a-development-version"><span class="">Running a Development Version</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingtesting-li">
   <a href="/azure-service-operator/contributing/testing/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingtesting"><span class="">Testing</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingupgrade-resource-version-li">
+  <a href="/azure-service-operator/contributing/upgrade-resource-version/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorcontributingupgrade-resource-version"><span class="">Upgrading a resource</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesign-li">
@@ -951,11 +953,11 @@ our <code>azure-arm.yaml</code> to force a particular property to be treated as 
   <span style="color:#f92672">SqlAdministratorLoginPassword</span>:
     <span style="color:#f92672">$isSecret</span>: <span style="color:#66d9ef">true</span>
 </code></pre></div><h2 id="write-a-crud-test-for-the-resource">Write a CRUD test for the resource</h2>
-<p>The best way to do this is to start from an <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/internal/controllers/crd_cosmosdb_mongodb_test.go">existing test</a> and modify it to work for your resource. It can also be helpful to refer to examples in the <a href="https://github.com/Azure/azure-quickstart-templates">ARM templates GitHub repo</a>.</p>
+<p>The best way to do this is to start from an <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/internal/controllers/documentdb_mongodb_crud_v20231115_test.go">existing test</a> and modify it to work for your resource. It can also be helpful to refer to examples in the <a href="https://github.com/Azure/azure-quickstart-templates">ARM templates GitHub repo</a>.</p>
 <p>Every new resource should have a handwritten test as there is always the possibility that the way a particular resource provider behaves will change with a new version.</p>
-<p>Given that we don&rsquo;t want to have to maintain tests for every version of every resource, and each additional test makes our CI test suite take lo
-nger, consider removing tests for older versions of resources when we add tests for newer versions. This is a judgment call, and we recommend di
-scussion with the team first.</p>
+<p>Given that we don&rsquo;t want to have to maintain tests for every version of every resource, and each additional test makes our CI test suite take
+longer, consider removing tests for older versions of resources when we add tests for newer versions. This is a judgment call, and we recommend
+discussion with the team first.</p>
 <p>As an absolute minimum, we want to have tests for</p>
 <ul>
 <li>the latest <code>stable</code> version of the resource;</li>

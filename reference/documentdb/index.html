@@ -566,6 +566,8 @@
   <a href="/azure-service-operator/contributing/running-a-development-version/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingrunning-a-development-version"><span class="">Running a Development Version</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingtesting-li">
   <a href="/azure-service-operator/contributing/testing/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingtesting"><span class="">Testing</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingupgrade-resource-version-li">
+  <a href="/azure-service-operator/contributing/upgrade-resource-version/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorcontributingupgrade-resource-version"><span class="">Upgrading a resource</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesign-li">
@@ -672,6 +674,7 @@
   <ul>
     <li>
       <ul>
+        <li><a href="#next-release">Next Release</a></li>
         <li><a href="#released">Released</a></li>
       </ul>
     </li>
@@ -734,6 +737,112 @@
 		
 	</header>
 	<p>To install the CRDs for these resources, your ASO configuration must include <code>documentdb.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
+<h3 id="next-release">Next Release</h3>
+<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>ARM Version</th>
+<th>CRD Version</th>
+<th>Supported From</th>
+<th>Sample</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DatabaseAccount</td>
+<td>2023-11-15</td>
+<td>v1api20231115</td>
+<td>v2.8.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20231115/v1api20231115_databaseaccount.yaml">View</a></td>
+</tr>
+<tr>
+<td>MongodbDatabase</td>
+<td>2023-11-15</td>
+<td>v1api20231115</td>
+<td>v2.8.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20231115/v1api20231115_mongodbdatabase.yaml">View</a></td>
+</tr>
+<tr>
+<td>MongodbDatabaseCollection</td>
+<td>2023-11-15</td>
+<td>v1api20231115</td>
+<td>v2.8.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20231115/v1api20231115_mongodbdatabasecollection.yaml">View</a></td>
+</tr>
+<tr>
+<td>MongodbDatabaseCollectionThroughputSetting</td>
+<td>2023-11-15</td>
+<td>v1api20231115</td>
+<td>v2.8.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20231115/v1api20231115_mongodbdatabasecollectionthroughputsetting.yaml">View</a></td>
+</tr>
+<tr>
+<td>MongodbDatabaseThroughputSetting</td>
+<td>2023-11-15</td>
+<td>v1api20231115</td>
+<td>v2.8.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20231115/v1api20231115_mongodbdatabasethroughputsetting.yaml">View</a></td>
+</tr>
+<tr>
+<td>SqlDatabase</td>
+<td>2023-11-15</td>
+<td>v1api20231115</td>
+<td>v2.8.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20231115/v1api20231115_sqldatabase.yaml">View</a></td>
+</tr>
+<tr>
+<td>SqlDatabaseContainer</td>
+<td>2023-11-15</td>
+<td>v1api20231115</td>
+<td>v2.8.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20231115/v1api20231115_sqldatabasecontainer.yaml">View</a></td>
+</tr>
+<tr>
+<td>SqlDatabaseContainerStoredProcedure</td>
+<td>2023-11-15</td>
+<td>v1api20231115</td>
+<td>v2.8.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20231115/v1api20231115_sqldatabasecontainerstoredprocedure.yaml">View</a></td>
+</tr>
+<tr>
+<td>SqlDatabaseContainerThroughputSetting</td>
+<td>2023-11-15</td>
+<td>v1api20231115</td>
+<td>v2.8.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20231115/v1api20231115_sqldatabasecontainerthroughputsetting.yaml">View</a></td>
+</tr>
+<tr>
+<td>SqlDatabaseContainerTrigger</td>
+<td>2023-11-15</td>
+<td>v1api20231115</td>
+<td>v2.8.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20231115/v1api20231115_sqldatabasecontainertrigger.yaml">View</a></td>
+</tr>
+<tr>
+<td>SqlDatabaseContainerUserDefinedFunction</td>
+<td>2023-11-15</td>
+<td>v1api20231115</td>
+<td>v2.8.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20231115/v1api20231115_sqldatabasecontaineruserdefinedfunction.yaml">View</a></td>
+</tr>
+<tr>
+<td>SqlDatabaseThroughputSetting</td>
+<td>2023-11-15</td>
+<td>v1api20231115</td>
+<td>v2.8.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20231115/v1api20231115_sqldatabasethroughputsetting.yaml">View</a></td>
+</tr>
+<tr>
+<td>SqlRoleAssignment</td>
+<td>2023-11-15</td>
+<td>v1api20231115</td>
+<td>v2.8.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20231115/v1api20231115_sqlroleassignment.yaml">View</a></td>
+</tr>
+</tbody>
+</table>
 <h3 id="released">Released</h3>
 <p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
@@ -752,91 +861,91 @@
 <td>2021-05-15</td>
 <td>v1api20210515</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api/v1api20210515_databaseaccount.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20210515/v1api20210515_databaseaccount.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1api20210515/#documentdb.azure.com/v1api20210515.MongodbDatabase">MongodbDatabase</a></td>
 <td>2021-05-15</td>
 <td>v1api20210515</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api/v1api20210515_mongodbdatabase.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20210515/v1api20210515_mongodbdatabase.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1api20210515/#documentdb.azure.com/v1api20210515.MongodbDatabaseCollection">MongodbDatabaseCollection</a></td>
 <td>2021-05-15</td>
 <td>v1api20210515</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api/v1api20210515_mongodbdatabasecollection.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20210515/v1api20210515_mongodbdatabasecollection.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1api20210515/#documentdb.azure.com/v1api20210515.MongodbDatabaseCollectionThroughputSetting">MongodbDatabaseCollectionThroughputSetting</a></td>
 <td>2021-05-15</td>
 <td>v1api20210515</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api/v1api20210515_mongodbdatabasecollectionthroughputsetting.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20210515/v1api20210515_mongodbdatabasecollectionthroughputsetting.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1api20210515/#documentdb.azure.com/v1api20210515.MongodbDatabaseThroughputSetting">MongodbDatabaseThroughputSetting</a></td>
 <td>2021-05-15</td>
 <td>v1api20210515</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api/v1api20210515_mongodbdatabasethroughputsetting.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20210515/v1api20210515_mongodbdatabasethroughputsetting.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1api20210515/#documentdb.azure.com/v1api20210515.SqlDatabase">SqlDatabase</a></td>
 <td>2021-05-15</td>
 <td>v1api20210515</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api/v1api20210515_sqldatabase.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20210515/v1api20210515_sqldatabase.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1api20210515/#documentdb.azure.com/v1api20210515.SqlDatabaseContainer">SqlDatabaseContainer</a></td>
 <td>2021-05-15</td>
 <td>v1api20210515</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api/v1api20210515_sqldatabasecontainer.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20210515/v1api20210515_sqldatabasecontainer.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1api20210515/#documentdb.azure.com/v1api20210515.SqlDatabaseContainerStoredProcedure">SqlDatabaseContainerStoredProcedure</a></td>
 <td>2021-05-15</td>
 <td>v1api20210515</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api/v1api20210515_sqldatabasecontainerstoredprocedure.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20210515/v1api20210515_sqldatabasecontainerstoredprocedure.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1api20210515/#documentdb.azure.com/v1api20210515.SqlDatabaseContainerThroughputSetting">SqlDatabaseContainerThroughputSetting</a></td>
 <td>2021-05-15</td>
 <td>v1api20210515</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api/v1api20210515_sqldatabasecontainerthroughputsetting.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20210515/v1api20210515_sqldatabasecontainerthroughputsetting.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1api20210515/#documentdb.azure.com/v1api20210515.SqlDatabaseContainerTrigger">SqlDatabaseContainerTrigger</a></td>
 <td>2021-05-15</td>
 <td>v1api20210515</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api/v1api20210515_sqldatabasecontainertrigger.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20210515/v1api20210515_sqldatabasecontainertrigger.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1api20210515/#documentdb.azure.com/v1api20210515.SqlDatabaseContainerUserDefinedFunction">SqlDatabaseContainerUserDefinedFunction</a></td>
 <td>2021-05-15</td>
 <td>v1api20210515</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api/v1api20210515_sqldatabasecontaineruserdefinedfunction.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20210515/v1api20210515_sqldatabasecontaineruserdefinedfunction.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1api20210515/#documentdb.azure.com/v1api20210515.SqlDatabaseThroughputSetting">SqlDatabaseThroughputSetting</a></td>
 <td>2021-05-15</td>
 <td>v1api20210515</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api/v1api20210515_sqldatabasethroughputsetting.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20210515/v1api20210515_sqldatabasethroughputsetting.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1api20210515/#documentdb.azure.com/v1api20210515.SqlRoleAssignment">SqlRoleAssignment</a></td>
 <td>2021-05-15</td>
 <td>v1api20210515</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api/v1api20210515_sqlroleassignment.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api20210515/v1api20210515_sqlroleassignment.yaml">View</a></td>
 </tr>
 </tbody>
 </table>
