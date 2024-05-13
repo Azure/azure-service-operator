@@ -4,7 +4,7 @@ title: '2024-04: RoleAssignments UUID Generation'
 
 ## Context
 
-In ASO, we have made several improvements on making the RoleAssignment's name user-friendly by auto-generating the UUID using UUIDv5 with a seed string based on the group, kind, namespace and name. 
+In ASO, we made several improvements to make RoleAssignment user-friendly by auto-generating their AzureName (which must be a UUID) using UUIDv5 with a seed string based on group, kind, namespace, and name. 
 The aim for above approach was to:
 - include the namespace and name to ensure no two RoleAssignments in the same cluster can end up with the same UUID.
 - include the group and kind to ensure that different kinds of resources get different UUIDs. This isn't entirely required by Azure, but it makes sense to avoid collisions between two resources of different types even if they have the same namespace and name.
