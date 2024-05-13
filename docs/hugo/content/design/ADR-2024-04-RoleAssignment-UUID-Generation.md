@@ -54,6 +54,8 @@ serviceoperator.azure.com/uuid-generation: stable
 **Pro**: Ease of use
 
 **Con**: Users will have to manage the AzureName by themselves while exporting/importing
+**Con**: Pushes a crucial part of the resource definition into an annotation; the spec is no longer a complete definition of the resource.
+**Con**: Annotations are far more easily modified by other tooling, which may have unexpected flow on effects.
 
 ### Option 3: Using subscription ID as seed
 
