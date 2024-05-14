@@ -58,6 +58,7 @@ func ParseEnvironment() error {
 
 	locationDefault = envy.Get("AZURE_LOCATION_DEFAULT", "westus2")                 // DefaultLocation()
 	useDeviceFlow = ParseBoolFromEnvironment("AZURE_USE_DEVICEFLOW", false)         // UseDeviceFlow()
+	useCLIToken = ParseBoolFromEnvironment("AZURE_USE_CLI_TOKEN", false)            // UseCLIToken()
 	creds.useManagedIdentity = ParseBoolFromEnvironment("AZURE_USE_MI", false)      // UseManagedIdentity()
 	keepResources = ParseBoolFromEnvironment("AZURE_SAMPLES_KEEP_RESOURCES", false) // KeepResources()
 	creds.operatorKeyvault = envy.Get("AZURE_OPERATOR_KEYVAULT", "")                // operatorKeyvault()
@@ -125,6 +126,9 @@ func ParseEnvironment() error {
 }
 
 func GetExpectedConfigurationVariables() []ConfigRequirementType {
+	if useCLIToken {
+		return []ConfigRequirementType{RequireTenantID, RequireSubscriptionID}
+	}
 	if useDeviceFlow {
 		// Device flow required Configs
 		return []ConfigRequirementType{RequireClientID, RequireTenantID, RequireSubscriptionID}

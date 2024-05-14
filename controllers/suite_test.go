@@ -212,6 +212,9 @@ func setup() error {
 	}
 
 	log.Println("Creating KV:", keyvaultName)
+	// TODO: This currently doesn't work with CLI credentials, I think because there is no ClientID.
+	// TODO: There may be other issues with KeyVault accessPolicies in the actual tests too because
+	// TODO: the identity we're using is not guaranteed to be an SP.
 	objID, err := resourcemanagerkeyvaults.GetObjectID(
 		context.Background(),
 		config.GlobalCredentials(),

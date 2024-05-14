@@ -37,10 +37,15 @@ const (
 	OAuthGrantTypeDeviceFlow
 	// OAuthGrantTypeManagedIdentity for aad-pod-identity
 	OAuthGrantTypeManagedIdentity
+	// OAuthGrantTypeCLIToken for using the CLI token
+	OAuthGrantTypeCLIToken
 )
 
 // GrantType returns what grant type has been configured.
 func grantType(creds config.Credentials) OAuthGrantType {
+	if config.UseCLIToken() {
+		return OAuthGrantTypeCLIToken
+	}
 	if config.UseDeviceFlow() {
 		return OAuthGrantTypeDeviceFlow
 	}
@@ -240,6 +245,12 @@ func getAuthorizerForResource(resource string, creds config.Credentials) (autore
 		deviceconfig := auth.NewDeviceFlowConfig(creds.ClientID(), creds.TenantID())
 		deviceconfig.Resource = resource
 		a, err = deviceconfig.Authorizer()
+		if err != nil {
+			return nil, err
+		}
+
+	case OAuthGrantTypeCLIToken:
+		a, err = auth.NewAuthorizerFromCLIWithResource(resource)
 		if err != nil {
 			return nil, err
 		}

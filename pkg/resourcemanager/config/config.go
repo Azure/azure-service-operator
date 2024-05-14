@@ -25,6 +25,7 @@ var (
 	authorizationServerURL            string
 	cloudName                         string
 	useDeviceFlow                     bool
+	useCLIToken                       bool
 	buildID                           string
 	keepResources                     bool
 	userAgent                         string
@@ -68,6 +69,11 @@ func AuthorizationServerURL() string {
 // auth uses the OAuth Device Flow grant type.
 func UseDeviceFlow() bool {
 	return useDeviceFlow
+}
+
+// UseCLIToken specifies if we should use the CLI token to authenticate
+func UseCLIToken() bool {
+	return useCLIToken
 }
 
 // KeepResources specifies whether to keep resources created by samples.
@@ -154,13 +160,14 @@ func RecoverSoftDeletedKeyVaultSecrets() bool {
 func ConfigString() string {
 	creds := GlobalCredentials()
 	return fmt.Sprintf(
-		"clientID: %q, tenantID: %q, subscriptionID: %q, cloudName: %q, useDeviceFlow: %t, useManagedIdentity: %t, operatorMode: %s, targetNamespaces: %s,"+
+		"clientID: %q, tenantID: %q, subscriptionID: %q, cloudName: %q, useDeviceFlow: %t, useCLIToken: %t, useManagedIdentity: %t, operatorMode: %s, targetNamespaces: %s,"+
 			" podNamespace: %q, secretNamingVersion: %q, purgeDeletedKeyVaultSecrets: %t, recoverSoftDeletedkeyVaultSecrets: %t",
 		creds.ClientID(),
 		creds.TenantID(),
 		creds.SubscriptionID(),
 		cloudName,
 		UseDeviceFlow(),
+		UseCLIToken(),
 		creds.UseManagedIdentity(),
 		operatorMode,
 		targetNamespaces,

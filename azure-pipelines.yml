@@ -30,8 +30,6 @@ variables:
   # ASO-DEVOPS-MI: Name of Managed Identity to use to deploy the Operator as in AKS
   # POD-IDENTITY-CLIENTID: ClientID of Managed Identity to use to deploy the Operator as in AKS
   # AZURE_OPERATOR_KEYVAULT: Keyvault passed to Operator deployment to use for secrets
-  # AZURE_CLIENT_ID: Client ID of Service Principal used to run integration tests on Kind Cluster, login to Helm registry ACR
-  # AZURE_CLIENT_SECRET: Secret for the above Client ID
   # AZURE_SUBSCRIPTION_ID: Subscription ID that the pipeline runs against
   # AZURE_TENANT_ID: Tenant ID that the pipeline runs against 
 
@@ -117,6 +115,7 @@ jobs:
         BUILD_ID: $(Build.BuildId)
       workingDirectory: '$(System.DefaultWorkingDirectory)'
 
+    # TODO: need to put this into an AzureCLI@2 inlineScript
     - script: |
         set -e
         export PATH=$PATH:$(go env GOPATH)/bin:$(go env GOPATH)/kubebuilder/bin
@@ -131,12 +130,11 @@ jobs:
         GO111MODULE: on
         AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
         AZURE_TENANT_ID: $(AZURE_TENANT_ID)
-        AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
-        AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
         REQUEUE_AFTER: $(REQUEUE_AFTER)
         BUILD_ID: $(Build.BuildId)
       workingDirectory: '$(System.DefaultWorkingDirectory)'
 
+    # TODO: need to put this into an AzureCLI@2 inlineScript
     # TODO: There is no way to run steps in parallel in Azure pipelines but ideally this step would run in parallel
     # TODO: with the above testing step to reduce overall runtime
     - script: |
@@ -151,12 +149,11 @@ jobs:
         GO111MODULE: on
         AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
         AZURE_TENANT_ID: $(AZURE_TENANT_ID)
-        AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
-        AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
         REQUEUE_AFTER: $(REQUEUE_AFTER)
         BUILD_ID: $(Build.BuildId)
       workingDirectory: '$(System.DefaultWorkingDirectory)'
 
+    # TODO: need to put this into an AzureCLI@2 inlineScript
     # TODO: There is no way to run steps in parallel in Azure pipelines but ideally this step would run in parallel
     # TODO: with the above testing step to reduce overall runtime
     - script: |
@@ -171,12 +168,11 @@ jobs:
         GO111MODULE: on
         AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
         AZURE_TENANT_ID: $(AZURE_TENANT_ID)
-        AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
-        AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
         REQUEUE_AFTER: $(REQUEUE_AFTER)
         BUILD_ID: $(Build.BuildId)
       workingDirectory: '$(System.DefaultWorkingDirectory)'
 
+    # TODO: need to put this into an AzureCLI@2 inlineScript
     # TODO: There is no way to run steps in parallel in Azure pipelines but ideally this step would run in parallel
     # TODO: with the above testing step to reduce overall runtime
     - script: |
@@ -191,12 +187,11 @@ jobs:
         GO111MODULE: on
         AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
         AZURE_TENANT_ID: $(AZURE_TENANT_ID)
-        AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
-        AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
         REQUEUE_AFTER: $(REQUEUE_AFTER)
         BUILD_ID: $(Build.BuildId)
       workingDirectory: '$(System.DefaultWorkingDirectory)'
 
+    # TODO: need to put this into an AzureCLI@2 inlineScript
     # TODO: There is no way to run steps in parallel in Azure pipelines but ideally this step would run in parallel
     # TODO: with the above testing step to reduce overall runtime
     - script: |
@@ -211,8 +206,6 @@ jobs:
         GO111MODULE: on
         AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
         AZURE_TENANT_ID: $(AZURE_TENANT_ID)
-        AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
-        AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
         REQUEUE_AFTER: $(REQUEUE_AFTER)
         BUILD_ID: $(Build.BuildId)
       workingDirectory: '$(System.DefaultWorkingDirectory)'
@@ -258,7 +251,7 @@ jobs:
       displayName: Test - Cleanup Azure Resources
       condition: always()
       inputs:
-        azureSubscription: 'ASO Subscription 3'
+        azureSubscription: 'ASO Subscription via MI'  # TODO: This has been created in the ServiceConnections but not tested
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: 'make test-cleanup-azure-resources'
@@ -279,7 +272,7 @@ jobs:
       displayName: Build and Push Docker Image to temporary ACR for validation
       condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       inputs:
-        containerRegistry: $(PIPELINE_CONTAINER_REGISTRY)
+        containerRegistry: $(PIPELINE_CONTAINER_REGISTRY)  # TODO: Should switch the serviceconnection name in the CI job to "ASO Pipeline ACR MI"
         repository: '$(IMAGE_NAME)'
         command: 'buildAndPush'
         Dockerfile: '$(System.DefaultWorkingDirectory)/Dockerfile'
@@ -288,7 +281,7 @@ jobs:
     
     - task: AzureCLI@2
       inputs:
-        azureSubscription: 'ASO Subscription 3'
+        azureSubscription: 'ASO Subscription via MI'  # TODO: This has been created in the ServiceConnections but not tested
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
@@ -341,6 +334,7 @@ jobs:
           # Find the latest ASO chart version
           latestchart=$($(go env GOPATH)/bin/yq eval '.entries.azure-service-operator[] | .version' charts/index.yaml | sort | tail -1)
           # Deploy using Helm
+          # TODO: Need to swap the operator to use AAD Pod Identity here, since we dont' want to use SP...
           helm upgrade --install aso charts/azure-service-operator-${latestchart}.tgz -n $(OPERATOR_NAMESPACE) --create-namespace \
               --set azureSubscriptionID=$(AZURE_SUBSCRIPTION_ID) \
               --set azureTenantID=$(AZURE_TENANT_ID) \
@@ -365,7 +359,7 @@ jobs:
       displayName: Deploy to AKS - Clean up deployment and release cluster back to free pool
       condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       inputs:
-        azureSubscription: 'ASO Subscription 3'
+        azureSubscription: 'ASO Subscription via MI'  # TODO: This has been created in the ServiceConnections but not tested
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
@@ -384,20 +378,19 @@ jobs:
         # Turn off this check until our aad-pod-identity dep is updated
         # so that it's not trying to install v1beta1
         # ClusterRoleBindings.
-      
 
     - task: Docker@2
       condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       displayName: Login to release ACR
       inputs:
-        containerRegistry: $(CONTAINER_REGISTRY)
+        containerRegistry: $(CONTAINER_REGISTRY)  # TODO: Need to update this to the "ASO Release ACR MI" service connection in the job
         command: 'login'
 
     - task: Docker@2
       condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       displayName: Build and Push Docker Image $(IMAGE_NAME)
       inputs:
-        containerRegistry: $(CONTAINER_REGISTRY)
+        containerRegistry: $(CONTAINER_REGISTRY)  # TODO: Need to update this to the "ASO Release ACR MI" service connection in the job
         repository: '$(IMAGE_NAME)'
         command: 'buildAndPush'
         Dockerfile: '$(System.DefaultWorkingDirectory)/Dockerfile'
@@ -405,24 +398,27 @@ jobs:
         tags: |
           latest
           $(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)
-    
-    - script: |
-        set -e
-        export HELM_EXPERIMENTAL_OCI=1
-        cd charts/azure-service-operator
-        versiontag="$(CONTAINER_REGISTRY_NAME)/$(ASO_HELM_CHART_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)"
-        latesttag="$(CONTAINER_REGISTRY_NAME)/$(ASO_HELM_CHART_NAME):latest"
-        echo $versiontag
-        echo $latesttag
-        echo $(AZURE_CLIENT_SECRET)|helm registry login $(CONTAINER_REGISTRY_NAME) --username $(AZURE_CLIENT_ID) --password-stdin
-        helm chart save . $versiontag
-        helm chart save . $latesttag
-        helm chart push $versiontag
-        helm chart push $latesttag
-      continueOnError: 'true'
-      displayName: Push Helm chart to MCR repo
-      workingDirectory: '$(System.DefaultWorkingDirectory)'
-      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+
+# TODO: This step hasn't actually worked since 2020. It's not clear to me from the ACR documentation the best way
+# TODO: to do this now anyway, see: https://learn.microsoft.com/en-us/azure/container-registry/container-registry-helm-repos#authenticate-with-the-registry
+# TODO: I think it would be with a repository scoped token but not going to fix this now as it hasn't worked in years.
+#    - script: |
+#        set -e
+#        export HELM_EXPERIMENTAL_OCI=1
+#        cd charts/azure-service-operator
+#        versiontag="$(CONTAINER_REGISTRY_NAME)/$(ASO_HELM_CHART_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)"
+#        latesttag="$(CONTAINER_REGISTRY_NAME)/$(ASO_HELM_CHART_NAME):latest"
+#        echo $versiontag
+#        echo $latesttag
+#        echo $(AZURE_CLIENT_SECRET)|helm registry login $(CONTAINER_REGISTRY_NAME) --username $(AZURE_CLIENT_ID) --password-stdin
+#        helm chart save . $versiontag
+#        helm chart save . $latesttag
+#        helm chart push $versiontag
+#        helm chart push $latesttag
+#      continueOnError: 'true'
+#      displayName: Push Helm chart to MCR repo
+#      workingDirectory: '$(System.DefaultWorkingDirectory)'
+#      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
 
     - script: |
         set -e
