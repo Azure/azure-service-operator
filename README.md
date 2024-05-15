@@ -1,6 +1,5 @@
 # Azure Service Operator (for Kubernetes)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Azure/azure-service-operator)](https://goreportcard.com/report/github.com/Azure/azure-service-operator)
-[![Build Status](https://dev.azure.com/azure/azure-service-operator/_apis/build/status/Azure.azure-service-operator?branchName=main)](https://dev.azure.com/azure/azure-service-operator/_build/latest?definitionId=36&branchName=main)
 <!-- ![v2 Status](https://github.com/azure/azure-service-operator/actions/workflows/live-validation.yml/badge.svg?branch=main) -->
 
 ## What is it?
@@ -20,10 +19,10 @@ There are two major versions of Azure Service Operator: v1 and v2. Consult the b
 
 > Note: ASO v1 and v2 are two totally independent operators. Each has its own unique set of CRDs and controllers. They can be deployed side by side in the same cluster.
 
-| ASO Version | Lifecycle stage | Development status                | Installation options                                                                                                                                                                                    |
-| ----------- | --------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| v2          | Stable          | Under active development.         | [Helm chart](/v2/charts), [GitHub release 2.x](https://github.com/Azure/azure-service-operator/releases). See [installation](https://azure.github.io/azure-service-operator/#installation) for example. |
-| v1          | Beta            | Bug and security fixes primarily. | [Helm chart](/charts), [OperatorHub](https://operatorhub.io/operator/azure-service-operator) or [GitHub release 1.x](https://github.com/Azure/azure-service-operator/releases)                          |
+| ASO Version | Lifecycle stage | Development status        | Installation options                                                                                                                                                                                    |
+| ----------- | --------------- |---------------------------| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| v2          | Stable          | Under active development. | [Helm chart](/v2/charts), [GitHub release 2.x](https://github.com/Azure/azure-service-operator/releases). See [installation](https://azure.github.io/azure-service-operator/#installation) for example. |
+| v1          | Beta            | Halted                    | [Helm chart](/charts), [OperatorHub](https://operatorhub.io/operator/azure-service-operator) or [GitHub release 1.x](https://github.com/Azure/azure-service-operator/releases)                          |
 
 ### ASO v2
 Azure Service Operator v2 was built based on the lessons learned from ASO v1, with the following improvements:
@@ -39,9 +38,9 @@ Azure Service Operator v2 was built based on the lessons learned from ASO v1, wi
 ### ASO v1
 > **⚠️ We strongly recommend new users consider [ASO v2]((https://azure.github.io/azure-service-operator/)) instead of ASO v1**
 
-Azure Service Operator v1 is no longer under active development. Bug and security fixes are still made.
+Azure Service Operator v1 is no longer under active development.
 
-Features may be added if the scope is small and the impact is large, but we are winding down investment into ASO v1. If you are already using ASO v1 a migration path/tool will be provided to eventually move ASO v1 resources to ASO v2. In the meantime you can continue using ASO v1 as you have been.
+See the [ASOv1 to ASOv2 migration guide](https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/) for migrating from ASOv1 to ASOv2.
 
 [Learn more about Azure Service Operator v1](/docs/v1/README.md)
 
