@@ -1,4 +1,6 @@
-# By default, ADO runs jobs on pushes and on PRs. Since we're only tracking/after PRs, turn off 
+# TODO: This pipeline is currently disabled. To enable it, go to https://dev.azure.com/azure/azure-service-operator/_build?definitionId=74 and enable the pipeline
+
+# By default, ADO runs jobs on pushes and on PRs. Since we're only tracking/after PRs, turn off
 # tiggers on push.
 trigger:
   branches:
