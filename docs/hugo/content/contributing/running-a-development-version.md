@@ -7,13 +7,11 @@ title: Running a Development Version
 If you would like to try something out but do not want to write an integration test, you can run your local version of the
 operator locally in a [kind](https://kind.sigs.k8s.io) cluster.
 
-Before launching `kind`, make sure that your shell has the `AZURE_SUBSCRIPTION_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`,
-and `AZURE_CLIENT_SECRET` environment variables set. See [testing](../testing/#recordreplay) for more details about them.
+Before launching `kind`, make sure that your shell has the `AZURE_SUBSCRIPTION_ID` and `AZURE_TENANT_ID`
+environment variables set. See [testing](../testing/#recordreplay) for more details about them.
 
-Once you've set the environment variables above, run one of the following commands to create a `kind` cluster:
-
-1. Service Principal authentication cluster: `task controller:kind-create-with-service-principal`.
-2. AAD Pod Identity authentication enabled cluster (emulates Managed Identity): `controller:kind-create-with-podidentity`.
+Once you've set the environment variables above, create a `kind` cluster:
+- `task controller:kind-create-with-workload-identity`.
 
 You can use `kubectl` to interact with the local `kind` cluster.
 

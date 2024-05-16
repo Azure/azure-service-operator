@@ -34,7 +34,9 @@ ASO supports more than 150 different Azure resources, with more added every rele
 
 ### Installation
 
-1. Install [cert-manager](https://cert-manager.io/docs/installation/kubernetes/) on the cluster using the following command.
+#### Install cert-manager on the cluster
+
+See [cert-manager](https://cert-manager.io/docs/installation/kubernetes/) if you'd like to learn more about the project.
 
 ``` bash
 $ kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.14.1/cert-manager.yaml
@@ -52,7 +54,9 @@ cert-manager-webhook-c4b5687dc-x66bj      1/1     Running   0          1m
 
 (Alternatively, you can wait for cert-manager to be ready with `cmctl check api --wait=2m` - see the [cert-manager documentation](https://cert-manager.io/docs/usage/cmctl/) for more information about `cmctl`.)
 
-2. Install [the latest **v2+** Helm chart](https://github.com/Azure/azure-service-operator/tree/main/v2/charts):
+#### Install the latest **v2+** Helm chart
+
+The latest v2+ Helm chart can be found [here](https://github.com/Azure/azure-service-operator/tree/main/v2/charts)
 
 {{< tabpane text=true left=true >}}
 {{% tab header="**Shell**:" disabled=true /%}}
@@ -96,10 +100,20 @@ See [CRD management](https://azure.github.io/azure-service-operator/guide/crd-ma
 
    Alternatively you can install from the [release YAML directly](https://azure.github.io/azure-service-operator/guide/installing-from-yaml/).
 
-3. Create an Azure Service Principal. You'll need this to grant Azure Service Operator permissions to create resources 
-   in your subscription.
+#### Create a Managed Identity or Service Principal
 
-   First, set the following environment variables to your Azure Tenant ID and Subscription ID with your values:
+This identity or service principal will be used by ASO to authenticate with Azure.
+You'll need this to grant the identity or Service Principal permissions to create resources in your subscription.
+
+{{% alert title="Note" %}}
+We show steps for using a Service Principal below, as it's easiest to get started with, but recommend using a 
+Managed Identity with [Azure Workload Identity]( {{< relref "credential-format#azure-workload-identity" >}} ) for
+use-cases other than testing.
+
+See [Security best practices]({{< relref "security" >}}) for the full list of security best practices.
+{{% /alert %}}
+
+First, set the following environment variables to your Azure Tenant ID and Subscription ID with your values:
 
 {{< tabpane text=true left=true >}}
 {{% tab header="**Shell**:" disabled=true /%}}
@@ -189,7 +203,14 @@ C:\> SET AZURE_CLIENT_SECRET=<your-client-secret>
 {{% /tab %}}
 {{< /tabpane >}}
 
-Then create a secret named `aso-credential` in the namespace you'd like to create ASO resources in.
+#### Create the Azure Service Operator namespaced secret
+
+The secret must be named `aso-credential` and be created in the namespace you'd like to create ASO resources in.
+
+{{% alert title="Note" %}}
+To learn about the ASO global secret, which works across all namespaces, or per-resource secrets, see
+[authentication documentation](https://azure.github.io/azure-service-operator/guide/authentication/).
+{{% /alert %}}
 
 {{< tabpane text=true left=true >}}
 {{% tab header="**Shell**:" disabled=true /%}}
@@ -249,9 +270,6 @@ Then run: `kubectl apply -f secret.yaml`
 
 {{% /tab %}}
 {{< /tabpane >}}
-
-To learn more about other authentication options, see the 
-[authentication documentation](https://azure.github.io/azure-service-operator/guide/authentication/).
 
 ### Usage
 
