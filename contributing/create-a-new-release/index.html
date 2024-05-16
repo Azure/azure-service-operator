@@ -39,7 +39,7 @@
   Go to the releases page and draft a new release.
   In the tag dropdown, type the name of the new tag you&rsquo;d like to create (it should match the pattern of previous releases tags, for example: v2.0.0-beta.3). The release target should be main (the default).">
 
-<meta itemprop="wordCount" content="821">
+<meta itemprop="wordCount" content="842">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Creating a new release"/>
 <meta name="twitter:description" content="Ensure that the controller CVE scan action is green.
@@ -809,9 +809,20 @@ service Swagger specifications. We must validate each breaking change so that we
 <p>Perform a simple smoke test to make sure the new release is capable of starting up and creating some Azure resources.</p>
 <ol>
 <li>
+<p>Ensure you have the following environment variables exported:</p>
+<ul>
+<li>AZURE_SUBSCRIPTION_ID</li>
+<li>AZURE_TENANT_ID</li>
+</ul>
+</li>
+<li>
 <p>Create a kind cluster</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">task controller:kind-create
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">task controller:kind-create-wi
 </code></pre></div></li>
+<li>
+<p>Enable workload identity on that cluster:</p>
+<pre tabindex="0"><code>task: controller:create-mi-for-workload-identity
+</code></pre></li>
 <li>
 <p>Install cert-manager</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">task controller:install-cert-manager
@@ -821,17 +832,8 @@ service Swagger specifications. We must validate each breaking change so that we
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create namespace azureserviceoperator-system
 </code></pre></div></li>
 <li>
-<p>Ensure you have a <a href="https://azure.github.io/azure-service-operator/#installation">Service Principal</a> and export these environment variables:</p>
-<ul>
-<li>AZURE_SUBSCRIPTION</li>
-<li>AZURE_TENANT_ID</li>
-<li>AZURE_CLIENT_ID</li>
-<li>AZURE_CLIENT_SECRET</li>
-</ul>
-</li>
-<li>
-<p>Create a secret in your cluster with the Service Principal credentials for ASO to use:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">task controller:make-sp-secret
+<p>Create a secret in your cluster with the Workload Identity credentials for ASO to use:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">task controller:make-workload-identity-secret
 </code></pre></div></li>
 <li>
 <p>Download asoctl</p>
@@ -857,19 +859,34 @@ kubectl apply -f v2/samples/network/v1api20201101/v1api20201101_virtualnetwork.y
 </li>
 </ol>
 <h2 id="create-and-test-the-helm-chart">Create and test the Helm chart</h2>
-<blockquote>
-<p><strong>Note:</strong> A PR that does this should be automatically generated when a new release is published.
-These steps are documented here in case that process fails.</p>
-</blockquote>
+
+
+<div class="alert alert-primary" role="alert">
+<h4 class="alert-heading">Note</h4>
+
+    A PR that does this should be automatically generated when a new release is published.
+These steps are documented here in case that process fails.
+
+</div>
+
 <ol>
 <li>Create a new branch from <code>&lt;NEW_RELEASE_TAG&gt;</code> HEAD</li>
 <li>Generate helm manifest for new release: <code>task controller:gen-helm-manifest</code></li>
 <li>Check the version in <code>/v2/charts/azure-service-operator/Chart.yaml</code> if matches with the latest release tag.</li>
+<li>Create a kind cluster
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">task controller:kind-create-wi
+</code></pre></div></li>
+<li>Enable workload identity on that cluster:
+<pre tabindex="0"><code>task: controller:create-mi-for-workload-identity
+</code></pre></li>
+<li>Install cert-manager
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">task controller:install-cert-manager
+</code></pre></div></li>
 <li>Install helm chart:
 <pre tabindex="0"><code>helm install --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
 --set azureTenantID=$AZURE_TENANT_ID \
---set azureClientSecret=$AZURE_CLIENT_SECRET \
 --set azureClientID=$AZURE_CLIENT_ID \
+--set useWorkloadIdentityAuth=true \
 asov2 -n azureserviceoperator-system --create-namespace ./v2/charts/azure-service-operator/.
 </code></pre></li>
 <li>Wait for the chart installation.</li>

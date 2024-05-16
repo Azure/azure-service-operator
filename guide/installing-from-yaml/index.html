@@ -19,11 +19,11 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>Installation: From YAML | Azure Service Operator</title>
-<meta name="description" content="Prerequisites  You have installed Cert Manager as per the installation instructions up to the &amp;ldquo;install from Helm&amp;rdquo; step. You have the AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET environment variables set from the installation instructions.  Installation (operator)   Download and install the latest version of asoctl.
+<meta name="description" content="Prerequisites  You have installed Cert Manager as per the installation instructions up to the &amp;ldquo;install from Helm&amp;rdquo; step. You have followed the instructions for creating a Managed Identity or Service Principal and set the appropriate environment variables.  Installation (operator)   Download and install the latest version of asoctl.
   Install the latest v2&#43; release of Azure Service Operator.
 asoctl export template --version v2.6.0 --crd-pattern &amp;#34;&amp;lt;your pattern&amp;gt;&amp;#34; | kubectl apply -f - When specifying --crd-pattern, ensure you choose only the CRDs you need, for example: --crd-pattern &amp;quot;resources.">
 <meta property="og:title" content="Installation: From YAML" />
-<meta property="og:description" content="Prerequisites  You have installed Cert Manager as per the installation instructions up to the &ldquo;install from Helm&rdquo; step. You have the AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET environment variables set from the installation instructions.  Installation (operator)   Download and install the latest version of asoctl.
+<meta property="og:description" content="Prerequisites  You have installed Cert Manager as per the installation instructions up to the &ldquo;install from Helm&rdquo; step. You have followed the instructions for creating a Managed Identity or Service Principal and set the appropriate environment variables.  Installation (operator)   Download and install the latest version of asoctl.
   Install the latest v2&#43; release of Azure Service Operator.
 asoctl export template --version v2.6.0 --crd-pattern &#34;&lt;your pattern&gt;&#34; | kubectl apply -f - When specifying --crd-pattern, ensure you choose only the CRDs you need, for example: --crd-pattern &quot;resources." />
 <meta property="og:type" content="article" />
@@ -32,14 +32,14 @@ asoctl export template --version v2.6.0 --crd-pattern &#34;&lt;your pattern&gt;&
 
 
 <meta itemprop="name" content="Installation: From YAML">
-<meta itemprop="description" content="Prerequisites  You have installed Cert Manager as per the installation instructions up to the &ldquo;install from Helm&rdquo; step. You have the AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET environment variables set from the installation instructions.  Installation (operator)   Download and install the latest version of asoctl.
+<meta itemprop="description" content="Prerequisites  You have installed Cert Manager as per the installation instructions up to the &ldquo;install from Helm&rdquo; step. You have followed the instructions for creating a Managed Identity or Service Principal and set the appropriate environment variables.  Installation (operator)   Download and install the latest version of asoctl.
   Install the latest v2&#43; release of Azure Service Operator.
 asoctl export template --version v2.6.0 --crd-pattern &#34;&lt;your pattern&gt;&#34; | kubectl apply -f - When specifying --crd-pattern, ensure you choose only the CRDs you need, for example: --crd-pattern &quot;resources.">
 
-<meta itemprop="wordCount" content="309">
+<meta itemprop="wordCount" content="336">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Installation: From YAML"/>
-<meta name="twitter:description" content="Prerequisites  You have installed Cert Manager as per the installation instructions up to the &ldquo;install from Helm&rdquo; step. You have the AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET environment variables set from the installation instructions.  Installation (operator)   Download and install the latest version of asoctl.
+<meta name="twitter:description" content="Prerequisites  You have installed Cert Manager as per the installation instructions up to the &ldquo;install from Helm&rdquo; step. You have followed the instructions for creating a Managed Identity or Service Principal and set the appropriate environment variables.  Installation (operator)   Download and install the latest version of asoctl.
   Install the latest v2&#43; release of Azure Service Operator.
 asoctl export template --version v2.6.0 --crd-pattern &#34;&lt;your pattern&gt;&#34; | kubectl apply -f - When specifying --crd-pattern, ensure you choose only the CRDs you need, for example: --crd-pattern &quot;resources."/>
 
@@ -754,8 +754,8 @@ asoctl export template --version v2.6.0 --crd-pattern &#34;&lt;your pattern&gt;&
 	<h2 id="prerequisites">Prerequisites</h2>
 <ol>
 <li>You have installed Cert Manager as per the <a href="../../#installation">installation instructions</a> up to the &ldquo;install from Helm&rdquo; step.</li>
-<li>You have the <code>AZURE_SUBSCRIPTION_ID</code>, <code>AZURE_TENANT_ID</code>, <code>AZURE_CLIENT_ID</code> and <code>AZURE_CLIENT_SECRET</code> environment variables set from the
-<a href="../../#installation">installation instructions</a>.</li>
+<li>You have followed the <a href="../../#create-a-managed-identity-or-service-principal">instructions for creating a Managed Identity or Service Principal</a>
+and set the appropriate environment variables.</li>
 </ol>
 <h2 id="installation-operator">Installation (operator)</h2>
 <ol>
@@ -770,9 +770,9 @@ asoctl export template --version v2.6.0 --crd-pattern &#34;&lt;your pattern&gt;&
 For more information about what <code>--crd-pattern</code> means, see <a href="/azure-service-operator/guide/crd-management/">CRD management in ASO</a>.</p>
 </li>
 <li>
-<p>Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as.
-Make sure that you have the 4 environment variables from the <a href="../../#installation">Helm installation instructions</a> set.
-To learn more about other authentication options, see the <a href="../authentication/">authentication documentation</a>:</p>
+<p>Create the Azure Service Operator v2 global secret. This secret contains the identity that Azure Service Operator will run as.
+Make sure that you have the 4 environment variables from the
+<a href="../../#create-a-managed-identity-or-service-principal">create a service principal step of the Helm instructions</a> set.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
 </span><span style="color:#e6db74">apiVersion: v1
 </span><span style="color:#e6db74">kind: Secret
@@ -785,7 +785,9 @@ To learn more about other authentication options, see the <a href="../authentica
 </span><span style="color:#e6db74">  AZURE_CLIENT_ID: &#34;$AZURE_CLIENT_ID&#34;
 </span><span style="color:#e6db74">  AZURE_CLIENT_SECRET: &#34;$AZURE_CLIENT_SECRET&#34;
 </span><span style="color:#e6db74">EOF</span>
-</code></pre></div></li>
+</code></pre></div><p>Note that unlike the Helm installation instructions, we use the ASO global secret here. To learn more about different
+secret scopes and formats, see the <a href="../authentication/">authentication documentation</a>.</p>
+</li>
 </ol>
 <h2 id="installation-crds">Installation (crds)</h2>
 <p>The operator manages its own CRDs by default, based on the <code>--crd-pattern</code> specified during installation.</p>
@@ -815,7 +817,8 @@ it locally to only the CRDs you want.
 <p>If you omit the <code>--server-side=true</code> flag from the <code>kubectl apply</code> command, you will see an error like the following:</p>
 <pre tabindex="0"><code>CustomResourceDefinition.apiextensions.k8s.io &quot;storageaccounts.storage.azure.com&quot; is invalid:
 metadata.annotations: Too long: must have at most 262144 bytes
-</code></pre><p>Why does this happen? ASO CRDs are a complete representation of the Azure Resource surface area, including documentation. This is tremendously useful - but also means they are quite large.</p>
+</code></pre><p>Why does this happen? ASO CRDs are a complete representation of the Azure Resource surface area, including documentation.
+This is tremendously useful - but also means they are quite large.</p>
 
 	
 	

@@ -185,7 +185,6 @@ If ASO was already installed on your cluster and you are updating the &lt;code&g
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_SUBSCRIPTION_ID: &amp;#34;$AZURE_SUBSCRIPTION_ID&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_TENANT_ID:    &amp;#34;$AZURE_TENANT_ID&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_CLIENT_ID:    &amp;#34;$AZURE_CLIENT_ID&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AUTH_MODE:          &amp;#34;workloadidentity&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;EOF&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; Each credential (both namespaced and per-resource) you create must have a trust relationship between your OIDC
 issuer URL and the backing Service Principal or Managed Identity. See &lt;a href=&#34;#configure-trust&#34;&gt;how to configure trust&lt;/a&gt; for more details.&lt;/p&gt;
@@ -204,7 +203,6 @@ issuer URL and the backing Service Principal or Managed Identity. See &lt;a href
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_SUBSCRIPTION_ID: &amp;#34;$AZURE_SUBSCRIPTION_ID&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_TENANT_ID:    &amp;#34;$AZURE_TENANT_ID&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_CLIENT_ID:    &amp;#34;$AZURE_CLIENT_ID&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AUTH_MODE:          &amp;#34;workloadidentity&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;EOF&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Create the ASO resource referring to &lt;code&gt;my-resource-secret&lt;/code&gt;. We show a &lt;code&gt;ResourceGroup&lt;/code&gt; here, but any ASO resource will work.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;cat &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;&amp;lt;EOF | kubectl apply -f -

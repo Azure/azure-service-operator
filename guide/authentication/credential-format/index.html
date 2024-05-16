@@ -42,7 +42,7 @@ Azure Workload Identity See Azure Workload Identity for details about the worklo
 Workload identity (with Managed Identity) is the recommended authentication mode for production use-cases.
 Prerequisites  An existing Azure Service Principal or Managed Identity.">
 
-<meta itemprop="wordCount" content="1946">
+<meta itemprop="wordCount" content="1942">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Credential Format"/>
 <meta name="twitter:description" content="Azure Service Operator supports four different styles of authentication today.
@@ -942,7 +942,6 @@ If ASO was already installed on your cluster and you are updating the <code>aso-
 </span><span style="color:#e6db74"> AZURE_SUBSCRIPTION_ID: &#34;$AZURE_SUBSCRIPTION_ID&#34;
 </span><span style="color:#e6db74"> AZURE_TENANT_ID:    &#34;$AZURE_TENANT_ID&#34;
 </span><span style="color:#e6db74"> AZURE_CLIENT_ID:    &#34;$AZURE_CLIENT_ID&#34;
-</span><span style="color:#e6db74"> AUTH_MODE:          &#34;workloadidentity&#34;
 </span><span style="color:#e6db74">EOF</span>
 </code></pre></div><p><strong>Note:</strong> Each credential (both namespaced and per-resource) you create must have a trust relationship between your OIDC
 issuer URL and the backing Service Principal or Managed Identity. See <a href="#configure-trust">how to configure trust</a> for more details.</p>
@@ -961,7 +960,6 @@ issuer URL and the backing Service Principal or Managed Identity. See <a href="#
 </span><span style="color:#e6db74"> AZURE_SUBSCRIPTION_ID: &#34;$AZURE_SUBSCRIPTION_ID&#34;
 </span><span style="color:#e6db74"> AZURE_TENANT_ID:    &#34;$AZURE_TENANT_ID&#34;
 </span><span style="color:#e6db74"> AZURE_CLIENT_ID:    &#34;$AZURE_CLIENT_ID&#34;
-</span><span style="color:#e6db74"> AUTH_MODE:          &#34;workloadidentity&#34;
 </span><span style="color:#e6db74">EOF</span>
 </code></pre></div><p>Create the ASO resource referring to <code>my-resource-secret</code>. We show a <code>ResourceGroup</code> here, but any ASO resource will work.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -

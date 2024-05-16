@@ -36,7 +36,7 @@ To do this, delete the recordings for the failing tests (under {test-dir}/record
 Record/replay The task controller:test-integration-envtest runs the tests in a record/replay mode by default, so that it does not touch any live Azure resources. (This uses the go-vcr library.) If you change the controller or other code in such a way that the required requests/responses from ARM change, you will need to update the recordings.
 To do this, delete the recordings for the failing tests (under {test-dir}/recordings/{test-name}.">
 
-<meta itemprop="wordCount" content="475">
+<meta itemprop="wordCount" content="374">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Testing"/>
 <meta name="twitter:description" content="Running integration tests Basic use: run task controller:test-integration-envtest.
@@ -761,36 +761,19 @@ such a way that the required requests/responses from ARM change, you will need t
 <code>controller:test-integration-envtest</code>. If the test passes, a new recording will be saved, which you can commit to
 include with your change. All authentication and subscription information is removed from the recording.</p>
 <p>To run the test and produce a new recording you will need to have set the required authentication environment variables
-for an Azure Service Principal: <code>AZURE_SUBSCRIPTION_ID</code>, <code>AZURE_TENANT_ID</code>, <code>AZURE_CLIENT_ID</code>, and <code>AZURE_CLIENT_SECRET</code>.
-This Service Principal will need access to the subscription to create and delete resources.</p>
-<p>A few tests also need the <code>TEST_BILLING_ID</code> variable set to a valid Azure Billing ID when running in record mode.
+<code>AZURE_SUBSCRIPTION_ID</code> and <code>AZURE_TENANT_ID</code>, <em>and</em> logged in via <code>az login</code> (or you just use the <code>task</code> commands
+mentioned below and it will prompt you to <code>az login</code> if needed for that specific command).
+Note that you must be <code>Owner</code> on the subscription to execute some tests in record mode.</p>
+<p>A few tests also need the <code>TEST_BILLING_ID</code> environment variable set to a valid Azure Billing ID when running in record mode.
 In replay mode this variable is never required. Note that the billing ID is redacted from all recording files so that
 the resulting file can be replayed by anybody, even somebody who does not know the Billing ID the test was recorded with.</p>
 <p>Some Azure resources take longer to provision or delete than the default test timeout of 15m. To change the timeout,
 set <code>TIMEOUT</code> to a suitable value when running task. For example, to give your test a 60m timeout, use:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">TIMEOUT<span style="color:#f92672">=</span>60m task controller:test-integration-envtest
-</code></pre></div><p>If you need to create a new Azure Service Principal, run the following commands:</p>
-<pre tabindex="0"><code class="language-console" data-lang="console">$ az login
-… follow the instructions …
-$ az account set --subscription {the subscription ID you would like to use}
-Creating a role assignment under the scope of &quot;/subscriptions/{subscription ID you chose}&quot;
-…
-$ az ad sp create-for-rbac --role contributor --name {the name you would like to use}
-{
-  &quot;appId&quot;: &quot;…&quot;,
-  &quot;displayName&quot;: &quot;{name you chose}&quot;,
-  &quot;name&quot;: &quot;{name you chose}&quot;,
-  &quot;password&quot;: &quot;…&quot;,
-  &quot;tenant&quot;: &quot;…&quot;
-}
-</code></pre><p>The output contains <code>appId</code> (<code>AZURE_CLIENT_ID</code>), <code>password</code> (<code>AZURE_CLIENT_SECRET</code>), and <code>tenant</code> (<code>AZURE_TENANT_ID</code>).
-Store these somewhere safe as the password cannot be viewed again, only reset. The Service Principal will be created as
-a “contributor” to your subscription which means it can create and delete resources, so
-<strong>ensure you keep the secrets secure</strong>.</p>
-<h3 id="running-live-tests">Running live tests</h3>
+</code></pre></div><h3 id="running-live-tests">Running live tests</h3>
 <p>If you want to skip all recordings and run all tests directly against live Azure resources, you can use the
 <code>controller:test-integration-envtest-live</code> task. This will also require you to set the authentication environment
-variables, as detailed above.</p>
+variables and <code>az login</code>, as detailed above.</p>
 <h3 id="running-a-single-test">Running a single test</h3>
 <p>By default <code>task controller:test-integration-envtest</code> and its variants run all tests. This is often undesirable
 as you may just be working on a single feature or test. In order to run a subset of tests, use the <code>TEST_FILTER</code>:</p>
