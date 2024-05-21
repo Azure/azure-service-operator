@@ -49,19 +49,13 @@ jobs:
           file: "v2/out/release/*"
           file_glob: true
 
-      - name: Docker login
-        run: |
-          container_id=${{env.container_id}}
-          docker exec -e DOCKER_REGISTRY "$container_id" task docker-login
-        env:
-          DOCKER_REGISTRY: ${{ secrets.REGISTRY_LOGIN }}
-
       - name: Build, tag and push docker image
         run: |
           container_id=${{env.container_id}}
-          docker exec -e DOCKER_PUSH_TARGET "$container_id" task controller:docker-push-multiarch
+          docker exec -e GITHUB_ACTIONS -e DOCKER_REGISTRY -e DOCKER_PUSH_TARGET "$container_id" task controller:docker-push-multiarch
         env:
           DOCKER_PUSH_TARGET: ${{ secrets.REGISTRY_PUBLIC }}
+          DOCKER_REGISTRY: ${{ secrets.REGISTRY_LOGIN }}
 
       - name: Protect image
         run: |

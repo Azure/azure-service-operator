@@ -92,16 +92,10 @@ jobs:
             `mcr.microsoft.com/k8s/azureserviceoperator:experimental`, which is always being updated. Test what you want to test and then uninstall the operator. 
             Running the operator for long periods of time on the `experimental` tag is not supported and will likely cause problems eventually.
 
-      - name: Docker login
-        run: |
-          container_id=${{env.container_id}}
-          docker exec -e DOCKER_REGISTRY "$container_id" task VERSION=${{ env.ARTIFACT_VERSION }} LATEST_VERSION_TAG=${{ env.ARTIFACT_VERSION }} docker-login
-        env:
-          DOCKER_REGISTRY: ${{ secrets.REGISTRY_LOGIN }}
-
       - name: Build, tag and push docker image
         run: |
           container_id=${{env.container_id}}
-          docker exec -e DOCKER_PUSH_TARGET "$container_id" task VERSION=${{ env.ARTIFACT_VERSION }} LATEST_VERSION_TAG=${{ env.ARTIFACT_VERSION }} controller:docker-push-multiarch
+          docker exec -e GITHUB_ACTIONS -e DOCKER_REGISTRY -e DOCKER_PUSH_TARGET "$container_id" task VERSION=${{ env.ARTIFACT_VERSION }} LATEST_VERSION_TAG=${{ env.ARTIFACT_VERSION }} controller:docker-push-multiarch
         env:
           DOCKER_PUSH_TARGET: ${{ secrets.REGISTRY_PUBLIC }}
+          DOCKER_REGISTRY: ${{ secrets.REGISTRY_LOGIN }}

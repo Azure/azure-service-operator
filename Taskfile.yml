@@ -439,6 +439,7 @@ tasks:
     desc: Builds, tags and pushes the multi architecture controller container image to repository
     deps:
       - controller:bundle-crds
+      - docker-login
     dir: "{{.CONTROLLER_ROOT}}"
     run: always
     cmds:
@@ -1157,6 +1158,8 @@ tasks:
 
   docker-login:
     desc: Docker login
+    deps:
+      - az-login
     cmds:
       - 'if [ -z "{{.DOCKER_REGISTRY}}" ]; then echo "Error: DOCKER_REGISTRY must be set"; exit 1; fi'
       - az acr login --name {{.DOCKER_REGISTRY}}
