@@ -95,7 +95,7 @@ jobs:
       - name: Build, tag and push docker image
         run: |
           container_id=${{env.container_id}}
-          docker exec -e GITHUB_ACTIONS -e DOCKER_REGISTRY -e DOCKER_PUSH_TARGET "$container_id" task VERSION=${{ env.ARTIFACT_VERSION }} LATEST_VERSION_TAG=${{ env.ARTIFACT_VERSION }} controller:docker-push-multiarch
+          docker exec -e AZURE_SUBSCRIPTION_ID -e GITHUB_ACTIONS -e DOCKER_REGISTRY -e DOCKER_PUSH_TARGET "$container_id" task VERSION=${{ env.ARTIFACT_VERSION }} LATEST_VERSION_TAG=${{ env.ARTIFACT_VERSION }} controller:docker-push-multiarch
         env:
           DOCKER_PUSH_TARGET: ${{ secrets.REGISTRY_PUBLIC }}
           DOCKER_REGISTRY: ${{ secrets.REGISTRY_LOGIN }}
