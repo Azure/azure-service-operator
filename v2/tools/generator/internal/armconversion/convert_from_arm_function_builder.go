@@ -153,7 +153,7 @@ func (builder *convertFromARMBuilder) assertInputTypeIsARM(needsResult bool) []d
 	typeAssert := astbuilder.TypeAssert(
 		dst.NewIdent(dest),
 		dst.NewIdent(builder.inputIdent),
-		dst.NewIdent(builder.sourceTypeIdent()))
+		builder.sourceTypeIdent())
 
 	// Check the result of the type assert
 	// if !ok {
