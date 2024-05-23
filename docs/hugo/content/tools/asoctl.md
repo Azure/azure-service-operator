@@ -208,15 +208,41 @@ When you have an existing Azure resource that needs to be managed by ASO, you ca
 
 ``` bash
 $ asoctl import azure-resource --help
-Import ARM resources as Custom Resources
+Imports ARM resources as Custom Resources.
+
+This command requires you to authenticate with Azure using an identity which has access to the resource(s) you would
+like to import. The following authentication modes are supported:
+
+Az-login token: az login and then use asoctl.
+Managed Identity: Set the AZURE_CLIENT_ID environment variable and run on a machine with access to the managed identity.
+Service Principal: Set the AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, AZURE_CLIENT_ID, and AZURE_CLIENT_SECRET environment variables,
+
+The following environment variables can be used to configure which cloud to use with asoctl:
+
+AZURE_RESOURCE_MANAGER_ENDPOINT: The Azure Resource Manager endpoint. 
+If not specified, the default is the Public cloud resource manager endpoint.
+See https://docs.microsoft.com/cli/azure/manage-clouds-azure-cli#list-available-clouds for details
+about how to find available resource manager endpoints for your cloud. Note that the resource manager
+endpoint is referred to as "resourceManager" in the Azure CLI.
+
+AZURE_RESOURCE_MANAGER_AUDIENCE: The Azure Resource Manager AAD audience.
+If not specified, the default is the Public cloud resource manager audience https://management.core.windows.net/.
+See https://docs.microsoft.com/cli/azure/manage-clouds-azure-cli#list-available-clouds for details
+about how to find available resource manager audiences for your cloud. Note that the resource manager
+audience is referred to as "activeDirectoryResourceId" in the Azure CLI.
+
+AZURE_AUTHORITY_HOST: The URL of the AAD authority.
+If not specified, the default
+is the AAD URL for the public cloud: https://login.microsoftonline.com/. See
+https://docs.microsoft.com/azure/active-directory/develop/authentication-national-cloud
 
 Usage:
   asoctl import azure-resource <ARM/ID/of/resource> [flags]
 
 Flags:
-  -a, --annotations strings    Add the specified annotations to the imported resources. Multiple comma-separated annotations can be specified (example.com/myannotation=foo,example.com/myannotation2=bar) or the --annotations (-a) argument can be used multiple times (-a example.com/myannotation=foo -a example.com/myannotation2=bar)
+  -a, --annotation strings     Add the specified annotations to the imported resources. Multiple comma-separated annotations can be specified (--annotation example.com/myannotation=foo,example.com/myannotation2=bar) or the --annotation (-a) argument can be used multiple times (-a example.com/myannotation=foo -a example.com/myannotation2=bar)
   -h, --help                   help for azure-resource
-  -l, --labels strings         Add the specified labels to the imported resources. Multiple comma-separated labels can be specified (example.com/mylabel=foo,example.com/mylabel2=bar) or the --labels (-l) argument can be used multiple times (-l example.com/mylabel=foo -l example.com/mylabel2=bar)
+  -l, --label strings          Add the specified labels to the imported resources. Multiple comma-separated labels can be specified (--label example.com/mylabel=foo,example.com/mylabel2=bar) or the --label (-l) argument can be used multiple times (-l example.com/mylabel=foo -l example.com/mylabel2=bar)
   -n, --namespace string       Write the imported resources to the specified namespace
   -o, --output string          Write ARM resource CRDs to a single file
   -f, --output-folder string   Write ARM resource CRDs to individual files in a folder
@@ -224,6 +250,7 @@ Flags:
 Global Flags:
       --quiet     Silence most logging
       --verbose   Enable verbose logging
+
 ```
 
 The `asoctl import azure-resource` command will accept any number of ARM resource Ids. 
