@@ -33,7 +33,9 @@ fi
 mkdir -p "${DIR}/azure"
 RESOURCE_GROUP="${PREFIX}-rg-wi$(openssl rand -hex 6)"
 AZURE_STORAGE_ACCOUNT="asowi$(openssl rand -hex 6)"
-AZURE_STORAGE_CONTAINER="oidc-test"
+# This $web container is a special container that serves static web content without requiring public access enablement.
+# See https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-static-website
+AZURE_STORAGE_CONTAINER="\$web"
 
 # If somehow the files already exist then the resource also already exists and we shouldn't do anything
 if [ -f "$DIR/azure/rg.txt" ]; then
@@ -43,7 +45,6 @@ if [ -f "$DIR/azure/rg.txt" ]; then
 fi
 
 echo ${RESOURCE_GROUP} > "${DIR}/azure/rg.txt"
-echo "https://${AZURE_STORAGE_ACCOUNT}.blob.core.windows.net/${AZURE_STORAGE_CONTAINER}/" > "${DIR}/azure/saissuer.txt"
 
 # Generate the OIDC keys
 openssl genrsa -out "$DIR/sa.key" 2048
@@ -51,15 +52,18 @@ openssl rsa -in "$DIR/sa.key" -pubout -out "$DIR/sa.pub"
 
 az group create -l westus -n "${RESOURCE_GROUP}" --tags "CreatedAt=$(date --utc +"%Y-%m-%dT%H:%M:%SZ")"
 
-# Note that we set --allow-blob-public-access below, as descibed in this document, https://learn.microsoft.com/en-us/azure/storage/blobs/anonymous-read-access-configure?tabs=portal
-# so that the --public-access container on the next line takes effect (otherwise it's ignored)
-az storage account create --resource-group "${RESOURCE_GROUP}" --name "${AZURE_STORAGE_ACCOUNT}" --allow-blob-public-access
-az storage container create --account-name "${AZURE_STORAGE_ACCOUNT}" --name "${AZURE_STORAGE_CONTAINER}" --public-access container
+az storage account create --resource-group "${RESOURCE_GROUP}" --name "${AZURE_STORAGE_ACCOUNT}"
+# Enable static website serving
+az storage blob service-properties update --account-name "${AZURE_STORAGE_ACCOUNT}" --static-website
+az storage container create --account-name "${AZURE_STORAGE_ACCOUNT}" --name "${AZURE_STORAGE_CONTAINER}"
+
+ISSUER_URL=$(az storage account show --name "${AZURE_STORAGE_ACCOUNT}" -o json | jq -r .primaryEndpoints.web)
+echo "${ISSUER_URL}" > "${DIR}/azure/saissuer.txt"
 
 cat <<EOF > "${DIR}/openid-configuration.json"
 {
-  "issuer": "https://${AZURE_STORAGE_ACCOUNT}.blob.core.windows.net/${AZURE_STORAGE_CONTAINER}/",
-  "jwks_uri": "https://${AZURE_STORAGE_ACCOUNT}.blob.core.windows.net/${AZURE_STORAGE_CONTAINER}/openid/v1/jwks",
+  "issuer": "${ISSUER_URL}",
+  "jwks_uri": "${ISSUER_URL}/openid/v1/jwks",
   "response_types_supported": [
     "id_token"
   ],
