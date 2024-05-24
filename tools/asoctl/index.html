@@ -30,7 +30,7 @@
 <meta itemprop="name" content="asoctl">
 <meta itemprop="description" content="Azure Service Operator Controller">
 
-<meta itemprop="wordCount" content="1262">
+<meta itemprop="wordCount" content="1465">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="asoctl"/>
 <meta name="twitter:description" content="Azure Service Operator Controller"/>
@@ -922,15 +922,41 @@ INF Update finished crd-count<span style="color:#f92672">=</span><span style="co
 <li>You have a hand-configured Azure resource and you want to replicate it for development, staging, or production use.</li>
 </ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ asoctl import azure-resource --help
-Import ARM resources as Custom Resources
+Imports ARM resources as Custom Resources.
+
+This command requires you to authenticate with Azure using an identity which has access to the resource<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> you would
+like to import. The following authentication modes are supported:
+
+Az-login token: az login and <span style="color:#66d9ef">then</span> use asoctl.
+Managed Identity: Set the AZURE_CLIENT_ID environment variable and run on a machine with access to the managed identity.
+Service Principal: Set the AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, AZURE_CLIENT_ID, and AZURE_CLIENT_SECRET environment variables,
+
+The following environment variables can be used to configure which cloud to use with asoctl:
+
+AZURE_RESOURCE_MANAGER_ENDPOINT: The Azure Resource Manager endpoint. 
+If not specified, the default is the Public cloud resource manager endpoint.
+See https://docs.microsoft.com/cli/azure/manage-clouds-azure-cli#list-available-clouds <span style="color:#66d9ef">for</span> details
+about how to find available resource manager endpoints <span style="color:#66d9ef">for</span> your cloud. Note that the resource manager
+endpoint is referred to as <span style="color:#e6db74">&#34;resourceManager&#34;</span> in the Azure CLI.
+
+AZURE_RESOURCE_MANAGER_AUDIENCE: The Azure Resource Manager AAD audience.
+If not specified, the default is the Public cloud resource manager audience https://management.core.windows.net/.
+See https://docs.microsoft.com/cli/azure/manage-clouds-azure-cli#list-available-clouds <span style="color:#66d9ef">for</span> details
+about how to find available resource manager audiences <span style="color:#66d9ef">for</span> your cloud. Note that the resource manager
+audience is referred to as <span style="color:#e6db74">&#34;activeDirectoryResourceId&#34;</span> in the Azure CLI.
+
+AZURE_AUTHORITY_HOST: The URL of the AAD authority.
+If not specified, the default
+is the AAD URL <span style="color:#66d9ef">for</span> the public cloud: https://login.microsoftonline.com/. See
+https://docs.microsoft.com/azure/active-directory/develop/authentication-national-cloud
 
 Usage:
   asoctl import azure-resource &lt;ARM/ID/of/resource&gt; <span style="color:#f92672">[</span>flags<span style="color:#f92672">]</span>
 
 Flags:
-  -a, --annotations strings    Add the specified annotations to the imported resources. Multiple comma-separated annotations can be specified <span style="color:#f92672">(</span>example.com/myannotation<span style="color:#f92672">=</span>foo,example.com/myannotation2<span style="color:#f92672">=</span>bar<span style="color:#f92672">)</span> or the --annotations <span style="color:#f92672">(</span>-a<span style="color:#f92672">)</span> argument can be used multiple times <span style="color:#f92672">(</span>-a example.com/myannotation<span style="color:#f92672">=</span>foo -a example.com/myannotation2<span style="color:#f92672">=</span>bar<span style="color:#f92672">)</span>
+  -a, --annotation strings     Add the specified annotations to the imported resources. Multiple comma-separated annotations can be specified <span style="color:#f92672">(</span>--annotation example.com/myannotation<span style="color:#f92672">=</span>foo,example.com/myannotation2<span style="color:#f92672">=</span>bar<span style="color:#f92672">)</span> or the --annotation <span style="color:#f92672">(</span>-a<span style="color:#f92672">)</span> argument can be used multiple times <span style="color:#f92672">(</span>-a example.com/myannotation<span style="color:#f92672">=</span>foo -a example.com/myannotation2<span style="color:#f92672">=</span>bar<span style="color:#f92672">)</span>
   -h, --help                   help <span style="color:#66d9ef">for</span> azure-resource
-  -l, --labels strings         Add the specified labels to the imported resources. Multiple comma-separated labels can be specified <span style="color:#f92672">(</span>example.com/mylabel<span style="color:#f92672">=</span>foo,example.com/mylabel2<span style="color:#f92672">=</span>bar<span style="color:#f92672">)</span> or the --labels <span style="color:#f92672">(</span>-l<span style="color:#f92672">)</span> argument can be used multiple times <span style="color:#f92672">(</span>-l example.com/mylabel<span style="color:#f92672">=</span>foo -l example.com/mylabel2<span style="color:#f92672">=</span>bar<span style="color:#f92672">)</span>
+  -l, --label strings          Add the specified labels to the imported resources. Multiple comma-separated labels can be specified <span style="color:#f92672">(</span>--label example.com/mylabel<span style="color:#f92672">=</span>foo,example.com/mylabel2<span style="color:#f92672">=</span>bar<span style="color:#f92672">)</span> or the --label <span style="color:#f92672">(</span>-l<span style="color:#f92672">)</span> argument can be used multiple times <span style="color:#f92672">(</span>-l example.com/mylabel<span style="color:#f92672">=</span>foo -l example.com/mylabel2<span style="color:#f92672">=</span>bar<span style="color:#f92672">)</span>
   -n, --namespace string       Write the imported resources to the specified namespace
   -o, --output string          Write ARM resource CRDs to a single file
   -f, --output-folder string   Write ARM resource CRDs to individual files in a folder
@@ -938,6 +964,7 @@ Flags:
 Global Flags:
       --quiet     Silence most logging
       --verbose   Enable verbose logging
+
 </code></pre></div><p>The <code>asoctl import azure-resource</code> command will accept any number of ARM resource Ids.</p>
 <p>Each ARM resource will be scanned for supported child or extension resources, and all the results combined together into a single YAML file. If <code>asoctl</code> encounters a resource type that it doesn&rsquo;t support, details will be logged.</p>
 <h3 id="example-importing-a-postgresql-server">Example: Importing a PostgreSQL Server</h3>
