@@ -13,12 +13,13 @@ import logging
 logger = logging.getLogger()
 logging.basicConfig(encoding='utf-8', level=logging.INFO)
 
-
-def validate_helm(helm_dir, aso_yaml_path):
-    aso_yaml = None
+def get_aso_yaml_templates(aso_yaml_path):
     with open(aso_yaml_path, "r") as f:
-        aso_yaml = yaml.full_load_all(f.read())
+        aso_yaml_file = f.read()
+        aso_yaml = yaml.full_load_all(aso_yaml_file)
+        return aso_yaml
 
+def get_helm_templates(helm_dir):
     helm_res = subprocess.run(
         f"helm template asov2 {helm_dir} --namespace=azureserviceoperator-system".split(" "),
         capture_output=True)
@@ -29,17 +30,22 @@ def validate_helm(helm_dir, aso_yaml_path):
         exit(helm_res.returncode)
 
     helm_docs = yaml.full_load_all(helm_res.stdout.decode("utf-8"))
+    return helm_docs
+
+def validate_helm(helm_dir, aso_yaml_path):
+    aso_yaml_templates = get_aso_yaml_templates(aso_yaml_path)
+    helm_templates = get_helm_templates(helm_dir)
 
     # We store the helm docs in a dictionary for easy lookup
     helm_dict = {}
-    for doc in helm_docs:
+    for doc in helm_templates:
         helm_dict[doc["metadata"]["name"]] = doc
 
     error = False
     errors = []
 
     # We check against kustomize docs since helm may have more resources than kustomize. E.g Network Policies
-    for doc in aso_yaml:
+    for doc in aso_yaml_templates:
         if doc["kind"] == "CustomResourceDefinition" or doc["kind"] == "Namespace":
             continue
         
@@ -61,6 +67,7 @@ def validate_helm(helm_dir, aso_yaml_path):
         exit(1)
 
     logger.info("Validation successful")
+    
 
 if __name__ == '__main__':
 
