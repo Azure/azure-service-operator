@@ -15,7 +15,7 @@ require (
 	github.com/bmatcuk/doublestar v1.3.4
 	github.com/dave/dst v0.27.3
 	github.com/devigned/tab v0.1.1
-	github.com/go-logr/logr v1.4.1
+	github.com/go-logr/logr v1.4.2
 	github.com/go-logr/zerologr v1.2.3
 	github.com/go-openapi/jsonpointer v0.21.0
 	github.com/go-openapi/spec v0.21.0
