@@ -133,6 +133,12 @@ if ! command -v az > /dev/null 2>&1; then
     exit 1
 fi
 
+#doc# | Pip3 | latest | https://pip.pypa.io/en/stable/installation/ |
+if ! command -v pip3 > /dev/null 2>&1; then
+    write-error "Pip3 must be installed manually: https://pip.pypa.io/en/stable/installation/"
+    exit 1
+fi
+
 write-verbose "Installing tools to $TOOL_DEST"
 
 # Install Go tools
@@ -308,7 +314,11 @@ if [ "$VERBOSE" == true ]; then
     echo "Installed tools: $(ls "$TOOL_DEST")"
 fi
 
-if [ "$DEVCONTAINER" == true ]; then 
+# python packages to be installed for helm validation script
+# using `--break-system-packages` here since the python3 env is externally managed through the OS, so we have to pass this to install the dependency for local environment.
+pip3 install deepdiff --break-system-packages
+
+if [ "$DEVCONTAINER" == true ]; then
 
     # Webhook Certs
     write-info "Setting up k8s webhook certificates"
