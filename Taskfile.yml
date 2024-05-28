@@ -718,8 +718,6 @@ tasks:
   controller:package-helm-manifest:
     desc: Package helm manifest for the release
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: 
-      - controller:run-kustomize
     cmds:
       - "{{.SCRIPTS_ROOT}}/package-helm-manifest.sh {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} {{.PUBLIC_REGISTRY}} {{.LATEST_VERSION_TAG}} `pwd`/"
       - task: controller:validate-helm
