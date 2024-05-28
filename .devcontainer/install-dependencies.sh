@@ -317,6 +317,7 @@ fi
 # python packages to be installed for helm validation script
 # using `--break-system-packages` here since the python3 env is externally managed through the OS, so we have to pass this to install the dependency for local environment.
 pip3 install deepdiff --break-system-packages
+pip3 install pyyaml --break-system-packages
 
 if [ "$DEVCONTAINER" == true ]; then
 
