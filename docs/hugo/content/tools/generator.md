@@ -9,6 +9,11 @@ cascade:
 description: Azure Service Operator Code Generator
 ---
 
+The Azure Service Operator code generator is useful for **contributors** to ASO. Users do not need to run the generator themselves.
+
+For more details on how to contribute to ASO and use the generator, see 
+[adding a new code generated resource]({{< relref "add-a-new-code-generated-resource" >}}).
+
 ``` bash
 $ generator
 aso-gen provides a cmdline interface for generating Azure Service Operator types from Azure deployment template schema
