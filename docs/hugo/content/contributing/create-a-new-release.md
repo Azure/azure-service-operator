@@ -111,7 +111,7 @@ These steps are documented here in case that process fails.
 {{% /alert %}}
 
 1. Create a new branch from `<NEW_RELEASE_TAG>` HEAD
-2. Generate helm manifest for new release: `task controller:gen-helm-manifest`
+2. Generate helm manifest for new release: `task controller:package-helm-manifest`
 3. Check the version in `/v2/charts/azure-service-operator/Chart.yaml` if matches with the latest release tag.
 4. Create a kind cluster
    ``` bash

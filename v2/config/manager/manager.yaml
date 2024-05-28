@@ -38,7 +38,7 @@ spec:
       serviceAccountName: default
       containers:
       - args:
-        - --metrics-addr=:8443
+        - --metrics-addr=0.0.0.0:8443
         - --secure-metrics=true
         - --profiling-metrics=false
         - --health-addr=:8081

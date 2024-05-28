@@ -1,0 +1,4233 @@
+{{- if or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode "webhooks") }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: azureserviceoperator-manager-role
+rules:
+- apiGroups:
+  - apimanagement.azure.com
+  resources:
+  - apis
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - apimanagement.azure.com
+  resources:
+  - apis/finalizers
+  - apis/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - apimanagement.azure.com
+  resources:
+  - apiversionsets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - apimanagement.azure.com
+  resources:
+  - apiversionsets/finalizers
+  - apiversionsets/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - apimanagement.azure.com
+  resources:
+  - authorizationproviders
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - apimanagement.azure.com
+  resources:
+  - authorizationproviders/finalizers
+  - authorizationproviders/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - apimanagement.azure.com
+  resources:
+  - authorizationprovidersauthorizations
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - apimanagement.azure.com
+  resources:
+  - authorizationprovidersauthorizations/finalizers
+  - authorizationprovidersauthorizations/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - apimanagement.azure.com
+  resources:
+  - authorizationprovidersauthorizationsaccesspolicies
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - apimanagement.azure.com
+  resources:
+  - authorizationprovidersauthorizationsaccesspolicies/finalizers
+  - authorizationprovidersauthorizationsaccesspolicies/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - apimanagement.azure.com
+  resources:
+  - backends
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - apimanagement.azure.com
+  resources:
+  - backends/finalizers
+  - backends/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - apimanagement.azure.com
+  resources:
+  - namedvalues
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - apimanagement.azure.com
+  resources:
+  - namedvalues/finalizers
+  - namedvalues/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - apimanagement.azure.com
+  resources:
+  - policies
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - apimanagement.azure.com
+  resources:
+  - policies/finalizers
+  - policies/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - apimanagement.azure.com
+  resources:
+  - policyfragments
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - apimanagement.azure.com
+  resources:
+  - policyfragments/finalizers
+  - policyfragments/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - apimanagement.azure.com
+  resources:
+  - productapis
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - apimanagement.azure.com
+  resources:
+  - productapis/finalizers
+  - productapis/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - apimanagement.azure.com
+  resources:
+  - productpolicies
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - apimanagement.azure.com
+  resources:
+  - productpolicies/finalizers
+  - productpolicies/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - apimanagement.azure.com
+  resources:
+  - products
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - apimanagement.azure.com
+  resources:
+  - products/finalizers
+  - products/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - apimanagement.azure.com
+  resources:
+  - services
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - apimanagement.azure.com
+  resources:
+  - services/finalizers
+  - services/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - apimanagement.azure.com
+  resources:
+  - subscriptions
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - apimanagement.azure.com
+  resources:
+  - subscriptions/finalizers
+  - subscriptions/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - appconfiguration.azure.com
+  resources:
+  - configurationstores
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - appconfiguration.azure.com
+  resources:
+  - configurationstores/finalizers
+  - configurationstores/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - authorization.azure.com
+  resources:
+  - roleassignments
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - authorization.azure.com
+  resources:
+  - roleassignments/finalizers
+  - roleassignments/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - batch.azure.com
+  resources:
+  - batchaccounts
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - batch.azure.com
+  resources:
+  - batchaccounts/finalizers
+  - batchaccounts/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - cache.azure.com
+  resources:
+  - redis
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - cache.azure.com
+  resources:
+  - redis/finalizers
+  - redis/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - cache.azure.com
+  resources:
+  - redisenterprisedatabases
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - cache.azure.com
+  resources:
+  - redisenterprisedatabases/finalizers
+  - redisenterprisedatabases/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - cache.azure.com
+  resources:
+  - redisenterprises
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - cache.azure.com
+  resources:
+  - redisenterprises/finalizers
+  - redisenterprises/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - cache.azure.com
+  resources:
+  - redisfirewallrules
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - cache.azure.com
+  resources:
+  - redisfirewallrules/finalizers
+  - redisfirewallrules/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - cache.azure.com
+  resources:
+  - redislinkedservers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - cache.azure.com
+  resources:
+  - redislinkedservers/finalizers
+  - redislinkedservers/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - cache.azure.com
+  resources:
+  - redispatchschedules
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - cache.azure.com
+  resources:
+  - redispatchschedules/finalizers
+  - redispatchschedules/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - cdn.azure.com
+  resources:
+  - afdcustomdomains
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - cdn.azure.com
+  resources:
+  - afdcustomdomains/finalizers
+  - afdcustomdomains/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - cdn.azure.com
+  resources:
+  - afdendpoints
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - cdn.azure.com
+  resources:
+  - afdendpoints/finalizers
+  - afdendpoints/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - cdn.azure.com
+  resources:
+  - afdorigingroups
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - cdn.azure.com
+  resources:
+  - afdorigingroups/finalizers
+  - afdorigingroups/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - cdn.azure.com
+  resources:
+  - afdorigins
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - cdn.azure.com
+  resources:
+  - afdorigins/finalizers
+  - afdorigins/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - cdn.azure.com
+  resources:
+  - profiles
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - cdn.azure.com
+  resources:
+  - profiles/finalizers
+  - profiles/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - cdn.azure.com
+  resources:
+  - profilesendpoints
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - cdn.azure.com
+  resources:
+  - profilesendpoints/finalizers
+  - profilesendpoints/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - cdn.azure.com
+  resources:
+  - routes
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - cdn.azure.com
+  resources:
+  - routes/finalizers
+  - routes/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - cdn.azure.com
+  resources:
+  - rules
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - cdn.azure.com
+  resources:
+  - rules/finalizers
+  - rules/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - cdn.azure.com
+  resources:
+  - rulesets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - cdn.azure.com
+  resources:
+  - rulesets/finalizers
+  - rulesets/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - cdn.azure.com
+  resources:
+  - secrets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - cdn.azure.com
+  resources:
+  - secrets/finalizers
+  - secrets/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - cdn.azure.com
+  resources:
+  - securitypolicies
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - cdn.azure.com
+  resources:
+  - securitypolicies/finalizers
+  - securitypolicies/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - compute.azure.com
+  resources:
+  - diskencryptionsets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - compute.azure.com
+  resources:
+  - diskencryptionsets/finalizers
+  - diskencryptionsets/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - compute.azure.com
+  resources:
+  - disks
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - compute.azure.com
+  resources:
+  - disks/finalizers
+  - disks/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - compute.azure.com
+  resources:
+  - images
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - compute.azure.com
+  resources:
+  - images/finalizers
+  - images/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - compute.azure.com
+  resources:
+  - snapshots
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - compute.azure.com
+  resources:
+  - snapshots/finalizers
+  - snapshots/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - compute.azure.com
+  resources:
+  - virtualmachines
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - compute.azure.com
+  resources:
+  - virtualmachines/finalizers
+  - virtualmachines/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - compute.azure.com
+  resources:
+  - virtualmachinescalesets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - compute.azure.com
+  resources:
+  - virtualmachinescalesets/finalizers
+  - virtualmachinescalesets/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - compute.azure.com
+  resources:
+  - virtualmachinescalesetsextensions
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - compute.azure.com
+  resources:
+  - virtualmachinescalesetsextensions/finalizers
+  - virtualmachinescalesetsextensions/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - compute.azure.com
+  resources:
+  - virtualmachinesextensions
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - compute.azure.com
+  resources:
+  - virtualmachinesextensions/finalizers
+  - virtualmachinesextensions/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - containerinstance.azure.com
+  resources:
+  - containergroups
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - containerinstance.azure.com
+  resources:
+  - containergroups/finalizers
+  - containergroups/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - containerregistry.azure.com
+  resources:
+  - registries
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - containerregistry.azure.com
+  resources:
+  - registries/finalizers
+  - registries/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - containerservice.azure.com
+  resources:
+  - fleets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - containerservice.azure.com
+  resources:
+  - fleets/finalizers
+  - fleets/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - containerservice.azure.com
+  resources:
+  - fleetsmembers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - containerservice.azure.com
+  resources:
+  - fleetsmembers/finalizers
+  - fleetsmembers/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - containerservice.azure.com
+  resources:
+  - fleetsupdateruns
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - containerservice.azure.com
+  resources:
+  - fleetsupdateruns/finalizers
+  - fleetsupdateruns/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - containerservice.azure.com
+  resources:
+  - managedclusters
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - containerservice.azure.com
+  resources:
+  - managedclusters/finalizers
+  - managedclusters/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - containerservice.azure.com
+  resources:
+  - managedclustersagentpools
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - containerservice.azure.com
+  resources:
+  - managedclustersagentpools/finalizers
+  - managedclustersagentpools/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - containerservice.azure.com
+  resources:
+  - trustedaccessrolebindings
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - containerservice.azure.com
+  resources:
+  - trustedaccessrolebindings/finalizers
+  - trustedaccessrolebindings/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - datafactory.azure.com
+  resources:
+  - factories
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - datafactory.azure.com
+  resources:
+  - factories/finalizers
+  - factories/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - dataprotection.azure.com
+  resources:
+  - backupvaults
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - dataprotection.azure.com
+  resources:
+  - backupvaults/finalizers
+  - backupvaults/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - dataprotection.azure.com
+  resources:
+  - backupvaultsbackuppolicies
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - dataprotection.azure.com
+  resources:
+  - backupvaultsbackuppolicies/finalizers
+  - backupvaultsbackuppolicies/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - dbformariadb.azure.com
+  resources:
+  - configurations
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - dbformariadb.azure.com
+  resources:
+  - configurations/finalizers
+  - configurations/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - dbformariadb.azure.com
+  resources:
+  - databases
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - dbformariadb.azure.com
+  resources:
+  - databases/finalizers
+  - databases/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - dbformariadb.azure.com
+  resources:
+  - servers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - dbformariadb.azure.com
+  resources:
+  - servers/finalizers
+  - servers/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - dbformysql.azure.com
+  resources:
+  - flexibleservers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - dbformysql.azure.com
+  resources:
+  - flexibleservers/finalizers
+  - flexibleservers/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - dbformysql.azure.com
+  resources:
+  - flexibleserversadministrators
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - dbformysql.azure.com
+  resources:
+  - flexibleserversadministrators/finalizers
+  - flexibleserversadministrators/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - dbformysql.azure.com
+  resources:
+  - flexibleserversconfigurations
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - dbformysql.azure.com
+  resources:
+  - flexibleserversconfigurations/finalizers
+  - flexibleserversconfigurations/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - dbformysql.azure.com
+  resources:
+  - flexibleserversdatabases
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - dbformysql.azure.com
+  resources:
+  - flexibleserversdatabases/finalizers
+  - flexibleserversdatabases/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - dbformysql.azure.com
+  resources:
+  - flexibleserversfirewallrules
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - dbformysql.azure.com
+  resources:
+  - flexibleserversfirewallrules/finalizers
+  - flexibleserversfirewallrules/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - dbformysql.azure.com
+  resources:
+  - users
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - dbformysql.azure.com
+  resources:
+  - users/finalizers
+  - users/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - dbforpostgresql.azure.com
+  resources:
+  - flexibleservers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - dbforpostgresql.azure.com
+  resources:
+  - flexibleservers/finalizers
+  - flexibleservers/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - dbforpostgresql.azure.com
+  resources:
+  - flexibleserversconfigurations
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - dbforpostgresql.azure.com
+  resources:
+  - flexibleserversconfigurations/finalizers
+  - flexibleserversconfigurations/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - dbforpostgresql.azure.com
+  resources:
+  - flexibleserversdatabases
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - dbforpostgresql.azure.com
+  resources:
+  - flexibleserversdatabases/finalizers
+  - flexibleserversdatabases/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - dbforpostgresql.azure.com
+  resources:
+  - flexibleserversfirewallrules
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - dbforpostgresql.azure.com
+  resources:
+  - flexibleserversfirewallrules/finalizers
+  - flexibleserversfirewallrules/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - dbforpostgresql.azure.com
+  resources:
+  - users
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - dbforpostgresql.azure.com
+  resources:
+  - users/finalizers
+  - users/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - devices.azure.com
+  resources:
+  - iothubs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - devices.azure.com
+  resources:
+  - iothubs/finalizers
+  - iothubs/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - documentdb.azure.com
+  resources:
+  - databaseaccounts
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - documentdb.azure.com
+  resources:
+  - databaseaccounts/finalizers
+  - databaseaccounts/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - documentdb.azure.com
+  resources:
+  - mongodbdatabasecollections
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - documentdb.azure.com
+  resources:
+  - mongodbdatabasecollections/finalizers
+  - mongodbdatabasecollections/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - documentdb.azure.com
+  resources:
+  - mongodbdatabasecollectionthroughputsettings
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - documentdb.azure.com
+  resources:
+  - mongodbdatabasecollectionthroughputsettings/finalizers
+  - mongodbdatabasecollectionthroughputsettings/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - documentdb.azure.com
+  resources:
+  - mongodbdatabases
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - documentdb.azure.com
+  resources:
+  - mongodbdatabases/finalizers
+  - mongodbdatabases/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - documentdb.azure.com
+  resources:
+  - mongodbdatabasethroughputsettings
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - documentdb.azure.com
+  resources:
+  - mongodbdatabasethroughputsettings/finalizers
+  - mongodbdatabasethroughputsettings/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - documentdb.azure.com
+  resources:
+  - sqldatabasecontainers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - documentdb.azure.com
+  resources:
+  - sqldatabasecontainers/finalizers
+  - sqldatabasecontainers/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - documentdb.azure.com
+  resources:
+  - sqldatabasecontainerstoredprocedures
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - documentdb.azure.com
+  resources:
+  - sqldatabasecontainerstoredprocedures/finalizers
+  - sqldatabasecontainerstoredprocedures/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - documentdb.azure.com
+  resources:
+  - sqldatabasecontainerthroughputsettings
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - documentdb.azure.com
+  resources:
+  - sqldatabasecontainerthroughputsettings/finalizers
+  - sqldatabasecontainerthroughputsettings/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - documentdb.azure.com
+  resources:
+  - sqldatabasecontainertriggers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - documentdb.azure.com
+  resources:
+  - sqldatabasecontainertriggers/finalizers
+  - sqldatabasecontainertriggers/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - documentdb.azure.com
+  resources:
+  - sqldatabasecontaineruserdefinedfunctions
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - documentdb.azure.com
+  resources:
+  - sqldatabasecontaineruserdefinedfunctions/finalizers
+  - sqldatabasecontaineruserdefinedfunctions/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - documentdb.azure.com
+  resources:
+  - sqldatabases
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - documentdb.azure.com
+  resources:
+  - sqldatabases/finalizers
+  - sqldatabases/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - documentdb.azure.com
+  resources:
+  - sqldatabasethroughputsettings
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - documentdb.azure.com
+  resources:
+  - sqldatabasethroughputsettings/finalizers
+  - sqldatabasethroughputsettings/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - documentdb.azure.com
+  resources:
+  - sqlroleassignments
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - documentdb.azure.com
+  resources:
+  - sqlroleassignments/finalizers
+  - sqlroleassignments/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - eventgrid.azure.com
+  resources:
+  - domains
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - eventgrid.azure.com
+  resources:
+  - domains/finalizers
+  - domains/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - eventgrid.azure.com
+  resources:
+  - domainstopics
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - eventgrid.azure.com
+  resources:
+  - domainstopics/finalizers
+  - domainstopics/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - eventgrid.azure.com
+  resources:
+  - eventsubscriptions
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - eventgrid.azure.com
+  resources:
+  - eventsubscriptions/finalizers
+  - eventsubscriptions/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - eventgrid.azure.com
+  resources:
+  - topics
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - eventgrid.azure.com
+  resources:
+  - topics/finalizers
+  - topics/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - eventhub.azure.com
+  resources:
+  - namespaces
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - eventhub.azure.com
+  resources:
+  - namespaces/finalizers
+  - namespaces/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - eventhub.azure.com
+  resources:
+  - namespacesauthorizationrules
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - eventhub.azure.com
+  resources:
+  - namespacesauthorizationrules/finalizers
+  - namespacesauthorizationrules/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - eventhub.azure.com
+  resources:
+  - namespaceseventhubs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - eventhub.azure.com
+  resources:
+  - namespaceseventhubs/finalizers
+  - namespaceseventhubs/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - eventhub.azure.com
+  resources:
+  - namespaceseventhubsauthorizationrules
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - eventhub.azure.com
+  resources:
+  - namespaceseventhubsauthorizationrules/finalizers
+  - namespaceseventhubsauthorizationrules/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - eventhub.azure.com
+  resources:
+  - namespaceseventhubsconsumergroups
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - eventhub.azure.com
+  resources:
+  - namespaceseventhubsconsumergroups/finalizers
+  - namespaceseventhubsconsumergroups/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - insights.azure.com
+  resources:
+  - actiongroups
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - insights.azure.com
+  resources:
+  - actiongroups/finalizers
+  - actiongroups/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - insights.azure.com
+  resources:
+  - autoscalesettings
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - insights.azure.com
+  resources:
+  - autoscalesettings/finalizers
+  - autoscalesettings/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - insights.azure.com
+  resources:
+  - components
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - insights.azure.com
+  resources:
+  - components/finalizers
+  - components/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - insights.azure.com
+  resources:
+  - metricalerts
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - insights.azure.com
+  resources:
+  - metricalerts/finalizers
+  - metricalerts/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - insights.azure.com
+  resources:
+  - scheduledqueryrules
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - insights.azure.com
+  resources:
+  - scheduledqueryrules/finalizers
+  - scheduledqueryrules/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - insights.azure.com
+  resources:
+  - webtests
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - insights.azure.com
+  resources:
+  - webtests/finalizers
+  - webtests/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - keyvault.azure.com
+  resources:
+  - vaults
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - keyvault.azure.com
+  resources:
+  - vaults/finalizers
+  - vaults/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - kubernetesconfiguration.azure.com
+  resources:
+  - extensions
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - kubernetesconfiguration.azure.com
+  resources:
+  - extensions/finalizers
+  - extensions/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - machinelearningservices.azure.com
+  resources:
+  - workspaces
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - machinelearningservices.azure.com
+  resources:
+  - workspaces/finalizers
+  - workspaces/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - machinelearningservices.azure.com
+  resources:
+  - workspacescomputes
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - machinelearningservices.azure.com
+  resources:
+  - workspacescomputes/finalizers
+  - workspacescomputes/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - machinelearningservices.azure.com
+  resources:
+  - workspacesconnections
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - machinelearningservices.azure.com
+  resources:
+  - workspacesconnections/finalizers
+  - workspacesconnections/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - managedidentity.azure.com
+  resources:
+  - federatedidentitycredentials
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - managedidentity.azure.com
+  resources:
+  - federatedidentitycredentials/finalizers
+  - federatedidentitycredentials/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - managedidentity.azure.com
+  resources:
+  - userassignedidentities
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - managedidentity.azure.com
+  resources:
+  - userassignedidentities/finalizers
+  - userassignedidentities/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - applicationgateways
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - applicationgateways/finalizers
+  - applicationgateways/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - bastionhosts
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - bastionhosts/finalizers
+  - bastionhosts/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - dnsforwardingrulesets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - dnsforwardingrulesets/finalizers
+  - dnsforwardingrulesets/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - dnsforwardingrulesetsforwardingrules
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - dnsforwardingrulesetsforwardingrules/finalizers
+  - dnsforwardingrulesetsforwardingrules/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - dnsresolvers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - dnsresolvers/finalizers
+  - dnsresolvers/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - dnsresolversinboundendpoints
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - dnsresolversinboundendpoints/finalizers
+  - dnsresolversinboundendpoints/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - dnsresolversoutboundendpoints
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - dnsresolversoutboundendpoints/finalizers
+  - dnsresolversoutboundendpoints/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - dnszones
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - dnszones/finalizers
+  - dnszones/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - dnszonesaaaarecords
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - dnszonesaaaarecords/finalizers
+  - dnszonesaaaarecords/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - dnszonesarecords
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - dnszonesarecords/finalizers
+  - dnszonesarecords/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - dnszonescaarecords
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - dnszonescaarecords/finalizers
+  - dnszonescaarecords/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - dnszonescnamerecords
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - dnszonescnamerecords/finalizers
+  - dnszonescnamerecords/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - dnszonesmxrecords
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - dnszonesmxrecords/finalizers
+  - dnszonesmxrecords/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - dnszonesnsrecords
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - dnszonesnsrecords/finalizers
+  - dnszonesnsrecords/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - dnszonesptrrecords
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - dnszonesptrrecords/finalizers
+  - dnszonesptrrecords/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - dnszonessrvrecords
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - dnszonessrvrecords/finalizers
+  - dnszonessrvrecords/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - dnszonestxtrecords
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - dnszonestxtrecords/finalizers
+  - dnszonestxtrecords/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - loadbalancers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - loadbalancers/finalizers
+  - loadbalancers/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - loadbalancersinboundnatrules
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - loadbalancersinboundnatrules/finalizers
+  - loadbalancersinboundnatrules/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - natgateways
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - natgateways/finalizers
+  - natgateways/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - networkinterfaces
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - networkinterfaces/finalizers
+  - networkinterfaces/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - networksecuritygroups
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - networksecuritygroups/finalizers
+  - networksecuritygroups/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - networksecuritygroupssecurityrules
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - networksecuritygroupssecurityrules/finalizers
+  - networksecuritygroupssecurityrules/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - privatednszones
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - privatednszones/finalizers
+  - privatednszones/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - privatednszonesaaaarecords
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - privatednszonesaaaarecords/finalizers
+  - privatednszonesaaaarecords/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - privatednszonesarecords
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - privatednszonesarecords/finalizers
+  - privatednszonesarecords/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - privatednszonescnamerecords
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - privatednszonescnamerecords/finalizers
+  - privatednszonescnamerecords/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - privatednszonesmxrecords
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - privatednszonesmxrecords/finalizers
+  - privatednszonesmxrecords/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - privatednszonesptrrecords
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - privatednszonesptrrecords/finalizers
+  - privatednszonesptrrecords/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - privatednszonessrvrecords
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - privatednszonessrvrecords/finalizers
+  - privatednszonessrvrecords/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - privatednszonestxtrecords
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - privatednszonestxtrecords/finalizers
+  - privatednszonestxtrecords/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - privatednszonesvirtualnetworklinks
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - privatednszonesvirtualnetworklinks/finalizers
+  - privatednszonesvirtualnetworklinks/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - privateendpoints
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - privateendpoints/finalizers
+  - privateendpoints/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - privateendpointsprivatednszonegroups
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - privateendpointsprivatednszonegroups/finalizers
+  - privateendpointsprivatednszonegroups/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - privatelinkservices
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - privatelinkservices/finalizers
+  - privatelinkservices/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - publicipaddresses
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - publicipaddresses/finalizers
+  - publicipaddresses/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - publicipprefixes
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - publicipprefixes/finalizers
+  - publicipprefixes/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - routetables
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - routetables/finalizers
+  - routetables/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - routetablesroutes
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - routetablesroutes/finalizers
+  - routetablesroutes/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - trafficmanagerprofiles
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - trafficmanagerprofiles/finalizers
+  - trafficmanagerprofiles/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - trafficmanagerprofilesazureendpoints
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - trafficmanagerprofilesazureendpoints/finalizers
+  - trafficmanagerprofilesazureendpoints/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - trafficmanagerprofilesexternalendpoints
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - trafficmanagerprofilesexternalendpoints/finalizers
+  - trafficmanagerprofilesexternalendpoints/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - trafficmanagerprofilesnestedendpoints
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - trafficmanagerprofilesnestedendpoints/finalizers
+  - trafficmanagerprofilesnestedendpoints/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - virtualnetworkgateways
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - virtualnetworkgateways/finalizers
+  - virtualnetworkgateways/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - virtualnetworks
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - virtualnetworks/finalizers
+  - virtualnetworks/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - virtualnetworkssubnets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - virtualnetworkssubnets/finalizers
+  - virtualnetworkssubnets/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.azure.com
+  resources:
+  - virtualnetworksvirtualnetworkpeerings
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.azure.com
+  resources:
+  - virtualnetworksvirtualnetworkpeerings/finalizers
+  - virtualnetworksvirtualnetworkpeerings/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - network.frontdoor.azure.com
+  resources:
+  - webapplicationfirewallpolicies
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - network.frontdoor.azure.com
+  resources:
+  - webapplicationfirewallpolicies/finalizers
+  - webapplicationfirewallpolicies/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - operationalinsights.azure.com
+  resources:
+  - workspaces
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - operationalinsights.azure.com
+  resources:
+  - workspaces/finalizers
+  - workspaces/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - resources.azure.com
+  resources:
+  - resourcegroups
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - resources.azure.com
+  resources:
+  - resourcegroups/finalizers
+  - resourcegroups/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - search.azure.com
+  resources:
+  - searchservices
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - search.azure.com
+  resources:
+  - searchservices/finalizers
+  - searchservices/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - servicebus.azure.com
+  resources:
+  - namespaces
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - servicebus.azure.com
+  resources:
+  - namespaces/finalizers
+  - namespaces/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - servicebus.azure.com
+  resources:
+  - namespacesauthorizationrules
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - servicebus.azure.com
+  resources:
+  - namespacesauthorizationrules/finalizers
+  - namespacesauthorizationrules/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - servicebus.azure.com
+  resources:
+  - namespacesqueues
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - servicebus.azure.com
+  resources:
+  - namespacesqueues/finalizers
+  - namespacesqueues/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - servicebus.azure.com
+  resources:
+  - namespacestopics
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - servicebus.azure.com
+  resources:
+  - namespacestopics/finalizers
+  - namespacestopics/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - servicebus.azure.com
+  resources:
+  - namespacestopicssubscriptions
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - servicebus.azure.com
+  resources:
+  - namespacestopicssubscriptions/finalizers
+  - namespacestopicssubscriptions/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - servicebus.azure.com
+  resources:
+  - namespacestopicssubscriptionsrules
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - servicebus.azure.com
+  resources:
+  - namespacestopicssubscriptionsrules/finalizers
+  - namespacestopicssubscriptionsrules/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - signalrservice.azure.com
+  resources:
+  - signalrs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - signalrservice.azure.com
+  resources:
+  - signalrs/finalizers
+  - signalrs/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - servers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - servers/finalizers
+  - servers/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversadministrators
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversadministrators/finalizers
+  - serversadministrators/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversadvancedthreatprotectionsettings
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversadvancedthreatprotectionsettings/finalizers
+  - serversadvancedthreatprotectionsettings/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversauditingsettings
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversauditingsettings/finalizers
+  - serversauditingsettings/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversazureadonlyauthentications
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversazureadonlyauthentications/finalizers
+  - serversazureadonlyauthentications/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversconnectionpolicies
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversconnectionpolicies/finalizers
+  - serversconnectionpolicies/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversdatabases
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversdatabases/finalizers
+  - serversdatabases/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversdatabasesadvancedthreatprotectionsettings
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversdatabasesadvancedthreatprotectionsettings/finalizers
+  - serversdatabasesadvancedthreatprotectionsettings/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversdatabasesauditingsettings
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversdatabasesauditingsettings/finalizers
+  - serversdatabasesauditingsettings/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversdatabasesbackuplongtermretentionpolicies
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversdatabasesbackuplongtermretentionpolicies/finalizers
+  - serversdatabasesbackuplongtermretentionpolicies/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversdatabasesbackupshorttermretentionpolicies
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversdatabasesbackupshorttermretentionpolicies/finalizers
+  - serversdatabasesbackupshorttermretentionpolicies/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversdatabasessecurityalertpolicies
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversdatabasessecurityalertpolicies/finalizers
+  - serversdatabasessecurityalertpolicies/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversdatabasestransparentdataencryptions
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversdatabasestransparentdataencryptions/finalizers
+  - serversdatabasestransparentdataencryptions/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversdatabasesvulnerabilityassessments
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversdatabasesvulnerabilityassessments/finalizers
+  - serversdatabasesvulnerabilityassessments/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serverselasticpools
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serverselasticpools/finalizers
+  - serverselasticpools/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversfailovergroups
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversfailovergroups/finalizers
+  - serversfailovergroups/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversfirewallrules
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversfirewallrules/finalizers
+  - serversfirewallrules/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversipv6firewallrules
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversipv6firewallrules/finalizers
+  - serversipv6firewallrules/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversoutboundfirewallrules
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversoutboundfirewallrules/finalizers
+  - serversoutboundfirewallrules/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serverssecurityalertpolicies
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serverssecurityalertpolicies/finalizers
+  - serverssecurityalertpolicies/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversvirtualnetworkrules
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversvirtualnetworkrules/finalizers
+  - serversvirtualnetworkrules/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversvulnerabilityassessments
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - serversvulnerabilityassessments/finalizers
+  - serversvulnerabilityassessments/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - users
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - sql.azure.com
+  resources:
+  - users/finalizers
+  - users/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - storage.azure.com
+  resources:
+  - storageaccounts
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - storage.azure.com
+  resources:
+  - storageaccounts/finalizers
+  - storageaccounts/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - storage.azure.com
+  resources:
+  - storageaccountsblobservices
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - storage.azure.com
+  resources:
+  - storageaccountsblobservices/finalizers
+  - storageaccountsblobservices/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - storage.azure.com
+  resources:
+  - storageaccountsblobservicescontainers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - storage.azure.com
+  resources:
+  - storageaccountsblobservicescontainers/finalizers
+  - storageaccountsblobservicescontainers/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - storage.azure.com
+  resources:
+  - storageaccountsfileservices
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - storage.azure.com
+  resources:
+  - storageaccountsfileservices/finalizers
+  - storageaccountsfileservices/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - storage.azure.com
+  resources:
+  - storageaccountsfileservicesshares
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - storage.azure.com
+  resources:
+  - storageaccountsfileservicesshares/finalizers
+  - storageaccountsfileservicesshares/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - storage.azure.com
+  resources:
+  - storageaccountsmanagementpolicies
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - storage.azure.com
+  resources:
+  - storageaccountsmanagementpolicies/finalizers
+  - storageaccountsmanagementpolicies/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - storage.azure.com
+  resources:
+  - storageaccountsqueueservices
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - storage.azure.com
+  resources:
+  - storageaccountsqueueservices/finalizers
+  - storageaccountsqueueservices/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - storage.azure.com
+  resources:
+  - storageaccountsqueueservicesqueues
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - storage.azure.com
+  resources:
+  - storageaccountsqueueservicesqueues/finalizers
+  - storageaccountsqueueservicesqueues/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - storage.azure.com
+  resources:
+  - storageaccountstableservices
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - storage.azure.com
+  resources:
+  - storageaccountstableservices/finalizers
+  - storageaccountstableservices/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - storage.azure.com
+  resources:
+  - storageaccountstableservicestables
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - storage.azure.com
+  resources:
+  - storageaccountstableservicestables/finalizers
+  - storageaccountstableservicestables/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - subscription.azure.com
+  resources:
+  - aliases
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - subscription.azure.com
+  resources:
+  - aliases/finalizers
+  - aliases/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - synapse.azure.com
+  resources:
+  - workspaces
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - synapse.azure.com
+  resources:
+  - workspaces/finalizers
+  - workspaces/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - synapse.azure.com
+  resources:
+  - workspacesbigdatapools
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - synapse.azure.com
+  resources:
+  - workspacesbigdatapools/finalizers
+  - workspacesbigdatapools/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - web.azure.com
+  resources:
+  - serverfarms
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - web.azure.com
+  resources:
+  - serverfarms/finalizers
+  - serverfarms/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - web.azure.com
+  resources:
+  - sites
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - web.azure.com
+  resources:
+  - sites/finalizers
+  - sites/status
+  verbs:
+  - get
+  - patch
+  - update
+{{- end }}
