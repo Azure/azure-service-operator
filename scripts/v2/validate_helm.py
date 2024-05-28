@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 import subprocess
 
-subprocess.run("pip install deepdiff".split(" "))
-subprocess.run("pip install pyyaml".split(" "))
+subprocess.run("pip3 install deepdiff".split(" "))
+subprocess.run("pip3 install pyyaml".split(" "))
 
 from argparse import ArgumentParser
 from deepdiff import DeepDiff
