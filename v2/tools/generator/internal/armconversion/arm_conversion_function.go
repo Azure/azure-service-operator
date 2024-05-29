@@ -52,6 +52,7 @@ func (c *ARMConversionFunction) RequiredPackageReferences() *astmodel.PackageRef
 	// We need these because we're going to be constructing/casting to the types
 	// of the properties in the ARM object, so we need to import those.
 	result := astmodel.NewPackageReferenceSet(
+		c.armTypeName.PackageReference(),
 		astmodel.GenRuntimeReference,
 		astmodel.GitHubErrorsReference,
 		astmodel.MakeExternalPackageReference("fmt"))
@@ -63,7 +64,9 @@ func (c *ARMConversionFunction) RequiredPackageReferences() *astmodel.PackageRef
 // SHOULD include any types which this function references but its receiver doesn't.
 // SHOULD NOT include the receiver of this function.
 func (c *ARMConversionFunction) References() astmodel.TypeNameSet {
-	return c.armType.References()
+	result := astmodel.NewTypeNameSet(c.armTypeName)
+	result.AddAll(c.armType.References())
+	return result
 }
 
 // AsFunc returns the function as a Go AST
