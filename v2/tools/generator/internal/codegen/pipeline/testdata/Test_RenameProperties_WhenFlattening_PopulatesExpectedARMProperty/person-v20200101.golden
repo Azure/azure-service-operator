@@ -5,6 +5,7 @@
  
  import (
  	"fmt"
+ 	arm "github.com/Azure/azure-service-operator/testing/person/v20200101/arm"
  	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
  	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
  )
@@ -24,7 +25,7 @@
  	if address == nil {
  		return nil, nil
  	}
- 	result := &Address_ARM{}
+ 	result := &arm.Address{}
  
  	// Set property "City":
  	result.City = address.City
@@ -36,12 +37,12 @@
  
  // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
  func (address *Address) NewEmptyARMValue() genruntime.ARMResourceStatus {
- 	return &Address_ARM{}
+ 	return &arm.Address{}
  }
  
  // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
  func (address *Address) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
- 	typedInput, ok := armInput.(Address_ARM)
+ 	typedInput, ok := armInput.(arm.Address)
  	if !ok {
  		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Address_ARM, got %T", armInput)
  	}
@@ -180,7 +181,7 @@
  	if person == nil {
  		return nil, nil
  	}
- 	result := &Person_Spec_ARM{}
+ 	result := &arm.Person_Spec{}
  
  	// Set property "APIVersion":
  	if person.APIVersion != nil {
