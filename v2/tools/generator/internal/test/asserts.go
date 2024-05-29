@@ -7,7 +7,6 @@ package test
 
 import (
 	"bytes"
-	"strings"
 	"testing"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/reporting"
@@ -27,23 +26,13 @@ func AssertPackagesGenerateExpectedCode(
 	options ...AssertionOption,
 ) {
 	t.Helper()
-	// Group type definitions by package
-	groups := make(map[astmodel.PackageReference][]astmodel.TypeDefinition, len(definitions))
-	for _, def := range definitions {
-		ref := def.Name().PackageReference()
-		groups[ref] = append(groups[ref], def)
-	}
 
-	// We expect to be generating a file for each package, so we force a subfolder
-	opts := append(options, CreateFolderForTest())
+	defs := definitions.AsSlice()
+	packages := createSetOfPackages(defs)
 
-	// Write a file for each package
-	for _, defs := range groups {
-		ref := defs[0].Name().InternalPackageReference()
-		fileName := strings.ReplaceAll(ref.FolderPath(), "/", "-")
-
-		AssertTypeDefinitionsGenerateExpectedCode(t, fileName, defs, opts...)
-	}
+	asserter := newTypeAsserter(t)
+	asserter.configure(options)
+	asserter.assert("", defs, packages)
 }
 
 // AssertTypeDefinitionsGenerateExpectedCode serialises the given FileDefinition as a golden file test, checking that the expected
@@ -59,9 +48,12 @@ func AssertTypeDefinitionsGenerateExpectedCode(
 	options ...AssertionOption,
 ) {
 	t.Helper()
+
+	packages := createSetOfPackages(defs)
+
 	asserter := newTypeAsserter(t)
 	asserter.configure(options)
-	asserter.assert(name, defs...)
+	asserter.assert(name, defs, packages)
 }
 
 // AssertSingleTypeDefinitionGeneratesExpectedCode serialises the given TypeDefinition as a golden file test, checking
@@ -77,9 +69,16 @@ func AssertSingleTypeDefinitionGeneratesExpectedCode(
 	options ...AssertionOption,
 ) {
 	t.Helper()
+
+	defs := []astmodel.TypeDefinition{
+		def,
+	}
+
+	packages := createSetOfPackages(defs)
+
 	asserter := newTypeAsserter(t)
 	asserter.configure(options)
-	asserter.assert(fileName, def)
+	asserter.assert(fileName, defs, packages)
 }
 
 // AssertDefinitionHasExpectedShape fails the test if the given definition does not have the expected shape.
@@ -135,7 +134,7 @@ func AssertPropertyExists(
 	return property
 }
 
-// AssertPropertyExists fails the test if the given object does not have a property with the given name and type
+// AssertPropertyExistsWithType fails the test if the given object does not have a property with the given name and type
 // t is the current test.
 // atype is the type that's expected to have the property.
 // expectedName is the name of the property we expect to be present.
