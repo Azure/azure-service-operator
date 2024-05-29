@@ -130,6 +130,12 @@ spec:
               key: USE_WORKLOAD_IDENTITY_AUTH
               name: aso-controller-settings
               optional: true
+        - name: AZURE_USER_AGENT_SUFFIX
+          valueFrom:
+            secretKeyRef:
+              key: AZURE_USER_AGENT_SUFFIX
+              name: aso-controller-settings
+              optional: true
         - name: POD_NAMESPACE
           valueFrom:
             fieldRef:

@@ -1146,6 +1146,27 @@ rules:
 - apiGroups:
   - dataprotection.azure.com
   resources:
+  - backupvaultsbackupinstances
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - dataprotection.azure.com
+  resources:
+  - backupvaultsbackupinstances/finalizers
+  - backupvaultsbackupinstances/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - dataprotection.azure.com
+  resources:
   - backupvaultsbackuppolicies
   verbs:
   - create

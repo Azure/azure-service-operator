@@ -12,4 +12,7 @@ spec:
     kind: Issuer
     name: azureserviceoperator-selfsigned-issuer
   secretName: webhook-server-cert
+  subject:
+    organizations:
+    - azure
 {{- end }}

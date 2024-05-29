@@ -1860,6 +1860,69 @@ webhooks:
     service:
       name: azureserviceoperator-webhook-service
       namespace: {{ .Release.Namespace }}
+      path: /validate-dataprotection-azure-com-v1api20231101-backupvault
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1api20231101.backupvaults.dataprotection.azure.com
+  rules:
+  - apiGroups:
+    - dataprotection.azure.com
+    apiVersions:
+    - v1api20231101
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - backupvaults
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: azureserviceoperator-webhook-service
+      namespace: {{ .Release.Namespace }}
+      path: /validate-dataprotection-azure-com-v1api20231101-backupvaultsbackupinstance
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1api20231101.backupvaultsbackupinstances.dataprotection.azure.com
+  rules:
+  - apiGroups:
+    - dataprotection.azure.com
+    apiVersions:
+    - v1api20231101
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - backupvaultsbackupinstances
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: azureserviceoperator-webhook-service
+      namespace: {{ .Release.Namespace }}
+      path: /validate-dataprotection-azure-com-v1api20231101-backupvaultsbackuppolicy
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1api20231101.backupvaultsbackuppolicies.dataprotection.azure.com
+  rules:
+  - apiGroups:
+    - dataprotection.azure.com
+    apiVersions:
+    - v1api20231101
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - backupvaultsbackuppolicies
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: azureserviceoperator-webhook-service
+      namespace: {{ .Release.Namespace }}
       path: /validate-dbformariadb-azure-com-v1api20180601-configuration
   failurePolicy: Fail
   matchPolicy: Exact
@@ -2805,6 +2868,279 @@ webhooks:
     service:
       name: azureserviceoperator-webhook-service
       namespace: {{ .Release.Namespace }}
+      path: /validate-documentdb-azure-com-v1api20231115-databaseaccount
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1api20231115.databaseaccounts.documentdb.azure.com
+  rules:
+  - apiGroups:
+    - documentdb.azure.com
+    apiVersions:
+    - v1api20231115
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - databaseaccounts
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: azureserviceoperator-webhook-service
+      namespace: {{ .Release.Namespace }}
+      path: /validate-documentdb-azure-com-v1api20231115-mongodbdatabasecollection
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1api20231115.mongodbdatabasecollections.documentdb.azure.com
+  rules:
+  - apiGroups:
+    - documentdb.azure.com
+    apiVersions:
+    - v1api20231115
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - mongodbdatabasecollections
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: azureserviceoperator-webhook-service
+      namespace: {{ .Release.Namespace }}
+      path: /validate-documentdb-azure-com-v1api20231115-mongodbdatabasecollectionthroughputsetting
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1api20231115.mongodbdatabasecollectionthroughputsettings.documentdb.azure.com
+  rules:
+  - apiGroups:
+    - documentdb.azure.com
+    apiVersions:
+    - v1api20231115
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - mongodbdatabasecollectionthroughputsettings
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: azureserviceoperator-webhook-service
+      namespace: {{ .Release.Namespace }}
+      path: /validate-documentdb-azure-com-v1api20231115-mongodbdatabase
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1api20231115.mongodbdatabases.documentdb.azure.com
+  rules:
+  - apiGroups:
+    - documentdb.azure.com
+    apiVersions:
+    - v1api20231115
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - mongodbdatabases
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: azureserviceoperator-webhook-service
+      namespace: {{ .Release.Namespace }}
+      path: /validate-documentdb-azure-com-v1api20231115-mongodbdatabasethroughputsetting
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1api20231115.mongodbdatabasethroughputsettings.documentdb.azure.com
+  rules:
+  - apiGroups:
+    - documentdb.azure.com
+    apiVersions:
+    - v1api20231115
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - mongodbdatabasethroughputsettings
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: azureserviceoperator-webhook-service
+      namespace: {{ .Release.Namespace }}
+      path: /validate-documentdb-azure-com-v1api20231115-sqldatabasecontainer
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1api20231115.sqldatabasecontainers.documentdb.azure.com
+  rules:
+  - apiGroups:
+    - documentdb.azure.com
+    apiVersions:
+    - v1api20231115
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - sqldatabasecontainers
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: azureserviceoperator-webhook-service
+      namespace: {{ .Release.Namespace }}
+      path: /validate-documentdb-azure-com-v1api20231115-sqldatabasecontainerstoredprocedure
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1api20231115.sqldatabasecontainerstoredprocedures.documentdb.azure.com
+  rules:
+  - apiGroups:
+    - documentdb.azure.com
+    apiVersions:
+    - v1api20231115
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - sqldatabasecontainerstoredprocedures
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: azureserviceoperator-webhook-service
+      namespace: {{ .Release.Namespace }}
+      path: /validate-documentdb-azure-com-v1api20231115-sqldatabasecontainerthroughputsetting
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1api20231115.sqldatabasecontainerthroughputsettings.documentdb.azure.com
+  rules:
+  - apiGroups:
+    - documentdb.azure.com
+    apiVersions:
+    - v1api20231115
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - sqldatabasecontainerthroughputsettings
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: azureserviceoperator-webhook-service
+      namespace: {{ .Release.Namespace }}
+      path: /validate-documentdb-azure-com-v1api20231115-sqldatabasecontainertrigger
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1api20231115.sqldatabasecontainertriggers.documentdb.azure.com
+  rules:
+  - apiGroups:
+    - documentdb.azure.com
+    apiVersions:
+    - v1api20231115
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - sqldatabasecontainertriggers
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: azureserviceoperator-webhook-service
+      namespace: {{ .Release.Namespace }}
+      path: /validate-documentdb-azure-com-v1api20231115-sqldatabasecontaineruserdefinedfunction
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1api20231115.sqldatabasecontaineruserdefinedfunctions.documentdb.azure.com
+  rules:
+  - apiGroups:
+    - documentdb.azure.com
+    apiVersions:
+    - v1api20231115
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - sqldatabasecontaineruserdefinedfunctions
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: azureserviceoperator-webhook-service
+      namespace: {{ .Release.Namespace }}
+      path: /validate-documentdb-azure-com-v1api20231115-sqldatabase
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1api20231115.sqldatabases.documentdb.azure.com
+  rules:
+  - apiGroups:
+    - documentdb.azure.com
+    apiVersions:
+    - v1api20231115
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - sqldatabases
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: azureserviceoperator-webhook-service
+      namespace: {{ .Release.Namespace }}
+      path: /validate-documentdb-azure-com-v1api20231115-sqldatabasethroughputsetting
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1api20231115.sqldatabasethroughputsettings.documentdb.azure.com
+  rules:
+  - apiGroups:
+    - documentdb.azure.com
+    apiVersions:
+    - v1api20231115
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - sqldatabasethroughputsettings
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: azureserviceoperator-webhook-service
+      namespace: {{ .Release.Namespace }}
+      path: /validate-documentdb-azure-com-v1api20231115-sqlroleassignment
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1api20231115.sqlroleassignments.documentdb.azure.com
+  rules:
+  - apiGroups:
+    - documentdb.azure.com
+    apiVersions:
+    - v1api20231115
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - sqlroleassignments
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: azureserviceoperator-webhook-service
+      namespace: {{ .Release.Namespace }}
       path: /validate-eventgrid-azure-com-v1api20200601-domain
   failurePolicy: Fail
   matchPolicy: Exact
@@ -3071,6 +3407,27 @@ webhooks:
     - UPDATE
     resources:
     - scheduledqueryrules
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: azureserviceoperator-webhook-service
+      namespace: {{ .Release.Namespace }}
+      path: /validate-insights-azure-com-v1api20220615-webtest
+  failurePolicy: Fail
+  matchPolicy: Exact
+  name: validate.v1api20220615.webtests.insights.azure.com
+  rules:
+  - apiGroups:
+    - insights.azure.com
+    apiVersions:
+    - v1api20220615
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - webtests
   sideEffects: None
 - admissionReviewVersions:
   - v1
