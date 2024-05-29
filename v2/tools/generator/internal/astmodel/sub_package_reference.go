@@ -109,7 +109,7 @@ func (s SubPackageReference) ImportAlias(style PackageImportStyle) string {
 	case Name:
 		return s.name
 	case VersionOnly:
-		return base + s.name[0:1]
+		return s.name
 	case GroupOnly:
 		return base
 	case GroupAndVersion:
