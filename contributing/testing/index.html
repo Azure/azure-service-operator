@@ -20,12 +20,10 @@
 
 <title>Testing | Azure Service Operator</title>
 <meta name="description" content="Running integration tests Basic use: run task controller:test-integration-envtest.
-Record/replay The task controller:test-integration-envtest runs the tests in a record/replay mode by default, so that it does not touch any live Azure resources. (This uses the go-vcr library.) If you change the controller or other code in such a way that the required requests/responses from ARM change, you will need to update the recordings.
-To do this, delete the recordings for the failing tests (under {test-dir}/recordings/{test-name}.">
+Required variables    Environment Variable Value Needed for CI (Github Actions) Needed for local testing     AZURE_SUBSCRIPTION_ID The Azure Subscription ID Yes Yes (when recording)   AZURE_TENANT_ID The Azure Tenant ID Yes Yes (when recording)   TEST_BILLING_ID The Azure billing ID No Yes (when recording SubscriptionAlias tests)   CODECOV_TOKEN The token to https://app.codecov.io/gh/Azure/azure-service-operator Yes No   GH_PAT GitHub PAT, used for PR automation Yes No   REGISTRY_LOGIN The Azure Container Registry to log in to (for az acr login &amp;ndash;name {name}) Yes No   REGISTRY_PRERELEASE The path to the container prerelease registry (right now this isn&amp;rsquo;t used) No No   REGISTRY_PUBLIC The path to the container release registry, used in &amp;ndash;tag &amp;ldquo;{REGISTRY_PUBLIC}/{CONTROLLER_DOCKER_IMAGE}&amp;rdquo; No No    Record/replay The task controller:test-integration-envtest runs the tests in a record/replay mode by default, so that it does not touch any live Azure resources.">
 <meta property="og:title" content="Testing" />
 <meta property="og:description" content="Running integration tests Basic use: run task controller:test-integration-envtest.
-Record/replay The task controller:test-integration-envtest runs the tests in a record/replay mode by default, so that it does not touch any live Azure resources. (This uses the go-vcr library.) If you change the controller or other code in such a way that the required requests/responses from ARM change, you will need to update the recordings.
-To do this, delete the recordings for the failing tests (under {test-dir}/recordings/{test-name}." />
+Required variables    Environment Variable Value Needed for CI (Github Actions) Needed for local testing     AZURE_SUBSCRIPTION_ID The Azure Subscription ID Yes Yes (when recording)   AZURE_TENANT_ID The Azure Tenant ID Yes Yes (when recording)   TEST_BILLING_ID The Azure billing ID No Yes (when recording SubscriptionAlias tests)   CODECOV_TOKEN The token to https://app.codecov.io/gh/Azure/azure-service-operator Yes No   GH_PAT GitHub PAT, used for PR automation Yes No   REGISTRY_LOGIN The Azure Container Registry to log in to (for az acr login &ndash;name {name}) Yes No   REGISTRY_PRERELEASE The path to the container prerelease registry (right now this isn&rsquo;t used) No No   REGISTRY_PUBLIC The path to the container release registry, used in &ndash;tag &ldquo;{REGISTRY_PUBLIC}/{CONTROLLER_DOCKER_IMAGE}&rdquo; No No    Record/replay The task controller:test-integration-envtest runs the tests in a record/replay mode by default, so that it does not touch any live Azure resources." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/contributing/testing/" /><meta property="article:section" content="contributing" />
 
@@ -33,15 +31,13 @@ To do this, delete the recordings for the failing tests (under {test-dir}/record
 
 <meta itemprop="name" content="Testing">
 <meta itemprop="description" content="Running integration tests Basic use: run task controller:test-integration-envtest.
-Record/replay The task controller:test-integration-envtest runs the tests in a record/replay mode by default, so that it does not touch any live Azure resources. (This uses the go-vcr library.) If you change the controller or other code in such a way that the required requests/responses from ARM change, you will need to update the recordings.
-To do this, delete the recordings for the failing tests (under {test-dir}/recordings/{test-name}.">
+Required variables    Environment Variable Value Needed for CI (Github Actions) Needed for local testing     AZURE_SUBSCRIPTION_ID The Azure Subscription ID Yes Yes (when recording)   AZURE_TENANT_ID The Azure Tenant ID Yes Yes (when recording)   TEST_BILLING_ID The Azure billing ID No Yes (when recording SubscriptionAlias tests)   CODECOV_TOKEN The token to https://app.codecov.io/gh/Azure/azure-service-operator Yes No   GH_PAT GitHub PAT, used for PR automation Yes No   REGISTRY_LOGIN The Azure Container Registry to log in to (for az acr login &ndash;name {name}) Yes No   REGISTRY_PRERELEASE The path to the container prerelease registry (right now this isn&rsquo;t used) No No   REGISTRY_PUBLIC The path to the container release registry, used in &ndash;tag &ldquo;{REGISTRY_PUBLIC}/{CONTROLLER_DOCKER_IMAGE}&rdquo; No No    Record/replay The task controller:test-integration-envtest runs the tests in a record/replay mode by default, so that it does not touch any live Azure resources.">
 
-<meta itemprop="wordCount" content="374">
+<meta itemprop="wordCount" content="479">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Testing"/>
 <meta name="twitter:description" content="Running integration tests Basic use: run task controller:test-integration-envtest.
-Record/replay The task controller:test-integration-envtest runs the tests in a record/replay mode by default, so that it does not touch any live Azure resources. (This uses the go-vcr library.) If you change the controller or other code in such a way that the required requests/responses from ARM change, you will need to update the recordings.
-To do this, delete the recordings for the failing tests (under {test-dir}/recordings/{test-name}."/>
+Required variables    Environment Variable Value Needed for CI (Github Actions) Needed for local testing     AZURE_SUBSCRIPTION_ID The Azure Subscription ID Yes Yes (when recording)   AZURE_TENANT_ID The Azure Tenant ID Yes Yes (when recording)   TEST_BILLING_ID The Azure billing ID No Yes (when recording SubscriptionAlias tests)   CODECOV_TOKEN The token to https://app.codecov.io/gh/Azure/azure-service-operator Yes No   GH_PAT GitHub PAT, used for PR automation Yes No   REGISTRY_LOGIN The Azure Container Registry to log in to (for az acr login &ndash;name {name}) Yes No   REGISTRY_PRERELEASE The path to the container prerelease registry (right now this isn&rsquo;t used) No No   REGISTRY_PUBLIC The path to the container release registry, used in &ndash;tag &ldquo;{REGISTRY_PUBLIC}/{CONTROLLER_DOCKER_IMAGE}&rdquo; No No    Record/replay The task controller:test-integration-envtest runs the tests in a record/replay mode by default, so that it does not touch any live Azure resources."/>
 
 
 
@@ -688,6 +684,7 @@ To do this, delete the recordings for the failing tests (under {test-dir}/record
   <ul>
     <li><a href="#running-integration-tests">Running integration tests</a>
       <ul>
+        <li><a href="#required-variables">Required variables</a></li>
         <li><a href="#recordreplay">Record/replay</a></li>
         <li><a href="#running-live-tests">Running live tests</a></li>
         <li><a href="#running-a-single-test">Running a single test</a></li>
@@ -753,6 +750,67 @@ To do this, delete the recordings for the failing tests (under {test-dir}/record
 	</header>    
 	<h2 id="running-integration-tests">Running integration tests</h2>
 <p>Basic use: run <code>task controller:test-integration-envtest</code>.</p>
+<h3 id="required-variables">Required variables</h3>
+<table>
+<thead>
+<tr>
+<th>Environment Variable</th>
+<th>Value</th>
+<th>Needed for CI (Github Actions)</th>
+<th>Needed for local testing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AZURE_SUBSCRIPTION_ID</td>
+<td>The Azure Subscription ID</td>
+<td>Yes</td>
+<td>Yes (when recording)</td>
+</tr>
+<tr>
+<td>AZURE_TENANT_ID</td>
+<td>The Azure Tenant ID</td>
+<td>Yes</td>
+<td>Yes (when recording)</td>
+</tr>
+<tr>
+<td>TEST_BILLING_ID</td>
+<td>The Azure billing ID</td>
+<td>No</td>
+<td>Yes (when recording SubscriptionAlias tests)</td>
+</tr>
+<tr>
+<td>CODECOV_TOKEN</td>
+<td>The token to <a href="https://app.codecov.io/gh/Azure/azure-service-operator">https://app.codecov.io/gh/Azure/azure-service-operator</a></td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>GH_PAT</td>
+<td>GitHub PAT, used for PR automation</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>REGISTRY_LOGIN</td>
+<td>The Azure Container Registry to log in to (for az acr login &ndash;name {name})</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>REGISTRY_PRERELEASE</td>
+<td>The path to the container prerelease registry (right now this isn&rsquo;t used)</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td>REGISTRY_PUBLIC</td>
+<td>The path to the container release registry, used in &ndash;tag &ldquo;{REGISTRY_PUBLIC}/{CONTROLLER_DOCKER_IMAGE}&rdquo;</td>
+<td>No</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
 <h3 id="recordreplay">Record/replay</h3>
 <p>The task <code>controller:test-integration-envtest</code> runs the tests in a record/replay mode by default, so that it does not
 touch any live Azure resources. (This uses the <a href="https://github.com/dnaeon/go-vcr">go-vcr</a> library.) If you change the controller or other code in
