@@ -1,0 +1,23 @@
+apiVersion: alertsmanagement.azure.com/v1api20230301
+kind: PrometheusRuleGroup
+metadata:
+  name: aso-sample-prom-group
+  namespace: default
+spec:
+  location: westus2
+  owner:
+    name: aso-sample-rg
+  clusterName: mycluster
+  enabled: true
+  interval: PT1M
+  rules:
+    - enabled: true
+      expression: 1 - avg without (cpu) (sum without (mode)(rate(node_cpu_seconds_total{job="node",
+        mode=~"idle|iowait|steal"}[5m])))
+      labels:
+        workload_type: job
+      record: instance:node_cpu_utilisation:rate5m
+  scopesReferences:
+    - group: monitor.azure.com
+      kind: Account
+      name: aso-sample-acct

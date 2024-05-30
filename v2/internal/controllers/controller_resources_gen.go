@@ -4,6 +4,9 @@
 package controllers
 
 import (
+	alertsmanagement_customizations "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/customizations"
+	alertsmanagement_v20230301 "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20230301"
+	alertsmanagement_v20230301s "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20230301/storage"
 	apimanagement_customizations "github.com/Azure/azure-service-operator/v2/api/apimanagement/customizations"
 	apimanagement_v20220801 "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801"
 	apimanagement_v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
@@ -136,6 +139,9 @@ import (
 	managedidentity_v20220131ps "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20220131preview/storage"
 	managedidentity_v20230131 "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20230131"
 	managedidentity_v20230131s "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20230131/storage"
+	monitor_customizations "github.com/Azure/azure-service-operator/v2/api/monitor/customizations"
+	monitor_v20230403 "github.com/Azure/azure-service-operator/v2/api/monitor/v1api20230403"
+	monitor_v20230403s "github.com/Azure/azure-service-operator/v2/api/monitor/v1api20230403/storage"
 	networkfrontdoor_customizations "github.com/Azure/azure-service-operator/v2/api/network.frontdoor/customizations"
 	networkfrontdoor_v20220501 "github.com/Azure/azure-service-operator/v2/api/network.frontdoor/v1api20220501"
 	networkfrontdoor_v20220501s "github.com/Azure/azure-service-operator/v2/api/network.frontdoor/v1api20220501/storage"
@@ -201,6 +207,7 @@ import (
 // getKnownStorageTypes returns the list of storage types which can be reconciled.
 func getKnownStorageTypes() []*registration.StorageType {
 	var result []*registration.StorageType
+	result = append(result, &registration.StorageType{Obj: new(alertsmanagement_v20230301s.PrometheusRuleGroup)})
 	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.Api)})
 	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.ApiVersionSet)})
 	result = append(result, &registration.StorageType{
@@ -795,6 +802,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{Obj: new(managedidentity_v20230131s.UserAssignedIdentity)})
+	result = append(result, &registration.StorageType{Obj: new(monitor_v20230403s.Account)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20180501s.DnsZone)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20180501s.DnsZonesAAAARecord)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20180501s.DnsZonesARecord)})
@@ -1116,6 +1124,8 @@ func getKnownStorageTypes() []*registration.StorageType {
 // getKnownTypes returns the list of all types.
 func getKnownTypes() []client.Object {
 	var result []client.Object
+	result = append(result, new(alertsmanagement_v20230301.PrometheusRuleGroup))
+	result = append(result, new(alertsmanagement_v20230301s.PrometheusRuleGroup))
 	result = append(
 		result,
 		new(apimanagement_v20220801.Api),
@@ -1598,6 +1608,8 @@ func getKnownTypes() []client.Object {
 		result,
 		new(managedidentity_v20230131s.FederatedIdentityCredential),
 		new(managedidentity_v20230131s.UserAssignedIdentity))
+	result = append(result, new(monitor_v20230403.Account))
+	result = append(result, new(monitor_v20230403s.Account))
 	result = append(
 		result,
 		new(network_v20180501.DnsZone),
@@ -1907,6 +1919,8 @@ func getKnownTypes() []client.Object {
 func createScheme() *runtime.Scheme {
 	scheme := runtime.NewScheme()
 	_ = clientgoscheme.AddToScheme(scheme)
+	_ = alertsmanagement_v20230301.AddToScheme(scheme)
+	_ = alertsmanagement_v20230301s.AddToScheme(scheme)
 	_ = apimanagement_v20220801.AddToScheme(scheme)
 	_ = apimanagement_v20220801s.AddToScheme(scheme)
 	_ = apimanagement_v20230501p.AddToScheme(scheme)
@@ -2015,6 +2029,8 @@ func createScheme() *runtime.Scheme {
 	_ = managedidentity_v20220131ps.AddToScheme(scheme)
 	_ = managedidentity_v20230131.AddToScheme(scheme)
 	_ = managedidentity_v20230131s.AddToScheme(scheme)
+	_ = monitor_v20230403.AddToScheme(scheme)
+	_ = monitor_v20230403s.AddToScheme(scheme)
 	_ = network_v20180501.AddToScheme(scheme)
 	_ = network_v20180501s.AddToScheme(scheme)
 	_ = network_v20180901.AddToScheme(scheme)
@@ -2063,6 +2079,7 @@ func createScheme() *runtime.Scheme {
 // getResourceExtensions returns a list of resource extensions
 func getResourceExtensions() []genruntime.ResourceExtension {
 	var result []genruntime.ResourceExtension
+	result = append(result, &alertsmanagement_customizations.PrometheusRuleGroupExtension{})
 	result = append(result, &apimanagement_customizations.ApiExtension{})
 	result = append(result, &apimanagement_customizations.ApiVersionSetExtension{})
 	result = append(result, &apimanagement_customizations.AuthorizationProviderExtension{})
@@ -2165,6 +2182,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &machinelearningservices_customizations.WorkspacesConnectionExtension{})
 	result = append(result, &managedidentity_customizations.FederatedIdentityCredentialExtension{})
 	result = append(result, &managedidentity_customizations.UserAssignedIdentityExtension{})
+	result = append(result, &monitor_customizations.AccountExtension{})
 	result = append(result, &network_customizations.ApplicationGatewayExtension{})
 	result = append(result, &network_customizations.BastionHostExtension{})
 	result = append(result, &network_customizations.DnsForwardingRuleSetsForwardingRuleExtension{})
