@@ -48,7 +48,7 @@ Example: 00000000-0000-0000-0000-000000000000
 Required: True
 This may be set to empty string to configure no global credential.">
 
-<meta itemprop="wordCount" content="543">
+<meta itemprop="wordCount" content="551">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Configuring ASO"/>
 <meta name="twitter:description" content="Configuration of ASO is done primarily through a secret in the azureserviceoperator-system namespace called aso-controller-settings. This secret contains both details about the (optional) global credential as well as other operator pod options.
@@ -816,6 +816,7 @@ there have been no triggering changes in the Kubernetes resources.
 This sync exists to detect and correct changes that happened in Azure that Kubernetes is not aware about.
 BE VERY CAREFUL setting this value low - even a modest number of resources can cause
 subscription level throttling if they are re-synced frequently. If nil or empty (<code>&quot;&quot;</code>), sync period defaults to <code>1h</code>.</p>
+<p>Specify the special value <code>&quot;never&quot;</code> to stop syncing.</p>
 <p><strong>Format:</strong> <code>duration string</code></p>
 <p><strong>Example:</strong> <code>&quot;1h&quot;</code>, <code>&quot;15m&quot;</code>, or <code>&quot;60s&quot;</code>. See <a href="https://pkg.go.dev/time#ParseDuration">ParseDuration</a> for more details.</p>
 <p><strong>Required</strong>: False</p>
