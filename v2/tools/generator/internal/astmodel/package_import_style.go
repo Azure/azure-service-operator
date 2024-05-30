@@ -9,6 +9,8 @@ package astmodel
 type PackageImportStyle string
 
 const (
+	// Name is used when the name of the package is sufficient to uniquely identify it
+	Name PackageImportStyle = "Name"
 	// VersionOnly is used when using just the version of the package is sufficiently unique
 	VersionOnly PackageImportStyle = "VersionOnly"
 	// GroupOnly is used when using just the group of the package sufficiently unique
