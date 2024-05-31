@@ -4,7 +4,7 @@
  package v20200101
  
  import (
- 	v20200101s "github.com/Azure/azure-service-operator/testing/person/v20200101/storage"
+ 	storage "github.com/Azure/azure-service-operator/testing/person/v20200101/storage"
  	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
  	"github.com/pkg/errors"
  	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -25,7 +25,7 @@
 +// ConvertFrom populates our Person from the provided hub Person
 +func (person *Person) ConvertFrom(hub conversion.Hub) error {
 +	// intermediate variable for conversion
-+	var source v20200101s.Person
++	var source storage.Person
 +
 +	err := source.ConvertFrom(hub)
 +	if err != nil {
@@ -43,7 +43,7 @@
 +// ConvertTo populates the provided hub Person from our Person
 +func (person *Person) ConvertTo(hub conversion.Hub) error {
 +	// intermediate variable for conversion
-+	var destination v20200101s.Person
++	var destination storage.Person
 +	err := person.AssignProperties_To_Person(&destination)
 +	if err != nil {
 +		return errors.Wrap(err, "converting to destination from person")
@@ -57,7 +57,7 @@
 +}
 +
  // AssignProperties_From_Person populates our Person from the provided source Person
- func (person *Person) AssignProperties_From_Person(source *v20200101s.Person) error {
+ func (person *Person) AssignProperties_From_Person(source *storage.Person) error {
  
  	// ObjectMeta
  	person.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -83,13 +83,13 @@
  }
  
  // AssignProperties_To_Person populates the provided destination Person from our Person
- func (person *Person) AssignProperties_To_Person(destination *v20200101s.Person) error {
+ func (person *Person) AssignProperties_To_Person(destination *storage.Person) error {
  
  	// ObjectMeta
  	destination.ObjectMeta = *person.ObjectMeta.DeepCopy()
  
  	// Spec
- 	var spec v20200101s.Person_Spec
+ 	var spec storage.Person_Spec
  	err := person.Spec.AssignProperties_To_Person_Spec(&spec)
  	if err != nil {
  		return errors.Wrap(err, "calling AssignProperties_To_Person_Spec() to populate field Spec")
@@ -97,7 +97,7 @@
  	destination.Spec = spec
  
  	// Status
- 	var status v20200101s.Person_STATUS
+ 	var status storage.Person_STATUS
  	err = person.Status.AssignProperties_To_Person_STATUS(&status)
  	if err != nil {
  		return errors.Wrap(err, "calling AssignProperties_To_Person_STATUS() to populate field Status")
@@ -121,7 +121,7 @@
  }
  
  // AssignProperties_From_Person_Spec populates our Person_Spec from the provided source Person_Spec
- func (person *Person_Spec) AssignProperties_From_Person_Spec(source *v20200101s.Person_Spec) error {
+ func (person *Person_Spec) AssignProperties_From_Person_Spec(source *storage.Person_Spec) error {
  
  	// FullName
  	person.FullName = genruntime.GetOptionalStringValue(source.FullName)
@@ -131,7 +131,7 @@
  }
  
  // AssignProperties_To_Person_Spec populates the provided destination Person_Spec from our Person_Spec
- func (person *Person_Spec) AssignProperties_To_Person_Spec(destination *v20200101s.Person_Spec) error {
+ func (person *Person_Spec) AssignProperties_To_Person_Spec(destination *storage.Person_Spec) error {
  	// Create a new property bag
  	propertyBag := genruntime.NewPropertyBag()
  
@@ -156,7 +156,7 @@
  }
  
  // AssignProperties_From_Person_STATUS populates our Person_STATUS from the provided source Person_STATUS
- func (person *Person_STATUS) AssignProperties_From_Person_STATUS(source *v20200101s.Person_STATUS) error {
+ func (person *Person_STATUS) AssignProperties_From_Person_STATUS(source *storage.Person_STATUS) error {
  
  	// Status
  	person.Status = genruntime.GetOptionalStringValue(source.Status)
@@ -166,7 +166,7 @@
  }
  
  // AssignProperties_To_Person_STATUS populates the provided destination Person_STATUS from our Person_STATUS
- func (person *Person_STATUS) AssignProperties_To_Person_STATUS(destination *v20200101s.Person_STATUS) error {
+ func (person *Person_STATUS) AssignProperties_To_Person_STATUS(destination *storage.Person_STATUS) error {
  	// Create a new property bag
  	propertyBag := genruntime.NewPropertyBag()
  

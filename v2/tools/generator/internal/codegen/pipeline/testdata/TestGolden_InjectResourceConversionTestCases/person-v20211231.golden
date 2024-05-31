@@ -5,7 +5,7 @@ package v20211231
 
 import (
 	"fmt"
-	v20211231s "github.com/Azure/azure-service-operator/testing/person/v20211231/storage"
+	storage "github.com/Azure/azure-service-operator/testing/person/v20211231/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -25,7 +25,7 @@ var _ conversion.Convertible = &Person{}
 
 // ConvertFrom populates our Person from the provided hub Person
 func (person *Person) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20211231s.Person)
+	source, ok := hub.(*storage.Person)
 	if !ok {
 		return fmt.Errorf("expected person/v20211231/storage/Person but received %T instead", hub)
 	}
@@ -35,7 +35,7 @@ func (person *Person) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub Person from our Person
 func (person *Person) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20211231s.Person)
+	destination, ok := hub.(*storage.Person)
 	if !ok {
 		return fmt.Errorf("expected person/v20211231/storage/Person but received %T instead", hub)
 	}
@@ -44,7 +44,7 @@ func (person *Person) ConvertTo(hub conversion.Hub) error {
 }
 
 // AssignProperties_From_Person populates our Person from the provided source Person
-func (person *Person) AssignProperties_From_Person(source *v20211231s.Person) error {
+func (person *Person) AssignProperties_From_Person(source *storage.Person) error {
 
 	// ObjectMeta
 	person.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -70,13 +70,13 @@ func (person *Person) AssignProperties_From_Person(source *v20211231s.Person) er
 }
 
 // AssignProperties_To_Person populates the provided destination Person from our Person
-func (person *Person) AssignProperties_To_Person(destination *v20211231s.Person) error {
+func (person *Person) AssignProperties_To_Person(destination *storage.Person) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *person.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20211231s.Person_Spec
+	var spec storage.Person_Spec
 	err := person.Spec.AssignProperties_To_Person_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Person_Spec() to populate field Spec")
@@ -84,7 +84,7 @@ func (person *Person) AssignProperties_To_Person(destination *v20211231s.Person)
 	destination.Spec = spec
 
 	// Status
-	var status v20211231s.Person_STATUS
+	var status storage.Person_STATUS
 	err = person.Status.AssignProperties_To_Person_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Person_STATUS() to populate field Status")
@@ -116,7 +116,7 @@ type Person_Spec struct {
 }
 
 // AssignProperties_From_Person_Spec populates our Person_Spec from the provided source Person_Spec
-func (person *Person_Spec) AssignProperties_From_Person_Spec(source *v20211231s.Person_Spec) error {
+func (person *Person_Spec) AssignProperties_From_Person_Spec(source *storage.Person_Spec) error {
 
 	// FamilyName
 	person.FamilyName = genruntime.GetOptionalStringValue(source.FamilyName)
@@ -156,7 +156,7 @@ func (person *Person_Spec) AssignProperties_From_Person_Spec(source *v20211231s.
 }
 
 // AssignProperties_To_Person_Spec populates the provided destination Person_Spec from our Person_Spec
-func (person *Person_Spec) AssignProperties_To_Person_Spec(destination *v20211231s.Person_Spec) error {
+func (person *Person_Spec) AssignProperties_To_Person_Spec(destination *storage.Person_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -173,7 +173,7 @@ func (person *Person_Spec) AssignProperties_To_Person_Spec(destination *v2021123
 	destination.KnownAs = &knownAs
 
 	// PostalAddress
-	var postalAddress v20211231s.Address
+	var postalAddress storage.Address
 	err := person.PostalAddress.AssignProperties_To_Address(&postalAddress)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Address() to populate field PostalAddress")
@@ -181,7 +181,7 @@ func (person *Person_Spec) AssignProperties_To_Person_Spec(destination *v2021123
 	destination.PostalAddress = &postalAddress
 
 	// ResidentialAddress
-	var residentialAddress v20211231s.Address
+	var residentialAddress storage.Address
 	err = person.ResidentialAddress.AssignProperties_To_Address(&residentialAddress)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Address() to populate field ResidentialAddress")
@@ -205,7 +205,7 @@ type Person_STATUS struct {
 }
 
 // AssignProperties_From_Person_STATUS populates our Person_STATUS from the provided source Person_STATUS
-func (person *Person_STATUS) AssignProperties_From_Person_STATUS(source *v20211231s.Person_STATUS) error {
+func (person *Person_STATUS) AssignProperties_From_Person_STATUS(source *storage.Person_STATUS) error {
 
 	// Status
 	person.Status = genruntime.GetOptionalStringValue(source.Status)
@@ -215,7 +215,7 @@ func (person *Person_STATUS) AssignProperties_From_Person_STATUS(source *v202112
 }
 
 // AssignProperties_To_Person_STATUS populates the provided destination Person_STATUS from our Person_STATUS
-func (person *Person_STATUS) AssignProperties_To_Person_STATUS(destination *v20211231s.Person_STATUS) error {
+func (person *Person_STATUS) AssignProperties_To_Person_STATUS(destination *storage.Person_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -243,7 +243,7 @@ type Address struct {
 }
 
 // AssignProperties_From_Address populates our Address from the provided source Address
-func (address *Address) AssignProperties_From_Address(source *v20211231s.Address) error {
+func (address *Address) AssignProperties_From_Address(source *storage.Address) error {
 
 	// City
 	address.City = genruntime.GetOptionalStringValue(source.City)
@@ -256,7 +256,7 @@ func (address *Address) AssignProperties_From_Address(source *v20211231s.Address
 }
 
 // AssignProperties_To_Address populates the provided destination Address from our Address
-func (address *Address) AssignProperties_To_Address(destination *v20211231s.Address) error {
+func (address *Address) AssignProperties_To_Address(destination *storage.Address) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

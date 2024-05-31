@@ -4,8 +4,8 @@
  package storage
  
  import (
-+	v20211231sc "github.com/Azure/azure-service-operator/testing/person/v20211231/storage/compat"
- 	v20220630s "github.com/Azure/azure-service-operator/testing/person/v20220630/storage"
++	compat "github.com/Azure/azure-service-operator/testing/person/v20211231/storage/compat"
+ 	storage "github.com/Azure/azure-service-operator/testing/person/v20220630/storage"
  	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
  	"github.com/pkg/errors"
  )
@@ -18,7 +18,7 @@
  }
  
  // AssignProperties_From_Person_Spec populates our Person_Spec from the provided source Person_Spec
- func (person *Person_Spec) AssignProperties_From_Person_Spec(source *v20220630s.Person_Spec) error {
+ func (person *Person_Spec) AssignProperties_From_Person_Spec(source *storage.Person_Spec) error {
  	// Clone the existing property bag
  	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
  
@@ -31,7 +31,7 @@
  	// Residence
  	if source.Residence != nil {
 -		propertyBag.Add("Residence", *source.Residence)
-+		var residence v20211231sc.Residence
++		var residence compat.Residence
 +		err := residence.AssignProperties_From_Residence(source.Residence)
 +		if err != nil {
 +			return errors.Wrap(err, "calling AssignProperties_From_Residence() to populate field Residence")
@@ -62,7 +62,7 @@
  }
  
  // AssignProperties_To_Person_Spec populates the provided destination Person_Spec from our Person_Spec
- func (person *Person_Spec) AssignProperties_To_Person_Spec(destination *v20220630s.Person_Spec) error {
+ func (person *Person_Spec) AssignProperties_To_Person_Spec(destination *storage.Person_Spec) error {
  	// Clone the existing property bag
  	propertyBag := genruntime.NewPropertyBag(person.PropertyBag)
  
@@ -74,15 +74,15 @@
  
  	// Residence
  	if propertyBag.Contains("Residence") {
--		var residence v20220630s.Residence
+-		var residence storage.Residence
 -		err := propertyBag.Pull("Residence", &residence)
-+		var residenceFromBag v20211231sc.Residence
++		var residenceFromBag compat.Residence
 +		err := propertyBag.Pull("Residence", &residenceFromBag)
  		if err != nil {
  			return errors.Wrap(err, "pulling 'Residence' from propertyBag")
  		}
  
-+		var residence v20220630s.Residence
++		var residence storage.Residence
 +		err = residenceFromBag.AssignProperties_To_Residence(&residence)
 +		if err != nil {
 +			return errors.Wrap(err, "calling AssignProperties_To_Residence() to populate field Residence")
@@ -113,7 +113,7 @@
  }
  
  type augmentConversionForPerson_Spec interface {
- 	AssignPropertiesFrom(src *v20220630s.Person_Spec) error
- 	AssignPropertiesTo(dst *v20220630s.Person_Spec) error
+ 	AssignPropertiesFrom(src *storage.Person_Spec) error
+ 	AssignPropertiesTo(dst *storage.Person_Spec) error
  }
  
