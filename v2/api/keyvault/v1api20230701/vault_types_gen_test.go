@@ -5,7 +5,7 @@ package v1api20230701
 
 import (
 	"encoding/json"
-	v20230701s "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20230701/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20230701/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForVault(subject Vault) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20230701s.Vault
+	var hub storage.Vault
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForVault(subject Vault) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.Vault
+	var other storage.Vault
 	err := copied.AssignProperties_To_Vault(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForVault_Spec(subject Vault_Spec) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.Vault_Spec
+	var other storage.Vault_Spec
 	err := copied.AssignProperties_To_Vault_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -301,7 +301,7 @@ func RunPropertyAssignmentTestForVault_STATUS(subject Vault_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.Vault_STATUS
+	var other storage.Vault_STATUS
 	err := copied.AssignProperties_To_Vault_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -424,7 +424,7 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.SystemData_STATUS
+	var other storage.SystemData_STATUS
 	err := copied.AssignProperties_To_SystemData_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -539,7 +539,7 @@ func RunPropertyAssignmentTestForVaultProperties(subject VaultProperties) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.VaultProperties
+	var other storage.VaultProperties
 	err := copied.AssignProperties_To_VaultProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -672,7 +672,7 @@ func RunPropertyAssignmentTestForVaultProperties_STATUS(subject VaultProperties_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.VaultProperties_STATUS
+	var other storage.VaultProperties_STATUS
 	err := copied.AssignProperties_To_VaultProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -808,7 +808,7 @@ func RunPropertyAssignmentTestForAccessPolicyEntry(subject AccessPolicyEntry) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.AccessPolicyEntry
+	var other storage.AccessPolicyEntry
 	err := copied.AssignProperties_To_AccessPolicyEntry(&other)
 	if err != nil {
 		return err.Error()
@@ -926,7 +926,7 @@ func RunPropertyAssignmentTestForAccessPolicyEntry_STATUS(subject AccessPolicyEn
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.AccessPolicyEntry_STATUS
+	var other storage.AccessPolicyEntry_STATUS
 	err := copied.AssignProperties_To_AccessPolicyEntry_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1045,7 +1045,7 @@ func RunPropertyAssignmentTestForNetworkRuleSet(subject NetworkRuleSet) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.NetworkRuleSet
+	var other storage.NetworkRuleSet
 	err := copied.AssignProperties_To_NetworkRuleSet(&other)
 	if err != nil {
 		return err.Error()
@@ -1163,7 +1163,7 @@ func RunPropertyAssignmentTestForNetworkRuleSet_STATUS(subject NetworkRuleSet_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.NetworkRuleSet_STATUS
+	var other storage.NetworkRuleSet_STATUS
 	err := copied.AssignProperties_To_NetworkRuleSet_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1282,7 +1282,7 @@ func RunPropertyAssignmentTestForPrivateEndpointConnectionItem_STATUS(subject Pr
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.PrivateEndpointConnectionItem_STATUS
+	var other storage.PrivateEndpointConnectionItem_STATUS
 	err := copied.AssignProperties_To_PrivateEndpointConnectionItem_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1408,7 +1408,7 @@ func RunPropertyAssignmentTestForSku(subject Sku) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.Sku
+	var other storage.Sku
 	err := copied.AssignProperties_To_Sku(&other)
 	if err != nil {
 		return err.Error()
@@ -1511,7 +1511,7 @@ func RunPropertyAssignmentTestForSku_STATUS(subject Sku_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.Sku_STATUS
+	var other storage.Sku_STATUS
 	err := copied.AssignProperties_To_Sku_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1614,7 +1614,7 @@ func RunPropertyAssignmentTestForIPRule(subject IPRule) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.IPRule
+	var other storage.IPRule
 	err := copied.AssignProperties_To_IPRule(&other)
 	if err != nil {
 		return err.Error()
@@ -1716,7 +1716,7 @@ func RunPropertyAssignmentTestForIPRule_STATUS(subject IPRule_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.IPRule_STATUS
+	var other storage.IPRule_STATUS
 	err := copied.AssignProperties_To_IPRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1818,7 +1818,7 @@ func RunPropertyAssignmentTestForPermissions(subject Permissions) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.Permissions
+	var other storage.Permissions
 	err := copied.AssignProperties_To_Permissions(&other)
 	if err != nil {
 		return err.Error()
@@ -1985,7 +1985,7 @@ func RunPropertyAssignmentTestForPermissions_STATUS(subject Permissions_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.Permissions_STATUS
+	var other storage.Permissions_STATUS
 	err := copied.AssignProperties_To_Permissions_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2152,7 +2152,7 @@ func RunPropertyAssignmentTestForPrivateEndpoint_STATUS(subject PrivateEndpoint_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.PrivateEndpoint_STATUS
+	var other storage.PrivateEndpoint_STATUS
 	err := copied.AssignProperties_To_PrivateEndpoint_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2255,7 +2255,7 @@ func RunPropertyAssignmentTestForPrivateLinkServiceConnectionState_STATUS(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.PrivateLinkServiceConnectionState_STATUS
+	var other storage.PrivateLinkServiceConnectionState_STATUS
 	err := copied.AssignProperties_To_PrivateLinkServiceConnectionState_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2364,7 +2364,7 @@ func RunPropertyAssignmentTestForVirtualNetworkRule(subject VirtualNetworkRule) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.VirtualNetworkRule
+	var other storage.VirtualNetworkRule
 	err := copied.AssignProperties_To_VirtualNetworkRule(&other)
 	if err != nil {
 		return err.Error()
@@ -2466,7 +2466,7 @@ func RunPropertyAssignmentTestForVirtualNetworkRule_STATUS(subject VirtualNetwor
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.VirtualNetworkRule_STATUS
+	var other storage.VirtualNetworkRule_STATUS
 	err := copied.AssignProperties_To_VirtualNetworkRule_STATUS(&other)
 	if err != nil {
 		return err.Error()

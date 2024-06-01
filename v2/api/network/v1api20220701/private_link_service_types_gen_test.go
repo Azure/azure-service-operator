@@ -5,7 +5,7 @@ package v1api20220701
 
 import (
 	"encoding/json"
-	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForPrivateLinkService(subject PrivateLinkService) 
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20220701s.PrivateLinkService
+	var hub storage.PrivateLinkService
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForPrivateLinkService(subject PrivateLinkService) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.PrivateLinkService
+	var other storage.PrivateLinkService
 	err := copied.AssignProperties_To_PrivateLinkService(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForPrivateLinkService_Spec(subject PrivateLinkServ
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.PrivateLinkService_Spec
+	var other storage.PrivateLinkService_Spec
 	err := copied.AssignProperties_To_PrivateLinkService_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -309,7 +309,7 @@ func RunPropertyAssignmentTestForPrivateLinkService_STATUS_PrivateLinkService_Su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded
+	var other storage.PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded
 	err := copied.AssignProperties_To_PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -447,7 +447,7 @@ func RunPropertyAssignmentTestForFrontendIPConfiguration_PrivateLinkService_SubR
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded
+	var other storage.FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded
 	err := copied.AssignProperties_To_FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -544,7 +544,7 @@ func RunPropertyAssignmentTestForFrontendIPConfiguration_STATUS_PrivateLinkServi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded
+	var other storage.FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded
 	err := copied.AssignProperties_To_FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -647,7 +647,7 @@ func RunPropertyAssignmentTestForNetworkInterface_STATUS_PrivateLinkService_SubR
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded
+	var other storage.NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded
 	err := copied.AssignProperties_To_NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -750,7 +750,7 @@ func RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS(subject Privat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.PrivateEndpointConnection_STATUS
+	var other storage.PrivateEndpointConnection_STATUS
 	err := copied.AssignProperties_To_PrivateEndpointConnection_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -853,7 +853,7 @@ func RunPropertyAssignmentTestForPrivateLinkServiceIpConfiguration(subject Priva
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.PrivateLinkServiceIpConfiguration
+	var other storage.PrivateLinkServiceIpConfiguration
 	err := copied.AssignProperties_To_PrivateLinkServiceIpConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -974,7 +974,7 @@ func RunPropertyAssignmentTestForPrivateLinkServiceIpConfiguration_STATUS(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.PrivateLinkServiceIpConfiguration_STATUS
+	var other storage.PrivateLinkServiceIpConfiguration_STATUS
 	err := copied.AssignProperties_To_PrivateLinkServiceIpConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1103,7 +1103,7 @@ func RunPropertyAssignmentTestForPrivateLinkServiceOperatorSpec(subject PrivateL
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.PrivateLinkServiceOperatorSpec
+	var other storage.PrivateLinkServiceOperatorSpec
 	err := copied.AssignProperties_To_PrivateLinkServiceOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -1206,7 +1206,7 @@ func RunPropertyAssignmentTestForResourceSet(subject ResourceSet) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ResourceSet
+	var other storage.ResourceSet
 	err := copied.AssignProperties_To_ResourceSet(&other)
 	if err != nil {
 		return err.Error()
@@ -1308,7 +1308,7 @@ func RunPropertyAssignmentTestForResourceSet_STATUS(subject ResourceSet_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ResourceSet_STATUS
+	var other storage.ResourceSet_STATUS
 	err := copied.AssignProperties_To_ResourceSet_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1410,7 +1410,7 @@ func RunPropertyAssignmentTestForPrivateLinkServiceOperatorConfigMaps(subject Pr
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.PrivateLinkServiceOperatorConfigMaps
+	var other storage.PrivateLinkServiceOperatorConfigMaps
 	err := copied.AssignProperties_To_PrivateLinkServiceOperatorConfigMaps(&other)
 	if err != nil {
 		return err.Error()
@@ -1507,7 +1507,7 @@ func RunPropertyAssignmentTestForSubnet_PrivateLinkService_SubResourceEmbedded(s
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.Subnet_PrivateLinkService_SubResourceEmbedded
+	var other storage.Subnet_PrivateLinkService_SubResourceEmbedded
 	err := copied.AssignProperties_To_Subnet_PrivateLinkService_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -1604,7 +1604,7 @@ func RunPropertyAssignmentTestForSubnet_STATUS_PrivateLinkService_SubResourceEmb
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.Subnet_STATUS_PrivateLinkService_SubResourceEmbedded
+	var other storage.Subnet_STATUS_PrivateLinkService_SubResourceEmbedded
 	err := copied.AssignProperties_To_Subnet_STATUS_PrivateLinkService_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()

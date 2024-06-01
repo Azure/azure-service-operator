@@ -5,7 +5,7 @@ package v1api20200601
 
 import (
 	"encoding/json"
-	v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForTopic(subject Topic) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20200601s.Topic
+	var hub storage.Topic
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForTopic(subject Topic) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.Topic
+	var other storage.Topic
 	err := copied.AssignProperties_To_Topic(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForTopic_Spec(subject Topic_Spec) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.Topic_Spec
+	var other storage.Topic_Spec
 	err := copied.AssignProperties_To_Topic_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -305,7 +305,7 @@ func RunPropertyAssignmentTestForTopic_STATUS(subject Topic_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.Topic_STATUS
+	var other storage.Topic_STATUS
 	err := copied.AssignProperties_To_Topic_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -441,7 +441,7 @@ func RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS_Topic_SubResou
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded
+	var other storage.PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded
 	err := copied.AssignProperties_To_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -544,7 +544,7 @@ func RunPropertyAssignmentTestForTopicOperatorSpec(subject TopicOperatorSpec) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.TopicOperatorSpec
+	var other storage.TopicOperatorSpec
 	err := copied.AssignProperties_To_TopicOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -647,7 +647,7 @@ func RunPropertyAssignmentTestForTopicOperatorConfigMaps(subject TopicOperatorCo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.TopicOperatorConfigMaps
+	var other storage.TopicOperatorConfigMaps
 	err := copied.AssignProperties_To_TopicOperatorConfigMaps(&other)
 	if err != nil {
 		return err.Error()
@@ -744,7 +744,7 @@ func RunPropertyAssignmentTestForTopicOperatorSecrets(subject TopicOperatorSecre
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.TopicOperatorSecrets
+	var other storage.TopicOperatorSecrets
 	err := copied.AssignProperties_To_TopicOperatorSecrets(&other)
 	if err != nil {
 		return err.Error()

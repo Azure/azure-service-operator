@@ -5,7 +5,7 @@ package v1api20220401
 
 import (
 	"encoding/json"
-	v20220401s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForTrafficManagerProfilesNestedEndpoint(subject Tr
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20220401s.TrafficManagerProfilesNestedEndpoint
+	var hub storage.TrafficManagerProfilesNestedEndpoint
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForTrafficManagerProfilesNestedEndpoint(subject Tr
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220401s.TrafficManagerProfilesNestedEndpoint
+	var other storage.TrafficManagerProfilesNestedEndpoint
 	err := copied.AssignProperties_To_TrafficManagerProfilesNestedEndpoint(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForTrafficmanagerprofiles_NestedEndpoint_Spec(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220401s.Trafficmanagerprofiles_NestedEndpoint_Spec
+	var other storage.Trafficmanagerprofiles_NestedEndpoint_Spec
 	err := copied.AssignProperties_To_Trafficmanagerprofiles_NestedEndpoint_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -319,7 +319,7 @@ func RunPropertyAssignmentTestForTrafficmanagerprofiles_NestedEndpoint_STATUS(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220401s.Trafficmanagerprofiles_NestedEndpoint_STATUS
+	var other storage.Trafficmanagerprofiles_NestedEndpoint_STATUS
 	err := copied.AssignProperties_To_Trafficmanagerprofiles_NestedEndpoint_STATUS(&other)
 	if err != nil {
 		return err.Error()

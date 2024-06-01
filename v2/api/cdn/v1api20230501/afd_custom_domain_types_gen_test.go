@@ -5,7 +5,7 @@ package v1api20230501
 
 import (
 	"encoding/json"
-	v20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForAfdCustomDomain(subject AfdCustomDomain) string
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20230501s.AfdCustomDomain
+	var hub storage.AfdCustomDomain
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForAfdCustomDomain(subject AfdCustomDomain) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.AfdCustomDomain
+	var other storage.AfdCustomDomain
 	err := copied.AssignProperties_To_AfdCustomDomain(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForProfiles_CustomDomain_Spec(subject Profiles_Cus
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.Profiles_CustomDomain_Spec
+	var other storage.Profiles_CustomDomain_Spec
 	err := copied.AssignProperties_To_Profiles_CustomDomain_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -304,7 +304,7 @@ func RunPropertyAssignmentTestForProfiles_CustomDomain_STATUS(subject Profiles_C
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.Profiles_CustomDomain_STATUS
+	var other storage.Profiles_CustomDomain_STATUS
 	err := copied.AssignProperties_To_Profiles_CustomDomain_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -453,7 +453,7 @@ func RunPropertyAssignmentTestForAFDDomainHttpsParameters(subject AFDDomainHttps
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.AFDDomainHttpsParameters
+	var other storage.AFDDomainHttpsParameters
 	err := copied.AssignProperties_To_AFDDomainHttpsParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -571,7 +571,7 @@ func RunPropertyAssignmentTestForAFDDomainHttpsParameters_STATUS(subject AFDDoma
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.AFDDomainHttpsParameters_STATUS
+	var other storage.AFDDomainHttpsParameters_STATUS
 	err := copied.AssignProperties_To_AFDDomainHttpsParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -689,7 +689,7 @@ func RunPropertyAssignmentTestForDomainValidationProperties_STATUS(subject Domai
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DomainValidationProperties_STATUS
+	var other storage.DomainValidationProperties_STATUS
 	err := copied.AssignProperties_To_DomainValidationProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -793,7 +793,7 @@ func RunPropertyAssignmentTestForResourceReference(subject ResourceReference) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.ResourceReference
+	var other storage.ResourceReference
 	err := copied.AssignProperties_To_ResourceReference(&other)
 	if err != nil {
 		return err.Error()
@@ -889,7 +889,7 @@ func RunPropertyAssignmentTestForResourceReference_STATUS(subject ResourceRefere
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.ResourceReference_STATUS
+	var other storage.ResourceReference_STATUS
 	err := copied.AssignProperties_To_ResourceReference_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -992,7 +992,7 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.SystemData_STATUS
+	var other storage.SystemData_STATUS
 	err := copied.AssignProperties_To_SystemData_STATUS(&other)
 	if err != nil {
 		return err.Error()

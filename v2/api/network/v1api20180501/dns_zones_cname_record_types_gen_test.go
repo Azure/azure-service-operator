@@ -5,7 +5,7 @@ package v1api20180501
 
 import (
 	"encoding/json"
-	v20180501s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForDnsZonesCNAMERecord(subject DnsZonesCNAMERecord
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20180501s.DnsZonesCNAMERecord
+	var hub storage.DnsZonesCNAMERecord
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForDnsZonesCNAMERecord(subject DnsZonesCNAMERecord
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180501s.DnsZonesCNAMERecord
+	var other storage.DnsZonesCNAMERecord
 	err := copied.AssignProperties_To_DnsZonesCNAMERecord(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForDnsZones_CNAME_Spec(subject DnsZones_CNAME_Spec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180501s.DnsZones_CNAME_Spec
+	var other storage.DnsZones_CNAME_Spec
 	err := copied.AssignProperties_To_DnsZones_CNAME_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -313,7 +313,7 @@ func RunPropertyAssignmentTestForDnsZones_CNAME_STATUS(subject DnsZones_CNAME_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180501s.DnsZones_CNAME_STATUS
+	var other storage.DnsZones_CNAME_STATUS
 	err := copied.AssignProperties_To_DnsZones_CNAME_STATUS(&other)
 	if err != nil {
 		return err.Error()

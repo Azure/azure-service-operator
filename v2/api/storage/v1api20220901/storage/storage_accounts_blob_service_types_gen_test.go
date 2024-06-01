@@ -5,7 +5,7 @@ package storage
 
 import (
 	"encoding/json"
-	v20230101s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForStorageAccountsBlobService(subject StorageAccou
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20230101s.StorageAccountsBlobService
+	var hub storage.StorageAccountsBlobService
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForStorageAccountsBlobService(subject StorageAccou
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.StorageAccountsBlobService
+	var other storage.StorageAccountsBlobService
 	err := copied.AssignProperties_To_StorageAccountsBlobService(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForStorageAccounts_BlobService_Spec(subject Storag
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.StorageAccounts_BlobService_Spec
+	var other storage.StorageAccounts_BlobService_Spec
 	err := copied.AssignProperties_To_StorageAccounts_BlobService_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -307,7 +307,7 @@ func RunPropertyAssignmentTestForStorageAccounts_BlobService_STATUS(subject Stor
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.StorageAccounts_BlobService_STATUS
+	var other storage.StorageAccounts_BlobService_STATUS
 	err := copied.AssignProperties_To_StorageAccounts_BlobService_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -435,7 +435,7 @@ func RunPropertyAssignmentTestForChangeFeed(subject ChangeFeed) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.ChangeFeed
+	var other storage.ChangeFeed
 	err := copied.AssignProperties_To_ChangeFeed(&other)
 	if err != nil {
 		return err.Error()
@@ -538,7 +538,7 @@ func RunPropertyAssignmentTestForChangeFeed_STATUS(subject ChangeFeed_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.ChangeFeed_STATUS
+	var other storage.ChangeFeed_STATUS
 	err := copied.AssignProperties_To_ChangeFeed_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -641,7 +641,7 @@ func RunPropertyAssignmentTestForCorsRules(subject CorsRules) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.CorsRules
+	var other storage.CorsRules
 	err := copied.AssignProperties_To_CorsRules(&other)
 	if err != nil {
 		return err.Error()
@@ -743,7 +743,7 @@ func RunPropertyAssignmentTestForCorsRules_STATUS(subject CorsRules_STATUS) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.CorsRules_STATUS
+	var other storage.CorsRules_STATUS
 	err := copied.AssignProperties_To_CorsRules_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -845,7 +845,7 @@ func RunPropertyAssignmentTestForDeleteRetentionPolicy(subject DeleteRetentionPo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.DeleteRetentionPolicy
+	var other storage.DeleteRetentionPolicy
 	err := copied.AssignProperties_To_DeleteRetentionPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -950,7 +950,7 @@ func RunPropertyAssignmentTestForDeleteRetentionPolicy_STATUS(subject DeleteRete
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.DeleteRetentionPolicy_STATUS
+	var other storage.DeleteRetentionPolicy_STATUS
 	err := copied.AssignProperties_To_DeleteRetentionPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1055,7 +1055,7 @@ func RunPropertyAssignmentTestForLastAccessTimeTrackingPolicy(subject LastAccess
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.LastAccessTimeTrackingPolicy
+	var other storage.LastAccessTimeTrackingPolicy
 	err := copied.AssignProperties_To_LastAccessTimeTrackingPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -1161,7 +1161,7 @@ func RunPropertyAssignmentTestForLastAccessTimeTrackingPolicy_STATUS(subject Las
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.LastAccessTimeTrackingPolicy_STATUS
+	var other storage.LastAccessTimeTrackingPolicy_STATUS
 	err := copied.AssignProperties_To_LastAccessTimeTrackingPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1267,7 +1267,7 @@ func RunPropertyAssignmentTestForRestorePolicyProperties(subject RestorePolicyPr
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.RestorePolicyProperties
+	var other storage.RestorePolicyProperties
 	err := copied.AssignProperties_To_RestorePolicyProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -1371,7 +1371,7 @@ func RunPropertyAssignmentTestForRestorePolicyProperties_STATUS(subject RestoreP
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.RestorePolicyProperties_STATUS
+	var other storage.RestorePolicyProperties_STATUS
 	err := copied.AssignProperties_To_RestorePolicyProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1477,7 +1477,7 @@ func RunPropertyAssignmentTestForCorsRule(subject CorsRule) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.CorsRule
+	var other storage.CorsRule
 	err := copied.AssignProperties_To_CorsRule(&other)
 	if err != nil {
 		return err.Error()
@@ -1583,7 +1583,7 @@ func RunPropertyAssignmentTestForCorsRule_STATUS(subject CorsRule_STATUS) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.CorsRule_STATUS
+	var other storage.CorsRule_STATUS
 	err := copied.AssignProperties_To_CorsRule_STATUS(&other)
 	if err != nil {
 		return err.Error()

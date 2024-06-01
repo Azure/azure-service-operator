@@ -5,7 +5,7 @@ package storage
 
 import (
 	"encoding/json"
-	v20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -1043,7 +1043,7 @@ func RunPropertyAssignmentTestForResourceReference(subject ResourceReference) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.ResourceReference
+	var other storage.ResourceReference
 	err := copied.AssignProperties_To_ResourceReference(&other)
 	if err != nil {
 		return err.Error()
@@ -1139,7 +1139,7 @@ func RunPropertyAssignmentTestForResourceReference_STATUS(subject ResourceRefere
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.ResourceReference_STATUS
+	var other storage.ResourceReference_STATUS
 	err := copied.AssignProperties_To_ResourceReference_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1544,7 +1544,7 @@ func RunPropertyAssignmentTestForHealthProbeParameters(subject HealthProbeParame
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.HealthProbeParameters
+	var other storage.HealthProbeParameters
 	err := copied.AssignProperties_To_HealthProbeParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -1650,7 +1650,7 @@ func RunPropertyAssignmentTestForHealthProbeParameters_STATUS(subject HealthProb
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.HealthProbeParameters_STATUS
+	var other storage.HealthProbeParameters_STATUS
 	err := copied.AssignProperties_To_HealthProbeParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2040,7 +2040,7 @@ func RunPropertyAssignmentTestForDeliveryRuleAction(subject DeliveryRuleAction) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleAction
+	var other storage.DeliveryRuleAction
 	err := copied.AssignProperties_To_DeliveryRuleAction(&other)
 	if err != nil {
 		return err.Error()
@@ -2174,7 +2174,7 @@ func RunPropertyAssignmentTestForDeliveryRuleAction_STATUS(subject DeliveryRuleA
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleAction_STATUS
+	var other storage.DeliveryRuleAction_STATUS
 	err := copied.AssignProperties_To_DeliveryRuleAction_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2309,7 +2309,7 @@ func RunPropertyAssignmentTestForDeliveryRuleCondition(subject DeliveryRuleCondi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleCondition
+	var other storage.DeliveryRuleCondition
 	err := copied.AssignProperties_To_DeliveryRuleCondition(&other)
 	if err != nil {
 		return err.Error()
@@ -2474,7 +2474,7 @@ func RunPropertyAssignmentTestForDeliveryRuleCondition_STATUS(subject DeliveryRu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleCondition_STATUS
+	var other storage.DeliveryRuleCondition_STATUS
 	err := copied.AssignProperties_To_DeliveryRuleCondition_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2763,7 +2763,7 @@ func RunPropertyAssignmentTestForDeliveryRuleCacheExpirationAction(subject Deliv
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleCacheExpirationAction
+	var other storage.DeliveryRuleCacheExpirationAction
 	err := copied.AssignProperties_To_DeliveryRuleCacheExpirationAction(&other)
 	if err != nil {
 		return err.Error()
@@ -2880,7 +2880,7 @@ func RunPropertyAssignmentTestForDeliveryRuleCacheExpirationAction_STATUS(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleCacheExpirationAction_STATUS
+	var other storage.DeliveryRuleCacheExpirationAction_STATUS
 	err := copied.AssignProperties_To_DeliveryRuleCacheExpirationAction_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2997,7 +2997,7 @@ func RunPropertyAssignmentTestForDeliveryRuleCacheKeyQueryStringAction(subject D
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleCacheKeyQueryStringAction
+	var other storage.DeliveryRuleCacheKeyQueryStringAction
 	err := copied.AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction(&other)
 	if err != nil {
 		return err.Error()
@@ -3114,7 +3114,7 @@ func RunPropertyAssignmentTestForDeliveryRuleCacheKeyQueryStringAction_STATUS(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleCacheKeyQueryStringAction_STATUS
+	var other storage.DeliveryRuleCacheKeyQueryStringAction_STATUS
 	err := copied.AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3231,7 +3231,7 @@ func RunPropertyAssignmentTestForDeliveryRuleClientPortCondition(subject Deliver
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleClientPortCondition
+	var other storage.DeliveryRuleClientPortCondition
 	err := copied.AssignProperties_To_DeliveryRuleClientPortCondition(&other)
 	if err != nil {
 		return err.Error()
@@ -3348,7 +3348,7 @@ func RunPropertyAssignmentTestForDeliveryRuleClientPortCondition_STATUS(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleClientPortCondition_STATUS
+	var other storage.DeliveryRuleClientPortCondition_STATUS
 	err := copied.AssignProperties_To_DeliveryRuleClientPortCondition_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3465,7 +3465,7 @@ func RunPropertyAssignmentTestForDeliveryRuleCookiesCondition(subject DeliveryRu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleCookiesCondition
+	var other storage.DeliveryRuleCookiesCondition
 	err := copied.AssignProperties_To_DeliveryRuleCookiesCondition(&other)
 	if err != nil {
 		return err.Error()
@@ -3582,7 +3582,7 @@ func RunPropertyAssignmentTestForDeliveryRuleCookiesCondition_STATUS(subject Del
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleCookiesCondition_STATUS
+	var other storage.DeliveryRuleCookiesCondition_STATUS
 	err := copied.AssignProperties_To_DeliveryRuleCookiesCondition_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3699,7 +3699,7 @@ func RunPropertyAssignmentTestForDeliveryRuleHostNameCondition(subject DeliveryR
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleHostNameCondition
+	var other storage.DeliveryRuleHostNameCondition
 	err := copied.AssignProperties_To_DeliveryRuleHostNameCondition(&other)
 	if err != nil {
 		return err.Error()
@@ -3816,7 +3816,7 @@ func RunPropertyAssignmentTestForDeliveryRuleHostNameCondition_STATUS(subject De
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleHostNameCondition_STATUS
+	var other storage.DeliveryRuleHostNameCondition_STATUS
 	err := copied.AssignProperties_To_DeliveryRuleHostNameCondition_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3933,7 +3933,7 @@ func RunPropertyAssignmentTestForDeliveryRuleHttpVersionCondition(subject Delive
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleHttpVersionCondition
+	var other storage.DeliveryRuleHttpVersionCondition
 	err := copied.AssignProperties_To_DeliveryRuleHttpVersionCondition(&other)
 	if err != nil {
 		return err.Error()
@@ -4050,7 +4050,7 @@ func RunPropertyAssignmentTestForDeliveryRuleHttpVersionCondition_STATUS(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleHttpVersionCondition_STATUS
+	var other storage.DeliveryRuleHttpVersionCondition_STATUS
 	err := copied.AssignProperties_To_DeliveryRuleHttpVersionCondition_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -4167,7 +4167,7 @@ func RunPropertyAssignmentTestForDeliveryRuleIsDeviceCondition(subject DeliveryR
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleIsDeviceCondition
+	var other storage.DeliveryRuleIsDeviceCondition
 	err := copied.AssignProperties_To_DeliveryRuleIsDeviceCondition(&other)
 	if err != nil {
 		return err.Error()
@@ -4284,7 +4284,7 @@ func RunPropertyAssignmentTestForDeliveryRuleIsDeviceCondition_STATUS(subject De
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleIsDeviceCondition_STATUS
+	var other storage.DeliveryRuleIsDeviceCondition_STATUS
 	err := copied.AssignProperties_To_DeliveryRuleIsDeviceCondition_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -4401,7 +4401,7 @@ func RunPropertyAssignmentTestForDeliveryRulePostArgsCondition(subject DeliveryR
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRulePostArgsCondition
+	var other storage.DeliveryRulePostArgsCondition
 	err := copied.AssignProperties_To_DeliveryRulePostArgsCondition(&other)
 	if err != nil {
 		return err.Error()
@@ -4518,7 +4518,7 @@ func RunPropertyAssignmentTestForDeliveryRulePostArgsCondition_STATUS(subject De
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRulePostArgsCondition_STATUS
+	var other storage.DeliveryRulePostArgsCondition_STATUS
 	err := copied.AssignProperties_To_DeliveryRulePostArgsCondition_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -4635,7 +4635,7 @@ func RunPropertyAssignmentTestForDeliveryRuleQueryStringCondition(subject Delive
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleQueryStringCondition
+	var other storage.DeliveryRuleQueryStringCondition
 	err := copied.AssignProperties_To_DeliveryRuleQueryStringCondition(&other)
 	if err != nil {
 		return err.Error()
@@ -4752,7 +4752,7 @@ func RunPropertyAssignmentTestForDeliveryRuleQueryStringCondition_STATUS(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleQueryStringCondition_STATUS
+	var other storage.DeliveryRuleQueryStringCondition_STATUS
 	err := copied.AssignProperties_To_DeliveryRuleQueryStringCondition_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -4869,7 +4869,7 @@ func RunPropertyAssignmentTestForDeliveryRuleRemoteAddressCondition(subject Deli
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleRemoteAddressCondition
+	var other storage.DeliveryRuleRemoteAddressCondition
 	err := copied.AssignProperties_To_DeliveryRuleRemoteAddressCondition(&other)
 	if err != nil {
 		return err.Error()
@@ -4986,7 +4986,7 @@ func RunPropertyAssignmentTestForDeliveryRuleRemoteAddressCondition_STATUS(subje
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleRemoteAddressCondition_STATUS
+	var other storage.DeliveryRuleRemoteAddressCondition_STATUS
 	err := copied.AssignProperties_To_DeliveryRuleRemoteAddressCondition_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -5103,7 +5103,7 @@ func RunPropertyAssignmentTestForDeliveryRuleRequestBodyCondition(subject Delive
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleRequestBodyCondition
+	var other storage.DeliveryRuleRequestBodyCondition
 	err := copied.AssignProperties_To_DeliveryRuleRequestBodyCondition(&other)
 	if err != nil {
 		return err.Error()
@@ -5220,7 +5220,7 @@ func RunPropertyAssignmentTestForDeliveryRuleRequestBodyCondition_STATUS(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleRequestBodyCondition_STATUS
+	var other storage.DeliveryRuleRequestBodyCondition_STATUS
 	err := copied.AssignProperties_To_DeliveryRuleRequestBodyCondition_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -5337,7 +5337,7 @@ func RunPropertyAssignmentTestForDeliveryRuleRequestHeaderAction(subject Deliver
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleRequestHeaderAction
+	var other storage.DeliveryRuleRequestHeaderAction
 	err := copied.AssignProperties_To_DeliveryRuleRequestHeaderAction(&other)
 	if err != nil {
 		return err.Error()
@@ -5454,7 +5454,7 @@ func RunPropertyAssignmentTestForDeliveryRuleRequestHeaderAction_STATUS(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleRequestHeaderAction_STATUS
+	var other storage.DeliveryRuleRequestHeaderAction_STATUS
 	err := copied.AssignProperties_To_DeliveryRuleRequestHeaderAction_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -5571,7 +5571,7 @@ func RunPropertyAssignmentTestForDeliveryRuleRequestHeaderCondition(subject Deli
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleRequestHeaderCondition
+	var other storage.DeliveryRuleRequestHeaderCondition
 	err := copied.AssignProperties_To_DeliveryRuleRequestHeaderCondition(&other)
 	if err != nil {
 		return err.Error()
@@ -5688,7 +5688,7 @@ func RunPropertyAssignmentTestForDeliveryRuleRequestHeaderCondition_STATUS(subje
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleRequestHeaderCondition_STATUS
+	var other storage.DeliveryRuleRequestHeaderCondition_STATUS
 	err := copied.AssignProperties_To_DeliveryRuleRequestHeaderCondition_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -5805,7 +5805,7 @@ func RunPropertyAssignmentTestForDeliveryRuleRequestMethodCondition(subject Deli
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleRequestMethodCondition
+	var other storage.DeliveryRuleRequestMethodCondition
 	err := copied.AssignProperties_To_DeliveryRuleRequestMethodCondition(&other)
 	if err != nil {
 		return err.Error()
@@ -5922,7 +5922,7 @@ func RunPropertyAssignmentTestForDeliveryRuleRequestMethodCondition_STATUS(subje
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleRequestMethodCondition_STATUS
+	var other storage.DeliveryRuleRequestMethodCondition_STATUS
 	err := copied.AssignProperties_To_DeliveryRuleRequestMethodCondition_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -6039,7 +6039,7 @@ func RunPropertyAssignmentTestForDeliveryRuleRequestSchemeCondition(subject Deli
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleRequestSchemeCondition
+	var other storage.DeliveryRuleRequestSchemeCondition
 	err := copied.AssignProperties_To_DeliveryRuleRequestSchemeCondition(&other)
 	if err != nil {
 		return err.Error()
@@ -6156,7 +6156,7 @@ func RunPropertyAssignmentTestForDeliveryRuleRequestSchemeCondition_STATUS(subje
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleRequestSchemeCondition_STATUS
+	var other storage.DeliveryRuleRequestSchemeCondition_STATUS
 	err := copied.AssignProperties_To_DeliveryRuleRequestSchemeCondition_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -6273,7 +6273,7 @@ func RunPropertyAssignmentTestForDeliveryRuleRequestUriCondition(subject Deliver
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleRequestUriCondition
+	var other storage.DeliveryRuleRequestUriCondition
 	err := copied.AssignProperties_To_DeliveryRuleRequestUriCondition(&other)
 	if err != nil {
 		return err.Error()
@@ -6390,7 +6390,7 @@ func RunPropertyAssignmentTestForDeliveryRuleRequestUriCondition_STATUS(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleRequestUriCondition_STATUS
+	var other storage.DeliveryRuleRequestUriCondition_STATUS
 	err := copied.AssignProperties_To_DeliveryRuleRequestUriCondition_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -6507,7 +6507,7 @@ func RunPropertyAssignmentTestForDeliveryRuleResponseHeaderAction(subject Delive
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleResponseHeaderAction
+	var other storage.DeliveryRuleResponseHeaderAction
 	err := copied.AssignProperties_To_DeliveryRuleResponseHeaderAction(&other)
 	if err != nil {
 		return err.Error()
@@ -6624,7 +6624,7 @@ func RunPropertyAssignmentTestForDeliveryRuleResponseHeaderAction_STATUS(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleResponseHeaderAction_STATUS
+	var other storage.DeliveryRuleResponseHeaderAction_STATUS
 	err := copied.AssignProperties_To_DeliveryRuleResponseHeaderAction_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -6741,7 +6741,7 @@ func RunPropertyAssignmentTestForDeliveryRuleRouteConfigurationOverrideAction(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleRouteConfigurationOverrideAction
+	var other storage.DeliveryRuleRouteConfigurationOverrideAction
 	err := copied.AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction(&other)
 	if err != nil {
 		return err.Error()
@@ -6858,7 +6858,7 @@ func RunPropertyAssignmentTestForDeliveryRuleRouteConfigurationOverrideAction_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleRouteConfigurationOverrideAction_STATUS
+	var other storage.DeliveryRuleRouteConfigurationOverrideAction_STATUS
 	err := copied.AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -6975,7 +6975,7 @@ func RunPropertyAssignmentTestForDeliveryRuleServerPortCondition(subject Deliver
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleServerPortCondition
+	var other storage.DeliveryRuleServerPortCondition
 	err := copied.AssignProperties_To_DeliveryRuleServerPortCondition(&other)
 	if err != nil {
 		return err.Error()
@@ -7092,7 +7092,7 @@ func RunPropertyAssignmentTestForDeliveryRuleServerPortCondition_STATUS(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleServerPortCondition_STATUS
+	var other storage.DeliveryRuleServerPortCondition_STATUS
 	err := copied.AssignProperties_To_DeliveryRuleServerPortCondition_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -7209,7 +7209,7 @@ func RunPropertyAssignmentTestForDeliveryRuleSocketAddrCondition(subject Deliver
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleSocketAddrCondition
+	var other storage.DeliveryRuleSocketAddrCondition
 	err := copied.AssignProperties_To_DeliveryRuleSocketAddrCondition(&other)
 	if err != nil {
 		return err.Error()
@@ -7326,7 +7326,7 @@ func RunPropertyAssignmentTestForDeliveryRuleSocketAddrCondition_STATUS(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleSocketAddrCondition_STATUS
+	var other storage.DeliveryRuleSocketAddrCondition_STATUS
 	err := copied.AssignProperties_To_DeliveryRuleSocketAddrCondition_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -7443,7 +7443,7 @@ func RunPropertyAssignmentTestForDeliveryRuleSslProtocolCondition(subject Delive
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleSslProtocolCondition
+	var other storage.DeliveryRuleSslProtocolCondition
 	err := copied.AssignProperties_To_DeliveryRuleSslProtocolCondition(&other)
 	if err != nil {
 		return err.Error()
@@ -7560,7 +7560,7 @@ func RunPropertyAssignmentTestForDeliveryRuleSslProtocolCondition_STATUS(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleSslProtocolCondition_STATUS
+	var other storage.DeliveryRuleSslProtocolCondition_STATUS
 	err := copied.AssignProperties_To_DeliveryRuleSslProtocolCondition_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -7677,7 +7677,7 @@ func RunPropertyAssignmentTestForDeliveryRuleUrlFileExtensionCondition(subject D
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleUrlFileExtensionCondition
+	var other storage.DeliveryRuleUrlFileExtensionCondition
 	err := copied.AssignProperties_To_DeliveryRuleUrlFileExtensionCondition(&other)
 	if err != nil {
 		return err.Error()
@@ -7794,7 +7794,7 @@ func RunPropertyAssignmentTestForDeliveryRuleUrlFileExtensionCondition_STATUS(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleUrlFileExtensionCondition_STATUS
+	var other storage.DeliveryRuleUrlFileExtensionCondition_STATUS
 	err := copied.AssignProperties_To_DeliveryRuleUrlFileExtensionCondition_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -7911,7 +7911,7 @@ func RunPropertyAssignmentTestForDeliveryRuleUrlFileNameCondition(subject Delive
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleUrlFileNameCondition
+	var other storage.DeliveryRuleUrlFileNameCondition
 	err := copied.AssignProperties_To_DeliveryRuleUrlFileNameCondition(&other)
 	if err != nil {
 		return err.Error()
@@ -8028,7 +8028,7 @@ func RunPropertyAssignmentTestForDeliveryRuleUrlFileNameCondition_STATUS(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleUrlFileNameCondition_STATUS
+	var other storage.DeliveryRuleUrlFileNameCondition_STATUS
 	err := copied.AssignProperties_To_DeliveryRuleUrlFileNameCondition_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -8145,7 +8145,7 @@ func RunPropertyAssignmentTestForDeliveryRuleUrlPathCondition(subject DeliveryRu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleUrlPathCondition
+	var other storage.DeliveryRuleUrlPathCondition
 	err := copied.AssignProperties_To_DeliveryRuleUrlPathCondition(&other)
 	if err != nil {
 		return err.Error()
@@ -8262,7 +8262,7 @@ func RunPropertyAssignmentTestForDeliveryRuleUrlPathCondition_STATUS(subject Del
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.DeliveryRuleUrlPathCondition_STATUS
+	var other storage.DeliveryRuleUrlPathCondition_STATUS
 	err := copied.AssignProperties_To_DeliveryRuleUrlPathCondition_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -8379,7 +8379,7 @@ func RunPropertyAssignmentTestForOriginGroupOverrideAction(subject OriginGroupOv
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.OriginGroupOverrideAction
+	var other storage.OriginGroupOverrideAction
 	err := copied.AssignProperties_To_OriginGroupOverrideAction(&other)
 	if err != nil {
 		return err.Error()
@@ -8496,7 +8496,7 @@ func RunPropertyAssignmentTestForOriginGroupOverrideAction_STATUS(subject Origin
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.OriginGroupOverrideAction_STATUS
+	var other storage.OriginGroupOverrideAction_STATUS
 	err := copied.AssignProperties_To_OriginGroupOverrideAction_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -8613,7 +8613,7 @@ func RunPropertyAssignmentTestForUrlRedirectAction(subject UrlRedirectAction) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.UrlRedirectAction
+	var other storage.UrlRedirectAction
 	err := copied.AssignProperties_To_UrlRedirectAction(&other)
 	if err != nil {
 		return err.Error()
@@ -8729,7 +8729,7 @@ func RunPropertyAssignmentTestForUrlRedirectAction_STATUS(subject UrlRedirectAct
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.UrlRedirectAction_STATUS
+	var other storage.UrlRedirectAction_STATUS
 	err := copied.AssignProperties_To_UrlRedirectAction_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -8846,7 +8846,7 @@ func RunPropertyAssignmentTestForUrlRewriteAction(subject UrlRewriteAction) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.UrlRewriteAction
+	var other storage.UrlRewriteAction
 	err := copied.AssignProperties_To_UrlRewriteAction(&other)
 	if err != nil {
 		return err.Error()
@@ -8962,7 +8962,7 @@ func RunPropertyAssignmentTestForUrlRewriteAction_STATUS(subject UrlRewriteActio
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.UrlRewriteAction_STATUS
+	var other storage.UrlRewriteAction_STATUS
 	err := copied.AssignProperties_To_UrlRewriteAction_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -9079,7 +9079,7 @@ func RunPropertyAssignmentTestForUrlSigningAction(subject UrlSigningAction) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.UrlSigningAction
+	var other storage.UrlSigningAction
 	err := copied.AssignProperties_To_UrlSigningAction(&other)
 	if err != nil {
 		return err.Error()
@@ -9195,7 +9195,7 @@ func RunPropertyAssignmentTestForUrlSigningAction_STATUS(subject UrlSigningActio
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.UrlSigningAction_STATUS
+	var other storage.UrlSigningAction_STATUS
 	err := copied.AssignProperties_To_UrlSigningAction_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -9312,7 +9312,7 @@ func RunPropertyAssignmentTestForCacheExpirationActionParameters(subject CacheEx
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.CacheExpirationActionParameters
+	var other storage.CacheExpirationActionParameters
 	err := copied.AssignProperties_To_CacheExpirationActionParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -9418,7 +9418,7 @@ func RunPropertyAssignmentTestForCacheExpirationActionParameters_STATUS(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.CacheExpirationActionParameters_STATUS
+	var other storage.CacheExpirationActionParameters_STATUS
 	err := copied.AssignProperties_To_CacheExpirationActionParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -9524,7 +9524,7 @@ func RunPropertyAssignmentTestForCacheKeyQueryStringActionParameters(subject Cac
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.CacheKeyQueryStringActionParameters
+	var other storage.CacheKeyQueryStringActionParameters
 	err := copied.AssignProperties_To_CacheKeyQueryStringActionParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -9629,7 +9629,7 @@ func RunPropertyAssignmentTestForCacheKeyQueryStringActionParameters_STATUS(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.CacheKeyQueryStringActionParameters_STATUS
+	var other storage.CacheKeyQueryStringActionParameters_STATUS
 	err := copied.AssignProperties_To_CacheKeyQueryStringActionParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -9734,7 +9734,7 @@ func RunPropertyAssignmentTestForClientPortMatchConditionParameters(subject Clie
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.ClientPortMatchConditionParameters
+	var other storage.ClientPortMatchConditionParameters
 	err := copied.AssignProperties_To_ClientPortMatchConditionParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -9841,7 +9841,7 @@ func RunPropertyAssignmentTestForClientPortMatchConditionParameters_STATUS(subje
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.ClientPortMatchConditionParameters_STATUS
+	var other storage.ClientPortMatchConditionParameters_STATUS
 	err := copied.AssignProperties_To_ClientPortMatchConditionParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -9948,7 +9948,7 @@ func RunPropertyAssignmentTestForCookiesMatchConditionParameters(subject Cookies
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.CookiesMatchConditionParameters
+	var other storage.CookiesMatchConditionParameters
 	err := copied.AssignProperties_To_CookiesMatchConditionParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -10056,7 +10056,7 @@ func RunPropertyAssignmentTestForCookiesMatchConditionParameters_STATUS(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.CookiesMatchConditionParameters_STATUS
+	var other storage.CookiesMatchConditionParameters_STATUS
 	err := copied.AssignProperties_To_CookiesMatchConditionParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -10164,7 +10164,7 @@ func RunPropertyAssignmentTestForHeaderActionParameters(subject HeaderActionPara
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.HeaderActionParameters
+	var other storage.HeaderActionParameters
 	err := copied.AssignProperties_To_HeaderActionParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -10270,7 +10270,7 @@ func RunPropertyAssignmentTestForHeaderActionParameters_STATUS(subject HeaderAct
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.HeaderActionParameters_STATUS
+	var other storage.HeaderActionParameters_STATUS
 	err := copied.AssignProperties_To_HeaderActionParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -10376,7 +10376,7 @@ func RunPropertyAssignmentTestForHostNameMatchConditionParameters(subject HostNa
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.HostNameMatchConditionParameters
+	var other storage.HostNameMatchConditionParameters
 	err := copied.AssignProperties_To_HostNameMatchConditionParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -10483,7 +10483,7 @@ func RunPropertyAssignmentTestForHostNameMatchConditionParameters_STATUS(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.HostNameMatchConditionParameters_STATUS
+	var other storage.HostNameMatchConditionParameters_STATUS
 	err := copied.AssignProperties_To_HostNameMatchConditionParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -10590,7 +10590,7 @@ func RunPropertyAssignmentTestForHttpVersionMatchConditionParameters(subject Htt
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.HttpVersionMatchConditionParameters
+	var other storage.HttpVersionMatchConditionParameters
 	err := copied.AssignProperties_To_HttpVersionMatchConditionParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -10697,7 +10697,7 @@ func RunPropertyAssignmentTestForHttpVersionMatchConditionParameters_STATUS(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.HttpVersionMatchConditionParameters_STATUS
+	var other storage.HttpVersionMatchConditionParameters_STATUS
 	err := copied.AssignProperties_To_HttpVersionMatchConditionParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -10804,7 +10804,7 @@ func RunPropertyAssignmentTestForIsDeviceMatchConditionParameters(subject IsDevi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.IsDeviceMatchConditionParameters
+	var other storage.IsDeviceMatchConditionParameters
 	err := copied.AssignProperties_To_IsDeviceMatchConditionParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -10911,7 +10911,7 @@ func RunPropertyAssignmentTestForIsDeviceMatchConditionParameters_STATUS(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.IsDeviceMatchConditionParameters_STATUS
+	var other storage.IsDeviceMatchConditionParameters_STATUS
 	err := copied.AssignProperties_To_IsDeviceMatchConditionParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -11018,7 +11018,7 @@ func RunPropertyAssignmentTestForOriginGroupOverrideActionParameters(subject Ori
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.OriginGroupOverrideActionParameters
+	var other storage.OriginGroupOverrideActionParameters
 	err := copied.AssignProperties_To_OriginGroupOverrideActionParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -11135,7 +11135,7 @@ func RunPropertyAssignmentTestForOriginGroupOverrideActionParameters_STATUS(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.OriginGroupOverrideActionParameters_STATUS
+	var other storage.OriginGroupOverrideActionParameters_STATUS
 	err := copied.AssignProperties_To_OriginGroupOverrideActionParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -11252,7 +11252,7 @@ func RunPropertyAssignmentTestForPostArgsMatchConditionParameters(subject PostAr
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.PostArgsMatchConditionParameters
+	var other storage.PostArgsMatchConditionParameters
 	err := copied.AssignProperties_To_PostArgsMatchConditionParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -11360,7 +11360,7 @@ func RunPropertyAssignmentTestForPostArgsMatchConditionParameters_STATUS(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.PostArgsMatchConditionParameters_STATUS
+	var other storage.PostArgsMatchConditionParameters_STATUS
 	err := copied.AssignProperties_To_PostArgsMatchConditionParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -11468,7 +11468,7 @@ func RunPropertyAssignmentTestForQueryStringMatchConditionParameters(subject Que
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.QueryStringMatchConditionParameters
+	var other storage.QueryStringMatchConditionParameters
 	err := copied.AssignProperties_To_QueryStringMatchConditionParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -11575,7 +11575,7 @@ func RunPropertyAssignmentTestForQueryStringMatchConditionParameters_STATUS(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.QueryStringMatchConditionParameters_STATUS
+	var other storage.QueryStringMatchConditionParameters_STATUS
 	err := copied.AssignProperties_To_QueryStringMatchConditionParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -11682,7 +11682,7 @@ func RunPropertyAssignmentTestForRemoteAddressMatchConditionParameters(subject R
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.RemoteAddressMatchConditionParameters
+	var other storage.RemoteAddressMatchConditionParameters
 	err := copied.AssignProperties_To_RemoteAddressMatchConditionParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -11789,7 +11789,7 @@ func RunPropertyAssignmentTestForRemoteAddressMatchConditionParameters_STATUS(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.RemoteAddressMatchConditionParameters_STATUS
+	var other storage.RemoteAddressMatchConditionParameters_STATUS
 	err := copied.AssignProperties_To_RemoteAddressMatchConditionParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -11896,7 +11896,7 @@ func RunPropertyAssignmentTestForRequestBodyMatchConditionParameters(subject Req
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.RequestBodyMatchConditionParameters
+	var other storage.RequestBodyMatchConditionParameters
 	err := copied.AssignProperties_To_RequestBodyMatchConditionParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -12003,7 +12003,7 @@ func RunPropertyAssignmentTestForRequestBodyMatchConditionParameters_STATUS(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.RequestBodyMatchConditionParameters_STATUS
+	var other storage.RequestBodyMatchConditionParameters_STATUS
 	err := copied.AssignProperties_To_RequestBodyMatchConditionParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -12110,7 +12110,7 @@ func RunPropertyAssignmentTestForRequestHeaderMatchConditionParameters(subject R
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.RequestHeaderMatchConditionParameters
+	var other storage.RequestHeaderMatchConditionParameters
 	err := copied.AssignProperties_To_RequestHeaderMatchConditionParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -12218,7 +12218,7 @@ func RunPropertyAssignmentTestForRequestHeaderMatchConditionParameters_STATUS(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.RequestHeaderMatchConditionParameters_STATUS
+	var other storage.RequestHeaderMatchConditionParameters_STATUS
 	err := copied.AssignProperties_To_RequestHeaderMatchConditionParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -12326,7 +12326,7 @@ func RunPropertyAssignmentTestForRequestMethodMatchConditionParameters(subject R
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.RequestMethodMatchConditionParameters
+	var other storage.RequestMethodMatchConditionParameters
 	err := copied.AssignProperties_To_RequestMethodMatchConditionParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -12433,7 +12433,7 @@ func RunPropertyAssignmentTestForRequestMethodMatchConditionParameters_STATUS(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.RequestMethodMatchConditionParameters_STATUS
+	var other storage.RequestMethodMatchConditionParameters_STATUS
 	err := copied.AssignProperties_To_RequestMethodMatchConditionParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -12540,7 +12540,7 @@ func RunPropertyAssignmentTestForRequestSchemeMatchConditionParameters(subject R
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.RequestSchemeMatchConditionParameters
+	var other storage.RequestSchemeMatchConditionParameters
 	err := copied.AssignProperties_To_RequestSchemeMatchConditionParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -12647,7 +12647,7 @@ func RunPropertyAssignmentTestForRequestSchemeMatchConditionParameters_STATUS(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.RequestSchemeMatchConditionParameters_STATUS
+	var other storage.RequestSchemeMatchConditionParameters_STATUS
 	err := copied.AssignProperties_To_RequestSchemeMatchConditionParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -12754,7 +12754,7 @@ func RunPropertyAssignmentTestForRequestUriMatchConditionParameters(subject Requ
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.RequestUriMatchConditionParameters
+	var other storage.RequestUriMatchConditionParameters
 	err := copied.AssignProperties_To_RequestUriMatchConditionParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -12861,7 +12861,7 @@ func RunPropertyAssignmentTestForRequestUriMatchConditionParameters_STATUS(subje
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.RequestUriMatchConditionParameters_STATUS
+	var other storage.RequestUriMatchConditionParameters_STATUS
 	err := copied.AssignProperties_To_RequestUriMatchConditionParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -12968,7 +12968,7 @@ func RunPropertyAssignmentTestForRouteConfigurationOverrideActionParameters(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.RouteConfigurationOverrideActionParameters
+	var other storage.RouteConfigurationOverrideActionParameters
 	err := copied.AssignProperties_To_RouteConfigurationOverrideActionParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -13086,7 +13086,7 @@ func RunPropertyAssignmentTestForRouteConfigurationOverrideActionParameters_STAT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.RouteConfigurationOverrideActionParameters_STATUS
+	var other storage.RouteConfigurationOverrideActionParameters_STATUS
 	err := copied.AssignProperties_To_RouteConfigurationOverrideActionParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -13204,7 +13204,7 @@ func RunPropertyAssignmentTestForServerPortMatchConditionParameters(subject Serv
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.ServerPortMatchConditionParameters
+	var other storage.ServerPortMatchConditionParameters
 	err := copied.AssignProperties_To_ServerPortMatchConditionParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -13311,7 +13311,7 @@ func RunPropertyAssignmentTestForServerPortMatchConditionParameters_STATUS(subje
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.ServerPortMatchConditionParameters_STATUS
+	var other storage.ServerPortMatchConditionParameters_STATUS
 	err := copied.AssignProperties_To_ServerPortMatchConditionParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -13418,7 +13418,7 @@ func RunPropertyAssignmentTestForSocketAddrMatchConditionParameters(subject Sock
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.SocketAddrMatchConditionParameters
+	var other storage.SocketAddrMatchConditionParameters
 	err := copied.AssignProperties_To_SocketAddrMatchConditionParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -13525,7 +13525,7 @@ func RunPropertyAssignmentTestForSocketAddrMatchConditionParameters_STATUS(subje
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.SocketAddrMatchConditionParameters_STATUS
+	var other storage.SocketAddrMatchConditionParameters_STATUS
 	err := copied.AssignProperties_To_SocketAddrMatchConditionParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -13632,7 +13632,7 @@ func RunPropertyAssignmentTestForSslProtocolMatchConditionParameters(subject Ssl
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.SslProtocolMatchConditionParameters
+	var other storage.SslProtocolMatchConditionParameters
 	err := copied.AssignProperties_To_SslProtocolMatchConditionParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -13739,7 +13739,7 @@ func RunPropertyAssignmentTestForSslProtocolMatchConditionParameters_STATUS(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.SslProtocolMatchConditionParameters_STATUS
+	var other storage.SslProtocolMatchConditionParameters_STATUS
 	err := copied.AssignProperties_To_SslProtocolMatchConditionParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -13846,7 +13846,7 @@ func RunPropertyAssignmentTestForUrlFileExtensionMatchConditionParameters(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.UrlFileExtensionMatchConditionParameters
+	var other storage.UrlFileExtensionMatchConditionParameters
 	err := copied.AssignProperties_To_UrlFileExtensionMatchConditionParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -13953,7 +13953,7 @@ func RunPropertyAssignmentTestForUrlFileExtensionMatchConditionParameters_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.UrlFileExtensionMatchConditionParameters_STATUS
+	var other storage.UrlFileExtensionMatchConditionParameters_STATUS
 	err := copied.AssignProperties_To_UrlFileExtensionMatchConditionParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -14060,7 +14060,7 @@ func RunPropertyAssignmentTestForUrlFileNameMatchConditionParameters(subject Url
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.UrlFileNameMatchConditionParameters
+	var other storage.UrlFileNameMatchConditionParameters
 	err := copied.AssignProperties_To_UrlFileNameMatchConditionParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -14167,7 +14167,7 @@ func RunPropertyAssignmentTestForUrlFileNameMatchConditionParameters_STATUS(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.UrlFileNameMatchConditionParameters_STATUS
+	var other storage.UrlFileNameMatchConditionParameters_STATUS
 	err := copied.AssignProperties_To_UrlFileNameMatchConditionParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -14274,7 +14274,7 @@ func RunPropertyAssignmentTestForUrlPathMatchConditionParameters(subject UrlPath
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.UrlPathMatchConditionParameters
+	var other storage.UrlPathMatchConditionParameters
 	err := copied.AssignProperties_To_UrlPathMatchConditionParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -14381,7 +14381,7 @@ func RunPropertyAssignmentTestForUrlPathMatchConditionParameters_STATUS(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.UrlPathMatchConditionParameters_STATUS
+	var other storage.UrlPathMatchConditionParameters_STATUS
 	err := copied.AssignProperties_To_UrlPathMatchConditionParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -14488,7 +14488,7 @@ func RunPropertyAssignmentTestForUrlRedirectActionParameters(subject UrlRedirect
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.UrlRedirectActionParameters
+	var other storage.UrlRedirectActionParameters
 	err := copied.AssignProperties_To_UrlRedirectActionParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -14597,7 +14597,7 @@ func RunPropertyAssignmentTestForUrlRedirectActionParameters_STATUS(subject UrlR
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.UrlRedirectActionParameters_STATUS
+	var other storage.UrlRedirectActionParameters_STATUS
 	err := copied.AssignProperties_To_UrlRedirectActionParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -14706,7 +14706,7 @@ func RunPropertyAssignmentTestForUrlRewriteActionParameters(subject UrlRewriteAc
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.UrlRewriteActionParameters
+	var other storage.UrlRewriteActionParameters
 	err := copied.AssignProperties_To_UrlRewriteActionParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -14812,7 +14812,7 @@ func RunPropertyAssignmentTestForUrlRewriteActionParameters_STATUS(subject UrlRe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.UrlRewriteActionParameters_STATUS
+	var other storage.UrlRewriteActionParameters_STATUS
 	err := copied.AssignProperties_To_UrlRewriteActionParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -14918,7 +14918,7 @@ func RunPropertyAssignmentTestForUrlSigningActionParameters(subject UrlSigningAc
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.UrlSigningActionParameters
+	var other storage.UrlSigningActionParameters
 	err := copied.AssignProperties_To_UrlSigningActionParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -15036,7 +15036,7 @@ func RunPropertyAssignmentTestForUrlSigningActionParameters_STATUS(subject UrlSi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.UrlSigningActionParameters_STATUS
+	var other storage.UrlSigningActionParameters_STATUS
 	err := copied.AssignProperties_To_UrlSigningActionParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -15154,7 +15154,7 @@ func RunPropertyAssignmentTestForCacheConfiguration(subject CacheConfiguration) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.CacheConfiguration
+	var other storage.CacheConfiguration
 	err := copied.AssignProperties_To_CacheConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -15260,7 +15260,7 @@ func RunPropertyAssignmentTestForCacheConfiguration_STATUS(subject CacheConfigur
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.CacheConfiguration_STATUS
+	var other storage.CacheConfiguration_STATUS
 	err := copied.AssignProperties_To_CacheConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -15367,7 +15367,7 @@ func RunPropertyAssignmentTestForOriginGroupOverride(subject OriginGroupOverride
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.OriginGroupOverride
+	var other storage.OriginGroupOverride
 	err := copied.AssignProperties_To_OriginGroupOverride(&other)
 	if err != nil {
 		return err.Error()
@@ -15484,7 +15484,7 @@ func RunPropertyAssignmentTestForOriginGroupOverride_STATUS(subject OriginGroupO
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.OriginGroupOverride_STATUS
+	var other storage.OriginGroupOverride_STATUS
 	err := copied.AssignProperties_To_OriginGroupOverride_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -15601,7 +15601,7 @@ func RunPropertyAssignmentTestForUrlSigningParamIdentifier(subject UrlSigningPar
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.UrlSigningParamIdentifier
+	var other storage.UrlSigningParamIdentifier
 	err := copied.AssignProperties_To_UrlSigningParamIdentifier(&other)
 	if err != nil {
 		return err.Error()
@@ -15705,7 +15705,7 @@ func RunPropertyAssignmentTestForUrlSigningParamIdentifier_STATUS(subject UrlSig
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.UrlSigningParamIdentifier_STATUS
+	var other storage.UrlSigningParamIdentifier_STATUS
 	err := copied.AssignProperties_To_UrlSigningParamIdentifier_STATUS(&other)
 	if err != nil {
 		return err.Error()

@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForServersAdministrator(subject ServersAdministrat
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20211101s.ServersAdministrator
+	var hub storage.ServersAdministrator
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForServersAdministrator(subject ServersAdministrat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211101s.ServersAdministrator
+	var other storage.ServersAdministrator
 	err := copied.AssignProperties_To_ServersAdministrator(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForServers_Administrator_Spec(subject Servers_Admi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211101s.Servers_Administrator_Spec
+	var other storage.Servers_Administrator_Spec
 	err := copied.AssignProperties_To_Servers_Administrator_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -288,7 +288,7 @@ func RunPropertyAssignmentTestForServers_Administrator_STATUS(subject Servers_Ad
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211101s.Servers_Administrator_STATUS
+	var other storage.Servers_Administrator_STATUS
 	err := copied.AssignProperties_To_Servers_Administrator_STATUS(&other)
 	if err != nil {
 		return err.Error()

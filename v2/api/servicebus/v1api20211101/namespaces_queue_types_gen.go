@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &NamespacesQueue{}
 
 // ConvertFrom populates our NamespacesQueue from the provided hub NamespacesQueue
 func (queue *NamespacesQueue) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20211101s.NamespacesQueue)
+	source, ok := hub.(*storage.NamespacesQueue)
 	if !ok {
 		return fmt.Errorf("expected servicebus/v1api20211101/storage/NamespacesQueue but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (queue *NamespacesQueue) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub NamespacesQueue from our NamespacesQueue
 func (queue *NamespacesQueue) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20211101s.NamespacesQueue)
+	destination, ok := hub.(*storage.NamespacesQueue)
 	if !ok {
 		return fmt.Errorf("expected servicebus/v1api20211101/storage/NamespacesQueue but received %T instead", hub)
 	}
@@ -254,7 +254,7 @@ func (queue *NamespacesQueue) validateWriteOnceProperties(old runtime.Object) (a
 }
 
 // AssignProperties_From_NamespacesQueue populates our NamespacesQueue from the provided source NamespacesQueue
-func (queue *NamespacesQueue) AssignProperties_From_NamespacesQueue(source *v20211101s.NamespacesQueue) error {
+func (queue *NamespacesQueue) AssignProperties_From_NamespacesQueue(source *storage.NamespacesQueue) error {
 
 	// ObjectMeta
 	queue.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -280,13 +280,13 @@ func (queue *NamespacesQueue) AssignProperties_From_NamespacesQueue(source *v202
 }
 
 // AssignProperties_To_NamespacesQueue populates the provided destination NamespacesQueue from our NamespacesQueue
-func (queue *NamespacesQueue) AssignProperties_To_NamespacesQueue(destination *v20211101s.NamespacesQueue) error {
+func (queue *NamespacesQueue) AssignProperties_To_NamespacesQueue(destination *storage.NamespacesQueue) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *queue.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20211101s.Namespaces_Queue_Spec
+	var spec storage.Namespaces_Queue_Spec
 	err := queue.Spec.AssignProperties_To_Namespaces_Queue_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Queue_Spec() to populate field Spec")
@@ -294,7 +294,7 @@ func (queue *NamespacesQueue) AssignProperties_To_NamespacesQueue(destination *v
 	destination.Spec = spec
 
 	// Status
-	var status v20211101s.Namespaces_Queue_STATUS
+	var status storage.Namespaces_Queue_STATUS
 	err = queue.Status.AssignProperties_To_Namespaces_Queue_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Queue_STATUS() to populate field Status")
@@ -649,14 +649,14 @@ var _ genruntime.ConvertibleSpec = &Namespaces_Queue_Spec{}
 
 // ConvertSpecFrom populates our Namespaces_Queue_Spec from the provided source
 func (queue *Namespaces_Queue_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20211101s.Namespaces_Queue_Spec)
+	src, ok := source.(*storage.Namespaces_Queue_Spec)
 	if ok {
 		// Populate our instance from source
 		return queue.AssignProperties_From_Namespaces_Queue_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20211101s.Namespaces_Queue_Spec{}
+	src = &storage.Namespaces_Queue_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -673,14 +673,14 @@ func (queue *Namespaces_Queue_Spec) ConvertSpecFrom(source genruntime.Convertibl
 
 // ConvertSpecTo populates the provided destination from our Namespaces_Queue_Spec
 func (queue *Namespaces_Queue_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20211101s.Namespaces_Queue_Spec)
+	dst, ok := destination.(*storage.Namespaces_Queue_Spec)
 	if ok {
 		// Populate destination from our instance
 		return queue.AssignProperties_To_Namespaces_Queue_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20211101s.Namespaces_Queue_Spec{}
+	dst = &storage.Namespaces_Queue_Spec{}
 	err := queue.AssignProperties_To_Namespaces_Queue_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -696,7 +696,7 @@ func (queue *Namespaces_Queue_Spec) ConvertSpecTo(destination genruntime.Convert
 }
 
 // AssignProperties_From_Namespaces_Queue_Spec populates our Namespaces_Queue_Spec from the provided source Namespaces_Queue_Spec
-func (queue *Namespaces_Queue_Spec) AssignProperties_From_Namespaces_Queue_Spec(source *v20211101s.Namespaces_Queue_Spec) error {
+func (queue *Namespaces_Queue_Spec) AssignProperties_From_Namespaces_Queue_Spec(source *storage.Namespaces_Queue_Spec) error {
 
 	// AutoDeleteOnIdle
 	queue.AutoDeleteOnIdle = genruntime.ClonePointerToString(source.AutoDeleteOnIdle)
@@ -789,7 +789,7 @@ func (queue *Namespaces_Queue_Spec) AssignProperties_From_Namespaces_Queue_Spec(
 }
 
 // AssignProperties_To_Namespaces_Queue_Spec populates the provided destination Namespaces_Queue_Spec from our Namespaces_Queue_Spec
-func (queue *Namespaces_Queue_Spec) AssignProperties_To_Namespaces_Queue_Spec(destination *v20211101s.Namespaces_Queue_Spec) error {
+func (queue *Namespaces_Queue_Spec) AssignProperties_To_Namespaces_Queue_Spec(destination *storage.Namespaces_Queue_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1084,14 +1084,14 @@ var _ genruntime.ConvertibleStatus = &Namespaces_Queue_STATUS{}
 
 // ConvertStatusFrom populates our Namespaces_Queue_STATUS from the provided source
 func (queue *Namespaces_Queue_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20211101s.Namespaces_Queue_STATUS)
+	src, ok := source.(*storage.Namespaces_Queue_STATUS)
 	if ok {
 		// Populate our instance from source
 		return queue.AssignProperties_From_Namespaces_Queue_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20211101s.Namespaces_Queue_STATUS{}
+	src = &storage.Namespaces_Queue_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -1108,14 +1108,14 @@ func (queue *Namespaces_Queue_STATUS) ConvertStatusFrom(source genruntime.Conver
 
 // ConvertStatusTo populates the provided destination from our Namespaces_Queue_STATUS
 func (queue *Namespaces_Queue_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20211101s.Namespaces_Queue_STATUS)
+	dst, ok := destination.(*storage.Namespaces_Queue_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return queue.AssignProperties_To_Namespaces_Queue_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20211101s.Namespaces_Queue_STATUS{}
+	dst = &storage.Namespaces_Queue_STATUS{}
 	err := queue.AssignProperties_To_Namespaces_Queue_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1389,7 +1389,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 }
 
 // AssignProperties_From_Namespaces_Queue_STATUS populates our Namespaces_Queue_STATUS from the provided source Namespaces_Queue_STATUS
-func (queue *Namespaces_Queue_STATUS) AssignProperties_From_Namespaces_Queue_STATUS(source *v20211101s.Namespaces_Queue_STATUS) error {
+func (queue *Namespaces_Queue_STATUS) AssignProperties_From_Namespaces_Queue_STATUS(source *storage.Namespaces_Queue_STATUS) error {
 
 	// AccessedAt
 	queue.AccessedAt = genruntime.ClonePointerToString(source.AccessedAt)
@@ -1534,7 +1534,7 @@ func (queue *Namespaces_Queue_STATUS) AssignProperties_From_Namespaces_Queue_STA
 }
 
 // AssignProperties_To_Namespaces_Queue_STATUS populates the provided destination Namespaces_Queue_STATUS from our Namespaces_Queue_STATUS
-func (queue *Namespaces_Queue_STATUS) AssignProperties_To_Namespaces_Queue_STATUS(destination *v20211101s.Namespaces_Queue_STATUS) error {
+func (queue *Namespaces_Queue_STATUS) AssignProperties_To_Namespaces_Queue_STATUS(destination *storage.Namespaces_Queue_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1549,7 +1549,7 @@ func (queue *Namespaces_Queue_STATUS) AssignProperties_To_Namespaces_Queue_STATU
 
 	// CountDetails
 	if queue.CountDetails != nil {
-		var countDetail v20211101s.MessageCountDetails_STATUS
+		var countDetail storage.MessageCountDetails_STATUS
 		err := queue.CountDetails.AssignProperties_To_MessageCountDetails_STATUS(&countDetail)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_MessageCountDetails_STATUS() to populate field CountDetails")
@@ -1659,7 +1659,7 @@ func (queue *Namespaces_Queue_STATUS) AssignProperties_To_Namespaces_Queue_STATU
 
 	// SystemData
 	if queue.SystemData != nil {
-		var systemDatum v20211101s.SystemData_STATUS
+		var systemDatum storage.SystemData_STATUS
 		err := queue.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
@@ -1781,7 +1781,7 @@ func (details *MessageCountDetails_STATUS) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignProperties_From_MessageCountDetails_STATUS populates our MessageCountDetails_STATUS from the provided source MessageCountDetails_STATUS
-func (details *MessageCountDetails_STATUS) AssignProperties_From_MessageCountDetails_STATUS(source *v20211101s.MessageCountDetails_STATUS) error {
+func (details *MessageCountDetails_STATUS) AssignProperties_From_MessageCountDetails_STATUS(source *storage.MessageCountDetails_STATUS) error {
 
 	// ActiveMessageCount
 	details.ActiveMessageCount = genruntime.ClonePointerToInt(source.ActiveMessageCount)
@@ -1803,7 +1803,7 @@ func (details *MessageCountDetails_STATUS) AssignProperties_From_MessageCountDet
 }
 
 // AssignProperties_To_MessageCountDetails_STATUS populates the provided destination MessageCountDetails_STATUS from our MessageCountDetails_STATUS
-func (details *MessageCountDetails_STATUS) AssignProperties_To_MessageCountDetails_STATUS(destination *v20211101s.MessageCountDetails_STATUS) error {
+func (details *MessageCountDetails_STATUS) AssignProperties_To_MessageCountDetails_STATUS(destination *storage.MessageCountDetails_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

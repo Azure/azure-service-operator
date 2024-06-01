@@ -6,7 +6,7 @@ package v1api20200202
 import (
 	"context"
 	"fmt"
-	v20200202s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -54,7 +54,7 @@ var _ conversion.Convertible = &Component{}
 
 // ConvertFrom populates our Component from the provided hub Component
 func (component *Component) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20200202s.Component)
+	source, ok := hub.(*storage.Component)
 	if !ok {
 		return fmt.Errorf("expected insights/v1api20200202/storage/Component but received %T instead", hub)
 	}
@@ -64,7 +64,7 @@ func (component *Component) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub Component from our Component
 func (component *Component) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20200202s.Component)
+	destination, ok := hub.(*storage.Component)
 	if !ok {
 		return fmt.Errorf("expected insights/v1api20200202/storage/Component but received %T instead", hub)
 	}
@@ -299,7 +299,7 @@ func (component *Component) validateWriteOnceProperties(old runtime.Object) (adm
 }
 
 // AssignProperties_From_Component populates our Component from the provided source Component
-func (component *Component) AssignProperties_From_Component(source *v20200202s.Component) error {
+func (component *Component) AssignProperties_From_Component(source *storage.Component) error {
 
 	// ObjectMeta
 	component.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -325,13 +325,13 @@ func (component *Component) AssignProperties_From_Component(source *v20200202s.C
 }
 
 // AssignProperties_To_Component populates the provided destination Component from our Component
-func (component *Component) AssignProperties_To_Component(destination *v20200202s.Component) error {
+func (component *Component) AssignProperties_To_Component(destination *storage.Component) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *component.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20200202s.Component_Spec
+	var spec storage.Component_Spec
 	err := component.Spec.AssignProperties_To_Component_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Component_Spec() to populate field Spec")
@@ -339,7 +339,7 @@ func (component *Component) AssignProperties_To_Component(destination *v20200202
 	destination.Spec = spec
 
 	// Status
-	var status v20200202s.Component_STATUS
+	var status storage.Component_STATUS
 	err = component.Status.AssignProperties_To_Component_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Component_STATUS() to populate field Status")
@@ -747,14 +747,14 @@ var _ genruntime.ConvertibleSpec = &Component_Spec{}
 
 // ConvertSpecFrom populates our Component_Spec from the provided source
 func (component *Component_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20200202s.Component_Spec)
+	src, ok := source.(*storage.Component_Spec)
 	if ok {
 		// Populate our instance from source
 		return component.AssignProperties_From_Component_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20200202s.Component_Spec{}
+	src = &storage.Component_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -771,14 +771,14 @@ func (component *Component_Spec) ConvertSpecFrom(source genruntime.ConvertibleSp
 
 // ConvertSpecTo populates the provided destination from our Component_Spec
 func (component *Component_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20200202s.Component_Spec)
+	dst, ok := destination.(*storage.Component_Spec)
 	if ok {
 		// Populate destination from our instance
 		return component.AssignProperties_To_Component_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20200202s.Component_Spec{}
+	dst = &storage.Component_Spec{}
 	err := component.AssignProperties_To_Component_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -794,7 +794,7 @@ func (component *Component_Spec) ConvertSpecTo(destination genruntime.Convertibl
 }
 
 // AssignProperties_From_Component_Spec populates our Component_Spec from the provided source Component_Spec
-func (component *Component_Spec) AssignProperties_From_Component_Spec(source *v20200202s.Component_Spec) error {
+func (component *Component_Spec) AssignProperties_From_Component_Spec(source *storage.Component_Spec) error {
 
 	// Application_Type
 	if source.Application_Type != nil {
@@ -944,7 +944,7 @@ func (component *Component_Spec) AssignProperties_From_Component_Spec(source *v2
 }
 
 // AssignProperties_To_Component_Spec populates the provided destination Component_Spec from our Component_Spec
-func (component *Component_Spec) AssignProperties_To_Component_Spec(destination *v20200202s.Component_Spec) error {
+func (component *Component_Spec) AssignProperties_To_Component_Spec(destination *storage.Component_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1021,7 +1021,7 @@ func (component *Component_Spec) AssignProperties_To_Component_Spec(destination 
 
 	// OperatorSpec
 	if component.OperatorSpec != nil {
-		var operatorSpec v20200202s.ComponentOperatorSpec
+		var operatorSpec storage.ComponentOperatorSpec
 		err := component.OperatorSpec.AssignProperties_To_ComponentOperatorSpec(&operatorSpec)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ComponentOperatorSpec() to populate field OperatorSpec")
@@ -1343,14 +1343,14 @@ var _ genruntime.ConvertibleStatus = &Component_STATUS{}
 
 // ConvertStatusFrom populates our Component_STATUS from the provided source
 func (component *Component_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20200202s.Component_STATUS)
+	src, ok := source.(*storage.Component_STATUS)
 	if ok {
 		// Populate our instance from source
 		return component.AssignProperties_From_Component_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20200202s.Component_STATUS{}
+	src = &storage.Component_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -1367,14 +1367,14 @@ func (component *Component_STATUS) ConvertStatusFrom(source genruntime.Convertib
 
 // ConvertStatusTo populates the provided destination from our Component_STATUS
 func (component *Component_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20200202s.Component_STATUS)
+	dst, ok := destination.(*storage.Component_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return component.AssignProperties_To_Component_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20200202s.Component_STATUS{}
+	dst = &storage.Component_STATUS{}
 	err := component.AssignProperties_To_Component_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1683,7 +1683,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 }
 
 // AssignProperties_From_Component_STATUS populates our Component_STATUS from the provided source Component_STATUS
-func (component *Component_STATUS) AssignProperties_From_Component_STATUS(source *v20200202s.Component_STATUS) error {
+func (component *Component_STATUS) AssignProperties_From_Component_STATUS(source *storage.Component_STATUS) error {
 
 	// AppId
 	component.AppId = genruntime.ClonePointerToString(source.AppId)
@@ -1865,7 +1865,7 @@ func (component *Component_STATUS) AssignProperties_From_Component_STATUS(source
 }
 
 // AssignProperties_To_Component_STATUS populates the provided destination Component_STATUS from our Component_STATUS
-func (component *Component_STATUS) AssignProperties_To_Component_STATUS(destination *v20200202s.Component_STATUS) error {
+func (component *Component_STATUS) AssignProperties_To_Component_STATUS(destination *storage.Component_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1969,11 +1969,11 @@ func (component *Component_STATUS) AssignProperties_To_Component_STATUS(destinat
 
 	// PrivateLinkScopedResources
 	if component.PrivateLinkScopedResources != nil {
-		privateLinkScopedResourceList := make([]v20200202s.PrivateLinkScopedResource_STATUS, len(component.PrivateLinkScopedResources))
+		privateLinkScopedResourceList := make([]storage.PrivateLinkScopedResource_STATUS, len(component.PrivateLinkScopedResources))
 		for privateLinkScopedResourceIndex, privateLinkScopedResourceItem := range component.PrivateLinkScopedResources {
 			// Shadow the loop variable to avoid aliasing
 			privateLinkScopedResourceItem := privateLinkScopedResourceItem
-			var privateLinkScopedResource v20200202s.PrivateLinkScopedResource_STATUS
+			var privateLinkScopedResource storage.PrivateLinkScopedResource_STATUS
 			err := privateLinkScopedResourceItem.AssignProperties_To_PrivateLinkScopedResource_STATUS(&privateLinkScopedResource)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkScopedResource_STATUS() to populate field PrivateLinkScopedResources")
@@ -2152,7 +2152,7 @@ type ComponentOperatorSpec struct {
 }
 
 // AssignProperties_From_ComponentOperatorSpec populates our ComponentOperatorSpec from the provided source ComponentOperatorSpec
-func (operator *ComponentOperatorSpec) AssignProperties_From_ComponentOperatorSpec(source *v20200202s.ComponentOperatorSpec) error {
+func (operator *ComponentOperatorSpec) AssignProperties_From_ComponentOperatorSpec(source *storage.ComponentOperatorSpec) error {
 
 	// ConfigMaps
 	if source.ConfigMaps != nil {
@@ -2171,13 +2171,13 @@ func (operator *ComponentOperatorSpec) AssignProperties_From_ComponentOperatorSp
 }
 
 // AssignProperties_To_ComponentOperatorSpec populates the provided destination ComponentOperatorSpec from our ComponentOperatorSpec
-func (operator *ComponentOperatorSpec) AssignProperties_To_ComponentOperatorSpec(destination *v20200202s.ComponentOperatorSpec) error {
+func (operator *ComponentOperatorSpec) AssignProperties_To_ComponentOperatorSpec(destination *storage.ComponentOperatorSpec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ConfigMaps
 	if operator.ConfigMaps != nil {
-		var configMap v20200202s.ComponentOperatorConfigMaps
+		var configMap storage.ComponentOperatorConfigMaps
 		err := operator.ConfigMaps.AssignProperties_To_ComponentOperatorConfigMaps(&configMap)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ComponentOperatorConfigMaps() to populate field ConfigMaps")
@@ -2238,7 +2238,7 @@ func (resource *PrivateLinkScopedResource_STATUS) PopulateFromARM(owner genrunti
 }
 
 // AssignProperties_From_PrivateLinkScopedResource_STATUS populates our PrivateLinkScopedResource_STATUS from the provided source PrivateLinkScopedResource_STATUS
-func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_From_PrivateLinkScopedResource_STATUS(source *v20200202s.PrivateLinkScopedResource_STATUS) error {
+func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_From_PrivateLinkScopedResource_STATUS(source *storage.PrivateLinkScopedResource_STATUS) error {
 
 	// ResourceId
 	resource.ResourceId = genruntime.ClonePointerToString(source.ResourceId)
@@ -2251,7 +2251,7 @@ func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_From_PrivateL
 }
 
 // AssignProperties_To_PrivateLinkScopedResource_STATUS populates the provided destination PrivateLinkScopedResource_STATUS from our PrivateLinkScopedResource_STATUS
-func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_To_PrivateLinkScopedResource_STATUS(destination *v20200202s.PrivateLinkScopedResource_STATUS) error {
+func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_To_PrivateLinkScopedResource_STATUS(destination *storage.PrivateLinkScopedResource_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2312,7 +2312,7 @@ type ComponentOperatorConfigMaps struct {
 }
 
 // AssignProperties_From_ComponentOperatorConfigMaps populates our ComponentOperatorConfigMaps from the provided source ComponentOperatorConfigMaps
-func (maps *ComponentOperatorConfigMaps) AssignProperties_From_ComponentOperatorConfigMaps(source *v20200202s.ComponentOperatorConfigMaps) error {
+func (maps *ComponentOperatorConfigMaps) AssignProperties_From_ComponentOperatorConfigMaps(source *storage.ComponentOperatorConfigMaps) error {
 
 	// ConnectionString
 	if source.ConnectionString != nil {
@@ -2335,7 +2335,7 @@ func (maps *ComponentOperatorConfigMaps) AssignProperties_From_ComponentOperator
 }
 
 // AssignProperties_To_ComponentOperatorConfigMaps populates the provided destination ComponentOperatorConfigMaps from our ComponentOperatorConfigMaps
-func (maps *ComponentOperatorConfigMaps) AssignProperties_To_ComponentOperatorConfigMaps(destination *v20200202s.ComponentOperatorConfigMaps) error {
+func (maps *ComponentOperatorConfigMaps) AssignProperties_To_ComponentOperatorConfigMaps(destination *storage.ComponentOperatorConfigMaps) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

@@ -5,7 +5,7 @@ package v1api20220301
 
 import (
 	"fmt"
-	v20220301s "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &Site{}
 
 // ConvertFrom populates our Site from the provided hub Site
 func (site *Site) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20220301s.Site)
+	source, ok := hub.(*storage.Site)
 	if !ok {
 		return fmt.Errorf("expected web/v1api20220301/storage/Site but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (site *Site) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub Site from our Site
 func (site *Site) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20220301s.Site)
+	destination, ok := hub.(*storage.Site)
 	if !ok {
 		return fmt.Errorf("expected web/v1api20220301/storage/Site but received %T instead", hub)
 	}
@@ -254,7 +254,7 @@ func (site *Site) validateWriteOnceProperties(old runtime.Object) (admission.War
 }
 
 // AssignProperties_From_Site populates our Site from the provided source Site
-func (site *Site) AssignProperties_From_Site(source *v20220301s.Site) error {
+func (site *Site) AssignProperties_From_Site(source *storage.Site) error {
 
 	// ObjectMeta
 	site.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -280,13 +280,13 @@ func (site *Site) AssignProperties_From_Site(source *v20220301s.Site) error {
 }
 
 // AssignProperties_To_Site populates the provided destination Site from our Site
-func (site *Site) AssignProperties_To_Site(destination *v20220301s.Site) error {
+func (site *Site) AssignProperties_To_Site(destination *storage.Site) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *site.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20220301s.Site_Spec
+	var spec storage.Site_Spec
 	err := site.Spec.AssignProperties_To_Site_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Site_Spec() to populate field Spec")
@@ -294,7 +294,7 @@ func (site *Site) AssignProperties_To_Site(destination *v20220301s.Site) error {
 	destination.Spec = spec
 
 	// Status
-	var status v20220301s.Site_STATUS
+	var status storage.Site_STATUS
 	err = site.Status.AssignProperties_To_Site_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Site_STATUS() to populate field Status")
@@ -984,14 +984,14 @@ var _ genruntime.ConvertibleSpec = &Site_Spec{}
 
 // ConvertSpecFrom populates our Site_Spec from the provided source
 func (site *Site_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20220301s.Site_Spec)
+	src, ok := source.(*storage.Site_Spec)
 	if ok {
 		// Populate our instance from source
 		return site.AssignProperties_From_Site_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220301s.Site_Spec{}
+	src = &storage.Site_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -1008,14 +1008,14 @@ func (site *Site_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error 
 
 // ConvertSpecTo populates the provided destination from our Site_Spec
 func (site *Site_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20220301s.Site_Spec)
+	dst, ok := destination.(*storage.Site_Spec)
 	if ok {
 		// Populate destination from our instance
 		return site.AssignProperties_To_Site_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220301s.Site_Spec{}
+	dst = &storage.Site_Spec{}
 	err := site.AssignProperties_To_Site_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -1031,7 +1031,7 @@ func (site *Site_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) err
 }
 
 // AssignProperties_From_Site_Spec populates our Site_Spec from the provided source Site_Spec
-func (site *Site_Spec) AssignProperties_From_Site_Spec(source *v20220301s.Site_Spec) error {
+func (site *Site_Spec) AssignProperties_From_Site_Spec(source *storage.Site_Spec) error {
 
 	// AzureName
 	site.AzureName = source.AzureName
@@ -1292,7 +1292,7 @@ func (site *Site_Spec) AssignProperties_From_Site_Spec(source *v20220301s.Site_S
 }
 
 // AssignProperties_To_Site_Spec populates the provided destination Site_Spec from our Site_Spec
-func (site *Site_Spec) AssignProperties_To_Site_Spec(destination *v20220301s.Site_Spec) error {
+func (site *Site_Spec) AssignProperties_To_Site_Spec(destination *storage.Site_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1328,7 +1328,7 @@ func (site *Site_Spec) AssignProperties_To_Site_Spec(destination *v20220301s.Sit
 
 	// CloningInfo
 	if site.CloningInfo != nil {
-		var cloningInfo v20220301s.CloningInfo
+		var cloningInfo storage.CloningInfo
 		err := site.CloningInfo.AssignProperties_To_CloningInfo(&cloningInfo)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CloningInfo() to populate field CloningInfo")
@@ -1357,7 +1357,7 @@ func (site *Site_Spec) AssignProperties_To_Site_Spec(destination *v20220301s.Sit
 
 	// ExtendedLocation
 	if site.ExtendedLocation != nil {
-		var extendedLocation v20220301s.ExtendedLocation
+		var extendedLocation storage.ExtendedLocation
 		err := site.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
@@ -1369,11 +1369,11 @@ func (site *Site_Spec) AssignProperties_To_Site_Spec(destination *v20220301s.Sit
 
 	// HostNameSslStates
 	if site.HostNameSslStates != nil {
-		hostNameSslStateList := make([]v20220301s.HostNameSslState, len(site.HostNameSslStates))
+		hostNameSslStateList := make([]storage.HostNameSslState, len(site.HostNameSslStates))
 		for hostNameSslStateIndex, hostNameSslStateItem := range site.HostNameSslStates {
 			// Shadow the loop variable to avoid aliasing
 			hostNameSslStateItem := hostNameSslStateItem
-			var hostNameSslState v20220301s.HostNameSslState
+			var hostNameSslState storage.HostNameSslState
 			err := hostNameSslStateItem.AssignProperties_To_HostNameSslState(&hostNameSslState)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_HostNameSslState() to populate field HostNameSslStates")
@@ -1395,7 +1395,7 @@ func (site *Site_Spec) AssignProperties_To_Site_Spec(destination *v20220301s.Sit
 
 	// HostingEnvironmentProfile
 	if site.HostingEnvironmentProfile != nil {
-		var hostingEnvironmentProfile v20220301s.HostingEnvironmentProfile
+		var hostingEnvironmentProfile storage.HostingEnvironmentProfile
 		err := site.HostingEnvironmentProfile.AssignProperties_To_HostingEnvironmentProfile(&hostingEnvironmentProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HostingEnvironmentProfile() to populate field HostingEnvironmentProfile")
@@ -1423,7 +1423,7 @@ func (site *Site_Spec) AssignProperties_To_Site_Spec(destination *v20220301s.Sit
 
 	// Identity
 	if site.Identity != nil {
-		var identity v20220301s.ManagedServiceIdentity
+		var identity storage.ManagedServiceIdentity
 		err := site.Identity.AssignProperties_To_ManagedServiceIdentity(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedServiceIdentity() to populate field Identity")
@@ -1498,7 +1498,7 @@ func (site *Site_Spec) AssignProperties_To_Site_Spec(destination *v20220301s.Sit
 
 	// SiteConfig
 	if site.SiteConfig != nil {
-		var siteConfig v20220301s.SiteConfig
+		var siteConfig storage.SiteConfig
 		err := site.SiteConfig.AssignProperties_To_SiteConfig(&siteConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SiteConfig() to populate field SiteConfig")
@@ -2007,14 +2007,14 @@ var _ genruntime.ConvertibleStatus = &Site_STATUS{}
 
 // ConvertStatusFrom populates our Site_STATUS from the provided source
 func (site *Site_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20220301s.Site_STATUS)
+	src, ok := source.(*storage.Site_STATUS)
 	if ok {
 		// Populate our instance from source
 		return site.AssignProperties_From_Site_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220301s.Site_STATUS{}
+	src = &storage.Site_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -2031,14 +2031,14 @@ func (site *Site_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) 
 
 // ConvertStatusTo populates the provided destination from our Site_STATUS
 func (site *Site_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20220301s.Site_STATUS)
+	dst, ok := destination.(*storage.Site_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return site.AssignProperties_To_Site_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220301s.Site_STATUS{}
+	dst = &storage.Site_STATUS{}
 	err := site.AssignProperties_To_Site_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -2560,7 +2560,7 @@ func (site *Site_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 }
 
 // AssignProperties_From_Site_STATUS populates our Site_STATUS from the provided source Site_STATUS
-func (site *Site_STATUS) AssignProperties_From_Site_STATUS(source *v20220301s.Site_STATUS) error {
+func (site *Site_STATUS) AssignProperties_From_Site_STATUS(source *storage.Site_STATUS) error {
 
 	// AvailabilityState
 	if source.AvailabilityState != nil {
@@ -2892,7 +2892,7 @@ func (site *Site_STATUS) AssignProperties_From_Site_STATUS(source *v20220301s.Si
 }
 
 // AssignProperties_To_Site_STATUS populates the provided destination Site_STATUS from our Site_STATUS
-func (site *Site_STATUS) AssignProperties_To_Site_STATUS(destination *v20220301s.Site_STATUS) error {
+func (site *Site_STATUS) AssignProperties_To_Site_STATUS(destination *storage.Site_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2933,7 +2933,7 @@ func (site *Site_STATUS) AssignProperties_To_Site_STATUS(destination *v20220301s
 
 	// CloningInfo
 	if site.CloningInfo != nil {
-		var cloningInfo v20220301s.CloningInfo_STATUS
+		var cloningInfo storage.CloningInfo_STATUS
 		err := site.CloningInfo.AssignProperties_To_CloningInfo_STATUS(&cloningInfo)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CloningInfo_STATUS() to populate field CloningInfo")
@@ -2971,7 +2971,7 @@ func (site *Site_STATUS) AssignProperties_To_Site_STATUS(destination *v20220301s
 
 	// ExtendedLocation
 	if site.ExtendedLocation != nil {
-		var extendedLocation v20220301s.ExtendedLocation_STATUS
+		var extendedLocation storage.ExtendedLocation_STATUS
 		err := site.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
@@ -2983,11 +2983,11 @@ func (site *Site_STATUS) AssignProperties_To_Site_STATUS(destination *v20220301s
 
 	// HostNameSslStates
 	if site.HostNameSslStates != nil {
-		hostNameSslStateList := make([]v20220301s.HostNameSslState_STATUS, len(site.HostNameSslStates))
+		hostNameSslStateList := make([]storage.HostNameSslState_STATUS, len(site.HostNameSslStates))
 		for hostNameSslStateIndex, hostNameSslStateItem := range site.HostNameSslStates {
 			// Shadow the loop variable to avoid aliasing
 			hostNameSslStateItem := hostNameSslStateItem
-			var hostNameSslState v20220301s.HostNameSslState_STATUS
+			var hostNameSslState storage.HostNameSslState_STATUS
 			err := hostNameSslStateItem.AssignProperties_To_HostNameSslState_STATUS(&hostNameSslState)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_HostNameSslState_STATUS() to populate field HostNameSslStates")
@@ -3012,7 +3012,7 @@ func (site *Site_STATUS) AssignProperties_To_Site_STATUS(destination *v20220301s
 
 	// HostingEnvironmentProfile
 	if site.HostingEnvironmentProfile != nil {
-		var hostingEnvironmentProfile v20220301s.HostingEnvironmentProfile_STATUS
+		var hostingEnvironmentProfile storage.HostingEnvironmentProfile_STATUS
 		err := site.HostingEnvironmentProfile.AssignProperties_To_HostingEnvironmentProfile_STATUS(&hostingEnvironmentProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HostingEnvironmentProfile_STATUS() to populate field HostingEnvironmentProfile")
@@ -3043,7 +3043,7 @@ func (site *Site_STATUS) AssignProperties_To_Site_STATUS(destination *v20220301s
 
 	// Identity
 	if site.Identity != nil {
-		var identity v20220301s.ManagedServiceIdentity_STATUS
+		var identity storage.ManagedServiceIdentity_STATUS
 		err := site.Identity.AssignProperties_To_ManagedServiceIdentity_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedServiceIdentity_STATUS() to populate field Identity")
@@ -3134,7 +3134,7 @@ func (site *Site_STATUS) AssignProperties_To_Site_STATUS(destination *v20220301s
 
 	// SiteConfig
 	if site.SiteConfig != nil {
-		var siteConfig v20220301s.SiteConfig_STATUS
+		var siteConfig storage.SiteConfig_STATUS
 		err := site.SiteConfig.AssignProperties_To_SiteConfig_STATUS(&siteConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SiteConfig_STATUS() to populate field SiteConfig")
@@ -3146,7 +3146,7 @@ func (site *Site_STATUS) AssignProperties_To_Site_STATUS(destination *v20220301s
 
 	// SlotSwapStatus
 	if site.SlotSwapStatus != nil {
-		var slotSwapStatus v20220301s.SlotSwapStatus_STATUS
+		var slotSwapStatus storage.SlotSwapStatus_STATUS
 		err := site.SlotSwapStatus.AssignProperties_To_SlotSwapStatus_STATUS(&slotSwapStatus)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SlotSwapStatus_STATUS() to populate field SlotSwapStatus")
@@ -3440,7 +3440,7 @@ func (info *CloningInfo) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 }
 
 // AssignProperties_From_CloningInfo populates our CloningInfo from the provided source CloningInfo
-func (info *CloningInfo) AssignProperties_From_CloningInfo(source *v20220301s.CloningInfo) error {
+func (info *CloningInfo) AssignProperties_From_CloningInfo(source *storage.CloningInfo) error {
 
 	// AppSettingsOverrides
 	info.AppSettingsOverrides = genruntime.CloneMapOfStringToString(source.AppSettingsOverrides)
@@ -3515,7 +3515,7 @@ func (info *CloningInfo) AssignProperties_From_CloningInfo(source *v20220301s.Cl
 }
 
 // AssignProperties_To_CloningInfo populates the provided destination CloningInfo from our CloningInfo
-func (info *CloningInfo) AssignProperties_To_CloningInfo(destination *v20220301s.CloningInfo) error {
+func (info *CloningInfo) AssignProperties_To_CloningInfo(destination *storage.CloningInfo) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3806,7 +3806,7 @@ func (info *CloningInfo_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 }
 
 // AssignProperties_From_CloningInfo_STATUS populates our CloningInfo_STATUS from the provided source CloningInfo_STATUS
-func (info *CloningInfo_STATUS) AssignProperties_From_CloningInfo_STATUS(source *v20220301s.CloningInfo_STATUS) error {
+func (info *CloningInfo_STATUS) AssignProperties_From_CloningInfo_STATUS(source *storage.CloningInfo_STATUS) error {
 
 	// AppSettingsOverrides
 	info.AppSettingsOverrides = genruntime.CloneMapOfStringToString(source.AppSettingsOverrides)
@@ -3866,7 +3866,7 @@ func (info *CloningInfo_STATUS) AssignProperties_From_CloningInfo_STATUS(source 
 }
 
 // AssignProperties_To_CloningInfo_STATUS populates the provided destination CloningInfo_STATUS from our CloningInfo_STATUS
-func (info *CloningInfo_STATUS) AssignProperties_To_CloningInfo_STATUS(destination *v20220301s.CloningInfo_STATUS) error {
+func (info *CloningInfo_STATUS) AssignProperties_To_CloningInfo_STATUS(destination *storage.CloningInfo_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4055,7 +4055,7 @@ func (state *HostNameSslState) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 }
 
 // AssignProperties_From_HostNameSslState populates our HostNameSslState from the provided source HostNameSslState
-func (state *HostNameSslState) AssignProperties_From_HostNameSslState(source *v20220301s.HostNameSslState) error {
+func (state *HostNameSslState) AssignProperties_From_HostNameSslState(source *storage.HostNameSslState) error {
 
 	// HostType
 	if source.HostType != nil {
@@ -4097,7 +4097,7 @@ func (state *HostNameSslState) AssignProperties_From_HostNameSslState(source *v2
 }
 
 // AssignProperties_To_HostNameSslState populates the provided destination HostNameSslState from our HostNameSslState
-func (state *HostNameSslState) AssignProperties_To_HostNameSslState(destination *v20220301s.HostNameSslState) error {
+func (state *HostNameSslState) AssignProperties_To_HostNameSslState(destination *storage.HostNameSslState) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4261,7 +4261,7 @@ func (state *HostNameSslState_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 }
 
 // AssignProperties_From_HostNameSslState_STATUS populates our HostNameSslState_STATUS from the provided source HostNameSslState_STATUS
-func (state *HostNameSslState_STATUS) AssignProperties_From_HostNameSslState_STATUS(source *v20220301s.HostNameSslState_STATUS) error {
+func (state *HostNameSslState_STATUS) AssignProperties_From_HostNameSslState_STATUS(source *storage.HostNameSslState_STATUS) error {
 
 	// HostType
 	if source.HostType != nil {
@@ -4303,7 +4303,7 @@ func (state *HostNameSslState_STATUS) AssignProperties_From_HostNameSslState_STA
 }
 
 // AssignProperties_To_HostNameSslState_STATUS populates the provided destination HostNameSslState_STATUS from our HostNameSslState_STATUS
-func (state *HostNameSslState_STATUS) AssignProperties_To_HostNameSslState_STATUS(destination *v20220301s.HostNameSslState_STATUS) error {
+func (state *HostNameSslState_STATUS) AssignProperties_To_HostNameSslState_STATUS(destination *storage.HostNameSslState_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4415,7 +4415,7 @@ func (identity *ManagedServiceIdentity) PopulateFromARM(owner genruntime.Arbitra
 }
 
 // AssignProperties_From_ManagedServiceIdentity populates our ManagedServiceIdentity from the provided source ManagedServiceIdentity
-func (identity *ManagedServiceIdentity) AssignProperties_From_ManagedServiceIdentity(source *v20220301s.ManagedServiceIdentity) error {
+func (identity *ManagedServiceIdentity) AssignProperties_From_ManagedServiceIdentity(source *storage.ManagedServiceIdentity) error {
 
 	// Type
 	if source.Type != nil {
@@ -4449,7 +4449,7 @@ func (identity *ManagedServiceIdentity) AssignProperties_From_ManagedServiceIden
 }
 
 // AssignProperties_To_ManagedServiceIdentity populates the provided destination ManagedServiceIdentity from our ManagedServiceIdentity
-func (identity *ManagedServiceIdentity) AssignProperties_To_ManagedServiceIdentity(destination *v20220301s.ManagedServiceIdentity) error {
+func (identity *ManagedServiceIdentity) AssignProperties_To_ManagedServiceIdentity(destination *storage.ManagedServiceIdentity) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4463,11 +4463,11 @@ func (identity *ManagedServiceIdentity) AssignProperties_To_ManagedServiceIdenti
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]v20220301s.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
+		userAssignedIdentityList := make([]storage.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range identity.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityItem := userAssignedIdentityItem
-			var userAssignedIdentity v20220301s.UserAssignedIdentityDetails
+			var userAssignedIdentity storage.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
@@ -4584,7 +4584,7 @@ func (identity *ManagedServiceIdentity_STATUS) PopulateFromARM(owner genruntime.
 }
 
 // AssignProperties_From_ManagedServiceIdentity_STATUS populates our ManagedServiceIdentity_STATUS from the provided source ManagedServiceIdentity_STATUS
-func (identity *ManagedServiceIdentity_STATUS) AssignProperties_From_ManagedServiceIdentity_STATUS(source *v20220301s.ManagedServiceIdentity_STATUS) error {
+func (identity *ManagedServiceIdentity_STATUS) AssignProperties_From_ManagedServiceIdentity_STATUS(source *storage.ManagedServiceIdentity_STATUS) error {
 
 	// PrincipalId
 	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
@@ -4624,7 +4624,7 @@ func (identity *ManagedServiceIdentity_STATUS) AssignProperties_From_ManagedServ
 }
 
 // AssignProperties_To_ManagedServiceIdentity_STATUS populates the provided destination ManagedServiceIdentity_STATUS from our ManagedServiceIdentity_STATUS
-func (identity *ManagedServiceIdentity_STATUS) AssignProperties_To_ManagedServiceIdentity_STATUS(destination *v20220301s.ManagedServiceIdentity_STATUS) error {
+func (identity *ManagedServiceIdentity_STATUS) AssignProperties_To_ManagedServiceIdentity_STATUS(destination *storage.ManagedServiceIdentity_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4644,11 +4644,11 @@ func (identity *ManagedServiceIdentity_STATUS) AssignProperties_To_ManagedServic
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v20220301s.UserAssignedIdentity_STATUS, len(identity.UserAssignedIdentities))
+		userAssignedIdentityMap := make(map[string]storage.UserAssignedIdentity_STATUS, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity v20220301s.UserAssignedIdentity_STATUS
+			var userAssignedIdentity storage.UserAssignedIdentity_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_UserAssignedIdentity_STATUS(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentities")
@@ -5922,7 +5922,7 @@ func (config *SiteConfig) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 }
 
 // AssignProperties_From_SiteConfig populates our SiteConfig from the provided source SiteConfig
-func (config *SiteConfig) AssignProperties_From_SiteConfig(source *v20220301s.SiteConfig) error {
+func (config *SiteConfig) AssignProperties_From_SiteConfig(source *storage.SiteConfig) error {
 
 	// AcrUseManagedIdentityCreds
 	if source.AcrUseManagedIdentityCreds != nil {
@@ -6416,7 +6416,7 @@ func (config *SiteConfig) AssignProperties_From_SiteConfig(source *v20220301s.Si
 }
 
 // AssignProperties_To_SiteConfig populates the provided destination SiteConfig from our SiteConfig
-func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *v20220301s.SiteConfig) error {
+func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *storage.SiteConfig) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6441,7 +6441,7 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *v20220301s
 
 	// ApiDefinition
 	if config.ApiDefinition != nil {
-		var apiDefinition v20220301s.ApiDefinitionInfo
+		var apiDefinition storage.ApiDefinitionInfo
 		err := config.ApiDefinition.AssignProperties_To_ApiDefinitionInfo(&apiDefinition)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ApiDefinitionInfo() to populate field ApiDefinition")
@@ -6453,7 +6453,7 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *v20220301s
 
 	// ApiManagementConfig
 	if config.ApiManagementConfig != nil {
-		var apiManagementConfig v20220301s.ApiManagementConfig
+		var apiManagementConfig storage.ApiManagementConfig
 		err := config.ApiManagementConfig.AssignProperties_To_ApiManagementConfig(&apiManagementConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ApiManagementConfig() to populate field ApiManagementConfig")
@@ -6468,11 +6468,11 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *v20220301s
 
 	// AppSettings
 	if config.AppSettings != nil {
-		appSettingList := make([]v20220301s.NameValuePair, len(config.AppSettings))
+		appSettingList := make([]storage.NameValuePair, len(config.AppSettings))
 		for appSettingIndex, appSettingItem := range config.AppSettings {
 			// Shadow the loop variable to avoid aliasing
 			appSettingItem := appSettingItem
-			var appSetting v20220301s.NameValuePair
+			var appSetting storage.NameValuePair
 			err := appSettingItem.AssignProperties_To_NameValuePair(&appSetting)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_NameValuePair() to populate field AppSettings")
@@ -6494,7 +6494,7 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *v20220301s
 
 	// AutoHealRules
 	if config.AutoHealRules != nil {
-		var autoHealRule v20220301s.AutoHealRules
+		var autoHealRule storage.AutoHealRules
 		err := config.AutoHealRules.AssignProperties_To_AutoHealRules(&autoHealRule)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AutoHealRules() to populate field AutoHealRules")
@@ -6509,11 +6509,11 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *v20220301s
 
 	// AzureStorageAccounts
 	if config.AzureStorageAccounts != nil {
-		azureStorageAccountMap := make(map[string]v20220301s.AzureStorageInfoValue, len(config.AzureStorageAccounts))
+		azureStorageAccountMap := make(map[string]storage.AzureStorageInfoValue, len(config.AzureStorageAccounts))
 		for azureStorageAccountKey, azureStorageAccountValue := range config.AzureStorageAccounts {
 			// Shadow the loop variable to avoid aliasing
 			azureStorageAccountValue := azureStorageAccountValue
-			var azureStorageAccount v20220301s.AzureStorageInfoValue
+			var azureStorageAccount storage.AzureStorageInfoValue
 			err := azureStorageAccountValue.AssignProperties_To_AzureStorageInfoValue(&azureStorageAccount)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_AzureStorageInfoValue() to populate field AzureStorageAccounts")
@@ -6527,11 +6527,11 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *v20220301s
 
 	// ConnectionStrings
 	if config.ConnectionStrings != nil {
-		connectionStringList := make([]v20220301s.ConnStringInfo, len(config.ConnectionStrings))
+		connectionStringList := make([]storage.ConnStringInfo, len(config.ConnectionStrings))
 		for connectionStringIndex, connectionStringItem := range config.ConnectionStrings {
 			// Shadow the loop variable to avoid aliasing
 			connectionStringItem := connectionStringItem
-			var connectionString v20220301s.ConnStringInfo
+			var connectionString storage.ConnStringInfo
 			err := connectionStringItem.AssignProperties_To_ConnStringInfo(&connectionString)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ConnStringInfo() to populate field ConnectionStrings")
@@ -6545,7 +6545,7 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *v20220301s
 
 	// Cors
 	if config.Cors != nil {
-		var cor v20220301s.CorsSettings
+		var cor storage.CorsSettings
 		err := config.Cors.AssignProperties_To_CorsSettings(&cor)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CorsSettings() to populate field Cors")
@@ -6571,7 +6571,7 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *v20220301s
 
 	// Experiments
 	if config.Experiments != nil {
-		var experiment v20220301s.Experiments
+		var experiment storage.Experiments
 		err := config.Experiments.AssignProperties_To_Experiments(&experiment)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Experiments() to populate field Experiments")
@@ -6607,11 +6607,11 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *v20220301s
 
 	// HandlerMappings
 	if config.HandlerMappings != nil {
-		handlerMappingList := make([]v20220301s.HandlerMapping, len(config.HandlerMappings))
+		handlerMappingList := make([]storage.HandlerMapping, len(config.HandlerMappings))
 		for handlerMappingIndex, handlerMappingItem := range config.HandlerMappings {
 			// Shadow the loop variable to avoid aliasing
 			handlerMappingItem := handlerMappingItem
-			var handlerMapping v20220301s.HandlerMapping
+			var handlerMapping storage.HandlerMapping
 			err := handlerMappingItem.AssignProperties_To_HandlerMapping(&handlerMapping)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_HandlerMapping() to populate field HandlerMappings")
@@ -6644,11 +6644,11 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *v20220301s
 
 	// IpSecurityRestrictions
 	if config.IpSecurityRestrictions != nil {
-		ipSecurityRestrictionList := make([]v20220301s.IpSecurityRestriction, len(config.IpSecurityRestrictions))
+		ipSecurityRestrictionList := make([]storage.IpSecurityRestriction, len(config.IpSecurityRestrictions))
 		for ipSecurityRestrictionIndex, ipSecurityRestrictionItem := range config.IpSecurityRestrictions {
 			// Shadow the loop variable to avoid aliasing
 			ipSecurityRestrictionItem := ipSecurityRestrictionItem
-			var ipSecurityRestriction v20220301s.IpSecurityRestriction
+			var ipSecurityRestriction storage.IpSecurityRestriction
 			err := ipSecurityRestrictionItem.AssignProperties_To_IpSecurityRestriction(&ipSecurityRestriction)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_IpSecurityRestriction() to populate field IpSecurityRestrictions")
@@ -6674,7 +6674,7 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *v20220301s
 
 	// Limits
 	if config.Limits != nil {
-		var limit v20220301s.SiteLimits
+		var limit storage.SiteLimits
 		err := config.Limits.AssignProperties_To_SiteLimits(&limit)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SiteLimits() to populate field Limits")
@@ -6764,7 +6764,7 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *v20220301s
 
 	// Push
 	if config.Push != nil {
-		var push v20220301s.PushSettings
+		var push storage.PushSettings
 		err := config.Push.AssignProperties_To_PushSettings(&push)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PushSettings() to populate field Push")
@@ -6801,11 +6801,11 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *v20220301s
 
 	// ScmIpSecurityRestrictions
 	if config.ScmIpSecurityRestrictions != nil {
-		scmIpSecurityRestrictionList := make([]v20220301s.IpSecurityRestriction, len(config.ScmIpSecurityRestrictions))
+		scmIpSecurityRestrictionList := make([]storage.IpSecurityRestriction, len(config.ScmIpSecurityRestrictions))
 		for scmIpSecurityRestrictionIndex, scmIpSecurityRestrictionItem := range config.ScmIpSecurityRestrictions {
 			// Shadow the loop variable to avoid aliasing
 			scmIpSecurityRestrictionItem := scmIpSecurityRestrictionItem
-			var scmIpSecurityRestriction v20220301s.IpSecurityRestriction
+			var scmIpSecurityRestriction storage.IpSecurityRestriction
 			err := scmIpSecurityRestrictionItem.AssignProperties_To_IpSecurityRestriction(&scmIpSecurityRestriction)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_IpSecurityRestriction() to populate field ScmIpSecurityRestrictions")
@@ -6854,11 +6854,11 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *v20220301s
 
 	// VirtualApplications
 	if config.VirtualApplications != nil {
-		virtualApplicationList := make([]v20220301s.VirtualApplication, len(config.VirtualApplications))
+		virtualApplicationList := make([]storage.VirtualApplication, len(config.VirtualApplications))
 		for virtualApplicationIndex, virtualApplicationItem := range config.VirtualApplications {
 			// Shadow the loop variable to avoid aliasing
 			virtualApplicationItem := virtualApplicationItem
-			var virtualApplication v20220301s.VirtualApplication
+			var virtualApplication storage.VirtualApplication
 			err := virtualApplicationItem.AssignProperties_To_VirtualApplication(&virtualApplication)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_VirtualApplication() to populate field VirtualApplications")
@@ -8106,7 +8106,7 @@ func (config *SiteConfig_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 }
 
 // AssignProperties_From_SiteConfig_STATUS populates our SiteConfig_STATUS from the provided source SiteConfig_STATUS
-func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source *v20220301s.SiteConfig_STATUS) error {
+func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source *storage.SiteConfig_STATUS) error {
 
 	// AcrUseManagedIdentityCreds
 	if source.AcrUseManagedIdentityCreds != nil {
@@ -8597,7 +8597,7 @@ func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source 
 }
 
 // AssignProperties_To_SiteConfig_STATUS populates the provided destination SiteConfig_STATUS from our SiteConfig_STATUS
-func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destination *v20220301s.SiteConfig_STATUS) error {
+func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destination *storage.SiteConfig_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8622,7 +8622,7 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 
 	// ApiDefinition
 	if config.ApiDefinition != nil {
-		var apiDefinition v20220301s.ApiDefinitionInfo_STATUS
+		var apiDefinition storage.ApiDefinitionInfo_STATUS
 		err := config.ApiDefinition.AssignProperties_To_ApiDefinitionInfo_STATUS(&apiDefinition)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ApiDefinitionInfo_STATUS() to populate field ApiDefinition")
@@ -8634,7 +8634,7 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 
 	// ApiManagementConfig
 	if config.ApiManagementConfig != nil {
-		var apiManagementConfig v20220301s.ApiManagementConfig_STATUS
+		var apiManagementConfig storage.ApiManagementConfig_STATUS
 		err := config.ApiManagementConfig.AssignProperties_To_ApiManagementConfig_STATUS(&apiManagementConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ApiManagementConfig_STATUS() to populate field ApiManagementConfig")
@@ -8649,11 +8649,11 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 
 	// AppSettings
 	if config.AppSettings != nil {
-		appSettingList := make([]v20220301s.NameValuePair_STATUS, len(config.AppSettings))
+		appSettingList := make([]storage.NameValuePair_STATUS, len(config.AppSettings))
 		for appSettingIndex, appSettingItem := range config.AppSettings {
 			// Shadow the loop variable to avoid aliasing
 			appSettingItem := appSettingItem
-			var appSetting v20220301s.NameValuePair_STATUS
+			var appSetting storage.NameValuePair_STATUS
 			err := appSettingItem.AssignProperties_To_NameValuePair_STATUS(&appSetting)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_NameValuePair_STATUS() to populate field AppSettings")
@@ -8675,7 +8675,7 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 
 	// AutoHealRules
 	if config.AutoHealRules != nil {
-		var autoHealRule v20220301s.AutoHealRules_STATUS
+		var autoHealRule storage.AutoHealRules_STATUS
 		err := config.AutoHealRules.AssignProperties_To_AutoHealRules_STATUS(&autoHealRule)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AutoHealRules_STATUS() to populate field AutoHealRules")
@@ -8690,11 +8690,11 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 
 	// AzureStorageAccounts
 	if config.AzureStorageAccounts != nil {
-		azureStorageAccountMap := make(map[string]v20220301s.AzureStorageInfoValue_STATUS, len(config.AzureStorageAccounts))
+		azureStorageAccountMap := make(map[string]storage.AzureStorageInfoValue_STATUS, len(config.AzureStorageAccounts))
 		for azureStorageAccountKey, azureStorageAccountValue := range config.AzureStorageAccounts {
 			// Shadow the loop variable to avoid aliasing
 			azureStorageAccountValue := azureStorageAccountValue
-			var azureStorageAccount v20220301s.AzureStorageInfoValue_STATUS
+			var azureStorageAccount storage.AzureStorageInfoValue_STATUS
 			err := azureStorageAccountValue.AssignProperties_To_AzureStorageInfoValue_STATUS(&azureStorageAccount)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_AzureStorageInfoValue_STATUS() to populate field AzureStorageAccounts")
@@ -8708,11 +8708,11 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 
 	// ConnectionStrings
 	if config.ConnectionStrings != nil {
-		connectionStringList := make([]v20220301s.ConnStringInfo_STATUS, len(config.ConnectionStrings))
+		connectionStringList := make([]storage.ConnStringInfo_STATUS, len(config.ConnectionStrings))
 		for connectionStringIndex, connectionStringItem := range config.ConnectionStrings {
 			// Shadow the loop variable to avoid aliasing
 			connectionStringItem := connectionStringItem
-			var connectionString v20220301s.ConnStringInfo_STATUS
+			var connectionString storage.ConnStringInfo_STATUS
 			err := connectionStringItem.AssignProperties_To_ConnStringInfo_STATUS(&connectionString)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ConnStringInfo_STATUS() to populate field ConnectionStrings")
@@ -8726,7 +8726,7 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 
 	// Cors
 	if config.Cors != nil {
-		var cor v20220301s.CorsSettings_STATUS
+		var cor storage.CorsSettings_STATUS
 		err := config.Cors.AssignProperties_To_CorsSettings_STATUS(&cor)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CorsSettings_STATUS() to populate field Cors")
@@ -8752,7 +8752,7 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 
 	// Experiments
 	if config.Experiments != nil {
-		var experiment v20220301s.Experiments_STATUS
+		var experiment storage.Experiments_STATUS
 		err := config.Experiments.AssignProperties_To_Experiments_STATUS(&experiment)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Experiments_STATUS() to populate field Experiments")
@@ -8783,11 +8783,11 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 
 	// HandlerMappings
 	if config.HandlerMappings != nil {
-		handlerMappingList := make([]v20220301s.HandlerMapping_STATUS, len(config.HandlerMappings))
+		handlerMappingList := make([]storage.HandlerMapping_STATUS, len(config.HandlerMappings))
 		for handlerMappingIndex, handlerMappingItem := range config.HandlerMappings {
 			// Shadow the loop variable to avoid aliasing
 			handlerMappingItem := handlerMappingItem
-			var handlerMapping v20220301s.HandlerMapping_STATUS
+			var handlerMapping storage.HandlerMapping_STATUS
 			err := handlerMappingItem.AssignProperties_To_HandlerMapping_STATUS(&handlerMapping)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_HandlerMapping_STATUS() to populate field HandlerMappings")
@@ -8820,11 +8820,11 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 
 	// IpSecurityRestrictions
 	if config.IpSecurityRestrictions != nil {
-		ipSecurityRestrictionList := make([]v20220301s.IpSecurityRestriction_STATUS, len(config.IpSecurityRestrictions))
+		ipSecurityRestrictionList := make([]storage.IpSecurityRestriction_STATUS, len(config.IpSecurityRestrictions))
 		for ipSecurityRestrictionIndex, ipSecurityRestrictionItem := range config.IpSecurityRestrictions {
 			// Shadow the loop variable to avoid aliasing
 			ipSecurityRestrictionItem := ipSecurityRestrictionItem
-			var ipSecurityRestriction v20220301s.IpSecurityRestriction_STATUS
+			var ipSecurityRestriction storage.IpSecurityRestriction_STATUS
 			err := ipSecurityRestrictionItem.AssignProperties_To_IpSecurityRestriction_STATUS(&ipSecurityRestriction)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_IpSecurityRestriction_STATUS() to populate field IpSecurityRestrictions")
@@ -8850,7 +8850,7 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 
 	// Limits
 	if config.Limits != nil {
-		var limit v20220301s.SiteLimits_STATUS
+		var limit storage.SiteLimits_STATUS
 		err := config.Limits.AssignProperties_To_SiteLimits_STATUS(&limit)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SiteLimits_STATUS() to populate field Limits")
@@ -8884,7 +8884,7 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 
 	// MachineKey
 	if config.MachineKey != nil {
-		var machineKey v20220301s.SiteMachineKey_STATUS
+		var machineKey storage.SiteMachineKey_STATUS
 		err := config.MachineKey.AssignProperties_To_SiteMachineKey_STATUS(&machineKey)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SiteMachineKey_STATUS() to populate field MachineKey")
@@ -8942,7 +8942,7 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 
 	// Push
 	if config.Push != nil {
-		var push v20220301s.PushSettings_STATUS
+		var push storage.PushSettings_STATUS
 		err := config.Push.AssignProperties_To_PushSettings_STATUS(&push)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PushSettings_STATUS() to populate field Push")
@@ -8979,11 +8979,11 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 
 	// ScmIpSecurityRestrictions
 	if config.ScmIpSecurityRestrictions != nil {
-		scmIpSecurityRestrictionList := make([]v20220301s.IpSecurityRestriction_STATUS, len(config.ScmIpSecurityRestrictions))
+		scmIpSecurityRestrictionList := make([]storage.IpSecurityRestriction_STATUS, len(config.ScmIpSecurityRestrictions))
 		for scmIpSecurityRestrictionIndex, scmIpSecurityRestrictionItem := range config.ScmIpSecurityRestrictions {
 			// Shadow the loop variable to avoid aliasing
 			scmIpSecurityRestrictionItem := scmIpSecurityRestrictionItem
-			var scmIpSecurityRestriction v20220301s.IpSecurityRestriction_STATUS
+			var scmIpSecurityRestriction storage.IpSecurityRestriction_STATUS
 			err := scmIpSecurityRestrictionItem.AssignProperties_To_IpSecurityRestriction_STATUS(&scmIpSecurityRestriction)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_IpSecurityRestriction_STATUS() to populate field ScmIpSecurityRestrictions")
@@ -9032,11 +9032,11 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 
 	// VirtualApplications
 	if config.VirtualApplications != nil {
-		virtualApplicationList := make([]v20220301s.VirtualApplication_STATUS, len(config.VirtualApplications))
+		virtualApplicationList := make([]storage.VirtualApplication_STATUS, len(config.VirtualApplications))
 		for virtualApplicationIndex, virtualApplicationItem := range config.VirtualApplications {
 			// Shadow the loop variable to avoid aliasing
 			virtualApplicationItem := virtualApplicationItem
-			var virtualApplication v20220301s.VirtualApplication_STATUS
+			var virtualApplication storage.VirtualApplication_STATUS
 			err := virtualApplicationItem.AssignProperties_To_VirtualApplication_STATUS(&virtualApplication)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_VirtualApplication_STATUS() to populate field VirtualApplications")
@@ -9139,7 +9139,7 @@ func (status *SlotSwapStatus_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 }
 
 // AssignProperties_From_SlotSwapStatus_STATUS populates our SlotSwapStatus_STATUS from the provided source SlotSwapStatus_STATUS
-func (status *SlotSwapStatus_STATUS) AssignProperties_From_SlotSwapStatus_STATUS(source *v20220301s.SlotSwapStatus_STATUS) error {
+func (status *SlotSwapStatus_STATUS) AssignProperties_From_SlotSwapStatus_STATUS(source *storage.SlotSwapStatus_STATUS) error {
 
 	// DestinationSlotName
 	status.DestinationSlotName = genruntime.ClonePointerToString(source.DestinationSlotName)
@@ -9155,7 +9155,7 @@ func (status *SlotSwapStatus_STATUS) AssignProperties_From_SlotSwapStatus_STATUS
 }
 
 // AssignProperties_To_SlotSwapStatus_STATUS populates the provided destination SlotSwapStatus_STATUS from our SlotSwapStatus_STATUS
-func (status *SlotSwapStatus_STATUS) AssignProperties_To_SlotSwapStatus_STATUS(destination *v20220301s.SlotSwapStatus_STATUS) error {
+func (status *SlotSwapStatus_STATUS) AssignProperties_To_SlotSwapStatus_STATUS(destination *storage.SlotSwapStatus_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9225,7 +9225,7 @@ func (info *ApiDefinitionInfo) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 }
 
 // AssignProperties_From_ApiDefinitionInfo populates our ApiDefinitionInfo from the provided source ApiDefinitionInfo
-func (info *ApiDefinitionInfo) AssignProperties_From_ApiDefinitionInfo(source *v20220301s.ApiDefinitionInfo) error {
+func (info *ApiDefinitionInfo) AssignProperties_From_ApiDefinitionInfo(source *storage.ApiDefinitionInfo) error {
 
 	// Url
 	info.Url = genruntime.ClonePointerToString(source.Url)
@@ -9235,7 +9235,7 @@ func (info *ApiDefinitionInfo) AssignProperties_From_ApiDefinitionInfo(source *v
 }
 
 // AssignProperties_To_ApiDefinitionInfo populates the provided destination ApiDefinitionInfo from our ApiDefinitionInfo
-func (info *ApiDefinitionInfo) AssignProperties_To_ApiDefinitionInfo(destination *v20220301s.ApiDefinitionInfo) error {
+func (info *ApiDefinitionInfo) AssignProperties_To_ApiDefinitionInfo(destination *storage.ApiDefinitionInfo) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9294,7 +9294,7 @@ func (info *ApiDefinitionInfo_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 }
 
 // AssignProperties_From_ApiDefinitionInfo_STATUS populates our ApiDefinitionInfo_STATUS from the provided source ApiDefinitionInfo_STATUS
-func (info *ApiDefinitionInfo_STATUS) AssignProperties_From_ApiDefinitionInfo_STATUS(source *v20220301s.ApiDefinitionInfo_STATUS) error {
+func (info *ApiDefinitionInfo_STATUS) AssignProperties_From_ApiDefinitionInfo_STATUS(source *storage.ApiDefinitionInfo_STATUS) error {
 
 	// Url
 	info.Url = genruntime.ClonePointerToString(source.Url)
@@ -9304,7 +9304,7 @@ func (info *ApiDefinitionInfo_STATUS) AssignProperties_From_ApiDefinitionInfo_ST
 }
 
 // AssignProperties_To_ApiDefinitionInfo_STATUS populates the provided destination ApiDefinitionInfo_STATUS from our ApiDefinitionInfo_STATUS
-func (info *ApiDefinitionInfo_STATUS) AssignProperties_To_ApiDefinitionInfo_STATUS(destination *v20220301s.ApiDefinitionInfo_STATUS) error {
+func (info *ApiDefinitionInfo_STATUS) AssignProperties_To_ApiDefinitionInfo_STATUS(destination *storage.ApiDefinitionInfo_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9368,7 +9368,7 @@ func (config *ApiManagementConfig) PopulateFromARM(owner genruntime.ArbitraryOwn
 }
 
 // AssignProperties_From_ApiManagementConfig populates our ApiManagementConfig from the provided source ApiManagementConfig
-func (config *ApiManagementConfig) AssignProperties_From_ApiManagementConfig(source *v20220301s.ApiManagementConfig) error {
+func (config *ApiManagementConfig) AssignProperties_From_ApiManagementConfig(source *storage.ApiManagementConfig) error {
 
 	// Reference
 	if source.Reference != nil {
@@ -9383,7 +9383,7 @@ func (config *ApiManagementConfig) AssignProperties_From_ApiManagementConfig(sou
 }
 
 // AssignProperties_To_ApiManagementConfig populates the provided destination ApiManagementConfig from our ApiManagementConfig
-func (config *ApiManagementConfig) AssignProperties_To_ApiManagementConfig(destination *v20220301s.ApiManagementConfig) error {
+func (config *ApiManagementConfig) AssignProperties_To_ApiManagementConfig(destination *storage.ApiManagementConfig) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9452,7 +9452,7 @@ func (config *ApiManagementConfig_STATUS) PopulateFromARM(owner genruntime.Arbit
 }
 
 // AssignProperties_From_ApiManagementConfig_STATUS populates our ApiManagementConfig_STATUS from the provided source ApiManagementConfig_STATUS
-func (config *ApiManagementConfig_STATUS) AssignProperties_From_ApiManagementConfig_STATUS(source *v20220301s.ApiManagementConfig_STATUS) error {
+func (config *ApiManagementConfig_STATUS) AssignProperties_From_ApiManagementConfig_STATUS(source *storage.ApiManagementConfig_STATUS) error {
 
 	// Id
 	config.Id = genruntime.ClonePointerToString(source.Id)
@@ -9462,7 +9462,7 @@ func (config *ApiManagementConfig_STATUS) AssignProperties_From_ApiManagementCon
 }
 
 // AssignProperties_To_ApiManagementConfig_STATUS populates the provided destination ApiManagementConfig_STATUS from our ApiManagementConfig_STATUS
-func (config *ApiManagementConfig_STATUS) AssignProperties_To_ApiManagementConfig_STATUS(destination *v20220301s.ApiManagementConfig_STATUS) error {
+func (config *ApiManagementConfig_STATUS) AssignProperties_To_ApiManagementConfig_STATUS(destination *storage.ApiManagementConfig_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9559,7 +9559,7 @@ func (rules *AutoHealRules) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 }
 
 // AssignProperties_From_AutoHealRules populates our AutoHealRules from the provided source AutoHealRules
-func (rules *AutoHealRules) AssignProperties_From_AutoHealRules(source *v20220301s.AutoHealRules) error {
+func (rules *AutoHealRules) AssignProperties_From_AutoHealRules(source *storage.AutoHealRules) error {
 
 	// Actions
 	if source.Actions != nil {
@@ -9590,13 +9590,13 @@ func (rules *AutoHealRules) AssignProperties_From_AutoHealRules(source *v2022030
 }
 
 // AssignProperties_To_AutoHealRules populates the provided destination AutoHealRules from our AutoHealRules
-func (rules *AutoHealRules) AssignProperties_To_AutoHealRules(destination *v20220301s.AutoHealRules) error {
+func (rules *AutoHealRules) AssignProperties_To_AutoHealRules(destination *storage.AutoHealRules) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Actions
 	if rules.Actions != nil {
-		var action v20220301s.AutoHealActions
+		var action storage.AutoHealActions
 		err := rules.Actions.AssignProperties_To_AutoHealActions(&action)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AutoHealActions() to populate field Actions")
@@ -9608,7 +9608,7 @@ func (rules *AutoHealRules) AssignProperties_To_AutoHealRules(destination *v2022
 
 	// Triggers
 	if rules.Triggers != nil {
-		var trigger v20220301s.AutoHealTriggers
+		var trigger storage.AutoHealTriggers
 		err := rules.Triggers.AssignProperties_To_AutoHealTriggers(&trigger)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AutoHealTriggers() to populate field Triggers")
@@ -9710,7 +9710,7 @@ func (rules *AutoHealRules_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 }
 
 // AssignProperties_From_AutoHealRules_STATUS populates our AutoHealRules_STATUS from the provided source AutoHealRules_STATUS
-func (rules *AutoHealRules_STATUS) AssignProperties_From_AutoHealRules_STATUS(source *v20220301s.AutoHealRules_STATUS) error {
+func (rules *AutoHealRules_STATUS) AssignProperties_From_AutoHealRules_STATUS(source *storage.AutoHealRules_STATUS) error {
 
 	// Actions
 	if source.Actions != nil {
@@ -9741,13 +9741,13 @@ func (rules *AutoHealRules_STATUS) AssignProperties_From_AutoHealRules_STATUS(so
 }
 
 // AssignProperties_To_AutoHealRules_STATUS populates the provided destination AutoHealRules_STATUS from our AutoHealRules_STATUS
-func (rules *AutoHealRules_STATUS) AssignProperties_To_AutoHealRules_STATUS(destination *v20220301s.AutoHealRules_STATUS) error {
+func (rules *AutoHealRules_STATUS) AssignProperties_To_AutoHealRules_STATUS(destination *storage.AutoHealRules_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Actions
 	if rules.Actions != nil {
-		var action v20220301s.AutoHealActions_STATUS
+		var action storage.AutoHealActions_STATUS
 		err := rules.Actions.AssignProperties_To_AutoHealActions_STATUS(&action)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AutoHealActions_STATUS() to populate field Actions")
@@ -9759,7 +9759,7 @@ func (rules *AutoHealRules_STATUS) AssignProperties_To_AutoHealRules_STATUS(dest
 
 	// Triggers
 	if rules.Triggers != nil {
-		var trigger v20220301s.AutoHealTriggers_STATUS
+		var trigger storage.AutoHealTriggers_STATUS
 		err := rules.Triggers.AssignProperties_To_AutoHealTriggers_STATUS(&trigger)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AutoHealTriggers_STATUS() to populate field Triggers")
@@ -9886,7 +9886,7 @@ func (value *AzureStorageInfoValue) PopulateFromARM(owner genruntime.ArbitraryOw
 }
 
 // AssignProperties_From_AzureStorageInfoValue populates our AzureStorageInfoValue from the provided source AzureStorageInfoValue
-func (value *AzureStorageInfoValue) AssignProperties_From_AzureStorageInfoValue(source *v20220301s.AzureStorageInfoValue) error {
+func (value *AzureStorageInfoValue) AssignProperties_From_AzureStorageInfoValue(source *storage.AzureStorageInfoValue) error {
 
 	// AccessKey
 	if source.AccessKey != nil {
@@ -9919,7 +9919,7 @@ func (value *AzureStorageInfoValue) AssignProperties_From_AzureStorageInfoValue(
 }
 
 // AssignProperties_To_AzureStorageInfoValue populates the provided destination AzureStorageInfoValue from our AzureStorageInfoValue
-func (value *AzureStorageInfoValue) AssignProperties_To_AzureStorageInfoValue(destination *v20220301s.AzureStorageInfoValue) error {
+func (value *AzureStorageInfoValue) AssignProperties_To_AzureStorageInfoValue(destination *storage.AzureStorageInfoValue) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10050,7 +10050,7 @@ func (value *AzureStorageInfoValue_STATUS) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignProperties_From_AzureStorageInfoValue_STATUS populates our AzureStorageInfoValue_STATUS from the provided source AzureStorageInfoValue_STATUS
-func (value *AzureStorageInfoValue_STATUS) AssignProperties_From_AzureStorageInfoValue_STATUS(source *v20220301s.AzureStorageInfoValue_STATUS) error {
+func (value *AzureStorageInfoValue_STATUS) AssignProperties_From_AzureStorageInfoValue_STATUS(source *storage.AzureStorageInfoValue_STATUS) error {
 
 	// AccountName
 	value.AccountName = genruntime.ClonePointerToString(source.AccountName)
@@ -10084,7 +10084,7 @@ func (value *AzureStorageInfoValue_STATUS) AssignProperties_From_AzureStorageInf
 }
 
 // AssignProperties_To_AzureStorageInfoValue_STATUS populates the provided destination AzureStorageInfoValue_STATUS from our AzureStorageInfoValue_STATUS
-func (value *AzureStorageInfoValue_STATUS) AssignProperties_To_AzureStorageInfoValue_STATUS(destination *v20220301s.AzureStorageInfoValue_STATUS) error {
+func (value *AzureStorageInfoValue_STATUS) AssignProperties_To_AzureStorageInfoValue_STATUS(destination *storage.AzureStorageInfoValue_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10200,7 +10200,7 @@ func (info *ConnStringInfo) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 }
 
 // AssignProperties_From_ConnStringInfo populates our ConnStringInfo from the provided source ConnStringInfo
-func (info *ConnStringInfo) AssignProperties_From_ConnStringInfo(source *v20220301s.ConnStringInfo) error {
+func (info *ConnStringInfo) AssignProperties_From_ConnStringInfo(source *storage.ConnStringInfo) error {
 
 	// ConnectionString
 	info.ConnectionString = genruntime.ClonePointerToString(source.ConnectionString)
@@ -10222,7 +10222,7 @@ func (info *ConnStringInfo) AssignProperties_From_ConnStringInfo(source *v202203
 }
 
 // AssignProperties_To_ConnStringInfo populates the provided destination ConnStringInfo from our ConnStringInfo
-func (info *ConnStringInfo) AssignProperties_To_ConnStringInfo(destination *v20220301s.ConnStringInfo) error {
+func (info *ConnStringInfo) AssignProperties_To_ConnStringInfo(destination *storage.ConnStringInfo) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10321,7 +10321,7 @@ func (info *ConnStringInfo_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 }
 
 // AssignProperties_From_ConnStringInfo_STATUS populates our ConnStringInfo_STATUS from the provided source ConnStringInfo_STATUS
-func (info *ConnStringInfo_STATUS) AssignProperties_From_ConnStringInfo_STATUS(source *v20220301s.ConnStringInfo_STATUS) error {
+func (info *ConnStringInfo_STATUS) AssignProperties_From_ConnStringInfo_STATUS(source *storage.ConnStringInfo_STATUS) error {
 
 	// ConnectionString
 	info.ConnectionString = genruntime.ClonePointerToString(source.ConnectionString)
@@ -10343,7 +10343,7 @@ func (info *ConnStringInfo_STATUS) AssignProperties_From_ConnStringInfo_STATUS(s
 }
 
 // AssignProperties_To_ConnStringInfo_STATUS populates the provided destination ConnStringInfo_STATUS from our ConnStringInfo_STATUS
-func (info *ConnStringInfo_STATUS) AssignProperties_To_ConnStringInfo_STATUS(destination *v20220301s.ConnStringInfo_STATUS) error {
+func (info *ConnStringInfo_STATUS) AssignProperties_To_ConnStringInfo_STATUS(destination *storage.ConnStringInfo_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10434,7 +10434,7 @@ func (settings *CorsSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 }
 
 // AssignProperties_From_CorsSettings populates our CorsSettings from the provided source CorsSettings
-func (settings *CorsSettings) AssignProperties_From_CorsSettings(source *v20220301s.CorsSettings) error {
+func (settings *CorsSettings) AssignProperties_From_CorsSettings(source *storage.CorsSettings) error {
 
 	// AllowedOrigins
 	settings.AllowedOrigins = genruntime.CloneSliceOfString(source.AllowedOrigins)
@@ -10452,7 +10452,7 @@ func (settings *CorsSettings) AssignProperties_From_CorsSettings(source *v202203
 }
 
 // AssignProperties_To_CorsSettings populates the provided destination CorsSettings from our CorsSettings
-func (settings *CorsSettings) AssignProperties_To_CorsSettings(destination *v20220301s.CorsSettings) error {
+func (settings *CorsSettings) AssignProperties_To_CorsSettings(destination *storage.CorsSettings) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10538,7 +10538,7 @@ func (settings *CorsSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 }
 
 // AssignProperties_From_CorsSettings_STATUS populates our CorsSettings_STATUS from the provided source CorsSettings_STATUS
-func (settings *CorsSettings_STATUS) AssignProperties_From_CorsSettings_STATUS(source *v20220301s.CorsSettings_STATUS) error {
+func (settings *CorsSettings_STATUS) AssignProperties_From_CorsSettings_STATUS(source *storage.CorsSettings_STATUS) error {
 
 	// AllowedOrigins
 	settings.AllowedOrigins = genruntime.CloneSliceOfString(source.AllowedOrigins)
@@ -10556,7 +10556,7 @@ func (settings *CorsSettings_STATUS) AssignProperties_From_CorsSettings_STATUS(s
 }
 
 // AssignProperties_To_CorsSettings_STATUS populates the provided destination CorsSettings_STATUS from our CorsSettings_STATUS
-func (settings *CorsSettings_STATUS) AssignProperties_To_CorsSettings_STATUS(destination *v20220301s.CorsSettings_STATUS) error {
+func (settings *CorsSettings_STATUS) AssignProperties_To_CorsSettings_STATUS(destination *storage.CorsSettings_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10635,7 +10635,7 @@ func (experiments *Experiments) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 }
 
 // AssignProperties_From_Experiments populates our Experiments from the provided source Experiments
-func (experiments *Experiments) AssignProperties_From_Experiments(source *v20220301s.Experiments) error {
+func (experiments *Experiments) AssignProperties_From_Experiments(source *storage.Experiments) error {
 
 	// RampUpRules
 	if source.RampUpRules != nil {
@@ -10660,17 +10660,17 @@ func (experiments *Experiments) AssignProperties_From_Experiments(source *v20220
 }
 
 // AssignProperties_To_Experiments populates the provided destination Experiments from our Experiments
-func (experiments *Experiments) AssignProperties_To_Experiments(destination *v20220301s.Experiments) error {
+func (experiments *Experiments) AssignProperties_To_Experiments(destination *storage.Experiments) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// RampUpRules
 	if experiments.RampUpRules != nil {
-		rampUpRuleList := make([]v20220301s.RampUpRule, len(experiments.RampUpRules))
+		rampUpRuleList := make([]storage.RampUpRule, len(experiments.RampUpRules))
 		for rampUpRuleIndex, rampUpRuleItem := range experiments.RampUpRules {
 			// Shadow the loop variable to avoid aliasing
 			rampUpRuleItem := rampUpRuleItem
-			var rampUpRule v20220301s.RampUpRule
+			var rampUpRule storage.RampUpRule
 			err := rampUpRuleItem.AssignProperties_To_RampUpRule(&rampUpRule)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_RampUpRule() to populate field RampUpRules")
@@ -10753,7 +10753,7 @@ func (experiments *Experiments_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 }
 
 // AssignProperties_From_Experiments_STATUS populates our Experiments_STATUS from the provided source Experiments_STATUS
-func (experiments *Experiments_STATUS) AssignProperties_From_Experiments_STATUS(source *v20220301s.Experiments_STATUS) error {
+func (experiments *Experiments_STATUS) AssignProperties_From_Experiments_STATUS(source *storage.Experiments_STATUS) error {
 
 	// RampUpRules
 	if source.RampUpRules != nil {
@@ -10778,17 +10778,17 @@ func (experiments *Experiments_STATUS) AssignProperties_From_Experiments_STATUS(
 }
 
 // AssignProperties_To_Experiments_STATUS populates the provided destination Experiments_STATUS from our Experiments_STATUS
-func (experiments *Experiments_STATUS) AssignProperties_To_Experiments_STATUS(destination *v20220301s.Experiments_STATUS) error {
+func (experiments *Experiments_STATUS) AssignProperties_To_Experiments_STATUS(destination *storage.Experiments_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// RampUpRules
 	if experiments.RampUpRules != nil {
-		rampUpRuleList := make([]v20220301s.RampUpRule_STATUS, len(experiments.RampUpRules))
+		rampUpRuleList := make([]storage.RampUpRule_STATUS, len(experiments.RampUpRules))
 		for rampUpRuleIndex, rampUpRuleItem := range experiments.RampUpRules {
 			// Shadow the loop variable to avoid aliasing
 			rampUpRuleItem := rampUpRuleItem
-			var rampUpRule v20220301s.RampUpRule_STATUS
+			var rampUpRule storage.RampUpRule_STATUS
 			err := rampUpRuleItem.AssignProperties_To_RampUpRule_STATUS(&rampUpRule)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_RampUpRule_STATUS() to populate field RampUpRules")
@@ -10889,7 +10889,7 @@ func (mapping *HandlerMapping) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 }
 
 // AssignProperties_From_HandlerMapping populates our HandlerMapping from the provided source HandlerMapping
-func (mapping *HandlerMapping) AssignProperties_From_HandlerMapping(source *v20220301s.HandlerMapping) error {
+func (mapping *HandlerMapping) AssignProperties_From_HandlerMapping(source *storage.HandlerMapping) error {
 
 	// Arguments
 	mapping.Arguments = genruntime.ClonePointerToString(source.Arguments)
@@ -10905,7 +10905,7 @@ func (mapping *HandlerMapping) AssignProperties_From_HandlerMapping(source *v202
 }
 
 // AssignProperties_To_HandlerMapping populates the provided destination HandlerMapping from our HandlerMapping
-func (mapping *HandlerMapping) AssignProperties_To_HandlerMapping(destination *v20220301s.HandlerMapping) error {
+func (mapping *HandlerMapping) AssignProperties_To_HandlerMapping(destination *storage.HandlerMapping) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10996,7 +10996,7 @@ func (mapping *HandlerMapping_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 }
 
 // AssignProperties_From_HandlerMapping_STATUS populates our HandlerMapping_STATUS from the provided source HandlerMapping_STATUS
-func (mapping *HandlerMapping_STATUS) AssignProperties_From_HandlerMapping_STATUS(source *v20220301s.HandlerMapping_STATUS) error {
+func (mapping *HandlerMapping_STATUS) AssignProperties_From_HandlerMapping_STATUS(source *storage.HandlerMapping_STATUS) error {
 
 	// Arguments
 	mapping.Arguments = genruntime.ClonePointerToString(source.Arguments)
@@ -11012,7 +11012,7 @@ func (mapping *HandlerMapping_STATUS) AssignProperties_From_HandlerMapping_STATU
 }
 
 // AssignProperties_To_HandlerMapping_STATUS populates the provided destination HandlerMapping_STATUS from our HandlerMapping_STATUS
-func (mapping *HandlerMapping_STATUS) AssignProperties_To_HandlerMapping_STATUS(destination *v20220301s.HandlerMapping_STATUS) error {
+func (mapping *HandlerMapping_STATUS) AssignProperties_To_HandlerMapping_STATUS(destination *storage.HandlerMapping_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -11319,7 +11319,7 @@ func (restriction *IpSecurityRestriction) PopulateFromARM(owner genruntime.Arbit
 }
 
 // AssignProperties_From_IpSecurityRestriction populates our IpSecurityRestriction from the provided source IpSecurityRestriction
-func (restriction *IpSecurityRestriction) AssignProperties_From_IpSecurityRestriction(source *v20220301s.IpSecurityRestriction) error {
+func (restriction *IpSecurityRestriction) AssignProperties_From_IpSecurityRestriction(source *storage.IpSecurityRestriction) error {
 
 	// Action
 	restriction.Action = genruntime.ClonePointerToString(source.Action)
@@ -11380,7 +11380,7 @@ func (restriction *IpSecurityRestriction) AssignProperties_From_IpSecurityRestri
 }
 
 // AssignProperties_To_IpSecurityRestriction populates the provided destination IpSecurityRestriction from our IpSecurityRestriction
-func (restriction *IpSecurityRestriction) AssignProperties_To_IpSecurityRestriction(destination *v20220301s.IpSecurityRestriction) error {
+func (restriction *IpSecurityRestriction) AssignProperties_To_IpSecurityRestriction(destination *storage.IpSecurityRestriction) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -11652,7 +11652,7 @@ func (restriction *IpSecurityRestriction_STATUS) PopulateFromARM(owner genruntim
 }
 
 // AssignProperties_From_IpSecurityRestriction_STATUS populates our IpSecurityRestriction_STATUS from the provided source IpSecurityRestriction_STATUS
-func (restriction *IpSecurityRestriction_STATUS) AssignProperties_From_IpSecurityRestriction_STATUS(source *v20220301s.IpSecurityRestriction_STATUS) error {
+func (restriction *IpSecurityRestriction_STATUS) AssignProperties_From_IpSecurityRestriction_STATUS(source *storage.IpSecurityRestriction_STATUS) error {
 
 	// Action
 	restriction.Action = genruntime.ClonePointerToString(source.Action)
@@ -11708,7 +11708,7 @@ func (restriction *IpSecurityRestriction_STATUS) AssignProperties_From_IpSecurit
 }
 
 // AssignProperties_To_IpSecurityRestriction_STATUS populates the provided destination IpSecurityRestriction_STATUS from our IpSecurityRestriction_STATUS
-func (restriction *IpSecurityRestriction_STATUS) AssignProperties_To_IpSecurityRestriction_STATUS(destination *v20220301s.IpSecurityRestriction_STATUS) error {
+func (restriction *IpSecurityRestriction_STATUS) AssignProperties_To_IpSecurityRestriction_STATUS(destination *storage.IpSecurityRestriction_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -11832,7 +11832,7 @@ func (pair *NameValuePair) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 }
 
 // AssignProperties_From_NameValuePair populates our NameValuePair from the provided source NameValuePair
-func (pair *NameValuePair) AssignProperties_From_NameValuePair(source *v20220301s.NameValuePair) error {
+func (pair *NameValuePair) AssignProperties_From_NameValuePair(source *storage.NameValuePair) error {
 
 	// Name
 	pair.Name = genruntime.ClonePointerToString(source.Name)
@@ -11845,7 +11845,7 @@ func (pair *NameValuePair) AssignProperties_From_NameValuePair(source *v20220301
 }
 
 // AssignProperties_To_NameValuePair populates the provided destination NameValuePair from our NameValuePair
-func (pair *NameValuePair) AssignProperties_To_NameValuePair(destination *v20220301s.NameValuePair) error {
+func (pair *NameValuePair) AssignProperties_To_NameValuePair(destination *storage.NameValuePair) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -11919,7 +11919,7 @@ func (pair *NameValuePair_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 }
 
 // AssignProperties_From_NameValuePair_STATUS populates our NameValuePair_STATUS from the provided source NameValuePair_STATUS
-func (pair *NameValuePair_STATUS) AssignProperties_From_NameValuePair_STATUS(source *v20220301s.NameValuePair_STATUS) error {
+func (pair *NameValuePair_STATUS) AssignProperties_From_NameValuePair_STATUS(source *storage.NameValuePair_STATUS) error {
 
 	// Name
 	pair.Name = genruntime.ClonePointerToString(source.Name)
@@ -11932,7 +11932,7 @@ func (pair *NameValuePair_STATUS) AssignProperties_From_NameValuePair_STATUS(sou
 }
 
 // AssignProperties_To_NameValuePair_STATUS populates the provided destination NameValuePair_STATUS from our NameValuePair_STATUS
-func (pair *NameValuePair_STATUS) AssignProperties_To_NameValuePair_STATUS(destination *v20220301s.NameValuePair_STATUS) error {
+func (pair *NameValuePair_STATUS) AssignProperties_To_NameValuePair_STATUS(destination *storage.NameValuePair_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -12078,7 +12078,7 @@ func (settings *PushSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 }
 
 // AssignProperties_From_PushSettings populates our PushSettings from the provided source PushSettings
-func (settings *PushSettings) AssignProperties_From_PushSettings(source *v20220301s.PushSettings) error {
+func (settings *PushSettings) AssignProperties_From_PushSettings(source *storage.PushSettings) error {
 
 	// DynamicTagsJson
 	settings.DynamicTagsJson = genruntime.ClonePointerToString(source.DynamicTagsJson)
@@ -12105,7 +12105,7 @@ func (settings *PushSettings) AssignProperties_From_PushSettings(source *v202203
 }
 
 // AssignProperties_To_PushSettings populates the provided destination PushSettings from our PushSettings
-func (settings *PushSettings) AssignProperties_To_PushSettings(destination *v20220301s.PushSettings) error {
+func (settings *PushSettings) AssignProperties_To_PushSettings(destination *storage.PushSettings) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -12279,7 +12279,7 @@ func (settings *PushSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 }
 
 // AssignProperties_From_PushSettings_STATUS populates our PushSettings_STATUS from the provided source PushSettings_STATUS
-func (settings *PushSettings_STATUS) AssignProperties_From_PushSettings_STATUS(source *v20220301s.PushSettings_STATUS) error {
+func (settings *PushSettings_STATUS) AssignProperties_From_PushSettings_STATUS(source *storage.PushSettings_STATUS) error {
 
 	// DynamicTagsJson
 	settings.DynamicTagsJson = genruntime.ClonePointerToString(source.DynamicTagsJson)
@@ -12315,7 +12315,7 @@ func (settings *PushSettings_STATUS) AssignProperties_From_PushSettings_STATUS(s
 }
 
 // AssignProperties_To_PushSettings_STATUS populates the provided destination PushSettings_STATUS from our PushSettings_STATUS
-func (settings *PushSettings_STATUS) AssignProperties_To_PushSettings_STATUS(destination *v20220301s.PushSettings_STATUS) error {
+func (settings *PushSettings_STATUS) AssignProperties_To_PushSettings_STATUS(destination *storage.PushSettings_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -12673,7 +12673,7 @@ func (limits *SiteLimits) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 }
 
 // AssignProperties_From_SiteLimits populates our SiteLimits from the provided source SiteLimits
-func (limits *SiteLimits) AssignProperties_From_SiteLimits(source *v20220301s.SiteLimits) error {
+func (limits *SiteLimits) AssignProperties_From_SiteLimits(source *storage.SiteLimits) error {
 
 	// MaxDiskSizeInMb
 	limits.MaxDiskSizeInMb = genruntime.ClonePointerToInt(source.MaxDiskSizeInMb)
@@ -12694,7 +12694,7 @@ func (limits *SiteLimits) AssignProperties_From_SiteLimits(source *v20220301s.Si
 }
 
 // AssignProperties_To_SiteLimits populates the provided destination SiteLimits from our SiteLimits
-func (limits *SiteLimits) AssignProperties_To_SiteLimits(destination *v20220301s.SiteLimits) error {
+func (limits *SiteLimits) AssignProperties_To_SiteLimits(destination *storage.SiteLimits) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -12793,7 +12793,7 @@ func (limits *SiteLimits_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 }
 
 // AssignProperties_From_SiteLimits_STATUS populates our SiteLimits_STATUS from the provided source SiteLimits_STATUS
-func (limits *SiteLimits_STATUS) AssignProperties_From_SiteLimits_STATUS(source *v20220301s.SiteLimits_STATUS) error {
+func (limits *SiteLimits_STATUS) AssignProperties_From_SiteLimits_STATUS(source *storage.SiteLimits_STATUS) error {
 
 	// MaxDiskSizeInMb
 	limits.MaxDiskSizeInMb = genruntime.ClonePointerToInt(source.MaxDiskSizeInMb)
@@ -12814,7 +12814,7 @@ func (limits *SiteLimits_STATUS) AssignProperties_From_SiteLimits_STATUS(source 
 }
 
 // AssignProperties_To_SiteLimits_STATUS populates the provided destination SiteLimits_STATUS from our SiteLimits_STATUS
-func (limits *SiteLimits_STATUS) AssignProperties_To_SiteLimits_STATUS(destination *v20220301s.SiteLimits_STATUS) error {
+func (limits *SiteLimits_STATUS) AssignProperties_To_SiteLimits_STATUS(destination *storage.SiteLimits_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -12901,7 +12901,7 @@ func (machineKey *SiteMachineKey_STATUS) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_SiteMachineKey_STATUS populates our SiteMachineKey_STATUS from the provided source SiteMachineKey_STATUS
-func (machineKey *SiteMachineKey_STATUS) AssignProperties_From_SiteMachineKey_STATUS(source *v20220301s.SiteMachineKey_STATUS) error {
+func (machineKey *SiteMachineKey_STATUS) AssignProperties_From_SiteMachineKey_STATUS(source *storage.SiteMachineKey_STATUS) error {
 
 	// Decryption
 	machineKey.Decryption = genruntime.ClonePointerToString(source.Decryption)
@@ -12920,7 +12920,7 @@ func (machineKey *SiteMachineKey_STATUS) AssignProperties_From_SiteMachineKey_ST
 }
 
 // AssignProperties_To_SiteMachineKey_STATUS populates the provided destination SiteMachineKey_STATUS from our SiteMachineKey_STATUS
-func (machineKey *SiteMachineKey_STATUS) AssignProperties_To_SiteMachineKey_STATUS(destination *v20220301s.SiteMachineKey_STATUS) error {
+func (machineKey *SiteMachineKey_STATUS) AssignProperties_To_SiteMachineKey_STATUS(destination *storage.SiteMachineKey_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -12987,7 +12987,7 @@ func (identity *UserAssignedIdentity_STATUS) PopulateFromARM(owner genruntime.Ar
 }
 
 // AssignProperties_From_UserAssignedIdentity_STATUS populates our UserAssignedIdentity_STATUS from the provided source UserAssignedIdentity_STATUS
-func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedIdentity_STATUS(source *v20220301s.UserAssignedIdentity_STATUS) error {
+func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedIdentity_STATUS(source *storage.UserAssignedIdentity_STATUS) error {
 
 	// ClientId
 	identity.ClientId = genruntime.ClonePointerToString(source.ClientId)
@@ -13000,7 +13000,7 @@ func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedI
 }
 
 // AssignProperties_To_UserAssignedIdentity_STATUS populates the provided destination UserAssignedIdentity_STATUS from our UserAssignedIdentity_STATUS
-func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIdentity_STATUS(destination *v20220301s.UserAssignedIdentity_STATUS) error {
+func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIdentity_STATUS(destination *storage.UserAssignedIdentity_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -13027,7 +13027,7 @@ type UserAssignedIdentityDetails struct {
 }
 
 // AssignProperties_From_UserAssignedIdentityDetails populates our UserAssignedIdentityDetails from the provided source UserAssignedIdentityDetails
-func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *v20220301s.UserAssignedIdentityDetails) error {
+func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *storage.UserAssignedIdentityDetails) error {
 
 	// Reference
 	details.Reference = source.Reference.Copy()
@@ -13037,7 +13037,7 @@ func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedId
 }
 
 // AssignProperties_To_UserAssignedIdentityDetails populates the provided destination UserAssignedIdentityDetails from our UserAssignedIdentityDetails
-func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *v20220301s.UserAssignedIdentityDetails) error {
+func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *storage.UserAssignedIdentityDetails) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -13153,7 +13153,7 @@ func (application *VirtualApplication) PopulateFromARM(owner genruntime.Arbitrar
 }
 
 // AssignProperties_From_VirtualApplication populates our VirtualApplication from the provided source VirtualApplication
-func (application *VirtualApplication) AssignProperties_From_VirtualApplication(source *v20220301s.VirtualApplication) error {
+func (application *VirtualApplication) AssignProperties_From_VirtualApplication(source *storage.VirtualApplication) error {
 
 	// PhysicalPath
 	application.PhysicalPath = genruntime.ClonePointerToString(source.PhysicalPath)
@@ -13192,7 +13192,7 @@ func (application *VirtualApplication) AssignProperties_From_VirtualApplication(
 }
 
 // AssignProperties_To_VirtualApplication populates the provided destination VirtualApplication from our VirtualApplication
-func (application *VirtualApplication) AssignProperties_To_VirtualApplication(destination *v20220301s.VirtualApplication) error {
+func (application *VirtualApplication) AssignProperties_To_VirtualApplication(destination *storage.VirtualApplication) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -13209,11 +13209,11 @@ func (application *VirtualApplication) AssignProperties_To_VirtualApplication(de
 
 	// VirtualDirectories
 	if application.VirtualDirectories != nil {
-		virtualDirectoryList := make([]v20220301s.VirtualDirectory, len(application.VirtualDirectories))
+		virtualDirectoryList := make([]storage.VirtualDirectory, len(application.VirtualDirectories))
 		for virtualDirectoryIndex, virtualDirectoryItem := range application.VirtualDirectories {
 			// Shadow the loop variable to avoid aliasing
 			virtualDirectoryItem := virtualDirectoryItem
-			var virtualDirectory v20220301s.VirtualDirectory
+			var virtualDirectory storage.VirtualDirectory
 			err := virtualDirectoryItem.AssignProperties_To_VirtualDirectory(&virtualDirectory)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_VirtualDirectory() to populate field VirtualDirectories")
@@ -13340,7 +13340,7 @@ func (application *VirtualApplication_STATUS) PopulateFromARM(owner genruntime.A
 }
 
 // AssignProperties_From_VirtualApplication_STATUS populates our VirtualApplication_STATUS from the provided source VirtualApplication_STATUS
-func (application *VirtualApplication_STATUS) AssignProperties_From_VirtualApplication_STATUS(source *v20220301s.VirtualApplication_STATUS) error {
+func (application *VirtualApplication_STATUS) AssignProperties_From_VirtualApplication_STATUS(source *storage.VirtualApplication_STATUS) error {
 
 	// PhysicalPath
 	application.PhysicalPath = genruntime.ClonePointerToString(source.PhysicalPath)
@@ -13379,7 +13379,7 @@ func (application *VirtualApplication_STATUS) AssignProperties_From_VirtualAppli
 }
 
 // AssignProperties_To_VirtualApplication_STATUS populates the provided destination VirtualApplication_STATUS from our VirtualApplication_STATUS
-func (application *VirtualApplication_STATUS) AssignProperties_To_VirtualApplication_STATUS(destination *v20220301s.VirtualApplication_STATUS) error {
+func (application *VirtualApplication_STATUS) AssignProperties_To_VirtualApplication_STATUS(destination *storage.VirtualApplication_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -13396,11 +13396,11 @@ func (application *VirtualApplication_STATUS) AssignProperties_To_VirtualApplica
 
 	// VirtualDirectories
 	if application.VirtualDirectories != nil {
-		virtualDirectoryList := make([]v20220301s.VirtualDirectory_STATUS, len(application.VirtualDirectories))
+		virtualDirectoryList := make([]storage.VirtualDirectory_STATUS, len(application.VirtualDirectories))
 		for virtualDirectoryIndex, virtualDirectoryItem := range application.VirtualDirectories {
 			// Shadow the loop variable to avoid aliasing
 			virtualDirectoryItem := virtualDirectoryItem
-			var virtualDirectory v20220301s.VirtualDirectory_STATUS
+			var virtualDirectory storage.VirtualDirectory_STATUS
 			err := virtualDirectoryItem.AssignProperties_To_VirtualDirectory_STATUS(&virtualDirectory)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_VirtualDirectory_STATUS() to populate field VirtualDirectories")
@@ -13512,7 +13512,7 @@ func (actions *AutoHealActions) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 }
 
 // AssignProperties_From_AutoHealActions populates our AutoHealActions from the provided source AutoHealActions
-func (actions *AutoHealActions) AssignProperties_From_AutoHealActions(source *v20220301s.AutoHealActions) error {
+func (actions *AutoHealActions) AssignProperties_From_AutoHealActions(source *storage.AutoHealActions) error {
 
 	// ActionType
 	if source.ActionType != nil {
@@ -13543,7 +13543,7 @@ func (actions *AutoHealActions) AssignProperties_From_AutoHealActions(source *v2
 }
 
 // AssignProperties_To_AutoHealActions populates the provided destination AutoHealActions from our AutoHealActions
-func (actions *AutoHealActions) AssignProperties_To_AutoHealActions(destination *v20220301s.AutoHealActions) error {
+func (actions *AutoHealActions) AssignProperties_To_AutoHealActions(destination *storage.AutoHealActions) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -13557,7 +13557,7 @@ func (actions *AutoHealActions) AssignProperties_To_AutoHealActions(destination 
 
 	// CustomAction
 	if actions.CustomAction != nil {
-		var customAction v20220301s.AutoHealCustomAction
+		var customAction storage.AutoHealCustomAction
 		err := actions.CustomAction.AssignProperties_To_AutoHealCustomAction(&customAction)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AutoHealCustomAction() to populate field CustomAction")
@@ -13666,7 +13666,7 @@ func (actions *AutoHealActions_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 }
 
 // AssignProperties_From_AutoHealActions_STATUS populates our AutoHealActions_STATUS from the provided source AutoHealActions_STATUS
-func (actions *AutoHealActions_STATUS) AssignProperties_From_AutoHealActions_STATUS(source *v20220301s.AutoHealActions_STATUS) error {
+func (actions *AutoHealActions_STATUS) AssignProperties_From_AutoHealActions_STATUS(source *storage.AutoHealActions_STATUS) error {
 
 	// ActionType
 	if source.ActionType != nil {
@@ -13697,7 +13697,7 @@ func (actions *AutoHealActions_STATUS) AssignProperties_From_AutoHealActions_STA
 }
 
 // AssignProperties_To_AutoHealActions_STATUS populates the provided destination AutoHealActions_STATUS from our AutoHealActions_STATUS
-func (actions *AutoHealActions_STATUS) AssignProperties_To_AutoHealActions_STATUS(destination *v20220301s.AutoHealActions_STATUS) error {
+func (actions *AutoHealActions_STATUS) AssignProperties_To_AutoHealActions_STATUS(destination *storage.AutoHealActions_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -13711,7 +13711,7 @@ func (actions *AutoHealActions_STATUS) AssignProperties_To_AutoHealActions_STATU
 
 	// CustomAction
 	if actions.CustomAction != nil {
-		var customAction v20220301s.AutoHealCustomAction_STATUS
+		var customAction storage.AutoHealCustomAction_STATUS
 		err := actions.CustomAction.AssignProperties_To_AutoHealCustomAction_STATUS(&customAction)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AutoHealCustomAction_STATUS() to populate field CustomAction")
@@ -13895,7 +13895,7 @@ func (triggers *AutoHealTriggers) PopulateFromARM(owner genruntime.ArbitraryOwne
 }
 
 // AssignProperties_From_AutoHealTriggers populates our AutoHealTriggers from the provided source AutoHealTriggers
-func (triggers *AutoHealTriggers) AssignProperties_From_AutoHealTriggers(source *v20220301s.AutoHealTriggers) error {
+func (triggers *AutoHealTriggers) AssignProperties_From_AutoHealTriggers(source *storage.AutoHealTriggers) error {
 
 	// PrivateBytesInKB
 	triggers.PrivateBytesInKB = genruntime.ClonePointerToInt(source.PrivateBytesInKB)
@@ -13983,7 +13983,7 @@ func (triggers *AutoHealTriggers) AssignProperties_From_AutoHealTriggers(source 
 }
 
 // AssignProperties_To_AutoHealTriggers populates the provided destination AutoHealTriggers from our AutoHealTriggers
-func (triggers *AutoHealTriggers) AssignProperties_To_AutoHealTriggers(destination *v20220301s.AutoHealTriggers) error {
+func (triggers *AutoHealTriggers) AssignProperties_To_AutoHealTriggers(destination *storage.AutoHealTriggers) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -13992,7 +13992,7 @@ func (triggers *AutoHealTriggers) AssignProperties_To_AutoHealTriggers(destinati
 
 	// Requests
 	if triggers.Requests != nil {
-		var request v20220301s.RequestsBasedTrigger
+		var request storage.RequestsBasedTrigger
 		err := triggers.Requests.AssignProperties_To_RequestsBasedTrigger(&request)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RequestsBasedTrigger() to populate field Requests")
@@ -14004,7 +14004,7 @@ func (triggers *AutoHealTriggers) AssignProperties_To_AutoHealTriggers(destinati
 
 	// SlowRequests
 	if triggers.SlowRequests != nil {
-		var slowRequest v20220301s.SlowRequestsBasedTrigger
+		var slowRequest storage.SlowRequestsBasedTrigger
 		err := triggers.SlowRequests.AssignProperties_To_SlowRequestsBasedTrigger(&slowRequest)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SlowRequestsBasedTrigger() to populate field SlowRequests")
@@ -14016,11 +14016,11 @@ func (triggers *AutoHealTriggers) AssignProperties_To_AutoHealTriggers(destinati
 
 	// SlowRequestsWithPath
 	if triggers.SlowRequestsWithPath != nil {
-		slowRequestsWithPathList := make([]v20220301s.SlowRequestsBasedTrigger, len(triggers.SlowRequestsWithPath))
+		slowRequestsWithPathList := make([]storage.SlowRequestsBasedTrigger, len(triggers.SlowRequestsWithPath))
 		for slowRequestsWithPathIndex, slowRequestsWithPathItem := range triggers.SlowRequestsWithPath {
 			// Shadow the loop variable to avoid aliasing
 			slowRequestsWithPathItem := slowRequestsWithPathItem
-			var slowRequestsWithPath v20220301s.SlowRequestsBasedTrigger
+			var slowRequestsWithPath storage.SlowRequestsBasedTrigger
 			err := slowRequestsWithPathItem.AssignProperties_To_SlowRequestsBasedTrigger(&slowRequestsWithPath)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SlowRequestsBasedTrigger() to populate field SlowRequestsWithPath")
@@ -14034,11 +14034,11 @@ func (triggers *AutoHealTriggers) AssignProperties_To_AutoHealTriggers(destinati
 
 	// StatusCodes
 	if triggers.StatusCodes != nil {
-		statusCodeList := make([]v20220301s.StatusCodesBasedTrigger, len(triggers.StatusCodes))
+		statusCodeList := make([]storage.StatusCodesBasedTrigger, len(triggers.StatusCodes))
 		for statusCodeIndex, statusCodeItem := range triggers.StatusCodes {
 			// Shadow the loop variable to avoid aliasing
 			statusCodeItem := statusCodeItem
-			var statusCode v20220301s.StatusCodesBasedTrigger
+			var statusCode storage.StatusCodesBasedTrigger
 			err := statusCodeItem.AssignProperties_To_StatusCodesBasedTrigger(&statusCode)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_StatusCodesBasedTrigger() to populate field StatusCodes")
@@ -14052,11 +14052,11 @@ func (triggers *AutoHealTriggers) AssignProperties_To_AutoHealTriggers(destinati
 
 	// StatusCodesRange
 	if triggers.StatusCodesRange != nil {
-		statusCodesRangeList := make([]v20220301s.StatusCodesRangeBasedTrigger, len(triggers.StatusCodesRange))
+		statusCodesRangeList := make([]storage.StatusCodesRangeBasedTrigger, len(triggers.StatusCodesRange))
 		for statusCodesRangeIndex, statusCodesRangeItem := range triggers.StatusCodesRange {
 			// Shadow the loop variable to avoid aliasing
 			statusCodesRangeItem := statusCodesRangeItem
-			var statusCodesRange v20220301s.StatusCodesRangeBasedTrigger
+			var statusCodesRange storage.StatusCodesRangeBasedTrigger
 			err := statusCodesRangeItem.AssignProperties_To_StatusCodesRangeBasedTrigger(&statusCodesRange)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_StatusCodesRangeBasedTrigger() to populate field StatusCodesRange")
@@ -14265,7 +14265,7 @@ func (triggers *AutoHealTriggers_STATUS) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_AutoHealTriggers_STATUS populates our AutoHealTriggers_STATUS from the provided source AutoHealTriggers_STATUS
-func (triggers *AutoHealTriggers_STATUS) AssignProperties_From_AutoHealTriggers_STATUS(source *v20220301s.AutoHealTriggers_STATUS) error {
+func (triggers *AutoHealTriggers_STATUS) AssignProperties_From_AutoHealTriggers_STATUS(source *storage.AutoHealTriggers_STATUS) error {
 
 	// PrivateBytesInKB
 	triggers.PrivateBytesInKB = genruntime.ClonePointerToInt(source.PrivateBytesInKB)
@@ -14353,7 +14353,7 @@ func (triggers *AutoHealTriggers_STATUS) AssignProperties_From_AutoHealTriggers_
 }
 
 // AssignProperties_To_AutoHealTriggers_STATUS populates the provided destination AutoHealTriggers_STATUS from our AutoHealTriggers_STATUS
-func (triggers *AutoHealTriggers_STATUS) AssignProperties_To_AutoHealTriggers_STATUS(destination *v20220301s.AutoHealTriggers_STATUS) error {
+func (triggers *AutoHealTriggers_STATUS) AssignProperties_To_AutoHealTriggers_STATUS(destination *storage.AutoHealTriggers_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -14362,7 +14362,7 @@ func (triggers *AutoHealTriggers_STATUS) AssignProperties_To_AutoHealTriggers_ST
 
 	// Requests
 	if triggers.Requests != nil {
-		var request v20220301s.RequestsBasedTrigger_STATUS
+		var request storage.RequestsBasedTrigger_STATUS
 		err := triggers.Requests.AssignProperties_To_RequestsBasedTrigger_STATUS(&request)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RequestsBasedTrigger_STATUS() to populate field Requests")
@@ -14374,7 +14374,7 @@ func (triggers *AutoHealTriggers_STATUS) AssignProperties_To_AutoHealTriggers_ST
 
 	// SlowRequests
 	if triggers.SlowRequests != nil {
-		var slowRequest v20220301s.SlowRequestsBasedTrigger_STATUS
+		var slowRequest storage.SlowRequestsBasedTrigger_STATUS
 		err := triggers.SlowRequests.AssignProperties_To_SlowRequestsBasedTrigger_STATUS(&slowRequest)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SlowRequestsBasedTrigger_STATUS() to populate field SlowRequests")
@@ -14386,11 +14386,11 @@ func (triggers *AutoHealTriggers_STATUS) AssignProperties_To_AutoHealTriggers_ST
 
 	// SlowRequestsWithPath
 	if triggers.SlowRequestsWithPath != nil {
-		slowRequestsWithPathList := make([]v20220301s.SlowRequestsBasedTrigger_STATUS, len(triggers.SlowRequestsWithPath))
+		slowRequestsWithPathList := make([]storage.SlowRequestsBasedTrigger_STATUS, len(triggers.SlowRequestsWithPath))
 		for slowRequestsWithPathIndex, slowRequestsWithPathItem := range triggers.SlowRequestsWithPath {
 			// Shadow the loop variable to avoid aliasing
 			slowRequestsWithPathItem := slowRequestsWithPathItem
-			var slowRequestsWithPath v20220301s.SlowRequestsBasedTrigger_STATUS
+			var slowRequestsWithPath storage.SlowRequestsBasedTrigger_STATUS
 			err := slowRequestsWithPathItem.AssignProperties_To_SlowRequestsBasedTrigger_STATUS(&slowRequestsWithPath)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SlowRequestsBasedTrigger_STATUS() to populate field SlowRequestsWithPath")
@@ -14404,11 +14404,11 @@ func (triggers *AutoHealTriggers_STATUS) AssignProperties_To_AutoHealTriggers_ST
 
 	// StatusCodes
 	if triggers.StatusCodes != nil {
-		statusCodeList := make([]v20220301s.StatusCodesBasedTrigger_STATUS, len(triggers.StatusCodes))
+		statusCodeList := make([]storage.StatusCodesBasedTrigger_STATUS, len(triggers.StatusCodes))
 		for statusCodeIndex, statusCodeItem := range triggers.StatusCodes {
 			// Shadow the loop variable to avoid aliasing
 			statusCodeItem := statusCodeItem
-			var statusCode v20220301s.StatusCodesBasedTrigger_STATUS
+			var statusCode storage.StatusCodesBasedTrigger_STATUS
 			err := statusCodeItem.AssignProperties_To_StatusCodesBasedTrigger_STATUS(&statusCode)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_StatusCodesBasedTrigger_STATUS() to populate field StatusCodes")
@@ -14422,11 +14422,11 @@ func (triggers *AutoHealTriggers_STATUS) AssignProperties_To_AutoHealTriggers_ST
 
 	// StatusCodesRange
 	if triggers.StatusCodesRange != nil {
-		statusCodesRangeList := make([]v20220301s.StatusCodesRangeBasedTrigger_STATUS, len(triggers.StatusCodesRange))
+		statusCodesRangeList := make([]storage.StatusCodesRangeBasedTrigger_STATUS, len(triggers.StatusCodesRange))
 		for statusCodesRangeIndex, statusCodesRangeItem := range triggers.StatusCodesRange {
 			// Shadow the loop variable to avoid aliasing
 			statusCodesRangeItem := statusCodesRangeItem
-			var statusCodesRange v20220301s.StatusCodesRangeBasedTrigger_STATUS
+			var statusCodesRange storage.StatusCodesRangeBasedTrigger_STATUS
 			err := statusCodesRangeItem.AssignProperties_To_StatusCodesRangeBasedTrigger_STATUS(&statusCodesRange)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_StatusCodesRangeBasedTrigger_STATUS() to populate field StatusCodesRange")
@@ -14747,7 +14747,7 @@ func (rule *RampUpRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 }
 
 // AssignProperties_From_RampUpRule populates our RampUpRule from the provided source RampUpRule
-func (rule *RampUpRule) AssignProperties_From_RampUpRule(source *v20220301s.RampUpRule) error {
+func (rule *RampUpRule) AssignProperties_From_RampUpRule(source *storage.RampUpRule) error {
 
 	// ActionHostName
 	rule.ActionHostName = genruntime.ClonePointerToString(source.ActionHostName)
@@ -14798,7 +14798,7 @@ func (rule *RampUpRule) AssignProperties_From_RampUpRule(source *v20220301s.Ramp
 }
 
 // AssignProperties_To_RampUpRule populates the provided destination RampUpRule from our RampUpRule
-func (rule *RampUpRule) AssignProperties_To_RampUpRule(destination *v20220301s.RampUpRule) error {
+func (rule *RampUpRule) AssignProperties_To_RampUpRule(destination *storage.RampUpRule) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -15011,7 +15011,7 @@ func (rule *RampUpRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 }
 
 // AssignProperties_From_RampUpRule_STATUS populates our RampUpRule_STATUS from the provided source RampUpRule_STATUS
-func (rule *RampUpRule_STATUS) AssignProperties_From_RampUpRule_STATUS(source *v20220301s.RampUpRule_STATUS) error {
+func (rule *RampUpRule_STATUS) AssignProperties_From_RampUpRule_STATUS(source *storage.RampUpRule_STATUS) error {
 
 	// ActionHostName
 	rule.ActionHostName = genruntime.ClonePointerToString(source.ActionHostName)
@@ -15062,7 +15062,7 @@ func (rule *RampUpRule_STATUS) AssignProperties_From_RampUpRule_STATUS(source *v
 }
 
 // AssignProperties_To_RampUpRule_STATUS populates the provided destination RampUpRule_STATUS from our RampUpRule_STATUS
-func (rule *RampUpRule_STATUS) AssignProperties_To_RampUpRule_STATUS(destination *v20220301s.RampUpRule_STATUS) error {
+func (rule *RampUpRule_STATUS) AssignProperties_To_RampUpRule_STATUS(destination *storage.RampUpRule_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -15182,7 +15182,7 @@ func (directory *VirtualDirectory) PopulateFromARM(owner genruntime.ArbitraryOwn
 }
 
 // AssignProperties_From_VirtualDirectory populates our VirtualDirectory from the provided source VirtualDirectory
-func (directory *VirtualDirectory) AssignProperties_From_VirtualDirectory(source *v20220301s.VirtualDirectory) error {
+func (directory *VirtualDirectory) AssignProperties_From_VirtualDirectory(source *storage.VirtualDirectory) error {
 
 	// PhysicalPath
 	directory.PhysicalPath = genruntime.ClonePointerToString(source.PhysicalPath)
@@ -15195,7 +15195,7 @@ func (directory *VirtualDirectory) AssignProperties_From_VirtualDirectory(source
 }
 
 // AssignProperties_To_VirtualDirectory populates the provided destination VirtualDirectory from our VirtualDirectory
-func (directory *VirtualDirectory) AssignProperties_To_VirtualDirectory(destination *v20220301s.VirtualDirectory) error {
+func (directory *VirtualDirectory) AssignProperties_To_VirtualDirectory(destination *storage.VirtualDirectory) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -15269,7 +15269,7 @@ func (directory *VirtualDirectory_STATUS) PopulateFromARM(owner genruntime.Arbit
 }
 
 // AssignProperties_From_VirtualDirectory_STATUS populates our VirtualDirectory_STATUS from the provided source VirtualDirectory_STATUS
-func (directory *VirtualDirectory_STATUS) AssignProperties_From_VirtualDirectory_STATUS(source *v20220301s.VirtualDirectory_STATUS) error {
+func (directory *VirtualDirectory_STATUS) AssignProperties_From_VirtualDirectory_STATUS(source *storage.VirtualDirectory_STATUS) error {
 
 	// PhysicalPath
 	directory.PhysicalPath = genruntime.ClonePointerToString(source.PhysicalPath)
@@ -15282,7 +15282,7 @@ func (directory *VirtualDirectory_STATUS) AssignProperties_From_VirtualDirectory
 }
 
 // AssignProperties_To_VirtualDirectory_STATUS populates the provided destination VirtualDirectory_STATUS from our VirtualDirectory_STATUS
-func (directory *VirtualDirectory_STATUS) AssignProperties_To_VirtualDirectory_STATUS(destination *v20220301s.VirtualDirectory_STATUS) error {
+func (directory *VirtualDirectory_STATUS) AssignProperties_To_VirtualDirectory_STATUS(destination *storage.VirtualDirectory_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -15396,7 +15396,7 @@ func (action *AutoHealCustomAction) PopulateFromARM(owner genruntime.ArbitraryOw
 }
 
 // AssignProperties_From_AutoHealCustomAction populates our AutoHealCustomAction from the provided source AutoHealCustomAction
-func (action *AutoHealCustomAction) AssignProperties_From_AutoHealCustomAction(source *v20220301s.AutoHealCustomAction) error {
+func (action *AutoHealCustomAction) AssignProperties_From_AutoHealCustomAction(source *storage.AutoHealCustomAction) error {
 
 	// Exe
 	action.Exe = genruntime.ClonePointerToString(source.Exe)
@@ -15409,7 +15409,7 @@ func (action *AutoHealCustomAction) AssignProperties_From_AutoHealCustomAction(s
 }
 
 // AssignProperties_To_AutoHealCustomAction populates the provided destination AutoHealCustomAction from our AutoHealCustomAction
-func (action *AutoHealCustomAction) AssignProperties_To_AutoHealCustomAction(destination *v20220301s.AutoHealCustomAction) error {
+func (action *AutoHealCustomAction) AssignProperties_To_AutoHealCustomAction(destination *storage.AutoHealCustomAction) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -15484,7 +15484,7 @@ func (action *AutoHealCustomAction_STATUS) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignProperties_From_AutoHealCustomAction_STATUS populates our AutoHealCustomAction_STATUS from the provided source AutoHealCustomAction_STATUS
-func (action *AutoHealCustomAction_STATUS) AssignProperties_From_AutoHealCustomAction_STATUS(source *v20220301s.AutoHealCustomAction_STATUS) error {
+func (action *AutoHealCustomAction_STATUS) AssignProperties_From_AutoHealCustomAction_STATUS(source *storage.AutoHealCustomAction_STATUS) error {
 
 	// Exe
 	action.Exe = genruntime.ClonePointerToString(source.Exe)
@@ -15497,7 +15497,7 @@ func (action *AutoHealCustomAction_STATUS) AssignProperties_From_AutoHealCustomA
 }
 
 // AssignProperties_To_AutoHealCustomAction_STATUS populates the provided destination AutoHealCustomAction_STATUS from our AutoHealCustomAction_STATUS
-func (action *AutoHealCustomAction_STATUS) AssignProperties_To_AutoHealCustomAction_STATUS(destination *v20220301s.AutoHealCustomAction_STATUS) error {
+func (action *AutoHealCustomAction_STATUS) AssignProperties_To_AutoHealCustomAction_STATUS(destination *storage.AutoHealCustomAction_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -15579,7 +15579,7 @@ func (trigger *RequestsBasedTrigger) PopulateFromARM(owner genruntime.ArbitraryO
 }
 
 // AssignProperties_From_RequestsBasedTrigger populates our RequestsBasedTrigger from the provided source RequestsBasedTrigger
-func (trigger *RequestsBasedTrigger) AssignProperties_From_RequestsBasedTrigger(source *v20220301s.RequestsBasedTrigger) error {
+func (trigger *RequestsBasedTrigger) AssignProperties_From_RequestsBasedTrigger(source *storage.RequestsBasedTrigger) error {
 
 	// Count
 	trigger.Count = genruntime.ClonePointerToInt(source.Count)
@@ -15592,7 +15592,7 @@ func (trigger *RequestsBasedTrigger) AssignProperties_From_RequestsBasedTrigger(
 }
 
 // AssignProperties_To_RequestsBasedTrigger populates the provided destination RequestsBasedTrigger from our RequestsBasedTrigger
-func (trigger *RequestsBasedTrigger) AssignProperties_To_RequestsBasedTrigger(destination *v20220301s.RequestsBasedTrigger) error {
+func (trigger *RequestsBasedTrigger) AssignProperties_To_RequestsBasedTrigger(destination *storage.RequestsBasedTrigger) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -15666,7 +15666,7 @@ func (trigger *RequestsBasedTrigger_STATUS) PopulateFromARM(owner genruntime.Arb
 }
 
 // AssignProperties_From_RequestsBasedTrigger_STATUS populates our RequestsBasedTrigger_STATUS from the provided source RequestsBasedTrigger_STATUS
-func (trigger *RequestsBasedTrigger_STATUS) AssignProperties_From_RequestsBasedTrigger_STATUS(source *v20220301s.RequestsBasedTrigger_STATUS) error {
+func (trigger *RequestsBasedTrigger_STATUS) AssignProperties_From_RequestsBasedTrigger_STATUS(source *storage.RequestsBasedTrigger_STATUS) error {
 
 	// Count
 	trigger.Count = genruntime.ClonePointerToInt(source.Count)
@@ -15679,7 +15679,7 @@ func (trigger *RequestsBasedTrigger_STATUS) AssignProperties_From_RequestsBasedT
 }
 
 // AssignProperties_To_RequestsBasedTrigger_STATUS populates the provided destination RequestsBasedTrigger_STATUS from our RequestsBasedTrigger_STATUS
-func (trigger *RequestsBasedTrigger_STATUS) AssignProperties_To_RequestsBasedTrigger_STATUS(destination *v20220301s.RequestsBasedTrigger_STATUS) error {
+func (trigger *RequestsBasedTrigger_STATUS) AssignProperties_To_RequestsBasedTrigger_STATUS(destination *storage.RequestsBasedTrigger_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -15791,7 +15791,7 @@ func (trigger *SlowRequestsBasedTrigger) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_SlowRequestsBasedTrigger populates our SlowRequestsBasedTrigger from the provided source SlowRequestsBasedTrigger
-func (trigger *SlowRequestsBasedTrigger) AssignProperties_From_SlowRequestsBasedTrigger(source *v20220301s.SlowRequestsBasedTrigger) error {
+func (trigger *SlowRequestsBasedTrigger) AssignProperties_From_SlowRequestsBasedTrigger(source *storage.SlowRequestsBasedTrigger) error {
 
 	// Count
 	trigger.Count = genruntime.ClonePointerToInt(source.Count)
@@ -15810,7 +15810,7 @@ func (trigger *SlowRequestsBasedTrigger) AssignProperties_From_SlowRequestsBased
 }
 
 // AssignProperties_To_SlowRequestsBasedTrigger populates the provided destination SlowRequestsBasedTrigger from our SlowRequestsBasedTrigger
-func (trigger *SlowRequestsBasedTrigger) AssignProperties_To_SlowRequestsBasedTrigger(destination *v20220301s.SlowRequestsBasedTrigger) error {
+func (trigger *SlowRequestsBasedTrigger) AssignProperties_To_SlowRequestsBasedTrigger(destination *storage.SlowRequestsBasedTrigger) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -15914,7 +15914,7 @@ func (trigger *SlowRequestsBasedTrigger_STATUS) PopulateFromARM(owner genruntime
 }
 
 // AssignProperties_From_SlowRequestsBasedTrigger_STATUS populates our SlowRequestsBasedTrigger_STATUS from the provided source SlowRequestsBasedTrigger_STATUS
-func (trigger *SlowRequestsBasedTrigger_STATUS) AssignProperties_From_SlowRequestsBasedTrigger_STATUS(source *v20220301s.SlowRequestsBasedTrigger_STATUS) error {
+func (trigger *SlowRequestsBasedTrigger_STATUS) AssignProperties_From_SlowRequestsBasedTrigger_STATUS(source *storage.SlowRequestsBasedTrigger_STATUS) error {
 
 	// Count
 	trigger.Count = genruntime.ClonePointerToInt(source.Count)
@@ -15933,7 +15933,7 @@ func (trigger *SlowRequestsBasedTrigger_STATUS) AssignProperties_From_SlowReques
 }
 
 // AssignProperties_To_SlowRequestsBasedTrigger_STATUS populates the provided destination SlowRequestsBasedTrigger_STATUS from our SlowRequestsBasedTrigger_STATUS
-func (trigger *SlowRequestsBasedTrigger_STATUS) AssignProperties_To_SlowRequestsBasedTrigger_STATUS(destination *v20220301s.SlowRequestsBasedTrigger_STATUS) error {
+func (trigger *SlowRequestsBasedTrigger_STATUS) AssignProperties_To_SlowRequestsBasedTrigger_STATUS(destination *storage.SlowRequestsBasedTrigger_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -16081,7 +16081,7 @@ func (trigger *StatusCodesBasedTrigger) PopulateFromARM(owner genruntime.Arbitra
 }
 
 // AssignProperties_From_StatusCodesBasedTrigger populates our StatusCodesBasedTrigger from the provided source StatusCodesBasedTrigger
-func (trigger *StatusCodesBasedTrigger) AssignProperties_From_StatusCodesBasedTrigger(source *v20220301s.StatusCodesBasedTrigger) error {
+func (trigger *StatusCodesBasedTrigger) AssignProperties_From_StatusCodesBasedTrigger(source *storage.StatusCodesBasedTrigger) error {
 
 	// Count
 	trigger.Count = genruntime.ClonePointerToInt(source.Count)
@@ -16106,7 +16106,7 @@ func (trigger *StatusCodesBasedTrigger) AssignProperties_From_StatusCodesBasedTr
 }
 
 // AssignProperties_To_StatusCodesBasedTrigger populates the provided destination StatusCodesBasedTrigger from our StatusCodesBasedTrigger
-func (trigger *StatusCodesBasedTrigger) AssignProperties_To_StatusCodesBasedTrigger(destination *v20220301s.StatusCodesBasedTrigger) error {
+func (trigger *StatusCodesBasedTrigger) AssignProperties_To_StatusCodesBasedTrigger(destination *storage.StatusCodesBasedTrigger) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -16240,7 +16240,7 @@ func (trigger *StatusCodesBasedTrigger_STATUS) PopulateFromARM(owner genruntime.
 }
 
 // AssignProperties_From_StatusCodesBasedTrigger_STATUS populates our StatusCodesBasedTrigger_STATUS from the provided source StatusCodesBasedTrigger_STATUS
-func (trigger *StatusCodesBasedTrigger_STATUS) AssignProperties_From_StatusCodesBasedTrigger_STATUS(source *v20220301s.StatusCodesBasedTrigger_STATUS) error {
+func (trigger *StatusCodesBasedTrigger_STATUS) AssignProperties_From_StatusCodesBasedTrigger_STATUS(source *storage.StatusCodesBasedTrigger_STATUS) error {
 
 	// Count
 	trigger.Count = genruntime.ClonePointerToInt(source.Count)
@@ -16265,7 +16265,7 @@ func (trigger *StatusCodesBasedTrigger_STATUS) AssignProperties_From_StatusCodes
 }
 
 // AssignProperties_To_StatusCodesBasedTrigger_STATUS populates the provided destination StatusCodesBasedTrigger_STATUS from our StatusCodesBasedTrigger_STATUS
-func (trigger *StatusCodesBasedTrigger_STATUS) AssignProperties_To_StatusCodesBasedTrigger_STATUS(destination *v20220301s.StatusCodesBasedTrigger_STATUS) error {
+func (trigger *StatusCodesBasedTrigger_STATUS) AssignProperties_To_StatusCodesBasedTrigger_STATUS(destination *storage.StatusCodesBasedTrigger_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -16387,7 +16387,7 @@ func (trigger *StatusCodesRangeBasedTrigger) PopulateFromARM(owner genruntime.Ar
 }
 
 // AssignProperties_From_StatusCodesRangeBasedTrigger populates our StatusCodesRangeBasedTrigger from the provided source StatusCodesRangeBasedTrigger
-func (trigger *StatusCodesRangeBasedTrigger) AssignProperties_From_StatusCodesRangeBasedTrigger(source *v20220301s.StatusCodesRangeBasedTrigger) error {
+func (trigger *StatusCodesRangeBasedTrigger) AssignProperties_From_StatusCodesRangeBasedTrigger(source *storage.StatusCodesRangeBasedTrigger) error {
 
 	// Count
 	trigger.Count = genruntime.ClonePointerToInt(source.Count)
@@ -16406,7 +16406,7 @@ func (trigger *StatusCodesRangeBasedTrigger) AssignProperties_From_StatusCodesRa
 }
 
 // AssignProperties_To_StatusCodesRangeBasedTrigger populates the provided destination StatusCodesRangeBasedTrigger from our StatusCodesRangeBasedTrigger
-func (trigger *StatusCodesRangeBasedTrigger) AssignProperties_To_StatusCodesRangeBasedTrigger(destination *v20220301s.StatusCodesRangeBasedTrigger) error {
+func (trigger *StatusCodesRangeBasedTrigger) AssignProperties_To_StatusCodesRangeBasedTrigger(destination *storage.StatusCodesRangeBasedTrigger) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -16508,7 +16508,7 @@ func (trigger *StatusCodesRangeBasedTrigger_STATUS) PopulateFromARM(owner genrun
 }
 
 // AssignProperties_From_StatusCodesRangeBasedTrigger_STATUS populates our StatusCodesRangeBasedTrigger_STATUS from the provided source StatusCodesRangeBasedTrigger_STATUS
-func (trigger *StatusCodesRangeBasedTrigger_STATUS) AssignProperties_From_StatusCodesRangeBasedTrigger_STATUS(source *v20220301s.StatusCodesRangeBasedTrigger_STATUS) error {
+func (trigger *StatusCodesRangeBasedTrigger_STATUS) AssignProperties_From_StatusCodesRangeBasedTrigger_STATUS(source *storage.StatusCodesRangeBasedTrigger_STATUS) error {
 
 	// Count
 	trigger.Count = genruntime.ClonePointerToInt(source.Count)
@@ -16527,7 +16527,7 @@ func (trigger *StatusCodesRangeBasedTrigger_STATUS) AssignProperties_From_Status
 }
 
 // AssignProperties_To_StatusCodesRangeBasedTrigger_STATUS populates the provided destination StatusCodesRangeBasedTrigger_STATUS from our StatusCodesRangeBasedTrigger_STATUS
-func (trigger *StatusCodesRangeBasedTrigger_STATUS) AssignProperties_To_StatusCodesRangeBasedTrigger_STATUS(destination *v20220301s.StatusCodesRangeBasedTrigger_STATUS) error {
+func (trigger *StatusCodesRangeBasedTrigger_STATUS) AssignProperties_To_StatusCodesRangeBasedTrigger_STATUS(destination *storage.StatusCodesRangeBasedTrigger_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

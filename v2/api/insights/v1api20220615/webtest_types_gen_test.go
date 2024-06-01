@@ -5,7 +5,7 @@ package v1api20220615
 
 import (
 	"encoding/json"
-	v20220615s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20220615/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/insights/v1api20220615/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForWebtest(subject Webtest) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20220615s.Webtest
+	var hub storage.Webtest
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForWebtest(subject Webtest) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220615s.Webtest
+	var other storage.Webtest
 	err := copied.AssignProperties_To_Webtest(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForWebtest_Spec(subject Webtest_Spec) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220615s.Webtest_Spec
+	var other storage.Webtest_Spec
 	err := copied.AssignProperties_To_Webtest_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -312,7 +312,7 @@ func RunPropertyAssignmentTestForWebtest_STATUS(subject Webtest_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220615s.Webtest_STATUS
+	var other storage.Webtest_STATUS
 	err := copied.AssignProperties_To_Webtest_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -446,7 +446,7 @@ func RunPropertyAssignmentTestForWebTestGeolocation(subject WebTestGeolocation) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220615s.WebTestGeolocation
+	var other storage.WebTestGeolocation
 	err := copied.AssignProperties_To_WebTestGeolocation(&other)
 	if err != nil {
 		return err.Error()
@@ -548,7 +548,7 @@ func RunPropertyAssignmentTestForWebTestGeolocation_STATUS(subject WebTestGeoloc
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220615s.WebTestGeolocation_STATUS
+	var other storage.WebTestGeolocation_STATUS
 	err := copied.AssignProperties_To_WebTestGeolocation_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -651,7 +651,7 @@ func RunPropertyAssignmentTestForWebTestProperties_Configuration(subject WebTest
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220615s.WebTestProperties_Configuration
+	var other storage.WebTestProperties_Configuration
 	err := copied.AssignProperties_To_WebTestProperties_Configuration(&other)
 	if err != nil {
 		return err.Error()
@@ -754,7 +754,7 @@ func RunPropertyAssignmentTestForWebTestProperties_Configuration_STATUS(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220615s.WebTestProperties_Configuration_STATUS
+	var other storage.WebTestProperties_Configuration_STATUS
 	err := copied.AssignProperties_To_WebTestProperties_Configuration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -857,7 +857,7 @@ func RunPropertyAssignmentTestForWebTestProperties_Request(subject WebTestProper
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220615s.WebTestProperties_Request
+	var other storage.WebTestProperties_Request
 	err := copied.AssignProperties_To_WebTestProperties_Request(&other)
 	if err != nil {
 		return err.Error()
@@ -978,7 +978,7 @@ func RunPropertyAssignmentTestForWebTestProperties_Request_STATUS(subject WebTes
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220615s.WebTestProperties_Request_STATUS
+	var other storage.WebTestProperties_Request_STATUS
 	err := copied.AssignProperties_To_WebTestProperties_Request_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1099,7 +1099,7 @@ func RunPropertyAssignmentTestForWebTestProperties_ValidationRules(subject WebTe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220615s.WebTestProperties_ValidationRules
+	var other storage.WebTestProperties_ValidationRules
 	err := copied.AssignProperties_To_WebTestProperties_ValidationRules(&other)
 	if err != nil {
 		return err.Error()
@@ -1219,7 +1219,7 @@ func RunPropertyAssignmentTestForWebTestProperties_ValidationRules_STATUS(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220615s.WebTestProperties_ValidationRules_STATUS
+	var other storage.WebTestProperties_ValidationRules_STATUS
 	err := copied.AssignProperties_To_WebTestProperties_ValidationRules_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1339,7 +1339,7 @@ func RunPropertyAssignmentTestForHeaderField(subject HeaderField) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220615s.HeaderField
+	var other storage.HeaderField
 	err := copied.AssignProperties_To_HeaderField(&other)
 	if err != nil {
 		return err.Error()
@@ -1442,7 +1442,7 @@ func RunPropertyAssignmentTestForHeaderField_STATUS(subject HeaderField_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220615s.HeaderField_STATUS
+	var other storage.HeaderField_STATUS
 	err := copied.AssignProperties_To_HeaderField_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1545,7 +1545,7 @@ func RunPropertyAssignmentTestForWebTestProperties_ValidationRules_ContentValida
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220615s.WebTestProperties_ValidationRules_ContentValidation
+	var other storage.WebTestProperties_ValidationRules_ContentValidation
 	err := copied.AssignProperties_To_WebTestProperties_ValidationRules_ContentValidation(&other)
 	if err != nil {
 		return err.Error()
@@ -1650,7 +1650,7 @@ func RunPropertyAssignmentTestForWebTestProperties_ValidationRules_ContentValida
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220615s.WebTestProperties_ValidationRules_ContentValidation_STATUS
+	var other storage.WebTestProperties_ValidationRules_ContentValidation_STATUS
 	err := copied.AssignProperties_To_WebTestProperties_ValidationRules_ContentValidation_STATUS(&other)
 	if err != nil {
 		return err.Error()

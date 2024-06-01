@@ -5,7 +5,7 @@ package v1api20230501
 
 import (
 	"fmt"
-	v20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &SecurityPolicy{}
 
 // ConvertFrom populates our SecurityPolicy from the provided hub SecurityPolicy
 func (policy *SecurityPolicy) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20230501s.SecurityPolicy)
+	source, ok := hub.(*storage.SecurityPolicy)
 	if !ok {
 		return fmt.Errorf("expected cdn/v1api20230501/storage/SecurityPolicy but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (policy *SecurityPolicy) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub SecurityPolicy from our SecurityPolicy
 func (policy *SecurityPolicy) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20230501s.SecurityPolicy)
+	destination, ok := hub.(*storage.SecurityPolicy)
 	if !ok {
 		return fmt.Errorf("expected cdn/v1api20230501/storage/SecurityPolicy but received %T instead", hub)
 	}
@@ -254,7 +254,7 @@ func (policy *SecurityPolicy) validateWriteOnceProperties(old runtime.Object) (a
 }
 
 // AssignProperties_From_SecurityPolicy populates our SecurityPolicy from the provided source SecurityPolicy
-func (policy *SecurityPolicy) AssignProperties_From_SecurityPolicy(source *v20230501s.SecurityPolicy) error {
+func (policy *SecurityPolicy) AssignProperties_From_SecurityPolicy(source *storage.SecurityPolicy) error {
 
 	// ObjectMeta
 	policy.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -280,13 +280,13 @@ func (policy *SecurityPolicy) AssignProperties_From_SecurityPolicy(source *v2023
 }
 
 // AssignProperties_To_SecurityPolicy populates the provided destination SecurityPolicy from our SecurityPolicy
-func (policy *SecurityPolicy) AssignProperties_To_SecurityPolicy(destination *v20230501s.SecurityPolicy) error {
+func (policy *SecurityPolicy) AssignProperties_To_SecurityPolicy(destination *storage.SecurityPolicy) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *policy.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20230501s.Profiles_SecurityPolicy_Spec
+	var spec storage.Profiles_SecurityPolicy_Spec
 	err := policy.Spec.AssignProperties_To_Profiles_SecurityPolicy_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Profiles_SecurityPolicy_Spec() to populate field Spec")
@@ -294,7 +294,7 @@ func (policy *SecurityPolicy) AssignProperties_To_SecurityPolicy(destination *v2
 	destination.Spec = spec
 
 	// Status
-	var status v20230501s.Profiles_SecurityPolicy_STATUS
+	var status storage.Profiles_SecurityPolicy_STATUS
 	err = policy.Status.AssignProperties_To_Profiles_SecurityPolicy_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Profiles_SecurityPolicy_STATUS() to populate field Status")
@@ -409,14 +409,14 @@ var _ genruntime.ConvertibleSpec = &Profiles_SecurityPolicy_Spec{}
 
 // ConvertSpecFrom populates our Profiles_SecurityPolicy_Spec from the provided source
 func (policy *Profiles_SecurityPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20230501s.Profiles_SecurityPolicy_Spec)
+	src, ok := source.(*storage.Profiles_SecurityPolicy_Spec)
 	if ok {
 		// Populate our instance from source
 		return policy.AssignProperties_From_Profiles_SecurityPolicy_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20230501s.Profiles_SecurityPolicy_Spec{}
+	src = &storage.Profiles_SecurityPolicy_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -433,14 +433,14 @@ func (policy *Profiles_SecurityPolicy_Spec) ConvertSpecFrom(source genruntime.Co
 
 // ConvertSpecTo populates the provided destination from our Profiles_SecurityPolicy_Spec
 func (policy *Profiles_SecurityPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20230501s.Profiles_SecurityPolicy_Spec)
+	dst, ok := destination.(*storage.Profiles_SecurityPolicy_Spec)
 	if ok {
 		// Populate destination from our instance
 		return policy.AssignProperties_To_Profiles_SecurityPolicy_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20230501s.Profiles_SecurityPolicy_Spec{}
+	dst = &storage.Profiles_SecurityPolicy_Spec{}
 	err := policy.AssignProperties_To_Profiles_SecurityPolicy_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -456,7 +456,7 @@ func (policy *Profiles_SecurityPolicy_Spec) ConvertSpecTo(destination genruntime
 }
 
 // AssignProperties_From_Profiles_SecurityPolicy_Spec populates our Profiles_SecurityPolicy_Spec from the provided source Profiles_SecurityPolicy_Spec
-func (policy *Profiles_SecurityPolicy_Spec) AssignProperties_From_Profiles_SecurityPolicy_Spec(source *v20230501s.Profiles_SecurityPolicy_Spec) error {
+func (policy *Profiles_SecurityPolicy_Spec) AssignProperties_From_Profiles_SecurityPolicy_Spec(source *storage.Profiles_SecurityPolicy_Spec) error {
 
 	// AzureName
 	policy.AzureName = source.AzureName
@@ -486,7 +486,7 @@ func (policy *Profiles_SecurityPolicy_Spec) AssignProperties_From_Profiles_Secur
 }
 
 // AssignProperties_To_Profiles_SecurityPolicy_Spec populates the provided destination Profiles_SecurityPolicy_Spec from our Profiles_SecurityPolicy_Spec
-func (policy *Profiles_SecurityPolicy_Spec) AssignProperties_To_Profiles_SecurityPolicy_Spec(destination *v20230501s.Profiles_SecurityPolicy_Spec) error {
+func (policy *Profiles_SecurityPolicy_Spec) AssignProperties_To_Profiles_SecurityPolicy_Spec(destination *storage.Profiles_SecurityPolicy_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -506,7 +506,7 @@ func (policy *Profiles_SecurityPolicy_Spec) AssignProperties_To_Profiles_Securit
 
 	// Parameters
 	if policy.Parameters != nil {
-		var parameter v20230501s.SecurityPolicyPropertiesParameters
+		var parameter storage.SecurityPolicyPropertiesParameters
 		err := policy.Parameters.AssignProperties_To_SecurityPolicyPropertiesParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SecurityPolicyPropertiesParameters() to populate field Parameters")
@@ -587,14 +587,14 @@ var _ genruntime.ConvertibleStatus = &Profiles_SecurityPolicy_STATUS{}
 
 // ConvertStatusFrom populates our Profiles_SecurityPolicy_STATUS from the provided source
 func (policy *Profiles_SecurityPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20230501s.Profiles_SecurityPolicy_STATUS)
+	src, ok := source.(*storage.Profiles_SecurityPolicy_STATUS)
 	if ok {
 		// Populate our instance from source
 		return policy.AssignProperties_From_Profiles_SecurityPolicy_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20230501s.Profiles_SecurityPolicy_STATUS{}
+	src = &storage.Profiles_SecurityPolicy_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -611,14 +611,14 @@ func (policy *Profiles_SecurityPolicy_STATUS) ConvertStatusFrom(source genruntim
 
 // ConvertStatusTo populates the provided destination from our Profiles_SecurityPolicy_STATUS
 func (policy *Profiles_SecurityPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20230501s.Profiles_SecurityPolicy_STATUS)
+	dst, ok := destination.(*storage.Profiles_SecurityPolicy_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return policy.AssignProperties_To_Profiles_SecurityPolicy_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20230501s.Profiles_SecurityPolicy_STATUS{}
+	dst = &storage.Profiles_SecurityPolicy_STATUS{}
 	err := policy.AssignProperties_To_Profiles_SecurityPolicy_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -724,7 +724,7 @@ func (policy *Profiles_SecurityPolicy_STATUS) PopulateFromARM(owner genruntime.A
 }
 
 // AssignProperties_From_Profiles_SecurityPolicy_STATUS populates our Profiles_SecurityPolicy_STATUS from the provided source Profiles_SecurityPolicy_STATUS
-func (policy *Profiles_SecurityPolicy_STATUS) AssignProperties_From_Profiles_SecurityPolicy_STATUS(source *v20230501s.Profiles_SecurityPolicy_STATUS) error {
+func (policy *Profiles_SecurityPolicy_STATUS) AssignProperties_From_Profiles_SecurityPolicy_STATUS(source *storage.Profiles_SecurityPolicy_STATUS) error {
 
 	// Conditions
 	policy.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -788,7 +788,7 @@ func (policy *Profiles_SecurityPolicy_STATUS) AssignProperties_From_Profiles_Sec
 }
 
 // AssignProperties_To_Profiles_SecurityPolicy_STATUS populates the provided destination Profiles_SecurityPolicy_STATUS from our Profiles_SecurityPolicy_STATUS
-func (policy *Profiles_SecurityPolicy_STATUS) AssignProperties_To_Profiles_SecurityPolicy_STATUS(destination *v20230501s.Profiles_SecurityPolicy_STATUS) error {
+func (policy *Profiles_SecurityPolicy_STATUS) AssignProperties_To_Profiles_SecurityPolicy_STATUS(destination *storage.Profiles_SecurityPolicy_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -811,7 +811,7 @@ func (policy *Profiles_SecurityPolicy_STATUS) AssignProperties_To_Profiles_Secur
 
 	// Parameters
 	if policy.Parameters != nil {
-		var parameter v20230501s.SecurityPolicyPropertiesParameters_STATUS
+		var parameter storage.SecurityPolicyPropertiesParameters_STATUS
 		err := policy.Parameters.AssignProperties_To_SecurityPolicyPropertiesParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SecurityPolicyPropertiesParameters_STATUS() to populate field Parameters")
@@ -834,7 +834,7 @@ func (policy *Profiles_SecurityPolicy_STATUS) AssignProperties_To_Profiles_Secur
 
 	// SystemData
 	if policy.SystemData != nil {
-		var systemDatum v20230501s.SystemData_STATUS
+		var systemDatum storage.SystemData_STATUS
 		err := policy.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
@@ -912,7 +912,7 @@ func (parameters *SecurityPolicyPropertiesParameters) PopulateFromARM(owner genr
 }
 
 // AssignProperties_From_SecurityPolicyPropertiesParameters populates our SecurityPolicyPropertiesParameters from the provided source SecurityPolicyPropertiesParameters
-func (parameters *SecurityPolicyPropertiesParameters) AssignProperties_From_SecurityPolicyPropertiesParameters(source *v20230501s.SecurityPolicyPropertiesParameters) error {
+func (parameters *SecurityPolicyPropertiesParameters) AssignProperties_From_SecurityPolicyPropertiesParameters(source *storage.SecurityPolicyPropertiesParameters) error {
 
 	// WebApplicationFirewall
 	if source.WebApplicationFirewall != nil {
@@ -931,13 +931,13 @@ func (parameters *SecurityPolicyPropertiesParameters) AssignProperties_From_Secu
 }
 
 // AssignProperties_To_SecurityPolicyPropertiesParameters populates the provided destination SecurityPolicyPropertiesParameters from our SecurityPolicyPropertiesParameters
-func (parameters *SecurityPolicyPropertiesParameters) AssignProperties_To_SecurityPolicyPropertiesParameters(destination *v20230501s.SecurityPolicyPropertiesParameters) error {
+func (parameters *SecurityPolicyPropertiesParameters) AssignProperties_To_SecurityPolicyPropertiesParameters(destination *storage.SecurityPolicyPropertiesParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// WebApplicationFirewall
 	if parameters.WebApplicationFirewall != nil {
-		var webApplicationFirewall v20230501s.SecurityPolicyWebApplicationFirewallParameters
+		var webApplicationFirewall storage.SecurityPolicyWebApplicationFirewallParameters
 		err := parameters.WebApplicationFirewall.AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters(&webApplicationFirewall)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters() to populate field WebApplicationFirewall")
@@ -1012,7 +1012,7 @@ func (parameters *SecurityPolicyPropertiesParameters_STATUS) PopulateFromARM(own
 }
 
 // AssignProperties_From_SecurityPolicyPropertiesParameters_STATUS populates our SecurityPolicyPropertiesParameters_STATUS from the provided source SecurityPolicyPropertiesParameters_STATUS
-func (parameters *SecurityPolicyPropertiesParameters_STATUS) AssignProperties_From_SecurityPolicyPropertiesParameters_STATUS(source *v20230501s.SecurityPolicyPropertiesParameters_STATUS) error {
+func (parameters *SecurityPolicyPropertiesParameters_STATUS) AssignProperties_From_SecurityPolicyPropertiesParameters_STATUS(source *storage.SecurityPolicyPropertiesParameters_STATUS) error {
 
 	// WebApplicationFirewall
 	if source.WebApplicationFirewall != nil {
@@ -1031,13 +1031,13 @@ func (parameters *SecurityPolicyPropertiesParameters_STATUS) AssignProperties_Fr
 }
 
 // AssignProperties_To_SecurityPolicyPropertiesParameters_STATUS populates the provided destination SecurityPolicyPropertiesParameters_STATUS from our SecurityPolicyPropertiesParameters_STATUS
-func (parameters *SecurityPolicyPropertiesParameters_STATUS) AssignProperties_To_SecurityPolicyPropertiesParameters_STATUS(destination *v20230501s.SecurityPolicyPropertiesParameters_STATUS) error {
+func (parameters *SecurityPolicyPropertiesParameters_STATUS) AssignProperties_To_SecurityPolicyPropertiesParameters_STATUS(destination *storage.SecurityPolicyPropertiesParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// WebApplicationFirewall
 	if parameters.WebApplicationFirewall != nil {
-		var webApplicationFirewall v20230501s.SecurityPolicyWebApplicationFirewallParameters_STATUS
+		var webApplicationFirewall storage.SecurityPolicyWebApplicationFirewallParameters_STATUS
 		err := parameters.WebApplicationFirewall.AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters_STATUS(&webApplicationFirewall)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters_STATUS() to populate field WebApplicationFirewall")
@@ -1146,7 +1146,7 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters) PopulateFromAR
 }
 
 // AssignProperties_From_SecurityPolicyWebApplicationFirewallParameters populates our SecurityPolicyWebApplicationFirewallParameters from the provided source SecurityPolicyWebApplicationFirewallParameters
-func (parameters *SecurityPolicyWebApplicationFirewallParameters) AssignProperties_From_SecurityPolicyWebApplicationFirewallParameters(source *v20230501s.SecurityPolicyWebApplicationFirewallParameters) error {
+func (parameters *SecurityPolicyWebApplicationFirewallParameters) AssignProperties_From_SecurityPolicyWebApplicationFirewallParameters(source *storage.SecurityPolicyWebApplicationFirewallParameters) error {
 
 	// Associations
 	if source.Associations != nil {
@@ -1192,17 +1192,17 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters) AssignProperti
 }
 
 // AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters populates the provided destination SecurityPolicyWebApplicationFirewallParameters from our SecurityPolicyWebApplicationFirewallParameters
-func (parameters *SecurityPolicyWebApplicationFirewallParameters) AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters(destination *v20230501s.SecurityPolicyWebApplicationFirewallParameters) error {
+func (parameters *SecurityPolicyWebApplicationFirewallParameters) AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters(destination *storage.SecurityPolicyWebApplicationFirewallParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Associations
 	if parameters.Associations != nil {
-		associationList := make([]v20230501s.SecurityPolicyWebApplicationFirewallAssociation, len(parameters.Associations))
+		associationList := make([]storage.SecurityPolicyWebApplicationFirewallAssociation, len(parameters.Associations))
 		for associationIndex, associationItem := range parameters.Associations {
 			// Shadow the loop variable to avoid aliasing
 			associationItem := associationItem
-			var association v20230501s.SecurityPolicyWebApplicationFirewallAssociation
+			var association storage.SecurityPolicyWebApplicationFirewallAssociation
 			err := associationItem.AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation(&association)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation() to populate field Associations")
@@ -1224,7 +1224,7 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters) AssignProperti
 
 	// WafPolicy
 	if parameters.WafPolicy != nil {
-		var wafPolicy v20230501s.ResourceReference
+		var wafPolicy storage.ResourceReference
 		err := parameters.WafPolicy.AssignProperties_To_ResourceReference(&wafPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field WafPolicy")
@@ -1344,7 +1344,7 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters_STATUS) Populat
 }
 
 // AssignProperties_From_SecurityPolicyWebApplicationFirewallParameters_STATUS populates our SecurityPolicyWebApplicationFirewallParameters_STATUS from the provided source SecurityPolicyWebApplicationFirewallParameters_STATUS
-func (parameters *SecurityPolicyWebApplicationFirewallParameters_STATUS) AssignProperties_From_SecurityPolicyWebApplicationFirewallParameters_STATUS(source *v20230501s.SecurityPolicyWebApplicationFirewallParameters_STATUS) error {
+func (parameters *SecurityPolicyWebApplicationFirewallParameters_STATUS) AssignProperties_From_SecurityPolicyWebApplicationFirewallParameters_STATUS(source *storage.SecurityPolicyWebApplicationFirewallParameters_STATUS) error {
 
 	// Associations
 	if source.Associations != nil {
@@ -1390,17 +1390,17 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters_STATUS) AssignP
 }
 
 // AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters_STATUS populates the provided destination SecurityPolicyWebApplicationFirewallParameters_STATUS from our SecurityPolicyWebApplicationFirewallParameters_STATUS
-func (parameters *SecurityPolicyWebApplicationFirewallParameters_STATUS) AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters_STATUS(destination *v20230501s.SecurityPolicyWebApplicationFirewallParameters_STATUS) error {
+func (parameters *SecurityPolicyWebApplicationFirewallParameters_STATUS) AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters_STATUS(destination *storage.SecurityPolicyWebApplicationFirewallParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Associations
 	if parameters.Associations != nil {
-		associationList := make([]v20230501s.SecurityPolicyWebApplicationFirewallAssociation_STATUS, len(parameters.Associations))
+		associationList := make([]storage.SecurityPolicyWebApplicationFirewallAssociation_STATUS, len(parameters.Associations))
 		for associationIndex, associationItem := range parameters.Associations {
 			// Shadow the loop variable to avoid aliasing
 			associationItem := associationItem
-			var association v20230501s.SecurityPolicyWebApplicationFirewallAssociation_STATUS
+			var association storage.SecurityPolicyWebApplicationFirewallAssociation_STATUS
 			err := associationItem.AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation_STATUS(&association)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation_STATUS() to populate field Associations")
@@ -1422,7 +1422,7 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters_STATUS) AssignP
 
 	// WafPolicy
 	if parameters.WafPolicy != nil {
-		var wafPolicy v20230501s.ResourceReference_STATUS
+		var wafPolicy storage.ResourceReference_STATUS
 		err := parameters.WafPolicy.AssignProperties_To_ResourceReference_STATUS(&wafPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field WafPolicy")
@@ -1509,7 +1509,7 @@ func (association *SecurityPolicyWebApplicationFirewallAssociation) PopulateFrom
 }
 
 // AssignProperties_From_SecurityPolicyWebApplicationFirewallAssociation populates our SecurityPolicyWebApplicationFirewallAssociation from the provided source SecurityPolicyWebApplicationFirewallAssociation
-func (association *SecurityPolicyWebApplicationFirewallAssociation) AssignProperties_From_SecurityPolicyWebApplicationFirewallAssociation(source *v20230501s.SecurityPolicyWebApplicationFirewallAssociation) error {
+func (association *SecurityPolicyWebApplicationFirewallAssociation) AssignProperties_From_SecurityPolicyWebApplicationFirewallAssociation(source *storage.SecurityPolicyWebApplicationFirewallAssociation) error {
 
 	// Domains
 	if source.Domains != nil {
@@ -1537,17 +1537,17 @@ func (association *SecurityPolicyWebApplicationFirewallAssociation) AssignProper
 }
 
 // AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation populates the provided destination SecurityPolicyWebApplicationFirewallAssociation from our SecurityPolicyWebApplicationFirewallAssociation
-func (association *SecurityPolicyWebApplicationFirewallAssociation) AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation(destination *v20230501s.SecurityPolicyWebApplicationFirewallAssociation) error {
+func (association *SecurityPolicyWebApplicationFirewallAssociation) AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation(destination *storage.SecurityPolicyWebApplicationFirewallAssociation) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Domains
 	if association.Domains != nil {
-		domainList := make([]v20230501s.ActivatedResourceReference, len(association.Domains))
+		domainList := make([]storage.ActivatedResourceReference, len(association.Domains))
 		for domainIndex, domainItem := range association.Domains {
 			// Shadow the loop variable to avoid aliasing
 			domainItem := domainItem
-			var domain v20230501s.ActivatedResourceReference
+			var domain storage.ActivatedResourceReference
 			err := domainItem.AssignProperties_To_ActivatedResourceReference(&domain)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ActivatedResourceReference() to populate field Domains")
@@ -1644,7 +1644,7 @@ func (association *SecurityPolicyWebApplicationFirewallAssociation_STATUS) Popul
 }
 
 // AssignProperties_From_SecurityPolicyWebApplicationFirewallAssociation_STATUS populates our SecurityPolicyWebApplicationFirewallAssociation_STATUS from the provided source SecurityPolicyWebApplicationFirewallAssociation_STATUS
-func (association *SecurityPolicyWebApplicationFirewallAssociation_STATUS) AssignProperties_From_SecurityPolicyWebApplicationFirewallAssociation_STATUS(source *v20230501s.SecurityPolicyWebApplicationFirewallAssociation_STATUS) error {
+func (association *SecurityPolicyWebApplicationFirewallAssociation_STATUS) AssignProperties_From_SecurityPolicyWebApplicationFirewallAssociation_STATUS(source *storage.SecurityPolicyWebApplicationFirewallAssociation_STATUS) error {
 
 	// Domains
 	if source.Domains != nil {
@@ -1672,17 +1672,17 @@ func (association *SecurityPolicyWebApplicationFirewallAssociation_STATUS) Assig
 }
 
 // AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation_STATUS populates the provided destination SecurityPolicyWebApplicationFirewallAssociation_STATUS from our SecurityPolicyWebApplicationFirewallAssociation_STATUS
-func (association *SecurityPolicyWebApplicationFirewallAssociation_STATUS) AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation_STATUS(destination *v20230501s.SecurityPolicyWebApplicationFirewallAssociation_STATUS) error {
+func (association *SecurityPolicyWebApplicationFirewallAssociation_STATUS) AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation_STATUS(destination *storage.SecurityPolicyWebApplicationFirewallAssociation_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Domains
 	if association.Domains != nil {
-		domainList := make([]v20230501s.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded, len(association.Domains))
+		domainList := make([]storage.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded, len(association.Domains))
 		for domainIndex, domainItem := range association.Domains {
 			// Shadow the loop variable to avoid aliasing
 			domainItem := domainItem
-			var domain v20230501s.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded
+			var domain storage.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded
 			err := domainItem.AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(&domain)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded() to populate field Domains")

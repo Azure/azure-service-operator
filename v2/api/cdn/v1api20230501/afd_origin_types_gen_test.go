@@ -5,7 +5,7 @@ package v1api20230501
 
 import (
 	"encoding/json"
-	v20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForAfdOrigin(subject AfdOrigin) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20230501s.AfdOrigin
+	var hub storage.AfdOrigin
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForAfdOrigin(subject AfdOrigin) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.AfdOrigin
+	var other storage.AfdOrigin
 	err := copied.AssignProperties_To_AfdOrigin(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForProfiles_OriginGroups_Origin_Spec(subject Profi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.Profiles_OriginGroups_Origin_Spec
+	var other storage.Profiles_OriginGroups_Origin_Spec
 	err := copied.AssignProperties_To_Profiles_OriginGroups_Origin_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -307,7 +307,7 @@ func RunPropertyAssignmentTestForProfiles_OriginGroups_Origin_STATUS(subject Pro
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.Profiles_OriginGroups_Origin_STATUS
+	var other storage.Profiles_OriginGroups_Origin_STATUS
 	err := copied.AssignProperties_To_Profiles_OriginGroups_Origin_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -448,7 +448,7 @@ func RunPropertyAssignmentTestForSharedPrivateLinkResourceProperties(subject Sha
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.SharedPrivateLinkResourceProperties
+	var other storage.SharedPrivateLinkResourceProperties
 	err := copied.AssignProperties_To_SharedPrivateLinkResourceProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -573,7 +573,7 @@ func RunPropertyAssignmentTestForSharedPrivateLinkResourceProperties_STATUS(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.SharedPrivateLinkResourceProperties_STATUS
+	var other storage.SharedPrivateLinkResourceProperties_STATUS
 	err := copied.AssignProperties_To_SharedPrivateLinkResourceProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()

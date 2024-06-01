@@ -5,7 +5,7 @@ package v1api20220401
 
 import (
 	"encoding/json"
-	v20220401s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForTrafficManagerProfilesAzureEndpoint(subject Tra
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20220401s.TrafficManagerProfilesAzureEndpoint
+	var hub storage.TrafficManagerProfilesAzureEndpoint
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForTrafficManagerProfilesAzureEndpoint(subject Tra
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220401s.TrafficManagerProfilesAzureEndpoint
+	var other storage.TrafficManagerProfilesAzureEndpoint
 	err := copied.AssignProperties_To_TrafficManagerProfilesAzureEndpoint(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForTrafficmanagerprofiles_AzureEndpoint_Spec(subje
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220401s.Trafficmanagerprofiles_AzureEndpoint_Spec
+	var other storage.Trafficmanagerprofiles_AzureEndpoint_Spec
 	err := copied.AssignProperties_To_Trafficmanagerprofiles_AzureEndpoint_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -319,7 +319,7 @@ func RunPropertyAssignmentTestForTrafficmanagerprofiles_AzureEndpoint_STATUS(sub
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220401s.Trafficmanagerprofiles_AzureEndpoint_STATUS
+	var other storage.Trafficmanagerprofiles_AzureEndpoint_STATUS
 	err := copied.AssignProperties_To_Trafficmanagerprofiles_AzureEndpoint_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -458,7 +458,7 @@ func RunPropertyAssignmentTestForEndpointProperties_CustomHeaders(subject Endpoi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220401s.EndpointProperties_CustomHeaders
+	var other storage.EndpointProperties_CustomHeaders
 	err := copied.AssignProperties_To_EndpointProperties_CustomHeaders(&other)
 	if err != nil {
 		return err.Error()
@@ -562,7 +562,7 @@ func RunPropertyAssignmentTestForEndpointProperties_CustomHeaders_STATUS(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220401s.EndpointProperties_CustomHeaders_STATUS
+	var other storage.EndpointProperties_CustomHeaders_STATUS
 	err := copied.AssignProperties_To_EndpointProperties_CustomHeaders_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -666,7 +666,7 @@ func RunPropertyAssignmentTestForEndpointProperties_Subnets(subject EndpointProp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220401s.EndpointProperties_Subnets
+	var other storage.EndpointProperties_Subnets
 	err := copied.AssignProperties_To_EndpointProperties_Subnets(&other)
 	if err != nil {
 		return err.Error()
@@ -771,7 +771,7 @@ func RunPropertyAssignmentTestForEndpointProperties_Subnets_STATUS(subject Endpo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220401s.EndpointProperties_Subnets_STATUS
+	var other storage.EndpointProperties_Subnets_STATUS
 	err := copied.AssignProperties_To_EndpointProperties_Subnets_STATUS(&other)
 	if err != nil {
 		return err.Error()

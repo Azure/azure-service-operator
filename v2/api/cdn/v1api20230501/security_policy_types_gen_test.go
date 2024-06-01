@@ -5,7 +5,7 @@ package v1api20230501
 
 import (
 	"encoding/json"
-	v20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForSecurityPolicy(subject SecurityPolicy) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20230501s.SecurityPolicy
+	var hub storage.SecurityPolicy
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForSecurityPolicy(subject SecurityPolicy) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.SecurityPolicy
+	var other storage.SecurityPolicy
 	err := copied.AssignProperties_To_SecurityPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForProfiles_SecurityPolicy_Spec(subject Profiles_S
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.Profiles_SecurityPolicy_Spec
+	var other storage.Profiles_SecurityPolicy_Spec
 	err := copied.AssignProperties_To_Profiles_SecurityPolicy_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -298,7 +298,7 @@ func RunPropertyAssignmentTestForProfiles_SecurityPolicy_STATUS(subject Profiles
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.Profiles_SecurityPolicy_STATUS
+	var other storage.Profiles_SecurityPolicy_STATUS
 	err := copied.AssignProperties_To_Profiles_SecurityPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -430,7 +430,7 @@ func RunPropertyAssignmentTestForSecurityPolicyPropertiesParameters(subject Secu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.SecurityPolicyPropertiesParameters
+	var other storage.SecurityPolicyPropertiesParameters
 	err := copied.AssignProperties_To_SecurityPolicyPropertiesParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -541,7 +541,7 @@ func RunPropertyAssignmentTestForSecurityPolicyPropertiesParameters_STATUS(subje
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.SecurityPolicyPropertiesParameters_STATUS
+	var other storage.SecurityPolicyPropertiesParameters_STATUS
 	err := copied.AssignProperties_To_SecurityPolicyPropertiesParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -652,7 +652,7 @@ func RunPropertyAssignmentTestForSecurityPolicyWebApplicationFirewallParameters(
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.SecurityPolicyWebApplicationFirewallParameters
+	var other storage.SecurityPolicyWebApplicationFirewallParameters
 	err := copied.AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -770,7 +770,7 @@ func RunPropertyAssignmentTestForSecurityPolicyWebApplicationFirewallParameters_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.SecurityPolicyWebApplicationFirewallParameters_STATUS
+	var other storage.SecurityPolicyWebApplicationFirewallParameters_STATUS
 	err := copied.AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -888,7 +888,7 @@ func RunPropertyAssignmentTestForSecurityPolicyWebApplicationFirewallAssociation
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.SecurityPolicyWebApplicationFirewallAssociation
+	var other storage.SecurityPolicyWebApplicationFirewallAssociation
 	err := copied.AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation(&other)
 	if err != nil {
 		return err.Error()
@@ -1005,7 +1005,7 @@ func RunPropertyAssignmentTestForSecurityPolicyWebApplicationFirewallAssociation
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.SecurityPolicyWebApplicationFirewallAssociation_STATUS
+	var other storage.SecurityPolicyWebApplicationFirewallAssociation_STATUS
 	err := copied.AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation_STATUS(&other)
 	if err != nil {
 		return err.Error()

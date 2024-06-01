@@ -5,7 +5,7 @@ package compat
 
 import (
 	"encoding/json"
-	v20231001s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +35,7 @@ func RunPropertyAssignmentTestForServiceMeshProfile(subject ServiceMeshProfile) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231001s.ServiceMeshProfile
+	var other storage.ServiceMeshProfile
 	err := copied.AssignProperties_To_ServiceMeshProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -151,7 +151,7 @@ func RunPropertyAssignmentTestForIstioServiceMesh(subject IstioServiceMesh) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231001s.IstioServiceMesh
+	var other storage.IstioServiceMesh
 	err := copied.AssignProperties_To_IstioServiceMesh(&other)
 	if err != nil {
 		return err.Error()
@@ -253,7 +253,7 @@ func RunPropertyAssignmentTestForIstioComponents(subject IstioComponents) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231001s.IstioComponents
+	var other storage.IstioComponents
 	err := copied.AssignProperties_To_IstioComponents(&other)
 	if err != nil {
 		return err.Error()
@@ -355,7 +355,7 @@ func RunPropertyAssignmentTestForIstioIngressGateway(subject IstioIngressGateway
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231001s.IstioIngressGateway
+	var other storage.IstioIngressGateway
 	err := copied.AssignProperties_To_IstioIngressGateway(&other)
 	if err != nil {
 		return err.Error()

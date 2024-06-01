@@ -5,7 +5,7 @@ package v1api20220701
 
 import (
 	"encoding/json"
-	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForDnsResolversInboundEndpoint(subject DnsResolver
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20220701s.DnsResolversInboundEndpoint
+	var hub storage.DnsResolversInboundEndpoint
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForDnsResolversInboundEndpoint(subject DnsResolver
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.DnsResolversInboundEndpoint
+	var other storage.DnsResolversInboundEndpoint
 	err := copied.AssignProperties_To_DnsResolversInboundEndpoint(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForDnsResolvers_InboundEndpoint_Spec(subject DnsRe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.DnsResolvers_InboundEndpoint_Spec
+	var other storage.DnsResolvers_InboundEndpoint_Spec
 	err := copied.AssignProperties_To_DnsResolvers_InboundEndpoint_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -303,7 +303,7 @@ func RunPropertyAssignmentTestForDnsResolvers_InboundEndpoint_STATUS(subject Dns
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.DnsResolvers_InboundEndpoint_STATUS
+	var other storage.DnsResolvers_InboundEndpoint_STATUS
 	err := copied.AssignProperties_To_DnsResolvers_InboundEndpoint_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -436,7 +436,7 @@ func RunPropertyAssignmentTestForIpConfiguration(subject IpConfiguration) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.IpConfiguration
+	var other storage.IpConfiguration
 	err := copied.AssignProperties_To_IpConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -553,7 +553,7 @@ func RunPropertyAssignmentTestForIpConfiguration_STATUS(subject IpConfiguration_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.IpConfiguration_STATUS
+	var other storage.IpConfiguration_STATUS
 	err := copied.AssignProperties_To_IpConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()

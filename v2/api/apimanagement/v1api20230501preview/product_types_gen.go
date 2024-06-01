@@ -5,7 +5,7 @@ package v1api20230501preview
 
 import (
 	"fmt"
-	v20230501ps "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -50,7 +50,7 @@ var _ conversion.Convertible = &Product{}
 // ConvertFrom populates our Product from the provided hub Product
 func (product *Product) ConvertFrom(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var source v20230501ps.Product
+	var source storage.Product
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
@@ -68,7 +68,7 @@ func (product *Product) ConvertFrom(hub conversion.Hub) error {
 // ConvertTo populates the provided hub Product from our Product
 func (product *Product) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var destination v20230501ps.Product
+	var destination storage.Product
 	err := product.AssignProperties_To_Product(&destination)
 	if err != nil {
 		return errors.Wrap(err, "converting to destination from product")
@@ -258,7 +258,7 @@ func (product *Product) validateWriteOnceProperties(old runtime.Object) (admissi
 }
 
 // AssignProperties_From_Product populates our Product from the provided source Product
-func (product *Product) AssignProperties_From_Product(source *v20230501ps.Product) error {
+func (product *Product) AssignProperties_From_Product(source *storage.Product) error {
 
 	// ObjectMeta
 	product.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -284,13 +284,13 @@ func (product *Product) AssignProperties_From_Product(source *v20230501ps.Produc
 }
 
 // AssignProperties_To_Product populates the provided destination Product from our Product
-func (product *Product) AssignProperties_To_Product(destination *v20230501ps.Product) error {
+func (product *Product) AssignProperties_To_Product(destination *storage.Product) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *product.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20230501ps.Service_Product_Spec
+	var spec storage.Service_Product_Spec
 	err := product.Spec.AssignProperties_To_Service_Product_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Service_Product_Spec() to populate field Spec")
@@ -298,7 +298,7 @@ func (product *Product) AssignProperties_To_Product(destination *v20230501ps.Pro
 	destination.Spec = spec
 
 	// Status
-	var status v20230501ps.Service_Product_STATUS
+	var status storage.Service_Product_STATUS
 	err = product.Status.AssignProperties_To_Service_Product_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Service_Product_STATUS() to populate field Status")
@@ -524,14 +524,14 @@ var _ genruntime.ConvertibleSpec = &Service_Product_Spec{}
 
 // ConvertSpecFrom populates our Service_Product_Spec from the provided source
 func (product *Service_Product_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20230501ps.Service_Product_Spec)
+	src, ok := source.(*storage.Service_Product_Spec)
 	if ok {
 		// Populate our instance from source
 		return product.AssignProperties_From_Service_Product_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20230501ps.Service_Product_Spec{}
+	src = &storage.Service_Product_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -548,14 +548,14 @@ func (product *Service_Product_Spec) ConvertSpecFrom(source genruntime.Convertib
 
 // ConvertSpecTo populates the provided destination from our Service_Product_Spec
 func (product *Service_Product_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20230501ps.Service_Product_Spec)
+	dst, ok := destination.(*storage.Service_Product_Spec)
 	if ok {
 		// Populate destination from our instance
 		return product.AssignProperties_To_Service_Product_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20230501ps.Service_Product_Spec{}
+	dst = &storage.Service_Product_Spec{}
 	err := product.AssignProperties_To_Service_Product_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -571,7 +571,7 @@ func (product *Service_Product_Spec) ConvertSpecTo(destination genruntime.Conver
 }
 
 // AssignProperties_From_Service_Product_Spec populates our Service_Product_Spec from the provided source Service_Product_Spec
-func (product *Service_Product_Spec) AssignProperties_From_Service_Product_Spec(source *v20230501ps.Service_Product_Spec) error {
+func (product *Service_Product_Spec) AssignProperties_From_Service_Product_Spec(source *storage.Service_Product_Spec) error {
 
 	// ApprovalRequired
 	if source.ApprovalRequired != nil {
@@ -636,7 +636,7 @@ func (product *Service_Product_Spec) AssignProperties_From_Service_Product_Spec(
 }
 
 // AssignProperties_To_Service_Product_Spec populates the provided destination Service_Product_Spec from our Service_Product_Spec
-func (product *Service_Product_Spec) AssignProperties_To_Service_Product_Spec(destination *v20230501ps.Service_Product_Spec) error {
+func (product *Service_Product_Spec) AssignProperties_To_Service_Product_Spec(destination *storage.Service_Product_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -770,14 +770,14 @@ var _ genruntime.ConvertibleStatus = &Service_Product_STATUS{}
 
 // ConvertStatusFrom populates our Service_Product_STATUS from the provided source
 func (product *Service_Product_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20230501ps.Service_Product_STATUS)
+	src, ok := source.(*storage.Service_Product_STATUS)
 	if ok {
 		// Populate our instance from source
 		return product.AssignProperties_From_Service_Product_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20230501ps.Service_Product_STATUS{}
+	src = &storage.Service_Product_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -794,14 +794,14 @@ func (product *Service_Product_STATUS) ConvertStatusFrom(source genruntime.Conve
 
 // ConvertStatusTo populates the provided destination from our Service_Product_STATUS
 func (product *Service_Product_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20230501ps.Service_Product_STATUS)
+	dst, ok := destination.(*storage.Service_Product_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return product.AssignProperties_To_Service_Product_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20230501ps.Service_Product_STATUS{}
+	dst = &storage.Service_Product_STATUS{}
 	err := product.AssignProperties_To_Service_Product_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -918,7 +918,7 @@ func (product *Service_Product_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 }
 
 // AssignProperties_From_Service_Product_STATUS populates our Service_Product_STATUS from the provided source Service_Product_STATUS
-func (product *Service_Product_STATUS) AssignProperties_From_Service_Product_STATUS(source *v20230501ps.Service_Product_STATUS) error {
+func (product *Service_Product_STATUS) AssignProperties_From_Service_Product_STATUS(source *storage.Service_Product_STATUS) error {
 
 	// ApprovalRequired
 	if source.ApprovalRequired != nil {
@@ -974,7 +974,7 @@ func (product *Service_Product_STATUS) AssignProperties_From_Service_Product_STA
 }
 
 // AssignProperties_To_Service_Product_STATUS populates the provided destination Service_Product_STATUS from our Service_Product_STATUS
-func (product *Service_Product_STATUS) AssignProperties_To_Service_Product_STATUS(destination *v20230501ps.Service_Product_STATUS) error {
+func (product *Service_Product_STATUS) AssignProperties_To_Service_Product_STATUS(destination *storage.Service_Product_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

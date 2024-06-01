@@ -5,7 +5,7 @@ package customizations
 
 import (
 	v20230202p "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202preview"
-	v20230202ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202preview/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202preview/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -16,5 +16,5 @@ type TrustedAccessRoleBindingExtension struct {
 func (extension *TrustedAccessRoleBindingExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
 		&v20230202p.TrustedAccessRoleBinding{},
-		&v20230202ps.TrustedAccessRoleBinding{}}
+		&storage.TrustedAccessRoleBinding{}}
 }

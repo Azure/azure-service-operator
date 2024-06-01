@@ -5,7 +5,7 @@ package v1api20230101
 
 import (
 	"encoding/json"
-	v20230101s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForActionGroup(subject ActionGroup) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20230101s.ActionGroup
+	var hub storage.ActionGroup
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForActionGroup(subject ActionGroup) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.ActionGroup
+	var other storage.ActionGroup
 	err := copied.AssignProperties_To_ActionGroup(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForActionGroup_Spec(subject ActionGroup_Spec) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.ActionGroup_Spec
+	var other storage.ActionGroup_Spec
 	err := copied.AssignProperties_To_ActionGroup_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -313,7 +313,7 @@ func RunPropertyAssignmentTestForActionGroupResource_STATUS(subject ActionGroupR
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.ActionGroupResource_STATUS
+	var other storage.ActionGroupResource_STATUS
 	err := copied.AssignProperties_To_ActionGroupResource_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -448,7 +448,7 @@ func RunPropertyAssignmentTestForArmRoleReceiver(subject ArmRoleReceiver) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.ArmRoleReceiver
+	var other storage.ArmRoleReceiver
 	err := copied.AssignProperties_To_ArmRoleReceiver(&other)
 	if err != nil {
 		return err.Error()
@@ -552,7 +552,7 @@ func RunPropertyAssignmentTestForArmRoleReceiver_STATUS(subject ArmRoleReceiver_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.ArmRoleReceiver_STATUS
+	var other storage.ArmRoleReceiver_STATUS
 	err := copied.AssignProperties_To_ArmRoleReceiver_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -657,7 +657,7 @@ func RunPropertyAssignmentTestForAutomationRunbookReceiver(subject AutomationRun
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.AutomationRunbookReceiver
+	var other storage.AutomationRunbookReceiver
 	err := copied.AssignProperties_To_AutomationRunbookReceiver(&other)
 	if err != nil {
 		return err.Error()
@@ -765,7 +765,7 @@ func RunPropertyAssignmentTestForAutomationRunbookReceiver_STATUS(subject Automa
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.AutomationRunbookReceiver_STATUS
+	var other storage.AutomationRunbookReceiver_STATUS
 	err := copied.AssignProperties_To_AutomationRunbookReceiver_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -874,7 +874,7 @@ func RunPropertyAssignmentTestForAzureAppPushReceiver(subject AzureAppPushReceiv
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.AzureAppPushReceiver
+	var other storage.AzureAppPushReceiver
 	err := copied.AssignProperties_To_AzureAppPushReceiver(&other)
 	if err != nil {
 		return err.Error()
@@ -978,7 +978,7 @@ func RunPropertyAssignmentTestForAzureAppPushReceiver_STATUS(subject AzureAppPus
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.AzureAppPushReceiver_STATUS
+	var other storage.AzureAppPushReceiver_STATUS
 	err := copied.AssignProperties_To_AzureAppPushReceiver_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1082,7 +1082,7 @@ func RunPropertyAssignmentTestForAzureFunctionReceiver(subject AzureFunctionRece
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.AzureFunctionReceiver
+	var other storage.AzureFunctionReceiver
 	err := copied.AssignProperties_To_AzureFunctionReceiver(&other)
 	if err != nil {
 		return err.Error()
@@ -1188,7 +1188,7 @@ func RunPropertyAssignmentTestForAzureFunctionReceiver_STATUS(subject AzureFunct
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.AzureFunctionReceiver_STATUS
+	var other storage.AzureFunctionReceiver_STATUS
 	err := copied.AssignProperties_To_AzureFunctionReceiver_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1295,7 +1295,7 @@ func RunPropertyAssignmentTestForEmailReceiver(subject EmailReceiver) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.EmailReceiver
+	var other storage.EmailReceiver
 	err := copied.AssignProperties_To_EmailReceiver(&other)
 	if err != nil {
 		return err.Error()
@@ -1399,7 +1399,7 @@ func RunPropertyAssignmentTestForEmailReceiver_STATUS(subject EmailReceiver_STAT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.EmailReceiver_STATUS
+	var other storage.EmailReceiver_STATUS
 	err := copied.AssignProperties_To_EmailReceiver_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1505,7 +1505,7 @@ func RunPropertyAssignmentTestForEventHubReceiver(subject EventHubReceiver) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.EventHubReceiver
+	var other storage.EventHubReceiver
 	err := copied.AssignProperties_To_EventHubReceiver(&other)
 	if err != nil {
 		return err.Error()
@@ -1612,7 +1612,7 @@ func RunPropertyAssignmentTestForEventHubReceiver_STATUS(subject EventHubReceive
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.EventHubReceiver_STATUS
+	var other storage.EventHubReceiver_STATUS
 	err := copied.AssignProperties_To_EventHubReceiver_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1720,7 +1720,7 @@ func RunPropertyAssignmentTestForItsmReceiver(subject ItsmReceiver) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.ItsmReceiver
+	var other storage.ItsmReceiver
 	err := copied.AssignProperties_To_ItsmReceiver(&other)
 	if err != nil {
 		return err.Error()
@@ -1826,7 +1826,7 @@ func RunPropertyAssignmentTestForItsmReceiver_STATUS(subject ItsmReceiver_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.ItsmReceiver_STATUS
+	var other storage.ItsmReceiver_STATUS
 	err := copied.AssignProperties_To_ItsmReceiver_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1933,7 +1933,7 @@ func RunPropertyAssignmentTestForLogicAppReceiver(subject LogicAppReceiver) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.LogicAppReceiver
+	var other storage.LogicAppReceiver
 	err := copied.AssignProperties_To_LogicAppReceiver(&other)
 	if err != nil {
 		return err.Error()
@@ -2037,7 +2037,7 @@ func RunPropertyAssignmentTestForLogicAppReceiver_STATUS(subject LogicAppReceive
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.LogicAppReceiver_STATUS
+	var other storage.LogicAppReceiver_STATUS
 	err := copied.AssignProperties_To_LogicAppReceiver_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2143,7 +2143,7 @@ func RunPropertyAssignmentTestForSmsReceiver(subject SmsReceiver) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.SmsReceiver
+	var other storage.SmsReceiver
 	err := copied.AssignProperties_To_SmsReceiver(&other)
 	if err != nil {
 		return err.Error()
@@ -2247,7 +2247,7 @@ func RunPropertyAssignmentTestForSmsReceiver_STATUS(subject SmsReceiver_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.SmsReceiver_STATUS
+	var other storage.SmsReceiver_STATUS
 	err := copied.AssignProperties_To_SmsReceiver_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2352,7 +2352,7 @@ func RunPropertyAssignmentTestForVoiceReceiver(subject VoiceReceiver) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.VoiceReceiver
+	var other storage.VoiceReceiver
 	err := copied.AssignProperties_To_VoiceReceiver(&other)
 	if err != nil {
 		return err.Error()
@@ -2456,7 +2456,7 @@ func RunPropertyAssignmentTestForVoiceReceiver_STATUS(subject VoiceReceiver_STAT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.VoiceReceiver_STATUS
+	var other storage.VoiceReceiver_STATUS
 	err := copied.AssignProperties_To_VoiceReceiver_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2561,7 +2561,7 @@ func RunPropertyAssignmentTestForWebhookReceiver(subject WebhookReceiver) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.WebhookReceiver
+	var other storage.WebhookReceiver
 	err := copied.AssignProperties_To_WebhookReceiver(&other)
 	if err != nil {
 		return err.Error()
@@ -2669,7 +2669,7 @@ func RunPropertyAssignmentTestForWebhookReceiver_STATUS(subject WebhookReceiver_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.WebhookReceiver_STATUS
+	var other storage.WebhookReceiver_STATUS
 	err := copied.AssignProperties_To_WebhookReceiver_STATUS(&other)
 	if err != nil {
 		return err.Error()

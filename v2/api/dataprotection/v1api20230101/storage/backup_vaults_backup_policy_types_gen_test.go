@@ -5,7 +5,7 @@ package storage
 
 import (
 	"encoding/json"
-	v20231101s "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForBackupVaultsBackupPolicy(subject BackupVaultsBa
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20231101s.BackupVaultsBackupPolicy
+	var hub storage.BackupVaultsBackupPolicy
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForBackupVaultsBackupPolicy(subject BackupVaultsBa
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.BackupVaultsBackupPolicy
+	var other storage.BackupVaultsBackupPolicy
 	err := copied.AssignProperties_To_BackupVaultsBackupPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForBackupVaults_BackupPolicy_Spec(subject BackupVa
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.BackupVaults_BackupPolicy_Spec
+	var other storage.BackupVaults_BackupPolicy_Spec
 	err := copied.AssignProperties_To_BackupVaults_BackupPolicy_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -300,7 +300,7 @@ func RunPropertyAssignmentTestForBackupVaults_BackupPolicy_STATUS(subject Backup
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.BackupVaults_BackupPolicy_STATUS
+	var other storage.BackupVaults_BackupPolicy_STATUS
 	err := copied.AssignProperties_To_BackupVaults_BackupPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -420,7 +420,7 @@ func RunPropertyAssignmentTestForBaseBackupPolicy(subject BaseBackupPolicy) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.BaseBackupPolicy
+	var other storage.BaseBackupPolicy
 	err := copied.AssignProperties_To_BaseBackupPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -530,7 +530,7 @@ func RunPropertyAssignmentTestForBaseBackupPolicy_STATUS(subject BaseBackupPolic
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.BaseBackupPolicy_STATUS
+	var other storage.BaseBackupPolicy_STATUS
 	err := copied.AssignProperties_To_BaseBackupPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -641,7 +641,7 @@ func RunPropertyAssignmentTestForBackupPolicy(subject BackupPolicy) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.BackupPolicy
+	var other storage.BackupPolicy
 	err := copied.AssignProperties_To_BackupPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -758,7 +758,7 @@ func RunPropertyAssignmentTestForBackupPolicy_STATUS(subject BackupPolicy_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.BackupPolicy_STATUS
+	var other storage.BackupPolicy_STATUS
 	err := copied.AssignProperties_To_BackupPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -876,7 +876,7 @@ func RunPropertyAssignmentTestForBasePolicyRule(subject BasePolicyRule) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.BasePolicyRule
+	var other storage.BasePolicyRule
 	err := copied.AssignProperties_To_BasePolicyRule(&other)
 	if err != nil {
 		return err.Error()
@@ -989,7 +989,7 @@ func RunPropertyAssignmentTestForBasePolicyRule_STATUS(subject BasePolicyRule_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.BasePolicyRule_STATUS
+	var other storage.BasePolicyRule_STATUS
 	err := copied.AssignProperties_To_BasePolicyRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1103,7 +1103,7 @@ func RunPropertyAssignmentTestForAzureBackupRule(subject AzureBackupRule) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.AzureBackupRule
+	var other storage.AzureBackupRule
 	err := copied.AssignProperties_To_AzureBackupRule(&other)
 	if err != nil {
 		return err.Error()
@@ -1222,7 +1222,7 @@ func RunPropertyAssignmentTestForAzureBackupRule_STATUS(subject AzureBackupRule_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.AzureBackupRule_STATUS
+	var other storage.AzureBackupRule_STATUS
 	err := copied.AssignProperties_To_AzureBackupRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1342,7 +1342,7 @@ func RunPropertyAssignmentTestForAzureRetentionRule(subject AzureRetentionRule) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.AzureRetentionRule
+	var other storage.AzureRetentionRule
 	err := copied.AssignProperties_To_AzureRetentionRule(&other)
 	if err != nil {
 		return err.Error()
@@ -1460,7 +1460,7 @@ func RunPropertyAssignmentTestForAzureRetentionRule_STATUS(subject AzureRetentio
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.AzureRetentionRule_STATUS
+	var other storage.AzureRetentionRule_STATUS
 	err := copied.AssignProperties_To_AzureRetentionRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1579,7 +1579,7 @@ func RunPropertyAssignmentTestForBackupParameters(subject BackupParameters) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.BackupParameters
+	var other storage.BackupParameters
 	err := copied.AssignProperties_To_BackupParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -1689,7 +1689,7 @@ func RunPropertyAssignmentTestForBackupParameters_STATUS(subject BackupParameter
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.BackupParameters_STATUS
+	var other storage.BackupParameters_STATUS
 	err := copied.AssignProperties_To_BackupParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1800,7 +1800,7 @@ func RunPropertyAssignmentTestForDataStoreInfoBase(subject DataStoreInfoBase) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.DataStoreInfoBase
+	var other storage.DataStoreInfoBase
 	err := copied.AssignProperties_To_DataStoreInfoBase(&other)
 	if err != nil {
 		return err.Error()
@@ -1903,7 +1903,7 @@ func RunPropertyAssignmentTestForDataStoreInfoBase_STATUS(subject DataStoreInfoB
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.DataStoreInfoBase_STATUS
+	var other storage.DataStoreInfoBase_STATUS
 	err := copied.AssignProperties_To_DataStoreInfoBase_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2007,7 +2007,7 @@ func RunPropertyAssignmentTestForSourceLifeCycle(subject SourceLifeCycle) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.SourceLifeCycle
+	var other storage.SourceLifeCycle
 	err := copied.AssignProperties_To_SourceLifeCycle(&other)
 	if err != nil {
 		return err.Error()
@@ -2111,7 +2111,7 @@ func RunPropertyAssignmentTestForSourceLifeCycle_STATUS(subject SourceLifeCycle_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.SourceLifeCycle_STATUS
+	var other storage.SourceLifeCycle_STATUS
 	err := copied.AssignProperties_To_SourceLifeCycle_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2216,7 +2216,7 @@ func RunPropertyAssignmentTestForTriggerContext(subject TriggerContext) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.TriggerContext
+	var other storage.TriggerContext
 	err := copied.AssignProperties_To_TriggerContext(&other)
 	if err != nil {
 		return err.Error()
@@ -2329,7 +2329,7 @@ func RunPropertyAssignmentTestForTriggerContext_STATUS(subject TriggerContext_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.TriggerContext_STATUS
+	var other storage.TriggerContext_STATUS
 	err := copied.AssignProperties_To_TriggerContext_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2443,7 +2443,7 @@ func RunPropertyAssignmentTestForAdhocBasedTriggerContext(subject AdhocBasedTrig
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.AdhocBasedTriggerContext
+	var other storage.AdhocBasedTriggerContext
 	err := copied.AssignProperties_To_AdhocBasedTriggerContext(&other)
 	if err != nil {
 		return err.Error()
@@ -2560,7 +2560,7 @@ func RunPropertyAssignmentTestForAdhocBasedTriggerContext_STATUS(subject AdhocBa
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.AdhocBasedTriggerContext_STATUS
+	var other storage.AdhocBasedTriggerContext_STATUS
 	err := copied.AssignProperties_To_AdhocBasedTriggerContext_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2677,7 +2677,7 @@ func RunPropertyAssignmentTestForAzureBackupParams(subject AzureBackupParams) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.AzureBackupParams
+	var other storage.AzureBackupParams
 	err := copied.AssignProperties_To_AzureBackupParams(&other)
 	if err != nil {
 		return err.Error()
@@ -2780,7 +2780,7 @@ func RunPropertyAssignmentTestForAzureBackupParams_STATUS(subject AzureBackupPar
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.AzureBackupParams_STATUS
+	var other storage.AzureBackupParams_STATUS
 	err := copied.AssignProperties_To_AzureBackupParams_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2884,7 +2884,7 @@ func RunPropertyAssignmentTestForDeleteOption(subject DeleteOption) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.DeleteOption
+	var other storage.DeleteOption
 	err := copied.AssignProperties_To_DeleteOption(&other)
 	if err != nil {
 		return err.Error()
@@ -2994,7 +2994,7 @@ func RunPropertyAssignmentTestForDeleteOption_STATUS(subject DeleteOption_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.DeleteOption_STATUS
+	var other storage.DeleteOption_STATUS
 	err := copied.AssignProperties_To_DeleteOption_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3105,7 +3105,7 @@ func RunPropertyAssignmentTestForScheduleBasedTriggerContext(subject ScheduleBas
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.ScheduleBasedTriggerContext
+	var other storage.ScheduleBasedTriggerContext
 	err := copied.AssignProperties_To_ScheduleBasedTriggerContext(&other)
 	if err != nil {
 		return err.Error()
@@ -3223,7 +3223,7 @@ func RunPropertyAssignmentTestForScheduleBasedTriggerContext_STATUS(subject Sche
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.ScheduleBasedTriggerContext_STATUS
+	var other storage.ScheduleBasedTriggerContext_STATUS
 	err := copied.AssignProperties_To_ScheduleBasedTriggerContext_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3341,7 +3341,7 @@ func RunPropertyAssignmentTestForTargetCopySetting(subject TargetCopySetting) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.TargetCopySetting
+	var other storage.TargetCopySetting
 	err := copied.AssignProperties_To_TargetCopySetting(&other)
 	if err != nil {
 		return err.Error()
@@ -3444,7 +3444,7 @@ func RunPropertyAssignmentTestForTargetCopySetting_STATUS(subject TargetCopySett
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.TargetCopySetting_STATUS
+	var other storage.TargetCopySetting_STATUS
 	err := copied.AssignProperties_To_TargetCopySetting_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3548,7 +3548,7 @@ func RunPropertyAssignmentTestForAbsoluteDeleteOption(subject AbsoluteDeleteOpti
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.AbsoluteDeleteOption
+	var other storage.AbsoluteDeleteOption
 	err := copied.AssignProperties_To_AbsoluteDeleteOption(&other)
 	if err != nil {
 		return err.Error()
@@ -3652,7 +3652,7 @@ func RunPropertyAssignmentTestForAbsoluteDeleteOption_STATUS(subject AbsoluteDel
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.AbsoluteDeleteOption_STATUS
+	var other storage.AbsoluteDeleteOption_STATUS
 	err := copied.AssignProperties_To_AbsoluteDeleteOption_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3756,7 +3756,7 @@ func RunPropertyAssignmentTestForAdhocBasedTaggingCriteria(subject AdhocBasedTag
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.AdhocBasedTaggingCriteria
+	var other storage.AdhocBasedTaggingCriteria
 	err := copied.AssignProperties_To_AdhocBasedTaggingCriteria(&other)
 	if err != nil {
 		return err.Error()
@@ -3859,7 +3859,7 @@ func RunPropertyAssignmentTestForAdhocBasedTaggingCriteria_STATUS(subject AdhocB
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.AdhocBasedTaggingCriteria_STATUS
+	var other storage.AdhocBasedTaggingCriteria_STATUS
 	err := copied.AssignProperties_To_AdhocBasedTaggingCriteria_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3962,7 +3962,7 @@ func RunPropertyAssignmentTestForBackupSchedule(subject BackupSchedule) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.BackupSchedule
+	var other storage.BackupSchedule
 	err := copied.AssignProperties_To_BackupSchedule(&other)
 	if err != nil {
 		return err.Error()
@@ -4065,7 +4065,7 @@ func RunPropertyAssignmentTestForBackupSchedule_STATUS(subject BackupSchedule_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.BackupSchedule_STATUS
+	var other storage.BackupSchedule_STATUS
 	err := copied.AssignProperties_To_BackupSchedule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -4169,7 +4169,7 @@ func RunPropertyAssignmentTestForCopyOption(subject CopyOption) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.CopyOption
+	var other storage.CopyOption
 	err := copied.AssignProperties_To_CopyOption(&other)
 	if err != nil {
 		return err.Error()
@@ -4285,7 +4285,7 @@ func RunPropertyAssignmentTestForCopyOption_STATUS(subject CopyOption_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.CopyOption_STATUS
+	var other storage.CopyOption_STATUS
 	err := copied.AssignProperties_To_CopyOption_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -4401,7 +4401,7 @@ func RunPropertyAssignmentTestForTaggingCriteria(subject TaggingCriteria) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.TaggingCriteria
+	var other storage.TaggingCriteria
 	err := copied.AssignProperties_To_TaggingCriteria(&other)
 	if err != nil {
 		return err.Error()
@@ -4519,7 +4519,7 @@ func RunPropertyAssignmentTestForTaggingCriteria_STATUS(subject TaggingCriteria_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.TaggingCriteria_STATUS
+	var other storage.TaggingCriteria_STATUS
 	err := copied.AssignProperties_To_TaggingCriteria_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -4638,7 +4638,7 @@ func RunPropertyAssignmentTestForBackupCriteria(subject BackupCriteria) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.BackupCriteria
+	var other storage.BackupCriteria
 	err := copied.AssignProperties_To_BackupCriteria(&other)
 	if err != nil {
 		return err.Error()
@@ -4748,7 +4748,7 @@ func RunPropertyAssignmentTestForBackupCriteria_STATUS(subject BackupCriteria_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.BackupCriteria_STATUS
+	var other storage.BackupCriteria_STATUS
 	err := copied.AssignProperties_To_BackupCriteria_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -4859,7 +4859,7 @@ func RunPropertyAssignmentTestForCopyOnExpiryOption(subject CopyOnExpiryOption) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.CopyOnExpiryOption
+	var other storage.CopyOnExpiryOption
 	err := copied.AssignProperties_To_CopyOnExpiryOption(&other)
 	if err != nil {
 		return err.Error()
@@ -4961,7 +4961,7 @@ func RunPropertyAssignmentTestForCopyOnExpiryOption_STATUS(subject CopyOnExpiryO
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.CopyOnExpiryOption_STATUS
+	var other storage.CopyOnExpiryOption_STATUS
 	err := copied.AssignProperties_To_CopyOnExpiryOption_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -5064,7 +5064,7 @@ func RunPropertyAssignmentTestForCustomCopyOption(subject CustomCopyOption) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.CustomCopyOption
+	var other storage.CustomCopyOption
 	err := copied.AssignProperties_To_CustomCopyOption(&other)
 	if err != nil {
 		return err.Error()
@@ -5167,7 +5167,7 @@ func RunPropertyAssignmentTestForCustomCopyOption_STATUS(subject CustomCopyOptio
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.CustomCopyOption_STATUS
+	var other storage.CustomCopyOption_STATUS
 	err := copied.AssignProperties_To_CustomCopyOption_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -5271,7 +5271,7 @@ func RunPropertyAssignmentTestForImmediateCopyOption(subject ImmediateCopyOption
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.ImmediateCopyOption
+	var other storage.ImmediateCopyOption
 	err := copied.AssignProperties_To_ImmediateCopyOption(&other)
 	if err != nil {
 		return err.Error()
@@ -5374,7 +5374,7 @@ func RunPropertyAssignmentTestForImmediateCopyOption_STATUS(subject ImmediateCop
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.ImmediateCopyOption_STATUS
+	var other storage.ImmediateCopyOption_STATUS
 	err := copied.AssignProperties_To_ImmediateCopyOption_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -5477,7 +5477,7 @@ func RunPropertyAssignmentTestForRetentionTag(subject RetentionTag) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.RetentionTag
+	var other storage.RetentionTag
 	err := copied.AssignProperties_To_RetentionTag(&other)
 	if err != nil {
 		return err.Error()
@@ -5579,7 +5579,7 @@ func RunPropertyAssignmentTestForRetentionTag_STATUS(subject RetentionTag_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.RetentionTag_STATUS
+	var other storage.RetentionTag_STATUS
 	err := copied.AssignProperties_To_RetentionTag_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -5684,7 +5684,7 @@ func RunPropertyAssignmentTestForScheduleBasedBackupCriteria(subject ScheduleBas
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.ScheduleBasedBackupCriteria
+	var other storage.ScheduleBasedBackupCriteria
 	err := copied.AssignProperties_To_ScheduleBasedBackupCriteria(&other)
 	if err != nil {
 		return err.Error()
@@ -5806,7 +5806,7 @@ func RunPropertyAssignmentTestForScheduleBasedBackupCriteria_STATUS(subject Sche
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.ScheduleBasedBackupCriteria_STATUS
+	var other storage.ScheduleBasedBackupCriteria_STATUS
 	err := copied.AssignProperties_To_ScheduleBasedBackupCriteria_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -5928,7 +5928,7 @@ func RunPropertyAssignmentTestForDay(subject Day) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.Day
+	var other storage.Day
 	err := copied.AssignProperties_To_Day(&other)
 	if err != nil {
 		return err.Error()
@@ -6031,7 +6031,7 @@ func RunPropertyAssignmentTestForDay_STATUS(subject Day_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231101s.Day_STATUS
+	var other storage.Day_STATUS
 	err := copied.AssignProperties_To_Day_STATUS(&other)
 	if err != nil {
 		return err.Error()

@@ -5,7 +5,7 @@ package storage
 
 import (
 	"encoding/json"
-	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForProductApi(subject ProductApi) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20220801s.ProductApi
+	var hub storage.ProductApi
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForProductApi(subject ProductApi) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.ProductApi
+	var other storage.ProductApi
 	err := copied.AssignProperties_To_ProductApi(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForService_Products_Api_Spec(subject Service_Produ
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.Service_Products_Api_Spec
+	var other storage.Service_Products_Api_Spec
 	err := copied.AssignProperties_To_Service_Products_Api_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -285,7 +285,7 @@ func RunPropertyAssignmentTestForService_Products_Api_STATUS(subject Service_Pro
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.Service_Products_Api_STATUS
+	var other storage.Service_Products_Api_STATUS
 	err := copied.AssignProperties_To_Service_Products_Api_STATUS(&other)
 	if err != nil {
 		return err.Error()

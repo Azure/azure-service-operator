@@ -5,7 +5,7 @@ package v1api20230701
 
 import (
 	"encoding/json"
-	v20230701s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230701/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230701/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForRedisEnterpriseDatabase(subject RedisEnterprise
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20230701s.RedisEnterpriseDatabase
+	var hub storage.RedisEnterpriseDatabase
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForRedisEnterpriseDatabase(subject RedisEnterprise
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.RedisEnterpriseDatabase
+	var other storage.RedisEnterpriseDatabase
 	err := copied.AssignProperties_To_RedisEnterpriseDatabase(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForRedisEnterprise_Database_Spec(subject RedisEnte
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.RedisEnterprise_Database_Spec
+	var other storage.RedisEnterprise_Database_Spec
 	err := copied.AssignProperties_To_RedisEnterprise_Database_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -313,7 +313,7 @@ func RunPropertyAssignmentTestForRedisEnterprise_Database_STATUS(subject RedisEn
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.RedisEnterprise_Database_STATUS
+	var other storage.RedisEnterprise_Database_STATUS
 	err := copied.AssignProperties_To_RedisEnterprise_Database_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -466,7 +466,7 @@ func RunPropertyAssignmentTestForDatabaseProperties_GeoReplication(subject Datab
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.DatabaseProperties_GeoReplication
+	var other storage.DatabaseProperties_GeoReplication
 	err := copied.AssignProperties_To_DatabaseProperties_GeoReplication(&other)
 	if err != nil {
 		return err.Error()
@@ -583,7 +583,7 @@ func RunPropertyAssignmentTestForDatabaseProperties_GeoReplication_STATUS(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.DatabaseProperties_GeoReplication_STATUS
+	var other storage.DatabaseProperties_GeoReplication_STATUS
 	err := copied.AssignProperties_To_DatabaseProperties_GeoReplication_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -700,7 +700,7 @@ func RunPropertyAssignmentTestForModule(subject Module) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.Module
+	var other storage.Module
 	err := copied.AssignProperties_To_Module(&other)
 	if err != nil {
 		return err.Error()
@@ -803,7 +803,7 @@ func RunPropertyAssignmentTestForModule_STATUS(subject Module_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.Module_STATUS
+	var other storage.Module_STATUS
 	err := copied.AssignProperties_To_Module_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -907,7 +907,7 @@ func RunPropertyAssignmentTestForPersistence(subject Persistence) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.Persistence
+	var other storage.Persistence
 	err := copied.AssignProperties_To_Persistence(&other)
 	if err != nil {
 		return err.Error()
@@ -1012,7 +1012,7 @@ func RunPropertyAssignmentTestForPersistence_STATUS(subject Persistence_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.Persistence_STATUS
+	var other storage.Persistence_STATUS
 	err := copied.AssignProperties_To_Persistence_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1117,7 +1117,7 @@ func RunPropertyAssignmentTestForLinkedDatabase(subject LinkedDatabase) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.LinkedDatabase
+	var other storage.LinkedDatabase
 	err := copied.AssignProperties_To_LinkedDatabase(&other)
 	if err != nil {
 		return err.Error()
@@ -1213,7 +1213,7 @@ func RunPropertyAssignmentTestForLinkedDatabase_STATUS(subject LinkedDatabase_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.LinkedDatabase_STATUS
+	var other storage.LinkedDatabase_STATUS
 	err := copied.AssignProperties_To_LinkedDatabase_STATUS(&other)
 	if err != nil {
 		return err.Error()

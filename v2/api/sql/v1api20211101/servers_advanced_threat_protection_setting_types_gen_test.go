@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForServersAdvancedThreatProtectionSetting(subject 
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20211101s.ServersAdvancedThreatProtectionSetting
+	var hub storage.ServersAdvancedThreatProtectionSetting
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForServersAdvancedThreatProtectionSetting(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211101s.ServersAdvancedThreatProtectionSetting
+	var other storage.ServersAdvancedThreatProtectionSetting
 	err := copied.AssignProperties_To_ServersAdvancedThreatProtectionSetting(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForServers_AdvancedThreatProtectionSetting_Spec(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211101s.Servers_AdvancedThreatProtectionSetting_Spec
+	var other storage.Servers_AdvancedThreatProtectionSetting_Spec
 	err := copied.AssignProperties_To_Servers_AdvancedThreatProtectionSetting_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -285,7 +285,7 @@ func RunPropertyAssignmentTestForServers_AdvancedThreatProtectionSetting_STATUS(
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211101s.Servers_AdvancedThreatProtectionSetting_STATUS
+	var other storage.Servers_AdvancedThreatProtectionSetting_STATUS
 	err := copied.AssignProperties_To_Servers_AdvancedThreatProtectionSetting_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -406,7 +406,7 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211101s.SystemData_STATUS
+	var other storage.SystemData_STATUS
 	err := copied.AssignProperties_To_SystemData_STATUS(&other)
 	if err != nil {
 		return err.Error()

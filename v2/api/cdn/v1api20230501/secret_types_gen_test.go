@@ -5,7 +5,7 @@ package v1api20230501
 
 import (
 	"encoding/json"
-	v20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForSecret(subject Secret) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20230501s.Secret
+	var hub storage.Secret
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForSecret(subject Secret) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.Secret
+	var other storage.Secret
 	err := copied.AssignProperties_To_Secret(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForProfiles_Secret_Spec(subject Profiles_Secret_Sp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.Profiles_Secret_Spec
+	var other storage.Profiles_Secret_Spec
 	err := copied.AssignProperties_To_Profiles_Secret_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -298,7 +298,7 @@ func RunPropertyAssignmentTestForProfiles_Secret_STATUS(subject Profiles_Secret_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.Profiles_Secret_STATUS
+	var other storage.Profiles_Secret_STATUS
 	err := copied.AssignProperties_To_Profiles_Secret_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -430,7 +430,7 @@ func RunPropertyAssignmentTestForSecretParameters(subject SecretParameters) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.SecretParameters
+	var other storage.SecretParameters
 	err := copied.AssignProperties_To_SecretParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -549,7 +549,7 @@ func RunPropertyAssignmentTestForSecretParameters_STATUS(subject SecretParameter
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.SecretParameters_STATUS
+	var other storage.SecretParameters_STATUS
 	err := copied.AssignProperties_To_SecretParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -669,7 +669,7 @@ func RunPropertyAssignmentTestForAzureFirstPartyManagedCertificateParameters(sub
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.AzureFirstPartyManagedCertificateParameters
+	var other storage.AzureFirstPartyManagedCertificateParameters
 	err := copied.AssignProperties_To_AzureFirstPartyManagedCertificateParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -773,7 +773,7 @@ func RunPropertyAssignmentTestForAzureFirstPartyManagedCertificateParameters_STA
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.AzureFirstPartyManagedCertificateParameters_STATUS
+	var other storage.AzureFirstPartyManagedCertificateParameters_STATUS
 	err := copied.AssignProperties_To_AzureFirstPartyManagedCertificateParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -895,7 +895,7 @@ func RunPropertyAssignmentTestForCustomerCertificateParameters(subject CustomerC
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.CustomerCertificateParameters
+	var other storage.CustomerCertificateParameters
 	err := copied.AssignProperties_To_CustomerCertificateParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -1015,7 +1015,7 @@ func RunPropertyAssignmentTestForCustomerCertificateParameters_STATUS(subject Cu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.CustomerCertificateParameters_STATUS
+	var other storage.CustomerCertificateParameters_STATUS
 	err := copied.AssignProperties_To_CustomerCertificateParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1139,7 +1139,7 @@ func RunPropertyAssignmentTestForManagedCertificateParameters(subject ManagedCer
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.ManagedCertificateParameters
+	var other storage.ManagedCertificateParameters
 	err := copied.AssignProperties_To_ManagedCertificateParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -1242,7 +1242,7 @@ func RunPropertyAssignmentTestForManagedCertificateParameters_STATUS(subject Man
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.ManagedCertificateParameters_STATUS
+	var other storage.ManagedCertificateParameters_STATUS
 	err := copied.AssignProperties_To_ManagedCertificateParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1347,7 +1347,7 @@ func RunPropertyAssignmentTestForUrlSigningKeyParameters(subject UrlSigningKeyPa
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.UrlSigningKeyParameters
+	var other storage.UrlSigningKeyParameters
 	err := copied.AssignProperties_To_UrlSigningKeyParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -1466,7 +1466,7 @@ func RunPropertyAssignmentTestForUrlSigningKeyParameters_STATUS(subject UrlSigni
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.UrlSigningKeyParameters_STATUS
+	var other storage.UrlSigningKeyParameters_STATUS
 	err := copied.AssignProperties_To_UrlSigningKeyParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()

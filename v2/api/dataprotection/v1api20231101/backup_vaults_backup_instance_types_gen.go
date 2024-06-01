@@ -5,7 +5,7 @@ package v1api20231101
 
 import (
 	"fmt"
-	v20231101s "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &BackupVaultsBackupInstance{}
 
 // ConvertFrom populates our BackupVaultsBackupInstance from the provided hub BackupVaultsBackupInstance
 func (instance *BackupVaultsBackupInstance) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20231101s.BackupVaultsBackupInstance)
+	source, ok := hub.(*storage.BackupVaultsBackupInstance)
 	if !ok {
 		return fmt.Errorf("expected dataprotection/v1api20231101/storage/BackupVaultsBackupInstance but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (instance *BackupVaultsBackupInstance) ConvertFrom(hub conversion.Hub) erro
 
 // ConvertTo populates the provided hub BackupVaultsBackupInstance from our BackupVaultsBackupInstance
 func (instance *BackupVaultsBackupInstance) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20231101s.BackupVaultsBackupInstance)
+	destination, ok := hub.(*storage.BackupVaultsBackupInstance)
 	if !ok {
 		return fmt.Errorf("expected dataprotection/v1api20231101/storage/BackupVaultsBackupInstance but received %T instead", hub)
 	}
@@ -254,7 +254,7 @@ func (instance *BackupVaultsBackupInstance) validateWriteOnceProperties(old runt
 }
 
 // AssignProperties_From_BackupVaultsBackupInstance populates our BackupVaultsBackupInstance from the provided source BackupVaultsBackupInstance
-func (instance *BackupVaultsBackupInstance) AssignProperties_From_BackupVaultsBackupInstance(source *v20231101s.BackupVaultsBackupInstance) error {
+func (instance *BackupVaultsBackupInstance) AssignProperties_From_BackupVaultsBackupInstance(source *storage.BackupVaultsBackupInstance) error {
 
 	// ObjectMeta
 	instance.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -280,13 +280,13 @@ func (instance *BackupVaultsBackupInstance) AssignProperties_From_BackupVaultsBa
 }
 
 // AssignProperties_To_BackupVaultsBackupInstance populates the provided destination BackupVaultsBackupInstance from our BackupVaultsBackupInstance
-func (instance *BackupVaultsBackupInstance) AssignProperties_To_BackupVaultsBackupInstance(destination *v20231101s.BackupVaultsBackupInstance) error {
+func (instance *BackupVaultsBackupInstance) AssignProperties_To_BackupVaultsBackupInstance(destination *storage.BackupVaultsBackupInstance) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *instance.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20231101s.BackupVaults_BackupInstance_Spec
+	var spec storage.BackupVaults_BackupInstance_Spec
 	err := instance.Spec.AssignProperties_To_BackupVaults_BackupInstance_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_BackupVaults_BackupInstance_Spec() to populate field Spec")
@@ -294,7 +294,7 @@ func (instance *BackupVaultsBackupInstance) AssignProperties_To_BackupVaultsBack
 	destination.Spec = spec
 
 	// Status
-	var status v20231101s.BackupVaults_BackupInstance_STATUS
+	var status storage.BackupVaults_BackupInstance_STATUS
 	err = instance.Status.AssignProperties_To_BackupVaults_BackupInstance_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_BackupVaults_BackupInstance_STATUS() to populate field Status")
@@ -422,14 +422,14 @@ var _ genruntime.ConvertibleSpec = &BackupVaults_BackupInstance_Spec{}
 
 // ConvertSpecFrom populates our BackupVaults_BackupInstance_Spec from the provided source
 func (instance *BackupVaults_BackupInstance_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20231101s.BackupVaults_BackupInstance_Spec)
+	src, ok := source.(*storage.BackupVaults_BackupInstance_Spec)
 	if ok {
 		// Populate our instance from source
 		return instance.AssignProperties_From_BackupVaults_BackupInstance_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20231101s.BackupVaults_BackupInstance_Spec{}
+	src = &storage.BackupVaults_BackupInstance_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -446,14 +446,14 @@ func (instance *BackupVaults_BackupInstance_Spec) ConvertSpecFrom(source genrunt
 
 // ConvertSpecTo populates the provided destination from our BackupVaults_BackupInstance_Spec
 func (instance *BackupVaults_BackupInstance_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20231101s.BackupVaults_BackupInstance_Spec)
+	dst, ok := destination.(*storage.BackupVaults_BackupInstance_Spec)
 	if ok {
 		// Populate destination from our instance
 		return instance.AssignProperties_To_BackupVaults_BackupInstance_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20231101s.BackupVaults_BackupInstance_Spec{}
+	dst = &storage.BackupVaults_BackupInstance_Spec{}
 	err := instance.AssignProperties_To_BackupVaults_BackupInstance_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -469,7 +469,7 @@ func (instance *BackupVaults_BackupInstance_Spec) ConvertSpecTo(destination genr
 }
 
 // AssignProperties_From_BackupVaults_BackupInstance_Spec populates our BackupVaults_BackupInstance_Spec from the provided source BackupVaults_BackupInstance_Spec
-func (instance *BackupVaults_BackupInstance_Spec) AssignProperties_From_BackupVaults_BackupInstance_Spec(source *v20231101s.BackupVaults_BackupInstance_Spec) error {
+func (instance *BackupVaults_BackupInstance_Spec) AssignProperties_From_BackupVaults_BackupInstance_Spec(source *storage.BackupVaults_BackupInstance_Spec) error {
 
 	// AzureName
 	instance.AzureName = source.AzureName
@@ -502,7 +502,7 @@ func (instance *BackupVaults_BackupInstance_Spec) AssignProperties_From_BackupVa
 }
 
 // AssignProperties_To_BackupVaults_BackupInstance_Spec populates the provided destination BackupVaults_BackupInstance_Spec from our BackupVaults_BackupInstance_Spec
-func (instance *BackupVaults_BackupInstance_Spec) AssignProperties_To_BackupVaults_BackupInstance_Spec(destination *v20231101s.BackupVaults_BackupInstance_Spec) error {
+func (instance *BackupVaults_BackupInstance_Spec) AssignProperties_To_BackupVaults_BackupInstance_Spec(destination *storage.BackupVaults_BackupInstance_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -522,7 +522,7 @@ func (instance *BackupVaults_BackupInstance_Spec) AssignProperties_To_BackupVaul
 
 	// Properties
 	if instance.Properties != nil {
-		var property v20231101s.BackupInstance
+		var property storage.BackupInstance
 		err := instance.Properties.AssignProperties_To_BackupInstance(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_BackupInstance() to populate field Properties")
@@ -605,14 +605,14 @@ var _ genruntime.ConvertibleStatus = &BackupVaults_BackupInstance_STATUS{}
 
 // ConvertStatusFrom populates our BackupVaults_BackupInstance_STATUS from the provided source
 func (instance *BackupVaults_BackupInstance_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20231101s.BackupVaults_BackupInstance_STATUS)
+	src, ok := source.(*storage.BackupVaults_BackupInstance_STATUS)
 	if ok {
 		// Populate our instance from source
 		return instance.AssignProperties_From_BackupVaults_BackupInstance_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20231101s.BackupVaults_BackupInstance_STATUS{}
+	src = &storage.BackupVaults_BackupInstance_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -629,14 +629,14 @@ func (instance *BackupVaults_BackupInstance_STATUS) ConvertStatusFrom(source gen
 
 // ConvertStatusTo populates the provided destination from our BackupVaults_BackupInstance_STATUS
 func (instance *BackupVaults_BackupInstance_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20231101s.BackupVaults_BackupInstance_STATUS)
+	dst, ok := destination.(*storage.BackupVaults_BackupInstance_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return instance.AssignProperties_To_BackupVaults_BackupInstance_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20231101s.BackupVaults_BackupInstance_STATUS{}
+	dst = &storage.BackupVaults_BackupInstance_STATUS{}
 	err := instance.AssignProperties_To_BackupVaults_BackupInstance_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -720,7 +720,7 @@ func (instance *BackupVaults_BackupInstance_STATUS) PopulateFromARM(owner genrun
 }
 
 // AssignProperties_From_BackupVaults_BackupInstance_STATUS populates our BackupVaults_BackupInstance_STATUS from the provided source BackupVaults_BackupInstance_STATUS
-func (instance *BackupVaults_BackupInstance_STATUS) AssignProperties_From_BackupVaults_BackupInstance_STATUS(source *v20231101s.BackupVaults_BackupInstance_STATUS) error {
+func (instance *BackupVaults_BackupInstance_STATUS) AssignProperties_From_BackupVaults_BackupInstance_STATUS(source *storage.BackupVaults_BackupInstance_STATUS) error {
 
 	// Conditions
 	instance.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -766,7 +766,7 @@ func (instance *BackupVaults_BackupInstance_STATUS) AssignProperties_From_Backup
 }
 
 // AssignProperties_To_BackupVaults_BackupInstance_STATUS populates the provided destination BackupVaults_BackupInstance_STATUS from our BackupVaults_BackupInstance_STATUS
-func (instance *BackupVaults_BackupInstance_STATUS) AssignProperties_To_BackupVaults_BackupInstance_STATUS(destination *v20231101s.BackupVaults_BackupInstance_STATUS) error {
+func (instance *BackupVaults_BackupInstance_STATUS) AssignProperties_To_BackupVaults_BackupInstance_STATUS(destination *storage.BackupVaults_BackupInstance_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -781,7 +781,7 @@ func (instance *BackupVaults_BackupInstance_STATUS) AssignProperties_To_BackupVa
 
 	// Properties
 	if instance.Properties != nil {
-		var property v20231101s.BackupInstance_STATUS
+		var property storage.BackupInstance_STATUS
 		err := instance.Properties.AssignProperties_To_BackupInstance_STATUS(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_BackupInstance_STATUS() to populate field Properties")
@@ -793,7 +793,7 @@ func (instance *BackupVaults_BackupInstance_STATUS) AssignProperties_To_BackupVa
 
 	// SystemData
 	if instance.SystemData != nil {
-		var systemDatum v20231101s.SystemData_STATUS
+		var systemDatum storage.SystemData_STATUS
 		err := instance.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
@@ -1020,7 +1020,7 @@ func (instance *BackupInstance) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 }
 
 // AssignProperties_From_BackupInstance populates our BackupInstance from the provided source BackupInstance
-func (instance *BackupInstance) AssignProperties_From_BackupInstance(source *v20231101s.BackupInstance) error {
+func (instance *BackupInstance) AssignProperties_From_BackupInstance(source *storage.BackupInstance) error {
 
 	// DataSourceInfo
 	if source.DataSourceInfo != nil {
@@ -1102,13 +1102,13 @@ func (instance *BackupInstance) AssignProperties_From_BackupInstance(source *v20
 }
 
 // AssignProperties_To_BackupInstance populates the provided destination BackupInstance from our BackupInstance
-func (instance *BackupInstance) AssignProperties_To_BackupInstance(destination *v20231101s.BackupInstance) error {
+func (instance *BackupInstance) AssignProperties_To_BackupInstance(destination *storage.BackupInstance) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DataSourceInfo
 	if instance.DataSourceInfo != nil {
-		var dataSourceInfo v20231101s.Datasource
+		var dataSourceInfo storage.Datasource
 		err := instance.DataSourceInfo.AssignProperties_To_Datasource(&dataSourceInfo)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Datasource() to populate field DataSourceInfo")
@@ -1120,7 +1120,7 @@ func (instance *BackupInstance) AssignProperties_To_BackupInstance(destination *
 
 	// DataSourceSetInfo
 	if instance.DataSourceSetInfo != nil {
-		var dataSourceSetInfo v20231101s.DatasourceSet
+		var dataSourceSetInfo storage.DatasourceSet
 		err := instance.DataSourceSetInfo.AssignProperties_To_DatasourceSet(&dataSourceSetInfo)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DatasourceSet() to populate field DataSourceSetInfo")
@@ -1132,7 +1132,7 @@ func (instance *BackupInstance) AssignProperties_To_BackupInstance(destination *
 
 	// DatasourceAuthCredentials
 	if instance.DatasourceAuthCredentials != nil {
-		var datasourceAuthCredential v20231101s.AuthCredentials
+		var datasourceAuthCredential storage.AuthCredentials
 		err := instance.DatasourceAuthCredentials.AssignProperties_To_AuthCredentials(&datasourceAuthCredential)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AuthCredentials() to populate field DatasourceAuthCredentials")
@@ -1147,7 +1147,7 @@ func (instance *BackupInstance) AssignProperties_To_BackupInstance(destination *
 
 	// IdentityDetails
 	if instance.IdentityDetails != nil {
-		var identityDetail v20231101s.IdentityDetails
+		var identityDetail storage.IdentityDetails
 		err := instance.IdentityDetails.AssignProperties_To_IdentityDetails(&identityDetail)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_IdentityDetails() to populate field IdentityDetails")
@@ -1162,7 +1162,7 @@ func (instance *BackupInstance) AssignProperties_To_BackupInstance(destination *
 
 	// PolicyInfo
 	if instance.PolicyInfo != nil {
-		var policyInfo v20231101s.PolicyInfo
+		var policyInfo storage.PolicyInfo
 		err := instance.PolicyInfo.AssignProperties_To_PolicyInfo(&policyInfo)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PolicyInfo() to populate field PolicyInfo")
@@ -1437,7 +1437,7 @@ func (instance *BackupInstance_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 }
 
 // AssignProperties_From_BackupInstance_STATUS populates our BackupInstance_STATUS from the provided source BackupInstance_STATUS
-func (instance *BackupInstance_STATUS) AssignProperties_From_BackupInstance_STATUS(source *v20231101s.BackupInstance_STATUS) error {
+func (instance *BackupInstance_STATUS) AssignProperties_From_BackupInstance_STATUS(source *storage.BackupInstance_STATUS) error {
 
 	// CurrentProtectionState
 	if source.CurrentProtectionState != nil {
@@ -1555,7 +1555,7 @@ func (instance *BackupInstance_STATUS) AssignProperties_From_BackupInstance_STAT
 }
 
 // AssignProperties_To_BackupInstance_STATUS populates the provided destination BackupInstance_STATUS from our BackupInstance_STATUS
-func (instance *BackupInstance_STATUS) AssignProperties_To_BackupInstance_STATUS(destination *v20231101s.BackupInstance_STATUS) error {
+func (instance *BackupInstance_STATUS) AssignProperties_To_BackupInstance_STATUS(destination *storage.BackupInstance_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1569,7 +1569,7 @@ func (instance *BackupInstance_STATUS) AssignProperties_To_BackupInstance_STATUS
 
 	// DataSourceInfo
 	if instance.DataSourceInfo != nil {
-		var dataSourceInfo v20231101s.Datasource_STATUS
+		var dataSourceInfo storage.Datasource_STATUS
 		err := instance.DataSourceInfo.AssignProperties_To_Datasource_STATUS(&dataSourceInfo)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Datasource_STATUS() to populate field DataSourceInfo")
@@ -1581,7 +1581,7 @@ func (instance *BackupInstance_STATUS) AssignProperties_To_BackupInstance_STATUS
 
 	// DataSourceSetInfo
 	if instance.DataSourceSetInfo != nil {
-		var dataSourceSetInfo v20231101s.DatasourceSet_STATUS
+		var dataSourceSetInfo storage.DatasourceSet_STATUS
 		err := instance.DataSourceSetInfo.AssignProperties_To_DatasourceSet_STATUS(&dataSourceSetInfo)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DatasourceSet_STATUS() to populate field DataSourceSetInfo")
@@ -1593,7 +1593,7 @@ func (instance *BackupInstance_STATUS) AssignProperties_To_BackupInstance_STATUS
 
 	// DatasourceAuthCredentials
 	if instance.DatasourceAuthCredentials != nil {
-		var datasourceAuthCredential v20231101s.AuthCredentials_STATUS
+		var datasourceAuthCredential storage.AuthCredentials_STATUS
 		err := instance.DatasourceAuthCredentials.AssignProperties_To_AuthCredentials_STATUS(&datasourceAuthCredential)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AuthCredentials_STATUS() to populate field DatasourceAuthCredentials")
@@ -1608,7 +1608,7 @@ func (instance *BackupInstance_STATUS) AssignProperties_To_BackupInstance_STATUS
 
 	// IdentityDetails
 	if instance.IdentityDetails != nil {
-		var identityDetail v20231101s.IdentityDetails_STATUS
+		var identityDetail storage.IdentityDetails_STATUS
 		err := instance.IdentityDetails.AssignProperties_To_IdentityDetails_STATUS(&identityDetail)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_IdentityDetails_STATUS() to populate field IdentityDetails")
@@ -1623,7 +1623,7 @@ func (instance *BackupInstance_STATUS) AssignProperties_To_BackupInstance_STATUS
 
 	// PolicyInfo
 	if instance.PolicyInfo != nil {
-		var policyInfo v20231101s.PolicyInfo_STATUS
+		var policyInfo storage.PolicyInfo_STATUS
 		err := instance.PolicyInfo.AssignProperties_To_PolicyInfo_STATUS(&policyInfo)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PolicyInfo_STATUS() to populate field PolicyInfo")
@@ -1635,7 +1635,7 @@ func (instance *BackupInstance_STATUS) AssignProperties_To_BackupInstance_STATUS
 
 	// ProtectionErrorDetails
 	if instance.ProtectionErrorDetails != nil {
-		var protectionErrorDetail v20231101s.UserFacingError_STATUS
+		var protectionErrorDetail storage.UserFacingError_STATUS
 		err := instance.ProtectionErrorDetails.AssignProperties_To_UserFacingError_STATUS(&protectionErrorDetail)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UserFacingError_STATUS() to populate field ProtectionErrorDetails")
@@ -1647,7 +1647,7 @@ func (instance *BackupInstance_STATUS) AssignProperties_To_BackupInstance_STATUS
 
 	// ProtectionStatus
 	if instance.ProtectionStatus != nil {
-		var protectionStatus v20231101s.ProtectionStatusDetails_STATUS
+		var protectionStatus storage.ProtectionStatusDetails_STATUS
 		err := instance.ProtectionStatus.AssignProperties_To_ProtectionStatusDetails_STATUS(&protectionStatus)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ProtectionStatusDetails_STATUS() to populate field ProtectionStatus")
@@ -1733,7 +1733,7 @@ func (credentials *AuthCredentials) PopulateFromARM(owner genruntime.ArbitraryOw
 }
 
 // AssignProperties_From_AuthCredentials populates our AuthCredentials from the provided source AuthCredentials
-func (credentials *AuthCredentials) AssignProperties_From_AuthCredentials(source *v20231101s.AuthCredentials) error {
+func (credentials *AuthCredentials) AssignProperties_From_AuthCredentials(source *storage.AuthCredentials) error {
 
 	// SecretStoreBasedAuthCredentials
 	if source.SecretStoreBasedAuthCredentials != nil {
@@ -1752,13 +1752,13 @@ func (credentials *AuthCredentials) AssignProperties_From_AuthCredentials(source
 }
 
 // AssignProperties_To_AuthCredentials populates the provided destination AuthCredentials from our AuthCredentials
-func (credentials *AuthCredentials) AssignProperties_To_AuthCredentials(destination *v20231101s.AuthCredentials) error {
+func (credentials *AuthCredentials) AssignProperties_To_AuthCredentials(destination *storage.AuthCredentials) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// SecretStoreBasedAuthCredentials
 	if credentials.SecretStoreBasedAuthCredentials != nil {
-		var secretStoreBasedAuthCredential v20231101s.SecretStoreBasedAuthCredentials
+		var secretStoreBasedAuthCredential storage.SecretStoreBasedAuthCredentials
 		err := credentials.SecretStoreBasedAuthCredentials.AssignProperties_To_SecretStoreBasedAuthCredentials(&secretStoreBasedAuthCredential)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SecretStoreBasedAuthCredentials() to populate field SecretStoreBasedAuthCredentials")
@@ -1833,7 +1833,7 @@ func (credentials *AuthCredentials_STATUS) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignProperties_From_AuthCredentials_STATUS populates our AuthCredentials_STATUS from the provided source AuthCredentials_STATUS
-func (credentials *AuthCredentials_STATUS) AssignProperties_From_AuthCredentials_STATUS(source *v20231101s.AuthCredentials_STATUS) error {
+func (credentials *AuthCredentials_STATUS) AssignProperties_From_AuthCredentials_STATUS(source *storage.AuthCredentials_STATUS) error {
 
 	// SecretStoreBasedAuthCredentials
 	if source.SecretStoreBasedAuthCredentials != nil {
@@ -1852,13 +1852,13 @@ func (credentials *AuthCredentials_STATUS) AssignProperties_From_AuthCredentials
 }
 
 // AssignProperties_To_AuthCredentials_STATUS populates the provided destination AuthCredentials_STATUS from our AuthCredentials_STATUS
-func (credentials *AuthCredentials_STATUS) AssignProperties_To_AuthCredentials_STATUS(destination *v20231101s.AuthCredentials_STATUS) error {
+func (credentials *AuthCredentials_STATUS) AssignProperties_To_AuthCredentials_STATUS(destination *storage.AuthCredentials_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// SecretStoreBasedAuthCredentials
 	if credentials.SecretStoreBasedAuthCredentials != nil {
-		var secretStoreBasedAuthCredential v20231101s.SecretStoreBasedAuthCredentials_STATUS
+		var secretStoreBasedAuthCredential storage.SecretStoreBasedAuthCredentials_STATUS
 		err := credentials.SecretStoreBasedAuthCredentials.AssignProperties_To_SecretStoreBasedAuthCredentials_STATUS(&secretStoreBasedAuthCredential)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SecretStoreBasedAuthCredentials_STATUS() to populate field SecretStoreBasedAuthCredentials")
@@ -2041,7 +2041,7 @@ func (datasource *Datasource) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 }
 
 // AssignProperties_From_Datasource populates our Datasource from the provided source Datasource
-func (datasource *Datasource) AssignProperties_From_Datasource(source *v20231101s.Datasource) error {
+func (datasource *Datasource) AssignProperties_From_Datasource(source *storage.Datasource) error {
 
 	// DatasourceType
 	datasource.DatasourceType = genruntime.ClonePointerToString(source.DatasourceType)
@@ -2086,7 +2086,7 @@ func (datasource *Datasource) AssignProperties_From_Datasource(source *v20231101
 }
 
 // AssignProperties_To_Datasource populates the provided destination Datasource from our Datasource
-func (datasource *Datasource) AssignProperties_To_Datasource(destination *v20231101s.Datasource) error {
+func (datasource *Datasource) AssignProperties_To_Datasource(destination *storage.Datasource) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2104,7 +2104,7 @@ func (datasource *Datasource) AssignProperties_To_Datasource(destination *v20231
 
 	// ResourceProperties
 	if datasource.ResourceProperties != nil {
-		var resourceProperty v20231101s.BaseResourceProperties
+		var resourceProperty storage.BaseResourceProperties
 		err := datasource.ResourceProperties.AssignProperties_To_BaseResourceProperties(&resourceProperty)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_BaseResourceProperties() to populate field ResourceProperties")
@@ -2276,7 +2276,7 @@ func (datasource *Datasource_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 }
 
 // AssignProperties_From_Datasource_STATUS populates our Datasource_STATUS from the provided source Datasource_STATUS
-func (datasource *Datasource_STATUS) AssignProperties_From_Datasource_STATUS(source *v20231101s.Datasource_STATUS) error {
+func (datasource *Datasource_STATUS) AssignProperties_From_Datasource_STATUS(source *storage.Datasource_STATUS) error {
 
 	// DatasourceType
 	datasource.DatasourceType = genruntime.ClonePointerToString(source.DatasourceType)
@@ -2316,7 +2316,7 @@ func (datasource *Datasource_STATUS) AssignProperties_From_Datasource_STATUS(sou
 }
 
 // AssignProperties_To_Datasource_STATUS populates the provided destination Datasource_STATUS from our Datasource_STATUS
-func (datasource *Datasource_STATUS) AssignProperties_To_Datasource_STATUS(destination *v20231101s.Datasource_STATUS) error {
+func (datasource *Datasource_STATUS) AssignProperties_To_Datasource_STATUS(destination *storage.Datasource_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2337,7 +2337,7 @@ func (datasource *Datasource_STATUS) AssignProperties_To_Datasource_STATUS(desti
 
 	// ResourceProperties
 	if datasource.ResourceProperties != nil {
-		var resourceProperty v20231101s.BaseResourceProperties_STATUS
+		var resourceProperty storage.BaseResourceProperties_STATUS
 		err := datasource.ResourceProperties.AssignProperties_To_BaseResourceProperties_STATUS(&resourceProperty)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_BaseResourceProperties_STATUS() to populate field ResourceProperties")
@@ -2526,7 +2526,7 @@ func (datasourceSet *DatasourceSet) PopulateFromARM(owner genruntime.ArbitraryOw
 }
 
 // AssignProperties_From_DatasourceSet populates our DatasourceSet from the provided source DatasourceSet
-func (datasourceSet *DatasourceSet) AssignProperties_From_DatasourceSet(source *v20231101s.DatasourceSet) error {
+func (datasourceSet *DatasourceSet) AssignProperties_From_DatasourceSet(source *storage.DatasourceSet) error {
 
 	// DatasourceType
 	datasourceSet.DatasourceType = genruntime.ClonePointerToString(source.DatasourceType)
@@ -2571,7 +2571,7 @@ func (datasourceSet *DatasourceSet) AssignProperties_From_DatasourceSet(source *
 }
 
 // AssignProperties_To_DatasourceSet populates the provided destination DatasourceSet from our DatasourceSet
-func (datasourceSet *DatasourceSet) AssignProperties_To_DatasourceSet(destination *v20231101s.DatasourceSet) error {
+func (datasourceSet *DatasourceSet) AssignProperties_To_DatasourceSet(destination *storage.DatasourceSet) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2589,7 +2589,7 @@ func (datasourceSet *DatasourceSet) AssignProperties_To_DatasourceSet(destinatio
 
 	// ResourceProperties
 	if datasourceSet.ResourceProperties != nil {
-		var resourceProperty v20231101s.BaseResourceProperties
+		var resourceProperty storage.BaseResourceProperties
 		err := datasourceSet.ResourceProperties.AssignProperties_To_BaseResourceProperties(&resourceProperty)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_BaseResourceProperties() to populate field ResourceProperties")
@@ -2761,7 +2761,7 @@ func (datasourceSet *DatasourceSet_STATUS) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignProperties_From_DatasourceSet_STATUS populates our DatasourceSet_STATUS from the provided source DatasourceSet_STATUS
-func (datasourceSet *DatasourceSet_STATUS) AssignProperties_From_DatasourceSet_STATUS(source *v20231101s.DatasourceSet_STATUS) error {
+func (datasourceSet *DatasourceSet_STATUS) AssignProperties_From_DatasourceSet_STATUS(source *storage.DatasourceSet_STATUS) error {
 
 	// DatasourceType
 	datasourceSet.DatasourceType = genruntime.ClonePointerToString(source.DatasourceType)
@@ -2801,7 +2801,7 @@ func (datasourceSet *DatasourceSet_STATUS) AssignProperties_From_DatasourceSet_S
 }
 
 // AssignProperties_To_DatasourceSet_STATUS populates the provided destination DatasourceSet_STATUS from our DatasourceSet_STATUS
-func (datasourceSet *DatasourceSet_STATUS) AssignProperties_To_DatasourceSet_STATUS(destination *v20231101s.DatasourceSet_STATUS) error {
+func (datasourceSet *DatasourceSet_STATUS) AssignProperties_To_DatasourceSet_STATUS(destination *storage.DatasourceSet_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2822,7 +2822,7 @@ func (datasourceSet *DatasourceSet_STATUS) AssignProperties_To_DatasourceSet_STA
 
 	// ResourceProperties
 	if datasourceSet.ResourceProperties != nil {
-		var resourceProperty v20231101s.BaseResourceProperties_STATUS
+		var resourceProperty storage.BaseResourceProperties_STATUS
 		err := datasourceSet.ResourceProperties.AssignProperties_To_BaseResourceProperties_STATUS(&resourceProperty)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_BaseResourceProperties_STATUS() to populate field ResourceProperties")
@@ -2909,7 +2909,7 @@ func (details *IdentityDetails) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 }
 
 // AssignProperties_From_IdentityDetails populates our IdentityDetails from the provided source IdentityDetails
-func (details *IdentityDetails) AssignProperties_From_IdentityDetails(source *v20231101s.IdentityDetails) error {
+func (details *IdentityDetails) AssignProperties_From_IdentityDetails(source *storage.IdentityDetails) error {
 
 	// UseSystemAssignedIdentity
 	if source.UseSystemAssignedIdentity != nil {
@@ -2927,7 +2927,7 @@ func (details *IdentityDetails) AssignProperties_From_IdentityDetails(source *v2
 }
 
 // AssignProperties_To_IdentityDetails populates the provided destination IdentityDetails from our IdentityDetails
-func (details *IdentityDetails) AssignProperties_To_IdentityDetails(destination *v20231101s.IdentityDetails) error {
+func (details *IdentityDetails) AssignProperties_To_IdentityDetails(destination *storage.IdentityDetails) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3010,7 +3010,7 @@ func (details *IdentityDetails_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 }
 
 // AssignProperties_From_IdentityDetails_STATUS populates our IdentityDetails_STATUS from the provided source IdentityDetails_STATUS
-func (details *IdentityDetails_STATUS) AssignProperties_From_IdentityDetails_STATUS(source *v20231101s.IdentityDetails_STATUS) error {
+func (details *IdentityDetails_STATUS) AssignProperties_From_IdentityDetails_STATUS(source *storage.IdentityDetails_STATUS) error {
 
 	// UseSystemAssignedIdentity
 	if source.UseSystemAssignedIdentity != nil {
@@ -3028,7 +3028,7 @@ func (details *IdentityDetails_STATUS) AssignProperties_From_IdentityDetails_STA
 }
 
 // AssignProperties_To_IdentityDetails_STATUS populates the provided destination IdentityDetails_STATUS from our IdentityDetails_STATUS
-func (details *IdentityDetails_STATUS) AssignProperties_To_IdentityDetails_STATUS(destination *v20231101s.IdentityDetails_STATUS) error {
+func (details *IdentityDetails_STATUS) AssignProperties_To_IdentityDetails_STATUS(destination *storage.IdentityDetails_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3124,7 +3124,7 @@ func (info *PolicyInfo) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 }
 
 // AssignProperties_From_PolicyInfo populates our PolicyInfo from the provided source PolicyInfo
-func (info *PolicyInfo) AssignProperties_From_PolicyInfo(source *v20231101s.PolicyInfo) error {
+func (info *PolicyInfo) AssignProperties_From_PolicyInfo(source *storage.PolicyInfo) error {
 
 	// PolicyParameters
 	if source.PolicyParameters != nil {
@@ -3151,13 +3151,13 @@ func (info *PolicyInfo) AssignProperties_From_PolicyInfo(source *v20231101s.Poli
 }
 
 // AssignProperties_To_PolicyInfo populates the provided destination PolicyInfo from our PolicyInfo
-func (info *PolicyInfo) AssignProperties_To_PolicyInfo(destination *v20231101s.PolicyInfo) error {
+func (info *PolicyInfo) AssignProperties_To_PolicyInfo(destination *storage.PolicyInfo) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// PolicyParameters
 	if info.PolicyParameters != nil {
-		var policyParameter v20231101s.PolicyParameters
+		var policyParameter storage.PolicyParameters
 		err := info.PolicyParameters.AssignProperties_To_PolicyParameters(&policyParameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PolicyParameters() to populate field PolicyParameters")
@@ -3264,7 +3264,7 @@ func (info *PolicyInfo_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 }
 
 // AssignProperties_From_PolicyInfo_STATUS populates our PolicyInfo_STATUS from the provided source PolicyInfo_STATUS
-func (info *PolicyInfo_STATUS) AssignProperties_From_PolicyInfo_STATUS(source *v20231101s.PolicyInfo_STATUS) error {
+func (info *PolicyInfo_STATUS) AssignProperties_From_PolicyInfo_STATUS(source *storage.PolicyInfo_STATUS) error {
 
 	// PolicyId
 	info.PolicyId = genruntime.ClonePointerToString(source.PolicyId)
@@ -3289,7 +3289,7 @@ func (info *PolicyInfo_STATUS) AssignProperties_From_PolicyInfo_STATUS(source *v
 }
 
 // AssignProperties_To_PolicyInfo_STATUS populates the provided destination PolicyInfo_STATUS from our PolicyInfo_STATUS
-func (info *PolicyInfo_STATUS) AssignProperties_To_PolicyInfo_STATUS(destination *v20231101s.PolicyInfo_STATUS) error {
+func (info *PolicyInfo_STATUS) AssignProperties_To_PolicyInfo_STATUS(destination *storage.PolicyInfo_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3298,7 +3298,7 @@ func (info *PolicyInfo_STATUS) AssignProperties_To_PolicyInfo_STATUS(destination
 
 	// PolicyParameters
 	if info.PolicyParameters != nil {
-		var policyParameter v20231101s.PolicyParameters_STATUS
+		var policyParameter storage.PolicyParameters_STATUS
 		err := info.PolicyParameters.AssignProperties_To_PolicyParameters_STATUS(&policyParameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PolicyParameters_STATUS() to populate field PolicyParameters")
@@ -3367,7 +3367,7 @@ func (details *ProtectionStatusDetails_STATUS) PopulateFromARM(owner genruntime.
 }
 
 // AssignProperties_From_ProtectionStatusDetails_STATUS populates our ProtectionStatusDetails_STATUS from the provided source ProtectionStatusDetails_STATUS
-func (details *ProtectionStatusDetails_STATUS) AssignProperties_From_ProtectionStatusDetails_STATUS(source *v20231101s.ProtectionStatusDetails_STATUS) error {
+func (details *ProtectionStatusDetails_STATUS) AssignProperties_From_ProtectionStatusDetails_STATUS(source *storage.ProtectionStatusDetails_STATUS) error {
 
 	// ErrorDetails
 	if source.ErrorDetails != nil {
@@ -3395,13 +3395,13 @@ func (details *ProtectionStatusDetails_STATUS) AssignProperties_From_ProtectionS
 }
 
 // AssignProperties_To_ProtectionStatusDetails_STATUS populates the provided destination ProtectionStatusDetails_STATUS from our ProtectionStatusDetails_STATUS
-func (details *ProtectionStatusDetails_STATUS) AssignProperties_To_ProtectionStatusDetails_STATUS(destination *v20231101s.ProtectionStatusDetails_STATUS) error {
+func (details *ProtectionStatusDetails_STATUS) AssignProperties_To_ProtectionStatusDetails_STATUS(destination *storage.ProtectionStatusDetails_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ErrorDetails
 	if details.ErrorDetails != nil {
-		var errorDetail v20231101s.UserFacingError_STATUS
+		var errorDetail storage.UserFacingError_STATUS
 		err := details.ErrorDetails.AssignProperties_To_UserFacingError_STATUS(&errorDetail)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UserFacingError_STATUS() to populate field ErrorDetails")
@@ -3541,7 +3541,7 @@ func (error *UserFacingError_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 }
 
 // AssignProperties_From_UserFacingError_STATUS populates our UserFacingError_STATUS from the provided source UserFacingError_STATUS
-func (error *UserFacingError_STATUS) AssignProperties_From_UserFacingError_STATUS(source *v20231101s.UserFacingError_STATUS) error {
+func (error *UserFacingError_STATUS) AssignProperties_From_UserFacingError_STATUS(source *storage.UserFacingError_STATUS) error {
 
 	// Code
 	error.Code = genruntime.ClonePointerToString(source.Code)
@@ -3609,7 +3609,7 @@ func (error *UserFacingError_STATUS) AssignProperties_From_UserFacingError_STATU
 }
 
 // AssignProperties_To_UserFacingError_STATUS populates the provided destination UserFacingError_STATUS from our UserFacingError_STATUS
-func (error *UserFacingError_STATUS) AssignProperties_To_UserFacingError_STATUS(destination *v20231101s.UserFacingError_STATUS) error {
+func (error *UserFacingError_STATUS) AssignProperties_To_UserFacingError_STATUS(destination *storage.UserFacingError_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3618,11 +3618,11 @@ func (error *UserFacingError_STATUS) AssignProperties_To_UserFacingError_STATUS(
 
 	// Details
 	if error.Details != nil {
-		detailList := make([]v20231101s.UserFacingError_STATUS_Unrolled, len(error.Details))
+		detailList := make([]storage.UserFacingError_STATUS_Unrolled, len(error.Details))
 		for detailIndex, detailItem := range error.Details {
 			// Shadow the loop variable to avoid aliasing
 			detailItem := detailItem
-			var detail v20231101s.UserFacingError_STATUS_Unrolled
+			var detail storage.UserFacingError_STATUS_Unrolled
 			err := detailItem.AssignProperties_To_UserFacingError_STATUS_Unrolled(&detail)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_UserFacingError_STATUS_Unrolled() to populate field Details")
@@ -3636,7 +3636,7 @@ func (error *UserFacingError_STATUS) AssignProperties_To_UserFacingError_STATUS(
 
 	// InnerError
 	if error.InnerError != nil {
-		var innerError v20231101s.InnerError_STATUS
+		var innerError storage.InnerError_STATUS
 		err := error.InnerError.AssignProperties_To_InnerError_STATUS(&innerError)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_InnerError_STATUS() to populate field InnerError")
@@ -3739,7 +3739,7 @@ func (properties *BaseResourceProperties) PopulateFromARM(owner genruntime.Arbit
 }
 
 // AssignProperties_From_BaseResourceProperties populates our BaseResourceProperties from the provided source BaseResourceProperties
-func (properties *BaseResourceProperties) AssignProperties_From_BaseResourceProperties(source *v20231101s.BaseResourceProperties) error {
+func (properties *BaseResourceProperties) AssignProperties_From_BaseResourceProperties(source *storage.BaseResourceProperties) error {
 
 	// DefaultResourceProperties
 	if source.DefaultResourceProperties != nil {
@@ -3758,13 +3758,13 @@ func (properties *BaseResourceProperties) AssignProperties_From_BaseResourceProp
 }
 
 // AssignProperties_To_BaseResourceProperties populates the provided destination BaseResourceProperties from our BaseResourceProperties
-func (properties *BaseResourceProperties) AssignProperties_To_BaseResourceProperties(destination *v20231101s.BaseResourceProperties) error {
+func (properties *BaseResourceProperties) AssignProperties_To_BaseResourceProperties(destination *storage.BaseResourceProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DefaultResourceProperties
 	if properties.DefaultResourceProperties != nil {
-		var defaultResourceProperty v20231101s.DefaultResourceProperties
+		var defaultResourceProperty storage.DefaultResourceProperties
 		err := properties.DefaultResourceProperties.AssignProperties_To_DefaultResourceProperties(&defaultResourceProperty)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DefaultResourceProperties() to populate field DefaultResourceProperties")
@@ -3839,7 +3839,7 @@ func (properties *BaseResourceProperties_STATUS) PopulateFromARM(owner genruntim
 }
 
 // AssignProperties_From_BaseResourceProperties_STATUS populates our BaseResourceProperties_STATUS from the provided source BaseResourceProperties_STATUS
-func (properties *BaseResourceProperties_STATUS) AssignProperties_From_BaseResourceProperties_STATUS(source *v20231101s.BaseResourceProperties_STATUS) error {
+func (properties *BaseResourceProperties_STATUS) AssignProperties_From_BaseResourceProperties_STATUS(source *storage.BaseResourceProperties_STATUS) error {
 
 	// DefaultResourceProperties
 	if source.DefaultResourceProperties != nil {
@@ -3858,13 +3858,13 @@ func (properties *BaseResourceProperties_STATUS) AssignProperties_From_BaseResou
 }
 
 // AssignProperties_To_BaseResourceProperties_STATUS populates the provided destination BaseResourceProperties_STATUS from our BaseResourceProperties_STATUS
-func (properties *BaseResourceProperties_STATUS) AssignProperties_To_BaseResourceProperties_STATUS(destination *v20231101s.BaseResourceProperties_STATUS) error {
+func (properties *BaseResourceProperties_STATUS) AssignProperties_To_BaseResourceProperties_STATUS(destination *storage.BaseResourceProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DefaultResourceProperties
 	if properties.DefaultResourceProperties != nil {
-		var defaultResourceProperty v20231101s.DefaultResourceProperties_STATUS
+		var defaultResourceProperty storage.DefaultResourceProperties_STATUS
 		err := properties.DefaultResourceProperties.AssignProperties_To_DefaultResourceProperties_STATUS(&defaultResourceProperty)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DefaultResourceProperties_STATUS() to populate field DefaultResourceProperties")
@@ -3941,7 +3941,7 @@ func (error *InnerError_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 }
 
 // AssignProperties_From_InnerError_STATUS populates our InnerError_STATUS from the provided source InnerError_STATUS
-func (error *InnerError_STATUS) AssignProperties_From_InnerError_STATUS(source *v20231101s.InnerError_STATUS) error {
+func (error *InnerError_STATUS) AssignProperties_From_InnerError_STATUS(source *storage.InnerError_STATUS) error {
 
 	// AdditionalInfo
 	error.AdditionalInfo = genruntime.CloneMapOfStringToString(source.AdditionalInfo)
@@ -3966,7 +3966,7 @@ func (error *InnerError_STATUS) AssignProperties_From_InnerError_STATUS(source *
 }
 
 // AssignProperties_To_InnerError_STATUS populates the provided destination InnerError_STATUS from our InnerError_STATUS
-func (error *InnerError_STATUS) AssignProperties_To_InnerError_STATUS(destination *v20231101s.InnerError_STATUS) error {
+func (error *InnerError_STATUS) AssignProperties_To_InnerError_STATUS(destination *storage.InnerError_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3978,7 +3978,7 @@ func (error *InnerError_STATUS) AssignProperties_To_InnerError_STATUS(destinatio
 
 	// EmbeddedInnerError
 	if error.EmbeddedInnerError != nil {
-		var embeddedInnerError v20231101s.InnerError_STATUS_Unrolled
+		var embeddedInnerError storage.InnerError_STATUS_Unrolled
 		err := error.EmbeddedInnerError.AssignProperties_To_InnerError_STATUS_Unrolled(&embeddedInnerError)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_InnerError_STATUS_Unrolled() to populate field EmbeddedInnerError")
@@ -4074,7 +4074,7 @@ func (parameters *PolicyParameters) PopulateFromARM(owner genruntime.ArbitraryOw
 }
 
 // AssignProperties_From_PolicyParameters populates our PolicyParameters from the provided source PolicyParameters
-func (parameters *PolicyParameters) AssignProperties_From_PolicyParameters(source *v20231101s.PolicyParameters) error {
+func (parameters *PolicyParameters) AssignProperties_From_PolicyParameters(source *storage.PolicyParameters) error {
 
 	// BackupDatasourceParametersList
 	if source.BackupDatasourceParametersList != nil {
@@ -4117,17 +4117,17 @@ func (parameters *PolicyParameters) AssignProperties_From_PolicyParameters(sourc
 }
 
 // AssignProperties_To_PolicyParameters populates the provided destination PolicyParameters from our PolicyParameters
-func (parameters *PolicyParameters) AssignProperties_To_PolicyParameters(destination *v20231101s.PolicyParameters) error {
+func (parameters *PolicyParameters) AssignProperties_To_PolicyParameters(destination *storage.PolicyParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// BackupDatasourceParametersList
 	if parameters.BackupDatasourceParametersList != nil {
-		backupDatasourceParametersList := make([]v20231101s.BackupDatasourceParameters, len(parameters.BackupDatasourceParametersList))
+		backupDatasourceParametersList := make([]storage.BackupDatasourceParameters, len(parameters.BackupDatasourceParametersList))
 		for backupDatasourceParametersListIndex, backupDatasourceParametersListItem := range parameters.BackupDatasourceParametersList {
 			// Shadow the loop variable to avoid aliasing
 			backupDatasourceParametersListItem := backupDatasourceParametersListItem
-			var backupDatasourceParametersListLocal v20231101s.BackupDatasourceParameters
+			var backupDatasourceParametersListLocal storage.BackupDatasourceParameters
 			err := backupDatasourceParametersListItem.AssignProperties_To_BackupDatasourceParameters(&backupDatasourceParametersListLocal)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_BackupDatasourceParameters() to populate field BackupDatasourceParametersList")
@@ -4141,11 +4141,11 @@ func (parameters *PolicyParameters) AssignProperties_To_PolicyParameters(destina
 
 	// DataStoreParametersList
 	if parameters.DataStoreParametersList != nil {
-		dataStoreParametersList := make([]v20231101s.DataStoreParameters, len(parameters.DataStoreParametersList))
+		dataStoreParametersList := make([]storage.DataStoreParameters, len(parameters.DataStoreParametersList))
 		for dataStoreParametersListIndex, dataStoreParametersListItem := range parameters.DataStoreParametersList {
 			// Shadow the loop variable to avoid aliasing
 			dataStoreParametersListItem := dataStoreParametersListItem
-			var dataStoreParametersListLocal v20231101s.DataStoreParameters
+			var dataStoreParametersListLocal storage.DataStoreParameters
 			err := dataStoreParametersListItem.AssignProperties_To_DataStoreParameters(&dataStoreParametersListLocal)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_DataStoreParameters() to populate field DataStoreParametersList")
@@ -4259,7 +4259,7 @@ func (parameters *PolicyParameters_STATUS) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignProperties_From_PolicyParameters_STATUS populates our PolicyParameters_STATUS from the provided source PolicyParameters_STATUS
-func (parameters *PolicyParameters_STATUS) AssignProperties_From_PolicyParameters_STATUS(source *v20231101s.PolicyParameters_STATUS) error {
+func (parameters *PolicyParameters_STATUS) AssignProperties_From_PolicyParameters_STATUS(source *storage.PolicyParameters_STATUS) error {
 
 	// BackupDatasourceParametersList
 	if source.BackupDatasourceParametersList != nil {
@@ -4302,17 +4302,17 @@ func (parameters *PolicyParameters_STATUS) AssignProperties_From_PolicyParameter
 }
 
 // AssignProperties_To_PolicyParameters_STATUS populates the provided destination PolicyParameters_STATUS from our PolicyParameters_STATUS
-func (parameters *PolicyParameters_STATUS) AssignProperties_To_PolicyParameters_STATUS(destination *v20231101s.PolicyParameters_STATUS) error {
+func (parameters *PolicyParameters_STATUS) AssignProperties_To_PolicyParameters_STATUS(destination *storage.PolicyParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// BackupDatasourceParametersList
 	if parameters.BackupDatasourceParametersList != nil {
-		backupDatasourceParametersList := make([]v20231101s.BackupDatasourceParameters_STATUS, len(parameters.BackupDatasourceParametersList))
+		backupDatasourceParametersList := make([]storage.BackupDatasourceParameters_STATUS, len(parameters.BackupDatasourceParametersList))
 		for backupDatasourceParametersListIndex, backupDatasourceParametersListItem := range parameters.BackupDatasourceParametersList {
 			// Shadow the loop variable to avoid aliasing
 			backupDatasourceParametersListItem := backupDatasourceParametersListItem
-			var backupDatasourceParametersListLocal v20231101s.BackupDatasourceParameters_STATUS
+			var backupDatasourceParametersListLocal storage.BackupDatasourceParameters_STATUS
 			err := backupDatasourceParametersListItem.AssignProperties_To_BackupDatasourceParameters_STATUS(&backupDatasourceParametersListLocal)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_BackupDatasourceParameters_STATUS() to populate field BackupDatasourceParametersList")
@@ -4326,11 +4326,11 @@ func (parameters *PolicyParameters_STATUS) AssignProperties_To_PolicyParameters_
 
 	// DataStoreParametersList
 	if parameters.DataStoreParametersList != nil {
-		dataStoreParametersList := make([]v20231101s.DataStoreParameters_STATUS, len(parameters.DataStoreParametersList))
+		dataStoreParametersList := make([]storage.DataStoreParameters_STATUS, len(parameters.DataStoreParametersList))
 		for dataStoreParametersListIndex, dataStoreParametersListItem := range parameters.DataStoreParametersList {
 			// Shadow the loop variable to avoid aliasing
 			dataStoreParametersListItem := dataStoreParametersListItem
-			var dataStoreParametersListLocal v20231101s.DataStoreParameters_STATUS
+			var dataStoreParametersListLocal storage.DataStoreParameters_STATUS
 			err := dataStoreParametersListItem.AssignProperties_To_DataStoreParameters_STATUS(&dataStoreParametersListLocal)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_DataStoreParameters_STATUS() to populate field DataStoreParametersList")
@@ -4419,7 +4419,7 @@ func (credentials *SecretStoreBasedAuthCredentials) PopulateFromARM(owner genrun
 }
 
 // AssignProperties_From_SecretStoreBasedAuthCredentials populates our SecretStoreBasedAuthCredentials from the provided source SecretStoreBasedAuthCredentials
-func (credentials *SecretStoreBasedAuthCredentials) AssignProperties_From_SecretStoreBasedAuthCredentials(source *v20231101s.SecretStoreBasedAuthCredentials) error {
+func (credentials *SecretStoreBasedAuthCredentials) AssignProperties_From_SecretStoreBasedAuthCredentials(source *storage.SecretStoreBasedAuthCredentials) error {
 
 	// ObjectType
 	if source.ObjectType != nil {
@@ -4447,7 +4447,7 @@ func (credentials *SecretStoreBasedAuthCredentials) AssignProperties_From_Secret
 }
 
 // AssignProperties_To_SecretStoreBasedAuthCredentials populates the provided destination SecretStoreBasedAuthCredentials from our SecretStoreBasedAuthCredentials
-func (credentials *SecretStoreBasedAuthCredentials) AssignProperties_To_SecretStoreBasedAuthCredentials(destination *v20231101s.SecretStoreBasedAuthCredentials) error {
+func (credentials *SecretStoreBasedAuthCredentials) AssignProperties_To_SecretStoreBasedAuthCredentials(destination *storage.SecretStoreBasedAuthCredentials) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4461,7 +4461,7 @@ func (credentials *SecretStoreBasedAuthCredentials) AssignProperties_To_SecretSt
 
 	// SecretStoreResource
 	if credentials.SecretStoreResource != nil {
-		var secretStoreResource v20231101s.SecretStoreResource
+		var secretStoreResource storage.SecretStoreResource
 		err := credentials.SecretStoreResource.AssignProperties_To_SecretStoreResource(&secretStoreResource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SecretStoreResource() to populate field SecretStoreResource")
@@ -4550,7 +4550,7 @@ func (credentials *SecretStoreBasedAuthCredentials_STATUS) PopulateFromARM(owner
 }
 
 // AssignProperties_From_SecretStoreBasedAuthCredentials_STATUS populates our SecretStoreBasedAuthCredentials_STATUS from the provided source SecretStoreBasedAuthCredentials_STATUS
-func (credentials *SecretStoreBasedAuthCredentials_STATUS) AssignProperties_From_SecretStoreBasedAuthCredentials_STATUS(source *v20231101s.SecretStoreBasedAuthCredentials_STATUS) error {
+func (credentials *SecretStoreBasedAuthCredentials_STATUS) AssignProperties_From_SecretStoreBasedAuthCredentials_STATUS(source *storage.SecretStoreBasedAuthCredentials_STATUS) error {
 
 	// ObjectType
 	if source.ObjectType != nil {
@@ -4578,7 +4578,7 @@ func (credentials *SecretStoreBasedAuthCredentials_STATUS) AssignProperties_From
 }
 
 // AssignProperties_To_SecretStoreBasedAuthCredentials_STATUS populates the provided destination SecretStoreBasedAuthCredentials_STATUS from our SecretStoreBasedAuthCredentials_STATUS
-func (credentials *SecretStoreBasedAuthCredentials_STATUS) AssignProperties_To_SecretStoreBasedAuthCredentials_STATUS(destination *v20231101s.SecretStoreBasedAuthCredentials_STATUS) error {
+func (credentials *SecretStoreBasedAuthCredentials_STATUS) AssignProperties_To_SecretStoreBasedAuthCredentials_STATUS(destination *storage.SecretStoreBasedAuthCredentials_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4592,7 +4592,7 @@ func (credentials *SecretStoreBasedAuthCredentials_STATUS) AssignProperties_To_S
 
 	// SecretStoreResource
 	if credentials.SecretStoreResource != nil {
-		var secretStoreResource v20231101s.SecretStoreResource_STATUS
+		var secretStoreResource storage.SecretStoreResource_STATUS
 		err := credentials.SecretStoreResource.AssignProperties_To_SecretStoreResource_STATUS(&secretStoreResource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SecretStoreResource_STATUS() to populate field SecretStoreResource")
@@ -4710,7 +4710,7 @@ func (unrolled *UserFacingError_STATUS_Unrolled) PopulateFromARM(owner genruntim
 }
 
 // AssignProperties_From_UserFacingError_STATUS_Unrolled populates our UserFacingError_STATUS_Unrolled from the provided source UserFacingError_STATUS_Unrolled
-func (unrolled *UserFacingError_STATUS_Unrolled) AssignProperties_From_UserFacingError_STATUS_Unrolled(source *v20231101s.UserFacingError_STATUS_Unrolled) error {
+func (unrolled *UserFacingError_STATUS_Unrolled) AssignProperties_From_UserFacingError_STATUS_Unrolled(source *storage.UserFacingError_STATUS_Unrolled) error {
 
 	// Code
 	unrolled.Code = genruntime.ClonePointerToString(source.Code)
@@ -4760,7 +4760,7 @@ func (unrolled *UserFacingError_STATUS_Unrolled) AssignProperties_From_UserFacin
 }
 
 // AssignProperties_To_UserFacingError_STATUS_Unrolled populates the provided destination UserFacingError_STATUS_Unrolled from our UserFacingError_STATUS_Unrolled
-func (unrolled *UserFacingError_STATUS_Unrolled) AssignProperties_To_UserFacingError_STATUS_Unrolled(destination *v20231101s.UserFacingError_STATUS_Unrolled) error {
+func (unrolled *UserFacingError_STATUS_Unrolled) AssignProperties_To_UserFacingError_STATUS_Unrolled(destination *storage.UserFacingError_STATUS_Unrolled) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4769,7 +4769,7 @@ func (unrolled *UserFacingError_STATUS_Unrolled) AssignProperties_To_UserFacingE
 
 	// InnerError
 	if unrolled.InnerError != nil {
-		var innerError v20231101s.InnerError_STATUS
+		var innerError storage.InnerError_STATUS
 		err := unrolled.InnerError.AssignProperties_To_InnerError_STATUS(&innerError)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_InnerError_STATUS() to populate field InnerError")
@@ -4896,7 +4896,7 @@ func (parameters *BackupDatasourceParameters) PopulateFromARM(owner genruntime.A
 }
 
 // AssignProperties_From_BackupDatasourceParameters populates our BackupDatasourceParameters from the provided source BackupDatasourceParameters
-func (parameters *BackupDatasourceParameters) AssignProperties_From_BackupDatasourceParameters(source *v20231101s.BackupDatasourceParameters) error {
+func (parameters *BackupDatasourceParameters) AssignProperties_From_BackupDatasourceParameters(source *storage.BackupDatasourceParameters) error {
 
 	// Blob
 	if source.Blob != nil {
@@ -4927,13 +4927,13 @@ func (parameters *BackupDatasourceParameters) AssignProperties_From_BackupDataso
 }
 
 // AssignProperties_To_BackupDatasourceParameters populates the provided destination BackupDatasourceParameters from our BackupDatasourceParameters
-func (parameters *BackupDatasourceParameters) AssignProperties_To_BackupDatasourceParameters(destination *v20231101s.BackupDatasourceParameters) error {
+func (parameters *BackupDatasourceParameters) AssignProperties_To_BackupDatasourceParameters(destination *storage.BackupDatasourceParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Blob
 	if parameters.Blob != nil {
-		var blob v20231101s.BlobBackupDatasourceParameters
+		var blob storage.BlobBackupDatasourceParameters
 		err := parameters.Blob.AssignProperties_To_BlobBackupDatasourceParameters(&blob)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_BlobBackupDatasourceParameters() to populate field Blob")
@@ -4945,7 +4945,7 @@ func (parameters *BackupDatasourceParameters) AssignProperties_To_BackupDatasour
 
 	// KubernetesCluster
 	if parameters.KubernetesCluster != nil {
-		var kubernetesCluster v20231101s.KubernetesClusterBackupDatasourceParameters
+		var kubernetesCluster storage.KubernetesClusterBackupDatasourceParameters
 		err := parameters.KubernetesCluster.AssignProperties_To_KubernetesClusterBackupDatasourceParameters(&kubernetesCluster)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_KubernetesClusterBackupDatasourceParameters() to populate field KubernetesCluster")
@@ -5046,7 +5046,7 @@ func (parameters *BackupDatasourceParameters_STATUS) PopulateFromARM(owner genru
 }
 
 // AssignProperties_From_BackupDatasourceParameters_STATUS populates our BackupDatasourceParameters_STATUS from the provided source BackupDatasourceParameters_STATUS
-func (parameters *BackupDatasourceParameters_STATUS) AssignProperties_From_BackupDatasourceParameters_STATUS(source *v20231101s.BackupDatasourceParameters_STATUS) error {
+func (parameters *BackupDatasourceParameters_STATUS) AssignProperties_From_BackupDatasourceParameters_STATUS(source *storage.BackupDatasourceParameters_STATUS) error {
 
 	// Blob
 	if source.Blob != nil {
@@ -5077,13 +5077,13 @@ func (parameters *BackupDatasourceParameters_STATUS) AssignProperties_From_Backu
 }
 
 // AssignProperties_To_BackupDatasourceParameters_STATUS populates the provided destination BackupDatasourceParameters_STATUS from our BackupDatasourceParameters_STATUS
-func (parameters *BackupDatasourceParameters_STATUS) AssignProperties_To_BackupDatasourceParameters_STATUS(destination *v20231101s.BackupDatasourceParameters_STATUS) error {
+func (parameters *BackupDatasourceParameters_STATUS) AssignProperties_To_BackupDatasourceParameters_STATUS(destination *storage.BackupDatasourceParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Blob
 	if parameters.Blob != nil {
-		var blob v20231101s.BlobBackupDatasourceParameters_STATUS
+		var blob storage.BlobBackupDatasourceParameters_STATUS
 		err := parameters.Blob.AssignProperties_To_BlobBackupDatasourceParameters_STATUS(&blob)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_BlobBackupDatasourceParameters_STATUS() to populate field Blob")
@@ -5095,7 +5095,7 @@ func (parameters *BackupDatasourceParameters_STATUS) AssignProperties_To_BackupD
 
 	// KubernetesCluster
 	if parameters.KubernetesCluster != nil {
-		var kubernetesCluster v20231101s.KubernetesClusterBackupDatasourceParameters_STATUS
+		var kubernetesCluster storage.KubernetesClusterBackupDatasourceParameters_STATUS
 		err := parameters.KubernetesCluster.AssignProperties_To_KubernetesClusterBackupDatasourceParameters_STATUS(&kubernetesCluster)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_KubernetesClusterBackupDatasourceParameters_STATUS() to populate field KubernetesCluster")
@@ -5170,7 +5170,7 @@ func (parameters *DataStoreParameters) PopulateFromARM(owner genruntime.Arbitrar
 }
 
 // AssignProperties_From_DataStoreParameters populates our DataStoreParameters from the provided source DataStoreParameters
-func (parameters *DataStoreParameters) AssignProperties_From_DataStoreParameters(source *v20231101s.DataStoreParameters) error {
+func (parameters *DataStoreParameters) AssignProperties_From_DataStoreParameters(source *storage.DataStoreParameters) error {
 
 	// AzureOperationalStoreParameters
 	if source.AzureOperationalStoreParameters != nil {
@@ -5189,13 +5189,13 @@ func (parameters *DataStoreParameters) AssignProperties_From_DataStoreParameters
 }
 
 // AssignProperties_To_DataStoreParameters populates the provided destination DataStoreParameters from our DataStoreParameters
-func (parameters *DataStoreParameters) AssignProperties_To_DataStoreParameters(destination *v20231101s.DataStoreParameters) error {
+func (parameters *DataStoreParameters) AssignProperties_To_DataStoreParameters(destination *storage.DataStoreParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureOperationalStoreParameters
 	if parameters.AzureOperationalStoreParameters != nil {
-		var azureOperationalStoreParameter v20231101s.AzureOperationalStoreParameters
+		var azureOperationalStoreParameter storage.AzureOperationalStoreParameters
 		err := parameters.AzureOperationalStoreParameters.AssignProperties_To_AzureOperationalStoreParameters(&azureOperationalStoreParameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AzureOperationalStoreParameters() to populate field AzureOperationalStoreParameters")
@@ -5270,7 +5270,7 @@ func (parameters *DataStoreParameters_STATUS) PopulateFromARM(owner genruntime.A
 }
 
 // AssignProperties_From_DataStoreParameters_STATUS populates our DataStoreParameters_STATUS from the provided source DataStoreParameters_STATUS
-func (parameters *DataStoreParameters_STATUS) AssignProperties_From_DataStoreParameters_STATUS(source *v20231101s.DataStoreParameters_STATUS) error {
+func (parameters *DataStoreParameters_STATUS) AssignProperties_From_DataStoreParameters_STATUS(source *storage.DataStoreParameters_STATUS) error {
 
 	// AzureOperationalStoreParameters
 	if source.AzureOperationalStoreParameters != nil {
@@ -5289,13 +5289,13 @@ func (parameters *DataStoreParameters_STATUS) AssignProperties_From_DataStorePar
 }
 
 // AssignProperties_To_DataStoreParameters_STATUS populates the provided destination DataStoreParameters_STATUS from our DataStoreParameters_STATUS
-func (parameters *DataStoreParameters_STATUS) AssignProperties_To_DataStoreParameters_STATUS(destination *v20231101s.DataStoreParameters_STATUS) error {
+func (parameters *DataStoreParameters_STATUS) AssignProperties_To_DataStoreParameters_STATUS(destination *storage.DataStoreParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureOperationalStoreParameters
 	if parameters.AzureOperationalStoreParameters != nil {
-		var azureOperationalStoreParameter v20231101s.AzureOperationalStoreParameters_STATUS
+		var azureOperationalStoreParameter storage.AzureOperationalStoreParameters_STATUS
 		err := parameters.AzureOperationalStoreParameters.AssignProperties_To_AzureOperationalStoreParameters_STATUS(&azureOperationalStoreParameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AzureOperationalStoreParameters_STATUS() to populate field AzureOperationalStoreParameters")
@@ -5358,7 +5358,7 @@ func (properties *DefaultResourceProperties) PopulateFromARM(owner genruntime.Ar
 }
 
 // AssignProperties_From_DefaultResourceProperties populates our DefaultResourceProperties from the provided source DefaultResourceProperties
-func (properties *DefaultResourceProperties) AssignProperties_From_DefaultResourceProperties(source *v20231101s.DefaultResourceProperties) error {
+func (properties *DefaultResourceProperties) AssignProperties_From_DefaultResourceProperties(source *storage.DefaultResourceProperties) error {
 
 	// ObjectType
 	if source.ObjectType != nil {
@@ -5374,7 +5374,7 @@ func (properties *DefaultResourceProperties) AssignProperties_From_DefaultResour
 }
 
 // AssignProperties_To_DefaultResourceProperties populates the provided destination DefaultResourceProperties from our DefaultResourceProperties
-func (properties *DefaultResourceProperties) AssignProperties_To_DefaultResourceProperties(destination *v20231101s.DefaultResourceProperties) error {
+func (properties *DefaultResourceProperties) AssignProperties_To_DefaultResourceProperties(destination *storage.DefaultResourceProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5439,7 +5439,7 @@ func (properties *DefaultResourceProperties_STATUS) PopulateFromARM(owner genrun
 }
 
 // AssignProperties_From_DefaultResourceProperties_STATUS populates our DefaultResourceProperties_STATUS from the provided source DefaultResourceProperties_STATUS
-func (properties *DefaultResourceProperties_STATUS) AssignProperties_From_DefaultResourceProperties_STATUS(source *v20231101s.DefaultResourceProperties_STATUS) error {
+func (properties *DefaultResourceProperties_STATUS) AssignProperties_From_DefaultResourceProperties_STATUS(source *storage.DefaultResourceProperties_STATUS) error {
 
 	// ObjectType
 	if source.ObjectType != nil {
@@ -5455,7 +5455,7 @@ func (properties *DefaultResourceProperties_STATUS) AssignProperties_From_Defaul
 }
 
 // AssignProperties_To_DefaultResourceProperties_STATUS populates the provided destination DefaultResourceProperties_STATUS from our DefaultResourceProperties_STATUS
-func (properties *DefaultResourceProperties_STATUS) AssignProperties_To_DefaultResourceProperties_STATUS(destination *v20231101s.DefaultResourceProperties_STATUS) error {
+func (properties *DefaultResourceProperties_STATUS) AssignProperties_To_DefaultResourceProperties_STATUS(destination *storage.DefaultResourceProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5519,7 +5519,7 @@ func (unrolled *InnerError_STATUS_Unrolled) PopulateFromARM(owner genruntime.Arb
 }
 
 // AssignProperties_From_InnerError_STATUS_Unrolled populates our InnerError_STATUS_Unrolled from the provided source InnerError_STATUS_Unrolled
-func (unrolled *InnerError_STATUS_Unrolled) AssignProperties_From_InnerError_STATUS_Unrolled(source *v20231101s.InnerError_STATUS_Unrolled) error {
+func (unrolled *InnerError_STATUS_Unrolled) AssignProperties_From_InnerError_STATUS_Unrolled(source *storage.InnerError_STATUS_Unrolled) error {
 
 	// AdditionalInfo
 	unrolled.AdditionalInfo = genruntime.CloneMapOfStringToString(source.AdditionalInfo)
@@ -5532,7 +5532,7 @@ func (unrolled *InnerError_STATUS_Unrolled) AssignProperties_From_InnerError_STA
 }
 
 // AssignProperties_To_InnerError_STATUS_Unrolled populates the provided destination InnerError_STATUS_Unrolled from our InnerError_STATUS_Unrolled
-func (unrolled *InnerError_STATUS_Unrolled) AssignProperties_To_InnerError_STATUS_Unrolled(destination *v20231101s.InnerError_STATUS_Unrolled) error {
+func (unrolled *InnerError_STATUS_Unrolled) AssignProperties_To_InnerError_STATUS_Unrolled(destination *storage.InnerError_STATUS_Unrolled) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5630,7 +5630,7 @@ func (resource *SecretStoreResource) PopulateFromARM(owner genruntime.ArbitraryO
 }
 
 // AssignProperties_From_SecretStoreResource populates our SecretStoreResource from the provided source SecretStoreResource
-func (resource *SecretStoreResource) AssignProperties_From_SecretStoreResource(source *v20231101s.SecretStoreResource) error {
+func (resource *SecretStoreResource) AssignProperties_From_SecretStoreResource(source *storage.SecretStoreResource) error {
 
 	// SecretStoreType
 	if source.SecretStoreType != nil {
@@ -5652,7 +5652,7 @@ func (resource *SecretStoreResource) AssignProperties_From_SecretStoreResource(s
 }
 
 // AssignProperties_To_SecretStoreResource populates the provided destination SecretStoreResource from our SecretStoreResource
-func (resource *SecretStoreResource) AssignProperties_To_SecretStoreResource(destination *v20231101s.SecretStoreResource) error {
+func (resource *SecretStoreResource) AssignProperties_To_SecretStoreResource(destination *storage.SecretStoreResource) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5751,7 +5751,7 @@ func (resource *SecretStoreResource_STATUS) PopulateFromARM(owner genruntime.Arb
 }
 
 // AssignProperties_From_SecretStoreResource_STATUS populates our SecretStoreResource_STATUS from the provided source SecretStoreResource_STATUS
-func (resource *SecretStoreResource_STATUS) AssignProperties_From_SecretStoreResource_STATUS(source *v20231101s.SecretStoreResource_STATUS) error {
+func (resource *SecretStoreResource_STATUS) AssignProperties_From_SecretStoreResource_STATUS(source *storage.SecretStoreResource_STATUS) error {
 
 	// SecretStoreType
 	if source.SecretStoreType != nil {
@@ -5773,7 +5773,7 @@ func (resource *SecretStoreResource_STATUS) AssignProperties_From_SecretStoreRes
 }
 
 // AssignProperties_To_SecretStoreResource_STATUS populates the provided destination SecretStoreResource_STATUS from our SecretStoreResource_STATUS
-func (resource *SecretStoreResource_STATUS) AssignProperties_To_SecretStoreResource_STATUS(destination *v20231101s.SecretStoreResource_STATUS) error {
+func (resource *SecretStoreResource_STATUS) AssignProperties_To_SecretStoreResource_STATUS(destination *storage.SecretStoreResource_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5875,7 +5875,7 @@ func (parameters *AzureOperationalStoreParameters) PopulateFromARM(owner genrunt
 }
 
 // AssignProperties_From_AzureOperationalStoreParameters populates our AzureOperationalStoreParameters from the provided source AzureOperationalStoreParameters
-func (parameters *AzureOperationalStoreParameters) AssignProperties_From_AzureOperationalStoreParameters(source *v20231101s.AzureOperationalStoreParameters) error {
+func (parameters *AzureOperationalStoreParameters) AssignProperties_From_AzureOperationalStoreParameters(source *storage.AzureOperationalStoreParameters) error {
 
 	// DataStoreType
 	if source.DataStoreType != nil {
@@ -5908,7 +5908,7 @@ func (parameters *AzureOperationalStoreParameters) AssignProperties_From_AzureOp
 }
 
 // AssignProperties_To_AzureOperationalStoreParameters populates the provided destination AzureOperationalStoreParameters from our AzureOperationalStoreParameters
-func (parameters *AzureOperationalStoreParameters) AssignProperties_To_AzureOperationalStoreParameters(destination *v20231101s.AzureOperationalStoreParameters) error {
+func (parameters *AzureOperationalStoreParameters) AssignProperties_To_AzureOperationalStoreParameters(destination *storage.AzureOperationalStoreParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6023,7 +6023,7 @@ func (parameters *AzureOperationalStoreParameters_STATUS) PopulateFromARM(owner 
 }
 
 // AssignProperties_From_AzureOperationalStoreParameters_STATUS populates our AzureOperationalStoreParameters_STATUS from the provided source AzureOperationalStoreParameters_STATUS
-func (parameters *AzureOperationalStoreParameters_STATUS) AssignProperties_From_AzureOperationalStoreParameters_STATUS(source *v20231101s.AzureOperationalStoreParameters_STATUS) error {
+func (parameters *AzureOperationalStoreParameters_STATUS) AssignProperties_From_AzureOperationalStoreParameters_STATUS(source *storage.AzureOperationalStoreParameters_STATUS) error {
 
 	// DataStoreType
 	if source.DataStoreType != nil {
@@ -6051,7 +6051,7 @@ func (parameters *AzureOperationalStoreParameters_STATUS) AssignProperties_From_
 }
 
 // AssignProperties_To_AzureOperationalStoreParameters_STATUS populates the provided destination AzureOperationalStoreParameters_STATUS from our AzureOperationalStoreParameters_STATUS
-func (parameters *AzureOperationalStoreParameters_STATUS) AssignProperties_To_AzureOperationalStoreParameters_STATUS(destination *v20231101s.AzureOperationalStoreParameters_STATUS) error {
+func (parameters *AzureOperationalStoreParameters_STATUS) AssignProperties_To_AzureOperationalStoreParameters_STATUS(destination *storage.AzureOperationalStoreParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6141,7 +6141,7 @@ func (parameters *BlobBackupDatasourceParameters) PopulateFromARM(owner genrunti
 }
 
 // AssignProperties_From_BlobBackupDatasourceParameters populates our BlobBackupDatasourceParameters from the provided source BlobBackupDatasourceParameters
-func (parameters *BlobBackupDatasourceParameters) AssignProperties_From_BlobBackupDatasourceParameters(source *v20231101s.BlobBackupDatasourceParameters) error {
+func (parameters *BlobBackupDatasourceParameters) AssignProperties_From_BlobBackupDatasourceParameters(source *storage.BlobBackupDatasourceParameters) error {
 
 	// ContainersList
 	parameters.ContainersList = genruntime.CloneSliceOfString(source.ContainersList)
@@ -6160,7 +6160,7 @@ func (parameters *BlobBackupDatasourceParameters) AssignProperties_From_BlobBack
 }
 
 // AssignProperties_To_BlobBackupDatasourceParameters populates the provided destination BlobBackupDatasourceParameters from our BlobBackupDatasourceParameters
-func (parameters *BlobBackupDatasourceParameters) AssignProperties_To_BlobBackupDatasourceParameters(destination *v20231101s.BlobBackupDatasourceParameters) error {
+func (parameters *BlobBackupDatasourceParameters) AssignProperties_To_BlobBackupDatasourceParameters(destination *storage.BlobBackupDatasourceParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6239,7 +6239,7 @@ func (parameters *BlobBackupDatasourceParameters_STATUS) PopulateFromARM(owner g
 }
 
 // AssignProperties_From_BlobBackupDatasourceParameters_STATUS populates our BlobBackupDatasourceParameters_STATUS from the provided source BlobBackupDatasourceParameters_STATUS
-func (parameters *BlobBackupDatasourceParameters_STATUS) AssignProperties_From_BlobBackupDatasourceParameters_STATUS(source *v20231101s.BlobBackupDatasourceParameters_STATUS) error {
+func (parameters *BlobBackupDatasourceParameters_STATUS) AssignProperties_From_BlobBackupDatasourceParameters_STATUS(source *storage.BlobBackupDatasourceParameters_STATUS) error {
 
 	// ContainersList
 	parameters.ContainersList = genruntime.CloneSliceOfString(source.ContainersList)
@@ -6258,7 +6258,7 @@ func (parameters *BlobBackupDatasourceParameters_STATUS) AssignProperties_From_B
 }
 
 // AssignProperties_To_BlobBackupDatasourceParameters_STATUS populates the provided destination BlobBackupDatasourceParameters_STATUS from our BlobBackupDatasourceParameters_STATUS
-func (parameters *BlobBackupDatasourceParameters_STATUS) AssignProperties_To_BlobBackupDatasourceParameters_STATUS(destination *v20231101s.BlobBackupDatasourceParameters_STATUS) error {
+func (parameters *BlobBackupDatasourceParameters_STATUS) AssignProperties_To_BlobBackupDatasourceParameters_STATUS(destination *storage.BlobBackupDatasourceParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6453,7 +6453,7 @@ func (parameters *KubernetesClusterBackupDatasourceParameters) PopulateFromARM(o
 }
 
 // AssignProperties_From_KubernetesClusterBackupDatasourceParameters populates our KubernetesClusterBackupDatasourceParameters from the provided source KubernetesClusterBackupDatasourceParameters
-func (parameters *KubernetesClusterBackupDatasourceParameters) AssignProperties_From_KubernetesClusterBackupDatasourceParameters(source *v20231101s.KubernetesClusterBackupDatasourceParameters) error {
+func (parameters *KubernetesClusterBackupDatasourceParameters) AssignProperties_From_KubernetesClusterBackupDatasourceParameters(source *storage.KubernetesClusterBackupDatasourceParameters) error {
 
 	// BackupHookReferences
 	if source.BackupHookReferences != nil {
@@ -6518,17 +6518,17 @@ func (parameters *KubernetesClusterBackupDatasourceParameters) AssignProperties_
 }
 
 // AssignProperties_To_KubernetesClusterBackupDatasourceParameters populates the provided destination KubernetesClusterBackupDatasourceParameters from our KubernetesClusterBackupDatasourceParameters
-func (parameters *KubernetesClusterBackupDatasourceParameters) AssignProperties_To_KubernetesClusterBackupDatasourceParameters(destination *v20231101s.KubernetesClusterBackupDatasourceParameters) error {
+func (parameters *KubernetesClusterBackupDatasourceParameters) AssignProperties_To_KubernetesClusterBackupDatasourceParameters(destination *storage.KubernetesClusterBackupDatasourceParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// BackupHookReferences
 	if parameters.BackupHookReferences != nil {
-		backupHookReferenceList := make([]v20231101s.NamespacedNameResource, len(parameters.BackupHookReferences))
+		backupHookReferenceList := make([]storage.NamespacedNameResource, len(parameters.BackupHookReferences))
 		for backupHookReferenceIndex, backupHookReferenceItem := range parameters.BackupHookReferences {
 			// Shadow the loop variable to avoid aliasing
 			backupHookReferenceItem := backupHookReferenceItem
-			var backupHookReference v20231101s.NamespacedNameResource
+			var backupHookReference storage.NamespacedNameResource
 			err := backupHookReferenceItem.AssignProperties_To_NamespacedNameResource(&backupHookReference)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_NamespacedNameResource() to populate field BackupHookReferences")
@@ -6760,7 +6760,7 @@ func (parameters *KubernetesClusterBackupDatasourceParameters_STATUS) PopulateFr
 }
 
 // AssignProperties_From_KubernetesClusterBackupDatasourceParameters_STATUS populates our KubernetesClusterBackupDatasourceParameters_STATUS from the provided source KubernetesClusterBackupDatasourceParameters_STATUS
-func (parameters *KubernetesClusterBackupDatasourceParameters_STATUS) AssignProperties_From_KubernetesClusterBackupDatasourceParameters_STATUS(source *v20231101s.KubernetesClusterBackupDatasourceParameters_STATUS) error {
+func (parameters *KubernetesClusterBackupDatasourceParameters_STATUS) AssignProperties_From_KubernetesClusterBackupDatasourceParameters_STATUS(source *storage.KubernetesClusterBackupDatasourceParameters_STATUS) error {
 
 	// BackupHookReferences
 	if source.BackupHookReferences != nil {
@@ -6825,17 +6825,17 @@ func (parameters *KubernetesClusterBackupDatasourceParameters_STATUS) AssignProp
 }
 
 // AssignProperties_To_KubernetesClusterBackupDatasourceParameters_STATUS populates the provided destination KubernetesClusterBackupDatasourceParameters_STATUS from our KubernetesClusterBackupDatasourceParameters_STATUS
-func (parameters *KubernetesClusterBackupDatasourceParameters_STATUS) AssignProperties_To_KubernetesClusterBackupDatasourceParameters_STATUS(destination *v20231101s.KubernetesClusterBackupDatasourceParameters_STATUS) error {
+func (parameters *KubernetesClusterBackupDatasourceParameters_STATUS) AssignProperties_To_KubernetesClusterBackupDatasourceParameters_STATUS(destination *storage.KubernetesClusterBackupDatasourceParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// BackupHookReferences
 	if parameters.BackupHookReferences != nil {
-		backupHookReferenceList := make([]v20231101s.NamespacedNameResource_STATUS, len(parameters.BackupHookReferences))
+		backupHookReferenceList := make([]storage.NamespacedNameResource_STATUS, len(parameters.BackupHookReferences))
 		for backupHookReferenceIndex, backupHookReferenceItem := range parameters.BackupHookReferences {
 			// Shadow the loop variable to avoid aliasing
 			backupHookReferenceItem := backupHookReferenceItem
-			var backupHookReference v20231101s.NamespacedNameResource_STATUS
+			var backupHookReference storage.NamespacedNameResource_STATUS
 			err := backupHookReferenceItem.AssignProperties_To_NamespacedNameResource_STATUS(&backupHookReference)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_NamespacedNameResource_STATUS() to populate field BackupHookReferences")
@@ -6958,7 +6958,7 @@ func (resource *NamespacedNameResource) PopulateFromARM(owner genruntime.Arbitra
 }
 
 // AssignProperties_From_NamespacedNameResource populates our NamespacedNameResource from the provided source NamespacedNameResource
-func (resource *NamespacedNameResource) AssignProperties_From_NamespacedNameResource(source *v20231101s.NamespacedNameResource) error {
+func (resource *NamespacedNameResource) AssignProperties_From_NamespacedNameResource(source *storage.NamespacedNameResource) error {
 
 	// Name
 	resource.Name = genruntime.ClonePointerToString(source.Name)
@@ -6971,7 +6971,7 @@ func (resource *NamespacedNameResource) AssignProperties_From_NamespacedNameReso
 }
 
 // AssignProperties_To_NamespacedNameResource populates the provided destination NamespacedNameResource from our NamespacedNameResource
-func (resource *NamespacedNameResource) AssignProperties_To_NamespacedNameResource(destination *v20231101s.NamespacedNameResource) error {
+func (resource *NamespacedNameResource) AssignProperties_To_NamespacedNameResource(destination *storage.NamespacedNameResource) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7045,7 +7045,7 @@ func (resource *NamespacedNameResource_STATUS) PopulateFromARM(owner genruntime.
 }
 
 // AssignProperties_From_NamespacedNameResource_STATUS populates our NamespacedNameResource_STATUS from the provided source NamespacedNameResource_STATUS
-func (resource *NamespacedNameResource_STATUS) AssignProperties_From_NamespacedNameResource_STATUS(source *v20231101s.NamespacedNameResource_STATUS) error {
+func (resource *NamespacedNameResource_STATUS) AssignProperties_From_NamespacedNameResource_STATUS(source *storage.NamespacedNameResource_STATUS) error {
 
 	// Name
 	resource.Name = genruntime.ClonePointerToString(source.Name)
@@ -7058,7 +7058,7 @@ func (resource *NamespacedNameResource_STATUS) AssignProperties_From_NamespacedN
 }
 
 // AssignProperties_To_NamespacedNameResource_STATUS populates the provided destination NamespacedNameResource_STATUS from our NamespacedNameResource_STATUS
-func (resource *NamespacedNameResource_STATUS) AssignProperties_To_NamespacedNameResource_STATUS(destination *v20231101s.NamespacedNameResource_STATUS) error {
+func (resource *NamespacedNameResource_STATUS) AssignProperties_To_NamespacedNameResource_STATUS(destination *storage.NamespacedNameResource_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

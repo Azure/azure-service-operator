@@ -5,7 +5,7 @@ package v1api20221001
 
 import (
 	"fmt"
-	v20221001s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20221001/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/insights/v1api20221001/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &AutoscaleSetting{}
 
 // ConvertFrom populates our AutoscaleSetting from the provided hub AutoscaleSetting
 func (setting *AutoscaleSetting) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20221001s.AutoscaleSetting)
+	source, ok := hub.(*storage.AutoscaleSetting)
 	if !ok {
 		return fmt.Errorf("expected insights/v1api20221001/storage/AutoscaleSetting but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (setting *AutoscaleSetting) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub AutoscaleSetting from our AutoscaleSetting
 func (setting *AutoscaleSetting) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20221001s.AutoscaleSetting)
+	destination, ok := hub.(*storage.AutoscaleSetting)
 	if !ok {
 		return fmt.Errorf("expected insights/v1api20221001/storage/AutoscaleSetting but received %T instead", hub)
 	}
@@ -254,7 +254,7 @@ func (setting *AutoscaleSetting) validateWriteOnceProperties(old runtime.Object)
 }
 
 // AssignProperties_From_AutoscaleSetting populates our AutoscaleSetting from the provided source AutoscaleSetting
-func (setting *AutoscaleSetting) AssignProperties_From_AutoscaleSetting(source *v20221001s.AutoscaleSetting) error {
+func (setting *AutoscaleSetting) AssignProperties_From_AutoscaleSetting(source *storage.AutoscaleSetting) error {
 
 	// ObjectMeta
 	setting.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -280,13 +280,13 @@ func (setting *AutoscaleSetting) AssignProperties_From_AutoscaleSetting(source *
 }
 
 // AssignProperties_To_AutoscaleSetting populates the provided destination AutoscaleSetting from our AutoscaleSetting
-func (setting *AutoscaleSetting) AssignProperties_To_AutoscaleSetting(destination *v20221001s.AutoscaleSetting) error {
+func (setting *AutoscaleSetting) AssignProperties_To_AutoscaleSetting(destination *storage.AutoscaleSetting) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *setting.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20221001s.Autoscalesetting_Spec
+	var spec storage.Autoscalesetting_Spec
 	err := setting.Spec.AssignProperties_To_Autoscalesetting_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Autoscalesetting_Spec() to populate field Spec")
@@ -294,7 +294,7 @@ func (setting *AutoscaleSetting) AssignProperties_To_AutoscaleSetting(destinatio
 	destination.Spec = spec
 
 	// Status
-	var status v20221001s.Autoscalesetting_STATUS
+	var status storage.Autoscalesetting_STATUS
 	err = setting.Status.AssignProperties_To_Autoscalesetting_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Autoscalesetting_STATUS() to populate field Status")
@@ -567,14 +567,14 @@ var _ genruntime.ConvertibleSpec = &Autoscalesetting_Spec{}
 
 // ConvertSpecFrom populates our Autoscalesetting_Spec from the provided source
 func (autoscalesetting *Autoscalesetting_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20221001s.Autoscalesetting_Spec)
+	src, ok := source.(*storage.Autoscalesetting_Spec)
 	if ok {
 		// Populate our instance from source
 		return autoscalesetting.AssignProperties_From_Autoscalesetting_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20221001s.Autoscalesetting_Spec{}
+	src = &storage.Autoscalesetting_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -591,14 +591,14 @@ func (autoscalesetting *Autoscalesetting_Spec) ConvertSpecFrom(source genruntime
 
 // ConvertSpecTo populates the provided destination from our Autoscalesetting_Spec
 func (autoscalesetting *Autoscalesetting_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20221001s.Autoscalesetting_Spec)
+	dst, ok := destination.(*storage.Autoscalesetting_Spec)
 	if ok {
 		// Populate destination from our instance
 		return autoscalesetting.AssignProperties_To_Autoscalesetting_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20221001s.Autoscalesetting_Spec{}
+	dst = &storage.Autoscalesetting_Spec{}
 	err := autoscalesetting.AssignProperties_To_Autoscalesetting_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -614,7 +614,7 @@ func (autoscalesetting *Autoscalesetting_Spec) ConvertSpecTo(destination genrunt
 }
 
 // AssignProperties_From_Autoscalesetting_Spec populates our Autoscalesetting_Spec from the provided source Autoscalesetting_Spec
-func (autoscalesetting *Autoscalesetting_Spec) AssignProperties_From_Autoscalesetting_Spec(source *v20221001s.Autoscalesetting_Spec) error {
+func (autoscalesetting *Autoscalesetting_Spec) AssignProperties_From_Autoscalesetting_Spec(source *storage.Autoscalesetting_Spec) error {
 
 	// AzureName
 	autoscalesetting.AzureName = source.AzureName
@@ -708,7 +708,7 @@ func (autoscalesetting *Autoscalesetting_Spec) AssignProperties_From_Autoscalese
 }
 
 // AssignProperties_To_Autoscalesetting_Spec populates the provided destination Autoscalesetting_Spec from our Autoscalesetting_Spec
-func (autoscalesetting *Autoscalesetting_Spec) AssignProperties_To_Autoscalesetting_Spec(destination *v20221001s.Autoscalesetting_Spec) error {
+func (autoscalesetting *Autoscalesetting_Spec) AssignProperties_To_Autoscalesetting_Spec(destination *storage.Autoscalesetting_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -731,11 +731,11 @@ func (autoscalesetting *Autoscalesetting_Spec) AssignProperties_To_Autoscalesett
 
 	// Notifications
 	if autoscalesetting.Notifications != nil {
-		notificationList := make([]v20221001s.AutoscaleNotification, len(autoscalesetting.Notifications))
+		notificationList := make([]storage.AutoscaleNotification, len(autoscalesetting.Notifications))
 		for notificationIndex, notificationItem := range autoscalesetting.Notifications {
 			// Shadow the loop variable to avoid aliasing
 			notificationItem := notificationItem
-			var notification v20221001s.AutoscaleNotification
+			var notification storage.AutoscaleNotification
 			err := notificationItem.AssignProperties_To_AutoscaleNotification(&notification)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_AutoscaleNotification() to populate field Notifications")
@@ -760,7 +760,7 @@ func (autoscalesetting *Autoscalesetting_Spec) AssignProperties_To_Autoscalesett
 
 	// PredictiveAutoscalePolicy
 	if autoscalesetting.PredictiveAutoscalePolicy != nil {
-		var predictiveAutoscalePolicy v20221001s.PredictiveAutoscalePolicy
+		var predictiveAutoscalePolicy storage.PredictiveAutoscalePolicy
 		err := autoscalesetting.PredictiveAutoscalePolicy.AssignProperties_To_PredictiveAutoscalePolicy(&predictiveAutoscalePolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PredictiveAutoscalePolicy() to populate field PredictiveAutoscalePolicy")
@@ -772,11 +772,11 @@ func (autoscalesetting *Autoscalesetting_Spec) AssignProperties_To_Autoscalesett
 
 	// Profiles
 	if autoscalesetting.Profiles != nil {
-		profileList := make([]v20221001s.AutoscaleProfile, len(autoscalesetting.Profiles))
+		profileList := make([]storage.AutoscaleProfile, len(autoscalesetting.Profiles))
 		for profileIndex, profileItem := range autoscalesetting.Profiles {
 			// Shadow the loop variable to avoid aliasing
 			profileItem := profileItem
-			var profile v20221001s.AutoscaleProfile
+			var profile storage.AutoscaleProfile
 			err := profileItem.AssignProperties_To_AutoscaleProfile(&profile)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_AutoscaleProfile() to populate field Profiles")
@@ -949,14 +949,14 @@ var _ genruntime.ConvertibleStatus = &Autoscalesetting_STATUS{}
 
 // ConvertStatusFrom populates our Autoscalesetting_STATUS from the provided source
 func (autoscalesetting *Autoscalesetting_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20221001s.Autoscalesetting_STATUS)
+	src, ok := source.(*storage.Autoscalesetting_STATUS)
 	if ok {
 		// Populate our instance from source
 		return autoscalesetting.AssignProperties_From_Autoscalesetting_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20221001s.Autoscalesetting_STATUS{}
+	src = &storage.Autoscalesetting_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -973,14 +973,14 @@ func (autoscalesetting *Autoscalesetting_STATUS) ConvertStatusFrom(source genrun
 
 // ConvertStatusTo populates the provided destination from our Autoscalesetting_STATUS
 func (autoscalesetting *Autoscalesetting_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20221001s.Autoscalesetting_STATUS)
+	dst, ok := destination.(*storage.Autoscalesetting_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return autoscalesetting.AssignProperties_To_Autoscalesetting_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20221001s.Autoscalesetting_STATUS{}
+	dst = &storage.Autoscalesetting_STATUS{}
 	err := autoscalesetting.AssignProperties_To_Autoscalesetting_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1135,7 +1135,7 @@ func (autoscalesetting *Autoscalesetting_STATUS) PopulateFromARM(owner genruntim
 }
 
 // AssignProperties_From_Autoscalesetting_STATUS populates our Autoscalesetting_STATUS from the provided source Autoscalesetting_STATUS
-func (autoscalesetting *Autoscalesetting_STATUS) AssignProperties_From_Autoscalesetting_STATUS(source *v20221001s.Autoscalesetting_STATUS) error {
+func (autoscalesetting *Autoscalesetting_STATUS) AssignProperties_From_Autoscalesetting_STATUS(source *storage.Autoscalesetting_STATUS) error {
 
 	// Conditions
 	autoscalesetting.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -1237,7 +1237,7 @@ func (autoscalesetting *Autoscalesetting_STATUS) AssignProperties_From_Autoscale
 }
 
 // AssignProperties_To_Autoscalesetting_STATUS populates the provided destination Autoscalesetting_STATUS from our Autoscalesetting_STATUS
-func (autoscalesetting *Autoscalesetting_STATUS) AssignProperties_To_Autoscalesetting_STATUS(destination *v20221001s.Autoscalesetting_STATUS) error {
+func (autoscalesetting *Autoscalesetting_STATUS) AssignProperties_To_Autoscalesetting_STATUS(destination *storage.Autoscalesetting_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1263,11 +1263,11 @@ func (autoscalesetting *Autoscalesetting_STATUS) AssignProperties_To_Autoscalese
 
 	// Notifications
 	if autoscalesetting.Notifications != nil {
-		notificationList := make([]v20221001s.AutoscaleNotification_STATUS, len(autoscalesetting.Notifications))
+		notificationList := make([]storage.AutoscaleNotification_STATUS, len(autoscalesetting.Notifications))
 		for notificationIndex, notificationItem := range autoscalesetting.Notifications {
 			// Shadow the loop variable to avoid aliasing
 			notificationItem := notificationItem
-			var notification v20221001s.AutoscaleNotification_STATUS
+			var notification storage.AutoscaleNotification_STATUS
 			err := notificationItem.AssignProperties_To_AutoscaleNotification_STATUS(&notification)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_AutoscaleNotification_STATUS() to populate field Notifications")
@@ -1281,7 +1281,7 @@ func (autoscalesetting *Autoscalesetting_STATUS) AssignProperties_To_Autoscalese
 
 	// PredictiveAutoscalePolicy
 	if autoscalesetting.PredictiveAutoscalePolicy != nil {
-		var predictiveAutoscalePolicy v20221001s.PredictiveAutoscalePolicy_STATUS
+		var predictiveAutoscalePolicy storage.PredictiveAutoscalePolicy_STATUS
 		err := autoscalesetting.PredictiveAutoscalePolicy.AssignProperties_To_PredictiveAutoscalePolicy_STATUS(&predictiveAutoscalePolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PredictiveAutoscalePolicy_STATUS() to populate field PredictiveAutoscalePolicy")
@@ -1293,11 +1293,11 @@ func (autoscalesetting *Autoscalesetting_STATUS) AssignProperties_To_Autoscalese
 
 	// Profiles
 	if autoscalesetting.Profiles != nil {
-		profileList := make([]v20221001s.AutoscaleProfile_STATUS, len(autoscalesetting.Profiles))
+		profileList := make([]storage.AutoscaleProfile_STATUS, len(autoscalesetting.Profiles))
 		for profileIndex, profileItem := range autoscalesetting.Profiles {
 			// Shadow the loop variable to avoid aliasing
 			profileItem := profileItem
-			var profile v20221001s.AutoscaleProfile_STATUS
+			var profile storage.AutoscaleProfile_STATUS
 			err := profileItem.AssignProperties_To_AutoscaleProfile_STATUS(&profile)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_AutoscaleProfile_STATUS() to populate field Profiles")
@@ -1314,7 +1314,7 @@ func (autoscalesetting *Autoscalesetting_STATUS) AssignProperties_To_Autoscalese
 
 	// SystemData
 	if autoscalesetting.SystemData != nil {
-		var systemDatum v20221001s.SystemData_STATUS
+		var systemDatum storage.SystemData_STATUS
 		err := autoscalesetting.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
@@ -1440,7 +1440,7 @@ func (notification *AutoscaleNotification) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignProperties_From_AutoscaleNotification populates our AutoscaleNotification from the provided source AutoscaleNotification
-func (notification *AutoscaleNotification) AssignProperties_From_AutoscaleNotification(source *v20221001s.AutoscaleNotification) error {
+func (notification *AutoscaleNotification) AssignProperties_From_AutoscaleNotification(source *storage.AutoscaleNotification) error {
 
 	// Email
 	if source.Email != nil {
@@ -1486,13 +1486,13 @@ func (notification *AutoscaleNotification) AssignProperties_From_AutoscaleNotifi
 }
 
 // AssignProperties_To_AutoscaleNotification populates the provided destination AutoscaleNotification from our AutoscaleNotification
-func (notification *AutoscaleNotification) AssignProperties_To_AutoscaleNotification(destination *v20221001s.AutoscaleNotification) error {
+func (notification *AutoscaleNotification) AssignProperties_To_AutoscaleNotification(destination *storage.AutoscaleNotification) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Email
 	if notification.Email != nil {
-		var email v20221001s.EmailNotification
+		var email storage.EmailNotification
 		err := notification.Email.AssignProperties_To_EmailNotification(&email)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_EmailNotification() to populate field Email")
@@ -1512,11 +1512,11 @@ func (notification *AutoscaleNotification) AssignProperties_To_AutoscaleNotifica
 
 	// Webhooks
 	if notification.Webhooks != nil {
-		webhookList := make([]v20221001s.WebhookNotification, len(notification.Webhooks))
+		webhookList := make([]storage.WebhookNotification, len(notification.Webhooks))
 		for webhookIndex, webhookItem := range notification.Webhooks {
 			// Shadow the loop variable to avoid aliasing
 			webhookItem := webhookItem
-			var webhook v20221001s.WebhookNotification
+			var webhook storage.WebhookNotification
 			err := webhookItem.AssignProperties_To_WebhookNotification(&webhook)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_WebhookNotification() to populate field Webhooks")
@@ -1642,7 +1642,7 @@ func (notification *AutoscaleNotification_STATUS) PopulateFromARM(owner genrunti
 }
 
 // AssignProperties_From_AutoscaleNotification_STATUS populates our AutoscaleNotification_STATUS from the provided source AutoscaleNotification_STATUS
-func (notification *AutoscaleNotification_STATUS) AssignProperties_From_AutoscaleNotification_STATUS(source *v20221001s.AutoscaleNotification_STATUS) error {
+func (notification *AutoscaleNotification_STATUS) AssignProperties_From_AutoscaleNotification_STATUS(source *storage.AutoscaleNotification_STATUS) error {
 
 	// Email
 	if source.Email != nil {
@@ -1688,13 +1688,13 @@ func (notification *AutoscaleNotification_STATUS) AssignProperties_From_Autoscal
 }
 
 // AssignProperties_To_AutoscaleNotification_STATUS populates the provided destination AutoscaleNotification_STATUS from our AutoscaleNotification_STATUS
-func (notification *AutoscaleNotification_STATUS) AssignProperties_To_AutoscaleNotification_STATUS(destination *v20221001s.AutoscaleNotification_STATUS) error {
+func (notification *AutoscaleNotification_STATUS) AssignProperties_To_AutoscaleNotification_STATUS(destination *storage.AutoscaleNotification_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Email
 	if notification.Email != nil {
-		var email v20221001s.EmailNotification_STATUS
+		var email storage.EmailNotification_STATUS
 		err := notification.Email.AssignProperties_To_EmailNotification_STATUS(&email)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_EmailNotification_STATUS() to populate field Email")
@@ -1714,11 +1714,11 @@ func (notification *AutoscaleNotification_STATUS) AssignProperties_To_AutoscaleN
 
 	// Webhooks
 	if notification.Webhooks != nil {
-		webhookList := make([]v20221001s.WebhookNotification_STATUS, len(notification.Webhooks))
+		webhookList := make([]storage.WebhookNotification_STATUS, len(notification.Webhooks))
 		for webhookIndex, webhookItem := range notification.Webhooks {
 			// Shadow the loop variable to avoid aliasing
 			webhookItem := webhookItem
-			var webhook v20221001s.WebhookNotification_STATUS
+			var webhook storage.WebhookNotification_STATUS
 			err := webhookItem.AssignProperties_To_WebhookNotification_STATUS(&webhook)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_WebhookNotification_STATUS() to populate field Webhooks")
@@ -1885,7 +1885,7 @@ func (profile *AutoscaleProfile) PopulateFromARM(owner genruntime.ArbitraryOwner
 }
 
 // AssignProperties_From_AutoscaleProfile populates our AutoscaleProfile from the provided source AutoscaleProfile
-func (profile *AutoscaleProfile) AssignProperties_From_AutoscaleProfile(source *v20221001s.AutoscaleProfile) error {
+func (profile *AutoscaleProfile) AssignProperties_From_AutoscaleProfile(source *storage.AutoscaleProfile) error {
 
 	// Capacity
 	if source.Capacity != nil {
@@ -1949,13 +1949,13 @@ func (profile *AutoscaleProfile) AssignProperties_From_AutoscaleProfile(source *
 }
 
 // AssignProperties_To_AutoscaleProfile populates the provided destination AutoscaleProfile from our AutoscaleProfile
-func (profile *AutoscaleProfile) AssignProperties_To_AutoscaleProfile(destination *v20221001s.AutoscaleProfile) error {
+func (profile *AutoscaleProfile) AssignProperties_To_AutoscaleProfile(destination *storage.AutoscaleProfile) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Capacity
 	if profile.Capacity != nil {
-		var capacity v20221001s.ScaleCapacity
+		var capacity storage.ScaleCapacity
 		err := profile.Capacity.AssignProperties_To_ScaleCapacity(&capacity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ScaleCapacity() to populate field Capacity")
@@ -1967,7 +1967,7 @@ func (profile *AutoscaleProfile) AssignProperties_To_AutoscaleProfile(destinatio
 
 	// FixedDate
 	if profile.FixedDate != nil {
-		var fixedDate v20221001s.TimeWindow
+		var fixedDate storage.TimeWindow
 		err := profile.FixedDate.AssignProperties_To_TimeWindow(&fixedDate)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_TimeWindow() to populate field FixedDate")
@@ -1982,7 +1982,7 @@ func (profile *AutoscaleProfile) AssignProperties_To_AutoscaleProfile(destinatio
 
 	// Recurrence
 	if profile.Recurrence != nil {
-		var recurrence v20221001s.Recurrence
+		var recurrence storage.Recurrence
 		err := profile.Recurrence.AssignProperties_To_Recurrence(&recurrence)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Recurrence() to populate field Recurrence")
@@ -1994,11 +1994,11 @@ func (profile *AutoscaleProfile) AssignProperties_To_AutoscaleProfile(destinatio
 
 	// Rules
 	if profile.Rules != nil {
-		ruleList := make([]v20221001s.ScaleRule, len(profile.Rules))
+		ruleList := make([]storage.ScaleRule, len(profile.Rules))
 		for ruleIndex, ruleItem := range profile.Rules {
 			// Shadow the loop variable to avoid aliasing
 			ruleItem := ruleItem
-			var rule v20221001s.ScaleRule
+			var rule storage.ScaleRule
 			err := ruleItem.AssignProperties_To_ScaleRule(&rule)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ScaleRule() to populate field Rules")
@@ -2175,7 +2175,7 @@ func (profile *AutoscaleProfile_STATUS) PopulateFromARM(owner genruntime.Arbitra
 }
 
 // AssignProperties_From_AutoscaleProfile_STATUS populates our AutoscaleProfile_STATUS from the provided source AutoscaleProfile_STATUS
-func (profile *AutoscaleProfile_STATUS) AssignProperties_From_AutoscaleProfile_STATUS(source *v20221001s.AutoscaleProfile_STATUS) error {
+func (profile *AutoscaleProfile_STATUS) AssignProperties_From_AutoscaleProfile_STATUS(source *storage.AutoscaleProfile_STATUS) error {
 
 	// Capacity
 	if source.Capacity != nil {
@@ -2239,13 +2239,13 @@ func (profile *AutoscaleProfile_STATUS) AssignProperties_From_AutoscaleProfile_S
 }
 
 // AssignProperties_To_AutoscaleProfile_STATUS populates the provided destination AutoscaleProfile_STATUS from our AutoscaleProfile_STATUS
-func (profile *AutoscaleProfile_STATUS) AssignProperties_To_AutoscaleProfile_STATUS(destination *v20221001s.AutoscaleProfile_STATUS) error {
+func (profile *AutoscaleProfile_STATUS) AssignProperties_To_AutoscaleProfile_STATUS(destination *storage.AutoscaleProfile_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Capacity
 	if profile.Capacity != nil {
-		var capacity v20221001s.ScaleCapacity_STATUS
+		var capacity storage.ScaleCapacity_STATUS
 		err := profile.Capacity.AssignProperties_To_ScaleCapacity_STATUS(&capacity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ScaleCapacity_STATUS() to populate field Capacity")
@@ -2257,7 +2257,7 @@ func (profile *AutoscaleProfile_STATUS) AssignProperties_To_AutoscaleProfile_STA
 
 	// FixedDate
 	if profile.FixedDate != nil {
-		var fixedDate v20221001s.TimeWindow_STATUS
+		var fixedDate storage.TimeWindow_STATUS
 		err := profile.FixedDate.AssignProperties_To_TimeWindow_STATUS(&fixedDate)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_TimeWindow_STATUS() to populate field FixedDate")
@@ -2272,7 +2272,7 @@ func (profile *AutoscaleProfile_STATUS) AssignProperties_To_AutoscaleProfile_STA
 
 	// Recurrence
 	if profile.Recurrence != nil {
-		var recurrence v20221001s.Recurrence_STATUS
+		var recurrence storage.Recurrence_STATUS
 		err := profile.Recurrence.AssignProperties_To_Recurrence_STATUS(&recurrence)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Recurrence_STATUS() to populate field Recurrence")
@@ -2284,11 +2284,11 @@ func (profile *AutoscaleProfile_STATUS) AssignProperties_To_AutoscaleProfile_STA
 
 	// Rules
 	if profile.Rules != nil {
-		ruleList := make([]v20221001s.ScaleRule_STATUS, len(profile.Rules))
+		ruleList := make([]storage.ScaleRule_STATUS, len(profile.Rules))
 		for ruleIndex, ruleItem := range profile.Rules {
 			// Shadow the loop variable to avoid aliasing
 			ruleItem := ruleItem
-			var rule v20221001s.ScaleRule_STATUS
+			var rule storage.ScaleRule_STATUS
 			err := ruleItem.AssignProperties_To_ScaleRule_STATUS(&rule)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ScaleRule_STATUS() to populate field Rules")
@@ -2374,7 +2374,7 @@ func (policy *PredictiveAutoscalePolicy) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_PredictiveAutoscalePolicy populates our PredictiveAutoscalePolicy from the provided source PredictiveAutoscalePolicy
-func (policy *PredictiveAutoscalePolicy) AssignProperties_From_PredictiveAutoscalePolicy(source *v20221001s.PredictiveAutoscalePolicy) error {
+func (policy *PredictiveAutoscalePolicy) AssignProperties_From_PredictiveAutoscalePolicy(source *storage.PredictiveAutoscalePolicy) error {
 
 	// ScaleLookAheadTime
 	policy.ScaleLookAheadTime = genruntime.ClonePointerToString(source.ScaleLookAheadTime)
@@ -2393,7 +2393,7 @@ func (policy *PredictiveAutoscalePolicy) AssignProperties_From_PredictiveAutosca
 }
 
 // AssignProperties_To_PredictiveAutoscalePolicy populates the provided destination PredictiveAutoscalePolicy from our PredictiveAutoscalePolicy
-func (policy *PredictiveAutoscalePolicy) AssignProperties_To_PredictiveAutoscalePolicy(destination *v20221001s.PredictiveAutoscalePolicy) error {
+func (policy *PredictiveAutoscalePolicy) AssignProperties_To_PredictiveAutoscalePolicy(destination *storage.PredictiveAutoscalePolicy) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2478,7 +2478,7 @@ func (policy *PredictiveAutoscalePolicy_STATUS) PopulateFromARM(owner genruntime
 }
 
 // AssignProperties_From_PredictiveAutoscalePolicy_STATUS populates our PredictiveAutoscalePolicy_STATUS from the provided source PredictiveAutoscalePolicy_STATUS
-func (policy *PredictiveAutoscalePolicy_STATUS) AssignProperties_From_PredictiveAutoscalePolicy_STATUS(source *v20221001s.PredictiveAutoscalePolicy_STATUS) error {
+func (policy *PredictiveAutoscalePolicy_STATUS) AssignProperties_From_PredictiveAutoscalePolicy_STATUS(source *storage.PredictiveAutoscalePolicy_STATUS) error {
 
 	// ScaleLookAheadTime
 	policy.ScaleLookAheadTime = genruntime.ClonePointerToString(source.ScaleLookAheadTime)
@@ -2497,7 +2497,7 @@ func (policy *PredictiveAutoscalePolicy_STATUS) AssignProperties_From_Predictive
 }
 
 // AssignProperties_To_PredictiveAutoscalePolicy_STATUS populates the provided destination PredictiveAutoscalePolicy_STATUS from our PredictiveAutoscalePolicy_STATUS
-func (policy *PredictiveAutoscalePolicy_STATUS) AssignProperties_To_PredictiveAutoscalePolicy_STATUS(destination *v20221001s.PredictiveAutoscalePolicy_STATUS) error {
+func (policy *PredictiveAutoscalePolicy_STATUS) AssignProperties_To_PredictiveAutoscalePolicy_STATUS(destination *storage.PredictiveAutoscalePolicy_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2599,7 +2599,7 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 }
 
 // AssignProperties_From_SystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v20221001s.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *storage.SystemData_STATUS) error {
 
 	// CreatedAt
 	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
@@ -2636,7 +2636,7 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 }
 
 // AssignProperties_To_SystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *v20221001s.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *storage.SystemData_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2772,7 +2772,7 @@ func (notification *EmailNotification) PopulateFromARM(owner genruntime.Arbitrar
 }
 
 // AssignProperties_From_EmailNotification populates our EmailNotification from the provided source EmailNotification
-func (notification *EmailNotification) AssignProperties_From_EmailNotification(source *v20221001s.EmailNotification) error {
+func (notification *EmailNotification) AssignProperties_From_EmailNotification(source *storage.EmailNotification) error {
 
 	// CustomEmails
 	notification.CustomEmails = genruntime.CloneSliceOfString(source.CustomEmails)
@@ -2798,7 +2798,7 @@ func (notification *EmailNotification) AssignProperties_From_EmailNotification(s
 }
 
 // AssignProperties_To_EmailNotification populates the provided destination EmailNotification from our EmailNotification
-func (notification *EmailNotification) AssignProperties_To_EmailNotification(destination *v20221001s.EmailNotification) error {
+func (notification *EmailNotification) AssignProperties_To_EmailNotification(destination *storage.EmailNotification) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2906,7 +2906,7 @@ func (notification *EmailNotification_STATUS) PopulateFromARM(owner genruntime.A
 }
 
 // AssignProperties_From_EmailNotification_STATUS populates our EmailNotification_STATUS from the provided source EmailNotification_STATUS
-func (notification *EmailNotification_STATUS) AssignProperties_From_EmailNotification_STATUS(source *v20221001s.EmailNotification_STATUS) error {
+func (notification *EmailNotification_STATUS) AssignProperties_From_EmailNotification_STATUS(source *storage.EmailNotification_STATUS) error {
 
 	// CustomEmails
 	notification.CustomEmails = genruntime.CloneSliceOfString(source.CustomEmails)
@@ -2932,7 +2932,7 @@ func (notification *EmailNotification_STATUS) AssignProperties_From_EmailNotific
 }
 
 // AssignProperties_To_EmailNotification_STATUS populates the provided destination EmailNotification_STATUS from our EmailNotification_STATUS
-func (notification *EmailNotification_STATUS) AssignProperties_To_EmailNotification_STATUS(destination *v20221001s.EmailNotification_STATUS) error {
+func (notification *EmailNotification_STATUS) AssignProperties_To_EmailNotification_STATUS(destination *storage.EmailNotification_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3071,7 +3071,7 @@ func (recurrence *Recurrence) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 }
 
 // AssignProperties_From_Recurrence populates our Recurrence from the provided source Recurrence
-func (recurrence *Recurrence) AssignProperties_From_Recurrence(source *v20221001s.Recurrence) error {
+func (recurrence *Recurrence) AssignProperties_From_Recurrence(source *storage.Recurrence) error {
 
 	// Frequency
 	if source.Frequency != nil {
@@ -3099,7 +3099,7 @@ func (recurrence *Recurrence) AssignProperties_From_Recurrence(source *v20221001
 }
 
 // AssignProperties_To_Recurrence populates the provided destination Recurrence from our Recurrence
-func (recurrence *Recurrence) AssignProperties_To_Recurrence(destination *v20221001s.Recurrence) error {
+func (recurrence *Recurrence) AssignProperties_To_Recurrence(destination *storage.Recurrence) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3113,7 +3113,7 @@ func (recurrence *Recurrence) AssignProperties_To_Recurrence(destination *v20221
 
 	// Schedule
 	if recurrence.Schedule != nil {
-		var schedule v20221001s.RecurrentSchedule
+		var schedule storage.RecurrentSchedule
 		err := recurrence.Schedule.AssignProperties_To_RecurrentSchedule(&schedule)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RecurrentSchedule() to populate field Schedule")
@@ -3210,7 +3210,7 @@ func (recurrence *Recurrence_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 }
 
 // AssignProperties_From_Recurrence_STATUS populates our Recurrence_STATUS from the provided source Recurrence_STATUS
-func (recurrence *Recurrence_STATUS) AssignProperties_From_Recurrence_STATUS(source *v20221001s.Recurrence_STATUS) error {
+func (recurrence *Recurrence_STATUS) AssignProperties_From_Recurrence_STATUS(source *storage.Recurrence_STATUS) error {
 
 	// Frequency
 	if source.Frequency != nil {
@@ -3238,7 +3238,7 @@ func (recurrence *Recurrence_STATUS) AssignProperties_From_Recurrence_STATUS(sou
 }
 
 // AssignProperties_To_Recurrence_STATUS populates the provided destination Recurrence_STATUS from our Recurrence_STATUS
-func (recurrence *Recurrence_STATUS) AssignProperties_To_Recurrence_STATUS(destination *v20221001s.Recurrence_STATUS) error {
+func (recurrence *Recurrence_STATUS) AssignProperties_To_Recurrence_STATUS(destination *storage.Recurrence_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3252,7 +3252,7 @@ func (recurrence *Recurrence_STATUS) AssignProperties_To_Recurrence_STATUS(desti
 
 	// Schedule
 	if recurrence.Schedule != nil {
-		var schedule v20221001s.RecurrentSchedule_STATUS
+		var schedule storage.RecurrentSchedule_STATUS
 		err := recurrence.Schedule.AssignProperties_To_RecurrentSchedule_STATUS(&schedule)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RecurrentSchedule_STATUS() to populate field Schedule")
@@ -3354,7 +3354,7 @@ func (capacity *ScaleCapacity) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 }
 
 // AssignProperties_From_ScaleCapacity populates our ScaleCapacity from the provided source ScaleCapacity
-func (capacity *ScaleCapacity) AssignProperties_From_ScaleCapacity(source *v20221001s.ScaleCapacity) error {
+func (capacity *ScaleCapacity) AssignProperties_From_ScaleCapacity(source *storage.ScaleCapacity) error {
 
 	// Default
 	capacity.Default = genruntime.ClonePointerToString(source.Default)
@@ -3370,7 +3370,7 @@ func (capacity *ScaleCapacity) AssignProperties_From_ScaleCapacity(source *v2022
 }
 
 // AssignProperties_To_ScaleCapacity populates the provided destination ScaleCapacity from our ScaleCapacity
-func (capacity *ScaleCapacity) AssignProperties_To_ScaleCapacity(destination *v20221001s.ScaleCapacity) error {
+func (capacity *ScaleCapacity) AssignProperties_To_ScaleCapacity(destination *storage.ScaleCapacity) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3464,7 +3464,7 @@ func (capacity *ScaleCapacity_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 }
 
 // AssignProperties_From_ScaleCapacity_STATUS populates our ScaleCapacity_STATUS from the provided source ScaleCapacity_STATUS
-func (capacity *ScaleCapacity_STATUS) AssignProperties_From_ScaleCapacity_STATUS(source *v20221001s.ScaleCapacity_STATUS) error {
+func (capacity *ScaleCapacity_STATUS) AssignProperties_From_ScaleCapacity_STATUS(source *storage.ScaleCapacity_STATUS) error {
 
 	// Default
 	capacity.Default = genruntime.ClonePointerToString(source.Default)
@@ -3480,7 +3480,7 @@ func (capacity *ScaleCapacity_STATUS) AssignProperties_From_ScaleCapacity_STATUS
 }
 
 // AssignProperties_To_ScaleCapacity_STATUS populates the provided destination ScaleCapacity_STATUS from our ScaleCapacity_STATUS
-func (capacity *ScaleCapacity_STATUS) AssignProperties_To_ScaleCapacity_STATUS(destination *v20221001s.ScaleCapacity_STATUS) error {
+func (capacity *ScaleCapacity_STATUS) AssignProperties_To_ScaleCapacity_STATUS(destination *storage.ScaleCapacity_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3585,7 +3585,7 @@ func (rule *ScaleRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 }
 
 // AssignProperties_From_ScaleRule populates our ScaleRule from the provided source ScaleRule
-func (rule *ScaleRule) AssignProperties_From_ScaleRule(source *v20221001s.ScaleRule) error {
+func (rule *ScaleRule) AssignProperties_From_ScaleRule(source *storage.ScaleRule) error {
 
 	// MetricTrigger
 	if source.MetricTrigger != nil {
@@ -3616,13 +3616,13 @@ func (rule *ScaleRule) AssignProperties_From_ScaleRule(source *v20221001s.ScaleR
 }
 
 // AssignProperties_To_ScaleRule populates the provided destination ScaleRule from our ScaleRule
-func (rule *ScaleRule) AssignProperties_To_ScaleRule(destination *v20221001s.ScaleRule) error {
+func (rule *ScaleRule) AssignProperties_To_ScaleRule(destination *storage.ScaleRule) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// MetricTrigger
 	if rule.MetricTrigger != nil {
-		var metricTrigger v20221001s.MetricTrigger
+		var metricTrigger storage.MetricTrigger
 		err := rule.MetricTrigger.AssignProperties_To_MetricTrigger(&metricTrigger)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_MetricTrigger() to populate field MetricTrigger")
@@ -3634,7 +3634,7 @@ func (rule *ScaleRule) AssignProperties_To_ScaleRule(destination *v20221001s.Sca
 
 	// ScaleAction
 	if rule.ScaleAction != nil {
-		var scaleAction v20221001s.ScaleAction
+		var scaleAction storage.ScaleAction
 		err := rule.ScaleAction.AssignProperties_To_ScaleAction(&scaleAction)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ScaleAction() to populate field ScaleAction")
@@ -3738,7 +3738,7 @@ func (rule *ScaleRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 }
 
 // AssignProperties_From_ScaleRule_STATUS populates our ScaleRule_STATUS from the provided source ScaleRule_STATUS
-func (rule *ScaleRule_STATUS) AssignProperties_From_ScaleRule_STATUS(source *v20221001s.ScaleRule_STATUS) error {
+func (rule *ScaleRule_STATUS) AssignProperties_From_ScaleRule_STATUS(source *storage.ScaleRule_STATUS) error {
 
 	// MetricTrigger
 	if source.MetricTrigger != nil {
@@ -3769,13 +3769,13 @@ func (rule *ScaleRule_STATUS) AssignProperties_From_ScaleRule_STATUS(source *v20
 }
 
 // AssignProperties_To_ScaleRule_STATUS populates the provided destination ScaleRule_STATUS from our ScaleRule_STATUS
-func (rule *ScaleRule_STATUS) AssignProperties_To_ScaleRule_STATUS(destination *v20221001s.ScaleRule_STATUS) error {
+func (rule *ScaleRule_STATUS) AssignProperties_To_ScaleRule_STATUS(destination *storage.ScaleRule_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// MetricTrigger
 	if rule.MetricTrigger != nil {
-		var metricTrigger v20221001s.MetricTrigger_STATUS
+		var metricTrigger storage.MetricTrigger_STATUS
 		err := rule.MetricTrigger.AssignProperties_To_MetricTrigger_STATUS(&metricTrigger)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_MetricTrigger_STATUS() to populate field MetricTrigger")
@@ -3787,7 +3787,7 @@ func (rule *ScaleRule_STATUS) AssignProperties_To_ScaleRule_STATUS(destination *
 
 	// ScaleAction
 	if rule.ScaleAction != nil {
-		var scaleAction v20221001s.ScaleAction_STATUS
+		var scaleAction storage.ScaleAction_STATUS
 		err := rule.ScaleAction.AssignProperties_To_ScaleAction_STATUS(&scaleAction)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ScaleAction_STATUS() to populate field ScaleAction")
@@ -3908,7 +3908,7 @@ func (window *TimeWindow) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 }
 
 // AssignProperties_From_TimeWindow populates our TimeWindow from the provided source TimeWindow
-func (window *TimeWindow) AssignProperties_From_TimeWindow(source *v20221001s.TimeWindow) error {
+func (window *TimeWindow) AssignProperties_From_TimeWindow(source *storage.TimeWindow) error {
 
 	// End
 	window.End = genruntime.ClonePointerToString(source.End)
@@ -3924,7 +3924,7 @@ func (window *TimeWindow) AssignProperties_From_TimeWindow(source *v20221001s.Ti
 }
 
 // AssignProperties_To_TimeWindow populates the provided destination TimeWindow from our TimeWindow
-func (window *TimeWindow) AssignProperties_To_TimeWindow(destination *v20221001s.TimeWindow) error {
+func (window *TimeWindow) AssignProperties_To_TimeWindow(destination *storage.TimeWindow) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4037,7 +4037,7 @@ func (window *TimeWindow_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 }
 
 // AssignProperties_From_TimeWindow_STATUS populates our TimeWindow_STATUS from the provided source TimeWindow_STATUS
-func (window *TimeWindow_STATUS) AssignProperties_From_TimeWindow_STATUS(source *v20221001s.TimeWindow_STATUS) error {
+func (window *TimeWindow_STATUS) AssignProperties_From_TimeWindow_STATUS(source *storage.TimeWindow_STATUS) error {
 
 	// End
 	window.End = genruntime.ClonePointerToString(source.End)
@@ -4053,7 +4053,7 @@ func (window *TimeWindow_STATUS) AssignProperties_From_TimeWindow_STATUS(source 
 }
 
 // AssignProperties_To_TimeWindow_STATUS populates the provided destination TimeWindow_STATUS from our TimeWindow_STATUS
-func (window *TimeWindow_STATUS) AssignProperties_To_TimeWindow_STATUS(destination *v20221001s.TimeWindow_STATUS) error {
+func (window *TimeWindow_STATUS) AssignProperties_To_TimeWindow_STATUS(destination *storage.TimeWindow_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4142,7 +4142,7 @@ func (notification *WebhookNotification) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_WebhookNotification populates our WebhookNotification from the provided source WebhookNotification
-func (notification *WebhookNotification) AssignProperties_From_WebhookNotification(source *v20221001s.WebhookNotification) error {
+func (notification *WebhookNotification) AssignProperties_From_WebhookNotification(source *storage.WebhookNotification) error {
 
 	// Properties
 	notification.Properties = genruntime.CloneMapOfStringToString(source.Properties)
@@ -4155,7 +4155,7 @@ func (notification *WebhookNotification) AssignProperties_From_WebhookNotificati
 }
 
 // AssignProperties_To_WebhookNotification populates the provided destination WebhookNotification from our WebhookNotification
-func (notification *WebhookNotification) AssignProperties_To_WebhookNotification(destination *v20221001s.WebhookNotification) error {
+func (notification *WebhookNotification) AssignProperties_To_WebhookNotification(destination *storage.WebhookNotification) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4231,7 +4231,7 @@ func (notification *WebhookNotification_STATUS) PopulateFromARM(owner genruntime
 }
 
 // AssignProperties_From_WebhookNotification_STATUS populates our WebhookNotification_STATUS from the provided source WebhookNotification_STATUS
-func (notification *WebhookNotification_STATUS) AssignProperties_From_WebhookNotification_STATUS(source *v20221001s.WebhookNotification_STATUS) error {
+func (notification *WebhookNotification_STATUS) AssignProperties_From_WebhookNotification_STATUS(source *storage.WebhookNotification_STATUS) error {
 
 	// Properties
 	notification.Properties = genruntime.CloneMapOfStringToString(source.Properties)
@@ -4244,7 +4244,7 @@ func (notification *WebhookNotification_STATUS) AssignProperties_From_WebhookNot
 }
 
 // AssignProperties_To_WebhookNotification_STATUS populates the provided destination WebhookNotification_STATUS from our WebhookNotification_STATUS
-func (notification *WebhookNotification_STATUS) AssignProperties_To_WebhookNotification_STATUS(destination *v20221001s.WebhookNotification_STATUS) error {
+func (notification *WebhookNotification_STATUS) AssignProperties_To_WebhookNotification_STATUS(destination *storage.WebhookNotification_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4495,7 +4495,7 @@ func (trigger *MetricTrigger) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 }
 
 // AssignProperties_From_MetricTrigger populates our MetricTrigger from the provided source MetricTrigger
-func (trigger *MetricTrigger) AssignProperties_From_MetricTrigger(source *v20221001s.MetricTrigger) error {
+func (trigger *MetricTrigger) AssignProperties_From_MetricTrigger(source *storage.MetricTrigger) error {
 
 	// Dimensions
 	if source.Dimensions != nil {
@@ -4586,17 +4586,17 @@ func (trigger *MetricTrigger) AssignProperties_From_MetricTrigger(source *v20221
 }
 
 // AssignProperties_To_MetricTrigger populates the provided destination MetricTrigger from our MetricTrigger
-func (trigger *MetricTrigger) AssignProperties_To_MetricTrigger(destination *v20221001s.MetricTrigger) error {
+func (trigger *MetricTrigger) AssignProperties_To_MetricTrigger(destination *storage.MetricTrigger) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Dimensions
 	if trigger.Dimensions != nil {
-		dimensionList := make([]v20221001s.ScaleRuleMetricDimension, len(trigger.Dimensions))
+		dimensionList := make([]storage.ScaleRuleMetricDimension, len(trigger.Dimensions))
 		for dimensionIndex, dimensionItem := range trigger.Dimensions {
 			// Shadow the loop variable to avoid aliasing
 			dimensionItem := dimensionItem
-			var dimension v20221001s.ScaleRuleMetricDimension
+			var dimension storage.ScaleRuleMetricDimension
 			err := dimensionItem.AssignProperties_To_ScaleRuleMetricDimension(&dimension)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ScaleRuleMetricDimension() to populate field Dimensions")
@@ -4908,7 +4908,7 @@ func (trigger *MetricTrigger_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 }
 
 // AssignProperties_From_MetricTrigger_STATUS populates our MetricTrigger_STATUS from the provided source MetricTrigger_STATUS
-func (trigger *MetricTrigger_STATUS) AssignProperties_From_MetricTrigger_STATUS(source *v20221001s.MetricTrigger_STATUS) error {
+func (trigger *MetricTrigger_STATUS) AssignProperties_From_MetricTrigger_STATUS(source *storage.MetricTrigger_STATUS) error {
 
 	// Dimensions
 	if source.Dimensions != nil {
@@ -4994,17 +4994,17 @@ func (trigger *MetricTrigger_STATUS) AssignProperties_From_MetricTrigger_STATUS(
 }
 
 // AssignProperties_To_MetricTrigger_STATUS populates the provided destination MetricTrigger_STATUS from our MetricTrigger_STATUS
-func (trigger *MetricTrigger_STATUS) AssignProperties_To_MetricTrigger_STATUS(destination *v20221001s.MetricTrigger_STATUS) error {
+func (trigger *MetricTrigger_STATUS) AssignProperties_To_MetricTrigger_STATUS(destination *storage.MetricTrigger_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Dimensions
 	if trigger.Dimensions != nil {
-		dimensionList := make([]v20221001s.ScaleRuleMetricDimension_STATUS, len(trigger.Dimensions))
+		dimensionList := make([]storage.ScaleRuleMetricDimension_STATUS, len(trigger.Dimensions))
 		for dimensionIndex, dimensionItem := range trigger.Dimensions {
 			// Shadow the loop variable to avoid aliasing
 			dimensionItem := dimensionItem
-			var dimension v20221001s.ScaleRuleMetricDimension_STATUS
+			var dimension storage.ScaleRuleMetricDimension_STATUS
 			err := dimensionItem.AssignProperties_To_ScaleRuleMetricDimension_STATUS(&dimension)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ScaleRuleMetricDimension_STATUS() to populate field Dimensions")
@@ -5249,7 +5249,7 @@ func (schedule *RecurrentSchedule) PopulateFromARM(owner genruntime.ArbitraryOwn
 }
 
 // AssignProperties_From_RecurrentSchedule populates our RecurrentSchedule from the provided source RecurrentSchedule
-func (schedule *RecurrentSchedule) AssignProperties_From_RecurrentSchedule(source *v20221001s.RecurrentSchedule) error {
+func (schedule *RecurrentSchedule) AssignProperties_From_RecurrentSchedule(source *storage.RecurrentSchedule) error {
 
 	// Days
 	schedule.Days = genruntime.CloneSliceOfString(source.Days)
@@ -5288,7 +5288,7 @@ func (schedule *RecurrentSchedule) AssignProperties_From_RecurrentSchedule(sourc
 }
 
 // AssignProperties_To_RecurrentSchedule populates the provided destination RecurrentSchedule from our RecurrentSchedule
-func (schedule *RecurrentSchedule) AssignProperties_To_RecurrentSchedule(destination *v20221001s.RecurrentSchedule) error {
+func (schedule *RecurrentSchedule) AssignProperties_To_RecurrentSchedule(destination *storage.RecurrentSchedule) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5456,7 +5456,7 @@ func (schedule *RecurrentSchedule_STATUS) PopulateFromARM(owner genruntime.Arbit
 }
 
 // AssignProperties_From_RecurrentSchedule_STATUS populates our RecurrentSchedule_STATUS from the provided source RecurrentSchedule_STATUS
-func (schedule *RecurrentSchedule_STATUS) AssignProperties_From_RecurrentSchedule_STATUS(source *v20221001s.RecurrentSchedule_STATUS) error {
+func (schedule *RecurrentSchedule_STATUS) AssignProperties_From_RecurrentSchedule_STATUS(source *storage.RecurrentSchedule_STATUS) error {
 
 	// Days
 	schedule.Days = genruntime.CloneSliceOfString(source.Days)
@@ -5495,7 +5495,7 @@ func (schedule *RecurrentSchedule_STATUS) AssignProperties_From_RecurrentSchedul
 }
 
 // AssignProperties_To_RecurrentSchedule_STATUS populates the provided destination RecurrentSchedule_STATUS from our RecurrentSchedule_STATUS
-func (schedule *RecurrentSchedule_STATUS) AssignProperties_To_RecurrentSchedule_STATUS(destination *v20221001s.RecurrentSchedule_STATUS) error {
+func (schedule *RecurrentSchedule_STATUS) AssignProperties_To_RecurrentSchedule_STATUS(destination *storage.RecurrentSchedule_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5638,7 +5638,7 @@ func (action *ScaleAction) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 }
 
 // AssignProperties_From_ScaleAction populates our ScaleAction from the provided source ScaleAction
-func (action *ScaleAction) AssignProperties_From_ScaleAction(source *v20221001s.ScaleAction) error {
+func (action *ScaleAction) AssignProperties_From_ScaleAction(source *storage.ScaleAction) error {
 
 	// Cooldown
 	action.Cooldown = genruntime.ClonePointerToString(source.Cooldown)
@@ -5669,7 +5669,7 @@ func (action *ScaleAction) AssignProperties_From_ScaleAction(source *v20221001s.
 }
 
 // AssignProperties_To_ScaleAction populates the provided destination ScaleAction from our ScaleAction
-func (action *ScaleAction) AssignProperties_To_ScaleAction(destination *v20221001s.ScaleAction) error {
+func (action *ScaleAction) AssignProperties_To_ScaleAction(destination *storage.ScaleAction) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5798,7 +5798,7 @@ func (action *ScaleAction_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 }
 
 // AssignProperties_From_ScaleAction_STATUS populates our ScaleAction_STATUS from the provided source ScaleAction_STATUS
-func (action *ScaleAction_STATUS) AssignProperties_From_ScaleAction_STATUS(source *v20221001s.ScaleAction_STATUS) error {
+func (action *ScaleAction_STATUS) AssignProperties_From_ScaleAction_STATUS(source *storage.ScaleAction_STATUS) error {
 
 	// Cooldown
 	action.Cooldown = genruntime.ClonePointerToString(source.Cooldown)
@@ -5829,7 +5829,7 @@ func (action *ScaleAction_STATUS) AssignProperties_From_ScaleAction_STATUS(sourc
 }
 
 // AssignProperties_To_ScaleAction_STATUS populates the provided destination ScaleAction_STATUS from our ScaleAction_STATUS
-func (action *ScaleAction_STATUS) AssignProperties_To_ScaleAction_STATUS(destination *v20221001s.ScaleAction_STATUS) error {
+func (action *ScaleAction_STATUS) AssignProperties_To_ScaleAction_STATUS(destination *storage.ScaleAction_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6140,7 +6140,7 @@ func (dimension *ScaleRuleMetricDimension) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignProperties_From_ScaleRuleMetricDimension populates our ScaleRuleMetricDimension from the provided source ScaleRuleMetricDimension
-func (dimension *ScaleRuleMetricDimension) AssignProperties_From_ScaleRuleMetricDimension(source *v20221001s.ScaleRuleMetricDimension) error {
+func (dimension *ScaleRuleMetricDimension) AssignProperties_From_ScaleRuleMetricDimension(source *storage.ScaleRuleMetricDimension) error {
 
 	// DimensionName
 	dimension.DimensionName = genruntime.ClonePointerToString(source.DimensionName)
@@ -6162,7 +6162,7 @@ func (dimension *ScaleRuleMetricDimension) AssignProperties_From_ScaleRuleMetric
 }
 
 // AssignProperties_To_ScaleRuleMetricDimension populates the provided destination ScaleRuleMetricDimension from our ScaleRuleMetricDimension
-func (dimension *ScaleRuleMetricDimension) AssignProperties_To_ScaleRuleMetricDimension(destination *v20221001s.ScaleRuleMetricDimension) error {
+func (dimension *ScaleRuleMetricDimension) AssignProperties_To_ScaleRuleMetricDimension(destination *storage.ScaleRuleMetricDimension) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6264,7 +6264,7 @@ func (dimension *ScaleRuleMetricDimension_STATUS) PopulateFromARM(owner genrunti
 }
 
 // AssignProperties_From_ScaleRuleMetricDimension_STATUS populates our ScaleRuleMetricDimension_STATUS from the provided source ScaleRuleMetricDimension_STATUS
-func (dimension *ScaleRuleMetricDimension_STATUS) AssignProperties_From_ScaleRuleMetricDimension_STATUS(source *v20221001s.ScaleRuleMetricDimension_STATUS) error {
+func (dimension *ScaleRuleMetricDimension_STATUS) AssignProperties_From_ScaleRuleMetricDimension_STATUS(source *storage.ScaleRuleMetricDimension_STATUS) error {
 
 	// DimensionName
 	dimension.DimensionName = genruntime.ClonePointerToString(source.DimensionName)
@@ -6286,7 +6286,7 @@ func (dimension *ScaleRuleMetricDimension_STATUS) AssignProperties_From_ScaleRul
 }
 
 // AssignProperties_To_ScaleRuleMetricDimension_STATUS populates the provided destination ScaleRuleMetricDimension_STATUS from our ScaleRuleMetricDimension_STATUS
-func (dimension *ScaleRuleMetricDimension_STATUS) AssignProperties_To_ScaleRuleMetricDimension_STATUS(destination *v20221001s.ScaleRuleMetricDimension_STATUS) error {
+func (dimension *ScaleRuleMetricDimension_STATUS) AssignProperties_To_ScaleRuleMetricDimension_STATUS(destination *storage.ScaleRuleMetricDimension_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

@@ -5,7 +5,7 @@ package v1api20220701
 
 import (
 	"encoding/json"
-	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForNatGateway(subject NatGateway) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20220701s.NatGateway
+	var hub storage.NatGateway
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForNatGateway(subject NatGateway) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.NatGateway
+	var other storage.NatGateway
 	err := copied.AssignProperties_To_NatGateway(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForNatGateway_Spec(subject NatGateway_Spec) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.NatGateway_Spec
+	var other storage.NatGateway_Spec
 	err := copied.AssignProperties_To_NatGateway_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -305,7 +305,7 @@ func RunPropertyAssignmentTestForNatGateway_STATUS(subject NatGateway_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.NatGateway_STATUS
+	var other storage.NatGateway_STATUS
 	err := copied.AssignProperties_To_NatGateway_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -439,7 +439,7 @@ func RunPropertyAssignmentTestForNatGatewaySku(subject NatGatewaySku) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.NatGatewaySku
+	var other storage.NatGatewaySku
 	err := copied.AssignProperties_To_NatGatewaySku(&other)
 	if err != nil {
 		return err.Error()
@@ -541,7 +541,7 @@ func RunPropertyAssignmentTestForNatGatewaySku_STATUS(subject NatGatewaySku_STAT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.NatGatewaySku_STATUS
+	var other storage.NatGatewaySku_STATUS
 	err := copied.AssignProperties_To_NatGatewaySku_STATUS(&other)
 	if err != nil {
 		return err.Error()

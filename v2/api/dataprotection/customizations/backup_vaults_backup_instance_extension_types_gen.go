@@ -5,7 +5,7 @@ package customizations
 
 import (
 	v20231101 "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101"
-	v20231101s "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -16,5 +16,5 @@ type BackupVaultsBackupInstanceExtension struct {
 func (extension *BackupVaultsBackupInstanceExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
 		&v20231101.BackupVaultsBackupInstance{},
-		&v20231101s.BackupVaultsBackupInstance{}}
+		&storage.BackupVaultsBackupInstance{}}
 }

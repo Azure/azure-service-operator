@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &ServersDatabasesAdvancedThreatProtectionSetting{
 
 // ConvertFrom populates our ServersDatabasesAdvancedThreatProtectionSetting from the provided hub ServersDatabasesAdvancedThreatProtectionSetting
 func (setting *ServersDatabasesAdvancedThreatProtectionSetting) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20211101s.ServersDatabasesAdvancedThreatProtectionSetting)
+	source, ok := hub.(*storage.ServersDatabasesAdvancedThreatProtectionSetting)
 	if !ok {
 		return fmt.Errorf("expected sql/v1api20211101/storage/ServersDatabasesAdvancedThreatProtectionSetting but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (setting *ServersDatabasesAdvancedThreatProtectionSetting) ConvertFrom(hub 
 
 // ConvertTo populates the provided hub ServersDatabasesAdvancedThreatProtectionSetting from our ServersDatabasesAdvancedThreatProtectionSetting
 func (setting *ServersDatabasesAdvancedThreatProtectionSetting) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20211101s.ServersDatabasesAdvancedThreatProtectionSetting)
+	destination, ok := hub.(*storage.ServersDatabasesAdvancedThreatProtectionSetting)
 	if !ok {
 		return fmt.Errorf("expected sql/v1api20211101/storage/ServersDatabasesAdvancedThreatProtectionSetting but received %T instead", hub)
 	}
@@ -246,7 +246,7 @@ func (setting *ServersDatabasesAdvancedThreatProtectionSetting) validateWriteOnc
 }
 
 // AssignProperties_From_ServersDatabasesAdvancedThreatProtectionSetting populates our ServersDatabasesAdvancedThreatProtectionSetting from the provided source ServersDatabasesAdvancedThreatProtectionSetting
-func (setting *ServersDatabasesAdvancedThreatProtectionSetting) AssignProperties_From_ServersDatabasesAdvancedThreatProtectionSetting(source *v20211101s.ServersDatabasesAdvancedThreatProtectionSetting) error {
+func (setting *ServersDatabasesAdvancedThreatProtectionSetting) AssignProperties_From_ServersDatabasesAdvancedThreatProtectionSetting(source *storage.ServersDatabasesAdvancedThreatProtectionSetting) error {
 
 	// ObjectMeta
 	setting.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -272,13 +272,13 @@ func (setting *ServersDatabasesAdvancedThreatProtectionSetting) AssignProperties
 }
 
 // AssignProperties_To_ServersDatabasesAdvancedThreatProtectionSetting populates the provided destination ServersDatabasesAdvancedThreatProtectionSetting from our ServersDatabasesAdvancedThreatProtectionSetting
-func (setting *ServersDatabasesAdvancedThreatProtectionSetting) AssignProperties_To_ServersDatabasesAdvancedThreatProtectionSetting(destination *v20211101s.ServersDatabasesAdvancedThreatProtectionSetting) error {
+func (setting *ServersDatabasesAdvancedThreatProtectionSetting) AssignProperties_To_ServersDatabasesAdvancedThreatProtectionSetting(destination *storage.ServersDatabasesAdvancedThreatProtectionSetting) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *setting.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20211101s.Servers_Databases_AdvancedThreatProtectionSetting_Spec
+	var spec storage.Servers_Databases_AdvancedThreatProtectionSetting_Spec
 	err := setting.Spec.AssignProperties_To_Servers_Databases_AdvancedThreatProtectionSetting_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Servers_Databases_AdvancedThreatProtectionSetting_Spec() to populate field Spec")
@@ -286,7 +286,7 @@ func (setting *ServersDatabasesAdvancedThreatProtectionSetting) AssignProperties
 	destination.Spec = spec
 
 	// Status
-	var status v20211101s.Servers_Databases_AdvancedThreatProtectionSetting_STATUS
+	var status storage.Servers_Databases_AdvancedThreatProtectionSetting_STATUS
 	err = setting.Status.AssignProperties_To_Servers_Databases_AdvancedThreatProtectionSetting_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Servers_Databases_AdvancedThreatProtectionSetting_STATUS() to populate field Status")
@@ -387,14 +387,14 @@ var _ genruntime.ConvertibleSpec = &Servers_Databases_AdvancedThreatProtectionSe
 
 // ConvertSpecFrom populates our Servers_Databases_AdvancedThreatProtectionSetting_Spec from the provided source
 func (setting *Servers_Databases_AdvancedThreatProtectionSetting_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20211101s.Servers_Databases_AdvancedThreatProtectionSetting_Spec)
+	src, ok := source.(*storage.Servers_Databases_AdvancedThreatProtectionSetting_Spec)
 	if ok {
 		// Populate our instance from source
 		return setting.AssignProperties_From_Servers_Databases_AdvancedThreatProtectionSetting_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20211101s.Servers_Databases_AdvancedThreatProtectionSetting_Spec{}
+	src = &storage.Servers_Databases_AdvancedThreatProtectionSetting_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -411,14 +411,14 @@ func (setting *Servers_Databases_AdvancedThreatProtectionSetting_Spec) ConvertSp
 
 // ConvertSpecTo populates the provided destination from our Servers_Databases_AdvancedThreatProtectionSetting_Spec
 func (setting *Servers_Databases_AdvancedThreatProtectionSetting_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20211101s.Servers_Databases_AdvancedThreatProtectionSetting_Spec)
+	dst, ok := destination.(*storage.Servers_Databases_AdvancedThreatProtectionSetting_Spec)
 	if ok {
 		// Populate destination from our instance
 		return setting.AssignProperties_To_Servers_Databases_AdvancedThreatProtectionSetting_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20211101s.Servers_Databases_AdvancedThreatProtectionSetting_Spec{}
+	dst = &storage.Servers_Databases_AdvancedThreatProtectionSetting_Spec{}
 	err := setting.AssignProperties_To_Servers_Databases_AdvancedThreatProtectionSetting_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -434,7 +434,7 @@ func (setting *Servers_Databases_AdvancedThreatProtectionSetting_Spec) ConvertSp
 }
 
 // AssignProperties_From_Servers_Databases_AdvancedThreatProtectionSetting_Spec populates our Servers_Databases_AdvancedThreatProtectionSetting_Spec from the provided source Servers_Databases_AdvancedThreatProtectionSetting_Spec
-func (setting *Servers_Databases_AdvancedThreatProtectionSetting_Spec) AssignProperties_From_Servers_Databases_AdvancedThreatProtectionSetting_Spec(source *v20211101s.Servers_Databases_AdvancedThreatProtectionSetting_Spec) error {
+func (setting *Servers_Databases_AdvancedThreatProtectionSetting_Spec) AssignProperties_From_Servers_Databases_AdvancedThreatProtectionSetting_Spec(source *storage.Servers_Databases_AdvancedThreatProtectionSetting_Spec) error {
 
 	// Owner
 	if source.Owner != nil {
@@ -458,7 +458,7 @@ func (setting *Servers_Databases_AdvancedThreatProtectionSetting_Spec) AssignPro
 }
 
 // AssignProperties_To_Servers_Databases_AdvancedThreatProtectionSetting_Spec populates the provided destination Servers_Databases_AdvancedThreatProtectionSetting_Spec from our Servers_Databases_AdvancedThreatProtectionSetting_Spec
-func (setting *Servers_Databases_AdvancedThreatProtectionSetting_Spec) AssignProperties_To_Servers_Databases_AdvancedThreatProtectionSetting_Spec(destination *v20211101s.Servers_Databases_AdvancedThreatProtectionSetting_Spec) error {
+func (setting *Servers_Databases_AdvancedThreatProtectionSetting_Spec) AssignProperties_To_Servers_Databases_AdvancedThreatProtectionSetting_Spec(destination *storage.Servers_Databases_AdvancedThreatProtectionSetting_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -540,14 +540,14 @@ var _ genruntime.ConvertibleStatus = &Servers_Databases_AdvancedThreatProtection
 
 // ConvertStatusFrom populates our Servers_Databases_AdvancedThreatProtectionSetting_STATUS from the provided source
 func (setting *Servers_Databases_AdvancedThreatProtectionSetting_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20211101s.Servers_Databases_AdvancedThreatProtectionSetting_STATUS)
+	src, ok := source.(*storage.Servers_Databases_AdvancedThreatProtectionSetting_STATUS)
 	if ok {
 		// Populate our instance from source
 		return setting.AssignProperties_From_Servers_Databases_AdvancedThreatProtectionSetting_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20211101s.Servers_Databases_AdvancedThreatProtectionSetting_STATUS{}
+	src = &storage.Servers_Databases_AdvancedThreatProtectionSetting_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -564,14 +564,14 @@ func (setting *Servers_Databases_AdvancedThreatProtectionSetting_STATUS) Convert
 
 // ConvertStatusTo populates the provided destination from our Servers_Databases_AdvancedThreatProtectionSetting_STATUS
 func (setting *Servers_Databases_AdvancedThreatProtectionSetting_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20211101s.Servers_Databases_AdvancedThreatProtectionSetting_STATUS)
+	dst, ok := destination.(*storage.Servers_Databases_AdvancedThreatProtectionSetting_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return setting.AssignProperties_To_Servers_Databases_AdvancedThreatProtectionSetting_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20211101s.Servers_Databases_AdvancedThreatProtectionSetting_STATUS{}
+	dst = &storage.Servers_Databases_AdvancedThreatProtectionSetting_STATUS{}
 	err := setting.AssignProperties_To_Servers_Databases_AdvancedThreatProtectionSetting_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -654,7 +654,7 @@ func (setting *Servers_Databases_AdvancedThreatProtectionSetting_STATUS) Populat
 }
 
 // AssignProperties_From_Servers_Databases_AdvancedThreatProtectionSetting_STATUS populates our Servers_Databases_AdvancedThreatProtectionSetting_STATUS from the provided source Servers_Databases_AdvancedThreatProtectionSetting_STATUS
-func (setting *Servers_Databases_AdvancedThreatProtectionSetting_STATUS) AssignProperties_From_Servers_Databases_AdvancedThreatProtectionSetting_STATUS(source *v20211101s.Servers_Databases_AdvancedThreatProtectionSetting_STATUS) error {
+func (setting *Servers_Databases_AdvancedThreatProtectionSetting_STATUS) AssignProperties_From_Servers_Databases_AdvancedThreatProtectionSetting_STATUS(source *storage.Servers_Databases_AdvancedThreatProtectionSetting_STATUS) error {
 
 	// Conditions
 	setting.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -697,7 +697,7 @@ func (setting *Servers_Databases_AdvancedThreatProtectionSetting_STATUS) AssignP
 }
 
 // AssignProperties_To_Servers_Databases_AdvancedThreatProtectionSetting_STATUS populates the provided destination Servers_Databases_AdvancedThreatProtectionSetting_STATUS from our Servers_Databases_AdvancedThreatProtectionSetting_STATUS
-func (setting *Servers_Databases_AdvancedThreatProtectionSetting_STATUS) AssignProperties_To_Servers_Databases_AdvancedThreatProtectionSetting_STATUS(destination *v20211101s.Servers_Databases_AdvancedThreatProtectionSetting_STATUS) error {
+func (setting *Servers_Databases_AdvancedThreatProtectionSetting_STATUS) AssignProperties_To_Servers_Databases_AdvancedThreatProtectionSetting_STATUS(destination *storage.Servers_Databases_AdvancedThreatProtectionSetting_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -723,7 +723,7 @@ func (setting *Servers_Databases_AdvancedThreatProtectionSetting_STATUS) AssignP
 
 	// SystemData
 	if setting.SystemData != nil {
-		var systemDatum v20211101s.SystemData_STATUS
+		var systemDatum storage.SystemData_STATUS
 		err := setting.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")

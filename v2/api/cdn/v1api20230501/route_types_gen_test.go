@@ -5,7 +5,7 @@ package v1api20230501
 
 import (
 	"encoding/json"
-	v20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForRoute(subject Route) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20230501s.Route
+	var hub storage.Route
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForRoute(subject Route) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.Route
+	var other storage.Route
 	err := copied.AssignProperties_To_Route(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForProfiles_AfdEndpoints_Route_Spec(subject Profil
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.Profiles_AfdEndpoints_Route_Spec
+	var other storage.Profiles_AfdEndpoints_Route_Spec
 	err := copied.AssignProperties_To_Profiles_AfdEndpoints_Route_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -308,7 +308,7 @@ func RunPropertyAssignmentTestForProfiles_AfdEndpoints_Route_STATUS(subject Prof
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.Profiles_AfdEndpoints_Route_STATUS
+	var other storage.Profiles_AfdEndpoints_Route_STATUS
 	err := copied.AssignProperties_To_Profiles_AfdEndpoints_Route_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -450,7 +450,7 @@ func RunPropertyAssignmentTestForActivatedResourceReference(subject ActivatedRes
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.ActivatedResourceReference
+	var other storage.ActivatedResourceReference
 	err := copied.AssignProperties_To_ActivatedResourceReference(&other)
 	if err != nil {
 		return err.Error()
@@ -547,7 +547,7 @@ func RunPropertyAssignmentTestForActivatedResourceReference_STATUS_Profiles_AfdE
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded
+	var other storage.ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded
 	err := copied.AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -651,7 +651,7 @@ func RunPropertyAssignmentTestForAfdRouteCacheConfiguration(subject AfdRouteCach
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.AfdRouteCacheConfiguration
+	var other storage.AfdRouteCacheConfiguration
 	err := copied.AssignProperties_To_AfdRouteCacheConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -773,7 +773,7 @@ func RunPropertyAssignmentTestForAfdRouteCacheConfiguration_STATUS(subject AfdRo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.AfdRouteCacheConfiguration_STATUS
+	var other storage.AfdRouteCacheConfiguration_STATUS
 	err := copied.AssignProperties_To_AfdRouteCacheConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -895,7 +895,7 @@ func RunPropertyAssignmentTestForActivatedResourceReference_STATUS_Profiles_Secu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded
+	var other storage.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded
 	err := copied.AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -998,7 +998,7 @@ func RunPropertyAssignmentTestForCompressionSettings(subject CompressionSettings
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.CompressionSettings
+	var other storage.CompressionSettings
 	err := copied.AssignProperties_To_CompressionSettings(&other)
 	if err != nil {
 		return err.Error()
@@ -1102,7 +1102,7 @@ func RunPropertyAssignmentTestForCompressionSettings_STATUS(subject CompressionS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.CompressionSettings_STATUS
+	var other storage.CompressionSettings_STATUS
 	err := copied.AssignProperties_To_CompressionSettings_STATUS(&other)
 	if err != nil {
 		return err.Error()

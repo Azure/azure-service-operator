@@ -5,7 +5,7 @@ package compat
 
 import (
 	"encoding/json"
-	v20231001s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +35,7 @@ func RunPropertyAssignmentTestForClusterUpgradeSettings(subject ClusterUpgradeSe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231001s.ClusterUpgradeSettings
+	var other storage.ClusterUpgradeSettings
 	err := copied.AssignProperties_To_ClusterUpgradeSettings(&other)
 	if err != nil {
 		return err.Error()
@@ -138,7 +138,7 @@ func RunPropertyAssignmentTestForUpgradeOverrideSettings(subject UpgradeOverride
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231001s.UpgradeOverrideSettings
+	var other storage.UpgradeOverrideSettings
 	err := copied.AssignProperties_To_UpgradeOverrideSettings(&other)
 	if err != nil {
 		return err.Error()

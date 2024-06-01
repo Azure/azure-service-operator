@@ -5,7 +5,7 @@ package v1api20230501
 
 import (
 	"encoding/json"
-	v20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForAfdOriginGroup(subject AfdOriginGroup) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20230501s.AfdOriginGroup
+	var hub storage.AfdOriginGroup
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForAfdOriginGroup(subject AfdOriginGroup) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.AfdOriginGroup
+	var other storage.AfdOriginGroup
 	err := copied.AssignProperties_To_AfdOriginGroup(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForProfiles_OriginGroup_Spec(subject Profiles_Orig
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.Profiles_OriginGroup_Spec
+	var other storage.Profiles_OriginGroup_Spec
 	err := copied.AssignProperties_To_Profiles_OriginGroup_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -301,7 +301,7 @@ func RunPropertyAssignmentTestForProfiles_OriginGroup_STATUS(subject Profiles_Or
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.Profiles_OriginGroup_STATUS
+	var other storage.Profiles_OriginGroup_STATUS
 	err := copied.AssignProperties_To_Profiles_OriginGroup_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -436,7 +436,7 @@ func RunPropertyAssignmentTestForHealthProbeParameters(subject HealthProbeParame
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.HealthProbeParameters
+	var other storage.HealthProbeParameters
 	err := copied.AssignProperties_To_HealthProbeParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -542,7 +542,7 @@ func RunPropertyAssignmentTestForHealthProbeParameters_STATUS(subject HealthProb
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.HealthProbeParameters_STATUS
+	var other storage.HealthProbeParameters_STATUS
 	err := copied.AssignProperties_To_HealthProbeParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -648,7 +648,7 @@ func RunPropertyAssignmentTestForLoadBalancingSettingsParameters(subject LoadBal
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.LoadBalancingSettingsParameters
+	var other storage.LoadBalancingSettingsParameters
 	err := copied.AssignProperties_To_LoadBalancingSettingsParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -753,7 +753,7 @@ func RunPropertyAssignmentTestForLoadBalancingSettingsParameters_STATUS(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.LoadBalancingSettingsParameters_STATUS
+	var other storage.LoadBalancingSettingsParameters_STATUS
 	err := copied.AssignProperties_To_LoadBalancingSettingsParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()

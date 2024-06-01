@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &ServersVirtualNetworkRule{}
 
 // ConvertFrom populates our ServersVirtualNetworkRule from the provided hub ServersVirtualNetworkRule
 func (rule *ServersVirtualNetworkRule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20211101s.ServersVirtualNetworkRule)
+	source, ok := hub.(*storage.ServersVirtualNetworkRule)
 	if !ok {
 		return fmt.Errorf("expected sql/v1api20211101/storage/ServersVirtualNetworkRule but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (rule *ServersVirtualNetworkRule) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub ServersVirtualNetworkRule from our ServersVirtualNetworkRule
 func (rule *ServersVirtualNetworkRule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20211101s.ServersVirtualNetworkRule)
+	destination, ok := hub.(*storage.ServersVirtualNetworkRule)
 	if !ok {
 		return fmt.Errorf("expected sql/v1api20211101/storage/ServersVirtualNetworkRule but received %T instead", hub)
 	}
@@ -254,7 +254,7 @@ func (rule *ServersVirtualNetworkRule) validateWriteOnceProperties(old runtime.O
 }
 
 // AssignProperties_From_ServersVirtualNetworkRule populates our ServersVirtualNetworkRule from the provided source ServersVirtualNetworkRule
-func (rule *ServersVirtualNetworkRule) AssignProperties_From_ServersVirtualNetworkRule(source *v20211101s.ServersVirtualNetworkRule) error {
+func (rule *ServersVirtualNetworkRule) AssignProperties_From_ServersVirtualNetworkRule(source *storage.ServersVirtualNetworkRule) error {
 
 	// ObjectMeta
 	rule.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -280,13 +280,13 @@ func (rule *ServersVirtualNetworkRule) AssignProperties_From_ServersVirtualNetwo
 }
 
 // AssignProperties_To_ServersVirtualNetworkRule populates the provided destination ServersVirtualNetworkRule from our ServersVirtualNetworkRule
-func (rule *ServersVirtualNetworkRule) AssignProperties_To_ServersVirtualNetworkRule(destination *v20211101s.ServersVirtualNetworkRule) error {
+func (rule *ServersVirtualNetworkRule) AssignProperties_To_ServersVirtualNetworkRule(destination *storage.ServersVirtualNetworkRule) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *rule.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20211101s.Servers_VirtualNetworkRule_Spec
+	var spec storage.Servers_VirtualNetworkRule_Spec
 	err := rule.Spec.AssignProperties_To_Servers_VirtualNetworkRule_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Servers_VirtualNetworkRule_Spec() to populate field Spec")
@@ -294,7 +294,7 @@ func (rule *ServersVirtualNetworkRule) AssignProperties_To_ServersVirtualNetwork
 	destination.Spec = spec
 
 	// Status
-	var status v20211101s.Servers_VirtualNetworkRule_STATUS
+	var status storage.Servers_VirtualNetworkRule_STATUS
 	err = rule.Status.AssignProperties_To_Servers_VirtualNetworkRule_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Servers_VirtualNetworkRule_STATUS() to populate field Status")
@@ -414,14 +414,14 @@ var _ genruntime.ConvertibleSpec = &Servers_VirtualNetworkRule_Spec{}
 
 // ConvertSpecFrom populates our Servers_VirtualNetworkRule_Spec from the provided source
 func (rule *Servers_VirtualNetworkRule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20211101s.Servers_VirtualNetworkRule_Spec)
+	src, ok := source.(*storage.Servers_VirtualNetworkRule_Spec)
 	if ok {
 		// Populate our instance from source
 		return rule.AssignProperties_From_Servers_VirtualNetworkRule_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20211101s.Servers_VirtualNetworkRule_Spec{}
+	src = &storage.Servers_VirtualNetworkRule_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -438,14 +438,14 @@ func (rule *Servers_VirtualNetworkRule_Spec) ConvertSpecFrom(source genruntime.C
 
 // ConvertSpecTo populates the provided destination from our Servers_VirtualNetworkRule_Spec
 func (rule *Servers_VirtualNetworkRule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20211101s.Servers_VirtualNetworkRule_Spec)
+	dst, ok := destination.(*storage.Servers_VirtualNetworkRule_Spec)
 	if ok {
 		// Populate destination from our instance
 		return rule.AssignProperties_To_Servers_VirtualNetworkRule_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20211101s.Servers_VirtualNetworkRule_Spec{}
+	dst = &storage.Servers_VirtualNetworkRule_Spec{}
 	err := rule.AssignProperties_To_Servers_VirtualNetworkRule_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -461,7 +461,7 @@ func (rule *Servers_VirtualNetworkRule_Spec) ConvertSpecTo(destination genruntim
 }
 
 // AssignProperties_From_Servers_VirtualNetworkRule_Spec populates our Servers_VirtualNetworkRule_Spec from the provided source Servers_VirtualNetworkRule_Spec
-func (rule *Servers_VirtualNetworkRule_Spec) AssignProperties_From_Servers_VirtualNetworkRule_Spec(source *v20211101s.Servers_VirtualNetworkRule_Spec) error {
+func (rule *Servers_VirtualNetworkRule_Spec) AssignProperties_From_Servers_VirtualNetworkRule_Spec(source *storage.Servers_VirtualNetworkRule_Spec) error {
 
 	// AzureName
 	rule.AzureName = source.AzureName
@@ -495,7 +495,7 @@ func (rule *Servers_VirtualNetworkRule_Spec) AssignProperties_From_Servers_Virtu
 }
 
 // AssignProperties_To_Servers_VirtualNetworkRule_Spec populates the provided destination Servers_VirtualNetworkRule_Spec from our Servers_VirtualNetworkRule_Spec
-func (rule *Servers_VirtualNetworkRule_Spec) AssignProperties_To_Servers_VirtualNetworkRule_Spec(destination *v20211101s.Servers_VirtualNetworkRule_Spec) error {
+func (rule *Servers_VirtualNetworkRule_Spec) AssignProperties_To_Servers_VirtualNetworkRule_Spec(destination *storage.Servers_VirtualNetworkRule_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -600,14 +600,14 @@ var _ genruntime.ConvertibleStatus = &Servers_VirtualNetworkRule_STATUS{}
 
 // ConvertStatusFrom populates our Servers_VirtualNetworkRule_STATUS from the provided source
 func (rule *Servers_VirtualNetworkRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20211101s.Servers_VirtualNetworkRule_STATUS)
+	src, ok := source.(*storage.Servers_VirtualNetworkRule_STATUS)
 	if ok {
 		// Populate our instance from source
 		return rule.AssignProperties_From_Servers_VirtualNetworkRule_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20211101s.Servers_VirtualNetworkRule_STATUS{}
+	src = &storage.Servers_VirtualNetworkRule_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -624,14 +624,14 @@ func (rule *Servers_VirtualNetworkRule_STATUS) ConvertStatusFrom(source genrunti
 
 // ConvertStatusTo populates the provided destination from our Servers_VirtualNetworkRule_STATUS
 func (rule *Servers_VirtualNetworkRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20211101s.Servers_VirtualNetworkRule_STATUS)
+	dst, ok := destination.(*storage.Servers_VirtualNetworkRule_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return rule.AssignProperties_To_Servers_VirtualNetworkRule_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20211101s.Servers_VirtualNetworkRule_STATUS{}
+	dst = &storage.Servers_VirtualNetworkRule_STATUS{}
 	err := rule.AssignProperties_To_Servers_VirtualNetworkRule_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -712,7 +712,7 @@ func (rule *Servers_VirtualNetworkRule_STATUS) PopulateFromARM(owner genruntime.
 }
 
 // AssignProperties_From_Servers_VirtualNetworkRule_STATUS populates our Servers_VirtualNetworkRule_STATUS from the provided source Servers_VirtualNetworkRule_STATUS
-func (rule *Servers_VirtualNetworkRule_STATUS) AssignProperties_From_Servers_VirtualNetworkRule_STATUS(source *v20211101s.Servers_VirtualNetworkRule_STATUS) error {
+func (rule *Servers_VirtualNetworkRule_STATUS) AssignProperties_From_Servers_VirtualNetworkRule_STATUS(source *storage.Servers_VirtualNetworkRule_STATUS) error {
 
 	// Conditions
 	rule.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -751,7 +751,7 @@ func (rule *Servers_VirtualNetworkRule_STATUS) AssignProperties_From_Servers_Vir
 }
 
 // AssignProperties_To_Servers_VirtualNetworkRule_STATUS populates the provided destination Servers_VirtualNetworkRule_STATUS from our Servers_VirtualNetworkRule_STATUS
-func (rule *Servers_VirtualNetworkRule_STATUS) AssignProperties_To_Servers_VirtualNetworkRule_STATUS(destination *v20211101s.Servers_VirtualNetworkRule_STATUS) error {
+func (rule *Servers_VirtualNetworkRule_STATUS) AssignProperties_To_Servers_VirtualNetworkRule_STATUS(destination *storage.Servers_VirtualNetworkRule_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

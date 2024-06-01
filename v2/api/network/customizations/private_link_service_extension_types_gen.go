@@ -5,7 +5,7 @@ package customizations
 
 import (
 	v20220701 "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701"
-	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -16,5 +16,5 @@ type PrivateLinkServiceExtension struct {
 func (extension *PrivateLinkServiceExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
 		&v20220701.PrivateLinkService{},
-		&v20220701s.PrivateLinkService{}}
+		&storage.PrivateLinkService{}}
 }

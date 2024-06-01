@@ -5,7 +5,7 @@ package v1api20210601
 
 import (
 	"fmt"
-	v20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -50,7 +50,7 @@ var _ conversion.Convertible = &Profile{}
 // ConvertFrom populates our Profile from the provided hub Profile
 func (profile *Profile) ConvertFrom(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var source v20210601s.Profile
+	var source storage.Profile
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
@@ -68,7 +68,7 @@ func (profile *Profile) ConvertFrom(hub conversion.Hub) error {
 // ConvertTo populates the provided hub Profile from our Profile
 func (profile *Profile) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var destination v20210601s.Profile
+	var destination storage.Profile
 	err := profile.AssignProperties_To_Profile(&destination)
 	if err != nil {
 		return errors.Wrap(err, "converting to destination from profile")
@@ -257,7 +257,7 @@ func (profile *Profile) validateWriteOnceProperties(old runtime.Object) (admissi
 }
 
 // AssignProperties_From_Profile populates our Profile from the provided source Profile
-func (profile *Profile) AssignProperties_From_Profile(source *v20210601s.Profile) error {
+func (profile *Profile) AssignProperties_From_Profile(source *storage.Profile) error {
 
 	// ObjectMeta
 	profile.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -283,13 +283,13 @@ func (profile *Profile) AssignProperties_From_Profile(source *v20210601s.Profile
 }
 
 // AssignProperties_To_Profile populates the provided destination Profile from our Profile
-func (profile *Profile) AssignProperties_To_Profile(destination *v20210601s.Profile) error {
+func (profile *Profile) AssignProperties_To_Profile(destination *storage.Profile) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *profile.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210601s.Profile_Spec
+	var spec storage.Profile_Spec
 	err := profile.Spec.AssignProperties_To_Profile_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Profile_Spec() to populate field Spec")
@@ -297,7 +297,7 @@ func (profile *Profile) AssignProperties_To_Profile(destination *v20210601s.Prof
 	destination.Spec = spec
 
 	// Status
-	var status v20210601s.Profile_STATUS
+	var status storage.Profile_STATUS
 	err = profile.Status.AssignProperties_To_Profile_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Profile_STATUS() to populate field Status")
@@ -471,14 +471,14 @@ var _ genruntime.ConvertibleSpec = &Profile_Spec{}
 
 // ConvertSpecFrom populates our Profile_Spec from the provided source
 func (profile *Profile_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210601s.Profile_Spec)
+	src, ok := source.(*storage.Profile_Spec)
 	if ok {
 		// Populate our instance from source
 		return profile.AssignProperties_From_Profile_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210601s.Profile_Spec{}
+	src = &storage.Profile_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -495,14 +495,14 @@ func (profile *Profile_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) 
 
 // ConvertSpecTo populates the provided destination from our Profile_Spec
 func (profile *Profile_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210601s.Profile_Spec)
+	dst, ok := destination.(*storage.Profile_Spec)
 	if ok {
 		// Populate destination from our instance
 		return profile.AssignProperties_To_Profile_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210601s.Profile_Spec{}
+	dst = &storage.Profile_Spec{}
 	err := profile.AssignProperties_To_Profile_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -518,7 +518,7 @@ func (profile *Profile_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpe
 }
 
 // AssignProperties_From_Profile_Spec populates our Profile_Spec from the provided source Profile_Spec
-func (profile *Profile_Spec) AssignProperties_From_Profile_Spec(source *v20210601s.Profile_Spec) error {
+func (profile *Profile_Spec) AssignProperties_From_Profile_Spec(source *storage.Profile_Spec) error {
 
 	// AzureName
 	profile.AzureName = source.AzureName
@@ -562,7 +562,7 @@ func (profile *Profile_Spec) AssignProperties_From_Profile_Spec(source *v2021060
 }
 
 // AssignProperties_To_Profile_Spec populates the provided destination Profile_Spec from our Profile_Spec
-func (profile *Profile_Spec) AssignProperties_To_Profile_Spec(destination *v20210601s.Profile_Spec) error {
+func (profile *Profile_Spec) AssignProperties_To_Profile_Spec(destination *storage.Profile_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -593,7 +593,7 @@ func (profile *Profile_Spec) AssignProperties_To_Profile_Spec(destination *v2021
 
 	// Sku
 	if profile.Sku != nil {
-		var sku v20210601s.Sku
+		var sku storage.Sku
 		err := profile.Sku.AssignProperties_To_Sku(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
@@ -673,14 +673,14 @@ var _ genruntime.ConvertibleStatus = &Profile_STATUS{}
 
 // ConvertStatusFrom populates our Profile_STATUS from the provided source
 func (profile *Profile_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210601s.Profile_STATUS)
+	src, ok := source.(*storage.Profile_STATUS)
 	if ok {
 		// Populate our instance from source
 		return profile.AssignProperties_From_Profile_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210601s.Profile_STATUS{}
+	src = &storage.Profile_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -697,14 +697,14 @@ func (profile *Profile_STATUS) ConvertStatusFrom(source genruntime.ConvertibleSt
 
 // ConvertStatusTo populates the provided destination from our Profile_STATUS
 func (profile *Profile_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210601s.Profile_STATUS)
+	dst, ok := destination.(*storage.Profile_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return profile.AssignProperties_To_Profile_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210601s.Profile_STATUS{}
+	dst = &storage.Profile_STATUS{}
 	err := profile.AssignProperties_To_Profile_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -836,7 +836,7 @@ func (profile *Profile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 }
 
 // AssignProperties_From_Profile_STATUS populates our Profile_STATUS from the provided source Profile_STATUS
-func (profile *Profile_STATUS) AssignProperties_From_Profile_STATUS(source *v20210601s.Profile_STATUS) error {
+func (profile *Profile_STATUS) AssignProperties_From_Profile_STATUS(source *storage.Profile_STATUS) error {
 
 	// Conditions
 	profile.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -912,7 +912,7 @@ func (profile *Profile_STATUS) AssignProperties_From_Profile_STATUS(source *v202
 }
 
 // AssignProperties_To_Profile_STATUS populates the provided destination Profile_STATUS from our Profile_STATUS
-func (profile *Profile_STATUS) AssignProperties_To_Profile_STATUS(destination *v20210601s.Profile_STATUS) error {
+func (profile *Profile_STATUS) AssignProperties_To_Profile_STATUS(destination *storage.Profile_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -955,7 +955,7 @@ func (profile *Profile_STATUS) AssignProperties_To_Profile_STATUS(destination *v
 
 	// Sku
 	if profile.Sku != nil {
-		var sku v20210601s.Sku_STATUS
+		var sku storage.Sku_STATUS
 		err := profile.Sku.AssignProperties_To_Sku_STATUS(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
@@ -967,7 +967,7 @@ func (profile *Profile_STATUS) AssignProperties_To_Profile_STATUS(destination *v
 
 	// SystemData
 	if profile.SystemData != nil {
-		var systemDatum v20210601s.SystemData_STATUS
+		var systemDatum storage.SystemData_STATUS
 		err := profile.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
@@ -1099,7 +1099,7 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 }
 
 // AssignProperties_From_Sku populates our Sku from the provided source Sku
-func (sku *Sku) AssignProperties_From_Sku(source *v20210601s.Sku) error {
+func (sku *Sku) AssignProperties_From_Sku(source *storage.Sku) error {
 
 	// Name
 	if source.Name != nil {
@@ -1115,7 +1115,7 @@ func (sku *Sku) AssignProperties_From_Sku(source *v20210601s.Sku) error {
 }
 
 // AssignProperties_To_Sku populates the provided destination Sku from our Sku
-func (sku *Sku) AssignProperties_To_Sku(destination *v20210601s.Sku) error {
+func (sku *Sku) AssignProperties_To_Sku(destination *storage.Sku) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1192,7 +1192,7 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 }
 
 // AssignProperties_From_Sku_STATUS populates our Sku_STATUS from the provided source Sku_STATUS
-func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20210601s.Sku_STATUS) error {
+func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *storage.Sku_STATUS) error {
 
 	// Name
 	if source.Name != nil {
@@ -1208,7 +1208,7 @@ func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20210601s.Sku_S
 }
 
 // AssignProperties_To_Sku_STATUS populates the provided destination Sku_STATUS from our Sku_STATUS
-func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20210601s.Sku_STATUS) error {
+func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *storage.Sku_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1307,7 +1307,7 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 }
 
 // AssignProperties_From_SystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v20210601s.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *storage.SystemData_STATUS) error {
 
 	// CreatedAt
 	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
@@ -1344,7 +1344,7 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 }
 
 // AssignProperties_To_SystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *v20210601s.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *storage.SystemData_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

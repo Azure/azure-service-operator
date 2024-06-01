@@ -5,7 +5,7 @@ package storage
 
 import (
 	"encoding/json"
-	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForApi(subject Api) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20220801s.Api
+	var hub storage.Api
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForApi(subject Api) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.Api
+	var other storage.Api
 	err := copied.AssignProperties_To_Api(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForService_Api_Spec(subject Service_Api_Spec) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.Service_Api_Spec
+	var other storage.Service_Api_Spec
 	err := copied.AssignProperties_To_Service_Api_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -320,7 +320,7 @@ func RunPropertyAssignmentTestForService_Api_STATUS(subject Service_Api_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.Service_Api_STATUS
+	var other storage.Service_Api_STATUS
 	err := copied.AssignProperties_To_Service_Api_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -459,7 +459,7 @@ func RunPropertyAssignmentTestForApiContactInformation(subject ApiContactInforma
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.ApiContactInformation
+	var other storage.ApiContactInformation
 	err := copied.AssignProperties_To_ApiContactInformation(&other)
 	if err != nil {
 		return err.Error()
@@ -564,7 +564,7 @@ func RunPropertyAssignmentTestForApiContactInformation_STATUS(subject ApiContact
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.ApiContactInformation_STATUS
+	var other storage.ApiContactInformation_STATUS
 	err := copied.AssignProperties_To_ApiContactInformation_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -669,7 +669,7 @@ func RunPropertyAssignmentTestForApiCreateOrUpdateProperties_WsdlSelector(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.ApiCreateOrUpdateProperties_WsdlSelector
+	var other storage.ApiCreateOrUpdateProperties_WsdlSelector
 	err := copied.AssignProperties_To_ApiCreateOrUpdateProperties_WsdlSelector(&other)
 	if err != nil {
 		return err.Error()
@@ -773,7 +773,7 @@ func RunPropertyAssignmentTestForApiLicenseInformation(subject ApiLicenseInforma
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.ApiLicenseInformation
+	var other storage.ApiLicenseInformation
 	err := copied.AssignProperties_To_ApiLicenseInformation(&other)
 	if err != nil {
 		return err.Error()
@@ -877,7 +877,7 @@ func RunPropertyAssignmentTestForApiLicenseInformation_STATUS(subject ApiLicense
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.ApiLicenseInformation_STATUS
+	var other storage.ApiLicenseInformation_STATUS
 	err := copied.AssignProperties_To_ApiLicenseInformation_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -981,7 +981,7 @@ func RunPropertyAssignmentTestForApiVersionSetContractDetails(subject ApiVersion
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.ApiVersionSetContractDetails
+	var other storage.ApiVersionSetContractDetails
 	err := copied.AssignProperties_To_ApiVersionSetContractDetails(&other)
 	if err != nil {
 		return err.Error()
@@ -1088,7 +1088,7 @@ func RunPropertyAssignmentTestForApiVersionSetContractDetails_STATUS(subject Api
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.ApiVersionSetContractDetails_STATUS
+	var other storage.ApiVersionSetContractDetails_STATUS
 	err := copied.AssignProperties_To_ApiVersionSetContractDetails_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1196,7 +1196,7 @@ func RunPropertyAssignmentTestForAuthenticationSettingsContract(subject Authenti
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.AuthenticationSettingsContract
+	var other storage.AuthenticationSettingsContract
 	err := copied.AssignProperties_To_AuthenticationSettingsContract(&other)
 	if err != nil {
 		return err.Error()
@@ -1302,7 +1302,7 @@ func RunPropertyAssignmentTestForAuthenticationSettingsContract_STATUS(subject A
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.AuthenticationSettingsContract_STATUS
+	var other storage.AuthenticationSettingsContract_STATUS
 	err := copied.AssignProperties_To_AuthenticationSettingsContract_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1408,7 +1408,7 @@ func RunPropertyAssignmentTestForSubscriptionKeyParameterNamesContract(subject S
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.SubscriptionKeyParameterNamesContract
+	var other storage.SubscriptionKeyParameterNamesContract
 	err := copied.AssignProperties_To_SubscriptionKeyParameterNamesContract(&other)
 	if err != nil {
 		return err.Error()
@@ -1512,7 +1512,7 @@ func RunPropertyAssignmentTestForSubscriptionKeyParameterNamesContract_STATUS(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.SubscriptionKeyParameterNamesContract_STATUS
+	var other storage.SubscriptionKeyParameterNamesContract_STATUS
 	err := copied.AssignProperties_To_SubscriptionKeyParameterNamesContract_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1616,7 +1616,7 @@ func RunPropertyAssignmentTestForOAuth2AuthenticationSettingsContract(subject OA
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.OAuth2AuthenticationSettingsContract
+	var other storage.OAuth2AuthenticationSettingsContract
 	err := copied.AssignProperties_To_OAuth2AuthenticationSettingsContract(&other)
 	if err != nil {
 		return err.Error()
@@ -1720,7 +1720,7 @@ func RunPropertyAssignmentTestForOAuth2AuthenticationSettingsContract_STATUS(sub
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.OAuth2AuthenticationSettingsContract_STATUS
+	var other storage.OAuth2AuthenticationSettingsContract_STATUS
 	err := copied.AssignProperties_To_OAuth2AuthenticationSettingsContract_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1824,7 +1824,7 @@ func RunPropertyAssignmentTestForOpenIdAuthenticationSettingsContract(subject Op
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.OpenIdAuthenticationSettingsContract
+	var other storage.OpenIdAuthenticationSettingsContract
 	err := copied.AssignProperties_To_OpenIdAuthenticationSettingsContract(&other)
 	if err != nil {
 		return err.Error()
@@ -1928,7 +1928,7 @@ func RunPropertyAssignmentTestForOpenIdAuthenticationSettingsContract_STATUS(sub
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.OpenIdAuthenticationSettingsContract_STATUS
+	var other storage.OpenIdAuthenticationSettingsContract_STATUS
 	err := copied.AssignProperties_To_OpenIdAuthenticationSettingsContract_STATUS(&other)
 	if err != nil {
 		return err.Error()

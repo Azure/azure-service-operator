@@ -5,7 +5,7 @@ package v1api20220701
 
 import (
 	"encoding/json"
-	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForApplicationGateway(subject ApplicationGateway) 
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20220701s.ApplicationGateway
+	var hub storage.ApplicationGateway
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForApplicationGateway(subject ApplicationGateway) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGateway
+	var other storage.ApplicationGateway
 	err := copied.AssignProperties_To_ApplicationGateway(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForApplicationGateway_Spec(subject ApplicationGate
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGateway_Spec
+	var other storage.ApplicationGateway_Spec
 	err := copied.AssignProperties_To_ApplicationGateway_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -334,7 +334,7 @@ func RunPropertyAssignmentTestForApplicationGateway_STATUS_ApplicationGateway_Su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
+	var other storage.ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	err := copied.AssignProperties_To_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -502,7 +502,7 @@ func RunPropertyAssignmentTestForApplicationGatewayAuthenticationCertificate(sub
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayAuthenticationCertificate
+	var other storage.ApplicationGatewayAuthenticationCertificate
 	err := copied.AssignProperties_To_ApplicationGatewayAuthenticationCertificate(&other)
 	if err != nil {
 		return err.Error()
@@ -605,7 +605,7 @@ func RunPropertyAssignmentTestForApplicationGatewayAuthenticationCertificate_STA
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayAuthenticationCertificate_STATUS
+	var other storage.ApplicationGatewayAuthenticationCertificate_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayAuthenticationCertificate_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -708,7 +708,7 @@ func RunPropertyAssignmentTestForApplicationGatewayAutoscaleConfiguration(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayAutoscaleConfiguration
+	var other storage.ApplicationGatewayAutoscaleConfiguration
 	err := copied.AssignProperties_To_ApplicationGatewayAutoscaleConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -812,7 +812,7 @@ func RunPropertyAssignmentTestForApplicationGatewayAutoscaleConfiguration_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayAutoscaleConfiguration_STATUS
+	var other storage.ApplicationGatewayAutoscaleConfiguration_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayAutoscaleConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -916,7 +916,7 @@ func RunPropertyAssignmentTestForApplicationGatewayBackendAddressPool(subject Ap
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayBackendAddressPool
+	var other storage.ApplicationGatewayBackendAddressPool
 	err := copied.AssignProperties_To_ApplicationGatewayBackendAddressPool(&other)
 	if err != nil {
 		return err.Error()
@@ -1033,7 +1033,7 @@ func RunPropertyAssignmentTestForApplicationGatewayBackendAddressPool_STATUS(sub
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayBackendAddressPool_STATUS
+	var other storage.ApplicationGatewayBackendAddressPool_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayBackendAddressPool_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1136,7 +1136,7 @@ func RunPropertyAssignmentTestForApplicationGatewayBackendHttpSettings(subject A
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayBackendHttpSettings
+	var other storage.ApplicationGatewayBackendHttpSettings
 	err := copied.AssignProperties_To_ApplicationGatewayBackendHttpSettings(&other)
 	if err != nil {
 		return err.Error()
@@ -1269,7 +1269,7 @@ func RunPropertyAssignmentTestForApplicationGatewayBackendHttpSettings_STATUS(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayBackendHttpSettings_STATUS
+	var other storage.ApplicationGatewayBackendHttpSettings_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayBackendHttpSettings_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1372,7 +1372,7 @@ func RunPropertyAssignmentTestForApplicationGatewayBackendSettings(subject Appli
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayBackendSettings
+	var other storage.ApplicationGatewayBackendSettings
 	err := copied.AssignProperties_To_ApplicationGatewayBackendSettings(&other)
 	if err != nil {
 		return err.Error()
@@ -1499,7 +1499,7 @@ func RunPropertyAssignmentTestForApplicationGatewayBackendSettings_STATUS(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayBackendSettings_STATUS
+	var other storage.ApplicationGatewayBackendSettings_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayBackendSettings_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1602,7 +1602,7 @@ func RunPropertyAssignmentTestForApplicationGatewayCustomError(subject Applicati
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayCustomError
+	var other storage.ApplicationGatewayCustomError
 	err := copied.AssignProperties_To_ApplicationGatewayCustomError(&other)
 	if err != nil {
 		return err.Error()
@@ -1706,7 +1706,7 @@ func RunPropertyAssignmentTestForApplicationGatewayCustomError_STATUS(subject Ap
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayCustomError_STATUS
+	var other storage.ApplicationGatewayCustomError_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayCustomError_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1810,7 +1810,7 @@ func RunPropertyAssignmentTestForApplicationGatewayFrontendIPConfiguration(subje
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayFrontendIPConfiguration
+	var other storage.ApplicationGatewayFrontendIPConfiguration
 	err := copied.AssignProperties_To_ApplicationGatewayFrontendIPConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -1931,7 +1931,7 @@ func RunPropertyAssignmentTestForApplicationGatewayFrontendIPConfiguration_STATU
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayFrontendIPConfiguration_STATUS
+	var other storage.ApplicationGatewayFrontendIPConfiguration_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayFrontendIPConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2034,7 +2034,7 @@ func RunPropertyAssignmentTestForApplicationGatewayFrontendPort(subject Applicat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayFrontendPort
+	var other storage.ApplicationGatewayFrontendPort
 	err := copied.AssignProperties_To_ApplicationGatewayFrontendPort(&other)
 	if err != nil {
 		return err.Error()
@@ -2138,7 +2138,7 @@ func RunPropertyAssignmentTestForApplicationGatewayFrontendPort_STATUS(subject A
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayFrontendPort_STATUS
+	var other storage.ApplicationGatewayFrontendPort_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayFrontendPort_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2241,7 +2241,7 @@ func RunPropertyAssignmentTestForApplicationGatewayGlobalConfiguration(subject A
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayGlobalConfiguration
+	var other storage.ApplicationGatewayGlobalConfiguration
 	err := copied.AssignProperties_To_ApplicationGatewayGlobalConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -2345,7 +2345,7 @@ func RunPropertyAssignmentTestForApplicationGatewayGlobalConfiguration_STATUS(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayGlobalConfiguration_STATUS
+	var other storage.ApplicationGatewayGlobalConfiguration_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayGlobalConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2449,7 +2449,7 @@ func RunPropertyAssignmentTestForApplicationGatewayHttpListener(subject Applicat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayHttpListener
+	var other storage.ApplicationGatewayHttpListener
 	err := copied.AssignProperties_To_ApplicationGatewayHttpListener(&other)
 	if err != nil {
 		return err.Error()
@@ -2579,7 +2579,7 @@ func RunPropertyAssignmentTestForApplicationGatewayHttpListener_STATUS(subject A
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayHttpListener_STATUS
+	var other storage.ApplicationGatewayHttpListener_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayHttpListener_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2682,7 +2682,7 @@ func RunPropertyAssignmentTestForApplicationGatewayIPConfiguration_ApplicationGa
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded
+	var other storage.ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded
 	err := copied.AssignProperties_To_ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -2799,7 +2799,7 @@ func RunPropertyAssignmentTestForApplicationGatewayIPConfiguration_STATUS_Applic
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded
+	var other storage.ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded
 	err := copied.AssignProperties_To_ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -2903,7 +2903,7 @@ func RunPropertyAssignmentTestForApplicationGatewayListener(subject ApplicationG
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayListener
+	var other storage.ApplicationGatewayListener
 	err := copied.AssignProperties_To_ApplicationGatewayListener(&other)
 	if err != nil {
 		return err.Error()
@@ -3028,7 +3028,7 @@ func RunPropertyAssignmentTestForApplicationGatewayListener_STATUS(subject Appli
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayListener_STATUS
+	var other storage.ApplicationGatewayListener_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayListener_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3131,7 +3131,7 @@ func RunPropertyAssignmentTestForApplicationGatewayLoadDistributionPolicy(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayLoadDistributionPolicy
+	var other storage.ApplicationGatewayLoadDistributionPolicy
 	err := copied.AssignProperties_To_ApplicationGatewayLoadDistributionPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -3249,7 +3249,7 @@ func RunPropertyAssignmentTestForApplicationGatewayLoadDistributionPolicy_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayLoadDistributionPolicy_STATUS
+	var other storage.ApplicationGatewayLoadDistributionPolicy_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayLoadDistributionPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3352,7 +3352,7 @@ func RunPropertyAssignmentTestForApplicationGatewayPrivateEndpointConnection_STA
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayPrivateEndpointConnection_STATUS
+	var other storage.ApplicationGatewayPrivateEndpointConnection_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayPrivateEndpointConnection_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3455,7 +3455,7 @@ func RunPropertyAssignmentTestForApplicationGatewayPrivateLinkConfiguration(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayPrivateLinkConfiguration
+	var other storage.ApplicationGatewayPrivateLinkConfiguration
 	err := copied.AssignProperties_To_ApplicationGatewayPrivateLinkConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -3572,7 +3572,7 @@ func RunPropertyAssignmentTestForApplicationGatewayPrivateLinkConfiguration_STAT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayPrivateLinkConfiguration_STATUS
+	var other storage.ApplicationGatewayPrivateLinkConfiguration_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayPrivateLinkConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3675,7 +3675,7 @@ func RunPropertyAssignmentTestForApplicationGatewayProbe(subject ApplicationGate
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayProbe
+	var other storage.ApplicationGatewayProbe
 	err := copied.AssignProperties_To_ApplicationGatewayProbe(&other)
 	if err != nil {
 		return err.Error()
@@ -3806,7 +3806,7 @@ func RunPropertyAssignmentTestForApplicationGatewayProbe_STATUS(subject Applicat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayProbe_STATUS
+	var other storage.ApplicationGatewayProbe_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayProbe_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3909,7 +3909,7 @@ func RunPropertyAssignmentTestForApplicationGatewayRedirectConfiguration(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayRedirectConfiguration
+	var other storage.ApplicationGatewayRedirectConfiguration
 	err := copied.AssignProperties_To_ApplicationGatewayRedirectConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -4037,7 +4037,7 @@ func RunPropertyAssignmentTestForApplicationGatewayRedirectConfiguration_STATUS(
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayRedirectConfiguration_STATUS
+	var other storage.ApplicationGatewayRedirectConfiguration_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayRedirectConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -4140,7 +4140,7 @@ func RunPropertyAssignmentTestForApplicationGatewayRequestRoutingRule(subject Ap
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayRequestRoutingRule
+	var other storage.ApplicationGatewayRequestRoutingRule
 	err := copied.AssignProperties_To_ApplicationGatewayRequestRoutingRule(&other)
 	if err != nil {
 		return err.Error()
@@ -4265,7 +4265,7 @@ func RunPropertyAssignmentTestForApplicationGatewayRequestRoutingRule_STATUS(sub
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayRequestRoutingRule_STATUS
+	var other storage.ApplicationGatewayRequestRoutingRule_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayRequestRoutingRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -4368,7 +4368,7 @@ func RunPropertyAssignmentTestForApplicationGatewayRewriteRuleSet(subject Applic
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayRewriteRuleSet
+	var other storage.ApplicationGatewayRewriteRuleSet
 	err := copied.AssignProperties_To_ApplicationGatewayRewriteRuleSet(&other)
 	if err != nil {
 		return err.Error()
@@ -4485,7 +4485,7 @@ func RunPropertyAssignmentTestForApplicationGatewayRewriteRuleSet_STATUS(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayRewriteRuleSet_STATUS
+	var other storage.ApplicationGatewayRewriteRuleSet_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayRewriteRuleSet_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -4588,7 +4588,7 @@ func RunPropertyAssignmentTestForApplicationGatewayRoutingRule(subject Applicati
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayRoutingRule
+	var other storage.ApplicationGatewayRoutingRule
 	err := copied.AssignProperties_To_ApplicationGatewayRoutingRule(&other)
 	if err != nil {
 		return err.Error()
@@ -4709,7 +4709,7 @@ func RunPropertyAssignmentTestForApplicationGatewayRoutingRule_STATUS(subject Ap
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayRoutingRule_STATUS
+	var other storage.ApplicationGatewayRoutingRule_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayRoutingRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -4812,7 +4812,7 @@ func RunPropertyAssignmentTestForApplicationGatewaySku(subject ApplicationGatewa
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewaySku
+	var other storage.ApplicationGatewaySku
 	err := copied.AssignProperties_To_ApplicationGatewaySku(&other)
 	if err != nil {
 		return err.Error()
@@ -4928,7 +4928,7 @@ func RunPropertyAssignmentTestForApplicationGatewaySku_STATUS(subject Applicatio
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewaySku_STATUS
+	var other storage.ApplicationGatewaySku_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewaySku_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -5044,7 +5044,7 @@ func RunPropertyAssignmentTestForApplicationGatewaySslCertificate(subject Applic
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewaySslCertificate
+	var other storage.ApplicationGatewaySslCertificate
 	err := copied.AssignProperties_To_ApplicationGatewaySslCertificate(&other)
 	if err != nil {
 		return err.Error()
@@ -5148,7 +5148,7 @@ func RunPropertyAssignmentTestForApplicationGatewaySslCertificate_STATUS(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewaySslCertificate_STATUS
+	var other storage.ApplicationGatewaySslCertificate_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewaySslCertificate_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -5251,7 +5251,7 @@ func RunPropertyAssignmentTestForApplicationGatewaySslPolicy(subject Application
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewaySslPolicy
+	var other storage.ApplicationGatewaySslPolicy
 	err := copied.AssignProperties_To_ApplicationGatewaySslPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -5399,7 +5399,7 @@ func RunPropertyAssignmentTestForApplicationGatewaySslPolicy_STATUS(subject Appl
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewaySslPolicy_STATUS
+	var other storage.ApplicationGatewaySslPolicy_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewaySslPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -5547,7 +5547,7 @@ func RunPropertyAssignmentTestForApplicationGatewaySslProfile(subject Applicatio
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewaySslProfile
+	var other storage.ApplicationGatewaySslProfile
 	err := copied.AssignProperties_To_ApplicationGatewaySslProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -5666,7 +5666,7 @@ func RunPropertyAssignmentTestForApplicationGatewaySslProfile_STATUS(subject App
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewaySslProfile_STATUS
+	var other storage.ApplicationGatewaySslProfile_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewaySslProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -5769,7 +5769,7 @@ func RunPropertyAssignmentTestForApplicationGatewaySubResource(subject Applicati
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewaySubResource
+	var other storage.ApplicationGatewaySubResource
 	err := copied.AssignProperties_To_ApplicationGatewaySubResource(&other)
 	if err != nil {
 		return err.Error()
@@ -5866,7 +5866,7 @@ func RunPropertyAssignmentTestForApplicationGatewaySubResource_STATUS(subject Ap
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewaySubResource_STATUS
+	var other storage.ApplicationGatewaySubResource_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewaySubResource_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -5969,7 +5969,7 @@ func RunPropertyAssignmentTestForApplicationGatewayTrustedClientCertificate(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayTrustedClientCertificate
+	var other storage.ApplicationGatewayTrustedClientCertificate
 	err := copied.AssignProperties_To_ApplicationGatewayTrustedClientCertificate(&other)
 	if err != nil {
 		return err.Error()
@@ -6072,7 +6072,7 @@ func RunPropertyAssignmentTestForApplicationGatewayTrustedClientCertificate_STAT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayTrustedClientCertificate_STATUS
+	var other storage.ApplicationGatewayTrustedClientCertificate_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayTrustedClientCertificate_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -6175,7 +6175,7 @@ func RunPropertyAssignmentTestForApplicationGatewayTrustedRootCertificate(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayTrustedRootCertificate
+	var other storage.ApplicationGatewayTrustedRootCertificate
 	err := copied.AssignProperties_To_ApplicationGatewayTrustedRootCertificate(&other)
 	if err != nil {
 		return err.Error()
@@ -6279,7 +6279,7 @@ func RunPropertyAssignmentTestForApplicationGatewayTrustedRootCertificate_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayTrustedRootCertificate_STATUS
+	var other storage.ApplicationGatewayTrustedRootCertificate_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayTrustedRootCertificate_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -6382,7 +6382,7 @@ func RunPropertyAssignmentTestForApplicationGatewayUrlPathMap(subject Applicatio
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayUrlPathMap
+	var other storage.ApplicationGatewayUrlPathMap
 	err := copied.AssignProperties_To_ApplicationGatewayUrlPathMap(&other)
 	if err != nil {
 		return err.Error()
@@ -6504,7 +6504,7 @@ func RunPropertyAssignmentTestForApplicationGatewayUrlPathMap_STATUS(subject App
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayUrlPathMap_STATUS
+	var other storage.ApplicationGatewayUrlPathMap_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayUrlPathMap_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -6607,7 +6607,7 @@ func RunPropertyAssignmentTestForApplicationGatewayWebApplicationFirewallConfigu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayWebApplicationFirewallConfiguration
+	var other storage.ApplicationGatewayWebApplicationFirewallConfiguration
 	err := copied.AssignProperties_To_ApplicationGatewayWebApplicationFirewallConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -6732,7 +6732,7 @@ func RunPropertyAssignmentTestForApplicationGatewayWebApplicationFirewallConfigu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayWebApplicationFirewallConfiguration_STATUS
+	var other storage.ApplicationGatewayWebApplicationFirewallConfiguration_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayWebApplicationFirewallConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -6857,7 +6857,7 @@ func RunPropertyAssignmentTestForManagedServiceIdentity(subject ManagedServiceId
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ManagedServiceIdentity
+	var other storage.ManagedServiceIdentity
 	err := copied.AssignProperties_To_ManagedServiceIdentity(&other)
 	if err != nil {
 		return err.Error()
@@ -6978,7 +6978,7 @@ func RunPropertyAssignmentTestForManagedServiceIdentity_STATUS(subject ManagedSe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ManagedServiceIdentity_STATUS
+	var other storage.ManagedServiceIdentity_STATUS
 	err := copied.AssignProperties_To_ManagedServiceIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -7103,7 +7103,7 @@ func RunPropertyAssignmentTestForApplicationGatewayBackendAddress(subject Applic
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayBackendAddress
+	var other storage.ApplicationGatewayBackendAddress
 	err := copied.AssignProperties_To_ApplicationGatewayBackendAddress(&other)
 	if err != nil {
 		return err.Error()
@@ -7207,7 +7207,7 @@ func RunPropertyAssignmentTestForApplicationGatewayClientAuthConfiguration(subje
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayClientAuthConfiguration
+	var other storage.ApplicationGatewayClientAuthConfiguration
 	err := copied.AssignProperties_To_ApplicationGatewayClientAuthConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -7311,7 +7311,7 @@ func RunPropertyAssignmentTestForApplicationGatewayConnectionDraining(subject Ap
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayConnectionDraining
+	var other storage.ApplicationGatewayConnectionDraining
 	err := copied.AssignProperties_To_ApplicationGatewayConnectionDraining(&other)
 	if err != nil {
 		return err.Error()
@@ -7415,7 +7415,7 @@ func RunPropertyAssignmentTestForApplicationGatewayFirewallDisabledRuleGroup(sub
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayFirewallDisabledRuleGroup
+	var other storage.ApplicationGatewayFirewallDisabledRuleGroup
 	err := copied.AssignProperties_To_ApplicationGatewayFirewallDisabledRuleGroup(&other)
 	if err != nil {
 		return err.Error()
@@ -7519,7 +7519,7 @@ func RunPropertyAssignmentTestForApplicationGatewayFirewallDisabledRuleGroup_STA
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayFirewallDisabledRuleGroup_STATUS
+	var other storage.ApplicationGatewayFirewallDisabledRuleGroup_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayFirewallDisabledRuleGroup_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -7623,7 +7623,7 @@ func RunPropertyAssignmentTestForApplicationGatewayFirewallExclusion(subject App
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayFirewallExclusion
+	var other storage.ApplicationGatewayFirewallExclusion
 	err := copied.AssignProperties_To_ApplicationGatewayFirewallExclusion(&other)
 	if err != nil {
 		return err.Error()
@@ -7728,7 +7728,7 @@ func RunPropertyAssignmentTestForApplicationGatewayFirewallExclusion_STATUS(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayFirewallExclusion_STATUS
+	var other storage.ApplicationGatewayFirewallExclusion_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayFirewallExclusion_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -7833,7 +7833,7 @@ func RunPropertyAssignmentTestForApplicationGatewayLoadDistributionTarget(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayLoadDistributionTarget
+	var other storage.ApplicationGatewayLoadDistributionTarget
 	err := copied.AssignProperties_To_ApplicationGatewayLoadDistributionTarget(&other)
 	if err != nil {
 		return err.Error()
@@ -7930,7 +7930,7 @@ func RunPropertyAssignmentTestForApplicationGatewayPathRule(subject ApplicationG
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayPathRule
+	var other storage.ApplicationGatewayPathRule
 	err := copied.AssignProperties_To_ApplicationGatewayPathRule(&other)
 	if err != nil {
 		return err.Error()
@@ -8027,7 +8027,7 @@ func RunPropertyAssignmentTestForApplicationGatewayPrivateLinkIpConfiguration(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayPrivateLinkIpConfiguration
+	var other storage.ApplicationGatewayPrivateLinkIpConfiguration
 	err := copied.AssignProperties_To_ApplicationGatewayPrivateLinkIpConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -8124,7 +8124,7 @@ func RunPropertyAssignmentTestForApplicationGatewayProbeHealthResponseMatch(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayProbeHealthResponseMatch
+	var other storage.ApplicationGatewayProbeHealthResponseMatch
 	err := copied.AssignProperties_To_ApplicationGatewayProbeHealthResponseMatch(&other)
 	if err != nil {
 		return err.Error()
@@ -8228,7 +8228,7 @@ func RunPropertyAssignmentTestForApplicationGatewayRewriteRule(subject Applicati
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayRewriteRule
+	var other storage.ApplicationGatewayRewriteRule
 	err := copied.AssignProperties_To_ApplicationGatewayRewriteRule(&other)
 	if err != nil {
 		return err.Error()
@@ -8347,7 +8347,7 @@ func RunPropertyAssignmentTestForManagedServiceIdentity_UserAssignedIdentities_S
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ManagedServiceIdentity_UserAssignedIdentities_STATUS
+	var other storage.ManagedServiceIdentity_UserAssignedIdentities_STATUS
 	err := copied.AssignProperties_To_ManagedServiceIdentity_UserAssignedIdentities_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -8451,7 +8451,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentityDetails(subject UserAssigne
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.UserAssignedIdentityDetails
+	var other storage.UserAssignedIdentityDetails
 	err := copied.AssignProperties_To_UserAssignedIdentityDetails(&other)
 	if err != nil {
 		return err.Error()
@@ -8548,7 +8548,7 @@ func RunPropertyAssignmentTestForApplicationGatewayRewriteRuleActionSet(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayRewriteRuleActionSet
+	var other storage.ApplicationGatewayRewriteRuleActionSet
 	err := copied.AssignProperties_To_ApplicationGatewayRewriteRuleActionSet(&other)
 	if err != nil {
 		return err.Error()
@@ -8653,7 +8653,7 @@ func RunPropertyAssignmentTestForApplicationGatewayRewriteRuleCondition(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayRewriteRuleCondition
+	var other storage.ApplicationGatewayRewriteRuleCondition
 	err := copied.AssignProperties_To_ApplicationGatewayRewriteRuleCondition(&other)
 	if err != nil {
 		return err.Error()
@@ -8759,7 +8759,7 @@ func RunPropertyAssignmentTestForApplicationGatewayHeaderConfiguration(subject A
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayHeaderConfiguration
+	var other storage.ApplicationGatewayHeaderConfiguration
 	err := copied.AssignProperties_To_ApplicationGatewayHeaderConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -8863,7 +8863,7 @@ func RunPropertyAssignmentTestForApplicationGatewayUrlConfiguration(subject Appl
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationGatewayUrlConfiguration
+	var other storage.ApplicationGatewayUrlConfiguration
 	err := copied.AssignProperties_To_ApplicationGatewayUrlConfiguration(&other)
 	if err != nil {
 		return err.Error()

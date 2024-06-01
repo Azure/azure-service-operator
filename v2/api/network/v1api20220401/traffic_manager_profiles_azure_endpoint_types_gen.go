@@ -5,7 +5,7 @@ package v1api20220401
 
 import (
 	"fmt"
-	v20220401s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &TrafficManagerProfilesAzureEndpoint{}
 
 // ConvertFrom populates our TrafficManagerProfilesAzureEndpoint from the provided hub TrafficManagerProfilesAzureEndpoint
 func (endpoint *TrafficManagerProfilesAzureEndpoint) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20220401s.TrafficManagerProfilesAzureEndpoint)
+	source, ok := hub.(*storage.TrafficManagerProfilesAzureEndpoint)
 	if !ok {
 		return fmt.Errorf("expected network/v1api20220401/storage/TrafficManagerProfilesAzureEndpoint but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (endpoint *TrafficManagerProfilesAzureEndpoint) ConvertFrom(hub conversion.
 
 // ConvertTo populates the provided hub TrafficManagerProfilesAzureEndpoint from our TrafficManagerProfilesAzureEndpoint
 func (endpoint *TrafficManagerProfilesAzureEndpoint) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20220401s.TrafficManagerProfilesAzureEndpoint)
+	destination, ok := hub.(*storage.TrafficManagerProfilesAzureEndpoint)
 	if !ok {
 		return fmt.Errorf("expected network/v1api20220401/storage/TrafficManagerProfilesAzureEndpoint but received %T instead", hub)
 	}
@@ -254,7 +254,7 @@ func (endpoint *TrafficManagerProfilesAzureEndpoint) validateWriteOnceProperties
 }
 
 // AssignProperties_From_TrafficManagerProfilesAzureEndpoint populates our TrafficManagerProfilesAzureEndpoint from the provided source TrafficManagerProfilesAzureEndpoint
-func (endpoint *TrafficManagerProfilesAzureEndpoint) AssignProperties_From_TrafficManagerProfilesAzureEndpoint(source *v20220401s.TrafficManagerProfilesAzureEndpoint) error {
+func (endpoint *TrafficManagerProfilesAzureEndpoint) AssignProperties_From_TrafficManagerProfilesAzureEndpoint(source *storage.TrafficManagerProfilesAzureEndpoint) error {
 
 	// ObjectMeta
 	endpoint.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -280,13 +280,13 @@ func (endpoint *TrafficManagerProfilesAzureEndpoint) AssignProperties_From_Traff
 }
 
 // AssignProperties_To_TrafficManagerProfilesAzureEndpoint populates the provided destination TrafficManagerProfilesAzureEndpoint from our TrafficManagerProfilesAzureEndpoint
-func (endpoint *TrafficManagerProfilesAzureEndpoint) AssignProperties_To_TrafficManagerProfilesAzureEndpoint(destination *v20220401s.TrafficManagerProfilesAzureEndpoint) error {
+func (endpoint *TrafficManagerProfilesAzureEndpoint) AssignProperties_To_TrafficManagerProfilesAzureEndpoint(destination *storage.TrafficManagerProfilesAzureEndpoint) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *endpoint.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20220401s.Trafficmanagerprofiles_AzureEndpoint_Spec
+	var spec storage.Trafficmanagerprofiles_AzureEndpoint_Spec
 	err := endpoint.Spec.AssignProperties_To_Trafficmanagerprofiles_AzureEndpoint_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Trafficmanagerprofiles_AzureEndpoint_Spec() to populate field Spec")
@@ -294,7 +294,7 @@ func (endpoint *TrafficManagerProfilesAzureEndpoint) AssignProperties_To_Traffic
 	destination.Spec = spec
 
 	// Status
-	var status v20220401s.Trafficmanagerprofiles_AzureEndpoint_STATUS
+	var status storage.Trafficmanagerprofiles_AzureEndpoint_STATUS
 	err = endpoint.Status.AssignProperties_To_Trafficmanagerprofiles_AzureEndpoint_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Trafficmanagerprofiles_AzureEndpoint_STATUS() to populate field Status")
@@ -659,14 +659,14 @@ var _ genruntime.ConvertibleSpec = &Trafficmanagerprofiles_AzureEndpoint_Spec{}
 
 // ConvertSpecFrom populates our Trafficmanagerprofiles_AzureEndpoint_Spec from the provided source
 func (endpoint *Trafficmanagerprofiles_AzureEndpoint_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20220401s.Trafficmanagerprofiles_AzureEndpoint_Spec)
+	src, ok := source.(*storage.Trafficmanagerprofiles_AzureEndpoint_Spec)
 	if ok {
 		// Populate our instance from source
 		return endpoint.AssignProperties_From_Trafficmanagerprofiles_AzureEndpoint_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220401s.Trafficmanagerprofiles_AzureEndpoint_Spec{}
+	src = &storage.Trafficmanagerprofiles_AzureEndpoint_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -683,14 +683,14 @@ func (endpoint *Trafficmanagerprofiles_AzureEndpoint_Spec) ConvertSpecFrom(sourc
 
 // ConvertSpecTo populates the provided destination from our Trafficmanagerprofiles_AzureEndpoint_Spec
 func (endpoint *Trafficmanagerprofiles_AzureEndpoint_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20220401s.Trafficmanagerprofiles_AzureEndpoint_Spec)
+	dst, ok := destination.(*storage.Trafficmanagerprofiles_AzureEndpoint_Spec)
 	if ok {
 		// Populate destination from our instance
 		return endpoint.AssignProperties_To_Trafficmanagerprofiles_AzureEndpoint_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220401s.Trafficmanagerprofiles_AzureEndpoint_Spec{}
+	dst = &storage.Trafficmanagerprofiles_AzureEndpoint_Spec{}
 	err := endpoint.AssignProperties_To_Trafficmanagerprofiles_AzureEndpoint_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -706,7 +706,7 @@ func (endpoint *Trafficmanagerprofiles_AzureEndpoint_Spec) ConvertSpecTo(destina
 }
 
 // AssignProperties_From_Trafficmanagerprofiles_AzureEndpoint_Spec populates our Trafficmanagerprofiles_AzureEndpoint_Spec from the provided source Trafficmanagerprofiles_AzureEndpoint_Spec
-func (endpoint *Trafficmanagerprofiles_AzureEndpoint_Spec) AssignProperties_From_Trafficmanagerprofiles_AzureEndpoint_Spec(source *v20220401s.Trafficmanagerprofiles_AzureEndpoint_Spec) error {
+func (endpoint *Trafficmanagerprofiles_AzureEndpoint_Spec) AssignProperties_From_Trafficmanagerprofiles_AzureEndpoint_Spec(source *storage.Trafficmanagerprofiles_AzureEndpoint_Spec) error {
 
 	// AlwaysServe
 	if source.AlwaysServe != nil {
@@ -822,7 +822,7 @@ func (endpoint *Trafficmanagerprofiles_AzureEndpoint_Spec) AssignProperties_From
 }
 
 // AssignProperties_To_Trafficmanagerprofiles_AzureEndpoint_Spec populates the provided destination Trafficmanagerprofiles_AzureEndpoint_Spec from our Trafficmanagerprofiles_AzureEndpoint_Spec
-func (endpoint *Trafficmanagerprofiles_AzureEndpoint_Spec) AssignProperties_To_Trafficmanagerprofiles_AzureEndpoint_Spec(destination *v20220401s.Trafficmanagerprofiles_AzureEndpoint_Spec) error {
+func (endpoint *Trafficmanagerprofiles_AzureEndpoint_Spec) AssignProperties_To_Trafficmanagerprofiles_AzureEndpoint_Spec(destination *storage.Trafficmanagerprofiles_AzureEndpoint_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -839,11 +839,11 @@ func (endpoint *Trafficmanagerprofiles_AzureEndpoint_Spec) AssignProperties_To_T
 
 	// CustomHeaders
 	if endpoint.CustomHeaders != nil {
-		customHeaderList := make([]v20220401s.EndpointProperties_CustomHeaders, len(endpoint.CustomHeaders))
+		customHeaderList := make([]storage.EndpointProperties_CustomHeaders, len(endpoint.CustomHeaders))
 		for customHeaderIndex, customHeaderItem := range endpoint.CustomHeaders {
 			// Shadow the loop variable to avoid aliasing
 			customHeaderItem := customHeaderItem
-			var customHeader v20220401s.EndpointProperties_CustomHeaders
+			var customHeader storage.EndpointProperties_CustomHeaders
 			err := customHeaderItem.AssignProperties_To_EndpointProperties_CustomHeaders(&customHeader)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_EndpointProperties_CustomHeaders() to populate field CustomHeaders")
@@ -902,11 +902,11 @@ func (endpoint *Trafficmanagerprofiles_AzureEndpoint_Spec) AssignProperties_To_T
 
 	// Subnets
 	if endpoint.Subnets != nil {
-		subnetList := make([]v20220401s.EndpointProperties_Subnets, len(endpoint.Subnets))
+		subnetList := make([]storage.EndpointProperties_Subnets, len(endpoint.Subnets))
 		for subnetIndex, subnetItem := range endpoint.Subnets {
 			// Shadow the loop variable to avoid aliasing
 			subnetItem := subnetItem
-			var subnet v20220401s.EndpointProperties_Subnets
+			var subnet storage.EndpointProperties_Subnets
 			err := subnetItem.AssignProperties_To_EndpointProperties_Subnets(&subnet)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_EndpointProperties_Subnets() to populate field Subnets")
@@ -1132,14 +1132,14 @@ var _ genruntime.ConvertibleStatus = &Trafficmanagerprofiles_AzureEndpoint_STATU
 
 // ConvertStatusFrom populates our Trafficmanagerprofiles_AzureEndpoint_STATUS from the provided source
 func (endpoint *Trafficmanagerprofiles_AzureEndpoint_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20220401s.Trafficmanagerprofiles_AzureEndpoint_STATUS)
+	src, ok := source.(*storage.Trafficmanagerprofiles_AzureEndpoint_STATUS)
 	if ok {
 		// Populate our instance from source
 		return endpoint.AssignProperties_From_Trafficmanagerprofiles_AzureEndpoint_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220401s.Trafficmanagerprofiles_AzureEndpoint_STATUS{}
+	src = &storage.Trafficmanagerprofiles_AzureEndpoint_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -1156,14 +1156,14 @@ func (endpoint *Trafficmanagerprofiles_AzureEndpoint_STATUS) ConvertStatusFrom(s
 
 // ConvertStatusTo populates the provided destination from our Trafficmanagerprofiles_AzureEndpoint_STATUS
 func (endpoint *Trafficmanagerprofiles_AzureEndpoint_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20220401s.Trafficmanagerprofiles_AzureEndpoint_STATUS)
+	dst, ok := destination.(*storage.Trafficmanagerprofiles_AzureEndpoint_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return endpoint.AssignProperties_To_Trafficmanagerprofiles_AzureEndpoint_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220401s.Trafficmanagerprofiles_AzureEndpoint_STATUS{}
+	dst = &storage.Trafficmanagerprofiles_AzureEndpoint_STATUS{}
 	err := endpoint.AssignProperties_To_Trafficmanagerprofiles_AzureEndpoint_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1350,7 +1350,7 @@ func (endpoint *Trafficmanagerprofiles_AzureEndpoint_STATUS) PopulateFromARM(own
 }
 
 // AssignProperties_From_Trafficmanagerprofiles_AzureEndpoint_STATUS populates our Trafficmanagerprofiles_AzureEndpoint_STATUS from the provided source Trafficmanagerprofiles_AzureEndpoint_STATUS
-func (endpoint *Trafficmanagerprofiles_AzureEndpoint_STATUS) AssignProperties_From_Trafficmanagerprofiles_AzureEndpoint_STATUS(source *v20220401s.Trafficmanagerprofiles_AzureEndpoint_STATUS) error {
+func (endpoint *Trafficmanagerprofiles_AzureEndpoint_STATUS) AssignProperties_From_Trafficmanagerprofiles_AzureEndpoint_STATUS(source *storage.Trafficmanagerprofiles_AzureEndpoint_STATUS) error {
 
 	// AlwaysServe
 	if source.AlwaysServe != nil {
@@ -1459,7 +1459,7 @@ func (endpoint *Trafficmanagerprofiles_AzureEndpoint_STATUS) AssignProperties_Fr
 }
 
 // AssignProperties_To_Trafficmanagerprofiles_AzureEndpoint_STATUS populates the provided destination Trafficmanagerprofiles_AzureEndpoint_STATUS from our Trafficmanagerprofiles_AzureEndpoint_STATUS
-func (endpoint *Trafficmanagerprofiles_AzureEndpoint_STATUS) AssignProperties_To_Trafficmanagerprofiles_AzureEndpoint_STATUS(destination *v20220401s.Trafficmanagerprofiles_AzureEndpoint_STATUS) error {
+func (endpoint *Trafficmanagerprofiles_AzureEndpoint_STATUS) AssignProperties_To_Trafficmanagerprofiles_AzureEndpoint_STATUS(destination *storage.Trafficmanagerprofiles_AzureEndpoint_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1476,11 +1476,11 @@ func (endpoint *Trafficmanagerprofiles_AzureEndpoint_STATUS) AssignProperties_To
 
 	// CustomHeaders
 	if endpoint.CustomHeaders != nil {
-		customHeaderList := make([]v20220401s.EndpointProperties_CustomHeaders_STATUS, len(endpoint.CustomHeaders))
+		customHeaderList := make([]storage.EndpointProperties_CustomHeaders_STATUS, len(endpoint.CustomHeaders))
 		for customHeaderIndex, customHeaderItem := range endpoint.CustomHeaders {
 			// Shadow the loop variable to avoid aliasing
 			customHeaderItem := customHeaderItem
-			var customHeader v20220401s.EndpointProperties_CustomHeaders_STATUS
+			var customHeader storage.EndpointProperties_CustomHeaders_STATUS
 			err := customHeaderItem.AssignProperties_To_EndpointProperties_CustomHeaders_STATUS(&customHeader)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_EndpointProperties_CustomHeaders_STATUS() to populate field CustomHeaders")
@@ -1534,11 +1534,11 @@ func (endpoint *Trafficmanagerprofiles_AzureEndpoint_STATUS) AssignProperties_To
 
 	// Subnets
 	if endpoint.Subnets != nil {
-		subnetList := make([]v20220401s.EndpointProperties_Subnets_STATUS, len(endpoint.Subnets))
+		subnetList := make([]storage.EndpointProperties_Subnets_STATUS, len(endpoint.Subnets))
 		for subnetIndex, subnetItem := range endpoint.Subnets {
 			// Shadow the loop variable to avoid aliasing
 			subnetItem := subnetItem
-			var subnet v20220401s.EndpointProperties_Subnets_STATUS
+			var subnet storage.EndpointProperties_Subnets_STATUS
 			err := subnetItem.AssignProperties_To_EndpointProperties_Subnets_STATUS(&subnet)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_EndpointProperties_Subnets_STATUS() to populate field Subnets")
@@ -1660,7 +1660,7 @@ func (headers *EndpointProperties_CustomHeaders) PopulateFromARM(owner genruntim
 }
 
 // AssignProperties_From_EndpointProperties_CustomHeaders populates our EndpointProperties_CustomHeaders from the provided source EndpointProperties_CustomHeaders
-func (headers *EndpointProperties_CustomHeaders) AssignProperties_From_EndpointProperties_CustomHeaders(source *v20220401s.EndpointProperties_CustomHeaders) error {
+func (headers *EndpointProperties_CustomHeaders) AssignProperties_From_EndpointProperties_CustomHeaders(source *storage.EndpointProperties_CustomHeaders) error {
 
 	// Name
 	headers.Name = genruntime.ClonePointerToString(source.Name)
@@ -1673,7 +1673,7 @@ func (headers *EndpointProperties_CustomHeaders) AssignProperties_From_EndpointP
 }
 
 // AssignProperties_To_EndpointProperties_CustomHeaders populates the provided destination EndpointProperties_CustomHeaders from our EndpointProperties_CustomHeaders
-func (headers *EndpointProperties_CustomHeaders) AssignProperties_To_EndpointProperties_CustomHeaders(destination *v20220401s.EndpointProperties_CustomHeaders) error {
+func (headers *EndpointProperties_CustomHeaders) AssignProperties_To_EndpointProperties_CustomHeaders(destination *storage.EndpointProperties_CustomHeaders) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1746,7 +1746,7 @@ func (headers *EndpointProperties_CustomHeaders_STATUS) PopulateFromARM(owner ge
 }
 
 // AssignProperties_From_EndpointProperties_CustomHeaders_STATUS populates our EndpointProperties_CustomHeaders_STATUS from the provided source EndpointProperties_CustomHeaders_STATUS
-func (headers *EndpointProperties_CustomHeaders_STATUS) AssignProperties_From_EndpointProperties_CustomHeaders_STATUS(source *v20220401s.EndpointProperties_CustomHeaders_STATUS) error {
+func (headers *EndpointProperties_CustomHeaders_STATUS) AssignProperties_From_EndpointProperties_CustomHeaders_STATUS(source *storage.EndpointProperties_CustomHeaders_STATUS) error {
 
 	// Name
 	headers.Name = genruntime.ClonePointerToString(source.Name)
@@ -1759,7 +1759,7 @@ func (headers *EndpointProperties_CustomHeaders_STATUS) AssignProperties_From_En
 }
 
 // AssignProperties_To_EndpointProperties_CustomHeaders_STATUS populates the provided destination EndpointProperties_CustomHeaders_STATUS from our EndpointProperties_CustomHeaders_STATUS
-func (headers *EndpointProperties_CustomHeaders_STATUS) AssignProperties_To_EndpointProperties_CustomHeaders_STATUS(destination *v20220401s.EndpointProperties_CustomHeaders_STATUS) error {
+func (headers *EndpointProperties_CustomHeaders_STATUS) AssignProperties_To_EndpointProperties_CustomHeaders_STATUS(destination *storage.EndpointProperties_CustomHeaders_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1929,7 +1929,7 @@ func (subnets *EndpointProperties_Subnets) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignProperties_From_EndpointProperties_Subnets populates our EndpointProperties_Subnets from the provided source EndpointProperties_Subnets
-func (subnets *EndpointProperties_Subnets) AssignProperties_From_EndpointProperties_Subnets(source *v20220401s.EndpointProperties_Subnets) error {
+func (subnets *EndpointProperties_Subnets) AssignProperties_From_EndpointProperties_Subnets(source *storage.EndpointProperties_Subnets) error {
 
 	// First
 	subnets.First = genruntime.ClonePointerToString(source.First)
@@ -1945,7 +1945,7 @@ func (subnets *EndpointProperties_Subnets) AssignProperties_From_EndpointPropert
 }
 
 // AssignProperties_To_EndpointProperties_Subnets populates the provided destination EndpointProperties_Subnets from our EndpointProperties_Subnets
-func (subnets *EndpointProperties_Subnets) AssignProperties_To_EndpointProperties_Subnets(destination *v20220401s.EndpointProperties_Subnets) error {
+func (subnets *EndpointProperties_Subnets) AssignProperties_To_EndpointProperties_Subnets(destination *storage.EndpointProperties_Subnets) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2033,7 +2033,7 @@ func (subnets *EndpointProperties_Subnets_STATUS) PopulateFromARM(owner genrunti
 }
 
 // AssignProperties_From_EndpointProperties_Subnets_STATUS populates our EndpointProperties_Subnets_STATUS from the provided source EndpointProperties_Subnets_STATUS
-func (subnets *EndpointProperties_Subnets_STATUS) AssignProperties_From_EndpointProperties_Subnets_STATUS(source *v20220401s.EndpointProperties_Subnets_STATUS) error {
+func (subnets *EndpointProperties_Subnets_STATUS) AssignProperties_From_EndpointProperties_Subnets_STATUS(source *storage.EndpointProperties_Subnets_STATUS) error {
 
 	// First
 	subnets.First = genruntime.ClonePointerToString(source.First)
@@ -2049,7 +2049,7 @@ func (subnets *EndpointProperties_Subnets_STATUS) AssignProperties_From_Endpoint
 }
 
 // AssignProperties_To_EndpointProperties_Subnets_STATUS populates the provided destination EndpointProperties_Subnets_STATUS from our EndpointProperties_Subnets_STATUS
-func (subnets *EndpointProperties_Subnets_STATUS) AssignProperties_To_EndpointProperties_Subnets_STATUS(destination *v20220401s.EndpointProperties_Subnets_STATUS) error {
+func (subnets *EndpointProperties_Subnets_STATUS) AssignProperties_To_EndpointProperties_Subnets_STATUS(destination *storage.EndpointProperties_Subnets_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

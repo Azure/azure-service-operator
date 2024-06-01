@@ -5,7 +5,7 @@ package v1api20210101preview
 
 import (
 	"fmt"
-	v20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -50,7 +50,7 @@ var _ conversion.Convertible = &NamespacesTopicsSubscription{}
 // ConvertFrom populates our NamespacesTopicsSubscription from the provided hub NamespacesTopicsSubscription
 func (subscription *NamespacesTopicsSubscription) ConvertFrom(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var source v20210101ps.NamespacesTopicsSubscription
+	var source storage.NamespacesTopicsSubscription
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
@@ -68,7 +68,7 @@ func (subscription *NamespacesTopicsSubscription) ConvertFrom(hub conversion.Hub
 // ConvertTo populates the provided hub NamespacesTopicsSubscription from our NamespacesTopicsSubscription
 func (subscription *NamespacesTopicsSubscription) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var destination v20210101ps.NamespacesTopicsSubscription
+	var destination storage.NamespacesTopicsSubscription
 	err := subscription.AssignProperties_To_NamespacesTopicsSubscription(&destination)
 	if err != nil {
 		return errors.Wrap(err, "converting to destination from subscription")
@@ -257,7 +257,7 @@ func (subscription *NamespacesTopicsSubscription) validateWriteOnceProperties(ol
 }
 
 // AssignProperties_From_NamespacesTopicsSubscription populates our NamespacesTopicsSubscription from the provided source NamespacesTopicsSubscription
-func (subscription *NamespacesTopicsSubscription) AssignProperties_From_NamespacesTopicsSubscription(source *v20210101ps.NamespacesTopicsSubscription) error {
+func (subscription *NamespacesTopicsSubscription) AssignProperties_From_NamespacesTopicsSubscription(source *storage.NamespacesTopicsSubscription) error {
 
 	// ObjectMeta
 	subscription.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -283,13 +283,13 @@ func (subscription *NamespacesTopicsSubscription) AssignProperties_From_Namespac
 }
 
 // AssignProperties_To_NamespacesTopicsSubscription populates the provided destination NamespacesTopicsSubscription from our NamespacesTopicsSubscription
-func (subscription *NamespacesTopicsSubscription) AssignProperties_To_NamespacesTopicsSubscription(destination *v20210101ps.NamespacesTopicsSubscription) error {
+func (subscription *NamespacesTopicsSubscription) AssignProperties_To_NamespacesTopicsSubscription(destination *storage.NamespacesTopicsSubscription) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *subscription.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210101ps.Namespaces_Topics_Subscription_Spec
+	var spec storage.Namespaces_Topics_Subscription_Spec
 	err := subscription.Spec.AssignProperties_To_Namespaces_Topics_Subscription_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Topics_Subscription_Spec() to populate field Spec")
@@ -297,7 +297,7 @@ func (subscription *NamespacesTopicsSubscription) AssignProperties_To_Namespaces
 	destination.Spec = spec
 
 	// Status
-	var status v20210101ps.Namespaces_Topics_Subscription_STATUS
+	var status storage.Namespaces_Topics_Subscription_STATUS
 	err = subscription.Status.AssignProperties_To_Namespaces_Topics_Subscription_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Topics_Subscription_STATUS() to populate field Status")
@@ -581,14 +581,14 @@ var _ genruntime.ConvertibleSpec = &Namespaces_Topics_Subscription_Spec{}
 
 // ConvertSpecFrom populates our Namespaces_Topics_Subscription_Spec from the provided source
 func (subscription *Namespaces_Topics_Subscription_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210101ps.Namespaces_Topics_Subscription_Spec)
+	src, ok := source.(*storage.Namespaces_Topics_Subscription_Spec)
 	if ok {
 		// Populate our instance from source
 		return subscription.AssignProperties_From_Namespaces_Topics_Subscription_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210101ps.Namespaces_Topics_Subscription_Spec{}
+	src = &storage.Namespaces_Topics_Subscription_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -605,14 +605,14 @@ func (subscription *Namespaces_Topics_Subscription_Spec) ConvertSpecFrom(source 
 
 // ConvertSpecTo populates the provided destination from our Namespaces_Topics_Subscription_Spec
 func (subscription *Namespaces_Topics_Subscription_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210101ps.Namespaces_Topics_Subscription_Spec)
+	dst, ok := destination.(*storage.Namespaces_Topics_Subscription_Spec)
 	if ok {
 		// Populate destination from our instance
 		return subscription.AssignProperties_To_Namespaces_Topics_Subscription_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210101ps.Namespaces_Topics_Subscription_Spec{}
+	dst = &storage.Namespaces_Topics_Subscription_Spec{}
 	err := subscription.AssignProperties_To_Namespaces_Topics_Subscription_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -628,7 +628,7 @@ func (subscription *Namespaces_Topics_Subscription_Spec) ConvertSpecTo(destinati
 }
 
 // AssignProperties_From_Namespaces_Topics_Subscription_Spec populates our Namespaces_Topics_Subscription_Spec from the provided source Namespaces_Topics_Subscription_Spec
-func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_From_Namespaces_Topics_Subscription_Spec(source *v20210101ps.Namespaces_Topics_Subscription_Spec) error {
+func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_From_Namespaces_Topics_Subscription_Spec(source *storage.Namespaces_Topics_Subscription_Spec) error {
 
 	// AutoDeleteOnIdle
 	subscription.AutoDeleteOnIdle = genruntime.ClonePointerToString(source.AutoDeleteOnIdle)
@@ -699,7 +699,7 @@ func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_From_N
 }
 
 // AssignProperties_To_Namespaces_Topics_Subscription_Spec populates the provided destination Namespaces_Topics_Subscription_Spec from our Namespaces_Topics_Subscription_Spec
-func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_To_Namespaces_Topics_Subscription_Spec(destination *v20210101ps.Namespaces_Topics_Subscription_Spec) error {
+func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_To_Namespaces_Topics_Subscription_Spec(destination *storage.Namespaces_Topics_Subscription_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -869,14 +869,14 @@ var _ genruntime.ConvertibleStatus = &Namespaces_Topics_Subscription_STATUS{}
 
 // ConvertStatusFrom populates our Namespaces_Topics_Subscription_STATUS from the provided source
 func (subscription *Namespaces_Topics_Subscription_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210101ps.Namespaces_Topics_Subscription_STATUS)
+	src, ok := source.(*storage.Namespaces_Topics_Subscription_STATUS)
 	if ok {
 		// Populate our instance from source
 		return subscription.AssignProperties_From_Namespaces_Topics_Subscription_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210101ps.Namespaces_Topics_Subscription_STATUS{}
+	src = &storage.Namespaces_Topics_Subscription_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -893,14 +893,14 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) ConvertStatusFrom(sou
 
 // ConvertStatusTo populates the provided destination from our Namespaces_Topics_Subscription_STATUS
 func (subscription *Namespaces_Topics_Subscription_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210101ps.Namespaces_Topics_Subscription_STATUS)
+	dst, ok := destination.(*storage.Namespaces_Topics_Subscription_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return subscription.AssignProperties_To_Namespaces_Topics_Subscription_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210101ps.Namespaces_Topics_Subscription_STATUS{}
+	dst = &storage.Namespaces_Topics_Subscription_STATUS{}
 	err := subscription.AssignProperties_To_Namespaces_Topics_Subscription_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1123,7 +1123,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 }
 
 // AssignProperties_From_Namespaces_Topics_Subscription_STATUS populates our Namespaces_Topics_Subscription_STATUS from the provided source Namespaces_Topics_Subscription_STATUS
-func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_From_Namespaces_Topics_Subscription_STATUS(source *v20210101ps.Namespaces_Topics_Subscription_STATUS) error {
+func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_From_Namespaces_Topics_Subscription_STATUS(source *storage.Namespaces_Topics_Subscription_STATUS) error {
 
 	// AccessedAt
 	subscription.AccessedAt = genruntime.ClonePointerToString(source.AccessedAt)
@@ -1240,7 +1240,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_From
 }
 
 // AssignProperties_To_Namespaces_Topics_Subscription_STATUS populates the provided destination Namespaces_Topics_Subscription_STATUS from our Namespaces_Topics_Subscription_STATUS
-func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_To_Namespaces_Topics_Subscription_STATUS(destination *v20210101ps.Namespaces_Topics_Subscription_STATUS) error {
+func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_To_Namespaces_Topics_Subscription_STATUS(destination *storage.Namespaces_Topics_Subscription_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1255,7 +1255,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_To_N
 
 	// CountDetails
 	if subscription.CountDetails != nil {
-		var countDetail v20210101ps.MessageCountDetails_STATUS
+		var countDetail storage.MessageCountDetails_STATUS
 		err := subscription.CountDetails.AssignProperties_To_MessageCountDetails_STATUS(&countDetail)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_MessageCountDetails_STATUS() to populate field CountDetails")
@@ -1337,7 +1337,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_To_N
 
 	// SystemData
 	if subscription.SystemData != nil {
-		var systemDatum v20210101ps.SystemData_STATUS
+		var systemDatum storage.SystemData_STATUS
 		err := subscription.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")

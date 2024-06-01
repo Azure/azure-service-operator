@@ -5,7 +5,7 @@ package v1api20200930
 
 import (
 	"encoding/json"
-	v20200930s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForSnapshot(subject Snapshot) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20200930s.Snapshot
+	var hub storage.Snapshot
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForSnapshot(subject Snapshot) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200930s.Snapshot
+	var other storage.Snapshot
 	err := copied.AssignProperties_To_Snapshot(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForSnapshot_Spec(subject Snapshot_Spec) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200930s.Snapshot_Spec
+	var other storage.Snapshot_Spec
 	err := copied.AssignProperties_To_Snapshot_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -318,7 +318,7 @@ func RunPropertyAssignmentTestForSnapshot_STATUS(subject Snapshot_STATUS) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200930s.Snapshot_STATUS
+	var other storage.Snapshot_STATUS
 	err := copied.AssignProperties_To_Snapshot_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -463,7 +463,7 @@ func RunPropertyAssignmentTestForSnapshotSku(subject SnapshotSku) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200930s.SnapshotSku
+	var other storage.SnapshotSku
 	err := copied.AssignProperties_To_SnapshotSku(&other)
 	if err != nil {
 		return err.Error()
@@ -565,7 +565,7 @@ func RunPropertyAssignmentTestForSnapshotSku_STATUS(subject SnapshotSku_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200930s.SnapshotSku_STATUS
+	var other storage.SnapshotSku_STATUS
 	err := copied.AssignProperties_To_SnapshotSku_STATUS(&other)
 	if err != nil {
 		return err.Error()

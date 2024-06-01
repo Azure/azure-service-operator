@@ -5,7 +5,7 @@ package v1api20180501
 
 import (
 	"fmt"
-	v20180501s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &DnsZonesCNAMERecord{}
 
 // ConvertFrom populates our DnsZonesCNAMERecord from the provided hub DnsZonesCNAMERecord
 func (record *DnsZonesCNAMERecord) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20180501s.DnsZonesCNAMERecord)
+	source, ok := hub.(*storage.DnsZonesCNAMERecord)
 	if !ok {
 		return fmt.Errorf("expected network/v1api20180501/storage/DnsZonesCNAMERecord but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (record *DnsZonesCNAMERecord) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub DnsZonesCNAMERecord from our DnsZonesCNAMERecord
 func (record *DnsZonesCNAMERecord) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20180501s.DnsZonesCNAMERecord)
+	destination, ok := hub.(*storage.DnsZonesCNAMERecord)
 	if !ok {
 		return fmt.Errorf("expected network/v1api20180501/storage/DnsZonesCNAMERecord but received %T instead", hub)
 	}
@@ -254,7 +254,7 @@ func (record *DnsZonesCNAMERecord) validateWriteOnceProperties(old runtime.Objec
 }
 
 // AssignProperties_From_DnsZonesCNAMERecord populates our DnsZonesCNAMERecord from the provided source DnsZonesCNAMERecord
-func (record *DnsZonesCNAMERecord) AssignProperties_From_DnsZonesCNAMERecord(source *v20180501s.DnsZonesCNAMERecord) error {
+func (record *DnsZonesCNAMERecord) AssignProperties_From_DnsZonesCNAMERecord(source *storage.DnsZonesCNAMERecord) error {
 
 	// ObjectMeta
 	record.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -280,13 +280,13 @@ func (record *DnsZonesCNAMERecord) AssignProperties_From_DnsZonesCNAMERecord(sou
 }
 
 // AssignProperties_To_DnsZonesCNAMERecord populates the provided destination DnsZonesCNAMERecord from our DnsZonesCNAMERecord
-func (record *DnsZonesCNAMERecord) AssignProperties_To_DnsZonesCNAMERecord(destination *v20180501s.DnsZonesCNAMERecord) error {
+func (record *DnsZonesCNAMERecord) AssignProperties_To_DnsZonesCNAMERecord(destination *storage.DnsZonesCNAMERecord) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *record.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20180501s.DnsZones_CNAME_Spec
+	var spec storage.DnsZones_CNAME_Spec
 	err := record.Spec.AssignProperties_To_DnsZones_CNAME_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_DnsZones_CNAME_Spec() to populate field Spec")
@@ -294,7 +294,7 @@ func (record *DnsZonesCNAMERecord) AssignProperties_To_DnsZonesCNAMERecord(desti
 	destination.Spec = spec
 
 	// Status
-	var status v20180501s.DnsZones_CNAME_STATUS
+	var status storage.DnsZones_CNAME_STATUS
 	err = record.Status.AssignProperties_To_DnsZones_CNAME_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_DnsZones_CNAME_STATUS() to populate field Status")
@@ -691,14 +691,14 @@ var _ genruntime.ConvertibleSpec = &DnsZones_CNAME_Spec{}
 
 // ConvertSpecFrom populates our DnsZones_CNAME_Spec from the provided source
 func (cname *DnsZones_CNAME_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20180501s.DnsZones_CNAME_Spec)
+	src, ok := source.(*storage.DnsZones_CNAME_Spec)
 	if ok {
 		// Populate our instance from source
 		return cname.AssignProperties_From_DnsZones_CNAME_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20180501s.DnsZones_CNAME_Spec{}
+	src = &storage.DnsZones_CNAME_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -715,14 +715,14 @@ func (cname *DnsZones_CNAME_Spec) ConvertSpecFrom(source genruntime.ConvertibleS
 
 // ConvertSpecTo populates the provided destination from our DnsZones_CNAME_Spec
 func (cname *DnsZones_CNAME_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20180501s.DnsZones_CNAME_Spec)
+	dst, ok := destination.(*storage.DnsZones_CNAME_Spec)
 	if ok {
 		// Populate destination from our instance
 		return cname.AssignProperties_To_DnsZones_CNAME_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20180501s.DnsZones_CNAME_Spec{}
+	dst = &storage.DnsZones_CNAME_Spec{}
 	err := cname.AssignProperties_To_DnsZones_CNAME_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -738,7 +738,7 @@ func (cname *DnsZones_CNAME_Spec) ConvertSpecTo(destination genruntime.Convertib
 }
 
 // AssignProperties_From_DnsZones_CNAME_Spec populates our DnsZones_CNAME_Spec from the provided source DnsZones_CNAME_Spec
-func (cname *DnsZones_CNAME_Spec) AssignProperties_From_DnsZones_CNAME_Spec(source *v20180501s.DnsZones_CNAME_Spec) error {
+func (cname *DnsZones_CNAME_Spec) AssignProperties_From_DnsZones_CNAME_Spec(source *storage.DnsZones_CNAME_Spec) error {
 
 	// AAAARecords
 	if source.AAAARecords != nil {
@@ -942,17 +942,17 @@ func (cname *DnsZones_CNAME_Spec) AssignProperties_From_DnsZones_CNAME_Spec(sour
 }
 
 // AssignProperties_To_DnsZones_CNAME_Spec populates the provided destination DnsZones_CNAME_Spec from our DnsZones_CNAME_Spec
-func (cname *DnsZones_CNAME_Spec) AssignProperties_To_DnsZones_CNAME_Spec(destination *v20180501s.DnsZones_CNAME_Spec) error {
+func (cname *DnsZones_CNAME_Spec) AssignProperties_To_DnsZones_CNAME_Spec(destination *storage.DnsZones_CNAME_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AAAARecords
 	if cname.AAAARecords != nil {
-		aaaaRecordList := make([]v20180501s.AaaaRecord, len(cname.AAAARecords))
+		aaaaRecordList := make([]storage.AaaaRecord, len(cname.AAAARecords))
 		for aaaaRecordIndex, aaaaRecordItem := range cname.AAAARecords {
 			// Shadow the loop variable to avoid aliasing
 			aaaaRecordItem := aaaaRecordItem
-			var aaaaRecord v20180501s.AaaaRecord
+			var aaaaRecord storage.AaaaRecord
 			err := aaaaRecordItem.AssignProperties_To_AaaaRecord(&aaaaRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_AaaaRecord() to populate field AAAARecords")
@@ -966,11 +966,11 @@ func (cname *DnsZones_CNAME_Spec) AssignProperties_To_DnsZones_CNAME_Spec(destin
 
 	// ARecords
 	if cname.ARecords != nil {
-		aRecordList := make([]v20180501s.ARecord, len(cname.ARecords))
+		aRecordList := make([]storage.ARecord, len(cname.ARecords))
 		for aRecordIndex, aRecordItem := range cname.ARecords {
 			// Shadow the loop variable to avoid aliasing
 			aRecordItem := aRecordItem
-			var aRecord v20180501s.ARecord
+			var aRecord storage.ARecord
 			err := aRecordItem.AssignProperties_To_ARecord(&aRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ARecord() to populate field ARecords")
@@ -987,7 +987,7 @@ func (cname *DnsZones_CNAME_Spec) AssignProperties_To_DnsZones_CNAME_Spec(destin
 
 	// CNAMERecord
 	if cname.CNAMERecord != nil {
-		var cnameRecord v20180501s.CnameRecord
+		var cnameRecord storage.CnameRecord
 		err := cname.CNAMERecord.AssignProperties_To_CnameRecord(&cnameRecord)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CnameRecord() to populate field CNAMERecord")
@@ -999,11 +999,11 @@ func (cname *DnsZones_CNAME_Spec) AssignProperties_To_DnsZones_CNAME_Spec(destin
 
 	// CaaRecords
 	if cname.CaaRecords != nil {
-		caaRecordList := make([]v20180501s.CaaRecord, len(cname.CaaRecords))
+		caaRecordList := make([]storage.CaaRecord, len(cname.CaaRecords))
 		for caaRecordIndex, caaRecordItem := range cname.CaaRecords {
 			// Shadow the loop variable to avoid aliasing
 			caaRecordItem := caaRecordItem
-			var caaRecord v20180501s.CaaRecord
+			var caaRecord storage.CaaRecord
 			err := caaRecordItem.AssignProperties_To_CaaRecord(&caaRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_CaaRecord() to populate field CaaRecords")
@@ -1017,11 +1017,11 @@ func (cname *DnsZones_CNAME_Spec) AssignProperties_To_DnsZones_CNAME_Spec(destin
 
 	// MXRecords
 	if cname.MXRecords != nil {
-		mxRecordList := make([]v20180501s.MxRecord, len(cname.MXRecords))
+		mxRecordList := make([]storage.MxRecord, len(cname.MXRecords))
 		for mxRecordIndex, mxRecordItem := range cname.MXRecords {
 			// Shadow the loop variable to avoid aliasing
 			mxRecordItem := mxRecordItem
-			var mxRecord v20180501s.MxRecord
+			var mxRecord storage.MxRecord
 			err := mxRecordItem.AssignProperties_To_MxRecord(&mxRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_MxRecord() to populate field MXRecords")
@@ -1038,11 +1038,11 @@ func (cname *DnsZones_CNAME_Spec) AssignProperties_To_DnsZones_CNAME_Spec(destin
 
 	// NSRecords
 	if cname.NSRecords != nil {
-		nsRecordList := make([]v20180501s.NsRecord, len(cname.NSRecords))
+		nsRecordList := make([]storage.NsRecord, len(cname.NSRecords))
 		for nsRecordIndex, nsRecordItem := range cname.NSRecords {
 			// Shadow the loop variable to avoid aliasing
 			nsRecordItem := nsRecordItem
-			var nsRecord v20180501s.NsRecord
+			var nsRecord storage.NsRecord
 			err := nsRecordItem.AssignProperties_To_NsRecord(&nsRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_NsRecord() to populate field NSRecords")
@@ -1067,11 +1067,11 @@ func (cname *DnsZones_CNAME_Spec) AssignProperties_To_DnsZones_CNAME_Spec(destin
 
 	// PTRRecords
 	if cname.PTRRecords != nil {
-		ptrRecordList := make([]v20180501s.PtrRecord, len(cname.PTRRecords))
+		ptrRecordList := make([]storage.PtrRecord, len(cname.PTRRecords))
 		for ptrRecordIndex, ptrRecordItem := range cname.PTRRecords {
 			// Shadow the loop variable to avoid aliasing
 			ptrRecordItem := ptrRecordItem
-			var ptrRecord v20180501s.PtrRecord
+			var ptrRecord storage.PtrRecord
 			err := ptrRecordItem.AssignProperties_To_PtrRecord(&ptrRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PtrRecord() to populate field PTRRecords")
@@ -1085,7 +1085,7 @@ func (cname *DnsZones_CNAME_Spec) AssignProperties_To_DnsZones_CNAME_Spec(destin
 
 	// SOARecord
 	if cname.SOARecord != nil {
-		var soaRecord v20180501s.SoaRecord
+		var soaRecord storage.SoaRecord
 		err := cname.SOARecord.AssignProperties_To_SoaRecord(&soaRecord)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SoaRecord() to populate field SOARecord")
@@ -1097,11 +1097,11 @@ func (cname *DnsZones_CNAME_Spec) AssignProperties_To_DnsZones_CNAME_Spec(destin
 
 	// SRVRecords
 	if cname.SRVRecords != nil {
-		srvRecordList := make([]v20180501s.SrvRecord, len(cname.SRVRecords))
+		srvRecordList := make([]storage.SrvRecord, len(cname.SRVRecords))
 		for srvRecordIndex, srvRecordItem := range cname.SRVRecords {
 			// Shadow the loop variable to avoid aliasing
 			srvRecordItem := srvRecordItem
-			var srvRecord v20180501s.SrvRecord
+			var srvRecord storage.SrvRecord
 			err := srvRecordItem.AssignProperties_To_SrvRecord(&srvRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SrvRecord() to populate field SRVRecords")
@@ -1118,11 +1118,11 @@ func (cname *DnsZones_CNAME_Spec) AssignProperties_To_DnsZones_CNAME_Spec(destin
 
 	// TXTRecords
 	if cname.TXTRecords != nil {
-		txtRecordList := make([]v20180501s.TxtRecord, len(cname.TXTRecords))
+		txtRecordList := make([]storage.TxtRecord, len(cname.TXTRecords))
 		for txtRecordIndex, txtRecordItem := range cname.TXTRecords {
 			// Shadow the loop variable to avoid aliasing
 			txtRecordItem := txtRecordItem
-			var txtRecord v20180501s.TxtRecord
+			var txtRecord storage.TxtRecord
 			err := txtRecordItem.AssignProperties_To_TxtRecord(&txtRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_TxtRecord() to populate field TXTRecords")
@@ -1136,7 +1136,7 @@ func (cname *DnsZones_CNAME_Spec) AssignProperties_To_DnsZones_CNAME_Spec(destin
 
 	// TargetResource
 	if cname.TargetResource != nil {
-		var targetResource v20180501s.SubResource
+		var targetResource storage.SubResource
 		err := cname.TargetResource.AssignProperties_To_SubResource(&targetResource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field TargetResource")
@@ -1424,14 +1424,14 @@ var _ genruntime.ConvertibleStatus = &DnsZones_CNAME_STATUS{}
 
 // ConvertStatusFrom populates our DnsZones_CNAME_STATUS from the provided source
 func (cname *DnsZones_CNAME_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20180501s.DnsZones_CNAME_STATUS)
+	src, ok := source.(*storage.DnsZones_CNAME_STATUS)
 	if ok {
 		// Populate our instance from source
 		return cname.AssignProperties_From_DnsZones_CNAME_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20180501s.DnsZones_CNAME_STATUS{}
+	src = &storage.DnsZones_CNAME_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -1448,14 +1448,14 @@ func (cname *DnsZones_CNAME_STATUS) ConvertStatusFrom(source genruntime.Converti
 
 // ConvertStatusTo populates the provided destination from our DnsZones_CNAME_STATUS
 func (cname *DnsZones_CNAME_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20180501s.DnsZones_CNAME_STATUS)
+	dst, ok := destination.(*storage.DnsZones_CNAME_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return cname.AssignProperties_To_DnsZones_CNAME_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20180501s.DnsZones_CNAME_STATUS{}
+	dst = &storage.DnsZones_CNAME_STATUS{}
 	err := cname.AssignProperties_To_DnsZones_CNAME_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1699,7 +1699,7 @@ func (cname *DnsZones_CNAME_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 }
 
 // AssignProperties_From_DnsZones_CNAME_STATUS populates our DnsZones_CNAME_STATUS from the provided source DnsZones_CNAME_STATUS
-func (cname *DnsZones_CNAME_STATUS) AssignProperties_From_DnsZones_CNAME_STATUS(source *v20180501s.DnsZones_CNAME_STATUS) error {
+func (cname *DnsZones_CNAME_STATUS) AssignProperties_From_DnsZones_CNAME_STATUS(source *storage.DnsZones_CNAME_STATUS) error {
 
 	// AAAARecords
 	if source.AAAARecords != nil {
@@ -1913,17 +1913,17 @@ func (cname *DnsZones_CNAME_STATUS) AssignProperties_From_DnsZones_CNAME_STATUS(
 }
 
 // AssignProperties_To_DnsZones_CNAME_STATUS populates the provided destination DnsZones_CNAME_STATUS from our DnsZones_CNAME_STATUS
-func (cname *DnsZones_CNAME_STATUS) AssignProperties_To_DnsZones_CNAME_STATUS(destination *v20180501s.DnsZones_CNAME_STATUS) error {
+func (cname *DnsZones_CNAME_STATUS) AssignProperties_To_DnsZones_CNAME_STATUS(destination *storage.DnsZones_CNAME_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AAAARecords
 	if cname.AAAARecords != nil {
-		aaaaRecordList := make([]v20180501s.AaaaRecord_STATUS, len(cname.AAAARecords))
+		aaaaRecordList := make([]storage.AaaaRecord_STATUS, len(cname.AAAARecords))
 		for aaaaRecordIndex, aaaaRecordItem := range cname.AAAARecords {
 			// Shadow the loop variable to avoid aliasing
 			aaaaRecordItem := aaaaRecordItem
-			var aaaaRecord v20180501s.AaaaRecord_STATUS
+			var aaaaRecord storage.AaaaRecord_STATUS
 			err := aaaaRecordItem.AssignProperties_To_AaaaRecord_STATUS(&aaaaRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_AaaaRecord_STATUS() to populate field AAAARecords")
@@ -1937,11 +1937,11 @@ func (cname *DnsZones_CNAME_STATUS) AssignProperties_To_DnsZones_CNAME_STATUS(de
 
 	// ARecords
 	if cname.ARecords != nil {
-		aRecordList := make([]v20180501s.ARecord_STATUS, len(cname.ARecords))
+		aRecordList := make([]storage.ARecord_STATUS, len(cname.ARecords))
 		for aRecordIndex, aRecordItem := range cname.ARecords {
 			// Shadow the loop variable to avoid aliasing
 			aRecordItem := aRecordItem
-			var aRecord v20180501s.ARecord_STATUS
+			var aRecord storage.ARecord_STATUS
 			err := aRecordItem.AssignProperties_To_ARecord_STATUS(&aRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ARecord_STATUS() to populate field ARecords")
@@ -1955,7 +1955,7 @@ func (cname *DnsZones_CNAME_STATUS) AssignProperties_To_DnsZones_CNAME_STATUS(de
 
 	// CNAMERecord
 	if cname.CNAMERecord != nil {
-		var cnameRecord v20180501s.CnameRecord_STATUS
+		var cnameRecord storage.CnameRecord_STATUS
 		err := cname.CNAMERecord.AssignProperties_To_CnameRecord_STATUS(&cnameRecord)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CnameRecord_STATUS() to populate field CNAMERecord")
@@ -1967,11 +1967,11 @@ func (cname *DnsZones_CNAME_STATUS) AssignProperties_To_DnsZones_CNAME_STATUS(de
 
 	// CaaRecords
 	if cname.CaaRecords != nil {
-		caaRecordList := make([]v20180501s.CaaRecord_STATUS, len(cname.CaaRecords))
+		caaRecordList := make([]storage.CaaRecord_STATUS, len(cname.CaaRecords))
 		for caaRecordIndex, caaRecordItem := range cname.CaaRecords {
 			// Shadow the loop variable to avoid aliasing
 			caaRecordItem := caaRecordItem
-			var caaRecord v20180501s.CaaRecord_STATUS
+			var caaRecord storage.CaaRecord_STATUS
 			err := caaRecordItem.AssignProperties_To_CaaRecord_STATUS(&caaRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_CaaRecord_STATUS() to populate field CaaRecords")
@@ -1997,11 +1997,11 @@ func (cname *DnsZones_CNAME_STATUS) AssignProperties_To_DnsZones_CNAME_STATUS(de
 
 	// MXRecords
 	if cname.MXRecords != nil {
-		mxRecordList := make([]v20180501s.MxRecord_STATUS, len(cname.MXRecords))
+		mxRecordList := make([]storage.MxRecord_STATUS, len(cname.MXRecords))
 		for mxRecordIndex, mxRecordItem := range cname.MXRecords {
 			// Shadow the loop variable to avoid aliasing
 			mxRecordItem := mxRecordItem
-			var mxRecord v20180501s.MxRecord_STATUS
+			var mxRecord storage.MxRecord_STATUS
 			err := mxRecordItem.AssignProperties_To_MxRecord_STATUS(&mxRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_MxRecord_STATUS() to populate field MXRecords")
@@ -2018,11 +2018,11 @@ func (cname *DnsZones_CNAME_STATUS) AssignProperties_To_DnsZones_CNAME_STATUS(de
 
 	// NSRecords
 	if cname.NSRecords != nil {
-		nsRecordList := make([]v20180501s.NsRecord_STATUS, len(cname.NSRecords))
+		nsRecordList := make([]storage.NsRecord_STATUS, len(cname.NSRecords))
 		for nsRecordIndex, nsRecordItem := range cname.NSRecords {
 			// Shadow the loop variable to avoid aliasing
 			nsRecordItem := nsRecordItem
-			var nsRecord v20180501s.NsRecord_STATUS
+			var nsRecord storage.NsRecord_STATUS
 			err := nsRecordItem.AssignProperties_To_NsRecord_STATUS(&nsRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_NsRecord_STATUS() to populate field NSRecords")
@@ -2039,11 +2039,11 @@ func (cname *DnsZones_CNAME_STATUS) AssignProperties_To_DnsZones_CNAME_STATUS(de
 
 	// PTRRecords
 	if cname.PTRRecords != nil {
-		ptrRecordList := make([]v20180501s.PtrRecord_STATUS, len(cname.PTRRecords))
+		ptrRecordList := make([]storage.PtrRecord_STATUS, len(cname.PTRRecords))
 		for ptrRecordIndex, ptrRecordItem := range cname.PTRRecords {
 			// Shadow the loop variable to avoid aliasing
 			ptrRecordItem := ptrRecordItem
-			var ptrRecord v20180501s.PtrRecord_STATUS
+			var ptrRecord storage.PtrRecord_STATUS
 			err := ptrRecordItem.AssignProperties_To_PtrRecord_STATUS(&ptrRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PtrRecord_STATUS() to populate field PTRRecords")
@@ -2060,7 +2060,7 @@ func (cname *DnsZones_CNAME_STATUS) AssignProperties_To_DnsZones_CNAME_STATUS(de
 
 	// SOARecord
 	if cname.SOARecord != nil {
-		var soaRecord v20180501s.SoaRecord_STATUS
+		var soaRecord storage.SoaRecord_STATUS
 		err := cname.SOARecord.AssignProperties_To_SoaRecord_STATUS(&soaRecord)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SoaRecord_STATUS() to populate field SOARecord")
@@ -2072,11 +2072,11 @@ func (cname *DnsZones_CNAME_STATUS) AssignProperties_To_DnsZones_CNAME_STATUS(de
 
 	// SRVRecords
 	if cname.SRVRecords != nil {
-		srvRecordList := make([]v20180501s.SrvRecord_STATUS, len(cname.SRVRecords))
+		srvRecordList := make([]storage.SrvRecord_STATUS, len(cname.SRVRecords))
 		for srvRecordIndex, srvRecordItem := range cname.SRVRecords {
 			// Shadow the loop variable to avoid aliasing
 			srvRecordItem := srvRecordItem
-			var srvRecord v20180501s.SrvRecord_STATUS
+			var srvRecord storage.SrvRecord_STATUS
 			err := srvRecordItem.AssignProperties_To_SrvRecord_STATUS(&srvRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SrvRecord_STATUS() to populate field SRVRecords")
@@ -2093,11 +2093,11 @@ func (cname *DnsZones_CNAME_STATUS) AssignProperties_To_DnsZones_CNAME_STATUS(de
 
 	// TXTRecords
 	if cname.TXTRecords != nil {
-		txtRecordList := make([]v20180501s.TxtRecord_STATUS, len(cname.TXTRecords))
+		txtRecordList := make([]storage.TxtRecord_STATUS, len(cname.TXTRecords))
 		for txtRecordIndex, txtRecordItem := range cname.TXTRecords {
 			// Shadow the loop variable to avoid aliasing
 			txtRecordItem := txtRecordItem
-			var txtRecord v20180501s.TxtRecord_STATUS
+			var txtRecord storage.TxtRecord_STATUS
 			err := txtRecordItem.AssignProperties_To_TxtRecord_STATUS(&txtRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_TxtRecord_STATUS() to populate field TXTRecords")
@@ -2111,7 +2111,7 @@ func (cname *DnsZones_CNAME_STATUS) AssignProperties_To_DnsZones_CNAME_STATUS(de
 
 	// TargetResource
 	if cname.TargetResource != nil {
-		var targetResource v20180501s.SubResource_STATUS
+		var targetResource storage.SubResource_STATUS
 		err := cname.TargetResource.AssignProperties_To_SubResource_STATUS(&targetResource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field TargetResource")

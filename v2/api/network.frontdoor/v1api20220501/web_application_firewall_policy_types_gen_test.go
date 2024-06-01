@@ -5,7 +5,7 @@ package v1api20220501
 
 import (
 	"encoding/json"
-	v20220501s "github.com/Azure/azure-service-operator/v2/api/network.frontdoor/v1api20220501/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/network.frontdoor/v1api20220501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForWebApplicationFirewallPolicy(subject WebApplica
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20220501s.WebApplicationFirewallPolicy
+	var hub storage.WebApplicationFirewallPolicy
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForWebApplicationFirewallPolicy(subject WebApplica
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220501s.WebApplicationFirewallPolicy
+	var other storage.WebApplicationFirewallPolicy
 	err := copied.AssignProperties_To_WebApplicationFirewallPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForFrontDoorWebApplicationFirewallPolicy_Spec(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220501s.FrontDoorWebApplicationFirewallPolicy_Spec
+	var other storage.FrontDoorWebApplicationFirewallPolicy_Spec
 	err := copied.AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -307,7 +307,7 @@ func RunPropertyAssignmentTestForFrontDoorWebApplicationFirewallPolicy_STATUS(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220501s.FrontDoorWebApplicationFirewallPolicy_STATUS
+	var other storage.FrontDoorWebApplicationFirewallPolicy_STATUS
 	err := copied.AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -445,7 +445,7 @@ func RunPropertyAssignmentTestForCustomRuleList(subject CustomRuleList) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220501s.CustomRuleList
+	var other storage.CustomRuleList
 	err := copied.AssignProperties_To_CustomRuleList(&other)
 	if err != nil {
 		return err.Error()
@@ -547,7 +547,7 @@ func RunPropertyAssignmentTestForCustomRuleList_STATUS(subject CustomRuleList_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220501s.CustomRuleList_STATUS
+	var other storage.CustomRuleList_STATUS
 	err := copied.AssignProperties_To_CustomRuleList_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -650,7 +650,7 @@ func RunPropertyAssignmentTestForFrontendEndpointLink_STATUS(subject FrontendEnd
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220501s.FrontendEndpointLink_STATUS
+	var other storage.FrontendEndpointLink_STATUS
 	err := copied.AssignProperties_To_FrontendEndpointLink_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -753,7 +753,7 @@ func RunPropertyAssignmentTestForManagedRuleSetList(subject ManagedRuleSetList) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220501s.ManagedRuleSetList
+	var other storage.ManagedRuleSetList
 	err := copied.AssignProperties_To_ManagedRuleSetList(&other)
 	if err != nil {
 		return err.Error()
@@ -855,7 +855,7 @@ func RunPropertyAssignmentTestForManagedRuleSetList_STATUS(subject ManagedRuleSe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220501s.ManagedRuleSetList_STATUS
+	var other storage.ManagedRuleSetList_STATUS
 	err := copied.AssignProperties_To_ManagedRuleSetList_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -958,7 +958,7 @@ func RunPropertyAssignmentTestForPolicySettings(subject PolicySettings) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220501s.PolicySettings
+	var other storage.PolicySettings
 	err := copied.AssignProperties_To_PolicySettings(&other)
 	if err != nil {
 		return err.Error()
@@ -1065,7 +1065,7 @@ func RunPropertyAssignmentTestForPolicySettings_STATUS(subject PolicySettings_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220501s.PolicySettings_STATUS
+	var other storage.PolicySettings_STATUS
 	err := copied.AssignProperties_To_PolicySettings_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1173,7 +1173,7 @@ func RunPropertyAssignmentTestForRoutingRuleLink_STATUS(subject RoutingRuleLink_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220501s.RoutingRuleLink_STATUS
+	var other storage.RoutingRuleLink_STATUS
 	err := copied.AssignProperties_To_RoutingRuleLink_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1276,7 +1276,7 @@ func RunPropertyAssignmentTestForSecurityPolicyLink_STATUS(subject SecurityPolic
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220501s.SecurityPolicyLink_STATUS
+	var other storage.SecurityPolicyLink_STATUS
 	err := copied.AssignProperties_To_SecurityPolicyLink_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1379,7 +1379,7 @@ func RunPropertyAssignmentTestForSku(subject Sku) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220501s.Sku
+	var other storage.Sku
 	err := copied.AssignProperties_To_Sku(&other)
 	if err != nil {
 		return err.Error()
@@ -1481,7 +1481,7 @@ func RunPropertyAssignmentTestForSku_STATUS(subject Sku_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220501s.Sku_STATUS
+	var other storage.Sku_STATUS
 	err := copied.AssignProperties_To_Sku_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1583,7 +1583,7 @@ func RunPropertyAssignmentTestForCustomRule(subject CustomRule) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220501s.CustomRule
+	var other storage.CustomRule
 	err := copied.AssignProperties_To_CustomRule(&other)
 	if err != nil {
 		return err.Error()
@@ -1710,7 +1710,7 @@ func RunPropertyAssignmentTestForCustomRule_STATUS(subject CustomRule_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220501s.CustomRule_STATUS
+	var other storage.CustomRule_STATUS
 	err := copied.AssignProperties_To_CustomRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1837,7 +1837,7 @@ func RunPropertyAssignmentTestForManagedRuleSet(subject ManagedRuleSet) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220501s.ManagedRuleSet
+	var other storage.ManagedRuleSet
 	err := copied.AssignProperties_To_ManagedRuleSet(&other)
 	if err != nil {
 		return err.Error()
@@ -1956,7 +1956,7 @@ func RunPropertyAssignmentTestForManagedRuleSet_STATUS(subject ManagedRuleSet_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220501s.ManagedRuleSet_STATUS
+	var other storage.ManagedRuleSet_STATUS
 	err := copied.AssignProperties_To_ManagedRuleSet_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2076,7 +2076,7 @@ func RunPropertyAssignmentTestForManagedRuleExclusion(subject ManagedRuleExclusi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220501s.ManagedRuleExclusion
+	var other storage.ManagedRuleExclusion
 	err := copied.AssignProperties_To_ManagedRuleExclusion(&other)
 	if err != nil {
 		return err.Error()
@@ -2191,7 +2191,7 @@ func RunPropertyAssignmentTestForManagedRuleExclusion_STATUS(subject ManagedRule
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220501s.ManagedRuleExclusion_STATUS
+	var other storage.ManagedRuleExclusion_STATUS
 	err := copied.AssignProperties_To_ManagedRuleExclusion_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2306,7 +2306,7 @@ func RunPropertyAssignmentTestForManagedRuleGroupOverride(subject ManagedRuleGro
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220501s.ManagedRuleGroupOverride
+	var other storage.ManagedRuleGroupOverride
 	err := copied.AssignProperties_To_ManagedRuleGroupOverride(&other)
 	if err != nil {
 		return err.Error()
@@ -2424,7 +2424,7 @@ func RunPropertyAssignmentTestForManagedRuleGroupOverride_STATUS(subject Managed
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220501s.ManagedRuleGroupOverride_STATUS
+	var other storage.ManagedRuleGroupOverride_STATUS
 	err := copied.AssignProperties_To_ManagedRuleGroupOverride_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2542,7 +2542,7 @@ func RunPropertyAssignmentTestForMatchCondition(subject MatchCondition) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220501s.MatchCondition
+	var other storage.MatchCondition
 	err := copied.AssignProperties_To_MatchCondition(&other)
 	if err != nil {
 		return err.Error()
@@ -2676,7 +2676,7 @@ func RunPropertyAssignmentTestForMatchCondition_STATUS(subject MatchCondition_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220501s.MatchCondition_STATUS
+	var other storage.MatchCondition_STATUS
 	err := copied.AssignProperties_To_MatchCondition_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2811,7 +2811,7 @@ func RunPropertyAssignmentTestForManagedRuleOverride(subject ManagedRuleOverride
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220501s.ManagedRuleOverride
+	var other storage.ManagedRuleOverride
 	err := copied.AssignProperties_To_ManagedRuleOverride(&other)
 	if err != nil {
 		return err.Error()
@@ -2935,7 +2935,7 @@ func RunPropertyAssignmentTestForManagedRuleOverride_STATUS(subject ManagedRuleO
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220501s.ManagedRuleOverride_STATUS
+	var other storage.ManagedRuleOverride_STATUS
 	err := copied.AssignProperties_To_ManagedRuleOverride_STATUS(&other)
 	if err != nil {
 		return err.Error()

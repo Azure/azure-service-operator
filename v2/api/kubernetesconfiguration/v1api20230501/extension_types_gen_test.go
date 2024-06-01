@@ -5,7 +5,7 @@ package v1api20230501
 
 import (
 	"encoding/json"
-	v20230501s "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForExtension(subject Extension) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20230501s.Extension
+	var hub storage.Extension
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForExtension(subject Extension) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.Extension
+	var other storage.Extension
 	err := copied.AssignProperties_To_Extension(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForExtension_Spec(subject Extension_Spec) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.Extension_Spec
+	var other storage.Extension_Spec
 	err := copied.AssignProperties_To_Extension_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -309,7 +309,7 @@ func RunPropertyAssignmentTestForExtension_STATUS(subject Extension_STATUS) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.Extension_STATUS
+	var other storage.Extension_STATUS
 	err := copied.AssignProperties_To_Extension_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -456,7 +456,7 @@ func RunPropertyAssignmentTestForErrorDetail_STATUS(subject ErrorDetail_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.ErrorDetail_STATUS
+	var other storage.ErrorDetail_STATUS
 	err := copied.AssignProperties_To_ErrorDetail_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -575,7 +575,7 @@ func RunPropertyAssignmentTestForExtension_Properties_AksAssignedIdentity_Spec(s
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.Extension_Properties_AksAssignedIdentity_Spec
+	var other storage.Extension_Properties_AksAssignedIdentity_Spec
 	err := copied.AssignProperties_To_Extension_Properties_AksAssignedIdentity_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -678,7 +678,7 @@ func RunPropertyAssignmentTestForExtension_Properties_AksAssignedIdentity_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.Extension_Properties_AksAssignedIdentity_STATUS
+	var other storage.Extension_Properties_AksAssignedIdentity_STATUS
 	err := copied.AssignProperties_To_Extension_Properties_AksAssignedIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -783,7 +783,7 @@ func RunPropertyAssignmentTestForExtensionOperatorSpec(subject ExtensionOperator
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.ExtensionOperatorSpec
+	var other storage.ExtensionOperatorSpec
 	err := copied.AssignProperties_To_ExtensionOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -886,7 +886,7 @@ func RunPropertyAssignmentTestForExtensionStatus_STATUS(subject ExtensionStatus_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.ExtensionStatus_STATUS
+	var other storage.ExtensionStatus_STATUS
 	err := copied.AssignProperties_To_ExtensionStatus_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -993,7 +993,7 @@ func RunPropertyAssignmentTestForIdentity(subject Identity) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.Identity
+	var other storage.Identity
 	err := copied.AssignProperties_To_Identity(&other)
 	if err != nil {
 		return err.Error()
@@ -1095,7 +1095,7 @@ func RunPropertyAssignmentTestForIdentity_STATUS(subject Identity_STATUS) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.Identity_STATUS
+	var other storage.Identity_STATUS
 	err := copied.AssignProperties_To_Identity_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1199,7 +1199,7 @@ func RunPropertyAssignmentTestForPlan(subject Plan) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.Plan
+	var other storage.Plan
 	err := copied.AssignProperties_To_Plan(&other)
 	if err != nil {
 		return err.Error()
@@ -1305,7 +1305,7 @@ func RunPropertyAssignmentTestForPlan_STATUS(subject Plan_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.Plan_STATUS
+	var other storage.Plan_STATUS
 	err := copied.AssignProperties_To_Plan_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1411,7 +1411,7 @@ func RunPropertyAssignmentTestForScope(subject Scope) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.Scope
+	var other storage.Scope
 	err := copied.AssignProperties_To_Scope(&other)
 	if err != nil {
 		return err.Error()
@@ -1514,7 +1514,7 @@ func RunPropertyAssignmentTestForScope_STATUS(subject Scope_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.Scope_STATUS
+	var other storage.Scope_STATUS
 	err := copied.AssignProperties_To_Scope_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1617,7 +1617,7 @@ func RunPropertyAssignmentTestForSystemData(subject SystemData) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.SystemData
+	var other storage.SystemData
 	err := copied.AssignProperties_To_SystemData(&other)
 	if err != nil {
 		return err.Error()
@@ -1732,7 +1732,7 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.SystemData_STATUS
+	var other storage.SystemData_STATUS
 	err := copied.AssignProperties_To_SystemData_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1847,7 +1847,7 @@ func RunPropertyAssignmentTestForErrorAdditionalInfo_STATUS(subject ErrorAdditio
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.ErrorAdditionalInfo_STATUS
+	var other storage.ErrorAdditionalInfo_STATUS
 	err := copied.AssignProperties_To_ErrorAdditionalInfo_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1950,7 +1950,7 @@ func RunPropertyAssignmentTestForErrorDetail_STATUS_Unrolled(subject ErrorDetail
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.ErrorDetail_STATUS_Unrolled
+	var other storage.ErrorDetail_STATUS_Unrolled
 	err := copied.AssignProperties_To_ErrorDetail_STATUS_Unrolled(&other)
 	if err != nil {
 		return err.Error()
@@ -2069,7 +2069,7 @@ func RunPropertyAssignmentTestForExtensionOperatorConfigMaps(subject ExtensionOp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.ExtensionOperatorConfigMaps
+	var other storage.ExtensionOperatorConfigMaps
 	err := copied.AssignProperties_To_ExtensionOperatorConfigMaps(&other)
 	if err != nil {
 		return err.Error()
@@ -2166,7 +2166,7 @@ func RunPropertyAssignmentTestForScopeCluster(subject ScopeCluster) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.ScopeCluster
+	var other storage.ScopeCluster
 	err := copied.AssignProperties_To_ScopeCluster(&other)
 	if err != nil {
 		return err.Error()
@@ -2268,7 +2268,7 @@ func RunPropertyAssignmentTestForScopeCluster_STATUS(subject ScopeCluster_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.ScopeCluster_STATUS
+	var other storage.ScopeCluster_STATUS
 	err := copied.AssignProperties_To_ScopeCluster_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2371,7 +2371,7 @@ func RunPropertyAssignmentTestForScopeNamespace(subject ScopeNamespace) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.ScopeNamespace
+	var other storage.ScopeNamespace
 	err := copied.AssignProperties_To_ScopeNamespace(&other)
 	if err != nil {
 		return err.Error()
@@ -2473,7 +2473,7 @@ func RunPropertyAssignmentTestForScopeNamespace_STATUS(subject ScopeNamespace_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.ScopeNamespace_STATUS
+	var other storage.ScopeNamespace_STATUS
 	err := copied.AssignProperties_To_ScopeNamespace_STATUS(&other)
 	if err != nil {
 		return err.Error()

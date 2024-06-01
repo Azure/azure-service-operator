@@ -5,7 +5,7 @@ package v1api20230501
 
 import (
 	"fmt"
-	v20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &AfdEndpoint{}
 
 // ConvertFrom populates our AfdEndpoint from the provided hub AfdEndpoint
 func (endpoint *AfdEndpoint) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20230501s.AfdEndpoint)
+	source, ok := hub.(*storage.AfdEndpoint)
 	if !ok {
 		return fmt.Errorf("expected cdn/v1api20230501/storage/AfdEndpoint but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (endpoint *AfdEndpoint) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub AfdEndpoint from our AfdEndpoint
 func (endpoint *AfdEndpoint) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20230501s.AfdEndpoint)
+	destination, ok := hub.(*storage.AfdEndpoint)
 	if !ok {
 		return fmt.Errorf("expected cdn/v1api20230501/storage/AfdEndpoint but received %T instead", hub)
 	}
@@ -254,7 +254,7 @@ func (endpoint *AfdEndpoint) validateWriteOnceProperties(old runtime.Object) (ad
 }
 
 // AssignProperties_From_AfdEndpoint populates our AfdEndpoint from the provided source AfdEndpoint
-func (endpoint *AfdEndpoint) AssignProperties_From_AfdEndpoint(source *v20230501s.AfdEndpoint) error {
+func (endpoint *AfdEndpoint) AssignProperties_From_AfdEndpoint(source *storage.AfdEndpoint) error {
 
 	// ObjectMeta
 	endpoint.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -280,13 +280,13 @@ func (endpoint *AfdEndpoint) AssignProperties_From_AfdEndpoint(source *v20230501
 }
 
 // AssignProperties_To_AfdEndpoint populates the provided destination AfdEndpoint from our AfdEndpoint
-func (endpoint *AfdEndpoint) AssignProperties_To_AfdEndpoint(destination *v20230501s.AfdEndpoint) error {
+func (endpoint *AfdEndpoint) AssignProperties_To_AfdEndpoint(destination *storage.AfdEndpoint) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *endpoint.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20230501s.Profiles_AfdEndpoint_Spec
+	var spec storage.Profiles_AfdEndpoint_Spec
 	err := endpoint.Spec.AssignProperties_To_Profiles_AfdEndpoint_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Profiles_AfdEndpoint_Spec() to populate field Spec")
@@ -294,7 +294,7 @@ func (endpoint *AfdEndpoint) AssignProperties_To_AfdEndpoint(destination *v20230
 	destination.Spec = spec
 
 	// Status
-	var status v20230501s.Profiles_AfdEndpoint_STATUS
+	var status storage.Profiles_AfdEndpoint_STATUS
 	err = endpoint.Status.AssignProperties_To_Profiles_AfdEndpoint_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Profiles_AfdEndpoint_STATUS() to populate field Status")
@@ -451,14 +451,14 @@ var _ genruntime.ConvertibleSpec = &Profiles_AfdEndpoint_Spec{}
 
 // ConvertSpecFrom populates our Profiles_AfdEndpoint_Spec from the provided source
 func (endpoint *Profiles_AfdEndpoint_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20230501s.Profiles_AfdEndpoint_Spec)
+	src, ok := source.(*storage.Profiles_AfdEndpoint_Spec)
 	if ok {
 		// Populate our instance from source
 		return endpoint.AssignProperties_From_Profiles_AfdEndpoint_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20230501s.Profiles_AfdEndpoint_Spec{}
+	src = &storage.Profiles_AfdEndpoint_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -475,14 +475,14 @@ func (endpoint *Profiles_AfdEndpoint_Spec) ConvertSpecFrom(source genruntime.Con
 
 // ConvertSpecTo populates the provided destination from our Profiles_AfdEndpoint_Spec
 func (endpoint *Profiles_AfdEndpoint_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20230501s.Profiles_AfdEndpoint_Spec)
+	dst, ok := destination.(*storage.Profiles_AfdEndpoint_Spec)
 	if ok {
 		// Populate destination from our instance
 		return endpoint.AssignProperties_To_Profiles_AfdEndpoint_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20230501s.Profiles_AfdEndpoint_Spec{}
+	dst = &storage.Profiles_AfdEndpoint_Spec{}
 	err := endpoint.AssignProperties_To_Profiles_AfdEndpoint_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -498,7 +498,7 @@ func (endpoint *Profiles_AfdEndpoint_Spec) ConvertSpecTo(destination genruntime.
 }
 
 // AssignProperties_From_Profiles_AfdEndpoint_Spec populates our Profiles_AfdEndpoint_Spec from the provided source Profiles_AfdEndpoint_Spec
-func (endpoint *Profiles_AfdEndpoint_Spec) AssignProperties_From_Profiles_AfdEndpoint_Spec(source *v20230501s.Profiles_AfdEndpoint_Spec) error {
+func (endpoint *Profiles_AfdEndpoint_Spec) AssignProperties_From_Profiles_AfdEndpoint_Spec(source *storage.Profiles_AfdEndpoint_Spec) error {
 
 	// AutoGeneratedDomainNameLabelScope
 	if source.AutoGeneratedDomainNameLabelScope != nil {
@@ -540,7 +540,7 @@ func (endpoint *Profiles_AfdEndpoint_Spec) AssignProperties_From_Profiles_AfdEnd
 }
 
 // AssignProperties_To_Profiles_AfdEndpoint_Spec populates the provided destination Profiles_AfdEndpoint_Spec from our Profiles_AfdEndpoint_Spec
-func (endpoint *Profiles_AfdEndpoint_Spec) AssignProperties_To_Profiles_AfdEndpoint_Spec(destination *v20230501s.Profiles_AfdEndpoint_Spec) error {
+func (endpoint *Profiles_AfdEndpoint_Spec) AssignProperties_To_Profiles_AfdEndpoint_Spec(destination *storage.Profiles_AfdEndpoint_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -673,14 +673,14 @@ var _ genruntime.ConvertibleStatus = &Profiles_AfdEndpoint_STATUS{}
 
 // ConvertStatusFrom populates our Profiles_AfdEndpoint_STATUS from the provided source
 func (endpoint *Profiles_AfdEndpoint_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20230501s.Profiles_AfdEndpoint_STATUS)
+	src, ok := source.(*storage.Profiles_AfdEndpoint_STATUS)
 	if ok {
 		// Populate our instance from source
 		return endpoint.AssignProperties_From_Profiles_AfdEndpoint_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20230501s.Profiles_AfdEndpoint_STATUS{}
+	src = &storage.Profiles_AfdEndpoint_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -697,14 +697,14 @@ func (endpoint *Profiles_AfdEndpoint_STATUS) ConvertStatusFrom(source genruntime
 
 // ConvertStatusTo populates the provided destination from our Profiles_AfdEndpoint_STATUS
 func (endpoint *Profiles_AfdEndpoint_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20230501s.Profiles_AfdEndpoint_STATUS)
+	dst, ok := destination.(*storage.Profiles_AfdEndpoint_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return endpoint.AssignProperties_To_Profiles_AfdEndpoint_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20230501s.Profiles_AfdEndpoint_STATUS{}
+	dst = &storage.Profiles_AfdEndpoint_STATUS{}
 	err := endpoint.AssignProperties_To_Profiles_AfdEndpoint_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -837,7 +837,7 @@ func (endpoint *Profiles_AfdEndpoint_STATUS) PopulateFromARM(owner genruntime.Ar
 }
 
 // AssignProperties_From_Profiles_AfdEndpoint_STATUS populates our Profiles_AfdEndpoint_STATUS from the provided source Profiles_AfdEndpoint_STATUS
-func (endpoint *Profiles_AfdEndpoint_STATUS) AssignProperties_From_Profiles_AfdEndpoint_STATUS(source *v20230501s.Profiles_AfdEndpoint_STATUS) error {
+func (endpoint *Profiles_AfdEndpoint_STATUS) AssignProperties_From_Profiles_AfdEndpoint_STATUS(source *storage.Profiles_AfdEndpoint_STATUS) error {
 
 	// AutoGeneratedDomainNameLabelScope
 	if source.AutoGeneratedDomainNameLabelScope != nil {
@@ -916,7 +916,7 @@ func (endpoint *Profiles_AfdEndpoint_STATUS) AssignProperties_From_Profiles_AfdE
 }
 
 // AssignProperties_To_Profiles_AfdEndpoint_STATUS populates the provided destination Profiles_AfdEndpoint_STATUS from our Profiles_AfdEndpoint_STATUS
-func (endpoint *Profiles_AfdEndpoint_STATUS) AssignProperties_To_Profiles_AfdEndpoint_STATUS(destination *v20230501s.Profiles_AfdEndpoint_STATUS) error {
+func (endpoint *Profiles_AfdEndpoint_STATUS) AssignProperties_To_Profiles_AfdEndpoint_STATUS(destination *storage.Profiles_AfdEndpoint_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -972,7 +972,7 @@ func (endpoint *Profiles_AfdEndpoint_STATUS) AssignProperties_To_Profiles_AfdEnd
 
 	// SystemData
 	if endpoint.SystemData != nil {
-		var systemDatum v20230501s.SystemData_STATUS
+		var systemDatum storage.SystemData_STATUS
 		err := endpoint.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
