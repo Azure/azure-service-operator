@@ -8,6 +8,7 @@ package astmodel
 import (
 	"sort"
 
+	pkgset "github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/dave/dst"
 )
 
@@ -194,11 +195,11 @@ func (set *PackageImportSet) tryAssignImportAliases(
 ) bool {
 	// aliased keeps track of every import that we've assigned an alias to, keyed by the new alias.
 	// This allows us to check for duplicates.
-	aliased := make(map[string]PackageImport, len(set.imports))
+	aliased := make(map[string]PackageImport)
 
 	// groupConflicts keeps track of any group for which we have conflicted aliases.
 	// This allows us to add aliases for groups where we don't have any conflicts.
-	groupConflicts := make(map[string]bool, 100)
+	groupConflicts := make(pkgset.Set[string])
 
 	// Work out the aliases that each import will have
 	for _, imp := range set.imports {
@@ -214,10 +215,11 @@ func (set *PackageImportSet) tryAssignImportAliases(
 			if match, ok := aliased[imp.name]; ok {
 				// We have a duplicate name, can't apply the style to this group,
 				// nor to the group we conflict with
-				groupConflicts[pr.Group()] = true
+				groupConflicts.Add(pr.Group())
 
 				matchPR := match.packageReference.(InternalPackageReference)
-				groupConflicts[matchPR.Group()] = true
+
+				groupConflicts.Add(matchPR.Group())
 				continue
 			}
 		}
@@ -234,7 +236,7 @@ func (set *PackageImportSet) tryAssignImportAliases(
 			continue
 		}
 
-		if _, ok := groupConflicts[pr.Group()]; ok {
+		if groupConflicts.Contains(pr.Group()) {
 			result = false
 			continue
 		}
