@@ -1586,9 +1586,7 @@ type ManagedClusterUpgradeSpec struct {
 	KubernetesVersion *string `json:"kubernetesVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Type: The upgrade type.
-	// Full requires the KubernetesVersion property to be set.
-	// NodeImageOnly requires the KubernetesVersion property not to be set.
+	// Type: ManagedClusterUpgradeType is the type of upgrade to be applied.
 	Type *ManagedClusterUpgradeType `json:"type,omitempty"`
 }
 
@@ -1712,9 +1710,7 @@ type ManagedClusterUpgradeSpec_STATUS struct {
 	// KubernetesVersion: The Kubernetes version to upgrade the member clusters to.
 	KubernetesVersion *string `json:"kubernetesVersion,omitempty"`
 
-	// Type: The upgrade type.
-	// Full requires the KubernetesVersion property to be set.
-	// NodeImageOnly requires the KubernetesVersion property not to be set.
+	// Type: ManagedClusterUpgradeType is the type of upgrade to be applied.
 	Type *ManagedClusterUpgradeType_STATUS `json:"type,omitempty"`
 }
 
