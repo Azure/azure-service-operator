@@ -30,9 +30,9 @@ func NewPackageImportSet() *PackageImportSet {
 // import); if it doesn't have an explicit name, we only use it if we don't already have the reference (ensuring that
 // we keep any existing named import if we have one).
 func (set *PackageImportSet) AddImport(packageImport PackageImport) {
-	_, ok := set.imports[packageImport.packageReference]
-	if !ok || packageImport.HasExplicitName() {
-		// Always use imports with explicit names or imports for packages we don't have
+	existing, ok := set.imports[packageImport.packageReference]
+	if !ok || !existing.HasExplicitName() {
+		// We don't have this import, or we don't have an explicit name for it
 		set.imports[packageImport.packageReference] = packageImport
 	}
 
