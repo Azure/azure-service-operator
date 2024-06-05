@@ -5,7 +5,7 @@ package v1api20180601
 
 import (
 	"encoding/json"
-	v20180601s "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForFactory(subject Factory) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20180601s.Factory
+	var hub storage.Factory
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForFactory(subject Factory) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180601s.Factory
+	var other storage.Factory
 	err := copied.AssignProperties_To_Factory(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForFactory_Spec(subject Factory_Spec) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180601s.Factory_Spec
+	var other storage.Factory_Spec
 	err := copied.AssignProperties_To_Factory_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -308,7 +308,7 @@ func RunPropertyAssignmentTestForFactory_STATUS(subject Factory_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180601s.Factory_STATUS
+	var other storage.Factory_STATUS
 	err := copied.AssignProperties_To_Factory_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -441,7 +441,7 @@ func RunPropertyAssignmentTestForEncryptionConfiguration(subject EncryptionConfi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180601s.EncryptionConfiguration
+	var other storage.EncryptionConfiguration
 	err := copied.AssignProperties_To_EncryptionConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -560,7 +560,7 @@ func RunPropertyAssignmentTestForEncryptionConfiguration_STATUS(subject Encrypti
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180601s.EncryptionConfiguration_STATUS
+	var other storage.EncryptionConfiguration_STATUS
 	err := copied.AssignProperties_To_EncryptionConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -679,7 +679,7 @@ func RunPropertyAssignmentTestForFactoryIdentity(subject FactoryIdentity) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180601s.FactoryIdentity
+	var other storage.FactoryIdentity
 	err := copied.AssignProperties_To_FactoryIdentity(&other)
 	if err != nil {
 		return err.Error()
@@ -795,7 +795,7 @@ func RunPropertyAssignmentTestForFactoryIdentity_STATUS(subject FactoryIdentity_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180601s.FactoryIdentity_STATUS
+	var other storage.FactoryIdentity_STATUS
 	err := copied.AssignProperties_To_FactoryIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -900,7 +900,7 @@ func RunPropertyAssignmentTestForFactoryRepoConfiguration(subject FactoryRepoCon
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180601s.FactoryRepoConfiguration
+	var other storage.FactoryRepoConfiguration
 	err := copied.AssignProperties_To_FactoryRepoConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -1014,7 +1014,7 @@ func RunPropertyAssignmentTestForFactoryRepoConfiguration_STATUS(subject Factory
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180601s.FactoryRepoConfiguration_STATUS
+	var other storage.FactoryRepoConfiguration_STATUS
 	err := copied.AssignProperties_To_FactoryRepoConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1128,7 +1128,7 @@ func RunPropertyAssignmentTestForGlobalParameterSpecification(subject GlobalPara
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180601s.GlobalParameterSpecification
+	var other storage.GlobalParameterSpecification
 	err := copied.AssignProperties_To_GlobalParameterSpecification(&other)
 	if err != nil {
 		return err.Error()
@@ -1237,7 +1237,7 @@ func RunPropertyAssignmentTestForGlobalParameterSpecification_STATUS(subject Glo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180601s.GlobalParameterSpecification_STATUS
+	var other storage.GlobalParameterSpecification_STATUS
 	err := copied.AssignProperties_To_GlobalParameterSpecification_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1346,7 +1346,7 @@ func RunPropertyAssignmentTestForPurviewConfiguration(subject PurviewConfigurati
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180601s.PurviewConfiguration
+	var other storage.PurviewConfiguration
 	err := copied.AssignProperties_To_PurviewConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -1443,7 +1443,7 @@ func RunPropertyAssignmentTestForPurviewConfiguration_STATUS(subject PurviewConf
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180601s.PurviewConfiguration_STATUS
+	var other storage.PurviewConfiguration_STATUS
 	err := copied.AssignProperties_To_PurviewConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1546,7 +1546,7 @@ func RunPropertyAssignmentTestForCMKIdentityDefinition(subject CMKIdentityDefini
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180601s.CMKIdentityDefinition
+	var other storage.CMKIdentityDefinition
 	err := copied.AssignProperties_To_CMKIdentityDefinition(&other)
 	if err != nil {
 		return err.Error()
@@ -1643,7 +1643,7 @@ func RunPropertyAssignmentTestForCMKIdentityDefinition_STATUS(subject CMKIdentit
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180601s.CMKIdentityDefinition_STATUS
+	var other storage.CMKIdentityDefinition_STATUS
 	err := copied.AssignProperties_To_CMKIdentityDefinition_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1746,7 +1746,7 @@ func RunPropertyAssignmentTestForFactoryGitHubConfiguration(subject FactoryGitHu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180601s.FactoryGitHubConfiguration
+	var other storage.FactoryGitHubConfiguration
 	err := copied.AssignProperties_To_FactoryGitHubConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -1871,7 +1871,7 @@ func RunPropertyAssignmentTestForFactoryGitHubConfiguration_STATUS(subject Facto
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180601s.FactoryGitHubConfiguration_STATUS
+	var other storage.FactoryGitHubConfiguration_STATUS
 	err := copied.AssignProperties_To_FactoryGitHubConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1996,7 +1996,7 @@ func RunPropertyAssignmentTestForFactoryVSTSConfiguration(subject FactoryVSTSCon
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180601s.FactoryVSTSConfiguration
+	var other storage.FactoryVSTSConfiguration
 	err := copied.AssignProperties_To_FactoryVSTSConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -2107,7 +2107,7 @@ func RunPropertyAssignmentTestForFactoryVSTSConfiguration_STATUS(subject Factory
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180601s.FactoryVSTSConfiguration_STATUS
+	var other storage.FactoryVSTSConfiguration_STATUS
 	err := copied.AssignProperties_To_FactoryVSTSConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2218,7 +2218,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentityDetails(subject UserAssigne
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180601s.UserAssignedIdentityDetails
+	var other storage.UserAssignedIdentityDetails
 	err := copied.AssignProperties_To_UserAssignedIdentityDetails(&other)
 	if err != nil {
 		return err.Error()
@@ -2315,7 +2315,7 @@ func RunPropertyAssignmentTestForGitHubClientSecret(subject GitHubClientSecret) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180601s.GitHubClientSecret
+	var other storage.GitHubClientSecret
 	err := copied.AssignProperties_To_GitHubClientSecret(&other)
 	if err != nil {
 		return err.Error()
@@ -2418,7 +2418,7 @@ func RunPropertyAssignmentTestForGitHubClientSecret_STATUS(subject GitHubClientS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180601s.GitHubClientSecret_STATUS
+	var other storage.GitHubClientSecret_STATUS
 	err := copied.AssignProperties_To_GitHubClientSecret_STATUS(&other)
 	if err != nil {
 		return err.Error()

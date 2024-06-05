@@ -5,7 +5,7 @@ package storage
 
 import (
 	"fmt"
-	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
@@ -47,7 +47,7 @@ var _ conversion.Convertible = &AuthorizationProvider{}
 
 // ConvertFrom populates our AuthorizationProvider from the provided hub AuthorizationProvider
 func (provider *AuthorizationProvider) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20220801s.AuthorizationProvider)
+	source, ok := hub.(*storage.AuthorizationProvider)
 	if !ok {
 		return fmt.Errorf("expected apimanagement/v1api20220801/storage/AuthorizationProvider but received %T instead", hub)
 	}
@@ -57,7 +57,7 @@ func (provider *AuthorizationProvider) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub AuthorizationProvider from our AuthorizationProvider
 func (provider *AuthorizationProvider) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20220801s.AuthorizationProvider)
+	destination, ok := hub.(*storage.AuthorizationProvider)
 	if !ok {
 		return fmt.Errorf("expected apimanagement/v1api20220801/storage/AuthorizationProvider but received %T instead", hub)
 	}
@@ -137,7 +137,7 @@ func (provider *AuthorizationProvider) SetStatus(status genruntime.ConvertibleSt
 }
 
 // AssignProperties_From_AuthorizationProvider populates our AuthorizationProvider from the provided source AuthorizationProvider
-func (provider *AuthorizationProvider) AssignProperties_From_AuthorizationProvider(source *v20220801s.AuthorizationProvider) error {
+func (provider *AuthorizationProvider) AssignProperties_From_AuthorizationProvider(source *storage.AuthorizationProvider) error {
 
 	// ObjectMeta
 	provider.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -172,13 +172,13 @@ func (provider *AuthorizationProvider) AssignProperties_From_AuthorizationProvid
 }
 
 // AssignProperties_To_AuthorizationProvider populates the provided destination AuthorizationProvider from our AuthorizationProvider
-func (provider *AuthorizationProvider) AssignProperties_To_AuthorizationProvider(destination *v20220801s.AuthorizationProvider) error {
+func (provider *AuthorizationProvider) AssignProperties_To_AuthorizationProvider(destination *storage.AuthorizationProvider) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *provider.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20220801s.Service_AuthorizationProvider_Spec
+	var spec storage.Service_AuthorizationProvider_Spec
 	err := provider.Spec.AssignProperties_To_Service_AuthorizationProvider_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Service_AuthorizationProvider_Spec() to populate field Spec")
@@ -186,7 +186,7 @@ func (provider *AuthorizationProvider) AssignProperties_To_AuthorizationProvider
 	destination.Spec = spec
 
 	// Status
-	var status v20220801s.Service_AuthorizationProvider_STATUS
+	var status storage.Service_AuthorizationProvider_STATUS
 	err = provider.Status.AssignProperties_To_Service_AuthorizationProvider_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Service_AuthorizationProvider_STATUS() to populate field Status")
@@ -227,8 +227,8 @@ type AuthorizationProviderList struct {
 }
 
 type augmentConversionForAuthorizationProvider interface {
-	AssignPropertiesFrom(src *v20220801s.AuthorizationProvider) error
-	AssignPropertiesTo(dst *v20220801s.AuthorizationProvider) error
+	AssignPropertiesFrom(src *storage.AuthorizationProvider) error
+	AssignPropertiesTo(dst *storage.AuthorizationProvider) error
 }
 
 // Storage version of v1api20230501preview.Service_AuthorizationProvider_Spec
@@ -253,14 +253,14 @@ var _ genruntime.ConvertibleSpec = &Service_AuthorizationProvider_Spec{}
 
 // ConvertSpecFrom populates our Service_AuthorizationProvider_Spec from the provided source
 func (provider *Service_AuthorizationProvider_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20220801s.Service_AuthorizationProvider_Spec)
+	src, ok := source.(*storage.Service_AuthorizationProvider_Spec)
 	if ok {
 		// Populate our instance from source
 		return provider.AssignProperties_From_Service_AuthorizationProvider_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220801s.Service_AuthorizationProvider_Spec{}
+	src = &storage.Service_AuthorizationProvider_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -277,14 +277,14 @@ func (provider *Service_AuthorizationProvider_Spec) ConvertSpecFrom(source genru
 
 // ConvertSpecTo populates the provided destination from our Service_AuthorizationProvider_Spec
 func (provider *Service_AuthorizationProvider_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20220801s.Service_AuthorizationProvider_Spec)
+	dst, ok := destination.(*storage.Service_AuthorizationProvider_Spec)
 	if ok {
 		// Populate destination from our instance
 		return provider.AssignProperties_To_Service_AuthorizationProvider_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220801s.Service_AuthorizationProvider_Spec{}
+	dst = &storage.Service_AuthorizationProvider_Spec{}
 	err := provider.AssignProperties_To_Service_AuthorizationProvider_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -300,7 +300,7 @@ func (provider *Service_AuthorizationProvider_Spec) ConvertSpecTo(destination ge
 }
 
 // AssignProperties_From_Service_AuthorizationProvider_Spec populates our Service_AuthorizationProvider_Spec from the provided source Service_AuthorizationProvider_Spec
-func (provider *Service_AuthorizationProvider_Spec) AssignProperties_From_Service_AuthorizationProvider_Spec(source *v20220801s.Service_AuthorizationProvider_Spec) error {
+func (provider *Service_AuthorizationProvider_Spec) AssignProperties_From_Service_AuthorizationProvider_Spec(source *storage.Service_AuthorizationProvider_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -357,7 +357,7 @@ func (provider *Service_AuthorizationProvider_Spec) AssignProperties_From_Servic
 }
 
 // AssignProperties_To_Service_AuthorizationProvider_Spec populates the provided destination Service_AuthorizationProvider_Spec from our Service_AuthorizationProvider_Spec
-func (provider *Service_AuthorizationProvider_Spec) AssignProperties_To_Service_AuthorizationProvider_Spec(destination *v20220801s.Service_AuthorizationProvider_Spec) error {
+func (provider *Service_AuthorizationProvider_Spec) AssignProperties_To_Service_AuthorizationProvider_Spec(destination *storage.Service_AuthorizationProvider_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(provider.PropertyBag)
 
@@ -372,7 +372,7 @@ func (provider *Service_AuthorizationProvider_Spec) AssignProperties_To_Service_
 
 	// Oauth2
 	if provider.Oauth2 != nil {
-		var oauth2 v20220801s.AuthorizationProviderOAuth2Settings
+		var oauth2 storage.AuthorizationProviderOAuth2Settings
 		err := provider.Oauth2.AssignProperties_To_AuthorizationProviderOAuth2Settings(&oauth2)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AuthorizationProviderOAuth2Settings() to populate field Oauth2")
@@ -429,14 +429,14 @@ var _ genruntime.ConvertibleStatus = &Service_AuthorizationProvider_STATUS{}
 
 // ConvertStatusFrom populates our Service_AuthorizationProvider_STATUS from the provided source
 func (provider *Service_AuthorizationProvider_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20220801s.Service_AuthorizationProvider_STATUS)
+	src, ok := source.(*storage.Service_AuthorizationProvider_STATUS)
 	if ok {
 		// Populate our instance from source
 		return provider.AssignProperties_From_Service_AuthorizationProvider_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220801s.Service_AuthorizationProvider_STATUS{}
+	src = &storage.Service_AuthorizationProvider_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -453,14 +453,14 @@ func (provider *Service_AuthorizationProvider_STATUS) ConvertStatusFrom(source g
 
 // ConvertStatusTo populates the provided destination from our Service_AuthorizationProvider_STATUS
 func (provider *Service_AuthorizationProvider_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20220801s.Service_AuthorizationProvider_STATUS)
+	dst, ok := destination.(*storage.Service_AuthorizationProvider_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return provider.AssignProperties_To_Service_AuthorizationProvider_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220801s.Service_AuthorizationProvider_STATUS{}
+	dst = &storage.Service_AuthorizationProvider_STATUS{}
 	err := provider.AssignProperties_To_Service_AuthorizationProvider_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -476,7 +476,7 @@ func (provider *Service_AuthorizationProvider_STATUS) ConvertStatusTo(destinatio
 }
 
 // AssignProperties_From_Service_AuthorizationProvider_STATUS populates our Service_AuthorizationProvider_STATUS from the provided source Service_AuthorizationProvider_STATUS
-func (provider *Service_AuthorizationProvider_STATUS) AssignProperties_From_Service_AuthorizationProvider_STATUS(source *v20220801s.Service_AuthorizationProvider_STATUS) error {
+func (provider *Service_AuthorizationProvider_STATUS) AssignProperties_From_Service_AuthorizationProvider_STATUS(source *storage.Service_AuthorizationProvider_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -531,7 +531,7 @@ func (provider *Service_AuthorizationProvider_STATUS) AssignProperties_From_Serv
 }
 
 // AssignProperties_To_Service_AuthorizationProvider_STATUS populates the provided destination Service_AuthorizationProvider_STATUS from our Service_AuthorizationProvider_STATUS
-func (provider *Service_AuthorizationProvider_STATUS) AssignProperties_To_Service_AuthorizationProvider_STATUS(destination *v20220801s.Service_AuthorizationProvider_STATUS) error {
+func (provider *Service_AuthorizationProvider_STATUS) AssignProperties_To_Service_AuthorizationProvider_STATUS(destination *storage.Service_AuthorizationProvider_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(provider.PropertyBag)
 
@@ -552,7 +552,7 @@ func (provider *Service_AuthorizationProvider_STATUS) AssignProperties_To_Servic
 
 	// Oauth2
 	if provider.Oauth2 != nil {
-		var oauth2 v20220801s.AuthorizationProviderOAuth2Settings_STATUS
+		var oauth2 storage.AuthorizationProviderOAuth2Settings_STATUS
 		err := provider.Oauth2.AssignProperties_To_AuthorizationProviderOAuth2Settings_STATUS(&oauth2)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AuthorizationProviderOAuth2Settings_STATUS() to populate field Oauth2")
@@ -586,13 +586,13 @@ func (provider *Service_AuthorizationProvider_STATUS) AssignProperties_To_Servic
 }
 
 type augmentConversionForService_AuthorizationProvider_Spec interface {
-	AssignPropertiesFrom(src *v20220801s.Service_AuthorizationProvider_Spec) error
-	AssignPropertiesTo(dst *v20220801s.Service_AuthorizationProvider_Spec) error
+	AssignPropertiesFrom(src *storage.Service_AuthorizationProvider_Spec) error
+	AssignPropertiesTo(dst *storage.Service_AuthorizationProvider_Spec) error
 }
 
 type augmentConversionForService_AuthorizationProvider_STATUS interface {
-	AssignPropertiesFrom(src *v20220801s.Service_AuthorizationProvider_STATUS) error
-	AssignPropertiesTo(dst *v20220801s.Service_AuthorizationProvider_STATUS) error
+	AssignPropertiesFrom(src *storage.Service_AuthorizationProvider_STATUS) error
+	AssignPropertiesTo(dst *storage.Service_AuthorizationProvider_STATUS) error
 }
 
 // Storage version of v1api20230501preview.AuthorizationProviderOAuth2Settings
@@ -604,7 +604,7 @@ type AuthorizationProviderOAuth2Settings struct {
 }
 
 // AssignProperties_From_AuthorizationProviderOAuth2Settings populates our AuthorizationProviderOAuth2Settings from the provided source AuthorizationProviderOAuth2Settings
-func (settings *AuthorizationProviderOAuth2Settings) AssignProperties_From_AuthorizationProviderOAuth2Settings(source *v20220801s.AuthorizationProviderOAuth2Settings) error {
+func (settings *AuthorizationProviderOAuth2Settings) AssignProperties_From_AuthorizationProviderOAuth2Settings(source *storage.AuthorizationProviderOAuth2Settings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -644,13 +644,13 @@ func (settings *AuthorizationProviderOAuth2Settings) AssignProperties_From_Autho
 }
 
 // AssignProperties_To_AuthorizationProviderOAuth2Settings populates the provided destination AuthorizationProviderOAuth2Settings from our AuthorizationProviderOAuth2Settings
-func (settings *AuthorizationProviderOAuth2Settings) AssignProperties_To_AuthorizationProviderOAuth2Settings(destination *v20220801s.AuthorizationProviderOAuth2Settings) error {
+func (settings *AuthorizationProviderOAuth2Settings) AssignProperties_To_AuthorizationProviderOAuth2Settings(destination *storage.AuthorizationProviderOAuth2Settings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
 	// GrantTypes
 	if settings.GrantTypes != nil {
-		var grantType v20220801s.AuthorizationProviderOAuth2GrantTypes
+		var grantType storage.AuthorizationProviderOAuth2GrantTypes
 		err := settings.GrantTypes.AssignProperties_To_AuthorizationProviderOAuth2GrantTypes(&grantType)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AuthorizationProviderOAuth2GrantTypes() to populate field GrantTypes")
@@ -692,7 +692,7 @@ type AuthorizationProviderOAuth2Settings_STATUS struct {
 }
 
 // AssignProperties_From_AuthorizationProviderOAuth2Settings_STATUS populates our AuthorizationProviderOAuth2Settings_STATUS from the provided source AuthorizationProviderOAuth2Settings_STATUS
-func (settings *AuthorizationProviderOAuth2Settings_STATUS) AssignProperties_From_AuthorizationProviderOAuth2Settings_STATUS(source *v20220801s.AuthorizationProviderOAuth2Settings_STATUS) error {
+func (settings *AuthorizationProviderOAuth2Settings_STATUS) AssignProperties_From_AuthorizationProviderOAuth2Settings_STATUS(source *storage.AuthorizationProviderOAuth2Settings_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -732,13 +732,13 @@ func (settings *AuthorizationProviderOAuth2Settings_STATUS) AssignProperties_Fro
 }
 
 // AssignProperties_To_AuthorizationProviderOAuth2Settings_STATUS populates the provided destination AuthorizationProviderOAuth2Settings_STATUS from our AuthorizationProviderOAuth2Settings_STATUS
-func (settings *AuthorizationProviderOAuth2Settings_STATUS) AssignProperties_To_AuthorizationProviderOAuth2Settings_STATUS(destination *v20220801s.AuthorizationProviderOAuth2Settings_STATUS) error {
+func (settings *AuthorizationProviderOAuth2Settings_STATUS) AssignProperties_To_AuthorizationProviderOAuth2Settings_STATUS(destination *storage.AuthorizationProviderOAuth2Settings_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
 	// GrantTypes
 	if settings.GrantTypes != nil {
-		var grantType v20220801s.AuthorizationProviderOAuth2GrantTypes_STATUS
+		var grantType storage.AuthorizationProviderOAuth2GrantTypes_STATUS
 		err := settings.GrantTypes.AssignProperties_To_AuthorizationProviderOAuth2GrantTypes_STATUS(&grantType)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AuthorizationProviderOAuth2GrantTypes_STATUS() to populate field GrantTypes")
@@ -772,13 +772,13 @@ func (settings *AuthorizationProviderOAuth2Settings_STATUS) AssignProperties_To_
 }
 
 type augmentConversionForAuthorizationProviderOAuth2Settings interface {
-	AssignPropertiesFrom(src *v20220801s.AuthorizationProviderOAuth2Settings) error
-	AssignPropertiesTo(dst *v20220801s.AuthorizationProviderOAuth2Settings) error
+	AssignPropertiesFrom(src *storage.AuthorizationProviderOAuth2Settings) error
+	AssignPropertiesTo(dst *storage.AuthorizationProviderOAuth2Settings) error
 }
 
 type augmentConversionForAuthorizationProviderOAuth2Settings_STATUS interface {
-	AssignPropertiesFrom(src *v20220801s.AuthorizationProviderOAuth2Settings_STATUS) error
-	AssignPropertiesTo(dst *v20220801s.AuthorizationProviderOAuth2Settings_STATUS) error
+	AssignPropertiesFrom(src *storage.AuthorizationProviderOAuth2Settings_STATUS) error
+	AssignPropertiesTo(dst *storage.AuthorizationProviderOAuth2Settings_STATUS) error
 }
 
 // Storage version of v1api20230501preview.AuthorizationProviderOAuth2GrantTypes
@@ -790,7 +790,7 @@ type AuthorizationProviderOAuth2GrantTypes struct {
 }
 
 // AssignProperties_From_AuthorizationProviderOAuth2GrantTypes populates our AuthorizationProviderOAuth2GrantTypes from the provided source AuthorizationProviderOAuth2GrantTypes
-func (types *AuthorizationProviderOAuth2GrantTypes) AssignProperties_From_AuthorizationProviderOAuth2GrantTypes(source *v20220801s.AuthorizationProviderOAuth2GrantTypes) error {
+func (types *AuthorizationProviderOAuth2GrantTypes) AssignProperties_From_AuthorizationProviderOAuth2GrantTypes(source *storage.AuthorizationProviderOAuth2GrantTypes) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -831,7 +831,7 @@ func (types *AuthorizationProviderOAuth2GrantTypes) AssignProperties_From_Author
 }
 
 // AssignProperties_To_AuthorizationProviderOAuth2GrantTypes populates the provided destination AuthorizationProviderOAuth2GrantTypes from our AuthorizationProviderOAuth2GrantTypes
-func (types *AuthorizationProviderOAuth2GrantTypes) AssignProperties_To_AuthorizationProviderOAuth2GrantTypes(destination *v20220801s.AuthorizationProviderOAuth2GrantTypes) error {
+func (types *AuthorizationProviderOAuth2GrantTypes) AssignProperties_To_AuthorizationProviderOAuth2GrantTypes(destination *storage.AuthorizationProviderOAuth2GrantTypes) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(types.PropertyBag)
 
@@ -880,7 +880,7 @@ type AuthorizationProviderOAuth2GrantTypes_STATUS struct {
 }
 
 // AssignProperties_From_AuthorizationProviderOAuth2GrantTypes_STATUS populates our AuthorizationProviderOAuth2GrantTypes_STATUS from the provided source AuthorizationProviderOAuth2GrantTypes_STATUS
-func (types *AuthorizationProviderOAuth2GrantTypes_STATUS) AssignProperties_From_AuthorizationProviderOAuth2GrantTypes_STATUS(source *v20220801s.AuthorizationProviderOAuth2GrantTypes_STATUS) error {
+func (types *AuthorizationProviderOAuth2GrantTypes_STATUS) AssignProperties_From_AuthorizationProviderOAuth2GrantTypes_STATUS(source *storage.AuthorizationProviderOAuth2GrantTypes_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -911,7 +911,7 @@ func (types *AuthorizationProviderOAuth2GrantTypes_STATUS) AssignProperties_From
 }
 
 // AssignProperties_To_AuthorizationProviderOAuth2GrantTypes_STATUS populates the provided destination AuthorizationProviderOAuth2GrantTypes_STATUS from our AuthorizationProviderOAuth2GrantTypes_STATUS
-func (types *AuthorizationProviderOAuth2GrantTypes_STATUS) AssignProperties_To_AuthorizationProviderOAuth2GrantTypes_STATUS(destination *v20220801s.AuthorizationProviderOAuth2GrantTypes_STATUS) error {
+func (types *AuthorizationProviderOAuth2GrantTypes_STATUS) AssignProperties_To_AuthorizationProviderOAuth2GrantTypes_STATUS(destination *storage.AuthorizationProviderOAuth2GrantTypes_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(types.PropertyBag)
 
@@ -942,13 +942,13 @@ func (types *AuthorizationProviderOAuth2GrantTypes_STATUS) AssignProperties_To_A
 }
 
 type augmentConversionForAuthorizationProviderOAuth2GrantTypes interface {
-	AssignPropertiesFrom(src *v20220801s.AuthorizationProviderOAuth2GrantTypes) error
-	AssignPropertiesTo(dst *v20220801s.AuthorizationProviderOAuth2GrantTypes) error
+	AssignPropertiesFrom(src *storage.AuthorizationProviderOAuth2GrantTypes) error
+	AssignPropertiesTo(dst *storage.AuthorizationProviderOAuth2GrantTypes) error
 }
 
 type augmentConversionForAuthorizationProviderOAuth2GrantTypes_STATUS interface {
-	AssignPropertiesFrom(src *v20220801s.AuthorizationProviderOAuth2GrantTypes_STATUS) error
-	AssignPropertiesTo(dst *v20220801s.AuthorizationProviderOAuth2GrantTypes_STATUS) error
+	AssignPropertiesFrom(src *storage.AuthorizationProviderOAuth2GrantTypes_STATUS) error
+	AssignPropertiesTo(dst *storage.AuthorizationProviderOAuth2GrantTypes_STATUS) error
 }
 
 func init() {

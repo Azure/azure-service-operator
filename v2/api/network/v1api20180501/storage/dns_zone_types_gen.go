@@ -4,7 +4,7 @@
 package storage
 
 import (
-	v20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
@@ -234,7 +234,7 @@ type SubResource struct {
 }
 
 // AssignProperties_From_SubResource populates our SubResource from the provided source SubResource
-func (resource *SubResource) AssignProperties_From_SubResource(source *v20200601s.SubResource) error {
+func (resource *SubResource) AssignProperties_From_SubResource(source *storage.SubResource) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -267,7 +267,7 @@ func (resource *SubResource) AssignProperties_From_SubResource(source *v20200601
 }
 
 // AssignProperties_To_SubResource populates the provided destination SubResource from our SubResource
-func (resource *SubResource) AssignProperties_To_SubResource(destination *v20200601s.SubResource) error {
+func (resource *SubResource) AssignProperties_To_SubResource(destination *storage.SubResource) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 
@@ -307,7 +307,7 @@ type SubResource_STATUS struct {
 }
 
 // AssignProperties_From_SubResource_STATUS populates our SubResource_STATUS from the provided source SubResource_STATUS
-func (resource *SubResource_STATUS) AssignProperties_From_SubResource_STATUS(source *v20200601s.SubResource_STATUS) error {
+func (resource *SubResource_STATUS) AssignProperties_From_SubResource_STATUS(source *storage.SubResource_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -335,7 +335,7 @@ func (resource *SubResource_STATUS) AssignProperties_From_SubResource_STATUS(sou
 }
 
 // AssignProperties_To_SubResource_STATUS populates the provided destination SubResource_STATUS from our SubResource_STATUS
-func (resource *SubResource_STATUS) AssignProperties_To_SubResource_STATUS(destination *v20200601s.SubResource_STATUS) error {
+func (resource *SubResource_STATUS) AssignProperties_To_SubResource_STATUS(destination *storage.SubResource_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 
@@ -363,13 +363,13 @@ func (resource *SubResource_STATUS) AssignProperties_To_SubResource_STATUS(desti
 }
 
 type augmentConversionForSubResource interface {
-	AssignPropertiesFrom(src *v20200601s.SubResource) error
-	AssignPropertiesTo(dst *v20200601s.SubResource) error
+	AssignPropertiesFrom(src *storage.SubResource) error
+	AssignPropertiesTo(dst *storage.SubResource) error
 }
 
 type augmentConversionForSubResource_STATUS interface {
-	AssignPropertiesFrom(src *v20200601s.SubResource_STATUS) error
-	AssignPropertiesTo(dst *v20200601s.SubResource_STATUS) error
+	AssignPropertiesFrom(src *storage.SubResource_STATUS) error
+	AssignPropertiesTo(dst *storage.SubResource_STATUS) error
 }
 
 func init() {

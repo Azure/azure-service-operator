@@ -110,6 +110,8 @@ func (s SubPackageReference) Version() string {
 func (s SubPackageReference) ImportAlias(style PackageImportStyle) string {
 	base := s.parent.ImportAlias(style)
 	switch style {
+	case Name:
+		return s.name
 	case VersionOnly:
 		return base + s.name[0:1]
 	case GroupOnly:

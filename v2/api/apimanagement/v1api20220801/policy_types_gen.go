@@ -5,7 +5,7 @@ package v1api20220801
 
 import (
 	"fmt"
-	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &Policy{}
 
 // ConvertFrom populates our Policy from the provided hub Policy
 func (policy *Policy) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20220801s.Policy)
+	source, ok := hub.(*storage.Policy)
 	if !ok {
 		return fmt.Errorf("expected apimanagement/v1api20220801/storage/Policy but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (policy *Policy) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub Policy from our Policy
 func (policy *Policy) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20220801s.Policy)
+	destination, ok := hub.(*storage.Policy)
 	if !ok {
 		return fmt.Errorf("expected apimanagement/v1api20220801/storage/Policy but received %T instead", hub)
 	}
@@ -248,7 +248,7 @@ func (policy *Policy) validateWriteOnceProperties(old runtime.Object) (admission
 }
 
 // AssignProperties_From_Policy populates our Policy from the provided source Policy
-func (policy *Policy) AssignProperties_From_Policy(source *v20220801s.Policy) error {
+func (policy *Policy) AssignProperties_From_Policy(source *storage.Policy) error {
 
 	// ObjectMeta
 	policy.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -274,13 +274,13 @@ func (policy *Policy) AssignProperties_From_Policy(source *v20220801s.Policy) er
 }
 
 // AssignProperties_To_Policy populates the provided destination Policy from our Policy
-func (policy *Policy) AssignProperties_To_Policy(destination *v20220801s.Policy) error {
+func (policy *Policy) AssignProperties_To_Policy(destination *storage.Policy) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *policy.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20220801s.Service_Policy_Spec
+	var spec storage.Service_Policy_Spec
 	err := policy.Spec.AssignProperties_To_Service_Policy_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Service_Policy_Spec() to populate field Spec")
@@ -288,7 +288,7 @@ func (policy *Policy) AssignProperties_To_Policy(destination *v20220801s.Policy)
 	destination.Spec = spec
 
 	// Status
-	var status v20220801s.Service_Policy_STATUS
+	var status storage.Service_Policy_STATUS
 	err = policy.Status.AssignProperties_To_Service_Policy_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Service_Policy_STATUS() to populate field Status")
@@ -404,14 +404,14 @@ var _ genruntime.ConvertibleSpec = &Service_Policy_Spec{}
 
 // ConvertSpecFrom populates our Service_Policy_Spec from the provided source
 func (policy *Service_Policy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20220801s.Service_Policy_Spec)
+	src, ok := source.(*storage.Service_Policy_Spec)
 	if ok {
 		// Populate our instance from source
 		return policy.AssignProperties_From_Service_Policy_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220801s.Service_Policy_Spec{}
+	src = &storage.Service_Policy_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -428,14 +428,14 @@ func (policy *Service_Policy_Spec) ConvertSpecFrom(source genruntime.Convertible
 
 // ConvertSpecTo populates the provided destination from our Service_Policy_Spec
 func (policy *Service_Policy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20220801s.Service_Policy_Spec)
+	dst, ok := destination.(*storage.Service_Policy_Spec)
 	if ok {
 		// Populate destination from our instance
 		return policy.AssignProperties_To_Service_Policy_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220801s.Service_Policy_Spec{}
+	dst = &storage.Service_Policy_Spec{}
 	err := policy.AssignProperties_To_Service_Policy_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -451,7 +451,7 @@ func (policy *Service_Policy_Spec) ConvertSpecTo(destination genruntime.Converti
 }
 
 // AssignProperties_From_Service_Policy_Spec populates our Service_Policy_Spec from the provided source Service_Policy_Spec
-func (policy *Service_Policy_Spec) AssignProperties_From_Service_Policy_Spec(source *v20220801s.Service_Policy_Spec) error {
+func (policy *Service_Policy_Spec) AssignProperties_From_Service_Policy_Spec(source *storage.Service_Policy_Spec) error {
 
 	// Format
 	if source.Format != nil {
@@ -478,7 +478,7 @@ func (policy *Service_Policy_Spec) AssignProperties_From_Service_Policy_Spec(sou
 }
 
 // AssignProperties_To_Service_Policy_Spec populates the provided destination Service_Policy_Spec from our Service_Policy_Spec
-func (policy *Service_Policy_Spec) AssignProperties_To_Service_Policy_Spec(destination *v20220801s.Service_Policy_Spec) error {
+func (policy *Service_Policy_Spec) AssignProperties_To_Service_Policy_Spec(destination *storage.Service_Policy_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -563,14 +563,14 @@ var _ genruntime.ConvertibleStatus = &Service_Policy_STATUS{}
 
 // ConvertStatusFrom populates our Service_Policy_STATUS from the provided source
 func (policy *Service_Policy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20220801s.Service_Policy_STATUS)
+	src, ok := source.(*storage.Service_Policy_STATUS)
 	if ok {
 		// Populate our instance from source
 		return policy.AssignProperties_From_Service_Policy_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220801s.Service_Policy_STATUS{}
+	src = &storage.Service_Policy_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -587,14 +587,14 @@ func (policy *Service_Policy_STATUS) ConvertStatusFrom(source genruntime.Convert
 
 // ConvertStatusTo populates the provided destination from our Service_Policy_STATUS
 func (policy *Service_Policy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20220801s.Service_Policy_STATUS)
+	dst, ok := destination.(*storage.Service_Policy_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return policy.AssignProperties_To_Service_Policy_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220801s.Service_Policy_STATUS{}
+	dst = &storage.Service_Policy_STATUS{}
 	err := policy.AssignProperties_To_Service_Policy_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -666,7 +666,7 @@ func (policy *Service_Policy_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 }
 
 // AssignProperties_From_Service_Policy_STATUS populates our Service_Policy_STATUS from the provided source Service_Policy_STATUS
-func (policy *Service_Policy_STATUS) AssignProperties_From_Service_Policy_STATUS(source *v20220801s.Service_Policy_STATUS) error {
+func (policy *Service_Policy_STATUS) AssignProperties_From_Service_Policy_STATUS(source *storage.Service_Policy_STATUS) error {
 
 	// Conditions
 	policy.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -697,7 +697,7 @@ func (policy *Service_Policy_STATUS) AssignProperties_From_Service_Policy_STATUS
 }
 
 // AssignProperties_To_Service_Policy_STATUS populates the provided destination Service_Policy_STATUS from our Service_Policy_STATUS
-func (policy *Service_Policy_STATUS) AssignProperties_To_Service_Policy_STATUS(destination *v20220801s.Service_Policy_STATUS) error {
+func (policy *Service_Policy_STATUS) AssignProperties_To_Service_Policy_STATUS(destination *storage.Service_Policy_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

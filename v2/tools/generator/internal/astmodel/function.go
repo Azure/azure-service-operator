@@ -15,6 +15,8 @@ type Function interface {
 	// (You can't have two functions with the same name on the same object or resource)
 	Name() string
 
+	// RequiredPackageReferences returns a set of packages imports required by this type.
+	// The set should *not* include the package in which the type is defined.
 	RequiredPackageReferences() *PackageReferenceSet
 
 	// References returns the set of types to which this function refers.

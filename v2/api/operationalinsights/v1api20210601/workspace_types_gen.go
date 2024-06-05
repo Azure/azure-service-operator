@@ -5,7 +5,7 @@ package v1api20210601
 
 import (
 	"fmt"
-	v20210601s "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &Workspace{}
 
 // ConvertFrom populates our Workspace from the provided hub Workspace
 func (workspace *Workspace) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210601s.Workspace)
+	source, ok := hub.(*storage.Workspace)
 	if !ok {
 		return fmt.Errorf("expected operationalinsights/v1api20210601/storage/Workspace but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (workspace *Workspace) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub Workspace from our Workspace
 func (workspace *Workspace) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210601s.Workspace)
+	destination, ok := hub.(*storage.Workspace)
 	if !ok {
 		return fmt.Errorf("expected operationalinsights/v1api20210601/storage/Workspace but received %T instead", hub)
 	}
@@ -254,7 +254,7 @@ func (workspace *Workspace) validateWriteOnceProperties(old runtime.Object) (adm
 }
 
 // AssignProperties_From_Workspace populates our Workspace from the provided source Workspace
-func (workspace *Workspace) AssignProperties_From_Workspace(source *v20210601s.Workspace) error {
+func (workspace *Workspace) AssignProperties_From_Workspace(source *storage.Workspace) error {
 
 	// ObjectMeta
 	workspace.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -280,13 +280,13 @@ func (workspace *Workspace) AssignProperties_From_Workspace(source *v20210601s.W
 }
 
 // AssignProperties_To_Workspace populates the provided destination Workspace from our Workspace
-func (workspace *Workspace) AssignProperties_To_Workspace(destination *v20210601s.Workspace) error {
+func (workspace *Workspace) AssignProperties_To_Workspace(destination *storage.Workspace) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *workspace.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210601s.Workspace_Spec
+	var spec storage.Workspace_Spec
 	err := workspace.Spec.AssignProperties_To_Workspace_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Workspace_Spec() to populate field Spec")
@@ -294,7 +294,7 @@ func (workspace *Workspace) AssignProperties_To_Workspace(destination *v20210601
 	destination.Spec = spec
 
 	// Status
-	var status v20210601s.Workspace_STATUS
+	var status storage.Workspace_STATUS
 	err = workspace.Status.AssignProperties_To_Workspace_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Workspace_STATUS() to populate field Status")
@@ -605,14 +605,14 @@ var _ genruntime.ConvertibleSpec = &Workspace_Spec{}
 
 // ConvertSpecFrom populates our Workspace_Spec from the provided source
 func (workspace *Workspace_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210601s.Workspace_Spec)
+	src, ok := source.(*storage.Workspace_Spec)
 	if ok {
 		// Populate our instance from source
 		return workspace.AssignProperties_From_Workspace_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210601s.Workspace_Spec{}
+	src = &storage.Workspace_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -629,14 +629,14 @@ func (workspace *Workspace_Spec) ConvertSpecFrom(source genruntime.ConvertibleSp
 
 // ConvertSpecTo populates the provided destination from our Workspace_Spec
 func (workspace *Workspace_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210601s.Workspace_Spec)
+	dst, ok := destination.(*storage.Workspace_Spec)
 	if ok {
 		// Populate destination from our instance
 		return workspace.AssignProperties_To_Workspace_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210601s.Workspace_Spec{}
+	dst = &storage.Workspace_Spec{}
 	err := workspace.AssignProperties_To_Workspace_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -652,7 +652,7 @@ func (workspace *Workspace_Spec) ConvertSpecTo(destination genruntime.Convertibl
 }
 
 // AssignProperties_From_Workspace_Spec populates our Workspace_Spec from the provided source Workspace_Spec
-func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *v20210601s.Workspace_Spec) error {
+func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *storage.Workspace_Spec) error {
 
 	// AzureName
 	workspace.AzureName = source.AzureName
@@ -753,7 +753,7 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *v2
 }
 
 // AssignProperties_To_Workspace_Spec populates the provided destination Workspace_Spec from our Workspace_Spec
-func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination *v20210601s.Workspace_Spec) error {
+func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination *storage.Workspace_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -765,7 +765,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 
 	// Features
 	if workspace.Features != nil {
-		var feature v20210601s.WorkspaceFeatures
+		var feature storage.WorkspaceFeatures
 		err := workspace.Features.AssignProperties_To_WorkspaceFeatures(&feature)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceFeatures() to populate field Features")
@@ -826,7 +826,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 
 	// Sku
 	if workspace.Sku != nil {
-		var sku v20210601s.WorkspaceSku
+		var sku storage.WorkspaceSku
 		err := workspace.Sku.AssignProperties_To_WorkspaceSku(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceSku() to populate field Sku")
@@ -841,7 +841,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 
 	// WorkspaceCapping
 	if workspace.WorkspaceCapping != nil {
-		var workspaceCapping v20210601s.WorkspaceCapping
+		var workspaceCapping storage.WorkspaceCapping
 		err := workspace.WorkspaceCapping.AssignProperties_To_WorkspaceCapping(&workspaceCapping)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceCapping() to populate field WorkspaceCapping")
@@ -1023,14 +1023,14 @@ var _ genruntime.ConvertibleStatus = &Workspace_STATUS{}
 
 // ConvertStatusFrom populates our Workspace_STATUS from the provided source
 func (workspace *Workspace_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210601s.Workspace_STATUS)
+	src, ok := source.(*storage.Workspace_STATUS)
 	if ok {
 		// Populate our instance from source
 		return workspace.AssignProperties_From_Workspace_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210601s.Workspace_STATUS{}
+	src = &storage.Workspace_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -1047,14 +1047,14 @@ func (workspace *Workspace_STATUS) ConvertStatusFrom(source genruntime.Convertib
 
 // ConvertStatusTo populates the provided destination from our Workspace_STATUS
 func (workspace *Workspace_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210601s.Workspace_STATUS)
+	dst, ok := destination.(*storage.Workspace_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return workspace.AssignProperties_To_Workspace_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210601s.Workspace_STATUS{}
+	dst = &storage.Workspace_STATUS{}
 	err := workspace.AssignProperties_To_Workspace_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1255,7 +1255,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 }
 
 // AssignProperties_From_Workspace_STATUS populates our Workspace_STATUS from the provided source Workspace_STATUS
-func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source *v20210601s.Workspace_STATUS) error {
+func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source *storage.Workspace_STATUS) error {
 
 	// Conditions
 	workspace.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -1384,7 +1384,7 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 }
 
 // AssignProperties_To_Workspace_STATUS populates the provided destination Workspace_STATUS from our Workspace_STATUS
-func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destination *v20210601s.Workspace_STATUS) error {
+func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destination *storage.Workspace_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1402,7 +1402,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 
 	// Features
 	if workspace.Features != nil {
-		var feature v20210601s.WorkspaceFeatures_STATUS
+		var feature storage.WorkspaceFeatures_STATUS
 		err := workspace.Features.AssignProperties_To_WorkspaceFeatures_STATUS(&feature)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceFeatures_STATUS() to populate field Features")
@@ -1434,11 +1434,11 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 
 	// PrivateLinkScopedResources
 	if workspace.PrivateLinkScopedResources != nil {
-		privateLinkScopedResourceList := make([]v20210601s.PrivateLinkScopedResource_STATUS, len(workspace.PrivateLinkScopedResources))
+		privateLinkScopedResourceList := make([]storage.PrivateLinkScopedResource_STATUS, len(workspace.PrivateLinkScopedResources))
 		for privateLinkScopedResourceIndex, privateLinkScopedResourceItem := range workspace.PrivateLinkScopedResources {
 			// Shadow the loop variable to avoid aliasing
 			privateLinkScopedResourceItem := privateLinkScopedResourceItem
-			var privateLinkScopedResource v20210601s.PrivateLinkScopedResource_STATUS
+			var privateLinkScopedResource storage.PrivateLinkScopedResource_STATUS
 			err := privateLinkScopedResourceItem.AssignProperties_To_PrivateLinkScopedResource_STATUS(&privateLinkScopedResource)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkScopedResource_STATUS() to populate field PrivateLinkScopedResources")
@@ -1479,7 +1479,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 
 	// Sku
 	if workspace.Sku != nil {
-		var sku v20210601s.WorkspaceSku_STATUS
+		var sku storage.WorkspaceSku_STATUS
 		err := workspace.Sku.AssignProperties_To_WorkspaceSku_STATUS(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceSku_STATUS() to populate field Sku")
@@ -1497,7 +1497,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 
 	// WorkspaceCapping
 	if workspace.WorkspaceCapping != nil {
-		var workspaceCapping v20210601s.WorkspaceCapping_STATUS
+		var workspaceCapping storage.WorkspaceCapping_STATUS
 		err := workspace.WorkspaceCapping.AssignProperties_To_WorkspaceCapping_STATUS(&workspaceCapping)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceCapping_STATUS() to populate field WorkspaceCapping")
@@ -1558,7 +1558,7 @@ func (resource *PrivateLinkScopedResource_STATUS) PopulateFromARM(owner genrunti
 }
 
 // AssignProperties_From_PrivateLinkScopedResource_STATUS populates our PrivateLinkScopedResource_STATUS from the provided source PrivateLinkScopedResource_STATUS
-func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_From_PrivateLinkScopedResource_STATUS(source *v20210601s.PrivateLinkScopedResource_STATUS) error {
+func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_From_PrivateLinkScopedResource_STATUS(source *storage.PrivateLinkScopedResource_STATUS) error {
 
 	// ResourceId
 	resource.ResourceId = genruntime.ClonePointerToString(source.ResourceId)
@@ -1571,7 +1571,7 @@ func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_From_PrivateL
 }
 
 // AssignProperties_To_PrivateLinkScopedResource_STATUS populates the provided destination PrivateLinkScopedResource_STATUS from our PrivateLinkScopedResource_STATUS
-func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_To_PrivateLinkScopedResource_STATUS(destination *v20210601s.PrivateLinkScopedResource_STATUS) error {
+func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_To_PrivateLinkScopedResource_STATUS(destination *storage.PrivateLinkScopedResource_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1667,7 +1667,7 @@ func (capping *WorkspaceCapping) PopulateFromARM(owner genruntime.ArbitraryOwner
 }
 
 // AssignProperties_From_WorkspaceCapping populates our WorkspaceCapping from the provided source WorkspaceCapping
-func (capping *WorkspaceCapping) AssignProperties_From_WorkspaceCapping(source *v20210601s.WorkspaceCapping) error {
+func (capping *WorkspaceCapping) AssignProperties_From_WorkspaceCapping(source *storage.WorkspaceCapping) error {
 
 	// DailyQuotaGb
 	if source.DailyQuotaGb != nil {
@@ -1682,7 +1682,7 @@ func (capping *WorkspaceCapping) AssignProperties_From_WorkspaceCapping(source *
 }
 
 // AssignProperties_To_WorkspaceCapping populates the provided destination WorkspaceCapping from our WorkspaceCapping
-func (capping *WorkspaceCapping) AssignProperties_To_WorkspaceCapping(destination *v20210601s.WorkspaceCapping) error {
+func (capping *WorkspaceCapping) AssignProperties_To_WorkspaceCapping(destination *storage.WorkspaceCapping) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1769,7 +1769,7 @@ func (capping *WorkspaceCapping_STATUS) PopulateFromARM(owner genruntime.Arbitra
 }
 
 // AssignProperties_From_WorkspaceCapping_STATUS populates our WorkspaceCapping_STATUS from the provided source WorkspaceCapping_STATUS
-func (capping *WorkspaceCapping_STATUS) AssignProperties_From_WorkspaceCapping_STATUS(source *v20210601s.WorkspaceCapping_STATUS) error {
+func (capping *WorkspaceCapping_STATUS) AssignProperties_From_WorkspaceCapping_STATUS(source *storage.WorkspaceCapping_STATUS) error {
 
 	// DailyQuotaGb
 	if source.DailyQuotaGb != nil {
@@ -1796,7 +1796,7 @@ func (capping *WorkspaceCapping_STATUS) AssignProperties_From_WorkspaceCapping_S
 }
 
 // AssignProperties_To_WorkspaceCapping_STATUS populates the provided destination WorkspaceCapping_STATUS from our WorkspaceCapping_STATUS
-func (capping *WorkspaceCapping_STATUS) AssignProperties_To_WorkspaceCapping_STATUS(destination *v20210601s.WorkspaceCapping_STATUS) error {
+func (capping *WorkspaceCapping_STATUS) AssignProperties_To_WorkspaceCapping_STATUS(destination *storage.WorkspaceCapping_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1936,7 +1936,7 @@ func (features *WorkspaceFeatures) PopulateFromARM(owner genruntime.ArbitraryOwn
 }
 
 // AssignProperties_From_WorkspaceFeatures populates our WorkspaceFeatures from the provided source WorkspaceFeatures
-func (features *WorkspaceFeatures) AssignProperties_From_WorkspaceFeatures(source *v20210601s.WorkspaceFeatures) error {
+func (features *WorkspaceFeatures) AssignProperties_From_WorkspaceFeatures(source *storage.WorkspaceFeatures) error {
 
 	// ClusterResourceReference
 	if source.ClusterResourceReference != nil {
@@ -1983,7 +1983,7 @@ func (features *WorkspaceFeatures) AssignProperties_From_WorkspaceFeatures(sourc
 }
 
 // AssignProperties_To_WorkspaceFeatures populates the provided destination WorkspaceFeatures from our WorkspaceFeatures
-func (features *WorkspaceFeatures) AssignProperties_To_WorkspaceFeatures(destination *v20210601s.WorkspaceFeatures) error {
+func (features *WorkspaceFeatures) AssignProperties_To_WorkspaceFeatures(destination *storage.WorkspaceFeatures) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2152,7 +2152,7 @@ func (features *WorkspaceFeatures_STATUS) PopulateFromARM(owner genruntime.Arbit
 }
 
 // AssignProperties_From_WorkspaceFeatures_STATUS populates our WorkspaceFeatures_STATUS from the provided source WorkspaceFeatures_STATUS
-func (features *WorkspaceFeatures_STATUS) AssignProperties_From_WorkspaceFeatures_STATUS(source *v20210601s.WorkspaceFeatures_STATUS) error {
+func (features *WorkspaceFeatures_STATUS) AssignProperties_From_WorkspaceFeatures_STATUS(source *storage.WorkspaceFeatures_STATUS) error {
 
 	// ClusterResourceId
 	features.ClusterResourceId = genruntime.ClonePointerToString(source.ClusterResourceId)
@@ -2194,7 +2194,7 @@ func (features *WorkspaceFeatures_STATUS) AssignProperties_From_WorkspaceFeature
 }
 
 // AssignProperties_To_WorkspaceFeatures_STATUS populates the provided destination WorkspaceFeatures_STATUS from our WorkspaceFeatures_STATUS
-func (features *WorkspaceFeatures_STATUS) AssignProperties_To_WorkspaceFeatures_STATUS(destination *v20210601s.WorkspaceFeatures_STATUS) error {
+func (features *WorkspaceFeatures_STATUS) AssignProperties_To_WorkspaceFeatures_STATUS(destination *storage.WorkspaceFeatures_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2354,7 +2354,7 @@ func (workspaceSku *WorkspaceSku) PopulateFromARM(owner genruntime.ArbitraryOwne
 }
 
 // AssignProperties_From_WorkspaceSku populates our WorkspaceSku from the provided source WorkspaceSku
-func (workspaceSku *WorkspaceSku) AssignProperties_From_WorkspaceSku(source *v20210601s.WorkspaceSku) error {
+func (workspaceSku *WorkspaceSku) AssignProperties_From_WorkspaceSku(source *storage.WorkspaceSku) error {
 
 	// CapacityReservationLevel
 	if source.CapacityReservationLevel != nil {
@@ -2378,7 +2378,7 @@ func (workspaceSku *WorkspaceSku) AssignProperties_From_WorkspaceSku(source *v20
 }
 
 // AssignProperties_To_WorkspaceSku populates the provided destination WorkspaceSku from our WorkspaceSku
-func (workspaceSku *WorkspaceSku) AssignProperties_To_WorkspaceSku(destination *v20210601s.WorkspaceSku) error {
+func (workspaceSku *WorkspaceSku) AssignProperties_To_WorkspaceSku(destination *storage.WorkspaceSku) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2482,7 +2482,7 @@ func (workspaceSku *WorkspaceSku_STATUS) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_WorkspaceSku_STATUS populates our WorkspaceSku_STATUS from the provided source WorkspaceSku_STATUS
-func (workspaceSku *WorkspaceSku_STATUS) AssignProperties_From_WorkspaceSku_STATUS(source *v20210601s.WorkspaceSku_STATUS) error {
+func (workspaceSku *WorkspaceSku_STATUS) AssignProperties_From_WorkspaceSku_STATUS(source *storage.WorkspaceSku_STATUS) error {
 
 	// CapacityReservationLevel
 	if source.CapacityReservationLevel != nil {
@@ -2509,7 +2509,7 @@ func (workspaceSku *WorkspaceSku_STATUS) AssignProperties_From_WorkspaceSku_STAT
 }
 
 // AssignProperties_To_WorkspaceSku_STATUS populates the provided destination WorkspaceSku_STATUS from our WorkspaceSku_STATUS
-func (workspaceSku *WorkspaceSku_STATUS) AssignProperties_To_WorkspaceSku_STATUS(destination *v20210601s.WorkspaceSku_STATUS) error {
+func (workspaceSku *WorkspaceSku_STATUS) AssignProperties_To_WorkspaceSku_STATUS(destination *storage.WorkspaceSku_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

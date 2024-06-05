@@ -5,7 +5,7 @@ package storage
 
 import (
 	"encoding/json"
-	v20230401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForRedisLinkedServer(subject RedisLinkedServer) st
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20230401s.RedisLinkedServer
+	var hub storage.RedisLinkedServer
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForRedisLinkedServer(subject RedisLinkedServer) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230401s.RedisLinkedServer
+	var other storage.RedisLinkedServer
 	err := copied.AssignProperties_To_RedisLinkedServer(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForRedis_LinkedServer_Spec(subject Redis_LinkedSer
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230401s.Redis_LinkedServer_Spec
+	var other storage.Redis_LinkedServer_Spec
 	err := copied.AssignProperties_To_Redis_LinkedServer_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -287,7 +287,7 @@ func RunPropertyAssignmentTestForRedis_LinkedServer_STATUS(subject Redis_LinkedS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230401s.Redis_LinkedServer_STATUS
+	var other storage.Redis_LinkedServer_STATUS
 	err := copied.AssignProperties_To_Redis_LinkedServer_STATUS(&other)
 	if err != nil {
 		return err.Error()

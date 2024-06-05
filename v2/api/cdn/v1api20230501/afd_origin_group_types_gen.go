@@ -5,7 +5,7 @@ package v1api20230501
 
 import (
 	"fmt"
-	v20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &AfdOriginGroup{}
 
 // ConvertFrom populates our AfdOriginGroup from the provided hub AfdOriginGroup
 func (group *AfdOriginGroup) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20230501s.AfdOriginGroup)
+	source, ok := hub.(*storage.AfdOriginGroup)
 	if !ok {
 		return fmt.Errorf("expected cdn/v1api20230501/storage/AfdOriginGroup but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (group *AfdOriginGroup) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub AfdOriginGroup from our AfdOriginGroup
 func (group *AfdOriginGroup) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20230501s.AfdOriginGroup)
+	destination, ok := hub.(*storage.AfdOriginGroup)
 	if !ok {
 		return fmt.Errorf("expected cdn/v1api20230501/storage/AfdOriginGroup but received %T instead", hub)
 	}
@@ -254,7 +254,7 @@ func (group *AfdOriginGroup) validateWriteOnceProperties(old runtime.Object) (ad
 }
 
 // AssignProperties_From_AfdOriginGroup populates our AfdOriginGroup from the provided source AfdOriginGroup
-func (group *AfdOriginGroup) AssignProperties_From_AfdOriginGroup(source *v20230501s.AfdOriginGroup) error {
+func (group *AfdOriginGroup) AssignProperties_From_AfdOriginGroup(source *storage.AfdOriginGroup) error {
 
 	// ObjectMeta
 	group.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -280,13 +280,13 @@ func (group *AfdOriginGroup) AssignProperties_From_AfdOriginGroup(source *v20230
 }
 
 // AssignProperties_To_AfdOriginGroup populates the provided destination AfdOriginGroup from our AfdOriginGroup
-func (group *AfdOriginGroup) AssignProperties_To_AfdOriginGroup(destination *v20230501s.AfdOriginGroup) error {
+func (group *AfdOriginGroup) AssignProperties_To_AfdOriginGroup(destination *storage.AfdOriginGroup) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *group.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20230501s.Profiles_OriginGroup_Spec
+	var spec storage.Profiles_OriginGroup_Spec
 	err := group.Spec.AssignProperties_To_Profiles_OriginGroup_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Profiles_OriginGroup_Spec() to populate field Spec")
@@ -294,7 +294,7 @@ func (group *AfdOriginGroup) AssignProperties_To_AfdOriginGroup(destination *v20
 	destination.Spec = spec
 
 	// Status
-	var status v20230501s.Profiles_OriginGroup_STATUS
+	var status storage.Profiles_OriginGroup_STATUS
 	err = group.Status.AssignProperties_To_Profiles_OriginGroup_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Profiles_OriginGroup_STATUS() to populate field Status")
@@ -473,14 +473,14 @@ var _ genruntime.ConvertibleSpec = &Profiles_OriginGroup_Spec{}
 
 // ConvertSpecFrom populates our Profiles_OriginGroup_Spec from the provided source
 func (group *Profiles_OriginGroup_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20230501s.Profiles_OriginGroup_Spec)
+	src, ok := source.(*storage.Profiles_OriginGroup_Spec)
 	if ok {
 		// Populate our instance from source
 		return group.AssignProperties_From_Profiles_OriginGroup_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20230501s.Profiles_OriginGroup_Spec{}
+	src = &storage.Profiles_OriginGroup_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -497,14 +497,14 @@ func (group *Profiles_OriginGroup_Spec) ConvertSpecFrom(source genruntime.Conver
 
 // ConvertSpecTo populates the provided destination from our Profiles_OriginGroup_Spec
 func (group *Profiles_OriginGroup_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20230501s.Profiles_OriginGroup_Spec)
+	dst, ok := destination.(*storage.Profiles_OriginGroup_Spec)
 	if ok {
 		// Populate destination from our instance
 		return group.AssignProperties_To_Profiles_OriginGroup_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20230501s.Profiles_OriginGroup_Spec{}
+	dst = &storage.Profiles_OriginGroup_Spec{}
 	err := group.AssignProperties_To_Profiles_OriginGroup_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -520,7 +520,7 @@ func (group *Profiles_OriginGroup_Spec) ConvertSpecTo(destination genruntime.Con
 }
 
 // AssignProperties_From_Profiles_OriginGroup_Spec populates our Profiles_OriginGroup_Spec from the provided source Profiles_OriginGroup_Spec
-func (group *Profiles_OriginGroup_Spec) AssignProperties_From_Profiles_OriginGroup_Spec(source *v20230501s.Profiles_OriginGroup_Spec) error {
+func (group *Profiles_OriginGroup_Spec) AssignProperties_From_Profiles_OriginGroup_Spec(source *storage.Profiles_OriginGroup_Spec) error {
 
 	// AzureName
 	group.AzureName = source.AzureName
@@ -579,7 +579,7 @@ func (group *Profiles_OriginGroup_Spec) AssignProperties_From_Profiles_OriginGro
 }
 
 // AssignProperties_To_Profiles_OriginGroup_Spec populates the provided destination Profiles_OriginGroup_Spec from our Profiles_OriginGroup_Spec
-func (group *Profiles_OriginGroup_Spec) AssignProperties_To_Profiles_OriginGroup_Spec(destination *v20230501s.Profiles_OriginGroup_Spec) error {
+func (group *Profiles_OriginGroup_Spec) AssignProperties_To_Profiles_OriginGroup_Spec(destination *storage.Profiles_OriginGroup_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -588,7 +588,7 @@ func (group *Profiles_OriginGroup_Spec) AssignProperties_To_Profiles_OriginGroup
 
 	// HealthProbeSettings
 	if group.HealthProbeSettings != nil {
-		var healthProbeSetting v20230501s.HealthProbeParameters
+		var healthProbeSetting storage.HealthProbeParameters
 		err := group.HealthProbeSettings.AssignProperties_To_HealthProbeParameters(&healthProbeSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HealthProbeParameters() to populate field HealthProbeSettings")
@@ -600,7 +600,7 @@ func (group *Profiles_OriginGroup_Spec) AssignProperties_To_Profiles_OriginGroup
 
 	// LoadBalancingSettings
 	if group.LoadBalancingSettings != nil {
-		var loadBalancingSetting v20230501s.LoadBalancingSettingsParameters
+		var loadBalancingSetting storage.LoadBalancingSettingsParameters
 		err := group.LoadBalancingSettings.AssignProperties_To_LoadBalancingSettingsParameters(&loadBalancingSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_LoadBalancingSettingsParameters() to populate field LoadBalancingSettings")
@@ -745,14 +745,14 @@ var _ genruntime.ConvertibleStatus = &Profiles_OriginGroup_STATUS{}
 
 // ConvertStatusFrom populates our Profiles_OriginGroup_STATUS from the provided source
 func (group *Profiles_OriginGroup_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20230501s.Profiles_OriginGroup_STATUS)
+	src, ok := source.(*storage.Profiles_OriginGroup_STATUS)
 	if ok {
 		// Populate our instance from source
 		return group.AssignProperties_From_Profiles_OriginGroup_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20230501s.Profiles_OriginGroup_STATUS{}
+	src = &storage.Profiles_OriginGroup_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -769,14 +769,14 @@ func (group *Profiles_OriginGroup_STATUS) ConvertStatusFrom(source genruntime.Co
 
 // ConvertStatusTo populates the provided destination from our Profiles_OriginGroup_STATUS
 func (group *Profiles_OriginGroup_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20230501s.Profiles_OriginGroup_STATUS)
+	dst, ok := destination.(*storage.Profiles_OriginGroup_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return group.AssignProperties_To_Profiles_OriginGroup_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20230501s.Profiles_OriginGroup_STATUS{}
+	dst = &storage.Profiles_OriginGroup_STATUS{}
 	err := group.AssignProperties_To_Profiles_OriginGroup_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -914,7 +914,7 @@ func (group *Profiles_OriginGroup_STATUS) PopulateFromARM(owner genruntime.Arbit
 }
 
 // AssignProperties_From_Profiles_OriginGroup_STATUS populates our Profiles_OriginGroup_STATUS from the provided source Profiles_OriginGroup_STATUS
-func (group *Profiles_OriginGroup_STATUS) AssignProperties_From_Profiles_OriginGroup_STATUS(source *v20230501s.Profiles_OriginGroup_STATUS) error {
+func (group *Profiles_OriginGroup_STATUS) AssignProperties_From_Profiles_OriginGroup_STATUS(source *storage.Profiles_OriginGroup_STATUS) error {
 
 	// Conditions
 	group.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -1002,7 +1002,7 @@ func (group *Profiles_OriginGroup_STATUS) AssignProperties_From_Profiles_OriginG
 }
 
 // AssignProperties_To_Profiles_OriginGroup_STATUS populates the provided destination Profiles_OriginGroup_STATUS from our Profiles_OriginGroup_STATUS
-func (group *Profiles_OriginGroup_STATUS) AssignProperties_To_Profiles_OriginGroup_STATUS(destination *v20230501s.Profiles_OriginGroup_STATUS) error {
+func (group *Profiles_OriginGroup_STATUS) AssignProperties_To_Profiles_OriginGroup_STATUS(destination *storage.Profiles_OriginGroup_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1019,7 +1019,7 @@ func (group *Profiles_OriginGroup_STATUS) AssignProperties_To_Profiles_OriginGro
 
 	// HealthProbeSettings
 	if group.HealthProbeSettings != nil {
-		var healthProbeSetting v20230501s.HealthProbeParameters_STATUS
+		var healthProbeSetting storage.HealthProbeParameters_STATUS
 		err := group.HealthProbeSettings.AssignProperties_To_HealthProbeParameters_STATUS(&healthProbeSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HealthProbeParameters_STATUS() to populate field HealthProbeSettings")
@@ -1034,7 +1034,7 @@ func (group *Profiles_OriginGroup_STATUS) AssignProperties_To_Profiles_OriginGro
 
 	// LoadBalancingSettings
 	if group.LoadBalancingSettings != nil {
-		var loadBalancingSetting v20230501s.LoadBalancingSettingsParameters_STATUS
+		var loadBalancingSetting storage.LoadBalancingSettingsParameters_STATUS
 		err := group.LoadBalancingSettings.AssignProperties_To_LoadBalancingSettingsParameters_STATUS(&loadBalancingSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_LoadBalancingSettingsParameters_STATUS() to populate field LoadBalancingSettings")
@@ -1068,7 +1068,7 @@ func (group *Profiles_OriginGroup_STATUS) AssignProperties_To_Profiles_OriginGro
 
 	// SystemData
 	if group.SystemData != nil {
-		var systemDatum v20230501s.SystemData_STATUS
+		var systemDatum storage.SystemData_STATUS
 		err := group.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
@@ -1251,7 +1251,7 @@ func (parameters *HealthProbeParameters) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_HealthProbeParameters populates our HealthProbeParameters from the provided source HealthProbeParameters
-func (parameters *HealthProbeParameters) AssignProperties_From_HealthProbeParameters(source *v20230501s.HealthProbeParameters) error {
+func (parameters *HealthProbeParameters) AssignProperties_From_HealthProbeParameters(source *storage.HealthProbeParameters) error {
 
 	// ProbeIntervalInSeconds
 	if source.ProbeIntervalInSeconds != nil {
@@ -1287,7 +1287,7 @@ func (parameters *HealthProbeParameters) AssignProperties_From_HealthProbeParame
 }
 
 // AssignProperties_To_HealthProbeParameters populates the provided destination HealthProbeParameters from our HealthProbeParameters
-func (parameters *HealthProbeParameters) AssignProperties_To_HealthProbeParameters(destination *v20230501s.HealthProbeParameters) error {
+func (parameters *HealthProbeParameters) AssignProperties_To_HealthProbeParameters(destination *storage.HealthProbeParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1421,7 +1421,7 @@ func (parameters *HealthProbeParameters_STATUS) PopulateFromARM(owner genruntime
 }
 
 // AssignProperties_From_HealthProbeParameters_STATUS populates our HealthProbeParameters_STATUS from the provided source HealthProbeParameters_STATUS
-func (parameters *HealthProbeParameters_STATUS) AssignProperties_From_HealthProbeParameters_STATUS(source *v20230501s.HealthProbeParameters_STATUS) error {
+func (parameters *HealthProbeParameters_STATUS) AssignProperties_From_HealthProbeParameters_STATUS(source *storage.HealthProbeParameters_STATUS) error {
 
 	// ProbeIntervalInSeconds
 	parameters.ProbeIntervalInSeconds = genruntime.ClonePointerToInt(source.ProbeIntervalInSeconds)
@@ -1452,7 +1452,7 @@ func (parameters *HealthProbeParameters_STATUS) AssignProperties_From_HealthProb
 }
 
 // AssignProperties_To_HealthProbeParameters_STATUS populates the provided destination HealthProbeParameters_STATUS from our HealthProbeParameters_STATUS
-func (parameters *HealthProbeParameters_STATUS) AssignProperties_To_HealthProbeParameters_STATUS(destination *v20230501s.HealthProbeParameters_STATUS) error {
+func (parameters *HealthProbeParameters_STATUS) AssignProperties_To_HealthProbeParameters_STATUS(destination *storage.HealthProbeParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1565,7 +1565,7 @@ func (parameters *LoadBalancingSettingsParameters) PopulateFromARM(owner genrunt
 }
 
 // AssignProperties_From_LoadBalancingSettingsParameters populates our LoadBalancingSettingsParameters from the provided source LoadBalancingSettingsParameters
-func (parameters *LoadBalancingSettingsParameters) AssignProperties_From_LoadBalancingSettingsParameters(source *v20230501s.LoadBalancingSettingsParameters) error {
+func (parameters *LoadBalancingSettingsParameters) AssignProperties_From_LoadBalancingSettingsParameters(source *storage.LoadBalancingSettingsParameters) error {
 
 	// AdditionalLatencyInMilliseconds
 	parameters.AdditionalLatencyInMilliseconds = genruntime.ClonePointerToInt(source.AdditionalLatencyInMilliseconds)
@@ -1581,7 +1581,7 @@ func (parameters *LoadBalancingSettingsParameters) AssignProperties_From_LoadBal
 }
 
 // AssignProperties_To_LoadBalancingSettingsParameters populates the provided destination LoadBalancingSettingsParameters from our LoadBalancingSettingsParameters
-func (parameters *LoadBalancingSettingsParameters) AssignProperties_To_LoadBalancingSettingsParameters(destination *v20230501s.LoadBalancingSettingsParameters) error {
+func (parameters *LoadBalancingSettingsParameters) AssignProperties_To_LoadBalancingSettingsParameters(destination *storage.LoadBalancingSettingsParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1670,7 +1670,7 @@ func (parameters *LoadBalancingSettingsParameters_STATUS) PopulateFromARM(owner 
 }
 
 // AssignProperties_From_LoadBalancingSettingsParameters_STATUS populates our LoadBalancingSettingsParameters_STATUS from the provided source LoadBalancingSettingsParameters_STATUS
-func (parameters *LoadBalancingSettingsParameters_STATUS) AssignProperties_From_LoadBalancingSettingsParameters_STATUS(source *v20230501s.LoadBalancingSettingsParameters_STATUS) error {
+func (parameters *LoadBalancingSettingsParameters_STATUS) AssignProperties_From_LoadBalancingSettingsParameters_STATUS(source *storage.LoadBalancingSettingsParameters_STATUS) error {
 
 	// AdditionalLatencyInMilliseconds
 	parameters.AdditionalLatencyInMilliseconds = genruntime.ClonePointerToInt(source.AdditionalLatencyInMilliseconds)
@@ -1686,7 +1686,7 @@ func (parameters *LoadBalancingSettingsParameters_STATUS) AssignProperties_From_
 }
 
 // AssignProperties_To_LoadBalancingSettingsParameters_STATUS populates the provided destination LoadBalancingSettingsParameters_STATUS from our LoadBalancingSettingsParameters_STATUS
-func (parameters *LoadBalancingSettingsParameters_STATUS) AssignProperties_To_LoadBalancingSettingsParameters_STATUS(destination *v20230501s.LoadBalancingSettingsParameters_STATUS) error {
+func (parameters *LoadBalancingSettingsParameters_STATUS) AssignProperties_To_LoadBalancingSettingsParameters_STATUS(destination *storage.LoadBalancingSettingsParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

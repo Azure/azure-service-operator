@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForServersIPV6FirewallRule(subject ServersIPV6Fire
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20211101s.ServersIPV6FirewallRule
+	var hub storage.ServersIPV6FirewallRule
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForServersIPV6FirewallRule(subject ServersIPV6Fire
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211101s.ServersIPV6FirewallRule
+	var other storage.ServersIPV6FirewallRule
 	err := copied.AssignProperties_To_ServersIPV6FirewallRule(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForServers_Ipv6FirewallRule_Spec(subject Servers_I
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211101s.Servers_Ipv6FirewallRule_Spec
+	var other storage.Servers_Ipv6FirewallRule_Spec
 	err := copied.AssignProperties_To_Servers_Ipv6FirewallRule_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -287,7 +287,7 @@ func RunPropertyAssignmentTestForServers_Ipv6FirewallRule_STATUS(subject Servers
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211101s.Servers_Ipv6FirewallRule_STATUS
+	var other storage.Servers_Ipv6FirewallRule_STATUS
 	err := copied.AssignProperties_To_Servers_Ipv6FirewallRule_STATUS(&other)
 	if err != nil {
 		return err.Error()

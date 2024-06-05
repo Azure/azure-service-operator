@@ -5,7 +5,7 @@ package v1api20230501
 
 import (
 	"encoding/json"
-	v20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForAfdEndpoint(subject AfdEndpoint) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20230501s.AfdEndpoint
+	var hub storage.AfdEndpoint
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForAfdEndpoint(subject AfdEndpoint) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.AfdEndpoint
+	var other storage.AfdEndpoint
 	err := copied.AssignProperties_To_AfdEndpoint(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForProfiles_AfdEndpoint_Spec(subject Profiles_AfdE
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.Profiles_AfdEndpoint_Spec
+	var other storage.Profiles_AfdEndpoint_Spec
 	err := copied.AssignProperties_To_Profiles_AfdEndpoint_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -294,7 +294,7 @@ func RunPropertyAssignmentTestForProfiles_AfdEndpoint_STATUS(subject Profiles_Af
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.Profiles_AfdEndpoint_STATUS
+	var other storage.Profiles_AfdEndpoint_STATUS
 	err := copied.AssignProperties_To_Profiles_AfdEndpoint_STATUS(&other)
 	if err != nil {
 		return err.Error()

@@ -5,7 +5,7 @@ package v1api20220801
 
 import (
 	"fmt"
-	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &PolicyFragment{}
 
 // ConvertFrom populates our PolicyFragment from the provided hub PolicyFragment
 func (fragment *PolicyFragment) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20220801s.PolicyFragment)
+	source, ok := hub.(*storage.PolicyFragment)
 	if !ok {
 		return fmt.Errorf("expected apimanagement/v1api20220801/storage/PolicyFragment but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (fragment *PolicyFragment) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub PolicyFragment from our PolicyFragment
 func (fragment *PolicyFragment) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20220801s.PolicyFragment)
+	destination, ok := hub.(*storage.PolicyFragment)
 	if !ok {
 		return fmt.Errorf("expected apimanagement/v1api20220801/storage/PolicyFragment but received %T instead", hub)
 	}
@@ -255,7 +255,7 @@ func (fragment *PolicyFragment) validateWriteOnceProperties(old runtime.Object) 
 }
 
 // AssignProperties_From_PolicyFragment populates our PolicyFragment from the provided source PolicyFragment
-func (fragment *PolicyFragment) AssignProperties_From_PolicyFragment(source *v20220801s.PolicyFragment) error {
+func (fragment *PolicyFragment) AssignProperties_From_PolicyFragment(source *storage.PolicyFragment) error {
 
 	// ObjectMeta
 	fragment.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -281,13 +281,13 @@ func (fragment *PolicyFragment) AssignProperties_From_PolicyFragment(source *v20
 }
 
 // AssignProperties_To_PolicyFragment populates the provided destination PolicyFragment from our PolicyFragment
-func (fragment *PolicyFragment) AssignProperties_To_PolicyFragment(destination *v20220801s.PolicyFragment) error {
+func (fragment *PolicyFragment) AssignProperties_To_PolicyFragment(destination *storage.PolicyFragment) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *fragment.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20220801s.Service_PolicyFragment_Spec
+	var spec storage.Service_PolicyFragment_Spec
 	err := fragment.Spec.AssignProperties_To_Service_PolicyFragment_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Service_PolicyFragment_Spec() to populate field Spec")
@@ -295,7 +295,7 @@ func (fragment *PolicyFragment) AssignProperties_To_PolicyFragment(destination *
 	destination.Spec = spec
 
 	// Status
-	var status v20220801s.Service_PolicyFragment_STATUS
+	var status storage.Service_PolicyFragment_STATUS
 	err = fragment.Status.AssignProperties_To_Service_PolicyFragment_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Service_PolicyFragment_STATUS() to populate field Status")
@@ -441,14 +441,14 @@ var _ genruntime.ConvertibleSpec = &Service_PolicyFragment_Spec{}
 
 // ConvertSpecFrom populates our Service_PolicyFragment_Spec from the provided source
 func (fragment *Service_PolicyFragment_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20220801s.Service_PolicyFragment_Spec)
+	src, ok := source.(*storage.Service_PolicyFragment_Spec)
 	if ok {
 		// Populate our instance from source
 		return fragment.AssignProperties_From_Service_PolicyFragment_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220801s.Service_PolicyFragment_Spec{}
+	src = &storage.Service_PolicyFragment_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -465,14 +465,14 @@ func (fragment *Service_PolicyFragment_Spec) ConvertSpecFrom(source genruntime.C
 
 // ConvertSpecTo populates the provided destination from our Service_PolicyFragment_Spec
 func (fragment *Service_PolicyFragment_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20220801s.Service_PolicyFragment_Spec)
+	dst, ok := destination.(*storage.Service_PolicyFragment_Spec)
 	if ok {
 		// Populate destination from our instance
 		return fragment.AssignProperties_To_Service_PolicyFragment_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220801s.Service_PolicyFragment_Spec{}
+	dst = &storage.Service_PolicyFragment_Spec{}
 	err := fragment.AssignProperties_To_Service_PolicyFragment_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -488,7 +488,7 @@ func (fragment *Service_PolicyFragment_Spec) ConvertSpecTo(destination genruntim
 }
 
 // AssignProperties_From_Service_PolicyFragment_Spec populates our Service_PolicyFragment_Spec from the provided source Service_PolicyFragment_Spec
-func (fragment *Service_PolicyFragment_Spec) AssignProperties_From_Service_PolicyFragment_Spec(source *v20220801s.Service_PolicyFragment_Spec) error {
+func (fragment *Service_PolicyFragment_Spec) AssignProperties_From_Service_PolicyFragment_Spec(source *storage.Service_PolicyFragment_Spec) error {
 
 	// AzureName
 	fragment.AzureName = source.AzureName
@@ -526,7 +526,7 @@ func (fragment *Service_PolicyFragment_Spec) AssignProperties_From_Service_Polic
 }
 
 // AssignProperties_To_Service_PolicyFragment_Spec populates the provided destination Service_PolicyFragment_Spec from our Service_PolicyFragment_Spec
-func (fragment *Service_PolicyFragment_Spec) AssignProperties_To_Service_PolicyFragment_Spec(destination *v20220801s.Service_PolicyFragment_Spec) error {
+func (fragment *Service_PolicyFragment_Spec) AssignProperties_To_Service_PolicyFragment_Spec(destination *storage.Service_PolicyFragment_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -638,14 +638,14 @@ var _ genruntime.ConvertibleStatus = &Service_PolicyFragment_STATUS{}
 
 // ConvertStatusFrom populates our Service_PolicyFragment_STATUS from the provided source
 func (fragment *Service_PolicyFragment_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20220801s.Service_PolicyFragment_STATUS)
+	src, ok := source.(*storage.Service_PolicyFragment_STATUS)
 	if ok {
 		// Populate our instance from source
 		return fragment.AssignProperties_From_Service_PolicyFragment_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220801s.Service_PolicyFragment_STATUS{}
+	src = &storage.Service_PolicyFragment_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -662,14 +662,14 @@ func (fragment *Service_PolicyFragment_STATUS) ConvertStatusFrom(source genrunti
 
 // ConvertStatusTo populates the provided destination from our Service_PolicyFragment_STATUS
 func (fragment *Service_PolicyFragment_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20220801s.Service_PolicyFragment_STATUS)
+	dst, ok := destination.(*storage.Service_PolicyFragment_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return fragment.AssignProperties_To_Service_PolicyFragment_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220801s.Service_PolicyFragment_STATUS{}
+	dst = &storage.Service_PolicyFragment_STATUS{}
 	err := fragment.AssignProperties_To_Service_PolicyFragment_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -750,7 +750,7 @@ func (fragment *Service_PolicyFragment_STATUS) PopulateFromARM(owner genruntime.
 }
 
 // AssignProperties_From_Service_PolicyFragment_STATUS populates our Service_PolicyFragment_STATUS from the provided source Service_PolicyFragment_STATUS
-func (fragment *Service_PolicyFragment_STATUS) AssignProperties_From_Service_PolicyFragment_STATUS(source *v20220801s.Service_PolicyFragment_STATUS) error {
+func (fragment *Service_PolicyFragment_STATUS) AssignProperties_From_Service_PolicyFragment_STATUS(source *storage.Service_PolicyFragment_STATUS) error {
 
 	// Conditions
 	fragment.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -784,7 +784,7 @@ func (fragment *Service_PolicyFragment_STATUS) AssignProperties_From_Service_Pol
 }
 
 // AssignProperties_To_Service_PolicyFragment_STATUS populates the provided destination Service_PolicyFragment_STATUS from our Service_PolicyFragment_STATUS
-func (fragment *Service_PolicyFragment_STATUS) AssignProperties_To_Service_PolicyFragment_STATUS(destination *v20220801s.Service_PolicyFragment_STATUS) error {
+func (fragment *Service_PolicyFragment_STATUS) AssignProperties_To_Service_PolicyFragment_STATUS(destination *storage.Service_PolicyFragment_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

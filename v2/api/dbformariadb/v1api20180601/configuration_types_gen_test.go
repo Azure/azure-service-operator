@@ -5,7 +5,7 @@ package v1api20180601
 
 import (
 	"encoding/json"
-	v20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForConfiguration(subject Configuration) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20180601s.Configuration
+	var hub storage.Configuration
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForConfiguration(subject Configuration) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180601s.Configuration
+	var other storage.Configuration
 	err := copied.AssignProperties_To_Configuration(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForServers_Configuration_Spec(subject Servers_Conf
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180601s.Servers_Configuration_Spec
+	var other storage.Servers_Configuration_Spec
 	err := copied.AssignProperties_To_Servers_Configuration_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -286,7 +286,7 @@ func RunPropertyAssignmentTestForServers_Configuration_STATUS(subject Servers_Co
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180601s.Servers_Configuration_STATUS
+	var other storage.Servers_Configuration_STATUS
 	err := copied.AssignProperties_To_Servers_Configuration_STATUS(&other)
 	if err != nil {
 		return err.Error()

@@ -5,7 +5,7 @@ package v1api20220401
 
 import (
 	"encoding/json"
-	v20220401s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForTrafficManagerProfilesExternalEndpoint(subject 
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20220401s.TrafficManagerProfilesExternalEndpoint
+	var hub storage.TrafficManagerProfilesExternalEndpoint
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForTrafficManagerProfilesExternalEndpoint(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220401s.TrafficManagerProfilesExternalEndpoint
+	var other storage.TrafficManagerProfilesExternalEndpoint
 	err := copied.AssignProperties_To_TrafficManagerProfilesExternalEndpoint(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForTrafficmanagerprofiles_ExternalEndpoint_Spec(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220401s.Trafficmanagerprofiles_ExternalEndpoint_Spec
+	var other storage.Trafficmanagerprofiles_ExternalEndpoint_Spec
 	err := copied.AssignProperties_To_Trafficmanagerprofiles_ExternalEndpoint_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -319,7 +319,7 @@ func RunPropertyAssignmentTestForTrafficmanagerprofiles_ExternalEndpoint_STATUS(
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220401s.Trafficmanagerprofiles_ExternalEndpoint_STATUS
+	var other storage.Trafficmanagerprofiles_ExternalEndpoint_STATUS
 	err := copied.AssignProperties_To_Trafficmanagerprofiles_ExternalEndpoint_STATUS(&other)
 	if err != nil {
 		return err.Error()

@@ -5,7 +5,7 @@ package v1api20180301
 
 import (
 	"encoding/json"
-	v20180301s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20180301/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/insights/v1api20180301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForMetricAlert(subject MetricAlert) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20180301s.MetricAlert
+	var hub storage.MetricAlert
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForMetricAlert(subject MetricAlert) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180301s.MetricAlert
+	var other storage.MetricAlert
 	err := copied.AssignProperties_To_MetricAlert(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForMetricAlert_Spec(subject MetricAlert_Spec) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180301s.MetricAlert_Spec
+	var other storage.MetricAlert_Spec
 	err := copied.AssignProperties_To_MetricAlert_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -310,7 +310,7 @@ func RunPropertyAssignmentTestForMetricAlert_STATUS(subject MetricAlert_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180301s.MetricAlert_STATUS
+	var other storage.MetricAlert_STATUS
 	err := copied.AssignProperties_To_MetricAlert_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -444,7 +444,7 @@ func RunPropertyAssignmentTestForMetricAlertAction(subject MetricAlertAction) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180301s.MetricAlertAction
+	var other storage.MetricAlertAction
 	err := copied.AssignProperties_To_MetricAlertAction(&other)
 	if err != nil {
 		return err.Error()
@@ -549,7 +549,7 @@ func RunPropertyAssignmentTestForMetricAlertAction_STATUS(subject MetricAlertAct
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180301s.MetricAlertAction_STATUS
+	var other storage.MetricAlertAction_STATUS
 	err := copied.AssignProperties_To_MetricAlertAction_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -655,7 +655,7 @@ func RunPropertyAssignmentTestForMetricAlertCriteria(subject MetricAlertCriteria
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180301s.MetricAlertCriteria
+	var other storage.MetricAlertCriteria
 	err := copied.AssignProperties_To_MetricAlertCriteria(&other)
 	if err != nil {
 		return err.Error()
@@ -772,7 +772,7 @@ func RunPropertyAssignmentTestForMetricAlertCriteria_STATUS(subject MetricAlertC
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180301s.MetricAlertCriteria_STATUS
+	var other storage.MetricAlertCriteria_STATUS
 	err := copied.AssignProperties_To_MetricAlertCriteria_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -889,7 +889,7 @@ func RunPropertyAssignmentTestForMetricAlertMultipleResourceMultipleMetricCriter
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180301s.MetricAlertMultipleResourceMultipleMetricCriteria
+	var other storage.MetricAlertMultipleResourceMultipleMetricCriteria
 	err := copied.AssignProperties_To_MetricAlertMultipleResourceMultipleMetricCriteria(&other)
 	if err != nil {
 		return err.Error()
@@ -1006,7 +1006,7 @@ func RunPropertyAssignmentTestForMetricAlertMultipleResourceMultipleMetricCriter
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180301s.MetricAlertMultipleResourceMultipleMetricCriteria_STATUS
+	var other storage.MetricAlertMultipleResourceMultipleMetricCriteria_STATUS
 	err := copied.AssignProperties_To_MetricAlertMultipleResourceMultipleMetricCriteria_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1123,7 +1123,7 @@ func RunPropertyAssignmentTestForMetricAlertSingleResourceMultipleMetricCriteria
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180301s.MetricAlertSingleResourceMultipleMetricCriteria
+	var other storage.MetricAlertSingleResourceMultipleMetricCriteria
 	err := copied.AssignProperties_To_MetricAlertSingleResourceMultipleMetricCriteria(&other)
 	if err != nil {
 		return err.Error()
@@ -1240,7 +1240,7 @@ func RunPropertyAssignmentTestForMetricAlertSingleResourceMultipleMetricCriteria
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180301s.MetricAlertSingleResourceMultipleMetricCriteria_STATUS
+	var other storage.MetricAlertSingleResourceMultipleMetricCriteria_STATUS
 	err := copied.AssignProperties_To_MetricAlertSingleResourceMultipleMetricCriteria_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1357,7 +1357,7 @@ func RunPropertyAssignmentTestForWebtestLocationAvailabilityCriteria(subject Web
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180301s.WebtestLocationAvailabilityCriteria
+	var other storage.WebtestLocationAvailabilityCriteria
 	err := copied.AssignProperties_To_WebtestLocationAvailabilityCriteria(&other)
 	if err != nil {
 		return err.Error()
@@ -1462,7 +1462,7 @@ func RunPropertyAssignmentTestForWebtestLocationAvailabilityCriteria_STATUS(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180301s.WebtestLocationAvailabilityCriteria_STATUS
+	var other storage.WebtestLocationAvailabilityCriteria_STATUS
 	err := copied.AssignProperties_To_WebtestLocationAvailabilityCriteria_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1568,7 +1568,7 @@ func RunPropertyAssignmentTestForMetricCriteria(subject MetricCriteria) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180301s.MetricCriteria
+	var other storage.MetricCriteria
 	err := copied.AssignProperties_To_MetricCriteria(&other)
 	if err != nil {
 		return err.Error()
@@ -1701,7 +1701,7 @@ func RunPropertyAssignmentTestForMetricCriteria_STATUS(subject MetricCriteria_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180301s.MetricCriteria_STATUS
+	var other storage.MetricCriteria_STATUS
 	err := copied.AssignProperties_To_MetricCriteria_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1835,7 +1835,7 @@ func RunPropertyAssignmentTestForMultiMetricCriteria(subject MultiMetricCriteria
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180301s.MultiMetricCriteria
+	var other storage.MultiMetricCriteria
 	err := copied.AssignProperties_To_MultiMetricCriteria(&other)
 	if err != nil {
 		return err.Error()
@@ -1949,7 +1949,7 @@ func RunPropertyAssignmentTestForMultiMetricCriteria_STATUS(subject MultiMetricC
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180301s.MultiMetricCriteria_STATUS
+	var other storage.MultiMetricCriteria_STATUS
 	err := copied.AssignProperties_To_MultiMetricCriteria_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2063,7 +2063,7 @@ func RunPropertyAssignmentTestForDynamicMetricCriteria(subject DynamicMetricCrit
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180301s.DynamicMetricCriteria
+	var other storage.DynamicMetricCriteria
 	err := copied.AssignProperties_To_DynamicMetricCriteria(&other)
 	if err != nil {
 		return err.Error()
@@ -2194,7 +2194,7 @@ func RunPropertyAssignmentTestForDynamicMetricCriteria_STATUS(subject DynamicMet
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180301s.DynamicMetricCriteria_STATUS
+	var other storage.DynamicMetricCriteria_STATUS
 	err := copied.AssignProperties_To_DynamicMetricCriteria_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2325,7 +2325,7 @@ func RunPropertyAssignmentTestForMetricDimension(subject MetricDimension) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180301s.MetricDimension
+	var other storage.MetricDimension
 	err := copied.AssignProperties_To_MetricDimension(&other)
 	if err != nil {
 		return err.Error()
@@ -2429,7 +2429,7 @@ func RunPropertyAssignmentTestForMetricDimension_STATUS(subject MetricDimension_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180301s.MetricDimension_STATUS
+	var other storage.MetricDimension_STATUS
 	err := copied.AssignProperties_To_MetricDimension_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2534,7 +2534,7 @@ func RunPropertyAssignmentTestForDynamicThresholdFailingPeriods(subject DynamicT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180301s.DynamicThresholdFailingPeriods
+	var other storage.DynamicThresholdFailingPeriods
 	err := copied.AssignProperties_To_DynamicThresholdFailingPeriods(&other)
 	if err != nil {
 		return err.Error()
@@ -2638,7 +2638,7 @@ func RunPropertyAssignmentTestForDynamicThresholdFailingPeriods_STATUS(subject D
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180301s.DynamicThresholdFailingPeriods_STATUS
+	var other storage.DynamicThresholdFailingPeriods_STATUS
 	err := copied.AssignProperties_To_DynamicThresholdFailingPeriods_STATUS(&other)
 	if err != nil {
 		return err.Error()

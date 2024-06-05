@@ -5,7 +5,7 @@ package v1api20230101
 
 import (
 	"encoding/json"
-	v20230101s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForStorageAccountsFileService(subject StorageAccou
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20230101s.StorageAccountsFileService
+	var hub storage.StorageAccountsFileService
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForStorageAccountsFileService(subject StorageAccou
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.StorageAccountsFileService
+	var other storage.StorageAccountsFileService
 	err := copied.AssignProperties_To_StorageAccountsFileService(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForStorageAccounts_FileService_Spec(subject Storag
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.StorageAccounts_FileService_Spec
+	var other storage.StorageAccounts_FileService_Spec
 	err := copied.AssignProperties_To_StorageAccounts_FileService_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -287,7 +287,7 @@ func RunPropertyAssignmentTestForStorageAccounts_FileService_STATUS(subject Stor
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.StorageAccounts_FileService_STATUS
+	var other storage.StorageAccounts_FileService_STATUS
 	err := copied.AssignProperties_To_StorageAccounts_FileService_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -409,7 +409,7 @@ func RunPropertyAssignmentTestForProtocolSettings(subject ProtocolSettings) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.ProtocolSettings
+	var other storage.ProtocolSettings
 	err := copied.AssignProperties_To_ProtocolSettings(&other)
 	if err != nil {
 		return err.Error()
@@ -511,7 +511,7 @@ func RunPropertyAssignmentTestForProtocolSettings_STATUS(subject ProtocolSetting
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.ProtocolSettings_STATUS
+	var other storage.ProtocolSettings_STATUS
 	err := copied.AssignProperties_To_ProtocolSettings_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -614,7 +614,7 @@ func RunPropertyAssignmentTestForSmbSetting(subject SmbSetting) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.SmbSetting
+	var other storage.SmbSetting
 	err := copied.AssignProperties_To_SmbSetting(&other)
 	if err != nil {
 		return err.Error()
@@ -733,7 +733,7 @@ func RunPropertyAssignmentTestForSmbSetting_STATUS(subject SmbSetting_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.SmbSetting_STATUS
+	var other storage.SmbSetting_STATUS
 	err := copied.AssignProperties_To_SmbSetting_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -852,7 +852,7 @@ func RunPropertyAssignmentTestForMultichannel(subject Multichannel) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.Multichannel
+	var other storage.Multichannel
 	err := copied.AssignProperties_To_Multichannel(&other)
 	if err != nil {
 		return err.Error()
@@ -954,7 +954,7 @@ func RunPropertyAssignmentTestForMultichannel_STATUS(subject Multichannel_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.Multichannel_STATUS
+	var other storage.Multichannel_STATUS
 	err := copied.AssignProperties_To_Multichannel_STATUS(&other)
 	if err != nil {
 		return err.Error()

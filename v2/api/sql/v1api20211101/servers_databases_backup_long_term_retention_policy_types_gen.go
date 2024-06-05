@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &ServersDatabasesBackupLongTermRetentionPolicy{}
 
 // ConvertFrom populates our ServersDatabasesBackupLongTermRetentionPolicy from the provided hub ServersDatabasesBackupLongTermRetentionPolicy
 func (policy *ServersDatabasesBackupLongTermRetentionPolicy) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20211101s.ServersDatabasesBackupLongTermRetentionPolicy)
+	source, ok := hub.(*storage.ServersDatabasesBackupLongTermRetentionPolicy)
 	if !ok {
 		return fmt.Errorf("expected sql/v1api20211101/storage/ServersDatabasesBackupLongTermRetentionPolicy but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (policy *ServersDatabasesBackupLongTermRetentionPolicy) ConvertFrom(hub con
 
 // ConvertTo populates the provided hub ServersDatabasesBackupLongTermRetentionPolicy from our ServersDatabasesBackupLongTermRetentionPolicy
 func (policy *ServersDatabasesBackupLongTermRetentionPolicy) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20211101s.ServersDatabasesBackupLongTermRetentionPolicy)
+	destination, ok := hub.(*storage.ServersDatabasesBackupLongTermRetentionPolicy)
 	if !ok {
 		return fmt.Errorf("expected sql/v1api20211101/storage/ServersDatabasesBackupLongTermRetentionPolicy but received %T instead", hub)
 	}
@@ -246,7 +246,7 @@ func (policy *ServersDatabasesBackupLongTermRetentionPolicy) validateWriteOncePr
 }
 
 // AssignProperties_From_ServersDatabasesBackupLongTermRetentionPolicy populates our ServersDatabasesBackupLongTermRetentionPolicy from the provided source ServersDatabasesBackupLongTermRetentionPolicy
-func (policy *ServersDatabasesBackupLongTermRetentionPolicy) AssignProperties_From_ServersDatabasesBackupLongTermRetentionPolicy(source *v20211101s.ServersDatabasesBackupLongTermRetentionPolicy) error {
+func (policy *ServersDatabasesBackupLongTermRetentionPolicy) AssignProperties_From_ServersDatabasesBackupLongTermRetentionPolicy(source *storage.ServersDatabasesBackupLongTermRetentionPolicy) error {
 
 	// ObjectMeta
 	policy.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -272,13 +272,13 @@ func (policy *ServersDatabasesBackupLongTermRetentionPolicy) AssignProperties_Fr
 }
 
 // AssignProperties_To_ServersDatabasesBackupLongTermRetentionPolicy populates the provided destination ServersDatabasesBackupLongTermRetentionPolicy from our ServersDatabasesBackupLongTermRetentionPolicy
-func (policy *ServersDatabasesBackupLongTermRetentionPolicy) AssignProperties_To_ServersDatabasesBackupLongTermRetentionPolicy(destination *v20211101s.ServersDatabasesBackupLongTermRetentionPolicy) error {
+func (policy *ServersDatabasesBackupLongTermRetentionPolicy) AssignProperties_To_ServersDatabasesBackupLongTermRetentionPolicy(destination *storage.ServersDatabasesBackupLongTermRetentionPolicy) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *policy.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20211101s.Servers_Databases_BackupLongTermRetentionPolicy_Spec
+	var spec storage.Servers_Databases_BackupLongTermRetentionPolicy_Spec
 	err := policy.Spec.AssignProperties_To_Servers_Databases_BackupLongTermRetentionPolicy_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Servers_Databases_BackupLongTermRetentionPolicy_Spec() to populate field Spec")
@@ -286,7 +286,7 @@ func (policy *ServersDatabasesBackupLongTermRetentionPolicy) AssignProperties_To
 	destination.Spec = spec
 
 	// Status
-	var status v20211101s.Servers_Databases_BackupLongTermRetentionPolicy_STATUS
+	var status storage.Servers_Databases_BackupLongTermRetentionPolicy_STATUS
 	err = policy.Status.AssignProperties_To_Servers_Databases_BackupLongTermRetentionPolicy_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Servers_Databases_BackupLongTermRetentionPolicy_STATUS() to populate field Status")
@@ -436,14 +436,14 @@ var _ genruntime.ConvertibleSpec = &Servers_Databases_BackupLongTermRetentionPol
 
 // ConvertSpecFrom populates our Servers_Databases_BackupLongTermRetentionPolicy_Spec from the provided source
 func (policy *Servers_Databases_BackupLongTermRetentionPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20211101s.Servers_Databases_BackupLongTermRetentionPolicy_Spec)
+	src, ok := source.(*storage.Servers_Databases_BackupLongTermRetentionPolicy_Spec)
 	if ok {
 		// Populate our instance from source
 		return policy.AssignProperties_From_Servers_Databases_BackupLongTermRetentionPolicy_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20211101s.Servers_Databases_BackupLongTermRetentionPolicy_Spec{}
+	src = &storage.Servers_Databases_BackupLongTermRetentionPolicy_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -460,14 +460,14 @@ func (policy *Servers_Databases_BackupLongTermRetentionPolicy_Spec) ConvertSpecF
 
 // ConvertSpecTo populates the provided destination from our Servers_Databases_BackupLongTermRetentionPolicy_Spec
 func (policy *Servers_Databases_BackupLongTermRetentionPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20211101s.Servers_Databases_BackupLongTermRetentionPolicy_Spec)
+	dst, ok := destination.(*storage.Servers_Databases_BackupLongTermRetentionPolicy_Spec)
 	if ok {
 		// Populate destination from our instance
 		return policy.AssignProperties_To_Servers_Databases_BackupLongTermRetentionPolicy_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20211101s.Servers_Databases_BackupLongTermRetentionPolicy_Spec{}
+	dst = &storage.Servers_Databases_BackupLongTermRetentionPolicy_Spec{}
 	err := policy.AssignProperties_To_Servers_Databases_BackupLongTermRetentionPolicy_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -483,7 +483,7 @@ func (policy *Servers_Databases_BackupLongTermRetentionPolicy_Spec) ConvertSpecT
 }
 
 // AssignProperties_From_Servers_Databases_BackupLongTermRetentionPolicy_Spec populates our Servers_Databases_BackupLongTermRetentionPolicy_Spec from the provided source Servers_Databases_BackupLongTermRetentionPolicy_Spec
-func (policy *Servers_Databases_BackupLongTermRetentionPolicy_Spec) AssignProperties_From_Servers_Databases_BackupLongTermRetentionPolicy_Spec(source *v20211101s.Servers_Databases_BackupLongTermRetentionPolicy_Spec) error {
+func (policy *Servers_Databases_BackupLongTermRetentionPolicy_Spec) AssignProperties_From_Servers_Databases_BackupLongTermRetentionPolicy_Spec(source *storage.Servers_Databases_BackupLongTermRetentionPolicy_Spec) error {
 
 	// MonthlyRetention
 	policy.MonthlyRetention = genruntime.ClonePointerToString(source.MonthlyRetention)
@@ -510,7 +510,7 @@ func (policy *Servers_Databases_BackupLongTermRetentionPolicy_Spec) AssignProper
 }
 
 // AssignProperties_To_Servers_Databases_BackupLongTermRetentionPolicy_Spec populates the provided destination Servers_Databases_BackupLongTermRetentionPolicy_Spec from our Servers_Databases_BackupLongTermRetentionPolicy_Spec
-func (policy *Servers_Databases_BackupLongTermRetentionPolicy_Spec) AssignProperties_To_Servers_Databases_BackupLongTermRetentionPolicy_Spec(destination *v20211101s.Servers_Databases_BackupLongTermRetentionPolicy_Spec) error {
+func (policy *Servers_Databases_BackupLongTermRetentionPolicy_Spec) AssignProperties_To_Servers_Databases_BackupLongTermRetentionPolicy_Spec(destination *storage.Servers_Databases_BackupLongTermRetentionPolicy_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -602,14 +602,14 @@ var _ genruntime.ConvertibleStatus = &Servers_Databases_BackupLongTermRetentionP
 
 // ConvertStatusFrom populates our Servers_Databases_BackupLongTermRetentionPolicy_STATUS from the provided source
 func (policy *Servers_Databases_BackupLongTermRetentionPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20211101s.Servers_Databases_BackupLongTermRetentionPolicy_STATUS)
+	src, ok := source.(*storage.Servers_Databases_BackupLongTermRetentionPolicy_STATUS)
 	if ok {
 		// Populate our instance from source
 		return policy.AssignProperties_From_Servers_Databases_BackupLongTermRetentionPolicy_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20211101s.Servers_Databases_BackupLongTermRetentionPolicy_STATUS{}
+	src = &storage.Servers_Databases_BackupLongTermRetentionPolicy_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -626,14 +626,14 @@ func (policy *Servers_Databases_BackupLongTermRetentionPolicy_STATUS) ConvertSta
 
 // ConvertStatusTo populates the provided destination from our Servers_Databases_BackupLongTermRetentionPolicy_STATUS
 func (policy *Servers_Databases_BackupLongTermRetentionPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20211101s.Servers_Databases_BackupLongTermRetentionPolicy_STATUS)
+	dst, ok := destination.(*storage.Servers_Databases_BackupLongTermRetentionPolicy_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return policy.AssignProperties_To_Servers_Databases_BackupLongTermRetentionPolicy_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20211101s.Servers_Databases_BackupLongTermRetentionPolicy_STATUS{}
+	dst = &storage.Servers_Databases_BackupLongTermRetentionPolicy_STATUS{}
 	err := policy.AssignProperties_To_Servers_Databases_BackupLongTermRetentionPolicy_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -723,7 +723,7 @@ func (policy *Servers_Databases_BackupLongTermRetentionPolicy_STATUS) PopulateFr
 }
 
 // AssignProperties_From_Servers_Databases_BackupLongTermRetentionPolicy_STATUS populates our Servers_Databases_BackupLongTermRetentionPolicy_STATUS from the provided source Servers_Databases_BackupLongTermRetentionPolicy_STATUS
-func (policy *Servers_Databases_BackupLongTermRetentionPolicy_STATUS) AssignProperties_From_Servers_Databases_BackupLongTermRetentionPolicy_STATUS(source *v20211101s.Servers_Databases_BackupLongTermRetentionPolicy_STATUS) error {
+func (policy *Servers_Databases_BackupLongTermRetentionPolicy_STATUS) AssignProperties_From_Servers_Databases_BackupLongTermRetentionPolicy_STATUS(source *storage.Servers_Databases_BackupLongTermRetentionPolicy_STATUS) error {
 
 	// Conditions
 	policy.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -754,7 +754,7 @@ func (policy *Servers_Databases_BackupLongTermRetentionPolicy_STATUS) AssignProp
 }
 
 // AssignProperties_To_Servers_Databases_BackupLongTermRetentionPolicy_STATUS populates the provided destination Servers_Databases_BackupLongTermRetentionPolicy_STATUS from our Servers_Databases_BackupLongTermRetentionPolicy_STATUS
-func (policy *Servers_Databases_BackupLongTermRetentionPolicy_STATUS) AssignProperties_To_Servers_Databases_BackupLongTermRetentionPolicy_STATUS(destination *v20211101s.Servers_Databases_BackupLongTermRetentionPolicy_STATUS) error {
+func (policy *Servers_Databases_BackupLongTermRetentionPolicy_STATUS) AssignProperties_To_Servers_Databases_BackupLongTermRetentionPolicy_STATUS(destination *storage.Servers_Databases_BackupLongTermRetentionPolicy_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

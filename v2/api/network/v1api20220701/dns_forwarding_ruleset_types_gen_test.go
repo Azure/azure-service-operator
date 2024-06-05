@@ -5,7 +5,7 @@ package v1api20220701
 
 import (
 	"encoding/json"
-	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForDnsForwardingRuleset(subject DnsForwardingRules
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20220701s.DnsForwardingRuleset
+	var hub storage.DnsForwardingRuleset
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForDnsForwardingRuleset(subject DnsForwardingRules
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.DnsForwardingRuleset
+	var other storage.DnsForwardingRuleset
 	err := copied.AssignProperties_To_DnsForwardingRuleset(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForDnsForwardingRuleset_Spec(subject DnsForwarding
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.DnsForwardingRuleset_Spec
+	var other storage.DnsForwardingRuleset_Spec
 	err := copied.AssignProperties_To_DnsForwardingRuleset_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -303,7 +303,7 @@ func RunPropertyAssignmentTestForDnsForwardingRuleset_STATUS(subject DnsForwardi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.DnsForwardingRuleset_STATUS
+	var other storage.DnsForwardingRuleset_STATUS
 	err := copied.AssignProperties_To_DnsForwardingRuleset_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -436,7 +436,7 @@ func RunPropertyAssignmentTestForDnsresolverSubResource(subject DnsresolverSubRe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.DnsresolverSubResource
+	var other storage.DnsresolverSubResource
 	err := copied.AssignProperties_To_DnsresolverSubResource(&other)
 	if err != nil {
 		return err.Error()
@@ -533,7 +533,7 @@ func RunPropertyAssignmentTestForDnsresolverSubResource_STATUS(subject Dnsresolv
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.DnsresolverSubResource_STATUS
+	var other storage.DnsresolverSubResource_STATUS
 	err := copied.AssignProperties_To_DnsresolverSubResource_STATUS(&other)
 	if err != nil {
 		return err.Error()

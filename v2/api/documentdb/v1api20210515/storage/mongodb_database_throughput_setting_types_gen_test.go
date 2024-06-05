@@ -5,7 +5,7 @@ package storage
 
 import (
 	"encoding/json"
-	v20231115s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForMongodbDatabaseThroughputSetting(subject Mongod
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20231115s.MongodbDatabaseThroughputSetting
+	var hub storage.MongodbDatabaseThroughputSetting
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForMongodbDatabaseThroughputSetting(subject Mongod
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231115s.MongodbDatabaseThroughputSetting
+	var other storage.MongodbDatabaseThroughputSetting
 	err := copied.AssignProperties_To_MongodbDatabaseThroughputSetting(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabases_ThroughputSet
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231115s.DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec
+	var other storage.DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec
 	err := copied.AssignProperties_To_DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -303,7 +303,7 @@ func RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabases_ThroughputSet
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231115s.DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS
+	var other storage.DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS
 	err := copied.AssignProperties_To_DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS(&other)
 	if err != nil {
 		return err.Error()

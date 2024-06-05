@@ -6,7 +6,7 @@ package v1api20220401
 import (
 	"context"
 	"fmt"
-	v20220401s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -54,7 +54,7 @@ var _ conversion.Convertible = &TrafficManagerProfile{}
 
 // ConvertFrom populates our TrafficManagerProfile from the provided hub TrafficManagerProfile
 func (profile *TrafficManagerProfile) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20220401s.TrafficManagerProfile)
+	source, ok := hub.(*storage.TrafficManagerProfile)
 	if !ok {
 		return fmt.Errorf("expected network/v1api20220401/storage/TrafficManagerProfile but received %T instead", hub)
 	}
@@ -64,7 +64,7 @@ func (profile *TrafficManagerProfile) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub TrafficManagerProfile from our TrafficManagerProfile
 func (profile *TrafficManagerProfile) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20220401s.TrafficManagerProfile)
+	destination, ok := hub.(*storage.TrafficManagerProfile)
 	if !ok {
 		return fmt.Errorf("expected network/v1api20220401/storage/TrafficManagerProfile but received %T instead", hub)
 	}
@@ -295,7 +295,7 @@ func (profile *TrafficManagerProfile) validateWriteOnceProperties(old runtime.Ob
 }
 
 // AssignProperties_From_TrafficManagerProfile populates our TrafficManagerProfile from the provided source TrafficManagerProfile
-func (profile *TrafficManagerProfile) AssignProperties_From_TrafficManagerProfile(source *v20220401s.TrafficManagerProfile) error {
+func (profile *TrafficManagerProfile) AssignProperties_From_TrafficManagerProfile(source *storage.TrafficManagerProfile) error {
 
 	// ObjectMeta
 	profile.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -321,13 +321,13 @@ func (profile *TrafficManagerProfile) AssignProperties_From_TrafficManagerProfil
 }
 
 // AssignProperties_To_TrafficManagerProfile populates the provided destination TrafficManagerProfile from our TrafficManagerProfile
-func (profile *TrafficManagerProfile) AssignProperties_To_TrafficManagerProfile(destination *v20220401s.TrafficManagerProfile) error {
+func (profile *TrafficManagerProfile) AssignProperties_To_TrafficManagerProfile(destination *storage.TrafficManagerProfile) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *profile.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20220401s.Trafficmanagerprofile_Spec
+	var spec storage.Trafficmanagerprofile_Spec
 	err := profile.Spec.AssignProperties_To_Trafficmanagerprofile_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Trafficmanagerprofile_Spec() to populate field Spec")
@@ -335,7 +335,7 @@ func (profile *TrafficManagerProfile) AssignProperties_To_TrafficManagerProfile(
 	destination.Spec = spec
 
 	// Status
-	var status v20220401s.Trafficmanagerprofile_STATUS
+	var status storage.Trafficmanagerprofile_STATUS
 	err = profile.Status.AssignProperties_To_Trafficmanagerprofile_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Trafficmanagerprofile_STATUS() to populate field Status")
@@ -620,14 +620,14 @@ var _ genruntime.ConvertibleSpec = &Trafficmanagerprofile_Spec{}
 
 // ConvertSpecFrom populates our Trafficmanagerprofile_Spec from the provided source
 func (trafficmanagerprofile *Trafficmanagerprofile_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20220401s.Trafficmanagerprofile_Spec)
+	src, ok := source.(*storage.Trafficmanagerprofile_Spec)
 	if ok {
 		// Populate our instance from source
 		return trafficmanagerprofile.AssignProperties_From_Trafficmanagerprofile_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220401s.Trafficmanagerprofile_Spec{}
+	src = &storage.Trafficmanagerprofile_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -644,14 +644,14 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) ConvertSpecFrom(source 
 
 // ConvertSpecTo populates the provided destination from our Trafficmanagerprofile_Spec
 func (trafficmanagerprofile *Trafficmanagerprofile_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20220401s.Trafficmanagerprofile_Spec)
+	dst, ok := destination.(*storage.Trafficmanagerprofile_Spec)
 	if ok {
 		// Populate destination from our instance
 		return trafficmanagerprofile.AssignProperties_To_Trafficmanagerprofile_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220401s.Trafficmanagerprofile_Spec{}
+	dst = &storage.Trafficmanagerprofile_Spec{}
 	err := trafficmanagerprofile.AssignProperties_To_Trafficmanagerprofile_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -667,7 +667,7 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) ConvertSpecTo(destinati
 }
 
 // AssignProperties_From_Trafficmanagerprofile_Spec populates our Trafficmanagerprofile_Spec from the provided source Trafficmanagerprofile_Spec
-func (trafficmanagerprofile *Trafficmanagerprofile_Spec) AssignProperties_From_Trafficmanagerprofile_Spec(source *v20220401s.Trafficmanagerprofile_Spec) error {
+func (trafficmanagerprofile *Trafficmanagerprofile_Spec) AssignProperties_From_Trafficmanagerprofile_Spec(source *storage.Trafficmanagerprofile_Spec) error {
 
 	// AllowedEndpointRecordTypes
 	if source.AllowedEndpointRecordTypes != nil {
@@ -773,7 +773,7 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) AssignProperties_From_T
 }
 
 // AssignProperties_To_Trafficmanagerprofile_Spec populates the provided destination Trafficmanagerprofile_Spec from our Trafficmanagerprofile_Spec
-func (trafficmanagerprofile *Trafficmanagerprofile_Spec) AssignProperties_To_Trafficmanagerprofile_Spec(destination *v20220401s.Trafficmanagerprofile_Spec) error {
+func (trafficmanagerprofile *Trafficmanagerprofile_Spec) AssignProperties_To_Trafficmanagerprofile_Spec(destination *storage.Trafficmanagerprofile_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -795,7 +795,7 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) AssignProperties_To_Tra
 
 	// DnsConfig
 	if trafficmanagerprofile.DnsConfig != nil {
-		var dnsConfig v20220401s.DnsConfig
+		var dnsConfig storage.DnsConfig
 		err := trafficmanagerprofile.DnsConfig.AssignProperties_To_DnsConfig(&dnsConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DnsConfig() to populate field DnsConfig")
@@ -813,7 +813,7 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) AssignProperties_To_Tra
 
 	// MonitorConfig
 	if trafficmanagerprofile.MonitorConfig != nil {
-		var monitorConfig v20220401s.MonitorConfig
+		var monitorConfig storage.MonitorConfig
 		err := trafficmanagerprofile.MonitorConfig.AssignProperties_To_MonitorConfig(&monitorConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_MonitorConfig() to populate field MonitorConfig")
@@ -825,7 +825,7 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) AssignProperties_To_Tra
 
 	// OperatorSpec
 	if trafficmanagerprofile.OperatorSpec != nil {
-		var operatorSpec v20220401s.TrafficManagerProfileOperatorSpec
+		var operatorSpec storage.TrafficManagerProfileOperatorSpec
 		err := trafficmanagerprofile.OperatorSpec.AssignProperties_To_TrafficManagerProfileOperatorSpec(&operatorSpec)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_TrafficManagerProfileOperatorSpec() to populate field OperatorSpec")
@@ -1028,14 +1028,14 @@ var _ genruntime.ConvertibleStatus = &Trafficmanagerprofile_STATUS{}
 
 // ConvertStatusFrom populates our Trafficmanagerprofile_STATUS from the provided source
 func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20220401s.Trafficmanagerprofile_STATUS)
+	src, ok := source.(*storage.Trafficmanagerprofile_STATUS)
 	if ok {
 		// Populate our instance from source
 		return trafficmanagerprofile.AssignProperties_From_Trafficmanagerprofile_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220401s.Trafficmanagerprofile_STATUS{}
+	src = &storage.Trafficmanagerprofile_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -1052,14 +1052,14 @@ func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) ConvertStatusFrom(sou
 
 // ConvertStatusTo populates the provided destination from our Trafficmanagerprofile_STATUS
 func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20220401s.Trafficmanagerprofile_STATUS)
+	dst, ok := destination.(*storage.Trafficmanagerprofile_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return trafficmanagerprofile.AssignProperties_To_Trafficmanagerprofile_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220401s.Trafficmanagerprofile_STATUS{}
+	dst = &storage.Trafficmanagerprofile_STATUS{}
 	err := trafficmanagerprofile.AssignProperties_To_Trafficmanagerprofile_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1212,7 +1212,7 @@ func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) PopulateFromARM(owner
 }
 
 // AssignProperties_From_Trafficmanagerprofile_STATUS populates our Trafficmanagerprofile_STATUS from the provided source Trafficmanagerprofile_STATUS
-func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) AssignProperties_From_Trafficmanagerprofile_STATUS(source *v20220401s.Trafficmanagerprofile_STATUS) error {
+func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) AssignProperties_From_Trafficmanagerprofile_STATUS(source *storage.Trafficmanagerprofile_STATUS) error {
 
 	// AllowedEndpointRecordTypes
 	if source.AllowedEndpointRecordTypes != nil {
@@ -1322,7 +1322,7 @@ func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) AssignProperties_From
 }
 
 // AssignProperties_To_Trafficmanagerprofile_STATUS populates the provided destination Trafficmanagerprofile_STATUS from our Trafficmanagerprofile_STATUS
-func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) AssignProperties_To_Trafficmanagerprofile_STATUS(destination *v20220401s.Trafficmanagerprofile_STATUS) error {
+func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) AssignProperties_To_Trafficmanagerprofile_STATUS(destination *storage.Trafficmanagerprofile_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1344,7 +1344,7 @@ func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) AssignProperties_To_T
 
 	// DnsConfig
 	if trafficmanagerprofile.DnsConfig != nil {
-		var dnsConfig v20220401s.DnsConfig_STATUS
+		var dnsConfig storage.DnsConfig_STATUS
 		err := trafficmanagerprofile.DnsConfig.AssignProperties_To_DnsConfig_STATUS(&dnsConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DnsConfig_STATUS() to populate field DnsConfig")
@@ -1356,11 +1356,11 @@ func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) AssignProperties_To_T
 
 	// Endpoints
 	if trafficmanagerprofile.Endpoints != nil {
-		endpointList := make([]v20220401s.Endpoint_STATUS, len(trafficmanagerprofile.Endpoints))
+		endpointList := make([]storage.Endpoint_STATUS, len(trafficmanagerprofile.Endpoints))
 		for endpointIndex, endpointItem := range trafficmanagerprofile.Endpoints {
 			// Shadow the loop variable to avoid aliasing
 			endpointItem := endpointItem
-			var endpoint v20220401s.Endpoint_STATUS
+			var endpoint storage.Endpoint_STATUS
 			err := endpointItem.AssignProperties_To_Endpoint_STATUS(&endpoint)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_Endpoint_STATUS() to populate field Endpoints")
@@ -1383,7 +1383,7 @@ func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) AssignProperties_To_T
 
 	// MonitorConfig
 	if trafficmanagerprofile.MonitorConfig != nil {
-		var monitorConfig v20220401s.MonitorConfig_STATUS
+		var monitorConfig storage.MonitorConfig_STATUS
 		err := trafficmanagerprofile.MonitorConfig.AssignProperties_To_MonitorConfig_STATUS(&monitorConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_MonitorConfig_STATUS() to populate field MonitorConfig")
@@ -1537,7 +1537,7 @@ func (config *DnsConfig) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 }
 
 // AssignProperties_From_DnsConfig populates our DnsConfig from the provided source DnsConfig
-func (config *DnsConfig) AssignProperties_From_DnsConfig(source *v20220401s.DnsConfig) error {
+func (config *DnsConfig) AssignProperties_From_DnsConfig(source *storage.DnsConfig) error {
 
 	// RelativeName
 	config.RelativeName = genruntime.ClonePointerToString(source.RelativeName)
@@ -1550,7 +1550,7 @@ func (config *DnsConfig) AssignProperties_From_DnsConfig(source *v20220401s.DnsC
 }
 
 // AssignProperties_To_DnsConfig populates the provided destination DnsConfig from our DnsConfig
-func (config *DnsConfig) AssignProperties_To_DnsConfig(destination *v20220401s.DnsConfig) error {
+func (config *DnsConfig) AssignProperties_To_DnsConfig(destination *storage.DnsConfig) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1636,7 +1636,7 @@ func (config *DnsConfig_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 }
 
 // AssignProperties_From_DnsConfig_STATUS populates our DnsConfig_STATUS from the provided source DnsConfig_STATUS
-func (config *DnsConfig_STATUS) AssignProperties_From_DnsConfig_STATUS(source *v20220401s.DnsConfig_STATUS) error {
+func (config *DnsConfig_STATUS) AssignProperties_From_DnsConfig_STATUS(source *storage.DnsConfig_STATUS) error {
 
 	// Fqdn
 	config.Fqdn = genruntime.ClonePointerToString(source.Fqdn)
@@ -1652,7 +1652,7 @@ func (config *DnsConfig_STATUS) AssignProperties_From_DnsConfig_STATUS(source *v
 }
 
 // AssignProperties_To_DnsConfig_STATUS populates the provided destination DnsConfig_STATUS from our DnsConfig_STATUS
-func (config *DnsConfig_STATUS) AssignProperties_To_DnsConfig_STATUS(destination *v20220401s.DnsConfig_STATUS) error {
+func (config *DnsConfig_STATUS) AssignProperties_To_DnsConfig_STATUS(destination *storage.DnsConfig_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1708,7 +1708,7 @@ func (endpoint *Endpoint_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 }
 
 // AssignProperties_From_Endpoint_STATUS populates our Endpoint_STATUS from the provided source Endpoint_STATUS
-func (endpoint *Endpoint_STATUS) AssignProperties_From_Endpoint_STATUS(source *v20220401s.Endpoint_STATUS) error {
+func (endpoint *Endpoint_STATUS) AssignProperties_From_Endpoint_STATUS(source *storage.Endpoint_STATUS) error {
 
 	// Id
 	endpoint.Id = genruntime.ClonePointerToString(source.Id)
@@ -1718,7 +1718,7 @@ func (endpoint *Endpoint_STATUS) AssignProperties_From_Endpoint_STATUS(source *v
 }
 
 // AssignProperties_To_Endpoint_STATUS populates the provided destination Endpoint_STATUS from our Endpoint_STATUS
-func (endpoint *Endpoint_STATUS) AssignProperties_To_Endpoint_STATUS(destination *v20220401s.Endpoint_STATUS) error {
+func (endpoint *Endpoint_STATUS) AssignProperties_To_Endpoint_STATUS(destination *storage.Endpoint_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1919,7 +1919,7 @@ func (config *MonitorConfig) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 }
 
 // AssignProperties_From_MonitorConfig populates our MonitorConfig from the provided source MonitorConfig
-func (config *MonitorConfig) AssignProperties_From_MonitorConfig(source *v20220401s.MonitorConfig) error {
+func (config *MonitorConfig) AssignProperties_From_MonitorConfig(source *storage.MonitorConfig) error {
 
 	// CustomHeaders
 	if source.CustomHeaders != nil {
@@ -1995,17 +1995,17 @@ func (config *MonitorConfig) AssignProperties_From_MonitorConfig(source *v202204
 }
 
 // AssignProperties_To_MonitorConfig populates the provided destination MonitorConfig from our MonitorConfig
-func (config *MonitorConfig) AssignProperties_To_MonitorConfig(destination *v20220401s.MonitorConfig) error {
+func (config *MonitorConfig) AssignProperties_To_MonitorConfig(destination *storage.MonitorConfig) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// CustomHeaders
 	if config.CustomHeaders != nil {
-		customHeaderList := make([]v20220401s.MonitorConfig_CustomHeaders, len(config.CustomHeaders))
+		customHeaderList := make([]storage.MonitorConfig_CustomHeaders, len(config.CustomHeaders))
 		for customHeaderIndex, customHeaderItem := range config.CustomHeaders {
 			// Shadow the loop variable to avoid aliasing
 			customHeaderItem := customHeaderItem
-			var customHeader v20220401s.MonitorConfig_CustomHeaders
+			var customHeader storage.MonitorConfig_CustomHeaders
 			err := customHeaderItem.AssignProperties_To_MonitorConfig_CustomHeaders(&customHeader)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_MonitorConfig_CustomHeaders() to populate field CustomHeaders")
@@ -2019,11 +2019,11 @@ func (config *MonitorConfig) AssignProperties_To_MonitorConfig(destination *v202
 
 	// ExpectedStatusCodeRanges
 	if config.ExpectedStatusCodeRanges != nil {
-		expectedStatusCodeRangeList := make([]v20220401s.MonitorConfig_ExpectedStatusCodeRanges, len(config.ExpectedStatusCodeRanges))
+		expectedStatusCodeRangeList := make([]storage.MonitorConfig_ExpectedStatusCodeRanges, len(config.ExpectedStatusCodeRanges))
 		for expectedStatusCodeRangeIndex, expectedStatusCodeRangeItem := range config.ExpectedStatusCodeRanges {
 			// Shadow the loop variable to avoid aliasing
 			expectedStatusCodeRangeItem := expectedStatusCodeRangeItem
-			var expectedStatusCodeRange v20220401s.MonitorConfig_ExpectedStatusCodeRanges
+			var expectedStatusCodeRange storage.MonitorConfig_ExpectedStatusCodeRanges
 			err := expectedStatusCodeRangeItem.AssignProperties_To_MonitorConfig_ExpectedStatusCodeRanges(&expectedStatusCodeRange)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_MonitorConfig_ExpectedStatusCodeRanges() to populate field ExpectedStatusCodeRanges")
@@ -2265,7 +2265,7 @@ func (config *MonitorConfig_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 }
 
 // AssignProperties_From_MonitorConfig_STATUS populates our MonitorConfig_STATUS from the provided source MonitorConfig_STATUS
-func (config *MonitorConfig_STATUS) AssignProperties_From_MonitorConfig_STATUS(source *v20220401s.MonitorConfig_STATUS) error {
+func (config *MonitorConfig_STATUS) AssignProperties_From_MonitorConfig_STATUS(source *storage.MonitorConfig_STATUS) error {
 
 	// CustomHeaders
 	if source.CustomHeaders != nil {
@@ -2341,17 +2341,17 @@ func (config *MonitorConfig_STATUS) AssignProperties_From_MonitorConfig_STATUS(s
 }
 
 // AssignProperties_To_MonitorConfig_STATUS populates the provided destination MonitorConfig_STATUS from our MonitorConfig_STATUS
-func (config *MonitorConfig_STATUS) AssignProperties_To_MonitorConfig_STATUS(destination *v20220401s.MonitorConfig_STATUS) error {
+func (config *MonitorConfig_STATUS) AssignProperties_To_MonitorConfig_STATUS(destination *storage.MonitorConfig_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// CustomHeaders
 	if config.CustomHeaders != nil {
-		customHeaderList := make([]v20220401s.MonitorConfig_CustomHeaders_STATUS, len(config.CustomHeaders))
+		customHeaderList := make([]storage.MonitorConfig_CustomHeaders_STATUS, len(config.CustomHeaders))
 		for customHeaderIndex, customHeaderItem := range config.CustomHeaders {
 			// Shadow the loop variable to avoid aliasing
 			customHeaderItem := customHeaderItem
-			var customHeader v20220401s.MonitorConfig_CustomHeaders_STATUS
+			var customHeader storage.MonitorConfig_CustomHeaders_STATUS
 			err := customHeaderItem.AssignProperties_To_MonitorConfig_CustomHeaders_STATUS(&customHeader)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_MonitorConfig_CustomHeaders_STATUS() to populate field CustomHeaders")
@@ -2365,11 +2365,11 @@ func (config *MonitorConfig_STATUS) AssignProperties_To_MonitorConfig_STATUS(des
 
 	// ExpectedStatusCodeRanges
 	if config.ExpectedStatusCodeRanges != nil {
-		expectedStatusCodeRangeList := make([]v20220401s.MonitorConfig_ExpectedStatusCodeRanges_STATUS, len(config.ExpectedStatusCodeRanges))
+		expectedStatusCodeRangeList := make([]storage.MonitorConfig_ExpectedStatusCodeRanges_STATUS, len(config.ExpectedStatusCodeRanges))
 		for expectedStatusCodeRangeIndex, expectedStatusCodeRangeItem := range config.ExpectedStatusCodeRanges {
 			// Shadow the loop variable to avoid aliasing
 			expectedStatusCodeRangeItem := expectedStatusCodeRangeItem
-			var expectedStatusCodeRange v20220401s.MonitorConfig_ExpectedStatusCodeRanges_STATUS
+			var expectedStatusCodeRange storage.MonitorConfig_ExpectedStatusCodeRanges_STATUS
 			err := expectedStatusCodeRangeItem.AssignProperties_To_MonitorConfig_ExpectedStatusCodeRanges_STATUS(&expectedStatusCodeRange)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_MonitorConfig_ExpectedStatusCodeRanges_STATUS() to populate field ExpectedStatusCodeRanges")
@@ -2527,7 +2527,7 @@ type TrafficManagerProfileOperatorSpec struct {
 }
 
 // AssignProperties_From_TrafficManagerProfileOperatorSpec populates our TrafficManagerProfileOperatorSpec from the provided source TrafficManagerProfileOperatorSpec
-func (operator *TrafficManagerProfileOperatorSpec) AssignProperties_From_TrafficManagerProfileOperatorSpec(source *v20220401s.TrafficManagerProfileOperatorSpec) error {
+func (operator *TrafficManagerProfileOperatorSpec) AssignProperties_From_TrafficManagerProfileOperatorSpec(source *storage.TrafficManagerProfileOperatorSpec) error {
 
 	// ConfigMaps
 	if source.ConfigMaps != nil {
@@ -2546,13 +2546,13 @@ func (operator *TrafficManagerProfileOperatorSpec) AssignProperties_From_Traffic
 }
 
 // AssignProperties_To_TrafficManagerProfileOperatorSpec populates the provided destination TrafficManagerProfileOperatorSpec from our TrafficManagerProfileOperatorSpec
-func (operator *TrafficManagerProfileOperatorSpec) AssignProperties_To_TrafficManagerProfileOperatorSpec(destination *v20220401s.TrafficManagerProfileOperatorSpec) error {
+func (operator *TrafficManagerProfileOperatorSpec) AssignProperties_To_TrafficManagerProfileOperatorSpec(destination *storage.TrafficManagerProfileOperatorSpec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ConfigMaps
 	if operator.ConfigMaps != nil {
-		var configMap v20220401s.TrafficManagerProfileOperatorConfigMaps
+		var configMap storage.TrafficManagerProfileOperatorConfigMaps
 		err := operator.ConfigMaps.AssignProperties_To_TrafficManagerProfileOperatorConfigMaps(&configMap)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_TrafficManagerProfileOperatorConfigMaps() to populate field ConfigMaps")
@@ -2633,7 +2633,7 @@ func (headers *MonitorConfig_CustomHeaders) PopulateFromARM(owner genruntime.Arb
 }
 
 // AssignProperties_From_MonitorConfig_CustomHeaders populates our MonitorConfig_CustomHeaders from the provided source MonitorConfig_CustomHeaders
-func (headers *MonitorConfig_CustomHeaders) AssignProperties_From_MonitorConfig_CustomHeaders(source *v20220401s.MonitorConfig_CustomHeaders) error {
+func (headers *MonitorConfig_CustomHeaders) AssignProperties_From_MonitorConfig_CustomHeaders(source *storage.MonitorConfig_CustomHeaders) error {
 
 	// Name
 	headers.Name = genruntime.ClonePointerToString(source.Name)
@@ -2646,7 +2646,7 @@ func (headers *MonitorConfig_CustomHeaders) AssignProperties_From_MonitorConfig_
 }
 
 // AssignProperties_To_MonitorConfig_CustomHeaders populates the provided destination MonitorConfig_CustomHeaders from our MonitorConfig_CustomHeaders
-func (headers *MonitorConfig_CustomHeaders) AssignProperties_To_MonitorConfig_CustomHeaders(destination *v20220401s.MonitorConfig_CustomHeaders) error {
+func (headers *MonitorConfig_CustomHeaders) AssignProperties_To_MonitorConfig_CustomHeaders(destination *storage.MonitorConfig_CustomHeaders) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2719,7 +2719,7 @@ func (headers *MonitorConfig_CustomHeaders_STATUS) PopulateFromARM(owner genrunt
 }
 
 // AssignProperties_From_MonitorConfig_CustomHeaders_STATUS populates our MonitorConfig_CustomHeaders_STATUS from the provided source MonitorConfig_CustomHeaders_STATUS
-func (headers *MonitorConfig_CustomHeaders_STATUS) AssignProperties_From_MonitorConfig_CustomHeaders_STATUS(source *v20220401s.MonitorConfig_CustomHeaders_STATUS) error {
+func (headers *MonitorConfig_CustomHeaders_STATUS) AssignProperties_From_MonitorConfig_CustomHeaders_STATUS(source *storage.MonitorConfig_CustomHeaders_STATUS) error {
 
 	// Name
 	headers.Name = genruntime.ClonePointerToString(source.Name)
@@ -2732,7 +2732,7 @@ func (headers *MonitorConfig_CustomHeaders_STATUS) AssignProperties_From_Monitor
 }
 
 // AssignProperties_To_MonitorConfig_CustomHeaders_STATUS populates the provided destination MonitorConfig_CustomHeaders_STATUS from our MonitorConfig_CustomHeaders_STATUS
-func (headers *MonitorConfig_CustomHeaders_STATUS) AssignProperties_To_MonitorConfig_CustomHeaders_STATUS(destination *v20220401s.MonitorConfig_CustomHeaders_STATUS) error {
+func (headers *MonitorConfig_CustomHeaders_STATUS) AssignProperties_To_MonitorConfig_CustomHeaders_STATUS(destination *storage.MonitorConfig_CustomHeaders_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2813,7 +2813,7 @@ func (ranges *MonitorConfig_ExpectedStatusCodeRanges) PopulateFromARM(owner genr
 }
 
 // AssignProperties_From_MonitorConfig_ExpectedStatusCodeRanges populates our MonitorConfig_ExpectedStatusCodeRanges from the provided source MonitorConfig_ExpectedStatusCodeRanges
-func (ranges *MonitorConfig_ExpectedStatusCodeRanges) AssignProperties_From_MonitorConfig_ExpectedStatusCodeRanges(source *v20220401s.MonitorConfig_ExpectedStatusCodeRanges) error {
+func (ranges *MonitorConfig_ExpectedStatusCodeRanges) AssignProperties_From_MonitorConfig_ExpectedStatusCodeRanges(source *storage.MonitorConfig_ExpectedStatusCodeRanges) error {
 
 	// Max
 	ranges.Max = genruntime.ClonePointerToInt(source.Max)
@@ -2826,7 +2826,7 @@ func (ranges *MonitorConfig_ExpectedStatusCodeRanges) AssignProperties_From_Moni
 }
 
 // AssignProperties_To_MonitorConfig_ExpectedStatusCodeRanges populates the provided destination MonitorConfig_ExpectedStatusCodeRanges from our MonitorConfig_ExpectedStatusCodeRanges
-func (ranges *MonitorConfig_ExpectedStatusCodeRanges) AssignProperties_To_MonitorConfig_ExpectedStatusCodeRanges(destination *v20220401s.MonitorConfig_ExpectedStatusCodeRanges) error {
+func (ranges *MonitorConfig_ExpectedStatusCodeRanges) AssignProperties_To_MonitorConfig_ExpectedStatusCodeRanges(destination *storage.MonitorConfig_ExpectedStatusCodeRanges) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2899,7 +2899,7 @@ func (ranges *MonitorConfig_ExpectedStatusCodeRanges_STATUS) PopulateFromARM(own
 }
 
 // AssignProperties_From_MonitorConfig_ExpectedStatusCodeRanges_STATUS populates our MonitorConfig_ExpectedStatusCodeRanges_STATUS from the provided source MonitorConfig_ExpectedStatusCodeRanges_STATUS
-func (ranges *MonitorConfig_ExpectedStatusCodeRanges_STATUS) AssignProperties_From_MonitorConfig_ExpectedStatusCodeRanges_STATUS(source *v20220401s.MonitorConfig_ExpectedStatusCodeRanges_STATUS) error {
+func (ranges *MonitorConfig_ExpectedStatusCodeRanges_STATUS) AssignProperties_From_MonitorConfig_ExpectedStatusCodeRanges_STATUS(source *storage.MonitorConfig_ExpectedStatusCodeRanges_STATUS) error {
 
 	// Max
 	ranges.Max = genruntime.ClonePointerToInt(source.Max)
@@ -2912,7 +2912,7 @@ func (ranges *MonitorConfig_ExpectedStatusCodeRanges_STATUS) AssignProperties_Fr
 }
 
 // AssignProperties_To_MonitorConfig_ExpectedStatusCodeRanges_STATUS populates the provided destination MonitorConfig_ExpectedStatusCodeRanges_STATUS from our MonitorConfig_ExpectedStatusCodeRanges_STATUS
-func (ranges *MonitorConfig_ExpectedStatusCodeRanges_STATUS) AssignProperties_To_MonitorConfig_ExpectedStatusCodeRanges_STATUS(destination *v20220401s.MonitorConfig_ExpectedStatusCodeRanges_STATUS) error {
+func (ranges *MonitorConfig_ExpectedStatusCodeRanges_STATUS) AssignProperties_To_MonitorConfig_ExpectedStatusCodeRanges_STATUS(destination *storage.MonitorConfig_ExpectedStatusCodeRanges_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3009,7 +3009,7 @@ type TrafficManagerProfileOperatorConfigMaps struct {
 }
 
 // AssignProperties_From_TrafficManagerProfileOperatorConfigMaps populates our TrafficManagerProfileOperatorConfigMaps from the provided source TrafficManagerProfileOperatorConfigMaps
-func (maps *TrafficManagerProfileOperatorConfigMaps) AssignProperties_From_TrafficManagerProfileOperatorConfigMaps(source *v20220401s.TrafficManagerProfileOperatorConfigMaps) error {
+func (maps *TrafficManagerProfileOperatorConfigMaps) AssignProperties_From_TrafficManagerProfileOperatorConfigMaps(source *storage.TrafficManagerProfileOperatorConfigMaps) error {
 
 	// DnsConfigFqdn
 	if source.DnsConfigFqdn != nil {
@@ -3024,7 +3024,7 @@ func (maps *TrafficManagerProfileOperatorConfigMaps) AssignProperties_From_Traff
 }
 
 // AssignProperties_To_TrafficManagerProfileOperatorConfigMaps populates the provided destination TrafficManagerProfileOperatorConfigMaps from our TrafficManagerProfileOperatorConfigMaps
-func (maps *TrafficManagerProfileOperatorConfigMaps) AssignProperties_To_TrafficManagerProfileOperatorConfigMaps(destination *v20220401s.TrafficManagerProfileOperatorConfigMaps) error {
+func (maps *TrafficManagerProfileOperatorConfigMaps) AssignProperties_To_TrafficManagerProfileOperatorConfigMaps(destination *storage.TrafficManagerProfileOperatorConfigMaps) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

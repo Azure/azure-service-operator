@@ -5,7 +5,7 @@ package v1api20221001
 
 import (
 	"encoding/json"
-	v20221001s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20221001/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/insights/v1api20221001/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForAutoscaleSetting(subject AutoscaleSetting) stri
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20221001s.AutoscaleSetting
+	var hub storage.AutoscaleSetting
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForAutoscaleSetting(subject AutoscaleSetting) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20221001s.AutoscaleSetting
+	var other storage.AutoscaleSetting
 	err := copied.AssignProperties_To_AutoscaleSetting(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForAutoscalesetting_Spec(subject Autoscalesetting_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20221001s.Autoscalesetting_Spec
+	var other storage.Autoscalesetting_Spec
 	err := copied.AssignProperties_To_Autoscalesetting_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -307,7 +307,7 @@ func RunPropertyAssignmentTestForAutoscalesetting_STATUS(subject Autoscalesettin
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20221001s.Autoscalesetting_STATUS
+	var other storage.Autoscalesetting_STATUS
 	err := copied.AssignProperties_To_Autoscalesetting_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -437,7 +437,7 @@ func RunPropertyAssignmentTestForAutoscaleNotification(subject AutoscaleNotifica
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20221001s.AutoscaleNotification
+	var other storage.AutoscaleNotification
 	err := copied.AssignProperties_To_AutoscaleNotification(&other)
 	if err != nil {
 		return err.Error()
@@ -555,7 +555,7 @@ func RunPropertyAssignmentTestForAutoscaleNotification_STATUS(subject AutoscaleN
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20221001s.AutoscaleNotification_STATUS
+	var other storage.AutoscaleNotification_STATUS
 	err := copied.AssignProperties_To_AutoscaleNotification_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -673,7 +673,7 @@ func RunPropertyAssignmentTestForAutoscaleProfile(subject AutoscaleProfile) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20221001s.AutoscaleProfile
+	var other storage.AutoscaleProfile
 	err := copied.AssignProperties_To_AutoscaleProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -792,7 +792,7 @@ func RunPropertyAssignmentTestForAutoscaleProfile_STATUS(subject AutoscaleProfil
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20221001s.AutoscaleProfile_STATUS
+	var other storage.AutoscaleProfile_STATUS
 	err := copied.AssignProperties_To_AutoscaleProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -912,7 +912,7 @@ func RunPropertyAssignmentTestForPredictiveAutoscalePolicy(subject PredictiveAut
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20221001s.PredictiveAutoscalePolicy
+	var other storage.PredictiveAutoscalePolicy
 	err := copied.AssignProperties_To_PredictiveAutoscalePolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -1016,7 +1016,7 @@ func RunPropertyAssignmentTestForPredictiveAutoscalePolicy_STATUS(subject Predic
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20221001s.PredictiveAutoscalePolicy_STATUS
+	var other storage.PredictiveAutoscalePolicy_STATUS
 	err := copied.AssignProperties_To_PredictiveAutoscalePolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1120,7 +1120,7 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20221001s.SystemData_STATUS
+	var other storage.SystemData_STATUS
 	err := copied.AssignProperties_To_SystemData_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1235,7 +1235,7 @@ func RunPropertyAssignmentTestForEmailNotification(subject EmailNotification) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20221001s.EmailNotification
+	var other storage.EmailNotification
 	err := copied.AssignProperties_To_EmailNotification(&other)
 	if err != nil {
 		return err.Error()
@@ -1339,7 +1339,7 @@ func RunPropertyAssignmentTestForEmailNotification_STATUS(subject EmailNotificat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20221001s.EmailNotification_STATUS
+	var other storage.EmailNotification_STATUS
 	err := copied.AssignProperties_To_EmailNotification_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1444,7 +1444,7 @@ func RunPropertyAssignmentTestForRecurrence(subject Recurrence) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20221001s.Recurrence
+	var other storage.Recurrence
 	err := copied.AssignProperties_To_Recurrence(&other)
 	if err != nil {
 		return err.Error()
@@ -1568,7 +1568,7 @@ func RunPropertyAssignmentTestForRecurrence_STATUS(subject Recurrence_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20221001s.Recurrence_STATUS
+	var other storage.Recurrence_STATUS
 	err := copied.AssignProperties_To_Recurrence_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1692,7 +1692,7 @@ func RunPropertyAssignmentTestForScaleCapacity(subject ScaleCapacity) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20221001s.ScaleCapacity
+	var other storage.ScaleCapacity
 	err := copied.AssignProperties_To_ScaleCapacity(&other)
 	if err != nil {
 		return err.Error()
@@ -1796,7 +1796,7 @@ func RunPropertyAssignmentTestForScaleCapacity_STATUS(subject ScaleCapacity_STAT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20221001s.ScaleCapacity_STATUS
+	var other storage.ScaleCapacity_STATUS
 	err := copied.AssignProperties_To_ScaleCapacity_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1901,7 +1901,7 @@ func RunPropertyAssignmentTestForScaleRule(subject ScaleRule) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20221001s.ScaleRule
+	var other storage.ScaleRule
 	err := copied.AssignProperties_To_ScaleRule(&other)
 	if err != nil {
 		return err.Error()
@@ -2004,7 +2004,7 @@ func RunPropertyAssignmentTestForScaleRule_STATUS(subject ScaleRule_STATUS) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20221001s.ScaleRule_STATUS
+	var other storage.ScaleRule_STATUS
 	err := copied.AssignProperties_To_ScaleRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2107,7 +2107,7 @@ func RunPropertyAssignmentTestForTimeWindow(subject TimeWindow) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20221001s.TimeWindow
+	var other storage.TimeWindow
 	err := copied.AssignProperties_To_TimeWindow(&other)
 	if err != nil {
 		return err.Error()
@@ -2211,7 +2211,7 @@ func RunPropertyAssignmentTestForTimeWindow_STATUS(subject TimeWindow_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20221001s.TimeWindow_STATUS
+	var other storage.TimeWindow_STATUS
 	err := copied.AssignProperties_To_TimeWindow_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2315,7 +2315,7 @@ func RunPropertyAssignmentTestForWebhookNotification(subject WebhookNotification
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20221001s.WebhookNotification
+	var other storage.WebhookNotification
 	err := copied.AssignProperties_To_WebhookNotification(&other)
 	if err != nil {
 		return err.Error()
@@ -2421,7 +2421,7 @@ func RunPropertyAssignmentTestForWebhookNotification_STATUS(subject WebhookNotif
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20221001s.WebhookNotification_STATUS
+	var other storage.WebhookNotification_STATUS
 	err := copied.AssignProperties_To_WebhookNotification_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2527,7 +2527,7 @@ func RunPropertyAssignmentTestForMetricTrigger(subject MetricTrigger) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20221001s.MetricTrigger
+	var other storage.MetricTrigger
 	err := copied.AssignProperties_To_MetricTrigger(&other)
 	if err != nil {
 		return err.Error()
@@ -2669,7 +2669,7 @@ func RunPropertyAssignmentTestForMetricTrigger_STATUS(subject MetricTrigger_STAT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20221001s.MetricTrigger_STATUS
+	var other storage.MetricTrigger_STATUS
 	err := copied.AssignProperties_To_MetricTrigger_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2813,7 +2813,7 @@ func RunPropertyAssignmentTestForRecurrentSchedule(subject RecurrentSchedule) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20221001s.RecurrentSchedule
+	var other storage.RecurrentSchedule
 	err := copied.AssignProperties_To_RecurrentSchedule(&other)
 	if err != nil {
 		return err.Error()
@@ -2918,7 +2918,7 @@ func RunPropertyAssignmentTestForRecurrentSchedule_STATUS(subject RecurrentSched
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20221001s.RecurrentSchedule_STATUS
+	var other storage.RecurrentSchedule_STATUS
 	err := copied.AssignProperties_To_RecurrentSchedule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3024,7 +3024,7 @@ func RunPropertyAssignmentTestForScaleAction(subject ScaleAction) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20221001s.ScaleAction
+	var other storage.ScaleAction
 	err := copied.AssignProperties_To_ScaleAction(&other)
 	if err != nil {
 		return err.Error()
@@ -3133,7 +3133,7 @@ func RunPropertyAssignmentTestForScaleAction_STATUS(subject ScaleAction_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20221001s.ScaleAction_STATUS
+	var other storage.ScaleAction_STATUS
 	err := copied.AssignProperties_To_ScaleAction_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3242,7 +3242,7 @@ func RunPropertyAssignmentTestForScaleRuleMetricDimension(subject ScaleRuleMetri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20221001s.ScaleRuleMetricDimension
+	var other storage.ScaleRuleMetricDimension
 	err := copied.AssignProperties_To_ScaleRuleMetricDimension(&other)
 	if err != nil {
 		return err.Error()
@@ -3347,7 +3347,7 @@ func RunPropertyAssignmentTestForScaleRuleMetricDimension_STATUS(subject ScaleRu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20221001s.ScaleRuleMetricDimension_STATUS
+	var other storage.ScaleRuleMetricDimension_STATUS
 	err := copied.AssignProperties_To_ScaleRuleMetricDimension_STATUS(&other)
 	if err != nil {
 		return err.Error()

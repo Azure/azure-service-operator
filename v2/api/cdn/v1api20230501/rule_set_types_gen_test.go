@@ -5,7 +5,7 @@ package v1api20230501
 
 import (
 	"encoding/json"
-	v20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForRuleSet(subject RuleSet) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20230501s.RuleSet
+	var hub storage.RuleSet
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForRuleSet(subject RuleSet) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.RuleSet
+	var other storage.RuleSet
 	err := copied.AssignProperties_To_RuleSet(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForProfiles_RuleSet_Spec(subject Profiles_RuleSet_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.Profiles_RuleSet_Spec
+	var other storage.Profiles_RuleSet_Spec
 	err := copied.AssignProperties_To_Profiles_RuleSet_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -284,7 +284,7 @@ func RunPropertyAssignmentTestForProfiles_RuleSet_STATUS(subject Profiles_RuleSe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.Profiles_RuleSet_STATUS
+	var other storage.Profiles_RuleSet_STATUS
 	err := copied.AssignProperties_To_Profiles_RuleSet_STATUS(&other)
 	if err != nil {
 		return err.Error()

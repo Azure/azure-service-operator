@@ -5,7 +5,7 @@ package storage
 
 import (
 	"encoding/json"
-	v20220401s "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForRoleAssignment(subject RoleAssignment) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20220401s.RoleAssignment
+	var hub storage.RoleAssignment
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForRoleAssignment(subject RoleAssignment) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220401s.RoleAssignment
+	var other storage.RoleAssignment
 	err := copied.AssignProperties_To_RoleAssignment(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForRoleAssignment_Spec(subject RoleAssignment_Spec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220401s.RoleAssignment_Spec
+	var other storage.RoleAssignment_Spec
 	err := copied.AssignProperties_To_RoleAssignment_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -291,7 +291,7 @@ func RunPropertyAssignmentTestForRoleAssignment_STATUS(subject RoleAssignment_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220401s.RoleAssignment_STATUS
+	var other storage.RoleAssignment_STATUS
 	err := copied.AssignProperties_To_RoleAssignment_STATUS(&other)
 	if err != nil {
 		return err.Error()

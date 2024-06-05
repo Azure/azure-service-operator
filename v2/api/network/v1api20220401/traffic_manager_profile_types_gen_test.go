@@ -5,7 +5,7 @@ package v1api20220401
 
 import (
 	"encoding/json"
-	v20220401s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForTrafficManagerProfile(subject TrafficManagerPro
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20220401s.TrafficManagerProfile
+	var hub storage.TrafficManagerProfile
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForTrafficManagerProfile(subject TrafficManagerPro
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220401s.TrafficManagerProfile
+	var other storage.TrafficManagerProfile
 	err := copied.AssignProperties_To_TrafficManagerProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForTrafficmanagerprofile_Spec(subject Trafficmanag
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220401s.Trafficmanagerprofile_Spec
+	var other storage.Trafficmanagerprofile_Spec
 	err := copied.AssignProperties_To_Trafficmanagerprofile_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -321,7 +321,7 @@ func RunPropertyAssignmentTestForTrafficmanagerprofile_STATUS(subject Trafficman
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220401s.Trafficmanagerprofile_STATUS
+	var other storage.Trafficmanagerprofile_STATUS
 	err := copied.AssignProperties_To_Trafficmanagerprofile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -461,7 +461,7 @@ func RunPropertyAssignmentTestForDnsConfig(subject DnsConfig) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220401s.DnsConfig
+	var other storage.DnsConfig
 	err := copied.AssignProperties_To_DnsConfig(&other)
 	if err != nil {
 		return err.Error()
@@ -564,7 +564,7 @@ func RunPropertyAssignmentTestForDnsConfig_STATUS(subject DnsConfig_STATUS) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220401s.DnsConfig_STATUS
+	var other storage.DnsConfig_STATUS
 	err := copied.AssignProperties_To_DnsConfig_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -668,7 +668,7 @@ func RunPropertyAssignmentTestForEndpoint_STATUS(subject Endpoint_STATUS) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220401s.Endpoint_STATUS
+	var other storage.Endpoint_STATUS
 	err := copied.AssignProperties_To_Endpoint_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -770,7 +770,7 @@ func RunPropertyAssignmentTestForMonitorConfig(subject MonitorConfig) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220401s.MonitorConfig
+	var other storage.MonitorConfig
 	err := copied.AssignProperties_To_MonitorConfig(&other)
 	if err != nil {
 		return err.Error()
@@ -898,7 +898,7 @@ func RunPropertyAssignmentTestForMonitorConfig_STATUS(subject MonitorConfig_STAT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220401s.MonitorConfig_STATUS
+	var other storage.MonitorConfig_STATUS
 	err := copied.AssignProperties_To_MonitorConfig_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1027,7 +1027,7 @@ func RunPropertyAssignmentTestForTrafficManagerProfileOperatorSpec(subject Traff
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220401s.TrafficManagerProfileOperatorSpec
+	var other storage.TrafficManagerProfileOperatorSpec
 	err := copied.AssignProperties_To_TrafficManagerProfileOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -1130,7 +1130,7 @@ func RunPropertyAssignmentTestForMonitorConfig_CustomHeaders(subject MonitorConf
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220401s.MonitorConfig_CustomHeaders
+	var other storage.MonitorConfig_CustomHeaders
 	err := copied.AssignProperties_To_MonitorConfig_CustomHeaders(&other)
 	if err != nil {
 		return err.Error()
@@ -1234,7 +1234,7 @@ func RunPropertyAssignmentTestForMonitorConfig_CustomHeaders_STATUS(subject Moni
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220401s.MonitorConfig_CustomHeaders_STATUS
+	var other storage.MonitorConfig_CustomHeaders_STATUS
 	err := copied.AssignProperties_To_MonitorConfig_CustomHeaders_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1338,7 +1338,7 @@ func RunPropertyAssignmentTestForMonitorConfig_ExpectedStatusCodeRanges(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220401s.MonitorConfig_ExpectedStatusCodeRanges
+	var other storage.MonitorConfig_ExpectedStatusCodeRanges
 	err := copied.AssignProperties_To_MonitorConfig_ExpectedStatusCodeRanges(&other)
 	if err != nil {
 		return err.Error()
@@ -1442,7 +1442,7 @@ func RunPropertyAssignmentTestForMonitorConfig_ExpectedStatusCodeRanges_STATUS(s
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220401s.MonitorConfig_ExpectedStatusCodeRanges_STATUS
+	var other storage.MonitorConfig_ExpectedStatusCodeRanges_STATUS
 	err := copied.AssignProperties_To_MonitorConfig_ExpectedStatusCodeRanges_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1546,7 +1546,7 @@ func RunPropertyAssignmentTestForTrafficManagerProfileOperatorConfigMaps(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220401s.TrafficManagerProfileOperatorConfigMaps
+	var other storage.TrafficManagerProfileOperatorConfigMaps
 	err := copied.AssignProperties_To_TrafficManagerProfileOperatorConfigMaps(&other)
 	if err != nil {
 		return err.Error()

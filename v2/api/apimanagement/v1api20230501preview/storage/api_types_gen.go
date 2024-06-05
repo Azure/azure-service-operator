@@ -5,7 +5,7 @@ package storage
 
 import (
 	"fmt"
-	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
@@ -45,7 +45,7 @@ var _ conversion.Convertible = &Api{}
 
 // ConvertFrom populates our Api from the provided hub Api
 func (api *Api) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20220801s.Api)
+	source, ok := hub.(*storage.Api)
 	if !ok {
 		return fmt.Errorf("expected apimanagement/v1api20220801/storage/Api but received %T instead", hub)
 	}
@@ -55,7 +55,7 @@ func (api *Api) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub Api from our Api
 func (api *Api) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20220801s.Api)
+	destination, ok := hub.(*storage.Api)
 	if !ok {
 		return fmt.Errorf("expected apimanagement/v1api20220801/storage/Api but received %T instead", hub)
 	}
@@ -136,7 +136,7 @@ func (api *Api) SetStatus(status genruntime.ConvertibleStatus) error {
 }
 
 // AssignProperties_From_Api populates our Api from the provided source Api
-func (api *Api) AssignProperties_From_Api(source *v20220801s.Api) error {
+func (api *Api) AssignProperties_From_Api(source *storage.Api) error {
 
 	// ObjectMeta
 	api.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -171,13 +171,13 @@ func (api *Api) AssignProperties_From_Api(source *v20220801s.Api) error {
 }
 
 // AssignProperties_To_Api populates the provided destination Api from our Api
-func (api *Api) AssignProperties_To_Api(destination *v20220801s.Api) error {
+func (api *Api) AssignProperties_To_Api(destination *storage.Api) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *api.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20220801s.Service_Api_Spec
+	var spec storage.Service_Api_Spec
 	err := api.Spec.AssignProperties_To_Service_Api_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Service_Api_Spec() to populate field Spec")
@@ -185,7 +185,7 @@ func (api *Api) AssignProperties_To_Api(destination *v20220801s.Api) error {
 	destination.Spec = spec
 
 	// Status
-	var status v20220801s.Service_Api_STATUS
+	var status storage.Service_Api_STATUS
 	err = api.Status.AssignProperties_To_Service_Api_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Service_Api_STATUS() to populate field Status")
@@ -232,8 +232,8 @@ type APIVersion string
 const APIVersion_Value = APIVersion("2023-05-01-preview")
 
 type augmentConversionForApi interface {
-	AssignPropertiesFrom(src *v20220801s.Api) error
-	AssignPropertiesTo(dst *v20220801s.Api) error
+	AssignPropertiesFrom(src *storage.Api) error
+	AssignPropertiesTo(dst *storage.Api) error
 }
 
 // Storage version of v1api20230501preview.Service_Api_Spec
@@ -285,14 +285,14 @@ var _ genruntime.ConvertibleSpec = &Service_Api_Spec{}
 
 // ConvertSpecFrom populates our Service_Api_Spec from the provided source
 func (serviceApi *Service_Api_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20220801s.Service_Api_Spec)
+	src, ok := source.(*storage.Service_Api_Spec)
 	if ok {
 		// Populate our instance from source
 		return serviceApi.AssignProperties_From_Service_Api_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220801s.Service_Api_Spec{}
+	src = &storage.Service_Api_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -309,14 +309,14 @@ func (serviceApi *Service_Api_Spec) ConvertSpecFrom(source genruntime.Convertibl
 
 // ConvertSpecTo populates the provided destination from our Service_Api_Spec
 func (serviceApi *Service_Api_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20220801s.Service_Api_Spec)
+	dst, ok := destination.(*storage.Service_Api_Spec)
 	if ok {
 		// Populate destination from our instance
 		return serviceApi.AssignProperties_To_Service_Api_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220801s.Service_Api_Spec{}
+	dst = &storage.Service_Api_Spec{}
 	err := serviceApi.AssignProperties_To_Service_Api_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -332,7 +332,7 @@ func (serviceApi *Service_Api_Spec) ConvertSpecTo(destination genruntime.Convert
 }
 
 // AssignProperties_From_Service_Api_Spec populates our Service_Api_Spec from the provided source Service_Api_Spec
-func (serviceApi *Service_Api_Spec) AssignProperties_From_Service_Api_Spec(source *v20220801s.Service_Api_Spec) error {
+func (serviceApi *Service_Api_Spec) AssignProperties_From_Service_Api_Spec(source *storage.Service_Api_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -520,7 +520,7 @@ func (serviceApi *Service_Api_Spec) AssignProperties_From_Service_Api_Spec(sourc
 }
 
 // AssignProperties_To_Service_Api_Spec populates the provided destination Service_Api_Spec from our Service_Api_Spec
-func (serviceApi *Service_Api_Spec) AssignProperties_To_Service_Api_Spec(destination *v20220801s.Service_Api_Spec) error {
+func (serviceApi *Service_Api_Spec) AssignProperties_To_Service_Api_Spec(destination *storage.Service_Api_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(serviceApi.PropertyBag)
 
@@ -541,7 +541,7 @@ func (serviceApi *Service_Api_Spec) AssignProperties_To_Service_Api_Spec(destina
 
 	// ApiVersionSet
 	if serviceApi.ApiVersionSet != nil {
-		var apiVersionSet v20220801s.ApiVersionSetContractDetails
+		var apiVersionSet storage.ApiVersionSetContractDetails
 		err := serviceApi.ApiVersionSet.AssignProperties_To_ApiVersionSetContractDetails(&apiVersionSet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ApiVersionSetContractDetails() to populate field ApiVersionSet")
@@ -561,7 +561,7 @@ func (serviceApi *Service_Api_Spec) AssignProperties_To_Service_Api_Spec(destina
 
 	// AuthenticationSettings
 	if serviceApi.AuthenticationSettings != nil {
-		var authenticationSetting v20220801s.AuthenticationSettingsContract
+		var authenticationSetting storage.AuthenticationSettingsContract
 		err := serviceApi.AuthenticationSettings.AssignProperties_To_AuthenticationSettingsContract(&authenticationSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AuthenticationSettingsContract() to populate field AuthenticationSettings")
@@ -576,7 +576,7 @@ func (serviceApi *Service_Api_Spec) AssignProperties_To_Service_Api_Spec(destina
 
 	// Contact
 	if serviceApi.Contact != nil {
-		var contact v20220801s.ApiContactInformation
+		var contact storage.ApiContactInformation
 		err := serviceApi.Contact.AssignProperties_To_ApiContactInformation(&contact)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ApiContactInformation() to populate field Contact")
@@ -605,7 +605,7 @@ func (serviceApi *Service_Api_Spec) AssignProperties_To_Service_Api_Spec(destina
 
 	// License
 	if serviceApi.License != nil {
-		var license v20220801s.ApiLicenseInformation
+		var license storage.ApiLicenseInformation
 		err := serviceApi.License.AssignProperties_To_ApiLicenseInformation(&license)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ApiLicenseInformation() to populate field License")
@@ -645,7 +645,7 @@ func (serviceApi *Service_Api_Spec) AssignProperties_To_Service_Api_Spec(destina
 
 	// SubscriptionKeyParameterNames
 	if serviceApi.SubscriptionKeyParameterNames != nil {
-		var subscriptionKeyParameterName v20220801s.SubscriptionKeyParameterNamesContract
+		var subscriptionKeyParameterName storage.SubscriptionKeyParameterNamesContract
 		err := serviceApi.SubscriptionKeyParameterNames.AssignProperties_To_SubscriptionKeyParameterNamesContract(&subscriptionKeyParameterName)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubscriptionKeyParameterNamesContract() to populate field SubscriptionKeyParameterNames")
@@ -677,7 +677,7 @@ func (serviceApi *Service_Api_Spec) AssignProperties_To_Service_Api_Spec(destina
 
 	// WsdlSelector
 	if serviceApi.WsdlSelector != nil {
-		var wsdlSelector v20220801s.ApiCreateOrUpdateProperties_WsdlSelector
+		var wsdlSelector storage.ApiCreateOrUpdateProperties_WsdlSelector
 		err := serviceApi.WsdlSelector.AssignProperties_To_ApiCreateOrUpdateProperties_WsdlSelector(&wsdlSelector)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ApiCreateOrUpdateProperties_WsdlSelector() to populate field WsdlSelector")
@@ -742,14 +742,14 @@ var _ genruntime.ConvertibleStatus = &Service_Api_STATUS{}
 
 // ConvertStatusFrom populates our Service_Api_STATUS from the provided source
 func (serviceApi *Service_Api_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20220801s.Service_Api_STATUS)
+	src, ok := source.(*storage.Service_Api_STATUS)
 	if ok {
 		// Populate our instance from source
 		return serviceApi.AssignProperties_From_Service_Api_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220801s.Service_Api_STATUS{}
+	src = &storage.Service_Api_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -766,14 +766,14 @@ func (serviceApi *Service_Api_STATUS) ConvertStatusFrom(source genruntime.Conver
 
 // ConvertStatusTo populates the provided destination from our Service_Api_STATUS
 func (serviceApi *Service_Api_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20220801s.Service_Api_STATUS)
+	dst, ok := destination.(*storage.Service_Api_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return serviceApi.AssignProperties_To_Service_Api_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220801s.Service_Api_STATUS{}
+	dst = &storage.Service_Api_STATUS{}
 	err := serviceApi.AssignProperties_To_Service_Api_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -789,7 +789,7 @@ func (serviceApi *Service_Api_STATUS) ConvertStatusTo(destination genruntime.Con
 }
 
 // AssignProperties_From_Service_Api_STATUS populates our Service_Api_STATUS from the provided source Service_Api_STATUS
-func (serviceApi *Service_Api_STATUS) AssignProperties_From_Service_Api_STATUS(source *v20220801s.Service_Api_STATUS) error {
+func (serviceApi *Service_Api_STATUS) AssignProperties_From_Service_Api_STATUS(source *storage.Service_Api_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -962,7 +962,7 @@ func (serviceApi *Service_Api_STATUS) AssignProperties_From_Service_Api_STATUS(s
 }
 
 // AssignProperties_To_Service_Api_STATUS populates the provided destination Service_Api_STATUS from our Service_Api_STATUS
-func (serviceApi *Service_Api_STATUS) AssignProperties_To_Service_Api_STATUS(destination *v20220801s.Service_Api_STATUS) error {
+func (serviceApi *Service_Api_STATUS) AssignProperties_To_Service_Api_STATUS(destination *storage.Service_Api_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(serviceApi.PropertyBag)
 
@@ -980,7 +980,7 @@ func (serviceApi *Service_Api_STATUS) AssignProperties_To_Service_Api_STATUS(des
 
 	// ApiVersionSet
 	if serviceApi.ApiVersionSet != nil {
-		var apiVersionSet v20220801s.ApiVersionSetContractDetails_STATUS
+		var apiVersionSet storage.ApiVersionSetContractDetails_STATUS
 		err := serviceApi.ApiVersionSet.AssignProperties_To_ApiVersionSetContractDetails_STATUS(&apiVersionSet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ApiVersionSetContractDetails_STATUS() to populate field ApiVersionSet")
@@ -995,7 +995,7 @@ func (serviceApi *Service_Api_STATUS) AssignProperties_To_Service_Api_STATUS(des
 
 	// AuthenticationSettings
 	if serviceApi.AuthenticationSettings != nil {
-		var authenticationSetting v20220801s.AuthenticationSettingsContract_STATUS
+		var authenticationSetting storage.AuthenticationSettingsContract_STATUS
 		err := serviceApi.AuthenticationSettings.AssignProperties_To_AuthenticationSettingsContract_STATUS(&authenticationSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AuthenticationSettingsContract_STATUS() to populate field AuthenticationSettings")
@@ -1010,7 +1010,7 @@ func (serviceApi *Service_Api_STATUS) AssignProperties_To_Service_Api_STATUS(des
 
 	// Contact
 	if serviceApi.Contact != nil {
-		var contact v20220801s.ApiContactInformation_STATUS
+		var contact storage.ApiContactInformation_STATUS
 		err := serviceApi.Contact.AssignProperties_To_ApiContactInformation_STATUS(&contact)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ApiContactInformation_STATUS() to populate field Contact")
@@ -1047,7 +1047,7 @@ func (serviceApi *Service_Api_STATUS) AssignProperties_To_Service_Api_STATUS(des
 
 	// License
 	if serviceApi.License != nil {
-		var license v20220801s.ApiLicenseInformation_STATUS
+		var license storage.ApiLicenseInformation_STATUS
 		err := serviceApi.License.AssignProperties_To_ApiLicenseInformation_STATUS(&license)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ApiLicenseInformation_STATUS() to populate field License")
@@ -1084,7 +1084,7 @@ func (serviceApi *Service_Api_STATUS) AssignProperties_To_Service_Api_STATUS(des
 
 	// SubscriptionKeyParameterNames
 	if serviceApi.SubscriptionKeyParameterNames != nil {
-		var subscriptionKeyParameterName v20220801s.SubscriptionKeyParameterNamesContract_STATUS
+		var subscriptionKeyParameterName storage.SubscriptionKeyParameterNamesContract_STATUS
 		err := serviceApi.SubscriptionKeyParameterNames.AssignProperties_To_SubscriptionKeyParameterNamesContract_STATUS(&subscriptionKeyParameterName)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubscriptionKeyParameterNamesContract_STATUS() to populate field SubscriptionKeyParameterNames")
@@ -1138,7 +1138,7 @@ type ApiContactInformation struct {
 }
 
 // AssignProperties_From_ApiContactInformation populates our ApiContactInformation from the provided source ApiContactInformation
-func (information *ApiContactInformation) AssignProperties_From_ApiContactInformation(source *v20220801s.ApiContactInformation) error {
+func (information *ApiContactInformation) AssignProperties_From_ApiContactInformation(source *storage.ApiContactInformation) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1172,7 +1172,7 @@ func (information *ApiContactInformation) AssignProperties_From_ApiContactInform
 }
 
 // AssignProperties_To_ApiContactInformation populates the provided destination ApiContactInformation from our ApiContactInformation
-func (information *ApiContactInformation) AssignProperties_To_ApiContactInformation(destination *v20220801s.ApiContactInformation) error {
+func (information *ApiContactInformation) AssignProperties_To_ApiContactInformation(destination *storage.ApiContactInformation) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(information.PropertyBag)
 
@@ -1215,7 +1215,7 @@ type ApiContactInformation_STATUS struct {
 }
 
 // AssignProperties_From_ApiContactInformation_STATUS populates our ApiContactInformation_STATUS from the provided source ApiContactInformation_STATUS
-func (information *ApiContactInformation_STATUS) AssignProperties_From_ApiContactInformation_STATUS(source *v20220801s.ApiContactInformation_STATUS) error {
+func (information *ApiContactInformation_STATUS) AssignProperties_From_ApiContactInformation_STATUS(source *storage.ApiContactInformation_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1249,7 +1249,7 @@ func (information *ApiContactInformation_STATUS) AssignProperties_From_ApiContac
 }
 
 // AssignProperties_To_ApiContactInformation_STATUS populates the provided destination ApiContactInformation_STATUS from our ApiContactInformation_STATUS
-func (information *ApiContactInformation_STATUS) AssignProperties_To_ApiContactInformation_STATUS(destination *v20220801s.ApiContactInformation_STATUS) error {
+func (information *ApiContactInformation_STATUS) AssignProperties_To_ApiContactInformation_STATUS(destination *storage.ApiContactInformation_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(information.PropertyBag)
 
@@ -1290,7 +1290,7 @@ type ApiCreateOrUpdateProperties_WsdlSelector struct {
 }
 
 // AssignProperties_From_ApiCreateOrUpdateProperties_WsdlSelector populates our ApiCreateOrUpdateProperties_WsdlSelector from the provided source ApiCreateOrUpdateProperties_WsdlSelector
-func (selector *ApiCreateOrUpdateProperties_WsdlSelector) AssignProperties_From_ApiCreateOrUpdateProperties_WsdlSelector(source *v20220801s.ApiCreateOrUpdateProperties_WsdlSelector) error {
+func (selector *ApiCreateOrUpdateProperties_WsdlSelector) AssignProperties_From_ApiCreateOrUpdateProperties_WsdlSelector(source *storage.ApiCreateOrUpdateProperties_WsdlSelector) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1321,7 +1321,7 @@ func (selector *ApiCreateOrUpdateProperties_WsdlSelector) AssignProperties_From_
 }
 
 // AssignProperties_To_ApiCreateOrUpdateProperties_WsdlSelector populates the provided destination ApiCreateOrUpdateProperties_WsdlSelector from our ApiCreateOrUpdateProperties_WsdlSelector
-func (selector *ApiCreateOrUpdateProperties_WsdlSelector) AssignProperties_To_ApiCreateOrUpdateProperties_WsdlSelector(destination *v20220801s.ApiCreateOrUpdateProperties_WsdlSelector) error {
+func (selector *ApiCreateOrUpdateProperties_WsdlSelector) AssignProperties_To_ApiCreateOrUpdateProperties_WsdlSelector(destination *storage.ApiCreateOrUpdateProperties_WsdlSelector) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(selector.PropertyBag)
 
@@ -1360,7 +1360,7 @@ type ApiLicenseInformation struct {
 }
 
 // AssignProperties_From_ApiLicenseInformation populates our ApiLicenseInformation from the provided source ApiLicenseInformation
-func (information *ApiLicenseInformation) AssignProperties_From_ApiLicenseInformation(source *v20220801s.ApiLicenseInformation) error {
+func (information *ApiLicenseInformation) AssignProperties_From_ApiLicenseInformation(source *storage.ApiLicenseInformation) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1391,7 +1391,7 @@ func (information *ApiLicenseInformation) AssignProperties_From_ApiLicenseInform
 }
 
 // AssignProperties_To_ApiLicenseInformation populates the provided destination ApiLicenseInformation from our ApiLicenseInformation
-func (information *ApiLicenseInformation) AssignProperties_To_ApiLicenseInformation(destination *v20220801s.ApiLicenseInformation) error {
+func (information *ApiLicenseInformation) AssignProperties_To_ApiLicenseInformation(destination *storage.ApiLicenseInformation) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(information.PropertyBag)
 
@@ -1430,7 +1430,7 @@ type ApiLicenseInformation_STATUS struct {
 }
 
 // AssignProperties_From_ApiLicenseInformation_STATUS populates our ApiLicenseInformation_STATUS from the provided source ApiLicenseInformation_STATUS
-func (information *ApiLicenseInformation_STATUS) AssignProperties_From_ApiLicenseInformation_STATUS(source *v20220801s.ApiLicenseInformation_STATUS) error {
+func (information *ApiLicenseInformation_STATUS) AssignProperties_From_ApiLicenseInformation_STATUS(source *storage.ApiLicenseInformation_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1461,7 +1461,7 @@ func (information *ApiLicenseInformation_STATUS) AssignProperties_From_ApiLicens
 }
 
 // AssignProperties_To_ApiLicenseInformation_STATUS populates the provided destination ApiLicenseInformation_STATUS from our ApiLicenseInformation_STATUS
-func (information *ApiLicenseInformation_STATUS) AssignProperties_To_ApiLicenseInformation_STATUS(destination *v20220801s.ApiLicenseInformation_STATUS) error {
+func (information *ApiLicenseInformation_STATUS) AssignProperties_To_ApiLicenseInformation_STATUS(destination *storage.ApiLicenseInformation_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(information.PropertyBag)
 
@@ -1506,7 +1506,7 @@ type ApiVersionSetContractDetails struct {
 }
 
 // AssignProperties_From_ApiVersionSetContractDetails populates our ApiVersionSetContractDetails from the provided source ApiVersionSetContractDetails
-func (details *ApiVersionSetContractDetails) AssignProperties_From_ApiVersionSetContractDetails(source *v20220801s.ApiVersionSetContractDetails) error {
+func (details *ApiVersionSetContractDetails) AssignProperties_From_ApiVersionSetContractDetails(source *storage.ApiVersionSetContractDetails) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1554,7 +1554,7 @@ func (details *ApiVersionSetContractDetails) AssignProperties_From_ApiVersionSet
 }
 
 // AssignProperties_To_ApiVersionSetContractDetails populates the provided destination ApiVersionSetContractDetails from our ApiVersionSetContractDetails
-func (details *ApiVersionSetContractDetails) AssignProperties_To_ApiVersionSetContractDetails(destination *v20220801s.ApiVersionSetContractDetails) error {
+func (details *ApiVersionSetContractDetails) AssignProperties_To_ApiVersionSetContractDetails(destination *storage.ApiVersionSetContractDetails) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(details.PropertyBag)
 
@@ -1614,7 +1614,7 @@ type ApiVersionSetContractDetails_STATUS struct {
 }
 
 // AssignProperties_From_ApiVersionSetContractDetails_STATUS populates our ApiVersionSetContractDetails_STATUS from the provided source ApiVersionSetContractDetails_STATUS
-func (details *ApiVersionSetContractDetails_STATUS) AssignProperties_From_ApiVersionSetContractDetails_STATUS(source *v20220801s.ApiVersionSetContractDetails_STATUS) error {
+func (details *ApiVersionSetContractDetails_STATUS) AssignProperties_From_ApiVersionSetContractDetails_STATUS(source *storage.ApiVersionSetContractDetails_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1657,7 +1657,7 @@ func (details *ApiVersionSetContractDetails_STATUS) AssignProperties_From_ApiVer
 }
 
 // AssignProperties_To_ApiVersionSetContractDetails_STATUS populates the provided destination ApiVersionSetContractDetails_STATUS from our ApiVersionSetContractDetails_STATUS
-func (details *ApiVersionSetContractDetails_STATUS) AssignProperties_To_ApiVersionSetContractDetails_STATUS(destination *v20220801s.ApiVersionSetContractDetails_STATUS) error {
+func (details *ApiVersionSetContractDetails_STATUS) AssignProperties_To_ApiVersionSetContractDetails_STATUS(destination *storage.ApiVersionSetContractDetails_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(details.PropertyBag)
 
@@ -1700,13 +1700,13 @@ func (details *ApiVersionSetContractDetails_STATUS) AssignProperties_To_ApiVersi
 }
 
 type augmentConversionForService_Api_Spec interface {
-	AssignPropertiesFrom(src *v20220801s.Service_Api_Spec) error
-	AssignPropertiesTo(dst *v20220801s.Service_Api_Spec) error
+	AssignPropertiesFrom(src *storage.Service_Api_Spec) error
+	AssignPropertiesTo(dst *storage.Service_Api_Spec) error
 }
 
 type augmentConversionForService_Api_STATUS interface {
-	AssignPropertiesFrom(src *v20220801s.Service_Api_STATUS) error
-	AssignPropertiesTo(dst *v20220801s.Service_Api_STATUS) error
+	AssignPropertiesFrom(src *storage.Service_Api_STATUS) error
+	AssignPropertiesTo(dst *storage.Service_Api_STATUS) error
 }
 
 // Storage version of v1api20230501preview.AuthenticationSettingsContract
@@ -1720,7 +1720,7 @@ type AuthenticationSettingsContract struct {
 }
 
 // AssignProperties_From_AuthenticationSettingsContract populates our AuthenticationSettingsContract from the provided source AuthenticationSettingsContract
-func (contract *AuthenticationSettingsContract) AssignProperties_From_AuthenticationSettingsContract(source *v20220801s.AuthenticationSettingsContract) error {
+func (contract *AuthenticationSettingsContract) AssignProperties_From_AuthenticationSettingsContract(source *storage.AuthenticationSettingsContract) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1805,13 +1805,13 @@ func (contract *AuthenticationSettingsContract) AssignProperties_From_Authentica
 }
 
 // AssignProperties_To_AuthenticationSettingsContract populates the provided destination AuthenticationSettingsContract from our AuthenticationSettingsContract
-func (contract *AuthenticationSettingsContract) AssignProperties_To_AuthenticationSettingsContract(destination *v20220801s.AuthenticationSettingsContract) error {
+func (contract *AuthenticationSettingsContract) AssignProperties_To_AuthenticationSettingsContract(destination *storage.AuthenticationSettingsContract) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(contract.PropertyBag)
 
 	// OAuth2
 	if contract.OAuth2 != nil {
-		var oAuth2 v20220801s.OAuth2AuthenticationSettingsContract
+		var oAuth2 storage.OAuth2AuthenticationSettingsContract
 		err := contract.OAuth2.AssignProperties_To_OAuth2AuthenticationSettingsContract(&oAuth2)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_OAuth2AuthenticationSettingsContract() to populate field OAuth2")
@@ -1823,11 +1823,11 @@ func (contract *AuthenticationSettingsContract) AssignProperties_To_Authenticati
 
 	// OAuth2AuthenticationSettings
 	if contract.OAuth2AuthenticationSettings != nil {
-		oAuth2AuthenticationSettingList := make([]v20220801s.OAuth2AuthenticationSettingsContract, len(contract.OAuth2AuthenticationSettings))
+		oAuth2AuthenticationSettingList := make([]storage.OAuth2AuthenticationSettingsContract, len(contract.OAuth2AuthenticationSettings))
 		for oAuth2AuthenticationSettingIndex, oAuth2AuthenticationSettingItem := range contract.OAuth2AuthenticationSettings {
 			// Shadow the loop variable to avoid aliasing
 			oAuth2AuthenticationSettingItem := oAuth2AuthenticationSettingItem
-			var oAuth2AuthenticationSetting v20220801s.OAuth2AuthenticationSettingsContract
+			var oAuth2AuthenticationSetting storage.OAuth2AuthenticationSettingsContract
 			err := oAuth2AuthenticationSettingItem.AssignProperties_To_OAuth2AuthenticationSettingsContract(&oAuth2AuthenticationSetting)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_OAuth2AuthenticationSettingsContract() to populate field OAuth2AuthenticationSettings")
@@ -1841,7 +1841,7 @@ func (contract *AuthenticationSettingsContract) AssignProperties_To_Authenticati
 
 	// Openid
 	if contract.Openid != nil {
-		var openid v20220801s.OpenIdAuthenticationSettingsContract
+		var openid storage.OpenIdAuthenticationSettingsContract
 		err := contract.Openid.AssignProperties_To_OpenIdAuthenticationSettingsContract(&openid)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_OpenIdAuthenticationSettingsContract() to populate field Openid")
@@ -1853,11 +1853,11 @@ func (contract *AuthenticationSettingsContract) AssignProperties_To_Authenticati
 
 	// OpenidAuthenticationSettings
 	if contract.OpenidAuthenticationSettings != nil {
-		openidAuthenticationSettingList := make([]v20220801s.OpenIdAuthenticationSettingsContract, len(contract.OpenidAuthenticationSettings))
+		openidAuthenticationSettingList := make([]storage.OpenIdAuthenticationSettingsContract, len(contract.OpenidAuthenticationSettings))
 		for openidAuthenticationSettingIndex, openidAuthenticationSettingItem := range contract.OpenidAuthenticationSettings {
 			// Shadow the loop variable to avoid aliasing
 			openidAuthenticationSettingItem := openidAuthenticationSettingItem
-			var openidAuthenticationSetting v20220801s.OpenIdAuthenticationSettingsContract
+			var openidAuthenticationSetting storage.OpenIdAuthenticationSettingsContract
 			err := openidAuthenticationSettingItem.AssignProperties_To_OpenIdAuthenticationSettingsContract(&openidAuthenticationSetting)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_OpenIdAuthenticationSettingsContract() to populate field OpenidAuthenticationSettings")
@@ -1900,7 +1900,7 @@ type AuthenticationSettingsContract_STATUS struct {
 }
 
 // AssignProperties_From_AuthenticationSettingsContract_STATUS populates our AuthenticationSettingsContract_STATUS from the provided source AuthenticationSettingsContract_STATUS
-func (contract *AuthenticationSettingsContract_STATUS) AssignProperties_From_AuthenticationSettingsContract_STATUS(source *v20220801s.AuthenticationSettingsContract_STATUS) error {
+func (contract *AuthenticationSettingsContract_STATUS) AssignProperties_From_AuthenticationSettingsContract_STATUS(source *storage.AuthenticationSettingsContract_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1985,13 +1985,13 @@ func (contract *AuthenticationSettingsContract_STATUS) AssignProperties_From_Aut
 }
 
 // AssignProperties_To_AuthenticationSettingsContract_STATUS populates the provided destination AuthenticationSettingsContract_STATUS from our AuthenticationSettingsContract_STATUS
-func (contract *AuthenticationSettingsContract_STATUS) AssignProperties_To_AuthenticationSettingsContract_STATUS(destination *v20220801s.AuthenticationSettingsContract_STATUS) error {
+func (contract *AuthenticationSettingsContract_STATUS) AssignProperties_To_AuthenticationSettingsContract_STATUS(destination *storage.AuthenticationSettingsContract_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(contract.PropertyBag)
 
 	// OAuth2
 	if contract.OAuth2 != nil {
-		var oAuth2 v20220801s.OAuth2AuthenticationSettingsContract_STATUS
+		var oAuth2 storage.OAuth2AuthenticationSettingsContract_STATUS
 		err := contract.OAuth2.AssignProperties_To_OAuth2AuthenticationSettingsContract_STATUS(&oAuth2)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_OAuth2AuthenticationSettingsContract_STATUS() to populate field OAuth2")
@@ -2003,11 +2003,11 @@ func (contract *AuthenticationSettingsContract_STATUS) AssignProperties_To_Authe
 
 	// OAuth2AuthenticationSettings
 	if contract.OAuth2AuthenticationSettings != nil {
-		oAuth2AuthenticationSettingList := make([]v20220801s.OAuth2AuthenticationSettingsContract_STATUS, len(contract.OAuth2AuthenticationSettings))
+		oAuth2AuthenticationSettingList := make([]storage.OAuth2AuthenticationSettingsContract_STATUS, len(contract.OAuth2AuthenticationSettings))
 		for oAuth2AuthenticationSettingIndex, oAuth2AuthenticationSettingItem := range contract.OAuth2AuthenticationSettings {
 			// Shadow the loop variable to avoid aliasing
 			oAuth2AuthenticationSettingItem := oAuth2AuthenticationSettingItem
-			var oAuth2AuthenticationSetting v20220801s.OAuth2AuthenticationSettingsContract_STATUS
+			var oAuth2AuthenticationSetting storage.OAuth2AuthenticationSettingsContract_STATUS
 			err := oAuth2AuthenticationSettingItem.AssignProperties_To_OAuth2AuthenticationSettingsContract_STATUS(&oAuth2AuthenticationSetting)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_OAuth2AuthenticationSettingsContract_STATUS() to populate field OAuth2AuthenticationSettings")
@@ -2021,7 +2021,7 @@ func (contract *AuthenticationSettingsContract_STATUS) AssignProperties_To_Authe
 
 	// Openid
 	if contract.Openid != nil {
-		var openid v20220801s.OpenIdAuthenticationSettingsContract_STATUS
+		var openid storage.OpenIdAuthenticationSettingsContract_STATUS
 		err := contract.Openid.AssignProperties_To_OpenIdAuthenticationSettingsContract_STATUS(&openid)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_OpenIdAuthenticationSettingsContract_STATUS() to populate field Openid")
@@ -2033,11 +2033,11 @@ func (contract *AuthenticationSettingsContract_STATUS) AssignProperties_To_Authe
 
 	// OpenidAuthenticationSettings
 	if contract.OpenidAuthenticationSettings != nil {
-		openidAuthenticationSettingList := make([]v20220801s.OpenIdAuthenticationSettingsContract_STATUS, len(contract.OpenidAuthenticationSettings))
+		openidAuthenticationSettingList := make([]storage.OpenIdAuthenticationSettingsContract_STATUS, len(contract.OpenidAuthenticationSettings))
 		for openidAuthenticationSettingIndex, openidAuthenticationSettingItem := range contract.OpenidAuthenticationSettings {
 			// Shadow the loop variable to avoid aliasing
 			openidAuthenticationSettingItem := openidAuthenticationSettingItem
-			var openidAuthenticationSetting v20220801s.OpenIdAuthenticationSettingsContract_STATUS
+			var openidAuthenticationSetting storage.OpenIdAuthenticationSettingsContract_STATUS
 			err := openidAuthenticationSettingItem.AssignProperties_To_OpenIdAuthenticationSettingsContract_STATUS(&openidAuthenticationSetting)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_OpenIdAuthenticationSettingsContract_STATUS() to populate field OpenidAuthenticationSettings")
@@ -2078,7 +2078,7 @@ type SubscriptionKeyParameterNamesContract struct {
 }
 
 // AssignProperties_From_SubscriptionKeyParameterNamesContract populates our SubscriptionKeyParameterNamesContract from the provided source SubscriptionKeyParameterNamesContract
-func (contract *SubscriptionKeyParameterNamesContract) AssignProperties_From_SubscriptionKeyParameterNamesContract(source *v20220801s.SubscriptionKeyParameterNamesContract) error {
+func (contract *SubscriptionKeyParameterNamesContract) AssignProperties_From_SubscriptionKeyParameterNamesContract(source *storage.SubscriptionKeyParameterNamesContract) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2109,7 +2109,7 @@ func (contract *SubscriptionKeyParameterNamesContract) AssignProperties_From_Sub
 }
 
 // AssignProperties_To_SubscriptionKeyParameterNamesContract populates the provided destination SubscriptionKeyParameterNamesContract from our SubscriptionKeyParameterNamesContract
-func (contract *SubscriptionKeyParameterNamesContract) AssignProperties_To_SubscriptionKeyParameterNamesContract(destination *v20220801s.SubscriptionKeyParameterNamesContract) error {
+func (contract *SubscriptionKeyParameterNamesContract) AssignProperties_To_SubscriptionKeyParameterNamesContract(destination *storage.SubscriptionKeyParameterNamesContract) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(contract.PropertyBag)
 
@@ -2148,7 +2148,7 @@ type SubscriptionKeyParameterNamesContract_STATUS struct {
 }
 
 // AssignProperties_From_SubscriptionKeyParameterNamesContract_STATUS populates our SubscriptionKeyParameterNamesContract_STATUS from the provided source SubscriptionKeyParameterNamesContract_STATUS
-func (contract *SubscriptionKeyParameterNamesContract_STATUS) AssignProperties_From_SubscriptionKeyParameterNamesContract_STATUS(source *v20220801s.SubscriptionKeyParameterNamesContract_STATUS) error {
+func (contract *SubscriptionKeyParameterNamesContract_STATUS) AssignProperties_From_SubscriptionKeyParameterNamesContract_STATUS(source *storage.SubscriptionKeyParameterNamesContract_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2179,7 +2179,7 @@ func (contract *SubscriptionKeyParameterNamesContract_STATUS) AssignProperties_F
 }
 
 // AssignProperties_To_SubscriptionKeyParameterNamesContract_STATUS populates the provided destination SubscriptionKeyParameterNamesContract_STATUS from our SubscriptionKeyParameterNamesContract_STATUS
-func (contract *SubscriptionKeyParameterNamesContract_STATUS) AssignProperties_To_SubscriptionKeyParameterNamesContract_STATUS(destination *v20220801s.SubscriptionKeyParameterNamesContract_STATUS) error {
+func (contract *SubscriptionKeyParameterNamesContract_STATUS) AssignProperties_To_SubscriptionKeyParameterNamesContract_STATUS(destination *storage.SubscriptionKeyParameterNamesContract_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(contract.PropertyBag)
 
@@ -2210,58 +2210,58 @@ func (contract *SubscriptionKeyParameterNamesContract_STATUS) AssignProperties_T
 }
 
 type augmentConversionForApiContactInformation interface {
-	AssignPropertiesFrom(src *v20220801s.ApiContactInformation) error
-	AssignPropertiesTo(dst *v20220801s.ApiContactInformation) error
+	AssignPropertiesFrom(src *storage.ApiContactInformation) error
+	AssignPropertiesTo(dst *storage.ApiContactInformation) error
 }
 
 type augmentConversionForApiContactInformation_STATUS interface {
-	AssignPropertiesFrom(src *v20220801s.ApiContactInformation_STATUS) error
-	AssignPropertiesTo(dst *v20220801s.ApiContactInformation_STATUS) error
+	AssignPropertiesFrom(src *storage.ApiContactInformation_STATUS) error
+	AssignPropertiesTo(dst *storage.ApiContactInformation_STATUS) error
 }
 
 type augmentConversionForApiCreateOrUpdateProperties_WsdlSelector interface {
-	AssignPropertiesFrom(src *v20220801s.ApiCreateOrUpdateProperties_WsdlSelector) error
-	AssignPropertiesTo(dst *v20220801s.ApiCreateOrUpdateProperties_WsdlSelector) error
+	AssignPropertiesFrom(src *storage.ApiCreateOrUpdateProperties_WsdlSelector) error
+	AssignPropertiesTo(dst *storage.ApiCreateOrUpdateProperties_WsdlSelector) error
 }
 
 type augmentConversionForApiLicenseInformation interface {
-	AssignPropertiesFrom(src *v20220801s.ApiLicenseInformation) error
-	AssignPropertiesTo(dst *v20220801s.ApiLicenseInformation) error
+	AssignPropertiesFrom(src *storage.ApiLicenseInformation) error
+	AssignPropertiesTo(dst *storage.ApiLicenseInformation) error
 }
 
 type augmentConversionForApiLicenseInformation_STATUS interface {
-	AssignPropertiesFrom(src *v20220801s.ApiLicenseInformation_STATUS) error
-	AssignPropertiesTo(dst *v20220801s.ApiLicenseInformation_STATUS) error
+	AssignPropertiesFrom(src *storage.ApiLicenseInformation_STATUS) error
+	AssignPropertiesTo(dst *storage.ApiLicenseInformation_STATUS) error
 }
 
 type augmentConversionForApiVersionSetContractDetails interface {
-	AssignPropertiesFrom(src *v20220801s.ApiVersionSetContractDetails) error
-	AssignPropertiesTo(dst *v20220801s.ApiVersionSetContractDetails) error
+	AssignPropertiesFrom(src *storage.ApiVersionSetContractDetails) error
+	AssignPropertiesTo(dst *storage.ApiVersionSetContractDetails) error
 }
 
 type augmentConversionForApiVersionSetContractDetails_STATUS interface {
-	AssignPropertiesFrom(src *v20220801s.ApiVersionSetContractDetails_STATUS) error
-	AssignPropertiesTo(dst *v20220801s.ApiVersionSetContractDetails_STATUS) error
+	AssignPropertiesFrom(src *storage.ApiVersionSetContractDetails_STATUS) error
+	AssignPropertiesTo(dst *storage.ApiVersionSetContractDetails_STATUS) error
 }
 
 type augmentConversionForAuthenticationSettingsContract interface {
-	AssignPropertiesFrom(src *v20220801s.AuthenticationSettingsContract) error
-	AssignPropertiesTo(dst *v20220801s.AuthenticationSettingsContract) error
+	AssignPropertiesFrom(src *storage.AuthenticationSettingsContract) error
+	AssignPropertiesTo(dst *storage.AuthenticationSettingsContract) error
 }
 
 type augmentConversionForAuthenticationSettingsContract_STATUS interface {
-	AssignPropertiesFrom(src *v20220801s.AuthenticationSettingsContract_STATUS) error
-	AssignPropertiesTo(dst *v20220801s.AuthenticationSettingsContract_STATUS) error
+	AssignPropertiesFrom(src *storage.AuthenticationSettingsContract_STATUS) error
+	AssignPropertiesTo(dst *storage.AuthenticationSettingsContract_STATUS) error
 }
 
 type augmentConversionForSubscriptionKeyParameterNamesContract interface {
-	AssignPropertiesFrom(src *v20220801s.SubscriptionKeyParameterNamesContract) error
-	AssignPropertiesTo(dst *v20220801s.SubscriptionKeyParameterNamesContract) error
+	AssignPropertiesFrom(src *storage.SubscriptionKeyParameterNamesContract) error
+	AssignPropertiesTo(dst *storage.SubscriptionKeyParameterNamesContract) error
 }
 
 type augmentConversionForSubscriptionKeyParameterNamesContract_STATUS interface {
-	AssignPropertiesFrom(src *v20220801s.SubscriptionKeyParameterNamesContract_STATUS) error
-	AssignPropertiesTo(dst *v20220801s.SubscriptionKeyParameterNamesContract_STATUS) error
+	AssignPropertiesFrom(src *storage.SubscriptionKeyParameterNamesContract_STATUS) error
+	AssignPropertiesTo(dst *storage.SubscriptionKeyParameterNamesContract_STATUS) error
 }
 
 // Storage version of v1api20230501preview.OAuth2AuthenticationSettingsContract
@@ -2273,7 +2273,7 @@ type OAuth2AuthenticationSettingsContract struct {
 }
 
 // AssignProperties_From_OAuth2AuthenticationSettingsContract populates our OAuth2AuthenticationSettingsContract from the provided source OAuth2AuthenticationSettingsContract
-func (contract *OAuth2AuthenticationSettingsContract) AssignProperties_From_OAuth2AuthenticationSettingsContract(source *v20220801s.OAuth2AuthenticationSettingsContract) error {
+func (contract *OAuth2AuthenticationSettingsContract) AssignProperties_From_OAuth2AuthenticationSettingsContract(source *storage.OAuth2AuthenticationSettingsContract) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2304,7 +2304,7 @@ func (contract *OAuth2AuthenticationSettingsContract) AssignProperties_From_OAut
 }
 
 // AssignProperties_To_OAuth2AuthenticationSettingsContract populates the provided destination OAuth2AuthenticationSettingsContract from our OAuth2AuthenticationSettingsContract
-func (contract *OAuth2AuthenticationSettingsContract) AssignProperties_To_OAuth2AuthenticationSettingsContract(destination *v20220801s.OAuth2AuthenticationSettingsContract) error {
+func (contract *OAuth2AuthenticationSettingsContract) AssignProperties_To_OAuth2AuthenticationSettingsContract(destination *storage.OAuth2AuthenticationSettingsContract) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(contract.PropertyBag)
 
@@ -2343,7 +2343,7 @@ type OAuth2AuthenticationSettingsContract_STATUS struct {
 }
 
 // AssignProperties_From_OAuth2AuthenticationSettingsContract_STATUS populates our OAuth2AuthenticationSettingsContract_STATUS from the provided source OAuth2AuthenticationSettingsContract_STATUS
-func (contract *OAuth2AuthenticationSettingsContract_STATUS) AssignProperties_From_OAuth2AuthenticationSettingsContract_STATUS(source *v20220801s.OAuth2AuthenticationSettingsContract_STATUS) error {
+func (contract *OAuth2AuthenticationSettingsContract_STATUS) AssignProperties_From_OAuth2AuthenticationSettingsContract_STATUS(source *storage.OAuth2AuthenticationSettingsContract_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2374,7 +2374,7 @@ func (contract *OAuth2AuthenticationSettingsContract_STATUS) AssignProperties_Fr
 }
 
 // AssignProperties_To_OAuth2AuthenticationSettingsContract_STATUS populates the provided destination OAuth2AuthenticationSettingsContract_STATUS from our OAuth2AuthenticationSettingsContract_STATUS
-func (contract *OAuth2AuthenticationSettingsContract_STATUS) AssignProperties_To_OAuth2AuthenticationSettingsContract_STATUS(destination *v20220801s.OAuth2AuthenticationSettingsContract_STATUS) error {
+func (contract *OAuth2AuthenticationSettingsContract_STATUS) AssignProperties_To_OAuth2AuthenticationSettingsContract_STATUS(destination *storage.OAuth2AuthenticationSettingsContract_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(contract.PropertyBag)
 
@@ -2413,7 +2413,7 @@ type OpenIdAuthenticationSettingsContract struct {
 }
 
 // AssignProperties_From_OpenIdAuthenticationSettingsContract populates our OpenIdAuthenticationSettingsContract from the provided source OpenIdAuthenticationSettingsContract
-func (contract *OpenIdAuthenticationSettingsContract) AssignProperties_From_OpenIdAuthenticationSettingsContract(source *v20220801s.OpenIdAuthenticationSettingsContract) error {
+func (contract *OpenIdAuthenticationSettingsContract) AssignProperties_From_OpenIdAuthenticationSettingsContract(source *storage.OpenIdAuthenticationSettingsContract) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2444,7 +2444,7 @@ func (contract *OpenIdAuthenticationSettingsContract) AssignProperties_From_Open
 }
 
 // AssignProperties_To_OpenIdAuthenticationSettingsContract populates the provided destination OpenIdAuthenticationSettingsContract from our OpenIdAuthenticationSettingsContract
-func (contract *OpenIdAuthenticationSettingsContract) AssignProperties_To_OpenIdAuthenticationSettingsContract(destination *v20220801s.OpenIdAuthenticationSettingsContract) error {
+func (contract *OpenIdAuthenticationSettingsContract) AssignProperties_To_OpenIdAuthenticationSettingsContract(destination *storage.OpenIdAuthenticationSettingsContract) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(contract.PropertyBag)
 
@@ -2483,7 +2483,7 @@ type OpenIdAuthenticationSettingsContract_STATUS struct {
 }
 
 // AssignProperties_From_OpenIdAuthenticationSettingsContract_STATUS populates our OpenIdAuthenticationSettingsContract_STATUS from the provided source OpenIdAuthenticationSettingsContract_STATUS
-func (contract *OpenIdAuthenticationSettingsContract_STATUS) AssignProperties_From_OpenIdAuthenticationSettingsContract_STATUS(source *v20220801s.OpenIdAuthenticationSettingsContract_STATUS) error {
+func (contract *OpenIdAuthenticationSettingsContract_STATUS) AssignProperties_From_OpenIdAuthenticationSettingsContract_STATUS(source *storage.OpenIdAuthenticationSettingsContract_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2514,7 +2514,7 @@ func (contract *OpenIdAuthenticationSettingsContract_STATUS) AssignProperties_Fr
 }
 
 // AssignProperties_To_OpenIdAuthenticationSettingsContract_STATUS populates the provided destination OpenIdAuthenticationSettingsContract_STATUS from our OpenIdAuthenticationSettingsContract_STATUS
-func (contract *OpenIdAuthenticationSettingsContract_STATUS) AssignProperties_To_OpenIdAuthenticationSettingsContract_STATUS(destination *v20220801s.OpenIdAuthenticationSettingsContract_STATUS) error {
+func (contract *OpenIdAuthenticationSettingsContract_STATUS) AssignProperties_To_OpenIdAuthenticationSettingsContract_STATUS(destination *storage.OpenIdAuthenticationSettingsContract_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(contract.PropertyBag)
 
@@ -2545,23 +2545,23 @@ func (contract *OpenIdAuthenticationSettingsContract_STATUS) AssignProperties_To
 }
 
 type augmentConversionForOAuth2AuthenticationSettingsContract interface {
-	AssignPropertiesFrom(src *v20220801s.OAuth2AuthenticationSettingsContract) error
-	AssignPropertiesTo(dst *v20220801s.OAuth2AuthenticationSettingsContract) error
+	AssignPropertiesFrom(src *storage.OAuth2AuthenticationSettingsContract) error
+	AssignPropertiesTo(dst *storage.OAuth2AuthenticationSettingsContract) error
 }
 
 type augmentConversionForOAuth2AuthenticationSettingsContract_STATUS interface {
-	AssignPropertiesFrom(src *v20220801s.OAuth2AuthenticationSettingsContract_STATUS) error
-	AssignPropertiesTo(dst *v20220801s.OAuth2AuthenticationSettingsContract_STATUS) error
+	AssignPropertiesFrom(src *storage.OAuth2AuthenticationSettingsContract_STATUS) error
+	AssignPropertiesTo(dst *storage.OAuth2AuthenticationSettingsContract_STATUS) error
 }
 
 type augmentConversionForOpenIdAuthenticationSettingsContract interface {
-	AssignPropertiesFrom(src *v20220801s.OpenIdAuthenticationSettingsContract) error
-	AssignPropertiesTo(dst *v20220801s.OpenIdAuthenticationSettingsContract) error
+	AssignPropertiesFrom(src *storage.OpenIdAuthenticationSettingsContract) error
+	AssignPropertiesTo(dst *storage.OpenIdAuthenticationSettingsContract) error
 }
 
 type augmentConversionForOpenIdAuthenticationSettingsContract_STATUS interface {
-	AssignPropertiesFrom(src *v20220801s.OpenIdAuthenticationSettingsContract_STATUS) error
-	AssignPropertiesTo(dst *v20220801s.OpenIdAuthenticationSettingsContract_STATUS) error
+	AssignPropertiesFrom(src *storage.OpenIdAuthenticationSettingsContract_STATUS) error
+	AssignPropertiesTo(dst *storage.OpenIdAuthenticationSettingsContract_STATUS) error
 }
 
 func init() {

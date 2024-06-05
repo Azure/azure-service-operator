@@ -5,7 +5,7 @@ package v1api20220615
 
 import (
 	"fmt"
-	v20220615s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20220615/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/insights/v1api20220615/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &ScheduledQueryRule{}
 
 // ConvertFrom populates our ScheduledQueryRule from the provided hub ScheduledQueryRule
 func (rule *ScheduledQueryRule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20220615s.ScheduledQueryRule)
+	source, ok := hub.(*storage.ScheduledQueryRule)
 	if !ok {
 		return fmt.Errorf("expected insights/v1api20220615/storage/ScheduledQueryRule but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (rule *ScheduledQueryRule) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub ScheduledQueryRule from our ScheduledQueryRule
 func (rule *ScheduledQueryRule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20220615s.ScheduledQueryRule)
+	destination, ok := hub.(*storage.ScheduledQueryRule)
 	if !ok {
 		return fmt.Errorf("expected insights/v1api20220615/storage/ScheduledQueryRule but received %T instead", hub)
 	}
@@ -254,7 +254,7 @@ func (rule *ScheduledQueryRule) validateWriteOnceProperties(old runtime.Object) 
 }
 
 // AssignProperties_From_ScheduledQueryRule populates our ScheduledQueryRule from the provided source ScheduledQueryRule
-func (rule *ScheduledQueryRule) AssignProperties_From_ScheduledQueryRule(source *v20220615s.ScheduledQueryRule) error {
+func (rule *ScheduledQueryRule) AssignProperties_From_ScheduledQueryRule(source *storage.ScheduledQueryRule) error {
 
 	// ObjectMeta
 	rule.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -280,13 +280,13 @@ func (rule *ScheduledQueryRule) AssignProperties_From_ScheduledQueryRule(source 
 }
 
 // AssignProperties_To_ScheduledQueryRule populates the provided destination ScheduledQueryRule from our ScheduledQueryRule
-func (rule *ScheduledQueryRule) AssignProperties_To_ScheduledQueryRule(destination *v20220615s.ScheduledQueryRule) error {
+func (rule *ScheduledQueryRule) AssignProperties_To_ScheduledQueryRule(destination *storage.ScheduledQueryRule) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *rule.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20220615s.ScheduledQueryRule_Spec
+	var spec storage.ScheduledQueryRule_Spec
 	err := rule.Spec.AssignProperties_To_ScheduledQueryRule_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_ScheduledQueryRule_Spec() to populate field Spec")
@@ -294,7 +294,7 @@ func (rule *ScheduledQueryRule) AssignProperties_To_ScheduledQueryRule(destinati
 	destination.Spec = spec
 
 	// Status
-	var status v20220615s.ScheduledQueryRule_STATUS
+	var status storage.ScheduledQueryRule_STATUS
 	err = rule.Status.AssignProperties_To_ScheduledQueryRule_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_ScheduledQueryRule_STATUS() to populate field Status")
@@ -716,14 +716,14 @@ var _ genruntime.ConvertibleSpec = &ScheduledQueryRule_Spec{}
 
 // ConvertSpecFrom populates our ScheduledQueryRule_Spec from the provided source
 func (rule *ScheduledQueryRule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20220615s.ScheduledQueryRule_Spec)
+	src, ok := source.(*storage.ScheduledQueryRule_Spec)
 	if ok {
 		// Populate our instance from source
 		return rule.AssignProperties_From_ScheduledQueryRule_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220615s.ScheduledQueryRule_Spec{}
+	src = &storage.ScheduledQueryRule_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -740,14 +740,14 @@ func (rule *ScheduledQueryRule_Spec) ConvertSpecFrom(source genruntime.Convertib
 
 // ConvertSpecTo populates the provided destination from our ScheduledQueryRule_Spec
 func (rule *ScheduledQueryRule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20220615s.ScheduledQueryRule_Spec)
+	dst, ok := destination.(*storage.ScheduledQueryRule_Spec)
 	if ok {
 		// Populate destination from our instance
 		return rule.AssignProperties_To_ScheduledQueryRule_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220615s.ScheduledQueryRule_Spec{}
+	dst = &storage.ScheduledQueryRule_Spec{}
 	err := rule.AssignProperties_To_ScheduledQueryRule_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -763,7 +763,7 @@ func (rule *ScheduledQueryRule_Spec) ConvertSpecTo(destination genruntime.Conver
 }
 
 // AssignProperties_From_ScheduledQueryRule_Spec populates our ScheduledQueryRule_Spec from the provided source ScheduledQueryRule_Spec
-func (rule *ScheduledQueryRule_Spec) AssignProperties_From_ScheduledQueryRule_Spec(source *v20220615s.ScheduledQueryRule_Spec) error {
+func (rule *ScheduledQueryRule_Spec) AssignProperties_From_ScheduledQueryRule_Spec(source *storage.ScheduledQueryRule_Spec) error {
 
 	// Actions
 	if source.Actions != nil {
@@ -894,13 +894,13 @@ func (rule *ScheduledQueryRule_Spec) AssignProperties_From_ScheduledQueryRule_Sp
 }
 
 // AssignProperties_To_ScheduledQueryRule_Spec populates the provided destination ScheduledQueryRule_Spec from our ScheduledQueryRule_Spec
-func (rule *ScheduledQueryRule_Spec) AssignProperties_To_ScheduledQueryRule_Spec(destination *v20220615s.ScheduledQueryRule_Spec) error {
+func (rule *ScheduledQueryRule_Spec) AssignProperties_To_ScheduledQueryRule_Spec(destination *storage.ScheduledQueryRule_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Actions
 	if rule.Actions != nil {
-		var action v20220615s.Actions
+		var action storage.Actions
 		err := rule.Actions.AssignProperties_To_Actions(&action)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Actions() to populate field Actions")
@@ -931,7 +931,7 @@ func (rule *ScheduledQueryRule_Spec) AssignProperties_To_ScheduledQueryRule_Spec
 
 	// Criteria
 	if rule.Criteria != nil {
-		var criterion v20220615s.ScheduledQueryRuleCriteria
+		var criterion storage.ScheduledQueryRuleCriteria
 		err := rule.Criteria.AssignProperties_To_ScheduledQueryRuleCriteria(&criterion)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ScheduledQueryRuleCriteria() to populate field Criteria")
@@ -1252,14 +1252,14 @@ var _ genruntime.ConvertibleStatus = &ScheduledQueryRule_STATUS{}
 
 // ConvertStatusFrom populates our ScheduledQueryRule_STATUS from the provided source
 func (rule *ScheduledQueryRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20220615s.ScheduledQueryRule_STATUS)
+	src, ok := source.(*storage.ScheduledQueryRule_STATUS)
 	if ok {
 		// Populate our instance from source
 		return rule.AssignProperties_From_ScheduledQueryRule_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220615s.ScheduledQueryRule_STATUS{}
+	src = &storage.ScheduledQueryRule_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -1276,14 +1276,14 @@ func (rule *ScheduledQueryRule_STATUS) ConvertStatusFrom(source genruntime.Conve
 
 // ConvertStatusTo populates the provided destination from our ScheduledQueryRule_STATUS
 func (rule *ScheduledQueryRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20220615s.ScheduledQueryRule_STATUS)
+	dst, ok := destination.(*storage.ScheduledQueryRule_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return rule.AssignProperties_To_ScheduledQueryRule_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220615s.ScheduledQueryRule_STATUS{}
+	dst = &storage.ScheduledQueryRule_STATUS{}
 	err := rule.AssignProperties_To_ScheduledQueryRule_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1544,7 +1544,7 @@ func (rule *ScheduledQueryRule_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 }
 
 // AssignProperties_From_ScheduledQueryRule_STATUS populates our ScheduledQueryRule_STATUS from the provided source ScheduledQueryRule_STATUS
-func (rule *ScheduledQueryRule_STATUS) AssignProperties_From_ScheduledQueryRule_STATUS(source *v20220615s.ScheduledQueryRule_STATUS) error {
+func (rule *ScheduledQueryRule_STATUS) AssignProperties_From_ScheduledQueryRule_STATUS(source *storage.ScheduledQueryRule_STATUS) error {
 
 	// Actions
 	if source.Actions != nil {
@@ -1700,13 +1700,13 @@ func (rule *ScheduledQueryRule_STATUS) AssignProperties_From_ScheduledQueryRule_
 }
 
 // AssignProperties_To_ScheduledQueryRule_STATUS populates the provided destination ScheduledQueryRule_STATUS from our ScheduledQueryRule_STATUS
-func (rule *ScheduledQueryRule_STATUS) AssignProperties_To_ScheduledQueryRule_STATUS(destination *v20220615s.ScheduledQueryRule_STATUS) error {
+func (rule *ScheduledQueryRule_STATUS) AssignProperties_To_ScheduledQueryRule_STATUS(destination *storage.ScheduledQueryRule_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Actions
 	if rule.Actions != nil {
-		var action v20220615s.Actions_STATUS
+		var action storage.Actions_STATUS
 		err := rule.Actions.AssignProperties_To_Actions_STATUS(&action)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Actions_STATUS() to populate field Actions")
@@ -1740,7 +1740,7 @@ func (rule *ScheduledQueryRule_STATUS) AssignProperties_To_ScheduledQueryRule_ST
 
 	// Criteria
 	if rule.Criteria != nil {
-		var criterion v20220615s.ScheduledQueryRuleCriteria_STATUS
+		var criterion storage.ScheduledQueryRuleCriteria_STATUS
 		err := rule.Criteria.AssignProperties_To_ScheduledQueryRuleCriteria_STATUS(&criterion)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ScheduledQueryRuleCriteria_STATUS() to populate field Criteria")
@@ -1830,7 +1830,7 @@ func (rule *ScheduledQueryRule_STATUS) AssignProperties_To_ScheduledQueryRule_ST
 
 	// SystemData
 	if rule.SystemData != nil {
-		var systemDatum v20220615s.SystemData_STATUS
+		var systemDatum storage.SystemData_STATUS
 		err := rule.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
@@ -1927,7 +1927,7 @@ func (actions *Actions) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 }
 
 // AssignProperties_From_Actions populates our Actions from the provided source Actions
-func (actions *Actions) AssignProperties_From_Actions(source *v20220615s.Actions) error {
+func (actions *Actions) AssignProperties_From_Actions(source *storage.Actions) error {
 
 	// ActionGroupsReferences
 	if source.ActionGroupsReferences != nil {
@@ -1950,7 +1950,7 @@ func (actions *Actions) AssignProperties_From_Actions(source *v20220615s.Actions
 }
 
 // AssignProperties_To_Actions populates the provided destination Actions from our Actions
-func (actions *Actions) AssignProperties_To_Actions(destination *v20220615s.Actions) error {
+func (actions *Actions) AssignProperties_To_Actions(destination *storage.Actions) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2032,7 +2032,7 @@ func (actions *Actions_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 }
 
 // AssignProperties_From_Actions_STATUS populates our Actions_STATUS from the provided source Actions_STATUS
-func (actions *Actions_STATUS) AssignProperties_From_Actions_STATUS(source *v20220615s.Actions_STATUS) error {
+func (actions *Actions_STATUS) AssignProperties_From_Actions_STATUS(source *storage.Actions_STATUS) error {
 
 	// ActionGroups
 	actions.ActionGroups = genruntime.CloneSliceOfString(source.ActionGroups)
@@ -2045,7 +2045,7 @@ func (actions *Actions_STATUS) AssignProperties_From_Actions_STATUS(source *v202
 }
 
 // AssignProperties_To_Actions_STATUS populates the provided destination Actions_STATUS from our Actions_STATUS
-func (actions *Actions_STATUS) AssignProperties_To_Actions_STATUS(destination *v20220615s.Actions_STATUS) error {
+func (actions *Actions_STATUS) AssignProperties_To_Actions_STATUS(destination *storage.Actions_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2119,7 +2119,7 @@ func (criteria *ScheduledQueryRuleCriteria) PopulateFromARM(owner genruntime.Arb
 }
 
 // AssignProperties_From_ScheduledQueryRuleCriteria populates our ScheduledQueryRuleCriteria from the provided source ScheduledQueryRuleCriteria
-func (criteria *ScheduledQueryRuleCriteria) AssignProperties_From_ScheduledQueryRuleCriteria(source *v20220615s.ScheduledQueryRuleCriteria) error {
+func (criteria *ScheduledQueryRuleCriteria) AssignProperties_From_ScheduledQueryRuleCriteria(source *storage.ScheduledQueryRuleCriteria) error {
 
 	// AllOf
 	if source.AllOf != nil {
@@ -2144,17 +2144,17 @@ func (criteria *ScheduledQueryRuleCriteria) AssignProperties_From_ScheduledQuery
 }
 
 // AssignProperties_To_ScheduledQueryRuleCriteria populates the provided destination ScheduledQueryRuleCriteria from our ScheduledQueryRuleCriteria
-func (criteria *ScheduledQueryRuleCriteria) AssignProperties_To_ScheduledQueryRuleCriteria(destination *v20220615s.ScheduledQueryRuleCriteria) error {
+func (criteria *ScheduledQueryRuleCriteria) AssignProperties_To_ScheduledQueryRuleCriteria(destination *storage.ScheduledQueryRuleCriteria) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AllOf
 	if criteria.AllOf != nil {
-		allOfList := make([]v20220615s.Condition, len(criteria.AllOf))
+		allOfList := make([]storage.Condition, len(criteria.AllOf))
 		for allOfIndex, allOfItem := range criteria.AllOf {
 			// Shadow the loop variable to avoid aliasing
 			allOfItem := allOfItem
-			var allOf v20220615s.Condition
+			var allOf storage.Condition
 			err := allOfItem.AssignProperties_To_Condition(&allOf)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_Condition() to populate field AllOf")
@@ -2237,7 +2237,7 @@ func (criteria *ScheduledQueryRuleCriteria_STATUS) PopulateFromARM(owner genrunt
 }
 
 // AssignProperties_From_ScheduledQueryRuleCriteria_STATUS populates our ScheduledQueryRuleCriteria_STATUS from the provided source ScheduledQueryRuleCriteria_STATUS
-func (criteria *ScheduledQueryRuleCriteria_STATUS) AssignProperties_From_ScheduledQueryRuleCriteria_STATUS(source *v20220615s.ScheduledQueryRuleCriteria_STATUS) error {
+func (criteria *ScheduledQueryRuleCriteria_STATUS) AssignProperties_From_ScheduledQueryRuleCriteria_STATUS(source *storage.ScheduledQueryRuleCriteria_STATUS) error {
 
 	// AllOf
 	if source.AllOf != nil {
@@ -2262,17 +2262,17 @@ func (criteria *ScheduledQueryRuleCriteria_STATUS) AssignProperties_From_Schedul
 }
 
 // AssignProperties_To_ScheduledQueryRuleCriteria_STATUS populates the provided destination ScheduledQueryRuleCriteria_STATUS from our ScheduledQueryRuleCriteria_STATUS
-func (criteria *ScheduledQueryRuleCriteria_STATUS) AssignProperties_To_ScheduledQueryRuleCriteria_STATUS(destination *v20220615s.ScheduledQueryRuleCriteria_STATUS) error {
+func (criteria *ScheduledQueryRuleCriteria_STATUS) AssignProperties_To_ScheduledQueryRuleCriteria_STATUS(destination *storage.ScheduledQueryRuleCriteria_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AllOf
 	if criteria.AllOf != nil {
-		allOfList := make([]v20220615s.Condition_STATUS, len(criteria.AllOf))
+		allOfList := make([]storage.Condition_STATUS, len(criteria.AllOf))
 		for allOfIndex, allOfItem := range criteria.AllOf {
 			// Shadow the loop variable to avoid aliasing
 			allOfItem := allOfItem
-			var allOf v20220615s.Condition_STATUS
+			var allOf storage.Condition_STATUS
 			err := allOfItem.AssignProperties_To_Condition_STATUS(&allOf)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_Condition_STATUS() to populate field AllOf")
@@ -2392,7 +2392,7 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 }
 
 // AssignProperties_From_SystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v20220615s.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *storage.SystemData_STATUS) error {
 
 	// CreatedAt
 	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
@@ -2429,7 +2429,7 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 }
 
 // AssignProperties_To_SystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *v20220615s.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *storage.SystemData_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2657,7 +2657,7 @@ func (condition *Condition) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 }
 
 // AssignProperties_From_Condition populates our Condition from the provided source Condition
-func (condition *Condition) AssignProperties_From_Condition(source *v20220615s.Condition) error {
+func (condition *Condition) AssignProperties_From_Condition(source *storage.Condition) error {
 
 	// Dimensions
 	if source.Dimensions != nil {
@@ -2737,17 +2737,17 @@ func (condition *Condition) AssignProperties_From_Condition(source *v20220615s.C
 }
 
 // AssignProperties_To_Condition populates the provided destination Condition from our Condition
-func (condition *Condition) AssignProperties_To_Condition(destination *v20220615s.Condition) error {
+func (condition *Condition) AssignProperties_To_Condition(destination *storage.Condition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Dimensions
 	if condition.Dimensions != nil {
-		dimensionList := make([]v20220615s.Dimension, len(condition.Dimensions))
+		dimensionList := make([]storage.Dimension, len(condition.Dimensions))
 		for dimensionIndex, dimensionItem := range condition.Dimensions {
 			// Shadow the loop variable to avoid aliasing
 			dimensionItem := dimensionItem
-			var dimension v20220615s.Dimension
+			var dimension storage.Dimension
 			err := dimensionItem.AssignProperties_To_Dimension(&dimension)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_Dimension() to populate field Dimensions")
@@ -2761,7 +2761,7 @@ func (condition *Condition) AssignProperties_To_Condition(destination *v20220615
 
 	// FailingPeriods
 	if condition.FailingPeriods != nil {
-		var failingPeriod v20220615s.Condition_FailingPeriods
+		var failingPeriod storage.Condition_FailingPeriods
 		err := condition.FailingPeriods.AssignProperties_To_Condition_FailingPeriods(&failingPeriod)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Condition_FailingPeriods() to populate field FailingPeriods")
@@ -3008,7 +3008,7 @@ func (condition *Condition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 }
 
 // AssignProperties_From_Condition_STATUS populates our Condition_STATUS from the provided source Condition_STATUS
-func (condition *Condition_STATUS) AssignProperties_From_Condition_STATUS(source *v20220615s.Condition_STATUS) error {
+func (condition *Condition_STATUS) AssignProperties_From_Condition_STATUS(source *storage.Condition_STATUS) error {
 
 	// Dimensions
 	if source.Dimensions != nil {
@@ -3083,17 +3083,17 @@ func (condition *Condition_STATUS) AssignProperties_From_Condition_STATUS(source
 }
 
 // AssignProperties_To_Condition_STATUS populates the provided destination Condition_STATUS from our Condition_STATUS
-func (condition *Condition_STATUS) AssignProperties_To_Condition_STATUS(destination *v20220615s.Condition_STATUS) error {
+func (condition *Condition_STATUS) AssignProperties_To_Condition_STATUS(destination *storage.Condition_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Dimensions
 	if condition.Dimensions != nil {
-		dimensionList := make([]v20220615s.Dimension_STATUS, len(condition.Dimensions))
+		dimensionList := make([]storage.Dimension_STATUS, len(condition.Dimensions))
 		for dimensionIndex, dimensionItem := range condition.Dimensions {
 			// Shadow the loop variable to avoid aliasing
 			dimensionItem := dimensionItem
-			var dimension v20220615s.Dimension_STATUS
+			var dimension storage.Dimension_STATUS
 			err := dimensionItem.AssignProperties_To_Dimension_STATUS(&dimension)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_Dimension_STATUS() to populate field Dimensions")
@@ -3107,7 +3107,7 @@ func (condition *Condition_STATUS) AssignProperties_To_Condition_STATUS(destinat
 
 	// FailingPeriods
 	if condition.FailingPeriods != nil {
-		var failingPeriod v20220615s.Condition_FailingPeriods_STATUS
+		var failingPeriod storage.Condition_FailingPeriods_STATUS
 		err := condition.FailingPeriods.AssignProperties_To_Condition_FailingPeriods_STATUS(&failingPeriod)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Condition_FailingPeriods_STATUS() to populate field FailingPeriods")
@@ -3226,7 +3226,7 @@ func (periods *Condition_FailingPeriods) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_Condition_FailingPeriods populates our Condition_FailingPeriods from the provided source Condition_FailingPeriods
-func (periods *Condition_FailingPeriods) AssignProperties_From_Condition_FailingPeriods(source *v20220615s.Condition_FailingPeriods) error {
+func (periods *Condition_FailingPeriods) AssignProperties_From_Condition_FailingPeriods(source *storage.Condition_FailingPeriods) error {
 
 	// MinFailingPeriodsToAlert
 	periods.MinFailingPeriodsToAlert = genruntime.ClonePointerToInt(source.MinFailingPeriodsToAlert)
@@ -3239,7 +3239,7 @@ func (periods *Condition_FailingPeriods) AssignProperties_From_Condition_Failing
 }
 
 // AssignProperties_To_Condition_FailingPeriods populates the provided destination Condition_FailingPeriods from our Condition_FailingPeriods
-func (periods *Condition_FailingPeriods) AssignProperties_To_Condition_FailingPeriods(destination *v20220615s.Condition_FailingPeriods) error {
+func (periods *Condition_FailingPeriods) AssignProperties_To_Condition_FailingPeriods(destination *storage.Condition_FailingPeriods) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3314,7 +3314,7 @@ func (periods *Condition_FailingPeriods_STATUS) PopulateFromARM(owner genruntime
 }
 
 // AssignProperties_From_Condition_FailingPeriods_STATUS populates our Condition_FailingPeriods_STATUS from the provided source Condition_FailingPeriods_STATUS
-func (periods *Condition_FailingPeriods_STATUS) AssignProperties_From_Condition_FailingPeriods_STATUS(source *v20220615s.Condition_FailingPeriods_STATUS) error {
+func (periods *Condition_FailingPeriods_STATUS) AssignProperties_From_Condition_FailingPeriods_STATUS(source *storage.Condition_FailingPeriods_STATUS) error {
 
 	// MinFailingPeriodsToAlert
 	periods.MinFailingPeriodsToAlert = genruntime.ClonePointerToInt(source.MinFailingPeriodsToAlert)
@@ -3327,7 +3327,7 @@ func (periods *Condition_FailingPeriods_STATUS) AssignProperties_From_Condition_
 }
 
 // AssignProperties_To_Condition_FailingPeriods_STATUS populates the provided destination Condition_FailingPeriods_STATUS from our Condition_FailingPeriods_STATUS
-func (periods *Condition_FailingPeriods_STATUS) AssignProperties_To_Condition_FailingPeriods_STATUS(destination *v20220615s.Condition_FailingPeriods_STATUS) error {
+func (periods *Condition_FailingPeriods_STATUS) AssignProperties_To_Condition_FailingPeriods_STATUS(destination *storage.Condition_FailingPeriods_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3503,7 +3503,7 @@ func (dimension *Dimension) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 }
 
 // AssignProperties_From_Dimension populates our Dimension from the provided source Dimension
-func (dimension *Dimension) AssignProperties_From_Dimension(source *v20220615s.Dimension) error {
+func (dimension *Dimension) AssignProperties_From_Dimension(source *storage.Dimension) error {
 
 	// Name
 	dimension.Name = genruntime.ClonePointerToString(source.Name)
@@ -3525,7 +3525,7 @@ func (dimension *Dimension) AssignProperties_From_Dimension(source *v20220615s.D
 }
 
 // AssignProperties_To_Dimension populates the provided destination Dimension from our Dimension
-func (dimension *Dimension) AssignProperties_To_Dimension(destination *v20220615s.Dimension) error {
+func (dimension *Dimension) AssignProperties_To_Dimension(destination *storage.Dimension) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3623,7 +3623,7 @@ func (dimension *Dimension_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 }
 
 // AssignProperties_From_Dimension_STATUS populates our Dimension_STATUS from the provided source Dimension_STATUS
-func (dimension *Dimension_STATUS) AssignProperties_From_Dimension_STATUS(source *v20220615s.Dimension_STATUS) error {
+func (dimension *Dimension_STATUS) AssignProperties_From_Dimension_STATUS(source *storage.Dimension_STATUS) error {
 
 	// Name
 	dimension.Name = genruntime.ClonePointerToString(source.Name)
@@ -3645,7 +3645,7 @@ func (dimension *Dimension_STATUS) AssignProperties_From_Dimension_STATUS(source
 }
 
 // AssignProperties_To_Dimension_STATUS populates the provided destination Dimension_STATUS from our Dimension_STATUS
-func (dimension *Dimension_STATUS) AssignProperties_To_Dimension_STATUS(destination *v20220615s.Dimension_STATUS) error {
+func (dimension *Dimension_STATUS) AssignProperties_To_Dimension_STATUS(destination *storage.Dimension_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

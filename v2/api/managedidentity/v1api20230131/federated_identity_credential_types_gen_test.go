@@ -5,7 +5,7 @@ package v1api20230131
 
 import (
 	"encoding/json"
-	v20230131s "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20230131/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20230131/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForFederatedIdentityCredential(subject FederatedId
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20230131s.FederatedIdentityCredential
+	var hub storage.FederatedIdentityCredential
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForFederatedIdentityCredential(subject FederatedId
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230131s.FederatedIdentityCredential
+	var other storage.FederatedIdentityCredential
 	err := copied.AssignProperties_To_FederatedIdentityCredential(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentities_FederatedIdentityCredent
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230131s.UserAssignedIdentities_FederatedIdentityCredential_Spec
+	var other storage.UserAssignedIdentities_FederatedIdentityCredential_Spec
 	err := copied.AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -288,7 +288,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentities_FederatedIdentityCredent
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230131s.UserAssignedIdentities_FederatedIdentityCredential_STATUS
+	var other storage.UserAssignedIdentities_FederatedIdentityCredential_STATUS
 	err := copied.AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -410,7 +410,7 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230131s.SystemData_STATUS
+	var other storage.SystemData_STATUS
 	err := copied.AssignProperties_To_SystemData_STATUS(&other)
 	if err != nil {
 		return err.Error()

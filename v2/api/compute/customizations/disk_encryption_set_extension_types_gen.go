@@ -5,7 +5,7 @@ package customizations
 
 import (
 	v20220702 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702"
-	v20220702s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -16,5 +16,5 @@ type DiskEncryptionSetExtension struct {
 func (extension *DiskEncryptionSetExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
 		&v20220702.DiskEncryptionSet{},
-		&v20220702s.DiskEncryptionSet{}}
+		&storage.DiskEncryptionSet{}}
 }

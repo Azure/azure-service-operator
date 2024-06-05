@@ -5,7 +5,7 @@ package v1api20220701
 
 import (
 	"encoding/json"
-	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForDnsResolversOutboundEndpoint(subject DnsResolve
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20220701s.DnsResolversOutboundEndpoint
+	var hub storage.DnsResolversOutboundEndpoint
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForDnsResolversOutboundEndpoint(subject DnsResolve
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.DnsResolversOutboundEndpoint
+	var other storage.DnsResolversOutboundEndpoint
 	err := copied.AssignProperties_To_DnsResolversOutboundEndpoint(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForDnsResolvers_OutboundEndpoint_Spec(subject DnsR
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.DnsResolvers_OutboundEndpoint_Spec
+	var other storage.DnsResolvers_OutboundEndpoint_Spec
 	err := copied.AssignProperties_To_DnsResolvers_OutboundEndpoint_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -303,7 +303,7 @@ func RunPropertyAssignmentTestForDnsResolvers_OutboundEndpoint_STATUS(subject Dn
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.DnsResolvers_OutboundEndpoint_STATUS
+	var other storage.DnsResolvers_OutboundEndpoint_STATUS
 	err := copied.AssignProperties_To_DnsResolvers_OutboundEndpoint_STATUS(&other)
 	if err != nil {
 		return err.Error()

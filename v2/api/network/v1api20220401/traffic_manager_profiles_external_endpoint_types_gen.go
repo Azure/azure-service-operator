@@ -5,7 +5,7 @@ package v1api20220401
 
 import (
 	"fmt"
-	v20220401s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &TrafficManagerProfilesExternalEndpoint{}
 
 // ConvertFrom populates our TrafficManagerProfilesExternalEndpoint from the provided hub TrafficManagerProfilesExternalEndpoint
 func (endpoint *TrafficManagerProfilesExternalEndpoint) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20220401s.TrafficManagerProfilesExternalEndpoint)
+	source, ok := hub.(*storage.TrafficManagerProfilesExternalEndpoint)
 	if !ok {
 		return fmt.Errorf("expected network/v1api20220401/storage/TrafficManagerProfilesExternalEndpoint but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (endpoint *TrafficManagerProfilesExternalEndpoint) ConvertFrom(hub conversi
 
 // ConvertTo populates the provided hub TrafficManagerProfilesExternalEndpoint from our TrafficManagerProfilesExternalEndpoint
 func (endpoint *TrafficManagerProfilesExternalEndpoint) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20220401s.TrafficManagerProfilesExternalEndpoint)
+	destination, ok := hub.(*storage.TrafficManagerProfilesExternalEndpoint)
 	if !ok {
 		return fmt.Errorf("expected network/v1api20220401/storage/TrafficManagerProfilesExternalEndpoint but received %T instead", hub)
 	}
@@ -254,7 +254,7 @@ func (endpoint *TrafficManagerProfilesExternalEndpoint) validateWriteOncePropert
 }
 
 // AssignProperties_From_TrafficManagerProfilesExternalEndpoint populates our TrafficManagerProfilesExternalEndpoint from the provided source TrafficManagerProfilesExternalEndpoint
-func (endpoint *TrafficManagerProfilesExternalEndpoint) AssignProperties_From_TrafficManagerProfilesExternalEndpoint(source *v20220401s.TrafficManagerProfilesExternalEndpoint) error {
+func (endpoint *TrafficManagerProfilesExternalEndpoint) AssignProperties_From_TrafficManagerProfilesExternalEndpoint(source *storage.TrafficManagerProfilesExternalEndpoint) error {
 
 	// ObjectMeta
 	endpoint.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -280,13 +280,13 @@ func (endpoint *TrafficManagerProfilesExternalEndpoint) AssignProperties_From_Tr
 }
 
 // AssignProperties_To_TrafficManagerProfilesExternalEndpoint populates the provided destination TrafficManagerProfilesExternalEndpoint from our TrafficManagerProfilesExternalEndpoint
-func (endpoint *TrafficManagerProfilesExternalEndpoint) AssignProperties_To_TrafficManagerProfilesExternalEndpoint(destination *v20220401s.TrafficManagerProfilesExternalEndpoint) error {
+func (endpoint *TrafficManagerProfilesExternalEndpoint) AssignProperties_To_TrafficManagerProfilesExternalEndpoint(destination *storage.TrafficManagerProfilesExternalEndpoint) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *endpoint.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20220401s.Trafficmanagerprofiles_ExternalEndpoint_Spec
+	var spec storage.Trafficmanagerprofiles_ExternalEndpoint_Spec
 	err := endpoint.Spec.AssignProperties_To_Trafficmanagerprofiles_ExternalEndpoint_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Trafficmanagerprofiles_ExternalEndpoint_Spec() to populate field Spec")
@@ -294,7 +294,7 @@ func (endpoint *TrafficManagerProfilesExternalEndpoint) AssignProperties_To_Traf
 	destination.Spec = spec
 
 	// Status
-	var status v20220401s.Trafficmanagerprofiles_ExternalEndpoint_STATUS
+	var status storage.Trafficmanagerprofiles_ExternalEndpoint_STATUS
 	err = endpoint.Status.AssignProperties_To_Trafficmanagerprofiles_ExternalEndpoint_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Trafficmanagerprofiles_ExternalEndpoint_STATUS() to populate field Status")
@@ -659,14 +659,14 @@ var _ genruntime.ConvertibleSpec = &Trafficmanagerprofiles_ExternalEndpoint_Spec
 
 // ConvertSpecFrom populates our Trafficmanagerprofiles_ExternalEndpoint_Spec from the provided source
 func (endpoint *Trafficmanagerprofiles_ExternalEndpoint_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20220401s.Trafficmanagerprofiles_ExternalEndpoint_Spec)
+	src, ok := source.(*storage.Trafficmanagerprofiles_ExternalEndpoint_Spec)
 	if ok {
 		// Populate our instance from source
 		return endpoint.AssignProperties_From_Trafficmanagerprofiles_ExternalEndpoint_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220401s.Trafficmanagerprofiles_ExternalEndpoint_Spec{}
+	src = &storage.Trafficmanagerprofiles_ExternalEndpoint_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -683,14 +683,14 @@ func (endpoint *Trafficmanagerprofiles_ExternalEndpoint_Spec) ConvertSpecFrom(so
 
 // ConvertSpecTo populates the provided destination from our Trafficmanagerprofiles_ExternalEndpoint_Spec
 func (endpoint *Trafficmanagerprofiles_ExternalEndpoint_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20220401s.Trafficmanagerprofiles_ExternalEndpoint_Spec)
+	dst, ok := destination.(*storage.Trafficmanagerprofiles_ExternalEndpoint_Spec)
 	if ok {
 		// Populate destination from our instance
 		return endpoint.AssignProperties_To_Trafficmanagerprofiles_ExternalEndpoint_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220401s.Trafficmanagerprofiles_ExternalEndpoint_Spec{}
+	dst = &storage.Trafficmanagerprofiles_ExternalEndpoint_Spec{}
 	err := endpoint.AssignProperties_To_Trafficmanagerprofiles_ExternalEndpoint_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -706,7 +706,7 @@ func (endpoint *Trafficmanagerprofiles_ExternalEndpoint_Spec) ConvertSpecTo(dest
 }
 
 // AssignProperties_From_Trafficmanagerprofiles_ExternalEndpoint_Spec populates our Trafficmanagerprofiles_ExternalEndpoint_Spec from the provided source Trafficmanagerprofiles_ExternalEndpoint_Spec
-func (endpoint *Trafficmanagerprofiles_ExternalEndpoint_Spec) AssignProperties_From_Trafficmanagerprofiles_ExternalEndpoint_Spec(source *v20220401s.Trafficmanagerprofiles_ExternalEndpoint_Spec) error {
+func (endpoint *Trafficmanagerprofiles_ExternalEndpoint_Spec) AssignProperties_From_Trafficmanagerprofiles_ExternalEndpoint_Spec(source *storage.Trafficmanagerprofiles_ExternalEndpoint_Spec) error {
 
 	// AlwaysServe
 	if source.AlwaysServe != nil {
@@ -822,7 +822,7 @@ func (endpoint *Trafficmanagerprofiles_ExternalEndpoint_Spec) AssignProperties_F
 }
 
 // AssignProperties_To_Trafficmanagerprofiles_ExternalEndpoint_Spec populates the provided destination Trafficmanagerprofiles_ExternalEndpoint_Spec from our Trafficmanagerprofiles_ExternalEndpoint_Spec
-func (endpoint *Trafficmanagerprofiles_ExternalEndpoint_Spec) AssignProperties_To_Trafficmanagerprofiles_ExternalEndpoint_Spec(destination *v20220401s.Trafficmanagerprofiles_ExternalEndpoint_Spec) error {
+func (endpoint *Trafficmanagerprofiles_ExternalEndpoint_Spec) AssignProperties_To_Trafficmanagerprofiles_ExternalEndpoint_Spec(destination *storage.Trafficmanagerprofiles_ExternalEndpoint_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -839,11 +839,11 @@ func (endpoint *Trafficmanagerprofiles_ExternalEndpoint_Spec) AssignProperties_T
 
 	// CustomHeaders
 	if endpoint.CustomHeaders != nil {
-		customHeaderList := make([]v20220401s.EndpointProperties_CustomHeaders, len(endpoint.CustomHeaders))
+		customHeaderList := make([]storage.EndpointProperties_CustomHeaders, len(endpoint.CustomHeaders))
 		for customHeaderIndex, customHeaderItem := range endpoint.CustomHeaders {
 			// Shadow the loop variable to avoid aliasing
 			customHeaderItem := customHeaderItem
-			var customHeader v20220401s.EndpointProperties_CustomHeaders
+			var customHeader storage.EndpointProperties_CustomHeaders
 			err := customHeaderItem.AssignProperties_To_EndpointProperties_CustomHeaders(&customHeader)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_EndpointProperties_CustomHeaders() to populate field CustomHeaders")
@@ -902,11 +902,11 @@ func (endpoint *Trafficmanagerprofiles_ExternalEndpoint_Spec) AssignProperties_T
 
 	// Subnets
 	if endpoint.Subnets != nil {
-		subnetList := make([]v20220401s.EndpointProperties_Subnets, len(endpoint.Subnets))
+		subnetList := make([]storage.EndpointProperties_Subnets, len(endpoint.Subnets))
 		for subnetIndex, subnetItem := range endpoint.Subnets {
 			// Shadow the loop variable to avoid aliasing
 			subnetItem := subnetItem
-			var subnet v20220401s.EndpointProperties_Subnets
+			var subnet storage.EndpointProperties_Subnets
 			err := subnetItem.AssignProperties_To_EndpointProperties_Subnets(&subnet)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_EndpointProperties_Subnets() to populate field Subnets")
@@ -1132,14 +1132,14 @@ var _ genruntime.ConvertibleStatus = &Trafficmanagerprofiles_ExternalEndpoint_ST
 
 // ConvertStatusFrom populates our Trafficmanagerprofiles_ExternalEndpoint_STATUS from the provided source
 func (endpoint *Trafficmanagerprofiles_ExternalEndpoint_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20220401s.Trafficmanagerprofiles_ExternalEndpoint_STATUS)
+	src, ok := source.(*storage.Trafficmanagerprofiles_ExternalEndpoint_STATUS)
 	if ok {
 		// Populate our instance from source
 		return endpoint.AssignProperties_From_Trafficmanagerprofiles_ExternalEndpoint_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220401s.Trafficmanagerprofiles_ExternalEndpoint_STATUS{}
+	src = &storage.Trafficmanagerprofiles_ExternalEndpoint_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -1156,14 +1156,14 @@ func (endpoint *Trafficmanagerprofiles_ExternalEndpoint_STATUS) ConvertStatusFro
 
 // ConvertStatusTo populates the provided destination from our Trafficmanagerprofiles_ExternalEndpoint_STATUS
 func (endpoint *Trafficmanagerprofiles_ExternalEndpoint_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20220401s.Trafficmanagerprofiles_ExternalEndpoint_STATUS)
+	dst, ok := destination.(*storage.Trafficmanagerprofiles_ExternalEndpoint_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return endpoint.AssignProperties_To_Trafficmanagerprofiles_ExternalEndpoint_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220401s.Trafficmanagerprofiles_ExternalEndpoint_STATUS{}
+	dst = &storage.Trafficmanagerprofiles_ExternalEndpoint_STATUS{}
 	err := endpoint.AssignProperties_To_Trafficmanagerprofiles_ExternalEndpoint_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1350,7 +1350,7 @@ func (endpoint *Trafficmanagerprofiles_ExternalEndpoint_STATUS) PopulateFromARM(
 }
 
 // AssignProperties_From_Trafficmanagerprofiles_ExternalEndpoint_STATUS populates our Trafficmanagerprofiles_ExternalEndpoint_STATUS from the provided source Trafficmanagerprofiles_ExternalEndpoint_STATUS
-func (endpoint *Trafficmanagerprofiles_ExternalEndpoint_STATUS) AssignProperties_From_Trafficmanagerprofiles_ExternalEndpoint_STATUS(source *v20220401s.Trafficmanagerprofiles_ExternalEndpoint_STATUS) error {
+func (endpoint *Trafficmanagerprofiles_ExternalEndpoint_STATUS) AssignProperties_From_Trafficmanagerprofiles_ExternalEndpoint_STATUS(source *storage.Trafficmanagerprofiles_ExternalEndpoint_STATUS) error {
 
 	// AlwaysServe
 	if source.AlwaysServe != nil {
@@ -1459,7 +1459,7 @@ func (endpoint *Trafficmanagerprofiles_ExternalEndpoint_STATUS) AssignProperties
 }
 
 // AssignProperties_To_Trafficmanagerprofiles_ExternalEndpoint_STATUS populates the provided destination Trafficmanagerprofiles_ExternalEndpoint_STATUS from our Trafficmanagerprofiles_ExternalEndpoint_STATUS
-func (endpoint *Trafficmanagerprofiles_ExternalEndpoint_STATUS) AssignProperties_To_Trafficmanagerprofiles_ExternalEndpoint_STATUS(destination *v20220401s.Trafficmanagerprofiles_ExternalEndpoint_STATUS) error {
+func (endpoint *Trafficmanagerprofiles_ExternalEndpoint_STATUS) AssignProperties_To_Trafficmanagerprofiles_ExternalEndpoint_STATUS(destination *storage.Trafficmanagerprofiles_ExternalEndpoint_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1476,11 +1476,11 @@ func (endpoint *Trafficmanagerprofiles_ExternalEndpoint_STATUS) AssignProperties
 
 	// CustomHeaders
 	if endpoint.CustomHeaders != nil {
-		customHeaderList := make([]v20220401s.EndpointProperties_CustomHeaders_STATUS, len(endpoint.CustomHeaders))
+		customHeaderList := make([]storage.EndpointProperties_CustomHeaders_STATUS, len(endpoint.CustomHeaders))
 		for customHeaderIndex, customHeaderItem := range endpoint.CustomHeaders {
 			// Shadow the loop variable to avoid aliasing
 			customHeaderItem := customHeaderItem
-			var customHeader v20220401s.EndpointProperties_CustomHeaders_STATUS
+			var customHeader storage.EndpointProperties_CustomHeaders_STATUS
 			err := customHeaderItem.AssignProperties_To_EndpointProperties_CustomHeaders_STATUS(&customHeader)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_EndpointProperties_CustomHeaders_STATUS() to populate field CustomHeaders")
@@ -1534,11 +1534,11 @@ func (endpoint *Trafficmanagerprofiles_ExternalEndpoint_STATUS) AssignProperties
 
 	// Subnets
 	if endpoint.Subnets != nil {
-		subnetList := make([]v20220401s.EndpointProperties_Subnets_STATUS, len(endpoint.Subnets))
+		subnetList := make([]storage.EndpointProperties_Subnets_STATUS, len(endpoint.Subnets))
 		for subnetIndex, subnetItem := range endpoint.Subnets {
 			// Shadow the loop variable to avoid aliasing
 			subnetItem := subnetItem
-			var subnet v20220401s.EndpointProperties_Subnets_STATUS
+			var subnet storage.EndpointProperties_Subnets_STATUS
 			err := subnetItem.AssignProperties_To_EndpointProperties_Subnets_STATUS(&subnet)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_EndpointProperties_Subnets_STATUS() to populate field Subnets")

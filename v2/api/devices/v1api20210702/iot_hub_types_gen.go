@@ -5,7 +5,7 @@ package v1api20210702
 
 import (
 	"fmt"
-	v20210702s "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &IotHub{}
 
 // ConvertFrom populates our IotHub from the provided hub IotHub
 func (iotHub *IotHub) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210702s.IotHub)
+	source, ok := hub.(*storage.IotHub)
 	if !ok {
 		return fmt.Errorf("expected devices/v1api20210702/storage/IotHub but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (iotHub *IotHub) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub IotHub from our IotHub
 func (iotHub *IotHub) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210702s.IotHub)
+	destination, ok := hub.(*storage.IotHub)
 	if !ok {
 		return fmt.Errorf("expected devices/v1api20210702/storage/IotHub but received %T instead", hub)
 	}
@@ -280,7 +280,7 @@ func (iotHub *IotHub) validateWriteOnceProperties(old runtime.Object) (admission
 }
 
 // AssignProperties_From_IotHub populates our IotHub from the provided source IotHub
-func (iotHub *IotHub) AssignProperties_From_IotHub(source *v20210702s.IotHub) error {
+func (iotHub *IotHub) AssignProperties_From_IotHub(source *storage.IotHub) error {
 
 	// ObjectMeta
 	iotHub.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -306,13 +306,13 @@ func (iotHub *IotHub) AssignProperties_From_IotHub(source *v20210702s.IotHub) er
 }
 
 // AssignProperties_To_IotHub populates the provided destination IotHub from our IotHub
-func (iotHub *IotHub) AssignProperties_To_IotHub(destination *v20210702s.IotHub) error {
+func (iotHub *IotHub) AssignProperties_To_IotHub(destination *storage.IotHub) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *iotHub.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210702s.IotHub_Spec
+	var spec storage.IotHub_Spec
 	err := iotHub.Spec.AssignProperties_To_IotHub_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_IotHub_Spec() to populate field Spec")
@@ -320,7 +320,7 @@ func (iotHub *IotHub) AssignProperties_To_IotHub(destination *v20210702s.IotHub)
 	destination.Spec = spec
 
 	// Status
-	var status v20210702s.IotHub_STATUS
+	var status storage.IotHub_STATUS
 	err = iotHub.Status.AssignProperties_To_IotHub_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_IotHub_STATUS() to populate field Status")
@@ -524,14 +524,14 @@ var _ genruntime.ConvertibleSpec = &IotHub_Spec{}
 
 // ConvertSpecFrom populates our IotHub_Spec from the provided source
 func (iotHub *IotHub_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210702s.IotHub_Spec)
+	src, ok := source.(*storage.IotHub_Spec)
 	if ok {
 		// Populate our instance from source
 		return iotHub.AssignProperties_From_IotHub_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210702s.IotHub_Spec{}
+	src = &storage.IotHub_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -548,14 +548,14 @@ func (iotHub *IotHub_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) er
 
 // ConvertSpecTo populates the provided destination from our IotHub_Spec
 func (iotHub *IotHub_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210702s.IotHub_Spec)
+	dst, ok := destination.(*storage.IotHub_Spec)
 	if ok {
 		// Populate destination from our instance
 		return iotHub.AssignProperties_To_IotHub_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210702s.IotHub_Spec{}
+	dst = &storage.IotHub_Spec{}
 	err := iotHub.AssignProperties_To_IotHub_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -571,7 +571,7 @@ func (iotHub *IotHub_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec)
 }
 
 // AssignProperties_From_IotHub_Spec populates our IotHub_Spec from the provided source IotHub_Spec
-func (iotHub *IotHub_Spec) AssignProperties_From_IotHub_Spec(source *v20210702s.IotHub_Spec) error {
+func (iotHub *IotHub_Spec) AssignProperties_From_IotHub_Spec(source *storage.IotHub_Spec) error {
 
 	// AzureName
 	iotHub.AzureName = source.AzureName
@@ -643,7 +643,7 @@ func (iotHub *IotHub_Spec) AssignProperties_From_IotHub_Spec(source *v20210702s.
 }
 
 // AssignProperties_To_IotHub_Spec populates the provided destination IotHub_Spec from our IotHub_Spec
-func (iotHub *IotHub_Spec) AssignProperties_To_IotHub_Spec(destination *v20210702s.IotHub_Spec) error {
+func (iotHub *IotHub_Spec) AssignProperties_To_IotHub_Spec(destination *storage.IotHub_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -652,7 +652,7 @@ func (iotHub *IotHub_Spec) AssignProperties_To_IotHub_Spec(destination *v2021070
 
 	// Identity
 	if iotHub.Identity != nil {
-		var identity v20210702s.ArmIdentity
+		var identity storage.ArmIdentity
 		err := iotHub.Identity.AssignProperties_To_ArmIdentity(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ArmIdentity() to populate field Identity")
@@ -667,7 +667,7 @@ func (iotHub *IotHub_Spec) AssignProperties_To_IotHub_Spec(destination *v2021070
 
 	// OperatorSpec
 	if iotHub.OperatorSpec != nil {
-		var operatorSpec v20210702s.IotHubOperatorSpec
+		var operatorSpec storage.IotHubOperatorSpec
 		err := iotHub.OperatorSpec.AssignProperties_To_IotHubOperatorSpec(&operatorSpec)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_IotHubOperatorSpec() to populate field OperatorSpec")
@@ -690,7 +690,7 @@ func (iotHub *IotHub_Spec) AssignProperties_To_IotHub_Spec(destination *v2021070
 
 	// Properties
 	if iotHub.Properties != nil {
-		var property v20210702s.IotHubProperties
+		var property storage.IotHubProperties
 		err := iotHub.Properties.AssignProperties_To_IotHubProperties(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_IotHubProperties() to populate field Properties")
@@ -702,7 +702,7 @@ func (iotHub *IotHub_Spec) AssignProperties_To_IotHub_Spec(destination *v2021070
 
 	// Sku
 	if iotHub.Sku != nil {
-		var sku v20210702s.IotHubSkuInfo
+		var sku storage.IotHubSkuInfo
 		err := iotHub.Sku.AssignProperties_To_IotHubSkuInfo(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_IotHubSkuInfo() to populate field Sku")
@@ -823,14 +823,14 @@ var _ genruntime.ConvertibleStatus = &IotHub_STATUS{}
 
 // ConvertStatusFrom populates our IotHub_STATUS from the provided source
 func (iotHub *IotHub_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210702s.IotHub_STATUS)
+	src, ok := source.(*storage.IotHub_STATUS)
 	if ok {
 		// Populate our instance from source
 		return iotHub.AssignProperties_From_IotHub_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210702s.IotHub_STATUS{}
+	src = &storage.IotHub_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -847,14 +847,14 @@ func (iotHub *IotHub_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStat
 
 // ConvertStatusTo populates the provided destination from our IotHub_STATUS
 func (iotHub *IotHub_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210702s.IotHub_STATUS)
+	dst, ok := destination.(*storage.IotHub_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return iotHub.AssignProperties_To_IotHub_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210702s.IotHub_STATUS{}
+	dst = &storage.IotHub_STATUS{}
 	err := iotHub.AssignProperties_To_IotHub_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -972,7 +972,7 @@ func (iotHub *IotHub_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 }
 
 // AssignProperties_From_IotHub_STATUS populates our IotHub_STATUS from the provided source IotHub_STATUS
-func (iotHub *IotHub_STATUS) AssignProperties_From_IotHub_STATUS(source *v20210702s.IotHub_STATUS) error {
+func (iotHub *IotHub_STATUS) AssignProperties_From_IotHub_STATUS(source *storage.IotHub_STATUS) error {
 
 	// Conditions
 	iotHub.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -1048,7 +1048,7 @@ func (iotHub *IotHub_STATUS) AssignProperties_From_IotHub_STATUS(source *v202107
 }
 
 // AssignProperties_To_IotHub_STATUS populates the provided destination IotHub_STATUS from our IotHub_STATUS
-func (iotHub *IotHub_STATUS) AssignProperties_To_IotHub_STATUS(destination *v20210702s.IotHub_STATUS) error {
+func (iotHub *IotHub_STATUS) AssignProperties_To_IotHub_STATUS(destination *storage.IotHub_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1063,7 +1063,7 @@ func (iotHub *IotHub_STATUS) AssignProperties_To_IotHub_STATUS(destination *v202
 
 	// Identity
 	if iotHub.Identity != nil {
-		var identity v20210702s.ArmIdentity_STATUS
+		var identity storage.ArmIdentity_STATUS
 		err := iotHub.Identity.AssignProperties_To_ArmIdentity_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ArmIdentity_STATUS() to populate field Identity")
@@ -1081,7 +1081,7 @@ func (iotHub *IotHub_STATUS) AssignProperties_To_IotHub_STATUS(destination *v202
 
 	// Properties
 	if iotHub.Properties != nil {
-		var property v20210702s.IotHubProperties_STATUS
+		var property storage.IotHubProperties_STATUS
 		err := iotHub.Properties.AssignProperties_To_IotHubProperties_STATUS(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_IotHubProperties_STATUS() to populate field Properties")
@@ -1093,7 +1093,7 @@ func (iotHub *IotHub_STATUS) AssignProperties_To_IotHub_STATUS(destination *v202
 
 	// Sku
 	if iotHub.Sku != nil {
-		var sku v20210702s.IotHubSkuInfo_STATUS
+		var sku storage.IotHubSkuInfo_STATUS
 		err := iotHub.Sku.AssignProperties_To_IotHubSkuInfo_STATUS(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_IotHubSkuInfo_STATUS() to populate field Sku")
@@ -1105,7 +1105,7 @@ func (iotHub *IotHub_STATUS) AssignProperties_To_IotHub_STATUS(destination *v202
 
 	// SystemData
 	if iotHub.SystemData != nil {
-		var systemDatum v20210702s.SystemData_STATUS
+		var systemDatum storage.SystemData_STATUS
 		err := iotHub.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
@@ -1192,7 +1192,7 @@ func (identity *ArmIdentity) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 }
 
 // AssignProperties_From_ArmIdentity populates our ArmIdentity from the provided source ArmIdentity
-func (identity *ArmIdentity) AssignProperties_From_ArmIdentity(source *v20210702s.ArmIdentity) error {
+func (identity *ArmIdentity) AssignProperties_From_ArmIdentity(source *storage.ArmIdentity) error {
 
 	// Type
 	if source.Type != nil {
@@ -1226,7 +1226,7 @@ func (identity *ArmIdentity) AssignProperties_From_ArmIdentity(source *v20210702
 }
 
 // AssignProperties_To_ArmIdentity populates the provided destination ArmIdentity from our ArmIdentity
-func (identity *ArmIdentity) AssignProperties_To_ArmIdentity(destination *v20210702s.ArmIdentity) error {
+func (identity *ArmIdentity) AssignProperties_To_ArmIdentity(destination *storage.ArmIdentity) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1240,11 +1240,11 @@ func (identity *ArmIdentity) AssignProperties_To_ArmIdentity(destination *v20210
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]v20210702s.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
+		userAssignedIdentityList := make([]storage.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range identity.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityItem := userAssignedIdentityItem
-			var userAssignedIdentity v20210702s.UserAssignedIdentityDetails
+			var userAssignedIdentity storage.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
@@ -1357,7 +1357,7 @@ func (identity *ArmIdentity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 }
 
 // AssignProperties_From_ArmIdentity_STATUS populates our ArmIdentity_STATUS from the provided source ArmIdentity_STATUS
-func (identity *ArmIdentity_STATUS) AssignProperties_From_ArmIdentity_STATUS(source *v20210702s.ArmIdentity_STATUS) error {
+func (identity *ArmIdentity_STATUS) AssignProperties_From_ArmIdentity_STATUS(source *storage.ArmIdentity_STATUS) error {
 
 	// PrincipalId
 	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
@@ -1397,7 +1397,7 @@ func (identity *ArmIdentity_STATUS) AssignProperties_From_ArmIdentity_STATUS(sou
 }
 
 // AssignProperties_To_ArmIdentity_STATUS populates the provided destination ArmIdentity_STATUS from our ArmIdentity_STATUS
-func (identity *ArmIdentity_STATUS) AssignProperties_To_ArmIdentity_STATUS(destination *v20210702s.ArmIdentity_STATUS) error {
+func (identity *ArmIdentity_STATUS) AssignProperties_To_ArmIdentity_STATUS(destination *storage.ArmIdentity_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1417,11 +1417,11 @@ func (identity *ArmIdentity_STATUS) AssignProperties_To_ArmIdentity_STATUS(desti
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v20210702s.ArmUserIdentity_STATUS, len(identity.UserAssignedIdentities))
+		userAssignedIdentityMap := make(map[string]storage.ArmUserIdentity_STATUS, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity v20210702s.ArmUserIdentity_STATUS
+			var userAssignedIdentity storage.ArmUserIdentity_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_ArmUserIdentity_STATUS(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ArmUserIdentity_STATUS() to populate field UserAssignedIdentities")
@@ -1451,7 +1451,7 @@ type IotHubOperatorSpec struct {
 }
 
 // AssignProperties_From_IotHubOperatorSpec populates our IotHubOperatorSpec from the provided source IotHubOperatorSpec
-func (operator *IotHubOperatorSpec) AssignProperties_From_IotHubOperatorSpec(source *v20210702s.IotHubOperatorSpec) error {
+func (operator *IotHubOperatorSpec) AssignProperties_From_IotHubOperatorSpec(source *storage.IotHubOperatorSpec) error {
 
 	// Secrets
 	if source.Secrets != nil {
@@ -1470,13 +1470,13 @@ func (operator *IotHubOperatorSpec) AssignProperties_From_IotHubOperatorSpec(sou
 }
 
 // AssignProperties_To_IotHubOperatorSpec populates the provided destination IotHubOperatorSpec from our IotHubOperatorSpec
-func (operator *IotHubOperatorSpec) AssignProperties_To_IotHubOperatorSpec(destination *v20210702s.IotHubOperatorSpec) error {
+func (operator *IotHubOperatorSpec) AssignProperties_To_IotHubOperatorSpec(destination *storage.IotHubOperatorSpec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Secrets
 	if operator.Secrets != nil {
-		var secret v20210702s.IotHubOperatorSecrets
+		var secret storage.IotHubOperatorSecrets
 		err := operator.Secrets.AssignProperties_To_IotHubOperatorSecrets(&secret)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_IotHubOperatorSecrets() to populate field Secrets")
@@ -1899,7 +1899,7 @@ func (properties *IotHubProperties) PopulateFromARM(owner genruntime.ArbitraryOw
 }
 
 // AssignProperties_From_IotHubProperties populates our IotHubProperties from the provided source IotHubProperties
-func (properties *IotHubProperties) AssignProperties_From_IotHubProperties(source *v20210702s.IotHubProperties) error {
+func (properties *IotHubProperties) AssignProperties_From_IotHubProperties(source *storage.IotHubProperties) error {
 
 	// AllowedFqdnList
 	properties.AllowedFqdnList = genruntime.CloneSliceOfString(source.AllowedFqdnList)
@@ -2107,7 +2107,7 @@ func (properties *IotHubProperties) AssignProperties_From_IotHubProperties(sourc
 }
 
 // AssignProperties_To_IotHubProperties populates the provided destination IotHubProperties from our IotHubProperties
-func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destination *v20210702s.IotHubProperties) error {
+func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destination *storage.IotHubProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2116,11 +2116,11 @@ func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destina
 
 	// AuthorizationPolicies
 	if properties.AuthorizationPolicies != nil {
-		authorizationPolicyList := make([]v20210702s.SharedAccessSignatureAuthorizationRule, len(properties.AuthorizationPolicies))
+		authorizationPolicyList := make([]storage.SharedAccessSignatureAuthorizationRule, len(properties.AuthorizationPolicies))
 		for authorizationPolicyIndex, authorizationPolicyItem := range properties.AuthorizationPolicies {
 			// Shadow the loop variable to avoid aliasing
 			authorizationPolicyItem := authorizationPolicyItem
-			var authorizationPolicy v20210702s.SharedAccessSignatureAuthorizationRule
+			var authorizationPolicy storage.SharedAccessSignatureAuthorizationRule
 			err := authorizationPolicyItem.AssignProperties_To_SharedAccessSignatureAuthorizationRule(&authorizationPolicy)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SharedAccessSignatureAuthorizationRule() to populate field AuthorizationPolicies")
@@ -2134,7 +2134,7 @@ func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destina
 
 	// CloudToDevice
 	if properties.CloudToDevice != nil {
-		var cloudToDevice v20210702s.CloudToDeviceProperties
+		var cloudToDevice storage.CloudToDeviceProperties
 		err := properties.CloudToDevice.AssignProperties_To_CloudToDeviceProperties(&cloudToDevice)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CloudToDeviceProperties() to populate field CloudToDevice")
@@ -2189,11 +2189,11 @@ func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destina
 
 	// EventHubEndpoints
 	if properties.EventHubEndpoints != nil {
-		eventHubEndpointMap := make(map[string]v20210702s.EventHubProperties, len(properties.EventHubEndpoints))
+		eventHubEndpointMap := make(map[string]storage.EventHubProperties, len(properties.EventHubEndpoints))
 		for eventHubEndpointKey, eventHubEndpointValue := range properties.EventHubEndpoints {
 			// Shadow the loop variable to avoid aliasing
 			eventHubEndpointValue := eventHubEndpointValue
-			var eventHubEndpoint v20210702s.EventHubProperties
+			var eventHubEndpoint storage.EventHubProperties
 			err := eventHubEndpointValue.AssignProperties_To_EventHubProperties(&eventHubEndpoint)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_EventHubProperties() to populate field EventHubEndpoints")
@@ -2215,11 +2215,11 @@ func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destina
 
 	// IpFilterRules
 	if properties.IpFilterRules != nil {
-		ipFilterRuleList := make([]v20210702s.IpFilterRule, len(properties.IpFilterRules))
+		ipFilterRuleList := make([]storage.IpFilterRule, len(properties.IpFilterRules))
 		for ipFilterRuleIndex, ipFilterRuleItem := range properties.IpFilterRules {
 			// Shadow the loop variable to avoid aliasing
 			ipFilterRuleItem := ipFilterRuleItem
-			var ipFilterRule v20210702s.IpFilterRule
+			var ipFilterRule storage.IpFilterRule
 			err := ipFilterRuleItem.AssignProperties_To_IpFilterRule(&ipFilterRule)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_IpFilterRule() to populate field IpFilterRules")
@@ -2233,11 +2233,11 @@ func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destina
 
 	// MessagingEndpoints
 	if properties.MessagingEndpoints != nil {
-		messagingEndpointMap := make(map[string]v20210702s.MessagingEndpointProperties, len(properties.MessagingEndpoints))
+		messagingEndpointMap := make(map[string]storage.MessagingEndpointProperties, len(properties.MessagingEndpoints))
 		for messagingEndpointKey, messagingEndpointValue := range properties.MessagingEndpoints {
 			// Shadow the loop variable to avoid aliasing
 			messagingEndpointValue := messagingEndpointValue
-			var messagingEndpoint v20210702s.MessagingEndpointProperties
+			var messagingEndpoint storage.MessagingEndpointProperties
 			err := messagingEndpointValue.AssignProperties_To_MessagingEndpointProperties(&messagingEndpoint)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_MessagingEndpointProperties() to populate field MessagingEndpoints")
@@ -2254,7 +2254,7 @@ func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destina
 
 	// NetworkRuleSets
 	if properties.NetworkRuleSets != nil {
-		var networkRuleSet v20210702s.NetworkRuleSetProperties
+		var networkRuleSet storage.NetworkRuleSetProperties
 		err := properties.NetworkRuleSets.AssignProperties_To_NetworkRuleSetProperties(&networkRuleSet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_NetworkRuleSetProperties() to populate field NetworkRuleSets")
@@ -2282,7 +2282,7 @@ func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destina
 
 	// Routing
 	if properties.Routing != nil {
-		var routing v20210702s.RoutingProperties
+		var routing storage.RoutingProperties
 		err := properties.Routing.AssignProperties_To_RoutingProperties(&routing)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RoutingProperties() to populate field Routing")
@@ -2294,11 +2294,11 @@ func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destina
 
 	// StorageEndpoints
 	if properties.StorageEndpoints != nil {
-		storageEndpointMap := make(map[string]v20210702s.StorageEndpointProperties, len(properties.StorageEndpoints))
+		storageEndpointMap := make(map[string]storage.StorageEndpointProperties, len(properties.StorageEndpoints))
 		for storageEndpointKey, storageEndpointValue := range properties.StorageEndpoints {
 			// Shadow the loop variable to avoid aliasing
 			storageEndpointValue := storageEndpointValue
-			var storageEndpoint v20210702s.StorageEndpointProperties
+			var storageEndpoint storage.StorageEndpointProperties
 			err := storageEndpointValue.AssignProperties_To_StorageEndpointProperties(&storageEndpoint)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_StorageEndpointProperties() to populate field StorageEndpoints")
@@ -2824,7 +2824,7 @@ func (properties *IotHubProperties_STATUS) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignProperties_From_IotHubProperties_STATUS populates our IotHubProperties_STATUS from the provided source IotHubProperties_STATUS
-func (properties *IotHubProperties_STATUS) AssignProperties_From_IotHubProperties_STATUS(source *v20210702s.IotHubProperties_STATUS) error {
+func (properties *IotHubProperties_STATUS) AssignProperties_From_IotHubProperties_STATUS(source *storage.IotHubProperties_STATUS) error {
 
 	// AllowedFqdnList
 	properties.AllowedFqdnList = genruntime.CloneSliceOfString(source.AllowedFqdnList)
@@ -3077,7 +3077,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_From_IotHubPropertie
 }
 
 // AssignProperties_To_IotHubProperties_STATUS populates the provided destination IotHubProperties_STATUS from our IotHubProperties_STATUS
-func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_STATUS(destination *v20210702s.IotHubProperties_STATUS) error {
+func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_STATUS(destination *storage.IotHubProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3086,11 +3086,11 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 
 	// AuthorizationPolicies
 	if properties.AuthorizationPolicies != nil {
-		authorizationPolicyList := make([]v20210702s.SharedAccessSignatureAuthorizationRule_STATUS, len(properties.AuthorizationPolicies))
+		authorizationPolicyList := make([]storage.SharedAccessSignatureAuthorizationRule_STATUS, len(properties.AuthorizationPolicies))
 		for authorizationPolicyIndex, authorizationPolicyItem := range properties.AuthorizationPolicies {
 			// Shadow the loop variable to avoid aliasing
 			authorizationPolicyItem := authorizationPolicyItem
-			var authorizationPolicy v20210702s.SharedAccessSignatureAuthorizationRule_STATUS
+			var authorizationPolicy storage.SharedAccessSignatureAuthorizationRule_STATUS
 			err := authorizationPolicyItem.AssignProperties_To_SharedAccessSignatureAuthorizationRule_STATUS(&authorizationPolicy)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SharedAccessSignatureAuthorizationRule_STATUS() to populate field AuthorizationPolicies")
@@ -3104,7 +3104,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 
 	// CloudToDevice
 	if properties.CloudToDevice != nil {
-		var cloudToDevice v20210702s.CloudToDeviceProperties_STATUS
+		var cloudToDevice storage.CloudToDeviceProperties_STATUS
 		err := properties.CloudToDevice.AssignProperties_To_CloudToDeviceProperties_STATUS(&cloudToDevice)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CloudToDeviceProperties_STATUS() to populate field CloudToDevice")
@@ -3159,11 +3159,11 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 
 	// EventHubEndpoints
 	if properties.EventHubEndpoints != nil {
-		eventHubEndpointMap := make(map[string]v20210702s.EventHubProperties_STATUS, len(properties.EventHubEndpoints))
+		eventHubEndpointMap := make(map[string]storage.EventHubProperties_STATUS, len(properties.EventHubEndpoints))
 		for eventHubEndpointKey, eventHubEndpointValue := range properties.EventHubEndpoints {
 			// Shadow the loop variable to avoid aliasing
 			eventHubEndpointValue := eventHubEndpointValue
-			var eventHubEndpoint v20210702s.EventHubProperties_STATUS
+			var eventHubEndpoint storage.EventHubProperties_STATUS
 			err := eventHubEndpointValue.AssignProperties_To_EventHubProperties_STATUS(&eventHubEndpoint)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_EventHubProperties_STATUS() to populate field EventHubEndpoints")
@@ -3188,11 +3188,11 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 
 	// IpFilterRules
 	if properties.IpFilterRules != nil {
-		ipFilterRuleList := make([]v20210702s.IpFilterRule_STATUS, len(properties.IpFilterRules))
+		ipFilterRuleList := make([]storage.IpFilterRule_STATUS, len(properties.IpFilterRules))
 		for ipFilterRuleIndex, ipFilterRuleItem := range properties.IpFilterRules {
 			// Shadow the loop variable to avoid aliasing
 			ipFilterRuleItem := ipFilterRuleItem
-			var ipFilterRule v20210702s.IpFilterRule_STATUS
+			var ipFilterRule storage.IpFilterRule_STATUS
 			err := ipFilterRuleItem.AssignProperties_To_IpFilterRule_STATUS(&ipFilterRule)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_IpFilterRule_STATUS() to populate field IpFilterRules")
@@ -3206,11 +3206,11 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 
 	// Locations
 	if properties.Locations != nil {
-		locationList := make([]v20210702s.IotHubLocationDescription_STATUS, len(properties.Locations))
+		locationList := make([]storage.IotHubLocationDescription_STATUS, len(properties.Locations))
 		for locationIndex, locationItem := range properties.Locations {
 			// Shadow the loop variable to avoid aliasing
 			locationItem := locationItem
-			var location v20210702s.IotHubLocationDescription_STATUS
+			var location storage.IotHubLocationDescription_STATUS
 			err := locationItem.AssignProperties_To_IotHubLocationDescription_STATUS(&location)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_IotHubLocationDescription_STATUS() to populate field Locations")
@@ -3224,11 +3224,11 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 
 	// MessagingEndpoints
 	if properties.MessagingEndpoints != nil {
-		messagingEndpointMap := make(map[string]v20210702s.MessagingEndpointProperties_STATUS, len(properties.MessagingEndpoints))
+		messagingEndpointMap := make(map[string]storage.MessagingEndpointProperties_STATUS, len(properties.MessagingEndpoints))
 		for messagingEndpointKey, messagingEndpointValue := range properties.MessagingEndpoints {
 			// Shadow the loop variable to avoid aliasing
 			messagingEndpointValue := messagingEndpointValue
-			var messagingEndpoint v20210702s.MessagingEndpointProperties_STATUS
+			var messagingEndpoint storage.MessagingEndpointProperties_STATUS
 			err := messagingEndpointValue.AssignProperties_To_MessagingEndpointProperties_STATUS(&messagingEndpoint)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_MessagingEndpointProperties_STATUS() to populate field MessagingEndpoints")
@@ -3245,7 +3245,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 
 	// NetworkRuleSets
 	if properties.NetworkRuleSets != nil {
-		var networkRuleSet v20210702s.NetworkRuleSetProperties_STATUS
+		var networkRuleSet storage.NetworkRuleSetProperties_STATUS
 		err := properties.NetworkRuleSets.AssignProperties_To_NetworkRuleSetProperties_STATUS(&networkRuleSet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_NetworkRuleSetProperties_STATUS() to populate field NetworkRuleSets")
@@ -3257,11 +3257,11 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 
 	// PrivateEndpointConnections
 	if properties.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]v20210702s.PrivateEndpointConnection_STATUS, len(properties.PrivateEndpointConnections))
+		privateEndpointConnectionList := make([]storage.PrivateEndpointConnection_STATUS, len(properties.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range properties.PrivateEndpointConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v20210702s.PrivateEndpointConnection_STATUS
+			var privateEndpointConnection storage.PrivateEndpointConnection_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
@@ -3294,7 +3294,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 
 	// Routing
 	if properties.Routing != nil {
-		var routing v20210702s.RoutingProperties_STATUS
+		var routing storage.RoutingProperties_STATUS
 		err := properties.Routing.AssignProperties_To_RoutingProperties_STATUS(&routing)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RoutingProperties_STATUS() to populate field Routing")
@@ -3309,11 +3309,11 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 
 	// StorageEndpoints
 	if properties.StorageEndpoints != nil {
-		storageEndpointMap := make(map[string]v20210702s.StorageEndpointProperties_STATUS, len(properties.StorageEndpoints))
+		storageEndpointMap := make(map[string]storage.StorageEndpointProperties_STATUS, len(properties.StorageEndpoints))
 		for storageEndpointKey, storageEndpointValue := range properties.StorageEndpoints {
 			// Shadow the loop variable to avoid aliasing
 			storageEndpointValue := storageEndpointValue
-			var storageEndpoint v20210702s.StorageEndpointProperties_STATUS
+			var storageEndpoint storage.StorageEndpointProperties_STATUS
 			err := storageEndpointValue.AssignProperties_To_StorageEndpointProperties_STATUS(&storageEndpoint)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_StorageEndpointProperties_STATUS() to populate field StorageEndpoints")
@@ -3399,7 +3399,7 @@ func (info *IotHubSkuInfo) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 }
 
 // AssignProperties_From_IotHubSkuInfo populates our IotHubSkuInfo from the provided source IotHubSkuInfo
-func (info *IotHubSkuInfo) AssignProperties_From_IotHubSkuInfo(source *v20210702s.IotHubSkuInfo) error {
+func (info *IotHubSkuInfo) AssignProperties_From_IotHubSkuInfo(source *storage.IotHubSkuInfo) error {
 
 	// Capacity
 	info.Capacity = genruntime.ClonePointerToInt(source.Capacity)
@@ -3418,7 +3418,7 @@ func (info *IotHubSkuInfo) AssignProperties_From_IotHubSkuInfo(source *v20210702
 }
 
 // AssignProperties_To_IotHubSkuInfo populates the provided destination IotHubSkuInfo from our IotHubSkuInfo
-func (info *IotHubSkuInfo) AssignProperties_To_IotHubSkuInfo(destination *v20210702s.IotHubSkuInfo) error {
+func (info *IotHubSkuInfo) AssignProperties_To_IotHubSkuInfo(destination *storage.IotHubSkuInfo) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3512,7 +3512,7 @@ func (info *IotHubSkuInfo_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 }
 
 // AssignProperties_From_IotHubSkuInfo_STATUS populates our IotHubSkuInfo_STATUS from the provided source IotHubSkuInfo_STATUS
-func (info *IotHubSkuInfo_STATUS) AssignProperties_From_IotHubSkuInfo_STATUS(source *v20210702s.IotHubSkuInfo_STATUS) error {
+func (info *IotHubSkuInfo_STATUS) AssignProperties_From_IotHubSkuInfo_STATUS(source *storage.IotHubSkuInfo_STATUS) error {
 
 	// Capacity
 	info.Capacity = genruntime.ClonePointerToInt(source.Capacity)
@@ -3540,7 +3540,7 @@ func (info *IotHubSkuInfo_STATUS) AssignProperties_From_IotHubSkuInfo_STATUS(sou
 }
 
 // AssignProperties_To_IotHubSkuInfo_STATUS populates the provided destination IotHubSkuInfo_STATUS from our IotHubSkuInfo_STATUS
-func (info *IotHubSkuInfo_STATUS) AssignProperties_To_IotHubSkuInfo_STATUS(destination *v20210702s.IotHubSkuInfo_STATUS) error {
+func (info *IotHubSkuInfo_STATUS) AssignProperties_To_IotHubSkuInfo_STATUS(destination *storage.IotHubSkuInfo_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3650,7 +3650,7 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 }
 
 // AssignProperties_From_SystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v20210702s.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *storage.SystemData_STATUS) error {
 
 	// CreatedAt
 	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
@@ -3687,7 +3687,7 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 }
 
 // AssignProperties_To_SystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *v20210702s.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *storage.SystemData_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3766,7 +3766,7 @@ func (identity *ArmUserIdentity_STATUS) PopulateFromARM(owner genruntime.Arbitra
 }
 
 // AssignProperties_From_ArmUserIdentity_STATUS populates our ArmUserIdentity_STATUS from the provided source ArmUserIdentity_STATUS
-func (identity *ArmUserIdentity_STATUS) AssignProperties_From_ArmUserIdentity_STATUS(source *v20210702s.ArmUserIdentity_STATUS) error {
+func (identity *ArmUserIdentity_STATUS) AssignProperties_From_ArmUserIdentity_STATUS(source *storage.ArmUserIdentity_STATUS) error {
 
 	// ClientId
 	identity.ClientId = genruntime.ClonePointerToString(source.ClientId)
@@ -3779,7 +3779,7 @@ func (identity *ArmUserIdentity_STATUS) AssignProperties_From_ArmUserIdentity_ST
 }
 
 // AssignProperties_To_ArmUserIdentity_STATUS populates the provided destination ArmUserIdentity_STATUS from our ArmUserIdentity_STATUS
-func (identity *ArmUserIdentity_STATUS) AssignProperties_To_ArmUserIdentity_STATUS(destination *v20210702s.ArmUserIdentity_STATUS) error {
+func (identity *ArmUserIdentity_STATUS) AssignProperties_To_ArmUserIdentity_STATUS(destination *storage.ArmUserIdentity_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3889,7 +3889,7 @@ func (properties *CloudToDeviceProperties) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignProperties_From_CloudToDeviceProperties populates our CloudToDeviceProperties from the provided source CloudToDeviceProperties
-func (properties *CloudToDeviceProperties) AssignProperties_From_CloudToDeviceProperties(source *v20210702s.CloudToDeviceProperties) error {
+func (properties *CloudToDeviceProperties) AssignProperties_From_CloudToDeviceProperties(source *storage.CloudToDeviceProperties) error {
 
 	// DefaultTtlAsIso8601
 	properties.DefaultTtlAsIso8601 = genruntime.ClonePointerToString(source.DefaultTtlAsIso8601)
@@ -3919,7 +3919,7 @@ func (properties *CloudToDeviceProperties) AssignProperties_From_CloudToDevicePr
 }
 
 // AssignProperties_To_CloudToDeviceProperties populates the provided destination CloudToDeviceProperties from our CloudToDeviceProperties
-func (properties *CloudToDeviceProperties) AssignProperties_To_CloudToDeviceProperties(destination *v20210702s.CloudToDeviceProperties) error {
+func (properties *CloudToDeviceProperties) AssignProperties_To_CloudToDeviceProperties(destination *storage.CloudToDeviceProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3928,7 +3928,7 @@ func (properties *CloudToDeviceProperties) AssignProperties_To_CloudToDeviceProp
 
 	// Feedback
 	if properties.Feedback != nil {
-		var feedback v20210702s.FeedbackProperties
+		var feedback storage.FeedbackProperties
 		err := properties.Feedback.AssignProperties_To_FeedbackProperties(&feedback)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_FeedbackProperties() to populate field Feedback")
@@ -4043,7 +4043,7 @@ func (properties *CloudToDeviceProperties_STATUS) PopulateFromARM(owner genrunti
 }
 
 // AssignProperties_From_CloudToDeviceProperties_STATUS populates our CloudToDeviceProperties_STATUS from the provided source CloudToDeviceProperties_STATUS
-func (properties *CloudToDeviceProperties_STATUS) AssignProperties_From_CloudToDeviceProperties_STATUS(source *v20210702s.CloudToDeviceProperties_STATUS) error {
+func (properties *CloudToDeviceProperties_STATUS) AssignProperties_From_CloudToDeviceProperties_STATUS(source *storage.CloudToDeviceProperties_STATUS) error {
 
 	// DefaultTtlAsIso8601
 	properties.DefaultTtlAsIso8601 = genruntime.ClonePointerToString(source.DefaultTtlAsIso8601)
@@ -4068,7 +4068,7 @@ func (properties *CloudToDeviceProperties_STATUS) AssignProperties_From_CloudToD
 }
 
 // AssignProperties_To_CloudToDeviceProperties_STATUS populates the provided destination CloudToDeviceProperties_STATUS from our CloudToDeviceProperties_STATUS
-func (properties *CloudToDeviceProperties_STATUS) AssignProperties_To_CloudToDeviceProperties_STATUS(destination *v20210702s.CloudToDeviceProperties_STATUS) error {
+func (properties *CloudToDeviceProperties_STATUS) AssignProperties_To_CloudToDeviceProperties_STATUS(destination *storage.CloudToDeviceProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4077,7 +4077,7 @@ func (properties *CloudToDeviceProperties_STATUS) AssignProperties_To_CloudToDev
 
 	// Feedback
 	if properties.Feedback != nil {
-		var feedback v20210702s.FeedbackProperties_STATUS
+		var feedback storage.FeedbackProperties_STATUS
 		err := properties.Feedback.AssignProperties_To_FeedbackProperties_STATUS(&feedback)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_FeedbackProperties_STATUS() to populate field Feedback")
@@ -4164,7 +4164,7 @@ func (properties *EventHubProperties) PopulateFromARM(owner genruntime.Arbitrary
 }
 
 // AssignProperties_From_EventHubProperties populates our EventHubProperties from the provided source EventHubProperties
-func (properties *EventHubProperties) AssignProperties_From_EventHubProperties(source *v20210702s.EventHubProperties) error {
+func (properties *EventHubProperties) AssignProperties_From_EventHubProperties(source *storage.EventHubProperties) error {
 
 	// PartitionCount
 	properties.PartitionCount = genruntime.ClonePointerToInt(source.PartitionCount)
@@ -4177,7 +4177,7 @@ func (properties *EventHubProperties) AssignProperties_From_EventHubProperties(s
 }
 
 // AssignProperties_To_EventHubProperties populates the provided destination EventHubProperties from our EventHubProperties
-func (properties *EventHubProperties) AssignProperties_To_EventHubProperties(destination *v20210702s.EventHubProperties) error {
+func (properties *EventHubProperties) AssignProperties_To_EventHubProperties(destination *storage.EventHubProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4279,7 +4279,7 @@ func (properties *EventHubProperties_STATUS) PopulateFromARM(owner genruntime.Ar
 }
 
 // AssignProperties_From_EventHubProperties_STATUS populates our EventHubProperties_STATUS from the provided source EventHubProperties_STATUS
-func (properties *EventHubProperties_STATUS) AssignProperties_From_EventHubProperties_STATUS(source *v20210702s.EventHubProperties_STATUS) error {
+func (properties *EventHubProperties_STATUS) AssignProperties_From_EventHubProperties_STATUS(source *storage.EventHubProperties_STATUS) error {
 
 	// Endpoint
 	properties.Endpoint = genruntime.ClonePointerToString(source.Endpoint)
@@ -4301,7 +4301,7 @@ func (properties *EventHubProperties_STATUS) AssignProperties_From_EventHubPrope
 }
 
 // AssignProperties_To_EventHubProperties_STATUS populates the provided destination EventHubProperties_STATUS from our EventHubProperties_STATUS
-func (properties *EventHubProperties_STATUS) AssignProperties_To_EventHubProperties_STATUS(destination *v20210702s.EventHubProperties_STATUS) error {
+func (properties *EventHubProperties_STATUS) AssignProperties_To_EventHubProperties_STATUS(destination *storage.EventHubProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4373,7 +4373,7 @@ func (description *IotHubLocationDescription_STATUS) PopulateFromARM(owner genru
 }
 
 // AssignProperties_From_IotHubLocationDescription_STATUS populates our IotHubLocationDescription_STATUS from the provided source IotHubLocationDescription_STATUS
-func (description *IotHubLocationDescription_STATUS) AssignProperties_From_IotHubLocationDescription_STATUS(source *v20210702s.IotHubLocationDescription_STATUS) error {
+func (description *IotHubLocationDescription_STATUS) AssignProperties_From_IotHubLocationDescription_STATUS(source *storage.IotHubLocationDescription_STATUS) error {
 
 	// Location
 	description.Location = genruntime.ClonePointerToString(source.Location)
@@ -4392,7 +4392,7 @@ func (description *IotHubLocationDescription_STATUS) AssignProperties_From_IotHu
 }
 
 // AssignProperties_To_IotHubLocationDescription_STATUS populates the provided destination IotHubLocationDescription_STATUS from our IotHubLocationDescription_STATUS
-func (description *IotHubLocationDescription_STATUS) AssignProperties_To_IotHubLocationDescription_STATUS(destination *v20210702s.IotHubLocationDescription_STATUS) error {
+func (description *IotHubLocationDescription_STATUS) AssignProperties_To_IotHubLocationDescription_STATUS(destination *storage.IotHubLocationDescription_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4461,7 +4461,7 @@ type IotHubOperatorSecrets struct {
 }
 
 // AssignProperties_From_IotHubOperatorSecrets populates our IotHubOperatorSecrets from the provided source IotHubOperatorSecrets
-func (secrets *IotHubOperatorSecrets) AssignProperties_From_IotHubOperatorSecrets(source *v20210702s.IotHubOperatorSecrets) error {
+func (secrets *IotHubOperatorSecrets) AssignProperties_From_IotHubOperatorSecrets(source *storage.IotHubOperatorSecrets) error {
 
 	// DevicePrimaryKey
 	if source.DevicePrimaryKey != nil {
@@ -4548,7 +4548,7 @@ func (secrets *IotHubOperatorSecrets) AssignProperties_From_IotHubOperatorSecret
 }
 
 // AssignProperties_To_IotHubOperatorSecrets populates the provided destination IotHubOperatorSecrets from our IotHubOperatorSecrets
-func (secrets *IotHubOperatorSecrets) AssignProperties_To_IotHubOperatorSecrets(destination *v20210702s.IotHubOperatorSecrets) error {
+func (secrets *IotHubOperatorSecrets) AssignProperties_To_IotHubOperatorSecrets(destination *storage.IotHubOperatorSecrets) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4722,7 +4722,7 @@ func (rule *IpFilterRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 }
 
 // AssignProperties_From_IpFilterRule populates our IpFilterRule from the provided source IpFilterRule
-func (rule *IpFilterRule) AssignProperties_From_IpFilterRule(source *v20210702s.IpFilterRule) error {
+func (rule *IpFilterRule) AssignProperties_From_IpFilterRule(source *storage.IpFilterRule) error {
 
 	// Action
 	if source.Action != nil {
@@ -4744,7 +4744,7 @@ func (rule *IpFilterRule) AssignProperties_From_IpFilterRule(source *v20210702s.
 }
 
 // AssignProperties_To_IpFilterRule populates the provided destination IpFilterRule from our IpFilterRule
-func (rule *IpFilterRule) AssignProperties_To_IpFilterRule(destination *v20210702s.IpFilterRule) error {
+func (rule *IpFilterRule) AssignProperties_To_IpFilterRule(destination *storage.IpFilterRule) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4843,7 +4843,7 @@ func (rule *IpFilterRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 }
 
 // AssignProperties_From_IpFilterRule_STATUS populates our IpFilterRule_STATUS from the provided source IpFilterRule_STATUS
-func (rule *IpFilterRule_STATUS) AssignProperties_From_IpFilterRule_STATUS(source *v20210702s.IpFilterRule_STATUS) error {
+func (rule *IpFilterRule_STATUS) AssignProperties_From_IpFilterRule_STATUS(source *storage.IpFilterRule_STATUS) error {
 
 	// Action
 	if source.Action != nil {
@@ -4865,7 +4865,7 @@ func (rule *IpFilterRule_STATUS) AssignProperties_From_IpFilterRule_STATUS(sourc
 }
 
 // AssignProperties_To_IpFilterRule_STATUS populates the provided destination IpFilterRule_STATUS from our IpFilterRule_STATUS
-func (rule *IpFilterRule_STATUS) AssignProperties_To_IpFilterRule_STATUS(destination *v20210702s.IpFilterRule_STATUS) error {
+func (rule *IpFilterRule_STATUS) AssignProperties_To_IpFilterRule_STATUS(destination *storage.IpFilterRule_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4974,7 +4974,7 @@ func (properties *MessagingEndpointProperties) PopulateFromARM(owner genruntime.
 }
 
 // AssignProperties_From_MessagingEndpointProperties populates our MessagingEndpointProperties from the provided source MessagingEndpointProperties
-func (properties *MessagingEndpointProperties) AssignProperties_From_MessagingEndpointProperties(source *v20210702s.MessagingEndpointProperties) error {
+func (properties *MessagingEndpointProperties) AssignProperties_From_MessagingEndpointProperties(source *storage.MessagingEndpointProperties) error {
 
 	// LockDurationAsIso8601
 	properties.LockDurationAsIso8601 = genruntime.ClonePointerToString(source.LockDurationAsIso8601)
@@ -4995,7 +4995,7 @@ func (properties *MessagingEndpointProperties) AssignProperties_From_MessagingEn
 }
 
 // AssignProperties_To_MessagingEndpointProperties populates the provided destination MessagingEndpointProperties from our MessagingEndpointProperties
-func (properties *MessagingEndpointProperties) AssignProperties_To_MessagingEndpointProperties(destination *v20210702s.MessagingEndpointProperties) error {
+func (properties *MessagingEndpointProperties) AssignProperties_To_MessagingEndpointProperties(destination *storage.MessagingEndpointProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5096,7 +5096,7 @@ func (properties *MessagingEndpointProperties_STATUS) PopulateFromARM(owner genr
 }
 
 // AssignProperties_From_MessagingEndpointProperties_STATUS populates our MessagingEndpointProperties_STATUS from the provided source MessagingEndpointProperties_STATUS
-func (properties *MessagingEndpointProperties_STATUS) AssignProperties_From_MessagingEndpointProperties_STATUS(source *v20210702s.MessagingEndpointProperties_STATUS) error {
+func (properties *MessagingEndpointProperties_STATUS) AssignProperties_From_MessagingEndpointProperties_STATUS(source *storage.MessagingEndpointProperties_STATUS) error {
 
 	// LockDurationAsIso8601
 	properties.LockDurationAsIso8601 = genruntime.ClonePointerToString(source.LockDurationAsIso8601)
@@ -5112,7 +5112,7 @@ func (properties *MessagingEndpointProperties_STATUS) AssignProperties_From_Mess
 }
 
 // AssignProperties_To_MessagingEndpointProperties_STATUS populates the provided destination MessagingEndpointProperties_STATUS from our MessagingEndpointProperties_STATUS
-func (properties *MessagingEndpointProperties_STATUS) AssignProperties_To_MessagingEndpointProperties_STATUS(destination *v20210702s.MessagingEndpointProperties_STATUS) error {
+func (properties *MessagingEndpointProperties_STATUS) AssignProperties_To_MessagingEndpointProperties_STATUS(destination *storage.MessagingEndpointProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5221,7 +5221,7 @@ func (properties *NetworkRuleSetProperties) PopulateFromARM(owner genruntime.Arb
 }
 
 // AssignProperties_From_NetworkRuleSetProperties populates our NetworkRuleSetProperties from the provided source NetworkRuleSetProperties
-func (properties *NetworkRuleSetProperties) AssignProperties_From_NetworkRuleSetProperties(source *v20210702s.NetworkRuleSetProperties) error {
+func (properties *NetworkRuleSetProperties) AssignProperties_From_NetworkRuleSetProperties(source *storage.NetworkRuleSetProperties) error {
 
 	// ApplyToBuiltInEventHubEndpoint
 	if source.ApplyToBuiltInEventHubEndpoint != nil {
@@ -5263,7 +5263,7 @@ func (properties *NetworkRuleSetProperties) AssignProperties_From_NetworkRuleSet
 }
 
 // AssignProperties_To_NetworkRuleSetProperties populates the provided destination NetworkRuleSetProperties from our NetworkRuleSetProperties
-func (properties *NetworkRuleSetProperties) AssignProperties_To_NetworkRuleSetProperties(destination *v20210702s.NetworkRuleSetProperties) error {
+func (properties *NetworkRuleSetProperties) AssignProperties_To_NetworkRuleSetProperties(destination *storage.NetworkRuleSetProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5285,11 +5285,11 @@ func (properties *NetworkRuleSetProperties) AssignProperties_To_NetworkRuleSetPr
 
 	// IpRules
 	if properties.IpRules != nil {
-		ipRuleList := make([]v20210702s.NetworkRuleSetIpRule, len(properties.IpRules))
+		ipRuleList := make([]storage.NetworkRuleSetIpRule, len(properties.IpRules))
 		for ipRuleIndex, ipRuleItem := range properties.IpRules {
 			// Shadow the loop variable to avoid aliasing
 			ipRuleItem := ipRuleItem
-			var ipRule v20210702s.NetworkRuleSetIpRule
+			var ipRule storage.NetworkRuleSetIpRule
 			err := ipRuleItem.AssignProperties_To_NetworkRuleSetIpRule(&ipRule)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_NetworkRuleSetIpRule() to populate field IpRules")
@@ -5406,7 +5406,7 @@ func (properties *NetworkRuleSetProperties_STATUS) PopulateFromARM(owner genrunt
 }
 
 // AssignProperties_From_NetworkRuleSetProperties_STATUS populates our NetworkRuleSetProperties_STATUS from the provided source NetworkRuleSetProperties_STATUS
-func (properties *NetworkRuleSetProperties_STATUS) AssignProperties_From_NetworkRuleSetProperties_STATUS(source *v20210702s.NetworkRuleSetProperties_STATUS) error {
+func (properties *NetworkRuleSetProperties_STATUS) AssignProperties_From_NetworkRuleSetProperties_STATUS(source *storage.NetworkRuleSetProperties_STATUS) error {
 
 	// ApplyToBuiltInEventHubEndpoint
 	if source.ApplyToBuiltInEventHubEndpoint != nil {
@@ -5448,7 +5448,7 @@ func (properties *NetworkRuleSetProperties_STATUS) AssignProperties_From_Network
 }
 
 // AssignProperties_To_NetworkRuleSetProperties_STATUS populates the provided destination NetworkRuleSetProperties_STATUS from our NetworkRuleSetProperties_STATUS
-func (properties *NetworkRuleSetProperties_STATUS) AssignProperties_To_NetworkRuleSetProperties_STATUS(destination *v20210702s.NetworkRuleSetProperties_STATUS) error {
+func (properties *NetworkRuleSetProperties_STATUS) AssignProperties_To_NetworkRuleSetProperties_STATUS(destination *storage.NetworkRuleSetProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5470,11 +5470,11 @@ func (properties *NetworkRuleSetProperties_STATUS) AssignProperties_To_NetworkRu
 
 	// IpRules
 	if properties.IpRules != nil {
-		ipRuleList := make([]v20210702s.NetworkRuleSetIpRule_STATUS, len(properties.IpRules))
+		ipRuleList := make([]storage.NetworkRuleSetIpRule_STATUS, len(properties.IpRules))
 		for ipRuleIndex, ipRuleItem := range properties.IpRules {
 			// Shadow the loop variable to avoid aliasing
 			ipRuleItem := ipRuleItem
-			var ipRule v20210702s.NetworkRuleSetIpRule_STATUS
+			var ipRule storage.NetworkRuleSetIpRule_STATUS
 			err := ipRuleItem.AssignProperties_To_NetworkRuleSetIpRule_STATUS(&ipRule)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_NetworkRuleSetIpRule_STATUS() to populate field IpRules")
@@ -5528,7 +5528,7 @@ func (connection *PrivateEndpointConnection_STATUS) PopulateFromARM(owner genrun
 }
 
 // AssignProperties_From_PrivateEndpointConnection_STATUS populates our PrivateEndpointConnection_STATUS from the provided source PrivateEndpointConnection_STATUS
-func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_PrivateEndpointConnection_STATUS(source *v20210702s.PrivateEndpointConnection_STATUS) error {
+func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_PrivateEndpointConnection_STATUS(source *storage.PrivateEndpointConnection_STATUS) error {
 
 	// Id
 	connection.Id = genruntime.ClonePointerToString(source.Id)
@@ -5538,7 +5538,7 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_Privat
 }
 
 // AssignProperties_To_PrivateEndpointConnection_STATUS populates the provided destination PrivateEndpointConnection_STATUS from our PrivateEndpointConnection_STATUS
-func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateEndpointConnection_STATUS(destination *v20210702s.PrivateEndpointConnection_STATUS) error {
+func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateEndpointConnection_STATUS(destination *storage.PrivateEndpointConnection_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5686,7 +5686,7 @@ func (properties *RoutingProperties) PopulateFromARM(owner genruntime.ArbitraryO
 }
 
 // AssignProperties_From_RoutingProperties populates our RoutingProperties from the provided source RoutingProperties
-func (properties *RoutingProperties) AssignProperties_From_RoutingProperties(source *v20210702s.RoutingProperties) error {
+func (properties *RoutingProperties) AssignProperties_From_RoutingProperties(source *storage.RoutingProperties) error {
 
 	// Endpoints
 	if source.Endpoints != nil {
@@ -5753,13 +5753,13 @@ func (properties *RoutingProperties) AssignProperties_From_RoutingProperties(sou
 }
 
 // AssignProperties_To_RoutingProperties populates the provided destination RoutingProperties from our RoutingProperties
-func (properties *RoutingProperties) AssignProperties_To_RoutingProperties(destination *v20210702s.RoutingProperties) error {
+func (properties *RoutingProperties) AssignProperties_To_RoutingProperties(destination *storage.RoutingProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Endpoints
 	if properties.Endpoints != nil {
-		var endpoint v20210702s.RoutingEndpoints
+		var endpoint storage.RoutingEndpoints
 		err := properties.Endpoints.AssignProperties_To_RoutingEndpoints(&endpoint)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RoutingEndpoints() to populate field Endpoints")
@@ -5771,11 +5771,11 @@ func (properties *RoutingProperties) AssignProperties_To_RoutingProperties(desti
 
 	// Enrichments
 	if properties.Enrichments != nil {
-		enrichmentList := make([]v20210702s.EnrichmentProperties, len(properties.Enrichments))
+		enrichmentList := make([]storage.EnrichmentProperties, len(properties.Enrichments))
 		for enrichmentIndex, enrichmentItem := range properties.Enrichments {
 			// Shadow the loop variable to avoid aliasing
 			enrichmentItem := enrichmentItem
-			var enrichment v20210702s.EnrichmentProperties
+			var enrichment storage.EnrichmentProperties
 			err := enrichmentItem.AssignProperties_To_EnrichmentProperties(&enrichment)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_EnrichmentProperties() to populate field Enrichments")
@@ -5789,7 +5789,7 @@ func (properties *RoutingProperties) AssignProperties_To_RoutingProperties(desti
 
 	// FallbackRoute
 	if properties.FallbackRoute != nil {
-		var fallbackRoute v20210702s.FallbackRouteProperties
+		var fallbackRoute storage.FallbackRouteProperties
 		err := properties.FallbackRoute.AssignProperties_To_FallbackRouteProperties(&fallbackRoute)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_FallbackRouteProperties() to populate field FallbackRoute")
@@ -5801,11 +5801,11 @@ func (properties *RoutingProperties) AssignProperties_To_RoutingProperties(desti
 
 	// Routes
 	if properties.Routes != nil {
-		routeList := make([]v20210702s.RouteProperties, len(properties.Routes))
+		routeList := make([]storage.RouteProperties, len(properties.Routes))
 		for routeIndex, routeItem := range properties.Routes {
 			// Shadow the loop variable to avoid aliasing
 			routeItem := routeItem
-			var route v20210702s.RouteProperties
+			var route storage.RouteProperties
 			err := routeItem.AssignProperties_To_RouteProperties(&route)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_RouteProperties() to populate field Routes")
@@ -5978,7 +5978,7 @@ func (properties *RoutingProperties_STATUS) PopulateFromARM(owner genruntime.Arb
 }
 
 // AssignProperties_From_RoutingProperties_STATUS populates our RoutingProperties_STATUS from the provided source RoutingProperties_STATUS
-func (properties *RoutingProperties_STATUS) AssignProperties_From_RoutingProperties_STATUS(source *v20210702s.RoutingProperties_STATUS) error {
+func (properties *RoutingProperties_STATUS) AssignProperties_From_RoutingProperties_STATUS(source *storage.RoutingProperties_STATUS) error {
 
 	// Endpoints
 	if source.Endpoints != nil {
@@ -6045,13 +6045,13 @@ func (properties *RoutingProperties_STATUS) AssignProperties_From_RoutingPropert
 }
 
 // AssignProperties_To_RoutingProperties_STATUS populates the provided destination RoutingProperties_STATUS from our RoutingProperties_STATUS
-func (properties *RoutingProperties_STATUS) AssignProperties_To_RoutingProperties_STATUS(destination *v20210702s.RoutingProperties_STATUS) error {
+func (properties *RoutingProperties_STATUS) AssignProperties_To_RoutingProperties_STATUS(destination *storage.RoutingProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Endpoints
 	if properties.Endpoints != nil {
-		var endpoint v20210702s.RoutingEndpoints_STATUS
+		var endpoint storage.RoutingEndpoints_STATUS
 		err := properties.Endpoints.AssignProperties_To_RoutingEndpoints_STATUS(&endpoint)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RoutingEndpoints_STATUS() to populate field Endpoints")
@@ -6063,11 +6063,11 @@ func (properties *RoutingProperties_STATUS) AssignProperties_To_RoutingPropertie
 
 	// Enrichments
 	if properties.Enrichments != nil {
-		enrichmentList := make([]v20210702s.EnrichmentProperties_STATUS, len(properties.Enrichments))
+		enrichmentList := make([]storage.EnrichmentProperties_STATUS, len(properties.Enrichments))
 		for enrichmentIndex, enrichmentItem := range properties.Enrichments {
 			// Shadow the loop variable to avoid aliasing
 			enrichmentItem := enrichmentItem
-			var enrichment v20210702s.EnrichmentProperties_STATUS
+			var enrichment storage.EnrichmentProperties_STATUS
 			err := enrichmentItem.AssignProperties_To_EnrichmentProperties_STATUS(&enrichment)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_EnrichmentProperties_STATUS() to populate field Enrichments")
@@ -6081,7 +6081,7 @@ func (properties *RoutingProperties_STATUS) AssignProperties_To_RoutingPropertie
 
 	// FallbackRoute
 	if properties.FallbackRoute != nil {
-		var fallbackRoute v20210702s.FallbackRouteProperties_STATUS
+		var fallbackRoute storage.FallbackRouteProperties_STATUS
 		err := properties.FallbackRoute.AssignProperties_To_FallbackRouteProperties_STATUS(&fallbackRoute)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_FallbackRouteProperties_STATUS() to populate field FallbackRoute")
@@ -6093,11 +6093,11 @@ func (properties *RoutingProperties_STATUS) AssignProperties_To_RoutingPropertie
 
 	// Routes
 	if properties.Routes != nil {
-		routeList := make([]v20210702s.RouteProperties_STATUS, len(properties.Routes))
+		routeList := make([]storage.RouteProperties_STATUS, len(properties.Routes))
 		for routeIndex, routeItem := range properties.Routes {
 			// Shadow the loop variable to avoid aliasing
 			routeItem := routeItem
-			var route v20210702s.RouteProperties_STATUS
+			var route storage.RouteProperties_STATUS
 			err := routeItem.AssignProperties_To_RouteProperties_STATUS(&route)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_RouteProperties_STATUS() to populate field Routes")
@@ -6183,7 +6183,7 @@ func (rule *SharedAccessSignatureAuthorizationRule) PopulateFromARM(owner genrun
 }
 
 // AssignProperties_From_SharedAccessSignatureAuthorizationRule populates our SharedAccessSignatureAuthorizationRule from the provided source SharedAccessSignatureAuthorizationRule
-func (rule *SharedAccessSignatureAuthorizationRule) AssignProperties_From_SharedAccessSignatureAuthorizationRule(source *v20210702s.SharedAccessSignatureAuthorizationRule) error {
+func (rule *SharedAccessSignatureAuthorizationRule) AssignProperties_From_SharedAccessSignatureAuthorizationRule(source *storage.SharedAccessSignatureAuthorizationRule) error {
 
 	// KeyName
 	rule.KeyName = genruntime.ClonePointerToString(source.KeyName)
@@ -6202,7 +6202,7 @@ func (rule *SharedAccessSignatureAuthorizationRule) AssignProperties_From_Shared
 }
 
 // AssignProperties_To_SharedAccessSignatureAuthorizationRule populates the provided destination SharedAccessSignatureAuthorizationRule from our SharedAccessSignatureAuthorizationRule
-func (rule *SharedAccessSignatureAuthorizationRule) AssignProperties_To_SharedAccessSignatureAuthorizationRule(destination *v20210702s.SharedAccessSignatureAuthorizationRule) error {
+func (rule *SharedAccessSignatureAuthorizationRule) AssignProperties_To_SharedAccessSignatureAuthorizationRule(destination *storage.SharedAccessSignatureAuthorizationRule) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6286,7 +6286,7 @@ func (rule *SharedAccessSignatureAuthorizationRule_STATUS) PopulateFromARM(owner
 }
 
 // AssignProperties_From_SharedAccessSignatureAuthorizationRule_STATUS populates our SharedAccessSignatureAuthorizationRule_STATUS from the provided source SharedAccessSignatureAuthorizationRule_STATUS
-func (rule *SharedAccessSignatureAuthorizationRule_STATUS) AssignProperties_From_SharedAccessSignatureAuthorizationRule_STATUS(source *v20210702s.SharedAccessSignatureAuthorizationRule_STATUS) error {
+func (rule *SharedAccessSignatureAuthorizationRule_STATUS) AssignProperties_From_SharedAccessSignatureAuthorizationRule_STATUS(source *storage.SharedAccessSignatureAuthorizationRule_STATUS) error {
 
 	// KeyName
 	rule.KeyName = genruntime.ClonePointerToString(source.KeyName)
@@ -6305,7 +6305,7 @@ func (rule *SharedAccessSignatureAuthorizationRule_STATUS) AssignProperties_From
 }
 
 // AssignProperties_To_SharedAccessSignatureAuthorizationRule_STATUS populates the provided destination SharedAccessSignatureAuthorizationRule_STATUS from our SharedAccessSignatureAuthorizationRule_STATUS
-func (rule *SharedAccessSignatureAuthorizationRule_STATUS) AssignProperties_To_SharedAccessSignatureAuthorizationRule_STATUS(destination *v20210702s.SharedAccessSignatureAuthorizationRule_STATUS) error {
+func (rule *SharedAccessSignatureAuthorizationRule_STATUS) AssignProperties_To_SharedAccessSignatureAuthorizationRule_STATUS(destination *storage.SharedAccessSignatureAuthorizationRule_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6450,7 +6450,7 @@ func (properties *StorageEndpointProperties) PopulateFromARM(owner genruntime.Ar
 }
 
 // AssignProperties_From_StorageEndpointProperties populates our StorageEndpointProperties from the provided source StorageEndpointProperties
-func (properties *StorageEndpointProperties) AssignProperties_From_StorageEndpointProperties(source *v20210702s.StorageEndpointProperties) error {
+func (properties *StorageEndpointProperties) AssignProperties_From_StorageEndpointProperties(source *storage.StorageEndpointProperties) error {
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
@@ -6492,7 +6492,7 @@ func (properties *StorageEndpointProperties) AssignProperties_From_StorageEndpoi
 }
 
 // AssignProperties_To_StorageEndpointProperties populates the provided destination StorageEndpointProperties from our StorageEndpointProperties
-func (properties *StorageEndpointProperties) AssignProperties_To_StorageEndpointProperties(destination *v20210702s.StorageEndpointProperties) error {
+func (properties *StorageEndpointProperties) AssignProperties_To_StorageEndpointProperties(destination *storage.StorageEndpointProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6517,7 +6517,7 @@ func (properties *StorageEndpointProperties) AssignProperties_To_StorageEndpoint
 
 	// Identity
 	if properties.Identity != nil {
-		var identity v20210702s.ManagedIdentity
+		var identity storage.ManagedIdentity
 		err := properties.Identity.AssignProperties_To_ManagedIdentity(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity() to populate field Identity")
@@ -6639,7 +6639,7 @@ func (properties *StorageEndpointProperties_STATUS) PopulateFromARM(owner genrun
 }
 
 // AssignProperties_From_StorageEndpointProperties_STATUS populates our StorageEndpointProperties_STATUS from the provided source StorageEndpointProperties_STATUS
-func (properties *StorageEndpointProperties_STATUS) AssignProperties_From_StorageEndpointProperties_STATUS(source *v20210702s.StorageEndpointProperties_STATUS) error {
+func (properties *StorageEndpointProperties_STATUS) AssignProperties_From_StorageEndpointProperties_STATUS(source *storage.StorageEndpointProperties_STATUS) error {
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
@@ -6673,7 +6673,7 @@ func (properties *StorageEndpointProperties_STATUS) AssignProperties_From_Storag
 }
 
 // AssignProperties_To_StorageEndpointProperties_STATUS populates the provided destination StorageEndpointProperties_STATUS from our StorageEndpointProperties_STATUS
-func (properties *StorageEndpointProperties_STATUS) AssignProperties_To_StorageEndpointProperties_STATUS(destination *v20210702s.StorageEndpointProperties_STATUS) error {
+func (properties *StorageEndpointProperties_STATUS) AssignProperties_To_StorageEndpointProperties_STATUS(destination *storage.StorageEndpointProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6690,7 +6690,7 @@ func (properties *StorageEndpointProperties_STATUS) AssignProperties_To_StorageE
 
 	// Identity
 	if properties.Identity != nil {
-		var identity v20210702s.ManagedIdentity_STATUS
+		var identity storage.ManagedIdentity_STATUS
 		err := properties.Identity.AssignProperties_To_ManagedIdentity_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity_STATUS() to populate field Identity")
@@ -6720,7 +6720,7 @@ type UserAssignedIdentityDetails struct {
 }
 
 // AssignProperties_From_UserAssignedIdentityDetails populates our UserAssignedIdentityDetails from the provided source UserAssignedIdentityDetails
-func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *v20210702s.UserAssignedIdentityDetails) error {
+func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *storage.UserAssignedIdentityDetails) error {
 
 	// Reference
 	details.Reference = source.Reference.Copy()
@@ -6730,7 +6730,7 @@ func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedId
 }
 
 // AssignProperties_To_UserAssignedIdentityDetails populates the provided destination UserAssignedIdentityDetails from our UserAssignedIdentityDetails
-func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *v20210702s.UserAssignedIdentityDetails) error {
+func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *storage.UserAssignedIdentityDetails) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6826,7 +6826,7 @@ func (properties *EnrichmentProperties) PopulateFromARM(owner genruntime.Arbitra
 }
 
 // AssignProperties_From_EnrichmentProperties populates our EnrichmentProperties from the provided source EnrichmentProperties
-func (properties *EnrichmentProperties) AssignProperties_From_EnrichmentProperties(source *v20210702s.EnrichmentProperties) error {
+func (properties *EnrichmentProperties) AssignProperties_From_EnrichmentProperties(source *storage.EnrichmentProperties) error {
 
 	// EndpointNames
 	if source.EndpointNames != nil {
@@ -6852,7 +6852,7 @@ func (properties *EnrichmentProperties) AssignProperties_From_EnrichmentProperti
 }
 
 // AssignProperties_To_EnrichmentProperties populates the provided destination EnrichmentProperties from our EnrichmentProperties
-func (properties *EnrichmentProperties) AssignProperties_To_EnrichmentProperties(destination *v20210702s.EnrichmentProperties) error {
+func (properties *EnrichmentProperties) AssignProperties_To_EnrichmentProperties(destination *storage.EnrichmentProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6960,7 +6960,7 @@ func (properties *EnrichmentProperties_STATUS) PopulateFromARM(owner genruntime.
 }
 
 // AssignProperties_From_EnrichmentProperties_STATUS populates our EnrichmentProperties_STATUS from the provided source EnrichmentProperties_STATUS
-func (properties *EnrichmentProperties_STATUS) AssignProperties_From_EnrichmentProperties_STATUS(source *v20210702s.EnrichmentProperties_STATUS) error {
+func (properties *EnrichmentProperties_STATUS) AssignProperties_From_EnrichmentProperties_STATUS(source *storage.EnrichmentProperties_STATUS) error {
 
 	// EndpointNames
 	properties.EndpointNames = genruntime.CloneSliceOfString(source.EndpointNames)
@@ -6976,7 +6976,7 @@ func (properties *EnrichmentProperties_STATUS) AssignProperties_From_EnrichmentP
 }
 
 // AssignProperties_To_EnrichmentProperties_STATUS populates the provided destination EnrichmentProperties_STATUS from our EnrichmentProperties_STATUS
-func (properties *EnrichmentProperties_STATUS) AssignProperties_To_EnrichmentProperties_STATUS(destination *v20210702s.EnrichmentProperties_STATUS) error {
+func (properties *EnrichmentProperties_STATUS) AssignProperties_To_EnrichmentProperties_STATUS(destination *storage.EnrichmentProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7113,7 +7113,7 @@ func (properties *FallbackRouteProperties) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignProperties_From_FallbackRouteProperties populates our FallbackRouteProperties from the provided source FallbackRouteProperties
-func (properties *FallbackRouteProperties) AssignProperties_From_FallbackRouteProperties(source *v20210702s.FallbackRouteProperties) error {
+func (properties *FallbackRouteProperties) AssignProperties_From_FallbackRouteProperties(source *storage.FallbackRouteProperties) error {
 
 	// Condition
 	properties.Condition = genruntime.ClonePointerToString(source.Condition)
@@ -7156,7 +7156,7 @@ func (properties *FallbackRouteProperties) AssignProperties_From_FallbackRoutePr
 }
 
 // AssignProperties_To_FallbackRouteProperties populates the provided destination FallbackRouteProperties from our FallbackRouteProperties
-func (properties *FallbackRouteProperties) AssignProperties_To_FallbackRouteProperties(destination *v20210702s.FallbackRouteProperties) error {
+func (properties *FallbackRouteProperties) AssignProperties_To_FallbackRouteProperties(destination *storage.FallbackRouteProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7318,7 +7318,7 @@ func (properties *FallbackRouteProperties_STATUS) PopulateFromARM(owner genrunti
 }
 
 // AssignProperties_From_FallbackRouteProperties_STATUS populates our FallbackRouteProperties_STATUS from the provided source FallbackRouteProperties_STATUS
-func (properties *FallbackRouteProperties_STATUS) AssignProperties_From_FallbackRouteProperties_STATUS(source *v20210702s.FallbackRouteProperties_STATUS) error {
+func (properties *FallbackRouteProperties_STATUS) AssignProperties_From_FallbackRouteProperties_STATUS(source *storage.FallbackRouteProperties_STATUS) error {
 
 	// Condition
 	properties.Condition = genruntime.ClonePointerToString(source.Condition)
@@ -7351,7 +7351,7 @@ func (properties *FallbackRouteProperties_STATUS) AssignProperties_From_Fallback
 }
 
 // AssignProperties_To_FallbackRouteProperties_STATUS populates the provided destination FallbackRouteProperties_STATUS from our FallbackRouteProperties_STATUS
-func (properties *FallbackRouteProperties_STATUS) AssignProperties_To_FallbackRouteProperties_STATUS(destination *v20210702s.FallbackRouteProperties_STATUS) error {
+func (properties *FallbackRouteProperties_STATUS) AssignProperties_To_FallbackRouteProperties_STATUS(destination *storage.FallbackRouteProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7472,7 +7472,7 @@ func (properties *FeedbackProperties) PopulateFromARM(owner genruntime.Arbitrary
 }
 
 // AssignProperties_From_FeedbackProperties populates our FeedbackProperties from the provided source FeedbackProperties
-func (properties *FeedbackProperties) AssignProperties_From_FeedbackProperties(source *v20210702s.FeedbackProperties) error {
+func (properties *FeedbackProperties) AssignProperties_From_FeedbackProperties(source *storage.FeedbackProperties) error {
 
 	// LockDurationAsIso8601
 	properties.LockDurationAsIso8601 = genruntime.ClonePointerToString(source.LockDurationAsIso8601)
@@ -7493,7 +7493,7 @@ func (properties *FeedbackProperties) AssignProperties_From_FeedbackProperties(s
 }
 
 // AssignProperties_To_FeedbackProperties populates the provided destination FeedbackProperties from our FeedbackProperties
-func (properties *FeedbackProperties) AssignProperties_To_FeedbackProperties(destination *v20210702s.FeedbackProperties) error {
+func (properties *FeedbackProperties) AssignProperties_To_FeedbackProperties(destination *storage.FeedbackProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7595,7 +7595,7 @@ func (properties *FeedbackProperties_STATUS) PopulateFromARM(owner genruntime.Ar
 }
 
 // AssignProperties_From_FeedbackProperties_STATUS populates our FeedbackProperties_STATUS from the provided source FeedbackProperties_STATUS
-func (properties *FeedbackProperties_STATUS) AssignProperties_From_FeedbackProperties_STATUS(source *v20210702s.FeedbackProperties_STATUS) error {
+func (properties *FeedbackProperties_STATUS) AssignProperties_From_FeedbackProperties_STATUS(source *storage.FeedbackProperties_STATUS) error {
 
 	// LockDurationAsIso8601
 	properties.LockDurationAsIso8601 = genruntime.ClonePointerToString(source.LockDurationAsIso8601)
@@ -7611,7 +7611,7 @@ func (properties *FeedbackProperties_STATUS) AssignProperties_From_FeedbackPrope
 }
 
 // AssignProperties_To_FeedbackProperties_STATUS populates the provided destination FeedbackProperties_STATUS from our FeedbackProperties_STATUS
-func (properties *FeedbackProperties_STATUS) AssignProperties_To_FeedbackProperties_STATUS(destination *v20210702s.FeedbackProperties_STATUS) error {
+func (properties *FeedbackProperties_STATUS) AssignProperties_To_FeedbackProperties_STATUS(destination *storage.FeedbackProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7681,7 +7681,7 @@ func (identity *ManagedIdentity) PopulateFromARM(owner genruntime.ArbitraryOwner
 }
 
 // AssignProperties_From_ManagedIdentity populates our ManagedIdentity from the provided source ManagedIdentity
-func (identity *ManagedIdentity) AssignProperties_From_ManagedIdentity(source *v20210702s.ManagedIdentity) error {
+func (identity *ManagedIdentity) AssignProperties_From_ManagedIdentity(source *storage.ManagedIdentity) error {
 
 	// UserAssignedIdentity
 	identity.UserAssignedIdentity = genruntime.ClonePointerToString(source.UserAssignedIdentity)
@@ -7691,7 +7691,7 @@ func (identity *ManagedIdentity) AssignProperties_From_ManagedIdentity(source *v
 }
 
 // AssignProperties_To_ManagedIdentity populates the provided destination ManagedIdentity from our ManagedIdentity
-func (identity *ManagedIdentity) AssignProperties_To_ManagedIdentity(destination *v20210702s.ManagedIdentity) error {
+func (identity *ManagedIdentity) AssignProperties_To_ManagedIdentity(destination *storage.ManagedIdentity) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7750,7 +7750,7 @@ func (identity *ManagedIdentity_STATUS) PopulateFromARM(owner genruntime.Arbitra
 }
 
 // AssignProperties_From_ManagedIdentity_STATUS populates our ManagedIdentity_STATUS from the provided source ManagedIdentity_STATUS
-func (identity *ManagedIdentity_STATUS) AssignProperties_From_ManagedIdentity_STATUS(source *v20210702s.ManagedIdentity_STATUS) error {
+func (identity *ManagedIdentity_STATUS) AssignProperties_From_ManagedIdentity_STATUS(source *storage.ManagedIdentity_STATUS) error {
 
 	// UserAssignedIdentity
 	identity.UserAssignedIdentity = genruntime.ClonePointerToString(source.UserAssignedIdentity)
@@ -7760,7 +7760,7 @@ func (identity *ManagedIdentity_STATUS) AssignProperties_From_ManagedIdentity_ST
 }
 
 // AssignProperties_To_ManagedIdentity_STATUS populates the provided destination ManagedIdentity_STATUS from our ManagedIdentity_STATUS
-func (identity *ManagedIdentity_STATUS) AssignProperties_To_ManagedIdentity_STATUS(destination *v20210702s.ManagedIdentity_STATUS) error {
+func (identity *ManagedIdentity_STATUS) AssignProperties_To_ManagedIdentity_STATUS(destination *storage.ManagedIdentity_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7856,7 +7856,7 @@ func (rule *NetworkRuleSetIpRule) PopulateFromARM(owner genruntime.ArbitraryOwne
 }
 
 // AssignProperties_From_NetworkRuleSetIpRule populates our NetworkRuleSetIpRule from the provided source NetworkRuleSetIpRule
-func (rule *NetworkRuleSetIpRule) AssignProperties_From_NetworkRuleSetIpRule(source *v20210702s.NetworkRuleSetIpRule) error {
+func (rule *NetworkRuleSetIpRule) AssignProperties_From_NetworkRuleSetIpRule(source *storage.NetworkRuleSetIpRule) error {
 
 	// Action
 	if source.Action != nil {
@@ -7878,7 +7878,7 @@ func (rule *NetworkRuleSetIpRule) AssignProperties_From_NetworkRuleSetIpRule(sou
 }
 
 // AssignProperties_To_NetworkRuleSetIpRule populates the provided destination NetworkRuleSetIpRule from our NetworkRuleSetIpRule
-func (rule *NetworkRuleSetIpRule) AssignProperties_To_NetworkRuleSetIpRule(destination *v20210702s.NetworkRuleSetIpRule) error {
+func (rule *NetworkRuleSetIpRule) AssignProperties_To_NetworkRuleSetIpRule(destination *storage.NetworkRuleSetIpRule) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7977,7 +7977,7 @@ func (rule *NetworkRuleSetIpRule_STATUS) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_NetworkRuleSetIpRule_STATUS populates our NetworkRuleSetIpRule_STATUS from the provided source NetworkRuleSetIpRule_STATUS
-func (rule *NetworkRuleSetIpRule_STATUS) AssignProperties_From_NetworkRuleSetIpRule_STATUS(source *v20210702s.NetworkRuleSetIpRule_STATUS) error {
+func (rule *NetworkRuleSetIpRule_STATUS) AssignProperties_From_NetworkRuleSetIpRule_STATUS(source *storage.NetworkRuleSetIpRule_STATUS) error {
 
 	// Action
 	if source.Action != nil {
@@ -7999,7 +7999,7 @@ func (rule *NetworkRuleSetIpRule_STATUS) AssignProperties_From_NetworkRuleSetIpR
 }
 
 // AssignProperties_To_NetworkRuleSetIpRule_STATUS populates the provided destination NetworkRuleSetIpRule_STATUS from our NetworkRuleSetIpRule_STATUS
-func (rule *NetworkRuleSetIpRule_STATUS) AssignProperties_To_NetworkRuleSetIpRule_STATUS(destination *v20210702s.NetworkRuleSetIpRule_STATUS) error {
+func (rule *NetworkRuleSetIpRule_STATUS) AssignProperties_To_NetworkRuleSetIpRule_STATUS(destination *storage.NetworkRuleSetIpRule_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8142,7 +8142,7 @@ func (properties *RouteProperties) PopulateFromARM(owner genruntime.ArbitraryOwn
 }
 
 // AssignProperties_From_RouteProperties populates our RouteProperties from the provided source RouteProperties
-func (properties *RouteProperties) AssignProperties_From_RouteProperties(source *v20210702s.RouteProperties) error {
+func (properties *RouteProperties) AssignProperties_From_RouteProperties(source *storage.RouteProperties) error {
 
 	// Condition
 	properties.Condition = genruntime.ClonePointerToString(source.Condition)
@@ -8190,7 +8190,7 @@ func (properties *RouteProperties) AssignProperties_From_RouteProperties(source 
 }
 
 // AssignProperties_To_RouteProperties populates the provided destination RouteProperties from our RouteProperties
-func (properties *RouteProperties) AssignProperties_To_RouteProperties(destination *v20210702s.RouteProperties) error {
+func (properties *RouteProperties) AssignProperties_To_RouteProperties(destination *storage.RouteProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8361,7 +8361,7 @@ func (properties *RouteProperties_STATUS) PopulateFromARM(owner genruntime.Arbit
 }
 
 // AssignProperties_From_RouteProperties_STATUS populates our RouteProperties_STATUS from the provided source RouteProperties_STATUS
-func (properties *RouteProperties_STATUS) AssignProperties_From_RouteProperties_STATUS(source *v20210702s.RouteProperties_STATUS) error {
+func (properties *RouteProperties_STATUS) AssignProperties_From_RouteProperties_STATUS(source *storage.RouteProperties_STATUS) error {
 
 	// Condition
 	properties.Condition = genruntime.ClonePointerToString(source.Condition)
@@ -8394,7 +8394,7 @@ func (properties *RouteProperties_STATUS) AssignProperties_From_RouteProperties_
 }
 
 // AssignProperties_To_RouteProperties_STATUS populates the provided destination RouteProperties_STATUS from our RouteProperties_STATUS
-func (properties *RouteProperties_STATUS) AssignProperties_To_RouteProperties_STATUS(destination *v20210702s.RouteProperties_STATUS) error {
+func (properties *RouteProperties_STATUS) AssignProperties_To_RouteProperties_STATUS(destination *storage.RouteProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8558,7 +8558,7 @@ func (endpoints *RoutingEndpoints) PopulateFromARM(owner genruntime.ArbitraryOwn
 }
 
 // AssignProperties_From_RoutingEndpoints populates our RoutingEndpoints from the provided source RoutingEndpoints
-func (endpoints *RoutingEndpoints) AssignProperties_From_RoutingEndpoints(source *v20210702s.RoutingEndpoints) error {
+func (endpoints *RoutingEndpoints) AssignProperties_From_RoutingEndpoints(source *storage.RoutingEndpoints) error {
 
 	// EventHubs
 	if source.EventHubs != nil {
@@ -8637,17 +8637,17 @@ func (endpoints *RoutingEndpoints) AssignProperties_From_RoutingEndpoints(source
 }
 
 // AssignProperties_To_RoutingEndpoints populates the provided destination RoutingEndpoints from our RoutingEndpoints
-func (endpoints *RoutingEndpoints) AssignProperties_To_RoutingEndpoints(destination *v20210702s.RoutingEndpoints) error {
+func (endpoints *RoutingEndpoints) AssignProperties_To_RoutingEndpoints(destination *storage.RoutingEndpoints) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// EventHubs
 	if endpoints.EventHubs != nil {
-		eventHubList := make([]v20210702s.RoutingEventHubProperties, len(endpoints.EventHubs))
+		eventHubList := make([]storage.RoutingEventHubProperties, len(endpoints.EventHubs))
 		for eventHubIndex, eventHubItem := range endpoints.EventHubs {
 			// Shadow the loop variable to avoid aliasing
 			eventHubItem := eventHubItem
-			var eventHub v20210702s.RoutingEventHubProperties
+			var eventHub storage.RoutingEventHubProperties
 			err := eventHubItem.AssignProperties_To_RoutingEventHubProperties(&eventHub)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_RoutingEventHubProperties() to populate field EventHubs")
@@ -8661,11 +8661,11 @@ func (endpoints *RoutingEndpoints) AssignProperties_To_RoutingEndpoints(destinat
 
 	// ServiceBusQueues
 	if endpoints.ServiceBusQueues != nil {
-		serviceBusQueueList := make([]v20210702s.RoutingServiceBusQueueEndpointProperties, len(endpoints.ServiceBusQueues))
+		serviceBusQueueList := make([]storage.RoutingServiceBusQueueEndpointProperties, len(endpoints.ServiceBusQueues))
 		for serviceBusQueueIndex, serviceBusQueueItem := range endpoints.ServiceBusQueues {
 			// Shadow the loop variable to avoid aliasing
 			serviceBusQueueItem := serviceBusQueueItem
-			var serviceBusQueue v20210702s.RoutingServiceBusQueueEndpointProperties
+			var serviceBusQueue storage.RoutingServiceBusQueueEndpointProperties
 			err := serviceBusQueueItem.AssignProperties_To_RoutingServiceBusQueueEndpointProperties(&serviceBusQueue)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_RoutingServiceBusQueueEndpointProperties() to populate field ServiceBusQueues")
@@ -8679,11 +8679,11 @@ func (endpoints *RoutingEndpoints) AssignProperties_To_RoutingEndpoints(destinat
 
 	// ServiceBusTopics
 	if endpoints.ServiceBusTopics != nil {
-		serviceBusTopicList := make([]v20210702s.RoutingServiceBusTopicEndpointProperties, len(endpoints.ServiceBusTopics))
+		serviceBusTopicList := make([]storage.RoutingServiceBusTopicEndpointProperties, len(endpoints.ServiceBusTopics))
 		for serviceBusTopicIndex, serviceBusTopicItem := range endpoints.ServiceBusTopics {
 			// Shadow the loop variable to avoid aliasing
 			serviceBusTopicItem := serviceBusTopicItem
-			var serviceBusTopic v20210702s.RoutingServiceBusTopicEndpointProperties
+			var serviceBusTopic storage.RoutingServiceBusTopicEndpointProperties
 			err := serviceBusTopicItem.AssignProperties_To_RoutingServiceBusTopicEndpointProperties(&serviceBusTopic)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_RoutingServiceBusTopicEndpointProperties() to populate field ServiceBusTopics")
@@ -8697,11 +8697,11 @@ func (endpoints *RoutingEndpoints) AssignProperties_To_RoutingEndpoints(destinat
 
 	// StorageContainers
 	if endpoints.StorageContainers != nil {
-		storageContainerList := make([]v20210702s.RoutingStorageContainerProperties, len(endpoints.StorageContainers))
+		storageContainerList := make([]storage.RoutingStorageContainerProperties, len(endpoints.StorageContainers))
 		for storageContainerIndex, storageContainerItem := range endpoints.StorageContainers {
 			// Shadow the loop variable to avoid aliasing
 			storageContainerItem := storageContainerItem
-			var storageContainer v20210702s.RoutingStorageContainerProperties
+			var storageContainer storage.RoutingStorageContainerProperties
 			err := storageContainerItem.AssignProperties_To_RoutingStorageContainerProperties(&storageContainer)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_RoutingStorageContainerProperties() to populate field StorageContainers")
@@ -8882,7 +8882,7 @@ func (endpoints *RoutingEndpoints_STATUS) PopulateFromARM(owner genruntime.Arbit
 }
 
 // AssignProperties_From_RoutingEndpoints_STATUS populates our RoutingEndpoints_STATUS from the provided source RoutingEndpoints_STATUS
-func (endpoints *RoutingEndpoints_STATUS) AssignProperties_From_RoutingEndpoints_STATUS(source *v20210702s.RoutingEndpoints_STATUS) error {
+func (endpoints *RoutingEndpoints_STATUS) AssignProperties_From_RoutingEndpoints_STATUS(source *storage.RoutingEndpoints_STATUS) error {
 
 	// EventHubs
 	if source.EventHubs != nil {
@@ -8961,17 +8961,17 @@ func (endpoints *RoutingEndpoints_STATUS) AssignProperties_From_RoutingEndpoints
 }
 
 // AssignProperties_To_RoutingEndpoints_STATUS populates the provided destination RoutingEndpoints_STATUS from our RoutingEndpoints_STATUS
-func (endpoints *RoutingEndpoints_STATUS) AssignProperties_To_RoutingEndpoints_STATUS(destination *v20210702s.RoutingEndpoints_STATUS) error {
+func (endpoints *RoutingEndpoints_STATUS) AssignProperties_To_RoutingEndpoints_STATUS(destination *storage.RoutingEndpoints_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// EventHubs
 	if endpoints.EventHubs != nil {
-		eventHubList := make([]v20210702s.RoutingEventHubProperties_STATUS, len(endpoints.EventHubs))
+		eventHubList := make([]storage.RoutingEventHubProperties_STATUS, len(endpoints.EventHubs))
 		for eventHubIndex, eventHubItem := range endpoints.EventHubs {
 			// Shadow the loop variable to avoid aliasing
 			eventHubItem := eventHubItem
-			var eventHub v20210702s.RoutingEventHubProperties_STATUS
+			var eventHub storage.RoutingEventHubProperties_STATUS
 			err := eventHubItem.AssignProperties_To_RoutingEventHubProperties_STATUS(&eventHub)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_RoutingEventHubProperties_STATUS() to populate field EventHubs")
@@ -8985,11 +8985,11 @@ func (endpoints *RoutingEndpoints_STATUS) AssignProperties_To_RoutingEndpoints_S
 
 	// ServiceBusQueues
 	if endpoints.ServiceBusQueues != nil {
-		serviceBusQueueList := make([]v20210702s.RoutingServiceBusQueueEndpointProperties_STATUS, len(endpoints.ServiceBusQueues))
+		serviceBusQueueList := make([]storage.RoutingServiceBusQueueEndpointProperties_STATUS, len(endpoints.ServiceBusQueues))
 		for serviceBusQueueIndex, serviceBusQueueItem := range endpoints.ServiceBusQueues {
 			// Shadow the loop variable to avoid aliasing
 			serviceBusQueueItem := serviceBusQueueItem
-			var serviceBusQueue v20210702s.RoutingServiceBusQueueEndpointProperties_STATUS
+			var serviceBusQueue storage.RoutingServiceBusQueueEndpointProperties_STATUS
 			err := serviceBusQueueItem.AssignProperties_To_RoutingServiceBusQueueEndpointProperties_STATUS(&serviceBusQueue)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_RoutingServiceBusQueueEndpointProperties_STATUS() to populate field ServiceBusQueues")
@@ -9003,11 +9003,11 @@ func (endpoints *RoutingEndpoints_STATUS) AssignProperties_To_RoutingEndpoints_S
 
 	// ServiceBusTopics
 	if endpoints.ServiceBusTopics != nil {
-		serviceBusTopicList := make([]v20210702s.RoutingServiceBusTopicEndpointProperties_STATUS, len(endpoints.ServiceBusTopics))
+		serviceBusTopicList := make([]storage.RoutingServiceBusTopicEndpointProperties_STATUS, len(endpoints.ServiceBusTopics))
 		for serviceBusTopicIndex, serviceBusTopicItem := range endpoints.ServiceBusTopics {
 			// Shadow the loop variable to avoid aliasing
 			serviceBusTopicItem := serviceBusTopicItem
-			var serviceBusTopic v20210702s.RoutingServiceBusTopicEndpointProperties_STATUS
+			var serviceBusTopic storage.RoutingServiceBusTopicEndpointProperties_STATUS
 			err := serviceBusTopicItem.AssignProperties_To_RoutingServiceBusTopicEndpointProperties_STATUS(&serviceBusTopic)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_RoutingServiceBusTopicEndpointProperties_STATUS() to populate field ServiceBusTopics")
@@ -9021,11 +9021,11 @@ func (endpoints *RoutingEndpoints_STATUS) AssignProperties_To_RoutingEndpoints_S
 
 	// StorageContainers
 	if endpoints.StorageContainers != nil {
-		storageContainerList := make([]v20210702s.RoutingStorageContainerProperties_STATUS, len(endpoints.StorageContainers))
+		storageContainerList := make([]storage.RoutingStorageContainerProperties_STATUS, len(endpoints.StorageContainers))
 		for storageContainerIndex, storageContainerItem := range endpoints.StorageContainers {
 			// Shadow the loop variable to avoid aliasing
 			storageContainerItem := storageContainerItem
-			var storageContainer v20210702s.RoutingStorageContainerProperties_STATUS
+			var storageContainer storage.RoutingStorageContainerProperties_STATUS
 			err := storageContainerItem.AssignProperties_To_RoutingStorageContainerProperties_STATUS(&storageContainer)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_RoutingStorageContainerProperties_STATUS() to populate field StorageContainers")
@@ -9227,7 +9227,7 @@ func (properties *RoutingEventHubProperties) PopulateFromARM(owner genruntime.Ar
 }
 
 // AssignProperties_From_RoutingEventHubProperties populates our RoutingEventHubProperties from the provided source RoutingEventHubProperties
-func (properties *RoutingEventHubProperties) AssignProperties_From_RoutingEventHubProperties(source *v20210702s.RoutingEventHubProperties) error {
+func (properties *RoutingEventHubProperties) AssignProperties_From_RoutingEventHubProperties(source *storage.RoutingEventHubProperties) error {
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
@@ -9291,7 +9291,7 @@ func (properties *RoutingEventHubProperties) AssignProperties_From_RoutingEventH
 }
 
 // AssignProperties_To_RoutingEventHubProperties populates the provided destination RoutingEventHubProperties from our RoutingEventHubProperties
-func (properties *RoutingEventHubProperties) AssignProperties_To_RoutingEventHubProperties(destination *v20210702s.RoutingEventHubProperties) error {
+func (properties *RoutingEventHubProperties) AssignProperties_To_RoutingEventHubProperties(destination *storage.RoutingEventHubProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9319,7 +9319,7 @@ func (properties *RoutingEventHubProperties) AssignProperties_To_RoutingEventHub
 
 	// Identity
 	if properties.Identity != nil {
-		var identity v20210702s.ManagedIdentity
+		var identity storage.ManagedIdentity
 		err := properties.Identity.AssignProperties_To_ManagedIdentity(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity() to populate field Identity")
@@ -9518,7 +9518,7 @@ func (properties *RoutingEventHubProperties_STATUS) PopulateFromARM(owner genrun
 }
 
 // AssignProperties_From_RoutingEventHubProperties_STATUS populates our RoutingEventHubProperties_STATUS from the provided source RoutingEventHubProperties_STATUS
-func (properties *RoutingEventHubProperties_STATUS) AssignProperties_From_RoutingEventHubProperties_STATUS(source *v20210702s.RoutingEventHubProperties_STATUS) error {
+func (properties *RoutingEventHubProperties_STATUS) AssignProperties_From_RoutingEventHubProperties_STATUS(source *storage.RoutingEventHubProperties_STATUS) error {
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
@@ -9564,7 +9564,7 @@ func (properties *RoutingEventHubProperties_STATUS) AssignProperties_From_Routin
 }
 
 // AssignProperties_To_RoutingEventHubProperties_STATUS populates the provided destination RoutingEventHubProperties_STATUS from our RoutingEventHubProperties_STATUS
-func (properties *RoutingEventHubProperties_STATUS) AssignProperties_To_RoutingEventHubProperties_STATUS(destination *v20210702s.RoutingEventHubProperties_STATUS) error {
+func (properties *RoutingEventHubProperties_STATUS) AssignProperties_To_RoutingEventHubProperties_STATUS(destination *storage.RoutingEventHubProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9587,7 +9587,7 @@ func (properties *RoutingEventHubProperties_STATUS) AssignProperties_To_RoutingE
 
 	// Identity
 	if properties.Identity != nil {
-		var identity v20210702s.ManagedIdentity_STATUS
+		var identity storage.ManagedIdentity_STATUS
 		err := properties.Identity.AssignProperties_To_ManagedIdentity_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity_STATUS() to populate field Identity")
@@ -9796,7 +9796,7 @@ func (properties *RoutingServiceBusQueueEndpointProperties) PopulateFromARM(owne
 }
 
 // AssignProperties_From_RoutingServiceBusQueueEndpointProperties populates our RoutingServiceBusQueueEndpointProperties from the provided source RoutingServiceBusQueueEndpointProperties
-func (properties *RoutingServiceBusQueueEndpointProperties) AssignProperties_From_RoutingServiceBusQueueEndpointProperties(source *v20210702s.RoutingServiceBusQueueEndpointProperties) error {
+func (properties *RoutingServiceBusQueueEndpointProperties) AssignProperties_From_RoutingServiceBusQueueEndpointProperties(source *storage.RoutingServiceBusQueueEndpointProperties) error {
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
@@ -9860,7 +9860,7 @@ func (properties *RoutingServiceBusQueueEndpointProperties) AssignProperties_Fro
 }
 
 // AssignProperties_To_RoutingServiceBusQueueEndpointProperties populates the provided destination RoutingServiceBusQueueEndpointProperties from our RoutingServiceBusQueueEndpointProperties
-func (properties *RoutingServiceBusQueueEndpointProperties) AssignProperties_To_RoutingServiceBusQueueEndpointProperties(destination *v20210702s.RoutingServiceBusQueueEndpointProperties) error {
+func (properties *RoutingServiceBusQueueEndpointProperties) AssignProperties_To_RoutingServiceBusQueueEndpointProperties(destination *storage.RoutingServiceBusQueueEndpointProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9888,7 +9888,7 @@ func (properties *RoutingServiceBusQueueEndpointProperties) AssignProperties_To_
 
 	// Identity
 	if properties.Identity != nil {
-		var identity v20210702s.ManagedIdentity
+		var identity storage.ManagedIdentity
 		err := properties.Identity.AssignProperties_To_ManagedIdentity(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity() to populate field Identity")
@@ -10087,7 +10087,7 @@ func (properties *RoutingServiceBusQueueEndpointProperties_STATUS) PopulateFromA
 }
 
 // AssignProperties_From_RoutingServiceBusQueueEndpointProperties_STATUS populates our RoutingServiceBusQueueEndpointProperties_STATUS from the provided source RoutingServiceBusQueueEndpointProperties_STATUS
-func (properties *RoutingServiceBusQueueEndpointProperties_STATUS) AssignProperties_From_RoutingServiceBusQueueEndpointProperties_STATUS(source *v20210702s.RoutingServiceBusQueueEndpointProperties_STATUS) error {
+func (properties *RoutingServiceBusQueueEndpointProperties_STATUS) AssignProperties_From_RoutingServiceBusQueueEndpointProperties_STATUS(source *storage.RoutingServiceBusQueueEndpointProperties_STATUS) error {
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
@@ -10133,7 +10133,7 @@ func (properties *RoutingServiceBusQueueEndpointProperties_STATUS) AssignPropert
 }
 
 // AssignProperties_To_RoutingServiceBusQueueEndpointProperties_STATUS populates the provided destination RoutingServiceBusQueueEndpointProperties_STATUS from our RoutingServiceBusQueueEndpointProperties_STATUS
-func (properties *RoutingServiceBusQueueEndpointProperties_STATUS) AssignProperties_To_RoutingServiceBusQueueEndpointProperties_STATUS(destination *v20210702s.RoutingServiceBusQueueEndpointProperties_STATUS) error {
+func (properties *RoutingServiceBusQueueEndpointProperties_STATUS) AssignProperties_To_RoutingServiceBusQueueEndpointProperties_STATUS(destination *storage.RoutingServiceBusQueueEndpointProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10156,7 +10156,7 @@ func (properties *RoutingServiceBusQueueEndpointProperties_STATUS) AssignPropert
 
 	// Identity
 	if properties.Identity != nil {
-		var identity v20210702s.ManagedIdentity_STATUS
+		var identity storage.ManagedIdentity_STATUS
 		err := properties.Identity.AssignProperties_To_ManagedIdentity_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity_STATUS() to populate field Identity")
@@ -10365,7 +10365,7 @@ func (properties *RoutingServiceBusTopicEndpointProperties) PopulateFromARM(owne
 }
 
 // AssignProperties_From_RoutingServiceBusTopicEndpointProperties populates our RoutingServiceBusTopicEndpointProperties from the provided source RoutingServiceBusTopicEndpointProperties
-func (properties *RoutingServiceBusTopicEndpointProperties) AssignProperties_From_RoutingServiceBusTopicEndpointProperties(source *v20210702s.RoutingServiceBusTopicEndpointProperties) error {
+func (properties *RoutingServiceBusTopicEndpointProperties) AssignProperties_From_RoutingServiceBusTopicEndpointProperties(source *storage.RoutingServiceBusTopicEndpointProperties) error {
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
@@ -10429,7 +10429,7 @@ func (properties *RoutingServiceBusTopicEndpointProperties) AssignProperties_Fro
 }
 
 // AssignProperties_To_RoutingServiceBusTopicEndpointProperties populates the provided destination RoutingServiceBusTopicEndpointProperties from our RoutingServiceBusTopicEndpointProperties
-func (properties *RoutingServiceBusTopicEndpointProperties) AssignProperties_To_RoutingServiceBusTopicEndpointProperties(destination *v20210702s.RoutingServiceBusTopicEndpointProperties) error {
+func (properties *RoutingServiceBusTopicEndpointProperties) AssignProperties_To_RoutingServiceBusTopicEndpointProperties(destination *storage.RoutingServiceBusTopicEndpointProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10457,7 +10457,7 @@ func (properties *RoutingServiceBusTopicEndpointProperties) AssignProperties_To_
 
 	// Identity
 	if properties.Identity != nil {
-		var identity v20210702s.ManagedIdentity
+		var identity storage.ManagedIdentity
 		err := properties.Identity.AssignProperties_To_ManagedIdentity(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity() to populate field Identity")
@@ -10656,7 +10656,7 @@ func (properties *RoutingServiceBusTopicEndpointProperties_STATUS) PopulateFromA
 }
 
 // AssignProperties_From_RoutingServiceBusTopicEndpointProperties_STATUS populates our RoutingServiceBusTopicEndpointProperties_STATUS from the provided source RoutingServiceBusTopicEndpointProperties_STATUS
-func (properties *RoutingServiceBusTopicEndpointProperties_STATUS) AssignProperties_From_RoutingServiceBusTopicEndpointProperties_STATUS(source *v20210702s.RoutingServiceBusTopicEndpointProperties_STATUS) error {
+func (properties *RoutingServiceBusTopicEndpointProperties_STATUS) AssignProperties_From_RoutingServiceBusTopicEndpointProperties_STATUS(source *storage.RoutingServiceBusTopicEndpointProperties_STATUS) error {
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
@@ -10702,7 +10702,7 @@ func (properties *RoutingServiceBusTopicEndpointProperties_STATUS) AssignPropert
 }
 
 // AssignProperties_To_RoutingServiceBusTopicEndpointProperties_STATUS populates the provided destination RoutingServiceBusTopicEndpointProperties_STATUS from our RoutingServiceBusTopicEndpointProperties_STATUS
-func (properties *RoutingServiceBusTopicEndpointProperties_STATUS) AssignProperties_To_RoutingServiceBusTopicEndpointProperties_STATUS(destination *v20210702s.RoutingServiceBusTopicEndpointProperties_STATUS) error {
+func (properties *RoutingServiceBusTopicEndpointProperties_STATUS) AssignProperties_To_RoutingServiceBusTopicEndpointProperties_STATUS(destination *storage.RoutingServiceBusTopicEndpointProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10725,7 +10725,7 @@ func (properties *RoutingServiceBusTopicEndpointProperties_STATUS) AssignPropert
 
 	// Identity
 	if properties.Identity != nil {
-		var identity v20210702s.ManagedIdentity_STATUS
+		var identity storage.ManagedIdentity_STATUS
 		err := properties.Identity.AssignProperties_To_ManagedIdentity_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity_STATUS() to populate field Identity")
@@ -11003,7 +11003,7 @@ func (properties *RoutingStorageContainerProperties) PopulateFromARM(owner genru
 }
 
 // AssignProperties_From_RoutingStorageContainerProperties populates our RoutingStorageContainerProperties from the provided source RoutingStorageContainerProperties
-func (properties *RoutingStorageContainerProperties) AssignProperties_From_RoutingStorageContainerProperties(source *v20210702s.RoutingStorageContainerProperties) error {
+func (properties *RoutingStorageContainerProperties) AssignProperties_From_RoutingStorageContainerProperties(source *storage.RoutingStorageContainerProperties) error {
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
@@ -11095,7 +11095,7 @@ func (properties *RoutingStorageContainerProperties) AssignProperties_From_Routi
 }
 
 // AssignProperties_To_RoutingStorageContainerProperties populates the provided destination RoutingStorageContainerProperties from our RoutingStorageContainerProperties
-func (properties *RoutingStorageContainerProperties) AssignProperties_To_RoutingStorageContainerProperties(destination *v20210702s.RoutingStorageContainerProperties) error {
+func (properties *RoutingStorageContainerProperties) AssignProperties_To_RoutingStorageContainerProperties(destination *storage.RoutingStorageContainerProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -11142,7 +11142,7 @@ func (properties *RoutingStorageContainerProperties) AssignProperties_To_Routing
 
 	// Identity
 	if properties.Identity != nil {
-		var identity v20210702s.ManagedIdentity
+		var identity storage.ManagedIdentity
 		err := properties.Identity.AssignProperties_To_ManagedIdentity(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity() to populate field Identity")
@@ -11416,7 +11416,7 @@ func (properties *RoutingStorageContainerProperties_STATUS) PopulateFromARM(owne
 }
 
 // AssignProperties_From_RoutingStorageContainerProperties_STATUS populates our RoutingStorageContainerProperties_STATUS from the provided source RoutingStorageContainerProperties_STATUS
-func (properties *RoutingStorageContainerProperties_STATUS) AssignProperties_From_RoutingStorageContainerProperties_STATUS(source *v20210702s.RoutingStorageContainerProperties_STATUS) error {
+func (properties *RoutingStorageContainerProperties_STATUS) AssignProperties_From_RoutingStorageContainerProperties_STATUS(source *storage.RoutingStorageContainerProperties_STATUS) error {
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
@@ -11480,7 +11480,7 @@ func (properties *RoutingStorageContainerProperties_STATUS) AssignProperties_Fro
 }
 
 // AssignProperties_To_RoutingStorageContainerProperties_STATUS populates the provided destination RoutingStorageContainerProperties_STATUS from our RoutingStorageContainerProperties_STATUS
-func (properties *RoutingStorageContainerProperties_STATUS) AssignProperties_To_RoutingStorageContainerProperties_STATUS(destination *v20210702s.RoutingStorageContainerProperties_STATUS) error {
+func (properties *RoutingStorageContainerProperties_STATUS) AssignProperties_To_RoutingStorageContainerProperties_STATUS(destination *storage.RoutingStorageContainerProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -11517,7 +11517,7 @@ func (properties *RoutingStorageContainerProperties_STATUS) AssignProperties_To_
 
 	// Identity
 	if properties.Identity != nil {
-		var identity v20210702s.ManagedIdentity_STATUS
+		var identity storage.ManagedIdentity_STATUS
 		err := properties.Identity.AssignProperties_To_ManagedIdentity_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity_STATUS() to populate field Identity")

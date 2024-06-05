@@ -5,7 +5,7 @@ package storage
 
 import (
 	"fmt"
-	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
@@ -47,7 +47,7 @@ var _ conversion.Convertible = &Subscription{}
 
 // ConvertFrom populates our Subscription from the provided hub Subscription
 func (subscription *Subscription) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20220801s.Subscription)
+	source, ok := hub.(*storage.Subscription)
 	if !ok {
 		return fmt.Errorf("expected apimanagement/v1api20220801/storage/Subscription but received %T instead", hub)
 	}
@@ -57,7 +57,7 @@ func (subscription *Subscription) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub Subscription from our Subscription
 func (subscription *Subscription) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20220801s.Subscription)
+	destination, ok := hub.(*storage.Subscription)
 	if !ok {
 		return fmt.Errorf("expected apimanagement/v1api20220801/storage/Subscription but received %T instead", hub)
 	}
@@ -138,7 +138,7 @@ func (subscription *Subscription) SetStatus(status genruntime.ConvertibleStatus)
 }
 
 // AssignProperties_From_Subscription populates our Subscription from the provided source Subscription
-func (subscription *Subscription) AssignProperties_From_Subscription(source *v20220801s.Subscription) error {
+func (subscription *Subscription) AssignProperties_From_Subscription(source *storage.Subscription) error {
 
 	// ObjectMeta
 	subscription.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -173,13 +173,13 @@ func (subscription *Subscription) AssignProperties_From_Subscription(source *v20
 }
 
 // AssignProperties_To_Subscription populates the provided destination Subscription from our Subscription
-func (subscription *Subscription) AssignProperties_To_Subscription(destination *v20220801s.Subscription) error {
+func (subscription *Subscription) AssignProperties_To_Subscription(destination *storage.Subscription) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *subscription.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20220801s.Service_Subscription_Spec
+	var spec storage.Service_Subscription_Spec
 	err := subscription.Spec.AssignProperties_To_Service_Subscription_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Service_Subscription_Spec() to populate field Spec")
@@ -187,7 +187,7 @@ func (subscription *Subscription) AssignProperties_To_Subscription(destination *
 	destination.Spec = spec
 
 	// Status
-	var status v20220801s.Service_Subscription_STATUS
+	var status storage.Service_Subscription_STATUS
 	err = subscription.Status.AssignProperties_To_Service_Subscription_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Service_Subscription_STATUS() to populate field Status")
@@ -228,8 +228,8 @@ type SubscriptionList struct {
 }
 
 type augmentConversionForSubscription interface {
-	AssignPropertiesFrom(src *v20220801s.Subscription) error
-	AssignPropertiesTo(dst *v20220801s.Subscription) error
+	AssignPropertiesFrom(src *storage.Subscription) error
+	AssignPropertiesTo(dst *storage.Subscription) error
 }
 
 // Storage version of v1api20230501preview.Service_Subscription_Spec
@@ -262,14 +262,14 @@ var _ genruntime.ConvertibleSpec = &Service_Subscription_Spec{}
 
 // ConvertSpecFrom populates our Service_Subscription_Spec from the provided source
 func (subscription *Service_Subscription_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20220801s.Service_Subscription_Spec)
+	src, ok := source.(*storage.Service_Subscription_Spec)
 	if ok {
 		// Populate our instance from source
 		return subscription.AssignProperties_From_Service_Subscription_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220801s.Service_Subscription_Spec{}
+	src = &storage.Service_Subscription_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -286,14 +286,14 @@ func (subscription *Service_Subscription_Spec) ConvertSpecFrom(source genruntime
 
 // ConvertSpecTo populates the provided destination from our Service_Subscription_Spec
 func (subscription *Service_Subscription_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20220801s.Service_Subscription_Spec)
+	dst, ok := destination.(*storage.Service_Subscription_Spec)
 	if ok {
 		// Populate destination from our instance
 		return subscription.AssignProperties_To_Service_Subscription_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220801s.Service_Subscription_Spec{}
+	dst = &storage.Service_Subscription_Spec{}
 	err := subscription.AssignProperties_To_Service_Subscription_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -309,7 +309,7 @@ func (subscription *Service_Subscription_Spec) ConvertSpecTo(destination genrunt
 }
 
 // AssignProperties_From_Service_Subscription_Spec populates our Service_Subscription_Spec from the provided source Service_Subscription_Spec
-func (subscription *Service_Subscription_Spec) AssignProperties_From_Service_Subscription_Spec(source *v20220801s.Service_Subscription_Spec) error {
+func (subscription *Service_Subscription_Spec) AssignProperties_From_Service_Subscription_Spec(source *storage.Service_Subscription_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -401,7 +401,7 @@ func (subscription *Service_Subscription_Spec) AssignProperties_From_Service_Sub
 }
 
 // AssignProperties_To_Service_Subscription_Spec populates the provided destination Service_Subscription_Spec from our Service_Subscription_Spec
-func (subscription *Service_Subscription_Spec) AssignProperties_To_Service_Subscription_Spec(destination *v20220801s.Service_Subscription_Spec) error {
+func (subscription *Service_Subscription_Spec) AssignProperties_To_Service_Subscription_Spec(destination *storage.Service_Subscription_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(subscription.PropertyBag)
 
@@ -421,7 +421,7 @@ func (subscription *Service_Subscription_Spec) AssignProperties_To_Service_Subsc
 
 	// OperatorSpec
 	if subscription.OperatorSpec != nil {
-		var operatorSpec v20220801s.SubscriptionOperatorSpec
+		var operatorSpec storage.SubscriptionOperatorSpec
 		err := subscription.OperatorSpec.AssignProperties_To_SubscriptionOperatorSpec(&operatorSpec)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubscriptionOperatorSpec() to populate field OperatorSpec")
@@ -516,14 +516,14 @@ var _ genruntime.ConvertibleStatus = &Service_Subscription_STATUS{}
 
 // ConvertStatusFrom populates our Service_Subscription_STATUS from the provided source
 func (subscription *Service_Subscription_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20220801s.Service_Subscription_STATUS)
+	src, ok := source.(*storage.Service_Subscription_STATUS)
 	if ok {
 		// Populate our instance from source
 		return subscription.AssignProperties_From_Service_Subscription_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220801s.Service_Subscription_STATUS{}
+	src = &storage.Service_Subscription_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -540,14 +540,14 @@ func (subscription *Service_Subscription_STATUS) ConvertStatusFrom(source genrun
 
 // ConvertStatusTo populates the provided destination from our Service_Subscription_STATUS
 func (subscription *Service_Subscription_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20220801s.Service_Subscription_STATUS)
+	dst, ok := destination.(*storage.Service_Subscription_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return subscription.AssignProperties_To_Service_Subscription_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220801s.Service_Subscription_STATUS{}
+	dst = &storage.Service_Subscription_STATUS{}
 	err := subscription.AssignProperties_To_Service_Subscription_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -563,7 +563,7 @@ func (subscription *Service_Subscription_STATUS) ConvertStatusTo(destination gen
 }
 
 // AssignProperties_From_Service_Subscription_STATUS populates our Service_Subscription_STATUS from the provided source Service_Subscription_STATUS
-func (subscription *Service_Subscription_STATUS) AssignProperties_From_Service_Subscription_STATUS(source *v20220801s.Service_Subscription_STATUS) error {
+func (subscription *Service_Subscription_STATUS) AssignProperties_From_Service_Subscription_STATUS(source *storage.Service_Subscription_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -638,7 +638,7 @@ func (subscription *Service_Subscription_STATUS) AssignProperties_From_Service_S
 }
 
 // AssignProperties_To_Service_Subscription_STATUS populates the provided destination Service_Subscription_STATUS from our Service_Subscription_STATUS
-func (subscription *Service_Subscription_STATUS) AssignProperties_To_Service_Subscription_STATUS(destination *v20220801s.Service_Subscription_STATUS) error {
+func (subscription *Service_Subscription_STATUS) AssignProperties_To_Service_Subscription_STATUS(destination *storage.Service_Subscription_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(subscription.PropertyBag)
 
@@ -713,13 +713,13 @@ func (subscription *Service_Subscription_STATUS) AssignProperties_To_Service_Sub
 }
 
 type augmentConversionForService_Subscription_Spec interface {
-	AssignPropertiesFrom(src *v20220801s.Service_Subscription_Spec) error
-	AssignPropertiesTo(dst *v20220801s.Service_Subscription_Spec) error
+	AssignPropertiesFrom(src *storage.Service_Subscription_Spec) error
+	AssignPropertiesTo(dst *storage.Service_Subscription_Spec) error
 }
 
 type augmentConversionForService_Subscription_STATUS interface {
-	AssignPropertiesFrom(src *v20220801s.Service_Subscription_STATUS) error
-	AssignPropertiesTo(dst *v20220801s.Service_Subscription_STATUS) error
+	AssignPropertiesFrom(src *storage.Service_Subscription_STATUS) error
+	AssignPropertiesTo(dst *storage.Service_Subscription_STATUS) error
 }
 
 // Storage version of v1api20230501preview.SubscriptionOperatorSpec
@@ -730,7 +730,7 @@ type SubscriptionOperatorSpec struct {
 }
 
 // AssignProperties_From_SubscriptionOperatorSpec populates our SubscriptionOperatorSpec from the provided source SubscriptionOperatorSpec
-func (operator *SubscriptionOperatorSpec) AssignProperties_From_SubscriptionOperatorSpec(source *v20220801s.SubscriptionOperatorSpec) error {
+func (operator *SubscriptionOperatorSpec) AssignProperties_From_SubscriptionOperatorSpec(source *storage.SubscriptionOperatorSpec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -767,13 +767,13 @@ func (operator *SubscriptionOperatorSpec) AssignProperties_From_SubscriptionOper
 }
 
 // AssignProperties_To_SubscriptionOperatorSpec populates the provided destination SubscriptionOperatorSpec from our SubscriptionOperatorSpec
-func (operator *SubscriptionOperatorSpec) AssignProperties_To_SubscriptionOperatorSpec(destination *v20220801s.SubscriptionOperatorSpec) error {
+func (operator *SubscriptionOperatorSpec) AssignProperties_To_SubscriptionOperatorSpec(destination *storage.SubscriptionOperatorSpec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
 
 	// Secrets
 	if operator.Secrets != nil {
-		var secret v20220801s.SubscriptionOperatorSecrets
+		var secret storage.SubscriptionOperatorSecrets
 		err := operator.Secrets.AssignProperties_To_SubscriptionOperatorSecrets(&secret)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubscriptionOperatorSecrets() to populate field Secrets")
@@ -804,8 +804,8 @@ func (operator *SubscriptionOperatorSpec) AssignProperties_To_SubscriptionOperat
 }
 
 type augmentConversionForSubscriptionOperatorSpec interface {
-	AssignPropertiesFrom(src *v20220801s.SubscriptionOperatorSpec) error
-	AssignPropertiesTo(dst *v20220801s.SubscriptionOperatorSpec) error
+	AssignPropertiesFrom(src *storage.SubscriptionOperatorSpec) error
+	AssignPropertiesTo(dst *storage.SubscriptionOperatorSpec) error
 }
 
 // Storage version of v1api20230501preview.SubscriptionOperatorSecrets
@@ -816,7 +816,7 @@ type SubscriptionOperatorSecrets struct {
 }
 
 // AssignProperties_From_SubscriptionOperatorSecrets populates our SubscriptionOperatorSecrets from the provided source SubscriptionOperatorSecrets
-func (secrets *SubscriptionOperatorSecrets) AssignProperties_From_SubscriptionOperatorSecrets(source *v20220801s.SubscriptionOperatorSecrets) error {
+func (secrets *SubscriptionOperatorSecrets) AssignProperties_From_SubscriptionOperatorSecrets(source *storage.SubscriptionOperatorSecrets) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -857,7 +857,7 @@ func (secrets *SubscriptionOperatorSecrets) AssignProperties_From_SubscriptionOp
 }
 
 // AssignProperties_To_SubscriptionOperatorSecrets populates the provided destination SubscriptionOperatorSecrets from our SubscriptionOperatorSecrets
-func (secrets *SubscriptionOperatorSecrets) AssignProperties_To_SubscriptionOperatorSecrets(destination *v20220801s.SubscriptionOperatorSecrets) error {
+func (secrets *SubscriptionOperatorSecrets) AssignProperties_To_SubscriptionOperatorSecrets(destination *storage.SubscriptionOperatorSecrets) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(secrets.PropertyBag)
 
@@ -898,8 +898,8 @@ func (secrets *SubscriptionOperatorSecrets) AssignProperties_To_SubscriptionOper
 }
 
 type augmentConversionForSubscriptionOperatorSecrets interface {
-	AssignPropertiesFrom(src *v20220801s.SubscriptionOperatorSecrets) error
-	AssignPropertiesTo(dst *v20220801s.SubscriptionOperatorSecrets) error
+	AssignPropertiesFrom(src *storage.SubscriptionOperatorSecrets) error
+	AssignPropertiesTo(dst *storage.SubscriptionOperatorSecrets) error
 }
 
 func init() {

@@ -5,7 +5,7 @@ package v1api20210601
 
 import (
 	"fmt"
-	v20210601s "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &WorkspacesBigDataPool{}
 
 // ConvertFrom populates our WorkspacesBigDataPool from the provided hub WorkspacesBigDataPool
 func (pool *WorkspacesBigDataPool) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210601s.WorkspacesBigDataPool)
+	source, ok := hub.(*storage.WorkspacesBigDataPool)
 	if !ok {
 		return fmt.Errorf("expected synapse/v1api20210601/storage/WorkspacesBigDataPool but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (pool *WorkspacesBigDataPool) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub WorkspacesBigDataPool from our WorkspacesBigDataPool
 func (pool *WorkspacesBigDataPool) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210601s.WorkspacesBigDataPool)
+	destination, ok := hub.(*storage.WorkspacesBigDataPool)
 	if !ok {
 		return fmt.Errorf("expected synapse/v1api20210601/storage/WorkspacesBigDataPool but received %T instead", hub)
 	}
@@ -254,7 +254,7 @@ func (pool *WorkspacesBigDataPool) validateWriteOnceProperties(old runtime.Objec
 }
 
 // AssignProperties_From_WorkspacesBigDataPool populates our WorkspacesBigDataPool from the provided source WorkspacesBigDataPool
-func (pool *WorkspacesBigDataPool) AssignProperties_From_WorkspacesBigDataPool(source *v20210601s.WorkspacesBigDataPool) error {
+func (pool *WorkspacesBigDataPool) AssignProperties_From_WorkspacesBigDataPool(source *storage.WorkspacesBigDataPool) error {
 
 	// ObjectMeta
 	pool.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -280,13 +280,13 @@ func (pool *WorkspacesBigDataPool) AssignProperties_From_WorkspacesBigDataPool(s
 }
 
 // AssignProperties_To_WorkspacesBigDataPool populates the provided destination WorkspacesBigDataPool from our WorkspacesBigDataPool
-func (pool *WorkspacesBigDataPool) AssignProperties_To_WorkspacesBigDataPool(destination *v20210601s.WorkspacesBigDataPool) error {
+func (pool *WorkspacesBigDataPool) AssignProperties_To_WorkspacesBigDataPool(destination *storage.WorkspacesBigDataPool) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *pool.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210601s.Workspaces_BigDataPool_Spec
+	var spec storage.Workspaces_BigDataPool_Spec
 	err := pool.Spec.AssignProperties_To_Workspaces_BigDataPool_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Workspaces_BigDataPool_Spec() to populate field Spec")
@@ -294,7 +294,7 @@ func (pool *WorkspacesBigDataPool) AssignProperties_To_WorkspacesBigDataPool(des
 	destination.Spec = spec
 
 	// Status
-	var status v20210601s.Workspaces_BigDataPool_STATUS
+	var status storage.Workspaces_BigDataPool_STATUS
 	err = pool.Status.AssignProperties_To_Workspaces_BigDataPool_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Workspaces_BigDataPool_STATUS() to populate field Status")
@@ -759,14 +759,14 @@ var _ genruntime.ConvertibleSpec = &Workspaces_BigDataPool_Spec{}
 
 // ConvertSpecFrom populates our Workspaces_BigDataPool_Spec from the provided source
 func (pool *Workspaces_BigDataPool_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210601s.Workspaces_BigDataPool_Spec)
+	src, ok := source.(*storage.Workspaces_BigDataPool_Spec)
 	if ok {
 		// Populate our instance from source
 		return pool.AssignProperties_From_Workspaces_BigDataPool_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210601s.Workspaces_BigDataPool_Spec{}
+	src = &storage.Workspaces_BigDataPool_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -783,14 +783,14 @@ func (pool *Workspaces_BigDataPool_Spec) ConvertSpecFrom(source genruntime.Conve
 
 // ConvertSpecTo populates the provided destination from our Workspaces_BigDataPool_Spec
 func (pool *Workspaces_BigDataPool_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210601s.Workspaces_BigDataPool_Spec)
+	dst, ok := destination.(*storage.Workspaces_BigDataPool_Spec)
 	if ok {
 		// Populate destination from our instance
 		return pool.AssignProperties_To_Workspaces_BigDataPool_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210601s.Workspaces_BigDataPool_Spec{}
+	dst = &storage.Workspaces_BigDataPool_Spec{}
 	err := pool.AssignProperties_To_Workspaces_BigDataPool_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -806,7 +806,7 @@ func (pool *Workspaces_BigDataPool_Spec) ConvertSpecTo(destination genruntime.Co
 }
 
 // AssignProperties_From_Workspaces_BigDataPool_Spec populates our Workspaces_BigDataPool_Spec from the provided source Workspaces_BigDataPool_Spec
-func (pool *Workspaces_BigDataPool_Spec) AssignProperties_From_Workspaces_BigDataPool_Spec(source *v20210601s.Workspaces_BigDataPool_Spec) error {
+func (pool *Workspaces_BigDataPool_Spec) AssignProperties_From_Workspaces_BigDataPool_Spec(source *storage.Workspaces_BigDataPool_Spec) error {
 
 	// AutoPause
 	if source.AutoPause != nil {
@@ -968,13 +968,13 @@ func (pool *Workspaces_BigDataPool_Spec) AssignProperties_From_Workspaces_BigDat
 }
 
 // AssignProperties_To_Workspaces_BigDataPool_Spec populates the provided destination Workspaces_BigDataPool_Spec from our Workspaces_BigDataPool_Spec
-func (pool *Workspaces_BigDataPool_Spec) AssignProperties_To_Workspaces_BigDataPool_Spec(destination *v20210601s.Workspaces_BigDataPool_Spec) error {
+func (pool *Workspaces_BigDataPool_Spec) AssignProperties_To_Workspaces_BigDataPool_Spec(destination *storage.Workspaces_BigDataPool_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AutoPause
 	if pool.AutoPause != nil {
-		var autoPause v20210601s.AutoPauseProperties
+		var autoPause storage.AutoPauseProperties
 		err := pool.AutoPause.AssignProperties_To_AutoPauseProperties(&autoPause)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AutoPauseProperties() to populate field AutoPause")
@@ -986,7 +986,7 @@ func (pool *Workspaces_BigDataPool_Spec) AssignProperties_To_Workspaces_BigDataP
 
 	// AutoScale
 	if pool.AutoScale != nil {
-		var autoScale v20210601s.AutoScaleProperties
+		var autoScale storage.AutoScaleProperties
 		err := pool.AutoScale.AssignProperties_To_AutoScaleProperties(&autoScale)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AutoScaleProperties() to populate field AutoScale")
@@ -1004,11 +1004,11 @@ func (pool *Workspaces_BigDataPool_Spec) AssignProperties_To_Workspaces_BigDataP
 
 	// CustomLibraries
 	if pool.CustomLibraries != nil {
-		customLibraryList := make([]v20210601s.LibraryInfo, len(pool.CustomLibraries))
+		customLibraryList := make([]storage.LibraryInfo, len(pool.CustomLibraries))
 		for customLibraryIndex, customLibraryItem := range pool.CustomLibraries {
 			// Shadow the loop variable to avoid aliasing
 			customLibraryItem := customLibraryItem
-			var customLibrary v20210601s.LibraryInfo
+			var customLibrary storage.LibraryInfo
 			err := customLibraryItem.AssignProperties_To_LibraryInfo(&customLibrary)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_LibraryInfo() to populate field CustomLibraries")
@@ -1025,7 +1025,7 @@ func (pool *Workspaces_BigDataPool_Spec) AssignProperties_To_Workspaces_BigDataP
 
 	// DynamicExecutorAllocation
 	if pool.DynamicExecutorAllocation != nil {
-		var dynamicExecutorAllocation v20210601s.DynamicExecutorAllocation
+		var dynamicExecutorAllocation storage.DynamicExecutorAllocation
 		err := pool.DynamicExecutorAllocation.AssignProperties_To_DynamicExecutorAllocation(&dynamicExecutorAllocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DynamicExecutorAllocation() to populate field DynamicExecutorAllocation")
@@ -1053,7 +1053,7 @@ func (pool *Workspaces_BigDataPool_Spec) AssignProperties_To_Workspaces_BigDataP
 
 	// LibraryRequirements
 	if pool.LibraryRequirements != nil {
-		var libraryRequirement v20210601s.LibraryRequirements
+		var libraryRequirement storage.LibraryRequirements
 		err := pool.LibraryRequirements.AssignProperties_To_LibraryRequirements(&libraryRequirement)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_LibraryRequirements() to populate field LibraryRequirements")
@@ -1109,7 +1109,7 @@ func (pool *Workspaces_BigDataPool_Spec) AssignProperties_To_Workspaces_BigDataP
 
 	// SparkConfigProperties
 	if pool.SparkConfigProperties != nil {
-		var sparkConfigProperty v20210601s.SparkConfigProperties
+		var sparkConfigProperty storage.SparkConfigProperties
 		err := pool.SparkConfigProperties.AssignProperties_To_SparkConfigProperties(&sparkConfigProperty)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SparkConfigProperties() to populate field SparkConfigProperties")
@@ -1378,14 +1378,14 @@ var _ genruntime.ConvertibleStatus = &Workspaces_BigDataPool_STATUS{}
 
 // ConvertStatusFrom populates our Workspaces_BigDataPool_STATUS from the provided source
 func (pool *Workspaces_BigDataPool_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210601s.Workspaces_BigDataPool_STATUS)
+	src, ok := source.(*storage.Workspaces_BigDataPool_STATUS)
 	if ok {
 		// Populate our instance from source
 		return pool.AssignProperties_From_Workspaces_BigDataPool_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210601s.Workspaces_BigDataPool_STATUS{}
+	src = &storage.Workspaces_BigDataPool_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -1402,14 +1402,14 @@ func (pool *Workspaces_BigDataPool_STATUS) ConvertStatusFrom(source genruntime.C
 
 // ConvertStatusTo populates the provided destination from our Workspaces_BigDataPool_STATUS
 func (pool *Workspaces_BigDataPool_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210601s.Workspaces_BigDataPool_STATUS)
+	dst, ok := destination.(*storage.Workspaces_BigDataPool_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return pool.AssignProperties_To_Workspaces_BigDataPool_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210601s.Workspaces_BigDataPool_STATUS{}
+	dst = &storage.Workspaces_BigDataPool_STATUS{}
 	err := pool.AssignProperties_To_Workspaces_BigDataPool_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1677,7 +1677,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignProperties_From_Workspaces_BigDataPool_STATUS populates our Workspaces_BigDataPool_STATUS from the provided source Workspaces_BigDataPool_STATUS
-func (pool *Workspaces_BigDataPool_STATUS) AssignProperties_From_Workspaces_BigDataPool_STATUS(source *v20210601s.Workspaces_BigDataPool_STATUS) error {
+func (pool *Workspaces_BigDataPool_STATUS) AssignProperties_From_Workspaces_BigDataPool_STATUS(source *storage.Workspaces_BigDataPool_STATUS) error {
 
 	// AutoPause
 	if source.AutoPause != nil {
@@ -1846,13 +1846,13 @@ func (pool *Workspaces_BigDataPool_STATUS) AssignProperties_From_Workspaces_BigD
 }
 
 // AssignProperties_To_Workspaces_BigDataPool_STATUS populates the provided destination Workspaces_BigDataPool_STATUS from our Workspaces_BigDataPool_STATUS
-func (pool *Workspaces_BigDataPool_STATUS) AssignProperties_To_Workspaces_BigDataPool_STATUS(destination *v20210601s.Workspaces_BigDataPool_STATUS) error {
+func (pool *Workspaces_BigDataPool_STATUS) AssignProperties_To_Workspaces_BigDataPool_STATUS(destination *storage.Workspaces_BigDataPool_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AutoPause
 	if pool.AutoPause != nil {
-		var autoPause v20210601s.AutoPauseProperties_STATUS
+		var autoPause storage.AutoPauseProperties_STATUS
 		err := pool.AutoPause.AssignProperties_To_AutoPauseProperties_STATUS(&autoPause)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AutoPauseProperties_STATUS() to populate field AutoPause")
@@ -1864,7 +1864,7 @@ func (pool *Workspaces_BigDataPool_STATUS) AssignProperties_To_Workspaces_BigDat
 
 	// AutoScale
 	if pool.AutoScale != nil {
-		var autoScale v20210601s.AutoScaleProperties_STATUS
+		var autoScale storage.AutoScaleProperties_STATUS
 		err := pool.AutoScale.AssignProperties_To_AutoScaleProperties_STATUS(&autoScale)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AutoScaleProperties_STATUS() to populate field AutoScale")
@@ -1885,11 +1885,11 @@ func (pool *Workspaces_BigDataPool_STATUS) AssignProperties_To_Workspaces_BigDat
 
 	// CustomLibraries
 	if pool.CustomLibraries != nil {
-		customLibraryList := make([]v20210601s.LibraryInfo_STATUS, len(pool.CustomLibraries))
+		customLibraryList := make([]storage.LibraryInfo_STATUS, len(pool.CustomLibraries))
 		for customLibraryIndex, customLibraryItem := range pool.CustomLibraries {
 			// Shadow the loop variable to avoid aliasing
 			customLibraryItem := customLibraryItem
-			var customLibrary v20210601s.LibraryInfo_STATUS
+			var customLibrary storage.LibraryInfo_STATUS
 			err := customLibraryItem.AssignProperties_To_LibraryInfo_STATUS(&customLibrary)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_LibraryInfo_STATUS() to populate field CustomLibraries")
@@ -1906,7 +1906,7 @@ func (pool *Workspaces_BigDataPool_STATUS) AssignProperties_To_Workspaces_BigDat
 
 	// DynamicExecutorAllocation
 	if pool.DynamicExecutorAllocation != nil {
-		var dynamicExecutorAllocation v20210601s.DynamicExecutorAllocation_STATUS
+		var dynamicExecutorAllocation storage.DynamicExecutorAllocation_STATUS
 		err := pool.DynamicExecutorAllocation.AssignProperties_To_DynamicExecutorAllocation_STATUS(&dynamicExecutorAllocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DynamicExecutorAllocation_STATUS() to populate field DynamicExecutorAllocation")
@@ -1940,7 +1940,7 @@ func (pool *Workspaces_BigDataPool_STATUS) AssignProperties_To_Workspaces_BigDat
 
 	// LibraryRequirements
 	if pool.LibraryRequirements != nil {
-		var libraryRequirement v20210601s.LibraryRequirements_STATUS
+		var libraryRequirement storage.LibraryRequirements_STATUS
 		err := pool.LibraryRequirements.AssignProperties_To_LibraryRequirements_STATUS(&libraryRequirement)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_LibraryRequirements_STATUS() to populate field LibraryRequirements")
@@ -1988,7 +1988,7 @@ func (pool *Workspaces_BigDataPool_STATUS) AssignProperties_To_Workspaces_BigDat
 
 	// SparkConfigProperties
 	if pool.SparkConfigProperties != nil {
-		var sparkConfigProperty v20210601s.SparkConfigProperties_STATUS
+		var sparkConfigProperty storage.SparkConfigProperties_STATUS
 		err := pool.SparkConfigProperties.AssignProperties_To_SparkConfigProperties_STATUS(&sparkConfigProperty)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SparkConfigProperties_STATUS() to populate field SparkConfigProperties")
@@ -2082,7 +2082,7 @@ func (properties *AutoPauseProperties) PopulateFromARM(owner genruntime.Arbitrar
 }
 
 // AssignProperties_From_AutoPauseProperties populates our AutoPauseProperties from the provided source AutoPauseProperties
-func (properties *AutoPauseProperties) AssignProperties_From_AutoPauseProperties(source *v20210601s.AutoPauseProperties) error {
+func (properties *AutoPauseProperties) AssignProperties_From_AutoPauseProperties(source *storage.AutoPauseProperties) error {
 
 	// DelayInMinutes
 	properties.DelayInMinutes = genruntime.ClonePointerToInt(source.DelayInMinutes)
@@ -2100,7 +2100,7 @@ func (properties *AutoPauseProperties) AssignProperties_From_AutoPauseProperties
 }
 
 // AssignProperties_To_AutoPauseProperties populates the provided destination AutoPauseProperties from our AutoPauseProperties
-func (properties *AutoPauseProperties) AssignProperties_To_AutoPauseProperties(destination *v20210601s.AutoPauseProperties) error {
+func (properties *AutoPauseProperties) AssignProperties_To_AutoPauseProperties(destination *storage.AutoPauseProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2184,7 +2184,7 @@ func (properties *AutoPauseProperties_STATUS) PopulateFromARM(owner genruntime.A
 }
 
 // AssignProperties_From_AutoPauseProperties_STATUS populates our AutoPauseProperties_STATUS from the provided source AutoPauseProperties_STATUS
-func (properties *AutoPauseProperties_STATUS) AssignProperties_From_AutoPauseProperties_STATUS(source *v20210601s.AutoPauseProperties_STATUS) error {
+func (properties *AutoPauseProperties_STATUS) AssignProperties_From_AutoPauseProperties_STATUS(source *storage.AutoPauseProperties_STATUS) error {
 
 	// DelayInMinutes
 	properties.DelayInMinutes = genruntime.ClonePointerToInt(source.DelayInMinutes)
@@ -2202,7 +2202,7 @@ func (properties *AutoPauseProperties_STATUS) AssignProperties_From_AutoPausePro
 }
 
 // AssignProperties_To_AutoPauseProperties_STATUS populates the provided destination AutoPauseProperties_STATUS from our AutoPauseProperties_STATUS
-func (properties *AutoPauseProperties_STATUS) AssignProperties_To_AutoPauseProperties_STATUS(destination *v20210601s.AutoPauseProperties_STATUS) error {
+func (properties *AutoPauseProperties_STATUS) AssignProperties_To_AutoPauseProperties_STATUS(destination *storage.AutoPauseProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2304,7 +2304,7 @@ func (properties *AutoScaleProperties) PopulateFromARM(owner genruntime.Arbitrar
 }
 
 // AssignProperties_From_AutoScaleProperties populates our AutoScaleProperties from the provided source AutoScaleProperties
-func (properties *AutoScaleProperties) AssignProperties_From_AutoScaleProperties(source *v20210601s.AutoScaleProperties) error {
+func (properties *AutoScaleProperties) AssignProperties_From_AutoScaleProperties(source *storage.AutoScaleProperties) error {
 
 	// Enabled
 	if source.Enabled != nil {
@@ -2325,7 +2325,7 @@ func (properties *AutoScaleProperties) AssignProperties_From_AutoScaleProperties
 }
 
 // AssignProperties_To_AutoScaleProperties populates the provided destination AutoScaleProperties from our AutoScaleProperties
-func (properties *AutoScaleProperties) AssignProperties_To_AutoScaleProperties(destination *v20210601s.AutoScaleProperties) error {
+func (properties *AutoScaleProperties) AssignProperties_To_AutoScaleProperties(destination *storage.AutoScaleProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2424,7 +2424,7 @@ func (properties *AutoScaleProperties_STATUS) PopulateFromARM(owner genruntime.A
 }
 
 // AssignProperties_From_AutoScaleProperties_STATUS populates our AutoScaleProperties_STATUS from the provided source AutoScaleProperties_STATUS
-func (properties *AutoScaleProperties_STATUS) AssignProperties_From_AutoScaleProperties_STATUS(source *v20210601s.AutoScaleProperties_STATUS) error {
+func (properties *AutoScaleProperties_STATUS) AssignProperties_From_AutoScaleProperties_STATUS(source *storage.AutoScaleProperties_STATUS) error {
 
 	// Enabled
 	if source.Enabled != nil {
@@ -2445,7 +2445,7 @@ func (properties *AutoScaleProperties_STATUS) AssignProperties_From_AutoScalePro
 }
 
 // AssignProperties_To_AutoScaleProperties_STATUS populates the provided destination AutoScaleProperties_STATUS from our AutoScaleProperties_STATUS
-func (properties *AutoScaleProperties_STATUS) AssignProperties_To_AutoScaleProperties_STATUS(destination *v20210601s.AutoScaleProperties_STATUS) error {
+func (properties *AutoScaleProperties_STATUS) AssignProperties_To_AutoScaleProperties_STATUS(destination *storage.AutoScaleProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2632,7 +2632,7 @@ func (allocation *DynamicExecutorAllocation) PopulateFromARM(owner genruntime.Ar
 }
 
 // AssignProperties_From_DynamicExecutorAllocation populates our DynamicExecutorAllocation from the provided source DynamicExecutorAllocation
-func (allocation *DynamicExecutorAllocation) AssignProperties_From_DynamicExecutorAllocation(source *v20210601s.DynamicExecutorAllocation) error {
+func (allocation *DynamicExecutorAllocation) AssignProperties_From_DynamicExecutorAllocation(source *storage.DynamicExecutorAllocation) error {
 
 	// Enabled
 	if source.Enabled != nil {
@@ -2653,7 +2653,7 @@ func (allocation *DynamicExecutorAllocation) AssignProperties_From_DynamicExecut
 }
 
 // AssignProperties_To_DynamicExecutorAllocation populates the provided destination DynamicExecutorAllocation from our DynamicExecutorAllocation
-func (allocation *DynamicExecutorAllocation) AssignProperties_To_DynamicExecutorAllocation(destination *v20210601s.DynamicExecutorAllocation) error {
+func (allocation *DynamicExecutorAllocation) AssignProperties_To_DynamicExecutorAllocation(destination *storage.DynamicExecutorAllocation) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2752,7 +2752,7 @@ func (allocation *DynamicExecutorAllocation_STATUS) PopulateFromARM(owner genrun
 }
 
 // AssignProperties_From_DynamicExecutorAllocation_STATUS populates our DynamicExecutorAllocation_STATUS from the provided source DynamicExecutorAllocation_STATUS
-func (allocation *DynamicExecutorAllocation_STATUS) AssignProperties_From_DynamicExecutorAllocation_STATUS(source *v20210601s.DynamicExecutorAllocation_STATUS) error {
+func (allocation *DynamicExecutorAllocation_STATUS) AssignProperties_From_DynamicExecutorAllocation_STATUS(source *storage.DynamicExecutorAllocation_STATUS) error {
 
 	// Enabled
 	if source.Enabled != nil {
@@ -2773,7 +2773,7 @@ func (allocation *DynamicExecutorAllocation_STATUS) AssignProperties_From_Dynami
 }
 
 // AssignProperties_To_DynamicExecutorAllocation_STATUS populates the provided destination DynamicExecutorAllocation_STATUS from our DynamicExecutorAllocation_STATUS
-func (allocation *DynamicExecutorAllocation_STATUS) AssignProperties_To_DynamicExecutorAllocation_STATUS(destination *v20210601s.DynamicExecutorAllocation_STATUS) error {
+func (allocation *DynamicExecutorAllocation_STATUS) AssignProperties_To_DynamicExecutorAllocation_STATUS(destination *storage.DynamicExecutorAllocation_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2893,7 +2893,7 @@ func (info *LibraryInfo) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 }
 
 // AssignProperties_From_LibraryInfo populates our LibraryInfo from the provided source LibraryInfo
-func (info *LibraryInfo) AssignProperties_From_LibraryInfo(source *v20210601s.LibraryInfo) error {
+func (info *LibraryInfo) AssignProperties_From_LibraryInfo(source *storage.LibraryInfo) error {
 
 	// ContainerName
 	info.ContainerName = genruntime.ClonePointerToString(source.ContainerName)
@@ -2912,7 +2912,7 @@ func (info *LibraryInfo) AssignProperties_From_LibraryInfo(source *v20210601s.Li
 }
 
 // AssignProperties_To_LibraryInfo populates the provided destination LibraryInfo from our LibraryInfo
-func (info *LibraryInfo) AssignProperties_To_LibraryInfo(destination *v20210601s.LibraryInfo) error {
+func (info *LibraryInfo) AssignProperties_To_LibraryInfo(destination *storage.LibraryInfo) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3043,7 +3043,7 @@ func (info *LibraryInfo_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 }
 
 // AssignProperties_From_LibraryInfo_STATUS populates our LibraryInfo_STATUS from the provided source LibraryInfo_STATUS
-func (info *LibraryInfo_STATUS) AssignProperties_From_LibraryInfo_STATUS(source *v20210601s.LibraryInfo_STATUS) error {
+func (info *LibraryInfo_STATUS) AssignProperties_From_LibraryInfo_STATUS(source *storage.LibraryInfo_STATUS) error {
 
 	// ContainerName
 	info.ContainerName = genruntime.ClonePointerToString(source.ContainerName)
@@ -3071,7 +3071,7 @@ func (info *LibraryInfo_STATUS) AssignProperties_From_LibraryInfo_STATUS(source 
 }
 
 // AssignProperties_To_LibraryInfo_STATUS populates the provided destination LibraryInfo_STATUS from our LibraryInfo_STATUS
-func (info *LibraryInfo_STATUS) AssignProperties_To_LibraryInfo_STATUS(destination *v20210601s.LibraryInfo_STATUS) error {
+func (info *LibraryInfo_STATUS) AssignProperties_To_LibraryInfo_STATUS(destination *storage.LibraryInfo_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3168,7 +3168,7 @@ func (requirements *LibraryRequirements) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_LibraryRequirements populates our LibraryRequirements from the provided source LibraryRequirements
-func (requirements *LibraryRequirements) AssignProperties_From_LibraryRequirements(source *v20210601s.LibraryRequirements) error {
+func (requirements *LibraryRequirements) AssignProperties_From_LibraryRequirements(source *storage.LibraryRequirements) error {
 
 	// Content
 	requirements.Content = genruntime.ClonePointerToString(source.Content)
@@ -3181,7 +3181,7 @@ func (requirements *LibraryRequirements) AssignProperties_From_LibraryRequiremen
 }
 
 // AssignProperties_To_LibraryRequirements populates the provided destination LibraryRequirements from our LibraryRequirements
-func (requirements *LibraryRequirements) AssignProperties_To_LibraryRequirements(destination *v20210601s.LibraryRequirements) error {
+func (requirements *LibraryRequirements) AssignProperties_To_LibraryRequirements(destination *storage.LibraryRequirements) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3264,7 +3264,7 @@ func (requirements *LibraryRequirements_STATUS) PopulateFromARM(owner genruntime
 }
 
 // AssignProperties_From_LibraryRequirements_STATUS populates our LibraryRequirements_STATUS from the provided source LibraryRequirements_STATUS
-func (requirements *LibraryRequirements_STATUS) AssignProperties_From_LibraryRequirements_STATUS(source *v20210601s.LibraryRequirements_STATUS) error {
+func (requirements *LibraryRequirements_STATUS) AssignProperties_From_LibraryRequirements_STATUS(source *storage.LibraryRequirements_STATUS) error {
 
 	// Content
 	requirements.Content = genruntime.ClonePointerToString(source.Content)
@@ -3280,7 +3280,7 @@ func (requirements *LibraryRequirements_STATUS) AssignProperties_From_LibraryReq
 }
 
 // AssignProperties_To_LibraryRequirements_STATUS populates the provided destination LibraryRequirements_STATUS from our LibraryRequirements_STATUS
-func (requirements *LibraryRequirements_STATUS) AssignProperties_To_LibraryRequirements_STATUS(destination *v20210601s.LibraryRequirements_STATUS) error {
+func (requirements *LibraryRequirements_STATUS) AssignProperties_To_LibraryRequirements_STATUS(destination *storage.LibraryRequirements_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3380,7 +3380,7 @@ func (properties *SparkConfigProperties) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_SparkConfigProperties populates our SparkConfigProperties from the provided source SparkConfigProperties
-func (properties *SparkConfigProperties) AssignProperties_From_SparkConfigProperties(source *v20210601s.SparkConfigProperties) error {
+func (properties *SparkConfigProperties) AssignProperties_From_SparkConfigProperties(source *storage.SparkConfigProperties) error {
 
 	// ConfigurationType
 	if source.ConfigurationType != nil {
@@ -3402,7 +3402,7 @@ func (properties *SparkConfigProperties) AssignProperties_From_SparkConfigProper
 }
 
 // AssignProperties_To_SparkConfigProperties populates the provided destination SparkConfigProperties from our SparkConfigProperties
-func (properties *SparkConfigProperties) AssignProperties_To_SparkConfigProperties(destination *v20210601s.SparkConfigProperties) error {
+func (properties *SparkConfigProperties) AssignProperties_To_SparkConfigProperties(destination *storage.SparkConfigProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3510,7 +3510,7 @@ func (properties *SparkConfigProperties_STATUS) PopulateFromARM(owner genruntime
 }
 
 // AssignProperties_From_SparkConfigProperties_STATUS populates our SparkConfigProperties_STATUS from the provided source SparkConfigProperties_STATUS
-func (properties *SparkConfigProperties_STATUS) AssignProperties_From_SparkConfigProperties_STATUS(source *v20210601s.SparkConfigProperties_STATUS) error {
+func (properties *SparkConfigProperties_STATUS) AssignProperties_From_SparkConfigProperties_STATUS(source *storage.SparkConfigProperties_STATUS) error {
 
 	// ConfigurationType
 	if source.ConfigurationType != nil {
@@ -3535,7 +3535,7 @@ func (properties *SparkConfigProperties_STATUS) AssignProperties_From_SparkConfi
 }
 
 // AssignProperties_To_SparkConfigProperties_STATUS populates the provided destination SparkConfigProperties_STATUS from our SparkConfigProperties_STATUS
-func (properties *SparkConfigProperties_STATUS) AssignProperties_To_SparkConfigProperties_STATUS(destination *v20210601s.SparkConfigProperties_STATUS) error {
+func (properties *SparkConfigProperties_STATUS) AssignProperties_To_SparkConfigProperties_STATUS(destination *storage.SparkConfigProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

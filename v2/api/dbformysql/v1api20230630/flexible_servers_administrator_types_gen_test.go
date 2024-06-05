@@ -5,7 +5,7 @@ package v1api20230630
 
 import (
 	"encoding/json"
-	v20230630s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForFlexibleServersAdministrator(subject FlexibleSe
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20230630s.FlexibleServersAdministrator
+	var hub storage.FlexibleServersAdministrator
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForFlexibleServersAdministrator(subject FlexibleSe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230630s.FlexibleServersAdministrator
+	var other storage.FlexibleServersAdministrator
 	err := copied.AssignProperties_To_FlexibleServersAdministrator(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForFlexibleServers_Administrator_Spec(subject Flex
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230630s.FlexibleServers_Administrator_Spec
+	var other storage.FlexibleServers_Administrator_Spec
 	err := copied.AssignProperties_To_FlexibleServers_Administrator_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -288,7 +288,7 @@ func RunPropertyAssignmentTestForFlexibleServers_Administrator_STATUS(subject Fl
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230630s.FlexibleServers_Administrator_STATUS
+	var other storage.FlexibleServers_Administrator_STATUS
 	err := copied.AssignProperties_To_FlexibleServers_Administrator_STATUS(&other)
 	if err != nil {
 		return err.Error()

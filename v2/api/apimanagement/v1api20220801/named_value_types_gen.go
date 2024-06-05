@@ -5,7 +5,7 @@ package v1api20220801
 
 import (
 	"fmt"
-	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &NamedValue{}
 
 // ConvertFrom populates our NamedValue from the provided hub NamedValue
 func (value *NamedValue) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20220801s.NamedValue)
+	source, ok := hub.(*storage.NamedValue)
 	if !ok {
 		return fmt.Errorf("expected apimanagement/v1api20220801/storage/NamedValue but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (value *NamedValue) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub NamedValue from our NamedValue
 func (value *NamedValue) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20220801s.NamedValue)
+	destination, ok := hub.(*storage.NamedValue)
 	if !ok {
 		return fmt.Errorf("expected apimanagement/v1api20220801/storage/NamedValue but received %T instead", hub)
 	}
@@ -267,7 +267,7 @@ func (value *NamedValue) validateWriteOnceProperties(old runtime.Object) (admiss
 }
 
 // AssignProperties_From_NamedValue populates our NamedValue from the provided source NamedValue
-func (value *NamedValue) AssignProperties_From_NamedValue(source *v20220801s.NamedValue) error {
+func (value *NamedValue) AssignProperties_From_NamedValue(source *storage.NamedValue) error {
 
 	// ObjectMeta
 	value.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -293,13 +293,13 @@ func (value *NamedValue) AssignProperties_From_NamedValue(source *v20220801s.Nam
 }
 
 // AssignProperties_To_NamedValue populates the provided destination NamedValue from our NamedValue
-func (value *NamedValue) AssignProperties_To_NamedValue(destination *v20220801s.NamedValue) error {
+func (value *NamedValue) AssignProperties_To_NamedValue(destination *storage.NamedValue) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *value.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20220801s.Service_NamedValue_Spec
+	var spec storage.Service_NamedValue_Spec
 	err := value.Spec.AssignProperties_To_Service_NamedValue_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Service_NamedValue_Spec() to populate field Spec")
@@ -307,7 +307,7 @@ func (value *NamedValue) AssignProperties_To_NamedValue(destination *v20220801s.
 	destination.Spec = spec
 
 	// Status
-	var status v20220801s.Service_NamedValue_STATUS
+	var status storage.Service_NamedValue_STATUS
 	err = value.Status.AssignProperties_To_Service_NamedValue_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Service_NamedValue_STATUS() to populate field Status")
@@ -497,14 +497,14 @@ var _ genruntime.ConvertibleSpec = &Service_NamedValue_Spec{}
 
 // ConvertSpecFrom populates our Service_NamedValue_Spec from the provided source
 func (value *Service_NamedValue_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20220801s.Service_NamedValue_Spec)
+	src, ok := source.(*storage.Service_NamedValue_Spec)
 	if ok {
 		// Populate our instance from source
 		return value.AssignProperties_From_Service_NamedValue_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220801s.Service_NamedValue_Spec{}
+	src = &storage.Service_NamedValue_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -521,14 +521,14 @@ func (value *Service_NamedValue_Spec) ConvertSpecFrom(source genruntime.Converti
 
 // ConvertSpecTo populates the provided destination from our Service_NamedValue_Spec
 func (value *Service_NamedValue_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20220801s.Service_NamedValue_Spec)
+	dst, ok := destination.(*storage.Service_NamedValue_Spec)
 	if ok {
 		// Populate destination from our instance
 		return value.AssignProperties_To_Service_NamedValue_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220801s.Service_NamedValue_Spec{}
+	dst = &storage.Service_NamedValue_Spec{}
 	err := value.AssignProperties_To_Service_NamedValue_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -544,7 +544,7 @@ func (value *Service_NamedValue_Spec) ConvertSpecTo(destination genruntime.Conve
 }
 
 // AssignProperties_From_Service_NamedValue_Spec populates our Service_NamedValue_Spec from the provided source Service_NamedValue_Spec
-func (value *Service_NamedValue_Spec) AssignProperties_From_Service_NamedValue_Spec(source *v20220801s.Service_NamedValue_Spec) error {
+func (value *Service_NamedValue_Spec) AssignProperties_From_Service_NamedValue_Spec(source *storage.Service_NamedValue_Spec) error {
 
 	// AzureName
 	value.AzureName = source.AzureName
@@ -611,7 +611,7 @@ func (value *Service_NamedValue_Spec) AssignProperties_From_Service_NamedValue_S
 }
 
 // AssignProperties_To_Service_NamedValue_Spec populates the provided destination Service_NamedValue_Spec from our Service_NamedValue_Spec
-func (value *Service_NamedValue_Spec) AssignProperties_To_Service_NamedValue_Spec(destination *v20220801s.Service_NamedValue_Spec) error {
+func (value *Service_NamedValue_Spec) AssignProperties_To_Service_NamedValue_Spec(destination *storage.Service_NamedValue_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -628,7 +628,7 @@ func (value *Service_NamedValue_Spec) AssignProperties_To_Service_NamedValue_Spe
 
 	// KeyVault
 	if value.KeyVault != nil {
-		var keyVault v20220801s.KeyVaultContractCreateProperties
+		var keyVault storage.KeyVaultContractCreateProperties
 		err := value.KeyVault.AssignProperties_To_KeyVaultContractCreateProperties(&keyVault)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultContractCreateProperties() to populate field KeyVault")
@@ -788,14 +788,14 @@ var _ genruntime.ConvertibleStatus = &Service_NamedValue_STATUS{}
 
 // ConvertStatusFrom populates our Service_NamedValue_STATUS from the provided source
 func (value *Service_NamedValue_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20220801s.Service_NamedValue_STATUS)
+	src, ok := source.(*storage.Service_NamedValue_STATUS)
 	if ok {
 		// Populate our instance from source
 		return value.AssignProperties_From_Service_NamedValue_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220801s.Service_NamedValue_STATUS{}
+	src = &storage.Service_NamedValue_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -812,14 +812,14 @@ func (value *Service_NamedValue_STATUS) ConvertStatusFrom(source genruntime.Conv
 
 // ConvertStatusTo populates the provided destination from our Service_NamedValue_STATUS
 func (value *Service_NamedValue_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20220801s.Service_NamedValue_STATUS)
+	dst, ok := destination.(*storage.Service_NamedValue_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return value.AssignProperties_To_Service_NamedValue_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220801s.Service_NamedValue_STATUS{}
+	dst = &storage.Service_NamedValue_STATUS{}
 	err := value.AssignProperties_To_Service_NamedValue_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -922,7 +922,7 @@ func (value *Service_NamedValue_STATUS) PopulateFromARM(owner genruntime.Arbitra
 }
 
 // AssignProperties_From_Service_NamedValue_STATUS populates our Service_NamedValue_STATUS from the provided source Service_NamedValue_STATUS
-func (value *Service_NamedValue_STATUS) AssignProperties_From_Service_NamedValue_STATUS(source *v20220801s.Service_NamedValue_STATUS) error {
+func (value *Service_NamedValue_STATUS) AssignProperties_From_Service_NamedValue_STATUS(source *storage.Service_NamedValue_STATUS) error {
 
 	// Conditions
 	value.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -970,7 +970,7 @@ func (value *Service_NamedValue_STATUS) AssignProperties_From_Service_NamedValue
 }
 
 // AssignProperties_To_Service_NamedValue_STATUS populates the provided destination Service_NamedValue_STATUS from our Service_NamedValue_STATUS
-func (value *Service_NamedValue_STATUS) AssignProperties_To_Service_NamedValue_STATUS(destination *v20220801s.Service_NamedValue_STATUS) error {
+func (value *Service_NamedValue_STATUS) AssignProperties_To_Service_NamedValue_STATUS(destination *storage.Service_NamedValue_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -985,7 +985,7 @@ func (value *Service_NamedValue_STATUS) AssignProperties_To_Service_NamedValue_S
 
 	// KeyVault
 	if value.KeyVault != nil {
-		var keyVault v20220801s.KeyVaultContractProperties_STATUS
+		var keyVault storage.KeyVaultContractProperties_STATUS
 		err := value.KeyVault.AssignProperties_To_KeyVaultContractProperties_STATUS(&keyVault)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultContractProperties_STATUS() to populate field KeyVault")
@@ -1103,7 +1103,7 @@ func (properties *KeyVaultContractCreateProperties) PopulateFromARM(owner genrun
 }
 
 // AssignProperties_From_KeyVaultContractCreateProperties populates our KeyVaultContractCreateProperties from the provided source KeyVaultContractCreateProperties
-func (properties *KeyVaultContractCreateProperties) AssignProperties_From_KeyVaultContractCreateProperties(source *v20220801s.KeyVaultContractCreateProperties) error {
+func (properties *KeyVaultContractCreateProperties) AssignProperties_From_KeyVaultContractCreateProperties(source *storage.KeyVaultContractCreateProperties) error {
 
 	// IdentityClientId
 	properties.IdentityClientId = genruntime.ClonePointerToString(source.IdentityClientId)
@@ -1124,7 +1124,7 @@ func (properties *KeyVaultContractCreateProperties) AssignProperties_From_KeyVau
 }
 
 // AssignProperties_To_KeyVaultContractCreateProperties populates the provided destination KeyVaultContractCreateProperties from our KeyVaultContractCreateProperties
-func (properties *KeyVaultContractCreateProperties) AssignProperties_To_KeyVaultContractCreateProperties(destination *v20220801s.KeyVaultContractCreateProperties) error {
+func (properties *KeyVaultContractCreateProperties) AssignProperties_To_KeyVaultContractCreateProperties(destination *storage.KeyVaultContractCreateProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1222,7 +1222,7 @@ func (properties *KeyVaultContractProperties_STATUS) PopulateFromARM(owner genru
 }
 
 // AssignProperties_From_KeyVaultContractProperties_STATUS populates our KeyVaultContractProperties_STATUS from the provided source KeyVaultContractProperties_STATUS
-func (properties *KeyVaultContractProperties_STATUS) AssignProperties_From_KeyVaultContractProperties_STATUS(source *v20220801s.KeyVaultContractProperties_STATUS) error {
+func (properties *KeyVaultContractProperties_STATUS) AssignProperties_From_KeyVaultContractProperties_STATUS(source *storage.KeyVaultContractProperties_STATUS) error {
 
 	// IdentityClientId
 	properties.IdentityClientId = genruntime.ClonePointerToString(source.IdentityClientId)
@@ -1247,7 +1247,7 @@ func (properties *KeyVaultContractProperties_STATUS) AssignProperties_From_KeyVa
 }
 
 // AssignProperties_To_KeyVaultContractProperties_STATUS populates the provided destination KeyVaultContractProperties_STATUS from our KeyVaultContractProperties_STATUS
-func (properties *KeyVaultContractProperties_STATUS) AssignProperties_To_KeyVaultContractProperties_STATUS(destination *v20220801s.KeyVaultContractProperties_STATUS) error {
+func (properties *KeyVaultContractProperties_STATUS) AssignProperties_To_KeyVaultContractProperties_STATUS(destination *storage.KeyVaultContractProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1256,7 +1256,7 @@ func (properties *KeyVaultContractProperties_STATUS) AssignProperties_To_KeyVaul
 
 	// LastStatus
 	if properties.LastStatus != nil {
-		var lastStatus v20220801s.KeyVaultLastAccessStatusContractProperties_STATUS
+		var lastStatus storage.KeyVaultLastAccessStatusContractProperties_STATUS
 		err := properties.LastStatus.AssignProperties_To_KeyVaultLastAccessStatusContractProperties_STATUS(&lastStatus)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultLastAccessStatusContractProperties_STATUS() to populate field LastStatus")
@@ -1330,7 +1330,7 @@ func (properties *KeyVaultLastAccessStatusContractProperties_STATUS) PopulateFro
 }
 
 // AssignProperties_From_KeyVaultLastAccessStatusContractProperties_STATUS populates our KeyVaultLastAccessStatusContractProperties_STATUS from the provided source KeyVaultLastAccessStatusContractProperties_STATUS
-func (properties *KeyVaultLastAccessStatusContractProperties_STATUS) AssignProperties_From_KeyVaultLastAccessStatusContractProperties_STATUS(source *v20220801s.KeyVaultLastAccessStatusContractProperties_STATUS) error {
+func (properties *KeyVaultLastAccessStatusContractProperties_STATUS) AssignProperties_From_KeyVaultLastAccessStatusContractProperties_STATUS(source *storage.KeyVaultLastAccessStatusContractProperties_STATUS) error {
 
 	// Code
 	properties.Code = genruntime.ClonePointerToString(source.Code)
@@ -1346,7 +1346,7 @@ func (properties *KeyVaultLastAccessStatusContractProperties_STATUS) AssignPrope
 }
 
 // AssignProperties_To_KeyVaultLastAccessStatusContractProperties_STATUS populates the provided destination KeyVaultLastAccessStatusContractProperties_STATUS from our KeyVaultLastAccessStatusContractProperties_STATUS
-func (properties *KeyVaultLastAccessStatusContractProperties_STATUS) AssignProperties_To_KeyVaultLastAccessStatusContractProperties_STATUS(destination *v20220801s.KeyVaultLastAccessStatusContractProperties_STATUS) error {
+func (properties *KeyVaultLastAccessStatusContractProperties_STATUS) AssignProperties_To_KeyVaultLastAccessStatusContractProperties_STATUS(destination *storage.KeyVaultLastAccessStatusContractProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

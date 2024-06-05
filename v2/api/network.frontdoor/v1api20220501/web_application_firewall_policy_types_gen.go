@@ -5,7 +5,7 @@ package v1api20220501
 
 import (
 	"fmt"
-	v20220501s "github.com/Azure/azure-service-operator/v2/api/network.frontdoor/v1api20220501/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/network.frontdoor/v1api20220501/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &WebApplicationFirewallPolicy{}
 
 // ConvertFrom populates our WebApplicationFirewallPolicy from the provided hub WebApplicationFirewallPolicy
 func (policy *WebApplicationFirewallPolicy) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20220501s.WebApplicationFirewallPolicy)
+	source, ok := hub.(*storage.WebApplicationFirewallPolicy)
 	if !ok {
 		return fmt.Errorf("expected network.frontdoor/v1api20220501/storage/WebApplicationFirewallPolicy but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (policy *WebApplicationFirewallPolicy) ConvertFrom(hub conversion.Hub) erro
 
 // ConvertTo populates the provided hub WebApplicationFirewallPolicy from our WebApplicationFirewallPolicy
 func (policy *WebApplicationFirewallPolicy) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20220501s.WebApplicationFirewallPolicy)
+	destination, ok := hub.(*storage.WebApplicationFirewallPolicy)
 	if !ok {
 		return fmt.Errorf("expected network.frontdoor/v1api20220501/storage/WebApplicationFirewallPolicy but received %T instead", hub)
 	}
@@ -254,7 +254,7 @@ func (policy *WebApplicationFirewallPolicy) validateWriteOnceProperties(old runt
 }
 
 // AssignProperties_From_WebApplicationFirewallPolicy populates our WebApplicationFirewallPolicy from the provided source WebApplicationFirewallPolicy
-func (policy *WebApplicationFirewallPolicy) AssignProperties_From_WebApplicationFirewallPolicy(source *v20220501s.WebApplicationFirewallPolicy) error {
+func (policy *WebApplicationFirewallPolicy) AssignProperties_From_WebApplicationFirewallPolicy(source *storage.WebApplicationFirewallPolicy) error {
 
 	// ObjectMeta
 	policy.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -280,13 +280,13 @@ func (policy *WebApplicationFirewallPolicy) AssignProperties_From_WebApplication
 }
 
 // AssignProperties_To_WebApplicationFirewallPolicy populates the provided destination WebApplicationFirewallPolicy from our WebApplicationFirewallPolicy
-func (policy *WebApplicationFirewallPolicy) AssignProperties_To_WebApplicationFirewallPolicy(destination *v20220501s.WebApplicationFirewallPolicy) error {
+func (policy *WebApplicationFirewallPolicy) AssignProperties_To_WebApplicationFirewallPolicy(destination *storage.WebApplicationFirewallPolicy) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *policy.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20220501s.FrontDoorWebApplicationFirewallPolicy_Spec
+	var spec storage.FrontDoorWebApplicationFirewallPolicy_Spec
 	err := policy.Spec.AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_Spec() to populate field Spec")
@@ -294,7 +294,7 @@ func (policy *WebApplicationFirewallPolicy) AssignProperties_To_WebApplicationFi
 	destination.Spec = spec
 
 	// Status
-	var status v20220501s.FrontDoorWebApplicationFirewallPolicy_STATUS
+	var status storage.FrontDoorWebApplicationFirewallPolicy_STATUS
 	err = policy.Status.AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_STATUS() to populate field Status")
@@ -540,14 +540,14 @@ var _ genruntime.ConvertibleSpec = &FrontDoorWebApplicationFirewallPolicy_Spec{}
 
 // ConvertSpecFrom populates our FrontDoorWebApplicationFirewallPolicy_Spec from the provided source
 func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20220501s.FrontDoorWebApplicationFirewallPolicy_Spec)
+	src, ok := source.(*storage.FrontDoorWebApplicationFirewallPolicy_Spec)
 	if ok {
 		// Populate our instance from source
 		return policy.AssignProperties_From_FrontDoorWebApplicationFirewallPolicy_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220501s.FrontDoorWebApplicationFirewallPolicy_Spec{}
+	src = &storage.FrontDoorWebApplicationFirewallPolicy_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -564,14 +564,14 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) ConvertSpecFrom(source
 
 // ConvertSpecTo populates the provided destination from our FrontDoorWebApplicationFirewallPolicy_Spec
 func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20220501s.FrontDoorWebApplicationFirewallPolicy_Spec)
+	dst, ok := destination.(*storage.FrontDoorWebApplicationFirewallPolicy_Spec)
 	if ok {
 		// Populate destination from our instance
 		return policy.AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220501s.FrontDoorWebApplicationFirewallPolicy_Spec{}
+	dst = &storage.FrontDoorWebApplicationFirewallPolicy_Spec{}
 	err := policy.AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -587,7 +587,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) ConvertSpecTo(destinat
 }
 
 // AssignProperties_From_FrontDoorWebApplicationFirewallPolicy_Spec populates our FrontDoorWebApplicationFirewallPolicy_Spec from the provided source FrontDoorWebApplicationFirewallPolicy_Spec
-func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) AssignProperties_From_FrontDoorWebApplicationFirewallPolicy_Spec(source *v20220501s.FrontDoorWebApplicationFirewallPolicy_Spec) error {
+func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) AssignProperties_From_FrontDoorWebApplicationFirewallPolicy_Spec(source *storage.FrontDoorWebApplicationFirewallPolicy_Spec) error {
 
 	// AzureName
 	policy.AzureName = source.AzureName
@@ -662,7 +662,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) AssignProperties_From_
 }
 
 // AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_Spec populates the provided destination FrontDoorWebApplicationFirewallPolicy_Spec from our FrontDoorWebApplicationFirewallPolicy_Spec
-func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_Spec(destination *v20220501s.FrontDoorWebApplicationFirewallPolicy_Spec) error {
+func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_Spec(destination *storage.FrontDoorWebApplicationFirewallPolicy_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -671,7 +671,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) AssignProperties_To_Fr
 
 	// CustomRules
 	if policy.CustomRules != nil {
-		var customRule v20220501s.CustomRuleList
+		var customRule storage.CustomRuleList
 		err := policy.CustomRules.AssignProperties_To_CustomRuleList(&customRule)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CustomRuleList() to populate field CustomRules")
@@ -689,7 +689,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) AssignProperties_To_Fr
 
 	// ManagedRules
 	if policy.ManagedRules != nil {
-		var managedRule v20220501s.ManagedRuleSetList
+		var managedRule storage.ManagedRuleSetList
 		err := policy.ManagedRules.AssignProperties_To_ManagedRuleSetList(&managedRule)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleSetList() to populate field ManagedRules")
@@ -712,7 +712,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) AssignProperties_To_Fr
 
 	// PolicySettings
 	if policy.PolicySettings != nil {
-		var policySetting v20220501s.PolicySettings
+		var policySetting storage.PolicySettings
 		err := policy.PolicySettings.AssignProperties_To_PolicySettings(&policySetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PolicySettings() to populate field PolicySettings")
@@ -724,7 +724,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_Spec) AssignProperties_To_Fr
 
 	// Sku
 	if policy.Sku != nil {
-		var sku v20220501s.Sku
+		var sku storage.Sku
 		err := policy.Sku.AssignProperties_To_Sku(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
@@ -874,14 +874,14 @@ var _ genruntime.ConvertibleStatus = &FrontDoorWebApplicationFirewallPolicy_STAT
 
 // ConvertStatusFrom populates our FrontDoorWebApplicationFirewallPolicy_STATUS from the provided source
 func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20220501s.FrontDoorWebApplicationFirewallPolicy_STATUS)
+	src, ok := source.(*storage.FrontDoorWebApplicationFirewallPolicy_STATUS)
 	if ok {
 		// Populate our instance from source
 		return policy.AssignProperties_From_FrontDoorWebApplicationFirewallPolicy_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220501s.FrontDoorWebApplicationFirewallPolicy_STATUS{}
+	src = &storage.FrontDoorWebApplicationFirewallPolicy_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -898,14 +898,14 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) ConvertStatusFrom(so
 
 // ConvertStatusTo populates the provided destination from our FrontDoorWebApplicationFirewallPolicy_STATUS
 func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20220501s.FrontDoorWebApplicationFirewallPolicy_STATUS)
+	dst, ok := destination.(*storage.FrontDoorWebApplicationFirewallPolicy_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return policy.AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220501s.FrontDoorWebApplicationFirewallPolicy_STATUS{}
+	dst = &storage.FrontDoorWebApplicationFirewallPolicy_STATUS{}
 	err := policy.AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1089,7 +1089,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) PopulateFromARM(owne
 }
 
 // AssignProperties_From_FrontDoorWebApplicationFirewallPolicy_STATUS populates our FrontDoorWebApplicationFirewallPolicy_STATUS from the provided source FrontDoorWebApplicationFirewallPolicy_STATUS
-func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) AssignProperties_From_FrontDoorWebApplicationFirewallPolicy_STATUS(source *v20220501s.FrontDoorWebApplicationFirewallPolicy_STATUS) error {
+func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) AssignProperties_From_FrontDoorWebApplicationFirewallPolicy_STATUS(source *storage.FrontDoorWebApplicationFirewallPolicy_STATUS) error {
 
 	// Conditions
 	policy.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -1231,7 +1231,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) AssignProperties_Fro
 }
 
 // AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_STATUS populates the provided destination FrontDoorWebApplicationFirewallPolicy_STATUS from our FrontDoorWebApplicationFirewallPolicy_STATUS
-func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_STATUS(destination *v20220501s.FrontDoorWebApplicationFirewallPolicy_STATUS) error {
+func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_STATUS(destination *storage.FrontDoorWebApplicationFirewallPolicy_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1240,7 +1240,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) AssignProperties_To_
 
 	// CustomRules
 	if policy.CustomRules != nil {
-		var customRule v20220501s.CustomRuleList_STATUS
+		var customRule storage.CustomRuleList_STATUS
 		err := policy.CustomRules.AssignProperties_To_CustomRuleList_STATUS(&customRule)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CustomRuleList_STATUS() to populate field CustomRules")
@@ -1255,11 +1255,11 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) AssignProperties_To_
 
 	// FrontendEndpointLinks
 	if policy.FrontendEndpointLinks != nil {
-		frontendEndpointLinkList := make([]v20220501s.FrontendEndpointLink_STATUS, len(policy.FrontendEndpointLinks))
+		frontendEndpointLinkList := make([]storage.FrontendEndpointLink_STATUS, len(policy.FrontendEndpointLinks))
 		for frontendEndpointLinkIndex, frontendEndpointLinkItem := range policy.FrontendEndpointLinks {
 			// Shadow the loop variable to avoid aliasing
 			frontendEndpointLinkItem := frontendEndpointLinkItem
-			var frontendEndpointLink v20220501s.FrontendEndpointLink_STATUS
+			var frontendEndpointLink storage.FrontendEndpointLink_STATUS
 			err := frontendEndpointLinkItem.AssignProperties_To_FrontendEndpointLink_STATUS(&frontendEndpointLink)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_FrontendEndpointLink_STATUS() to populate field FrontendEndpointLinks")
@@ -1279,7 +1279,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) AssignProperties_To_
 
 	// ManagedRules
 	if policy.ManagedRules != nil {
-		var managedRule v20220501s.ManagedRuleSetList_STATUS
+		var managedRule storage.ManagedRuleSetList_STATUS
 		err := policy.ManagedRules.AssignProperties_To_ManagedRuleSetList_STATUS(&managedRule)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleSetList_STATUS() to populate field ManagedRules")
@@ -1294,7 +1294,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) AssignProperties_To_
 
 	// PolicySettings
 	if policy.PolicySettings != nil {
-		var policySetting v20220501s.PolicySettings_STATUS
+		var policySetting storage.PolicySettings_STATUS
 		err := policy.PolicySettings.AssignProperties_To_PolicySettings_STATUS(&policySetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PolicySettings_STATUS() to populate field PolicySettings")
@@ -1317,11 +1317,11 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) AssignProperties_To_
 
 	// RoutingRuleLinks
 	if policy.RoutingRuleLinks != nil {
-		routingRuleLinkList := make([]v20220501s.RoutingRuleLink_STATUS, len(policy.RoutingRuleLinks))
+		routingRuleLinkList := make([]storage.RoutingRuleLink_STATUS, len(policy.RoutingRuleLinks))
 		for routingRuleLinkIndex, routingRuleLinkItem := range policy.RoutingRuleLinks {
 			// Shadow the loop variable to avoid aliasing
 			routingRuleLinkItem := routingRuleLinkItem
-			var routingRuleLink v20220501s.RoutingRuleLink_STATUS
+			var routingRuleLink storage.RoutingRuleLink_STATUS
 			err := routingRuleLinkItem.AssignProperties_To_RoutingRuleLink_STATUS(&routingRuleLink)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_RoutingRuleLink_STATUS() to populate field RoutingRuleLinks")
@@ -1335,11 +1335,11 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) AssignProperties_To_
 
 	// SecurityPolicyLinks
 	if policy.SecurityPolicyLinks != nil {
-		securityPolicyLinkList := make([]v20220501s.SecurityPolicyLink_STATUS, len(policy.SecurityPolicyLinks))
+		securityPolicyLinkList := make([]storage.SecurityPolicyLink_STATUS, len(policy.SecurityPolicyLinks))
 		for securityPolicyLinkIndex, securityPolicyLinkItem := range policy.SecurityPolicyLinks {
 			// Shadow the loop variable to avoid aliasing
 			securityPolicyLinkItem := securityPolicyLinkItem
-			var securityPolicyLink v20220501s.SecurityPolicyLink_STATUS
+			var securityPolicyLink storage.SecurityPolicyLink_STATUS
 			err := securityPolicyLinkItem.AssignProperties_To_SecurityPolicyLink_STATUS(&securityPolicyLink)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SecurityPolicyLink_STATUS() to populate field SecurityPolicyLinks")
@@ -1353,7 +1353,7 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) AssignProperties_To_
 
 	// Sku
 	if policy.Sku != nil {
-		var sku v20220501s.Sku_STATUS
+		var sku storage.Sku_STATUS
 		err := policy.Sku.AssignProperties_To_Sku_STATUS(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
@@ -1433,7 +1433,7 @@ func (list *CustomRuleList) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 }
 
 // AssignProperties_From_CustomRuleList populates our CustomRuleList from the provided source CustomRuleList
-func (list *CustomRuleList) AssignProperties_From_CustomRuleList(source *v20220501s.CustomRuleList) error {
+func (list *CustomRuleList) AssignProperties_From_CustomRuleList(source *storage.CustomRuleList) error {
 
 	// Rules
 	if source.Rules != nil {
@@ -1458,17 +1458,17 @@ func (list *CustomRuleList) AssignProperties_From_CustomRuleList(source *v202205
 }
 
 // AssignProperties_To_CustomRuleList populates the provided destination CustomRuleList from our CustomRuleList
-func (list *CustomRuleList) AssignProperties_To_CustomRuleList(destination *v20220501s.CustomRuleList) error {
+func (list *CustomRuleList) AssignProperties_To_CustomRuleList(destination *storage.CustomRuleList) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Rules
 	if list.Rules != nil {
-		ruleList := make([]v20220501s.CustomRule, len(list.Rules))
+		ruleList := make([]storage.CustomRule, len(list.Rules))
 		for ruleIndex, ruleItem := range list.Rules {
 			// Shadow the loop variable to avoid aliasing
 			ruleItem := ruleItem
-			var rule v20220501s.CustomRule
+			var rule storage.CustomRule
 			err := ruleItem.AssignProperties_To_CustomRule(&rule)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_CustomRule() to populate field Rules")
@@ -1551,7 +1551,7 @@ func (list *CustomRuleList_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 }
 
 // AssignProperties_From_CustomRuleList_STATUS populates our CustomRuleList_STATUS from the provided source CustomRuleList_STATUS
-func (list *CustomRuleList_STATUS) AssignProperties_From_CustomRuleList_STATUS(source *v20220501s.CustomRuleList_STATUS) error {
+func (list *CustomRuleList_STATUS) AssignProperties_From_CustomRuleList_STATUS(source *storage.CustomRuleList_STATUS) error {
 
 	// Rules
 	if source.Rules != nil {
@@ -1576,17 +1576,17 @@ func (list *CustomRuleList_STATUS) AssignProperties_From_CustomRuleList_STATUS(s
 }
 
 // AssignProperties_To_CustomRuleList_STATUS populates the provided destination CustomRuleList_STATUS from our CustomRuleList_STATUS
-func (list *CustomRuleList_STATUS) AssignProperties_To_CustomRuleList_STATUS(destination *v20220501s.CustomRuleList_STATUS) error {
+func (list *CustomRuleList_STATUS) AssignProperties_To_CustomRuleList_STATUS(destination *storage.CustomRuleList_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Rules
 	if list.Rules != nil {
-		ruleList := make([]v20220501s.CustomRule_STATUS, len(list.Rules))
+		ruleList := make([]storage.CustomRule_STATUS, len(list.Rules))
 		for ruleIndex, ruleItem := range list.Rules {
 			// Shadow the loop variable to avoid aliasing
 			ruleItem := ruleItem
-			var rule v20220501s.CustomRule_STATUS
+			var rule storage.CustomRule_STATUS
 			err := ruleItem.AssignProperties_To_CustomRule_STATUS(&rule)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_CustomRule_STATUS() to populate field Rules")
@@ -1640,7 +1640,7 @@ func (link *FrontendEndpointLink_STATUS) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_FrontendEndpointLink_STATUS populates our FrontendEndpointLink_STATUS from the provided source FrontendEndpointLink_STATUS
-func (link *FrontendEndpointLink_STATUS) AssignProperties_From_FrontendEndpointLink_STATUS(source *v20220501s.FrontendEndpointLink_STATUS) error {
+func (link *FrontendEndpointLink_STATUS) AssignProperties_From_FrontendEndpointLink_STATUS(source *storage.FrontendEndpointLink_STATUS) error {
 
 	// Id
 	link.Id = genruntime.ClonePointerToString(source.Id)
@@ -1650,7 +1650,7 @@ func (link *FrontendEndpointLink_STATUS) AssignProperties_From_FrontendEndpointL
 }
 
 // AssignProperties_To_FrontendEndpointLink_STATUS populates the provided destination FrontendEndpointLink_STATUS from our FrontendEndpointLink_STATUS
-func (link *FrontendEndpointLink_STATUS) AssignProperties_To_FrontendEndpointLink_STATUS(destination *v20220501s.FrontendEndpointLink_STATUS) error {
+func (link *FrontendEndpointLink_STATUS) AssignProperties_To_FrontendEndpointLink_STATUS(destination *storage.FrontendEndpointLink_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1721,7 +1721,7 @@ func (list *ManagedRuleSetList) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 }
 
 // AssignProperties_From_ManagedRuleSetList populates our ManagedRuleSetList from the provided source ManagedRuleSetList
-func (list *ManagedRuleSetList) AssignProperties_From_ManagedRuleSetList(source *v20220501s.ManagedRuleSetList) error {
+func (list *ManagedRuleSetList) AssignProperties_From_ManagedRuleSetList(source *storage.ManagedRuleSetList) error {
 
 	// ManagedRuleSets
 	if source.ManagedRuleSets != nil {
@@ -1746,17 +1746,17 @@ func (list *ManagedRuleSetList) AssignProperties_From_ManagedRuleSetList(source 
 }
 
 // AssignProperties_To_ManagedRuleSetList populates the provided destination ManagedRuleSetList from our ManagedRuleSetList
-func (list *ManagedRuleSetList) AssignProperties_To_ManagedRuleSetList(destination *v20220501s.ManagedRuleSetList) error {
+func (list *ManagedRuleSetList) AssignProperties_To_ManagedRuleSetList(destination *storage.ManagedRuleSetList) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ManagedRuleSets
 	if list.ManagedRuleSets != nil {
-		managedRuleSetList := make([]v20220501s.ManagedRuleSet, len(list.ManagedRuleSets))
+		managedRuleSetList := make([]storage.ManagedRuleSet, len(list.ManagedRuleSets))
 		for managedRuleSetIndex, managedRuleSetItem := range list.ManagedRuleSets {
 			// Shadow the loop variable to avoid aliasing
 			managedRuleSetItem := managedRuleSetItem
-			var managedRuleSet v20220501s.ManagedRuleSet
+			var managedRuleSet storage.ManagedRuleSet
 			err := managedRuleSetItem.AssignProperties_To_ManagedRuleSet(&managedRuleSet)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleSet() to populate field ManagedRuleSets")
@@ -1839,7 +1839,7 @@ func (list *ManagedRuleSetList_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 }
 
 // AssignProperties_From_ManagedRuleSetList_STATUS populates our ManagedRuleSetList_STATUS from the provided source ManagedRuleSetList_STATUS
-func (list *ManagedRuleSetList_STATUS) AssignProperties_From_ManagedRuleSetList_STATUS(source *v20220501s.ManagedRuleSetList_STATUS) error {
+func (list *ManagedRuleSetList_STATUS) AssignProperties_From_ManagedRuleSetList_STATUS(source *storage.ManagedRuleSetList_STATUS) error {
 
 	// ManagedRuleSets
 	if source.ManagedRuleSets != nil {
@@ -1864,17 +1864,17 @@ func (list *ManagedRuleSetList_STATUS) AssignProperties_From_ManagedRuleSetList_
 }
 
 // AssignProperties_To_ManagedRuleSetList_STATUS populates the provided destination ManagedRuleSetList_STATUS from our ManagedRuleSetList_STATUS
-func (list *ManagedRuleSetList_STATUS) AssignProperties_To_ManagedRuleSetList_STATUS(destination *v20220501s.ManagedRuleSetList_STATUS) error {
+func (list *ManagedRuleSetList_STATUS) AssignProperties_To_ManagedRuleSetList_STATUS(destination *storage.ManagedRuleSetList_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ManagedRuleSets
 	if list.ManagedRuleSets != nil {
-		managedRuleSetList := make([]v20220501s.ManagedRuleSet_STATUS, len(list.ManagedRuleSets))
+		managedRuleSetList := make([]storage.ManagedRuleSet_STATUS, len(list.ManagedRuleSets))
 		for managedRuleSetIndex, managedRuleSetItem := range list.ManagedRuleSets {
 			// Shadow the loop variable to avoid aliasing
 			managedRuleSetItem := managedRuleSetItem
-			var managedRuleSet v20220501s.ManagedRuleSet_STATUS
+			var managedRuleSet storage.ManagedRuleSet_STATUS
 			err := managedRuleSetItem.AssignProperties_To_ManagedRuleSet_STATUS(&managedRuleSet)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleSet_STATUS() to populate field ManagedRuleSets")
@@ -2020,7 +2020,7 @@ func (settings *PolicySettings) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 }
 
 // AssignProperties_From_PolicySettings populates our PolicySettings from the provided source PolicySettings
-func (settings *PolicySettings) AssignProperties_From_PolicySettings(source *v20220501s.PolicySettings) error {
+func (settings *PolicySettings) AssignProperties_From_PolicySettings(source *storage.PolicySettings) error {
 
 	// CustomBlockResponseBody
 	if source.CustomBlockResponseBody != nil {
@@ -2068,7 +2068,7 @@ func (settings *PolicySettings) AssignProperties_From_PolicySettings(source *v20
 }
 
 // AssignProperties_To_PolicySettings populates the provided destination PolicySettings from our PolicySettings
-func (settings *PolicySettings) AssignProperties_To_PolicySettings(destination *v20220501s.PolicySettings) error {
+func (settings *PolicySettings) AssignProperties_To_PolicySettings(destination *storage.PolicySettings) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2243,7 +2243,7 @@ func (settings *PolicySettings_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 }
 
 // AssignProperties_From_PolicySettings_STATUS populates our PolicySettings_STATUS from the provided source PolicySettings_STATUS
-func (settings *PolicySettings_STATUS) AssignProperties_From_PolicySettings_STATUS(source *v20220501s.PolicySettings_STATUS) error {
+func (settings *PolicySettings_STATUS) AssignProperties_From_PolicySettings_STATUS(source *storage.PolicySettings_STATUS) error {
 
 	// CustomBlockResponseBody
 	settings.CustomBlockResponseBody = genruntime.ClonePointerToString(source.CustomBlockResponseBody)
@@ -2286,7 +2286,7 @@ func (settings *PolicySettings_STATUS) AssignProperties_From_PolicySettings_STAT
 }
 
 // AssignProperties_To_PolicySettings_STATUS populates the provided destination PolicySettings_STATUS from our PolicySettings_STATUS
-func (settings *PolicySettings_STATUS) AssignProperties_To_PolicySettings_STATUS(destination *v20220501s.PolicySettings_STATUS) error {
+func (settings *PolicySettings_STATUS) AssignProperties_To_PolicySettings_STATUS(destination *storage.PolicySettings_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2365,7 +2365,7 @@ func (link *RoutingRuleLink_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 }
 
 // AssignProperties_From_RoutingRuleLink_STATUS populates our RoutingRuleLink_STATUS from the provided source RoutingRuleLink_STATUS
-func (link *RoutingRuleLink_STATUS) AssignProperties_From_RoutingRuleLink_STATUS(source *v20220501s.RoutingRuleLink_STATUS) error {
+func (link *RoutingRuleLink_STATUS) AssignProperties_From_RoutingRuleLink_STATUS(source *storage.RoutingRuleLink_STATUS) error {
 
 	// Id
 	link.Id = genruntime.ClonePointerToString(source.Id)
@@ -2375,7 +2375,7 @@ func (link *RoutingRuleLink_STATUS) AssignProperties_From_RoutingRuleLink_STATUS
 }
 
 // AssignProperties_To_RoutingRuleLink_STATUS populates the provided destination RoutingRuleLink_STATUS from our RoutingRuleLink_STATUS
-func (link *RoutingRuleLink_STATUS) AssignProperties_To_RoutingRuleLink_STATUS(destination *v20220501s.RoutingRuleLink_STATUS) error {
+func (link *RoutingRuleLink_STATUS) AssignProperties_To_RoutingRuleLink_STATUS(destination *storage.RoutingRuleLink_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2424,7 +2424,7 @@ func (link *SecurityPolicyLink_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 }
 
 // AssignProperties_From_SecurityPolicyLink_STATUS populates our SecurityPolicyLink_STATUS from the provided source SecurityPolicyLink_STATUS
-func (link *SecurityPolicyLink_STATUS) AssignProperties_From_SecurityPolicyLink_STATUS(source *v20220501s.SecurityPolicyLink_STATUS) error {
+func (link *SecurityPolicyLink_STATUS) AssignProperties_From_SecurityPolicyLink_STATUS(source *storage.SecurityPolicyLink_STATUS) error {
 
 	// Id
 	link.Id = genruntime.ClonePointerToString(source.Id)
@@ -2434,7 +2434,7 @@ func (link *SecurityPolicyLink_STATUS) AssignProperties_From_SecurityPolicyLink_
 }
 
 // AssignProperties_To_SecurityPolicyLink_STATUS populates the provided destination SecurityPolicyLink_STATUS from our SecurityPolicyLink_STATUS
-func (link *SecurityPolicyLink_STATUS) AssignProperties_To_SecurityPolicyLink_STATUS(destination *v20220501s.SecurityPolicyLink_STATUS) error {
+func (link *SecurityPolicyLink_STATUS) AssignProperties_To_SecurityPolicyLink_STATUS(destination *storage.SecurityPolicyLink_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2498,7 +2498,7 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 }
 
 // AssignProperties_From_Sku populates our Sku from the provided source Sku
-func (sku *Sku) AssignProperties_From_Sku(source *v20220501s.Sku) error {
+func (sku *Sku) AssignProperties_From_Sku(source *storage.Sku) error {
 
 	// Name
 	if source.Name != nil {
@@ -2514,7 +2514,7 @@ func (sku *Sku) AssignProperties_From_Sku(source *v20220501s.Sku) error {
 }
 
 // AssignProperties_To_Sku populates the provided destination Sku from our Sku
-func (sku *Sku) AssignProperties_To_Sku(destination *v20220501s.Sku) error {
+func (sku *Sku) AssignProperties_To_Sku(destination *storage.Sku) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2583,7 +2583,7 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 }
 
 // AssignProperties_From_Sku_STATUS populates our Sku_STATUS from the provided source Sku_STATUS
-func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20220501s.Sku_STATUS) error {
+func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *storage.Sku_STATUS) error {
 
 	// Name
 	if source.Name != nil {
@@ -2599,7 +2599,7 @@ func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20220501s.Sku_S
 }
 
 // AssignProperties_To_Sku_STATUS populates the provided destination Sku_STATUS from our Sku_STATUS
-func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20220501s.Sku_STATUS) error {
+func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *storage.Sku_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2788,7 +2788,7 @@ func (rule *CustomRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 }
 
 // AssignProperties_From_CustomRule populates our CustomRule from the provided source CustomRule
-func (rule *CustomRule) AssignProperties_From_CustomRule(source *v20220501s.CustomRule) error {
+func (rule *CustomRule) AssignProperties_From_CustomRule(source *storage.CustomRule) error {
 
 	// Action
 	if source.Action != nil {
@@ -2867,7 +2867,7 @@ func (rule *CustomRule) AssignProperties_From_CustomRule(source *v20220501s.Cust
 }
 
 // AssignProperties_To_CustomRule populates the provided destination CustomRule from our CustomRule
-func (rule *CustomRule) AssignProperties_To_CustomRule(destination *v20220501s.CustomRule) error {
+func (rule *CustomRule) AssignProperties_To_CustomRule(destination *storage.CustomRule) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2889,11 +2889,11 @@ func (rule *CustomRule) AssignProperties_To_CustomRule(destination *v20220501s.C
 
 	// MatchConditions
 	if rule.MatchConditions != nil {
-		matchConditionList := make([]v20220501s.MatchCondition, len(rule.MatchConditions))
+		matchConditionList := make([]storage.MatchCondition, len(rule.MatchConditions))
 		for matchConditionIndex, matchConditionItem := range rule.MatchConditions {
 			// Shadow the loop variable to avoid aliasing
 			matchConditionItem := matchConditionItem
-			var matchCondition v20220501s.MatchCondition
+			var matchCondition storage.MatchCondition
 			err := matchConditionItem.AssignProperties_To_MatchCondition(&matchCondition)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_MatchCondition() to populate field MatchConditions")
@@ -3125,7 +3125,7 @@ func (rule *CustomRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 }
 
 // AssignProperties_From_CustomRule_STATUS populates our CustomRule_STATUS from the provided source CustomRule_STATUS
-func (rule *CustomRule_STATUS) AssignProperties_From_CustomRule_STATUS(source *v20220501s.CustomRule_STATUS) error {
+func (rule *CustomRule_STATUS) AssignProperties_From_CustomRule_STATUS(source *storage.CustomRule_STATUS) error {
 
 	// Action
 	if source.Action != nil {
@@ -3189,7 +3189,7 @@ func (rule *CustomRule_STATUS) AssignProperties_From_CustomRule_STATUS(source *v
 }
 
 // AssignProperties_To_CustomRule_STATUS populates the provided destination CustomRule_STATUS from our CustomRule_STATUS
-func (rule *CustomRule_STATUS) AssignProperties_To_CustomRule_STATUS(destination *v20220501s.CustomRule_STATUS) error {
+func (rule *CustomRule_STATUS) AssignProperties_To_CustomRule_STATUS(destination *storage.CustomRule_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3211,11 +3211,11 @@ func (rule *CustomRule_STATUS) AssignProperties_To_CustomRule_STATUS(destination
 
 	// MatchConditions
 	if rule.MatchConditions != nil {
-		matchConditionList := make([]v20220501s.MatchCondition_STATUS, len(rule.MatchConditions))
+		matchConditionList := make([]storage.MatchCondition_STATUS, len(rule.MatchConditions))
 		for matchConditionIndex, matchConditionItem := range rule.MatchConditions {
 			// Shadow the loop variable to avoid aliasing
 			matchConditionItem := matchConditionItem
-			var matchCondition v20220501s.MatchCondition_STATUS
+			var matchCondition storage.MatchCondition_STATUS
 			err := matchConditionItem.AssignProperties_To_MatchCondition_STATUS(&matchCondition)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_MatchCondition_STATUS() to populate field MatchConditions")
@@ -3380,7 +3380,7 @@ func (ruleSet *ManagedRuleSet) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 }
 
 // AssignProperties_From_ManagedRuleSet populates our ManagedRuleSet from the provided source ManagedRuleSet
-func (ruleSet *ManagedRuleSet) AssignProperties_From_ManagedRuleSet(source *v20220501s.ManagedRuleSet) error {
+func (ruleSet *ManagedRuleSet) AssignProperties_From_ManagedRuleSet(source *storage.ManagedRuleSet) error {
 
 	// Exclusions
 	if source.Exclusions != nil {
@@ -3438,17 +3438,17 @@ func (ruleSet *ManagedRuleSet) AssignProperties_From_ManagedRuleSet(source *v202
 }
 
 // AssignProperties_To_ManagedRuleSet populates the provided destination ManagedRuleSet from our ManagedRuleSet
-func (ruleSet *ManagedRuleSet) AssignProperties_To_ManagedRuleSet(destination *v20220501s.ManagedRuleSet) error {
+func (ruleSet *ManagedRuleSet) AssignProperties_To_ManagedRuleSet(destination *storage.ManagedRuleSet) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Exclusions
 	if ruleSet.Exclusions != nil {
-		exclusionList := make([]v20220501s.ManagedRuleExclusion, len(ruleSet.Exclusions))
+		exclusionList := make([]storage.ManagedRuleExclusion, len(ruleSet.Exclusions))
 		for exclusionIndex, exclusionItem := range ruleSet.Exclusions {
 			// Shadow the loop variable to avoid aliasing
 			exclusionItem := exclusionItem
-			var exclusion v20220501s.ManagedRuleExclusion
+			var exclusion storage.ManagedRuleExclusion
 			err := exclusionItem.AssignProperties_To_ManagedRuleExclusion(&exclusion)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleExclusion() to populate field Exclusions")
@@ -3462,11 +3462,11 @@ func (ruleSet *ManagedRuleSet) AssignProperties_To_ManagedRuleSet(destination *v
 
 	// RuleGroupOverrides
 	if ruleSet.RuleGroupOverrides != nil {
-		ruleGroupOverrideList := make([]v20220501s.ManagedRuleGroupOverride, len(ruleSet.RuleGroupOverrides))
+		ruleGroupOverrideList := make([]storage.ManagedRuleGroupOverride, len(ruleSet.RuleGroupOverrides))
 		for ruleGroupOverrideIndex, ruleGroupOverrideItem := range ruleSet.RuleGroupOverrides {
 			// Shadow the loop variable to avoid aliasing
 			ruleGroupOverrideItem := ruleGroupOverrideItem
-			var ruleGroupOverride v20220501s.ManagedRuleGroupOverride
+			var ruleGroupOverride storage.ManagedRuleGroupOverride
 			err := ruleGroupOverrideItem.AssignProperties_To_ManagedRuleGroupOverride(&ruleGroupOverride)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleGroupOverride() to populate field RuleGroupOverrides")
@@ -3635,7 +3635,7 @@ func (ruleSet *ManagedRuleSet_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 }
 
 // AssignProperties_From_ManagedRuleSet_STATUS populates our ManagedRuleSet_STATUS from the provided source ManagedRuleSet_STATUS
-func (ruleSet *ManagedRuleSet_STATUS) AssignProperties_From_ManagedRuleSet_STATUS(source *v20220501s.ManagedRuleSet_STATUS) error {
+func (ruleSet *ManagedRuleSet_STATUS) AssignProperties_From_ManagedRuleSet_STATUS(source *storage.ManagedRuleSet_STATUS) error {
 
 	// Exclusions
 	if source.Exclusions != nil {
@@ -3693,17 +3693,17 @@ func (ruleSet *ManagedRuleSet_STATUS) AssignProperties_From_ManagedRuleSet_STATU
 }
 
 // AssignProperties_To_ManagedRuleSet_STATUS populates the provided destination ManagedRuleSet_STATUS from our ManagedRuleSet_STATUS
-func (ruleSet *ManagedRuleSet_STATUS) AssignProperties_To_ManagedRuleSet_STATUS(destination *v20220501s.ManagedRuleSet_STATUS) error {
+func (ruleSet *ManagedRuleSet_STATUS) AssignProperties_To_ManagedRuleSet_STATUS(destination *storage.ManagedRuleSet_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Exclusions
 	if ruleSet.Exclusions != nil {
-		exclusionList := make([]v20220501s.ManagedRuleExclusion_STATUS, len(ruleSet.Exclusions))
+		exclusionList := make([]storage.ManagedRuleExclusion_STATUS, len(ruleSet.Exclusions))
 		for exclusionIndex, exclusionItem := range ruleSet.Exclusions {
 			// Shadow the loop variable to avoid aliasing
 			exclusionItem := exclusionItem
-			var exclusion v20220501s.ManagedRuleExclusion_STATUS
+			var exclusion storage.ManagedRuleExclusion_STATUS
 			err := exclusionItem.AssignProperties_To_ManagedRuleExclusion_STATUS(&exclusion)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleExclusion_STATUS() to populate field Exclusions")
@@ -3717,11 +3717,11 @@ func (ruleSet *ManagedRuleSet_STATUS) AssignProperties_To_ManagedRuleSet_STATUS(
 
 	// RuleGroupOverrides
 	if ruleSet.RuleGroupOverrides != nil {
-		ruleGroupOverrideList := make([]v20220501s.ManagedRuleGroupOverride_STATUS, len(ruleSet.RuleGroupOverrides))
+		ruleGroupOverrideList := make([]storage.ManagedRuleGroupOverride_STATUS, len(ruleSet.RuleGroupOverrides))
 		for ruleGroupOverrideIndex, ruleGroupOverrideItem := range ruleSet.RuleGroupOverrides {
 			// Shadow the loop variable to avoid aliasing
 			ruleGroupOverrideItem := ruleGroupOverrideItem
-			var ruleGroupOverride v20220501s.ManagedRuleGroupOverride_STATUS
+			var ruleGroupOverride storage.ManagedRuleGroupOverride_STATUS
 			err := ruleGroupOverrideItem.AssignProperties_To_ManagedRuleGroupOverride_STATUS(&ruleGroupOverride)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleGroupOverride_STATUS() to populate field RuleGroupOverrides")
@@ -3838,7 +3838,7 @@ func (exclusion *ManagedRuleExclusion) PopulateFromARM(owner genruntime.Arbitrar
 }
 
 // AssignProperties_From_ManagedRuleExclusion populates our ManagedRuleExclusion from the provided source ManagedRuleExclusion
-func (exclusion *ManagedRuleExclusion) AssignProperties_From_ManagedRuleExclusion(source *v20220501s.ManagedRuleExclusion) error {
+func (exclusion *ManagedRuleExclusion) AssignProperties_From_ManagedRuleExclusion(source *storage.ManagedRuleExclusion) error {
 
 	// MatchVariable
 	if source.MatchVariable != nil {
@@ -3866,7 +3866,7 @@ func (exclusion *ManagedRuleExclusion) AssignProperties_From_ManagedRuleExclusio
 }
 
 // AssignProperties_To_ManagedRuleExclusion populates the provided destination ManagedRuleExclusion from our ManagedRuleExclusion
-func (exclusion *ManagedRuleExclusion) AssignProperties_To_ManagedRuleExclusion(destination *v20220501s.ManagedRuleExclusion) error {
+func (exclusion *ManagedRuleExclusion) AssignProperties_To_ManagedRuleExclusion(destination *storage.ManagedRuleExclusion) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3976,7 +3976,7 @@ func (exclusion *ManagedRuleExclusion_STATUS) PopulateFromARM(owner genruntime.A
 }
 
 // AssignProperties_From_ManagedRuleExclusion_STATUS populates our ManagedRuleExclusion_STATUS from the provided source ManagedRuleExclusion_STATUS
-func (exclusion *ManagedRuleExclusion_STATUS) AssignProperties_From_ManagedRuleExclusion_STATUS(source *v20220501s.ManagedRuleExclusion_STATUS) error {
+func (exclusion *ManagedRuleExclusion_STATUS) AssignProperties_From_ManagedRuleExclusion_STATUS(source *storage.ManagedRuleExclusion_STATUS) error {
 
 	// MatchVariable
 	if source.MatchVariable != nil {
@@ -4004,7 +4004,7 @@ func (exclusion *ManagedRuleExclusion_STATUS) AssignProperties_From_ManagedRuleE
 }
 
 // AssignProperties_To_ManagedRuleExclusion_STATUS populates the provided destination ManagedRuleExclusion_STATUS from our ManagedRuleExclusion_STATUS
-func (exclusion *ManagedRuleExclusion_STATUS) AssignProperties_To_ManagedRuleExclusion_STATUS(destination *v20220501s.ManagedRuleExclusion_STATUS) error {
+func (exclusion *ManagedRuleExclusion_STATUS) AssignProperties_To_ManagedRuleExclusion_STATUS(destination *storage.ManagedRuleExclusion_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4129,7 +4129,7 @@ func (override *ManagedRuleGroupOverride) PopulateFromARM(owner genruntime.Arbit
 }
 
 // AssignProperties_From_ManagedRuleGroupOverride populates our ManagedRuleGroupOverride from the provided source ManagedRuleGroupOverride
-func (override *ManagedRuleGroupOverride) AssignProperties_From_ManagedRuleGroupOverride(source *v20220501s.ManagedRuleGroupOverride) error {
+func (override *ManagedRuleGroupOverride) AssignProperties_From_ManagedRuleGroupOverride(source *storage.ManagedRuleGroupOverride) error {
 
 	// Exclusions
 	if source.Exclusions != nil {
@@ -4175,17 +4175,17 @@ func (override *ManagedRuleGroupOverride) AssignProperties_From_ManagedRuleGroup
 }
 
 // AssignProperties_To_ManagedRuleGroupOverride populates the provided destination ManagedRuleGroupOverride from our ManagedRuleGroupOverride
-func (override *ManagedRuleGroupOverride) AssignProperties_To_ManagedRuleGroupOverride(destination *v20220501s.ManagedRuleGroupOverride) error {
+func (override *ManagedRuleGroupOverride) AssignProperties_To_ManagedRuleGroupOverride(destination *storage.ManagedRuleGroupOverride) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Exclusions
 	if override.Exclusions != nil {
-		exclusionList := make([]v20220501s.ManagedRuleExclusion, len(override.Exclusions))
+		exclusionList := make([]storage.ManagedRuleExclusion, len(override.Exclusions))
 		for exclusionIndex, exclusionItem := range override.Exclusions {
 			// Shadow the loop variable to avoid aliasing
 			exclusionItem := exclusionItem
-			var exclusion v20220501s.ManagedRuleExclusion
+			var exclusion storage.ManagedRuleExclusion
 			err := exclusionItem.AssignProperties_To_ManagedRuleExclusion(&exclusion)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleExclusion() to populate field Exclusions")
@@ -4202,11 +4202,11 @@ func (override *ManagedRuleGroupOverride) AssignProperties_To_ManagedRuleGroupOv
 
 	// Rules
 	if override.Rules != nil {
-		ruleList := make([]v20220501s.ManagedRuleOverride, len(override.Rules))
+		ruleList := make([]storage.ManagedRuleOverride, len(override.Rules))
 		for ruleIndex, ruleItem := range override.Rules {
 			// Shadow the loop variable to avoid aliasing
 			ruleItem := ruleItem
-			var rule v20220501s.ManagedRuleOverride
+			var rule storage.ManagedRuleOverride
 			err := ruleItem.AssignProperties_To_ManagedRuleOverride(&rule)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleOverride() to populate field Rules")
@@ -4332,7 +4332,7 @@ func (override *ManagedRuleGroupOverride_STATUS) PopulateFromARM(owner genruntim
 }
 
 // AssignProperties_From_ManagedRuleGroupOverride_STATUS populates our ManagedRuleGroupOverride_STATUS from the provided source ManagedRuleGroupOverride_STATUS
-func (override *ManagedRuleGroupOverride_STATUS) AssignProperties_From_ManagedRuleGroupOverride_STATUS(source *v20220501s.ManagedRuleGroupOverride_STATUS) error {
+func (override *ManagedRuleGroupOverride_STATUS) AssignProperties_From_ManagedRuleGroupOverride_STATUS(source *storage.ManagedRuleGroupOverride_STATUS) error {
 
 	// Exclusions
 	if source.Exclusions != nil {
@@ -4378,17 +4378,17 @@ func (override *ManagedRuleGroupOverride_STATUS) AssignProperties_From_ManagedRu
 }
 
 // AssignProperties_To_ManagedRuleGroupOverride_STATUS populates the provided destination ManagedRuleGroupOverride_STATUS from our ManagedRuleGroupOverride_STATUS
-func (override *ManagedRuleGroupOverride_STATUS) AssignProperties_To_ManagedRuleGroupOverride_STATUS(destination *v20220501s.ManagedRuleGroupOverride_STATUS) error {
+func (override *ManagedRuleGroupOverride_STATUS) AssignProperties_To_ManagedRuleGroupOverride_STATUS(destination *storage.ManagedRuleGroupOverride_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Exclusions
 	if override.Exclusions != nil {
-		exclusionList := make([]v20220501s.ManagedRuleExclusion_STATUS, len(override.Exclusions))
+		exclusionList := make([]storage.ManagedRuleExclusion_STATUS, len(override.Exclusions))
 		for exclusionIndex, exclusionItem := range override.Exclusions {
 			// Shadow the loop variable to avoid aliasing
 			exclusionItem := exclusionItem
-			var exclusion v20220501s.ManagedRuleExclusion_STATUS
+			var exclusion storage.ManagedRuleExclusion_STATUS
 			err := exclusionItem.AssignProperties_To_ManagedRuleExclusion_STATUS(&exclusion)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleExclusion_STATUS() to populate field Exclusions")
@@ -4405,11 +4405,11 @@ func (override *ManagedRuleGroupOverride_STATUS) AssignProperties_To_ManagedRule
 
 	// Rules
 	if override.Rules != nil {
-		ruleList := make([]v20220501s.ManagedRuleOverride_STATUS, len(override.Rules))
+		ruleList := make([]storage.ManagedRuleOverride_STATUS, len(override.Rules))
 		for ruleIndex, ruleItem := range override.Rules {
 			// Shadow the loop variable to avoid aliasing
 			ruleItem := ruleItem
-			var rule v20220501s.ManagedRuleOverride_STATUS
+			var rule storage.ManagedRuleOverride_STATUS
 			err := ruleItem.AssignProperties_To_ManagedRuleOverride_STATUS(&rule)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleOverride_STATUS() to populate field Rules")
@@ -4553,7 +4553,7 @@ func (condition *MatchCondition) PopulateFromARM(owner genruntime.ArbitraryOwner
 }
 
 // AssignProperties_From_MatchCondition populates our MatchCondition from the provided source MatchCondition
-func (condition *MatchCondition) AssignProperties_From_MatchCondition(source *v20220501s.MatchCondition) error {
+func (condition *MatchCondition) AssignProperties_From_MatchCondition(source *storage.MatchCondition) error {
 
 	// MatchValue
 	condition.MatchValue = genruntime.CloneSliceOfString(source.MatchValue)
@@ -4605,7 +4605,7 @@ func (condition *MatchCondition) AssignProperties_From_MatchCondition(source *v2
 }
 
 // AssignProperties_To_MatchCondition populates the provided destination MatchCondition from our MatchCondition
-func (condition *MatchCondition) AssignProperties_To_MatchCondition(destination *v20220501s.MatchCondition) error {
+func (condition *MatchCondition) AssignProperties_To_MatchCondition(destination *storage.MatchCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4789,7 +4789,7 @@ func (condition *MatchCondition_STATUS) PopulateFromARM(owner genruntime.Arbitra
 }
 
 // AssignProperties_From_MatchCondition_STATUS populates our MatchCondition_STATUS from the provided source MatchCondition_STATUS
-func (condition *MatchCondition_STATUS) AssignProperties_From_MatchCondition_STATUS(source *v20220501s.MatchCondition_STATUS) error {
+func (condition *MatchCondition_STATUS) AssignProperties_From_MatchCondition_STATUS(source *storage.MatchCondition_STATUS) error {
 
 	// MatchValue
 	condition.MatchValue = genruntime.CloneSliceOfString(source.MatchValue)
@@ -4841,7 +4841,7 @@ func (condition *MatchCondition_STATUS) AssignProperties_From_MatchCondition_STA
 }
 
 // AssignProperties_To_MatchCondition_STATUS populates the provided destination MatchCondition_STATUS from our MatchCondition_STATUS
-func (condition *MatchCondition_STATUS) AssignProperties_To_MatchCondition_STATUS(destination *v20220501s.MatchCondition_STATUS) error {
+func (condition *MatchCondition_STATUS) AssignProperties_To_MatchCondition_STATUS(destination *storage.MatchCondition_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4998,7 +4998,7 @@ func (override *ManagedRuleOverride) PopulateFromARM(owner genruntime.ArbitraryO
 }
 
 // AssignProperties_From_ManagedRuleOverride populates our ManagedRuleOverride from the provided source ManagedRuleOverride
-func (override *ManagedRuleOverride) AssignProperties_From_ManagedRuleOverride(source *v20220501s.ManagedRuleOverride) error {
+func (override *ManagedRuleOverride) AssignProperties_From_ManagedRuleOverride(source *storage.ManagedRuleOverride) error {
 
 	// Action
 	if source.Action != nil {
@@ -5044,7 +5044,7 @@ func (override *ManagedRuleOverride) AssignProperties_From_ManagedRuleOverride(s
 }
 
 // AssignProperties_To_ManagedRuleOverride populates the provided destination ManagedRuleOverride from our ManagedRuleOverride
-func (override *ManagedRuleOverride) AssignProperties_To_ManagedRuleOverride(destination *v20220501s.ManagedRuleOverride) error {
+func (override *ManagedRuleOverride) AssignProperties_To_ManagedRuleOverride(destination *storage.ManagedRuleOverride) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5066,11 +5066,11 @@ func (override *ManagedRuleOverride) AssignProperties_To_ManagedRuleOverride(des
 
 	// Exclusions
 	if override.Exclusions != nil {
-		exclusionList := make([]v20220501s.ManagedRuleExclusion, len(override.Exclusions))
+		exclusionList := make([]storage.ManagedRuleExclusion, len(override.Exclusions))
 		for exclusionIndex, exclusionItem := range override.Exclusions {
 			// Shadow the loop variable to avoid aliasing
 			exclusionItem := exclusionItem
-			var exclusion v20220501s.ManagedRuleExclusion
+			var exclusion storage.ManagedRuleExclusion
 			err := exclusionItem.AssignProperties_To_ManagedRuleExclusion(&exclusion)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleExclusion() to populate field Exclusions")
@@ -5202,7 +5202,7 @@ func (override *ManagedRuleOverride_STATUS) PopulateFromARM(owner genruntime.Arb
 }
 
 // AssignProperties_From_ManagedRuleOverride_STATUS populates our ManagedRuleOverride_STATUS from the provided source ManagedRuleOverride_STATUS
-func (override *ManagedRuleOverride_STATUS) AssignProperties_From_ManagedRuleOverride_STATUS(source *v20220501s.ManagedRuleOverride_STATUS) error {
+func (override *ManagedRuleOverride_STATUS) AssignProperties_From_ManagedRuleOverride_STATUS(source *storage.ManagedRuleOverride_STATUS) error {
 
 	// Action
 	if source.Action != nil {
@@ -5248,7 +5248,7 @@ func (override *ManagedRuleOverride_STATUS) AssignProperties_From_ManagedRuleOve
 }
 
 // AssignProperties_To_ManagedRuleOverride_STATUS populates the provided destination ManagedRuleOverride_STATUS from our ManagedRuleOverride_STATUS
-func (override *ManagedRuleOverride_STATUS) AssignProperties_To_ManagedRuleOverride_STATUS(destination *v20220501s.ManagedRuleOverride_STATUS) error {
+func (override *ManagedRuleOverride_STATUS) AssignProperties_To_ManagedRuleOverride_STATUS(destination *storage.ManagedRuleOverride_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5270,11 +5270,11 @@ func (override *ManagedRuleOverride_STATUS) AssignProperties_To_ManagedRuleOverr
 
 	// Exclusions
 	if override.Exclusions != nil {
-		exclusionList := make([]v20220501s.ManagedRuleExclusion_STATUS, len(override.Exclusions))
+		exclusionList := make([]storage.ManagedRuleExclusion_STATUS, len(override.Exclusions))
 		for exclusionIndex, exclusionItem := range override.Exclusions {
 			// Shadow the loop variable to avoid aliasing
 			exclusionItem := exclusionItem
-			var exclusion v20220501s.ManagedRuleExclusion_STATUS
+			var exclusion storage.ManagedRuleExclusion_STATUS
 			err := exclusionItem.AssignProperties_To_ManagedRuleExclusion_STATUS(&exclusion)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ManagedRuleExclusion_STATUS() to populate field Exclusions")

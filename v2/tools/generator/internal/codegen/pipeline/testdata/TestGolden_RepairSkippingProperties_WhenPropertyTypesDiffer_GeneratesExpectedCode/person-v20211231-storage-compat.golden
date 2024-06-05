@@ -4,7 +4,7 @@
 package compat
 
 import (
-	v20220630s "github.com/Azure/azure-service-operator/testing/person/v20220630/storage"
+	storage "github.com/Azure/azure-service-operator/testing/person/v20220630/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/pkg/errors"
 )
@@ -17,7 +17,7 @@ type Residence struct {
 }
 
 // AssignProperties_From_Residence populates our Residence from the provided source Residence
-func (residence *Residence) AssignProperties_From_Residence(source *v20220630s.Residence) error {
+func (residence *Residence) AssignProperties_From_Residence(source *storage.Residence) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -55,7 +55,7 @@ func (residence *Residence) AssignProperties_From_Residence(source *v20220630s.R
 }
 
 // AssignProperties_To_Residence populates the provided destination Residence from our Residence
-func (residence *Residence) AssignProperties_To_Residence(destination *v20220630s.Residence) error {
+func (residence *Residence) AssignProperties_To_Residence(destination *storage.Residence) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(residence.PropertyBag)
 
@@ -99,6 +99,6 @@ func (residence *Residence) AssignProperties_To_Residence(destination *v20220630
 }
 
 type augmentConversionForResidence interface {
-	AssignPropertiesFrom(src *v20220630s.Residence) error
-	AssignPropertiesTo(dst *v20220630s.Residence) error
+	AssignPropertiesFrom(src *storage.Residence) error
+	AssignPropertiesTo(dst *storage.Residence) error
 }

@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForServersVirtualNetworkRule(subject ServersVirtua
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20211101s.ServersVirtualNetworkRule
+	var hub storage.ServersVirtualNetworkRule
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForServersVirtualNetworkRule(subject ServersVirtua
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211101s.ServersVirtualNetworkRule
+	var other storage.ServersVirtualNetworkRule
 	err := copied.AssignProperties_To_ServersVirtualNetworkRule(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForServers_VirtualNetworkRule_Spec(subject Servers
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211101s.Servers_VirtualNetworkRule_Spec
+	var other storage.Servers_VirtualNetworkRule_Spec
 	err := copied.AssignProperties_To_Servers_VirtualNetworkRule_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -286,7 +286,7 @@ func RunPropertyAssignmentTestForServers_VirtualNetworkRule_STATUS(subject Serve
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211101s.Servers_VirtualNetworkRule_STATUS
+	var other storage.Servers_VirtualNetworkRule_STATUS
 	err := copied.AssignProperties_To_Servers_VirtualNetworkRule_STATUS(&other)
 	if err != nil {
 		return err.Error()

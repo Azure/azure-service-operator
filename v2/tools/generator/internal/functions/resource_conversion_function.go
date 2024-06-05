@@ -83,9 +83,10 @@ func (fn *ResourceConversionFunction) RequiredPackageReferences() *astmodel.Pack
 		astmodel.GitHubErrorsReference,
 		astmodel.ControllerRuntimeConversion,
 		astmodel.FmtReference,
-		fn.hub.PackageReference())
+	)
 
 	// Include the package required by the parameter of the property assignment function
+	// (as we may need to declare a variable of that type)
 	result.AddReference(fn.propertyFunction.ParameterType().PackageReference())
 
 	return result

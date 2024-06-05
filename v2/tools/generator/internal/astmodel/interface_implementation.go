@@ -22,7 +22,10 @@ var _ FunctionContainer = &InterfaceImplementation{}
 
 // NewInterfaceImplementation creates a new interface implementation with the given name and set of functions
 func NewInterfaceImplementation(name TypeName, functions ...Function) *InterfaceImplementation {
-	result := &InterfaceImplementation{name: name, functions: make(map[string]Function, len(functions))}
+	result := &InterfaceImplementation{
+		name:      name,
+		functions: make(map[string]Function, len(functions)),
+	}
 	for _, f := range functions {
 		result.functions[f.Name()] = f
 	}
@@ -44,6 +47,8 @@ func (iface *InterfaceImplementation) Name() TypeName {
 // RequiredPackageReferences returns a list of packages required by this
 func (iface *InterfaceImplementation) RequiredPackageReferences() *PackageReferenceSet {
 	result := NewPackageReferenceSet()
+
+	// Include a reference to the package defining the interface
 	result.AddReference(iface.Name().PackageReference())
 
 	for _, f := range iface.functions {

@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &ServersFirewallRule{}
 
 // ConvertFrom populates our ServersFirewallRule from the provided hub ServersFirewallRule
 func (rule *ServersFirewallRule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20211101s.ServersFirewallRule)
+	source, ok := hub.(*storage.ServersFirewallRule)
 	if !ok {
 		return fmt.Errorf("expected sql/v1api20211101/storage/ServersFirewallRule but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (rule *ServersFirewallRule) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub ServersFirewallRule from our ServersFirewallRule
 func (rule *ServersFirewallRule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20211101s.ServersFirewallRule)
+	destination, ok := hub.(*storage.ServersFirewallRule)
 	if !ok {
 		return fmt.Errorf("expected sql/v1api20211101/storage/ServersFirewallRule but received %T instead", hub)
 	}
@@ -254,7 +254,7 @@ func (rule *ServersFirewallRule) validateWriteOnceProperties(old runtime.Object)
 }
 
 // AssignProperties_From_ServersFirewallRule populates our ServersFirewallRule from the provided source ServersFirewallRule
-func (rule *ServersFirewallRule) AssignProperties_From_ServersFirewallRule(source *v20211101s.ServersFirewallRule) error {
+func (rule *ServersFirewallRule) AssignProperties_From_ServersFirewallRule(source *storage.ServersFirewallRule) error {
 
 	// ObjectMeta
 	rule.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -280,13 +280,13 @@ func (rule *ServersFirewallRule) AssignProperties_From_ServersFirewallRule(sourc
 }
 
 // AssignProperties_To_ServersFirewallRule populates the provided destination ServersFirewallRule from our ServersFirewallRule
-func (rule *ServersFirewallRule) AssignProperties_To_ServersFirewallRule(destination *v20211101s.ServersFirewallRule) error {
+func (rule *ServersFirewallRule) AssignProperties_To_ServersFirewallRule(destination *storage.ServersFirewallRule) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *rule.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20211101s.Servers_FirewallRule_Spec
+	var spec storage.Servers_FirewallRule_Spec
 	err := rule.Spec.AssignProperties_To_Servers_FirewallRule_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Servers_FirewallRule_Spec() to populate field Spec")
@@ -294,7 +294,7 @@ func (rule *ServersFirewallRule) AssignProperties_To_ServersFirewallRule(destina
 	destination.Spec = spec
 
 	// Status
-	var status v20211101s.Servers_FirewallRule_STATUS
+	var status storage.Servers_FirewallRule_STATUS
 	err = rule.Status.AssignProperties_To_Servers_FirewallRule_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Servers_FirewallRule_STATUS() to populate field Status")
@@ -418,14 +418,14 @@ var _ genruntime.ConvertibleSpec = &Servers_FirewallRule_Spec{}
 
 // ConvertSpecFrom populates our Servers_FirewallRule_Spec from the provided source
 func (rule *Servers_FirewallRule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20211101s.Servers_FirewallRule_Spec)
+	src, ok := source.(*storage.Servers_FirewallRule_Spec)
 	if ok {
 		// Populate our instance from source
 		return rule.AssignProperties_From_Servers_FirewallRule_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20211101s.Servers_FirewallRule_Spec{}
+	src = &storage.Servers_FirewallRule_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -442,14 +442,14 @@ func (rule *Servers_FirewallRule_Spec) ConvertSpecFrom(source genruntime.Convert
 
 // ConvertSpecTo populates the provided destination from our Servers_FirewallRule_Spec
 func (rule *Servers_FirewallRule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20211101s.Servers_FirewallRule_Spec)
+	dst, ok := destination.(*storage.Servers_FirewallRule_Spec)
 	if ok {
 		// Populate destination from our instance
 		return rule.AssignProperties_To_Servers_FirewallRule_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20211101s.Servers_FirewallRule_Spec{}
+	dst = &storage.Servers_FirewallRule_Spec{}
 	err := rule.AssignProperties_To_Servers_FirewallRule_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -465,7 +465,7 @@ func (rule *Servers_FirewallRule_Spec) ConvertSpecTo(destination genruntime.Conv
 }
 
 // AssignProperties_From_Servers_FirewallRule_Spec populates our Servers_FirewallRule_Spec from the provided source Servers_FirewallRule_Spec
-func (rule *Servers_FirewallRule_Spec) AssignProperties_From_Servers_FirewallRule_Spec(source *v20211101s.Servers_FirewallRule_Spec) error {
+func (rule *Servers_FirewallRule_Spec) AssignProperties_From_Servers_FirewallRule_Spec(source *storage.Servers_FirewallRule_Spec) error {
 
 	// AzureName
 	rule.AzureName = source.AzureName
@@ -489,7 +489,7 @@ func (rule *Servers_FirewallRule_Spec) AssignProperties_From_Servers_FirewallRul
 }
 
 // AssignProperties_To_Servers_FirewallRule_Spec populates the provided destination Servers_FirewallRule_Spec from our Servers_FirewallRule_Spec
-func (rule *Servers_FirewallRule_Spec) AssignProperties_To_Servers_FirewallRule_Spec(destination *v20211101s.Servers_FirewallRule_Spec) error {
+func (rule *Servers_FirewallRule_Spec) AssignProperties_To_Servers_FirewallRule_Spec(destination *storage.Servers_FirewallRule_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -571,14 +571,14 @@ var _ genruntime.ConvertibleStatus = &Servers_FirewallRule_STATUS{}
 
 // ConvertStatusFrom populates our Servers_FirewallRule_STATUS from the provided source
 func (rule *Servers_FirewallRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20211101s.Servers_FirewallRule_STATUS)
+	src, ok := source.(*storage.Servers_FirewallRule_STATUS)
 	if ok {
 		// Populate our instance from source
 		return rule.AssignProperties_From_Servers_FirewallRule_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20211101s.Servers_FirewallRule_STATUS{}
+	src = &storage.Servers_FirewallRule_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -595,14 +595,14 @@ func (rule *Servers_FirewallRule_STATUS) ConvertStatusFrom(source genruntime.Con
 
 // ConvertStatusTo populates the provided destination from our Servers_FirewallRule_STATUS
 func (rule *Servers_FirewallRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20211101s.Servers_FirewallRule_STATUS)
+	dst, ok := destination.(*storage.Servers_FirewallRule_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return rule.AssignProperties_To_Servers_FirewallRule_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20211101s.Servers_FirewallRule_STATUS{}
+	dst = &storage.Servers_FirewallRule_STATUS{}
 	err := rule.AssignProperties_To_Servers_FirewallRule_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -674,7 +674,7 @@ func (rule *Servers_FirewallRule_STATUS) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_Servers_FirewallRule_STATUS populates our Servers_FirewallRule_STATUS from the provided source Servers_FirewallRule_STATUS
-func (rule *Servers_FirewallRule_STATUS) AssignProperties_From_Servers_FirewallRule_STATUS(source *v20211101s.Servers_FirewallRule_STATUS) error {
+func (rule *Servers_FirewallRule_STATUS) AssignProperties_From_Servers_FirewallRule_STATUS(source *storage.Servers_FirewallRule_STATUS) error {
 
 	// Conditions
 	rule.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -699,7 +699,7 @@ func (rule *Servers_FirewallRule_STATUS) AssignProperties_From_Servers_FirewallR
 }
 
 // AssignProperties_To_Servers_FirewallRule_STATUS populates the provided destination Servers_FirewallRule_STATUS from our Servers_FirewallRule_STATUS
-func (rule *Servers_FirewallRule_STATUS) AssignProperties_To_Servers_FirewallRule_STATUS(destination *v20211101s.Servers_FirewallRule_STATUS) error {
+func (rule *Servers_FirewallRule_STATUS) AssignProperties_To_Servers_FirewallRule_STATUS(destination *storage.Servers_FirewallRule_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

@@ -42,12 +42,30 @@ func TestAddImport_WhenImportMissing_IncreasesSizeOfSet(t *testing.T) {
 	g.Expect(set.imports).To(HaveLen(1))
 }
 
-func TestAddImport_WhenImportPresent_LeavesSetSameSize(t *testing.T) {
+func TestAddImport_WhenSameImportPresent_LeavesSetSameSize(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPackageImportSet()
 	set.AddImport(simpleTestImport)
 	set.AddImport(simpleTestImport)
+	g.Expect(set.imports).To(HaveLen(1))
+}
+
+func TestAddImport_WhenDuplicateImportPresent_LeavesSetSameSize(t *testing.T) {
+	// Same construction as simpleTestImport but wholly separate
+	refA := makeTestLocalPackageReference("crm", "person")
+	subA := MakeSubPackageReference("deets", refA)
+	impA := NewPackageImport(subA)
+
+	refB := makeTestLocalPackageReference("crm", "person")
+	subB := MakeSubPackageReference("deets", refB)
+	impB := NewPackageImport(subB)
+
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	set := NewPackageImportSet()
+	set.AddImport(impA)
+	set.AddImport(impB)
 	g.Expect(set.imports).To(HaveLen(1))
 }
 
@@ -154,6 +172,66 @@ func TestMerge_GivenDisjointSets_MergesSets(t *testing.T) {
 	setB.AddImportOfReference(pathTestRef)
 	setA.Merge(setB)
 	g.Expect(setA.imports).To(HaveLen(2))
+}
+
+func TestMerge_WhenNamedImportPresent_PrefersNamedImport(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	// Arrange
+	setA := NewPackageImportSet()
+	setA.AddImport(simpleTestImport.WithName("present"))
+
+	setB := NewPackageImportSet()
+	setB.AddImportOfReference(simpleTestRef)
+
+	// Act
+	setA.Merge(setB)
+
+	// Assert
+	imp, ok := setA.ImportFor(simpleTestRef)
+	g.Expect(ok).To(BeTrue())
+	g.Expect(imp.PackageName()).To(Equal("present"))
+}
+
+func TestMerge_WhenNamedImportAdded_PrefersNamedImport(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	// Arrange
+	setA := NewPackageImportSet()
+	setA.AddImportOfReference(simpleTestRef)
+
+	setB := NewPackageImportSet()
+	setB.AddImport(simpleTestImport.WithName("added"))
+
+	// Act
+	setA.Merge(setB)
+
+	// Assert
+	imp, ok := setA.ImportFor(simpleTestRef)
+	g.Expect(ok).To(BeTrue())
+	g.Expect(imp.PackageName()).To(Equal("added"))
+}
+
+func TestMerge_WhenNamedImportPresentAndAdded_PrefersExistingNamedImport(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	// Arrange
+	setA := NewPackageImportSet()
+	setA.AddImport(simpleTestImport.WithName("existing"))
+
+	setB := NewPackageImportSet()
+	setB.AddImport(simpleTestImport.WithName("added"))
+
+	// Act
+	setA.Merge(setB)
+
+	// Assert
+	imp, ok := setA.ImportFor(simpleTestRef)
+	g.Expect(ok).To(BeTrue())
+	g.Expect(imp.PackageName()).To(Equal("existing"))
 }
 
 /*
@@ -267,6 +345,12 @@ func TestPackageImportSet_GivenSet_AssignsExpectedAliases(t *testing.T) {
 	network_v2021 := makeTestLocalPackageReference("network", "2021-01-01")
 	network_v2022 := makeTestLocalPackageReference("network", "2022-01-01")
 
+	batch_storage_v2020 := MakeSubPackageReference("storage", batch_v2020)
+	batch_storage_v2021 := MakeSubPackageReference("storage", batch_v2021)
+
+	batch_compat_v2020 := MakeSubPackageReference("compat", batch_v2020)
+	//batch_compat_v2021 := MakeSubPackageReference("compat", batch_v2021)
+
 	cases := []struct {
 		name       string
 		references map[PackageReference]string
@@ -308,6 +392,20 @@ func TestPackageImportSet_GivenSet_AssignsExpectedAliases(t *testing.T) {
 				network_v2020: "network_v20200101",
 				network_v2021: "network_v20210101",
 				network_v2022: "network_v20220101",
+			},
+		},
+		{
+			"Sibling subpackages",
+			map[PackageReference]string{
+				batch_storage_v2020: "storage",
+				batch_compat_v2020:  "compat",
+			},
+		},
+		{
+			"Subpackages under different parents",
+			map[PackageReference]string{
+				batch_storage_v2020: "v20200101s",
+				batch_storage_v2021: "v20210101s",
 			},
 		},
 	}

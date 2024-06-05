@@ -5,7 +5,7 @@ package v1api20220702
 
 import (
 	"fmt"
-	v20220702s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &DiskEncryptionSet{}
 
 // ConvertFrom populates our DiskEncryptionSet from the provided hub DiskEncryptionSet
 func (encryptionSet *DiskEncryptionSet) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20220702s.DiskEncryptionSet)
+	source, ok := hub.(*storage.DiskEncryptionSet)
 	if !ok {
 		return fmt.Errorf("expected compute/v1api20220702/storage/DiskEncryptionSet but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (encryptionSet *DiskEncryptionSet) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub DiskEncryptionSet from our DiskEncryptionSet
 func (encryptionSet *DiskEncryptionSet) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20220702s.DiskEncryptionSet)
+	destination, ok := hub.(*storage.DiskEncryptionSet)
 	if !ok {
 		return fmt.Errorf("expected compute/v1api20220702/storage/DiskEncryptionSet but received %T instead", hub)
 	}
@@ -266,7 +266,7 @@ func (encryptionSet *DiskEncryptionSet) validateWriteOnceProperties(old runtime.
 }
 
 // AssignProperties_From_DiskEncryptionSet populates our DiskEncryptionSet from the provided source DiskEncryptionSet
-func (encryptionSet *DiskEncryptionSet) AssignProperties_From_DiskEncryptionSet(source *v20220702s.DiskEncryptionSet) error {
+func (encryptionSet *DiskEncryptionSet) AssignProperties_From_DiskEncryptionSet(source *storage.DiskEncryptionSet) error {
 
 	// ObjectMeta
 	encryptionSet.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -292,13 +292,13 @@ func (encryptionSet *DiskEncryptionSet) AssignProperties_From_DiskEncryptionSet(
 }
 
 // AssignProperties_To_DiskEncryptionSet populates the provided destination DiskEncryptionSet from our DiskEncryptionSet
-func (encryptionSet *DiskEncryptionSet) AssignProperties_To_DiskEncryptionSet(destination *v20220702s.DiskEncryptionSet) error {
+func (encryptionSet *DiskEncryptionSet) AssignProperties_To_DiskEncryptionSet(destination *storage.DiskEncryptionSet) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *encryptionSet.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20220702s.DiskEncryptionSet_Spec
+	var spec storage.DiskEncryptionSet_Spec
 	err := encryptionSet.Spec.AssignProperties_To_DiskEncryptionSet_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_DiskEncryptionSet_Spec() to populate field Spec")
@@ -306,7 +306,7 @@ func (encryptionSet *DiskEncryptionSet) AssignProperties_To_DiskEncryptionSet(de
 	destination.Spec = spec
 
 	// Status
-	var status v20220702s.DiskEncryptionSet_STATUS
+	var status storage.DiskEncryptionSet_STATUS
 	err = encryptionSet.Status.AssignProperties_To_DiskEncryptionSet_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_DiskEncryptionSet_STATUS() to populate field Status")
@@ -554,14 +554,14 @@ var _ genruntime.ConvertibleSpec = &DiskEncryptionSet_Spec{}
 
 // ConvertSpecFrom populates our DiskEncryptionSet_Spec from the provided source
 func (encryptionSet *DiskEncryptionSet_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20220702s.DiskEncryptionSet_Spec)
+	src, ok := source.(*storage.DiskEncryptionSet_Spec)
 	if ok {
 		// Populate our instance from source
 		return encryptionSet.AssignProperties_From_DiskEncryptionSet_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220702s.DiskEncryptionSet_Spec{}
+	src = &storage.DiskEncryptionSet_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -578,14 +578,14 @@ func (encryptionSet *DiskEncryptionSet_Spec) ConvertSpecFrom(source genruntime.C
 
 // ConvertSpecTo populates the provided destination from our DiskEncryptionSet_Spec
 func (encryptionSet *DiskEncryptionSet_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20220702s.DiskEncryptionSet_Spec)
+	dst, ok := destination.(*storage.DiskEncryptionSet_Spec)
 	if ok {
 		// Populate destination from our instance
 		return encryptionSet.AssignProperties_To_DiskEncryptionSet_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220702s.DiskEncryptionSet_Spec{}
+	dst = &storage.DiskEncryptionSet_Spec{}
 	err := encryptionSet.AssignProperties_To_DiskEncryptionSet_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -601,7 +601,7 @@ func (encryptionSet *DiskEncryptionSet_Spec) ConvertSpecTo(destination genruntim
 }
 
 // AssignProperties_From_DiskEncryptionSet_Spec populates our DiskEncryptionSet_Spec from the provided source DiskEncryptionSet_Spec
-func (encryptionSet *DiskEncryptionSet_Spec) AssignProperties_From_DiskEncryptionSet_Spec(source *v20220702s.DiskEncryptionSet_Spec) error {
+func (encryptionSet *DiskEncryptionSet_Spec) AssignProperties_From_DiskEncryptionSet_Spec(source *storage.DiskEncryptionSet_Spec) error {
 
 	// ActiveKey
 	if source.ActiveKey != nil {
@@ -677,13 +677,13 @@ func (encryptionSet *DiskEncryptionSet_Spec) AssignProperties_From_DiskEncryptio
 }
 
 // AssignProperties_To_DiskEncryptionSet_Spec populates the provided destination DiskEncryptionSet_Spec from our DiskEncryptionSet_Spec
-func (encryptionSet *DiskEncryptionSet_Spec) AssignProperties_To_DiskEncryptionSet_Spec(destination *v20220702s.DiskEncryptionSet_Spec) error {
+func (encryptionSet *DiskEncryptionSet_Spec) AssignProperties_To_DiskEncryptionSet_Spec(destination *storage.DiskEncryptionSet_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ActiveKey
 	if encryptionSet.ActiveKey != nil {
-		var activeKey v20220702s.KeyForDiskEncryptionSet
+		var activeKey storage.KeyForDiskEncryptionSet
 		err := encryptionSet.ActiveKey.AssignProperties_To_KeyForDiskEncryptionSet(&activeKey)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_KeyForDiskEncryptionSet() to populate field ActiveKey")
@@ -717,7 +717,7 @@ func (encryptionSet *DiskEncryptionSet_Spec) AssignProperties_To_DiskEncryptionS
 
 	// Identity
 	if encryptionSet.Identity != nil {
-		var identity v20220702s.EncryptionSetIdentity
+		var identity storage.EncryptionSetIdentity
 		err := encryptionSet.Identity.AssignProperties_To_EncryptionSetIdentity(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_EncryptionSetIdentity() to populate field Identity")
@@ -886,14 +886,14 @@ var _ genruntime.ConvertibleStatus = &DiskEncryptionSet_STATUS{}
 
 // ConvertStatusFrom populates our DiskEncryptionSet_STATUS from the provided source
 func (encryptionSet *DiskEncryptionSet_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20220702s.DiskEncryptionSet_STATUS)
+	src, ok := source.(*storage.DiskEncryptionSet_STATUS)
 	if ok {
 		// Populate our instance from source
 		return encryptionSet.AssignProperties_From_DiskEncryptionSet_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220702s.DiskEncryptionSet_STATUS{}
+	src = &storage.DiskEncryptionSet_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -910,14 +910,14 @@ func (encryptionSet *DiskEncryptionSet_STATUS) ConvertStatusFrom(source genrunti
 
 // ConvertStatusTo populates the provided destination from our DiskEncryptionSet_STATUS
 func (encryptionSet *DiskEncryptionSet_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20220702s.DiskEncryptionSet_STATUS)
+	dst, ok := destination.(*storage.DiskEncryptionSet_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return encryptionSet.AssignProperties_To_DiskEncryptionSet_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220702s.DiskEncryptionSet_STATUS{}
+	dst = &storage.DiskEncryptionSet_STATUS{}
 	err := encryptionSet.AssignProperties_To_DiskEncryptionSet_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1082,7 +1082,7 @@ func (encryptionSet *DiskEncryptionSet_STATUS) PopulateFromARM(owner genruntime.
 }
 
 // AssignProperties_From_DiskEncryptionSet_STATUS populates our DiskEncryptionSet_STATUS from the provided source DiskEncryptionSet_STATUS
-func (encryptionSet *DiskEncryptionSet_STATUS) AssignProperties_From_DiskEncryptionSet_STATUS(source *v20220702s.DiskEncryptionSet_STATUS) error {
+func (encryptionSet *DiskEncryptionSet_STATUS) AssignProperties_From_DiskEncryptionSet_STATUS(source *storage.DiskEncryptionSet_STATUS) error {
 
 	// ActiveKey
 	if source.ActiveKey != nil {
@@ -1187,13 +1187,13 @@ func (encryptionSet *DiskEncryptionSet_STATUS) AssignProperties_From_DiskEncrypt
 }
 
 // AssignProperties_To_DiskEncryptionSet_STATUS populates the provided destination DiskEncryptionSet_STATUS from our DiskEncryptionSet_STATUS
-func (encryptionSet *DiskEncryptionSet_STATUS) AssignProperties_To_DiskEncryptionSet_STATUS(destination *v20220702s.DiskEncryptionSet_STATUS) error {
+func (encryptionSet *DiskEncryptionSet_STATUS) AssignProperties_To_DiskEncryptionSet_STATUS(destination *storage.DiskEncryptionSet_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ActiveKey
 	if encryptionSet.ActiveKey != nil {
-		var activeKey v20220702s.KeyForDiskEncryptionSet_STATUS
+		var activeKey storage.KeyForDiskEncryptionSet_STATUS
 		err := encryptionSet.ActiveKey.AssignProperties_To_KeyForDiskEncryptionSet_STATUS(&activeKey)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_KeyForDiskEncryptionSet_STATUS() to populate field ActiveKey")
@@ -1205,7 +1205,7 @@ func (encryptionSet *DiskEncryptionSet_STATUS) AssignProperties_To_DiskEncryptio
 
 	// AutoKeyRotationError
 	if encryptionSet.AutoKeyRotationError != nil {
-		var autoKeyRotationError v20220702s.ApiError_STATUS
+		var autoKeyRotationError storage.ApiError_STATUS
 		err := encryptionSet.AutoKeyRotationError.AssignProperties_To_ApiError_STATUS(&autoKeyRotationError)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ApiError_STATUS() to populate field AutoKeyRotationError")
@@ -1234,7 +1234,7 @@ func (encryptionSet *DiskEncryptionSet_STATUS) AssignProperties_To_DiskEncryptio
 
 	// Identity
 	if encryptionSet.Identity != nil {
-		var identity v20220702s.EncryptionSetIdentity_STATUS
+		var identity storage.EncryptionSetIdentity_STATUS
 		err := encryptionSet.Identity.AssignProperties_To_EncryptionSetIdentity_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_EncryptionSetIdentity_STATUS() to populate field Identity")
@@ -1255,11 +1255,11 @@ func (encryptionSet *DiskEncryptionSet_STATUS) AssignProperties_To_DiskEncryptio
 
 	// PreviousKeys
 	if encryptionSet.PreviousKeys != nil {
-		previousKeyList := make([]v20220702s.KeyForDiskEncryptionSet_STATUS, len(encryptionSet.PreviousKeys))
+		previousKeyList := make([]storage.KeyForDiskEncryptionSet_STATUS, len(encryptionSet.PreviousKeys))
 		for previousKeyIndex, previousKeyItem := range encryptionSet.PreviousKeys {
 			// Shadow the loop variable to avoid aliasing
 			previousKeyItem := previousKeyItem
-			var previousKey v20220702s.KeyForDiskEncryptionSet_STATUS
+			var previousKey storage.KeyForDiskEncryptionSet_STATUS
 			err := previousKeyItem.AssignProperties_To_KeyForDiskEncryptionSet_STATUS(&previousKey)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_KeyForDiskEncryptionSet_STATUS() to populate field PreviousKeys")
@@ -1375,7 +1375,7 @@ func (error *ApiError_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 }
 
 // AssignProperties_From_ApiError_STATUS populates our ApiError_STATUS from the provided source ApiError_STATUS
-func (error *ApiError_STATUS) AssignProperties_From_ApiError_STATUS(source *v20220702s.ApiError_STATUS) error {
+func (error *ApiError_STATUS) AssignProperties_From_ApiError_STATUS(source *storage.ApiError_STATUS) error {
 
 	// Code
 	error.Code = genruntime.ClonePointerToString(source.Code)
@@ -1421,7 +1421,7 @@ func (error *ApiError_STATUS) AssignProperties_From_ApiError_STATUS(source *v202
 }
 
 // AssignProperties_To_ApiError_STATUS populates the provided destination ApiError_STATUS from our ApiError_STATUS
-func (error *ApiError_STATUS) AssignProperties_To_ApiError_STATUS(destination *v20220702s.ApiError_STATUS) error {
+func (error *ApiError_STATUS) AssignProperties_To_ApiError_STATUS(destination *storage.ApiError_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1430,11 +1430,11 @@ func (error *ApiError_STATUS) AssignProperties_To_ApiError_STATUS(destination *v
 
 	// Details
 	if error.Details != nil {
-		detailList := make([]v20220702s.ApiErrorBase_STATUS, len(error.Details))
+		detailList := make([]storage.ApiErrorBase_STATUS, len(error.Details))
 		for detailIndex, detailItem := range error.Details {
 			// Shadow the loop variable to avoid aliasing
 			detailItem := detailItem
-			var detail v20220702s.ApiErrorBase_STATUS
+			var detail storage.ApiErrorBase_STATUS
 			err := detailItem.AssignProperties_To_ApiErrorBase_STATUS(&detail)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ApiErrorBase_STATUS() to populate field Details")
@@ -1448,7 +1448,7 @@ func (error *ApiError_STATUS) AssignProperties_To_ApiError_STATUS(destination *v
 
 	// Innererror
 	if error.Innererror != nil {
-		var innererror v20220702s.InnerError_STATUS
+		var innererror storage.InnerError_STATUS
 		err := error.Innererror.AssignProperties_To_InnerError_STATUS(&innererror)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_InnerError_STATUS() to populate field Innererror")
@@ -1575,7 +1575,7 @@ func (identity *EncryptionSetIdentity) PopulateFromARM(owner genruntime.Arbitrar
 }
 
 // AssignProperties_From_EncryptionSetIdentity populates our EncryptionSetIdentity from the provided source EncryptionSetIdentity
-func (identity *EncryptionSetIdentity) AssignProperties_From_EncryptionSetIdentity(source *v20220702s.EncryptionSetIdentity) error {
+func (identity *EncryptionSetIdentity) AssignProperties_From_EncryptionSetIdentity(source *storage.EncryptionSetIdentity) error {
 
 	// Type
 	if source.Type != nil {
@@ -1609,7 +1609,7 @@ func (identity *EncryptionSetIdentity) AssignProperties_From_EncryptionSetIdenti
 }
 
 // AssignProperties_To_EncryptionSetIdentity populates the provided destination EncryptionSetIdentity from our EncryptionSetIdentity
-func (identity *EncryptionSetIdentity) AssignProperties_To_EncryptionSetIdentity(destination *v20220702s.EncryptionSetIdentity) error {
+func (identity *EncryptionSetIdentity) AssignProperties_To_EncryptionSetIdentity(destination *storage.EncryptionSetIdentity) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1623,11 +1623,11 @@ func (identity *EncryptionSetIdentity) AssignProperties_To_EncryptionSetIdentity
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]v20220702s.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
+		userAssignedIdentityList := make([]storage.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range identity.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityItem := userAssignedIdentityItem
-			var userAssignedIdentity v20220702s.UserAssignedIdentityDetails
+			var userAssignedIdentity storage.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
@@ -1749,7 +1749,7 @@ func (identity *EncryptionSetIdentity_STATUS) PopulateFromARM(owner genruntime.A
 }
 
 // AssignProperties_From_EncryptionSetIdentity_STATUS populates our EncryptionSetIdentity_STATUS from the provided source EncryptionSetIdentity_STATUS
-func (identity *EncryptionSetIdentity_STATUS) AssignProperties_From_EncryptionSetIdentity_STATUS(source *v20220702s.EncryptionSetIdentity_STATUS) error {
+func (identity *EncryptionSetIdentity_STATUS) AssignProperties_From_EncryptionSetIdentity_STATUS(source *storage.EncryptionSetIdentity_STATUS) error {
 
 	// PrincipalId
 	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
@@ -1789,7 +1789,7 @@ func (identity *EncryptionSetIdentity_STATUS) AssignProperties_From_EncryptionSe
 }
 
 // AssignProperties_To_EncryptionSetIdentity_STATUS populates the provided destination EncryptionSetIdentity_STATUS from our EncryptionSetIdentity_STATUS
-func (identity *EncryptionSetIdentity_STATUS) AssignProperties_To_EncryptionSetIdentity_STATUS(destination *v20220702s.EncryptionSetIdentity_STATUS) error {
+func (identity *EncryptionSetIdentity_STATUS) AssignProperties_To_EncryptionSetIdentity_STATUS(destination *storage.EncryptionSetIdentity_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1809,11 +1809,11 @@ func (identity *EncryptionSetIdentity_STATUS) AssignProperties_To_EncryptionSetI
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v20220702s.EncryptionSetIdentity_UserAssignedIdentities_STATUS, len(identity.UserAssignedIdentities))
+		userAssignedIdentityMap := make(map[string]storage.EncryptionSetIdentity_UserAssignedIdentities_STATUS, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity v20220702s.EncryptionSetIdentity_UserAssignedIdentities_STATUS
+			var userAssignedIdentity storage.EncryptionSetIdentity_UserAssignedIdentities_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_EncryptionSetIdentity_UserAssignedIdentities_STATUS(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_EncryptionSetIdentity_UserAssignedIdentities_STATUS() to populate field UserAssignedIdentities")
@@ -1922,7 +1922,7 @@ func (encryptionSet *KeyForDiskEncryptionSet) PopulateFromARM(owner genruntime.A
 }
 
 // AssignProperties_From_KeyForDiskEncryptionSet populates our KeyForDiskEncryptionSet from the provided source KeyForDiskEncryptionSet
-func (encryptionSet *KeyForDiskEncryptionSet) AssignProperties_From_KeyForDiskEncryptionSet(source *v20220702s.KeyForDiskEncryptionSet) error {
+func (encryptionSet *KeyForDiskEncryptionSet) AssignProperties_From_KeyForDiskEncryptionSet(source *storage.KeyForDiskEncryptionSet) error {
 
 	// KeyUrl
 	encryptionSet.KeyUrl = genruntime.ClonePointerToString(source.KeyUrl)
@@ -1952,7 +1952,7 @@ func (encryptionSet *KeyForDiskEncryptionSet) AssignProperties_From_KeyForDiskEn
 }
 
 // AssignProperties_To_KeyForDiskEncryptionSet populates the provided destination KeyForDiskEncryptionSet from our KeyForDiskEncryptionSet
-func (encryptionSet *KeyForDiskEncryptionSet) AssignProperties_To_KeyForDiskEncryptionSet(destination *v20220702s.KeyForDiskEncryptionSet) error {
+func (encryptionSet *KeyForDiskEncryptionSet) AssignProperties_To_KeyForDiskEncryptionSet(destination *storage.KeyForDiskEncryptionSet) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1969,7 +1969,7 @@ func (encryptionSet *KeyForDiskEncryptionSet) AssignProperties_To_KeyForDiskEncr
 
 	// SourceVault
 	if encryptionSet.SourceVault != nil {
-		var sourceVault v20220702s.SourceVault
+		var sourceVault storage.SourceVault
 		err := encryptionSet.SourceVault.AssignProperties_To_SourceVault(&sourceVault)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SourceVault() to populate field SourceVault")
@@ -2059,7 +2059,7 @@ func (encryptionSet *KeyForDiskEncryptionSet_STATUS) PopulateFromARM(owner genru
 }
 
 // AssignProperties_From_KeyForDiskEncryptionSet_STATUS populates our KeyForDiskEncryptionSet_STATUS from the provided source KeyForDiskEncryptionSet_STATUS
-func (encryptionSet *KeyForDiskEncryptionSet_STATUS) AssignProperties_From_KeyForDiskEncryptionSet_STATUS(source *v20220702s.KeyForDiskEncryptionSet_STATUS) error {
+func (encryptionSet *KeyForDiskEncryptionSet_STATUS) AssignProperties_From_KeyForDiskEncryptionSet_STATUS(source *storage.KeyForDiskEncryptionSet_STATUS) error {
 
 	// KeyUrl
 	encryptionSet.KeyUrl = genruntime.ClonePointerToString(source.KeyUrl)
@@ -2081,7 +2081,7 @@ func (encryptionSet *KeyForDiskEncryptionSet_STATUS) AssignProperties_From_KeyFo
 }
 
 // AssignProperties_To_KeyForDiskEncryptionSet_STATUS populates the provided destination KeyForDiskEncryptionSet_STATUS from our KeyForDiskEncryptionSet_STATUS
-func (encryptionSet *KeyForDiskEncryptionSet_STATUS) AssignProperties_To_KeyForDiskEncryptionSet_STATUS(destination *v20220702s.KeyForDiskEncryptionSet_STATUS) error {
+func (encryptionSet *KeyForDiskEncryptionSet_STATUS) AssignProperties_To_KeyForDiskEncryptionSet_STATUS(destination *storage.KeyForDiskEncryptionSet_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2090,7 +2090,7 @@ func (encryptionSet *KeyForDiskEncryptionSet_STATUS) AssignProperties_To_KeyForD
 
 	// SourceVault
 	if encryptionSet.SourceVault != nil {
-		var sourceVault v20220702s.SourceVault_STATUS
+		var sourceVault storage.SourceVault_STATUS
 		err := encryptionSet.SourceVault.AssignProperties_To_SourceVault_STATUS(&sourceVault)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SourceVault_STATUS() to populate field SourceVault")
@@ -2160,7 +2160,7 @@ func (base *ApiErrorBase_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 }
 
 // AssignProperties_From_ApiErrorBase_STATUS populates our ApiErrorBase_STATUS from the provided source ApiErrorBase_STATUS
-func (base *ApiErrorBase_STATUS) AssignProperties_From_ApiErrorBase_STATUS(source *v20220702s.ApiErrorBase_STATUS) error {
+func (base *ApiErrorBase_STATUS) AssignProperties_From_ApiErrorBase_STATUS(source *storage.ApiErrorBase_STATUS) error {
 
 	// Code
 	base.Code = genruntime.ClonePointerToString(source.Code)
@@ -2176,7 +2176,7 @@ func (base *ApiErrorBase_STATUS) AssignProperties_From_ApiErrorBase_STATUS(sourc
 }
 
 // AssignProperties_To_ApiErrorBase_STATUS populates the provided destination ApiErrorBase_STATUS from our ApiErrorBase_STATUS
-func (base *ApiErrorBase_STATUS) AssignProperties_To_ApiErrorBase_STATUS(destination *v20220702s.ApiErrorBase_STATUS) error {
+func (base *ApiErrorBase_STATUS) AssignProperties_To_ApiErrorBase_STATUS(destination *storage.ApiErrorBase_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2239,7 +2239,7 @@ func (identities *EncryptionSetIdentity_UserAssignedIdentities_STATUS) PopulateF
 }
 
 // AssignProperties_From_EncryptionSetIdentity_UserAssignedIdentities_STATUS populates our EncryptionSetIdentity_UserAssignedIdentities_STATUS from the provided source EncryptionSetIdentity_UserAssignedIdentities_STATUS
-func (identities *EncryptionSetIdentity_UserAssignedIdentities_STATUS) AssignProperties_From_EncryptionSetIdentity_UserAssignedIdentities_STATUS(source *v20220702s.EncryptionSetIdentity_UserAssignedIdentities_STATUS) error {
+func (identities *EncryptionSetIdentity_UserAssignedIdentities_STATUS) AssignProperties_From_EncryptionSetIdentity_UserAssignedIdentities_STATUS(source *storage.EncryptionSetIdentity_UserAssignedIdentities_STATUS) error {
 
 	// ClientId
 	identities.ClientId = genruntime.ClonePointerToString(source.ClientId)
@@ -2252,7 +2252,7 @@ func (identities *EncryptionSetIdentity_UserAssignedIdentities_STATUS) AssignPro
 }
 
 // AssignProperties_To_EncryptionSetIdentity_UserAssignedIdentities_STATUS populates the provided destination EncryptionSetIdentity_UserAssignedIdentities_STATUS from our EncryptionSetIdentity_UserAssignedIdentities_STATUS
-func (identities *EncryptionSetIdentity_UserAssignedIdentities_STATUS) AssignProperties_To_EncryptionSetIdentity_UserAssignedIdentities_STATUS(destination *v20220702s.EncryptionSetIdentity_UserAssignedIdentities_STATUS) error {
+func (identities *EncryptionSetIdentity_UserAssignedIdentities_STATUS) AssignProperties_To_EncryptionSetIdentity_UserAssignedIdentities_STATUS(destination *storage.EncryptionSetIdentity_UserAssignedIdentities_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2313,7 +2313,7 @@ func (error *InnerError_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 }
 
 // AssignProperties_From_InnerError_STATUS populates our InnerError_STATUS from the provided source InnerError_STATUS
-func (error *InnerError_STATUS) AssignProperties_From_InnerError_STATUS(source *v20220702s.InnerError_STATUS) error {
+func (error *InnerError_STATUS) AssignProperties_From_InnerError_STATUS(source *storage.InnerError_STATUS) error {
 
 	// Errordetail
 	error.Errordetail = genruntime.ClonePointerToString(source.Errordetail)
@@ -2326,7 +2326,7 @@ func (error *InnerError_STATUS) AssignProperties_From_InnerError_STATUS(source *
 }
 
 // AssignProperties_To_InnerError_STATUS populates the provided destination InnerError_STATUS from our InnerError_STATUS
-func (error *InnerError_STATUS) AssignProperties_To_InnerError_STATUS(destination *v20220702s.InnerError_STATUS) error {
+func (error *InnerError_STATUS) AssignProperties_To_InnerError_STATUS(destination *storage.InnerError_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2394,7 +2394,7 @@ func (vault *SourceVault) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 }
 
 // AssignProperties_From_SourceVault populates our SourceVault from the provided source SourceVault
-func (vault *SourceVault) AssignProperties_From_SourceVault(source *v20220702s.SourceVault) error {
+func (vault *SourceVault) AssignProperties_From_SourceVault(source *storage.SourceVault) error {
 
 	// Reference
 	if source.Reference != nil {
@@ -2409,7 +2409,7 @@ func (vault *SourceVault) AssignProperties_From_SourceVault(source *v20220702s.S
 }
 
 // AssignProperties_To_SourceVault populates the provided destination SourceVault from our SourceVault
-func (vault *SourceVault) AssignProperties_To_SourceVault(destination *v20220702s.SourceVault) error {
+func (vault *SourceVault) AssignProperties_To_SourceVault(destination *storage.SourceVault) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2479,7 +2479,7 @@ func (vault *SourceVault_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 }
 
 // AssignProperties_From_SourceVault_STATUS populates our SourceVault_STATUS from the provided source SourceVault_STATUS
-func (vault *SourceVault_STATUS) AssignProperties_From_SourceVault_STATUS(source *v20220702s.SourceVault_STATUS) error {
+func (vault *SourceVault_STATUS) AssignProperties_From_SourceVault_STATUS(source *storage.SourceVault_STATUS) error {
 
 	// Id
 	vault.Id = genruntime.ClonePointerToString(source.Id)
@@ -2489,7 +2489,7 @@ func (vault *SourceVault_STATUS) AssignProperties_From_SourceVault_STATUS(source
 }
 
 // AssignProperties_To_SourceVault_STATUS populates the provided destination SourceVault_STATUS from our SourceVault_STATUS
-func (vault *SourceVault_STATUS) AssignProperties_To_SourceVault_STATUS(destination *v20220702s.SourceVault_STATUS) error {
+func (vault *SourceVault_STATUS) AssignProperties_To_SourceVault_STATUS(destination *storage.SourceVault_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2513,7 +2513,7 @@ type UserAssignedIdentityDetails struct {
 }
 
 // AssignProperties_From_UserAssignedIdentityDetails populates our UserAssignedIdentityDetails from the provided source UserAssignedIdentityDetails
-func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *v20220702s.UserAssignedIdentityDetails) error {
+func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *storage.UserAssignedIdentityDetails) error {
 
 	// Reference
 	details.Reference = source.Reference.Copy()
@@ -2523,7 +2523,7 @@ func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedId
 }
 
 // AssignProperties_To_UserAssignedIdentityDetails populates the provided destination UserAssignedIdentityDetails from our UserAssignedIdentityDetails
-func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *v20220702s.UserAssignedIdentityDetails) error {
+func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *storage.UserAssignedIdentityDetails) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

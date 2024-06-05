@@ -5,7 +5,7 @@ package v1api20180301
 
 import (
 	"fmt"
-	v20180301s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20180301/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/insights/v1api20180301/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -50,7 +50,7 @@ var _ conversion.Convertible = &MetricAlert{}
 
 // ConvertFrom populates our MetricAlert from the provided hub MetricAlert
 func (alert *MetricAlert) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20180301s.MetricAlert)
+	source, ok := hub.(*storage.MetricAlert)
 	if !ok {
 		return fmt.Errorf("expected insights/v1api20180301/storage/MetricAlert but received %T instead", hub)
 	}
@@ -60,7 +60,7 @@ func (alert *MetricAlert) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub MetricAlert from our MetricAlert
 func (alert *MetricAlert) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20180301s.MetricAlert)
+	destination, ok := hub.(*storage.MetricAlert)
 	if !ok {
 		return fmt.Errorf("expected insights/v1api20180301/storage/MetricAlert but received %T instead", hub)
 	}
@@ -255,7 +255,7 @@ func (alert *MetricAlert) validateWriteOnceProperties(old runtime.Object) (admis
 }
 
 // AssignProperties_From_MetricAlert populates our MetricAlert from the provided source MetricAlert
-func (alert *MetricAlert) AssignProperties_From_MetricAlert(source *v20180301s.MetricAlert) error {
+func (alert *MetricAlert) AssignProperties_From_MetricAlert(source *storage.MetricAlert) error {
 
 	// ObjectMeta
 	alert.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -281,13 +281,13 @@ func (alert *MetricAlert) AssignProperties_From_MetricAlert(source *v20180301s.M
 }
 
 // AssignProperties_To_MetricAlert populates the provided destination MetricAlert from our MetricAlert
-func (alert *MetricAlert) AssignProperties_To_MetricAlert(destination *v20180301s.MetricAlert) error {
+func (alert *MetricAlert) AssignProperties_To_MetricAlert(destination *storage.MetricAlert) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *alert.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20180301s.MetricAlert_Spec
+	var spec storage.MetricAlert_Spec
 	err := alert.Spec.AssignProperties_To_MetricAlert_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_MetricAlert_Spec() to populate field Spec")
@@ -295,7 +295,7 @@ func (alert *MetricAlert) AssignProperties_To_MetricAlert(destination *v20180301
 	destination.Spec = spec
 
 	// Status
-	var status v20180301s.MetricAlert_STATUS
+	var status storage.MetricAlert_STATUS
 	err = alert.Status.AssignProperties_To_MetricAlert_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_MetricAlert_STATUS() to populate field Status")
@@ -633,14 +633,14 @@ var _ genruntime.ConvertibleSpec = &MetricAlert_Spec{}
 
 // ConvertSpecFrom populates our MetricAlert_Spec from the provided source
 func (alert *MetricAlert_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20180301s.MetricAlert_Spec)
+	src, ok := source.(*storage.MetricAlert_Spec)
 	if ok {
 		// Populate our instance from source
 		return alert.AssignProperties_From_MetricAlert_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20180301s.MetricAlert_Spec{}
+	src = &storage.MetricAlert_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -657,14 +657,14 @@ func (alert *MetricAlert_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec
 
 // ConvertSpecTo populates the provided destination from our MetricAlert_Spec
 func (alert *MetricAlert_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20180301s.MetricAlert_Spec)
+	dst, ok := destination.(*storage.MetricAlert_Spec)
 	if ok {
 		// Populate destination from our instance
 		return alert.AssignProperties_To_MetricAlert_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20180301s.MetricAlert_Spec{}
+	dst = &storage.MetricAlert_Spec{}
 	err := alert.AssignProperties_To_MetricAlert_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -680,7 +680,7 @@ func (alert *MetricAlert_Spec) ConvertSpecTo(destination genruntime.ConvertibleS
 }
 
 // AssignProperties_From_MetricAlert_Spec populates our MetricAlert_Spec from the provided source MetricAlert_Spec
-func (alert *MetricAlert_Spec) AssignProperties_From_MetricAlert_Spec(source *v20180301s.MetricAlert_Spec) error {
+func (alert *MetricAlert_Spec) AssignProperties_From_MetricAlert_Spec(source *storage.MetricAlert_Spec) error {
 
 	// Actions
 	if source.Actions != nil {
@@ -781,17 +781,17 @@ func (alert *MetricAlert_Spec) AssignProperties_From_MetricAlert_Spec(source *v2
 }
 
 // AssignProperties_To_MetricAlert_Spec populates the provided destination MetricAlert_Spec from our MetricAlert_Spec
-func (alert *MetricAlert_Spec) AssignProperties_To_MetricAlert_Spec(destination *v20180301s.MetricAlert_Spec) error {
+func (alert *MetricAlert_Spec) AssignProperties_To_MetricAlert_Spec(destination *storage.MetricAlert_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Actions
 	if alert.Actions != nil {
-		actionList := make([]v20180301s.MetricAlertAction, len(alert.Actions))
+		actionList := make([]storage.MetricAlertAction, len(alert.Actions))
 		for actionIndex, actionItem := range alert.Actions {
 			// Shadow the loop variable to avoid aliasing
 			actionItem := actionItem
-			var action v20180301s.MetricAlertAction
+			var action storage.MetricAlertAction
 			err := actionItem.AssignProperties_To_MetricAlertAction(&action)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_MetricAlertAction() to populate field Actions")
@@ -816,7 +816,7 @@ func (alert *MetricAlert_Spec) AssignProperties_To_MetricAlert_Spec(destination 
 
 	// Criteria
 	if alert.Criteria != nil {
-		var criterion v20180301s.MetricAlertCriteria
+		var criterion storage.MetricAlertCriteria
 		err := alert.Criteria.AssignProperties_To_MetricAlertCriteria(&criterion)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_MetricAlertCriteria() to populate field Criteria")
@@ -1045,14 +1045,14 @@ var _ genruntime.ConvertibleStatus = &MetricAlert_STATUS{}
 
 // ConvertStatusFrom populates our MetricAlert_STATUS from the provided source
 func (alert *MetricAlert_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20180301s.MetricAlert_STATUS)
+	src, ok := source.(*storage.MetricAlert_STATUS)
 	if ok {
 		// Populate our instance from source
 		return alert.AssignProperties_From_MetricAlert_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20180301s.MetricAlert_STATUS{}
+	src = &storage.MetricAlert_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -1069,14 +1069,14 @@ func (alert *MetricAlert_STATUS) ConvertStatusFrom(source genruntime.Convertible
 
 // ConvertStatusTo populates the provided destination from our MetricAlert_STATUS
 func (alert *MetricAlert_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20180301s.MetricAlert_STATUS)
+	dst, ok := destination.(*storage.MetricAlert_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return alert.AssignProperties_To_MetricAlert_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20180301s.MetricAlert_STATUS{}
+	dst = &storage.MetricAlert_STATUS{}
 	err := alert.AssignProperties_To_MetricAlert_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1269,7 +1269,7 @@ func (alert *MetricAlert_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 }
 
 // AssignProperties_From_MetricAlert_STATUS populates our MetricAlert_STATUS from the provided source MetricAlert_STATUS
-func (alert *MetricAlert_STATUS) AssignProperties_From_MetricAlert_STATUS(source *v20180301s.MetricAlert_STATUS) error {
+func (alert *MetricAlert_STATUS) AssignProperties_From_MetricAlert_STATUS(source *storage.MetricAlert_STATUS) error {
 
 	// Actions
 	if source.Actions != nil {
@@ -1372,17 +1372,17 @@ func (alert *MetricAlert_STATUS) AssignProperties_From_MetricAlert_STATUS(source
 }
 
 // AssignProperties_To_MetricAlert_STATUS populates the provided destination MetricAlert_STATUS from our MetricAlert_STATUS
-func (alert *MetricAlert_STATUS) AssignProperties_To_MetricAlert_STATUS(destination *v20180301s.MetricAlert_STATUS) error {
+func (alert *MetricAlert_STATUS) AssignProperties_To_MetricAlert_STATUS(destination *storage.MetricAlert_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Actions
 	if alert.Actions != nil {
-		actionList := make([]v20180301s.MetricAlertAction_STATUS, len(alert.Actions))
+		actionList := make([]storage.MetricAlertAction_STATUS, len(alert.Actions))
 		for actionIndex, actionItem := range alert.Actions {
 			// Shadow the loop variable to avoid aliasing
 			actionItem := actionItem
-			var action v20180301s.MetricAlertAction_STATUS
+			var action storage.MetricAlertAction_STATUS
 			err := actionItem.AssignProperties_To_MetricAlertAction_STATUS(&action)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_MetricAlertAction_STATUS() to populate field Actions")
@@ -1407,7 +1407,7 @@ func (alert *MetricAlert_STATUS) AssignProperties_To_MetricAlert_STATUS(destinat
 
 	// Criteria
 	if alert.Criteria != nil {
-		var criterion v20180301s.MetricAlertCriteria_STATUS
+		var criterion storage.MetricAlertCriteria_STATUS
 		err := alert.Criteria.AssignProperties_To_MetricAlertCriteria_STATUS(&criterion)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_MetricAlertCriteria_STATUS() to populate field Criteria")
@@ -1549,7 +1549,7 @@ func (action *MetricAlertAction) PopulateFromARM(owner genruntime.ArbitraryOwner
 }
 
 // AssignProperties_From_MetricAlertAction populates our MetricAlertAction from the provided source MetricAlertAction
-func (action *MetricAlertAction) AssignProperties_From_MetricAlertAction(source *v20180301s.MetricAlertAction) error {
+func (action *MetricAlertAction) AssignProperties_From_MetricAlertAction(source *storage.MetricAlertAction) error {
 
 	// ActionGroupId
 	action.ActionGroupId = genruntime.ClonePointerToString(source.ActionGroupId)
@@ -1562,7 +1562,7 @@ func (action *MetricAlertAction) AssignProperties_From_MetricAlertAction(source 
 }
 
 // AssignProperties_To_MetricAlertAction populates the provided destination MetricAlertAction from our MetricAlertAction
-func (action *MetricAlertAction) AssignProperties_To_MetricAlertAction(destination *v20180301s.MetricAlertAction) error {
+func (action *MetricAlertAction) AssignProperties_To_MetricAlertAction(destination *storage.MetricAlertAction) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1639,7 +1639,7 @@ func (action *MetricAlertAction_STATUS) PopulateFromARM(owner genruntime.Arbitra
 }
 
 // AssignProperties_From_MetricAlertAction_STATUS populates our MetricAlertAction_STATUS from the provided source MetricAlertAction_STATUS
-func (action *MetricAlertAction_STATUS) AssignProperties_From_MetricAlertAction_STATUS(source *v20180301s.MetricAlertAction_STATUS) error {
+func (action *MetricAlertAction_STATUS) AssignProperties_From_MetricAlertAction_STATUS(source *storage.MetricAlertAction_STATUS) error {
 
 	// ActionGroupId
 	action.ActionGroupId = genruntime.ClonePointerToString(source.ActionGroupId)
@@ -1652,7 +1652,7 @@ func (action *MetricAlertAction_STATUS) AssignProperties_From_MetricAlertAction_
 }
 
 // AssignProperties_To_MetricAlertAction_STATUS populates the provided destination MetricAlertAction_STATUS from our MetricAlertAction_STATUS
-func (action *MetricAlertAction_STATUS) AssignProperties_To_MetricAlertAction_STATUS(destination *v20180301s.MetricAlertAction_STATUS) error {
+func (action *MetricAlertAction_STATUS) AssignProperties_To_MetricAlertAction_STATUS(destination *storage.MetricAlertAction_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1775,7 +1775,7 @@ func (criteria *MetricAlertCriteria) PopulateFromARM(owner genruntime.ArbitraryO
 }
 
 // AssignProperties_From_MetricAlertCriteria populates our MetricAlertCriteria from the provided source MetricAlertCriteria
-func (criteria *MetricAlertCriteria) AssignProperties_From_MetricAlertCriteria(source *v20180301s.MetricAlertCriteria) error {
+func (criteria *MetricAlertCriteria) AssignProperties_From_MetricAlertCriteria(source *storage.MetricAlertCriteria) error {
 
 	// MicrosoftAzureMonitorMultipleResourceMultipleMetric
 	if source.MicrosoftAzureMonitorMultipleResourceMultipleMetric != nil {
@@ -1818,13 +1818,13 @@ func (criteria *MetricAlertCriteria) AssignProperties_From_MetricAlertCriteria(s
 }
 
 // AssignProperties_To_MetricAlertCriteria populates the provided destination MetricAlertCriteria from our MetricAlertCriteria
-func (criteria *MetricAlertCriteria) AssignProperties_To_MetricAlertCriteria(destination *v20180301s.MetricAlertCriteria) error {
+func (criteria *MetricAlertCriteria) AssignProperties_To_MetricAlertCriteria(destination *storage.MetricAlertCriteria) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// MicrosoftAzureMonitorMultipleResourceMultipleMetric
 	if criteria.MicrosoftAzureMonitorMultipleResourceMultipleMetric != nil {
-		var microsoftAzureMonitorMultipleResourceMultipleMetric v20180301s.MetricAlertMultipleResourceMultipleMetricCriteria
+		var microsoftAzureMonitorMultipleResourceMultipleMetric storage.MetricAlertMultipleResourceMultipleMetricCriteria
 		err := criteria.MicrosoftAzureMonitorMultipleResourceMultipleMetric.AssignProperties_To_MetricAlertMultipleResourceMultipleMetricCriteria(&microsoftAzureMonitorMultipleResourceMultipleMetric)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_MetricAlertMultipleResourceMultipleMetricCriteria() to populate field MicrosoftAzureMonitorMultipleResourceMultipleMetric")
@@ -1836,7 +1836,7 @@ func (criteria *MetricAlertCriteria) AssignProperties_To_MetricAlertCriteria(des
 
 	// MicrosoftAzureMonitorSingleResourceMultipleMetric
 	if criteria.MicrosoftAzureMonitorSingleResourceMultipleMetric != nil {
-		var microsoftAzureMonitorSingleResourceMultipleMetric v20180301s.MetricAlertSingleResourceMultipleMetricCriteria
+		var microsoftAzureMonitorSingleResourceMultipleMetric storage.MetricAlertSingleResourceMultipleMetricCriteria
 		err := criteria.MicrosoftAzureMonitorSingleResourceMultipleMetric.AssignProperties_To_MetricAlertSingleResourceMultipleMetricCriteria(&microsoftAzureMonitorSingleResourceMultipleMetric)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_MetricAlertSingleResourceMultipleMetricCriteria() to populate field MicrosoftAzureMonitorSingleResourceMultipleMetric")
@@ -1848,7 +1848,7 @@ func (criteria *MetricAlertCriteria) AssignProperties_To_MetricAlertCriteria(des
 
 	// MicrosoftAzureMonitorWebtestLocationAvailability
 	if criteria.MicrosoftAzureMonitorWebtestLocationAvailability != nil {
-		var microsoftAzureMonitorWebtestLocationAvailability v20180301s.WebtestLocationAvailabilityCriteria
+		var microsoftAzureMonitorWebtestLocationAvailability storage.WebtestLocationAvailabilityCriteria
 		err := criteria.MicrosoftAzureMonitorWebtestLocationAvailability.AssignProperties_To_WebtestLocationAvailabilityCriteria(&microsoftAzureMonitorWebtestLocationAvailability)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_WebtestLocationAvailabilityCriteria() to populate field MicrosoftAzureMonitorWebtestLocationAvailability")
@@ -1975,7 +1975,7 @@ func (criteria *MetricAlertCriteria_STATUS) PopulateFromARM(owner genruntime.Arb
 }
 
 // AssignProperties_From_MetricAlertCriteria_STATUS populates our MetricAlertCriteria_STATUS from the provided source MetricAlertCriteria_STATUS
-func (criteria *MetricAlertCriteria_STATUS) AssignProperties_From_MetricAlertCriteria_STATUS(source *v20180301s.MetricAlertCriteria_STATUS) error {
+func (criteria *MetricAlertCriteria_STATUS) AssignProperties_From_MetricAlertCriteria_STATUS(source *storage.MetricAlertCriteria_STATUS) error {
 
 	// MicrosoftAzureMonitorMultipleResourceMultipleMetric
 	if source.MicrosoftAzureMonitorMultipleResourceMultipleMetric != nil {
@@ -2018,13 +2018,13 @@ func (criteria *MetricAlertCriteria_STATUS) AssignProperties_From_MetricAlertCri
 }
 
 // AssignProperties_To_MetricAlertCriteria_STATUS populates the provided destination MetricAlertCriteria_STATUS from our MetricAlertCriteria_STATUS
-func (criteria *MetricAlertCriteria_STATUS) AssignProperties_To_MetricAlertCriteria_STATUS(destination *v20180301s.MetricAlertCriteria_STATUS) error {
+func (criteria *MetricAlertCriteria_STATUS) AssignProperties_To_MetricAlertCriteria_STATUS(destination *storage.MetricAlertCriteria_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// MicrosoftAzureMonitorMultipleResourceMultipleMetric
 	if criteria.MicrosoftAzureMonitorMultipleResourceMultipleMetric != nil {
-		var microsoftAzureMonitorMultipleResourceMultipleMetric v20180301s.MetricAlertMultipleResourceMultipleMetricCriteria_STATUS
+		var microsoftAzureMonitorMultipleResourceMultipleMetric storage.MetricAlertMultipleResourceMultipleMetricCriteria_STATUS
 		err := criteria.MicrosoftAzureMonitorMultipleResourceMultipleMetric.AssignProperties_To_MetricAlertMultipleResourceMultipleMetricCriteria_STATUS(&microsoftAzureMonitorMultipleResourceMultipleMetric)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_MetricAlertMultipleResourceMultipleMetricCriteria_STATUS() to populate field MicrosoftAzureMonitorMultipleResourceMultipleMetric")
@@ -2036,7 +2036,7 @@ func (criteria *MetricAlertCriteria_STATUS) AssignProperties_To_MetricAlertCrite
 
 	// MicrosoftAzureMonitorSingleResourceMultipleMetric
 	if criteria.MicrosoftAzureMonitorSingleResourceMultipleMetric != nil {
-		var microsoftAzureMonitorSingleResourceMultipleMetric v20180301s.MetricAlertSingleResourceMultipleMetricCriteria_STATUS
+		var microsoftAzureMonitorSingleResourceMultipleMetric storage.MetricAlertSingleResourceMultipleMetricCriteria_STATUS
 		err := criteria.MicrosoftAzureMonitorSingleResourceMultipleMetric.AssignProperties_To_MetricAlertSingleResourceMultipleMetricCriteria_STATUS(&microsoftAzureMonitorSingleResourceMultipleMetric)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_MetricAlertSingleResourceMultipleMetricCriteria_STATUS() to populate field MicrosoftAzureMonitorSingleResourceMultipleMetric")
@@ -2048,7 +2048,7 @@ func (criteria *MetricAlertCriteria_STATUS) AssignProperties_To_MetricAlertCrite
 
 	// MicrosoftAzureMonitorWebtestLocationAvailability
 	if criteria.MicrosoftAzureMonitorWebtestLocationAvailability != nil {
-		var microsoftAzureMonitorWebtestLocationAvailability v20180301s.WebtestLocationAvailabilityCriteria_STATUS
+		var microsoftAzureMonitorWebtestLocationAvailability storage.WebtestLocationAvailabilityCriteria_STATUS
 		err := criteria.MicrosoftAzureMonitorWebtestLocationAvailability.AssignProperties_To_WebtestLocationAvailabilityCriteria_STATUS(&microsoftAzureMonitorWebtestLocationAvailability)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_WebtestLocationAvailabilityCriteria_STATUS() to populate field MicrosoftAzureMonitorWebtestLocationAvailability")
@@ -2151,7 +2151,7 @@ func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria) PopulateFromA
 }
 
 // AssignProperties_From_MetricAlertMultipleResourceMultipleMetricCriteria populates our MetricAlertMultipleResourceMultipleMetricCriteria from the provided source MetricAlertMultipleResourceMultipleMetricCriteria
-func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria) AssignProperties_From_MetricAlertMultipleResourceMultipleMetricCriteria(source *v20180301s.MetricAlertMultipleResourceMultipleMetricCriteria) error {
+func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria) AssignProperties_From_MetricAlertMultipleResourceMultipleMetricCriteria(source *storage.MetricAlertMultipleResourceMultipleMetricCriteria) error {
 
 	// AdditionalProperties
 	if source.AdditionalProperties != nil {
@@ -2198,7 +2198,7 @@ func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria) AssignPropert
 }
 
 // AssignProperties_To_MetricAlertMultipleResourceMultipleMetricCriteria populates the provided destination MetricAlertMultipleResourceMultipleMetricCriteria from our MetricAlertMultipleResourceMultipleMetricCriteria
-func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria) AssignProperties_To_MetricAlertMultipleResourceMultipleMetricCriteria(destination *v20180301s.MetricAlertMultipleResourceMultipleMetricCriteria) error {
+func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria) AssignProperties_To_MetricAlertMultipleResourceMultipleMetricCriteria(destination *storage.MetricAlertMultipleResourceMultipleMetricCriteria) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2217,11 +2217,11 @@ func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria) AssignPropert
 
 	// AllOf
 	if criteria.AllOf != nil {
-		allOfList := make([]v20180301s.MultiMetricCriteria, len(criteria.AllOf))
+		allOfList := make([]storage.MultiMetricCriteria, len(criteria.AllOf))
 		for allOfIndex, allOfItem := range criteria.AllOf {
 			// Shadow the loop variable to avoid aliasing
 			allOfItem := allOfItem
-			var allOf v20180301s.MultiMetricCriteria
+			var allOf storage.MultiMetricCriteria
 			err := allOfItem.AssignProperties_To_MultiMetricCriteria(&allOf)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_MultiMetricCriteria() to populate field AllOf")
@@ -2348,7 +2348,7 @@ func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria_STATUS) Popula
 }
 
 // AssignProperties_From_MetricAlertMultipleResourceMultipleMetricCriteria_STATUS populates our MetricAlertMultipleResourceMultipleMetricCriteria_STATUS from the provided source MetricAlertMultipleResourceMultipleMetricCriteria_STATUS
-func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria_STATUS) AssignProperties_From_MetricAlertMultipleResourceMultipleMetricCriteria_STATUS(source *v20180301s.MetricAlertMultipleResourceMultipleMetricCriteria_STATUS) error {
+func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria_STATUS) AssignProperties_From_MetricAlertMultipleResourceMultipleMetricCriteria_STATUS(source *storage.MetricAlertMultipleResourceMultipleMetricCriteria_STATUS) error {
 
 	// AdditionalProperties
 	if source.AdditionalProperties != nil {
@@ -2395,7 +2395,7 @@ func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria_STATUS) Assign
 }
 
 // AssignProperties_To_MetricAlertMultipleResourceMultipleMetricCriteria_STATUS populates the provided destination MetricAlertMultipleResourceMultipleMetricCriteria_STATUS from our MetricAlertMultipleResourceMultipleMetricCriteria_STATUS
-func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria_STATUS) AssignProperties_To_MetricAlertMultipleResourceMultipleMetricCriteria_STATUS(destination *v20180301s.MetricAlertMultipleResourceMultipleMetricCriteria_STATUS) error {
+func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria_STATUS) AssignProperties_To_MetricAlertMultipleResourceMultipleMetricCriteria_STATUS(destination *storage.MetricAlertMultipleResourceMultipleMetricCriteria_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2414,11 +2414,11 @@ func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria_STATUS) Assign
 
 	// AllOf
 	if criteria.AllOf != nil {
-		allOfList := make([]v20180301s.MultiMetricCriteria_STATUS, len(criteria.AllOf))
+		allOfList := make([]storage.MultiMetricCriteria_STATUS, len(criteria.AllOf))
 		for allOfIndex, allOfItem := range criteria.AllOf {
 			// Shadow the loop variable to avoid aliasing
 			allOfItem := allOfItem
-			var allOf v20180301s.MultiMetricCriteria_STATUS
+			var allOf storage.MultiMetricCriteria_STATUS
 			err := allOfItem.AssignProperties_To_MultiMetricCriteria_STATUS(&allOf)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_MultiMetricCriteria_STATUS() to populate field AllOf")
@@ -2531,7 +2531,7 @@ func (criteria *MetricAlertSingleResourceMultipleMetricCriteria) PopulateFromARM
 }
 
 // AssignProperties_From_MetricAlertSingleResourceMultipleMetricCriteria populates our MetricAlertSingleResourceMultipleMetricCriteria from the provided source MetricAlertSingleResourceMultipleMetricCriteria
-func (criteria *MetricAlertSingleResourceMultipleMetricCriteria) AssignProperties_From_MetricAlertSingleResourceMultipleMetricCriteria(source *v20180301s.MetricAlertSingleResourceMultipleMetricCriteria) error {
+func (criteria *MetricAlertSingleResourceMultipleMetricCriteria) AssignProperties_From_MetricAlertSingleResourceMultipleMetricCriteria(source *storage.MetricAlertSingleResourceMultipleMetricCriteria) error {
 
 	// AdditionalProperties
 	if source.AdditionalProperties != nil {
@@ -2578,7 +2578,7 @@ func (criteria *MetricAlertSingleResourceMultipleMetricCriteria) AssignPropertie
 }
 
 // AssignProperties_To_MetricAlertSingleResourceMultipleMetricCriteria populates the provided destination MetricAlertSingleResourceMultipleMetricCriteria from our MetricAlertSingleResourceMultipleMetricCriteria
-func (criteria *MetricAlertSingleResourceMultipleMetricCriteria) AssignProperties_To_MetricAlertSingleResourceMultipleMetricCriteria(destination *v20180301s.MetricAlertSingleResourceMultipleMetricCriteria) error {
+func (criteria *MetricAlertSingleResourceMultipleMetricCriteria) AssignProperties_To_MetricAlertSingleResourceMultipleMetricCriteria(destination *storage.MetricAlertSingleResourceMultipleMetricCriteria) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2597,11 +2597,11 @@ func (criteria *MetricAlertSingleResourceMultipleMetricCriteria) AssignPropertie
 
 	// AllOf
 	if criteria.AllOf != nil {
-		allOfList := make([]v20180301s.MetricCriteria, len(criteria.AllOf))
+		allOfList := make([]storage.MetricCriteria, len(criteria.AllOf))
 		for allOfIndex, allOfItem := range criteria.AllOf {
 			// Shadow the loop variable to avoid aliasing
 			allOfItem := allOfItem
-			var allOf v20180301s.MetricCriteria
+			var allOf storage.MetricCriteria
 			err := allOfItem.AssignProperties_To_MetricCriteria(&allOf)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_MetricCriteria() to populate field AllOf")
@@ -2728,7 +2728,7 @@ func (criteria *MetricAlertSingleResourceMultipleMetricCriteria_STATUS) Populate
 }
 
 // AssignProperties_From_MetricAlertSingleResourceMultipleMetricCriteria_STATUS populates our MetricAlertSingleResourceMultipleMetricCriteria_STATUS from the provided source MetricAlertSingleResourceMultipleMetricCriteria_STATUS
-func (criteria *MetricAlertSingleResourceMultipleMetricCriteria_STATUS) AssignProperties_From_MetricAlertSingleResourceMultipleMetricCriteria_STATUS(source *v20180301s.MetricAlertSingleResourceMultipleMetricCriteria_STATUS) error {
+func (criteria *MetricAlertSingleResourceMultipleMetricCriteria_STATUS) AssignProperties_From_MetricAlertSingleResourceMultipleMetricCriteria_STATUS(source *storage.MetricAlertSingleResourceMultipleMetricCriteria_STATUS) error {
 
 	// AdditionalProperties
 	if source.AdditionalProperties != nil {
@@ -2775,7 +2775,7 @@ func (criteria *MetricAlertSingleResourceMultipleMetricCriteria_STATUS) AssignPr
 }
 
 // AssignProperties_To_MetricAlertSingleResourceMultipleMetricCriteria_STATUS populates the provided destination MetricAlertSingleResourceMultipleMetricCriteria_STATUS from our MetricAlertSingleResourceMultipleMetricCriteria_STATUS
-func (criteria *MetricAlertSingleResourceMultipleMetricCriteria_STATUS) AssignProperties_To_MetricAlertSingleResourceMultipleMetricCriteria_STATUS(destination *v20180301s.MetricAlertSingleResourceMultipleMetricCriteria_STATUS) error {
+func (criteria *MetricAlertSingleResourceMultipleMetricCriteria_STATUS) AssignProperties_To_MetricAlertSingleResourceMultipleMetricCriteria_STATUS(destination *storage.MetricAlertSingleResourceMultipleMetricCriteria_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2794,11 +2794,11 @@ func (criteria *MetricAlertSingleResourceMultipleMetricCriteria_STATUS) AssignPr
 
 	// AllOf
 	if criteria.AllOf != nil {
-		allOfList := make([]v20180301s.MetricCriteria_STATUS, len(criteria.AllOf))
+		allOfList := make([]storage.MetricCriteria_STATUS, len(criteria.AllOf))
 		for allOfIndex, allOfItem := range criteria.AllOf {
 			// Shadow the loop variable to avoid aliasing
 			allOfItem := allOfItem
-			var allOf v20180301s.MetricCriteria_STATUS
+			var allOf storage.MetricCriteria_STATUS
 			err := allOfItem.AssignProperties_To_MetricCriteria_STATUS(&allOf)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_MetricCriteria_STATUS() to populate field AllOf")
@@ -2937,7 +2937,7 @@ func (criteria *WebtestLocationAvailabilityCriteria) PopulateFromARM(owner genru
 }
 
 // AssignProperties_From_WebtestLocationAvailabilityCriteria populates our WebtestLocationAvailabilityCriteria from the provided source WebtestLocationAvailabilityCriteria
-func (criteria *WebtestLocationAvailabilityCriteria) AssignProperties_From_WebtestLocationAvailabilityCriteria(source *v20180301s.WebtestLocationAvailabilityCriteria) error {
+func (criteria *WebtestLocationAvailabilityCriteria) AssignProperties_From_WebtestLocationAvailabilityCriteria(source *storage.WebtestLocationAvailabilityCriteria) error {
 
 	// AdditionalProperties
 	if source.AdditionalProperties != nil {
@@ -2985,7 +2985,7 @@ func (criteria *WebtestLocationAvailabilityCriteria) AssignProperties_From_Webte
 }
 
 // AssignProperties_To_WebtestLocationAvailabilityCriteria populates the provided destination WebtestLocationAvailabilityCriteria from our WebtestLocationAvailabilityCriteria
-func (criteria *WebtestLocationAvailabilityCriteria) AssignProperties_To_WebtestLocationAvailabilityCriteria(destination *v20180301s.WebtestLocationAvailabilityCriteria) error {
+func (criteria *WebtestLocationAvailabilityCriteria) AssignProperties_To_WebtestLocationAvailabilityCriteria(destination *storage.WebtestLocationAvailabilityCriteria) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3151,7 +3151,7 @@ func (criteria *WebtestLocationAvailabilityCriteria_STATUS) PopulateFromARM(owne
 }
 
 // AssignProperties_From_WebtestLocationAvailabilityCriteria_STATUS populates our WebtestLocationAvailabilityCriteria_STATUS from the provided source WebtestLocationAvailabilityCriteria_STATUS
-func (criteria *WebtestLocationAvailabilityCriteria_STATUS) AssignProperties_From_WebtestLocationAvailabilityCriteria_STATUS(source *v20180301s.WebtestLocationAvailabilityCriteria_STATUS) error {
+func (criteria *WebtestLocationAvailabilityCriteria_STATUS) AssignProperties_From_WebtestLocationAvailabilityCriteria_STATUS(source *storage.WebtestLocationAvailabilityCriteria_STATUS) error {
 
 	// AdditionalProperties
 	if source.AdditionalProperties != nil {
@@ -3194,7 +3194,7 @@ func (criteria *WebtestLocationAvailabilityCriteria_STATUS) AssignProperties_Fro
 }
 
 // AssignProperties_To_WebtestLocationAvailabilityCriteria_STATUS populates the provided destination WebtestLocationAvailabilityCriteria_STATUS from our WebtestLocationAvailabilityCriteria_STATUS
-func (criteria *WebtestLocationAvailabilityCriteria_STATUS) AssignProperties_To_WebtestLocationAvailabilityCriteria_STATUS(destination *v20180301s.WebtestLocationAvailabilityCriteria_STATUS) error {
+func (criteria *WebtestLocationAvailabilityCriteria_STATUS) AssignProperties_To_WebtestLocationAvailabilityCriteria_STATUS(destination *storage.WebtestLocationAvailabilityCriteria_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3475,7 +3475,7 @@ func (criteria *MetricCriteria) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 }
 
 // AssignProperties_From_MetricCriteria populates our MetricCriteria from the provided source MetricCriteria
-func (criteria *MetricCriteria) AssignProperties_From_MetricCriteria(source *v20180301s.MetricCriteria) error {
+func (criteria *MetricCriteria) AssignProperties_From_MetricCriteria(source *storage.MetricCriteria) error {
 
 	// AdditionalProperties
 	if source.AdditionalProperties != nil {
@@ -3565,7 +3565,7 @@ func (criteria *MetricCriteria) AssignProperties_From_MetricCriteria(source *v20
 }
 
 // AssignProperties_To_MetricCriteria populates the provided destination MetricCriteria from our MetricCriteria
-func (criteria *MetricCriteria) AssignProperties_To_MetricCriteria(destination *v20180301s.MetricCriteria) error {
+func (criteria *MetricCriteria) AssignProperties_To_MetricCriteria(destination *storage.MetricCriteria) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3592,11 +3592,11 @@ func (criteria *MetricCriteria) AssignProperties_To_MetricCriteria(destination *
 
 	// Dimensions
 	if criteria.Dimensions != nil {
-		dimensionList := make([]v20180301s.MetricDimension, len(criteria.Dimensions))
+		dimensionList := make([]storage.MetricDimension, len(criteria.Dimensions))
 		for dimensionIndex, dimensionItem := range criteria.Dimensions {
 			// Shadow the loop variable to avoid aliasing
 			dimensionItem := dimensionItem
-			var dimension v20180301s.MetricDimension
+			var dimension storage.MetricDimension
 			err := dimensionItem.AssignProperties_To_MetricDimension(&dimension)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_MetricDimension() to populate field Dimensions")
@@ -3861,7 +3861,7 @@ func (criteria *MetricCriteria_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 }
 
 // AssignProperties_From_MetricCriteria_STATUS populates our MetricCriteria_STATUS from the provided source MetricCriteria_STATUS
-func (criteria *MetricCriteria_STATUS) AssignProperties_From_MetricCriteria_STATUS(source *v20180301s.MetricCriteria_STATUS) error {
+func (criteria *MetricCriteria_STATUS) AssignProperties_From_MetricCriteria_STATUS(source *storage.MetricCriteria_STATUS) error {
 
 	// AdditionalProperties
 	if source.AdditionalProperties != nil {
@@ -3951,7 +3951,7 @@ func (criteria *MetricCriteria_STATUS) AssignProperties_From_MetricCriteria_STAT
 }
 
 // AssignProperties_To_MetricCriteria_STATUS populates the provided destination MetricCriteria_STATUS from our MetricCriteria_STATUS
-func (criteria *MetricCriteria_STATUS) AssignProperties_To_MetricCriteria_STATUS(destination *v20180301s.MetricCriteria_STATUS) error {
+func (criteria *MetricCriteria_STATUS) AssignProperties_To_MetricCriteria_STATUS(destination *storage.MetricCriteria_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3978,11 +3978,11 @@ func (criteria *MetricCriteria_STATUS) AssignProperties_To_MetricCriteria_STATUS
 
 	// Dimensions
 	if criteria.Dimensions != nil {
-		dimensionList := make([]v20180301s.MetricDimension_STATUS, len(criteria.Dimensions))
+		dimensionList := make([]storage.MetricDimension_STATUS, len(criteria.Dimensions))
 		for dimensionIndex, dimensionItem := range criteria.Dimensions {
 			// Shadow the loop variable to avoid aliasing
 			dimensionItem := dimensionItem
-			var dimension v20180301s.MetricDimension_STATUS
+			var dimension storage.MetricDimension_STATUS
 			err := dimensionItem.AssignProperties_To_MetricDimension_STATUS(&dimension)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_MetricDimension_STATUS() to populate field Dimensions")
@@ -4124,7 +4124,7 @@ func (criteria *MultiMetricCriteria) PopulateFromARM(owner genruntime.ArbitraryO
 }
 
 // AssignProperties_From_MultiMetricCriteria populates our MultiMetricCriteria from the provided source MultiMetricCriteria
-func (criteria *MultiMetricCriteria) AssignProperties_From_MultiMetricCriteria(source *v20180301s.MultiMetricCriteria) error {
+func (criteria *MultiMetricCriteria) AssignProperties_From_MultiMetricCriteria(source *storage.MultiMetricCriteria) error {
 
 	// Dynamic
 	if source.Dynamic != nil {
@@ -4155,13 +4155,13 @@ func (criteria *MultiMetricCriteria) AssignProperties_From_MultiMetricCriteria(s
 }
 
 // AssignProperties_To_MultiMetricCriteria populates the provided destination MultiMetricCriteria from our MultiMetricCriteria
-func (criteria *MultiMetricCriteria) AssignProperties_To_MultiMetricCriteria(destination *v20180301s.MultiMetricCriteria) error {
+func (criteria *MultiMetricCriteria) AssignProperties_To_MultiMetricCriteria(destination *storage.MultiMetricCriteria) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Dynamic
 	if criteria.Dynamic != nil {
-		var dynamic v20180301s.DynamicMetricCriteria
+		var dynamic storage.DynamicMetricCriteria
 		err := criteria.Dynamic.AssignProperties_To_DynamicMetricCriteria(&dynamic)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DynamicMetricCriteria() to populate field Dynamic")
@@ -4173,7 +4173,7 @@ func (criteria *MultiMetricCriteria) AssignProperties_To_MultiMetricCriteria(des
 
 	// Static
 	if criteria.Static != nil {
-		var static v20180301s.MetricCriteria
+		var static storage.MetricCriteria
 		err := criteria.Static.AssignProperties_To_MetricCriteria(&static)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_MetricCriteria() to populate field Static")
@@ -4274,7 +4274,7 @@ func (criteria *MultiMetricCriteria_STATUS) PopulateFromARM(owner genruntime.Arb
 }
 
 // AssignProperties_From_MultiMetricCriteria_STATUS populates our MultiMetricCriteria_STATUS from the provided source MultiMetricCriteria_STATUS
-func (criteria *MultiMetricCriteria_STATUS) AssignProperties_From_MultiMetricCriteria_STATUS(source *v20180301s.MultiMetricCriteria_STATUS) error {
+func (criteria *MultiMetricCriteria_STATUS) AssignProperties_From_MultiMetricCriteria_STATUS(source *storage.MultiMetricCriteria_STATUS) error {
 
 	// Dynamic
 	if source.Dynamic != nil {
@@ -4305,13 +4305,13 @@ func (criteria *MultiMetricCriteria_STATUS) AssignProperties_From_MultiMetricCri
 }
 
 // AssignProperties_To_MultiMetricCriteria_STATUS populates the provided destination MultiMetricCriteria_STATUS from our MultiMetricCriteria_STATUS
-func (criteria *MultiMetricCriteria_STATUS) AssignProperties_To_MultiMetricCriteria_STATUS(destination *v20180301s.MultiMetricCriteria_STATUS) error {
+func (criteria *MultiMetricCriteria_STATUS) AssignProperties_To_MultiMetricCriteria_STATUS(destination *storage.MultiMetricCriteria_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Dynamic
 	if criteria.Dynamic != nil {
-		var dynamic v20180301s.DynamicMetricCriteria_STATUS
+		var dynamic storage.DynamicMetricCriteria_STATUS
 		err := criteria.Dynamic.AssignProperties_To_DynamicMetricCriteria_STATUS(&dynamic)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DynamicMetricCriteria_STATUS() to populate field Dynamic")
@@ -4323,7 +4323,7 @@ func (criteria *MultiMetricCriteria_STATUS) AssignProperties_To_MultiMetricCrite
 
 	// Static
 	if criteria.Static != nil {
-		var static v20180301s.MetricCriteria_STATUS
+		var static storage.MetricCriteria_STATUS
 		err := criteria.Static.AssignProperties_To_MetricCriteria_STATUS(&static)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_MetricCriteria_STATUS() to populate field Static")
@@ -4599,7 +4599,7 @@ func (criteria *DynamicMetricCriteria) PopulateFromARM(owner genruntime.Arbitrar
 }
 
 // AssignProperties_From_DynamicMetricCriteria populates our DynamicMetricCriteria from the provided source DynamicMetricCriteria
-func (criteria *DynamicMetricCriteria) AssignProperties_From_DynamicMetricCriteria(source *v20180301s.DynamicMetricCriteria) error {
+func (criteria *DynamicMetricCriteria) AssignProperties_From_DynamicMetricCriteria(source *storage.DynamicMetricCriteria) error {
 
 	// AdditionalProperties
 	if source.AdditionalProperties != nil {
@@ -4705,7 +4705,7 @@ func (criteria *DynamicMetricCriteria) AssignProperties_From_DynamicMetricCriter
 }
 
 // AssignProperties_To_DynamicMetricCriteria populates the provided destination DynamicMetricCriteria from our DynamicMetricCriteria
-func (criteria *DynamicMetricCriteria) AssignProperties_To_DynamicMetricCriteria(destination *v20180301s.DynamicMetricCriteria) error {
+func (criteria *DynamicMetricCriteria) AssignProperties_To_DynamicMetricCriteria(destination *storage.DynamicMetricCriteria) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4740,11 +4740,11 @@ func (criteria *DynamicMetricCriteria) AssignProperties_To_DynamicMetricCriteria
 
 	// Dimensions
 	if criteria.Dimensions != nil {
-		dimensionList := make([]v20180301s.MetricDimension, len(criteria.Dimensions))
+		dimensionList := make([]storage.MetricDimension, len(criteria.Dimensions))
 		for dimensionIndex, dimensionItem := range criteria.Dimensions {
 			// Shadow the loop variable to avoid aliasing
 			dimensionItem := dimensionItem
-			var dimension v20180301s.MetricDimension
+			var dimension storage.MetricDimension
 			err := dimensionItem.AssignProperties_To_MetricDimension(&dimension)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_MetricDimension() to populate field Dimensions")
@@ -4758,7 +4758,7 @@ func (criteria *DynamicMetricCriteria) AssignProperties_To_DynamicMetricCriteria
 
 	// FailingPeriods
 	if criteria.FailingPeriods != nil {
-		var failingPeriod v20180301s.DynamicThresholdFailingPeriods
+		var failingPeriod storage.DynamicThresholdFailingPeriods
 		err := criteria.FailingPeriods.AssignProperties_To_DynamicThresholdFailingPeriods(&failingPeriod)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DynamicThresholdFailingPeriods() to populate field FailingPeriods")
@@ -5057,7 +5057,7 @@ func (criteria *DynamicMetricCriteria_STATUS) PopulateFromARM(owner genruntime.A
 }
 
 // AssignProperties_From_DynamicMetricCriteria_STATUS populates our DynamicMetricCriteria_STATUS from the provided source DynamicMetricCriteria_STATUS
-func (criteria *DynamicMetricCriteria_STATUS) AssignProperties_From_DynamicMetricCriteria_STATUS(source *v20180301s.DynamicMetricCriteria_STATUS) error {
+func (criteria *DynamicMetricCriteria_STATUS) AssignProperties_From_DynamicMetricCriteria_STATUS(source *storage.DynamicMetricCriteria_STATUS) error {
 
 	// AdditionalProperties
 	if source.AdditionalProperties != nil {
@@ -5163,7 +5163,7 @@ func (criteria *DynamicMetricCriteria_STATUS) AssignProperties_From_DynamicMetri
 }
 
 // AssignProperties_To_DynamicMetricCriteria_STATUS populates the provided destination DynamicMetricCriteria_STATUS from our DynamicMetricCriteria_STATUS
-func (criteria *DynamicMetricCriteria_STATUS) AssignProperties_To_DynamicMetricCriteria_STATUS(destination *v20180301s.DynamicMetricCriteria_STATUS) error {
+func (criteria *DynamicMetricCriteria_STATUS) AssignProperties_To_DynamicMetricCriteria_STATUS(destination *storage.DynamicMetricCriteria_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5198,11 +5198,11 @@ func (criteria *DynamicMetricCriteria_STATUS) AssignProperties_To_DynamicMetricC
 
 	// Dimensions
 	if criteria.Dimensions != nil {
-		dimensionList := make([]v20180301s.MetricDimension_STATUS, len(criteria.Dimensions))
+		dimensionList := make([]storage.MetricDimension_STATUS, len(criteria.Dimensions))
 		for dimensionIndex, dimensionItem := range criteria.Dimensions {
 			// Shadow the loop variable to avoid aliasing
 			dimensionItem := dimensionItem
-			var dimension v20180301s.MetricDimension_STATUS
+			var dimension storage.MetricDimension_STATUS
 			err := dimensionItem.AssignProperties_To_MetricDimension_STATUS(&dimension)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_MetricDimension_STATUS() to populate field Dimensions")
@@ -5216,7 +5216,7 @@ func (criteria *DynamicMetricCriteria_STATUS) AssignProperties_To_DynamicMetricC
 
 	// FailingPeriods
 	if criteria.FailingPeriods != nil {
-		var failingPeriod v20180301s.DynamicThresholdFailingPeriods_STATUS
+		var failingPeriod storage.DynamicThresholdFailingPeriods_STATUS
 		err := criteria.FailingPeriods.AssignProperties_To_DynamicThresholdFailingPeriods_STATUS(&failingPeriod)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DynamicThresholdFailingPeriods_STATUS() to populate field FailingPeriods")
@@ -5447,7 +5447,7 @@ func (dimension *MetricDimension) PopulateFromARM(owner genruntime.ArbitraryOwne
 }
 
 // AssignProperties_From_MetricDimension populates our MetricDimension from the provided source MetricDimension
-func (dimension *MetricDimension) AssignProperties_From_MetricDimension(source *v20180301s.MetricDimension) error {
+func (dimension *MetricDimension) AssignProperties_From_MetricDimension(source *storage.MetricDimension) error {
 
 	// Name
 	dimension.Name = genruntime.ClonePointerToString(source.Name)
@@ -5463,7 +5463,7 @@ func (dimension *MetricDimension) AssignProperties_From_MetricDimension(source *
 }
 
 // AssignProperties_To_MetricDimension populates the provided destination MetricDimension from our MetricDimension
-func (dimension *MetricDimension) AssignProperties_To_MetricDimension(destination *v20180301s.MetricDimension) error {
+func (dimension *MetricDimension) AssignProperties_To_MetricDimension(destination *storage.MetricDimension) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5551,7 +5551,7 @@ func (dimension *MetricDimension_STATUS) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_MetricDimension_STATUS populates our MetricDimension_STATUS from the provided source MetricDimension_STATUS
-func (dimension *MetricDimension_STATUS) AssignProperties_From_MetricDimension_STATUS(source *v20180301s.MetricDimension_STATUS) error {
+func (dimension *MetricDimension_STATUS) AssignProperties_From_MetricDimension_STATUS(source *storage.MetricDimension_STATUS) error {
 
 	// Name
 	dimension.Name = genruntime.ClonePointerToString(source.Name)
@@ -5567,7 +5567,7 @@ func (dimension *MetricDimension_STATUS) AssignProperties_From_MetricDimension_S
 }
 
 // AssignProperties_To_MetricDimension_STATUS populates the provided destination MetricDimension_STATUS from our MetricDimension_STATUS
-func (dimension *MetricDimension_STATUS) AssignProperties_To_MetricDimension_STATUS(destination *v20180301s.MetricDimension_STATUS) error {
+func (dimension *MetricDimension_STATUS) AssignProperties_To_MetricDimension_STATUS(destination *storage.MetricDimension_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5776,7 +5776,7 @@ func (periods *DynamicThresholdFailingPeriods) PopulateFromARM(owner genruntime.
 }
 
 // AssignProperties_From_DynamicThresholdFailingPeriods populates our DynamicThresholdFailingPeriods from the provided source DynamicThresholdFailingPeriods
-func (periods *DynamicThresholdFailingPeriods) AssignProperties_From_DynamicThresholdFailingPeriods(source *v20180301s.DynamicThresholdFailingPeriods) error {
+func (periods *DynamicThresholdFailingPeriods) AssignProperties_From_DynamicThresholdFailingPeriods(source *storage.DynamicThresholdFailingPeriods) error {
 
 	// MinFailingPeriodsToAlert
 	if source.MinFailingPeriodsToAlert != nil {
@@ -5799,7 +5799,7 @@ func (periods *DynamicThresholdFailingPeriods) AssignProperties_From_DynamicThre
 }
 
 // AssignProperties_To_DynamicThresholdFailingPeriods populates the provided destination DynamicThresholdFailingPeriods from our DynamicThresholdFailingPeriods
-func (periods *DynamicThresholdFailingPeriods) AssignProperties_To_DynamicThresholdFailingPeriods(destination *v20180301s.DynamicThresholdFailingPeriods) error {
+func (periods *DynamicThresholdFailingPeriods) AssignProperties_To_DynamicThresholdFailingPeriods(destination *storage.DynamicThresholdFailingPeriods) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5895,7 +5895,7 @@ func (periods *DynamicThresholdFailingPeriods_STATUS) PopulateFromARM(owner genr
 }
 
 // AssignProperties_From_DynamicThresholdFailingPeriods_STATUS populates our DynamicThresholdFailingPeriods_STATUS from the provided source DynamicThresholdFailingPeriods_STATUS
-func (periods *DynamicThresholdFailingPeriods_STATUS) AssignProperties_From_DynamicThresholdFailingPeriods_STATUS(source *v20180301s.DynamicThresholdFailingPeriods_STATUS) error {
+func (periods *DynamicThresholdFailingPeriods_STATUS) AssignProperties_From_DynamicThresholdFailingPeriods_STATUS(source *storage.DynamicThresholdFailingPeriods_STATUS) error {
 
 	// MinFailingPeriodsToAlert
 	if source.MinFailingPeriodsToAlert != nil {
@@ -5918,7 +5918,7 @@ func (periods *DynamicThresholdFailingPeriods_STATUS) AssignProperties_From_Dyna
 }
 
 // AssignProperties_To_DynamicThresholdFailingPeriods_STATUS populates the provided destination DynamicThresholdFailingPeriods_STATUS from our DynamicThresholdFailingPeriods_STATUS
-func (periods *DynamicThresholdFailingPeriods_STATUS) AssignProperties_To_DynamicThresholdFailingPeriods_STATUS(destination *v20180301s.DynamicThresholdFailingPeriods_STATUS) error {
+func (periods *DynamicThresholdFailingPeriods_STATUS) AssignProperties_To_DynamicThresholdFailingPeriods_STATUS(destination *storage.DynamicThresholdFailingPeriods_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

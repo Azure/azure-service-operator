@@ -5,7 +5,7 @@ package v1api20231115
 
 import (
 	"encoding/json"
-	v20231115s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForSqlDatabaseThroughputSetting(subject SqlDatabas
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20231115s.SqlDatabaseThroughputSetting
+	var hub storage.SqlDatabaseThroughputSetting
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForSqlDatabaseThroughputSetting(subject SqlDatabas
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231115s.SqlDatabaseThroughputSetting
+	var other storage.SqlDatabaseThroughputSetting
 	err := copied.AssignProperties_To_SqlDatabaseThroughputSetting(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabases_ThroughputSetting
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231115s.DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec
+	var other storage.DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec
 	err := copied.AssignProperties_To_DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -302,7 +302,7 @@ func RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabases_ThroughputSetting
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231115s.DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS
+	var other storage.DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS
 	err := copied.AssignProperties_To_DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS(&other)
 	if err != nil {
 		return err.Error()

@@ -121,7 +121,12 @@ func AsSimpleDeclarations(
 
 // RequiredPackageReferences returns a list of packages required by this type
 func (def TypeDefinition) RequiredPackageReferences() *PackageReferenceSet {
-	return def.theType.RequiredPackageReferences()
+	result := def.theType.RequiredPackageReferences()
+
+	// TypeDefinition should not reference its own package
+	result.Remove(def.name.PackageReference())
+
+	return result
 }
 
 func (def TypeDefinition) HasTestCases() bool {

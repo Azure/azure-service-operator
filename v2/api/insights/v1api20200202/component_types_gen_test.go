@@ -5,7 +5,7 @@ package v1api20200202
 
 import (
 	"encoding/json"
-	v20200202s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForComponent(subject Component) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20200202s.Component
+	var hub storage.Component
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForComponent(subject Component) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200202s.Component
+	var other storage.Component
 	err := copied.AssignProperties_To_Component(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForComponent_Spec(subject Component_Spec) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200202s.Component_Spec
+	var other storage.Component_Spec
 	err := copied.AssignProperties_To_Component_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -316,7 +316,7 @@ func RunPropertyAssignmentTestForComponent_STATUS(subject Component_STATUS) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200202s.Component_STATUS
+	var other storage.Component_STATUS
 	err := copied.AssignProperties_To_Component_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -464,7 +464,7 @@ func RunPropertyAssignmentTestForComponentOperatorSpec(subject ComponentOperator
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200202s.ComponentOperatorSpec
+	var other storage.ComponentOperatorSpec
 	err := copied.AssignProperties_To_ComponentOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -567,7 +567,7 @@ func RunPropertyAssignmentTestForPrivateLinkScopedResource_STATUS(subject Privat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200202s.PrivateLinkScopedResource_STATUS
+	var other storage.PrivateLinkScopedResource_STATUS
 	err := copied.AssignProperties_To_PrivateLinkScopedResource_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -671,7 +671,7 @@ func RunPropertyAssignmentTestForComponentOperatorConfigMaps(subject ComponentOp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200202s.ComponentOperatorConfigMaps
+	var other storage.ComponentOperatorConfigMaps
 	err := copied.AssignProperties_To_ComponentOperatorConfigMaps(&other)
 	if err != nil {
 		return err.Error()

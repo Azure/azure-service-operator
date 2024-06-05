@@ -5,7 +5,7 @@ package v1api20230501preview
 
 import (
 	"fmt"
-	v20230501ps "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -50,7 +50,7 @@ var _ conversion.Convertible = &Service{}
 // ConvertFrom populates our Service from the provided hub Service
 func (service *Service) ConvertFrom(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var source v20230501ps.Service
+	var source storage.Service
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
@@ -68,7 +68,7 @@ func (service *Service) ConvertFrom(hub conversion.Hub) error {
 // ConvertTo populates the provided hub Service from our Service
 func (service *Service) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var destination v20230501ps.Service
+	var destination storage.Service
 	err := service.AssignProperties_To_Service(&destination)
 	if err != nil {
 		return errors.Wrap(err, "converting to destination from service")
@@ -269,7 +269,7 @@ func (service *Service) validateWriteOnceProperties(old runtime.Object) (admissi
 }
 
 // AssignProperties_From_Service populates our Service from the provided source Service
-func (service *Service) AssignProperties_From_Service(source *v20230501ps.Service) error {
+func (service *Service) AssignProperties_From_Service(source *storage.Service) error {
 
 	// ObjectMeta
 	service.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -295,13 +295,13 @@ func (service *Service) AssignProperties_From_Service(source *v20230501ps.Servic
 }
 
 // AssignProperties_To_Service populates the provided destination Service from our Service
-func (service *Service) AssignProperties_To_Service(destination *v20230501ps.Service) error {
+func (service *Service) AssignProperties_To_Service(destination *storage.Service) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *service.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20230501ps.Service_Spec
+	var spec storage.Service_Spec
 	err := service.Spec.AssignProperties_To_Service_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Service_Spec() to populate field Spec")
@@ -309,7 +309,7 @@ func (service *Service) AssignProperties_To_Service(destination *v20230501ps.Ser
 	destination.Spec = spec
 
 	// Status
-	var status v20230501ps.Service_STATUS
+	var status storage.Service_STATUS
 	err = service.Status.AssignProperties_To_Service_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Service_STATUS() to populate field Status")
@@ -906,14 +906,14 @@ var _ genruntime.ConvertibleSpec = &Service_Spec{}
 
 // ConvertSpecFrom populates our Service_Spec from the provided source
 func (service *Service_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20230501ps.Service_Spec)
+	src, ok := source.(*storage.Service_Spec)
 	if ok {
 		// Populate our instance from source
 		return service.AssignProperties_From_Service_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20230501ps.Service_Spec{}
+	src = &storage.Service_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -930,14 +930,14 @@ func (service *Service_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) 
 
 // ConvertSpecTo populates the provided destination from our Service_Spec
 func (service *Service_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20230501ps.Service_Spec)
+	dst, ok := destination.(*storage.Service_Spec)
 	if ok {
 		// Populate destination from our instance
 		return service.AssignProperties_To_Service_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20230501ps.Service_Spec{}
+	dst = &storage.Service_Spec{}
 	err := service.AssignProperties_To_Service_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -953,7 +953,7 @@ func (service *Service_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpe
 }
 
 // AssignProperties_From_Service_Spec populates our Service_Spec from the provided source Service_Spec
-func (service *Service_Spec) AssignProperties_From_Service_Spec(source *v20230501ps.Service_Spec) error {
+func (service *Service_Spec) AssignProperties_From_Service_Spec(source *storage.Service_Spec) error {
 
 	// AdditionalLocations
 	if source.AdditionalLocations != nil {
@@ -1198,17 +1198,17 @@ func (service *Service_Spec) AssignProperties_From_Service_Spec(source *v2023050
 }
 
 // AssignProperties_To_Service_Spec populates the provided destination Service_Spec from our Service_Spec
-func (service *Service_Spec) AssignProperties_To_Service_Spec(destination *v20230501ps.Service_Spec) error {
+func (service *Service_Spec) AssignProperties_To_Service_Spec(destination *storage.Service_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AdditionalLocations
 	if service.AdditionalLocations != nil {
-		additionalLocationList := make([]v20230501ps.AdditionalLocation, len(service.AdditionalLocations))
+		additionalLocationList := make([]storage.AdditionalLocation, len(service.AdditionalLocations))
 		for additionalLocationIndex, additionalLocationItem := range service.AdditionalLocations {
 			// Shadow the loop variable to avoid aliasing
 			additionalLocationItem := additionalLocationItem
-			var additionalLocation v20230501ps.AdditionalLocation
+			var additionalLocation storage.AdditionalLocation
 			err := additionalLocationItem.AssignProperties_To_AdditionalLocation(&additionalLocation)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_AdditionalLocation() to populate field AdditionalLocations")
@@ -1222,7 +1222,7 @@ func (service *Service_Spec) AssignProperties_To_Service_Spec(destination *v2023
 
 	// ApiVersionConstraint
 	if service.ApiVersionConstraint != nil {
-		var apiVersionConstraint v20230501ps.ApiVersionConstraint
+		var apiVersionConstraint storage.ApiVersionConstraint
 		err := service.ApiVersionConstraint.AssignProperties_To_ApiVersionConstraint(&apiVersionConstraint)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ApiVersionConstraint() to populate field ApiVersionConstraint")
@@ -1237,11 +1237,11 @@ func (service *Service_Spec) AssignProperties_To_Service_Spec(destination *v2023
 
 	// Certificates
 	if service.Certificates != nil {
-		certificateList := make([]v20230501ps.CertificateConfiguration, len(service.Certificates))
+		certificateList := make([]storage.CertificateConfiguration, len(service.Certificates))
 		for certificateIndex, certificateItem := range service.Certificates {
 			// Shadow the loop variable to avoid aliasing
 			certificateItem := certificateItem
-			var certificate v20230501ps.CertificateConfiguration
+			var certificate storage.CertificateConfiguration
 			err := certificateItem.AssignProperties_To_CertificateConfiguration(&certificate)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_CertificateConfiguration() to populate field Certificates")
@@ -1255,7 +1255,7 @@ func (service *Service_Spec) AssignProperties_To_Service_Spec(destination *v2023
 
 	// ConfigurationApi
 	if service.ConfigurationApi != nil {
-		var configurationApi v20230501ps.ConfigurationApi
+		var configurationApi storage.ConfigurationApi
 		err := service.ConfigurationApi.AssignProperties_To_ConfigurationApi(&configurationApi)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ConfigurationApi() to populate field ConfigurationApi")
@@ -1294,11 +1294,11 @@ func (service *Service_Spec) AssignProperties_To_Service_Spec(destination *v2023
 
 	// HostnameConfigurations
 	if service.HostnameConfigurations != nil {
-		hostnameConfigurationList := make([]v20230501ps.HostnameConfiguration, len(service.HostnameConfigurations))
+		hostnameConfigurationList := make([]storage.HostnameConfiguration, len(service.HostnameConfigurations))
 		for hostnameConfigurationIndex, hostnameConfigurationItem := range service.HostnameConfigurations {
 			// Shadow the loop variable to avoid aliasing
 			hostnameConfigurationItem := hostnameConfigurationItem
-			var hostnameConfiguration v20230501ps.HostnameConfiguration
+			var hostnameConfiguration storage.HostnameConfiguration
 			err := hostnameConfigurationItem.AssignProperties_To_HostnameConfiguration(&hostnameConfiguration)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_HostnameConfiguration() to populate field HostnameConfigurations")
@@ -1312,7 +1312,7 @@ func (service *Service_Spec) AssignProperties_To_Service_Spec(destination *v2023
 
 	// Identity
 	if service.Identity != nil {
-		var identity v20230501ps.ApiManagementServiceIdentity
+		var identity storage.ApiManagementServiceIdentity
 		err := service.Identity.AssignProperties_To_ApiManagementServiceIdentity(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ApiManagementServiceIdentity() to populate field Identity")
@@ -1402,7 +1402,7 @@ func (service *Service_Spec) AssignProperties_To_Service_Spec(destination *v2023
 
 	// Sku
 	if service.Sku != nil {
-		var sku v20230501ps.ApiManagementServiceSkuProperties
+		var sku storage.ApiManagementServiceSkuProperties
 		err := service.Sku.AssignProperties_To_ApiManagementServiceSkuProperties(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ApiManagementServiceSkuProperties() to populate field Sku")
@@ -1417,7 +1417,7 @@ func (service *Service_Spec) AssignProperties_To_Service_Spec(destination *v2023
 
 	// VirtualNetworkConfiguration
 	if service.VirtualNetworkConfiguration != nil {
-		var virtualNetworkConfiguration v20230501ps.VirtualNetworkConfiguration
+		var virtualNetworkConfiguration storage.VirtualNetworkConfiguration
 		err := service.VirtualNetworkConfiguration.AssignProperties_To_VirtualNetworkConfiguration(&virtualNetworkConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworkConfiguration() to populate field VirtualNetworkConfiguration")
@@ -1632,14 +1632,14 @@ var _ genruntime.ConvertibleStatus = &Service_STATUS{}
 
 // ConvertStatusFrom populates our Service_STATUS from the provided source
 func (service *Service_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20230501ps.Service_STATUS)
+	src, ok := source.(*storage.Service_STATUS)
 	if ok {
 		// Populate our instance from source
 		return service.AssignProperties_From_Service_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20230501ps.Service_STATUS{}
+	src = &storage.Service_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -1656,14 +1656,14 @@ func (service *Service_STATUS) ConvertStatusFrom(source genruntime.ConvertibleSt
 
 // ConvertStatusTo populates the provided destination from our Service_STATUS
 func (service *Service_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20230501ps.Service_STATUS)
+	dst, ok := destination.(*storage.Service_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return service.AssignProperties_To_Service_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20230501ps.Service_STATUS{}
+	dst = &storage.Service_STATUS{}
 	err := service.AssignProperties_To_Service_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -2102,7 +2102,7 @@ func (service *Service_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 }
 
 // AssignProperties_From_Service_STATUS populates our Service_STATUS from the provided source Service_STATUS
-func (service *Service_STATUS) AssignProperties_From_Service_STATUS(source *v20230501ps.Service_STATUS) error {
+func (service *Service_STATUS) AssignProperties_From_Service_STATUS(source *storage.Service_STATUS) error {
 
 	// AdditionalLocations
 	if source.AdditionalLocations != nil {
@@ -2406,17 +2406,17 @@ func (service *Service_STATUS) AssignProperties_From_Service_STATUS(source *v202
 }
 
 // AssignProperties_To_Service_STATUS populates the provided destination Service_STATUS from our Service_STATUS
-func (service *Service_STATUS) AssignProperties_To_Service_STATUS(destination *v20230501ps.Service_STATUS) error {
+func (service *Service_STATUS) AssignProperties_To_Service_STATUS(destination *storage.Service_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AdditionalLocations
 	if service.AdditionalLocations != nil {
-		additionalLocationList := make([]v20230501ps.AdditionalLocation_STATUS, len(service.AdditionalLocations))
+		additionalLocationList := make([]storage.AdditionalLocation_STATUS, len(service.AdditionalLocations))
 		for additionalLocationIndex, additionalLocationItem := range service.AdditionalLocations {
 			// Shadow the loop variable to avoid aliasing
 			additionalLocationItem := additionalLocationItem
-			var additionalLocation v20230501ps.AdditionalLocation_STATUS
+			var additionalLocation storage.AdditionalLocation_STATUS
 			err := additionalLocationItem.AssignProperties_To_AdditionalLocation_STATUS(&additionalLocation)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_AdditionalLocation_STATUS() to populate field AdditionalLocations")
@@ -2430,7 +2430,7 @@ func (service *Service_STATUS) AssignProperties_To_Service_STATUS(destination *v
 
 	// ApiVersionConstraint
 	if service.ApiVersionConstraint != nil {
-		var apiVersionConstraint v20230501ps.ApiVersionConstraint_STATUS
+		var apiVersionConstraint storage.ApiVersionConstraint_STATUS
 		err := service.ApiVersionConstraint.AssignProperties_To_ApiVersionConstraint_STATUS(&apiVersionConstraint)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ApiVersionConstraint_STATUS() to populate field ApiVersionConstraint")
@@ -2442,11 +2442,11 @@ func (service *Service_STATUS) AssignProperties_To_Service_STATUS(destination *v
 
 	// Certificates
 	if service.Certificates != nil {
-		certificateList := make([]v20230501ps.CertificateConfiguration_STATUS, len(service.Certificates))
+		certificateList := make([]storage.CertificateConfiguration_STATUS, len(service.Certificates))
 		for certificateIndex, certificateItem := range service.Certificates {
 			// Shadow the loop variable to avoid aliasing
 			certificateItem := certificateItem
-			var certificate v20230501ps.CertificateConfiguration_STATUS
+			var certificate storage.CertificateConfiguration_STATUS
 			err := certificateItem.AssignProperties_To_CertificateConfiguration_STATUS(&certificate)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_CertificateConfiguration_STATUS() to populate field Certificates")
@@ -2463,7 +2463,7 @@ func (service *Service_STATUS) AssignProperties_To_Service_STATUS(destination *v
 
 	// ConfigurationApi
 	if service.ConfigurationApi != nil {
-		var configurationApi v20230501ps.ConfigurationApi_STATUS
+		var configurationApi storage.ConfigurationApi_STATUS
 		err := service.ConfigurationApi.AssignProperties_To_ConfigurationApi_STATUS(&configurationApi)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ConfigurationApi_STATUS() to populate field ConfigurationApi")
@@ -2517,11 +2517,11 @@ func (service *Service_STATUS) AssignProperties_To_Service_STATUS(destination *v
 
 	// HostnameConfigurations
 	if service.HostnameConfigurations != nil {
-		hostnameConfigurationList := make([]v20230501ps.HostnameConfiguration_STATUS, len(service.HostnameConfigurations))
+		hostnameConfigurationList := make([]storage.HostnameConfiguration_STATUS, len(service.HostnameConfigurations))
 		for hostnameConfigurationIndex, hostnameConfigurationItem := range service.HostnameConfigurations {
 			// Shadow the loop variable to avoid aliasing
 			hostnameConfigurationItem := hostnameConfigurationItem
-			var hostnameConfiguration v20230501ps.HostnameConfiguration_STATUS
+			var hostnameConfiguration storage.HostnameConfiguration_STATUS
 			err := hostnameConfigurationItem.AssignProperties_To_HostnameConfiguration_STATUS(&hostnameConfiguration)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_HostnameConfiguration_STATUS() to populate field HostnameConfigurations")
@@ -2538,7 +2538,7 @@ func (service *Service_STATUS) AssignProperties_To_Service_STATUS(destination *v
 
 	// Identity
 	if service.Identity != nil {
-		var identity v20230501ps.ApiManagementServiceIdentity_STATUS
+		var identity storage.ApiManagementServiceIdentity_STATUS
 		err := service.Identity.AssignProperties_To_ApiManagementServiceIdentity_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ApiManagementServiceIdentity_STATUS() to populate field Identity")
@@ -2592,11 +2592,11 @@ func (service *Service_STATUS) AssignProperties_To_Service_STATUS(destination *v
 
 	// PrivateEndpointConnections
 	if service.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]v20230501ps.RemotePrivateEndpointConnectionWrapper_STATUS, len(service.PrivateEndpointConnections))
+		privateEndpointConnectionList := make([]storage.RemotePrivateEndpointConnectionWrapper_STATUS, len(service.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range service.PrivateEndpointConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v20230501ps.RemotePrivateEndpointConnectionWrapper_STATUS
+			var privateEndpointConnection storage.RemotePrivateEndpointConnectionWrapper_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_RemotePrivateEndpointConnectionWrapper_STATUS(&privateEndpointConnection)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_RemotePrivateEndpointConnectionWrapper_STATUS() to populate field PrivateEndpointConnections")
@@ -2647,7 +2647,7 @@ func (service *Service_STATUS) AssignProperties_To_Service_STATUS(destination *v
 
 	// Sku
 	if service.Sku != nil {
-		var sku v20230501ps.ApiManagementServiceSkuProperties_STATUS
+		var sku storage.ApiManagementServiceSkuProperties_STATUS
 		err := service.Sku.AssignProperties_To_ApiManagementServiceSkuProperties_STATUS(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ApiManagementServiceSkuProperties_STATUS() to populate field Sku")
@@ -2659,7 +2659,7 @@ func (service *Service_STATUS) AssignProperties_To_Service_STATUS(destination *v
 
 	// SystemData
 	if service.SystemData != nil {
-		var systemDatum v20230501ps.SystemData_STATUS
+		var systemDatum storage.SystemData_STATUS
 		err := service.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
@@ -2680,7 +2680,7 @@ func (service *Service_STATUS) AssignProperties_To_Service_STATUS(destination *v
 
 	// VirtualNetworkConfiguration
 	if service.VirtualNetworkConfiguration != nil {
-		var virtualNetworkConfiguration v20230501ps.VirtualNetworkConfiguration_STATUS
+		var virtualNetworkConfiguration storage.VirtualNetworkConfiguration_STATUS
 		err := service.VirtualNetworkConfiguration.AssignProperties_To_VirtualNetworkConfiguration_STATUS(&virtualNetworkConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworkConfiguration_STATUS() to populate field VirtualNetworkConfiguration")
@@ -2868,7 +2868,7 @@ func (location *AdditionalLocation) PopulateFromARM(owner genruntime.ArbitraryOw
 }
 
 // AssignProperties_From_AdditionalLocation populates our AdditionalLocation from the provided source AdditionalLocation
-func (location *AdditionalLocation) AssignProperties_From_AdditionalLocation(source *v20230501ps.AdditionalLocation) error {
+func (location *AdditionalLocation) AssignProperties_From_AdditionalLocation(source *storage.AdditionalLocation) error {
 
 	// DisableGateway
 	if source.DisableGateway != nil {
@@ -2930,7 +2930,7 @@ func (location *AdditionalLocation) AssignProperties_From_AdditionalLocation(sou
 }
 
 // AssignProperties_To_AdditionalLocation populates the provided destination AdditionalLocation from our AdditionalLocation
-func (location *AdditionalLocation) AssignProperties_To_AdditionalLocation(destination *v20230501ps.AdditionalLocation) error {
+func (location *AdditionalLocation) AssignProperties_To_AdditionalLocation(destination *storage.AdditionalLocation) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2963,7 +2963,7 @@ func (location *AdditionalLocation) AssignProperties_To_AdditionalLocation(desti
 
 	// Sku
 	if location.Sku != nil {
-		var sku v20230501ps.ApiManagementServiceSkuProperties
+		var sku storage.ApiManagementServiceSkuProperties
 		err := location.Sku.AssignProperties_To_ApiManagementServiceSkuProperties(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ApiManagementServiceSkuProperties() to populate field Sku")
@@ -2975,7 +2975,7 @@ func (location *AdditionalLocation) AssignProperties_To_AdditionalLocation(desti
 
 	// VirtualNetworkConfiguration
 	if location.VirtualNetworkConfiguration != nil {
-		var virtualNetworkConfiguration v20230501ps.VirtualNetworkConfiguration
+		var virtualNetworkConfiguration storage.VirtualNetworkConfiguration
 		err := location.VirtualNetworkConfiguration.AssignProperties_To_VirtualNetworkConfiguration(&virtualNetworkConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworkConfiguration() to populate field VirtualNetworkConfiguration")
@@ -3141,7 +3141,7 @@ func (location *AdditionalLocation_STATUS) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignProperties_From_AdditionalLocation_STATUS populates our AdditionalLocation_STATUS from the provided source AdditionalLocation_STATUS
-func (location *AdditionalLocation_STATUS) AssignProperties_From_AdditionalLocation_STATUS(source *v20230501ps.AdditionalLocation_STATUS) error {
+func (location *AdditionalLocation_STATUS) AssignProperties_From_AdditionalLocation_STATUS(source *storage.AdditionalLocation_STATUS) error {
 
 	// DisableGateway
 	if source.DisableGateway != nil {
@@ -3219,7 +3219,7 @@ func (location *AdditionalLocation_STATUS) AssignProperties_From_AdditionalLocat
 }
 
 // AssignProperties_To_AdditionalLocation_STATUS populates the provided destination AdditionalLocation_STATUS from our AdditionalLocation_STATUS
-func (location *AdditionalLocation_STATUS) AssignProperties_To_AdditionalLocation_STATUS(destination *v20230501ps.AdditionalLocation_STATUS) error {
+func (location *AdditionalLocation_STATUS) AssignProperties_To_AdditionalLocation_STATUS(destination *storage.AdditionalLocation_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3267,7 +3267,7 @@ func (location *AdditionalLocation_STATUS) AssignProperties_To_AdditionalLocatio
 
 	// Sku
 	if location.Sku != nil {
-		var sku v20230501ps.ApiManagementServiceSkuProperties_STATUS
+		var sku storage.ApiManagementServiceSkuProperties_STATUS
 		err := location.Sku.AssignProperties_To_ApiManagementServiceSkuProperties_STATUS(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ApiManagementServiceSkuProperties_STATUS() to populate field Sku")
@@ -3279,7 +3279,7 @@ func (location *AdditionalLocation_STATUS) AssignProperties_To_AdditionalLocatio
 
 	// VirtualNetworkConfiguration
 	if location.VirtualNetworkConfiguration != nil {
-		var virtualNetworkConfiguration v20230501ps.VirtualNetworkConfiguration_STATUS
+		var virtualNetworkConfiguration storage.VirtualNetworkConfiguration_STATUS
 		err := location.VirtualNetworkConfiguration.AssignProperties_To_VirtualNetworkConfiguration_STATUS(&virtualNetworkConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworkConfiguration_STATUS() to populate field VirtualNetworkConfiguration")
@@ -3370,7 +3370,7 @@ func (identity *ApiManagementServiceIdentity) PopulateFromARM(owner genruntime.A
 }
 
 // AssignProperties_From_ApiManagementServiceIdentity populates our ApiManagementServiceIdentity from the provided source ApiManagementServiceIdentity
-func (identity *ApiManagementServiceIdentity) AssignProperties_From_ApiManagementServiceIdentity(source *v20230501ps.ApiManagementServiceIdentity) error {
+func (identity *ApiManagementServiceIdentity) AssignProperties_From_ApiManagementServiceIdentity(source *storage.ApiManagementServiceIdentity) error {
 
 	// Type
 	if source.Type != nil {
@@ -3404,7 +3404,7 @@ func (identity *ApiManagementServiceIdentity) AssignProperties_From_ApiManagemen
 }
 
 // AssignProperties_To_ApiManagementServiceIdentity populates the provided destination ApiManagementServiceIdentity from our ApiManagementServiceIdentity
-func (identity *ApiManagementServiceIdentity) AssignProperties_To_ApiManagementServiceIdentity(destination *v20230501ps.ApiManagementServiceIdentity) error {
+func (identity *ApiManagementServiceIdentity) AssignProperties_To_ApiManagementServiceIdentity(destination *storage.ApiManagementServiceIdentity) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3418,11 +3418,11 @@ func (identity *ApiManagementServiceIdentity) AssignProperties_To_ApiManagementS
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]v20230501ps.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
+		userAssignedIdentityList := make([]storage.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range identity.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityItem := userAssignedIdentityItem
-			var userAssignedIdentity v20230501ps.UserAssignedIdentityDetails
+			var userAssignedIdentity storage.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
@@ -3514,7 +3514,7 @@ func (identity *ApiManagementServiceIdentity_STATUS) PopulateFromARM(owner genru
 }
 
 // AssignProperties_From_ApiManagementServiceIdentity_STATUS populates our ApiManagementServiceIdentity_STATUS from the provided source ApiManagementServiceIdentity_STATUS
-func (identity *ApiManagementServiceIdentity_STATUS) AssignProperties_From_ApiManagementServiceIdentity_STATUS(source *v20230501ps.ApiManagementServiceIdentity_STATUS) error {
+func (identity *ApiManagementServiceIdentity_STATUS) AssignProperties_From_ApiManagementServiceIdentity_STATUS(source *storage.ApiManagementServiceIdentity_STATUS) error {
 
 	// PrincipalId
 	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
@@ -3554,7 +3554,7 @@ func (identity *ApiManagementServiceIdentity_STATUS) AssignProperties_From_ApiMa
 }
 
 // AssignProperties_To_ApiManagementServiceIdentity_STATUS populates the provided destination ApiManagementServiceIdentity_STATUS from our ApiManagementServiceIdentity_STATUS
-func (identity *ApiManagementServiceIdentity_STATUS) AssignProperties_To_ApiManagementServiceIdentity_STATUS(destination *v20230501ps.ApiManagementServiceIdentity_STATUS) error {
+func (identity *ApiManagementServiceIdentity_STATUS) AssignProperties_To_ApiManagementServiceIdentity_STATUS(destination *storage.ApiManagementServiceIdentity_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3574,11 +3574,11 @@ func (identity *ApiManagementServiceIdentity_STATUS) AssignProperties_To_ApiMana
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v20230501ps.UserIdentityProperties_STATUS, len(identity.UserAssignedIdentities))
+		userAssignedIdentityMap := make(map[string]storage.UserIdentityProperties_STATUS, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity v20230501ps.UserIdentityProperties_STATUS
+			var userAssignedIdentity storage.UserIdentityProperties_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_UserIdentityProperties_STATUS(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_UserIdentityProperties_STATUS() to populate field UserAssignedIdentities")
@@ -3822,7 +3822,7 @@ func (properties *ApiManagementServiceSkuProperties) PopulateFromARM(owner genru
 }
 
 // AssignProperties_From_ApiManagementServiceSkuProperties populates our ApiManagementServiceSkuProperties from the provided source ApiManagementServiceSkuProperties
-func (properties *ApiManagementServiceSkuProperties) AssignProperties_From_ApiManagementServiceSkuProperties(source *v20230501ps.ApiManagementServiceSkuProperties) error {
+func (properties *ApiManagementServiceSkuProperties) AssignProperties_From_ApiManagementServiceSkuProperties(source *storage.ApiManagementServiceSkuProperties) error {
 
 	// Capacity
 	properties.Capacity = genruntime.ClonePointerToInt(source.Capacity)
@@ -3841,7 +3841,7 @@ func (properties *ApiManagementServiceSkuProperties) AssignProperties_From_ApiMa
 }
 
 // AssignProperties_To_ApiManagementServiceSkuProperties populates the provided destination ApiManagementServiceSkuProperties from our ApiManagementServiceSkuProperties
-func (properties *ApiManagementServiceSkuProperties) AssignProperties_To_ApiManagementServiceSkuProperties(destination *v20230501ps.ApiManagementServiceSkuProperties) error {
+func (properties *ApiManagementServiceSkuProperties) AssignProperties_To_ApiManagementServiceSkuProperties(destination *storage.ApiManagementServiceSkuProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3907,7 +3907,7 @@ func (properties *ApiManagementServiceSkuProperties_STATUS) PopulateFromARM(owne
 }
 
 // AssignProperties_From_ApiManagementServiceSkuProperties_STATUS populates our ApiManagementServiceSkuProperties_STATUS from the provided source ApiManagementServiceSkuProperties_STATUS
-func (properties *ApiManagementServiceSkuProperties_STATUS) AssignProperties_From_ApiManagementServiceSkuProperties_STATUS(source *v20230501ps.ApiManagementServiceSkuProperties_STATUS) error {
+func (properties *ApiManagementServiceSkuProperties_STATUS) AssignProperties_From_ApiManagementServiceSkuProperties_STATUS(source *storage.ApiManagementServiceSkuProperties_STATUS) error {
 
 	// Capacity
 	properties.Capacity = genruntime.ClonePointerToInt(source.Capacity)
@@ -3926,7 +3926,7 @@ func (properties *ApiManagementServiceSkuProperties_STATUS) AssignProperties_Fro
 }
 
 // AssignProperties_To_ApiManagementServiceSkuProperties_STATUS populates the provided destination ApiManagementServiceSkuProperties_STATUS from our ApiManagementServiceSkuProperties_STATUS
-func (properties *ApiManagementServiceSkuProperties_STATUS) AssignProperties_To_ApiManagementServiceSkuProperties_STATUS(destination *v20230501ps.ApiManagementServiceSkuProperties_STATUS) error {
+func (properties *ApiManagementServiceSkuProperties_STATUS) AssignProperties_To_ApiManagementServiceSkuProperties_STATUS(destination *storage.ApiManagementServiceSkuProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3998,7 +3998,7 @@ func (constraint *ApiVersionConstraint) PopulateFromARM(owner genruntime.Arbitra
 }
 
 // AssignProperties_From_ApiVersionConstraint populates our ApiVersionConstraint from the provided source ApiVersionConstraint
-func (constraint *ApiVersionConstraint) AssignProperties_From_ApiVersionConstraint(source *v20230501ps.ApiVersionConstraint) error {
+func (constraint *ApiVersionConstraint) AssignProperties_From_ApiVersionConstraint(source *storage.ApiVersionConstraint) error {
 
 	// MinApiVersion
 	constraint.MinApiVersion = genruntime.ClonePointerToString(source.MinApiVersion)
@@ -4008,7 +4008,7 @@ func (constraint *ApiVersionConstraint) AssignProperties_From_ApiVersionConstrai
 }
 
 // AssignProperties_To_ApiVersionConstraint populates the provided destination ApiVersionConstraint from our ApiVersionConstraint
-func (constraint *ApiVersionConstraint) AssignProperties_To_ApiVersionConstraint(destination *v20230501ps.ApiVersionConstraint) error {
+func (constraint *ApiVersionConstraint) AssignProperties_To_ApiVersionConstraint(destination *storage.ApiVersionConstraint) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4057,7 +4057,7 @@ func (constraint *ApiVersionConstraint_STATUS) PopulateFromARM(owner genruntime.
 }
 
 // AssignProperties_From_ApiVersionConstraint_STATUS populates our ApiVersionConstraint_STATUS from the provided source ApiVersionConstraint_STATUS
-func (constraint *ApiVersionConstraint_STATUS) AssignProperties_From_ApiVersionConstraint_STATUS(source *v20230501ps.ApiVersionConstraint_STATUS) error {
+func (constraint *ApiVersionConstraint_STATUS) AssignProperties_From_ApiVersionConstraint_STATUS(source *storage.ApiVersionConstraint_STATUS) error {
 
 	// MinApiVersion
 	constraint.MinApiVersion = genruntime.ClonePointerToString(source.MinApiVersion)
@@ -4067,7 +4067,7 @@ func (constraint *ApiVersionConstraint_STATUS) AssignProperties_From_ApiVersionC
 }
 
 // AssignProperties_To_ApiVersionConstraint_STATUS populates the provided destination ApiVersionConstraint_STATUS from our ApiVersionConstraint_STATUS
-func (constraint *ApiVersionConstraint_STATUS) AssignProperties_To_ApiVersionConstraint_STATUS(destination *v20230501ps.ApiVersionConstraint_STATUS) error {
+func (constraint *ApiVersionConstraint_STATUS) AssignProperties_To_ApiVersionConstraint_STATUS(destination *storage.ApiVersionConstraint_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4187,7 +4187,7 @@ func (configuration *CertificateConfiguration) PopulateFromARM(owner genruntime.
 }
 
 // AssignProperties_From_CertificateConfiguration populates our CertificateConfiguration from the provided source CertificateConfiguration
-func (configuration *CertificateConfiguration) AssignProperties_From_CertificateConfiguration(source *v20230501ps.CertificateConfiguration) error {
+func (configuration *CertificateConfiguration) AssignProperties_From_CertificateConfiguration(source *storage.CertificateConfiguration) error {
 
 	// Certificate
 	if source.Certificate != nil {
@@ -4226,13 +4226,13 @@ func (configuration *CertificateConfiguration) AssignProperties_From_Certificate
 }
 
 // AssignProperties_To_CertificateConfiguration populates the provided destination CertificateConfiguration from our CertificateConfiguration
-func (configuration *CertificateConfiguration) AssignProperties_To_CertificateConfiguration(destination *v20230501ps.CertificateConfiguration) error {
+func (configuration *CertificateConfiguration) AssignProperties_To_CertificateConfiguration(destination *storage.CertificateConfiguration) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Certificate
 	if configuration.Certificate != nil {
-		var certificate v20230501ps.CertificateInformation
+		var certificate storage.CertificateInformation
 		err := configuration.Certificate.AssignProperties_To_CertificateInformation(&certificate)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CertificateInformation() to populate field Certificate")
@@ -4327,7 +4327,7 @@ func (configuration *CertificateConfiguration_STATUS) PopulateFromARM(owner genr
 }
 
 // AssignProperties_From_CertificateConfiguration_STATUS populates our CertificateConfiguration_STATUS from the provided source CertificateConfiguration_STATUS
-func (configuration *CertificateConfiguration_STATUS) AssignProperties_From_CertificateConfiguration_STATUS(source *v20230501ps.CertificateConfiguration_STATUS) error {
+func (configuration *CertificateConfiguration_STATUS) AssignProperties_From_CertificateConfiguration_STATUS(source *storage.CertificateConfiguration_STATUS) error {
 
 	// Certificate
 	if source.Certificate != nil {
@@ -4358,13 +4358,13 @@ func (configuration *CertificateConfiguration_STATUS) AssignProperties_From_Cert
 }
 
 // AssignProperties_To_CertificateConfiguration_STATUS populates the provided destination CertificateConfiguration_STATUS from our CertificateConfiguration_STATUS
-func (configuration *CertificateConfiguration_STATUS) AssignProperties_To_CertificateConfiguration_STATUS(destination *v20230501ps.CertificateConfiguration_STATUS) error {
+func (configuration *CertificateConfiguration_STATUS) AssignProperties_To_CertificateConfiguration_STATUS(destination *storage.CertificateConfiguration_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Certificate
 	if configuration.Certificate != nil {
-		var certificate v20230501ps.CertificateInformation_STATUS
+		var certificate storage.CertificateInformation_STATUS
 		err := configuration.Certificate.AssignProperties_To_CertificateInformation_STATUS(&certificate)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CertificateInformation_STATUS() to populate field Certificate")
@@ -4444,7 +4444,7 @@ func (configurationApi *ConfigurationApi) PopulateFromARM(owner genruntime.Arbit
 }
 
 // AssignProperties_From_ConfigurationApi populates our ConfigurationApi from the provided source ConfigurationApi
-func (configurationApi *ConfigurationApi) AssignProperties_From_ConfigurationApi(source *v20230501ps.ConfigurationApi) error {
+func (configurationApi *ConfigurationApi) AssignProperties_From_ConfigurationApi(source *storage.ConfigurationApi) error {
 
 	// LegacyApi
 	if source.LegacyApi != nil {
@@ -4460,7 +4460,7 @@ func (configurationApi *ConfigurationApi) AssignProperties_From_ConfigurationApi
 }
 
 // AssignProperties_To_ConfigurationApi populates the provided destination ConfigurationApi from our ConfigurationApi
-func (configurationApi *ConfigurationApi) AssignProperties_To_ConfigurationApi(destination *v20230501ps.ConfigurationApi) error {
+func (configurationApi *ConfigurationApi) AssignProperties_To_ConfigurationApi(destination *storage.ConfigurationApi) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4516,7 +4516,7 @@ func (configurationApi *ConfigurationApi_STATUS) PopulateFromARM(owner genruntim
 }
 
 // AssignProperties_From_ConfigurationApi_STATUS populates our ConfigurationApi_STATUS from the provided source ConfigurationApi_STATUS
-func (configurationApi *ConfigurationApi_STATUS) AssignProperties_From_ConfigurationApi_STATUS(source *v20230501ps.ConfigurationApi_STATUS) error {
+func (configurationApi *ConfigurationApi_STATUS) AssignProperties_From_ConfigurationApi_STATUS(source *storage.ConfigurationApi_STATUS) error {
 
 	// LegacyApi
 	if source.LegacyApi != nil {
@@ -4532,7 +4532,7 @@ func (configurationApi *ConfigurationApi_STATUS) AssignProperties_From_Configura
 }
 
 // AssignProperties_To_ConfigurationApi_STATUS populates the provided destination ConfigurationApi_STATUS from our ConfigurationApi_STATUS
-func (configurationApi *ConfigurationApi_STATUS) AssignProperties_To_ConfigurationApi_STATUS(destination *v20230501ps.ConfigurationApi_STATUS) error {
+func (configurationApi *ConfigurationApi_STATUS) AssignProperties_To_ConfigurationApi_STATUS(destination *storage.ConfigurationApi_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4782,7 +4782,7 @@ func (configuration *HostnameConfiguration) PopulateFromARM(owner genruntime.Arb
 }
 
 // AssignProperties_From_HostnameConfiguration populates our HostnameConfiguration from the provided source HostnameConfiguration
-func (configuration *HostnameConfiguration) AssignProperties_From_HostnameConfiguration(source *v20230501ps.HostnameConfiguration) error {
+func (configuration *HostnameConfiguration) AssignProperties_From_HostnameConfiguration(source *storage.HostnameConfiguration) error {
 
 	// Certificate
 	if source.Certificate != nil {
@@ -4872,13 +4872,13 @@ func (configuration *HostnameConfiguration) AssignProperties_From_HostnameConfig
 }
 
 // AssignProperties_To_HostnameConfiguration populates the provided destination HostnameConfiguration from our HostnameConfiguration
-func (configuration *HostnameConfiguration) AssignProperties_To_HostnameConfiguration(destination *v20230501ps.HostnameConfiguration) error {
+func (configuration *HostnameConfiguration) AssignProperties_To_HostnameConfiguration(destination *storage.HostnameConfiguration) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Certificate
 	if configuration.Certificate != nil {
-		var certificate v20230501ps.CertificateInformation
+		var certificate storage.CertificateInformation
 		err := configuration.Certificate.AssignProperties_To_CertificateInformation(&certificate)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CertificateInformation() to populate field Certificate")
@@ -5090,7 +5090,7 @@ func (configuration *HostnameConfiguration_STATUS) PopulateFromARM(owner genrunt
 }
 
 // AssignProperties_From_HostnameConfiguration_STATUS populates our HostnameConfiguration_STATUS from the provided source HostnameConfiguration_STATUS
-func (configuration *HostnameConfiguration_STATUS) AssignProperties_From_HostnameConfiguration_STATUS(source *v20230501ps.HostnameConfiguration_STATUS) error {
+func (configuration *HostnameConfiguration_STATUS) AssignProperties_From_HostnameConfiguration_STATUS(source *storage.HostnameConfiguration_STATUS) error {
 
 	// Certificate
 	if source.Certificate != nil {
@@ -5164,13 +5164,13 @@ func (configuration *HostnameConfiguration_STATUS) AssignProperties_From_Hostnam
 }
 
 // AssignProperties_To_HostnameConfiguration_STATUS populates the provided destination HostnameConfiguration_STATUS from our HostnameConfiguration_STATUS
-func (configuration *HostnameConfiguration_STATUS) AssignProperties_To_HostnameConfiguration_STATUS(destination *v20230501ps.HostnameConfiguration_STATUS) error {
+func (configuration *HostnameConfiguration_STATUS) AssignProperties_To_HostnameConfiguration_STATUS(destination *storage.HostnameConfiguration_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Certificate
 	if configuration.Certificate != nil {
-		var certificate v20230501ps.CertificateInformation_STATUS
+		var certificate storage.CertificateInformation_STATUS
 		err := configuration.Certificate.AssignProperties_To_CertificateInformation_STATUS(&certificate)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CertificateInformation_STATUS() to populate field Certificate")
@@ -5350,7 +5350,7 @@ func (wrapper *RemotePrivateEndpointConnectionWrapper_STATUS) PopulateFromARM(ow
 }
 
 // AssignProperties_From_RemotePrivateEndpointConnectionWrapper_STATUS populates our RemotePrivateEndpointConnectionWrapper_STATUS from the provided source RemotePrivateEndpointConnectionWrapper_STATUS
-func (wrapper *RemotePrivateEndpointConnectionWrapper_STATUS) AssignProperties_From_RemotePrivateEndpointConnectionWrapper_STATUS(source *v20230501ps.RemotePrivateEndpointConnectionWrapper_STATUS) error {
+func (wrapper *RemotePrivateEndpointConnectionWrapper_STATUS) AssignProperties_From_RemotePrivateEndpointConnectionWrapper_STATUS(source *storage.RemotePrivateEndpointConnectionWrapper_STATUS) error {
 
 	// GroupIds
 	wrapper.GroupIds = genruntime.CloneSliceOfString(source.GroupIds)
@@ -5396,7 +5396,7 @@ func (wrapper *RemotePrivateEndpointConnectionWrapper_STATUS) AssignProperties_F
 }
 
 // AssignProperties_To_RemotePrivateEndpointConnectionWrapper_STATUS populates the provided destination RemotePrivateEndpointConnectionWrapper_STATUS from our RemotePrivateEndpointConnectionWrapper_STATUS
-func (wrapper *RemotePrivateEndpointConnectionWrapper_STATUS) AssignProperties_To_RemotePrivateEndpointConnectionWrapper_STATUS(destination *v20230501ps.RemotePrivateEndpointConnectionWrapper_STATUS) error {
+func (wrapper *RemotePrivateEndpointConnectionWrapper_STATUS) AssignProperties_To_RemotePrivateEndpointConnectionWrapper_STATUS(destination *storage.RemotePrivateEndpointConnectionWrapper_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5411,7 +5411,7 @@ func (wrapper *RemotePrivateEndpointConnectionWrapper_STATUS) AssignProperties_T
 
 	// PrivateEndpoint
 	if wrapper.PrivateEndpoint != nil {
-		var privateEndpoint v20230501ps.ArmIdWrapper_STATUS
+		var privateEndpoint storage.ArmIdWrapper_STATUS
 		err := wrapper.PrivateEndpoint.AssignProperties_To_ArmIdWrapper_STATUS(&privateEndpoint)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ArmIdWrapper_STATUS() to populate field PrivateEndpoint")
@@ -5423,7 +5423,7 @@ func (wrapper *RemotePrivateEndpointConnectionWrapper_STATUS) AssignProperties_T
 
 	// PrivateLinkServiceConnectionState
 	if wrapper.PrivateLinkServiceConnectionState != nil {
-		var privateLinkServiceConnectionState v20230501ps.PrivateLinkServiceConnectionState_STATUS
+		var privateLinkServiceConnectionState storage.PrivateLinkServiceConnectionState_STATUS
 		err := wrapper.PrivateLinkServiceConnectionState.AssignProperties_To_PrivateLinkServiceConnectionState_STATUS(&privateLinkServiceConnectionState)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnectionState_STATUS() to populate field PrivateLinkServiceConnectionState")
@@ -5526,7 +5526,7 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 }
 
 // AssignProperties_From_SystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v20230501ps.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *storage.SystemData_STATUS) error {
 
 	// CreatedAt
 	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
@@ -5563,7 +5563,7 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 }
 
 // AssignProperties_To_SystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *v20230501ps.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *storage.SystemData_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5652,7 +5652,7 @@ func (configuration *VirtualNetworkConfiguration) PopulateFromARM(owner genrunti
 }
 
 // AssignProperties_From_VirtualNetworkConfiguration populates our VirtualNetworkConfiguration from the provided source VirtualNetworkConfiguration
-func (configuration *VirtualNetworkConfiguration) AssignProperties_From_VirtualNetworkConfiguration(source *v20230501ps.VirtualNetworkConfiguration) error {
+func (configuration *VirtualNetworkConfiguration) AssignProperties_From_VirtualNetworkConfiguration(source *storage.VirtualNetworkConfiguration) error {
 
 	// SubnetResourceReference
 	if source.SubnetResourceReference != nil {
@@ -5667,7 +5667,7 @@ func (configuration *VirtualNetworkConfiguration) AssignProperties_From_VirtualN
 }
 
 // AssignProperties_To_VirtualNetworkConfiguration populates the provided destination VirtualNetworkConfiguration from our VirtualNetworkConfiguration
-func (configuration *VirtualNetworkConfiguration) AssignProperties_To_VirtualNetworkConfiguration(destination *v20230501ps.VirtualNetworkConfiguration) error {
+func (configuration *VirtualNetworkConfiguration) AssignProperties_To_VirtualNetworkConfiguration(destination *storage.VirtualNetworkConfiguration) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5739,7 +5739,7 @@ func (configuration *VirtualNetworkConfiguration_STATUS) PopulateFromARM(owner g
 }
 
 // AssignProperties_From_VirtualNetworkConfiguration_STATUS populates our VirtualNetworkConfiguration_STATUS from the provided source VirtualNetworkConfiguration_STATUS
-func (configuration *VirtualNetworkConfiguration_STATUS) AssignProperties_From_VirtualNetworkConfiguration_STATUS(source *v20230501ps.VirtualNetworkConfiguration_STATUS) error {
+func (configuration *VirtualNetworkConfiguration_STATUS) AssignProperties_From_VirtualNetworkConfiguration_STATUS(source *storage.VirtualNetworkConfiguration_STATUS) error {
 
 	// SubnetResourceId
 	configuration.SubnetResourceId = genruntime.ClonePointerToString(source.SubnetResourceId)
@@ -5755,7 +5755,7 @@ func (configuration *VirtualNetworkConfiguration_STATUS) AssignProperties_From_V
 }
 
 // AssignProperties_To_VirtualNetworkConfiguration_STATUS populates the provided destination VirtualNetworkConfiguration_STATUS from our VirtualNetworkConfiguration_STATUS
-func (configuration *VirtualNetworkConfiguration_STATUS) AssignProperties_To_VirtualNetworkConfiguration_STATUS(destination *v20230501ps.VirtualNetworkConfiguration_STATUS) error {
+func (configuration *VirtualNetworkConfiguration_STATUS) AssignProperties_To_VirtualNetworkConfiguration_STATUS(destination *storage.VirtualNetworkConfiguration_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5855,7 +5855,7 @@ func (wrapper *ArmIdWrapper_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 }
 
 // AssignProperties_From_ArmIdWrapper_STATUS populates our ArmIdWrapper_STATUS from the provided source ArmIdWrapper_STATUS
-func (wrapper *ArmIdWrapper_STATUS) AssignProperties_From_ArmIdWrapper_STATUS(source *v20230501ps.ArmIdWrapper_STATUS) error {
+func (wrapper *ArmIdWrapper_STATUS) AssignProperties_From_ArmIdWrapper_STATUS(source *storage.ArmIdWrapper_STATUS) error {
 
 	// Id
 	wrapper.Id = genruntime.ClonePointerToString(source.Id)
@@ -5865,7 +5865,7 @@ func (wrapper *ArmIdWrapper_STATUS) AssignProperties_From_ArmIdWrapper_STATUS(so
 }
 
 // AssignProperties_To_ArmIdWrapper_STATUS populates the provided destination ArmIdWrapper_STATUS from our ArmIdWrapper_STATUS
-func (wrapper *ArmIdWrapper_STATUS) AssignProperties_To_ArmIdWrapper_STATUS(destination *v20230501ps.ArmIdWrapper_STATUS) error {
+func (wrapper *ArmIdWrapper_STATUS) AssignProperties_To_ArmIdWrapper_STATUS(destination *storage.ArmIdWrapper_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6027,7 +6027,7 @@ func (information *CertificateInformation) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignProperties_From_CertificateInformation populates our CertificateInformation from the provided source CertificateInformation
-func (information *CertificateInformation) AssignProperties_From_CertificateInformation(source *v20230501ps.CertificateInformation) error {
+func (information *CertificateInformation) AssignProperties_From_CertificateInformation(source *storage.CertificateInformation) error {
 
 	// Expiry
 	information.Expiry = genruntime.ClonePointerToString(source.Expiry)
@@ -6067,7 +6067,7 @@ func (information *CertificateInformation) AssignProperties_From_CertificateInfo
 }
 
 // AssignProperties_To_CertificateInformation populates the provided destination CertificateInformation from our CertificateInformation
-func (information *CertificateInformation) AssignProperties_To_CertificateInformation(destination *v20230501ps.CertificateInformation) error {
+func (information *CertificateInformation) AssignProperties_To_CertificateInformation(destination *storage.CertificateInformation) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6165,7 +6165,7 @@ func (information *CertificateInformation_STATUS) PopulateFromARM(owner genrunti
 }
 
 // AssignProperties_From_CertificateInformation_STATUS populates our CertificateInformation_STATUS from the provided source CertificateInformation_STATUS
-func (information *CertificateInformation_STATUS) AssignProperties_From_CertificateInformation_STATUS(source *v20230501ps.CertificateInformation_STATUS) error {
+func (information *CertificateInformation_STATUS) AssignProperties_From_CertificateInformation_STATUS(source *storage.CertificateInformation_STATUS) error {
 
 	// Expiry
 	information.Expiry = genruntime.ClonePointerToString(source.Expiry)
@@ -6181,7 +6181,7 @@ func (information *CertificateInformation_STATUS) AssignProperties_From_Certific
 }
 
 // AssignProperties_To_CertificateInformation_STATUS populates the provided destination CertificateInformation_STATUS from our CertificateInformation_STATUS
-func (information *CertificateInformation_STATUS) AssignProperties_To_CertificateInformation_STATUS(destination *v20230501ps.CertificateInformation_STATUS) error {
+func (information *CertificateInformation_STATUS) AssignProperties_To_CertificateInformation_STATUS(destination *storage.CertificateInformation_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6390,7 +6390,7 @@ func (state *PrivateLinkServiceConnectionState_STATUS) PopulateFromARM(owner gen
 }
 
 // AssignProperties_From_PrivateLinkServiceConnectionState_STATUS populates our PrivateLinkServiceConnectionState_STATUS from the provided source PrivateLinkServiceConnectionState_STATUS
-func (state *PrivateLinkServiceConnectionState_STATUS) AssignProperties_From_PrivateLinkServiceConnectionState_STATUS(source *v20230501ps.PrivateLinkServiceConnectionState_STATUS) error {
+func (state *PrivateLinkServiceConnectionState_STATUS) AssignProperties_From_PrivateLinkServiceConnectionState_STATUS(source *storage.PrivateLinkServiceConnectionState_STATUS) error {
 
 	// ActionsRequired
 	state.ActionsRequired = genruntime.ClonePointerToString(source.ActionsRequired)
@@ -6412,7 +6412,7 @@ func (state *PrivateLinkServiceConnectionState_STATUS) AssignProperties_From_Pri
 }
 
 // AssignProperties_To_PrivateLinkServiceConnectionState_STATUS populates the provided destination PrivateLinkServiceConnectionState_STATUS from our PrivateLinkServiceConnectionState_STATUS
-func (state *PrivateLinkServiceConnectionState_STATUS) AssignProperties_To_PrivateLinkServiceConnectionState_STATUS(destination *v20230501ps.PrivateLinkServiceConnectionState_STATUS) error {
+func (state *PrivateLinkServiceConnectionState_STATUS) AssignProperties_To_PrivateLinkServiceConnectionState_STATUS(destination *storage.PrivateLinkServiceConnectionState_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6447,7 +6447,7 @@ type UserAssignedIdentityDetails struct {
 }
 
 // AssignProperties_From_UserAssignedIdentityDetails populates our UserAssignedIdentityDetails from the provided source UserAssignedIdentityDetails
-func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *v20230501ps.UserAssignedIdentityDetails) error {
+func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *storage.UserAssignedIdentityDetails) error {
 
 	// Reference
 	details.Reference = source.Reference.Copy()
@@ -6457,7 +6457,7 @@ func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedId
 }
 
 // AssignProperties_To_UserAssignedIdentityDetails populates the provided destination UserAssignedIdentityDetails from our UserAssignedIdentityDetails
-func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *v20230501ps.UserAssignedIdentityDetails) error {
+func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *storage.UserAssignedIdentityDetails) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6514,7 +6514,7 @@ func (properties *UserIdentityProperties_STATUS) PopulateFromARM(owner genruntim
 }
 
 // AssignProperties_From_UserIdentityProperties_STATUS populates our UserIdentityProperties_STATUS from the provided source UserIdentityProperties_STATUS
-func (properties *UserIdentityProperties_STATUS) AssignProperties_From_UserIdentityProperties_STATUS(source *v20230501ps.UserIdentityProperties_STATUS) error {
+func (properties *UserIdentityProperties_STATUS) AssignProperties_From_UserIdentityProperties_STATUS(source *storage.UserIdentityProperties_STATUS) error {
 
 	// ClientId
 	properties.ClientId = genruntime.ClonePointerToString(source.ClientId)
@@ -6527,7 +6527,7 @@ func (properties *UserIdentityProperties_STATUS) AssignProperties_From_UserIdent
 }
 
 // AssignProperties_To_UserIdentityProperties_STATUS populates the provided destination UserIdentityProperties_STATUS from our UserIdentityProperties_STATUS
-func (properties *UserIdentityProperties_STATUS) AssignProperties_To_UserIdentityProperties_STATUS(destination *v20230501ps.UserIdentityProperties_STATUS) error {
+func (properties *UserIdentityProperties_STATUS) AssignProperties_To_UserIdentityProperties_STATUS(destination *storage.UserIdentityProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

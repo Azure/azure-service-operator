@@ -5,7 +5,7 @@ package v1api20230315preview
 
 import (
 	"encoding/json"
-	v20230315ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230315preview/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230315preview/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForFleetsMember(subject FleetsMember) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20230315ps.FleetsMember
+	var hub storage.FleetsMember
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForFleetsMember(subject FleetsMember) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230315ps.FleetsMember
+	var other storage.FleetsMember
 	err := copied.AssignProperties_To_FleetsMember(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForFleets_Member_Spec(subject Fleets_Member_Spec) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230315ps.Fleets_Member_Spec
+	var other storage.Fleets_Member_Spec
 	err := copied.AssignProperties_To_Fleets_Member_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -284,7 +284,7 @@ func RunPropertyAssignmentTestForFleets_Member_STATUS(subject Fleets_Member_STAT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230315ps.Fleets_Member_STATUS
+	var other storage.Fleets_Member_STATUS
 	err := copied.AssignProperties_To_Fleets_Member_STATUS(&other)
 	if err != nil {
 		return err.Error()

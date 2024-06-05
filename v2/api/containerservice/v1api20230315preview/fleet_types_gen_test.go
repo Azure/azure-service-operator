@@ -5,7 +5,7 @@ package v1api20230315preview
 
 import (
 	"encoding/json"
-	v20230315ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230315preview/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230315preview/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForFleet(subject Fleet) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20230315ps.Fleet
+	var hub storage.Fleet
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForFleet(subject Fleet) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230315ps.Fleet
+	var other storage.Fleet
 	err := copied.AssignProperties_To_Fleet(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForFleet_Spec(subject Fleet_Spec) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230315ps.Fleet_Spec
+	var other storage.Fleet_Spec
 	err := copied.AssignProperties_To_Fleet_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -302,7 +302,7 @@ func RunPropertyAssignmentTestForFleet_STATUS(subject Fleet_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230315ps.Fleet_STATUS
+	var other storage.Fleet_STATUS
 	err := copied.AssignProperties_To_Fleet_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -433,7 +433,7 @@ func RunPropertyAssignmentTestForFleetHubProfile(subject FleetHubProfile) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230315ps.FleetHubProfile
+	var other storage.FleetHubProfile
 	err := copied.AssignProperties_To_FleetHubProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -535,7 +535,7 @@ func RunPropertyAssignmentTestForFleetHubProfile_STATUS(subject FleetHubProfile_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230315ps.FleetHubProfile_STATUS
+	var other storage.FleetHubProfile_STATUS
 	err := copied.AssignProperties_To_FleetHubProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -640,7 +640,7 @@ func RunPropertyAssignmentTestForFleetOperatorSpec(subject FleetOperatorSpec) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230315ps.FleetOperatorSpec
+	var other storage.FleetOperatorSpec
 	err := copied.AssignProperties_To_FleetOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -742,7 +742,7 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230315ps.SystemData_STATUS
+	var other storage.SystemData_STATUS
 	err := copied.AssignProperties_To_SystemData_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -857,7 +857,7 @@ func RunPropertyAssignmentTestForFleetOperatorSecrets(subject FleetOperatorSecre
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230315ps.FleetOperatorSecrets
+	var other storage.FleetOperatorSecrets
 	err := copied.AssignProperties_To_FleetOperatorSecrets(&other)
 	if err != nil {
 		return err.Error()

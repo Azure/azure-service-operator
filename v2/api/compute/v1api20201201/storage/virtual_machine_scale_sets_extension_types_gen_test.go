@@ -5,7 +5,7 @@ package storage
 
 import (
 	"encoding/json"
-	v20220301s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForVirtualMachineScaleSetsExtension(subject Virtua
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20220301s.VirtualMachineScaleSetsExtension
+	var hub storage.VirtualMachineScaleSetsExtension
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForVirtualMachineScaleSetsExtension(subject Virtua
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220301s.VirtualMachineScaleSetsExtension
+	var other storage.VirtualMachineScaleSetsExtension
 	err := copied.AssignProperties_To_VirtualMachineScaleSetsExtension(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForVirtualMachineScaleSets_Extension_Spec(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220301s.VirtualMachineScaleSets_Extension_Spec
+	var other storage.VirtualMachineScaleSets_Extension_Spec
 	err := copied.AssignProperties_To_VirtualMachineScaleSets_Extension_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -293,7 +293,7 @@ func RunPropertyAssignmentTestForVirtualMachineScaleSets_Extension_STATUS(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220301s.VirtualMachineScaleSets_Extension_STATUS
+	var other storage.VirtualMachineScaleSets_Extension_STATUS
 	err := copied.AssignProperties_To_VirtualMachineScaleSets_Extension_STATUS(&other)
 	if err != nil {
 		return err.Error()

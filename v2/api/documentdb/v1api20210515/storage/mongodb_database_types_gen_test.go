@@ -5,7 +5,7 @@ package storage
 
 import (
 	"encoding/json"
-	v20231115s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForMongodbDatabase(subject MongodbDatabase) string
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20231115s.MongodbDatabase
+	var hub storage.MongodbDatabase
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForMongodbDatabase(subject MongodbDatabase) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231115s.MongodbDatabase
+	var other storage.MongodbDatabase
 	err := copied.AssignProperties_To_MongodbDatabase(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabase_Spec(subject D
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231115s.DatabaseAccounts_MongodbDatabase_Spec
+	var other storage.DatabaseAccounts_MongodbDatabase_Spec
 	err := copied.AssignProperties_To_DatabaseAccounts_MongodbDatabase_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -304,7 +304,7 @@ func RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabase_STATUS(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231115s.DatabaseAccounts_MongodbDatabase_STATUS
+	var other storage.DatabaseAccounts_MongodbDatabase_STATUS
 	err := copied.AssignProperties_To_DatabaseAccounts_MongodbDatabase_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -428,7 +428,7 @@ func RunPropertyAssignmentTestForCreateUpdateOptions(subject CreateUpdateOptions
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231115s.CreateUpdateOptions
+	var other storage.CreateUpdateOptions
 	err := copied.AssignProperties_To_CreateUpdateOptions(&other)
 	if err != nil {
 		return err.Error()
@@ -545,7 +545,7 @@ func RunPropertyAssignmentTestForMongoDBDatabaseGetProperties_Resource_STATUS(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231115s.MongoDBDatabaseGetProperties_Resource_STATUS
+	var other storage.MongoDBDatabaseGetProperties_Resource_STATUS
 	err := copied.AssignProperties_To_MongoDBDatabaseGetProperties_Resource_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -651,7 +651,7 @@ func RunPropertyAssignmentTestForMongoDBDatabaseResource(subject MongoDBDatabase
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231115s.MongoDBDatabaseResource
+	var other storage.MongoDBDatabaseResource
 	err := copied.AssignProperties_To_MongoDBDatabaseResource(&other)
 	if err != nil {
 		return err.Error()
@@ -754,7 +754,7 @@ func RunPropertyAssignmentTestForOptionsResource_STATUS(subject OptionsResource_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231115s.OptionsResource_STATUS
+	var other storage.OptionsResource_STATUS
 	err := copied.AssignProperties_To_OptionsResource_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -871,7 +871,7 @@ func RunPropertyAssignmentTestForAutoscaleSettings(subject AutoscaleSettings) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231115s.AutoscaleSettings
+	var other storage.AutoscaleSettings
 	err := copied.AssignProperties_To_AutoscaleSettings(&other)
 	if err != nil {
 		return err.Error()
@@ -973,7 +973,7 @@ func RunPropertyAssignmentTestForAutoscaleSettings_STATUS(subject AutoscaleSetti
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231115s.AutoscaleSettings_STATUS
+	var other storage.AutoscaleSettings_STATUS
 	err := copied.AssignProperties_To_AutoscaleSettings_STATUS(&other)
 	if err != nil {
 		return err.Error()

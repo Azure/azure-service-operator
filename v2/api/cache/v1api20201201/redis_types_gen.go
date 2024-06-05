@@ -5,7 +5,7 @@ package v1api20201201
 
 import (
 	"fmt"
-	v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -50,7 +50,7 @@ var _ conversion.Convertible = &Redis{}
 // ConvertFrom populates our Redis from the provided hub Redis
 func (redis *Redis) ConvertFrom(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var source v20201201s.Redis
+	var source storage.Redis
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
@@ -68,7 +68,7 @@ func (redis *Redis) ConvertFrom(hub conversion.Hub) error {
 // ConvertTo populates the provided hub Redis from our Redis
 func (redis *Redis) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var destination v20201201s.Redis
+	var destination storage.Redis
 	err := redis.AssignProperties_To_Redis(&destination)
 	if err != nil {
 		return errors.Wrap(err, "converting to destination from redis")
@@ -278,7 +278,7 @@ func (redis *Redis) validateWriteOnceProperties(old runtime.Object) (admission.W
 }
 
 // AssignProperties_From_Redis populates our Redis from the provided source Redis
-func (redis *Redis) AssignProperties_From_Redis(source *v20201201s.Redis) error {
+func (redis *Redis) AssignProperties_From_Redis(source *storage.Redis) error {
 
 	// ObjectMeta
 	redis.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -304,13 +304,13 @@ func (redis *Redis) AssignProperties_From_Redis(source *v20201201s.Redis) error 
 }
 
 // AssignProperties_To_Redis populates the provided destination Redis from our Redis
-func (redis *Redis) AssignProperties_To_Redis(destination *v20201201s.Redis) error {
+func (redis *Redis) AssignProperties_To_Redis(destination *storage.Redis) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *redis.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20201201s.Redis_Spec
+	var spec storage.Redis_Spec
 	err := redis.Spec.AssignProperties_To_Redis_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Redis_Spec() to populate field Spec")
@@ -318,7 +318,7 @@ func (redis *Redis) AssignProperties_To_Redis(destination *v20201201s.Redis) err
 	destination.Spec = spec
 
 	// Status
-	var status v20201201s.Redis_STATUS
+	var status storage.Redis_STATUS
 	err = redis.Status.AssignProperties_To_Redis_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Redis_STATUS() to populate field Status")
@@ -700,14 +700,14 @@ var _ genruntime.ConvertibleSpec = &Redis_Spec{}
 
 // ConvertSpecFrom populates our Redis_Spec from the provided source
 func (redis *Redis_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20201201s.Redis_Spec)
+	src, ok := source.(*storage.Redis_Spec)
 	if ok {
 		// Populate our instance from source
 		return redis.AssignProperties_From_Redis_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20201201s.Redis_Spec{}
+	src = &storage.Redis_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -724,14 +724,14 @@ func (redis *Redis_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) erro
 
 // ConvertSpecTo populates the provided destination from our Redis_Spec
 func (redis *Redis_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20201201s.Redis_Spec)
+	dst, ok := destination.(*storage.Redis_Spec)
 	if ok {
 		// Populate destination from our instance
 		return redis.AssignProperties_To_Redis_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20201201s.Redis_Spec{}
+	dst = &storage.Redis_Spec{}
 	err := redis.AssignProperties_To_Redis_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -747,7 +747,7 @@ func (redis *Redis_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) e
 }
 
 // AssignProperties_From_Redis_Spec populates our Redis_Spec from the provided source Redis_Spec
-func (redis *Redis_Spec) AssignProperties_From_Redis_Spec(source *v20201201s.Redis_Spec) error {
+func (redis *Redis_Spec) AssignProperties_From_Redis_Spec(source *storage.Redis_Spec) error {
 
 	// AzureName
 	redis.AzureName = source.AzureName
@@ -867,7 +867,7 @@ func (redis *Redis_Spec) AssignProperties_From_Redis_Spec(source *v20201201s.Red
 }
 
 // AssignProperties_To_Redis_Spec populates the provided destination Redis_Spec from our Redis_Spec
-func (redis *Redis_Spec) AssignProperties_To_Redis_Spec(destination *v20201201s.Redis_Spec) error {
+func (redis *Redis_Spec) AssignProperties_To_Redis_Spec(destination *storage.Redis_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -895,7 +895,7 @@ func (redis *Redis_Spec) AssignProperties_To_Redis_Spec(destination *v20201201s.
 
 	// OperatorSpec
 	if redis.OperatorSpec != nil {
-		var operatorSpec v20201201s.RedisOperatorSpec
+		var operatorSpec storage.RedisOperatorSpec
 		err := redis.OperatorSpec.AssignProperties_To_RedisOperatorSpec(&operatorSpec)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RedisOperatorSpec() to populate field OperatorSpec")
@@ -926,7 +926,7 @@ func (redis *Redis_Spec) AssignProperties_To_Redis_Spec(destination *v20201201s.
 
 	// RedisConfiguration
 	if redis.RedisConfiguration != nil {
-		var redisConfiguration v20201201s.RedisCreateProperties_RedisConfiguration
+		var redisConfiguration storage.RedisCreateProperties_RedisConfiguration
 		err := redis.RedisConfiguration.AssignProperties_To_RedisCreateProperties_RedisConfiguration(&redisConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RedisCreateProperties_RedisConfiguration() to populate field RedisConfiguration")
@@ -950,7 +950,7 @@ func (redis *Redis_Spec) AssignProperties_To_Redis_Spec(destination *v20201201s.
 
 	// Sku
 	if redis.Sku != nil {
-		var sku v20201201s.Sku
+		var sku storage.Sku
 		err := redis.Sku.AssignProperties_To_Sku(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
@@ -1098,14 +1098,14 @@ var _ genruntime.ConvertibleStatus = &Redis_STATUS{}
 
 // ConvertStatusFrom populates our Redis_STATUS from the provided source
 func (redis *Redis_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20201201s.Redis_STATUS)
+	src, ok := source.(*storage.Redis_STATUS)
 	if ok {
 		// Populate our instance from source
 		return redis.AssignProperties_From_Redis_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20201201s.Redis_STATUS{}
+	src = &storage.Redis_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -1122,14 +1122,14 @@ func (redis *Redis_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus
 
 // ConvertStatusTo populates the provided destination from our Redis_STATUS
 func (redis *Redis_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20201201s.Redis_STATUS)
+	dst, ok := destination.(*storage.Redis_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return redis.AssignProperties_To_Redis_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20201201s.Redis_STATUS{}
+	dst = &storage.Redis_STATUS{}
 	err := redis.AssignProperties_To_Redis_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1397,7 +1397,7 @@ func (redis *Redis_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 }
 
 // AssignProperties_From_Redis_STATUS populates our Redis_STATUS from the provided source Redis_STATUS
-func (redis *Redis_STATUS) AssignProperties_From_Redis_STATUS(source *v20201201s.Redis_STATUS) error {
+func (redis *Redis_STATUS) AssignProperties_From_Redis_STATUS(source *storage.Redis_STATUS) error {
 
 	// Conditions
 	redis.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -1568,7 +1568,7 @@ func (redis *Redis_STATUS) AssignProperties_From_Redis_STATUS(source *v20201201s
 }
 
 // AssignProperties_To_Redis_STATUS populates the provided destination Redis_STATUS from our Redis_STATUS
-func (redis *Redis_STATUS) AssignProperties_To_Redis_STATUS(destination *v20201201s.Redis_STATUS) error {
+func (redis *Redis_STATUS) AssignProperties_To_Redis_STATUS(destination *storage.Redis_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1591,11 +1591,11 @@ func (redis *Redis_STATUS) AssignProperties_To_Redis_STATUS(destination *v202012
 
 	// Instances
 	if redis.Instances != nil {
-		instanceList := make([]v20201201s.RedisInstanceDetails_STATUS, len(redis.Instances))
+		instanceList := make([]storage.RedisInstanceDetails_STATUS, len(redis.Instances))
 		for instanceIndex, instanceItem := range redis.Instances {
 			// Shadow the loop variable to avoid aliasing
 			instanceItem := instanceItem
-			var instance v20201201s.RedisInstanceDetails_STATUS
+			var instance storage.RedisInstanceDetails_STATUS
 			err := instanceItem.AssignProperties_To_RedisInstanceDetails_STATUS(&instance)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_RedisInstanceDetails_STATUS() to populate field Instances")
@@ -1609,11 +1609,11 @@ func (redis *Redis_STATUS) AssignProperties_To_Redis_STATUS(destination *v202012
 
 	// LinkedServers
 	if redis.LinkedServers != nil {
-		linkedServerList := make([]v20201201s.RedisLinkedServer_STATUS, len(redis.LinkedServers))
+		linkedServerList := make([]storage.RedisLinkedServer_STATUS, len(redis.LinkedServers))
 		for linkedServerIndex, linkedServerItem := range redis.LinkedServers {
 			// Shadow the loop variable to avoid aliasing
 			linkedServerItem := linkedServerItem
-			var linkedServer v20201201s.RedisLinkedServer_STATUS
+			var linkedServer storage.RedisLinkedServer_STATUS
 			err := linkedServerItem.AssignProperties_To_RedisLinkedServer_STATUS(&linkedServer)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_RedisLinkedServer_STATUS() to populate field LinkedServers")
@@ -1644,11 +1644,11 @@ func (redis *Redis_STATUS) AssignProperties_To_Redis_STATUS(destination *v202012
 
 	// PrivateEndpointConnections
 	if redis.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]v20201201s.PrivateEndpointConnection_STATUS, len(redis.PrivateEndpointConnections))
+		privateEndpointConnectionList := make([]storage.PrivateEndpointConnection_STATUS, len(redis.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range redis.PrivateEndpointConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v20201201s.PrivateEndpointConnection_STATUS
+			var privateEndpointConnection storage.PrivateEndpointConnection_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
@@ -1678,7 +1678,7 @@ func (redis *Redis_STATUS) AssignProperties_To_Redis_STATUS(destination *v202012
 
 	// RedisConfiguration
 	if redis.RedisConfiguration != nil {
-		var redisConfiguration v20201201s.RedisProperties_RedisConfiguration_STATUS
+		var redisConfiguration storage.RedisProperties_RedisConfiguration_STATUS
 		err := redis.RedisConfiguration.AssignProperties_To_RedisProperties_RedisConfiguration_STATUS(&redisConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RedisProperties_RedisConfiguration_STATUS() to populate field RedisConfiguration")
@@ -1702,7 +1702,7 @@ func (redis *Redis_STATUS) AssignProperties_To_Redis_STATUS(destination *v202012
 
 	// Sku
 	if redis.Sku != nil {
-		var sku v20201201s.Sku_STATUS
+		var sku storage.Sku_STATUS
 		err := redis.Sku.AssignProperties_To_Sku_STATUS(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
@@ -1776,7 +1776,7 @@ func (connection *PrivateEndpointConnection_STATUS) PopulateFromARM(owner genrun
 }
 
 // AssignProperties_From_PrivateEndpointConnection_STATUS populates our PrivateEndpointConnection_STATUS from the provided source PrivateEndpointConnection_STATUS
-func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_PrivateEndpointConnection_STATUS(source *v20201201s.PrivateEndpointConnection_STATUS) error {
+func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_PrivateEndpointConnection_STATUS(source *storage.PrivateEndpointConnection_STATUS) error {
 
 	// Id
 	connection.Id = genruntime.ClonePointerToString(source.Id)
@@ -1786,7 +1786,7 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_Privat
 }
 
 // AssignProperties_To_PrivateEndpointConnection_STATUS populates the provided destination PrivateEndpointConnection_STATUS from our PrivateEndpointConnection_STATUS
-func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateEndpointConnection_STATUS(destination *v20201201s.PrivateEndpointConnection_STATUS) error {
+func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateEndpointConnection_STATUS(destination *storage.PrivateEndpointConnection_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2063,7 +2063,7 @@ func (configuration *RedisCreateProperties_RedisConfiguration) PopulateFromARM(o
 }
 
 // AssignProperties_From_RedisCreateProperties_RedisConfiguration populates our RedisCreateProperties_RedisConfiguration from the provided source RedisCreateProperties_RedisConfiguration
-func (configuration *RedisCreateProperties_RedisConfiguration) AssignProperties_From_RedisCreateProperties_RedisConfiguration(source *v20201201s.RedisCreateProperties_RedisConfiguration) error {
+func (configuration *RedisCreateProperties_RedisConfiguration) AssignProperties_From_RedisCreateProperties_RedisConfiguration(source *storage.RedisCreateProperties_RedisConfiguration) error {
 
 	// AdditionalProperties
 	configuration.AdditionalProperties = genruntime.CloneMapOfStringToString(source.AdditionalProperties)
@@ -2109,7 +2109,7 @@ func (configuration *RedisCreateProperties_RedisConfiguration) AssignProperties_
 }
 
 // AssignProperties_To_RedisCreateProperties_RedisConfiguration populates the provided destination RedisCreateProperties_RedisConfiguration from our RedisCreateProperties_RedisConfiguration
-func (configuration *RedisCreateProperties_RedisConfiguration) AssignProperties_To_RedisCreateProperties_RedisConfiguration(destination *v20201201s.RedisCreateProperties_RedisConfiguration) error {
+func (configuration *RedisCreateProperties_RedisConfiguration) AssignProperties_To_RedisCreateProperties_RedisConfiguration(destination *storage.RedisCreateProperties_RedisConfiguration) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2239,7 +2239,7 @@ func (details *RedisInstanceDetails_STATUS) PopulateFromARM(owner genruntime.Arb
 }
 
 // AssignProperties_From_RedisInstanceDetails_STATUS populates our RedisInstanceDetails_STATUS from the provided source RedisInstanceDetails_STATUS
-func (details *RedisInstanceDetails_STATUS) AssignProperties_From_RedisInstanceDetails_STATUS(source *v20201201s.RedisInstanceDetails_STATUS) error {
+func (details *RedisInstanceDetails_STATUS) AssignProperties_From_RedisInstanceDetails_STATUS(source *storage.RedisInstanceDetails_STATUS) error {
 
 	// IsMaster
 	if source.IsMaster != nil {
@@ -2274,7 +2274,7 @@ func (details *RedisInstanceDetails_STATUS) AssignProperties_From_RedisInstanceD
 }
 
 // AssignProperties_To_RedisInstanceDetails_STATUS populates the provided destination RedisInstanceDetails_STATUS from our RedisInstanceDetails_STATUS
-func (details *RedisInstanceDetails_STATUS) AssignProperties_To_RedisInstanceDetails_STATUS(destination *v20201201s.RedisInstanceDetails_STATUS) error {
+func (details *RedisInstanceDetails_STATUS) AssignProperties_To_RedisInstanceDetails_STATUS(destination *storage.RedisInstanceDetails_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2348,7 +2348,7 @@ func (server *RedisLinkedServer_STATUS) PopulateFromARM(owner genruntime.Arbitra
 }
 
 // AssignProperties_From_RedisLinkedServer_STATUS populates our RedisLinkedServer_STATUS from the provided source RedisLinkedServer_STATUS
-func (server *RedisLinkedServer_STATUS) AssignProperties_From_RedisLinkedServer_STATUS(source *v20201201s.RedisLinkedServer_STATUS) error {
+func (server *RedisLinkedServer_STATUS) AssignProperties_From_RedisLinkedServer_STATUS(source *storage.RedisLinkedServer_STATUS) error {
 
 	// Id
 	server.Id = genruntime.ClonePointerToString(source.Id)
@@ -2358,7 +2358,7 @@ func (server *RedisLinkedServer_STATUS) AssignProperties_From_RedisLinkedServer_
 }
 
 // AssignProperties_To_RedisLinkedServer_STATUS populates the provided destination RedisLinkedServer_STATUS from our RedisLinkedServer_STATUS
-func (server *RedisLinkedServer_STATUS) AssignProperties_To_RedisLinkedServer_STATUS(destination *v20201201s.RedisLinkedServer_STATUS) error {
+func (server *RedisLinkedServer_STATUS) AssignProperties_To_RedisLinkedServer_STATUS(destination *storage.RedisLinkedServer_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2383,7 +2383,7 @@ type RedisOperatorSpec struct {
 }
 
 // AssignProperties_From_RedisOperatorSpec populates our RedisOperatorSpec from the provided source RedisOperatorSpec
-func (operator *RedisOperatorSpec) AssignProperties_From_RedisOperatorSpec(source *v20201201s.RedisOperatorSpec) error {
+func (operator *RedisOperatorSpec) AssignProperties_From_RedisOperatorSpec(source *storage.RedisOperatorSpec) error {
 
 	// Secrets
 	if source.Secrets != nil {
@@ -2402,13 +2402,13 @@ func (operator *RedisOperatorSpec) AssignProperties_From_RedisOperatorSpec(sourc
 }
 
 // AssignProperties_To_RedisOperatorSpec populates the provided destination RedisOperatorSpec from our RedisOperatorSpec
-func (operator *RedisOperatorSpec) AssignProperties_To_RedisOperatorSpec(destination *v20201201s.RedisOperatorSpec) error {
+func (operator *RedisOperatorSpec) AssignProperties_To_RedisOperatorSpec(destination *storage.RedisOperatorSpec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Secrets
 	if operator.Secrets != nil {
-		var secret v20201201s.RedisOperatorSecrets
+		var secret storage.RedisOperatorSecrets
 		err := operator.Secrets.AssignProperties_To_RedisOperatorSecrets(&secret)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RedisOperatorSecrets() to populate field Secrets")
@@ -2648,7 +2648,7 @@ func (configuration *RedisProperties_RedisConfiguration_STATUS) PopulateFromARM(
 }
 
 // AssignProperties_From_RedisProperties_RedisConfiguration_STATUS populates our RedisProperties_RedisConfiguration_STATUS from the provided source RedisProperties_RedisConfiguration_STATUS
-func (configuration *RedisProperties_RedisConfiguration_STATUS) AssignProperties_From_RedisProperties_RedisConfiguration_STATUS(source *v20201201s.RedisProperties_RedisConfiguration_STATUS) error {
+func (configuration *RedisProperties_RedisConfiguration_STATUS) AssignProperties_From_RedisProperties_RedisConfiguration_STATUS(source *storage.RedisProperties_RedisConfiguration_STATUS) error {
 
 	// AdditionalProperties
 	configuration.AdditionalProperties = genruntime.CloneMapOfStringToString(source.AdditionalProperties)
@@ -2700,7 +2700,7 @@ func (configuration *RedisProperties_RedisConfiguration_STATUS) AssignProperties
 }
 
 // AssignProperties_To_RedisProperties_RedisConfiguration_STATUS populates the provided destination RedisProperties_RedisConfiguration_STATUS from our RedisProperties_RedisConfiguration_STATUS
-func (configuration *RedisProperties_RedisConfiguration_STATUS) AssignProperties_To_RedisProperties_RedisConfiguration_STATUS(destination *v20201201s.RedisProperties_RedisConfiguration_STATUS) error {
+func (configuration *RedisProperties_RedisConfiguration_STATUS) AssignProperties_To_RedisProperties_RedisConfiguration_STATUS(destination *storage.RedisProperties_RedisConfiguration_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2840,7 +2840,7 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 }
 
 // AssignProperties_From_Sku populates our Sku from the provided source Sku
-func (sku *Sku) AssignProperties_From_Sku(source *v20201201s.Sku) error {
+func (sku *Sku) AssignProperties_From_Sku(source *storage.Sku) error {
 
 	// Capacity
 	sku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
@@ -2868,7 +2868,7 @@ func (sku *Sku) AssignProperties_From_Sku(source *v20201201s.Sku) error {
 }
 
 // AssignProperties_To_Sku populates the provided destination Sku from our Sku
-func (sku *Sku) AssignProperties_To_Sku(destination *v20201201s.Sku) error {
+func (sku *Sku) AssignProperties_To_Sku(destination *storage.Sku) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2952,7 +2952,7 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 }
 
 // AssignProperties_From_Sku_STATUS populates our Sku_STATUS from the provided source Sku_STATUS
-func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20201201s.Sku_STATUS) error {
+func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *storage.Sku_STATUS) error {
 
 	// Capacity
 	sku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
@@ -2980,7 +2980,7 @@ func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20201201s.Sku_S
 }
 
 // AssignProperties_To_Sku_STATUS populates the provided destination Sku_STATUS from our Sku_STATUS
-func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20201201s.Sku_STATUS) error {
+func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *storage.Sku_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3034,7 +3034,7 @@ type RedisOperatorSecrets struct {
 }
 
 // AssignProperties_From_RedisOperatorSecrets populates our RedisOperatorSecrets from the provided source RedisOperatorSecrets
-func (secrets *RedisOperatorSecrets) AssignProperties_From_RedisOperatorSecrets(source *v20201201s.RedisOperatorSecrets) error {
+func (secrets *RedisOperatorSecrets) AssignProperties_From_RedisOperatorSecrets(source *storage.RedisOperatorSecrets) error {
 
 	// HostName
 	if source.HostName != nil {
@@ -3081,7 +3081,7 @@ func (secrets *RedisOperatorSecrets) AssignProperties_From_RedisOperatorSecrets(
 }
 
 // AssignProperties_To_RedisOperatorSecrets populates the provided destination RedisOperatorSecrets from our RedisOperatorSecrets
-func (secrets *RedisOperatorSecrets) AssignProperties_To_RedisOperatorSecrets(destination *v20201201s.RedisOperatorSecrets) error {
+func (secrets *RedisOperatorSecrets) AssignProperties_To_RedisOperatorSecrets(destination *storage.RedisOperatorSecrets) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
