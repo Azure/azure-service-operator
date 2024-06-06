@@ -399,6 +399,7 @@ func Account_SpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForAccount_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(AzureMonitorWorkspace_PublicNetworkAccess_Disabled, AzureMonitorWorkspace_PublicNetworkAccess_Enabled))
 	gens["Tags"] = gen.MapOf(
 		gen.AlphaString(),
 		gen.AlphaString())

@@ -10,6 +10,9 @@ type Account_Spec_ARM struct {
 	Location *string `json:"location,omitempty"`
 	Name     string  `json:"name,omitempty"`
 
+	// Properties: Resource properties
+	Properties *AzureMonitorWorkspace_ARM `json:"properties,omitempty"`
+
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 }
@@ -29,4 +32,10 @@ func (account *Account_Spec_ARM) GetName() string {
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Monitor/accounts"
 func (account *Account_Spec_ARM) GetType() string {
 	return "Microsoft.Monitor/accounts"
+}
+
+// Properties of an Azure Monitor Workspace
+type AzureMonitorWorkspace_ARM struct {
+	// PublicNetworkAccess: Gets or sets allow or disallow public network access to Azure Monitor Workspace
+	PublicNetworkAccess *AzureMonitorWorkspace_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 }
