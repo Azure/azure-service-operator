@@ -14,6 +14,18 @@ These are the resources with Azure Service Operator support committed to our **m
 grouped by the originating ARM service.
 (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
 
+## AlertsManagement
+
+To install the CRDs for these resources, your ASO configuration must include `alertsmanagement.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource            | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                             |
+|---------------------|-------------|---------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
+| PrometheusRuleGroup | 2023-03-01  | v1api20230301 | v2.8.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/alertsmanagement/v1api20230301/v1api20230301_prometheusrulegroup.yaml) |
+
 ## ApiManagement
 
 To install the CRDs for these resources, your ASO configuration must include `apimanagement.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
@@ -463,6 +475,18 @@ These resource(s) are available for use in the current release of ASO. Different
 | [FederatedIdentityCredential](https://azure.github.io/azure-service-operator/reference/managedidentity/v1api20220131preview/#managedidentity.azure.com/v1api20220131preview.FederatedIdentityCredential) | 2022-01-31-preview | v1api20220131preview | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/managedidentity/v1api20220131preview/v1api20220131preview_federatedidentitycredential.yaml) |
 | [UserAssignedIdentity](https://azure.github.io/azure-service-operator/reference/managedidentity/v1api20230131/#managedidentity.azure.com/v1api20230131.UserAssignedIdentity)                             | 2023-01-31         | v1api20230131        | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/managedidentity/v1api20230131/v1api20230131_userassignedidentity.yaml)                      |
 | [UserAssignedIdentity](https://azure.github.io/azure-service-operator/reference/managedidentity/v1api20181130/#managedidentity.azure.com/v1api20181130.UserAssignedIdentity)                             | 2018-11-30         | v1api20181130        | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/managedidentity/v1api20181130/v1api20181130_userassignedidentity.yaml)                      |
+
+## Monitor
+
+To install the CRDs for these resources, your ASO configuration must include `monitor.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource | ARM Version | CRD Version   | Supported From | Sample                                                                                                                        |
+|----------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------|
+| Account  | 2023-04-03  | v1api20230403 | v2.8.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/monitor/v1api20230403/v1api20230403_account.yaml) |
 
 ## Network
 

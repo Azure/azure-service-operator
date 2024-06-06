@@ -349,7 +349,7 @@ func TestPackageImportSet_GivenSet_AssignsExpectedAliases(t *testing.T) {
 	batch_storage_v2021 := MakeSubPackageReference("storage", batch_v2021)
 
 	batch_compat_v2020 := MakeSubPackageReference("compat", batch_v2020)
-	//batch_compat_v2021 := MakeSubPackageReference("compat", batch_v2021)
+	// batch_compat_v2021 := MakeSubPackageReference("compat", batch_v2021)
 
 	cases := []struct {
 		name       string
