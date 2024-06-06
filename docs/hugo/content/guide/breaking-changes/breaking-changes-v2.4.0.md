@@ -1,7 +1,7 @@
 ---
 title: "v2.4.0 Breaking Changes"
 linkTitle: "v2.4.0"
-weight: 60
+weight: -20  # This should be 5 lower than the previous breaking change document
 ---
 
 ## Beta CRD versions have been removed

@@ -1,7 +1,7 @@
 ---
 title: "v2.0.0-beta.4 Breaking Changes"
 linkTitle: "v2.0.0-beta.4"
-weight: 100
+weight: 0
 ---
 In the `beta.4` release of Azure Service Operator (ASO) we are pivoting to using Azure Swagger API Specifications as the sole source of truth for our code generator. This change brings with it a significant improvement in fidelity - the code we generate is now much closer to what the Azure Swagger API Specifications describe.
 
