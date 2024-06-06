@@ -213,7 +213,9 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreference-li">
   <a href="/azure-service-operator/reference/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreference"><span class="td-sidebar-nav-active-item">Supported Resources</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceapimanagement-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencealertsmanagement-li">
+  <a href="/azure-service-operator/reference/alertsmanagement/" title="AlertsManagement Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencealertsmanagement"><span class="">AlertsManagement</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceapimanagement-li">
   <a href="/azure-service-operator/reference/apimanagement/" title="ApiManagement Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceapimanagement"><span class="">ApiManagement</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceapimanagementv1api20220801-li">
@@ -445,6 +447,8 @@
   <a href="/azure-service-operator/reference/managedidentity/v1api20230131/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1api20230131"><span class="">managedidentity.azure.com/v1api20230131</span></a>
 </li>
   </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencemonitor-li">
+  <a href="/azure-service-operator/reference/monitor/" title="Monitor Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemonitor"><span class="">Monitor</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetworkfrontdoor-li">
   <a href="/azure-service-operator/reference/network.frontdoor/" title="Network Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetworkfrontdoor"><span class="">Network</span></a>
   <ul class="ul-3 foldable">
@@ -674,6 +678,11 @@
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
+    <li><a href="#alertsmanagement">AlertsManagement</a>
+      <ul>
+        <li><a href="#next-release">Next Release</a></li>
+      </ul>
+    </li>
     <li><a href="#apimanagement">ApiManagement</a>
       <ul>
         <li><a href="#released">Released</a></li>
@@ -756,7 +765,7 @@
     </li>
     <li><a href="#documentdb">DocumentDB</a>
       <ul>
-        <li><a href="#next-release">Next Release</a></li>
+        <li><a href="#next-release-1">Next Release</a></li>
         <li><a href="#released-16">Released</a></li>
       </ul>
     </li>
@@ -793,6 +802,11 @@
     <li><a href="#managedidentity">ManagedIdentity</a>
       <ul>
         <li><a href="#released-23">Released</a></li>
+      </ul>
+    </li>
+    <li><a href="#monitor">Monitor</a>
+      <ul>
+        <li><a href="#next-release-2">Next Release</a></li>
       </ul>
     </li>
     <li><a href="#network">Network</a>
@@ -913,6 +927,30 @@
 	<p>These are the resources with Azure Service Operator support committed to our <strong>main</strong> branch,
 grouped by the originating ARM service.
 (Newly supported resources will appear in this list prior to inclusion in any ASO release.)</p>
+<h2 id="alertsmanagement">AlertsManagement</h2>
+<p>To install the CRDs for these resources, your ASO configuration must include <code>alertsmanagement.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
+<h3 id="next-release">Next Release</h3>
+<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>ARM Version</th>
+<th>CRD Version</th>
+<th>Supported From</th>
+<th>Sample</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PrometheusRuleGroup</td>
+<td>2023-03-01</td>
+<td>v1api20230301</td>
+<td>v2.8.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/alertsmanagement/v1api20230301/v1api20230301_prometheusrulegroup.yaml">View</a></td>
+</tr>
+</tbody>
+</table>
 <h2 id="apimanagement">ApiManagement</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>apimanagement.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
 <h3 id="released">Released</h3>
@@ -2050,7 +2088,7 @@ grouped by the originating ARM service.
 </table>
 <h2 id="documentdb">DocumentDB</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>documentdb.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release">Next Release</h3>
+<h3 id="next-release-1">Next Release</h3>
 <p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
 <table>
 <thead>
@@ -2560,6 +2598,30 @@ grouped by the originating ARM service.
 <td>v1api20181130</td>
 <td>v2.0.0</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/managedidentity/v1api20181130/v1api20181130_userassignedidentity.yaml">View</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="monitor">Monitor</h2>
+<p>To install the CRDs for these resources, your ASO configuration must include <code>monitor.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
+<h3 id="next-release-2">Next Release</h3>
+<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>ARM Version</th>
+<th>CRD Version</th>
+<th>Supported From</th>
+<th>Sample</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Account</td>
+<td>2023-04-03</td>
+<td>v1api20230403</td>
+<td>v2.8.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/monitor/v1api20230403/v1api20230403_account.yaml">View</a></td>
 </tr>
 </tbody>
 </table>
