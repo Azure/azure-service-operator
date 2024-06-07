@@ -2,9 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.6.0/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.4.0/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.2.0/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/developer-setup/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.1.0/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/installing-from-helm/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/installing-from-yaml/</loc>
   </url><url>
@@ -59,18 +69,6 @@
     <loc>https://azure.github.io/azure-service-operator/contributing/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.4.0/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.2.0/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.6.0/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.1.0/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0-beta.4/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/adr-2020-04-code-generation/</loc>
   </url><url>
@@ -427,6 +425,8 @@
     <loc>https://azure.github.io/azure-service-operator/design/type-references-and-ownership/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/upgrade-resource-version/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0-beta.4/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/web/</loc>
   </url><url>
