@@ -1,7 +1,7 @@
 ---
 title: "v2.0.0 Breaking Changes"
 linkTitle: "v2.0.0"
-weight: 90
+weight: -5  # This should be 5 lower than the previous breaking change document
 ---
 
 ## Upgrades from releases prior to v2.0.0-beta.5 are disallowed

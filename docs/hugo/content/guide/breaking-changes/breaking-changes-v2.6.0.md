@@ -1,7 +1,7 @@
 ---
 title: "v2.6.0 Breaking Changes"
 linkTitle: "v2.6.0"
-weight: 70
+weight: -25  # This should be 5 lower than the previous breaking change document
 ---
 
 ## VirtualMachineScaleSet ProtectedSettings now a SecretReference
