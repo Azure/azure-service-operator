@@ -39,10 +39,12 @@ func (assignment *SqlRoleAssignment) defaultAzureName() {
 		ownerGK := assignment.Owner().GroupKind()
 		gk := assignment.GroupVersionKind().GroupKind()
 		assignment.Spec.AzureName = randextensions.MakeUUIDName(
-			ownerGK,
-			assignment.Spec.Owner.Name,
-			gk,
-			assignment.Namespace,
-			assignment.Name)
+			assignment.Name,
+			randextensions.MakeUniqueOwnerScopedString(
+				ownerGK,
+				assignment.Spec.Owner.Name,
+				gk,
+				assignment.Namespace,
+				assignment.Name))
 	}
 }
