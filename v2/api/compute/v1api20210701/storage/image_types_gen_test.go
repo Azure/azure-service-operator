@@ -18,402 +18,6 @@ import (
 	"testing"
 )
 
-func Test_Image_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Image to hub returns original",
-		prop.ForAll(RunResourceConversionTestForImage, ImageGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunResourceConversionTestForImage tests if a specific instance of Image round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForImage(subject Image) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub storage.Image
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual Image
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_Image_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Image to Image via AssignProperties_To_Image & AssignProperties_From_Image returns original",
-		prop.ForAll(RunPropertyAssignmentTestForImage, ImageGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForImage tests if a specific instance of Image can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForImage(subject Image) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Image
-	err := copied.AssignProperties_To_Image(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Image
-	err = actual.AssignProperties_From_Image(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_Image_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Image via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForImage, ImageGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForImage runs a test to see if a specific instance of Image round trips to JSON and back losslessly
-func RunJSONSerializationTestForImage(subject Image) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Image
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Image instances for property testing - lazily instantiated by ImageGenerator()
-var imageGenerator gopter.Gen
-
-// ImageGenerator returns a generator of Image instances for property testing.
-func ImageGenerator() gopter.Gen {
-	if imageGenerator != nil {
-		return imageGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForImage(generators)
-	imageGenerator = gen.Struct(reflect.TypeOf(Image{}), generators)
-
-	return imageGenerator
-}
-
-// AddRelatedPropertyGeneratorsForImage is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForImage(gens map[string]gopter.Gen) {
-	gens["Spec"] = Image_SpecGenerator()
-	gens["Status"] = Image_STATUSGenerator()
-}
-
-func Test_Image_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Image_Spec to Image_Spec via AssignProperties_To_Image_Spec & AssignProperties_From_Image_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForImage_Spec, Image_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForImage_Spec tests if a specific instance of Image_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForImage_Spec(subject Image_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Image_Spec
-	err := copied.AssignProperties_To_Image_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Image_Spec
-	err = actual.AssignProperties_From_Image_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_Image_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Image_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForImage_Spec, Image_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForImage_Spec runs a test to see if a specific instance of Image_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForImage_Spec(subject Image_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Image_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Image_Spec instances for property testing - lazily instantiated by Image_SpecGenerator()
-var image_SpecGenerator gopter.Gen
-
-// Image_SpecGenerator returns a generator of Image_Spec instances for property testing.
-// We first initialize image_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Image_SpecGenerator() gopter.Gen {
-	if image_SpecGenerator != nil {
-		return image_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImage_Spec(generators)
-	image_SpecGenerator = gen.Struct(reflect.TypeOf(Image_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImage_Spec(generators)
-	AddRelatedPropertyGeneratorsForImage_Spec(generators)
-	image_SpecGenerator = gen.Struct(reflect.TypeOf(Image_Spec{}), generators)
-
-	return image_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForImage_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForImage_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["HyperVGeneration"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForImage_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForImage_Spec(gens map[string]gopter.Gen) {
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
-	gens["SourceVirtualMachine"] = gen.PtrOf(SubResourceGenerator())
-	gens["StorageProfile"] = gen.PtrOf(ImageStorageProfileGenerator())
-}
-
-func Test_Image_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Image_STATUS to Image_STATUS via AssignProperties_To_Image_STATUS & AssignProperties_From_Image_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForImage_STATUS, Image_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForImage_STATUS tests if a specific instance of Image_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForImage_STATUS(subject Image_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Image_STATUS
-	err := copied.AssignProperties_To_Image_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Image_STATUS
-	err = actual.AssignProperties_From_Image_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_Image_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Image_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForImage_STATUS, Image_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForImage_STATUS runs a test to see if a specific instance of Image_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForImage_STATUS(subject Image_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Image_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Image_STATUS instances for property testing - lazily instantiated by Image_STATUSGenerator()
-var image_STATUSGenerator gopter.Gen
-
-// Image_STATUSGenerator returns a generator of Image_STATUS instances for property testing.
-// We first initialize image_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Image_STATUSGenerator() gopter.Gen {
-	if image_STATUSGenerator != nil {
-		return image_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImage_STATUS(generators)
-	image_STATUSGenerator = gen.Struct(reflect.TypeOf(Image_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImage_STATUS(generators)
-	AddRelatedPropertyGeneratorsForImage_STATUS(generators)
-	image_STATUSGenerator = gen.Struct(reflect.TypeOf(Image_STATUS{}), generators)
-
-	return image_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForImage_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForImage_STATUS(gens map[string]gopter.Gen) {
-	gens["HyperVGeneration"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForImage_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForImage_STATUS(gens map[string]gopter.Gen) {
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUSGenerator())
-	gens["SourceVirtualMachine"] = gen.PtrOf(SubResource_STATUSGenerator())
-	gens["StorageProfile"] = gen.PtrOf(ImageStorageProfile_STATUSGenerator())
-}
-
 func Test_ExtendedLocation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -621,32 +225,75 @@ func AddIndependentPropertyGeneratorsForExtendedLocation_STATUS(gens map[string]
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_ImageStorageProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_Image_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Image to hub returns original",
+		prop.ForAll(RunResourceConversionTestForImage, ImageGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForImage tests if a specific instance of Image round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForImage(subject Image) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.Image
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual Image
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Image_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ImageStorageProfile to ImageStorageProfile via AssignProperties_To_ImageStorageProfile & AssignProperties_From_ImageStorageProfile returns original",
-		prop.ForAll(RunPropertyAssignmentTestForImageStorageProfile, ImageStorageProfileGenerator()))
+		"Round trip from Image to Image via AssignProperties_To_Image & AssignProperties_From_Image returns original",
+		prop.ForAll(RunPropertyAssignmentTestForImage, ImageGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForImageStorageProfile tests if a specific instance of ImageStorageProfile can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForImageStorageProfile(subject ImageStorageProfile) string {
+// RunPropertyAssignmentTestForImage tests if a specific instance of Image can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForImage(subject Image) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ImageStorageProfile
-	err := copied.AssignProperties_To_ImageStorageProfile(&other)
+	var other storage.Image
+	err := copied.AssignProperties_To_Image(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ImageStorageProfile
-	err = actual.AssignProperties_From_ImageStorageProfile(&other)
+	var actual Image
+	err = actual.AssignProperties_From_Image(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -663,20 +310,20 @@ func RunPropertyAssignmentTestForImageStorageProfile(subject ImageStorageProfile
 	return ""
 }
 
-func Test_ImageStorageProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Image_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ImageStorageProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForImageStorageProfile, ImageStorageProfileGenerator()))
+		"Round trip of Image via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForImage, ImageGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForImageStorageProfile runs a test to see if a specific instance of ImageStorageProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForImageStorageProfile(subject ImageStorageProfile) string {
+// RunJSONSerializationTestForImage runs a test to see if a specific instance of Image round trips to JSON and back losslessly
+func RunJSONSerializationTestForImage(subject Image) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -684,7 +331,7 @@ func RunJSONSerializationTestForImageStorageProfile(subject ImageStorageProfile)
 	}
 
 	// Deserialize back into memory
-	var actual ImageStorageProfile
+	var actual Image
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -702,357 +349,26 @@ func RunJSONSerializationTestForImageStorageProfile(subject ImageStorageProfile)
 	return ""
 }
 
-// Generator of ImageStorageProfile instances for property testing - lazily instantiated by
-// ImageStorageProfileGenerator()
-var imageStorageProfileGenerator gopter.Gen
+// Generator of Image instances for property testing - lazily instantiated by ImageGenerator()
+var imageGenerator gopter.Gen
 
-// ImageStorageProfileGenerator returns a generator of ImageStorageProfile instances for property testing.
-// We first initialize imageStorageProfileGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ImageStorageProfileGenerator() gopter.Gen {
-	if imageStorageProfileGenerator != nil {
-		return imageStorageProfileGenerator
+// ImageGenerator returns a generator of Image instances for property testing.
+func ImageGenerator() gopter.Gen {
+	if imageGenerator != nil {
+		return imageGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImageStorageProfile(generators)
-	imageStorageProfileGenerator = gen.Struct(reflect.TypeOf(ImageStorageProfile{}), generators)
+	AddRelatedPropertyGeneratorsForImage(generators)
+	imageGenerator = gen.Struct(reflect.TypeOf(Image{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImageStorageProfile(generators)
-	AddRelatedPropertyGeneratorsForImageStorageProfile(generators)
-	imageStorageProfileGenerator = gen.Struct(reflect.TypeOf(ImageStorageProfile{}), generators)
-
-	return imageStorageProfileGenerator
+	return imageGenerator
 }
 
-// AddIndependentPropertyGeneratorsForImageStorageProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForImageStorageProfile(gens map[string]gopter.Gen) {
-	gens["ZoneResilient"] = gen.PtrOf(gen.Bool())
-}
-
-// AddRelatedPropertyGeneratorsForImageStorageProfile is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForImageStorageProfile(gens map[string]gopter.Gen) {
-	gens["DataDisks"] = gen.SliceOf(ImageDataDiskGenerator())
-	gens["OsDisk"] = gen.PtrOf(ImageOSDiskGenerator())
-}
-
-func Test_ImageStorageProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ImageStorageProfile_STATUS to ImageStorageProfile_STATUS via AssignProperties_To_ImageStorageProfile_STATUS & AssignProperties_From_ImageStorageProfile_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForImageStorageProfile_STATUS, ImageStorageProfile_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForImageStorageProfile_STATUS tests if a specific instance of ImageStorageProfile_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForImageStorageProfile_STATUS(subject ImageStorageProfile_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ImageStorageProfile_STATUS
-	err := copied.AssignProperties_To_ImageStorageProfile_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ImageStorageProfile_STATUS
-	err = actual.AssignProperties_From_ImageStorageProfile_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ImageStorageProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ImageStorageProfile_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForImageStorageProfile_STATUS, ImageStorageProfile_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForImageStorageProfile_STATUS runs a test to see if a specific instance of ImageStorageProfile_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForImageStorageProfile_STATUS(subject ImageStorageProfile_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ImageStorageProfile_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ImageStorageProfile_STATUS instances for property testing - lazily instantiated by
-// ImageStorageProfile_STATUSGenerator()
-var imageStorageProfile_STATUSGenerator gopter.Gen
-
-// ImageStorageProfile_STATUSGenerator returns a generator of ImageStorageProfile_STATUS instances for property testing.
-// We first initialize imageStorageProfile_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ImageStorageProfile_STATUSGenerator() gopter.Gen {
-	if imageStorageProfile_STATUSGenerator != nil {
-		return imageStorageProfile_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImageStorageProfile_STATUS(generators)
-	imageStorageProfile_STATUSGenerator = gen.Struct(reflect.TypeOf(ImageStorageProfile_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImageStorageProfile_STATUS(generators)
-	AddRelatedPropertyGeneratorsForImageStorageProfile_STATUS(generators)
-	imageStorageProfile_STATUSGenerator = gen.Struct(reflect.TypeOf(ImageStorageProfile_STATUS{}), generators)
-
-	return imageStorageProfile_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForImageStorageProfile_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForImageStorageProfile_STATUS(gens map[string]gopter.Gen) {
-	gens["ZoneResilient"] = gen.PtrOf(gen.Bool())
-}
-
-// AddRelatedPropertyGeneratorsForImageStorageProfile_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForImageStorageProfile_STATUS(gens map[string]gopter.Gen) {
-	gens["DataDisks"] = gen.SliceOf(ImageDataDisk_STATUSGenerator())
-	gens["OsDisk"] = gen.PtrOf(ImageOSDisk_STATUSGenerator())
-}
-
-func Test_SubResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from SubResource to SubResource via AssignProperties_To_SubResource & AssignProperties_From_SubResource returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSubResource, SubResourceGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForSubResource tests if a specific instance of SubResource can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForSubResource(subject SubResource) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SubResource
-	err := copied.AssignProperties_To_SubResource(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SubResource
-	err = actual.AssignProperties_From_SubResource(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_SubResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SubResource via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSubResource, SubResourceGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSubResource runs a test to see if a specific instance of SubResource round trips to JSON and back losslessly
-func RunJSONSerializationTestForSubResource(subject SubResource) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual SubResource
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of SubResource instances for property testing - lazily instantiated by SubResourceGenerator()
-var subResourceGenerator gopter.Gen
-
-// SubResourceGenerator returns a generator of SubResource instances for property testing.
-func SubResourceGenerator() gopter.Gen {
-	if subResourceGenerator != nil {
-		return subResourceGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	subResourceGenerator = gen.Struct(reflect.TypeOf(SubResource{}), generators)
-
-	return subResourceGenerator
-}
-
-func Test_SubResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from SubResource_STATUS to SubResource_STATUS via AssignProperties_To_SubResource_STATUS & AssignProperties_From_SubResource_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSubResource_STATUS, SubResource_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForSubResource_STATUS tests if a specific instance of SubResource_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForSubResource_STATUS(subject SubResource_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SubResource_STATUS
-	err := copied.AssignProperties_To_SubResource_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SubResource_STATUS
-	err = actual.AssignProperties_From_SubResource_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_SubResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SubResource_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSubResource_STATUS, SubResource_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSubResource_STATUS runs a test to see if a specific instance of SubResource_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSubResource_STATUS(subject SubResource_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual SubResource_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of SubResource_STATUS instances for property testing - lazily instantiated by SubResource_STATUSGenerator()
-var subResource_STATUSGenerator gopter.Gen
-
-// SubResource_STATUSGenerator returns a generator of SubResource_STATUS instances for property testing.
-func SubResource_STATUSGenerator() gopter.Gen {
-	if subResource_STATUSGenerator != nil {
-		return subResource_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSubResource_STATUS(generators)
-	subResource_STATUSGenerator = gen.Struct(reflect.TypeOf(SubResource_STATUS{}), generators)
-
-	return subResource_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSubResource_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSubResource_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
+// AddRelatedPropertyGeneratorsForImage is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForImage(gens map[string]gopter.Gen) {
+	gens["Spec"] = Image_SpecGenerator()
+	gens["Status"] = Image_STATUSGenerator()
 }
 
 func Test_ImageDataDisk_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1544,4 +860,688 @@ func AddRelatedPropertyGeneratorsForImageOSDisk_STATUS(gens map[string]gopter.Ge
 	gens["DiskEncryptionSet"] = gen.PtrOf(SubResource_STATUSGenerator())
 	gens["ManagedDisk"] = gen.PtrOf(SubResource_STATUSGenerator())
 	gens["Snapshot"] = gen.PtrOf(SubResource_STATUSGenerator())
+}
+
+func Test_ImageStorageProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ImageStorageProfile to ImageStorageProfile via AssignProperties_To_ImageStorageProfile & AssignProperties_From_ImageStorageProfile returns original",
+		prop.ForAll(RunPropertyAssignmentTestForImageStorageProfile, ImageStorageProfileGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForImageStorageProfile tests if a specific instance of ImageStorageProfile can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForImageStorageProfile(subject ImageStorageProfile) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ImageStorageProfile
+	err := copied.AssignProperties_To_ImageStorageProfile(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ImageStorageProfile
+	err = actual.AssignProperties_From_ImageStorageProfile(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ImageStorageProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ImageStorageProfile via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForImageStorageProfile, ImageStorageProfileGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForImageStorageProfile runs a test to see if a specific instance of ImageStorageProfile round trips to JSON and back losslessly
+func RunJSONSerializationTestForImageStorageProfile(subject ImageStorageProfile) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ImageStorageProfile
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ImageStorageProfile instances for property testing - lazily instantiated by
+// ImageStorageProfileGenerator()
+var imageStorageProfileGenerator gopter.Gen
+
+// ImageStorageProfileGenerator returns a generator of ImageStorageProfile instances for property testing.
+// We first initialize imageStorageProfileGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ImageStorageProfileGenerator() gopter.Gen {
+	if imageStorageProfileGenerator != nil {
+		return imageStorageProfileGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForImageStorageProfile(generators)
+	imageStorageProfileGenerator = gen.Struct(reflect.TypeOf(ImageStorageProfile{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForImageStorageProfile(generators)
+	AddRelatedPropertyGeneratorsForImageStorageProfile(generators)
+	imageStorageProfileGenerator = gen.Struct(reflect.TypeOf(ImageStorageProfile{}), generators)
+
+	return imageStorageProfileGenerator
+}
+
+// AddIndependentPropertyGeneratorsForImageStorageProfile is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForImageStorageProfile(gens map[string]gopter.Gen) {
+	gens["ZoneResilient"] = gen.PtrOf(gen.Bool())
+}
+
+// AddRelatedPropertyGeneratorsForImageStorageProfile is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForImageStorageProfile(gens map[string]gopter.Gen) {
+	gens["DataDisks"] = gen.SliceOf(ImageDataDiskGenerator())
+	gens["OsDisk"] = gen.PtrOf(ImageOSDiskGenerator())
+}
+
+func Test_ImageStorageProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ImageStorageProfile_STATUS to ImageStorageProfile_STATUS via AssignProperties_To_ImageStorageProfile_STATUS & AssignProperties_From_ImageStorageProfile_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForImageStorageProfile_STATUS, ImageStorageProfile_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForImageStorageProfile_STATUS tests if a specific instance of ImageStorageProfile_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForImageStorageProfile_STATUS(subject ImageStorageProfile_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ImageStorageProfile_STATUS
+	err := copied.AssignProperties_To_ImageStorageProfile_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ImageStorageProfile_STATUS
+	err = actual.AssignProperties_From_ImageStorageProfile_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ImageStorageProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ImageStorageProfile_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForImageStorageProfile_STATUS, ImageStorageProfile_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForImageStorageProfile_STATUS runs a test to see if a specific instance of ImageStorageProfile_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForImageStorageProfile_STATUS(subject ImageStorageProfile_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ImageStorageProfile_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ImageStorageProfile_STATUS instances for property testing - lazily instantiated by
+// ImageStorageProfile_STATUSGenerator()
+var imageStorageProfile_STATUSGenerator gopter.Gen
+
+// ImageStorageProfile_STATUSGenerator returns a generator of ImageStorageProfile_STATUS instances for property testing.
+// We first initialize imageStorageProfile_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ImageStorageProfile_STATUSGenerator() gopter.Gen {
+	if imageStorageProfile_STATUSGenerator != nil {
+		return imageStorageProfile_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForImageStorageProfile_STATUS(generators)
+	imageStorageProfile_STATUSGenerator = gen.Struct(reflect.TypeOf(ImageStorageProfile_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForImageStorageProfile_STATUS(generators)
+	AddRelatedPropertyGeneratorsForImageStorageProfile_STATUS(generators)
+	imageStorageProfile_STATUSGenerator = gen.Struct(reflect.TypeOf(ImageStorageProfile_STATUS{}), generators)
+
+	return imageStorageProfile_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForImageStorageProfile_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForImageStorageProfile_STATUS(gens map[string]gopter.Gen) {
+	gens["ZoneResilient"] = gen.PtrOf(gen.Bool())
+}
+
+// AddRelatedPropertyGeneratorsForImageStorageProfile_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForImageStorageProfile_STATUS(gens map[string]gopter.Gen) {
+	gens["DataDisks"] = gen.SliceOf(ImageDataDisk_STATUSGenerator())
+	gens["OsDisk"] = gen.PtrOf(ImageOSDisk_STATUSGenerator())
+}
+
+func Test_Image_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Image_STATUS to Image_STATUS via AssignProperties_To_Image_STATUS & AssignProperties_From_Image_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForImage_STATUS, Image_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForImage_STATUS tests if a specific instance of Image_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForImage_STATUS(subject Image_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Image_STATUS
+	err := copied.AssignProperties_To_Image_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Image_STATUS
+	err = actual.AssignProperties_From_Image_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Image_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Image_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForImage_STATUS, Image_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForImage_STATUS runs a test to see if a specific instance of Image_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForImage_STATUS(subject Image_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Image_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Image_STATUS instances for property testing - lazily instantiated by Image_STATUSGenerator()
+var image_STATUSGenerator gopter.Gen
+
+// Image_STATUSGenerator returns a generator of Image_STATUS instances for property testing.
+// We first initialize image_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Image_STATUSGenerator() gopter.Gen {
+	if image_STATUSGenerator != nil {
+		return image_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForImage_STATUS(generators)
+	image_STATUSGenerator = gen.Struct(reflect.TypeOf(Image_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForImage_STATUS(generators)
+	AddRelatedPropertyGeneratorsForImage_STATUS(generators)
+	image_STATUSGenerator = gen.Struct(reflect.TypeOf(Image_STATUS{}), generators)
+
+	return image_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForImage_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForImage_STATUS(gens map[string]gopter.Gen) {
+	gens["HyperVGeneration"] = gen.PtrOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForImage_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForImage_STATUS(gens map[string]gopter.Gen) {
+	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUSGenerator())
+	gens["SourceVirtualMachine"] = gen.PtrOf(SubResource_STATUSGenerator())
+	gens["StorageProfile"] = gen.PtrOf(ImageStorageProfile_STATUSGenerator())
+}
+
+func Test_Image_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Image_Spec to Image_Spec via AssignProperties_To_Image_Spec & AssignProperties_From_Image_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForImage_Spec, Image_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForImage_Spec tests if a specific instance of Image_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForImage_Spec(subject Image_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Image_Spec
+	err := copied.AssignProperties_To_Image_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Image_Spec
+	err = actual.AssignProperties_From_Image_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Image_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Image_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForImage_Spec, Image_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForImage_Spec runs a test to see if a specific instance of Image_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForImage_Spec(subject Image_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Image_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Image_Spec instances for property testing - lazily instantiated by Image_SpecGenerator()
+var image_SpecGenerator gopter.Gen
+
+// Image_SpecGenerator returns a generator of Image_Spec instances for property testing.
+// We first initialize image_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Image_SpecGenerator() gopter.Gen {
+	if image_SpecGenerator != nil {
+		return image_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForImage_Spec(generators)
+	image_SpecGenerator = gen.Struct(reflect.TypeOf(Image_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForImage_Spec(generators)
+	AddRelatedPropertyGeneratorsForImage_Spec(generators)
+	image_SpecGenerator = gen.Struct(reflect.TypeOf(Image_Spec{}), generators)
+
+	return image_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForImage_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForImage_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["HyperVGeneration"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForImage_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForImage_Spec(gens map[string]gopter.Gen) {
+	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
+	gens["SourceVirtualMachine"] = gen.PtrOf(SubResourceGenerator())
+	gens["StorageProfile"] = gen.PtrOf(ImageStorageProfileGenerator())
+}
+
+func Test_SubResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SubResource to SubResource via AssignProperties_To_SubResource & AssignProperties_From_SubResource returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSubResource, SubResourceGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSubResource tests if a specific instance of SubResource can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSubResource(subject SubResource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SubResource
+	err := copied.AssignProperties_To_SubResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SubResource
+	err = actual.AssignProperties_From_SubResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_SubResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SubResource via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSubResource, SubResourceGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSubResource runs a test to see if a specific instance of SubResource round trips to JSON and back losslessly
+func RunJSONSerializationTestForSubResource(subject SubResource) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SubResource
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SubResource instances for property testing - lazily instantiated by SubResourceGenerator()
+var subResourceGenerator gopter.Gen
+
+// SubResourceGenerator returns a generator of SubResource instances for property testing.
+func SubResourceGenerator() gopter.Gen {
+	if subResourceGenerator != nil {
+		return subResourceGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	subResourceGenerator = gen.Struct(reflect.TypeOf(SubResource{}), generators)
+
+	return subResourceGenerator
+}
+
+func Test_SubResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SubResource_STATUS to SubResource_STATUS via AssignProperties_To_SubResource_STATUS & AssignProperties_From_SubResource_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSubResource_STATUS, SubResource_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSubResource_STATUS tests if a specific instance of SubResource_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSubResource_STATUS(subject SubResource_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SubResource_STATUS
+	err := copied.AssignProperties_To_SubResource_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SubResource_STATUS
+	err = actual.AssignProperties_From_SubResource_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_SubResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SubResource_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSubResource_STATUS, SubResource_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSubResource_STATUS runs a test to see if a specific instance of SubResource_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForSubResource_STATUS(subject SubResource_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SubResource_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SubResource_STATUS instances for property testing - lazily instantiated by SubResource_STATUSGenerator()
+var subResource_STATUSGenerator gopter.Gen
+
+// SubResource_STATUSGenerator returns a generator of SubResource_STATUS instances for property testing.
+func SubResource_STATUSGenerator() gopter.Gen {
+	if subResource_STATUSGenerator != nil {
+		return subResource_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSubResource_STATUS(generators)
+	subResource_STATUSGenerator = gen.Struct(reflect.TypeOf(SubResource_STATUS{}), generators)
+
+	return subResource_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForSubResource_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSubResource_STATUS(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }

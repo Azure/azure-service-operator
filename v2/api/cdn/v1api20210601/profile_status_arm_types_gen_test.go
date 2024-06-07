@@ -17,6 +17,79 @@ import (
 	"testing"
 )
 
+func Test_ProfileProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ProfileProperties_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForProfileProperties_STATUS_ARM, ProfileProperties_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForProfileProperties_STATUS_ARM runs a test to see if a specific instance of ProfileProperties_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForProfileProperties_STATUS_ARM(subject ProfileProperties_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ProfileProperties_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ProfileProperties_STATUS_ARM instances for property testing - lazily instantiated by
+// ProfileProperties_STATUS_ARMGenerator()
+var profileProperties_STATUS_ARMGenerator gopter.Gen
+
+// ProfileProperties_STATUS_ARMGenerator returns a generator of ProfileProperties_STATUS_ARM instances for property testing.
+func ProfileProperties_STATUS_ARMGenerator() gopter.Gen {
+	if profileProperties_STATUS_ARMGenerator != nil {
+		return profileProperties_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForProfileProperties_STATUS_ARM(generators)
+	profileProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ProfileProperties_STATUS_ARM{}), generators)
+
+	return profileProperties_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForProfileProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForProfileProperties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["FrontDoorId"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginResponseTimeoutSeconds"] = gen.PtrOf(gen.Int())
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		ProfileProperties_ProvisioningState_STATUS_Creating,
+		ProfileProperties_ProvisioningState_STATUS_Deleting,
+		ProfileProperties_ProvisioningState_STATUS_Failed,
+		ProfileProperties_ProvisioningState_STATUS_Succeeded,
+		ProfileProperties_ProvisioningState_STATUS_Updating))
+	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
+		ProfileProperties_ResourceState_STATUS_Active,
+		ProfileProperties_ResourceState_STATUS_Creating,
+		ProfileProperties_ResourceState_STATUS_Deleting,
+		ProfileProperties_ResourceState_STATUS_Disabled))
+}
+
 func Test_Profile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -98,79 +171,6 @@ func AddRelatedPropertyGeneratorsForProfile_STATUS_ARM(gens map[string]gopter.Ge
 	gens["Properties"] = gen.PtrOf(ProfileProperties_STATUS_ARMGenerator())
 	gens["Sku"] = gen.PtrOf(Sku_STATUS_ARMGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUS_ARMGenerator())
-}
-
-func Test_ProfileProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ProfileProperties_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProfileProperties_STATUS_ARM, ProfileProperties_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForProfileProperties_STATUS_ARM runs a test to see if a specific instance of ProfileProperties_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForProfileProperties_STATUS_ARM(subject ProfileProperties_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ProfileProperties_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ProfileProperties_STATUS_ARM instances for property testing - lazily instantiated by
-// ProfileProperties_STATUS_ARMGenerator()
-var profileProperties_STATUS_ARMGenerator gopter.Gen
-
-// ProfileProperties_STATUS_ARMGenerator returns a generator of ProfileProperties_STATUS_ARM instances for property testing.
-func ProfileProperties_STATUS_ARMGenerator() gopter.Gen {
-	if profileProperties_STATUS_ARMGenerator != nil {
-		return profileProperties_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfileProperties_STATUS_ARM(generators)
-	profileProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ProfileProperties_STATUS_ARM{}), generators)
-
-	return profileProperties_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForProfileProperties_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProfileProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["FrontDoorId"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginResponseTimeoutSeconds"] = gen.PtrOf(gen.Int())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProfileProperties_ProvisioningState_STATUS_Creating,
-		ProfileProperties_ProvisioningState_STATUS_Deleting,
-		ProfileProperties_ProvisioningState_STATUS_Failed,
-		ProfileProperties_ProvisioningState_STATUS_Succeeded,
-		ProfileProperties_ProvisioningState_STATUS_Updating))
-	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
-		ProfileProperties_ResourceState_STATUS_Active,
-		ProfileProperties_ResourceState_STATUS_Creating,
-		ProfileProperties_ResourceState_STATUS_Deleting,
-		ProfileProperties_ResourceState_STATUS_Disabled))
 }
 
 func Test_Sku_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -17,6 +17,76 @@ import (
 	"testing"
 )
 
+func Test_DatabaseBlobAuditingPolicyProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DatabaseBlobAuditingPolicyProperties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDatabaseBlobAuditingPolicyProperties_ARM, DatabaseBlobAuditingPolicyProperties_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDatabaseBlobAuditingPolicyProperties_ARM runs a test to see if a specific instance of DatabaseBlobAuditingPolicyProperties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDatabaseBlobAuditingPolicyProperties_ARM(subject DatabaseBlobAuditingPolicyProperties_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DatabaseBlobAuditingPolicyProperties_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DatabaseBlobAuditingPolicyProperties_ARM instances for property testing - lazily instantiated by
+// DatabaseBlobAuditingPolicyProperties_ARMGenerator()
+var databaseBlobAuditingPolicyProperties_ARMGenerator gopter.Gen
+
+// DatabaseBlobAuditingPolicyProperties_ARMGenerator returns a generator of DatabaseBlobAuditingPolicyProperties_ARM instances for property testing.
+func DatabaseBlobAuditingPolicyProperties_ARMGenerator() gopter.Gen {
+	if databaseBlobAuditingPolicyProperties_ARMGenerator != nil {
+		return databaseBlobAuditingPolicyProperties_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDatabaseBlobAuditingPolicyProperties_ARM(generators)
+	databaseBlobAuditingPolicyProperties_ARMGenerator = gen.Struct(reflect.TypeOf(DatabaseBlobAuditingPolicyProperties_ARM{}), generators)
+
+	return databaseBlobAuditingPolicyProperties_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForDatabaseBlobAuditingPolicyProperties_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDatabaseBlobAuditingPolicyProperties_ARM(gens map[string]gopter.Gen) {
+	gens["AuditActionsAndGroups"] = gen.SliceOf(gen.AlphaString())
+	gens["IsAzureMonitorTargetEnabled"] = gen.PtrOf(gen.Bool())
+	gens["IsManagedIdentityInUse"] = gen.PtrOf(gen.Bool())
+	gens["IsStorageSecondaryKeyInUse"] = gen.PtrOf(gen.Bool())
+	gens["QueueDelayMs"] = gen.PtrOf(gen.Int())
+	gens["RetentionDays"] = gen.PtrOf(gen.Int())
+	gens["State"] = gen.PtrOf(gen.OneConstOf(DatabaseBlobAuditingPolicyProperties_State_Disabled, DatabaseBlobAuditingPolicyProperties_State_Enabled))
+	gens["StorageAccountAccessKey"] = gen.PtrOf(gen.AlphaString())
+	gens["StorageAccountSubscriptionId"] = gen.PtrOf(gen.AlphaString())
+	gens["StorageEndpoint"] = gen.PtrOf(gen.AlphaString())
+}
+
 func Test_Servers_Databases_AuditingSetting_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -90,74 +160,4 @@ func AddIndependentPropertyGeneratorsForServers_Databases_AuditingSetting_Spec_A
 // AddRelatedPropertyGeneratorsForServers_Databases_AuditingSetting_Spec_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForServers_Databases_AuditingSetting_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(DatabaseBlobAuditingPolicyProperties_ARMGenerator())
-}
-
-func Test_DatabaseBlobAuditingPolicyProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DatabaseBlobAuditingPolicyProperties_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDatabaseBlobAuditingPolicyProperties_ARM, DatabaseBlobAuditingPolicyProperties_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForDatabaseBlobAuditingPolicyProperties_ARM runs a test to see if a specific instance of DatabaseBlobAuditingPolicyProperties_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDatabaseBlobAuditingPolicyProperties_ARM(subject DatabaseBlobAuditingPolicyProperties_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual DatabaseBlobAuditingPolicyProperties_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of DatabaseBlobAuditingPolicyProperties_ARM instances for property testing - lazily instantiated by
-// DatabaseBlobAuditingPolicyProperties_ARMGenerator()
-var databaseBlobAuditingPolicyProperties_ARMGenerator gopter.Gen
-
-// DatabaseBlobAuditingPolicyProperties_ARMGenerator returns a generator of DatabaseBlobAuditingPolicyProperties_ARM instances for property testing.
-func DatabaseBlobAuditingPolicyProperties_ARMGenerator() gopter.Gen {
-	if databaseBlobAuditingPolicyProperties_ARMGenerator != nil {
-		return databaseBlobAuditingPolicyProperties_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseBlobAuditingPolicyProperties_ARM(generators)
-	databaseBlobAuditingPolicyProperties_ARMGenerator = gen.Struct(reflect.TypeOf(DatabaseBlobAuditingPolicyProperties_ARM{}), generators)
-
-	return databaseBlobAuditingPolicyProperties_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDatabaseBlobAuditingPolicyProperties_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDatabaseBlobAuditingPolicyProperties_ARM(gens map[string]gopter.Gen) {
-	gens["AuditActionsAndGroups"] = gen.SliceOf(gen.AlphaString())
-	gens["IsAzureMonitorTargetEnabled"] = gen.PtrOf(gen.Bool())
-	gens["IsManagedIdentityInUse"] = gen.PtrOf(gen.Bool())
-	gens["IsStorageSecondaryKeyInUse"] = gen.PtrOf(gen.Bool())
-	gens["QueueDelayMs"] = gen.PtrOf(gen.Int())
-	gens["RetentionDays"] = gen.PtrOf(gen.Int())
-	gens["State"] = gen.PtrOf(gen.OneConstOf(DatabaseBlobAuditingPolicyProperties_State_Disabled, DatabaseBlobAuditingPolicyProperties_State_Enabled))
-	gens["StorageAccountAccessKey"] = gen.PtrOf(gen.AlphaString())
-	gens["StorageAccountSubscriptionId"] = gen.PtrOf(gen.AlphaString())
-	gens["StorageEndpoint"] = gen.PtrOf(gen.AlphaString())
 }

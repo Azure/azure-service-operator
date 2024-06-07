@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_Servers_ElasticPool_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ElasticPoolPerDatabaseSettings_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Servers_ElasticPool_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServers_ElasticPool_STATUS_ARM, Servers_ElasticPool_STATUS_ARMGenerator()))
+		"Round trip of ElasticPoolPerDatabaseSettings_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForElasticPoolPerDatabaseSettings_STATUS_ARM, ElasticPoolPerDatabaseSettings_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForServers_ElasticPool_STATUS_ARM runs a test to see if a specific instance of Servers_ElasticPool_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForServers_ElasticPool_STATUS_ARM(subject Servers_ElasticPool_STATUS_ARM) string {
+// RunJSONSerializationTestForElasticPoolPerDatabaseSettings_STATUS_ARM runs a test to see if a specific instance of ElasticPoolPerDatabaseSettings_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForElasticPoolPerDatabaseSettings_STATUS_ARM(subject ElasticPoolPerDatabaseSettings_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForServers_ElasticPool_STATUS_ARM(subject Servers_E
 	}
 
 	// Deserialize back into memory
-	var actual Servers_ElasticPool_STATUS_ARM
+	var actual ElasticPoolPerDatabaseSettings_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,48 +56,27 @@ func RunJSONSerializationTestForServers_ElasticPool_STATUS_ARM(subject Servers_E
 	return ""
 }
 
-// Generator of Servers_ElasticPool_STATUS_ARM instances for property testing - lazily instantiated by
-// Servers_ElasticPool_STATUS_ARMGenerator()
-var servers_ElasticPool_STATUS_ARMGenerator gopter.Gen
+// Generator of ElasticPoolPerDatabaseSettings_STATUS_ARM instances for property testing - lazily instantiated by
+// ElasticPoolPerDatabaseSettings_STATUS_ARMGenerator()
+var elasticPoolPerDatabaseSettings_STATUS_ARMGenerator gopter.Gen
 
-// Servers_ElasticPool_STATUS_ARMGenerator returns a generator of Servers_ElasticPool_STATUS_ARM instances for property testing.
-// We first initialize servers_ElasticPool_STATUS_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Servers_ElasticPool_STATUS_ARMGenerator() gopter.Gen {
-	if servers_ElasticPool_STATUS_ARMGenerator != nil {
-		return servers_ElasticPool_STATUS_ARMGenerator
+// ElasticPoolPerDatabaseSettings_STATUS_ARMGenerator returns a generator of ElasticPoolPerDatabaseSettings_STATUS_ARM instances for property testing.
+func ElasticPoolPerDatabaseSettings_STATUS_ARMGenerator() gopter.Gen {
+	if elasticPoolPerDatabaseSettings_STATUS_ARMGenerator != nil {
+		return elasticPoolPerDatabaseSettings_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_ElasticPool_STATUS_ARM(generators)
-	servers_ElasticPool_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Servers_ElasticPool_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForElasticPoolPerDatabaseSettings_STATUS_ARM(generators)
+	elasticPoolPerDatabaseSettings_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ElasticPoolPerDatabaseSettings_STATUS_ARM{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_ElasticPool_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForServers_ElasticPool_STATUS_ARM(generators)
-	servers_ElasticPool_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Servers_ElasticPool_STATUS_ARM{}), generators)
-
-	return servers_ElasticPool_STATUS_ARMGenerator
+	return elasticPoolPerDatabaseSettings_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForServers_ElasticPool_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServers_ElasticPool_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Kind"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForServers_ElasticPool_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForServers_ElasticPool_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(ElasticPoolProperties_STATUS_ARMGenerator())
-	gens["Sku"] = gen.PtrOf(Sku_STATUS_ARMGenerator())
+// AddIndependentPropertyGeneratorsForElasticPoolPerDatabaseSettings_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForElasticPoolPerDatabaseSettings_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["MaxCapacity"] = gen.PtrOf(gen.Float64())
+	gens["MinCapacity"] = gen.PtrOf(gen.Float64())
 }
 
 func Test_ElasticPoolProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -182,20 +161,20 @@ func AddRelatedPropertyGeneratorsForElasticPoolProperties_STATUS_ARM(gens map[st
 	gens["PerDatabaseSettings"] = gen.PtrOf(ElasticPoolPerDatabaseSettings_STATUS_ARMGenerator())
 }
 
-func Test_ElasticPoolPerDatabaseSettings_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Servers_ElasticPool_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ElasticPoolPerDatabaseSettings_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForElasticPoolPerDatabaseSettings_STATUS_ARM, ElasticPoolPerDatabaseSettings_STATUS_ARMGenerator()))
+		"Round trip of Servers_ElasticPool_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServers_ElasticPool_STATUS_ARM, Servers_ElasticPool_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForElasticPoolPerDatabaseSettings_STATUS_ARM runs a test to see if a specific instance of ElasticPoolPerDatabaseSettings_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForElasticPoolPerDatabaseSettings_STATUS_ARM(subject ElasticPoolPerDatabaseSettings_STATUS_ARM) string {
+// RunJSONSerializationTestForServers_ElasticPool_STATUS_ARM runs a test to see if a specific instance of Servers_ElasticPool_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForServers_ElasticPool_STATUS_ARM(subject Servers_ElasticPool_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -203,7 +182,7 @@ func RunJSONSerializationTestForElasticPoolPerDatabaseSettings_STATUS_ARM(subjec
 	}
 
 	// Deserialize back into memory
-	var actual ElasticPoolPerDatabaseSettings_STATUS_ARM
+	var actual Servers_ElasticPool_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -221,25 +200,46 @@ func RunJSONSerializationTestForElasticPoolPerDatabaseSettings_STATUS_ARM(subjec
 	return ""
 }
 
-// Generator of ElasticPoolPerDatabaseSettings_STATUS_ARM instances for property testing - lazily instantiated by
-// ElasticPoolPerDatabaseSettings_STATUS_ARMGenerator()
-var elasticPoolPerDatabaseSettings_STATUS_ARMGenerator gopter.Gen
+// Generator of Servers_ElasticPool_STATUS_ARM instances for property testing - lazily instantiated by
+// Servers_ElasticPool_STATUS_ARMGenerator()
+var servers_ElasticPool_STATUS_ARMGenerator gopter.Gen
 
-// ElasticPoolPerDatabaseSettings_STATUS_ARMGenerator returns a generator of ElasticPoolPerDatabaseSettings_STATUS_ARM instances for property testing.
-func ElasticPoolPerDatabaseSettings_STATUS_ARMGenerator() gopter.Gen {
-	if elasticPoolPerDatabaseSettings_STATUS_ARMGenerator != nil {
-		return elasticPoolPerDatabaseSettings_STATUS_ARMGenerator
+// Servers_ElasticPool_STATUS_ARMGenerator returns a generator of Servers_ElasticPool_STATUS_ARM instances for property testing.
+// We first initialize servers_ElasticPool_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Servers_ElasticPool_STATUS_ARMGenerator() gopter.Gen {
+	if servers_ElasticPool_STATUS_ARMGenerator != nil {
+		return servers_ElasticPool_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForElasticPoolPerDatabaseSettings_STATUS_ARM(generators)
-	elasticPoolPerDatabaseSettings_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ElasticPoolPerDatabaseSettings_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForServers_ElasticPool_STATUS_ARM(generators)
+	servers_ElasticPool_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Servers_ElasticPool_STATUS_ARM{}), generators)
 
-	return elasticPoolPerDatabaseSettings_STATUS_ARMGenerator
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServers_ElasticPool_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForServers_ElasticPool_STATUS_ARM(generators)
+	servers_ElasticPool_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Servers_ElasticPool_STATUS_ARM{}), generators)
+
+	return servers_ElasticPool_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForElasticPoolPerDatabaseSettings_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForElasticPoolPerDatabaseSettings_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["MaxCapacity"] = gen.PtrOf(gen.Float64())
-	gens["MinCapacity"] = gen.PtrOf(gen.Float64())
+// AddIndependentPropertyGeneratorsForServers_ElasticPool_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServers_ElasticPool_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Kind"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForServers_ElasticPool_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServers_ElasticPool_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(ElasticPoolProperties_STATUS_ARMGenerator())
+	gens["Sku"] = gen.PtrOf(Sku_STATUS_ARMGenerator())
 }

@@ -18,75 +18,32 @@ import (
 	"testing"
 )
 
-func Test_WebApplicationFirewallPolicy_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from WebApplicationFirewallPolicy to hub returns original",
-		prop.ForAll(RunResourceConversionTestForWebApplicationFirewallPolicy, WebApplicationFirewallPolicyGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunResourceConversionTestForWebApplicationFirewallPolicy tests if a specific instance of WebApplicationFirewallPolicy round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForWebApplicationFirewallPolicy(subject WebApplicationFirewallPolicy) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub storage.WebApplicationFirewallPolicy
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual WebApplicationFirewallPolicy
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_WebApplicationFirewallPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_CustomRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from WebApplicationFirewallPolicy to WebApplicationFirewallPolicy via AssignProperties_To_WebApplicationFirewallPolicy & AssignProperties_From_WebApplicationFirewallPolicy returns original",
-		prop.ForAll(RunPropertyAssignmentTestForWebApplicationFirewallPolicy, WebApplicationFirewallPolicyGenerator()))
+		"Round trip from CustomRule to CustomRule via AssignProperties_To_CustomRule & AssignProperties_From_CustomRule returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCustomRule, CustomRuleGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForWebApplicationFirewallPolicy tests if a specific instance of WebApplicationFirewallPolicy can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForWebApplicationFirewallPolicy(subject WebApplicationFirewallPolicy) string {
+// RunPropertyAssignmentTestForCustomRule tests if a specific instance of CustomRule can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForCustomRule(subject CustomRule) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WebApplicationFirewallPolicy
-	err := copied.AssignProperties_To_WebApplicationFirewallPolicy(&other)
+	var other storage.CustomRule
+	err := copied.AssignProperties_To_CustomRule(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual WebApplicationFirewallPolicy
-	err = actual.AssignProperties_From_WebApplicationFirewallPolicy(&other)
+	var actual CustomRule
+	err = actual.AssignProperties_From_CustomRule(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -103,20 +60,20 @@ func RunPropertyAssignmentTestForWebApplicationFirewallPolicy(subject WebApplica
 	return ""
 }
 
-func Test_WebApplicationFirewallPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_CustomRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
+	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of WebApplicationFirewallPolicy via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWebApplicationFirewallPolicy, WebApplicationFirewallPolicyGenerator()))
+		"Round trip of CustomRule via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForCustomRule, CustomRuleGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForWebApplicationFirewallPolicy runs a test to see if a specific instance of WebApplicationFirewallPolicy round trips to JSON and back losslessly
-func RunJSONSerializationTestForWebApplicationFirewallPolicy(subject WebApplicationFirewallPolicy) string {
+// RunJSONSerializationTestForCustomRule runs a test to see if a specific instance of CustomRule round trips to JSON and back losslessly
+func RunJSONSerializationTestForCustomRule(subject CustomRule) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -124,7 +81,7 @@ func RunJSONSerializationTestForWebApplicationFirewallPolicy(subject WebApplicat
 	}
 
 	// Deserialize back into memory
-	var actual WebApplicationFirewallPolicy
+	var actual CustomRule
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -142,290 +99,50 @@ func RunJSONSerializationTestForWebApplicationFirewallPolicy(subject WebApplicat
 	return ""
 }
 
-// Generator of WebApplicationFirewallPolicy instances for property testing - lazily instantiated by
-// WebApplicationFirewallPolicyGenerator()
-var webApplicationFirewallPolicyGenerator gopter.Gen
+// Generator of CustomRule instances for property testing - lazily instantiated by CustomRuleGenerator()
+var customRuleGenerator gopter.Gen
 
-// WebApplicationFirewallPolicyGenerator returns a generator of WebApplicationFirewallPolicy instances for property testing.
-func WebApplicationFirewallPolicyGenerator() gopter.Gen {
-	if webApplicationFirewallPolicyGenerator != nil {
-		return webApplicationFirewallPolicyGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForWebApplicationFirewallPolicy(generators)
-	webApplicationFirewallPolicyGenerator = gen.Struct(reflect.TypeOf(WebApplicationFirewallPolicy{}), generators)
-
-	return webApplicationFirewallPolicyGenerator
-}
-
-// AddRelatedPropertyGeneratorsForWebApplicationFirewallPolicy is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForWebApplicationFirewallPolicy(gens map[string]gopter.Gen) {
-	gens["Spec"] = FrontDoorWebApplicationFirewallPolicy_SpecGenerator()
-	gens["Status"] = FrontDoorWebApplicationFirewallPolicy_STATUSGenerator()
-}
-
-func Test_FrontDoorWebApplicationFirewallPolicy_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from FrontDoorWebApplicationFirewallPolicy_Spec to FrontDoorWebApplicationFirewallPolicy_Spec via AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_Spec & AssignProperties_From_FrontDoorWebApplicationFirewallPolicy_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForFrontDoorWebApplicationFirewallPolicy_Spec, FrontDoorWebApplicationFirewallPolicy_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForFrontDoorWebApplicationFirewallPolicy_Spec tests if a specific instance of FrontDoorWebApplicationFirewallPolicy_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForFrontDoorWebApplicationFirewallPolicy_Spec(subject FrontDoorWebApplicationFirewallPolicy_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FrontDoorWebApplicationFirewallPolicy_Spec
-	err := copied.AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual FrontDoorWebApplicationFirewallPolicy_Spec
-	err = actual.AssignProperties_From_FrontDoorWebApplicationFirewallPolicy_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_FrontDoorWebApplicationFirewallPolicy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FrontDoorWebApplicationFirewallPolicy_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFrontDoorWebApplicationFirewallPolicy_Spec, FrontDoorWebApplicationFirewallPolicy_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForFrontDoorWebApplicationFirewallPolicy_Spec runs a test to see if a specific instance of FrontDoorWebApplicationFirewallPolicy_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForFrontDoorWebApplicationFirewallPolicy_Spec(subject FrontDoorWebApplicationFirewallPolicy_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual FrontDoorWebApplicationFirewallPolicy_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of FrontDoorWebApplicationFirewallPolicy_Spec instances for property testing - lazily instantiated by
-// FrontDoorWebApplicationFirewallPolicy_SpecGenerator()
-var frontDoorWebApplicationFirewallPolicy_SpecGenerator gopter.Gen
-
-// FrontDoorWebApplicationFirewallPolicy_SpecGenerator returns a generator of FrontDoorWebApplicationFirewallPolicy_Spec instances for property testing.
-// We first initialize frontDoorWebApplicationFirewallPolicy_SpecGenerator with a simplified generator based on the
+// CustomRuleGenerator returns a generator of CustomRule instances for property testing.
+// We first initialize customRuleGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func FrontDoorWebApplicationFirewallPolicy_SpecGenerator() gopter.Gen {
-	if frontDoorWebApplicationFirewallPolicy_SpecGenerator != nil {
-		return frontDoorWebApplicationFirewallPolicy_SpecGenerator
+func CustomRuleGenerator() gopter.Gen {
+	if customRuleGenerator != nil {
+		return customRuleGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFrontDoorWebApplicationFirewallPolicy_Spec(generators)
-	frontDoorWebApplicationFirewallPolicy_SpecGenerator = gen.Struct(reflect.TypeOf(FrontDoorWebApplicationFirewallPolicy_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForCustomRule(generators)
+	customRuleGenerator = gen.Struct(reflect.TypeOf(CustomRule{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFrontDoorWebApplicationFirewallPolicy_Spec(generators)
-	AddRelatedPropertyGeneratorsForFrontDoorWebApplicationFirewallPolicy_Spec(generators)
-	frontDoorWebApplicationFirewallPolicy_SpecGenerator = gen.Struct(reflect.TypeOf(FrontDoorWebApplicationFirewallPolicy_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForCustomRule(generators)
+	AddRelatedPropertyGeneratorsForCustomRule(generators)
+	customRuleGenerator = gen.Struct(reflect.TypeOf(CustomRule{}), generators)
 
-	return frontDoorWebApplicationFirewallPolicy_SpecGenerator
+	return customRuleGenerator
 }
 
-// AddIndependentPropertyGeneratorsForFrontDoorWebApplicationFirewallPolicy_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFrontDoorWebApplicationFirewallPolicy_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForFrontDoorWebApplicationFirewallPolicy_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFrontDoorWebApplicationFirewallPolicy_Spec(gens map[string]gopter.Gen) {
-	gens["CustomRules"] = gen.PtrOf(CustomRuleListGenerator())
-	gens["ManagedRules"] = gen.PtrOf(ManagedRuleSetListGenerator())
-	gens["PolicySettings"] = gen.PtrOf(PolicySettingsGenerator())
-	gens["Sku"] = gen.PtrOf(SkuGenerator())
-}
-
-func Test_FrontDoorWebApplicationFirewallPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from FrontDoorWebApplicationFirewallPolicy_STATUS to FrontDoorWebApplicationFirewallPolicy_STATUS via AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_STATUS & AssignProperties_From_FrontDoorWebApplicationFirewallPolicy_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForFrontDoorWebApplicationFirewallPolicy_STATUS, FrontDoorWebApplicationFirewallPolicy_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForFrontDoorWebApplicationFirewallPolicy_STATUS tests if a specific instance of FrontDoorWebApplicationFirewallPolicy_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForFrontDoorWebApplicationFirewallPolicy_STATUS(subject FrontDoorWebApplicationFirewallPolicy_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FrontDoorWebApplicationFirewallPolicy_STATUS
-	err := copied.AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual FrontDoorWebApplicationFirewallPolicy_STATUS
-	err = actual.AssignProperties_From_FrontDoorWebApplicationFirewallPolicy_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_FrontDoorWebApplicationFirewallPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FrontDoorWebApplicationFirewallPolicy_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFrontDoorWebApplicationFirewallPolicy_STATUS, FrontDoorWebApplicationFirewallPolicy_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForFrontDoorWebApplicationFirewallPolicy_STATUS runs a test to see if a specific instance of FrontDoorWebApplicationFirewallPolicy_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForFrontDoorWebApplicationFirewallPolicy_STATUS(subject FrontDoorWebApplicationFirewallPolicy_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual FrontDoorWebApplicationFirewallPolicy_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of FrontDoorWebApplicationFirewallPolicy_STATUS instances for property testing - lazily instantiated by
-// FrontDoorWebApplicationFirewallPolicy_STATUSGenerator()
-var frontDoorWebApplicationFirewallPolicy_STATUSGenerator gopter.Gen
-
-// FrontDoorWebApplicationFirewallPolicy_STATUSGenerator returns a generator of FrontDoorWebApplicationFirewallPolicy_STATUS instances for property testing.
-// We first initialize frontDoorWebApplicationFirewallPolicy_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func FrontDoorWebApplicationFirewallPolicy_STATUSGenerator() gopter.Gen {
-	if frontDoorWebApplicationFirewallPolicy_STATUSGenerator != nil {
-		return frontDoorWebApplicationFirewallPolicy_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFrontDoorWebApplicationFirewallPolicy_STATUS(generators)
-	frontDoorWebApplicationFirewallPolicy_STATUSGenerator = gen.Struct(reflect.TypeOf(FrontDoorWebApplicationFirewallPolicy_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFrontDoorWebApplicationFirewallPolicy_STATUS(generators)
-	AddRelatedPropertyGeneratorsForFrontDoorWebApplicationFirewallPolicy_STATUS(generators)
-	frontDoorWebApplicationFirewallPolicy_STATUSGenerator = gen.Struct(reflect.TypeOf(FrontDoorWebApplicationFirewallPolicy_STATUS{}), generators)
-
-	return frontDoorWebApplicationFirewallPolicy_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForFrontDoorWebApplicationFirewallPolicy_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFrontDoorWebApplicationFirewallPolicy_STATUS(gens map[string]gopter.Gen) {
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
+// AddIndependentPropertyGeneratorsForCustomRule is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForCustomRule(gens map[string]gopter.Gen) {
+	gens["Action"] = gen.PtrOf(gen.OneConstOf(
+		ActionType_Allow,
+		ActionType_AnomalyScoring,
+		ActionType_Block,
+		ActionType_Log,
+		ActionType_Redirect))
+	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(CustomRule_EnabledState_Disabled, CustomRule_EnabledState_Enabled))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
-		WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Creating,
-		WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Deleting,
-		WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Disabled,
-		WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Disabling,
-		WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Enabled,
-		WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Enabling))
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
+	gens["Priority"] = gen.PtrOf(gen.Int())
+	gens["RateLimitDurationInMinutes"] = gen.PtrOf(gen.Int())
+	gens["RateLimitThreshold"] = gen.PtrOf(gen.Int())
+	gens["RuleType"] = gen.PtrOf(gen.OneConstOf(CustomRule_RuleType_MatchRule, CustomRule_RuleType_RateLimitRule))
 }
 
-// AddRelatedPropertyGeneratorsForFrontDoorWebApplicationFirewallPolicy_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFrontDoorWebApplicationFirewallPolicy_STATUS(gens map[string]gopter.Gen) {
-	gens["CustomRules"] = gen.PtrOf(CustomRuleList_STATUSGenerator())
-	gens["FrontendEndpointLinks"] = gen.SliceOf(FrontendEndpointLink_STATUSGenerator())
-	gens["ManagedRules"] = gen.PtrOf(ManagedRuleSetList_STATUSGenerator())
-	gens["PolicySettings"] = gen.PtrOf(PolicySettings_STATUSGenerator())
-	gens["RoutingRuleLinks"] = gen.SliceOf(RoutingRuleLink_STATUSGenerator())
-	gens["SecurityPolicyLinks"] = gen.SliceOf(SecurityPolicyLink_STATUSGenerator())
-	gens["Sku"] = gen.PtrOf(Sku_STATUSGenerator())
+// AddRelatedPropertyGeneratorsForCustomRule is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForCustomRule(gens map[string]gopter.Gen) {
+	gens["MatchConditions"] = gen.SliceOf(MatchConditionGenerator())
 }
 
 func Test_CustomRuleList_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -633,6 +350,396 @@ func AddRelatedPropertyGeneratorsForCustomRuleList_STATUS(gens map[string]gopter
 	gens["Rules"] = gen.SliceOf(CustomRule_STATUSGenerator())
 }
 
+func Test_CustomRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CustomRule_STATUS to CustomRule_STATUS via AssignProperties_To_CustomRule_STATUS & AssignProperties_From_CustomRule_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCustomRule_STATUS, CustomRule_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCustomRule_STATUS tests if a specific instance of CustomRule_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForCustomRule_STATUS(subject CustomRule_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.CustomRule_STATUS
+	err := copied.AssignProperties_To_CustomRule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual CustomRule_STATUS
+	err = actual.AssignProperties_From_CustomRule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_CustomRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of CustomRule_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForCustomRule_STATUS, CustomRule_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForCustomRule_STATUS runs a test to see if a specific instance of CustomRule_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForCustomRule_STATUS(subject CustomRule_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual CustomRule_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of CustomRule_STATUS instances for property testing - lazily instantiated by CustomRule_STATUSGenerator()
+var customRule_STATUSGenerator gopter.Gen
+
+// CustomRule_STATUSGenerator returns a generator of CustomRule_STATUS instances for property testing.
+// We first initialize customRule_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func CustomRule_STATUSGenerator() gopter.Gen {
+	if customRule_STATUSGenerator != nil {
+		return customRule_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForCustomRule_STATUS(generators)
+	customRule_STATUSGenerator = gen.Struct(reflect.TypeOf(CustomRule_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForCustomRule_STATUS(generators)
+	AddRelatedPropertyGeneratorsForCustomRule_STATUS(generators)
+	customRule_STATUSGenerator = gen.Struct(reflect.TypeOf(CustomRule_STATUS{}), generators)
+
+	return customRule_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForCustomRule_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForCustomRule_STATUS(gens map[string]gopter.Gen) {
+	gens["Action"] = gen.PtrOf(gen.OneConstOf(
+		ActionType_STATUS_Allow,
+		ActionType_STATUS_AnomalyScoring,
+		ActionType_STATUS_Block,
+		ActionType_STATUS_Log,
+		ActionType_STATUS_Redirect))
+	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(CustomRule_EnabledState_STATUS_Disabled, CustomRule_EnabledState_STATUS_Enabled))
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Priority"] = gen.PtrOf(gen.Int())
+	gens["RateLimitDurationInMinutes"] = gen.PtrOf(gen.Int())
+	gens["RateLimitThreshold"] = gen.PtrOf(gen.Int())
+	gens["RuleType"] = gen.PtrOf(gen.OneConstOf(CustomRule_RuleType_STATUS_MatchRule, CustomRule_RuleType_STATUS_RateLimitRule))
+}
+
+// AddRelatedPropertyGeneratorsForCustomRule_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForCustomRule_STATUS(gens map[string]gopter.Gen) {
+	gens["MatchConditions"] = gen.SliceOf(MatchCondition_STATUSGenerator())
+}
+
+func Test_FrontDoorWebApplicationFirewallPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FrontDoorWebApplicationFirewallPolicy_STATUS to FrontDoorWebApplicationFirewallPolicy_STATUS via AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_STATUS & AssignProperties_From_FrontDoorWebApplicationFirewallPolicy_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFrontDoorWebApplicationFirewallPolicy_STATUS, FrontDoorWebApplicationFirewallPolicy_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFrontDoorWebApplicationFirewallPolicy_STATUS tests if a specific instance of FrontDoorWebApplicationFirewallPolicy_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForFrontDoorWebApplicationFirewallPolicy_STATUS(subject FrontDoorWebApplicationFirewallPolicy_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.FrontDoorWebApplicationFirewallPolicy_STATUS
+	err := copied.AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FrontDoorWebApplicationFirewallPolicy_STATUS
+	err = actual.AssignProperties_From_FrontDoorWebApplicationFirewallPolicy_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_FrontDoorWebApplicationFirewallPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of FrontDoorWebApplicationFirewallPolicy_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFrontDoorWebApplicationFirewallPolicy_STATUS, FrontDoorWebApplicationFirewallPolicy_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForFrontDoorWebApplicationFirewallPolicy_STATUS runs a test to see if a specific instance of FrontDoorWebApplicationFirewallPolicy_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForFrontDoorWebApplicationFirewallPolicy_STATUS(subject FrontDoorWebApplicationFirewallPolicy_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual FrontDoorWebApplicationFirewallPolicy_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of FrontDoorWebApplicationFirewallPolicy_STATUS instances for property testing - lazily instantiated by
+// FrontDoorWebApplicationFirewallPolicy_STATUSGenerator()
+var frontDoorWebApplicationFirewallPolicy_STATUSGenerator gopter.Gen
+
+// FrontDoorWebApplicationFirewallPolicy_STATUSGenerator returns a generator of FrontDoorWebApplicationFirewallPolicy_STATUS instances for property testing.
+// We first initialize frontDoorWebApplicationFirewallPolicy_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func FrontDoorWebApplicationFirewallPolicy_STATUSGenerator() gopter.Gen {
+	if frontDoorWebApplicationFirewallPolicy_STATUSGenerator != nil {
+		return frontDoorWebApplicationFirewallPolicy_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForFrontDoorWebApplicationFirewallPolicy_STATUS(generators)
+	frontDoorWebApplicationFirewallPolicy_STATUSGenerator = gen.Struct(reflect.TypeOf(FrontDoorWebApplicationFirewallPolicy_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForFrontDoorWebApplicationFirewallPolicy_STATUS(generators)
+	AddRelatedPropertyGeneratorsForFrontDoorWebApplicationFirewallPolicy_STATUS(generators)
+	frontDoorWebApplicationFirewallPolicy_STATUSGenerator = gen.Struct(reflect.TypeOf(FrontDoorWebApplicationFirewallPolicy_STATUS{}), generators)
+
+	return frontDoorWebApplicationFirewallPolicy_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForFrontDoorWebApplicationFirewallPolicy_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForFrontDoorWebApplicationFirewallPolicy_STATUS(gens map[string]gopter.Gen) {
+	gens["Etag"] = gen.PtrOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
+	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
+		WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Creating,
+		WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Deleting,
+		WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Disabled,
+		WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Disabling,
+		WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Enabled,
+		WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Enabling))
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForFrontDoorWebApplicationFirewallPolicy_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForFrontDoorWebApplicationFirewallPolicy_STATUS(gens map[string]gopter.Gen) {
+	gens["CustomRules"] = gen.PtrOf(CustomRuleList_STATUSGenerator())
+	gens["FrontendEndpointLinks"] = gen.SliceOf(FrontendEndpointLink_STATUSGenerator())
+	gens["ManagedRules"] = gen.PtrOf(ManagedRuleSetList_STATUSGenerator())
+	gens["PolicySettings"] = gen.PtrOf(PolicySettings_STATUSGenerator())
+	gens["RoutingRuleLinks"] = gen.SliceOf(RoutingRuleLink_STATUSGenerator())
+	gens["SecurityPolicyLinks"] = gen.SliceOf(SecurityPolicyLink_STATUSGenerator())
+	gens["Sku"] = gen.PtrOf(Sku_STATUSGenerator())
+}
+
+func Test_FrontDoorWebApplicationFirewallPolicy_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FrontDoorWebApplicationFirewallPolicy_Spec to FrontDoorWebApplicationFirewallPolicy_Spec via AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_Spec & AssignProperties_From_FrontDoorWebApplicationFirewallPolicy_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFrontDoorWebApplicationFirewallPolicy_Spec, FrontDoorWebApplicationFirewallPolicy_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFrontDoorWebApplicationFirewallPolicy_Spec tests if a specific instance of FrontDoorWebApplicationFirewallPolicy_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForFrontDoorWebApplicationFirewallPolicy_Spec(subject FrontDoorWebApplicationFirewallPolicy_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.FrontDoorWebApplicationFirewallPolicy_Spec
+	err := copied.AssignProperties_To_FrontDoorWebApplicationFirewallPolicy_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FrontDoorWebApplicationFirewallPolicy_Spec
+	err = actual.AssignProperties_From_FrontDoorWebApplicationFirewallPolicy_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_FrontDoorWebApplicationFirewallPolicy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of FrontDoorWebApplicationFirewallPolicy_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFrontDoorWebApplicationFirewallPolicy_Spec, FrontDoorWebApplicationFirewallPolicy_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForFrontDoorWebApplicationFirewallPolicy_Spec runs a test to see if a specific instance of FrontDoorWebApplicationFirewallPolicy_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForFrontDoorWebApplicationFirewallPolicy_Spec(subject FrontDoorWebApplicationFirewallPolicy_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual FrontDoorWebApplicationFirewallPolicy_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of FrontDoorWebApplicationFirewallPolicy_Spec instances for property testing - lazily instantiated by
+// FrontDoorWebApplicationFirewallPolicy_SpecGenerator()
+var frontDoorWebApplicationFirewallPolicy_SpecGenerator gopter.Gen
+
+// FrontDoorWebApplicationFirewallPolicy_SpecGenerator returns a generator of FrontDoorWebApplicationFirewallPolicy_Spec instances for property testing.
+// We first initialize frontDoorWebApplicationFirewallPolicy_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func FrontDoorWebApplicationFirewallPolicy_SpecGenerator() gopter.Gen {
+	if frontDoorWebApplicationFirewallPolicy_SpecGenerator != nil {
+		return frontDoorWebApplicationFirewallPolicy_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForFrontDoorWebApplicationFirewallPolicy_Spec(generators)
+	frontDoorWebApplicationFirewallPolicy_SpecGenerator = gen.Struct(reflect.TypeOf(FrontDoorWebApplicationFirewallPolicy_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForFrontDoorWebApplicationFirewallPolicy_Spec(generators)
+	AddRelatedPropertyGeneratorsForFrontDoorWebApplicationFirewallPolicy_Spec(generators)
+	frontDoorWebApplicationFirewallPolicy_SpecGenerator = gen.Struct(reflect.TypeOf(FrontDoorWebApplicationFirewallPolicy_Spec{}), generators)
+
+	return frontDoorWebApplicationFirewallPolicy_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForFrontDoorWebApplicationFirewallPolicy_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForFrontDoorWebApplicationFirewallPolicy_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["Etag"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForFrontDoorWebApplicationFirewallPolicy_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForFrontDoorWebApplicationFirewallPolicy_Spec(gens map[string]gopter.Gen) {
+	gens["CustomRules"] = gen.PtrOf(CustomRuleListGenerator())
+	gens["ManagedRules"] = gen.PtrOf(ManagedRuleSetListGenerator())
+	gens["PolicySettings"] = gen.PtrOf(PolicySettingsGenerator())
+	gens["Sku"] = gen.PtrOf(SkuGenerator())
+}
+
 func Test_FrontendEndpointLink_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -734,6 +841,839 @@ func FrontendEndpointLink_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForFrontendEndpointLink_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFrontendEndpointLink_STATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ManagedRuleExclusion_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ManagedRuleExclusion to ManagedRuleExclusion via AssignProperties_To_ManagedRuleExclusion & AssignProperties_From_ManagedRuleExclusion returns original",
+		prop.ForAll(RunPropertyAssignmentTestForManagedRuleExclusion, ManagedRuleExclusionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForManagedRuleExclusion tests if a specific instance of ManagedRuleExclusion can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForManagedRuleExclusion(subject ManagedRuleExclusion) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ManagedRuleExclusion
+	err := copied.AssignProperties_To_ManagedRuleExclusion(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ManagedRuleExclusion
+	err = actual.AssignProperties_From_ManagedRuleExclusion(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ManagedRuleExclusion_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedRuleExclusion via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedRuleExclusion, ManagedRuleExclusionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedRuleExclusion runs a test to see if a specific instance of ManagedRuleExclusion round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedRuleExclusion(subject ManagedRuleExclusion) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedRuleExclusion
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedRuleExclusion instances for property testing - lazily instantiated by
+// ManagedRuleExclusionGenerator()
+var managedRuleExclusionGenerator gopter.Gen
+
+// ManagedRuleExclusionGenerator returns a generator of ManagedRuleExclusion instances for property testing.
+func ManagedRuleExclusionGenerator() gopter.Gen {
+	if managedRuleExclusionGenerator != nil {
+		return managedRuleExclusionGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedRuleExclusion(generators)
+	managedRuleExclusionGenerator = gen.Struct(reflect.TypeOf(ManagedRuleExclusion{}), generators)
+
+	return managedRuleExclusionGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedRuleExclusion is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedRuleExclusion(gens map[string]gopter.Gen) {
+	gens["MatchVariable"] = gen.PtrOf(gen.OneConstOf(
+		ManagedRuleExclusion_MatchVariable_QueryStringArgNames,
+		ManagedRuleExclusion_MatchVariable_RequestBodyJsonArgNames,
+		ManagedRuleExclusion_MatchVariable_RequestBodyPostArgNames,
+		ManagedRuleExclusion_MatchVariable_RequestCookieNames,
+		ManagedRuleExclusion_MatchVariable_RequestHeaderNames))
+	gens["Selector"] = gen.PtrOf(gen.AlphaString())
+	gens["SelectorMatchOperator"] = gen.PtrOf(gen.OneConstOf(
+		ManagedRuleExclusion_SelectorMatchOperator_Contains,
+		ManagedRuleExclusion_SelectorMatchOperator_EndsWith,
+		ManagedRuleExclusion_SelectorMatchOperator_Equals,
+		ManagedRuleExclusion_SelectorMatchOperator_EqualsAny,
+		ManagedRuleExclusion_SelectorMatchOperator_StartsWith))
+}
+
+func Test_ManagedRuleExclusion_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ManagedRuleExclusion_STATUS to ManagedRuleExclusion_STATUS via AssignProperties_To_ManagedRuleExclusion_STATUS & AssignProperties_From_ManagedRuleExclusion_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForManagedRuleExclusion_STATUS, ManagedRuleExclusion_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForManagedRuleExclusion_STATUS tests if a specific instance of ManagedRuleExclusion_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForManagedRuleExclusion_STATUS(subject ManagedRuleExclusion_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ManagedRuleExclusion_STATUS
+	err := copied.AssignProperties_To_ManagedRuleExclusion_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ManagedRuleExclusion_STATUS
+	err = actual.AssignProperties_From_ManagedRuleExclusion_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ManagedRuleExclusion_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedRuleExclusion_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedRuleExclusion_STATUS, ManagedRuleExclusion_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedRuleExclusion_STATUS runs a test to see if a specific instance of ManagedRuleExclusion_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedRuleExclusion_STATUS(subject ManagedRuleExclusion_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedRuleExclusion_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedRuleExclusion_STATUS instances for property testing - lazily instantiated by
+// ManagedRuleExclusion_STATUSGenerator()
+var managedRuleExclusion_STATUSGenerator gopter.Gen
+
+// ManagedRuleExclusion_STATUSGenerator returns a generator of ManagedRuleExclusion_STATUS instances for property testing.
+func ManagedRuleExclusion_STATUSGenerator() gopter.Gen {
+	if managedRuleExclusion_STATUSGenerator != nil {
+		return managedRuleExclusion_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedRuleExclusion_STATUS(generators)
+	managedRuleExclusion_STATUSGenerator = gen.Struct(reflect.TypeOf(ManagedRuleExclusion_STATUS{}), generators)
+
+	return managedRuleExclusion_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedRuleExclusion_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedRuleExclusion_STATUS(gens map[string]gopter.Gen) {
+	gens["MatchVariable"] = gen.PtrOf(gen.OneConstOf(
+		ManagedRuleExclusion_MatchVariable_STATUS_QueryStringArgNames,
+		ManagedRuleExclusion_MatchVariable_STATUS_RequestBodyJsonArgNames,
+		ManagedRuleExclusion_MatchVariable_STATUS_RequestBodyPostArgNames,
+		ManagedRuleExclusion_MatchVariable_STATUS_RequestCookieNames,
+		ManagedRuleExclusion_MatchVariable_STATUS_RequestHeaderNames))
+	gens["Selector"] = gen.PtrOf(gen.AlphaString())
+	gens["SelectorMatchOperator"] = gen.PtrOf(gen.OneConstOf(
+		ManagedRuleExclusion_SelectorMatchOperator_STATUS_Contains,
+		ManagedRuleExclusion_SelectorMatchOperator_STATUS_EndsWith,
+		ManagedRuleExclusion_SelectorMatchOperator_STATUS_Equals,
+		ManagedRuleExclusion_SelectorMatchOperator_STATUS_EqualsAny,
+		ManagedRuleExclusion_SelectorMatchOperator_STATUS_StartsWith))
+}
+
+func Test_ManagedRuleGroupOverride_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ManagedRuleGroupOverride to ManagedRuleGroupOverride via AssignProperties_To_ManagedRuleGroupOverride & AssignProperties_From_ManagedRuleGroupOverride returns original",
+		prop.ForAll(RunPropertyAssignmentTestForManagedRuleGroupOverride, ManagedRuleGroupOverrideGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForManagedRuleGroupOverride tests if a specific instance of ManagedRuleGroupOverride can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForManagedRuleGroupOverride(subject ManagedRuleGroupOverride) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ManagedRuleGroupOverride
+	err := copied.AssignProperties_To_ManagedRuleGroupOverride(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ManagedRuleGroupOverride
+	err = actual.AssignProperties_From_ManagedRuleGroupOverride(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ManagedRuleGroupOverride_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedRuleGroupOverride via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedRuleGroupOverride, ManagedRuleGroupOverrideGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedRuleGroupOverride runs a test to see if a specific instance of ManagedRuleGroupOverride round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedRuleGroupOverride(subject ManagedRuleGroupOverride) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedRuleGroupOverride
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedRuleGroupOverride instances for property testing - lazily instantiated by
+// ManagedRuleGroupOverrideGenerator()
+var managedRuleGroupOverrideGenerator gopter.Gen
+
+// ManagedRuleGroupOverrideGenerator returns a generator of ManagedRuleGroupOverride instances for property testing.
+// We first initialize managedRuleGroupOverrideGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ManagedRuleGroupOverrideGenerator() gopter.Gen {
+	if managedRuleGroupOverrideGenerator != nil {
+		return managedRuleGroupOverrideGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedRuleGroupOverride(generators)
+	managedRuleGroupOverrideGenerator = gen.Struct(reflect.TypeOf(ManagedRuleGroupOverride{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedRuleGroupOverride(generators)
+	AddRelatedPropertyGeneratorsForManagedRuleGroupOverride(generators)
+	managedRuleGroupOverrideGenerator = gen.Struct(reflect.TypeOf(ManagedRuleGroupOverride{}), generators)
+
+	return managedRuleGroupOverrideGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedRuleGroupOverride is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedRuleGroupOverride(gens map[string]gopter.Gen) {
+	gens["RuleGroupName"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForManagedRuleGroupOverride is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedRuleGroupOverride(gens map[string]gopter.Gen) {
+	gens["Exclusions"] = gen.SliceOf(ManagedRuleExclusionGenerator())
+	gens["Rules"] = gen.SliceOf(ManagedRuleOverrideGenerator())
+}
+
+func Test_ManagedRuleGroupOverride_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ManagedRuleGroupOverride_STATUS to ManagedRuleGroupOverride_STATUS via AssignProperties_To_ManagedRuleGroupOverride_STATUS & AssignProperties_From_ManagedRuleGroupOverride_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForManagedRuleGroupOverride_STATUS, ManagedRuleGroupOverride_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForManagedRuleGroupOverride_STATUS tests if a specific instance of ManagedRuleGroupOverride_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForManagedRuleGroupOverride_STATUS(subject ManagedRuleGroupOverride_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ManagedRuleGroupOverride_STATUS
+	err := copied.AssignProperties_To_ManagedRuleGroupOverride_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ManagedRuleGroupOverride_STATUS
+	err = actual.AssignProperties_From_ManagedRuleGroupOverride_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ManagedRuleGroupOverride_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedRuleGroupOverride_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedRuleGroupOverride_STATUS, ManagedRuleGroupOverride_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedRuleGroupOverride_STATUS runs a test to see if a specific instance of ManagedRuleGroupOverride_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedRuleGroupOverride_STATUS(subject ManagedRuleGroupOverride_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedRuleGroupOverride_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedRuleGroupOverride_STATUS instances for property testing - lazily instantiated by
+// ManagedRuleGroupOverride_STATUSGenerator()
+var managedRuleGroupOverride_STATUSGenerator gopter.Gen
+
+// ManagedRuleGroupOverride_STATUSGenerator returns a generator of ManagedRuleGroupOverride_STATUS instances for property testing.
+// We first initialize managedRuleGroupOverride_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ManagedRuleGroupOverride_STATUSGenerator() gopter.Gen {
+	if managedRuleGroupOverride_STATUSGenerator != nil {
+		return managedRuleGroupOverride_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedRuleGroupOverride_STATUS(generators)
+	managedRuleGroupOverride_STATUSGenerator = gen.Struct(reflect.TypeOf(ManagedRuleGroupOverride_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedRuleGroupOverride_STATUS(generators)
+	AddRelatedPropertyGeneratorsForManagedRuleGroupOverride_STATUS(generators)
+	managedRuleGroupOverride_STATUSGenerator = gen.Struct(reflect.TypeOf(ManagedRuleGroupOverride_STATUS{}), generators)
+
+	return managedRuleGroupOverride_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedRuleGroupOverride_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedRuleGroupOverride_STATUS(gens map[string]gopter.Gen) {
+	gens["RuleGroupName"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForManagedRuleGroupOverride_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedRuleGroupOverride_STATUS(gens map[string]gopter.Gen) {
+	gens["Exclusions"] = gen.SliceOf(ManagedRuleExclusion_STATUSGenerator())
+	gens["Rules"] = gen.SliceOf(ManagedRuleOverride_STATUSGenerator())
+}
+
+func Test_ManagedRuleOverride_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ManagedRuleOverride to ManagedRuleOverride via AssignProperties_To_ManagedRuleOverride & AssignProperties_From_ManagedRuleOverride returns original",
+		prop.ForAll(RunPropertyAssignmentTestForManagedRuleOverride, ManagedRuleOverrideGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForManagedRuleOverride tests if a specific instance of ManagedRuleOverride can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForManagedRuleOverride(subject ManagedRuleOverride) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ManagedRuleOverride
+	err := copied.AssignProperties_To_ManagedRuleOverride(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ManagedRuleOverride
+	err = actual.AssignProperties_From_ManagedRuleOverride(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ManagedRuleOverride_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedRuleOverride via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedRuleOverride, ManagedRuleOverrideGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedRuleOverride runs a test to see if a specific instance of ManagedRuleOverride round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedRuleOverride(subject ManagedRuleOverride) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedRuleOverride
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedRuleOverride instances for property testing - lazily instantiated by
+// ManagedRuleOverrideGenerator()
+var managedRuleOverrideGenerator gopter.Gen
+
+// ManagedRuleOverrideGenerator returns a generator of ManagedRuleOverride instances for property testing.
+// We first initialize managedRuleOverrideGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ManagedRuleOverrideGenerator() gopter.Gen {
+	if managedRuleOverrideGenerator != nil {
+		return managedRuleOverrideGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedRuleOverride(generators)
+	managedRuleOverrideGenerator = gen.Struct(reflect.TypeOf(ManagedRuleOverride{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedRuleOverride(generators)
+	AddRelatedPropertyGeneratorsForManagedRuleOverride(generators)
+	managedRuleOverrideGenerator = gen.Struct(reflect.TypeOf(ManagedRuleOverride{}), generators)
+
+	return managedRuleOverrideGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedRuleOverride is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedRuleOverride(gens map[string]gopter.Gen) {
+	gens["Action"] = gen.PtrOf(gen.OneConstOf(
+		ActionType_Allow,
+		ActionType_AnomalyScoring,
+		ActionType_Block,
+		ActionType_Log,
+		ActionType_Redirect))
+	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(ManagedRuleEnabledState_Disabled, ManagedRuleEnabledState_Enabled))
+	gens["RuleId"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForManagedRuleOverride is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedRuleOverride(gens map[string]gopter.Gen) {
+	gens["Exclusions"] = gen.SliceOf(ManagedRuleExclusionGenerator())
+}
+
+func Test_ManagedRuleOverride_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ManagedRuleOverride_STATUS to ManagedRuleOverride_STATUS via AssignProperties_To_ManagedRuleOverride_STATUS & AssignProperties_From_ManagedRuleOverride_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForManagedRuleOverride_STATUS, ManagedRuleOverride_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForManagedRuleOverride_STATUS tests if a specific instance of ManagedRuleOverride_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForManagedRuleOverride_STATUS(subject ManagedRuleOverride_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ManagedRuleOverride_STATUS
+	err := copied.AssignProperties_To_ManagedRuleOverride_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ManagedRuleOverride_STATUS
+	err = actual.AssignProperties_From_ManagedRuleOverride_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ManagedRuleOverride_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedRuleOverride_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedRuleOverride_STATUS, ManagedRuleOverride_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedRuleOverride_STATUS runs a test to see if a specific instance of ManagedRuleOverride_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedRuleOverride_STATUS(subject ManagedRuleOverride_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedRuleOverride_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedRuleOverride_STATUS instances for property testing - lazily instantiated by
+// ManagedRuleOverride_STATUSGenerator()
+var managedRuleOverride_STATUSGenerator gopter.Gen
+
+// ManagedRuleOverride_STATUSGenerator returns a generator of ManagedRuleOverride_STATUS instances for property testing.
+// We first initialize managedRuleOverride_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ManagedRuleOverride_STATUSGenerator() gopter.Gen {
+	if managedRuleOverride_STATUSGenerator != nil {
+		return managedRuleOverride_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedRuleOverride_STATUS(generators)
+	managedRuleOverride_STATUSGenerator = gen.Struct(reflect.TypeOf(ManagedRuleOverride_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedRuleOverride_STATUS(generators)
+	AddRelatedPropertyGeneratorsForManagedRuleOverride_STATUS(generators)
+	managedRuleOverride_STATUSGenerator = gen.Struct(reflect.TypeOf(ManagedRuleOverride_STATUS{}), generators)
+
+	return managedRuleOverride_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedRuleOverride_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedRuleOverride_STATUS(gens map[string]gopter.Gen) {
+	gens["Action"] = gen.PtrOf(gen.OneConstOf(
+		ActionType_STATUS_Allow,
+		ActionType_STATUS_AnomalyScoring,
+		ActionType_STATUS_Block,
+		ActionType_STATUS_Log,
+		ActionType_STATUS_Redirect))
+	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(ManagedRuleEnabledState_STATUS_Disabled, ManagedRuleEnabledState_STATUS_Enabled))
+	gens["RuleId"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForManagedRuleOverride_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedRuleOverride_STATUS(gens map[string]gopter.Gen) {
+	gens["Exclusions"] = gen.SliceOf(ManagedRuleExclusion_STATUSGenerator())
+}
+
+func Test_ManagedRuleSet_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ManagedRuleSet to ManagedRuleSet via AssignProperties_To_ManagedRuleSet & AssignProperties_From_ManagedRuleSet returns original",
+		prop.ForAll(RunPropertyAssignmentTestForManagedRuleSet, ManagedRuleSetGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForManagedRuleSet tests if a specific instance of ManagedRuleSet can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForManagedRuleSet(subject ManagedRuleSet) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ManagedRuleSet
+	err := copied.AssignProperties_To_ManagedRuleSet(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ManagedRuleSet
+	err = actual.AssignProperties_From_ManagedRuleSet(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ManagedRuleSet_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedRuleSet via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedRuleSet, ManagedRuleSetGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedRuleSet runs a test to see if a specific instance of ManagedRuleSet round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedRuleSet(subject ManagedRuleSet) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedRuleSet
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedRuleSet instances for property testing - lazily instantiated by ManagedRuleSetGenerator()
+var managedRuleSetGenerator gopter.Gen
+
+// ManagedRuleSetGenerator returns a generator of ManagedRuleSet instances for property testing.
+// We first initialize managedRuleSetGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ManagedRuleSetGenerator() gopter.Gen {
+	if managedRuleSetGenerator != nil {
+		return managedRuleSetGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedRuleSet(generators)
+	managedRuleSetGenerator = gen.Struct(reflect.TypeOf(ManagedRuleSet{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedRuleSet(generators)
+	AddRelatedPropertyGeneratorsForManagedRuleSet(generators)
+	managedRuleSetGenerator = gen.Struct(reflect.TypeOf(ManagedRuleSet{}), generators)
+
+	return managedRuleSetGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedRuleSet is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedRuleSet(gens map[string]gopter.Gen) {
+	gens["RuleSetAction"] = gen.PtrOf(gen.OneConstOf(ManagedRuleSetActionType_Block, ManagedRuleSetActionType_Log, ManagedRuleSetActionType_Redirect))
+	gens["RuleSetType"] = gen.PtrOf(gen.AlphaString())
+	gens["RuleSetVersion"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForManagedRuleSet is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedRuleSet(gens map[string]gopter.Gen) {
+	gens["Exclusions"] = gen.SliceOf(ManagedRuleExclusionGenerator())
+	gens["RuleGroupOverrides"] = gen.SliceOf(ManagedRuleGroupOverrideGenerator())
 }
 
 func Test_ManagedRuleSetList_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -939,6 +1879,395 @@ func ManagedRuleSetList_STATUSGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForManagedRuleSetList_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedRuleSetList_STATUS(gens map[string]gopter.Gen) {
 	gens["ManagedRuleSets"] = gen.SliceOf(ManagedRuleSet_STATUSGenerator())
+}
+
+func Test_ManagedRuleSet_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ManagedRuleSet_STATUS to ManagedRuleSet_STATUS via AssignProperties_To_ManagedRuleSet_STATUS & AssignProperties_From_ManagedRuleSet_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForManagedRuleSet_STATUS, ManagedRuleSet_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForManagedRuleSet_STATUS tests if a specific instance of ManagedRuleSet_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForManagedRuleSet_STATUS(subject ManagedRuleSet_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ManagedRuleSet_STATUS
+	err := copied.AssignProperties_To_ManagedRuleSet_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ManagedRuleSet_STATUS
+	err = actual.AssignProperties_From_ManagedRuleSet_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ManagedRuleSet_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedRuleSet_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedRuleSet_STATUS, ManagedRuleSet_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedRuleSet_STATUS runs a test to see if a specific instance of ManagedRuleSet_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedRuleSet_STATUS(subject ManagedRuleSet_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedRuleSet_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedRuleSet_STATUS instances for property testing - lazily instantiated by
+// ManagedRuleSet_STATUSGenerator()
+var managedRuleSet_STATUSGenerator gopter.Gen
+
+// ManagedRuleSet_STATUSGenerator returns a generator of ManagedRuleSet_STATUS instances for property testing.
+// We first initialize managedRuleSet_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ManagedRuleSet_STATUSGenerator() gopter.Gen {
+	if managedRuleSet_STATUSGenerator != nil {
+		return managedRuleSet_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedRuleSet_STATUS(generators)
+	managedRuleSet_STATUSGenerator = gen.Struct(reflect.TypeOf(ManagedRuleSet_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedRuleSet_STATUS(generators)
+	AddRelatedPropertyGeneratorsForManagedRuleSet_STATUS(generators)
+	managedRuleSet_STATUSGenerator = gen.Struct(reflect.TypeOf(ManagedRuleSet_STATUS{}), generators)
+
+	return managedRuleSet_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedRuleSet_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedRuleSet_STATUS(gens map[string]gopter.Gen) {
+	gens["RuleSetAction"] = gen.PtrOf(gen.OneConstOf(ManagedRuleSetActionType_STATUS_Block, ManagedRuleSetActionType_STATUS_Log, ManagedRuleSetActionType_STATUS_Redirect))
+	gens["RuleSetType"] = gen.PtrOf(gen.AlphaString())
+	gens["RuleSetVersion"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForManagedRuleSet_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedRuleSet_STATUS(gens map[string]gopter.Gen) {
+	gens["Exclusions"] = gen.SliceOf(ManagedRuleExclusion_STATUSGenerator())
+	gens["RuleGroupOverrides"] = gen.SliceOf(ManagedRuleGroupOverride_STATUSGenerator())
+}
+
+func Test_MatchCondition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from MatchCondition to MatchCondition via AssignProperties_To_MatchCondition & AssignProperties_From_MatchCondition returns original",
+		prop.ForAll(RunPropertyAssignmentTestForMatchCondition, MatchConditionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForMatchCondition tests if a specific instance of MatchCondition can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForMatchCondition(subject MatchCondition) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.MatchCondition
+	err := copied.AssignProperties_To_MatchCondition(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual MatchCondition
+	err = actual.AssignProperties_From_MatchCondition(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_MatchCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of MatchCondition via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMatchCondition, MatchConditionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForMatchCondition runs a test to see if a specific instance of MatchCondition round trips to JSON and back losslessly
+func RunJSONSerializationTestForMatchCondition(subject MatchCondition) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual MatchCondition
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of MatchCondition instances for property testing - lazily instantiated by MatchConditionGenerator()
+var matchConditionGenerator gopter.Gen
+
+// MatchConditionGenerator returns a generator of MatchCondition instances for property testing.
+func MatchConditionGenerator() gopter.Gen {
+	if matchConditionGenerator != nil {
+		return matchConditionGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForMatchCondition(generators)
+	matchConditionGenerator = gen.Struct(reflect.TypeOf(MatchCondition{}), generators)
+
+	return matchConditionGenerator
+}
+
+// AddIndependentPropertyGeneratorsForMatchCondition is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMatchCondition(gens map[string]gopter.Gen) {
+	gens["MatchValue"] = gen.SliceOf(gen.AlphaString())
+	gens["MatchVariable"] = gen.PtrOf(gen.OneConstOf(
+		MatchCondition_MatchVariable_Cookies,
+		MatchCondition_MatchVariable_PostArgs,
+		MatchCondition_MatchVariable_QueryString,
+		MatchCondition_MatchVariable_RemoteAddr,
+		MatchCondition_MatchVariable_RequestBody,
+		MatchCondition_MatchVariable_RequestHeader,
+		MatchCondition_MatchVariable_RequestMethod,
+		MatchCondition_MatchVariable_RequestUri,
+		MatchCondition_MatchVariable_SocketAddr))
+	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
+	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
+		MatchCondition_Operator_Any,
+		MatchCondition_Operator_BeginsWith,
+		MatchCondition_Operator_Contains,
+		MatchCondition_Operator_EndsWith,
+		MatchCondition_Operator_Equal,
+		MatchCondition_Operator_GeoMatch,
+		MatchCondition_Operator_GreaterThan,
+		MatchCondition_Operator_GreaterThanOrEqual,
+		MatchCondition_Operator_IPMatch,
+		MatchCondition_Operator_LessThan,
+		MatchCondition_Operator_LessThanOrEqual,
+		MatchCondition_Operator_RegEx))
+	gens["Selector"] = gen.PtrOf(gen.AlphaString())
+	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
+		TransformType_Lowercase,
+		TransformType_RemoveNulls,
+		TransformType_Trim,
+		TransformType_Uppercase,
+		TransformType_UrlDecode,
+		TransformType_UrlEncode))
+}
+
+func Test_MatchCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from MatchCondition_STATUS to MatchCondition_STATUS via AssignProperties_To_MatchCondition_STATUS & AssignProperties_From_MatchCondition_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForMatchCondition_STATUS, MatchCondition_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForMatchCondition_STATUS tests if a specific instance of MatchCondition_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForMatchCondition_STATUS(subject MatchCondition_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.MatchCondition_STATUS
+	err := copied.AssignProperties_To_MatchCondition_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual MatchCondition_STATUS
+	err = actual.AssignProperties_From_MatchCondition_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_MatchCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of MatchCondition_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMatchCondition_STATUS, MatchCondition_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForMatchCondition_STATUS runs a test to see if a specific instance of MatchCondition_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForMatchCondition_STATUS(subject MatchCondition_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual MatchCondition_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of MatchCondition_STATUS instances for property testing - lazily instantiated by
+// MatchCondition_STATUSGenerator()
+var matchCondition_STATUSGenerator gopter.Gen
+
+// MatchCondition_STATUSGenerator returns a generator of MatchCondition_STATUS instances for property testing.
+func MatchCondition_STATUSGenerator() gopter.Gen {
+	if matchCondition_STATUSGenerator != nil {
+		return matchCondition_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForMatchCondition_STATUS(generators)
+	matchCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(MatchCondition_STATUS{}), generators)
+
+	return matchCondition_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForMatchCondition_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMatchCondition_STATUS(gens map[string]gopter.Gen) {
+	gens["MatchValue"] = gen.SliceOf(gen.AlphaString())
+	gens["MatchVariable"] = gen.PtrOf(gen.OneConstOf(
+		MatchCondition_MatchVariable_STATUS_Cookies,
+		MatchCondition_MatchVariable_STATUS_PostArgs,
+		MatchCondition_MatchVariable_STATUS_QueryString,
+		MatchCondition_MatchVariable_STATUS_RemoteAddr,
+		MatchCondition_MatchVariable_STATUS_RequestBody,
+		MatchCondition_MatchVariable_STATUS_RequestHeader,
+		MatchCondition_MatchVariable_STATUS_RequestMethod,
+		MatchCondition_MatchVariable_STATUS_RequestUri,
+		MatchCondition_MatchVariable_STATUS_SocketAddr))
+	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
+	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
+		MatchCondition_Operator_STATUS_Any,
+		MatchCondition_Operator_STATUS_BeginsWith,
+		MatchCondition_Operator_STATUS_Contains,
+		MatchCondition_Operator_STATUS_EndsWith,
+		MatchCondition_Operator_STATUS_Equal,
+		MatchCondition_Operator_STATUS_GeoMatch,
+		MatchCondition_Operator_STATUS_GreaterThan,
+		MatchCondition_Operator_STATUS_GreaterThanOrEqual,
+		MatchCondition_Operator_STATUS_IPMatch,
+		MatchCondition_Operator_STATUS_LessThan,
+		MatchCondition_Operator_STATUS_LessThanOrEqual,
+		MatchCondition_Operator_STATUS_RegEx))
+	gens["Selector"] = gen.PtrOf(gen.AlphaString())
+	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
+		TransformType_STATUS_Lowercase,
+		TransformType_STATUS_RemoveNulls,
+		TransformType_STATUS_Trim,
+		TransformType_STATUS_Uppercase,
+		TransformType_STATUS_UrlDecode,
+		TransformType_STATUS_UrlEncode))
 }
 
 func Test_PolicySettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1566,32 +2895,75 @@ func AddIndependentPropertyGeneratorsForSku_STATUS(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(Sku_Name_STATUS_Classic_AzureFrontDoor, Sku_Name_STATUS_Premium_AzureFrontDoor, Sku_Name_STATUS_Standard_AzureFrontDoor))
 }
 
-func Test_CustomRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_WebApplicationFirewallPolicy_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from WebApplicationFirewallPolicy to hub returns original",
+		prop.ForAll(RunResourceConversionTestForWebApplicationFirewallPolicy, WebApplicationFirewallPolicyGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForWebApplicationFirewallPolicy tests if a specific instance of WebApplicationFirewallPolicy round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForWebApplicationFirewallPolicy(subject WebApplicationFirewallPolicy) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.WebApplicationFirewallPolicy
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual WebApplicationFirewallPolicy
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_WebApplicationFirewallPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from CustomRule to CustomRule via AssignProperties_To_CustomRule & AssignProperties_From_CustomRule returns original",
-		prop.ForAll(RunPropertyAssignmentTestForCustomRule, CustomRuleGenerator()))
+		"Round trip from WebApplicationFirewallPolicy to WebApplicationFirewallPolicy via AssignProperties_To_WebApplicationFirewallPolicy & AssignProperties_From_WebApplicationFirewallPolicy returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWebApplicationFirewallPolicy, WebApplicationFirewallPolicyGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForCustomRule tests if a specific instance of CustomRule can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForCustomRule(subject CustomRule) string {
+// RunPropertyAssignmentTestForWebApplicationFirewallPolicy tests if a specific instance of WebApplicationFirewallPolicy can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForWebApplicationFirewallPolicy(subject WebApplicationFirewallPolicy) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CustomRule
-	err := copied.AssignProperties_To_CustomRule(&other)
+	var other storage.WebApplicationFirewallPolicy
+	err := copied.AssignProperties_To_WebApplicationFirewallPolicy(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual CustomRule
-	err = actual.AssignProperties_From_CustomRule(&other)
+	var actual WebApplicationFirewallPolicy
+	err = actual.AssignProperties_From_WebApplicationFirewallPolicy(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1608,20 +2980,20 @@ func RunPropertyAssignmentTestForCustomRule(subject CustomRule) string {
 	return ""
 }
 
-func Test_CustomRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_WebApplicationFirewallPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of CustomRule via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCustomRule, CustomRuleGenerator()))
+		"Round trip of WebApplicationFirewallPolicy via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWebApplicationFirewallPolicy, WebApplicationFirewallPolicyGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForCustomRule runs a test to see if a specific instance of CustomRule round trips to JSON and back losslessly
-func RunJSONSerializationTestForCustomRule(subject CustomRule) string {
+// RunJSONSerializationTestForWebApplicationFirewallPolicy runs a test to see if a specific instance of WebApplicationFirewallPolicy round trips to JSON and back losslessly
+func RunJSONSerializationTestForWebApplicationFirewallPolicy(subject WebApplicationFirewallPolicy) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1629,7 +3001,7 @@ func RunJSONSerializationTestForCustomRule(subject CustomRule) string {
 	}
 
 	// Deserialize back into memory
-	var actual CustomRule
+	var actual WebApplicationFirewallPolicy
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1647,1397 +3019,25 @@ func RunJSONSerializationTestForCustomRule(subject CustomRule) string {
 	return ""
 }
 
-// Generator of CustomRule instances for property testing - lazily instantiated by CustomRuleGenerator()
-var customRuleGenerator gopter.Gen
+// Generator of WebApplicationFirewallPolicy instances for property testing - lazily instantiated by
+// WebApplicationFirewallPolicyGenerator()
+var webApplicationFirewallPolicyGenerator gopter.Gen
 
-// CustomRuleGenerator returns a generator of CustomRule instances for property testing.
-// We first initialize customRuleGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func CustomRuleGenerator() gopter.Gen {
-	if customRuleGenerator != nil {
-		return customRuleGenerator
+// WebApplicationFirewallPolicyGenerator returns a generator of WebApplicationFirewallPolicy instances for property testing.
+func WebApplicationFirewallPolicyGenerator() gopter.Gen {
+	if webApplicationFirewallPolicyGenerator != nil {
+		return webApplicationFirewallPolicyGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCustomRule(generators)
-	customRuleGenerator = gen.Struct(reflect.TypeOf(CustomRule{}), generators)
+	AddRelatedPropertyGeneratorsForWebApplicationFirewallPolicy(generators)
+	webApplicationFirewallPolicyGenerator = gen.Struct(reflect.TypeOf(WebApplicationFirewallPolicy{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCustomRule(generators)
-	AddRelatedPropertyGeneratorsForCustomRule(generators)
-	customRuleGenerator = gen.Struct(reflect.TypeOf(CustomRule{}), generators)
-
-	return customRuleGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCustomRule is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCustomRule(gens map[string]gopter.Gen) {
-	gens["Action"] = gen.PtrOf(gen.OneConstOf(
-		ActionType_Allow,
-		ActionType_AnomalyScoring,
-		ActionType_Block,
-		ActionType_Log,
-		ActionType_Redirect))
-	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(CustomRule_EnabledState_Disabled, CustomRule_EnabledState_Enabled))
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Priority"] = gen.PtrOf(gen.Int())
-	gens["RateLimitDurationInMinutes"] = gen.PtrOf(gen.Int())
-	gens["RateLimitThreshold"] = gen.PtrOf(gen.Int())
-	gens["RuleType"] = gen.PtrOf(gen.OneConstOf(CustomRule_RuleType_MatchRule, CustomRule_RuleType_RateLimitRule))
-}
-
-// AddRelatedPropertyGeneratorsForCustomRule is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForCustomRule(gens map[string]gopter.Gen) {
-	gens["MatchConditions"] = gen.SliceOf(MatchConditionGenerator())
-}
-
-func Test_CustomRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from CustomRule_STATUS to CustomRule_STATUS via AssignProperties_To_CustomRule_STATUS & AssignProperties_From_CustomRule_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForCustomRule_STATUS, CustomRule_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForCustomRule_STATUS tests if a specific instance of CustomRule_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForCustomRule_STATUS(subject CustomRule_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CustomRule_STATUS
-	err := copied.AssignProperties_To_CustomRule_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual CustomRule_STATUS
-	err = actual.AssignProperties_From_CustomRule_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_CustomRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CustomRule_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCustomRule_STATUS, CustomRule_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForCustomRule_STATUS runs a test to see if a specific instance of CustomRule_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForCustomRule_STATUS(subject CustomRule_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual CustomRule_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of CustomRule_STATUS instances for property testing - lazily instantiated by CustomRule_STATUSGenerator()
-var customRule_STATUSGenerator gopter.Gen
-
-// CustomRule_STATUSGenerator returns a generator of CustomRule_STATUS instances for property testing.
-// We first initialize customRule_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func CustomRule_STATUSGenerator() gopter.Gen {
-	if customRule_STATUSGenerator != nil {
-		return customRule_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCustomRule_STATUS(generators)
-	customRule_STATUSGenerator = gen.Struct(reflect.TypeOf(CustomRule_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCustomRule_STATUS(generators)
-	AddRelatedPropertyGeneratorsForCustomRule_STATUS(generators)
-	customRule_STATUSGenerator = gen.Struct(reflect.TypeOf(CustomRule_STATUS{}), generators)
-
-	return customRule_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCustomRule_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCustomRule_STATUS(gens map[string]gopter.Gen) {
-	gens["Action"] = gen.PtrOf(gen.OneConstOf(
-		ActionType_STATUS_Allow,
-		ActionType_STATUS_AnomalyScoring,
-		ActionType_STATUS_Block,
-		ActionType_STATUS_Log,
-		ActionType_STATUS_Redirect))
-	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(CustomRule_EnabledState_STATUS_Disabled, CustomRule_EnabledState_STATUS_Enabled))
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Priority"] = gen.PtrOf(gen.Int())
-	gens["RateLimitDurationInMinutes"] = gen.PtrOf(gen.Int())
-	gens["RateLimitThreshold"] = gen.PtrOf(gen.Int())
-	gens["RuleType"] = gen.PtrOf(gen.OneConstOf(CustomRule_RuleType_STATUS_MatchRule, CustomRule_RuleType_STATUS_RateLimitRule))
-}
-
-// AddRelatedPropertyGeneratorsForCustomRule_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForCustomRule_STATUS(gens map[string]gopter.Gen) {
-	gens["MatchConditions"] = gen.SliceOf(MatchCondition_STATUSGenerator())
-}
-
-func Test_ManagedRuleSet_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ManagedRuleSet to ManagedRuleSet via AssignProperties_To_ManagedRuleSet & AssignProperties_From_ManagedRuleSet returns original",
-		prop.ForAll(RunPropertyAssignmentTestForManagedRuleSet, ManagedRuleSetGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForManagedRuleSet tests if a specific instance of ManagedRuleSet can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForManagedRuleSet(subject ManagedRuleSet) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedRuleSet
-	err := copied.AssignProperties_To_ManagedRuleSet(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ManagedRuleSet
-	err = actual.AssignProperties_From_ManagedRuleSet(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ManagedRuleSet_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedRuleSet via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedRuleSet, ManagedRuleSetGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedRuleSet runs a test to see if a specific instance of ManagedRuleSet round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedRuleSet(subject ManagedRuleSet) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedRuleSet
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedRuleSet instances for property testing - lazily instantiated by ManagedRuleSetGenerator()
-var managedRuleSetGenerator gopter.Gen
-
-// ManagedRuleSetGenerator returns a generator of ManagedRuleSet instances for property testing.
-// We first initialize managedRuleSetGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ManagedRuleSetGenerator() gopter.Gen {
-	if managedRuleSetGenerator != nil {
-		return managedRuleSetGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedRuleSet(generators)
-	managedRuleSetGenerator = gen.Struct(reflect.TypeOf(ManagedRuleSet{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedRuleSet(generators)
-	AddRelatedPropertyGeneratorsForManagedRuleSet(generators)
-	managedRuleSetGenerator = gen.Struct(reflect.TypeOf(ManagedRuleSet{}), generators)
-
-	return managedRuleSetGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedRuleSet is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedRuleSet(gens map[string]gopter.Gen) {
-	gens["RuleSetAction"] = gen.PtrOf(gen.OneConstOf(ManagedRuleSetActionType_Block, ManagedRuleSetActionType_Log, ManagedRuleSetActionType_Redirect))
-	gens["RuleSetType"] = gen.PtrOf(gen.AlphaString())
-	gens["RuleSetVersion"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForManagedRuleSet is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedRuleSet(gens map[string]gopter.Gen) {
-	gens["Exclusions"] = gen.SliceOf(ManagedRuleExclusionGenerator())
-	gens["RuleGroupOverrides"] = gen.SliceOf(ManagedRuleGroupOverrideGenerator())
-}
-
-func Test_ManagedRuleSet_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ManagedRuleSet_STATUS to ManagedRuleSet_STATUS via AssignProperties_To_ManagedRuleSet_STATUS & AssignProperties_From_ManagedRuleSet_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForManagedRuleSet_STATUS, ManagedRuleSet_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForManagedRuleSet_STATUS tests if a specific instance of ManagedRuleSet_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForManagedRuleSet_STATUS(subject ManagedRuleSet_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedRuleSet_STATUS
-	err := copied.AssignProperties_To_ManagedRuleSet_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ManagedRuleSet_STATUS
-	err = actual.AssignProperties_From_ManagedRuleSet_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ManagedRuleSet_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedRuleSet_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedRuleSet_STATUS, ManagedRuleSet_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedRuleSet_STATUS runs a test to see if a specific instance of ManagedRuleSet_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedRuleSet_STATUS(subject ManagedRuleSet_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedRuleSet_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedRuleSet_STATUS instances for property testing - lazily instantiated by
-// ManagedRuleSet_STATUSGenerator()
-var managedRuleSet_STATUSGenerator gopter.Gen
-
-// ManagedRuleSet_STATUSGenerator returns a generator of ManagedRuleSet_STATUS instances for property testing.
-// We first initialize managedRuleSet_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ManagedRuleSet_STATUSGenerator() gopter.Gen {
-	if managedRuleSet_STATUSGenerator != nil {
-		return managedRuleSet_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedRuleSet_STATUS(generators)
-	managedRuleSet_STATUSGenerator = gen.Struct(reflect.TypeOf(ManagedRuleSet_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedRuleSet_STATUS(generators)
-	AddRelatedPropertyGeneratorsForManagedRuleSet_STATUS(generators)
-	managedRuleSet_STATUSGenerator = gen.Struct(reflect.TypeOf(ManagedRuleSet_STATUS{}), generators)
-
-	return managedRuleSet_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedRuleSet_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedRuleSet_STATUS(gens map[string]gopter.Gen) {
-	gens["RuleSetAction"] = gen.PtrOf(gen.OneConstOf(ManagedRuleSetActionType_STATUS_Block, ManagedRuleSetActionType_STATUS_Log, ManagedRuleSetActionType_STATUS_Redirect))
-	gens["RuleSetType"] = gen.PtrOf(gen.AlphaString())
-	gens["RuleSetVersion"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForManagedRuleSet_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedRuleSet_STATUS(gens map[string]gopter.Gen) {
-	gens["Exclusions"] = gen.SliceOf(ManagedRuleExclusion_STATUSGenerator())
-	gens["RuleGroupOverrides"] = gen.SliceOf(ManagedRuleGroupOverride_STATUSGenerator())
-}
-
-func Test_ManagedRuleExclusion_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ManagedRuleExclusion to ManagedRuleExclusion via AssignProperties_To_ManagedRuleExclusion & AssignProperties_From_ManagedRuleExclusion returns original",
-		prop.ForAll(RunPropertyAssignmentTestForManagedRuleExclusion, ManagedRuleExclusionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForManagedRuleExclusion tests if a specific instance of ManagedRuleExclusion can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForManagedRuleExclusion(subject ManagedRuleExclusion) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedRuleExclusion
-	err := copied.AssignProperties_To_ManagedRuleExclusion(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ManagedRuleExclusion
-	err = actual.AssignProperties_From_ManagedRuleExclusion(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ManagedRuleExclusion_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedRuleExclusion via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedRuleExclusion, ManagedRuleExclusionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedRuleExclusion runs a test to see if a specific instance of ManagedRuleExclusion round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedRuleExclusion(subject ManagedRuleExclusion) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedRuleExclusion
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedRuleExclusion instances for property testing - lazily instantiated by
-// ManagedRuleExclusionGenerator()
-var managedRuleExclusionGenerator gopter.Gen
-
-// ManagedRuleExclusionGenerator returns a generator of ManagedRuleExclusion instances for property testing.
-func ManagedRuleExclusionGenerator() gopter.Gen {
-	if managedRuleExclusionGenerator != nil {
-		return managedRuleExclusionGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedRuleExclusion(generators)
-	managedRuleExclusionGenerator = gen.Struct(reflect.TypeOf(ManagedRuleExclusion{}), generators)
-
-	return managedRuleExclusionGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedRuleExclusion is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedRuleExclusion(gens map[string]gopter.Gen) {
-	gens["MatchVariable"] = gen.PtrOf(gen.OneConstOf(
-		ManagedRuleExclusion_MatchVariable_QueryStringArgNames,
-		ManagedRuleExclusion_MatchVariable_RequestBodyJsonArgNames,
-		ManagedRuleExclusion_MatchVariable_RequestBodyPostArgNames,
-		ManagedRuleExclusion_MatchVariable_RequestCookieNames,
-		ManagedRuleExclusion_MatchVariable_RequestHeaderNames))
-	gens["Selector"] = gen.PtrOf(gen.AlphaString())
-	gens["SelectorMatchOperator"] = gen.PtrOf(gen.OneConstOf(
-		ManagedRuleExclusion_SelectorMatchOperator_Contains,
-		ManagedRuleExclusion_SelectorMatchOperator_EndsWith,
-		ManagedRuleExclusion_SelectorMatchOperator_Equals,
-		ManagedRuleExclusion_SelectorMatchOperator_EqualsAny,
-		ManagedRuleExclusion_SelectorMatchOperator_StartsWith))
-}
-
-func Test_ManagedRuleExclusion_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ManagedRuleExclusion_STATUS to ManagedRuleExclusion_STATUS via AssignProperties_To_ManagedRuleExclusion_STATUS & AssignProperties_From_ManagedRuleExclusion_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForManagedRuleExclusion_STATUS, ManagedRuleExclusion_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForManagedRuleExclusion_STATUS tests if a specific instance of ManagedRuleExclusion_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForManagedRuleExclusion_STATUS(subject ManagedRuleExclusion_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedRuleExclusion_STATUS
-	err := copied.AssignProperties_To_ManagedRuleExclusion_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ManagedRuleExclusion_STATUS
-	err = actual.AssignProperties_From_ManagedRuleExclusion_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ManagedRuleExclusion_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedRuleExclusion_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedRuleExclusion_STATUS, ManagedRuleExclusion_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedRuleExclusion_STATUS runs a test to see if a specific instance of ManagedRuleExclusion_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedRuleExclusion_STATUS(subject ManagedRuleExclusion_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedRuleExclusion_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedRuleExclusion_STATUS instances for property testing - lazily instantiated by
-// ManagedRuleExclusion_STATUSGenerator()
-var managedRuleExclusion_STATUSGenerator gopter.Gen
-
-// ManagedRuleExclusion_STATUSGenerator returns a generator of ManagedRuleExclusion_STATUS instances for property testing.
-func ManagedRuleExclusion_STATUSGenerator() gopter.Gen {
-	if managedRuleExclusion_STATUSGenerator != nil {
-		return managedRuleExclusion_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedRuleExclusion_STATUS(generators)
-	managedRuleExclusion_STATUSGenerator = gen.Struct(reflect.TypeOf(ManagedRuleExclusion_STATUS{}), generators)
-
-	return managedRuleExclusion_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedRuleExclusion_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedRuleExclusion_STATUS(gens map[string]gopter.Gen) {
-	gens["MatchVariable"] = gen.PtrOf(gen.OneConstOf(
-		ManagedRuleExclusion_MatchVariable_STATUS_QueryStringArgNames,
-		ManagedRuleExclusion_MatchVariable_STATUS_RequestBodyJsonArgNames,
-		ManagedRuleExclusion_MatchVariable_STATUS_RequestBodyPostArgNames,
-		ManagedRuleExclusion_MatchVariable_STATUS_RequestCookieNames,
-		ManagedRuleExclusion_MatchVariable_STATUS_RequestHeaderNames))
-	gens["Selector"] = gen.PtrOf(gen.AlphaString())
-	gens["SelectorMatchOperator"] = gen.PtrOf(gen.OneConstOf(
-		ManagedRuleExclusion_SelectorMatchOperator_STATUS_Contains,
-		ManagedRuleExclusion_SelectorMatchOperator_STATUS_EndsWith,
-		ManagedRuleExclusion_SelectorMatchOperator_STATUS_Equals,
-		ManagedRuleExclusion_SelectorMatchOperator_STATUS_EqualsAny,
-		ManagedRuleExclusion_SelectorMatchOperator_STATUS_StartsWith))
-}
-
-func Test_ManagedRuleGroupOverride_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ManagedRuleGroupOverride to ManagedRuleGroupOverride via AssignProperties_To_ManagedRuleGroupOverride & AssignProperties_From_ManagedRuleGroupOverride returns original",
-		prop.ForAll(RunPropertyAssignmentTestForManagedRuleGroupOverride, ManagedRuleGroupOverrideGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForManagedRuleGroupOverride tests if a specific instance of ManagedRuleGroupOverride can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForManagedRuleGroupOverride(subject ManagedRuleGroupOverride) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedRuleGroupOverride
-	err := copied.AssignProperties_To_ManagedRuleGroupOverride(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ManagedRuleGroupOverride
-	err = actual.AssignProperties_From_ManagedRuleGroupOverride(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ManagedRuleGroupOverride_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedRuleGroupOverride via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedRuleGroupOverride, ManagedRuleGroupOverrideGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedRuleGroupOverride runs a test to see if a specific instance of ManagedRuleGroupOverride round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedRuleGroupOverride(subject ManagedRuleGroupOverride) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedRuleGroupOverride
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedRuleGroupOverride instances for property testing - lazily instantiated by
-// ManagedRuleGroupOverrideGenerator()
-var managedRuleGroupOverrideGenerator gopter.Gen
-
-// ManagedRuleGroupOverrideGenerator returns a generator of ManagedRuleGroupOverride instances for property testing.
-// We first initialize managedRuleGroupOverrideGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ManagedRuleGroupOverrideGenerator() gopter.Gen {
-	if managedRuleGroupOverrideGenerator != nil {
-		return managedRuleGroupOverrideGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedRuleGroupOverride(generators)
-	managedRuleGroupOverrideGenerator = gen.Struct(reflect.TypeOf(ManagedRuleGroupOverride{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedRuleGroupOverride(generators)
-	AddRelatedPropertyGeneratorsForManagedRuleGroupOverride(generators)
-	managedRuleGroupOverrideGenerator = gen.Struct(reflect.TypeOf(ManagedRuleGroupOverride{}), generators)
-
-	return managedRuleGroupOverrideGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedRuleGroupOverride is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedRuleGroupOverride(gens map[string]gopter.Gen) {
-	gens["RuleGroupName"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForManagedRuleGroupOverride is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedRuleGroupOverride(gens map[string]gopter.Gen) {
-	gens["Exclusions"] = gen.SliceOf(ManagedRuleExclusionGenerator())
-	gens["Rules"] = gen.SliceOf(ManagedRuleOverrideGenerator())
-}
-
-func Test_ManagedRuleGroupOverride_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ManagedRuleGroupOverride_STATUS to ManagedRuleGroupOverride_STATUS via AssignProperties_To_ManagedRuleGroupOverride_STATUS & AssignProperties_From_ManagedRuleGroupOverride_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForManagedRuleGroupOverride_STATUS, ManagedRuleGroupOverride_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForManagedRuleGroupOverride_STATUS tests if a specific instance of ManagedRuleGroupOverride_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForManagedRuleGroupOverride_STATUS(subject ManagedRuleGroupOverride_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedRuleGroupOverride_STATUS
-	err := copied.AssignProperties_To_ManagedRuleGroupOverride_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ManagedRuleGroupOverride_STATUS
-	err = actual.AssignProperties_From_ManagedRuleGroupOverride_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ManagedRuleGroupOverride_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedRuleGroupOverride_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedRuleGroupOverride_STATUS, ManagedRuleGroupOverride_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedRuleGroupOverride_STATUS runs a test to see if a specific instance of ManagedRuleGroupOverride_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedRuleGroupOverride_STATUS(subject ManagedRuleGroupOverride_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedRuleGroupOverride_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedRuleGroupOverride_STATUS instances for property testing - lazily instantiated by
-// ManagedRuleGroupOverride_STATUSGenerator()
-var managedRuleGroupOverride_STATUSGenerator gopter.Gen
-
-// ManagedRuleGroupOverride_STATUSGenerator returns a generator of ManagedRuleGroupOverride_STATUS instances for property testing.
-// We first initialize managedRuleGroupOverride_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ManagedRuleGroupOverride_STATUSGenerator() gopter.Gen {
-	if managedRuleGroupOverride_STATUSGenerator != nil {
-		return managedRuleGroupOverride_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedRuleGroupOverride_STATUS(generators)
-	managedRuleGroupOverride_STATUSGenerator = gen.Struct(reflect.TypeOf(ManagedRuleGroupOverride_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedRuleGroupOverride_STATUS(generators)
-	AddRelatedPropertyGeneratorsForManagedRuleGroupOverride_STATUS(generators)
-	managedRuleGroupOverride_STATUSGenerator = gen.Struct(reflect.TypeOf(ManagedRuleGroupOverride_STATUS{}), generators)
-
-	return managedRuleGroupOverride_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedRuleGroupOverride_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedRuleGroupOverride_STATUS(gens map[string]gopter.Gen) {
-	gens["RuleGroupName"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForManagedRuleGroupOverride_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedRuleGroupOverride_STATUS(gens map[string]gopter.Gen) {
-	gens["Exclusions"] = gen.SliceOf(ManagedRuleExclusion_STATUSGenerator())
-	gens["Rules"] = gen.SliceOf(ManagedRuleOverride_STATUSGenerator())
-}
-
-func Test_MatchCondition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from MatchCondition to MatchCondition via AssignProperties_To_MatchCondition & AssignProperties_From_MatchCondition returns original",
-		prop.ForAll(RunPropertyAssignmentTestForMatchCondition, MatchConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForMatchCondition tests if a specific instance of MatchCondition can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForMatchCondition(subject MatchCondition) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.MatchCondition
-	err := copied.AssignProperties_To_MatchCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual MatchCondition
-	err = actual.AssignProperties_From_MatchCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_MatchCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of MatchCondition via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMatchCondition, MatchConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForMatchCondition runs a test to see if a specific instance of MatchCondition round trips to JSON and back losslessly
-func RunJSONSerializationTestForMatchCondition(subject MatchCondition) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual MatchCondition
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of MatchCondition instances for property testing - lazily instantiated by MatchConditionGenerator()
-var matchConditionGenerator gopter.Gen
-
-// MatchConditionGenerator returns a generator of MatchCondition instances for property testing.
-func MatchConditionGenerator() gopter.Gen {
-	if matchConditionGenerator != nil {
-		return matchConditionGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMatchCondition(generators)
-	matchConditionGenerator = gen.Struct(reflect.TypeOf(MatchCondition{}), generators)
-
-	return matchConditionGenerator
-}
-
-// AddIndependentPropertyGeneratorsForMatchCondition is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMatchCondition(gens map[string]gopter.Gen) {
-	gens["MatchValue"] = gen.SliceOf(gen.AlphaString())
-	gens["MatchVariable"] = gen.PtrOf(gen.OneConstOf(
-		MatchCondition_MatchVariable_Cookies,
-		MatchCondition_MatchVariable_PostArgs,
-		MatchCondition_MatchVariable_QueryString,
-		MatchCondition_MatchVariable_RemoteAddr,
-		MatchCondition_MatchVariable_RequestBody,
-		MatchCondition_MatchVariable_RequestHeader,
-		MatchCondition_MatchVariable_RequestMethod,
-		MatchCondition_MatchVariable_RequestUri,
-		MatchCondition_MatchVariable_SocketAddr))
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		MatchCondition_Operator_Any,
-		MatchCondition_Operator_BeginsWith,
-		MatchCondition_Operator_Contains,
-		MatchCondition_Operator_EndsWith,
-		MatchCondition_Operator_Equal,
-		MatchCondition_Operator_GeoMatch,
-		MatchCondition_Operator_GreaterThan,
-		MatchCondition_Operator_GreaterThanOrEqual,
-		MatchCondition_Operator_IPMatch,
-		MatchCondition_Operator_LessThan,
-		MatchCondition_Operator_LessThanOrEqual,
-		MatchCondition_Operator_RegEx))
-	gens["Selector"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		TransformType_Lowercase,
-		TransformType_RemoveNulls,
-		TransformType_Trim,
-		TransformType_Uppercase,
-		TransformType_UrlDecode,
-		TransformType_UrlEncode))
-}
-
-func Test_MatchCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from MatchCondition_STATUS to MatchCondition_STATUS via AssignProperties_To_MatchCondition_STATUS & AssignProperties_From_MatchCondition_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForMatchCondition_STATUS, MatchCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForMatchCondition_STATUS tests if a specific instance of MatchCondition_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForMatchCondition_STATUS(subject MatchCondition_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.MatchCondition_STATUS
-	err := copied.AssignProperties_To_MatchCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual MatchCondition_STATUS
-	err = actual.AssignProperties_From_MatchCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_MatchCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of MatchCondition_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMatchCondition_STATUS, MatchCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForMatchCondition_STATUS runs a test to see if a specific instance of MatchCondition_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForMatchCondition_STATUS(subject MatchCondition_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual MatchCondition_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of MatchCondition_STATUS instances for property testing - lazily instantiated by
-// MatchCondition_STATUSGenerator()
-var matchCondition_STATUSGenerator gopter.Gen
-
-// MatchCondition_STATUSGenerator returns a generator of MatchCondition_STATUS instances for property testing.
-func MatchCondition_STATUSGenerator() gopter.Gen {
-	if matchCondition_STATUSGenerator != nil {
-		return matchCondition_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMatchCondition_STATUS(generators)
-	matchCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(MatchCondition_STATUS{}), generators)
-
-	return matchCondition_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForMatchCondition_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMatchCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["MatchValue"] = gen.SliceOf(gen.AlphaString())
-	gens["MatchVariable"] = gen.PtrOf(gen.OneConstOf(
-		MatchCondition_MatchVariable_STATUS_Cookies,
-		MatchCondition_MatchVariable_STATUS_PostArgs,
-		MatchCondition_MatchVariable_STATUS_QueryString,
-		MatchCondition_MatchVariable_STATUS_RemoteAddr,
-		MatchCondition_MatchVariable_STATUS_RequestBody,
-		MatchCondition_MatchVariable_STATUS_RequestHeader,
-		MatchCondition_MatchVariable_STATUS_RequestMethod,
-		MatchCondition_MatchVariable_STATUS_RequestUri,
-		MatchCondition_MatchVariable_STATUS_SocketAddr))
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		MatchCondition_Operator_STATUS_Any,
-		MatchCondition_Operator_STATUS_BeginsWith,
-		MatchCondition_Operator_STATUS_Contains,
-		MatchCondition_Operator_STATUS_EndsWith,
-		MatchCondition_Operator_STATUS_Equal,
-		MatchCondition_Operator_STATUS_GeoMatch,
-		MatchCondition_Operator_STATUS_GreaterThan,
-		MatchCondition_Operator_STATUS_GreaterThanOrEqual,
-		MatchCondition_Operator_STATUS_IPMatch,
-		MatchCondition_Operator_STATUS_LessThan,
-		MatchCondition_Operator_STATUS_LessThanOrEqual,
-		MatchCondition_Operator_STATUS_RegEx))
-	gens["Selector"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		TransformType_STATUS_Lowercase,
-		TransformType_STATUS_RemoveNulls,
-		TransformType_STATUS_Trim,
-		TransformType_STATUS_Uppercase,
-		TransformType_STATUS_UrlDecode,
-		TransformType_STATUS_UrlEncode))
-}
-
-func Test_ManagedRuleOverride_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ManagedRuleOverride to ManagedRuleOverride via AssignProperties_To_ManagedRuleOverride & AssignProperties_From_ManagedRuleOverride returns original",
-		prop.ForAll(RunPropertyAssignmentTestForManagedRuleOverride, ManagedRuleOverrideGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForManagedRuleOverride tests if a specific instance of ManagedRuleOverride can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForManagedRuleOverride(subject ManagedRuleOverride) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedRuleOverride
-	err := copied.AssignProperties_To_ManagedRuleOverride(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ManagedRuleOverride
-	err = actual.AssignProperties_From_ManagedRuleOverride(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ManagedRuleOverride_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedRuleOverride via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedRuleOverride, ManagedRuleOverrideGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedRuleOverride runs a test to see if a specific instance of ManagedRuleOverride round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedRuleOverride(subject ManagedRuleOverride) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedRuleOverride
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedRuleOverride instances for property testing - lazily instantiated by
-// ManagedRuleOverrideGenerator()
-var managedRuleOverrideGenerator gopter.Gen
-
-// ManagedRuleOverrideGenerator returns a generator of ManagedRuleOverride instances for property testing.
-// We first initialize managedRuleOverrideGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ManagedRuleOverrideGenerator() gopter.Gen {
-	if managedRuleOverrideGenerator != nil {
-		return managedRuleOverrideGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedRuleOverride(generators)
-	managedRuleOverrideGenerator = gen.Struct(reflect.TypeOf(ManagedRuleOverride{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedRuleOverride(generators)
-	AddRelatedPropertyGeneratorsForManagedRuleOverride(generators)
-	managedRuleOverrideGenerator = gen.Struct(reflect.TypeOf(ManagedRuleOverride{}), generators)
-
-	return managedRuleOverrideGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedRuleOverride is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedRuleOverride(gens map[string]gopter.Gen) {
-	gens["Action"] = gen.PtrOf(gen.OneConstOf(
-		ActionType_Allow,
-		ActionType_AnomalyScoring,
-		ActionType_Block,
-		ActionType_Log,
-		ActionType_Redirect))
-	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(ManagedRuleEnabledState_Disabled, ManagedRuleEnabledState_Enabled))
-	gens["RuleId"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForManagedRuleOverride is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedRuleOverride(gens map[string]gopter.Gen) {
-	gens["Exclusions"] = gen.SliceOf(ManagedRuleExclusionGenerator())
-}
-
-func Test_ManagedRuleOverride_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ManagedRuleOverride_STATUS to ManagedRuleOverride_STATUS via AssignProperties_To_ManagedRuleOverride_STATUS & AssignProperties_From_ManagedRuleOverride_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForManagedRuleOverride_STATUS, ManagedRuleOverride_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForManagedRuleOverride_STATUS tests if a specific instance of ManagedRuleOverride_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForManagedRuleOverride_STATUS(subject ManagedRuleOverride_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedRuleOverride_STATUS
-	err := copied.AssignProperties_To_ManagedRuleOverride_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ManagedRuleOverride_STATUS
-	err = actual.AssignProperties_From_ManagedRuleOverride_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ManagedRuleOverride_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedRuleOverride_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedRuleOverride_STATUS, ManagedRuleOverride_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedRuleOverride_STATUS runs a test to see if a specific instance of ManagedRuleOverride_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedRuleOverride_STATUS(subject ManagedRuleOverride_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedRuleOverride_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedRuleOverride_STATUS instances for property testing - lazily instantiated by
-// ManagedRuleOverride_STATUSGenerator()
-var managedRuleOverride_STATUSGenerator gopter.Gen
-
-// ManagedRuleOverride_STATUSGenerator returns a generator of ManagedRuleOverride_STATUS instances for property testing.
-// We first initialize managedRuleOverride_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ManagedRuleOverride_STATUSGenerator() gopter.Gen {
-	if managedRuleOverride_STATUSGenerator != nil {
-		return managedRuleOverride_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedRuleOverride_STATUS(generators)
-	managedRuleOverride_STATUSGenerator = gen.Struct(reflect.TypeOf(ManagedRuleOverride_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedRuleOverride_STATUS(generators)
-	AddRelatedPropertyGeneratorsForManagedRuleOverride_STATUS(generators)
-	managedRuleOverride_STATUSGenerator = gen.Struct(reflect.TypeOf(ManagedRuleOverride_STATUS{}), generators)
-
-	return managedRuleOverride_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedRuleOverride_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedRuleOverride_STATUS(gens map[string]gopter.Gen) {
-	gens["Action"] = gen.PtrOf(gen.OneConstOf(
-		ActionType_STATUS_Allow,
-		ActionType_STATUS_AnomalyScoring,
-		ActionType_STATUS_Block,
-		ActionType_STATUS_Log,
-		ActionType_STATUS_Redirect))
-	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(ManagedRuleEnabledState_STATUS_Disabled, ManagedRuleEnabledState_STATUS_Enabled))
-	gens["RuleId"] = gen.PtrOf(gen.AlphaString())
+	return webApplicationFirewallPolicyGenerator
 }
 
-// AddRelatedPropertyGeneratorsForManagedRuleOverride_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedRuleOverride_STATUS(gens map[string]gopter.Gen) {
-	gens["Exclusions"] = gen.SliceOf(ManagedRuleExclusion_STATUSGenerator())
+// AddRelatedPropertyGeneratorsForWebApplicationFirewallPolicy is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForWebApplicationFirewallPolicy(gens map[string]gopter.Gen) {
+	gens["Spec"] = FrontDoorWebApplicationFirewallPolicy_SpecGenerator()
+	gens["Status"] = FrontDoorWebApplicationFirewallPolicy_STATUSGenerator()
 }

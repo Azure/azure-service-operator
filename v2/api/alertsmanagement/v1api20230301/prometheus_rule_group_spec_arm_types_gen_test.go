@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_PrometheusRuleGroup_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_PrometheusRuleGroupAction_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
+	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of PrometheusRuleGroup_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrometheusRuleGroup_Spec_ARM, PrometheusRuleGroup_Spec_ARMGenerator()))
+		"Round trip of PrometheusRuleGroupAction_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrometheusRuleGroupAction_ARM, PrometheusRuleGroupAction_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPrometheusRuleGroup_Spec_ARM runs a test to see if a specific instance of PrometheusRuleGroup_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrometheusRuleGroup_Spec_ARM(subject PrometheusRuleGroup_Spec_ARM) string {
+// RunJSONSerializationTestForPrometheusRuleGroupAction_ARM runs a test to see if a specific instance of PrometheusRuleGroupAction_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrometheusRuleGroupAction_ARM(subject PrometheusRuleGroupAction_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForPrometheusRuleGroup_Spec_ARM(subject PrometheusR
 	}
 
 	// Deserialize back into memory
-	var actual PrometheusRuleGroup_Spec_ARM
+	var actual PrometheusRuleGroupAction_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,44 +56,29 @@ func RunJSONSerializationTestForPrometheusRuleGroup_Spec_ARM(subject PrometheusR
 	return ""
 }
 
-// Generator of PrometheusRuleGroup_Spec_ARM instances for property testing - lazily instantiated by
-// PrometheusRuleGroup_Spec_ARMGenerator()
-var prometheusRuleGroup_Spec_ARMGenerator gopter.Gen
+// Generator of PrometheusRuleGroupAction_ARM instances for property testing - lazily instantiated by
+// PrometheusRuleGroupAction_ARMGenerator()
+var prometheusRuleGroupAction_ARMGenerator gopter.Gen
 
-// PrometheusRuleGroup_Spec_ARMGenerator returns a generator of PrometheusRuleGroup_Spec_ARM instances for property testing.
-// We first initialize prometheusRuleGroup_Spec_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func PrometheusRuleGroup_Spec_ARMGenerator() gopter.Gen {
-	if prometheusRuleGroup_Spec_ARMGenerator != nil {
-		return prometheusRuleGroup_Spec_ARMGenerator
+// PrometheusRuleGroupAction_ARMGenerator returns a generator of PrometheusRuleGroupAction_ARM instances for property testing.
+func PrometheusRuleGroupAction_ARMGenerator() gopter.Gen {
+	if prometheusRuleGroupAction_ARMGenerator != nil {
+		return prometheusRuleGroupAction_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrometheusRuleGroup_Spec_ARM(generators)
-	prometheusRuleGroup_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(PrometheusRuleGroup_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForPrometheusRuleGroupAction_ARM(generators)
+	prometheusRuleGroupAction_ARMGenerator = gen.Struct(reflect.TypeOf(PrometheusRuleGroupAction_ARM{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrometheusRuleGroup_Spec_ARM(generators)
-	AddRelatedPropertyGeneratorsForPrometheusRuleGroup_Spec_ARM(generators)
-	prometheusRuleGroup_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(PrometheusRuleGroup_Spec_ARM{}), generators)
-
-	return prometheusRuleGroup_Spec_ARMGenerator
+	return prometheusRuleGroupAction_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPrometheusRuleGroup_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrometheusRuleGroup_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(
+// AddIndependentPropertyGeneratorsForPrometheusRuleGroupAction_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrometheusRuleGroupAction_ARM(gens map[string]gopter.Gen) {
+	gens["ActionGroupId"] = gen.PtrOf(gen.AlphaString())
+	gens["ActionProperties"] = gen.MapOf(
 		gen.AlphaString(),
 		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForPrometheusRuleGroup_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPrometheusRuleGroup_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(PrometheusRuleGroupProperties_ARMGenerator())
 }
 
 func Test_PrometheusRuleGroupProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -173,6 +158,147 @@ func AddIndependentPropertyGeneratorsForPrometheusRuleGroupProperties_ARM(gens m
 // AddRelatedPropertyGeneratorsForPrometheusRuleGroupProperties_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForPrometheusRuleGroupProperties_ARM(gens map[string]gopter.Gen) {
 	gens["Rules"] = gen.SliceOf(PrometheusRule_ARMGenerator())
+}
+
+func Test_PrometheusRuleGroup_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PrometheusRuleGroup_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrometheusRuleGroup_Spec_ARM, PrometheusRuleGroup_Spec_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPrometheusRuleGroup_Spec_ARM runs a test to see if a specific instance of PrometheusRuleGroup_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrometheusRuleGroup_Spec_ARM(subject PrometheusRuleGroup_Spec_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PrometheusRuleGroup_Spec_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PrometheusRuleGroup_Spec_ARM instances for property testing - lazily instantiated by
+// PrometheusRuleGroup_Spec_ARMGenerator()
+var prometheusRuleGroup_Spec_ARMGenerator gopter.Gen
+
+// PrometheusRuleGroup_Spec_ARMGenerator returns a generator of PrometheusRuleGroup_Spec_ARM instances for property testing.
+// We first initialize prometheusRuleGroup_Spec_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func PrometheusRuleGroup_Spec_ARMGenerator() gopter.Gen {
+	if prometheusRuleGroup_Spec_ARMGenerator != nil {
+		return prometheusRuleGroup_Spec_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPrometheusRuleGroup_Spec_ARM(generators)
+	prometheusRuleGroup_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(PrometheusRuleGroup_Spec_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPrometheusRuleGroup_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForPrometheusRuleGroup_Spec_ARM(generators)
+	prometheusRuleGroup_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(PrometheusRuleGroup_Spec_ARM{}), generators)
+
+	return prometheusRuleGroup_Spec_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForPrometheusRuleGroup_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrometheusRuleGroup_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.AlphaString()
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForPrometheusRuleGroup_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForPrometheusRuleGroup_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(PrometheusRuleGroupProperties_ARMGenerator())
+}
+
+func Test_PrometheusRuleResolveConfiguration_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PrometheusRuleResolveConfiguration_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrometheusRuleResolveConfiguration_ARM, PrometheusRuleResolveConfiguration_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPrometheusRuleResolveConfiguration_ARM runs a test to see if a specific instance of PrometheusRuleResolveConfiguration_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrometheusRuleResolveConfiguration_ARM(subject PrometheusRuleResolveConfiguration_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PrometheusRuleResolveConfiguration_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PrometheusRuleResolveConfiguration_ARM instances for property testing - lazily instantiated by
+// PrometheusRuleResolveConfiguration_ARMGenerator()
+var prometheusRuleResolveConfiguration_ARMGenerator gopter.Gen
+
+// PrometheusRuleResolveConfiguration_ARMGenerator returns a generator of PrometheusRuleResolveConfiguration_ARM instances for property testing.
+func PrometheusRuleResolveConfiguration_ARMGenerator() gopter.Gen {
+	if prometheusRuleResolveConfiguration_ARMGenerator != nil {
+		return prometheusRuleResolveConfiguration_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPrometheusRuleResolveConfiguration_ARM(generators)
+	prometheusRuleResolveConfiguration_ARMGenerator = gen.Struct(reflect.TypeOf(PrometheusRuleResolveConfiguration_ARM{}), generators)
+
+	return prometheusRuleResolveConfiguration_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForPrometheusRuleResolveConfiguration_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrometheusRuleResolveConfiguration_ARM(gens map[string]gopter.Gen) {
+	gens["AutoResolved"] = gen.PtrOf(gen.Bool())
+	gens["TimeToResolve"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_PrometheusRule_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -259,130 +385,4 @@ func AddIndependentPropertyGeneratorsForPrometheusRule_ARM(gens map[string]gopte
 func AddRelatedPropertyGeneratorsForPrometheusRule_ARM(gens map[string]gopter.Gen) {
 	gens["Actions"] = gen.SliceOf(PrometheusRuleGroupAction_ARMGenerator())
 	gens["ResolveConfiguration"] = gen.PtrOf(PrometheusRuleResolveConfiguration_ARMGenerator())
-}
-
-func Test_PrometheusRuleGroupAction_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrometheusRuleGroupAction_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrometheusRuleGroupAction_ARM, PrometheusRuleGroupAction_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPrometheusRuleGroupAction_ARM runs a test to see if a specific instance of PrometheusRuleGroupAction_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrometheusRuleGroupAction_ARM(subject PrometheusRuleGroupAction_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual PrometheusRuleGroupAction_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of PrometheusRuleGroupAction_ARM instances for property testing - lazily instantiated by
-// PrometheusRuleGroupAction_ARMGenerator()
-var prometheusRuleGroupAction_ARMGenerator gopter.Gen
-
-// PrometheusRuleGroupAction_ARMGenerator returns a generator of PrometheusRuleGroupAction_ARM instances for property testing.
-func PrometheusRuleGroupAction_ARMGenerator() gopter.Gen {
-	if prometheusRuleGroupAction_ARMGenerator != nil {
-		return prometheusRuleGroupAction_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrometheusRuleGroupAction_ARM(generators)
-	prometheusRuleGroupAction_ARMGenerator = gen.Struct(reflect.TypeOf(PrometheusRuleGroupAction_ARM{}), generators)
-
-	return prometheusRuleGroupAction_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrometheusRuleGroupAction_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrometheusRuleGroupAction_ARM(gens map[string]gopter.Gen) {
-	gens["ActionGroupId"] = gen.PtrOf(gen.AlphaString())
-	gens["ActionProperties"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-func Test_PrometheusRuleResolveConfiguration_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrometheusRuleResolveConfiguration_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrometheusRuleResolveConfiguration_ARM, PrometheusRuleResolveConfiguration_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPrometheusRuleResolveConfiguration_ARM runs a test to see if a specific instance of PrometheusRuleResolveConfiguration_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrometheusRuleResolveConfiguration_ARM(subject PrometheusRuleResolveConfiguration_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual PrometheusRuleResolveConfiguration_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of PrometheusRuleResolveConfiguration_ARM instances for property testing - lazily instantiated by
-// PrometheusRuleResolveConfiguration_ARMGenerator()
-var prometheusRuleResolveConfiguration_ARMGenerator gopter.Gen
-
-// PrometheusRuleResolveConfiguration_ARMGenerator returns a generator of PrometheusRuleResolveConfiguration_ARM instances for property testing.
-func PrometheusRuleResolveConfiguration_ARMGenerator() gopter.Gen {
-	if prometheusRuleResolveConfiguration_ARMGenerator != nil {
-		return prometheusRuleResolveConfiguration_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrometheusRuleResolveConfiguration_ARM(generators)
-	prometheusRuleResolveConfiguration_ARMGenerator = gen.Struct(reflect.TypeOf(PrometheusRuleResolveConfiguration_ARM{}), generators)
-
-	return prometheusRuleResolveConfiguration_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrometheusRuleResolveConfiguration_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrometheusRuleResolveConfiguration_ARM(gens map[string]gopter.Gen) {
-	gens["AutoResolved"] = gen.PtrOf(gen.Bool())
-	gens["TimeToResolve"] = gen.PtrOf(gen.AlphaString())
 }

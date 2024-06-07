@@ -79,20 +79,20 @@ func AddRelatedPropertyGeneratorsForAuthorizationProvider(gens map[string]gopter
 	gens["Status"] = Service_AuthorizationProvider_STATUSGenerator()
 }
 
-func Test_Service_AuthorizationProvider_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_AuthorizationProviderOAuth2GrantTypes_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
+	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Service_AuthorizationProvider_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForService_AuthorizationProvider_Spec, Service_AuthorizationProvider_SpecGenerator()))
+		"Round trip of AuthorizationProviderOAuth2GrantTypes via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAuthorizationProviderOAuth2GrantTypes, AuthorizationProviderOAuth2GrantTypesGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForService_AuthorizationProvider_Spec runs a test to see if a specific instance of Service_AuthorizationProvider_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForService_AuthorizationProvider_Spec(subject Service_AuthorizationProvider_Spec) string {
+// RunJSONSerializationTestForAuthorizationProviderOAuth2GrantTypes runs a test to see if a specific instance of AuthorizationProviderOAuth2GrantTypes round trips to JSON and back losslessly
+func RunJSONSerializationTestForAuthorizationProviderOAuth2GrantTypes(subject AuthorizationProviderOAuth2GrantTypes) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -100,7 +100,7 @@ func RunJSONSerializationTestForService_AuthorizationProvider_Spec(subject Servi
 	}
 
 	// Deserialize back into memory
-	var actual Service_AuthorizationProvider_Spec
+	var actual AuthorizationProviderOAuth2GrantTypes
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -118,59 +118,36 @@ func RunJSONSerializationTestForService_AuthorizationProvider_Spec(subject Servi
 	return ""
 }
 
-// Generator of Service_AuthorizationProvider_Spec instances for property testing - lazily instantiated by
-// Service_AuthorizationProvider_SpecGenerator()
-var service_AuthorizationProvider_SpecGenerator gopter.Gen
+// Generator of AuthorizationProviderOAuth2GrantTypes instances for property testing - lazily instantiated by
+// AuthorizationProviderOAuth2GrantTypesGenerator()
+var authorizationProviderOAuth2GrantTypesGenerator gopter.Gen
 
-// Service_AuthorizationProvider_SpecGenerator returns a generator of Service_AuthorizationProvider_Spec instances for property testing.
-// We first initialize service_AuthorizationProvider_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Service_AuthorizationProvider_SpecGenerator() gopter.Gen {
-	if service_AuthorizationProvider_SpecGenerator != nil {
-		return service_AuthorizationProvider_SpecGenerator
+// AuthorizationProviderOAuth2GrantTypesGenerator returns a generator of AuthorizationProviderOAuth2GrantTypes instances for property testing.
+func AuthorizationProviderOAuth2GrantTypesGenerator() gopter.Gen {
+	if authorizationProviderOAuth2GrantTypesGenerator != nil {
+		return authorizationProviderOAuth2GrantTypesGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForService_AuthorizationProvider_Spec(generators)
-	service_AuthorizationProvider_SpecGenerator = gen.Struct(reflect.TypeOf(Service_AuthorizationProvider_Spec{}), generators)
+	authorizationProviderOAuth2GrantTypesGenerator = gen.Struct(reflect.TypeOf(AuthorizationProviderOAuth2GrantTypes{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForService_AuthorizationProvider_Spec(generators)
-	AddRelatedPropertyGeneratorsForService_AuthorizationProvider_Spec(generators)
-	service_AuthorizationProvider_SpecGenerator = gen.Struct(reflect.TypeOf(Service_AuthorizationProvider_Spec{}), generators)
-
-	return service_AuthorizationProvider_SpecGenerator
+	return authorizationProviderOAuth2GrantTypesGenerator
 }
 
-// AddIndependentPropertyGeneratorsForService_AuthorizationProvider_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForService_AuthorizationProvider_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
-	gens["IdentityProvider"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForService_AuthorizationProvider_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForService_AuthorizationProvider_Spec(gens map[string]gopter.Gen) {
-	gens["Oauth2"] = gen.PtrOf(AuthorizationProviderOAuth2SettingsGenerator())
-}
-
-func Test_Service_AuthorizationProvider_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_AuthorizationProviderOAuth2GrantTypes_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Service_AuthorizationProvider_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForService_AuthorizationProvider_STATUS, Service_AuthorizationProvider_STATUSGenerator()))
+		"Round trip of AuthorizationProviderOAuth2GrantTypes_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAuthorizationProviderOAuth2GrantTypes_STATUS, AuthorizationProviderOAuth2GrantTypes_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForService_AuthorizationProvider_STATUS runs a test to see if a specific instance of Service_AuthorizationProvider_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForService_AuthorizationProvider_STATUS(subject Service_AuthorizationProvider_STATUS) string {
+// RunJSONSerializationTestForAuthorizationProviderOAuth2GrantTypes_STATUS runs a test to see if a specific instance of AuthorizationProviderOAuth2GrantTypes_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForAuthorizationProviderOAuth2GrantTypes_STATUS(subject AuthorizationProviderOAuth2GrantTypes_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -178,7 +155,7 @@ func RunJSONSerializationTestForService_AuthorizationProvider_STATUS(subject Ser
 	}
 
 	// Deserialize back into memory
-	var actual Service_AuthorizationProvider_STATUS
+	var actual AuthorizationProviderOAuth2GrantTypes_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -196,44 +173,31 @@ func RunJSONSerializationTestForService_AuthorizationProvider_STATUS(subject Ser
 	return ""
 }
 
-// Generator of Service_AuthorizationProvider_STATUS instances for property testing - lazily instantiated by
-// Service_AuthorizationProvider_STATUSGenerator()
-var service_AuthorizationProvider_STATUSGenerator gopter.Gen
+// Generator of AuthorizationProviderOAuth2GrantTypes_STATUS instances for property testing - lazily instantiated by
+// AuthorizationProviderOAuth2GrantTypes_STATUSGenerator()
+var authorizationProviderOAuth2GrantTypes_STATUSGenerator gopter.Gen
 
-// Service_AuthorizationProvider_STATUSGenerator returns a generator of Service_AuthorizationProvider_STATUS instances for property testing.
-// We first initialize service_AuthorizationProvider_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Service_AuthorizationProvider_STATUSGenerator() gopter.Gen {
-	if service_AuthorizationProvider_STATUSGenerator != nil {
-		return service_AuthorizationProvider_STATUSGenerator
+// AuthorizationProviderOAuth2GrantTypes_STATUSGenerator returns a generator of AuthorizationProviderOAuth2GrantTypes_STATUS instances for property testing.
+func AuthorizationProviderOAuth2GrantTypes_STATUSGenerator() gopter.Gen {
+	if authorizationProviderOAuth2GrantTypes_STATUSGenerator != nil {
+		return authorizationProviderOAuth2GrantTypes_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForService_AuthorizationProvider_STATUS(generators)
-	service_AuthorizationProvider_STATUSGenerator = gen.Struct(reflect.TypeOf(Service_AuthorizationProvider_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForAuthorizationProviderOAuth2GrantTypes_STATUS(generators)
+	authorizationProviderOAuth2GrantTypes_STATUSGenerator = gen.Struct(reflect.TypeOf(AuthorizationProviderOAuth2GrantTypes_STATUS{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForService_AuthorizationProvider_STATUS(generators)
-	AddRelatedPropertyGeneratorsForService_AuthorizationProvider_STATUS(generators)
-	service_AuthorizationProvider_STATUSGenerator = gen.Struct(reflect.TypeOf(Service_AuthorizationProvider_STATUS{}), generators)
-
-	return service_AuthorizationProvider_STATUSGenerator
+	return authorizationProviderOAuth2GrantTypes_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForService_AuthorizationProvider_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForService_AuthorizationProvider_STATUS(gens map[string]gopter.Gen) {
-	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["IdentityProvider"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForService_AuthorizationProvider_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForService_AuthorizationProvider_STATUS(gens map[string]gopter.Gen) {
-	gens["Oauth2"] = gen.PtrOf(AuthorizationProviderOAuth2Settings_STATUSGenerator())
+// AddIndependentPropertyGeneratorsForAuthorizationProviderOAuth2GrantTypes_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAuthorizationProviderOAuth2GrantTypes_STATUS(gens map[string]gopter.Gen) {
+	gens["AuthorizationCode"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["ClientCredentials"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 func Test_AuthorizationProviderOAuth2Settings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -386,75 +350,20 @@ func AddRelatedPropertyGeneratorsForAuthorizationProviderOAuth2Settings_STATUS(g
 	gens["GrantTypes"] = gen.PtrOf(AuthorizationProviderOAuth2GrantTypes_STATUSGenerator())
 }
 
-func Test_AuthorizationProviderOAuth2GrantTypes_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AuthorizationProviderOAuth2GrantTypes via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAuthorizationProviderOAuth2GrantTypes, AuthorizationProviderOAuth2GrantTypesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForAuthorizationProviderOAuth2GrantTypes runs a test to see if a specific instance of AuthorizationProviderOAuth2GrantTypes round trips to JSON and back losslessly
-func RunJSONSerializationTestForAuthorizationProviderOAuth2GrantTypes(subject AuthorizationProviderOAuth2GrantTypes) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual AuthorizationProviderOAuth2GrantTypes
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of AuthorizationProviderOAuth2GrantTypes instances for property testing - lazily instantiated by
-// AuthorizationProviderOAuth2GrantTypesGenerator()
-var authorizationProviderOAuth2GrantTypesGenerator gopter.Gen
-
-// AuthorizationProviderOAuth2GrantTypesGenerator returns a generator of AuthorizationProviderOAuth2GrantTypes instances for property testing.
-func AuthorizationProviderOAuth2GrantTypesGenerator() gopter.Gen {
-	if authorizationProviderOAuth2GrantTypesGenerator != nil {
-		return authorizationProviderOAuth2GrantTypesGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	authorizationProviderOAuth2GrantTypesGenerator = gen.Struct(reflect.TypeOf(AuthorizationProviderOAuth2GrantTypes{}), generators)
-
-	return authorizationProviderOAuth2GrantTypesGenerator
-}
-
-func Test_AuthorizationProviderOAuth2GrantTypes_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Service_AuthorizationProvider_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of AuthorizationProviderOAuth2GrantTypes_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAuthorizationProviderOAuth2GrantTypes_STATUS, AuthorizationProviderOAuth2GrantTypes_STATUSGenerator()))
+		"Round trip of Service_AuthorizationProvider_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForService_AuthorizationProvider_STATUS, Service_AuthorizationProvider_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAuthorizationProviderOAuth2GrantTypes_STATUS runs a test to see if a specific instance of AuthorizationProviderOAuth2GrantTypes_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForAuthorizationProviderOAuth2GrantTypes_STATUS(subject AuthorizationProviderOAuth2GrantTypes_STATUS) string {
+// RunJSONSerializationTestForService_AuthorizationProvider_STATUS runs a test to see if a specific instance of Service_AuthorizationProvider_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForService_AuthorizationProvider_STATUS(subject Service_AuthorizationProvider_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -462,7 +371,7 @@ func RunJSONSerializationTestForAuthorizationProviderOAuth2GrantTypes_STATUS(sub
 	}
 
 	// Deserialize back into memory
-	var actual AuthorizationProviderOAuth2GrantTypes_STATUS
+	var actual Service_AuthorizationProvider_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -480,29 +389,120 @@ func RunJSONSerializationTestForAuthorizationProviderOAuth2GrantTypes_STATUS(sub
 	return ""
 }
 
-// Generator of AuthorizationProviderOAuth2GrantTypes_STATUS instances for property testing - lazily instantiated by
-// AuthorizationProviderOAuth2GrantTypes_STATUSGenerator()
-var authorizationProviderOAuth2GrantTypes_STATUSGenerator gopter.Gen
+// Generator of Service_AuthorizationProvider_STATUS instances for property testing - lazily instantiated by
+// Service_AuthorizationProvider_STATUSGenerator()
+var service_AuthorizationProvider_STATUSGenerator gopter.Gen
 
-// AuthorizationProviderOAuth2GrantTypes_STATUSGenerator returns a generator of AuthorizationProviderOAuth2GrantTypes_STATUS instances for property testing.
-func AuthorizationProviderOAuth2GrantTypes_STATUSGenerator() gopter.Gen {
-	if authorizationProviderOAuth2GrantTypes_STATUSGenerator != nil {
-		return authorizationProviderOAuth2GrantTypes_STATUSGenerator
+// Service_AuthorizationProvider_STATUSGenerator returns a generator of Service_AuthorizationProvider_STATUS instances for property testing.
+// We first initialize service_AuthorizationProvider_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Service_AuthorizationProvider_STATUSGenerator() gopter.Gen {
+	if service_AuthorizationProvider_STATUSGenerator != nil {
+		return service_AuthorizationProvider_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAuthorizationProviderOAuth2GrantTypes_STATUS(generators)
-	authorizationProviderOAuth2GrantTypes_STATUSGenerator = gen.Struct(reflect.TypeOf(AuthorizationProviderOAuth2GrantTypes_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForService_AuthorizationProvider_STATUS(generators)
+	service_AuthorizationProvider_STATUSGenerator = gen.Struct(reflect.TypeOf(Service_AuthorizationProvider_STATUS{}), generators)
 
-	return authorizationProviderOAuth2GrantTypes_STATUSGenerator
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForService_AuthorizationProvider_STATUS(generators)
+	AddRelatedPropertyGeneratorsForService_AuthorizationProvider_STATUS(generators)
+	service_AuthorizationProvider_STATUSGenerator = gen.Struct(reflect.TypeOf(Service_AuthorizationProvider_STATUS{}), generators)
+
+	return service_AuthorizationProvider_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAuthorizationProviderOAuth2GrantTypes_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAuthorizationProviderOAuth2GrantTypes_STATUS(gens map[string]gopter.Gen) {
-	gens["AuthorizationCode"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["ClientCredentials"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
+// AddIndependentPropertyGeneratorsForService_AuthorizationProvider_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForService_AuthorizationProvider_STATUS(gens map[string]gopter.Gen) {
+	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["IdentityProvider"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForService_AuthorizationProvider_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForService_AuthorizationProvider_STATUS(gens map[string]gopter.Gen) {
+	gens["Oauth2"] = gen.PtrOf(AuthorizationProviderOAuth2Settings_STATUSGenerator())
+}
+
+func Test_Service_AuthorizationProvider_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Service_AuthorizationProvider_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForService_AuthorizationProvider_Spec, Service_AuthorizationProvider_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForService_AuthorizationProvider_Spec runs a test to see if a specific instance of Service_AuthorizationProvider_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForService_AuthorizationProvider_Spec(subject Service_AuthorizationProvider_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Service_AuthorizationProvider_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Service_AuthorizationProvider_Spec instances for property testing - lazily instantiated by
+// Service_AuthorizationProvider_SpecGenerator()
+var service_AuthorizationProvider_SpecGenerator gopter.Gen
+
+// Service_AuthorizationProvider_SpecGenerator returns a generator of Service_AuthorizationProvider_Spec instances for property testing.
+// We first initialize service_AuthorizationProvider_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Service_AuthorizationProvider_SpecGenerator() gopter.Gen {
+	if service_AuthorizationProvider_SpecGenerator != nil {
+		return service_AuthorizationProvider_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForService_AuthorizationProvider_Spec(generators)
+	service_AuthorizationProvider_SpecGenerator = gen.Struct(reflect.TypeOf(Service_AuthorizationProvider_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForService_AuthorizationProvider_Spec(generators)
+	AddRelatedPropertyGeneratorsForService_AuthorizationProvider_Spec(generators)
+	service_AuthorizationProvider_SpecGenerator = gen.Struct(reflect.TypeOf(Service_AuthorizationProvider_Spec{}), generators)
+
+	return service_AuthorizationProvider_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForService_AuthorizationProvider_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForService_AuthorizationProvider_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
+	gens["IdentityProvider"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
+}
+
+// AddRelatedPropertyGeneratorsForService_AuthorizationProvider_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForService_AuthorizationProvider_Spec(gens map[string]gopter.Gen) {
+	gens["Oauth2"] = gen.PtrOf(AuthorizationProviderOAuth2SettingsGenerator())
 }

@@ -164,258 +164,6 @@ func AddRelatedPropertyGeneratorsForFleet(gens map[string]gopter.Gen) {
 	gens["Status"] = Fleet_STATUSGenerator()
 }
 
-func Test_Fleet_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Fleet_Spec to Fleet_Spec via AssignProperties_To_Fleet_Spec & AssignProperties_From_Fleet_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForFleet_Spec, Fleet_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForFleet_Spec tests if a specific instance of Fleet_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForFleet_Spec(subject Fleet_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Fleet_Spec
-	err := copied.AssignProperties_To_Fleet_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Fleet_Spec
-	err = actual.AssignProperties_From_Fleet_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_Fleet_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Fleet_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFleet_Spec, Fleet_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForFleet_Spec runs a test to see if a specific instance of Fleet_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForFleet_Spec(subject Fleet_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Fleet_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Fleet_Spec instances for property testing - lazily instantiated by Fleet_SpecGenerator()
-var fleet_SpecGenerator gopter.Gen
-
-// Fleet_SpecGenerator returns a generator of Fleet_Spec instances for property testing.
-// We first initialize fleet_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Fleet_SpecGenerator() gopter.Gen {
-	if fleet_SpecGenerator != nil {
-		return fleet_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleet_Spec(generators)
-	fleet_SpecGenerator = gen.Struct(reflect.TypeOf(Fleet_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleet_Spec(generators)
-	AddRelatedPropertyGeneratorsForFleet_Spec(generators)
-	fleet_SpecGenerator = gen.Struct(reflect.TypeOf(Fleet_Spec{}), generators)
-
-	return fleet_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForFleet_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFleet_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForFleet_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFleet_Spec(gens map[string]gopter.Gen) {
-	gens["HubProfile"] = gen.PtrOf(FleetHubProfileGenerator())
-	gens["OperatorSpec"] = gen.PtrOf(FleetOperatorSpecGenerator())
-}
-
-func Test_Fleet_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Fleet_STATUS to Fleet_STATUS via AssignProperties_To_Fleet_STATUS & AssignProperties_From_Fleet_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForFleet_STATUS, Fleet_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForFleet_STATUS tests if a specific instance of Fleet_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForFleet_STATUS(subject Fleet_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Fleet_STATUS
-	err := copied.AssignProperties_To_Fleet_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Fleet_STATUS
-	err = actual.AssignProperties_From_Fleet_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_Fleet_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Fleet_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFleet_STATUS, Fleet_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForFleet_STATUS runs a test to see if a specific instance of Fleet_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForFleet_STATUS(subject Fleet_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Fleet_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Fleet_STATUS instances for property testing - lazily instantiated by Fleet_STATUSGenerator()
-var fleet_STATUSGenerator gopter.Gen
-
-// Fleet_STATUSGenerator returns a generator of Fleet_STATUS instances for property testing.
-// We first initialize fleet_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Fleet_STATUSGenerator() gopter.Gen {
-	if fleet_STATUSGenerator != nil {
-		return fleet_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleet_STATUS(generators)
-	fleet_STATUSGenerator = gen.Struct(reflect.TypeOf(Fleet_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleet_STATUS(generators)
-	AddRelatedPropertyGeneratorsForFleet_STATUS(generators)
-	fleet_STATUSGenerator = gen.Struct(reflect.TypeOf(Fleet_STATUS{}), generators)
-
-	return fleet_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForFleet_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFleet_STATUS(gens map[string]gopter.Gen) {
-	gens["ETag"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		FleetProvisioningState_STATUS_Canceled,
-		FleetProvisioningState_STATUS_Creating,
-		FleetProvisioningState_STATUS_Deleting,
-		FleetProvisioningState_STATUS_Failed,
-		FleetProvisioningState_STATUS_Succeeded,
-		FleetProvisioningState_STATUS_Updating))
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForFleet_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFleet_STATUS(gens map[string]gopter.Gen) {
-	gens["HubProfile"] = gen.PtrOf(FleetHubProfile_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
-}
-
 func Test_FleetHubProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -623,6 +371,103 @@ func AddIndependentPropertyGeneratorsForFleetHubProfile_STATUS(gens map[string]g
 	gens["KubernetesVersion"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_FleetOperatorSecrets_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FleetOperatorSecrets to FleetOperatorSecrets via AssignProperties_To_FleetOperatorSecrets & AssignProperties_From_FleetOperatorSecrets returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFleetOperatorSecrets, FleetOperatorSecretsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFleetOperatorSecrets tests if a specific instance of FleetOperatorSecrets can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForFleetOperatorSecrets(subject FleetOperatorSecrets) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.FleetOperatorSecrets
+	err := copied.AssignProperties_To_FleetOperatorSecrets(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FleetOperatorSecrets
+	err = actual.AssignProperties_From_FleetOperatorSecrets(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_FleetOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of FleetOperatorSecrets via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFleetOperatorSecrets, FleetOperatorSecretsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForFleetOperatorSecrets runs a test to see if a specific instance of FleetOperatorSecrets round trips to JSON and back losslessly
+func RunJSONSerializationTestForFleetOperatorSecrets(subject FleetOperatorSecrets) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual FleetOperatorSecrets
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of FleetOperatorSecrets instances for property testing - lazily instantiated by
+// FleetOperatorSecretsGenerator()
+var fleetOperatorSecretsGenerator gopter.Gen
+
+// FleetOperatorSecretsGenerator returns a generator of FleetOperatorSecrets instances for property testing.
+func FleetOperatorSecretsGenerator() gopter.Gen {
+	if fleetOperatorSecretsGenerator != nil {
+		return fleetOperatorSecretsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	fleetOperatorSecretsGenerator = gen.Struct(reflect.TypeOf(FleetOperatorSecrets{}), generators)
+
+	return fleetOperatorSecretsGenerator
+}
+
 func Test_FleetOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -723,6 +568,258 @@ func FleetOperatorSpecGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForFleetOperatorSpec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForFleetOperatorSpec(gens map[string]gopter.Gen) {
 	gens["Secrets"] = gen.PtrOf(FleetOperatorSecretsGenerator())
+}
+
+func Test_Fleet_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Fleet_STATUS to Fleet_STATUS via AssignProperties_To_Fleet_STATUS & AssignProperties_From_Fleet_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFleet_STATUS, Fleet_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFleet_STATUS tests if a specific instance of Fleet_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForFleet_STATUS(subject Fleet_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Fleet_STATUS
+	err := copied.AssignProperties_To_Fleet_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Fleet_STATUS
+	err = actual.AssignProperties_From_Fleet_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Fleet_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Fleet_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFleet_STATUS, Fleet_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForFleet_STATUS runs a test to see if a specific instance of Fleet_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForFleet_STATUS(subject Fleet_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Fleet_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Fleet_STATUS instances for property testing - lazily instantiated by Fleet_STATUSGenerator()
+var fleet_STATUSGenerator gopter.Gen
+
+// Fleet_STATUSGenerator returns a generator of Fleet_STATUS instances for property testing.
+// We first initialize fleet_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Fleet_STATUSGenerator() gopter.Gen {
+	if fleet_STATUSGenerator != nil {
+		return fleet_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForFleet_STATUS(generators)
+	fleet_STATUSGenerator = gen.Struct(reflect.TypeOf(Fleet_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForFleet_STATUS(generators)
+	AddRelatedPropertyGeneratorsForFleet_STATUS(generators)
+	fleet_STATUSGenerator = gen.Struct(reflect.TypeOf(Fleet_STATUS{}), generators)
+
+	return fleet_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForFleet_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForFleet_STATUS(gens map[string]gopter.Gen) {
+	gens["ETag"] = gen.PtrOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		FleetProvisioningState_STATUS_Canceled,
+		FleetProvisioningState_STATUS_Creating,
+		FleetProvisioningState_STATUS_Deleting,
+		FleetProvisioningState_STATUS_Failed,
+		FleetProvisioningState_STATUS_Succeeded,
+		FleetProvisioningState_STATUS_Updating))
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForFleet_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForFleet_STATUS(gens map[string]gopter.Gen) {
+	gens["HubProfile"] = gen.PtrOf(FleetHubProfile_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
+}
+
+func Test_Fleet_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Fleet_Spec to Fleet_Spec via AssignProperties_To_Fleet_Spec & AssignProperties_From_Fleet_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFleet_Spec, Fleet_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFleet_Spec tests if a specific instance of Fleet_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForFleet_Spec(subject Fleet_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Fleet_Spec
+	err := copied.AssignProperties_To_Fleet_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Fleet_Spec
+	err = actual.AssignProperties_From_Fleet_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Fleet_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Fleet_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFleet_Spec, Fleet_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForFleet_Spec runs a test to see if a specific instance of Fleet_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForFleet_Spec(subject Fleet_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Fleet_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Fleet_Spec instances for property testing - lazily instantiated by Fleet_SpecGenerator()
+var fleet_SpecGenerator gopter.Gen
+
+// Fleet_SpecGenerator returns a generator of Fleet_Spec instances for property testing.
+// We first initialize fleet_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Fleet_SpecGenerator() gopter.Gen {
+	if fleet_SpecGenerator != nil {
+		return fleet_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForFleet_Spec(generators)
+	fleet_SpecGenerator = gen.Struct(reflect.TypeOf(Fleet_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForFleet_Spec(generators)
+	AddRelatedPropertyGeneratorsForFleet_Spec(generators)
+	fleet_SpecGenerator = gen.Struct(reflect.TypeOf(Fleet_Spec{}), generators)
+
+	return fleet_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForFleet_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForFleet_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForFleet_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForFleet_Spec(gens map[string]gopter.Gen) {
+	gens["HubProfile"] = gen.PtrOf(FleetHubProfileGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(FleetOperatorSpecGenerator())
 }
 
 func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -838,101 +935,4 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter
 		SystemData_LastModifiedByType_STATUS_Key,
 		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
 		SystemData_LastModifiedByType_STATUS_User))
-}
-
-func Test_FleetOperatorSecrets_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from FleetOperatorSecrets to FleetOperatorSecrets via AssignProperties_To_FleetOperatorSecrets & AssignProperties_From_FleetOperatorSecrets returns original",
-		prop.ForAll(RunPropertyAssignmentTestForFleetOperatorSecrets, FleetOperatorSecretsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForFleetOperatorSecrets tests if a specific instance of FleetOperatorSecrets can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForFleetOperatorSecrets(subject FleetOperatorSecrets) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FleetOperatorSecrets
-	err := copied.AssignProperties_To_FleetOperatorSecrets(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual FleetOperatorSecrets
-	err = actual.AssignProperties_From_FleetOperatorSecrets(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_FleetOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FleetOperatorSecrets via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFleetOperatorSecrets, FleetOperatorSecretsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForFleetOperatorSecrets runs a test to see if a specific instance of FleetOperatorSecrets round trips to JSON and back losslessly
-func RunJSONSerializationTestForFleetOperatorSecrets(subject FleetOperatorSecrets) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual FleetOperatorSecrets
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of FleetOperatorSecrets instances for property testing - lazily instantiated by
-// FleetOperatorSecretsGenerator()
-var fleetOperatorSecretsGenerator gopter.Gen
-
-// FleetOperatorSecretsGenerator returns a generator of FleetOperatorSecrets instances for property testing.
-func FleetOperatorSecretsGenerator() gopter.Gen {
-	if fleetOperatorSecretsGenerator != nil {
-		return fleetOperatorSecretsGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	fleetOperatorSecretsGenerator = gen.Struct(reflect.TypeOf(FleetOperatorSecrets{}), generators)
-
-	return fleetOperatorSecretsGenerator
 }

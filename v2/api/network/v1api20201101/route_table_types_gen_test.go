@@ -164,113 +164,6 @@ func AddRelatedPropertyGeneratorsForRouteTable(gens map[string]gopter.Gen) {
 	gens["Status"] = RouteTable_STATUSGenerator()
 }
 
-func Test_RouteTable_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RouteTable_Spec to RouteTable_Spec via AssignProperties_To_RouteTable_Spec & AssignProperties_From_RouteTable_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRouteTable_Spec, RouteTable_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForRouteTable_Spec tests if a specific instance of RouteTable_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRouteTable_Spec(subject RouteTable_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RouteTable_Spec
-	err := copied.AssignProperties_To_RouteTable_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RouteTable_Spec
-	err = actual.AssignProperties_From_RouteTable_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_RouteTable_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RouteTable_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRouteTable_Spec, RouteTable_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForRouteTable_Spec runs a test to see if a specific instance of RouteTable_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForRouteTable_Spec(subject RouteTable_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual RouteTable_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of RouteTable_Spec instances for property testing - lazily instantiated by RouteTable_SpecGenerator()
-var routeTable_SpecGenerator gopter.Gen
-
-// RouteTable_SpecGenerator returns a generator of RouteTable_Spec instances for property testing.
-func RouteTable_SpecGenerator() gopter.Gen {
-	if routeTable_SpecGenerator != nil {
-		return routeTable_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRouteTable_Spec(generators)
-	routeTable_SpecGenerator = gen.Struct(reflect.TypeOf(RouteTable_Spec{}), generators)
-
-	return routeTable_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRouteTable_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRouteTable_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["DisableBgpRoutePropagation"] = gen.PtrOf(gen.Bool())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
 func Test_RouteTable_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -385,4 +278,111 @@ func AddIndependentPropertyGeneratorsForRouteTable_STATUS(gens map[string]gopter
 		gen.AlphaString(),
 		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_RouteTable_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RouteTable_Spec to RouteTable_Spec via AssignProperties_To_RouteTable_Spec & AssignProperties_From_RouteTable_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRouteTable_Spec, RouteTable_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRouteTable_Spec tests if a specific instance of RouteTable_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRouteTable_Spec(subject RouteTable_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RouteTable_Spec
+	err := copied.AssignProperties_To_RouteTable_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RouteTable_Spec
+	err = actual.AssignProperties_From_RouteTable_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_RouteTable_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of RouteTable_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRouteTable_Spec, RouteTable_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForRouteTable_Spec runs a test to see if a specific instance of RouteTable_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForRouteTable_Spec(subject RouteTable_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual RouteTable_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of RouteTable_Spec instances for property testing - lazily instantiated by RouteTable_SpecGenerator()
+var routeTable_SpecGenerator gopter.Gen
+
+// RouteTable_SpecGenerator returns a generator of RouteTable_Spec instances for property testing.
+func RouteTable_SpecGenerator() gopter.Gen {
+	if routeTable_SpecGenerator != nil {
+		return routeTable_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRouteTable_Spec(generators)
+	routeTable_SpecGenerator = gen.Struct(reflect.TypeOf(RouteTable_Spec{}), generators)
+
+	return routeTable_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForRouteTable_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRouteTable_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["DisableBgpRoutePropagation"] = gen.PtrOf(gen.Bool())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }

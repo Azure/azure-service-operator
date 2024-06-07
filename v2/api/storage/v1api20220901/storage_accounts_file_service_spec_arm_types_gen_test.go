@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_StorageAccounts_FileService_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Multichannel_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
+	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of StorageAccounts_FileService_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForStorageAccounts_FileService_Spec_ARM, StorageAccounts_FileService_Spec_ARMGenerator()))
+		"Round trip of Multichannel_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMultichannel_ARM, Multichannel_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForStorageAccounts_FileService_Spec_ARM runs a test to see if a specific instance of StorageAccounts_FileService_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForStorageAccounts_FileService_Spec_ARM(subject StorageAccounts_FileService_Spec_ARM) string {
+// RunJSONSerializationTestForMultichannel_ARM runs a test to see if a specific instance of Multichannel_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForMultichannel_ARM(subject Multichannel_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForStorageAccounts_FileService_Spec_ARM(subject Sto
 	}
 
 	// Deserialize back into memory
-	var actual StorageAccounts_FileService_Spec_ARM
+	var actual Multichannel_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,103 +56,25 @@ func RunJSONSerializationTestForStorageAccounts_FileService_Spec_ARM(subject Sto
 	return ""
 }
 
-// Generator of StorageAccounts_FileService_Spec_ARM instances for property testing - lazily instantiated by
-// StorageAccounts_FileService_Spec_ARMGenerator()
-var storageAccounts_FileService_Spec_ARMGenerator gopter.Gen
+// Generator of Multichannel_ARM instances for property testing - lazily instantiated by Multichannel_ARMGenerator()
+var multichannel_ARMGenerator gopter.Gen
 
-// StorageAccounts_FileService_Spec_ARMGenerator returns a generator of StorageAccounts_FileService_Spec_ARM instances for property testing.
-// We first initialize storageAccounts_FileService_Spec_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func StorageAccounts_FileService_Spec_ARMGenerator() gopter.Gen {
-	if storageAccounts_FileService_Spec_ARMGenerator != nil {
-		return storageAccounts_FileService_Spec_ARMGenerator
+// Multichannel_ARMGenerator returns a generator of Multichannel_ARM instances for property testing.
+func Multichannel_ARMGenerator() gopter.Gen {
+	if multichannel_ARMGenerator != nil {
+		return multichannel_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageAccounts_FileService_Spec_ARM(generators)
-	storageAccounts_FileService_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_FileService_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForMultichannel_ARM(generators)
+	multichannel_ARMGenerator = gen.Struct(reflect.TypeOf(Multichannel_ARM{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageAccounts_FileService_Spec_ARM(generators)
-	AddRelatedPropertyGeneratorsForStorageAccounts_FileService_Spec_ARM(generators)
-	storageAccounts_FileService_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_FileService_Spec_ARM{}), generators)
-
-	return storageAccounts_FileService_Spec_ARMGenerator
+	return multichannel_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForStorageAccounts_FileService_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForStorageAccounts_FileService_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForStorageAccounts_FileService_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForStorageAccounts_FileService_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(StorageAccounts_FileService_Properties_Spec_ARMGenerator())
-}
-
-func Test_StorageAccounts_FileService_Properties_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of StorageAccounts_FileService_Properties_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForStorageAccounts_FileService_Properties_Spec_ARM, StorageAccounts_FileService_Properties_Spec_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForStorageAccounts_FileService_Properties_Spec_ARM runs a test to see if a specific instance of StorageAccounts_FileService_Properties_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForStorageAccounts_FileService_Properties_Spec_ARM(subject StorageAccounts_FileService_Properties_Spec_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual StorageAccounts_FileService_Properties_Spec_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of StorageAccounts_FileService_Properties_Spec_ARM instances for property testing - lazily instantiated by
-// StorageAccounts_FileService_Properties_Spec_ARMGenerator()
-var storageAccounts_FileService_Properties_Spec_ARMGenerator gopter.Gen
-
-// StorageAccounts_FileService_Properties_Spec_ARMGenerator returns a generator of StorageAccounts_FileService_Properties_Spec_ARM instances for property testing.
-func StorageAccounts_FileService_Properties_Spec_ARMGenerator() gopter.Gen {
-	if storageAccounts_FileService_Properties_Spec_ARMGenerator != nil {
-		return storageAccounts_FileService_Properties_Spec_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForStorageAccounts_FileService_Properties_Spec_ARM(generators)
-	storageAccounts_FileService_Properties_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_FileService_Properties_Spec_ARM{}), generators)
-
-	return storageAccounts_FileService_Properties_Spec_ARMGenerator
-}
-
-// AddRelatedPropertyGeneratorsForStorageAccounts_FileService_Properties_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForStorageAccounts_FileService_Properties_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Cors"] = gen.PtrOf(CorsRules_ARMGenerator())
-	gens["ProtocolSettings"] = gen.PtrOf(ProtocolSettings_ARMGenerator())
-	gens["ShareDeleteRetentionPolicy"] = gen.PtrOf(DeleteRetentionPolicy_ARMGenerator())
+// AddIndependentPropertyGeneratorsForMultichannel_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMultichannel_ARM(gens map[string]gopter.Gen) {
+	gens["Enabled"] = gen.PtrOf(gen.Bool())
 }
 
 func Test_ProtocolSettings_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -293,20 +215,20 @@ func AddRelatedPropertyGeneratorsForSmbSetting_ARM(gens map[string]gopter.Gen) {
 	gens["Multichannel"] = gen.PtrOf(Multichannel_ARMGenerator())
 }
 
-func Test_Multichannel_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_StorageAccounts_FileService_Properties_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Multichannel_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMultichannel_ARM, Multichannel_ARMGenerator()))
+		"Round trip of StorageAccounts_FileService_Properties_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageAccounts_FileService_Properties_Spec_ARM, StorageAccounts_FileService_Properties_Spec_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForMultichannel_ARM runs a test to see if a specific instance of Multichannel_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForMultichannel_ARM(subject Multichannel_ARM) string {
+// RunJSONSerializationTestForStorageAccounts_FileService_Properties_Spec_ARM runs a test to see if a specific instance of StorageAccounts_FileService_Properties_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageAccounts_FileService_Properties_Spec_ARM(subject StorageAccounts_FileService_Properties_Spec_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -314,7 +236,7 @@ func RunJSONSerializationTestForMultichannel_ARM(subject Multichannel_ARM) strin
 	}
 
 	// Deserialize back into memory
-	var actual Multichannel_ARM
+	var actual StorageAccounts_FileService_Properties_Spec_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -332,23 +254,101 @@ func RunJSONSerializationTestForMultichannel_ARM(subject Multichannel_ARM) strin
 	return ""
 }
 
-// Generator of Multichannel_ARM instances for property testing - lazily instantiated by Multichannel_ARMGenerator()
-var multichannel_ARMGenerator gopter.Gen
+// Generator of StorageAccounts_FileService_Properties_Spec_ARM instances for property testing - lazily instantiated by
+// StorageAccounts_FileService_Properties_Spec_ARMGenerator()
+var storageAccounts_FileService_Properties_Spec_ARMGenerator gopter.Gen
 
-// Multichannel_ARMGenerator returns a generator of Multichannel_ARM instances for property testing.
-func Multichannel_ARMGenerator() gopter.Gen {
-	if multichannel_ARMGenerator != nil {
-		return multichannel_ARMGenerator
+// StorageAccounts_FileService_Properties_Spec_ARMGenerator returns a generator of StorageAccounts_FileService_Properties_Spec_ARM instances for property testing.
+func StorageAccounts_FileService_Properties_Spec_ARMGenerator() gopter.Gen {
+	if storageAccounts_FileService_Properties_Spec_ARMGenerator != nil {
+		return storageAccounts_FileService_Properties_Spec_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMultichannel_ARM(generators)
-	multichannel_ARMGenerator = gen.Struct(reflect.TypeOf(Multichannel_ARM{}), generators)
+	AddRelatedPropertyGeneratorsForStorageAccounts_FileService_Properties_Spec_ARM(generators)
+	storageAccounts_FileService_Properties_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_FileService_Properties_Spec_ARM{}), generators)
 
-	return multichannel_ARMGenerator
+	return storageAccounts_FileService_Properties_Spec_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForMultichannel_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMultichannel_ARM(gens map[string]gopter.Gen) {
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
+// AddRelatedPropertyGeneratorsForStorageAccounts_FileService_Properties_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForStorageAccounts_FileService_Properties_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Cors"] = gen.PtrOf(CorsRules_ARMGenerator())
+	gens["ProtocolSettings"] = gen.PtrOf(ProtocolSettings_ARMGenerator())
+	gens["ShareDeleteRetentionPolicy"] = gen.PtrOf(DeleteRetentionPolicy_ARMGenerator())
+}
+
+func Test_StorageAccounts_FileService_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of StorageAccounts_FileService_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageAccounts_FileService_Spec_ARM, StorageAccounts_FileService_Spec_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForStorageAccounts_FileService_Spec_ARM runs a test to see if a specific instance of StorageAccounts_FileService_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageAccounts_FileService_Spec_ARM(subject StorageAccounts_FileService_Spec_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual StorageAccounts_FileService_Spec_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of StorageAccounts_FileService_Spec_ARM instances for property testing - lazily instantiated by
+// StorageAccounts_FileService_Spec_ARMGenerator()
+var storageAccounts_FileService_Spec_ARMGenerator gopter.Gen
+
+// StorageAccounts_FileService_Spec_ARMGenerator returns a generator of StorageAccounts_FileService_Spec_ARM instances for property testing.
+// We first initialize storageAccounts_FileService_Spec_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func StorageAccounts_FileService_Spec_ARMGenerator() gopter.Gen {
+	if storageAccounts_FileService_Spec_ARMGenerator != nil {
+		return storageAccounts_FileService_Spec_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForStorageAccounts_FileService_Spec_ARM(generators)
+	storageAccounts_FileService_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_FileService_Spec_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForStorageAccounts_FileService_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForStorageAccounts_FileService_Spec_ARM(generators)
+	storageAccounts_FileService_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_FileService_Spec_ARM{}), generators)
+
+	return storageAccounts_FileService_Spec_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForStorageAccounts_FileService_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForStorageAccounts_FileService_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.AlphaString()
+}
+
+// AddRelatedPropertyGeneratorsForStorageAccounts_FileService_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForStorageAccounts_FileService_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(StorageAccounts_FileService_Properties_Spec_ARMGenerator())
 }

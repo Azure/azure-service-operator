@@ -239,67 +239,6 @@ func AddRelatedPropertyGeneratorsForMongoDBCollectionResource_ARM(gens map[strin
 	gens["RestoreParameters"] = gen.PtrOf(RestoreParametersBase_ARMGenerator())
 }
 
-func Test_MongoIndex_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of MongoIndex_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMongoIndex_ARM, MongoIndex_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForMongoIndex_ARM runs a test to see if a specific instance of MongoIndex_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForMongoIndex_ARM(subject MongoIndex_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual MongoIndex_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of MongoIndex_ARM instances for property testing - lazily instantiated by MongoIndex_ARMGenerator()
-var mongoIndex_ARMGenerator gopter.Gen
-
-// MongoIndex_ARMGenerator returns a generator of MongoIndex_ARM instances for property testing.
-func MongoIndex_ARMGenerator() gopter.Gen {
-	if mongoIndex_ARMGenerator != nil {
-		return mongoIndex_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForMongoIndex_ARM(generators)
-	mongoIndex_ARMGenerator = gen.Struct(reflect.TypeOf(MongoIndex_ARM{}), generators)
-
-	return mongoIndex_ARMGenerator
-}
-
-// AddRelatedPropertyGeneratorsForMongoIndex_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForMongoIndex_ARM(gens map[string]gopter.Gen) {
-	gens["Key"] = gen.PtrOf(MongoIndexKeys_ARMGenerator())
-	gens["Options"] = gen.PtrOf(MongoIndexOptions_ARMGenerator())
-}
-
 func Test_MongoIndexKeys_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -420,4 +359,65 @@ func MongoIndexOptions_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForMongoIndexOptions_ARM(gens map[string]gopter.Gen) {
 	gens["ExpireAfterSeconds"] = gen.PtrOf(gen.Int())
 	gens["Unique"] = gen.PtrOf(gen.Bool())
+}
+
+func Test_MongoIndex_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of MongoIndex_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMongoIndex_ARM, MongoIndex_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForMongoIndex_ARM runs a test to see if a specific instance of MongoIndex_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForMongoIndex_ARM(subject MongoIndex_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual MongoIndex_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of MongoIndex_ARM instances for property testing - lazily instantiated by MongoIndex_ARMGenerator()
+var mongoIndex_ARMGenerator gopter.Gen
+
+// MongoIndex_ARMGenerator returns a generator of MongoIndex_ARM instances for property testing.
+func MongoIndex_ARMGenerator() gopter.Gen {
+	if mongoIndex_ARMGenerator != nil {
+		return mongoIndex_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForMongoIndex_ARM(generators)
+	mongoIndex_ARMGenerator = gen.Struct(reflect.TypeOf(MongoIndex_ARM{}), generators)
+
+	return mongoIndex_ARMGenerator
+}
+
+// AddRelatedPropertyGeneratorsForMongoIndex_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForMongoIndex_ARM(gens map[string]gopter.Gen) {
+	gens["Key"] = gen.PtrOf(MongoIndexKeys_ARMGenerator())
+	gens["Options"] = gen.PtrOf(MongoIndexOptions_ARMGenerator())
 }

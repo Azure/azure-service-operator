@@ -17,6 +17,67 @@ import (
 	"testing"
 )
 
+func Test_ServerConnectionPolicyProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ServerConnectionPolicyProperties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServerConnectionPolicyProperties_ARM, ServerConnectionPolicyProperties_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForServerConnectionPolicyProperties_ARM runs a test to see if a specific instance of ServerConnectionPolicyProperties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForServerConnectionPolicyProperties_ARM(subject ServerConnectionPolicyProperties_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ServerConnectionPolicyProperties_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ServerConnectionPolicyProperties_ARM instances for property testing - lazily instantiated by
+// ServerConnectionPolicyProperties_ARMGenerator()
+var serverConnectionPolicyProperties_ARMGenerator gopter.Gen
+
+// ServerConnectionPolicyProperties_ARMGenerator returns a generator of ServerConnectionPolicyProperties_ARM instances for property testing.
+func ServerConnectionPolicyProperties_ARMGenerator() gopter.Gen {
+	if serverConnectionPolicyProperties_ARMGenerator != nil {
+		return serverConnectionPolicyProperties_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServerConnectionPolicyProperties_ARM(generators)
+	serverConnectionPolicyProperties_ARMGenerator = gen.Struct(reflect.TypeOf(ServerConnectionPolicyProperties_ARM{}), generators)
+
+	return serverConnectionPolicyProperties_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForServerConnectionPolicyProperties_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServerConnectionPolicyProperties_ARM(gens map[string]gopter.Gen) {
+	gens["ConnectionType"] = gen.PtrOf(gen.OneConstOf(ServerConnectionPolicyProperties_ConnectionType_Default, ServerConnectionPolicyProperties_ConnectionType_Proxy, ServerConnectionPolicyProperties_ConnectionType_Redirect))
+}
+
 func Test_Servers_ConnectionPolicy_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -90,65 +151,4 @@ func AddIndependentPropertyGeneratorsForServers_ConnectionPolicy_Spec_ARM(gens m
 // AddRelatedPropertyGeneratorsForServers_ConnectionPolicy_Spec_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForServers_ConnectionPolicy_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(ServerConnectionPolicyProperties_ARMGenerator())
-}
-
-func Test_ServerConnectionPolicyProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ServerConnectionPolicyProperties_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServerConnectionPolicyProperties_ARM, ServerConnectionPolicyProperties_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForServerConnectionPolicyProperties_ARM runs a test to see if a specific instance of ServerConnectionPolicyProperties_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForServerConnectionPolicyProperties_ARM(subject ServerConnectionPolicyProperties_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ServerConnectionPolicyProperties_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ServerConnectionPolicyProperties_ARM instances for property testing - lazily instantiated by
-// ServerConnectionPolicyProperties_ARMGenerator()
-var serverConnectionPolicyProperties_ARMGenerator gopter.Gen
-
-// ServerConnectionPolicyProperties_ARMGenerator returns a generator of ServerConnectionPolicyProperties_ARM instances for property testing.
-func ServerConnectionPolicyProperties_ARMGenerator() gopter.Gen {
-	if serverConnectionPolicyProperties_ARMGenerator != nil {
-		return serverConnectionPolicyProperties_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServerConnectionPolicyProperties_ARM(generators)
-	serverConnectionPolicyProperties_ARMGenerator = gen.Struct(reflect.TypeOf(ServerConnectionPolicyProperties_ARM{}), generators)
-
-	return serverConnectionPolicyProperties_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForServerConnectionPolicyProperties_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServerConnectionPolicyProperties_ARM(gens map[string]gopter.Gen) {
-	gens["ConnectionType"] = gen.PtrOf(gen.OneConstOf(ServerConnectionPolicyProperties_ConnectionType_Default, ServerConnectionPolicyProperties_ConnectionType_Proxy, ServerConnectionPolicyProperties_ConnectionType_Redirect))
 }

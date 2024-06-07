@@ -98,68 +98,6 @@ func AddRelatedPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collection
 	gens["Properties"] = gen.PtrOf(MongoDBCollectionGetProperties_STATUS_ARMGenerator())
 }
 
-func Test_MongoDBCollectionGetProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of MongoDBCollectionGetProperties_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMongoDBCollectionGetProperties_STATUS_ARM, MongoDBCollectionGetProperties_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForMongoDBCollectionGetProperties_STATUS_ARM runs a test to see if a specific instance of MongoDBCollectionGetProperties_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForMongoDBCollectionGetProperties_STATUS_ARM(subject MongoDBCollectionGetProperties_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual MongoDBCollectionGetProperties_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of MongoDBCollectionGetProperties_STATUS_ARM instances for property testing - lazily instantiated by
-// MongoDBCollectionGetProperties_STATUS_ARMGenerator()
-var mongoDBCollectionGetProperties_STATUS_ARMGenerator gopter.Gen
-
-// MongoDBCollectionGetProperties_STATUS_ARMGenerator returns a generator of MongoDBCollectionGetProperties_STATUS_ARM instances for property testing.
-func MongoDBCollectionGetProperties_STATUS_ARMGenerator() gopter.Gen {
-	if mongoDBCollectionGetProperties_STATUS_ARMGenerator != nil {
-		return mongoDBCollectionGetProperties_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForMongoDBCollectionGetProperties_STATUS_ARM(generators)
-	mongoDBCollectionGetProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(MongoDBCollectionGetProperties_STATUS_ARM{}), generators)
-
-	return mongoDBCollectionGetProperties_STATUS_ARMGenerator
-}
-
-// AddRelatedPropertyGeneratorsForMongoDBCollectionGetProperties_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForMongoDBCollectionGetProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Options"] = gen.PtrOf(OptionsResource_STATUS_ARMGenerator())
-	gens["Resource"] = gen.PtrOf(MongoDBCollectionGetProperties_Resource_STATUS_ARMGenerator())
-}
-
 func Test_MongoDBCollectionGetProperties_Resource_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -244,20 +182,20 @@ func AddRelatedPropertyGeneratorsForMongoDBCollectionGetProperties_Resource_STAT
 	gens["RestoreParameters"] = gen.PtrOf(RestoreParametersBase_STATUS_ARMGenerator())
 }
 
-func Test_MongoIndex_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_MongoDBCollectionGetProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of MongoIndex_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMongoIndex_STATUS_ARM, MongoIndex_STATUS_ARMGenerator()))
+		"Round trip of MongoDBCollectionGetProperties_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMongoDBCollectionGetProperties_STATUS_ARM, MongoDBCollectionGetProperties_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForMongoIndex_STATUS_ARM runs a test to see if a specific instance of MongoIndex_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForMongoIndex_STATUS_ARM(subject MongoIndex_STATUS_ARM) string {
+// RunJSONSerializationTestForMongoDBCollectionGetProperties_STATUS_ARM runs a test to see if a specific instance of MongoDBCollectionGetProperties_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForMongoDBCollectionGetProperties_STATUS_ARM(subject MongoDBCollectionGetProperties_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -265,7 +203,7 @@ func RunJSONSerializationTestForMongoIndex_STATUS_ARM(subject MongoIndex_STATUS_
 	}
 
 	// Deserialize back into memory
-	var actual MongoIndex_STATUS_ARM
+	var actual MongoDBCollectionGetProperties_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -283,27 +221,27 @@ func RunJSONSerializationTestForMongoIndex_STATUS_ARM(subject MongoIndex_STATUS_
 	return ""
 }
 
-// Generator of MongoIndex_STATUS_ARM instances for property testing - lazily instantiated by
-// MongoIndex_STATUS_ARMGenerator()
-var mongoIndex_STATUS_ARMGenerator gopter.Gen
+// Generator of MongoDBCollectionGetProperties_STATUS_ARM instances for property testing - lazily instantiated by
+// MongoDBCollectionGetProperties_STATUS_ARMGenerator()
+var mongoDBCollectionGetProperties_STATUS_ARMGenerator gopter.Gen
 
-// MongoIndex_STATUS_ARMGenerator returns a generator of MongoIndex_STATUS_ARM instances for property testing.
-func MongoIndex_STATUS_ARMGenerator() gopter.Gen {
-	if mongoIndex_STATUS_ARMGenerator != nil {
-		return mongoIndex_STATUS_ARMGenerator
+// MongoDBCollectionGetProperties_STATUS_ARMGenerator returns a generator of MongoDBCollectionGetProperties_STATUS_ARM instances for property testing.
+func MongoDBCollectionGetProperties_STATUS_ARMGenerator() gopter.Gen {
+	if mongoDBCollectionGetProperties_STATUS_ARMGenerator != nil {
+		return mongoDBCollectionGetProperties_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForMongoIndex_STATUS_ARM(generators)
-	mongoIndex_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(MongoIndex_STATUS_ARM{}), generators)
+	AddRelatedPropertyGeneratorsForMongoDBCollectionGetProperties_STATUS_ARM(generators)
+	mongoDBCollectionGetProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(MongoDBCollectionGetProperties_STATUS_ARM{}), generators)
 
-	return mongoIndex_STATUS_ARMGenerator
+	return mongoDBCollectionGetProperties_STATUS_ARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForMongoIndex_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForMongoIndex_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Key"] = gen.PtrOf(MongoIndexKeys_STATUS_ARMGenerator())
-	gens["Options"] = gen.PtrOf(MongoIndexOptions_STATUS_ARMGenerator())
+// AddRelatedPropertyGeneratorsForMongoDBCollectionGetProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForMongoDBCollectionGetProperties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Options"] = gen.PtrOf(OptionsResource_STATUS_ARMGenerator())
+	gens["Resource"] = gen.PtrOf(MongoDBCollectionGetProperties_Resource_STATUS_ARMGenerator())
 }
 
 func Test_MongoIndexKeys_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -427,4 +365,66 @@ func MongoIndexOptions_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForMongoIndexOptions_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ExpireAfterSeconds"] = gen.PtrOf(gen.Int())
 	gens["Unique"] = gen.PtrOf(gen.Bool())
+}
+
+func Test_MongoIndex_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of MongoIndex_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMongoIndex_STATUS_ARM, MongoIndex_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForMongoIndex_STATUS_ARM runs a test to see if a specific instance of MongoIndex_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForMongoIndex_STATUS_ARM(subject MongoIndex_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual MongoIndex_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of MongoIndex_STATUS_ARM instances for property testing - lazily instantiated by
+// MongoIndex_STATUS_ARMGenerator()
+var mongoIndex_STATUS_ARMGenerator gopter.Gen
+
+// MongoIndex_STATUS_ARMGenerator returns a generator of MongoIndex_STATUS_ARM instances for property testing.
+func MongoIndex_STATUS_ARMGenerator() gopter.Gen {
+	if mongoIndex_STATUS_ARMGenerator != nil {
+		return mongoIndex_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForMongoIndex_STATUS_ARM(generators)
+	mongoIndex_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(MongoIndex_STATUS_ARM{}), generators)
+
+	return mongoIndex_STATUS_ARMGenerator
+}
+
+// AddRelatedPropertyGeneratorsForMongoIndex_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForMongoIndex_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Key"] = gen.PtrOf(MongoIndexKeys_STATUS_ARMGenerator())
+	gens["Options"] = gen.PtrOf(MongoIndexOptions_STATUS_ARMGenerator())
 }

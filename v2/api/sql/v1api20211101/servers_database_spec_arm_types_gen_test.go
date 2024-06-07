@@ -17,87 +17,6 @@ import (
 	"testing"
 )
 
-func Test_Servers_Database_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Servers_Database_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServers_Database_Spec_ARM, Servers_Database_Spec_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForServers_Database_Spec_ARM runs a test to see if a specific instance of Servers_Database_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForServers_Database_Spec_ARM(subject Servers_Database_Spec_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Servers_Database_Spec_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Servers_Database_Spec_ARM instances for property testing - lazily instantiated by
-// Servers_Database_Spec_ARMGenerator()
-var servers_Database_Spec_ARMGenerator gopter.Gen
-
-// Servers_Database_Spec_ARMGenerator returns a generator of Servers_Database_Spec_ARM instances for property testing.
-// We first initialize servers_Database_Spec_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Servers_Database_Spec_ARMGenerator() gopter.Gen {
-	if servers_Database_Spec_ARMGenerator != nil {
-		return servers_Database_Spec_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_Database_Spec_ARM(generators)
-	servers_Database_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Servers_Database_Spec_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_Database_Spec_ARM(generators)
-	AddRelatedPropertyGeneratorsForServers_Database_Spec_ARM(generators)
-	servers_Database_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Servers_Database_Spec_ARM{}), generators)
-
-	return servers_Database_Spec_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForServers_Database_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServers_Database_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForServers_Database_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForServers_Database_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Identity"] = gen.PtrOf(DatabaseIdentity_ARMGenerator())
-	gens["Properties"] = gen.PtrOf(DatabaseProperties_ARMGenerator())
-	gens["Sku"] = gen.PtrOf(Sku_ARMGenerator())
-}
-
 func Test_DatabaseIdentity_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -272,6 +191,87 @@ func AddIndependentPropertyGeneratorsForDatabaseProperties_ARM(gens map[string]g
 	gens["SourceDatabaseId"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["ZoneRedundant"] = gen.PtrOf(gen.Bool())
+}
+
+func Test_Servers_Database_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Servers_Database_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServers_Database_Spec_ARM, Servers_Database_Spec_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForServers_Database_Spec_ARM runs a test to see if a specific instance of Servers_Database_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForServers_Database_Spec_ARM(subject Servers_Database_Spec_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Servers_Database_Spec_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Servers_Database_Spec_ARM instances for property testing - lazily instantiated by
+// Servers_Database_Spec_ARMGenerator()
+var servers_Database_Spec_ARMGenerator gopter.Gen
+
+// Servers_Database_Spec_ARMGenerator returns a generator of Servers_Database_Spec_ARM instances for property testing.
+// We first initialize servers_Database_Spec_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Servers_Database_Spec_ARMGenerator() gopter.Gen {
+	if servers_Database_Spec_ARMGenerator != nil {
+		return servers_Database_Spec_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServers_Database_Spec_ARM(generators)
+	servers_Database_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Servers_Database_Spec_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServers_Database_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForServers_Database_Spec_ARM(generators)
+	servers_Database_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Servers_Database_Spec_ARM{}), generators)
+
+	return servers_Database_Spec_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForServers_Database_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServers_Database_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.AlphaString()
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForServers_Database_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServers_Database_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Identity"] = gen.PtrOf(DatabaseIdentity_ARMGenerator())
+	gens["Properties"] = gen.PtrOf(DatabaseProperties_ARMGenerator())
+	gens["Sku"] = gen.PtrOf(Sku_ARMGenerator())
 }
 
 func Test_Sku_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

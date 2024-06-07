@@ -17,6 +17,67 @@ import (
 	"testing"
 )
 
+func Test_ProfileProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ProfileProperties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForProfileProperties_ARM, ProfileProperties_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForProfileProperties_ARM runs a test to see if a specific instance of ProfileProperties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForProfileProperties_ARM(subject ProfileProperties_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ProfileProperties_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ProfileProperties_ARM instances for property testing - lazily instantiated by
+// ProfileProperties_ARMGenerator()
+var profileProperties_ARMGenerator gopter.Gen
+
+// ProfileProperties_ARMGenerator returns a generator of ProfileProperties_ARM instances for property testing.
+func ProfileProperties_ARMGenerator() gopter.Gen {
+	if profileProperties_ARMGenerator != nil {
+		return profileProperties_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForProfileProperties_ARM(generators)
+	profileProperties_ARMGenerator = gen.Struct(reflect.TypeOf(ProfileProperties_ARM{}), generators)
+
+	return profileProperties_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForProfileProperties_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForProfileProperties_ARM(gens map[string]gopter.Gen) {
+	gens["OriginResponseTimeoutSeconds"] = gen.PtrOf(gen.Int())
+}
+
 func Test_Profile_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -94,67 +155,6 @@ func AddIndependentPropertyGeneratorsForProfile_Spec_ARM(gens map[string]gopter.
 func AddRelatedPropertyGeneratorsForProfile_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(ProfileProperties_ARMGenerator())
 	gens["Sku"] = gen.PtrOf(Sku_ARMGenerator())
-}
-
-func Test_ProfileProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ProfileProperties_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProfileProperties_ARM, ProfileProperties_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForProfileProperties_ARM runs a test to see if a specific instance of ProfileProperties_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForProfileProperties_ARM(subject ProfileProperties_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ProfileProperties_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ProfileProperties_ARM instances for property testing - lazily instantiated by
-// ProfileProperties_ARMGenerator()
-var profileProperties_ARMGenerator gopter.Gen
-
-// ProfileProperties_ARMGenerator returns a generator of ProfileProperties_ARM instances for property testing.
-func ProfileProperties_ARMGenerator() gopter.Gen {
-	if profileProperties_ARMGenerator != nil {
-		return profileProperties_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfileProperties_ARM(generators)
-	profileProperties_ARMGenerator = gen.Struct(reflect.TypeOf(ProfileProperties_ARM{}), generators)
-
-	return profileProperties_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForProfileProperties_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProfileProperties_ARM(gens map[string]gopter.Gen) {
-	gens["OriginResponseTimeoutSeconds"] = gen.PtrOf(gen.Int())
 }
 
 func Test_Sku_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

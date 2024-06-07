@@ -164,6 +164,103 @@ func AddRelatedPropertyGeneratorsForProductApi(gens map[string]gopter.Gen) {
 	gens["Status"] = Service_Products_Api_STATUSGenerator()
 }
 
+func Test_Service_Products_Api_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Service_Products_Api_STATUS to Service_Products_Api_STATUS via AssignProperties_To_Service_Products_Api_STATUS & AssignProperties_From_Service_Products_Api_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForService_Products_Api_STATUS, Service_Products_Api_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForService_Products_Api_STATUS tests if a specific instance of Service_Products_Api_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForService_Products_Api_STATUS(subject Service_Products_Api_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Service_Products_Api_STATUS
+	err := copied.AssignProperties_To_Service_Products_Api_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Service_Products_Api_STATUS
+	err = actual.AssignProperties_From_Service_Products_Api_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Service_Products_Api_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Service_Products_Api_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForService_Products_Api_STATUS, Service_Products_Api_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForService_Products_Api_STATUS runs a test to see if a specific instance of Service_Products_Api_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForService_Products_Api_STATUS(subject Service_Products_Api_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Service_Products_Api_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Service_Products_Api_STATUS instances for property testing - lazily instantiated by
+// Service_Products_Api_STATUSGenerator()
+var service_Products_Api_STATUSGenerator gopter.Gen
+
+// Service_Products_Api_STATUSGenerator returns a generator of Service_Products_Api_STATUS instances for property testing.
+func Service_Products_Api_STATUSGenerator() gopter.Gen {
+	if service_Products_Api_STATUSGenerator != nil {
+		return service_Products_Api_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	service_Products_Api_STATUSGenerator = gen.Struct(reflect.TypeOf(Service_Products_Api_STATUS{}), generators)
+
+	return service_Products_Api_STATUSGenerator
+}
+
 func Test_Service_Products_Api_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -266,101 +363,4 @@ func Service_Products_Api_SpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForService_Products_Api_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["OriginalVersion"] = gen.AlphaString()
-}
-
-func Test_Service_Products_Api_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Service_Products_Api_STATUS to Service_Products_Api_STATUS via AssignProperties_To_Service_Products_Api_STATUS & AssignProperties_From_Service_Products_Api_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForService_Products_Api_STATUS, Service_Products_Api_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForService_Products_Api_STATUS tests if a specific instance of Service_Products_Api_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForService_Products_Api_STATUS(subject Service_Products_Api_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Service_Products_Api_STATUS
-	err := copied.AssignProperties_To_Service_Products_Api_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Service_Products_Api_STATUS
-	err = actual.AssignProperties_From_Service_Products_Api_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_Service_Products_Api_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Service_Products_Api_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForService_Products_Api_STATUS, Service_Products_Api_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForService_Products_Api_STATUS runs a test to see if a specific instance of Service_Products_Api_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForService_Products_Api_STATUS(subject Service_Products_Api_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Service_Products_Api_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Service_Products_Api_STATUS instances for property testing - lazily instantiated by
-// Service_Products_Api_STATUSGenerator()
-var service_Products_Api_STATUSGenerator gopter.Gen
-
-// Service_Products_Api_STATUSGenerator returns a generator of Service_Products_Api_STATUS instances for property testing.
-func Service_Products_Api_STATUSGenerator() gopter.Gen {
-	if service_Products_Api_STATUSGenerator != nil {
-		return service_Products_Api_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	service_Products_Api_STATUSGenerator = gen.Struct(reflect.TypeOf(Service_Products_Api_STATUS{}), generators)
-
-	return service_Products_Api_STATUSGenerator
 }

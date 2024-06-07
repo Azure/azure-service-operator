@@ -165,128 +165,6 @@ func AddRelatedPropertyGeneratorsForDnsForwardingRuleSetsForwardingRule(gens map
 	gens["Status"] = DnsForwardingRulesets_ForwardingRule_STATUSGenerator()
 }
 
-func Test_DnsForwardingRulesets_ForwardingRule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DnsForwardingRulesets_ForwardingRule_Spec to DnsForwardingRulesets_ForwardingRule_Spec via AssignProperties_To_DnsForwardingRulesets_ForwardingRule_Spec & AssignProperties_From_DnsForwardingRulesets_ForwardingRule_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDnsForwardingRulesets_ForwardingRule_Spec, DnsForwardingRulesets_ForwardingRule_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForDnsForwardingRulesets_ForwardingRule_Spec tests if a specific instance of DnsForwardingRulesets_ForwardingRule_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDnsForwardingRulesets_ForwardingRule_Spec(subject DnsForwardingRulesets_ForwardingRule_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DnsForwardingRulesets_ForwardingRule_Spec
-	err := copied.AssignProperties_To_DnsForwardingRulesets_ForwardingRule_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DnsForwardingRulesets_ForwardingRule_Spec
-	err = actual.AssignProperties_From_DnsForwardingRulesets_ForwardingRule_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_DnsForwardingRulesets_ForwardingRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DnsForwardingRulesets_ForwardingRule_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDnsForwardingRulesets_ForwardingRule_Spec, DnsForwardingRulesets_ForwardingRule_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForDnsForwardingRulesets_ForwardingRule_Spec runs a test to see if a specific instance of DnsForwardingRulesets_ForwardingRule_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForDnsForwardingRulesets_ForwardingRule_Spec(subject DnsForwardingRulesets_ForwardingRule_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual DnsForwardingRulesets_ForwardingRule_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of DnsForwardingRulesets_ForwardingRule_Spec instances for property testing - lazily instantiated by
-// DnsForwardingRulesets_ForwardingRule_SpecGenerator()
-var dnsForwardingRulesets_ForwardingRule_SpecGenerator gopter.Gen
-
-// DnsForwardingRulesets_ForwardingRule_SpecGenerator returns a generator of DnsForwardingRulesets_ForwardingRule_Spec instances for property testing.
-// We first initialize dnsForwardingRulesets_ForwardingRule_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DnsForwardingRulesets_ForwardingRule_SpecGenerator() gopter.Gen {
-	if dnsForwardingRulesets_ForwardingRule_SpecGenerator != nil {
-		return dnsForwardingRulesets_ForwardingRule_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsForwardingRulesets_ForwardingRule_Spec(generators)
-	dnsForwardingRulesets_ForwardingRule_SpecGenerator = gen.Struct(reflect.TypeOf(DnsForwardingRulesets_ForwardingRule_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsForwardingRulesets_ForwardingRule_Spec(generators)
-	AddRelatedPropertyGeneratorsForDnsForwardingRulesets_ForwardingRule_Spec(generators)
-	dnsForwardingRulesets_ForwardingRule_SpecGenerator = gen.Struct(reflect.TypeOf(DnsForwardingRulesets_ForwardingRule_Spec{}), generators)
-
-	return dnsForwardingRulesets_ForwardingRule_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDnsForwardingRulesets_ForwardingRule_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDnsForwardingRulesets_ForwardingRule_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["DomainName"] = gen.PtrOf(gen.AlphaString())
-	gens["ForwardingRuleState"] = gen.PtrOf(gen.OneConstOf(ForwardingRuleProperties_ForwardingRuleState_Disabled, ForwardingRuleProperties_ForwardingRuleState_Enabled))
-	gens["Metadata"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDnsForwardingRulesets_ForwardingRule_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDnsForwardingRulesets_ForwardingRule_Spec(gens map[string]gopter.Gen) {
-	gens["TargetDnsServers"] = gen.SliceOf(TargetDnsServerGenerator())
-}
-
 func Test_DnsForwardingRulesets_ForwardingRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -418,6 +296,128 @@ func AddIndependentPropertyGeneratorsForDnsForwardingRulesets_ForwardingRule_STA
 func AddRelatedPropertyGeneratorsForDnsForwardingRulesets_ForwardingRule_STATUS(gens map[string]gopter.Gen) {
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 	gens["TargetDnsServers"] = gen.SliceOf(TargetDnsServer_STATUSGenerator())
+}
+
+func Test_DnsForwardingRulesets_ForwardingRule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DnsForwardingRulesets_ForwardingRule_Spec to DnsForwardingRulesets_ForwardingRule_Spec via AssignProperties_To_DnsForwardingRulesets_ForwardingRule_Spec & AssignProperties_From_DnsForwardingRulesets_ForwardingRule_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDnsForwardingRulesets_ForwardingRule_Spec, DnsForwardingRulesets_ForwardingRule_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDnsForwardingRulesets_ForwardingRule_Spec tests if a specific instance of DnsForwardingRulesets_ForwardingRule_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDnsForwardingRulesets_ForwardingRule_Spec(subject DnsForwardingRulesets_ForwardingRule_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.DnsForwardingRulesets_ForwardingRule_Spec
+	err := copied.AssignProperties_To_DnsForwardingRulesets_ForwardingRule_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DnsForwardingRulesets_ForwardingRule_Spec
+	err = actual.AssignProperties_From_DnsForwardingRulesets_ForwardingRule_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_DnsForwardingRulesets_ForwardingRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DnsForwardingRulesets_ForwardingRule_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDnsForwardingRulesets_ForwardingRule_Spec, DnsForwardingRulesets_ForwardingRule_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDnsForwardingRulesets_ForwardingRule_Spec runs a test to see if a specific instance of DnsForwardingRulesets_ForwardingRule_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForDnsForwardingRulesets_ForwardingRule_Spec(subject DnsForwardingRulesets_ForwardingRule_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DnsForwardingRulesets_ForwardingRule_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DnsForwardingRulesets_ForwardingRule_Spec instances for property testing - lazily instantiated by
+// DnsForwardingRulesets_ForwardingRule_SpecGenerator()
+var dnsForwardingRulesets_ForwardingRule_SpecGenerator gopter.Gen
+
+// DnsForwardingRulesets_ForwardingRule_SpecGenerator returns a generator of DnsForwardingRulesets_ForwardingRule_Spec instances for property testing.
+// We first initialize dnsForwardingRulesets_ForwardingRule_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func DnsForwardingRulesets_ForwardingRule_SpecGenerator() gopter.Gen {
+	if dnsForwardingRulesets_ForwardingRule_SpecGenerator != nil {
+		return dnsForwardingRulesets_ForwardingRule_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDnsForwardingRulesets_ForwardingRule_Spec(generators)
+	dnsForwardingRulesets_ForwardingRule_SpecGenerator = gen.Struct(reflect.TypeOf(DnsForwardingRulesets_ForwardingRule_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDnsForwardingRulesets_ForwardingRule_Spec(generators)
+	AddRelatedPropertyGeneratorsForDnsForwardingRulesets_ForwardingRule_Spec(generators)
+	dnsForwardingRulesets_ForwardingRule_SpecGenerator = gen.Struct(reflect.TypeOf(DnsForwardingRulesets_ForwardingRule_Spec{}), generators)
+
+	return dnsForwardingRulesets_ForwardingRule_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForDnsForwardingRulesets_ForwardingRule_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDnsForwardingRulesets_ForwardingRule_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["DomainName"] = gen.PtrOf(gen.AlphaString())
+	gens["ForwardingRuleState"] = gen.PtrOf(gen.OneConstOf(ForwardingRuleProperties_ForwardingRuleState_Disabled, ForwardingRuleProperties_ForwardingRuleState_Enabled))
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForDnsForwardingRulesets_ForwardingRule_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDnsForwardingRulesets_ForwardingRule_Spec(gens map[string]gopter.Gen) {
+	gens["TargetDnsServers"] = gen.SliceOf(TargetDnsServerGenerator())
 }
 
 func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

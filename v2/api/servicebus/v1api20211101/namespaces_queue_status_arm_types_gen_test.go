@@ -17,6 +17,71 @@ import (
 	"testing"
 )
 
+func Test_MessageCountDetails_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of MessageCountDetails_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMessageCountDetails_STATUS_ARM, MessageCountDetails_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForMessageCountDetails_STATUS_ARM runs a test to see if a specific instance of MessageCountDetails_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForMessageCountDetails_STATUS_ARM(subject MessageCountDetails_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual MessageCountDetails_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of MessageCountDetails_STATUS_ARM instances for property testing - lazily instantiated by
+// MessageCountDetails_STATUS_ARMGenerator()
+var messageCountDetails_STATUS_ARMGenerator gopter.Gen
+
+// MessageCountDetails_STATUS_ARMGenerator returns a generator of MessageCountDetails_STATUS_ARM instances for property testing.
+func MessageCountDetails_STATUS_ARMGenerator() gopter.Gen {
+	if messageCountDetails_STATUS_ARMGenerator != nil {
+		return messageCountDetails_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForMessageCountDetails_STATUS_ARM(generators)
+	messageCountDetails_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(MessageCountDetails_STATUS_ARM{}), generators)
+
+	return messageCountDetails_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForMessageCountDetails_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMessageCountDetails_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["ActiveMessageCount"] = gen.PtrOf(gen.Int())
+	gens["DeadLetterMessageCount"] = gen.PtrOf(gen.Int())
+	gens["ScheduledMessageCount"] = gen.PtrOf(gen.Int())
+	gens["TransferDeadLetterMessageCount"] = gen.PtrOf(gen.Int())
+	gens["TransferMessageCount"] = gen.PtrOf(gen.Int())
+}
+
 func Test_Namespaces_Queue_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -198,69 +263,4 @@ func AddIndependentPropertyGeneratorsForSBQueueProperties_STATUS_ARM(gens map[st
 // AddRelatedPropertyGeneratorsForSBQueueProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSBQueueProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["CountDetails"] = gen.PtrOf(MessageCountDetails_STATUS_ARMGenerator())
-}
-
-func Test_MessageCountDetails_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of MessageCountDetails_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMessageCountDetails_STATUS_ARM, MessageCountDetails_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForMessageCountDetails_STATUS_ARM runs a test to see if a specific instance of MessageCountDetails_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForMessageCountDetails_STATUS_ARM(subject MessageCountDetails_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual MessageCountDetails_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of MessageCountDetails_STATUS_ARM instances for property testing - lazily instantiated by
-// MessageCountDetails_STATUS_ARMGenerator()
-var messageCountDetails_STATUS_ARMGenerator gopter.Gen
-
-// MessageCountDetails_STATUS_ARMGenerator returns a generator of MessageCountDetails_STATUS_ARM instances for property testing.
-func MessageCountDetails_STATUS_ARMGenerator() gopter.Gen {
-	if messageCountDetails_STATUS_ARMGenerator != nil {
-		return messageCountDetails_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMessageCountDetails_STATUS_ARM(generators)
-	messageCountDetails_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(MessageCountDetails_STATUS_ARM{}), generators)
-
-	return messageCountDetails_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForMessageCountDetails_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMessageCountDetails_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ActiveMessageCount"] = gen.PtrOf(gen.Int())
-	gens["DeadLetterMessageCount"] = gen.PtrOf(gen.Int())
-	gens["ScheduledMessageCount"] = gen.PtrOf(gen.Int())
-	gens["TransferDeadLetterMessageCount"] = gen.PtrOf(gen.Int())
-	gens["TransferMessageCount"] = gen.PtrOf(gen.Int())
 }

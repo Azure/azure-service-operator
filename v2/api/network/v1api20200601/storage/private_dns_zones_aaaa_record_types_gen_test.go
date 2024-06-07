@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_PrivateDnsZonesAAAARecord_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ARecord_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
+	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of PrivateDnsZonesAAAARecord via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateDnsZonesAAAARecord, PrivateDnsZonesAAAARecordGenerator()))
+		"Round trip of ARecord via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForARecord, ARecordGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPrivateDnsZonesAAAARecord runs a test to see if a specific instance of PrivateDnsZonesAAAARecord round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateDnsZonesAAAARecord(subject PrivateDnsZonesAAAARecord) string {
+// RunJSONSerializationTestForARecord runs a test to see if a specific instance of ARecord round trips to JSON and back losslessly
+func RunJSONSerializationTestForARecord(subject ARecord) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForPrivateDnsZonesAAAARecord(subject PrivateDnsZone
 	}
 
 	// Deserialize back into memory
-	var actual PrivateDnsZonesAAAARecord
+	var actual ARecord
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,131 +56,41 @@ func RunJSONSerializationTestForPrivateDnsZonesAAAARecord(subject PrivateDnsZone
 	return ""
 }
 
-// Generator of PrivateDnsZonesAAAARecord instances for property testing - lazily instantiated by
-// PrivateDnsZonesAAAARecordGenerator()
-var privateDnsZonesAAAARecordGenerator gopter.Gen
+// Generator of ARecord instances for property testing - lazily instantiated by ARecordGenerator()
+var aRecordGenerator gopter.Gen
 
-// PrivateDnsZonesAAAARecordGenerator returns a generator of PrivateDnsZonesAAAARecord instances for property testing.
-func PrivateDnsZonesAAAARecordGenerator() gopter.Gen {
-	if privateDnsZonesAAAARecordGenerator != nil {
-		return privateDnsZonesAAAARecordGenerator
+// ARecordGenerator returns a generator of ARecord instances for property testing.
+func ARecordGenerator() gopter.Gen {
+	if aRecordGenerator != nil {
+		return aRecordGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForPrivateDnsZonesAAAARecord(generators)
-	privateDnsZonesAAAARecordGenerator = gen.Struct(reflect.TypeOf(PrivateDnsZonesAAAARecord{}), generators)
+	AddIndependentPropertyGeneratorsForARecord(generators)
+	aRecordGenerator = gen.Struct(reflect.TypeOf(ARecord{}), generators)
 
-	return privateDnsZonesAAAARecordGenerator
+	return aRecordGenerator
 }
 
-// AddRelatedPropertyGeneratorsForPrivateDnsZonesAAAARecord is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPrivateDnsZonesAAAARecord(gens map[string]gopter.Gen) {
-	gens["Spec"] = PrivateDnsZones_AAAA_SpecGenerator()
-	gens["Status"] = PrivateDnsZones_AAAA_STATUSGenerator()
+// AddIndependentPropertyGeneratorsForARecord is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForARecord(gens map[string]gopter.Gen) {
+	gens["Ipv4Address"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_PrivateDnsZones_AAAA_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrivateDnsZones_AAAA_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateDnsZones_AAAA_Spec, PrivateDnsZones_AAAA_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPrivateDnsZones_AAAA_Spec runs a test to see if a specific instance of PrivateDnsZones_AAAA_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateDnsZones_AAAA_Spec(subject PrivateDnsZones_AAAA_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual PrivateDnsZones_AAAA_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of PrivateDnsZones_AAAA_Spec instances for property testing - lazily instantiated by
-// PrivateDnsZones_AAAA_SpecGenerator()
-var privateDnsZones_AAAA_SpecGenerator gopter.Gen
-
-// PrivateDnsZones_AAAA_SpecGenerator returns a generator of PrivateDnsZones_AAAA_Spec instances for property testing.
-// We first initialize privateDnsZones_AAAA_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func PrivateDnsZones_AAAA_SpecGenerator() gopter.Gen {
-	if privateDnsZones_AAAA_SpecGenerator != nil {
-		return privateDnsZones_AAAA_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateDnsZones_AAAA_Spec(generators)
-	privateDnsZones_AAAA_SpecGenerator = gen.Struct(reflect.TypeOf(PrivateDnsZones_AAAA_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateDnsZones_AAAA_Spec(generators)
-	AddRelatedPropertyGeneratorsForPrivateDnsZones_AAAA_Spec(generators)
-	privateDnsZones_AAAA_SpecGenerator = gen.Struct(reflect.TypeOf(PrivateDnsZones_AAAA_Spec{}), generators)
-
-	return privateDnsZones_AAAA_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrivateDnsZones_AAAA_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateDnsZones_AAAA_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["Metadata"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Ttl"] = gen.PtrOf(gen.Int())
-}
-
-// AddRelatedPropertyGeneratorsForPrivateDnsZones_AAAA_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPrivateDnsZones_AAAA_Spec(gens map[string]gopter.Gen) {
-	gens["ARecords"] = gen.SliceOf(ARecordGenerator())
-	gens["AaaaRecords"] = gen.SliceOf(AaaaRecordGenerator())
-	gens["CnameRecord"] = gen.PtrOf(CnameRecordGenerator())
-	gens["MxRecords"] = gen.SliceOf(MxRecordGenerator())
-	gens["PtrRecords"] = gen.SliceOf(PtrRecordGenerator())
-	gens["SoaRecord"] = gen.PtrOf(SoaRecordGenerator())
-	gens["SrvRecords"] = gen.SliceOf(SrvRecordGenerator())
-	gens["TxtRecords"] = gen.SliceOf(TxtRecordGenerator())
-}
-
-func Test_PrivateDnsZones_AAAA_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ARecord_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of PrivateDnsZones_AAAA_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateDnsZones_AAAA_STATUS, PrivateDnsZones_AAAA_STATUSGenerator()))
+		"Round trip of ARecord_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForARecord_STATUS, ARecord_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPrivateDnsZones_AAAA_STATUS runs a test to see if a specific instance of PrivateDnsZones_AAAA_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateDnsZones_AAAA_STATUS(subject PrivateDnsZones_AAAA_STATUS) string {
+// RunJSONSerializationTestForARecord_STATUS runs a test to see if a specific instance of ARecord_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForARecord_STATUS(subject ARecord_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -188,7 +98,7 @@ func RunJSONSerializationTestForPrivateDnsZones_AAAA_STATUS(subject PrivateDnsZo
 	}
 
 	// Deserialize back into memory
-	var actual PrivateDnsZones_AAAA_STATUS
+	var actual ARecord_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -206,56 +116,25 @@ func RunJSONSerializationTestForPrivateDnsZones_AAAA_STATUS(subject PrivateDnsZo
 	return ""
 }
 
-// Generator of PrivateDnsZones_AAAA_STATUS instances for property testing - lazily instantiated by
-// PrivateDnsZones_AAAA_STATUSGenerator()
-var privateDnsZones_AAAA_STATUSGenerator gopter.Gen
+// Generator of ARecord_STATUS instances for property testing - lazily instantiated by ARecord_STATUSGenerator()
+var aRecord_STATUSGenerator gopter.Gen
 
-// PrivateDnsZones_AAAA_STATUSGenerator returns a generator of PrivateDnsZones_AAAA_STATUS instances for property testing.
-// We first initialize privateDnsZones_AAAA_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func PrivateDnsZones_AAAA_STATUSGenerator() gopter.Gen {
-	if privateDnsZones_AAAA_STATUSGenerator != nil {
-		return privateDnsZones_AAAA_STATUSGenerator
+// ARecord_STATUSGenerator returns a generator of ARecord_STATUS instances for property testing.
+func ARecord_STATUSGenerator() gopter.Gen {
+	if aRecord_STATUSGenerator != nil {
+		return aRecord_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateDnsZones_AAAA_STATUS(generators)
-	privateDnsZones_AAAA_STATUSGenerator = gen.Struct(reflect.TypeOf(PrivateDnsZones_AAAA_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForARecord_STATUS(generators)
+	aRecord_STATUSGenerator = gen.Struct(reflect.TypeOf(ARecord_STATUS{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateDnsZones_AAAA_STATUS(generators)
-	AddRelatedPropertyGeneratorsForPrivateDnsZones_AAAA_STATUS(generators)
-	privateDnsZones_AAAA_STATUSGenerator = gen.Struct(reflect.TypeOf(PrivateDnsZones_AAAA_STATUS{}), generators)
-
-	return privateDnsZones_AAAA_STATUSGenerator
+	return aRecord_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPrivateDnsZones_AAAA_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateDnsZones_AAAA_STATUS(gens map[string]gopter.Gen) {
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["Fqdn"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["IsAutoRegistered"] = gen.PtrOf(gen.Bool())
-	gens["Metadata"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Ttl"] = gen.PtrOf(gen.Int())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForPrivateDnsZones_AAAA_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPrivateDnsZones_AAAA_STATUS(gens map[string]gopter.Gen) {
-	gens["ARecords"] = gen.SliceOf(ARecord_STATUSGenerator())
-	gens["AaaaRecords"] = gen.SliceOf(AaaaRecord_STATUSGenerator())
-	gens["CnameRecord"] = gen.PtrOf(CnameRecord_STATUSGenerator())
-	gens["MxRecords"] = gen.SliceOf(MxRecord_STATUSGenerator())
-	gens["PtrRecords"] = gen.SliceOf(PtrRecord_STATUSGenerator())
-	gens["SoaRecord"] = gen.PtrOf(SoaRecord_STATUSGenerator())
-	gens["SrvRecords"] = gen.SliceOf(SrvRecord_STATUSGenerator())
-	gens["TxtRecords"] = gen.SliceOf(TxtRecord_STATUSGenerator())
+// AddIndependentPropertyGeneratorsForARecord_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForARecord_STATUS(gens map[string]gopter.Gen) {
+	gens["Ipv4Address"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_AaaaRecord_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -376,126 +255,6 @@ func AaaaRecord_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAaaaRecord_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAaaaRecord_STATUS(gens map[string]gopter.Gen) {
 	gens["Ipv6Address"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_ARecord_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ARecord via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForARecord, ARecordGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForARecord runs a test to see if a specific instance of ARecord round trips to JSON and back losslessly
-func RunJSONSerializationTestForARecord(subject ARecord) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ARecord
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ARecord instances for property testing - lazily instantiated by ARecordGenerator()
-var aRecordGenerator gopter.Gen
-
-// ARecordGenerator returns a generator of ARecord instances for property testing.
-func ARecordGenerator() gopter.Gen {
-	if aRecordGenerator != nil {
-		return aRecordGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForARecord(generators)
-	aRecordGenerator = gen.Struct(reflect.TypeOf(ARecord{}), generators)
-
-	return aRecordGenerator
-}
-
-// AddIndependentPropertyGeneratorsForARecord is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForARecord(gens map[string]gopter.Gen) {
-	gens["Ipv4Address"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_ARecord_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ARecord_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForARecord_STATUS, ARecord_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForARecord_STATUS runs a test to see if a specific instance of ARecord_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForARecord_STATUS(subject ARecord_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ARecord_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ARecord_STATUS instances for property testing - lazily instantiated by ARecord_STATUSGenerator()
-var aRecord_STATUSGenerator gopter.Gen
-
-// ARecord_STATUSGenerator returns a generator of ARecord_STATUS instances for property testing.
-func ARecord_STATUSGenerator() gopter.Gen {
-	if aRecord_STATUSGenerator != nil {
-		return aRecord_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForARecord_STATUS(generators)
-	aRecord_STATUSGenerator = gen.Struct(reflect.TypeOf(ARecord_STATUS{}), generators)
-
-	return aRecord_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForARecord_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForARecord_STATUS(gens map[string]gopter.Gen) {
-	gens["Ipv4Address"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_CnameRecord_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -738,6 +497,247 @@ func MxRecord_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForMxRecord_STATUS(gens map[string]gopter.Gen) {
 	gens["Exchange"] = gen.PtrOf(gen.AlphaString())
 	gens["Preference"] = gen.PtrOf(gen.Int())
+}
+
+func Test_PrivateDnsZonesAAAARecord_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PrivateDnsZonesAAAARecord via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateDnsZonesAAAARecord, PrivateDnsZonesAAAARecordGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPrivateDnsZonesAAAARecord runs a test to see if a specific instance of PrivateDnsZonesAAAARecord round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateDnsZonesAAAARecord(subject PrivateDnsZonesAAAARecord) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PrivateDnsZonesAAAARecord
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PrivateDnsZonesAAAARecord instances for property testing - lazily instantiated by
+// PrivateDnsZonesAAAARecordGenerator()
+var privateDnsZonesAAAARecordGenerator gopter.Gen
+
+// PrivateDnsZonesAAAARecordGenerator returns a generator of PrivateDnsZonesAAAARecord instances for property testing.
+func PrivateDnsZonesAAAARecordGenerator() gopter.Gen {
+	if privateDnsZonesAAAARecordGenerator != nil {
+		return privateDnsZonesAAAARecordGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForPrivateDnsZonesAAAARecord(generators)
+	privateDnsZonesAAAARecordGenerator = gen.Struct(reflect.TypeOf(PrivateDnsZonesAAAARecord{}), generators)
+
+	return privateDnsZonesAAAARecordGenerator
+}
+
+// AddRelatedPropertyGeneratorsForPrivateDnsZonesAAAARecord is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForPrivateDnsZonesAAAARecord(gens map[string]gopter.Gen) {
+	gens["Spec"] = PrivateDnsZones_AAAA_SpecGenerator()
+	gens["Status"] = PrivateDnsZones_AAAA_STATUSGenerator()
+}
+
+func Test_PrivateDnsZones_AAAA_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PrivateDnsZones_AAAA_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateDnsZones_AAAA_STATUS, PrivateDnsZones_AAAA_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPrivateDnsZones_AAAA_STATUS runs a test to see if a specific instance of PrivateDnsZones_AAAA_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateDnsZones_AAAA_STATUS(subject PrivateDnsZones_AAAA_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PrivateDnsZones_AAAA_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PrivateDnsZones_AAAA_STATUS instances for property testing - lazily instantiated by
+// PrivateDnsZones_AAAA_STATUSGenerator()
+var privateDnsZones_AAAA_STATUSGenerator gopter.Gen
+
+// PrivateDnsZones_AAAA_STATUSGenerator returns a generator of PrivateDnsZones_AAAA_STATUS instances for property testing.
+// We first initialize privateDnsZones_AAAA_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func PrivateDnsZones_AAAA_STATUSGenerator() gopter.Gen {
+	if privateDnsZones_AAAA_STATUSGenerator != nil {
+		return privateDnsZones_AAAA_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPrivateDnsZones_AAAA_STATUS(generators)
+	privateDnsZones_AAAA_STATUSGenerator = gen.Struct(reflect.TypeOf(PrivateDnsZones_AAAA_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPrivateDnsZones_AAAA_STATUS(generators)
+	AddRelatedPropertyGeneratorsForPrivateDnsZones_AAAA_STATUS(generators)
+	privateDnsZones_AAAA_STATUSGenerator = gen.Struct(reflect.TypeOf(PrivateDnsZones_AAAA_STATUS{}), generators)
+
+	return privateDnsZones_AAAA_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForPrivateDnsZones_AAAA_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateDnsZones_AAAA_STATUS(gens map[string]gopter.Gen) {
+	gens["Etag"] = gen.PtrOf(gen.AlphaString())
+	gens["Fqdn"] = gen.PtrOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["IsAutoRegistered"] = gen.PtrOf(gen.Bool())
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Ttl"] = gen.PtrOf(gen.Int())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForPrivateDnsZones_AAAA_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForPrivateDnsZones_AAAA_STATUS(gens map[string]gopter.Gen) {
+	gens["ARecords"] = gen.SliceOf(ARecord_STATUSGenerator())
+	gens["AaaaRecords"] = gen.SliceOf(AaaaRecord_STATUSGenerator())
+	gens["CnameRecord"] = gen.PtrOf(CnameRecord_STATUSGenerator())
+	gens["MxRecords"] = gen.SliceOf(MxRecord_STATUSGenerator())
+	gens["PtrRecords"] = gen.SliceOf(PtrRecord_STATUSGenerator())
+	gens["SoaRecord"] = gen.PtrOf(SoaRecord_STATUSGenerator())
+	gens["SrvRecords"] = gen.SliceOf(SrvRecord_STATUSGenerator())
+	gens["TxtRecords"] = gen.SliceOf(TxtRecord_STATUSGenerator())
+}
+
+func Test_PrivateDnsZones_AAAA_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PrivateDnsZones_AAAA_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateDnsZones_AAAA_Spec, PrivateDnsZones_AAAA_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPrivateDnsZones_AAAA_Spec runs a test to see if a specific instance of PrivateDnsZones_AAAA_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateDnsZones_AAAA_Spec(subject PrivateDnsZones_AAAA_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PrivateDnsZones_AAAA_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PrivateDnsZones_AAAA_Spec instances for property testing - lazily instantiated by
+// PrivateDnsZones_AAAA_SpecGenerator()
+var privateDnsZones_AAAA_SpecGenerator gopter.Gen
+
+// PrivateDnsZones_AAAA_SpecGenerator returns a generator of PrivateDnsZones_AAAA_Spec instances for property testing.
+// We first initialize privateDnsZones_AAAA_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func PrivateDnsZones_AAAA_SpecGenerator() gopter.Gen {
+	if privateDnsZones_AAAA_SpecGenerator != nil {
+		return privateDnsZones_AAAA_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPrivateDnsZones_AAAA_Spec(generators)
+	privateDnsZones_AAAA_SpecGenerator = gen.Struct(reflect.TypeOf(PrivateDnsZones_AAAA_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPrivateDnsZones_AAAA_Spec(generators)
+	AddRelatedPropertyGeneratorsForPrivateDnsZones_AAAA_Spec(generators)
+	privateDnsZones_AAAA_SpecGenerator = gen.Struct(reflect.TypeOf(PrivateDnsZones_AAAA_Spec{}), generators)
+
+	return privateDnsZones_AAAA_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForPrivateDnsZones_AAAA_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateDnsZones_AAAA_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["Etag"] = gen.PtrOf(gen.AlphaString())
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["Ttl"] = gen.PtrOf(gen.Int())
+}
+
+// AddRelatedPropertyGeneratorsForPrivateDnsZones_AAAA_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForPrivateDnsZones_AAAA_Spec(gens map[string]gopter.Gen) {
+	gens["ARecords"] = gen.SliceOf(ARecordGenerator())
+	gens["AaaaRecords"] = gen.SliceOf(AaaaRecordGenerator())
+	gens["CnameRecord"] = gen.PtrOf(CnameRecordGenerator())
+	gens["MxRecords"] = gen.SliceOf(MxRecordGenerator())
+	gens["PtrRecords"] = gen.SliceOf(PtrRecordGenerator())
+	gens["SoaRecord"] = gen.PtrOf(SoaRecordGenerator())
+	gens["SrvRecords"] = gen.SliceOf(SrvRecordGenerator())
+	gens["TxtRecords"] = gen.SliceOf(TxtRecordGenerator())
 }
 
 func Test_PtrRecord_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

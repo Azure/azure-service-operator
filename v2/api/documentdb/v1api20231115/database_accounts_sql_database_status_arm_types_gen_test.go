@@ -98,68 +98,6 @@ func AddRelatedPropertyGeneratorsForDatabaseAccounts_SqlDatabase_STATUS_ARM(gens
 	gens["Properties"] = gen.PtrOf(SqlDatabaseGetProperties_STATUS_ARMGenerator())
 }
 
-func Test_SqlDatabaseGetProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SqlDatabaseGetProperties_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSqlDatabaseGetProperties_STATUS_ARM, SqlDatabaseGetProperties_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSqlDatabaseGetProperties_STATUS_ARM runs a test to see if a specific instance of SqlDatabaseGetProperties_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSqlDatabaseGetProperties_STATUS_ARM(subject SqlDatabaseGetProperties_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual SqlDatabaseGetProperties_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of SqlDatabaseGetProperties_STATUS_ARM instances for property testing - lazily instantiated by
-// SqlDatabaseGetProperties_STATUS_ARMGenerator()
-var sqlDatabaseGetProperties_STATUS_ARMGenerator gopter.Gen
-
-// SqlDatabaseGetProperties_STATUS_ARMGenerator returns a generator of SqlDatabaseGetProperties_STATUS_ARM instances for property testing.
-func SqlDatabaseGetProperties_STATUS_ARMGenerator() gopter.Gen {
-	if sqlDatabaseGetProperties_STATUS_ARMGenerator != nil {
-		return sqlDatabaseGetProperties_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForSqlDatabaseGetProperties_STATUS_ARM(generators)
-	sqlDatabaseGetProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(SqlDatabaseGetProperties_STATUS_ARM{}), generators)
-
-	return sqlDatabaseGetProperties_STATUS_ARMGenerator
-}
-
-// AddRelatedPropertyGeneratorsForSqlDatabaseGetProperties_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSqlDatabaseGetProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Options"] = gen.PtrOf(OptionsResource_STATUS_ARMGenerator())
-	gens["Resource"] = gen.PtrOf(SqlDatabaseGetProperties_Resource_STATUS_ARMGenerator())
-}
-
 func Test_SqlDatabaseGetProperties_Resource_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -239,4 +177,66 @@ func AddIndependentPropertyGeneratorsForSqlDatabaseGetProperties_Resource_STATUS
 // AddRelatedPropertyGeneratorsForSqlDatabaseGetProperties_Resource_STATUS_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSqlDatabaseGetProperties_Resource_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["RestoreParameters"] = gen.PtrOf(RestoreParametersBase_STATUS_ARMGenerator())
+}
+
+func Test_SqlDatabaseGetProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SqlDatabaseGetProperties_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSqlDatabaseGetProperties_STATUS_ARM, SqlDatabaseGetProperties_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSqlDatabaseGetProperties_STATUS_ARM runs a test to see if a specific instance of SqlDatabaseGetProperties_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlDatabaseGetProperties_STATUS_ARM(subject SqlDatabaseGetProperties_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SqlDatabaseGetProperties_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SqlDatabaseGetProperties_STATUS_ARM instances for property testing - lazily instantiated by
+// SqlDatabaseGetProperties_STATUS_ARMGenerator()
+var sqlDatabaseGetProperties_STATUS_ARMGenerator gopter.Gen
+
+// SqlDatabaseGetProperties_STATUS_ARMGenerator returns a generator of SqlDatabaseGetProperties_STATUS_ARM instances for property testing.
+func SqlDatabaseGetProperties_STATUS_ARMGenerator() gopter.Gen {
+	if sqlDatabaseGetProperties_STATUS_ARMGenerator != nil {
+		return sqlDatabaseGetProperties_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForSqlDatabaseGetProperties_STATUS_ARM(generators)
+	sqlDatabaseGetProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(SqlDatabaseGetProperties_STATUS_ARM{}), generators)
+
+	return sqlDatabaseGetProperties_STATUS_ARMGenerator
+}
+
+// AddRelatedPropertyGeneratorsForSqlDatabaseGetProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSqlDatabaseGetProperties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Options"] = gen.PtrOf(OptionsResource_STATUS_ARMGenerator())
+	gens["Resource"] = gen.PtrOf(SqlDatabaseGetProperties_Resource_STATUS_ARMGenerator())
 }

@@ -17,81 +17,6 @@ import (
 	"testing"
 )
 
-func Test_RedisEnterprise_Database_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RedisEnterprise_Database_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisEnterprise_Database_Spec_ARM, RedisEnterprise_Database_Spec_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForRedisEnterprise_Database_Spec_ARM runs a test to see if a specific instance of RedisEnterprise_Database_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisEnterprise_Database_Spec_ARM(subject RedisEnterprise_Database_Spec_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual RedisEnterprise_Database_Spec_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of RedisEnterprise_Database_Spec_ARM instances for property testing - lazily instantiated by
-// RedisEnterprise_Database_Spec_ARMGenerator()
-var redisEnterprise_Database_Spec_ARMGenerator gopter.Gen
-
-// RedisEnterprise_Database_Spec_ARMGenerator returns a generator of RedisEnterprise_Database_Spec_ARM instances for property testing.
-// We first initialize redisEnterprise_Database_Spec_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func RedisEnterprise_Database_Spec_ARMGenerator() gopter.Gen {
-	if redisEnterprise_Database_Spec_ARMGenerator != nil {
-		return redisEnterprise_Database_Spec_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisEnterprise_Database_Spec_ARM(generators)
-	redisEnterprise_Database_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(RedisEnterprise_Database_Spec_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisEnterprise_Database_Spec_ARM(generators)
-	AddRelatedPropertyGeneratorsForRedisEnterprise_Database_Spec_ARM(generators)
-	redisEnterprise_Database_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(RedisEnterprise_Database_Spec_ARM{}), generators)
-
-	return redisEnterprise_Database_Spec_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRedisEnterprise_Database_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedisEnterprise_Database_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForRedisEnterprise_Database_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRedisEnterprise_Database_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(DatabaseProperties_ARMGenerator())
-}
-
 func Test_DatabaseProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -255,6 +180,66 @@ func AddRelatedPropertyGeneratorsForDatabaseProperties_GeoReplication_ARM(gens m
 	gens["LinkedDatabases"] = gen.SliceOf(LinkedDatabase_ARMGenerator())
 }
 
+func Test_LinkedDatabase_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of LinkedDatabase_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForLinkedDatabase_ARM, LinkedDatabase_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForLinkedDatabase_ARM runs a test to see if a specific instance of LinkedDatabase_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForLinkedDatabase_ARM(subject LinkedDatabase_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual LinkedDatabase_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of LinkedDatabase_ARM instances for property testing - lazily instantiated by LinkedDatabase_ARMGenerator()
+var linkedDatabase_ARMGenerator gopter.Gen
+
+// LinkedDatabase_ARMGenerator returns a generator of LinkedDatabase_ARM instances for property testing.
+func LinkedDatabase_ARMGenerator() gopter.Gen {
+	if linkedDatabase_ARMGenerator != nil {
+		return linkedDatabase_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForLinkedDatabase_ARM(generators)
+	linkedDatabase_ARMGenerator = gen.Struct(reflect.TypeOf(LinkedDatabase_ARM{}), generators)
+
+	return linkedDatabase_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForLinkedDatabase_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForLinkedDatabase_ARM(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
 func Test_Module_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -379,20 +364,20 @@ func AddIndependentPropertyGeneratorsForPersistence_ARM(gens map[string]gopter.G
 	gens["RdbFrequency"] = gen.PtrOf(gen.OneConstOf(Persistence_RdbFrequency_12H, Persistence_RdbFrequency_1H, Persistence_RdbFrequency_6H))
 }
 
-func Test_LinkedDatabase_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_RedisEnterprise_Database_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of LinkedDatabase_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLinkedDatabase_ARM, LinkedDatabase_ARMGenerator()))
+		"Round trip of RedisEnterprise_Database_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRedisEnterprise_Database_Spec_ARM, RedisEnterprise_Database_Spec_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForLinkedDatabase_ARM runs a test to see if a specific instance of LinkedDatabase_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForLinkedDatabase_ARM(subject LinkedDatabase_ARM) string {
+// RunJSONSerializationTestForRedisEnterprise_Database_Spec_ARM runs a test to see if a specific instance of RedisEnterprise_Database_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForRedisEnterprise_Database_Spec_ARM(subject RedisEnterprise_Database_Spec_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -400,7 +385,7 @@ func RunJSONSerializationTestForLinkedDatabase_ARM(subject LinkedDatabase_ARM) s
 	}
 
 	// Deserialize back into memory
-	var actual LinkedDatabase_ARM
+	var actual RedisEnterprise_Database_Spec_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -418,23 +403,38 @@ func RunJSONSerializationTestForLinkedDatabase_ARM(subject LinkedDatabase_ARM) s
 	return ""
 }
 
-// Generator of LinkedDatabase_ARM instances for property testing - lazily instantiated by LinkedDatabase_ARMGenerator()
-var linkedDatabase_ARMGenerator gopter.Gen
+// Generator of RedisEnterprise_Database_Spec_ARM instances for property testing - lazily instantiated by
+// RedisEnterprise_Database_Spec_ARMGenerator()
+var redisEnterprise_Database_Spec_ARMGenerator gopter.Gen
 
-// LinkedDatabase_ARMGenerator returns a generator of LinkedDatabase_ARM instances for property testing.
-func LinkedDatabase_ARMGenerator() gopter.Gen {
-	if linkedDatabase_ARMGenerator != nil {
-		return linkedDatabase_ARMGenerator
+// RedisEnterprise_Database_Spec_ARMGenerator returns a generator of RedisEnterprise_Database_Spec_ARM instances for property testing.
+// We first initialize redisEnterprise_Database_Spec_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func RedisEnterprise_Database_Spec_ARMGenerator() gopter.Gen {
+	if redisEnterprise_Database_Spec_ARMGenerator != nil {
+		return redisEnterprise_Database_Spec_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLinkedDatabase_ARM(generators)
-	linkedDatabase_ARMGenerator = gen.Struct(reflect.TypeOf(LinkedDatabase_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForRedisEnterprise_Database_Spec_ARM(generators)
+	redisEnterprise_Database_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(RedisEnterprise_Database_Spec_ARM{}), generators)
 
-	return linkedDatabase_ARMGenerator
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRedisEnterprise_Database_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForRedisEnterprise_Database_Spec_ARM(generators)
+	redisEnterprise_Database_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(RedisEnterprise_Database_Spec_ARM{}), generators)
+
+	return redisEnterprise_Database_Spec_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForLinkedDatabase_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLinkedDatabase_ARM(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
+// AddIndependentPropertyGeneratorsForRedisEnterprise_Database_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRedisEnterprise_Database_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.AlphaString()
+}
+
+// AddRelatedPropertyGeneratorsForRedisEnterprise_Database_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRedisEnterprise_Database_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(DatabaseProperties_ARMGenerator())
 }

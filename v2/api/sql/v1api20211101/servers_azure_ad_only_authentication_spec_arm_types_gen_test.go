@@ -17,6 +17,67 @@ import (
 	"testing"
 )
 
+func Test_AzureADOnlyAuthProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of AzureADOnlyAuthProperties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAzureADOnlyAuthProperties_ARM, AzureADOnlyAuthProperties_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForAzureADOnlyAuthProperties_ARM runs a test to see if a specific instance of AzureADOnlyAuthProperties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForAzureADOnlyAuthProperties_ARM(subject AzureADOnlyAuthProperties_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual AzureADOnlyAuthProperties_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of AzureADOnlyAuthProperties_ARM instances for property testing - lazily instantiated by
+// AzureADOnlyAuthProperties_ARMGenerator()
+var azureADOnlyAuthProperties_ARMGenerator gopter.Gen
+
+// AzureADOnlyAuthProperties_ARMGenerator returns a generator of AzureADOnlyAuthProperties_ARM instances for property testing.
+func AzureADOnlyAuthProperties_ARMGenerator() gopter.Gen {
+	if azureADOnlyAuthProperties_ARMGenerator != nil {
+		return azureADOnlyAuthProperties_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForAzureADOnlyAuthProperties_ARM(generators)
+	azureADOnlyAuthProperties_ARMGenerator = gen.Struct(reflect.TypeOf(AzureADOnlyAuthProperties_ARM{}), generators)
+
+	return azureADOnlyAuthProperties_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForAzureADOnlyAuthProperties_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAzureADOnlyAuthProperties_ARM(gens map[string]gopter.Gen) {
+	gens["AzureADOnlyAuthentication"] = gen.PtrOf(gen.Bool())
+}
+
 func Test_Servers_AzureADOnlyAuthentication_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -90,65 +151,4 @@ func AddIndependentPropertyGeneratorsForServers_AzureADOnlyAuthentication_Spec_A
 // AddRelatedPropertyGeneratorsForServers_AzureADOnlyAuthentication_Spec_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForServers_AzureADOnlyAuthentication_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(AzureADOnlyAuthProperties_ARMGenerator())
-}
-
-func Test_AzureADOnlyAuthProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AzureADOnlyAuthProperties_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAzureADOnlyAuthProperties_ARM, AzureADOnlyAuthProperties_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForAzureADOnlyAuthProperties_ARM runs a test to see if a specific instance of AzureADOnlyAuthProperties_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForAzureADOnlyAuthProperties_ARM(subject AzureADOnlyAuthProperties_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual AzureADOnlyAuthProperties_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of AzureADOnlyAuthProperties_ARM instances for property testing - lazily instantiated by
-// AzureADOnlyAuthProperties_ARMGenerator()
-var azureADOnlyAuthProperties_ARMGenerator gopter.Gen
-
-// AzureADOnlyAuthProperties_ARMGenerator returns a generator of AzureADOnlyAuthProperties_ARM instances for property testing.
-func AzureADOnlyAuthProperties_ARMGenerator() gopter.Gen {
-	if azureADOnlyAuthProperties_ARMGenerator != nil {
-		return azureADOnlyAuthProperties_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAzureADOnlyAuthProperties_ARM(generators)
-	azureADOnlyAuthProperties_ARMGenerator = gen.Struct(reflect.TypeOf(AzureADOnlyAuthProperties_ARM{}), generators)
-
-	return azureADOnlyAuthProperties_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAzureADOnlyAuthProperties_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAzureADOnlyAuthProperties_ARM(gens map[string]gopter.Gen) {
-	gens["AzureADOnlyAuthentication"] = gen.PtrOf(gen.Bool())
 }

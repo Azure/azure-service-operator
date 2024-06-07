@@ -17,129 +17,6 @@ import (
 	"testing"
 )
 
-func Test_RuleSet_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RuleSet via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRuleSet, RuleSetGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForRuleSet runs a test to see if a specific instance of RuleSet round trips to JSON and back losslessly
-func RunJSONSerializationTestForRuleSet(subject RuleSet) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual RuleSet
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of RuleSet instances for property testing - lazily instantiated by RuleSetGenerator()
-var ruleSetGenerator gopter.Gen
-
-// RuleSetGenerator returns a generator of RuleSet instances for property testing.
-func RuleSetGenerator() gopter.Gen {
-	if ruleSetGenerator != nil {
-		return ruleSetGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForRuleSet(generators)
-	ruleSetGenerator = gen.Struct(reflect.TypeOf(RuleSet{}), generators)
-
-	return ruleSetGenerator
-}
-
-// AddRelatedPropertyGeneratorsForRuleSet is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRuleSet(gens map[string]gopter.Gen) {
-	gens["Spec"] = Profiles_RuleSet_SpecGenerator()
-	gens["Status"] = Profiles_RuleSet_STATUSGenerator()
-}
-
-func Test_Profiles_RuleSet_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Profiles_RuleSet_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProfiles_RuleSet_Spec, Profiles_RuleSet_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForProfiles_RuleSet_Spec runs a test to see if a specific instance of Profiles_RuleSet_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForProfiles_RuleSet_Spec(subject Profiles_RuleSet_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Profiles_RuleSet_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Profiles_RuleSet_Spec instances for property testing - lazily instantiated by
-// Profiles_RuleSet_SpecGenerator()
-var profiles_RuleSet_SpecGenerator gopter.Gen
-
-// Profiles_RuleSet_SpecGenerator returns a generator of Profiles_RuleSet_Spec instances for property testing.
-func Profiles_RuleSet_SpecGenerator() gopter.Gen {
-	if profiles_RuleSet_SpecGenerator != nil {
-		return profiles_RuleSet_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_RuleSet_Spec(generators)
-	profiles_RuleSet_SpecGenerator = gen.Struct(reflect.TypeOf(Profiles_RuleSet_Spec{}), generators)
-
-	return profiles_RuleSet_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForProfiles_RuleSet_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProfiles_RuleSet_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["OriginalVersion"] = gen.AlphaString()
-}
-
 func Test_Profiles_RuleSet_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -218,4 +95,127 @@ func AddIndependentPropertyGeneratorsForProfiles_RuleSet_STATUS(gens map[string]
 // AddRelatedPropertyGeneratorsForProfiles_RuleSet_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForProfiles_RuleSet_STATUS(gens map[string]gopter.Gen) {
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
+}
+
+func Test_Profiles_RuleSet_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Profiles_RuleSet_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForProfiles_RuleSet_Spec, Profiles_RuleSet_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForProfiles_RuleSet_Spec runs a test to see if a specific instance of Profiles_RuleSet_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForProfiles_RuleSet_Spec(subject Profiles_RuleSet_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Profiles_RuleSet_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Profiles_RuleSet_Spec instances for property testing - lazily instantiated by
+// Profiles_RuleSet_SpecGenerator()
+var profiles_RuleSet_SpecGenerator gopter.Gen
+
+// Profiles_RuleSet_SpecGenerator returns a generator of Profiles_RuleSet_Spec instances for property testing.
+func Profiles_RuleSet_SpecGenerator() gopter.Gen {
+	if profiles_RuleSet_SpecGenerator != nil {
+		return profiles_RuleSet_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForProfiles_RuleSet_Spec(generators)
+	profiles_RuleSet_SpecGenerator = gen.Struct(reflect.TypeOf(Profiles_RuleSet_Spec{}), generators)
+
+	return profiles_RuleSet_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForProfiles_RuleSet_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForProfiles_RuleSet_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["OriginalVersion"] = gen.AlphaString()
+}
+
+func Test_RuleSet_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of RuleSet via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRuleSet, RuleSetGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForRuleSet runs a test to see if a specific instance of RuleSet round trips to JSON and back losslessly
+func RunJSONSerializationTestForRuleSet(subject RuleSet) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual RuleSet
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of RuleSet instances for property testing - lazily instantiated by RuleSetGenerator()
+var ruleSetGenerator gopter.Gen
+
+// RuleSetGenerator returns a generator of RuleSet instances for property testing.
+func RuleSetGenerator() gopter.Gen {
+	if ruleSetGenerator != nil {
+		return ruleSetGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForRuleSet(generators)
+	ruleSetGenerator = gen.Struct(reflect.TypeOf(RuleSet{}), generators)
+
+	return ruleSetGenerator
+}
+
+// AddRelatedPropertyGeneratorsForRuleSet is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRuleSet(gens map[string]gopter.Gen) {
+	gens["Spec"] = Profiles_RuleSet_SpecGenerator()
+	gens["Status"] = Profiles_RuleSet_STATUSGenerator()
 }
