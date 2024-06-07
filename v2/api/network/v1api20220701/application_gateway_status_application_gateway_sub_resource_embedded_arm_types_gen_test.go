@@ -17,289 +17,6 @@ import (
 	"testing"
 )
 
-func Test_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM, ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM runs a test to see if a specific instance of ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM(subject ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM instances for property testing -
-// lazily instantiated by ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARMGenerator()
-var applicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARMGenerator gopter.Gen
-
-// ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARMGenerator returns a generator of ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM instances for property testing.
-// We first initialize applicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARMGenerator() gopter.Gen {
-	if applicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARMGenerator != nil {
-		return applicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM(generators)
-	applicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARMGenerator = gen.Struct(reflect.TypeOf(ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM(generators)
-	AddRelatedPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM(generators)
-	applicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARMGenerator = gen.Struct(reflect.TypeOf(ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM{}), generators)
-
-	return applicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM(gens map[string]gopter.Gen) {
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["Zones"] = gen.SliceOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM(gens map[string]gopter.Gen) {
-	gens["Identity"] = gen.PtrOf(ManagedServiceIdentity_STATUS_ARMGenerator())
-	gens["Properties"] = gen.PtrOf(ApplicationGatewayPropertiesFormat_STATUS_ARMGenerator())
-}
-
-func Test_ApplicationGatewayPropertiesFormat_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApplicationGatewayPropertiesFormat_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationGatewayPropertiesFormat_STATUS_ARM, ApplicationGatewayPropertiesFormat_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForApplicationGatewayPropertiesFormat_STATUS_ARM runs a test to see if a specific instance of ApplicationGatewayPropertiesFormat_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationGatewayPropertiesFormat_STATUS_ARM(subject ApplicationGatewayPropertiesFormat_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ApplicationGatewayPropertiesFormat_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ApplicationGatewayPropertiesFormat_STATUS_ARM instances for property testing - lazily instantiated by
-// ApplicationGatewayPropertiesFormat_STATUS_ARMGenerator()
-var applicationGatewayPropertiesFormat_STATUS_ARMGenerator gopter.Gen
-
-// ApplicationGatewayPropertiesFormat_STATUS_ARMGenerator returns a generator of ApplicationGatewayPropertiesFormat_STATUS_ARM instances for property testing.
-// We first initialize applicationGatewayPropertiesFormat_STATUS_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ApplicationGatewayPropertiesFormat_STATUS_ARMGenerator() gopter.Gen {
-	if applicationGatewayPropertiesFormat_STATUS_ARMGenerator != nil {
-		return applicationGatewayPropertiesFormat_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationGatewayPropertiesFormat_STATUS_ARM(generators)
-	applicationGatewayPropertiesFormat_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayPropertiesFormat_STATUS_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationGatewayPropertiesFormat_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForApplicationGatewayPropertiesFormat_STATUS_ARM(generators)
-	applicationGatewayPropertiesFormat_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayPropertiesFormat_STATUS_ARM{}), generators)
-
-	return applicationGatewayPropertiesFormat_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApplicationGatewayPropertiesFormat_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApplicationGatewayPropertiesFormat_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["EnableFips"] = gen.PtrOf(gen.Bool())
-	gens["EnableHttp2"] = gen.PtrOf(gen.Bool())
-	gens["ForceFirewallPolicyAssociation"] = gen.PtrOf(gen.Bool())
-	gens["OperationalState"] = gen.PtrOf(gen.OneConstOf(
-		ApplicationGatewayPropertiesFormat_OperationalState_STATUS_Running,
-		ApplicationGatewayPropertiesFormat_OperationalState_STATUS_Starting,
-		ApplicationGatewayPropertiesFormat_OperationalState_STATUS_Stopped,
-		ApplicationGatewayPropertiesFormat_OperationalState_STATUS_Stopping))
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ApplicationGatewayProvisioningState_STATUS_Deleting,
-		ApplicationGatewayProvisioningState_STATUS_Failed,
-		ApplicationGatewayProvisioningState_STATUS_Succeeded,
-		ApplicationGatewayProvisioningState_STATUS_Updating))
-	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForApplicationGatewayPropertiesFormat_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForApplicationGatewayPropertiesFormat_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["AuthenticationCertificates"] = gen.SliceOf(ApplicationGatewayAuthenticationCertificate_STATUS_ARMGenerator())
-	gens["AutoscaleConfiguration"] = gen.PtrOf(ApplicationGatewayAutoscaleConfiguration_STATUS_ARMGenerator())
-	gens["BackendAddressPools"] = gen.SliceOf(ApplicationGatewayBackendAddressPool_STATUS_ARMGenerator())
-	gens["BackendHttpSettingsCollection"] = gen.SliceOf(ApplicationGatewayBackendHttpSettings_STATUS_ARMGenerator())
-	gens["BackendSettingsCollection"] = gen.SliceOf(ApplicationGatewayBackendSettings_STATUS_ARMGenerator())
-	gens["CustomErrorConfigurations"] = gen.SliceOf(ApplicationGatewayCustomError_STATUS_ARMGenerator())
-	gens["FirewallPolicy"] = gen.PtrOf(ApplicationGatewaySubResource_STATUS_ARMGenerator())
-	gens["FrontendIPConfigurations"] = gen.SliceOf(ApplicationGatewayFrontendIPConfiguration_STATUS_ARMGenerator())
-	gens["FrontendPorts"] = gen.SliceOf(ApplicationGatewayFrontendPort_STATUS_ARMGenerator())
-	gens["GatewayIPConfigurations"] = gen.SliceOf(ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded_ARMGenerator())
-	gens["GlobalConfiguration"] = gen.PtrOf(ApplicationGatewayGlobalConfiguration_STATUS_ARMGenerator())
-	gens["HttpListeners"] = gen.SliceOf(ApplicationGatewayHttpListener_STATUS_ARMGenerator())
-	gens["Listeners"] = gen.SliceOf(ApplicationGatewayListener_STATUS_ARMGenerator())
-	gens["LoadDistributionPolicies"] = gen.SliceOf(ApplicationGatewayLoadDistributionPolicy_STATUS_ARMGenerator())
-	gens["PrivateEndpointConnections"] = gen.SliceOf(ApplicationGatewayPrivateEndpointConnection_STATUS_ARMGenerator())
-	gens["PrivateLinkConfigurations"] = gen.SliceOf(ApplicationGatewayPrivateLinkConfiguration_STATUS_ARMGenerator())
-	gens["Probes"] = gen.SliceOf(ApplicationGatewayProbe_STATUS_ARMGenerator())
-	gens["RedirectConfigurations"] = gen.SliceOf(ApplicationGatewayRedirectConfiguration_STATUS_ARMGenerator())
-	gens["RequestRoutingRules"] = gen.SliceOf(ApplicationGatewayRequestRoutingRule_STATUS_ARMGenerator())
-	gens["RewriteRuleSets"] = gen.SliceOf(ApplicationGatewayRewriteRuleSet_STATUS_ARMGenerator())
-	gens["RoutingRules"] = gen.SliceOf(ApplicationGatewayRoutingRule_STATUS_ARMGenerator())
-	gens["Sku"] = gen.PtrOf(ApplicationGatewaySku_STATUS_ARMGenerator())
-	gens["SslCertificates"] = gen.SliceOf(ApplicationGatewaySslCertificate_STATUS_ARMGenerator())
-	gens["SslPolicy"] = gen.PtrOf(ApplicationGatewaySslPolicy_STATUS_ARMGenerator())
-	gens["SslProfiles"] = gen.SliceOf(ApplicationGatewaySslProfile_STATUS_ARMGenerator())
-	gens["TrustedClientCertificates"] = gen.SliceOf(ApplicationGatewayTrustedClientCertificate_STATUS_ARMGenerator())
-	gens["TrustedRootCertificates"] = gen.SliceOf(ApplicationGatewayTrustedRootCertificate_STATUS_ARMGenerator())
-	gens["UrlPathMaps"] = gen.SliceOf(ApplicationGatewayUrlPathMap_STATUS_ARMGenerator())
-	gens["WebApplicationFirewallConfiguration"] = gen.PtrOf(ApplicationGatewayWebApplicationFirewallConfiguration_STATUS_ARMGenerator())
-}
-
-func Test_ManagedServiceIdentity_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedServiceIdentity_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedServiceIdentity_STATUS_ARM, ManagedServiceIdentity_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedServiceIdentity_STATUS_ARM runs a test to see if a specific instance of ManagedServiceIdentity_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedServiceIdentity_STATUS_ARM(subject ManagedServiceIdentity_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedServiceIdentity_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedServiceIdentity_STATUS_ARM instances for property testing - lazily instantiated by
-// ManagedServiceIdentity_STATUS_ARMGenerator()
-var managedServiceIdentity_STATUS_ARMGenerator gopter.Gen
-
-// ManagedServiceIdentity_STATUS_ARMGenerator returns a generator of ManagedServiceIdentity_STATUS_ARM instances for property testing.
-// We first initialize managedServiceIdentity_STATUS_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ManagedServiceIdentity_STATUS_ARMGenerator() gopter.Gen {
-	if managedServiceIdentity_STATUS_ARMGenerator != nil {
-		return managedServiceIdentity_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedServiceIdentity_STATUS_ARM(generators)
-	managedServiceIdentity_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedServiceIdentity_STATUS_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedServiceIdentity_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForManagedServiceIdentity_STATUS_ARM(generators)
-	managedServiceIdentity_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedServiceIdentity_STATUS_ARM{}), generators)
-
-	return managedServiceIdentity_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedServiceIdentity_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedServiceIdentity_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
-	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ManagedServiceIdentity_Type_STATUS_None,
-		ManagedServiceIdentity_Type_STATUS_SystemAssigned,
-		ManagedServiceIdentity_Type_STATUS_SystemAssignedUserAssigned,
-		ManagedServiceIdentity_Type_STATUS_UserAssigned))
-}
-
-// AddRelatedPropertyGeneratorsForManagedServiceIdentity_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedServiceIdentity_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(
-		gen.AlphaString(),
-		ManagedServiceIdentity_UserAssignedIdentities_STATUS_ARMGenerator())
-}
-
 func Test_ApplicationGatewayAuthenticationCertificate_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -666,6 +383,131 @@ func ApplicationGatewayCustomError_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForApplicationGatewayCustomError_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["CustomErrorPageUrl"] = gen.PtrOf(gen.AlphaString())
 	gens["StatusCode"] = gen.PtrOf(gen.OneConstOf(ApplicationGatewayCustomError_StatusCode_STATUS_HttpStatus403, ApplicationGatewayCustomError_StatusCode_STATUS_HttpStatus502))
+}
+
+func Test_ApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARM, ApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARM runs a test to see if a specific instance of ApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARM(subject ApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARM instances for property testing - lazily
+// instantiated by ApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARMGenerator()
+var applicationGatewayFirewallDisabledRuleGroup_STATUS_ARMGenerator gopter.Gen
+
+// ApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARMGenerator returns a generator of ApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARM instances for property testing.
+func ApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARMGenerator() gopter.Gen {
+	if applicationGatewayFirewallDisabledRuleGroup_STATUS_ARMGenerator != nil {
+		return applicationGatewayFirewallDisabledRuleGroup_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARM(generators)
+	applicationGatewayFirewallDisabledRuleGroup_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARM{}), generators)
+
+	return applicationGatewayFirewallDisabledRuleGroup_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["RuleGroupName"] = gen.PtrOf(gen.AlphaString())
+	gens["Rules"] = gen.SliceOf(gen.Int())
+}
+
+func Test_ApplicationGatewayFirewallExclusion_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApplicationGatewayFirewallExclusion_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApplicationGatewayFirewallExclusion_STATUS_ARM, ApplicationGatewayFirewallExclusion_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApplicationGatewayFirewallExclusion_STATUS_ARM runs a test to see if a specific instance of ApplicationGatewayFirewallExclusion_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationGatewayFirewallExclusion_STATUS_ARM(subject ApplicationGatewayFirewallExclusion_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApplicationGatewayFirewallExclusion_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApplicationGatewayFirewallExclusion_STATUS_ARM instances for property testing - lazily instantiated by
+// ApplicationGatewayFirewallExclusion_STATUS_ARMGenerator()
+var applicationGatewayFirewallExclusion_STATUS_ARMGenerator gopter.Gen
+
+// ApplicationGatewayFirewallExclusion_STATUS_ARMGenerator returns a generator of ApplicationGatewayFirewallExclusion_STATUS_ARM instances for property testing.
+func ApplicationGatewayFirewallExclusion_STATUS_ARMGenerator() gopter.Gen {
+	if applicationGatewayFirewallExclusion_STATUS_ARMGenerator != nil {
+		return applicationGatewayFirewallExclusion_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGatewayFirewallExclusion_STATUS_ARM(generators)
+	applicationGatewayFirewallExclusion_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayFirewallExclusion_STATUS_ARM{}), generators)
+
+	return applicationGatewayFirewallExclusion_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForApplicationGatewayFirewallExclusion_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApplicationGatewayFirewallExclusion_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["MatchVariable"] = gen.PtrOf(gen.AlphaString())
+	gens["Selector"] = gen.PtrOf(gen.AlphaString())
+	gens["SelectorMatchOperator"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ApplicationGatewayFrontendIPConfiguration_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1278,6 +1120,122 @@ func ApplicationGatewayProbe_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForApplicationGatewayProbe_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApplicationGatewayProbe_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ApplicationGatewayPropertiesFormat_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApplicationGatewayPropertiesFormat_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApplicationGatewayPropertiesFormat_STATUS_ARM, ApplicationGatewayPropertiesFormat_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApplicationGatewayPropertiesFormat_STATUS_ARM runs a test to see if a specific instance of ApplicationGatewayPropertiesFormat_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationGatewayPropertiesFormat_STATUS_ARM(subject ApplicationGatewayPropertiesFormat_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApplicationGatewayPropertiesFormat_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApplicationGatewayPropertiesFormat_STATUS_ARM instances for property testing - lazily instantiated by
+// ApplicationGatewayPropertiesFormat_STATUS_ARMGenerator()
+var applicationGatewayPropertiesFormat_STATUS_ARMGenerator gopter.Gen
+
+// ApplicationGatewayPropertiesFormat_STATUS_ARMGenerator returns a generator of ApplicationGatewayPropertiesFormat_STATUS_ARM instances for property testing.
+// We first initialize applicationGatewayPropertiesFormat_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ApplicationGatewayPropertiesFormat_STATUS_ARMGenerator() gopter.Gen {
+	if applicationGatewayPropertiesFormat_STATUS_ARMGenerator != nil {
+		return applicationGatewayPropertiesFormat_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGatewayPropertiesFormat_STATUS_ARM(generators)
+	applicationGatewayPropertiesFormat_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayPropertiesFormat_STATUS_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGatewayPropertiesFormat_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForApplicationGatewayPropertiesFormat_STATUS_ARM(generators)
+	applicationGatewayPropertiesFormat_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayPropertiesFormat_STATUS_ARM{}), generators)
+
+	return applicationGatewayPropertiesFormat_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForApplicationGatewayPropertiesFormat_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApplicationGatewayPropertiesFormat_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["EnableFips"] = gen.PtrOf(gen.Bool())
+	gens["EnableHttp2"] = gen.PtrOf(gen.Bool())
+	gens["ForceFirewallPolicyAssociation"] = gen.PtrOf(gen.Bool())
+	gens["OperationalState"] = gen.PtrOf(gen.OneConstOf(
+		ApplicationGatewayPropertiesFormat_OperationalState_STATUS_Running,
+		ApplicationGatewayPropertiesFormat_OperationalState_STATUS_Starting,
+		ApplicationGatewayPropertiesFormat_OperationalState_STATUS_Stopped,
+		ApplicationGatewayPropertiesFormat_OperationalState_STATUS_Stopping))
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		ApplicationGatewayProvisioningState_STATUS_Deleting,
+		ApplicationGatewayProvisioningState_STATUS_Failed,
+		ApplicationGatewayProvisioningState_STATUS_Succeeded,
+		ApplicationGatewayProvisioningState_STATUS_Updating))
+	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForApplicationGatewayPropertiesFormat_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForApplicationGatewayPropertiesFormat_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["AuthenticationCertificates"] = gen.SliceOf(ApplicationGatewayAuthenticationCertificate_STATUS_ARMGenerator())
+	gens["AutoscaleConfiguration"] = gen.PtrOf(ApplicationGatewayAutoscaleConfiguration_STATUS_ARMGenerator())
+	gens["BackendAddressPools"] = gen.SliceOf(ApplicationGatewayBackendAddressPool_STATUS_ARMGenerator())
+	gens["BackendHttpSettingsCollection"] = gen.SliceOf(ApplicationGatewayBackendHttpSettings_STATUS_ARMGenerator())
+	gens["BackendSettingsCollection"] = gen.SliceOf(ApplicationGatewayBackendSettings_STATUS_ARMGenerator())
+	gens["CustomErrorConfigurations"] = gen.SliceOf(ApplicationGatewayCustomError_STATUS_ARMGenerator())
+	gens["FirewallPolicy"] = gen.PtrOf(ApplicationGatewaySubResource_STATUS_ARMGenerator())
+	gens["FrontendIPConfigurations"] = gen.SliceOf(ApplicationGatewayFrontendIPConfiguration_STATUS_ARMGenerator())
+	gens["FrontendPorts"] = gen.SliceOf(ApplicationGatewayFrontendPort_STATUS_ARMGenerator())
+	gens["GatewayIPConfigurations"] = gen.SliceOf(ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded_ARMGenerator())
+	gens["GlobalConfiguration"] = gen.PtrOf(ApplicationGatewayGlobalConfiguration_STATUS_ARMGenerator())
+	gens["HttpListeners"] = gen.SliceOf(ApplicationGatewayHttpListener_STATUS_ARMGenerator())
+	gens["Listeners"] = gen.SliceOf(ApplicationGatewayListener_STATUS_ARMGenerator())
+	gens["LoadDistributionPolicies"] = gen.SliceOf(ApplicationGatewayLoadDistributionPolicy_STATUS_ARMGenerator())
+	gens["PrivateEndpointConnections"] = gen.SliceOf(ApplicationGatewayPrivateEndpointConnection_STATUS_ARMGenerator())
+	gens["PrivateLinkConfigurations"] = gen.SliceOf(ApplicationGatewayPrivateLinkConfiguration_STATUS_ARMGenerator())
+	gens["Probes"] = gen.SliceOf(ApplicationGatewayProbe_STATUS_ARMGenerator())
+	gens["RedirectConfigurations"] = gen.SliceOf(ApplicationGatewayRedirectConfiguration_STATUS_ARMGenerator())
+	gens["RequestRoutingRules"] = gen.SliceOf(ApplicationGatewayRequestRoutingRule_STATUS_ARMGenerator())
+	gens["RewriteRuleSets"] = gen.SliceOf(ApplicationGatewayRewriteRuleSet_STATUS_ARMGenerator())
+	gens["RoutingRules"] = gen.SliceOf(ApplicationGatewayRoutingRule_STATUS_ARMGenerator())
+	gens["Sku"] = gen.PtrOf(ApplicationGatewaySku_STATUS_ARMGenerator())
+	gens["SslCertificates"] = gen.SliceOf(ApplicationGatewaySslCertificate_STATUS_ARMGenerator())
+	gens["SslPolicy"] = gen.PtrOf(ApplicationGatewaySslPolicy_STATUS_ARMGenerator())
+	gens["SslProfiles"] = gen.SliceOf(ApplicationGatewaySslProfile_STATUS_ARMGenerator())
+	gens["TrustedClientCertificates"] = gen.SliceOf(ApplicationGatewayTrustedClientCertificate_STATUS_ARMGenerator())
+	gens["TrustedRootCertificates"] = gen.SliceOf(ApplicationGatewayTrustedRootCertificate_STATUS_ARMGenerator())
+	gens["UrlPathMaps"] = gen.SliceOf(ApplicationGatewayUrlPathMap_STATUS_ARMGenerator())
+	gens["WebApplicationFirewallConfiguration"] = gen.PtrOf(ApplicationGatewayWebApplicationFirewallConfiguration_STATUS_ARMGenerator())
 }
 
 func Test_ApplicationGatewayRedirectConfiguration_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2153,6 +2111,173 @@ func AddRelatedPropertyGeneratorsForApplicationGatewayWebApplicationFirewallConf
 	gens["Exclusions"] = gen.SliceOf(ApplicationGatewayFirewallExclusion_STATUS_ARMGenerator())
 }
 
+func Test_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM, ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM runs a test to see if a specific instance of ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM(subject ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM instances for property testing -
+// lazily instantiated by ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARMGenerator()
+var applicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARMGenerator gopter.Gen
+
+// ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARMGenerator returns a generator of ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM instances for property testing.
+// We first initialize applicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARMGenerator() gopter.Gen {
+	if applicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARMGenerator != nil {
+		return applicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM(generators)
+	applicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARMGenerator = gen.Struct(reflect.TypeOf(ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM(generators)
+	AddRelatedPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM(generators)
+	applicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARMGenerator = gen.Struct(reflect.TypeOf(ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM{}), generators)
+
+	return applicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM(gens map[string]gopter.Gen) {
+	gens["Etag"] = gen.PtrOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+	gens["Zones"] = gen.SliceOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM(gens map[string]gopter.Gen) {
+	gens["Identity"] = gen.PtrOf(ManagedServiceIdentity_STATUS_ARMGenerator())
+	gens["Properties"] = gen.PtrOf(ApplicationGatewayPropertiesFormat_STATUS_ARMGenerator())
+}
+
+func Test_ManagedServiceIdentity_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedServiceIdentity_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedServiceIdentity_STATUS_ARM, ManagedServiceIdentity_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedServiceIdentity_STATUS_ARM runs a test to see if a specific instance of ManagedServiceIdentity_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedServiceIdentity_STATUS_ARM(subject ManagedServiceIdentity_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedServiceIdentity_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedServiceIdentity_STATUS_ARM instances for property testing - lazily instantiated by
+// ManagedServiceIdentity_STATUS_ARMGenerator()
+var managedServiceIdentity_STATUS_ARMGenerator gopter.Gen
+
+// ManagedServiceIdentity_STATUS_ARMGenerator returns a generator of ManagedServiceIdentity_STATUS_ARM instances for property testing.
+// We first initialize managedServiceIdentity_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ManagedServiceIdentity_STATUS_ARMGenerator() gopter.Gen {
+	if managedServiceIdentity_STATUS_ARMGenerator != nil {
+		return managedServiceIdentity_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedServiceIdentity_STATUS_ARM(generators)
+	managedServiceIdentity_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedServiceIdentity_STATUS_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedServiceIdentity_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForManagedServiceIdentity_STATUS_ARM(generators)
+	managedServiceIdentity_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedServiceIdentity_STATUS_ARM{}), generators)
+
+	return managedServiceIdentity_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedServiceIdentity_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedServiceIdentity_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
+	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(
+		ManagedServiceIdentity_Type_STATUS_None,
+		ManagedServiceIdentity_Type_STATUS_SystemAssigned,
+		ManagedServiceIdentity_Type_STATUS_SystemAssignedUserAssigned,
+		ManagedServiceIdentity_Type_STATUS_UserAssigned))
+}
+
+// AddRelatedPropertyGeneratorsForManagedServiceIdentity_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedServiceIdentity_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		ManagedServiceIdentity_UserAssignedIdentities_STATUS_ARMGenerator())
+}
+
 func Test_ManagedServiceIdentity_UserAssignedIdentities_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -2213,129 +2338,4 @@ func ManagedServiceIdentity_UserAssignedIdentities_STATUS_ARMGenerator() gopter.
 func AddIndependentPropertyGeneratorsForManagedServiceIdentity_UserAssignedIdentities_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_ApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARM, ApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARM runs a test to see if a specific instance of ApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARM(subject ApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARM instances for property testing - lazily
-// instantiated by ApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARMGenerator()
-var applicationGatewayFirewallDisabledRuleGroup_STATUS_ARMGenerator gopter.Gen
-
-// ApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARMGenerator returns a generator of ApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARM instances for property testing.
-func ApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARMGenerator() gopter.Gen {
-	if applicationGatewayFirewallDisabledRuleGroup_STATUS_ARMGenerator != nil {
-		return applicationGatewayFirewallDisabledRuleGroup_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARM(generators)
-	applicationGatewayFirewallDisabledRuleGroup_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARM{}), generators)
-
-	return applicationGatewayFirewallDisabledRuleGroup_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["RuleGroupName"] = gen.PtrOf(gen.AlphaString())
-	gens["Rules"] = gen.SliceOf(gen.Int())
-}
-
-func Test_ApplicationGatewayFirewallExclusion_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApplicationGatewayFirewallExclusion_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationGatewayFirewallExclusion_STATUS_ARM, ApplicationGatewayFirewallExclusion_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForApplicationGatewayFirewallExclusion_STATUS_ARM runs a test to see if a specific instance of ApplicationGatewayFirewallExclusion_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationGatewayFirewallExclusion_STATUS_ARM(subject ApplicationGatewayFirewallExclusion_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ApplicationGatewayFirewallExclusion_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ApplicationGatewayFirewallExclusion_STATUS_ARM instances for property testing - lazily instantiated by
-// ApplicationGatewayFirewallExclusion_STATUS_ARMGenerator()
-var applicationGatewayFirewallExclusion_STATUS_ARMGenerator gopter.Gen
-
-// ApplicationGatewayFirewallExclusion_STATUS_ARMGenerator returns a generator of ApplicationGatewayFirewallExclusion_STATUS_ARM instances for property testing.
-func ApplicationGatewayFirewallExclusion_STATUS_ARMGenerator() gopter.Gen {
-	if applicationGatewayFirewallExclusion_STATUS_ARMGenerator != nil {
-		return applicationGatewayFirewallExclusion_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationGatewayFirewallExclusion_STATUS_ARM(generators)
-	applicationGatewayFirewallExclusion_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayFirewallExclusion_STATUS_ARM{}), generators)
-
-	return applicationGatewayFirewallExclusion_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApplicationGatewayFirewallExclusion_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApplicationGatewayFirewallExclusion_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["MatchVariable"] = gen.PtrOf(gen.AlphaString())
-	gens["Selector"] = gen.PtrOf(gen.AlphaString())
-	gens["SelectorMatchOperator"] = gen.PtrOf(gen.AlphaString())
 }

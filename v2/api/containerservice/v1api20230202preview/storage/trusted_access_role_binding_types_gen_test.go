@@ -17,131 +17,6 @@ import (
 	"testing"
 )
 
-func Test_TrustedAccessRoleBinding_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of TrustedAccessRoleBinding via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForTrustedAccessRoleBinding, TrustedAccessRoleBindingGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForTrustedAccessRoleBinding runs a test to see if a specific instance of TrustedAccessRoleBinding round trips to JSON and back losslessly
-func RunJSONSerializationTestForTrustedAccessRoleBinding(subject TrustedAccessRoleBinding) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual TrustedAccessRoleBinding
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of TrustedAccessRoleBinding instances for property testing - lazily instantiated by
-// TrustedAccessRoleBindingGenerator()
-var trustedAccessRoleBindingGenerator gopter.Gen
-
-// TrustedAccessRoleBindingGenerator returns a generator of TrustedAccessRoleBinding instances for property testing.
-func TrustedAccessRoleBindingGenerator() gopter.Gen {
-	if trustedAccessRoleBindingGenerator != nil {
-		return trustedAccessRoleBindingGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForTrustedAccessRoleBinding(generators)
-	trustedAccessRoleBindingGenerator = gen.Struct(reflect.TypeOf(TrustedAccessRoleBinding{}), generators)
-
-	return trustedAccessRoleBindingGenerator
-}
-
-// AddRelatedPropertyGeneratorsForTrustedAccessRoleBinding is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForTrustedAccessRoleBinding(gens map[string]gopter.Gen) {
-	gens["Spec"] = ManagedClusters_TrustedAccessRoleBinding_SpecGenerator()
-	gens["Status"] = ManagedClusters_TrustedAccessRoleBinding_STATUSGenerator()
-}
-
-func Test_ManagedClusters_TrustedAccessRoleBinding_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedClusters_TrustedAccessRoleBinding_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusters_TrustedAccessRoleBinding_Spec, ManagedClusters_TrustedAccessRoleBinding_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedClusters_TrustedAccessRoleBinding_Spec runs a test to see if a specific instance of ManagedClusters_TrustedAccessRoleBinding_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusters_TrustedAccessRoleBinding_Spec(subject ManagedClusters_TrustedAccessRoleBinding_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedClusters_TrustedAccessRoleBinding_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedClusters_TrustedAccessRoleBinding_Spec instances for property testing - lazily instantiated by
-// ManagedClusters_TrustedAccessRoleBinding_SpecGenerator()
-var managedClusters_TrustedAccessRoleBinding_SpecGenerator gopter.Gen
-
-// ManagedClusters_TrustedAccessRoleBinding_SpecGenerator returns a generator of ManagedClusters_TrustedAccessRoleBinding_Spec instances for property testing.
-func ManagedClusters_TrustedAccessRoleBinding_SpecGenerator() gopter.Gen {
-	if managedClusters_TrustedAccessRoleBinding_SpecGenerator != nil {
-		return managedClusters_TrustedAccessRoleBinding_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusters_TrustedAccessRoleBinding_Spec(generators)
-	managedClusters_TrustedAccessRoleBinding_SpecGenerator = gen.Struct(reflect.TypeOf(ManagedClusters_TrustedAccessRoleBinding_Spec{}), generators)
-
-	return managedClusters_TrustedAccessRoleBinding_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedClusters_TrustedAccessRoleBinding_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusters_TrustedAccessRoleBinding_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Roles"] = gen.SliceOf(gen.AlphaString())
-}
-
 func Test_ManagedClusters_TrustedAccessRoleBinding_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -220,4 +95,129 @@ func AddIndependentPropertyGeneratorsForManagedClusters_TrustedAccessRoleBinding
 // AddRelatedPropertyGeneratorsForManagedClusters_TrustedAccessRoleBinding_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedClusters_TrustedAccessRoleBinding_STATUS(gens map[string]gopter.Gen) {
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
+}
+
+func Test_ManagedClusters_TrustedAccessRoleBinding_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedClusters_TrustedAccessRoleBinding_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusters_TrustedAccessRoleBinding_Spec, ManagedClusters_TrustedAccessRoleBinding_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusters_TrustedAccessRoleBinding_Spec runs a test to see if a specific instance of ManagedClusters_TrustedAccessRoleBinding_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusters_TrustedAccessRoleBinding_Spec(subject ManagedClusters_TrustedAccessRoleBinding_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedClusters_TrustedAccessRoleBinding_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedClusters_TrustedAccessRoleBinding_Spec instances for property testing - lazily instantiated by
+// ManagedClusters_TrustedAccessRoleBinding_SpecGenerator()
+var managedClusters_TrustedAccessRoleBinding_SpecGenerator gopter.Gen
+
+// ManagedClusters_TrustedAccessRoleBinding_SpecGenerator returns a generator of ManagedClusters_TrustedAccessRoleBinding_Spec instances for property testing.
+func ManagedClusters_TrustedAccessRoleBinding_SpecGenerator() gopter.Gen {
+	if managedClusters_TrustedAccessRoleBinding_SpecGenerator != nil {
+		return managedClusters_TrustedAccessRoleBinding_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusters_TrustedAccessRoleBinding_Spec(generators)
+	managedClusters_TrustedAccessRoleBinding_SpecGenerator = gen.Struct(reflect.TypeOf(ManagedClusters_TrustedAccessRoleBinding_Spec{}), generators)
+
+	return managedClusters_TrustedAccessRoleBinding_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedClusters_TrustedAccessRoleBinding_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusters_TrustedAccessRoleBinding_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["Roles"] = gen.SliceOf(gen.AlphaString())
+}
+
+func Test_TrustedAccessRoleBinding_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of TrustedAccessRoleBinding via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForTrustedAccessRoleBinding, TrustedAccessRoleBindingGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForTrustedAccessRoleBinding runs a test to see if a specific instance of TrustedAccessRoleBinding round trips to JSON and back losslessly
+func RunJSONSerializationTestForTrustedAccessRoleBinding(subject TrustedAccessRoleBinding) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual TrustedAccessRoleBinding
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of TrustedAccessRoleBinding instances for property testing - lazily instantiated by
+// TrustedAccessRoleBindingGenerator()
+var trustedAccessRoleBindingGenerator gopter.Gen
+
+// TrustedAccessRoleBindingGenerator returns a generator of TrustedAccessRoleBinding instances for property testing.
+func TrustedAccessRoleBindingGenerator() gopter.Gen {
+	if trustedAccessRoleBindingGenerator != nil {
+		return trustedAccessRoleBindingGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForTrustedAccessRoleBinding(generators)
+	trustedAccessRoleBindingGenerator = gen.Struct(reflect.TypeOf(TrustedAccessRoleBinding{}), generators)
+
+	return trustedAccessRoleBindingGenerator
+}
+
+// AddRelatedPropertyGeneratorsForTrustedAccessRoleBinding is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForTrustedAccessRoleBinding(gens map[string]gopter.Gen) {
+	gens["Spec"] = ManagedClusters_TrustedAccessRoleBinding_SpecGenerator()
+	gens["Status"] = ManagedClusters_TrustedAccessRoleBinding_STATUSGenerator()
 }

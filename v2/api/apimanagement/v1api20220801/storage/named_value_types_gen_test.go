@@ -17,228 +17,6 @@ import (
 	"testing"
 )
 
-func Test_NamedValue_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of NamedValue via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamedValue, NamedValueGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForNamedValue runs a test to see if a specific instance of NamedValue round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamedValue(subject NamedValue) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual NamedValue
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of NamedValue instances for property testing - lazily instantiated by NamedValueGenerator()
-var namedValueGenerator gopter.Gen
-
-// NamedValueGenerator returns a generator of NamedValue instances for property testing.
-func NamedValueGenerator() gopter.Gen {
-	if namedValueGenerator != nil {
-		return namedValueGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForNamedValue(generators)
-	namedValueGenerator = gen.Struct(reflect.TypeOf(NamedValue{}), generators)
-
-	return namedValueGenerator
-}
-
-// AddRelatedPropertyGeneratorsForNamedValue is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNamedValue(gens map[string]gopter.Gen) {
-	gens["Spec"] = Service_NamedValue_SpecGenerator()
-	gens["Status"] = Service_NamedValue_STATUSGenerator()
-}
-
-func Test_Service_NamedValue_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Service_NamedValue_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForService_NamedValue_Spec, Service_NamedValue_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForService_NamedValue_Spec runs a test to see if a specific instance of Service_NamedValue_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForService_NamedValue_Spec(subject Service_NamedValue_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Service_NamedValue_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Service_NamedValue_Spec instances for property testing - lazily instantiated by
-// Service_NamedValue_SpecGenerator()
-var service_NamedValue_SpecGenerator gopter.Gen
-
-// Service_NamedValue_SpecGenerator returns a generator of Service_NamedValue_Spec instances for property testing.
-// We first initialize service_NamedValue_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Service_NamedValue_SpecGenerator() gopter.Gen {
-	if service_NamedValue_SpecGenerator != nil {
-		return service_NamedValue_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForService_NamedValue_Spec(generators)
-	service_NamedValue_SpecGenerator = gen.Struct(reflect.TypeOf(Service_NamedValue_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForService_NamedValue_Spec(generators)
-	AddRelatedPropertyGeneratorsForService_NamedValue_Spec(generators)
-	service_NamedValue_SpecGenerator = gen.Struct(reflect.TypeOf(Service_NamedValue_Spec{}), generators)
-
-	return service_NamedValue_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForService_NamedValue_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForService_NamedValue_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Secret"] = gen.PtrOf(gen.Bool())
-	gens["Tags"] = gen.SliceOf(gen.AlphaString())
-	gens["Value"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForService_NamedValue_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForService_NamedValue_Spec(gens map[string]gopter.Gen) {
-	gens["KeyVault"] = gen.PtrOf(KeyVaultContractCreatePropertiesGenerator())
-}
-
-func Test_Service_NamedValue_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Service_NamedValue_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForService_NamedValue_STATUS, Service_NamedValue_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForService_NamedValue_STATUS runs a test to see if a specific instance of Service_NamedValue_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForService_NamedValue_STATUS(subject Service_NamedValue_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Service_NamedValue_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Service_NamedValue_STATUS instances for property testing - lazily instantiated by
-// Service_NamedValue_STATUSGenerator()
-var service_NamedValue_STATUSGenerator gopter.Gen
-
-// Service_NamedValue_STATUSGenerator returns a generator of Service_NamedValue_STATUS instances for property testing.
-// We first initialize service_NamedValue_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Service_NamedValue_STATUSGenerator() gopter.Gen {
-	if service_NamedValue_STATUSGenerator != nil {
-		return service_NamedValue_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForService_NamedValue_STATUS(generators)
-	service_NamedValue_STATUSGenerator = gen.Struct(reflect.TypeOf(Service_NamedValue_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForService_NamedValue_STATUS(generators)
-	AddRelatedPropertyGeneratorsForService_NamedValue_STATUS(generators)
-	service_NamedValue_STATUSGenerator = gen.Struct(reflect.TypeOf(Service_NamedValue_STATUS{}), generators)
-
-	return service_NamedValue_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForService_NamedValue_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForService_NamedValue_STATUS(gens map[string]gopter.Gen) {
-	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Secret"] = gen.PtrOf(gen.Bool())
-	gens["Tags"] = gen.SliceOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["Value"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForService_NamedValue_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForService_NamedValue_STATUS(gens map[string]gopter.Gen) {
-	gens["KeyVault"] = gen.PtrOf(KeyVaultContractProperties_STATUSGenerator())
-}
-
 func Test_KeyVaultContractCreateProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -438,4 +216,226 @@ func AddIndependentPropertyGeneratorsForKeyVaultLastAccessStatusContractProperti
 	gens["Code"] = gen.PtrOf(gen.AlphaString())
 	gens["Message"] = gen.PtrOf(gen.AlphaString())
 	gens["TimeStampUtc"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_NamedValue_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of NamedValue via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamedValue, NamedValueGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForNamedValue runs a test to see if a specific instance of NamedValue round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamedValue(subject NamedValue) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual NamedValue
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of NamedValue instances for property testing - lazily instantiated by NamedValueGenerator()
+var namedValueGenerator gopter.Gen
+
+// NamedValueGenerator returns a generator of NamedValue instances for property testing.
+func NamedValueGenerator() gopter.Gen {
+	if namedValueGenerator != nil {
+		return namedValueGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForNamedValue(generators)
+	namedValueGenerator = gen.Struct(reflect.TypeOf(NamedValue{}), generators)
+
+	return namedValueGenerator
+}
+
+// AddRelatedPropertyGeneratorsForNamedValue is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNamedValue(gens map[string]gopter.Gen) {
+	gens["Spec"] = Service_NamedValue_SpecGenerator()
+	gens["Status"] = Service_NamedValue_STATUSGenerator()
+}
+
+func Test_Service_NamedValue_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Service_NamedValue_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForService_NamedValue_STATUS, Service_NamedValue_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForService_NamedValue_STATUS runs a test to see if a specific instance of Service_NamedValue_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForService_NamedValue_STATUS(subject Service_NamedValue_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Service_NamedValue_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Service_NamedValue_STATUS instances for property testing - lazily instantiated by
+// Service_NamedValue_STATUSGenerator()
+var service_NamedValue_STATUSGenerator gopter.Gen
+
+// Service_NamedValue_STATUSGenerator returns a generator of Service_NamedValue_STATUS instances for property testing.
+// We first initialize service_NamedValue_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Service_NamedValue_STATUSGenerator() gopter.Gen {
+	if service_NamedValue_STATUSGenerator != nil {
+		return service_NamedValue_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForService_NamedValue_STATUS(generators)
+	service_NamedValue_STATUSGenerator = gen.Struct(reflect.TypeOf(Service_NamedValue_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForService_NamedValue_STATUS(generators)
+	AddRelatedPropertyGeneratorsForService_NamedValue_STATUS(generators)
+	service_NamedValue_STATUSGenerator = gen.Struct(reflect.TypeOf(Service_NamedValue_STATUS{}), generators)
+
+	return service_NamedValue_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForService_NamedValue_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForService_NamedValue_STATUS(gens map[string]gopter.Gen) {
+	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Secret"] = gen.PtrOf(gen.Bool())
+	gens["Tags"] = gen.SliceOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+	gens["Value"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForService_NamedValue_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForService_NamedValue_STATUS(gens map[string]gopter.Gen) {
+	gens["KeyVault"] = gen.PtrOf(KeyVaultContractProperties_STATUSGenerator())
+}
+
+func Test_Service_NamedValue_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Service_NamedValue_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForService_NamedValue_Spec, Service_NamedValue_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForService_NamedValue_Spec runs a test to see if a specific instance of Service_NamedValue_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForService_NamedValue_Spec(subject Service_NamedValue_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Service_NamedValue_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Service_NamedValue_Spec instances for property testing - lazily instantiated by
+// Service_NamedValue_SpecGenerator()
+var service_NamedValue_SpecGenerator gopter.Gen
+
+// Service_NamedValue_SpecGenerator returns a generator of Service_NamedValue_Spec instances for property testing.
+// We first initialize service_NamedValue_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Service_NamedValue_SpecGenerator() gopter.Gen {
+	if service_NamedValue_SpecGenerator != nil {
+		return service_NamedValue_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForService_NamedValue_Spec(generators)
+	service_NamedValue_SpecGenerator = gen.Struct(reflect.TypeOf(Service_NamedValue_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForService_NamedValue_Spec(generators)
+	AddRelatedPropertyGeneratorsForService_NamedValue_Spec(generators)
+	service_NamedValue_SpecGenerator = gen.Struct(reflect.TypeOf(Service_NamedValue_Spec{}), generators)
+
+	return service_NamedValue_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForService_NamedValue_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForService_NamedValue_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["Secret"] = gen.PtrOf(gen.Bool())
+	gens["Tags"] = gen.SliceOf(gen.AlphaString())
+	gens["Value"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForService_NamedValue_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForService_NamedValue_Spec(gens map[string]gopter.Gen) {
+	gens["KeyVault"] = gen.PtrOf(KeyVaultContractCreatePropertiesGenerator())
 }

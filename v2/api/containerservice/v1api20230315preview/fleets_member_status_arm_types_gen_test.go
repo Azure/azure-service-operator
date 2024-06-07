@@ -17,6 +17,75 @@ import (
 	"testing"
 )
 
+func Test_FleetMemberProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of FleetMemberProperties_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFleetMemberProperties_STATUS_ARM, FleetMemberProperties_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForFleetMemberProperties_STATUS_ARM runs a test to see if a specific instance of FleetMemberProperties_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForFleetMemberProperties_STATUS_ARM(subject FleetMemberProperties_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual FleetMemberProperties_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of FleetMemberProperties_STATUS_ARM instances for property testing - lazily instantiated by
+// FleetMemberProperties_STATUS_ARMGenerator()
+var fleetMemberProperties_STATUS_ARMGenerator gopter.Gen
+
+// FleetMemberProperties_STATUS_ARMGenerator returns a generator of FleetMemberProperties_STATUS_ARM instances for property testing.
+func FleetMemberProperties_STATUS_ARMGenerator() gopter.Gen {
+	if fleetMemberProperties_STATUS_ARMGenerator != nil {
+		return fleetMemberProperties_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForFleetMemberProperties_STATUS_ARM(generators)
+	fleetMemberProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(FleetMemberProperties_STATUS_ARM{}), generators)
+
+	return fleetMemberProperties_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForFleetMemberProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForFleetMemberProperties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["ClusterResourceId"] = gen.PtrOf(gen.AlphaString())
+	gens["Group"] = gen.PtrOf(gen.AlphaString())
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		FleetMemberProvisioningState_STATUS_Canceled,
+		FleetMemberProvisioningState_STATUS_Failed,
+		FleetMemberProvisioningState_STATUS_Joining,
+		FleetMemberProvisioningState_STATUS_Leaving,
+		FleetMemberProvisioningState_STATUS_Succeeded,
+		FleetMemberProvisioningState_STATUS_Updating))
+}
+
 func Test_Fleets_Member_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -94,73 +163,4 @@ func AddIndependentPropertyGeneratorsForFleets_Member_STATUS_ARM(gens map[string
 func AddRelatedPropertyGeneratorsForFleets_Member_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(FleetMemberProperties_STATUS_ARMGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUS_ARMGenerator())
-}
-
-func Test_FleetMemberProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FleetMemberProperties_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFleetMemberProperties_STATUS_ARM, FleetMemberProperties_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForFleetMemberProperties_STATUS_ARM runs a test to see if a specific instance of FleetMemberProperties_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForFleetMemberProperties_STATUS_ARM(subject FleetMemberProperties_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual FleetMemberProperties_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of FleetMemberProperties_STATUS_ARM instances for property testing - lazily instantiated by
-// FleetMemberProperties_STATUS_ARMGenerator()
-var fleetMemberProperties_STATUS_ARMGenerator gopter.Gen
-
-// FleetMemberProperties_STATUS_ARMGenerator returns a generator of FleetMemberProperties_STATUS_ARM instances for property testing.
-func FleetMemberProperties_STATUS_ARMGenerator() gopter.Gen {
-	if fleetMemberProperties_STATUS_ARMGenerator != nil {
-		return fleetMemberProperties_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleetMemberProperties_STATUS_ARM(generators)
-	fleetMemberProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(FleetMemberProperties_STATUS_ARM{}), generators)
-
-	return fleetMemberProperties_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForFleetMemberProperties_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFleetMemberProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ClusterResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["Group"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		FleetMemberProvisioningState_STATUS_Canceled,
-		FleetMemberProvisioningState_STATUS_Failed,
-		FleetMemberProvisioningState_STATUS_Joining,
-		FleetMemberProvisioningState_STATUS_Leaving,
-		FleetMemberProvisioningState_STATUS_Succeeded,
-		FleetMemberProvisioningState_STATUS_Updating))
 }

@@ -17,6 +17,68 @@ import (
 	"testing"
 )
 
+func Test_BackupShortTermRetentionPolicyProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of BackupShortTermRetentionPolicyProperties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBackupShortTermRetentionPolicyProperties_ARM, BackupShortTermRetentionPolicyProperties_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForBackupShortTermRetentionPolicyProperties_ARM runs a test to see if a specific instance of BackupShortTermRetentionPolicyProperties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForBackupShortTermRetentionPolicyProperties_ARM(subject BackupShortTermRetentionPolicyProperties_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual BackupShortTermRetentionPolicyProperties_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of BackupShortTermRetentionPolicyProperties_ARM instances for property testing - lazily instantiated by
+// BackupShortTermRetentionPolicyProperties_ARMGenerator()
+var backupShortTermRetentionPolicyProperties_ARMGenerator gopter.Gen
+
+// BackupShortTermRetentionPolicyProperties_ARMGenerator returns a generator of BackupShortTermRetentionPolicyProperties_ARM instances for property testing.
+func BackupShortTermRetentionPolicyProperties_ARMGenerator() gopter.Gen {
+	if backupShortTermRetentionPolicyProperties_ARMGenerator != nil {
+		return backupShortTermRetentionPolicyProperties_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForBackupShortTermRetentionPolicyProperties_ARM(generators)
+	backupShortTermRetentionPolicyProperties_ARMGenerator = gen.Struct(reflect.TypeOf(BackupShortTermRetentionPolicyProperties_ARM{}), generators)
+
+	return backupShortTermRetentionPolicyProperties_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForBackupShortTermRetentionPolicyProperties_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForBackupShortTermRetentionPolicyProperties_ARM(gens map[string]gopter.Gen) {
+	gens["DiffBackupIntervalInHours"] = gen.PtrOf(gen.OneConstOf(BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours_12, BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours_24))
+	gens["RetentionDays"] = gen.PtrOf(gen.Int())
+}
+
 func Test_Servers_Databases_BackupShortTermRetentionPolicy_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -90,66 +152,4 @@ func AddIndependentPropertyGeneratorsForServers_Databases_BackupShortTermRetenti
 // AddRelatedPropertyGeneratorsForServers_Databases_BackupShortTermRetentionPolicy_Spec_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForServers_Databases_BackupShortTermRetentionPolicy_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(BackupShortTermRetentionPolicyProperties_ARMGenerator())
-}
-
-func Test_BackupShortTermRetentionPolicyProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BackupShortTermRetentionPolicyProperties_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBackupShortTermRetentionPolicyProperties_ARM, BackupShortTermRetentionPolicyProperties_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForBackupShortTermRetentionPolicyProperties_ARM runs a test to see if a specific instance of BackupShortTermRetentionPolicyProperties_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForBackupShortTermRetentionPolicyProperties_ARM(subject BackupShortTermRetentionPolicyProperties_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual BackupShortTermRetentionPolicyProperties_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of BackupShortTermRetentionPolicyProperties_ARM instances for property testing - lazily instantiated by
-// BackupShortTermRetentionPolicyProperties_ARMGenerator()
-var backupShortTermRetentionPolicyProperties_ARMGenerator gopter.Gen
-
-// BackupShortTermRetentionPolicyProperties_ARMGenerator returns a generator of BackupShortTermRetentionPolicyProperties_ARM instances for property testing.
-func BackupShortTermRetentionPolicyProperties_ARMGenerator() gopter.Gen {
-	if backupShortTermRetentionPolicyProperties_ARMGenerator != nil {
-		return backupShortTermRetentionPolicyProperties_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBackupShortTermRetentionPolicyProperties_ARM(generators)
-	backupShortTermRetentionPolicyProperties_ARMGenerator = gen.Struct(reflect.TypeOf(BackupShortTermRetentionPolicyProperties_ARM{}), generators)
-
-	return backupShortTermRetentionPolicyProperties_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForBackupShortTermRetentionPolicyProperties_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBackupShortTermRetentionPolicyProperties_ARM(gens map[string]gopter.Gen) {
-	gens["DiffBackupIntervalInHours"] = gen.PtrOf(gen.OneConstOf(BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours_12, BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours_24))
-	gens["RetentionDays"] = gen.PtrOf(gen.Int())
 }

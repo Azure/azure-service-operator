@@ -78,20 +78,20 @@ func AddRelatedPropertyGeneratorsForConfigurationStore(gens map[string]gopter.Ge
 	gens["Status"] = ConfigurationStore_STATUSGenerator()
 }
 
-func Test_ConfigurationStore_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ConfigurationStoreOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
+	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ConfigurationStore_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForConfigurationStore_Spec, ConfigurationStore_SpecGenerator()))
+		"Round trip of ConfigurationStoreOperatorSecrets via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForConfigurationStoreOperatorSecrets, ConfigurationStoreOperatorSecretsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForConfigurationStore_Spec runs a test to see if a specific instance of ConfigurationStore_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForConfigurationStore_Spec(subject ConfigurationStore_Spec) string {
+// RunJSONSerializationTestForConfigurationStoreOperatorSecrets runs a test to see if a specific instance of ConfigurationStoreOperatorSecrets round trips to JSON and back losslessly
+func RunJSONSerializationTestForConfigurationStoreOperatorSecrets(subject ConfigurationStoreOperatorSecrets) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -99,7 +99,7 @@ func RunJSONSerializationTestForConfigurationStore_Spec(subject ConfigurationSto
 	}
 
 	// Deserialize back into memory
-	var actual ConfigurationStore_Spec
+	var actual ConfigurationStoreOperatorSecrets
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -117,54 +117,81 @@ func RunJSONSerializationTestForConfigurationStore_Spec(subject ConfigurationSto
 	return ""
 }
 
-// Generator of ConfigurationStore_Spec instances for property testing - lazily instantiated by
-// ConfigurationStore_SpecGenerator()
-var configurationStore_SpecGenerator gopter.Gen
+// Generator of ConfigurationStoreOperatorSecrets instances for property testing - lazily instantiated by
+// ConfigurationStoreOperatorSecretsGenerator()
+var configurationStoreOperatorSecretsGenerator gopter.Gen
 
-// ConfigurationStore_SpecGenerator returns a generator of ConfigurationStore_Spec instances for property testing.
-// We first initialize configurationStore_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ConfigurationStore_SpecGenerator() gopter.Gen {
-	if configurationStore_SpecGenerator != nil {
-		return configurationStore_SpecGenerator
+// ConfigurationStoreOperatorSecretsGenerator returns a generator of ConfigurationStoreOperatorSecrets instances for property testing.
+func ConfigurationStoreOperatorSecretsGenerator() gopter.Gen {
+	if configurationStoreOperatorSecretsGenerator != nil {
+		return configurationStoreOperatorSecretsGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForConfigurationStore_Spec(generators)
-	configurationStore_SpecGenerator = gen.Struct(reflect.TypeOf(ConfigurationStore_Spec{}), generators)
+	configurationStoreOperatorSecretsGenerator = gen.Struct(reflect.TypeOf(ConfigurationStoreOperatorSecrets{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForConfigurationStore_Spec(generators)
-	AddRelatedPropertyGeneratorsForConfigurationStore_Spec(generators)
-	configurationStore_SpecGenerator = gen.Struct(reflect.TypeOf(ConfigurationStore_Spec{}), generators)
-
-	return configurationStore_SpecGenerator
+	return configurationStoreOperatorSecretsGenerator
 }
 
-// AddIndependentPropertyGeneratorsForConfigurationStore_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForConfigurationStore_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["CreateMode"] = gen.PtrOf(gen.AlphaString())
-	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
-	gens["EnablePurgeProtection"] = gen.PtrOf(gen.Bool())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
-	gens["SoftDeleteRetentionInDays"] = gen.PtrOf(gen.Int())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
+func Test_ConfigurationStoreOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ConfigurationStoreOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForConfigurationStoreOperatorSpec, ConfigurationStoreOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// AddRelatedPropertyGeneratorsForConfigurationStore_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForConfigurationStore_Spec(gens map[string]gopter.Gen) {
-	gens["Encryption"] = gen.PtrOf(EncryptionPropertiesGenerator())
-	gens["Identity"] = gen.PtrOf(ResourceIdentityGenerator())
-	gens["OperatorSpec"] = gen.PtrOf(ConfigurationStoreOperatorSpecGenerator())
-	gens["Sku"] = gen.PtrOf(SkuGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemDataGenerator())
+// RunJSONSerializationTestForConfigurationStoreOperatorSpec runs a test to see if a specific instance of ConfigurationStoreOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForConfigurationStoreOperatorSpec(subject ConfigurationStoreOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ConfigurationStoreOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ConfigurationStoreOperatorSpec instances for property testing - lazily instantiated by
+// ConfigurationStoreOperatorSpecGenerator()
+var configurationStoreOperatorSpecGenerator gopter.Gen
+
+// ConfigurationStoreOperatorSpecGenerator returns a generator of ConfigurationStoreOperatorSpec instances for property testing.
+func ConfigurationStoreOperatorSpecGenerator() gopter.Gen {
+	if configurationStoreOperatorSpecGenerator != nil {
+		return configurationStoreOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForConfigurationStoreOperatorSpec(generators)
+	configurationStoreOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ConfigurationStoreOperatorSpec{}), generators)
+
+	return configurationStoreOperatorSpecGenerator
+}
+
+// AddRelatedPropertyGeneratorsForConfigurationStoreOperatorSpec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForConfigurationStoreOperatorSpec(gens map[string]gopter.Gen) {
+	gens["Secrets"] = gen.PtrOf(ConfigurationStoreOperatorSecretsGenerator())
 }
 
 func Test_ConfigurationStore_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -260,20 +287,20 @@ func AddRelatedPropertyGeneratorsForConfigurationStore_STATUS(gens map[string]go
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
-func Test_ConfigurationStoreOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ConfigurationStore_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ConfigurationStoreOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForConfigurationStoreOperatorSpec, ConfigurationStoreOperatorSpecGenerator()))
+		"Round trip of ConfigurationStore_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForConfigurationStore_Spec, ConfigurationStore_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForConfigurationStoreOperatorSpec runs a test to see if a specific instance of ConfigurationStoreOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForConfigurationStoreOperatorSpec(subject ConfigurationStoreOperatorSpec) string {
+// RunJSONSerializationTestForConfigurationStore_Spec runs a test to see if a specific instance of ConfigurationStore_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForConfigurationStore_Spec(subject ConfigurationStore_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -281,7 +308,7 @@ func RunJSONSerializationTestForConfigurationStoreOperatorSpec(subject Configura
 	}
 
 	// Deserialize back into memory
-	var actual ConfigurationStoreOperatorSpec
+	var actual ConfigurationStore_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -299,26 +326,54 @@ func RunJSONSerializationTestForConfigurationStoreOperatorSpec(subject Configura
 	return ""
 }
 
-// Generator of ConfigurationStoreOperatorSpec instances for property testing - lazily instantiated by
-// ConfigurationStoreOperatorSpecGenerator()
-var configurationStoreOperatorSpecGenerator gopter.Gen
+// Generator of ConfigurationStore_Spec instances for property testing - lazily instantiated by
+// ConfigurationStore_SpecGenerator()
+var configurationStore_SpecGenerator gopter.Gen
 
-// ConfigurationStoreOperatorSpecGenerator returns a generator of ConfigurationStoreOperatorSpec instances for property testing.
-func ConfigurationStoreOperatorSpecGenerator() gopter.Gen {
-	if configurationStoreOperatorSpecGenerator != nil {
-		return configurationStoreOperatorSpecGenerator
+// ConfigurationStore_SpecGenerator returns a generator of ConfigurationStore_Spec instances for property testing.
+// We first initialize configurationStore_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ConfigurationStore_SpecGenerator() gopter.Gen {
+	if configurationStore_SpecGenerator != nil {
+		return configurationStore_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForConfigurationStoreOperatorSpec(generators)
-	configurationStoreOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ConfigurationStoreOperatorSpec{}), generators)
+	AddIndependentPropertyGeneratorsForConfigurationStore_Spec(generators)
+	configurationStore_SpecGenerator = gen.Struct(reflect.TypeOf(ConfigurationStore_Spec{}), generators)
 
-	return configurationStoreOperatorSpecGenerator
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForConfigurationStore_Spec(generators)
+	AddRelatedPropertyGeneratorsForConfigurationStore_Spec(generators)
+	configurationStore_SpecGenerator = gen.Struct(reflect.TypeOf(ConfigurationStore_Spec{}), generators)
+
+	return configurationStore_SpecGenerator
 }
 
-// AddRelatedPropertyGeneratorsForConfigurationStoreOperatorSpec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForConfigurationStoreOperatorSpec(gens map[string]gopter.Gen) {
-	gens["Secrets"] = gen.PtrOf(ConfigurationStoreOperatorSecretsGenerator())
+// AddIndependentPropertyGeneratorsForConfigurationStore_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForConfigurationStore_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["CreateMode"] = gen.PtrOf(gen.AlphaString())
+	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
+	gens["EnablePurgeProtection"] = gen.PtrOf(gen.Bool())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
+	gens["SoftDeleteRetentionInDays"] = gen.PtrOf(gen.Int())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForConfigurationStore_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForConfigurationStore_Spec(gens map[string]gopter.Gen) {
+	gens["Encryption"] = gen.PtrOf(EncryptionPropertiesGenerator())
+	gens["Identity"] = gen.PtrOf(ResourceIdentityGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(ConfigurationStoreOperatorSpecGenerator())
+	gens["Sku"] = gen.PtrOf(SkuGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemDataGenerator())
 }
 
 func Test_EncryptionProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -441,6 +496,129 @@ func EncryptionProperties_STATUSGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForEncryptionProperties_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForEncryptionProperties_STATUS(gens map[string]gopter.Gen) {
 	gens["KeyVaultProperties"] = gen.PtrOf(KeyVaultProperties_STATUSGenerator())
+}
+
+func Test_KeyVaultProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of KeyVaultProperties via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForKeyVaultProperties, KeyVaultPropertiesGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForKeyVaultProperties runs a test to see if a specific instance of KeyVaultProperties round trips to JSON and back losslessly
+func RunJSONSerializationTestForKeyVaultProperties(subject KeyVaultProperties) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual KeyVaultProperties
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of KeyVaultProperties instances for property testing - lazily instantiated by KeyVaultPropertiesGenerator()
+var keyVaultPropertiesGenerator gopter.Gen
+
+// KeyVaultPropertiesGenerator returns a generator of KeyVaultProperties instances for property testing.
+func KeyVaultPropertiesGenerator() gopter.Gen {
+	if keyVaultPropertiesGenerator != nil {
+		return keyVaultPropertiesGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForKeyVaultProperties(generators)
+	keyVaultPropertiesGenerator = gen.Struct(reflect.TypeOf(KeyVaultProperties{}), generators)
+
+	return keyVaultPropertiesGenerator
+}
+
+// AddIndependentPropertyGeneratorsForKeyVaultProperties is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForKeyVaultProperties(gens map[string]gopter.Gen) {
+	gens["IdentityClientId"] = gen.PtrOf(gen.AlphaString())
+	gens["KeyIdentifier"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_KeyVaultProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of KeyVaultProperties_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForKeyVaultProperties_STATUS, KeyVaultProperties_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForKeyVaultProperties_STATUS runs a test to see if a specific instance of KeyVaultProperties_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForKeyVaultProperties_STATUS(subject KeyVaultProperties_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual KeyVaultProperties_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of KeyVaultProperties_STATUS instances for property testing - lazily instantiated by
+// KeyVaultProperties_STATUSGenerator()
+var keyVaultProperties_STATUSGenerator gopter.Gen
+
+// KeyVaultProperties_STATUSGenerator returns a generator of KeyVaultProperties_STATUS instances for property testing.
+func KeyVaultProperties_STATUSGenerator() gopter.Gen {
+	if keyVaultProperties_STATUSGenerator != nil {
+		return keyVaultProperties_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForKeyVaultProperties_STATUS(generators)
+	keyVaultProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(KeyVaultProperties_STATUS{}), generators)
+
+	return keyVaultProperties_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForKeyVaultProperties_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForKeyVaultProperties_STATUS(gens map[string]gopter.Gen) {
+	gens["IdentityClientId"] = gen.PtrOf(gen.AlphaString())
+	gens["KeyIdentifier"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_PrivateEndpointConnectionReference_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -905,184 +1083,6 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_ConfigurationStoreOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ConfigurationStoreOperatorSecrets via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForConfigurationStoreOperatorSecrets, ConfigurationStoreOperatorSecretsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForConfigurationStoreOperatorSecrets runs a test to see if a specific instance of ConfigurationStoreOperatorSecrets round trips to JSON and back losslessly
-func RunJSONSerializationTestForConfigurationStoreOperatorSecrets(subject ConfigurationStoreOperatorSecrets) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ConfigurationStoreOperatorSecrets
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ConfigurationStoreOperatorSecrets instances for property testing - lazily instantiated by
-// ConfigurationStoreOperatorSecretsGenerator()
-var configurationStoreOperatorSecretsGenerator gopter.Gen
-
-// ConfigurationStoreOperatorSecretsGenerator returns a generator of ConfigurationStoreOperatorSecrets instances for property testing.
-func ConfigurationStoreOperatorSecretsGenerator() gopter.Gen {
-	if configurationStoreOperatorSecretsGenerator != nil {
-		return configurationStoreOperatorSecretsGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	configurationStoreOperatorSecretsGenerator = gen.Struct(reflect.TypeOf(ConfigurationStoreOperatorSecrets{}), generators)
-
-	return configurationStoreOperatorSecretsGenerator
-}
-
-func Test_KeyVaultProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of KeyVaultProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForKeyVaultProperties, KeyVaultPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForKeyVaultProperties runs a test to see if a specific instance of KeyVaultProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForKeyVaultProperties(subject KeyVaultProperties) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual KeyVaultProperties
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of KeyVaultProperties instances for property testing - lazily instantiated by KeyVaultPropertiesGenerator()
-var keyVaultPropertiesGenerator gopter.Gen
-
-// KeyVaultPropertiesGenerator returns a generator of KeyVaultProperties instances for property testing.
-func KeyVaultPropertiesGenerator() gopter.Gen {
-	if keyVaultPropertiesGenerator != nil {
-		return keyVaultPropertiesGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForKeyVaultProperties(generators)
-	keyVaultPropertiesGenerator = gen.Struct(reflect.TypeOf(KeyVaultProperties{}), generators)
-
-	return keyVaultPropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForKeyVaultProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForKeyVaultProperties(gens map[string]gopter.Gen) {
-	gens["IdentityClientId"] = gen.PtrOf(gen.AlphaString())
-	gens["KeyIdentifier"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_KeyVaultProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of KeyVaultProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForKeyVaultProperties_STATUS, KeyVaultProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForKeyVaultProperties_STATUS runs a test to see if a specific instance of KeyVaultProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForKeyVaultProperties_STATUS(subject KeyVaultProperties_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual KeyVaultProperties_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of KeyVaultProperties_STATUS instances for property testing - lazily instantiated by
-// KeyVaultProperties_STATUSGenerator()
-var keyVaultProperties_STATUSGenerator gopter.Gen
-
-// KeyVaultProperties_STATUSGenerator returns a generator of KeyVaultProperties_STATUS instances for property testing.
-func KeyVaultProperties_STATUSGenerator() gopter.Gen {
-	if keyVaultProperties_STATUSGenerator != nil {
-		return keyVaultProperties_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForKeyVaultProperties_STATUS(generators)
-	keyVaultProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(KeyVaultProperties_STATUS{}), generators)
-
-	return keyVaultProperties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForKeyVaultProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForKeyVaultProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["IdentityClientId"] = gen.PtrOf(gen.AlphaString())
-	gens["KeyIdentifier"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_UserAssignedIdentityDetails_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

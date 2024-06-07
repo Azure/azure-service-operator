@@ -17,6 +17,70 @@ import (
 	"testing"
 )
 
+func Test_AdministratorProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of AdministratorProperties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAdministratorProperties_ARM, AdministratorProperties_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForAdministratorProperties_ARM runs a test to see if a specific instance of AdministratorProperties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForAdministratorProperties_ARM(subject AdministratorProperties_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual AdministratorProperties_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of AdministratorProperties_ARM instances for property testing - lazily instantiated by
+// AdministratorProperties_ARMGenerator()
+var administratorProperties_ARMGenerator gopter.Gen
+
+// AdministratorProperties_ARMGenerator returns a generator of AdministratorProperties_ARM instances for property testing.
+func AdministratorProperties_ARMGenerator() gopter.Gen {
+	if administratorProperties_ARMGenerator != nil {
+		return administratorProperties_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForAdministratorProperties_ARM(generators)
+	administratorProperties_ARMGenerator = gen.Struct(reflect.TypeOf(AdministratorProperties_ARM{}), generators)
+
+	return administratorProperties_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForAdministratorProperties_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAdministratorProperties_ARM(gens map[string]gopter.Gen) {
+	gens["AdministratorType"] = gen.PtrOf(gen.OneConstOf(AdministratorProperties_AdministratorType_ActiveDirectory))
+	gens["Login"] = gen.PtrOf(gen.AlphaString())
+	gens["Sid"] = gen.PtrOf(gen.AlphaString())
+	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
+}
+
 func Test_Servers_Administrator_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -90,68 +154,4 @@ func AddIndependentPropertyGeneratorsForServers_Administrator_Spec_ARM(gens map[
 // AddRelatedPropertyGeneratorsForServers_Administrator_Spec_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForServers_Administrator_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(AdministratorProperties_ARMGenerator())
-}
-
-func Test_AdministratorProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AdministratorProperties_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAdministratorProperties_ARM, AdministratorProperties_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForAdministratorProperties_ARM runs a test to see if a specific instance of AdministratorProperties_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForAdministratorProperties_ARM(subject AdministratorProperties_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual AdministratorProperties_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of AdministratorProperties_ARM instances for property testing - lazily instantiated by
-// AdministratorProperties_ARMGenerator()
-var administratorProperties_ARMGenerator gopter.Gen
-
-// AdministratorProperties_ARMGenerator returns a generator of AdministratorProperties_ARM instances for property testing.
-func AdministratorProperties_ARMGenerator() gopter.Gen {
-	if administratorProperties_ARMGenerator != nil {
-		return administratorProperties_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAdministratorProperties_ARM(generators)
-	administratorProperties_ARMGenerator = gen.Struct(reflect.TypeOf(AdministratorProperties_ARM{}), generators)
-
-	return administratorProperties_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAdministratorProperties_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAdministratorProperties_ARM(gens map[string]gopter.Gen) {
-	gens["AdministratorType"] = gen.PtrOf(gen.OneConstOf(AdministratorProperties_AdministratorType_ActiveDirectory))
-	gens["Login"] = gen.PtrOf(gen.AlphaString())
-	gens["Sid"] = gen.PtrOf(gen.AlphaString())
-	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 }

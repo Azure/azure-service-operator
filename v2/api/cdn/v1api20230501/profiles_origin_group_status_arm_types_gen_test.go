@@ -17,84 +17,6 @@ import (
 	"testing"
 )
 
-func Test_Profiles_OriginGroup_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Profiles_OriginGroup_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProfiles_OriginGroup_STATUS_ARM, Profiles_OriginGroup_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForProfiles_OriginGroup_STATUS_ARM runs a test to see if a specific instance of Profiles_OriginGroup_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForProfiles_OriginGroup_STATUS_ARM(subject Profiles_OriginGroup_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Profiles_OriginGroup_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Profiles_OriginGroup_STATUS_ARM instances for property testing - lazily instantiated by
-// Profiles_OriginGroup_STATUS_ARMGenerator()
-var profiles_OriginGroup_STATUS_ARMGenerator gopter.Gen
-
-// Profiles_OriginGroup_STATUS_ARMGenerator returns a generator of Profiles_OriginGroup_STATUS_ARM instances for property testing.
-// We first initialize profiles_OriginGroup_STATUS_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Profiles_OriginGroup_STATUS_ARMGenerator() gopter.Gen {
-	if profiles_OriginGroup_STATUS_ARMGenerator != nil {
-		return profiles_OriginGroup_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_OriginGroup_STATUS_ARM(generators)
-	profiles_OriginGroup_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Profiles_OriginGroup_STATUS_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_OriginGroup_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForProfiles_OriginGroup_STATUS_ARM(generators)
-	profiles_OriginGroup_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Profiles_OriginGroup_STATUS_ARM{}), generators)
-
-	return profiles_OriginGroup_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForProfiles_OriginGroup_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProfiles_OriginGroup_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForProfiles_OriginGroup_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForProfiles_OriginGroup_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(AFDOriginGroupProperties_STATUS_ARMGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUS_ARMGenerator())
-}
-
 func Test_AFDOriginGroupProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -309,4 +231,82 @@ func AddIndependentPropertyGeneratorsForLoadBalancingSettingsParameters_STATUS_A
 	gens["AdditionalLatencyInMilliseconds"] = gen.PtrOf(gen.Int())
 	gens["SampleSize"] = gen.PtrOf(gen.Int())
 	gens["SuccessfulSamplesRequired"] = gen.PtrOf(gen.Int())
+}
+
+func Test_Profiles_OriginGroup_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Profiles_OriginGroup_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForProfiles_OriginGroup_STATUS_ARM, Profiles_OriginGroup_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForProfiles_OriginGroup_STATUS_ARM runs a test to see if a specific instance of Profiles_OriginGroup_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForProfiles_OriginGroup_STATUS_ARM(subject Profiles_OriginGroup_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Profiles_OriginGroup_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Profiles_OriginGroup_STATUS_ARM instances for property testing - lazily instantiated by
+// Profiles_OriginGroup_STATUS_ARMGenerator()
+var profiles_OriginGroup_STATUS_ARMGenerator gopter.Gen
+
+// Profiles_OriginGroup_STATUS_ARMGenerator returns a generator of Profiles_OriginGroup_STATUS_ARM instances for property testing.
+// We first initialize profiles_OriginGroup_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Profiles_OriginGroup_STATUS_ARMGenerator() gopter.Gen {
+	if profiles_OriginGroup_STATUS_ARMGenerator != nil {
+		return profiles_OriginGroup_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForProfiles_OriginGroup_STATUS_ARM(generators)
+	profiles_OriginGroup_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Profiles_OriginGroup_STATUS_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForProfiles_OriginGroup_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForProfiles_OriginGroup_STATUS_ARM(generators)
+	profiles_OriginGroup_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Profiles_OriginGroup_STATUS_ARM{}), generators)
+
+	return profiles_OriginGroup_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForProfiles_OriginGroup_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForProfiles_OriginGroup_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForProfiles_OriginGroup_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForProfiles_OriginGroup_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(AFDOriginGroupProperties_STATUS_ARMGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUS_ARMGenerator())
 }

@@ -18,437 +18,6 @@ import (
 	"testing"
 )
 
-func Test_RedisEnterpriseDatabase_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RedisEnterpriseDatabase to hub returns original",
-		prop.ForAll(RunResourceConversionTestForRedisEnterpriseDatabase, RedisEnterpriseDatabaseGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunResourceConversionTestForRedisEnterpriseDatabase tests if a specific instance of RedisEnterpriseDatabase round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForRedisEnterpriseDatabase(subject RedisEnterpriseDatabase) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub storage.RedisEnterpriseDatabase
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual RedisEnterpriseDatabase
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_RedisEnterpriseDatabase_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RedisEnterpriseDatabase to RedisEnterpriseDatabase via AssignProperties_To_RedisEnterpriseDatabase & AssignProperties_From_RedisEnterpriseDatabase returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRedisEnterpriseDatabase, RedisEnterpriseDatabaseGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForRedisEnterpriseDatabase tests if a specific instance of RedisEnterpriseDatabase can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRedisEnterpriseDatabase(subject RedisEnterpriseDatabase) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RedisEnterpriseDatabase
-	err := copied.AssignProperties_To_RedisEnterpriseDatabase(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RedisEnterpriseDatabase
-	err = actual.AssignProperties_From_RedisEnterpriseDatabase(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_RedisEnterpriseDatabase_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RedisEnterpriseDatabase via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisEnterpriseDatabase, RedisEnterpriseDatabaseGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForRedisEnterpriseDatabase runs a test to see if a specific instance of RedisEnterpriseDatabase round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisEnterpriseDatabase(subject RedisEnterpriseDatabase) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual RedisEnterpriseDatabase
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of RedisEnterpriseDatabase instances for property testing - lazily instantiated by
-// RedisEnterpriseDatabaseGenerator()
-var redisEnterpriseDatabaseGenerator gopter.Gen
-
-// RedisEnterpriseDatabaseGenerator returns a generator of RedisEnterpriseDatabase instances for property testing.
-func RedisEnterpriseDatabaseGenerator() gopter.Gen {
-	if redisEnterpriseDatabaseGenerator != nil {
-		return redisEnterpriseDatabaseGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForRedisEnterpriseDatabase(generators)
-	redisEnterpriseDatabaseGenerator = gen.Struct(reflect.TypeOf(RedisEnterpriseDatabase{}), generators)
-
-	return redisEnterpriseDatabaseGenerator
-}
-
-// AddRelatedPropertyGeneratorsForRedisEnterpriseDatabase is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRedisEnterpriseDatabase(gens map[string]gopter.Gen) {
-	gens["Spec"] = RedisEnterprise_Database_SpecGenerator()
-	gens["Status"] = RedisEnterprise_Database_STATUSGenerator()
-}
-
-func Test_RedisEnterprise_Database_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RedisEnterprise_Database_Spec to RedisEnterprise_Database_Spec via AssignProperties_To_RedisEnterprise_Database_Spec & AssignProperties_From_RedisEnterprise_Database_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRedisEnterprise_Database_Spec, RedisEnterprise_Database_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForRedisEnterprise_Database_Spec tests if a specific instance of RedisEnterprise_Database_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRedisEnterprise_Database_Spec(subject RedisEnterprise_Database_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RedisEnterprise_Database_Spec
-	err := copied.AssignProperties_To_RedisEnterprise_Database_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RedisEnterprise_Database_Spec
-	err = actual.AssignProperties_From_RedisEnterprise_Database_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_RedisEnterprise_Database_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RedisEnterprise_Database_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisEnterprise_Database_Spec, RedisEnterprise_Database_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForRedisEnterprise_Database_Spec runs a test to see if a specific instance of RedisEnterprise_Database_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisEnterprise_Database_Spec(subject RedisEnterprise_Database_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual RedisEnterprise_Database_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of RedisEnterprise_Database_Spec instances for property testing - lazily instantiated by
-// RedisEnterprise_Database_SpecGenerator()
-var redisEnterprise_Database_SpecGenerator gopter.Gen
-
-// RedisEnterprise_Database_SpecGenerator returns a generator of RedisEnterprise_Database_Spec instances for property testing.
-// We first initialize redisEnterprise_Database_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func RedisEnterprise_Database_SpecGenerator() gopter.Gen {
-	if redisEnterprise_Database_SpecGenerator != nil {
-		return redisEnterprise_Database_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisEnterprise_Database_Spec(generators)
-	redisEnterprise_Database_SpecGenerator = gen.Struct(reflect.TypeOf(RedisEnterprise_Database_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisEnterprise_Database_Spec(generators)
-	AddRelatedPropertyGeneratorsForRedisEnterprise_Database_Spec(generators)
-	redisEnterprise_Database_SpecGenerator = gen.Struct(reflect.TypeOf(RedisEnterprise_Database_Spec{}), generators)
-
-	return redisEnterprise_Database_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRedisEnterprise_Database_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedisEnterprise_Database_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["ClientProtocol"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_ClientProtocol_Encrypted, DatabaseProperties_ClientProtocol_Plaintext))
-	gens["ClusteringPolicy"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_ClusteringPolicy_EnterpriseCluster, DatabaseProperties_ClusteringPolicy_OSSCluster))
-	gens["EvictionPolicy"] = gen.PtrOf(gen.OneConstOf(
-		DatabaseProperties_EvictionPolicy_AllKeysLFU,
-		DatabaseProperties_EvictionPolicy_AllKeysLRU,
-		DatabaseProperties_EvictionPolicy_AllKeysRandom,
-		DatabaseProperties_EvictionPolicy_NoEviction,
-		DatabaseProperties_EvictionPolicy_VolatileLFU,
-		DatabaseProperties_EvictionPolicy_VolatileLRU,
-		DatabaseProperties_EvictionPolicy_VolatileRandom,
-		DatabaseProperties_EvictionPolicy_VolatileTTL))
-	gens["Port"] = gen.PtrOf(gen.Int())
-}
-
-// AddRelatedPropertyGeneratorsForRedisEnterprise_Database_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRedisEnterprise_Database_Spec(gens map[string]gopter.Gen) {
-	gens["GeoReplication"] = gen.PtrOf(DatabaseProperties_GeoReplicationGenerator())
-	gens["Modules"] = gen.SliceOf(ModuleGenerator())
-	gens["Persistence"] = gen.PtrOf(PersistenceGenerator())
-}
-
-func Test_RedisEnterprise_Database_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RedisEnterprise_Database_STATUS to RedisEnterprise_Database_STATUS via AssignProperties_To_RedisEnterprise_Database_STATUS & AssignProperties_From_RedisEnterprise_Database_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRedisEnterprise_Database_STATUS, RedisEnterprise_Database_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForRedisEnterprise_Database_STATUS tests if a specific instance of RedisEnterprise_Database_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRedisEnterprise_Database_STATUS(subject RedisEnterprise_Database_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RedisEnterprise_Database_STATUS
-	err := copied.AssignProperties_To_RedisEnterprise_Database_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RedisEnterprise_Database_STATUS
-	err = actual.AssignProperties_From_RedisEnterprise_Database_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_RedisEnterprise_Database_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RedisEnterprise_Database_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisEnterprise_Database_STATUS, RedisEnterprise_Database_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForRedisEnterprise_Database_STATUS runs a test to see if a specific instance of RedisEnterprise_Database_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisEnterprise_Database_STATUS(subject RedisEnterprise_Database_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual RedisEnterprise_Database_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of RedisEnterprise_Database_STATUS instances for property testing - lazily instantiated by
-// RedisEnterprise_Database_STATUSGenerator()
-var redisEnterprise_Database_STATUSGenerator gopter.Gen
-
-// RedisEnterprise_Database_STATUSGenerator returns a generator of RedisEnterprise_Database_STATUS instances for property testing.
-// We first initialize redisEnterprise_Database_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func RedisEnterprise_Database_STATUSGenerator() gopter.Gen {
-	if redisEnterprise_Database_STATUSGenerator != nil {
-		return redisEnterprise_Database_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisEnterprise_Database_STATUS(generators)
-	redisEnterprise_Database_STATUSGenerator = gen.Struct(reflect.TypeOf(RedisEnterprise_Database_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisEnterprise_Database_STATUS(generators)
-	AddRelatedPropertyGeneratorsForRedisEnterprise_Database_STATUS(generators)
-	redisEnterprise_Database_STATUSGenerator = gen.Struct(reflect.TypeOf(RedisEnterprise_Database_STATUS{}), generators)
-
-	return redisEnterprise_Database_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRedisEnterprise_Database_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedisEnterprise_Database_STATUS(gens map[string]gopter.Gen) {
-	gens["ClientProtocol"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_ClientProtocol_STATUS_Encrypted, DatabaseProperties_ClientProtocol_STATUS_Plaintext))
-	gens["ClusteringPolicy"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_ClusteringPolicy_STATUS_EnterpriseCluster, DatabaseProperties_ClusteringPolicy_STATUS_OSSCluster))
-	gens["EvictionPolicy"] = gen.PtrOf(gen.OneConstOf(
-		DatabaseProperties_EvictionPolicy_STATUS_AllKeysLFU,
-		DatabaseProperties_EvictionPolicy_STATUS_AllKeysLRU,
-		DatabaseProperties_EvictionPolicy_STATUS_AllKeysRandom,
-		DatabaseProperties_EvictionPolicy_STATUS_NoEviction,
-		DatabaseProperties_EvictionPolicy_STATUS_VolatileLFU,
-		DatabaseProperties_EvictionPolicy_STATUS_VolatileLRU,
-		DatabaseProperties_EvictionPolicy_STATUS_VolatileRandom,
-		DatabaseProperties_EvictionPolicy_STATUS_VolatileTTL))
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Port"] = gen.PtrOf(gen.Int())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_STATUS_Canceled,
-		ProvisioningState_STATUS_Creating,
-		ProvisioningState_STATUS_Deleting,
-		ProvisioningState_STATUS_Failed,
-		ProvisioningState_STATUS_Succeeded,
-		ProvisioningState_STATUS_Updating))
-	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
-		ResourceState_STATUS_CreateFailed,
-		ResourceState_STATUS_Creating,
-		ResourceState_STATUS_DeleteFailed,
-		ResourceState_STATUS_Deleting,
-		ResourceState_STATUS_DisableFailed,
-		ResourceState_STATUS_Disabled,
-		ResourceState_STATUS_Disabling,
-		ResourceState_STATUS_EnableFailed,
-		ResourceState_STATUS_Enabling,
-		ResourceState_STATUS_Running,
-		ResourceState_STATUS_UpdateFailed,
-		ResourceState_STATUS_Updating))
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForRedisEnterprise_Database_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRedisEnterprise_Database_STATUS(gens map[string]gopter.Gen) {
-	gens["GeoReplication"] = gen.PtrOf(DatabaseProperties_GeoReplication_STATUSGenerator())
-	gens["Modules"] = gen.SliceOf(Module_STATUSGenerator())
-	gens["Persistence"] = gen.PtrOf(Persistence_STATUSGenerator())
-}
-
 func Test_DatabaseProperties_GeoReplication_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -681,6 +250,211 @@ func AddIndependentPropertyGeneratorsForDatabaseProperties_GeoReplication_STATUS
 // AddRelatedPropertyGeneratorsForDatabaseProperties_GeoReplication_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDatabaseProperties_GeoReplication_STATUS(gens map[string]gopter.Gen) {
 	gens["LinkedDatabases"] = gen.SliceOf(LinkedDatabase_STATUSGenerator())
+}
+
+func Test_LinkedDatabase_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from LinkedDatabase to LinkedDatabase via AssignProperties_To_LinkedDatabase & AssignProperties_From_LinkedDatabase returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLinkedDatabase, LinkedDatabaseGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForLinkedDatabase tests if a specific instance of LinkedDatabase can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForLinkedDatabase(subject LinkedDatabase) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.LinkedDatabase
+	err := copied.AssignProperties_To_LinkedDatabase(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual LinkedDatabase
+	err = actual.AssignProperties_From_LinkedDatabase(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_LinkedDatabase_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of LinkedDatabase via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForLinkedDatabase, LinkedDatabaseGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForLinkedDatabase runs a test to see if a specific instance of LinkedDatabase round trips to JSON and back losslessly
+func RunJSONSerializationTestForLinkedDatabase(subject LinkedDatabase) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual LinkedDatabase
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of LinkedDatabase instances for property testing - lazily instantiated by LinkedDatabaseGenerator()
+var linkedDatabaseGenerator gopter.Gen
+
+// LinkedDatabaseGenerator returns a generator of LinkedDatabase instances for property testing.
+func LinkedDatabaseGenerator() gopter.Gen {
+	if linkedDatabaseGenerator != nil {
+		return linkedDatabaseGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	linkedDatabaseGenerator = gen.Struct(reflect.TypeOf(LinkedDatabase{}), generators)
+
+	return linkedDatabaseGenerator
+}
+
+func Test_LinkedDatabase_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from LinkedDatabase_STATUS to LinkedDatabase_STATUS via AssignProperties_To_LinkedDatabase_STATUS & AssignProperties_From_LinkedDatabase_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLinkedDatabase_STATUS, LinkedDatabase_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForLinkedDatabase_STATUS tests if a specific instance of LinkedDatabase_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForLinkedDatabase_STATUS(subject LinkedDatabase_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.LinkedDatabase_STATUS
+	err := copied.AssignProperties_To_LinkedDatabase_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual LinkedDatabase_STATUS
+	err = actual.AssignProperties_From_LinkedDatabase_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_LinkedDatabase_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of LinkedDatabase_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForLinkedDatabase_STATUS, LinkedDatabase_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForLinkedDatabase_STATUS runs a test to see if a specific instance of LinkedDatabase_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForLinkedDatabase_STATUS(subject LinkedDatabase_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual LinkedDatabase_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of LinkedDatabase_STATUS instances for property testing - lazily instantiated by
+// LinkedDatabase_STATUSGenerator()
+var linkedDatabase_STATUSGenerator gopter.Gen
+
+// LinkedDatabase_STATUSGenerator returns a generator of LinkedDatabase_STATUS instances for property testing.
+func LinkedDatabase_STATUSGenerator() gopter.Gen {
+	if linkedDatabase_STATUSGenerator != nil {
+		return linkedDatabase_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForLinkedDatabase_STATUS(generators)
+	linkedDatabase_STATUSGenerator = gen.Struct(reflect.TypeOf(LinkedDatabase_STATUS{}), generators)
+
+	return linkedDatabase_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForLinkedDatabase_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForLinkedDatabase_STATUS(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["State"] = gen.PtrOf(gen.OneConstOf(
+		LinkedDatabase_State_STATUS_LinkFailed,
+		LinkedDatabase_State_STATUS_Linked,
+		LinkedDatabase_State_STATUS_Linking,
+		LinkedDatabase_State_STATUS_UnlinkFailed,
+		LinkedDatabase_State_STATUS_Unlinking))
 }
 
 func Test_Module_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1100,32 +874,75 @@ func AddIndependentPropertyGeneratorsForPersistence_STATUS(gens map[string]gopte
 	gens["RdbFrequency"] = gen.PtrOf(gen.OneConstOf(Persistence_RdbFrequency_STATUS_12H, Persistence_RdbFrequency_STATUS_1H, Persistence_RdbFrequency_STATUS_6H))
 }
 
-func Test_LinkedDatabase_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_RedisEnterpriseDatabase_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RedisEnterpriseDatabase to hub returns original",
+		prop.ForAll(RunResourceConversionTestForRedisEnterpriseDatabase, RedisEnterpriseDatabaseGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForRedisEnterpriseDatabase tests if a specific instance of RedisEnterpriseDatabase round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForRedisEnterpriseDatabase(subject RedisEnterpriseDatabase) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.RedisEnterpriseDatabase
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual RedisEnterpriseDatabase
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_RedisEnterpriseDatabase_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from LinkedDatabase to LinkedDatabase via AssignProperties_To_LinkedDatabase & AssignProperties_From_LinkedDatabase returns original",
-		prop.ForAll(RunPropertyAssignmentTestForLinkedDatabase, LinkedDatabaseGenerator()))
+		"Round trip from RedisEnterpriseDatabase to RedisEnterpriseDatabase via AssignProperties_To_RedisEnterpriseDatabase & AssignProperties_From_RedisEnterpriseDatabase returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedisEnterpriseDatabase, RedisEnterpriseDatabaseGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForLinkedDatabase tests if a specific instance of LinkedDatabase can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForLinkedDatabase(subject LinkedDatabase) string {
+// RunPropertyAssignmentTestForRedisEnterpriseDatabase tests if a specific instance of RedisEnterpriseDatabase can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRedisEnterpriseDatabase(subject RedisEnterpriseDatabase) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.LinkedDatabase
-	err := copied.AssignProperties_To_LinkedDatabase(&other)
+	var other storage.RedisEnterpriseDatabase
+	err := copied.AssignProperties_To_RedisEnterpriseDatabase(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual LinkedDatabase
-	err = actual.AssignProperties_From_LinkedDatabase(&other)
+	var actual RedisEnterpriseDatabase
+	err = actual.AssignProperties_From_RedisEnterpriseDatabase(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1142,20 +959,20 @@ func RunPropertyAssignmentTestForLinkedDatabase(subject LinkedDatabase) string {
 	return ""
 }
 
-func Test_LinkedDatabase_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_RedisEnterpriseDatabase_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of LinkedDatabase via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLinkedDatabase, LinkedDatabaseGenerator()))
+		"Round trip of RedisEnterpriseDatabase via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRedisEnterpriseDatabase, RedisEnterpriseDatabaseGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForLinkedDatabase runs a test to see if a specific instance of LinkedDatabase round trips to JSON and back losslessly
-func RunJSONSerializationTestForLinkedDatabase(subject LinkedDatabase) string {
+// RunJSONSerializationTestForRedisEnterpriseDatabase runs a test to see if a specific instance of RedisEnterpriseDatabase round trips to JSON and back losslessly
+func RunJSONSerializationTestForRedisEnterpriseDatabase(subject RedisEnterpriseDatabase) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1163,7 +980,7 @@ func RunJSONSerializationTestForLinkedDatabase(subject LinkedDatabase) string {
 	}
 
 	// Deserialize back into memory
-	var actual LinkedDatabase
+	var actual RedisEnterpriseDatabase
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1181,47 +998,55 @@ func RunJSONSerializationTestForLinkedDatabase(subject LinkedDatabase) string {
 	return ""
 }
 
-// Generator of LinkedDatabase instances for property testing - lazily instantiated by LinkedDatabaseGenerator()
-var linkedDatabaseGenerator gopter.Gen
+// Generator of RedisEnterpriseDatabase instances for property testing - lazily instantiated by
+// RedisEnterpriseDatabaseGenerator()
+var redisEnterpriseDatabaseGenerator gopter.Gen
 
-// LinkedDatabaseGenerator returns a generator of LinkedDatabase instances for property testing.
-func LinkedDatabaseGenerator() gopter.Gen {
-	if linkedDatabaseGenerator != nil {
-		return linkedDatabaseGenerator
+// RedisEnterpriseDatabaseGenerator returns a generator of RedisEnterpriseDatabase instances for property testing.
+func RedisEnterpriseDatabaseGenerator() gopter.Gen {
+	if redisEnterpriseDatabaseGenerator != nil {
+		return redisEnterpriseDatabaseGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	linkedDatabaseGenerator = gen.Struct(reflect.TypeOf(LinkedDatabase{}), generators)
+	AddRelatedPropertyGeneratorsForRedisEnterpriseDatabase(generators)
+	redisEnterpriseDatabaseGenerator = gen.Struct(reflect.TypeOf(RedisEnterpriseDatabase{}), generators)
 
-	return linkedDatabaseGenerator
+	return redisEnterpriseDatabaseGenerator
 }
 
-func Test_LinkedDatabase_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+// AddRelatedPropertyGeneratorsForRedisEnterpriseDatabase is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRedisEnterpriseDatabase(gens map[string]gopter.Gen) {
+	gens["Spec"] = RedisEnterprise_Database_SpecGenerator()
+	gens["Status"] = RedisEnterprise_Database_STATUSGenerator()
+}
+
+func Test_RedisEnterprise_Database_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from LinkedDatabase_STATUS to LinkedDatabase_STATUS via AssignProperties_To_LinkedDatabase_STATUS & AssignProperties_From_LinkedDatabase_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForLinkedDatabase_STATUS, LinkedDatabase_STATUSGenerator()))
+		"Round trip from RedisEnterprise_Database_STATUS to RedisEnterprise_Database_STATUS via AssignProperties_To_RedisEnterprise_Database_STATUS & AssignProperties_From_RedisEnterprise_Database_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedisEnterprise_Database_STATUS, RedisEnterprise_Database_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForLinkedDatabase_STATUS tests if a specific instance of LinkedDatabase_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForLinkedDatabase_STATUS(subject LinkedDatabase_STATUS) string {
+// RunPropertyAssignmentTestForRedisEnterprise_Database_STATUS tests if a specific instance of RedisEnterprise_Database_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRedisEnterprise_Database_STATUS(subject RedisEnterprise_Database_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.LinkedDatabase_STATUS
-	err := copied.AssignProperties_To_LinkedDatabase_STATUS(&other)
+	var other storage.RedisEnterprise_Database_STATUS
+	err := copied.AssignProperties_To_RedisEnterprise_Database_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual LinkedDatabase_STATUS
-	err = actual.AssignProperties_From_LinkedDatabase_STATUS(&other)
+	var actual RedisEnterprise_Database_STATUS
+	err = actual.AssignProperties_From_RedisEnterprise_Database_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1238,20 +1063,20 @@ func RunPropertyAssignmentTestForLinkedDatabase_STATUS(subject LinkedDatabase_ST
 	return ""
 }
 
-func Test_LinkedDatabase_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_RedisEnterprise_Database_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of LinkedDatabase_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLinkedDatabase_STATUS, LinkedDatabase_STATUSGenerator()))
+		"Round trip of RedisEnterprise_Database_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRedisEnterprise_Database_STATUS, RedisEnterprise_Database_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForLinkedDatabase_STATUS runs a test to see if a specific instance of LinkedDatabase_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForLinkedDatabase_STATUS(subject LinkedDatabase_STATUS) string {
+// RunJSONSerializationTestForRedisEnterprise_Database_STATUS runs a test to see if a specific instance of RedisEnterprise_Database_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForRedisEnterprise_Database_STATUS(subject RedisEnterprise_Database_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1259,7 +1084,7 @@ func RunJSONSerializationTestForLinkedDatabase_STATUS(subject LinkedDatabase_STA
 	}
 
 	// Deserialize back into memory
-	var actual LinkedDatabase_STATUS
+	var actual RedisEnterprise_Database_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1277,30 +1102,205 @@ func RunJSONSerializationTestForLinkedDatabase_STATUS(subject LinkedDatabase_STA
 	return ""
 }
 
-// Generator of LinkedDatabase_STATUS instances for property testing - lazily instantiated by
-// LinkedDatabase_STATUSGenerator()
-var linkedDatabase_STATUSGenerator gopter.Gen
+// Generator of RedisEnterprise_Database_STATUS instances for property testing - lazily instantiated by
+// RedisEnterprise_Database_STATUSGenerator()
+var redisEnterprise_Database_STATUSGenerator gopter.Gen
 
-// LinkedDatabase_STATUSGenerator returns a generator of LinkedDatabase_STATUS instances for property testing.
-func LinkedDatabase_STATUSGenerator() gopter.Gen {
-	if linkedDatabase_STATUSGenerator != nil {
-		return linkedDatabase_STATUSGenerator
+// RedisEnterprise_Database_STATUSGenerator returns a generator of RedisEnterprise_Database_STATUS instances for property testing.
+// We first initialize redisEnterprise_Database_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func RedisEnterprise_Database_STATUSGenerator() gopter.Gen {
+	if redisEnterprise_Database_STATUSGenerator != nil {
+		return redisEnterprise_Database_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLinkedDatabase_STATUS(generators)
-	linkedDatabase_STATUSGenerator = gen.Struct(reflect.TypeOf(LinkedDatabase_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForRedisEnterprise_Database_STATUS(generators)
+	redisEnterprise_Database_STATUSGenerator = gen.Struct(reflect.TypeOf(RedisEnterprise_Database_STATUS{}), generators)
 
-	return linkedDatabase_STATUSGenerator
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRedisEnterprise_Database_STATUS(generators)
+	AddRelatedPropertyGeneratorsForRedisEnterprise_Database_STATUS(generators)
+	redisEnterprise_Database_STATUSGenerator = gen.Struct(reflect.TypeOf(RedisEnterprise_Database_STATUS{}), generators)
+
+	return redisEnterprise_Database_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForLinkedDatabase_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLinkedDatabase_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRedisEnterprise_Database_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRedisEnterprise_Database_STATUS(gens map[string]gopter.Gen) {
+	gens["ClientProtocol"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_ClientProtocol_STATUS_Encrypted, DatabaseProperties_ClientProtocol_STATUS_Plaintext))
+	gens["ClusteringPolicy"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_ClusteringPolicy_STATUS_EnterpriseCluster, DatabaseProperties_ClusteringPolicy_STATUS_OSSCluster))
+	gens["EvictionPolicy"] = gen.PtrOf(gen.OneConstOf(
+		DatabaseProperties_EvictionPolicy_STATUS_AllKeysLFU,
+		DatabaseProperties_EvictionPolicy_STATUS_AllKeysLRU,
+		DatabaseProperties_EvictionPolicy_STATUS_AllKeysRandom,
+		DatabaseProperties_EvictionPolicy_STATUS_NoEviction,
+		DatabaseProperties_EvictionPolicy_STATUS_VolatileLFU,
+		DatabaseProperties_EvictionPolicy_STATUS_VolatileLRU,
+		DatabaseProperties_EvictionPolicy_STATUS_VolatileRandom,
+		DatabaseProperties_EvictionPolicy_STATUS_VolatileTTL))
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["State"] = gen.PtrOf(gen.OneConstOf(
-		LinkedDatabase_State_STATUS_LinkFailed,
-		LinkedDatabase_State_STATUS_Linked,
-		LinkedDatabase_State_STATUS_Linking,
-		LinkedDatabase_State_STATUS_UnlinkFailed,
-		LinkedDatabase_State_STATUS_Unlinking))
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Port"] = gen.PtrOf(gen.Int())
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		ProvisioningState_STATUS_Canceled,
+		ProvisioningState_STATUS_Creating,
+		ProvisioningState_STATUS_Deleting,
+		ProvisioningState_STATUS_Failed,
+		ProvisioningState_STATUS_Succeeded,
+		ProvisioningState_STATUS_Updating))
+	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
+		ResourceState_STATUS_CreateFailed,
+		ResourceState_STATUS_Creating,
+		ResourceState_STATUS_DeleteFailed,
+		ResourceState_STATUS_Deleting,
+		ResourceState_STATUS_DisableFailed,
+		ResourceState_STATUS_Disabled,
+		ResourceState_STATUS_Disabling,
+		ResourceState_STATUS_EnableFailed,
+		ResourceState_STATUS_Enabling,
+		ResourceState_STATUS_Running,
+		ResourceState_STATUS_UpdateFailed,
+		ResourceState_STATUS_Updating))
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForRedisEnterprise_Database_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRedisEnterprise_Database_STATUS(gens map[string]gopter.Gen) {
+	gens["GeoReplication"] = gen.PtrOf(DatabaseProperties_GeoReplication_STATUSGenerator())
+	gens["Modules"] = gen.SliceOf(Module_STATUSGenerator())
+	gens["Persistence"] = gen.PtrOf(Persistence_STATUSGenerator())
+}
+
+func Test_RedisEnterprise_Database_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RedisEnterprise_Database_Spec to RedisEnterprise_Database_Spec via AssignProperties_To_RedisEnterprise_Database_Spec & AssignProperties_From_RedisEnterprise_Database_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedisEnterprise_Database_Spec, RedisEnterprise_Database_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRedisEnterprise_Database_Spec tests if a specific instance of RedisEnterprise_Database_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRedisEnterprise_Database_Spec(subject RedisEnterprise_Database_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RedisEnterprise_Database_Spec
+	err := copied.AssignProperties_To_RedisEnterprise_Database_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RedisEnterprise_Database_Spec
+	err = actual.AssignProperties_From_RedisEnterprise_Database_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_RedisEnterprise_Database_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of RedisEnterprise_Database_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRedisEnterprise_Database_Spec, RedisEnterprise_Database_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForRedisEnterprise_Database_Spec runs a test to see if a specific instance of RedisEnterprise_Database_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForRedisEnterprise_Database_Spec(subject RedisEnterprise_Database_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual RedisEnterprise_Database_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of RedisEnterprise_Database_Spec instances for property testing - lazily instantiated by
+// RedisEnterprise_Database_SpecGenerator()
+var redisEnterprise_Database_SpecGenerator gopter.Gen
+
+// RedisEnterprise_Database_SpecGenerator returns a generator of RedisEnterprise_Database_Spec instances for property testing.
+// We first initialize redisEnterprise_Database_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func RedisEnterprise_Database_SpecGenerator() gopter.Gen {
+	if redisEnterprise_Database_SpecGenerator != nil {
+		return redisEnterprise_Database_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRedisEnterprise_Database_Spec(generators)
+	redisEnterprise_Database_SpecGenerator = gen.Struct(reflect.TypeOf(RedisEnterprise_Database_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRedisEnterprise_Database_Spec(generators)
+	AddRelatedPropertyGeneratorsForRedisEnterprise_Database_Spec(generators)
+	redisEnterprise_Database_SpecGenerator = gen.Struct(reflect.TypeOf(RedisEnterprise_Database_Spec{}), generators)
+
+	return redisEnterprise_Database_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForRedisEnterprise_Database_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRedisEnterprise_Database_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["ClientProtocol"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_ClientProtocol_Encrypted, DatabaseProperties_ClientProtocol_Plaintext))
+	gens["ClusteringPolicy"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_ClusteringPolicy_EnterpriseCluster, DatabaseProperties_ClusteringPolicy_OSSCluster))
+	gens["EvictionPolicy"] = gen.PtrOf(gen.OneConstOf(
+		DatabaseProperties_EvictionPolicy_AllKeysLFU,
+		DatabaseProperties_EvictionPolicy_AllKeysLRU,
+		DatabaseProperties_EvictionPolicy_AllKeysRandom,
+		DatabaseProperties_EvictionPolicy_NoEviction,
+		DatabaseProperties_EvictionPolicy_VolatileLFU,
+		DatabaseProperties_EvictionPolicy_VolatileLRU,
+		DatabaseProperties_EvictionPolicy_VolatileRandom,
+		DatabaseProperties_EvictionPolicy_VolatileTTL))
+	gens["Port"] = gen.PtrOf(gen.Int())
+}
+
+// AddRelatedPropertyGeneratorsForRedisEnterprise_Database_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRedisEnterprise_Database_Spec(gens map[string]gopter.Gen) {
+	gens["GeoReplication"] = gen.PtrOf(DatabaseProperties_GeoReplicationGenerator())
+	gens["Modules"] = gen.SliceOf(ModuleGenerator())
+	gens["Persistence"] = gen.PtrOf(PersistenceGenerator())
 }

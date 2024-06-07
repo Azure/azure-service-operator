@@ -17,186 +17,6 @@ import (
 	"testing"
 )
 
-func Test_Workspaces_BigDataPool_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Workspaces_BigDataPool_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWorkspaces_BigDataPool_Spec_ARM, Workspaces_BigDataPool_Spec_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForWorkspaces_BigDataPool_Spec_ARM runs a test to see if a specific instance of Workspaces_BigDataPool_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForWorkspaces_BigDataPool_Spec_ARM(subject Workspaces_BigDataPool_Spec_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Workspaces_BigDataPool_Spec_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Workspaces_BigDataPool_Spec_ARM instances for property testing - lazily instantiated by
-// Workspaces_BigDataPool_Spec_ARMGenerator()
-var workspaces_BigDataPool_Spec_ARMGenerator gopter.Gen
-
-// Workspaces_BigDataPool_Spec_ARMGenerator returns a generator of Workspaces_BigDataPool_Spec_ARM instances for property testing.
-// We first initialize workspaces_BigDataPool_Spec_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Workspaces_BigDataPool_Spec_ARMGenerator() gopter.Gen {
-	if workspaces_BigDataPool_Spec_ARMGenerator != nil {
-		return workspaces_BigDataPool_Spec_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspaces_BigDataPool_Spec_ARM(generators)
-	workspaces_BigDataPool_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Workspaces_BigDataPool_Spec_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspaces_BigDataPool_Spec_ARM(generators)
-	AddRelatedPropertyGeneratorsForWorkspaces_BigDataPool_Spec_ARM(generators)
-	workspaces_BigDataPool_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Workspaces_BigDataPool_Spec_ARM{}), generators)
-
-	return workspaces_BigDataPool_Spec_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForWorkspaces_BigDataPool_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWorkspaces_BigDataPool_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForWorkspaces_BigDataPool_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForWorkspaces_BigDataPool_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(BigDataPoolResourceProperties_ARMGenerator())
-}
-
-func Test_BigDataPoolResourceProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BigDataPoolResourceProperties_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBigDataPoolResourceProperties_ARM, BigDataPoolResourceProperties_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForBigDataPoolResourceProperties_ARM runs a test to see if a specific instance of BigDataPoolResourceProperties_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForBigDataPoolResourceProperties_ARM(subject BigDataPoolResourceProperties_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual BigDataPoolResourceProperties_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of BigDataPoolResourceProperties_ARM instances for property testing - lazily instantiated by
-// BigDataPoolResourceProperties_ARMGenerator()
-var bigDataPoolResourceProperties_ARMGenerator gopter.Gen
-
-// BigDataPoolResourceProperties_ARMGenerator returns a generator of BigDataPoolResourceProperties_ARM instances for property testing.
-// We first initialize bigDataPoolResourceProperties_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func BigDataPoolResourceProperties_ARMGenerator() gopter.Gen {
-	if bigDataPoolResourceProperties_ARMGenerator != nil {
-		return bigDataPoolResourceProperties_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBigDataPoolResourceProperties_ARM(generators)
-	bigDataPoolResourceProperties_ARMGenerator = gen.Struct(reflect.TypeOf(BigDataPoolResourceProperties_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBigDataPoolResourceProperties_ARM(generators)
-	AddRelatedPropertyGeneratorsForBigDataPoolResourceProperties_ARM(generators)
-	bigDataPoolResourceProperties_ARMGenerator = gen.Struct(reflect.TypeOf(BigDataPoolResourceProperties_ARM{}), generators)
-
-	return bigDataPoolResourceProperties_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForBigDataPoolResourceProperties_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBigDataPoolResourceProperties_ARM(gens map[string]gopter.Gen) {
-	gens["CacheSize"] = gen.PtrOf(gen.Int())
-	gens["DefaultSparkLogFolder"] = gen.PtrOf(gen.AlphaString())
-	gens["IsAutotuneEnabled"] = gen.PtrOf(gen.Bool())
-	gens["IsComputeIsolationEnabled"] = gen.PtrOf(gen.Bool())
-	gens["NodeCount"] = gen.PtrOf(gen.Int())
-	gens["NodeSize"] = gen.PtrOf(gen.OneConstOf(
-		BigDataPoolResourceProperties_NodeSize_Large,
-		BigDataPoolResourceProperties_NodeSize_Medium,
-		BigDataPoolResourceProperties_NodeSize_None,
-		BigDataPoolResourceProperties_NodeSize_Small,
-		BigDataPoolResourceProperties_NodeSize_XLarge,
-		BigDataPoolResourceProperties_NodeSize_XXLarge,
-		BigDataPoolResourceProperties_NodeSize_XXXLarge))
-	gens["NodeSizeFamily"] = gen.PtrOf(gen.OneConstOf(
-		BigDataPoolResourceProperties_NodeSizeFamily_HardwareAcceleratedFPGA,
-		BigDataPoolResourceProperties_NodeSizeFamily_HardwareAcceleratedGPU,
-		BigDataPoolResourceProperties_NodeSizeFamily_MemoryOptimized,
-		BigDataPoolResourceProperties_NodeSizeFamily_None))
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["SessionLevelPackagesEnabled"] = gen.PtrOf(gen.Bool())
-	gens["SparkEventsFolder"] = gen.PtrOf(gen.AlphaString())
-	gens["SparkVersion"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForBigDataPoolResourceProperties_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForBigDataPoolResourceProperties_ARM(gens map[string]gopter.Gen) {
-	gens["AutoPause"] = gen.PtrOf(AutoPauseProperties_ARMGenerator())
-	gens["AutoScale"] = gen.PtrOf(AutoScaleProperties_ARMGenerator())
-	gens["CustomLibraries"] = gen.SliceOf(LibraryInfo_ARMGenerator())
-	gens["DynamicExecutorAllocation"] = gen.PtrOf(DynamicExecutorAllocation_ARMGenerator())
-	gens["LibraryRequirements"] = gen.PtrOf(LibraryRequirements_ARMGenerator())
-	gens["SparkConfigProperties"] = gen.PtrOf(SparkConfigProperties_ARMGenerator())
-}
-
 func Test_AutoPauseProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -320,6 +140,107 @@ func AddIndependentPropertyGeneratorsForAutoScaleProperties_ARM(gens map[string]
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["MaxNodeCount"] = gen.PtrOf(gen.Int())
 	gens["MinNodeCount"] = gen.PtrOf(gen.Int())
+}
+
+func Test_BigDataPoolResourceProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of BigDataPoolResourceProperties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBigDataPoolResourceProperties_ARM, BigDataPoolResourceProperties_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForBigDataPoolResourceProperties_ARM runs a test to see if a specific instance of BigDataPoolResourceProperties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForBigDataPoolResourceProperties_ARM(subject BigDataPoolResourceProperties_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual BigDataPoolResourceProperties_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of BigDataPoolResourceProperties_ARM instances for property testing - lazily instantiated by
+// BigDataPoolResourceProperties_ARMGenerator()
+var bigDataPoolResourceProperties_ARMGenerator gopter.Gen
+
+// BigDataPoolResourceProperties_ARMGenerator returns a generator of BigDataPoolResourceProperties_ARM instances for property testing.
+// We first initialize bigDataPoolResourceProperties_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func BigDataPoolResourceProperties_ARMGenerator() gopter.Gen {
+	if bigDataPoolResourceProperties_ARMGenerator != nil {
+		return bigDataPoolResourceProperties_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForBigDataPoolResourceProperties_ARM(generators)
+	bigDataPoolResourceProperties_ARMGenerator = gen.Struct(reflect.TypeOf(BigDataPoolResourceProperties_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForBigDataPoolResourceProperties_ARM(generators)
+	AddRelatedPropertyGeneratorsForBigDataPoolResourceProperties_ARM(generators)
+	bigDataPoolResourceProperties_ARMGenerator = gen.Struct(reflect.TypeOf(BigDataPoolResourceProperties_ARM{}), generators)
+
+	return bigDataPoolResourceProperties_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForBigDataPoolResourceProperties_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForBigDataPoolResourceProperties_ARM(gens map[string]gopter.Gen) {
+	gens["CacheSize"] = gen.PtrOf(gen.Int())
+	gens["DefaultSparkLogFolder"] = gen.PtrOf(gen.AlphaString())
+	gens["IsAutotuneEnabled"] = gen.PtrOf(gen.Bool())
+	gens["IsComputeIsolationEnabled"] = gen.PtrOf(gen.Bool())
+	gens["NodeCount"] = gen.PtrOf(gen.Int())
+	gens["NodeSize"] = gen.PtrOf(gen.OneConstOf(
+		BigDataPoolResourceProperties_NodeSize_Large,
+		BigDataPoolResourceProperties_NodeSize_Medium,
+		BigDataPoolResourceProperties_NodeSize_None,
+		BigDataPoolResourceProperties_NodeSize_Small,
+		BigDataPoolResourceProperties_NodeSize_XLarge,
+		BigDataPoolResourceProperties_NodeSize_XXLarge,
+		BigDataPoolResourceProperties_NodeSize_XXXLarge))
+	gens["NodeSizeFamily"] = gen.PtrOf(gen.OneConstOf(
+		BigDataPoolResourceProperties_NodeSizeFamily_HardwareAcceleratedFPGA,
+		BigDataPoolResourceProperties_NodeSizeFamily_HardwareAcceleratedGPU,
+		BigDataPoolResourceProperties_NodeSizeFamily_MemoryOptimized,
+		BigDataPoolResourceProperties_NodeSizeFamily_None))
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
+	gens["SessionLevelPackagesEnabled"] = gen.PtrOf(gen.Bool())
+	gens["SparkEventsFolder"] = gen.PtrOf(gen.AlphaString())
+	gens["SparkVersion"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForBigDataPoolResourceProperties_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForBigDataPoolResourceProperties_ARM(gens map[string]gopter.Gen) {
+	gens["AutoPause"] = gen.PtrOf(AutoPauseProperties_ARMGenerator())
+	gens["AutoScale"] = gen.PtrOf(AutoScaleProperties_ARMGenerator())
+	gens["CustomLibraries"] = gen.SliceOf(LibraryInfo_ARMGenerator())
+	gens["DynamicExecutorAllocation"] = gen.PtrOf(DynamicExecutorAllocation_ARMGenerator())
+	gens["LibraryRequirements"] = gen.PtrOf(LibraryRequirements_ARMGenerator())
+	gens["SparkConfigProperties"] = gen.PtrOf(SparkConfigProperties_ARMGenerator())
 }
 
 func Test_DynamicExecutorAllocation_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -571,4 +492,83 @@ func AddIndependentPropertyGeneratorsForSparkConfigProperties_ARM(gens map[strin
 	gens["ConfigurationType"] = gen.PtrOf(gen.OneConstOf(SparkConfigProperties_ConfigurationType_Artifact, SparkConfigProperties_ConfigurationType_File))
 	gens["Content"] = gen.PtrOf(gen.AlphaString())
 	gens["Filename"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_Workspaces_BigDataPool_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Workspaces_BigDataPool_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWorkspaces_BigDataPool_Spec_ARM, Workspaces_BigDataPool_Spec_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForWorkspaces_BigDataPool_Spec_ARM runs a test to see if a specific instance of Workspaces_BigDataPool_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForWorkspaces_BigDataPool_Spec_ARM(subject Workspaces_BigDataPool_Spec_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Workspaces_BigDataPool_Spec_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Workspaces_BigDataPool_Spec_ARM instances for property testing - lazily instantiated by
+// Workspaces_BigDataPool_Spec_ARMGenerator()
+var workspaces_BigDataPool_Spec_ARMGenerator gopter.Gen
+
+// Workspaces_BigDataPool_Spec_ARMGenerator returns a generator of Workspaces_BigDataPool_Spec_ARM instances for property testing.
+// We first initialize workspaces_BigDataPool_Spec_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Workspaces_BigDataPool_Spec_ARMGenerator() gopter.Gen {
+	if workspaces_BigDataPool_Spec_ARMGenerator != nil {
+		return workspaces_BigDataPool_Spec_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForWorkspaces_BigDataPool_Spec_ARM(generators)
+	workspaces_BigDataPool_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Workspaces_BigDataPool_Spec_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForWorkspaces_BigDataPool_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForWorkspaces_BigDataPool_Spec_ARM(generators)
+	workspaces_BigDataPool_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Workspaces_BigDataPool_Spec_ARM{}), generators)
+
+	return workspaces_BigDataPool_Spec_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForWorkspaces_BigDataPool_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWorkspaces_BigDataPool_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.AlphaString()
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForWorkspaces_BigDataPool_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForWorkspaces_BigDataPool_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(BigDataPoolResourceProperties_ARMGenerator())
 }

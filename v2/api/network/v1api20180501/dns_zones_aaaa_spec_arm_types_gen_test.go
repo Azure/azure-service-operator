@@ -17,95 +17,20 @@ import (
 	"testing"
 )
 
-func Test_DnsZones_AAAA_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DnsZones_AAAA_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDnsZones_AAAA_Spec_ARM, DnsZones_AAAA_Spec_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForDnsZones_AAAA_Spec_ARM runs a test to see if a specific instance of DnsZones_AAAA_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDnsZones_AAAA_Spec_ARM(subject DnsZones_AAAA_Spec_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual DnsZones_AAAA_Spec_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of DnsZones_AAAA_Spec_ARM instances for property testing - lazily instantiated by
-// DnsZones_AAAA_Spec_ARMGenerator()
-var dnsZones_AAAA_Spec_ARMGenerator gopter.Gen
-
-// DnsZones_AAAA_Spec_ARMGenerator returns a generator of DnsZones_AAAA_Spec_ARM instances for property testing.
-// We first initialize dnsZones_AAAA_Spec_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DnsZones_AAAA_Spec_ARMGenerator() gopter.Gen {
-	if dnsZones_AAAA_Spec_ARMGenerator != nil {
-		return dnsZones_AAAA_Spec_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsZones_AAAA_Spec_ARM(generators)
-	dnsZones_AAAA_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(DnsZones_AAAA_Spec_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsZones_AAAA_Spec_ARM(generators)
-	AddRelatedPropertyGeneratorsForDnsZones_AAAA_Spec_ARM(generators)
-	dnsZones_AAAA_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(DnsZones_AAAA_Spec_ARM{}), generators)
-
-	return dnsZones_AAAA_Spec_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDnsZones_AAAA_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDnsZones_AAAA_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForDnsZones_AAAA_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDnsZones_AAAA_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(RecordSetProperties_ARMGenerator())
-}
-
-func Test_RecordSetProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ARecord_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of RecordSetProperties_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRecordSetProperties_ARM, RecordSetProperties_ARMGenerator()))
+		"Round trip of ARecord_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForARecord_ARM, ARecord_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRecordSetProperties_ARM runs a test to see if a specific instance of RecordSetProperties_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForRecordSetProperties_ARM(subject RecordSetProperties_ARM) string {
+// RunJSONSerializationTestForARecord_ARM runs a test to see if a specific instance of ARecord_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForARecord_ARM(subject ARecord_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -113,7 +38,7 @@ func RunJSONSerializationTestForRecordSetProperties_ARM(subject RecordSetPropert
 	}
 
 	// Deserialize back into memory
-	var actual RecordSetProperties_ARM
+	var actual ARecord_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -131,53 +56,25 @@ func RunJSONSerializationTestForRecordSetProperties_ARM(subject RecordSetPropert
 	return ""
 }
 
-// Generator of RecordSetProperties_ARM instances for property testing - lazily instantiated by
-// RecordSetProperties_ARMGenerator()
-var recordSetProperties_ARMGenerator gopter.Gen
+// Generator of ARecord_ARM instances for property testing - lazily instantiated by ARecord_ARMGenerator()
+var aRecord_ARMGenerator gopter.Gen
 
-// RecordSetProperties_ARMGenerator returns a generator of RecordSetProperties_ARM instances for property testing.
-// We first initialize recordSetProperties_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func RecordSetProperties_ARMGenerator() gopter.Gen {
-	if recordSetProperties_ARMGenerator != nil {
-		return recordSetProperties_ARMGenerator
+// ARecord_ARMGenerator returns a generator of ARecord_ARM instances for property testing.
+func ARecord_ARMGenerator() gopter.Gen {
+	if aRecord_ARMGenerator != nil {
+		return aRecord_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRecordSetProperties_ARM(generators)
-	recordSetProperties_ARMGenerator = gen.Struct(reflect.TypeOf(RecordSetProperties_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForARecord_ARM(generators)
+	aRecord_ARMGenerator = gen.Struct(reflect.TypeOf(ARecord_ARM{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRecordSetProperties_ARM(generators)
-	AddRelatedPropertyGeneratorsForRecordSetProperties_ARM(generators)
-	recordSetProperties_ARMGenerator = gen.Struct(reflect.TypeOf(RecordSetProperties_ARM{}), generators)
-
-	return recordSetProperties_ARMGenerator
+	return aRecord_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRecordSetProperties_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRecordSetProperties_ARM(gens map[string]gopter.Gen) {
-	gens["Metadata"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["TTL"] = gen.PtrOf(gen.Int())
-}
-
-// AddRelatedPropertyGeneratorsForRecordSetProperties_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRecordSetProperties_ARM(gens map[string]gopter.Gen) {
-	gens["AAAARecords"] = gen.SliceOf(AaaaRecord_ARMGenerator())
-	gens["ARecords"] = gen.SliceOf(ARecord_ARMGenerator())
-	gens["CNAMERecord"] = gen.PtrOf(CnameRecord_ARMGenerator())
-	gens["CaaRecords"] = gen.SliceOf(CaaRecord_ARMGenerator())
-	gens["MXRecords"] = gen.SliceOf(MxRecord_ARMGenerator())
-	gens["NSRecords"] = gen.SliceOf(NsRecord_ARMGenerator())
-	gens["PTRRecords"] = gen.SliceOf(PtrRecord_ARMGenerator())
-	gens["SOARecord"] = gen.PtrOf(SoaRecord_ARMGenerator())
-	gens["SRVRecords"] = gen.SliceOf(SrvRecord_ARMGenerator())
-	gens["TXTRecords"] = gen.SliceOf(TxtRecord_ARMGenerator())
-	gens["TargetResource"] = gen.PtrOf(SubResource_ARMGenerator())
+// AddIndependentPropertyGeneratorsForARecord_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForARecord_ARM(gens map[string]gopter.Gen) {
+	gens["Ipv4Address"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_AaaaRecord_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -238,66 +135,6 @@ func AaaaRecord_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAaaaRecord_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAaaaRecord_ARM(gens map[string]gopter.Gen) {
 	gens["Ipv6Address"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_ARecord_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ARecord_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForARecord_ARM, ARecord_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForARecord_ARM runs a test to see if a specific instance of ARecord_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForARecord_ARM(subject ARecord_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ARecord_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ARecord_ARM instances for property testing - lazily instantiated by ARecord_ARMGenerator()
-var aRecord_ARMGenerator gopter.Gen
-
-// ARecord_ARMGenerator returns a generator of ARecord_ARM instances for property testing.
-func ARecord_ARMGenerator() gopter.Gen {
-	if aRecord_ARMGenerator != nil {
-		return aRecord_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForARecord_ARM(generators)
-	aRecord_ARMGenerator = gen.Struct(reflect.TypeOf(ARecord_ARM{}), generators)
-
-	return aRecord_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForARecord_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForARecord_ARM(gens map[string]gopter.Gen) {
-	gens["Ipv4Address"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_CaaRecord_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -420,6 +257,81 @@ func CnameRecord_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForCnameRecord_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCnameRecord_ARM(gens map[string]gopter.Gen) {
 	gens["Cname"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_DnsZones_AAAA_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DnsZones_AAAA_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDnsZones_AAAA_Spec_ARM, DnsZones_AAAA_Spec_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDnsZones_AAAA_Spec_ARM runs a test to see if a specific instance of DnsZones_AAAA_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDnsZones_AAAA_Spec_ARM(subject DnsZones_AAAA_Spec_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DnsZones_AAAA_Spec_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DnsZones_AAAA_Spec_ARM instances for property testing - lazily instantiated by
+// DnsZones_AAAA_Spec_ARMGenerator()
+var dnsZones_AAAA_Spec_ARMGenerator gopter.Gen
+
+// DnsZones_AAAA_Spec_ARMGenerator returns a generator of DnsZones_AAAA_Spec_ARM instances for property testing.
+// We first initialize dnsZones_AAAA_Spec_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func DnsZones_AAAA_Spec_ARMGenerator() gopter.Gen {
+	if dnsZones_AAAA_Spec_ARMGenerator != nil {
+		return dnsZones_AAAA_Spec_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDnsZones_AAAA_Spec_ARM(generators)
+	dnsZones_AAAA_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(DnsZones_AAAA_Spec_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDnsZones_AAAA_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForDnsZones_AAAA_Spec_ARM(generators)
+	dnsZones_AAAA_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(DnsZones_AAAA_Spec_ARM{}), generators)
+
+	return dnsZones_AAAA_Spec_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForDnsZones_AAAA_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDnsZones_AAAA_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.AlphaString()
+}
+
+// AddRelatedPropertyGeneratorsForDnsZones_AAAA_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDnsZones_AAAA_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(RecordSetProperties_ARMGenerator())
 }
 
 func Test_MxRecord_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -601,6 +513,94 @@ func PtrRecord_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForPtrRecord_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPtrRecord_ARM(gens map[string]gopter.Gen) {
 	gens["Ptrdname"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_RecordSetProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of RecordSetProperties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRecordSetProperties_ARM, RecordSetProperties_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForRecordSetProperties_ARM runs a test to see if a specific instance of RecordSetProperties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForRecordSetProperties_ARM(subject RecordSetProperties_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual RecordSetProperties_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of RecordSetProperties_ARM instances for property testing - lazily instantiated by
+// RecordSetProperties_ARMGenerator()
+var recordSetProperties_ARMGenerator gopter.Gen
+
+// RecordSetProperties_ARMGenerator returns a generator of RecordSetProperties_ARM instances for property testing.
+// We first initialize recordSetProperties_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func RecordSetProperties_ARMGenerator() gopter.Gen {
+	if recordSetProperties_ARMGenerator != nil {
+		return recordSetProperties_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRecordSetProperties_ARM(generators)
+	recordSetProperties_ARMGenerator = gen.Struct(reflect.TypeOf(RecordSetProperties_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRecordSetProperties_ARM(generators)
+	AddRelatedPropertyGeneratorsForRecordSetProperties_ARM(generators)
+	recordSetProperties_ARMGenerator = gen.Struct(reflect.TypeOf(RecordSetProperties_ARM{}), generators)
+
+	return recordSetProperties_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForRecordSetProperties_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRecordSetProperties_ARM(gens map[string]gopter.Gen) {
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["TTL"] = gen.PtrOf(gen.Int())
+}
+
+// AddRelatedPropertyGeneratorsForRecordSetProperties_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRecordSetProperties_ARM(gens map[string]gopter.Gen) {
+	gens["AAAARecords"] = gen.SliceOf(AaaaRecord_ARMGenerator())
+	gens["ARecords"] = gen.SliceOf(ARecord_ARMGenerator())
+	gens["CNAMERecord"] = gen.PtrOf(CnameRecord_ARMGenerator())
+	gens["CaaRecords"] = gen.SliceOf(CaaRecord_ARMGenerator())
+	gens["MXRecords"] = gen.SliceOf(MxRecord_ARMGenerator())
+	gens["NSRecords"] = gen.SliceOf(NsRecord_ARMGenerator())
+	gens["PTRRecords"] = gen.SliceOf(PtrRecord_ARMGenerator())
+	gens["SOARecord"] = gen.PtrOf(SoaRecord_ARMGenerator())
+	gens["SRVRecords"] = gen.SliceOf(SrvRecord_ARMGenerator())
+	gens["TXTRecords"] = gen.SliceOf(TxtRecord_ARMGenerator())
+	gens["TargetResource"] = gen.PtrOf(SubResource_ARMGenerator())
 }
 
 func Test_SoaRecord_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

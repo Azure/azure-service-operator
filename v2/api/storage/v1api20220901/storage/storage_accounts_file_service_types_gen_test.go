@@ -18,75 +18,32 @@ import (
 	"testing"
 )
 
-func Test_StorageAccountsFileService_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from StorageAccountsFileService to hub returns original",
-		prop.ForAll(RunResourceConversionTestForStorageAccountsFileService, StorageAccountsFileServiceGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunResourceConversionTestForStorageAccountsFileService tests if a specific instance of StorageAccountsFileService round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForStorageAccountsFileService(subject StorageAccountsFileService) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub storage.StorageAccountsFileService
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual StorageAccountsFileService
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_StorageAccountsFileService_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_Multichannel_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from StorageAccountsFileService to StorageAccountsFileService via AssignProperties_To_StorageAccountsFileService & AssignProperties_From_StorageAccountsFileService returns original",
-		prop.ForAll(RunPropertyAssignmentTestForStorageAccountsFileService, StorageAccountsFileServiceGenerator()))
+		"Round trip from Multichannel to Multichannel via AssignProperties_To_Multichannel & AssignProperties_From_Multichannel returns original",
+		prop.ForAll(RunPropertyAssignmentTestForMultichannel, MultichannelGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageAccountsFileService tests if a specific instance of StorageAccountsFileService can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForStorageAccountsFileService(subject StorageAccountsFileService) string {
+// RunPropertyAssignmentTestForMultichannel tests if a specific instance of Multichannel can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForMultichannel(subject Multichannel) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.StorageAccountsFileService
-	err := copied.AssignProperties_To_StorageAccountsFileService(&other)
+	var other storage.Multichannel
+	err := copied.AssignProperties_To_Multichannel(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual StorageAccountsFileService
-	err = actual.AssignProperties_From_StorageAccountsFileService(&other)
+	var actual Multichannel
+	err = actual.AssignProperties_From_Multichannel(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -103,20 +60,20 @@ func RunPropertyAssignmentTestForStorageAccountsFileService(subject StorageAccou
 	return ""
 }
 
-func Test_StorageAccountsFileService_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Multichannel_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
+	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of StorageAccountsFileService via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForStorageAccountsFileService, StorageAccountsFileServiceGenerator()))
+		"Round trip of Multichannel via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMultichannel, MultichannelGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForStorageAccountsFileService runs a test to see if a specific instance of StorageAccountsFileService round trips to JSON and back losslessly
-func RunJSONSerializationTestForStorageAccountsFileService(subject StorageAccountsFileService) string {
+// RunJSONSerializationTestForMultichannel runs a test to see if a specific instance of Multichannel round trips to JSON and back losslessly
+func RunJSONSerializationTestForMultichannel(subject Multichannel) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -124,7 +81,7 @@ func RunJSONSerializationTestForStorageAccountsFileService(subject StorageAccoun
 	}
 
 	// Deserialize back into memory
-	var actual StorageAccountsFileService
+	var actual Multichannel
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -142,55 +99,53 @@ func RunJSONSerializationTestForStorageAccountsFileService(subject StorageAccoun
 	return ""
 }
 
-// Generator of StorageAccountsFileService instances for property testing - lazily instantiated by
-// StorageAccountsFileServiceGenerator()
-var storageAccountsFileServiceGenerator gopter.Gen
+// Generator of Multichannel instances for property testing - lazily instantiated by MultichannelGenerator()
+var multichannelGenerator gopter.Gen
 
-// StorageAccountsFileServiceGenerator returns a generator of StorageAccountsFileService instances for property testing.
-func StorageAccountsFileServiceGenerator() gopter.Gen {
-	if storageAccountsFileServiceGenerator != nil {
-		return storageAccountsFileServiceGenerator
+// MultichannelGenerator returns a generator of Multichannel instances for property testing.
+func MultichannelGenerator() gopter.Gen {
+	if multichannelGenerator != nil {
+		return multichannelGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForStorageAccountsFileService(generators)
-	storageAccountsFileServiceGenerator = gen.Struct(reflect.TypeOf(StorageAccountsFileService{}), generators)
+	AddIndependentPropertyGeneratorsForMultichannel(generators)
+	multichannelGenerator = gen.Struct(reflect.TypeOf(Multichannel{}), generators)
 
-	return storageAccountsFileServiceGenerator
+	return multichannelGenerator
 }
 
-// AddRelatedPropertyGeneratorsForStorageAccountsFileService is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForStorageAccountsFileService(gens map[string]gopter.Gen) {
-	gens["Spec"] = StorageAccounts_FileService_SpecGenerator()
-	gens["Status"] = StorageAccounts_FileService_STATUSGenerator()
+// AddIndependentPropertyGeneratorsForMultichannel is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMultichannel(gens map[string]gopter.Gen) {
+	gens["Enabled"] = gen.PtrOf(gen.Bool())
 }
 
-func Test_StorageAccounts_FileService_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_Multichannel_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from StorageAccounts_FileService_Spec to StorageAccounts_FileService_Spec via AssignProperties_To_StorageAccounts_FileService_Spec & AssignProperties_From_StorageAccounts_FileService_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForStorageAccounts_FileService_Spec, StorageAccounts_FileService_SpecGenerator()))
+		"Round trip from Multichannel_STATUS to Multichannel_STATUS via AssignProperties_To_Multichannel_STATUS & AssignProperties_From_Multichannel_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForMultichannel_STATUS, Multichannel_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageAccounts_FileService_Spec tests if a specific instance of StorageAccounts_FileService_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForStorageAccounts_FileService_Spec(subject StorageAccounts_FileService_Spec) string {
+// RunPropertyAssignmentTestForMultichannel_STATUS tests if a specific instance of Multichannel_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForMultichannel_STATUS(subject Multichannel_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.StorageAccounts_FileService_Spec
-	err := copied.AssignProperties_To_StorageAccounts_FileService_Spec(&other)
+	var other storage.Multichannel_STATUS
+	err := copied.AssignProperties_To_Multichannel_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual StorageAccounts_FileService_Spec
-	err = actual.AssignProperties_From_StorageAccounts_FileService_Spec(&other)
+	var actual Multichannel_STATUS
+	err = actual.AssignProperties_From_Multichannel_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -207,20 +162,20 @@ func RunPropertyAssignmentTestForStorageAccounts_FileService_Spec(subject Storag
 	return ""
 }
 
-func Test_StorageAccounts_FileService_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Multichannel_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of StorageAccounts_FileService_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForStorageAccounts_FileService_Spec, StorageAccounts_FileService_SpecGenerator()))
+		"Round trip of Multichannel_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMultichannel_STATUS, Multichannel_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForStorageAccounts_FileService_Spec runs a test to see if a specific instance of StorageAccounts_FileService_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForStorageAccounts_FileService_Spec(subject StorageAccounts_FileService_Spec) string {
+// RunJSONSerializationTestForMultichannel_STATUS runs a test to see if a specific instance of Multichannel_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForMultichannel_STATUS(subject Multichannel_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -228,7 +183,7 @@ func RunJSONSerializationTestForStorageAccounts_FileService_Spec(subject Storage
 	}
 
 	// Deserialize back into memory
-	var actual StorageAccounts_FileService_Spec
+	var actual Multichannel_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -246,164 +201,26 @@ func RunJSONSerializationTestForStorageAccounts_FileService_Spec(subject Storage
 	return ""
 }
 
-// Generator of StorageAccounts_FileService_Spec instances for property testing - lazily instantiated by
-// StorageAccounts_FileService_SpecGenerator()
-var storageAccounts_FileService_SpecGenerator gopter.Gen
+// Generator of Multichannel_STATUS instances for property testing - lazily instantiated by
+// Multichannel_STATUSGenerator()
+var multichannel_STATUSGenerator gopter.Gen
 
-// StorageAccounts_FileService_SpecGenerator returns a generator of StorageAccounts_FileService_Spec instances for property testing.
-// We first initialize storageAccounts_FileService_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func StorageAccounts_FileService_SpecGenerator() gopter.Gen {
-	if storageAccounts_FileService_SpecGenerator != nil {
-		return storageAccounts_FileService_SpecGenerator
+// Multichannel_STATUSGenerator returns a generator of Multichannel_STATUS instances for property testing.
+func Multichannel_STATUSGenerator() gopter.Gen {
+	if multichannel_STATUSGenerator != nil {
+		return multichannel_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageAccounts_FileService_Spec(generators)
-	storageAccounts_FileService_SpecGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_FileService_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForMultichannel_STATUS(generators)
+	multichannel_STATUSGenerator = gen.Struct(reflect.TypeOf(Multichannel_STATUS{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageAccounts_FileService_Spec(generators)
-	AddRelatedPropertyGeneratorsForStorageAccounts_FileService_Spec(generators)
-	storageAccounts_FileService_SpecGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_FileService_Spec{}), generators)
-
-	return storageAccounts_FileService_SpecGenerator
+	return multichannel_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForStorageAccounts_FileService_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForStorageAccounts_FileService_Spec(gens map[string]gopter.Gen) {
-	gens["OriginalVersion"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForStorageAccounts_FileService_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForStorageAccounts_FileService_Spec(gens map[string]gopter.Gen) {
-	gens["Cors"] = gen.PtrOf(CorsRulesGenerator())
-	gens["ProtocolSettings"] = gen.PtrOf(ProtocolSettingsGenerator())
-	gens["ShareDeleteRetentionPolicy"] = gen.PtrOf(DeleteRetentionPolicyGenerator())
-}
-
-func Test_StorageAccounts_FileService_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from StorageAccounts_FileService_STATUS to StorageAccounts_FileService_STATUS via AssignProperties_To_StorageAccounts_FileService_STATUS & AssignProperties_From_StorageAccounts_FileService_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForStorageAccounts_FileService_STATUS, StorageAccounts_FileService_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForStorageAccounts_FileService_STATUS tests if a specific instance of StorageAccounts_FileService_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForStorageAccounts_FileService_STATUS(subject StorageAccounts_FileService_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.StorageAccounts_FileService_STATUS
-	err := copied.AssignProperties_To_StorageAccounts_FileService_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual StorageAccounts_FileService_STATUS
-	err = actual.AssignProperties_From_StorageAccounts_FileService_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_StorageAccounts_FileService_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of StorageAccounts_FileService_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForStorageAccounts_FileService_STATUS, StorageAccounts_FileService_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForStorageAccounts_FileService_STATUS runs a test to see if a specific instance of StorageAccounts_FileService_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForStorageAccounts_FileService_STATUS(subject StorageAccounts_FileService_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual StorageAccounts_FileService_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of StorageAccounts_FileService_STATUS instances for property testing - lazily instantiated by
-// StorageAccounts_FileService_STATUSGenerator()
-var storageAccounts_FileService_STATUSGenerator gopter.Gen
-
-// StorageAccounts_FileService_STATUSGenerator returns a generator of StorageAccounts_FileService_STATUS instances for property testing.
-// We first initialize storageAccounts_FileService_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func StorageAccounts_FileService_STATUSGenerator() gopter.Gen {
-	if storageAccounts_FileService_STATUSGenerator != nil {
-		return storageAccounts_FileService_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageAccounts_FileService_STATUS(generators)
-	storageAccounts_FileService_STATUSGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_FileService_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageAccounts_FileService_STATUS(generators)
-	AddRelatedPropertyGeneratorsForStorageAccounts_FileService_STATUS(generators)
-	storageAccounts_FileService_STATUSGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_FileService_STATUS{}), generators)
-
-	return storageAccounts_FileService_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForStorageAccounts_FileService_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForStorageAccounts_FileService_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForStorageAccounts_FileService_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForStorageAccounts_FileService_STATUS(gens map[string]gopter.Gen) {
-	gens["Cors"] = gen.PtrOf(CorsRules_STATUSGenerator())
-	gens["ProtocolSettings"] = gen.PtrOf(ProtocolSettings_STATUSGenerator())
-	gens["ShareDeleteRetentionPolicy"] = gen.PtrOf(DeleteRetentionPolicy_STATUSGenerator())
-	gens["Sku"] = gen.PtrOf(Sku_STATUSGenerator())
+// AddIndependentPropertyGeneratorsForMultichannel_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMultichannel_STATUS(gens map[string]gopter.Gen) {
+	gens["Enabled"] = gen.PtrOf(gen.Bool())
 }
 
 func Test_ProtocolSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -849,32 +666,75 @@ func AddRelatedPropertyGeneratorsForSmbSetting_STATUS(gens map[string]gopter.Gen
 	gens["Multichannel"] = gen.PtrOf(Multichannel_STATUSGenerator())
 }
 
-func Test_Multichannel_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_StorageAccountsFileService_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from StorageAccountsFileService to hub returns original",
+		prop.ForAll(RunResourceConversionTestForStorageAccountsFileService, StorageAccountsFileServiceGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForStorageAccountsFileService tests if a specific instance of StorageAccountsFileService round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForStorageAccountsFileService(subject StorageAccountsFileService) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.StorageAccountsFileService
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual StorageAccountsFileService
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_StorageAccountsFileService_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Multichannel to Multichannel via AssignProperties_To_Multichannel & AssignProperties_From_Multichannel returns original",
-		prop.ForAll(RunPropertyAssignmentTestForMultichannel, MultichannelGenerator()))
+		"Round trip from StorageAccountsFileService to StorageAccountsFileService via AssignProperties_To_StorageAccountsFileService & AssignProperties_From_StorageAccountsFileService returns original",
+		prop.ForAll(RunPropertyAssignmentTestForStorageAccountsFileService, StorageAccountsFileServiceGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMultichannel tests if a specific instance of Multichannel can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForMultichannel(subject Multichannel) string {
+// RunPropertyAssignmentTestForStorageAccountsFileService tests if a specific instance of StorageAccountsFileService can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForStorageAccountsFileService(subject StorageAccountsFileService) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Multichannel
-	err := copied.AssignProperties_To_Multichannel(&other)
+	var other storage.StorageAccountsFileService
+	err := copied.AssignProperties_To_StorageAccountsFileService(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Multichannel
-	err = actual.AssignProperties_From_Multichannel(&other)
+	var actual StorageAccountsFileService
+	err = actual.AssignProperties_From_StorageAccountsFileService(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -891,20 +751,20 @@ func RunPropertyAssignmentTestForMultichannel(subject Multichannel) string {
 	return ""
 }
 
-func Test_Multichannel_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_StorageAccountsFileService_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Multichannel via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMultichannel, MultichannelGenerator()))
+		"Round trip of StorageAccountsFileService via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageAccountsFileService, StorageAccountsFileServiceGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForMultichannel runs a test to see if a specific instance of Multichannel round trips to JSON and back losslessly
-func RunJSONSerializationTestForMultichannel(subject Multichannel) string {
+// RunJSONSerializationTestForStorageAccountsFileService runs a test to see if a specific instance of StorageAccountsFileService round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageAccountsFileService(subject StorageAccountsFileService) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -912,7 +772,7 @@ func RunJSONSerializationTestForMultichannel(subject Multichannel) string {
 	}
 
 	// Deserialize back into memory
-	var actual Multichannel
+	var actual StorageAccountsFileService
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -930,53 +790,55 @@ func RunJSONSerializationTestForMultichannel(subject Multichannel) string {
 	return ""
 }
 
-// Generator of Multichannel instances for property testing - lazily instantiated by MultichannelGenerator()
-var multichannelGenerator gopter.Gen
+// Generator of StorageAccountsFileService instances for property testing - lazily instantiated by
+// StorageAccountsFileServiceGenerator()
+var storageAccountsFileServiceGenerator gopter.Gen
 
-// MultichannelGenerator returns a generator of Multichannel instances for property testing.
-func MultichannelGenerator() gopter.Gen {
-	if multichannelGenerator != nil {
-		return multichannelGenerator
+// StorageAccountsFileServiceGenerator returns a generator of StorageAccountsFileService instances for property testing.
+func StorageAccountsFileServiceGenerator() gopter.Gen {
+	if storageAccountsFileServiceGenerator != nil {
+		return storageAccountsFileServiceGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMultichannel(generators)
-	multichannelGenerator = gen.Struct(reflect.TypeOf(Multichannel{}), generators)
+	AddRelatedPropertyGeneratorsForStorageAccountsFileService(generators)
+	storageAccountsFileServiceGenerator = gen.Struct(reflect.TypeOf(StorageAccountsFileService{}), generators)
 
-	return multichannelGenerator
+	return storageAccountsFileServiceGenerator
 }
 
-// AddIndependentPropertyGeneratorsForMultichannel is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMultichannel(gens map[string]gopter.Gen) {
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
+// AddRelatedPropertyGeneratorsForStorageAccountsFileService is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForStorageAccountsFileService(gens map[string]gopter.Gen) {
+	gens["Spec"] = StorageAccounts_FileService_SpecGenerator()
+	gens["Status"] = StorageAccounts_FileService_STATUSGenerator()
 }
 
-func Test_Multichannel_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_StorageAccounts_FileService_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Multichannel_STATUS to Multichannel_STATUS via AssignProperties_To_Multichannel_STATUS & AssignProperties_From_Multichannel_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForMultichannel_STATUS, Multichannel_STATUSGenerator()))
+		"Round trip from StorageAccounts_FileService_STATUS to StorageAccounts_FileService_STATUS via AssignProperties_To_StorageAccounts_FileService_STATUS & AssignProperties_From_StorageAccounts_FileService_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForStorageAccounts_FileService_STATUS, StorageAccounts_FileService_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMultichannel_STATUS tests if a specific instance of Multichannel_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForMultichannel_STATUS(subject Multichannel_STATUS) string {
+// RunPropertyAssignmentTestForStorageAccounts_FileService_STATUS tests if a specific instance of StorageAccounts_FileService_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForStorageAccounts_FileService_STATUS(subject StorageAccounts_FileService_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Multichannel_STATUS
-	err := copied.AssignProperties_To_Multichannel_STATUS(&other)
+	var other storage.StorageAccounts_FileService_STATUS
+	err := copied.AssignProperties_To_StorageAccounts_FileService_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Multichannel_STATUS
-	err = actual.AssignProperties_From_Multichannel_STATUS(&other)
+	var actual StorageAccounts_FileService_STATUS
+	err = actual.AssignProperties_From_StorageAccounts_FileService_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -993,20 +855,20 @@ func RunPropertyAssignmentTestForMultichannel_STATUS(subject Multichannel_STATUS
 	return ""
 }
 
-func Test_Multichannel_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_StorageAccounts_FileService_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Multichannel_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMultichannel_STATUS, Multichannel_STATUSGenerator()))
+		"Round trip of StorageAccounts_FileService_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageAccounts_FileService_STATUS, StorageAccounts_FileService_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForMultichannel_STATUS runs a test to see if a specific instance of Multichannel_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForMultichannel_STATUS(subject Multichannel_STATUS) string {
+// RunJSONSerializationTestForStorageAccounts_FileService_STATUS runs a test to see if a specific instance of StorageAccounts_FileService_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageAccounts_FileService_STATUS(subject StorageAccounts_FileService_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1014,7 +876,7 @@ func RunJSONSerializationTestForMultichannel_STATUS(subject Multichannel_STATUS)
 	}
 
 	// Deserialize back into memory
-	var actual Multichannel_STATUS
+	var actual StorageAccounts_FileService_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1032,24 +894,162 @@ func RunJSONSerializationTestForMultichannel_STATUS(subject Multichannel_STATUS)
 	return ""
 }
 
-// Generator of Multichannel_STATUS instances for property testing - lazily instantiated by
-// Multichannel_STATUSGenerator()
-var multichannel_STATUSGenerator gopter.Gen
+// Generator of StorageAccounts_FileService_STATUS instances for property testing - lazily instantiated by
+// StorageAccounts_FileService_STATUSGenerator()
+var storageAccounts_FileService_STATUSGenerator gopter.Gen
 
-// Multichannel_STATUSGenerator returns a generator of Multichannel_STATUS instances for property testing.
-func Multichannel_STATUSGenerator() gopter.Gen {
-	if multichannel_STATUSGenerator != nil {
-		return multichannel_STATUSGenerator
+// StorageAccounts_FileService_STATUSGenerator returns a generator of StorageAccounts_FileService_STATUS instances for property testing.
+// We first initialize storageAccounts_FileService_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func StorageAccounts_FileService_STATUSGenerator() gopter.Gen {
+	if storageAccounts_FileService_STATUSGenerator != nil {
+		return storageAccounts_FileService_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMultichannel_STATUS(generators)
-	multichannel_STATUSGenerator = gen.Struct(reflect.TypeOf(Multichannel_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForStorageAccounts_FileService_STATUS(generators)
+	storageAccounts_FileService_STATUSGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_FileService_STATUS{}), generators)
 
-	return multichannel_STATUSGenerator
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForStorageAccounts_FileService_STATUS(generators)
+	AddRelatedPropertyGeneratorsForStorageAccounts_FileService_STATUS(generators)
+	storageAccounts_FileService_STATUSGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_FileService_STATUS{}), generators)
+
+	return storageAccounts_FileService_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForMultichannel_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMultichannel_STATUS(gens map[string]gopter.Gen) {
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
+// AddIndependentPropertyGeneratorsForStorageAccounts_FileService_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForStorageAccounts_FileService_STATUS(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForStorageAccounts_FileService_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForStorageAccounts_FileService_STATUS(gens map[string]gopter.Gen) {
+	gens["Cors"] = gen.PtrOf(CorsRules_STATUSGenerator())
+	gens["ProtocolSettings"] = gen.PtrOf(ProtocolSettings_STATUSGenerator())
+	gens["ShareDeleteRetentionPolicy"] = gen.PtrOf(DeleteRetentionPolicy_STATUSGenerator())
+	gens["Sku"] = gen.PtrOf(Sku_STATUSGenerator())
+}
+
+func Test_StorageAccounts_FileService_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from StorageAccounts_FileService_Spec to StorageAccounts_FileService_Spec via AssignProperties_To_StorageAccounts_FileService_Spec & AssignProperties_From_StorageAccounts_FileService_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForStorageAccounts_FileService_Spec, StorageAccounts_FileService_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForStorageAccounts_FileService_Spec tests if a specific instance of StorageAccounts_FileService_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForStorageAccounts_FileService_Spec(subject StorageAccounts_FileService_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.StorageAccounts_FileService_Spec
+	err := copied.AssignProperties_To_StorageAccounts_FileService_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual StorageAccounts_FileService_Spec
+	err = actual.AssignProperties_From_StorageAccounts_FileService_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_StorageAccounts_FileService_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of StorageAccounts_FileService_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageAccounts_FileService_Spec, StorageAccounts_FileService_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForStorageAccounts_FileService_Spec runs a test to see if a specific instance of StorageAccounts_FileService_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageAccounts_FileService_Spec(subject StorageAccounts_FileService_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual StorageAccounts_FileService_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of StorageAccounts_FileService_Spec instances for property testing - lazily instantiated by
+// StorageAccounts_FileService_SpecGenerator()
+var storageAccounts_FileService_SpecGenerator gopter.Gen
+
+// StorageAccounts_FileService_SpecGenerator returns a generator of StorageAccounts_FileService_Spec instances for property testing.
+// We first initialize storageAccounts_FileService_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func StorageAccounts_FileService_SpecGenerator() gopter.Gen {
+	if storageAccounts_FileService_SpecGenerator != nil {
+		return storageAccounts_FileService_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForStorageAccounts_FileService_Spec(generators)
+	storageAccounts_FileService_SpecGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_FileService_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForStorageAccounts_FileService_Spec(generators)
+	AddRelatedPropertyGeneratorsForStorageAccounts_FileService_Spec(generators)
+	storageAccounts_FileService_SpecGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_FileService_Spec{}), generators)
+
+	return storageAccounts_FileService_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForStorageAccounts_FileService_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForStorageAccounts_FileService_Spec(gens map[string]gopter.Gen) {
+	gens["OriginalVersion"] = gen.AlphaString()
+}
+
+// AddRelatedPropertyGeneratorsForStorageAccounts_FileService_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForStorageAccounts_FileService_Spec(gens map[string]gopter.Gen) {
+	gens["Cors"] = gen.PtrOf(CorsRulesGenerator())
+	gens["ProtocolSettings"] = gen.PtrOf(ProtocolSettingsGenerator())
+	gens["ShareDeleteRetentionPolicy"] = gen.PtrOf(DeleteRetentionPolicyGenerator())
 }

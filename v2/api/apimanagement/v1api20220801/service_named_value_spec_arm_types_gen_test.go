@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_Service_NamedValue_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_KeyVaultContractCreateProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
+	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Service_NamedValue_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForService_NamedValue_Spec_ARM, Service_NamedValue_Spec_ARMGenerator()))
+		"Round trip of KeyVaultContractCreateProperties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForKeyVaultContractCreateProperties_ARM, KeyVaultContractCreateProperties_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForService_NamedValue_Spec_ARM runs a test to see if a specific instance of Service_NamedValue_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForService_NamedValue_Spec_ARM(subject Service_NamedValue_Spec_ARM) string {
+// RunJSONSerializationTestForKeyVaultContractCreateProperties_ARM runs a test to see if a specific instance of KeyVaultContractCreateProperties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForKeyVaultContractCreateProperties_ARM(subject KeyVaultContractCreateProperties_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForService_NamedValue_Spec_ARM(subject Service_Name
 	}
 
 	// Deserialize back into memory
-	var actual Service_NamedValue_Spec_ARM
+	var actual KeyVaultContractCreateProperties_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,40 +56,27 @@ func RunJSONSerializationTestForService_NamedValue_Spec_ARM(subject Service_Name
 	return ""
 }
 
-// Generator of Service_NamedValue_Spec_ARM instances for property testing - lazily instantiated by
-// Service_NamedValue_Spec_ARMGenerator()
-var service_NamedValue_Spec_ARMGenerator gopter.Gen
+// Generator of KeyVaultContractCreateProperties_ARM instances for property testing - lazily instantiated by
+// KeyVaultContractCreateProperties_ARMGenerator()
+var keyVaultContractCreateProperties_ARMGenerator gopter.Gen
 
-// Service_NamedValue_Spec_ARMGenerator returns a generator of Service_NamedValue_Spec_ARM instances for property testing.
-// We first initialize service_NamedValue_Spec_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Service_NamedValue_Spec_ARMGenerator() gopter.Gen {
-	if service_NamedValue_Spec_ARMGenerator != nil {
-		return service_NamedValue_Spec_ARMGenerator
+// KeyVaultContractCreateProperties_ARMGenerator returns a generator of KeyVaultContractCreateProperties_ARM instances for property testing.
+func KeyVaultContractCreateProperties_ARMGenerator() gopter.Gen {
+	if keyVaultContractCreateProperties_ARMGenerator != nil {
+		return keyVaultContractCreateProperties_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForService_NamedValue_Spec_ARM(generators)
-	service_NamedValue_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Service_NamedValue_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForKeyVaultContractCreateProperties_ARM(generators)
+	keyVaultContractCreateProperties_ARMGenerator = gen.Struct(reflect.TypeOf(KeyVaultContractCreateProperties_ARM{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForService_NamedValue_Spec_ARM(generators)
-	AddRelatedPropertyGeneratorsForService_NamedValue_Spec_ARM(generators)
-	service_NamedValue_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Service_NamedValue_Spec_ARM{}), generators)
-
-	return service_NamedValue_Spec_ARMGenerator
+	return keyVaultContractCreateProperties_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForService_NamedValue_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForService_NamedValue_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForService_NamedValue_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForService_NamedValue_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(NamedValueCreateContractProperties_ARMGenerator())
+// AddIndependentPropertyGeneratorsForKeyVaultContractCreateProperties_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForKeyVaultContractCreateProperties_ARM(gens map[string]gopter.Gen) {
+	gens["IdentityClientId"] = gen.PtrOf(gen.AlphaString())
+	gens["SecretIdentifier"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_NamedValueCreateContractProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -170,20 +157,20 @@ func AddRelatedPropertyGeneratorsForNamedValueCreateContractProperties_ARM(gens 
 	gens["KeyVault"] = gen.PtrOf(KeyVaultContractCreateProperties_ARMGenerator())
 }
 
-func Test_KeyVaultContractCreateProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Service_NamedValue_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of KeyVaultContractCreateProperties_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForKeyVaultContractCreateProperties_ARM, KeyVaultContractCreateProperties_ARMGenerator()))
+		"Round trip of Service_NamedValue_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForService_NamedValue_Spec_ARM, Service_NamedValue_Spec_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForKeyVaultContractCreateProperties_ARM runs a test to see if a specific instance of KeyVaultContractCreateProperties_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForKeyVaultContractCreateProperties_ARM(subject KeyVaultContractCreateProperties_ARM) string {
+// RunJSONSerializationTestForService_NamedValue_Spec_ARM runs a test to see if a specific instance of Service_NamedValue_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForService_NamedValue_Spec_ARM(subject Service_NamedValue_Spec_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -191,7 +178,7 @@ func RunJSONSerializationTestForKeyVaultContractCreateProperties_ARM(subject Key
 	}
 
 	// Deserialize back into memory
-	var actual KeyVaultContractCreateProperties_ARM
+	var actual Service_NamedValue_Spec_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -209,25 +196,38 @@ func RunJSONSerializationTestForKeyVaultContractCreateProperties_ARM(subject Key
 	return ""
 }
 
-// Generator of KeyVaultContractCreateProperties_ARM instances for property testing - lazily instantiated by
-// KeyVaultContractCreateProperties_ARMGenerator()
-var keyVaultContractCreateProperties_ARMGenerator gopter.Gen
+// Generator of Service_NamedValue_Spec_ARM instances for property testing - lazily instantiated by
+// Service_NamedValue_Spec_ARMGenerator()
+var service_NamedValue_Spec_ARMGenerator gopter.Gen
 
-// KeyVaultContractCreateProperties_ARMGenerator returns a generator of KeyVaultContractCreateProperties_ARM instances for property testing.
-func KeyVaultContractCreateProperties_ARMGenerator() gopter.Gen {
-	if keyVaultContractCreateProperties_ARMGenerator != nil {
-		return keyVaultContractCreateProperties_ARMGenerator
+// Service_NamedValue_Spec_ARMGenerator returns a generator of Service_NamedValue_Spec_ARM instances for property testing.
+// We first initialize service_NamedValue_Spec_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Service_NamedValue_Spec_ARMGenerator() gopter.Gen {
+	if service_NamedValue_Spec_ARMGenerator != nil {
+		return service_NamedValue_Spec_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForKeyVaultContractCreateProperties_ARM(generators)
-	keyVaultContractCreateProperties_ARMGenerator = gen.Struct(reflect.TypeOf(KeyVaultContractCreateProperties_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForService_NamedValue_Spec_ARM(generators)
+	service_NamedValue_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Service_NamedValue_Spec_ARM{}), generators)
 
-	return keyVaultContractCreateProperties_ARMGenerator
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForService_NamedValue_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForService_NamedValue_Spec_ARM(generators)
+	service_NamedValue_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Service_NamedValue_Spec_ARM{}), generators)
+
+	return service_NamedValue_Spec_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForKeyVaultContractCreateProperties_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForKeyVaultContractCreateProperties_ARM(gens map[string]gopter.Gen) {
-	gens["IdentityClientId"] = gen.PtrOf(gen.AlphaString())
-	gens["SecretIdentifier"] = gen.PtrOf(gen.AlphaString())
+// AddIndependentPropertyGeneratorsForService_NamedValue_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForService_NamedValue_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.AlphaString()
+}
+
+// AddRelatedPropertyGeneratorsForService_NamedValue_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForService_NamedValue_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(NamedValueCreateContractProperties_ARMGenerator())
 }

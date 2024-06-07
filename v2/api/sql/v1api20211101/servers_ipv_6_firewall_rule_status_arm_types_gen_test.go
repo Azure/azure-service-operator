@@ -17,6 +17,68 @@ import (
 	"testing"
 )
 
+func Test_IPv6ServerFirewallRuleProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of IPv6ServerFirewallRuleProperties_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForIPv6ServerFirewallRuleProperties_STATUS_ARM, IPv6ServerFirewallRuleProperties_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForIPv6ServerFirewallRuleProperties_STATUS_ARM runs a test to see if a specific instance of IPv6ServerFirewallRuleProperties_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForIPv6ServerFirewallRuleProperties_STATUS_ARM(subject IPv6ServerFirewallRuleProperties_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual IPv6ServerFirewallRuleProperties_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of IPv6ServerFirewallRuleProperties_STATUS_ARM instances for property testing - lazily instantiated by
+// IPv6ServerFirewallRuleProperties_STATUS_ARMGenerator()
+var iPv6ServerFirewallRuleProperties_STATUS_ARMGenerator gopter.Gen
+
+// IPv6ServerFirewallRuleProperties_STATUS_ARMGenerator returns a generator of IPv6ServerFirewallRuleProperties_STATUS_ARM instances for property testing.
+func IPv6ServerFirewallRuleProperties_STATUS_ARMGenerator() gopter.Gen {
+	if iPv6ServerFirewallRuleProperties_STATUS_ARMGenerator != nil {
+		return iPv6ServerFirewallRuleProperties_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForIPv6ServerFirewallRuleProperties_STATUS_ARM(generators)
+	iPv6ServerFirewallRuleProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(IPv6ServerFirewallRuleProperties_STATUS_ARM{}), generators)
+
+	return iPv6ServerFirewallRuleProperties_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForIPv6ServerFirewallRuleProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForIPv6ServerFirewallRuleProperties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["EndIPv6Address"] = gen.PtrOf(gen.AlphaString())
+	gens["StartIPv6Address"] = gen.PtrOf(gen.AlphaString())
+}
+
 func Test_Servers_Ipv6FirewallRule_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -92,66 +154,4 @@ func AddIndependentPropertyGeneratorsForServers_Ipv6FirewallRule_STATUS_ARM(gens
 // AddRelatedPropertyGeneratorsForServers_Ipv6FirewallRule_STATUS_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForServers_Ipv6FirewallRule_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(IPv6ServerFirewallRuleProperties_STATUS_ARMGenerator())
-}
-
-func Test_IPv6ServerFirewallRuleProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of IPv6ServerFirewallRuleProperties_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForIPv6ServerFirewallRuleProperties_STATUS_ARM, IPv6ServerFirewallRuleProperties_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForIPv6ServerFirewallRuleProperties_STATUS_ARM runs a test to see if a specific instance of IPv6ServerFirewallRuleProperties_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForIPv6ServerFirewallRuleProperties_STATUS_ARM(subject IPv6ServerFirewallRuleProperties_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual IPv6ServerFirewallRuleProperties_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of IPv6ServerFirewallRuleProperties_STATUS_ARM instances for property testing - lazily instantiated by
-// IPv6ServerFirewallRuleProperties_STATUS_ARMGenerator()
-var iPv6ServerFirewallRuleProperties_STATUS_ARMGenerator gopter.Gen
-
-// IPv6ServerFirewallRuleProperties_STATUS_ARMGenerator returns a generator of IPv6ServerFirewallRuleProperties_STATUS_ARM instances for property testing.
-func IPv6ServerFirewallRuleProperties_STATUS_ARMGenerator() gopter.Gen {
-	if iPv6ServerFirewallRuleProperties_STATUS_ARMGenerator != nil {
-		return iPv6ServerFirewallRuleProperties_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIPv6ServerFirewallRuleProperties_STATUS_ARM(generators)
-	iPv6ServerFirewallRuleProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(IPv6ServerFirewallRuleProperties_STATUS_ARM{}), generators)
-
-	return iPv6ServerFirewallRuleProperties_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForIPv6ServerFirewallRuleProperties_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForIPv6ServerFirewallRuleProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["EndIPv6Address"] = gen.PtrOf(gen.AlphaString())
-	gens["StartIPv6Address"] = gen.PtrOf(gen.AlphaString())
 }

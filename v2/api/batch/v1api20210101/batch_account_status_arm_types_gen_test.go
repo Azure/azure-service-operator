@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_BatchAccount_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_AutoStorageProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of BatchAccount_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBatchAccount_STATUS_ARM, BatchAccount_STATUS_ARMGenerator()))
+		"Round trip of AutoStorageProperties_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAutoStorageProperties_STATUS_ARM, AutoStorageProperties_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForBatchAccount_STATUS_ARM runs a test to see if a specific instance of BatchAccount_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForBatchAccount_STATUS_ARM(subject BatchAccount_STATUS_ARM) string {
+// RunJSONSerializationTestForAutoStorageProperties_STATUS_ARM runs a test to see if a specific instance of AutoStorageProperties_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForAutoStorageProperties_STATUS_ARM(subject AutoStorageProperties_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForBatchAccount_STATUS_ARM(subject BatchAccount_STA
 	}
 
 	// Deserialize back into memory
-	var actual BatchAccount_STATUS_ARM
+	var actual AutoStorageProperties_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,47 +56,27 @@ func RunJSONSerializationTestForBatchAccount_STATUS_ARM(subject BatchAccount_STA
 	return ""
 }
 
-// Generator of BatchAccount_STATUS_ARM instances for property testing - lazily instantiated by
-// BatchAccount_STATUS_ARMGenerator()
-var batchAccount_STATUS_ARMGenerator gopter.Gen
+// Generator of AutoStorageProperties_STATUS_ARM instances for property testing - lazily instantiated by
+// AutoStorageProperties_STATUS_ARMGenerator()
+var autoStorageProperties_STATUS_ARMGenerator gopter.Gen
 
-// BatchAccount_STATUS_ARMGenerator returns a generator of BatchAccount_STATUS_ARM instances for property testing.
-// We first initialize batchAccount_STATUS_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func BatchAccount_STATUS_ARMGenerator() gopter.Gen {
-	if batchAccount_STATUS_ARMGenerator != nil {
-		return batchAccount_STATUS_ARMGenerator
+// AutoStorageProperties_STATUS_ARMGenerator returns a generator of AutoStorageProperties_STATUS_ARM instances for property testing.
+func AutoStorageProperties_STATUS_ARMGenerator() gopter.Gen {
+	if autoStorageProperties_STATUS_ARMGenerator != nil {
+		return autoStorageProperties_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBatchAccount_STATUS_ARM(generators)
-	batchAccount_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(BatchAccount_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForAutoStorageProperties_STATUS_ARM(generators)
+	autoStorageProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(AutoStorageProperties_STATUS_ARM{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBatchAccount_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForBatchAccount_STATUS_ARM(generators)
-	batchAccount_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(BatchAccount_STATUS_ARM{}), generators)
-
-	return batchAccount_STATUS_ARMGenerator
+	return autoStorageProperties_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForBatchAccount_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBatchAccount_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForBatchAccount_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForBatchAccount_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Identity"] = gen.PtrOf(BatchAccountIdentity_STATUS_ARMGenerator())
-	gens["Properties"] = gen.PtrOf(BatchAccountProperties_STATUS_ARMGenerator())
+// AddIndependentPropertyGeneratorsForAutoStorageProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAutoStorageProperties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["LastKeySync"] = gen.PtrOf(gen.AlphaString())
+	gens["StorageAccountId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_BatchAccountIdentity_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -176,6 +156,68 @@ func AddRelatedPropertyGeneratorsForBatchAccountIdentity_STATUS_ARM(gens map[str
 	gens["UserAssignedIdentities"] = gen.MapOf(
 		gen.AlphaString(),
 		BatchAccountIdentity_UserAssignedIdentities_STATUS_ARMGenerator())
+}
+
+func Test_BatchAccountIdentity_UserAssignedIdentities_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of BatchAccountIdentity_UserAssignedIdentities_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBatchAccountIdentity_UserAssignedIdentities_STATUS_ARM, BatchAccountIdentity_UserAssignedIdentities_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForBatchAccountIdentity_UserAssignedIdentities_STATUS_ARM runs a test to see if a specific instance of BatchAccountIdentity_UserAssignedIdentities_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForBatchAccountIdentity_UserAssignedIdentities_STATUS_ARM(subject BatchAccountIdentity_UserAssignedIdentities_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual BatchAccountIdentity_UserAssignedIdentities_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of BatchAccountIdentity_UserAssignedIdentities_STATUS_ARM instances for property testing - lazily
+// instantiated by BatchAccountIdentity_UserAssignedIdentities_STATUS_ARMGenerator()
+var batchAccountIdentity_UserAssignedIdentities_STATUS_ARMGenerator gopter.Gen
+
+// BatchAccountIdentity_UserAssignedIdentities_STATUS_ARMGenerator returns a generator of BatchAccountIdentity_UserAssignedIdentities_STATUS_ARM instances for property testing.
+func BatchAccountIdentity_UserAssignedIdentities_STATUS_ARMGenerator() gopter.Gen {
+	if batchAccountIdentity_UserAssignedIdentities_STATUS_ARMGenerator != nil {
+		return batchAccountIdentity_UserAssignedIdentities_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForBatchAccountIdentity_UserAssignedIdentities_STATUS_ARM(generators)
+	batchAccountIdentity_UserAssignedIdentities_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(BatchAccountIdentity_UserAssignedIdentities_STATUS_ARM{}), generators)
+
+	return batchAccountIdentity_UserAssignedIdentities_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForBatchAccountIdentity_UserAssignedIdentities_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForBatchAccountIdentity_UserAssignedIdentities_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
+	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_BatchAccountProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -271,20 +313,20 @@ func AddRelatedPropertyGeneratorsForBatchAccountProperties_STATUS_ARM(gens map[s
 	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnection_STATUS_ARMGenerator())
 }
 
-func Test_AutoStorageProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_BatchAccount_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of AutoStorageProperties_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAutoStorageProperties_STATUS_ARM, AutoStorageProperties_STATUS_ARMGenerator()))
+		"Round trip of BatchAccount_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBatchAccount_STATUS_ARM, BatchAccount_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAutoStorageProperties_STATUS_ARM runs a test to see if a specific instance of AutoStorageProperties_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForAutoStorageProperties_STATUS_ARM(subject AutoStorageProperties_STATUS_ARM) string {
+// RunJSONSerializationTestForBatchAccount_STATUS_ARM runs a test to see if a specific instance of BatchAccount_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForBatchAccount_STATUS_ARM(subject BatchAccount_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -292,7 +334,7 @@ func RunJSONSerializationTestForAutoStorageProperties_STATUS_ARM(subject AutoSto
 	}
 
 	// Deserialize back into memory
-	var actual AutoStorageProperties_STATUS_ARM
+	var actual BatchAccount_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -310,89 +352,47 @@ func RunJSONSerializationTestForAutoStorageProperties_STATUS_ARM(subject AutoSto
 	return ""
 }
 
-// Generator of AutoStorageProperties_STATUS_ARM instances for property testing - lazily instantiated by
-// AutoStorageProperties_STATUS_ARMGenerator()
-var autoStorageProperties_STATUS_ARMGenerator gopter.Gen
+// Generator of BatchAccount_STATUS_ARM instances for property testing - lazily instantiated by
+// BatchAccount_STATUS_ARMGenerator()
+var batchAccount_STATUS_ARMGenerator gopter.Gen
 
-// AutoStorageProperties_STATUS_ARMGenerator returns a generator of AutoStorageProperties_STATUS_ARM instances for property testing.
-func AutoStorageProperties_STATUS_ARMGenerator() gopter.Gen {
-	if autoStorageProperties_STATUS_ARMGenerator != nil {
-		return autoStorageProperties_STATUS_ARMGenerator
+// BatchAccount_STATUS_ARMGenerator returns a generator of BatchAccount_STATUS_ARM instances for property testing.
+// We first initialize batchAccount_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func BatchAccount_STATUS_ARMGenerator() gopter.Gen {
+	if batchAccount_STATUS_ARMGenerator != nil {
+		return batchAccount_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAutoStorageProperties_STATUS_ARM(generators)
-	autoStorageProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(AutoStorageProperties_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForBatchAccount_STATUS_ARM(generators)
+	batchAccount_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(BatchAccount_STATUS_ARM{}), generators)
 
-	return autoStorageProperties_STATUS_ARMGenerator
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForBatchAccount_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForBatchAccount_STATUS_ARM(generators)
+	batchAccount_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(BatchAccount_STATUS_ARM{}), generators)
+
+	return batchAccount_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAutoStorageProperties_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAutoStorageProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["LastKeySync"] = gen.PtrOf(gen.AlphaString())
-	gens["StorageAccountId"] = gen.PtrOf(gen.AlphaString())
+// AddIndependentPropertyGeneratorsForBatchAccount_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForBatchAccount_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_BatchAccountIdentity_UserAssignedIdentities_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BatchAccountIdentity_UserAssignedIdentities_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBatchAccountIdentity_UserAssignedIdentities_STATUS_ARM, BatchAccountIdentity_UserAssignedIdentities_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForBatchAccountIdentity_UserAssignedIdentities_STATUS_ARM runs a test to see if a specific instance of BatchAccountIdentity_UserAssignedIdentities_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForBatchAccountIdentity_UserAssignedIdentities_STATUS_ARM(subject BatchAccountIdentity_UserAssignedIdentities_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual BatchAccountIdentity_UserAssignedIdentities_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of BatchAccountIdentity_UserAssignedIdentities_STATUS_ARM instances for property testing - lazily
-// instantiated by BatchAccountIdentity_UserAssignedIdentities_STATUS_ARMGenerator()
-var batchAccountIdentity_UserAssignedIdentities_STATUS_ARMGenerator gopter.Gen
-
-// BatchAccountIdentity_UserAssignedIdentities_STATUS_ARMGenerator returns a generator of BatchAccountIdentity_UserAssignedIdentities_STATUS_ARM instances for property testing.
-func BatchAccountIdentity_UserAssignedIdentities_STATUS_ARMGenerator() gopter.Gen {
-	if batchAccountIdentity_UserAssignedIdentities_STATUS_ARMGenerator != nil {
-		return batchAccountIdentity_UserAssignedIdentities_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBatchAccountIdentity_UserAssignedIdentities_STATUS_ARM(generators)
-	batchAccountIdentity_UserAssignedIdentities_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(BatchAccountIdentity_UserAssignedIdentities_STATUS_ARM{}), generators)
-
-	return batchAccountIdentity_UserAssignedIdentities_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForBatchAccountIdentity_UserAssignedIdentities_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBatchAccountIdentity_UserAssignedIdentities_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
+// AddRelatedPropertyGeneratorsForBatchAccount_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForBatchAccount_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Identity"] = gen.PtrOf(BatchAccountIdentity_STATUS_ARMGenerator())
+	gens["Properties"] = gen.PtrOf(BatchAccountProperties_STATUS_ARMGenerator())
 }
 
 func Test_EncryptionProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -468,6 +468,67 @@ func AddIndependentPropertyGeneratorsForEncryptionProperties_STATUS_ARM(gens map
 // AddRelatedPropertyGeneratorsForEncryptionProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForEncryptionProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["KeyVaultProperties"] = gen.PtrOf(KeyVaultProperties_STATUS_ARMGenerator())
+}
+
+func Test_KeyVaultProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of KeyVaultProperties_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForKeyVaultProperties_STATUS_ARM, KeyVaultProperties_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForKeyVaultProperties_STATUS_ARM runs a test to see if a specific instance of KeyVaultProperties_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForKeyVaultProperties_STATUS_ARM(subject KeyVaultProperties_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual KeyVaultProperties_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of KeyVaultProperties_STATUS_ARM instances for property testing - lazily instantiated by
+// KeyVaultProperties_STATUS_ARMGenerator()
+var keyVaultProperties_STATUS_ARMGenerator gopter.Gen
+
+// KeyVaultProperties_STATUS_ARMGenerator returns a generator of KeyVaultProperties_STATUS_ARM instances for property testing.
+func KeyVaultProperties_STATUS_ARMGenerator() gopter.Gen {
+	if keyVaultProperties_STATUS_ARMGenerator != nil {
+		return keyVaultProperties_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForKeyVaultProperties_STATUS_ARM(generators)
+	keyVaultProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(KeyVaultProperties_STATUS_ARM{}), generators)
+
+	return keyVaultProperties_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForKeyVaultProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForKeyVaultProperties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["KeyIdentifier"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_KeyVaultReference_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -653,65 +714,4 @@ func VirtualMachineFamilyCoreQuota_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForVirtualMachineFamilyCoreQuota_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["CoreQuota"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_KeyVaultProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of KeyVaultProperties_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForKeyVaultProperties_STATUS_ARM, KeyVaultProperties_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForKeyVaultProperties_STATUS_ARM runs a test to see if a specific instance of KeyVaultProperties_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForKeyVaultProperties_STATUS_ARM(subject KeyVaultProperties_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual KeyVaultProperties_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of KeyVaultProperties_STATUS_ARM instances for property testing - lazily instantiated by
-// KeyVaultProperties_STATUS_ARMGenerator()
-var keyVaultProperties_STATUS_ARMGenerator gopter.Gen
-
-// KeyVaultProperties_STATUS_ARMGenerator returns a generator of KeyVaultProperties_STATUS_ARM instances for property testing.
-func KeyVaultProperties_STATUS_ARMGenerator() gopter.Gen {
-	if keyVaultProperties_STATUS_ARMGenerator != nil {
-		return keyVaultProperties_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForKeyVaultProperties_STATUS_ARM(generators)
-	keyVaultProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(KeyVaultProperties_STATUS_ARM{}), generators)
-
-	return keyVaultProperties_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForKeyVaultProperties_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForKeyVaultProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["KeyIdentifier"] = gen.PtrOf(gen.AlphaString())
 }

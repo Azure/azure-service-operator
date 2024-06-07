@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_BastionHost_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_BastionHostIPConfigurationPropertiesFormat_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
+	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of BastionHost_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBastionHost_Spec_ARM, BastionHost_Spec_ARMGenerator()))
+		"Round trip of BastionHostIPConfigurationPropertiesFormat_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBastionHostIPConfigurationPropertiesFormat_ARM, BastionHostIPConfigurationPropertiesFormat_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForBastionHost_Spec_ARM runs a test to see if a specific instance of BastionHost_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForBastionHost_Spec_ARM(subject BastionHost_Spec_ARM) string {
+// RunJSONSerializationTestForBastionHostIPConfigurationPropertiesFormat_ARM runs a test to see if a specific instance of BastionHostIPConfigurationPropertiesFormat_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForBastionHostIPConfigurationPropertiesFormat_ARM(subject BastionHostIPConfigurationPropertiesFormat_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForBastionHost_Spec_ARM(subject BastionHost_Spec_AR
 	}
 
 	// Deserialize back into memory
-	var actual BastionHost_Spec_ARM
+	var actual BastionHostIPConfigurationPropertiesFormat_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,45 +56,116 @@ func RunJSONSerializationTestForBastionHost_Spec_ARM(subject BastionHost_Spec_AR
 	return ""
 }
 
-// Generator of BastionHost_Spec_ARM instances for property testing - lazily instantiated by
-// BastionHost_Spec_ARMGenerator()
-var bastionHost_Spec_ARMGenerator gopter.Gen
+// Generator of BastionHostIPConfigurationPropertiesFormat_ARM instances for property testing - lazily instantiated by
+// BastionHostIPConfigurationPropertiesFormat_ARMGenerator()
+var bastionHostIPConfigurationPropertiesFormat_ARMGenerator gopter.Gen
 
-// BastionHost_Spec_ARMGenerator returns a generator of BastionHost_Spec_ARM instances for property testing.
-// We first initialize bastionHost_Spec_ARMGenerator with a simplified generator based on the
+// BastionHostIPConfigurationPropertiesFormat_ARMGenerator returns a generator of BastionHostIPConfigurationPropertiesFormat_ARM instances for property testing.
+// We first initialize bastionHostIPConfigurationPropertiesFormat_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func BastionHost_Spec_ARMGenerator() gopter.Gen {
-	if bastionHost_Spec_ARMGenerator != nil {
-		return bastionHost_Spec_ARMGenerator
+func BastionHostIPConfigurationPropertiesFormat_ARMGenerator() gopter.Gen {
+	if bastionHostIPConfigurationPropertiesFormat_ARMGenerator != nil {
+		return bastionHostIPConfigurationPropertiesFormat_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBastionHost_Spec_ARM(generators)
-	bastionHost_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(BastionHost_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForBastionHostIPConfigurationPropertiesFormat_ARM(generators)
+	bastionHostIPConfigurationPropertiesFormat_ARMGenerator = gen.Struct(reflect.TypeOf(BastionHostIPConfigurationPropertiesFormat_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBastionHost_Spec_ARM(generators)
-	AddRelatedPropertyGeneratorsForBastionHost_Spec_ARM(generators)
-	bastionHost_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(BastionHost_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForBastionHostIPConfigurationPropertiesFormat_ARM(generators)
+	AddRelatedPropertyGeneratorsForBastionHostIPConfigurationPropertiesFormat_ARM(generators)
+	bastionHostIPConfigurationPropertiesFormat_ARMGenerator = gen.Struct(reflect.TypeOf(BastionHostIPConfigurationPropertiesFormat_ARM{}), generators)
 
-	return bastionHost_Spec_ARMGenerator
+	return bastionHostIPConfigurationPropertiesFormat_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForBastionHost_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBastionHost_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
+// AddIndependentPropertyGeneratorsForBastionHostIPConfigurationPropertiesFormat_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForBastionHostIPConfigurationPropertiesFormat_ARM(gens map[string]gopter.Gen) {
+	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_Dynamic, IPAllocationMethod_Static))
 }
 
-// AddRelatedPropertyGeneratorsForBastionHost_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForBastionHost_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(BastionHostPropertiesFormat_ARMGenerator())
-	gens["Sku"] = gen.PtrOf(Sku_ARMGenerator())
+// AddRelatedPropertyGeneratorsForBastionHostIPConfigurationPropertiesFormat_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForBastionHostIPConfigurationPropertiesFormat_ARM(gens map[string]gopter.Gen) {
+	gens["PublicIPAddress"] = gen.PtrOf(BastionHostSubResource_ARMGenerator())
+	gens["Subnet"] = gen.PtrOf(BastionHostSubResource_ARMGenerator())
+}
+
+func Test_BastionHostIPConfiguration_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of BastionHostIPConfiguration_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBastionHostIPConfiguration_ARM, BastionHostIPConfiguration_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForBastionHostIPConfiguration_ARM runs a test to see if a specific instance of BastionHostIPConfiguration_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForBastionHostIPConfiguration_ARM(subject BastionHostIPConfiguration_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual BastionHostIPConfiguration_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of BastionHostIPConfiguration_ARM instances for property testing - lazily instantiated by
+// BastionHostIPConfiguration_ARMGenerator()
+var bastionHostIPConfiguration_ARMGenerator gopter.Gen
+
+// BastionHostIPConfiguration_ARMGenerator returns a generator of BastionHostIPConfiguration_ARM instances for property testing.
+// We first initialize bastionHostIPConfiguration_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func BastionHostIPConfiguration_ARMGenerator() gopter.Gen {
+	if bastionHostIPConfiguration_ARMGenerator != nil {
+		return bastionHostIPConfiguration_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForBastionHostIPConfiguration_ARM(generators)
+	bastionHostIPConfiguration_ARMGenerator = gen.Struct(reflect.TypeOf(BastionHostIPConfiguration_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForBastionHostIPConfiguration_ARM(generators)
+	AddRelatedPropertyGeneratorsForBastionHostIPConfiguration_ARM(generators)
+	bastionHostIPConfiguration_ARMGenerator = gen.Struct(reflect.TypeOf(BastionHostIPConfiguration_ARM{}), generators)
+
+	return bastionHostIPConfiguration_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForBastionHostIPConfiguration_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForBastionHostIPConfiguration_ARM(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForBastionHostIPConfiguration_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForBastionHostIPConfiguration_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(BastionHostIPConfigurationPropertiesFormat_ARMGenerator())
 }
 
 func Test_BastionHostPropertiesFormat_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -178,217 +249,6 @@ func AddRelatedPropertyGeneratorsForBastionHostPropertiesFormat_ARM(gens map[str
 	gens["IpConfigurations"] = gen.SliceOf(BastionHostIPConfiguration_ARMGenerator())
 }
 
-func Test_Sku_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Sku_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSku_ARM, Sku_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSku_ARM runs a test to see if a specific instance of Sku_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSku_ARM(subject Sku_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Sku_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Sku_ARM instances for property testing - lazily instantiated by Sku_ARMGenerator()
-var sku_ARMGenerator gopter.Gen
-
-// Sku_ARMGenerator returns a generator of Sku_ARM instances for property testing.
-func Sku_ARMGenerator() gopter.Gen {
-	if sku_ARMGenerator != nil {
-		return sku_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSku_ARM(generators)
-	sku_ARMGenerator = gen.Struct(reflect.TypeOf(Sku_ARM{}), generators)
-
-	return sku_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSku_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSku_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(Sku_Name_Basic, Sku_Name_Standard))
-}
-
-func Test_BastionHostIPConfiguration_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BastionHostIPConfiguration_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBastionHostIPConfiguration_ARM, BastionHostIPConfiguration_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForBastionHostIPConfiguration_ARM runs a test to see if a specific instance of BastionHostIPConfiguration_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForBastionHostIPConfiguration_ARM(subject BastionHostIPConfiguration_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual BastionHostIPConfiguration_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of BastionHostIPConfiguration_ARM instances for property testing - lazily instantiated by
-// BastionHostIPConfiguration_ARMGenerator()
-var bastionHostIPConfiguration_ARMGenerator gopter.Gen
-
-// BastionHostIPConfiguration_ARMGenerator returns a generator of BastionHostIPConfiguration_ARM instances for property testing.
-// We first initialize bastionHostIPConfiguration_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func BastionHostIPConfiguration_ARMGenerator() gopter.Gen {
-	if bastionHostIPConfiguration_ARMGenerator != nil {
-		return bastionHostIPConfiguration_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBastionHostIPConfiguration_ARM(generators)
-	bastionHostIPConfiguration_ARMGenerator = gen.Struct(reflect.TypeOf(BastionHostIPConfiguration_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBastionHostIPConfiguration_ARM(generators)
-	AddRelatedPropertyGeneratorsForBastionHostIPConfiguration_ARM(generators)
-	bastionHostIPConfiguration_ARMGenerator = gen.Struct(reflect.TypeOf(BastionHostIPConfiguration_ARM{}), generators)
-
-	return bastionHostIPConfiguration_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForBastionHostIPConfiguration_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBastionHostIPConfiguration_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForBastionHostIPConfiguration_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForBastionHostIPConfiguration_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(BastionHostIPConfigurationPropertiesFormat_ARMGenerator())
-}
-
-func Test_BastionHostIPConfigurationPropertiesFormat_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BastionHostIPConfigurationPropertiesFormat_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBastionHostIPConfigurationPropertiesFormat_ARM, BastionHostIPConfigurationPropertiesFormat_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForBastionHostIPConfigurationPropertiesFormat_ARM runs a test to see if a specific instance of BastionHostIPConfigurationPropertiesFormat_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForBastionHostIPConfigurationPropertiesFormat_ARM(subject BastionHostIPConfigurationPropertiesFormat_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual BastionHostIPConfigurationPropertiesFormat_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of BastionHostIPConfigurationPropertiesFormat_ARM instances for property testing - lazily instantiated by
-// BastionHostIPConfigurationPropertiesFormat_ARMGenerator()
-var bastionHostIPConfigurationPropertiesFormat_ARMGenerator gopter.Gen
-
-// BastionHostIPConfigurationPropertiesFormat_ARMGenerator returns a generator of BastionHostIPConfigurationPropertiesFormat_ARM instances for property testing.
-// We first initialize bastionHostIPConfigurationPropertiesFormat_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func BastionHostIPConfigurationPropertiesFormat_ARMGenerator() gopter.Gen {
-	if bastionHostIPConfigurationPropertiesFormat_ARMGenerator != nil {
-		return bastionHostIPConfigurationPropertiesFormat_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBastionHostIPConfigurationPropertiesFormat_ARM(generators)
-	bastionHostIPConfigurationPropertiesFormat_ARMGenerator = gen.Struct(reflect.TypeOf(BastionHostIPConfigurationPropertiesFormat_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBastionHostIPConfigurationPropertiesFormat_ARM(generators)
-	AddRelatedPropertyGeneratorsForBastionHostIPConfigurationPropertiesFormat_ARM(generators)
-	bastionHostIPConfigurationPropertiesFormat_ARMGenerator = gen.Struct(reflect.TypeOf(BastionHostIPConfigurationPropertiesFormat_ARM{}), generators)
-
-	return bastionHostIPConfigurationPropertiesFormat_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForBastionHostIPConfigurationPropertiesFormat_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBastionHostIPConfigurationPropertiesFormat_ARM(gens map[string]gopter.Gen) {
-	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_Dynamic, IPAllocationMethod_Static))
-}
-
-// AddRelatedPropertyGeneratorsForBastionHostIPConfigurationPropertiesFormat_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForBastionHostIPConfigurationPropertiesFormat_ARM(gens map[string]gopter.Gen) {
-	gens["PublicIPAddress"] = gen.PtrOf(BastionHostSubResource_ARMGenerator())
-	gens["Subnet"] = gen.PtrOf(BastionHostSubResource_ARMGenerator())
-}
-
 func Test_BastionHostSubResource_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -448,4 +308,144 @@ func BastionHostSubResource_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForBastionHostSubResource_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBastionHostSubResource_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_BastionHost_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of BastionHost_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBastionHost_Spec_ARM, BastionHost_Spec_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForBastionHost_Spec_ARM runs a test to see if a specific instance of BastionHost_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForBastionHost_Spec_ARM(subject BastionHost_Spec_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual BastionHost_Spec_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of BastionHost_Spec_ARM instances for property testing - lazily instantiated by
+// BastionHost_Spec_ARMGenerator()
+var bastionHost_Spec_ARMGenerator gopter.Gen
+
+// BastionHost_Spec_ARMGenerator returns a generator of BastionHost_Spec_ARM instances for property testing.
+// We first initialize bastionHost_Spec_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func BastionHost_Spec_ARMGenerator() gopter.Gen {
+	if bastionHost_Spec_ARMGenerator != nil {
+		return bastionHost_Spec_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForBastionHost_Spec_ARM(generators)
+	bastionHost_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(BastionHost_Spec_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForBastionHost_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForBastionHost_Spec_ARM(generators)
+	bastionHost_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(BastionHost_Spec_ARM{}), generators)
+
+	return bastionHost_Spec_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForBastionHost_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForBastionHost_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.AlphaString()
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForBastionHost_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForBastionHost_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(BastionHostPropertiesFormat_ARMGenerator())
+	gens["Sku"] = gen.PtrOf(Sku_ARMGenerator())
+}
+
+func Test_Sku_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Sku_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSku_ARM, Sku_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSku_ARM runs a test to see if a specific instance of Sku_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSku_ARM(subject Sku_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Sku_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Sku_ARM instances for property testing - lazily instantiated by Sku_ARMGenerator()
+var sku_ARMGenerator gopter.Gen
+
+// Sku_ARMGenerator returns a generator of Sku_ARM instances for property testing.
+func Sku_ARMGenerator() gopter.Gen {
+	if sku_ARMGenerator != nil {
+		return sku_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSku_ARM(generators)
+	sku_ARMGenerator = gen.Struct(reflect.TypeOf(Sku_ARM{}), generators)
+
+	return sku_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForSku_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSku_ARM(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(Sku_Name_Basic, Sku_Name_Standard))
 }

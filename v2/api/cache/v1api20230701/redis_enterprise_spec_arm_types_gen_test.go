@@ -17,6 +17,67 @@ import (
 	"testing"
 )
 
+func Test_ClusterProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ClusterProperties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForClusterProperties_ARM, ClusterProperties_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForClusterProperties_ARM runs a test to see if a specific instance of ClusterProperties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForClusterProperties_ARM(subject ClusterProperties_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ClusterProperties_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ClusterProperties_ARM instances for property testing - lazily instantiated by
+// ClusterProperties_ARMGenerator()
+var clusterProperties_ARMGenerator gopter.Gen
+
+// ClusterProperties_ARMGenerator returns a generator of ClusterProperties_ARM instances for property testing.
+func ClusterProperties_ARMGenerator() gopter.Gen {
+	if clusterProperties_ARMGenerator != nil {
+		return clusterProperties_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForClusterProperties_ARM(generators)
+	clusterProperties_ARMGenerator = gen.Struct(reflect.TypeOf(ClusterProperties_ARM{}), generators)
+
+	return clusterProperties_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForClusterProperties_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForClusterProperties_ARM(gens map[string]gopter.Gen) {
+	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(ClusterProperties_MinimumTlsVersion_10, ClusterProperties_MinimumTlsVersion_11, ClusterProperties_MinimumTlsVersion_12))
+}
+
 func Test_RedisEnterprise_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -96,67 +157,6 @@ func AddIndependentPropertyGeneratorsForRedisEnterprise_Spec_ARM(gens map[string
 func AddRelatedPropertyGeneratorsForRedisEnterprise_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(ClusterProperties_ARMGenerator())
 	gens["Sku"] = gen.PtrOf(Sku_ARMGenerator())
-}
-
-func Test_ClusterProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ClusterProperties_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForClusterProperties_ARM, ClusterProperties_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForClusterProperties_ARM runs a test to see if a specific instance of ClusterProperties_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForClusterProperties_ARM(subject ClusterProperties_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ClusterProperties_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ClusterProperties_ARM instances for property testing - lazily instantiated by
-// ClusterProperties_ARMGenerator()
-var clusterProperties_ARMGenerator gopter.Gen
-
-// ClusterProperties_ARMGenerator returns a generator of ClusterProperties_ARM instances for property testing.
-func ClusterProperties_ARMGenerator() gopter.Gen {
-	if clusterProperties_ARMGenerator != nil {
-		return clusterProperties_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForClusterProperties_ARM(generators)
-	clusterProperties_ARMGenerator = gen.Struct(reflect.TypeOf(ClusterProperties_ARM{}), generators)
-
-	return clusterProperties_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForClusterProperties_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForClusterProperties_ARM(gens map[string]gopter.Gen) {
-	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(ClusterProperties_MinimumTlsVersion_10, ClusterProperties_MinimumTlsVersion_11, ClusterProperties_MinimumTlsVersion_12))
 }
 
 func Test_Sku_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -96,6 +96,69 @@ func AddRelatedPropertyGeneratorsForNamespaces_Topics_Subscription_STATUS_ARM(ge
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUS_ARMGenerator())
 }
 
+func Test_SBClientAffineProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SBClientAffineProperties_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSBClientAffineProperties_STATUS_ARM, SBClientAffineProperties_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSBClientAffineProperties_STATUS_ARM runs a test to see if a specific instance of SBClientAffineProperties_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSBClientAffineProperties_STATUS_ARM(subject SBClientAffineProperties_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SBClientAffineProperties_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SBClientAffineProperties_STATUS_ARM instances for property testing - lazily instantiated by
+// SBClientAffineProperties_STATUS_ARMGenerator()
+var sbClientAffineProperties_STATUS_ARMGenerator gopter.Gen
+
+// SBClientAffineProperties_STATUS_ARMGenerator returns a generator of SBClientAffineProperties_STATUS_ARM instances for property testing.
+func SBClientAffineProperties_STATUS_ARMGenerator() gopter.Gen {
+	if sbClientAffineProperties_STATUS_ARMGenerator != nil {
+		return sbClientAffineProperties_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSBClientAffineProperties_STATUS_ARM(generators)
+	sbClientAffineProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(SBClientAffineProperties_STATUS_ARM{}), generators)
+
+	return sbClientAffineProperties_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForSBClientAffineProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSBClientAffineProperties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
+	gens["IsDurable"] = gen.PtrOf(gen.Bool())
+	gens["IsShared"] = gen.PtrOf(gen.Bool())
+}
+
 func Test_SBSubscriptionProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -195,67 +258,4 @@ func AddIndependentPropertyGeneratorsForSBSubscriptionProperties_STATUS_ARM(gens
 func AddRelatedPropertyGeneratorsForSBSubscriptionProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ClientAffineProperties"] = gen.PtrOf(SBClientAffineProperties_STATUS_ARMGenerator())
 	gens["CountDetails"] = gen.PtrOf(MessageCountDetails_STATUS_ARMGenerator())
-}
-
-func Test_SBClientAffineProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SBClientAffineProperties_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSBClientAffineProperties_STATUS_ARM, SBClientAffineProperties_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSBClientAffineProperties_STATUS_ARM runs a test to see if a specific instance of SBClientAffineProperties_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSBClientAffineProperties_STATUS_ARM(subject SBClientAffineProperties_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual SBClientAffineProperties_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of SBClientAffineProperties_STATUS_ARM instances for property testing - lazily instantiated by
-// SBClientAffineProperties_STATUS_ARMGenerator()
-var sbClientAffineProperties_STATUS_ARMGenerator gopter.Gen
-
-// SBClientAffineProperties_STATUS_ARMGenerator returns a generator of SBClientAffineProperties_STATUS_ARM instances for property testing.
-func SBClientAffineProperties_STATUS_ARMGenerator() gopter.Gen {
-	if sbClientAffineProperties_STATUS_ARMGenerator != nil {
-		return sbClientAffineProperties_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSBClientAffineProperties_STATUS_ARM(generators)
-	sbClientAffineProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(SBClientAffineProperties_STATUS_ARM{}), generators)
-
-	return sbClientAffineProperties_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSBClientAffineProperties_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSBClientAffineProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
-	gens["IsDurable"] = gen.PtrOf(gen.Bool())
-	gens["IsShared"] = gen.PtrOf(gen.Bool())
 }

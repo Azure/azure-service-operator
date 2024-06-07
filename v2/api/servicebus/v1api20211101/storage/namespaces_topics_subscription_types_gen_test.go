@@ -79,94 +79,6 @@ func AddRelatedPropertyGeneratorsForNamespacesTopicsSubscription(gens map[string
 	gens["Status"] = Namespaces_Topics_Subscription_STATUSGenerator()
 }
 
-func Test_Namespaces_Topics_Subscription_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Namespaces_Topics_Subscription_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamespaces_Topics_Subscription_Spec, Namespaces_Topics_Subscription_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForNamespaces_Topics_Subscription_Spec runs a test to see if a specific instance of Namespaces_Topics_Subscription_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamespaces_Topics_Subscription_Spec(subject Namespaces_Topics_Subscription_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Namespaces_Topics_Subscription_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Namespaces_Topics_Subscription_Spec instances for property testing - lazily instantiated by
-// Namespaces_Topics_Subscription_SpecGenerator()
-var namespaces_Topics_Subscription_SpecGenerator gopter.Gen
-
-// Namespaces_Topics_Subscription_SpecGenerator returns a generator of Namespaces_Topics_Subscription_Spec instances for property testing.
-// We first initialize namespaces_Topics_Subscription_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Namespaces_Topics_Subscription_SpecGenerator() gopter.Gen {
-	if namespaces_Topics_Subscription_SpecGenerator != nil {
-		return namespaces_Topics_Subscription_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespaces_Topics_Subscription_Spec(generators)
-	namespaces_Topics_Subscription_SpecGenerator = gen.Struct(reflect.TypeOf(Namespaces_Topics_Subscription_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespaces_Topics_Subscription_Spec(generators)
-	AddRelatedPropertyGeneratorsForNamespaces_Topics_Subscription_Spec(generators)
-	namespaces_Topics_Subscription_SpecGenerator = gen.Struct(reflect.TypeOf(Namespaces_Topics_Subscription_Spec{}), generators)
-
-	return namespaces_Topics_Subscription_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForNamespaces_Topics_Subscription_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNamespaces_Topics_Subscription_Spec(gens map[string]gopter.Gen) {
-	gens["AutoDeleteOnIdle"] = gen.PtrOf(gen.AlphaString())
-	gens["AzureName"] = gen.AlphaString()
-	gens["DeadLetteringOnFilterEvaluationExceptions"] = gen.PtrOf(gen.Bool())
-	gens["DeadLetteringOnMessageExpiration"] = gen.PtrOf(gen.Bool())
-	gens["DefaultMessageTimeToLive"] = gen.PtrOf(gen.AlphaString())
-	gens["DuplicateDetectionHistoryTimeWindow"] = gen.PtrOf(gen.AlphaString())
-	gens["EnableBatchedOperations"] = gen.PtrOf(gen.Bool())
-	gens["ForwardDeadLetteredMessagesTo"] = gen.PtrOf(gen.AlphaString())
-	gens["ForwardTo"] = gen.PtrOf(gen.AlphaString())
-	gens["IsClientAffine"] = gen.PtrOf(gen.Bool())
-	gens["LockDuration"] = gen.PtrOf(gen.AlphaString())
-	gens["MaxDeliveryCount"] = gen.PtrOf(gen.Int())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["RequiresSession"] = gen.PtrOf(gen.Bool())
-}
-
-// AddRelatedPropertyGeneratorsForNamespaces_Topics_Subscription_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNamespaces_Topics_Subscription_Spec(gens map[string]gopter.Gen) {
-	gens["ClientAffineProperties"] = gen.PtrOf(SBClientAffinePropertiesGenerator())
-}
-
 func Test_Namespaces_Topics_Subscription_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -262,6 +174,94 @@ func AddRelatedPropertyGeneratorsForNamespaces_Topics_Subscription_STATUS(gens m
 	gens["ClientAffineProperties"] = gen.PtrOf(SBClientAffineProperties_STATUSGenerator())
 	gens["CountDetails"] = gen.PtrOf(MessageCountDetails_STATUSGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
+}
+
+func Test_Namespaces_Topics_Subscription_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Namespaces_Topics_Subscription_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespaces_Topics_Subscription_Spec, Namespaces_Topics_Subscription_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForNamespaces_Topics_Subscription_Spec runs a test to see if a specific instance of Namespaces_Topics_Subscription_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespaces_Topics_Subscription_Spec(subject Namespaces_Topics_Subscription_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Namespaces_Topics_Subscription_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Namespaces_Topics_Subscription_Spec instances for property testing - lazily instantiated by
+// Namespaces_Topics_Subscription_SpecGenerator()
+var namespaces_Topics_Subscription_SpecGenerator gopter.Gen
+
+// Namespaces_Topics_Subscription_SpecGenerator returns a generator of Namespaces_Topics_Subscription_Spec instances for property testing.
+// We first initialize namespaces_Topics_Subscription_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Namespaces_Topics_Subscription_SpecGenerator() gopter.Gen {
+	if namespaces_Topics_Subscription_SpecGenerator != nil {
+		return namespaces_Topics_Subscription_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNamespaces_Topics_Subscription_Spec(generators)
+	namespaces_Topics_Subscription_SpecGenerator = gen.Struct(reflect.TypeOf(Namespaces_Topics_Subscription_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNamespaces_Topics_Subscription_Spec(generators)
+	AddRelatedPropertyGeneratorsForNamespaces_Topics_Subscription_Spec(generators)
+	namespaces_Topics_Subscription_SpecGenerator = gen.Struct(reflect.TypeOf(Namespaces_Topics_Subscription_Spec{}), generators)
+
+	return namespaces_Topics_Subscription_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForNamespaces_Topics_Subscription_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespaces_Topics_Subscription_Spec(gens map[string]gopter.Gen) {
+	gens["AutoDeleteOnIdle"] = gen.PtrOf(gen.AlphaString())
+	gens["AzureName"] = gen.AlphaString()
+	gens["DeadLetteringOnFilterEvaluationExceptions"] = gen.PtrOf(gen.Bool())
+	gens["DeadLetteringOnMessageExpiration"] = gen.PtrOf(gen.Bool())
+	gens["DefaultMessageTimeToLive"] = gen.PtrOf(gen.AlphaString())
+	gens["DuplicateDetectionHistoryTimeWindow"] = gen.PtrOf(gen.AlphaString())
+	gens["EnableBatchedOperations"] = gen.PtrOf(gen.Bool())
+	gens["ForwardDeadLetteredMessagesTo"] = gen.PtrOf(gen.AlphaString())
+	gens["ForwardTo"] = gen.PtrOf(gen.AlphaString())
+	gens["IsClientAffine"] = gen.PtrOf(gen.Bool())
+	gens["LockDuration"] = gen.PtrOf(gen.AlphaString())
+	gens["MaxDeliveryCount"] = gen.PtrOf(gen.Int())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["RequiresSession"] = gen.PtrOf(gen.Bool())
+}
+
+// AddRelatedPropertyGeneratorsForNamespaces_Topics_Subscription_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNamespaces_Topics_Subscription_Spec(gens map[string]gopter.Gen) {
+	gens["ClientAffineProperties"] = gen.PtrOf(SBClientAffinePropertiesGenerator())
 }
 
 func Test_SBClientAffineProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
