@@ -124,6 +124,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/alertsmanagement/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/alertsmanagement/v1api20230301/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/apimanagement/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/apimanagement/v1api20220801/</loc>
@@ -321,6 +323,8 @@
     <loc>https://azure.github.io/azure-service-operator/reference/managedidentity/v1api20230131/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/monitor/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/monitor/v1api20230403/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/authentication/multitenant-deployment/</loc>
   </url><url>
