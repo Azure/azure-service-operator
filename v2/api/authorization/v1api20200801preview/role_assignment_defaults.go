@@ -43,13 +43,11 @@ func (assignment *RoleAssignment) defaultAzureName() {
 	}
 
 	if assignment.AzureName() == "" {
-		ownerGK := assignment.Owner().GroupKind()
 		gk := assignment.GroupVersionKind().GroupKind()
 		assignment.Spec.AzureName = randextensions.MakeUUIDName(
 			assignment.Name,
-			randextensions.MakeUniqueOwnerScopedString(
-				ownerGK,
-				assignment.Spec.Owner.Name,
+			randextensions.MakeUniqueOwnerScopedStringLegacy(
+				assignment.Owner(),
 				gk,
 				assignment.Namespace,
 				assignment.Name))
