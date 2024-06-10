@@ -1,3 +1,4 @@
 github.com/Azure/azure-service-operator/testing/person/v20200101
-└── WebTest_Status: Object (1 property)
-    └── Status: *string
+----------------------------------------------------------------
+WebTest_Status: Object (1 property)
+└── Status: *string
