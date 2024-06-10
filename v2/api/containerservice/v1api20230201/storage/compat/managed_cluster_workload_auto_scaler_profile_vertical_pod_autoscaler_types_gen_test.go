@@ -5,7 +5,7 @@ package compat
 
 import (
 	"encoding/json"
-	v20231001s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +35,7 @@ func RunPropertyAssignmentTestForManagedClusterWorkloadAutoScalerProfileVertical
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231001s.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler
+	var other storage.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler
 	err := copied.AssignProperties_To_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler(&other)
 	if err != nil {
 		return err.Error()

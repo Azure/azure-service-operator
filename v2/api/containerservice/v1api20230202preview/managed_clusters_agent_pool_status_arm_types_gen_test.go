@@ -17,216 +17,6 @@ import (
 	"testing"
 )
 
-func Test_ManagedClusters_AgentPool_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedClusters_AgentPool_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusters_AgentPool_STATUS_ARM, ManagedClusters_AgentPool_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedClusters_AgentPool_STATUS_ARM runs a test to see if a specific instance of ManagedClusters_AgentPool_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusters_AgentPool_STATUS_ARM(subject ManagedClusters_AgentPool_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedClusters_AgentPool_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedClusters_AgentPool_STATUS_ARM instances for property testing - lazily instantiated by
-// ManagedClusters_AgentPool_STATUS_ARMGenerator()
-var managedClusters_AgentPool_STATUS_ARMGenerator gopter.Gen
-
-// ManagedClusters_AgentPool_STATUS_ARMGenerator returns a generator of ManagedClusters_AgentPool_STATUS_ARM instances for property testing.
-// We first initialize managedClusters_AgentPool_STATUS_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ManagedClusters_AgentPool_STATUS_ARMGenerator() gopter.Gen {
-	if managedClusters_AgentPool_STATUS_ARMGenerator != nil {
-		return managedClusters_AgentPool_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusters_AgentPool_STATUS_ARM(generators)
-	managedClusters_AgentPool_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusters_AgentPool_STATUS_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusters_AgentPool_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForManagedClusters_AgentPool_STATUS_ARM(generators)
-	managedClusters_AgentPool_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusters_AgentPool_STATUS_ARM{}), generators)
-
-	return managedClusters_AgentPool_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedClusters_AgentPool_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusters_AgentPool_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForManagedClusters_AgentPool_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedClusters_AgentPool_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(ManagedClusterAgentPoolProfileProperties_STATUS_ARMGenerator())
-}
-
-func Test_ManagedClusterAgentPoolProfileProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedClusterAgentPoolProfileProperties_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterAgentPoolProfileProperties_STATUS_ARM, ManagedClusterAgentPoolProfileProperties_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedClusterAgentPoolProfileProperties_STATUS_ARM runs a test to see if a specific instance of ManagedClusterAgentPoolProfileProperties_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterAgentPoolProfileProperties_STATUS_ARM(subject ManagedClusterAgentPoolProfileProperties_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedClusterAgentPoolProfileProperties_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedClusterAgentPoolProfileProperties_STATUS_ARM instances for property testing - lazily instantiated
-// by ManagedClusterAgentPoolProfileProperties_STATUS_ARMGenerator()
-var managedClusterAgentPoolProfileProperties_STATUS_ARMGenerator gopter.Gen
-
-// ManagedClusterAgentPoolProfileProperties_STATUS_ARMGenerator returns a generator of ManagedClusterAgentPoolProfileProperties_STATUS_ARM instances for property testing.
-// We first initialize managedClusterAgentPoolProfileProperties_STATUS_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ManagedClusterAgentPoolProfileProperties_STATUS_ARMGenerator() gopter.Gen {
-	if managedClusterAgentPoolProfileProperties_STATUS_ARMGenerator != nil {
-		return managedClusterAgentPoolProfileProperties_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfileProperties_STATUS_ARM(generators)
-	managedClusterAgentPoolProfileProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAgentPoolProfileProperties_STATUS_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfileProperties_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfileProperties_STATUS_ARM(generators)
-	managedClusterAgentPoolProfileProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAgentPoolProfileProperties_STATUS_ARM{}), generators)
-
-	return managedClusterAgentPoolProfileProperties_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfileProperties_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfileProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["AvailabilityZones"] = gen.SliceOf(gen.AlphaString())
-	gens["CapacityReservationGroupID"] = gen.PtrOf(gen.AlphaString())
-	gens["Count"] = gen.PtrOf(gen.Int())
-	gens["CurrentOrchestratorVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["EnableAutoScaling"] = gen.PtrOf(gen.Bool())
-	gens["EnableCustomCATrust"] = gen.PtrOf(gen.Bool())
-	gens["EnableEncryptionAtHost"] = gen.PtrOf(gen.Bool())
-	gens["EnableFIPS"] = gen.PtrOf(gen.Bool())
-	gens["EnableNodePublicIP"] = gen.PtrOf(gen.Bool())
-	gens["EnableUltraSSD"] = gen.PtrOf(gen.Bool())
-	gens["GpuInstanceProfile"] = gen.PtrOf(gen.OneConstOf(
-		GPUInstanceProfile_STATUS_MIG1G,
-		GPUInstanceProfile_STATUS_MIG2G,
-		GPUInstanceProfile_STATUS_MIG3G,
-		GPUInstanceProfile_STATUS_MIG4G,
-		GPUInstanceProfile_STATUS_MIG7G))
-	gens["HostGroupID"] = gen.PtrOf(gen.AlphaString())
-	gens["KubeletDiskType"] = gen.PtrOf(gen.OneConstOf(KubeletDiskType_STATUS_OS, KubeletDiskType_STATUS_Temporary))
-	gens["MaxCount"] = gen.PtrOf(gen.Int())
-	gens["MaxPods"] = gen.PtrOf(gen.Int())
-	gens["MessageOfTheDay"] = gen.PtrOf(gen.AlphaString())
-	gens["MinCount"] = gen.PtrOf(gen.Int())
-	gens["Mode"] = gen.PtrOf(gen.OneConstOf(AgentPoolMode_STATUS_System, AgentPoolMode_STATUS_User))
-	gens["NodeImageVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["NodeLabels"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["NodePublicIPPrefixID"] = gen.PtrOf(gen.AlphaString())
-	gens["NodeTaints"] = gen.SliceOf(gen.AlphaString())
-	gens["OrchestratorVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["OsDiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["OsDiskType"] = gen.PtrOf(gen.OneConstOf(OSDiskType_STATUS_Ephemeral, OSDiskType_STATUS_Managed))
-	gens["OsSKU"] = gen.PtrOf(gen.OneConstOf(
-		OSSKU_STATUS_CBLMariner,
-		OSSKU_STATUS_Mariner,
-		OSSKU_STATUS_Ubuntu,
-		OSSKU_STATUS_Windows2019,
-		OSSKU_STATUS_Windows2022))
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(OSType_STATUS_Linux, OSType_STATUS_Windows))
-	gens["PodSubnetID"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["ProximityPlacementGroupID"] = gen.PtrOf(gen.AlphaString())
-	gens["ScaleDownMode"] = gen.PtrOf(gen.OneConstOf(ScaleDownMode_STATUS_Deallocate, ScaleDownMode_STATUS_Delete))
-	gens["ScaleSetEvictionPolicy"] = gen.PtrOf(gen.OneConstOf(ScaleSetEvictionPolicy_STATUS_Deallocate, ScaleSetEvictionPolicy_STATUS_Delete))
-	gens["ScaleSetPriority"] = gen.PtrOf(gen.OneConstOf(ScaleSetPriority_STATUS_Regular, ScaleSetPriority_STATUS_Spot))
-	gens["SpotMaxPrice"] = gen.PtrOf(gen.Float64())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(AgentPoolType_STATUS_AvailabilitySet, AgentPoolType_STATUS_VirtualMachineScaleSets))
-	gens["VmSize"] = gen.PtrOf(gen.AlphaString())
-	gens["VnetSubnetID"] = gen.PtrOf(gen.AlphaString())
-	gens["WorkloadRuntime"] = gen.PtrOf(gen.OneConstOf(WorkloadRuntime_STATUS_KataMshvVmIsolation, WorkloadRuntime_STATUS_OCIContainer, WorkloadRuntime_STATUS_WasmWasi))
-}
-
-// AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfileProperties_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfileProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["CreationData"] = gen.PtrOf(CreationData_STATUS_ARMGenerator())
-	gens["KubeletConfig"] = gen.PtrOf(KubeletConfig_STATUS_ARMGenerator())
-	gens["LinuxOSConfig"] = gen.PtrOf(LinuxOSConfig_STATUS_ARMGenerator())
-	gens["NetworkProfile"] = gen.PtrOf(AgentPoolNetworkProfile_STATUS_ARMGenerator())
-	gens["PowerState"] = gen.PtrOf(PowerState_STATUS_ARMGenerator())
-	gens["UpgradeSettings"] = gen.PtrOf(AgentPoolUpgradeSettings_STATUS_ARMGenerator())
-	gens["WindowsProfile"] = gen.PtrOf(AgentPoolWindowsProfile_STATUS_ARMGenerator())
-}
-
 func Test_AgentPoolNetworkProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -425,6 +215,67 @@ func AddIndependentPropertyGeneratorsForAgentPoolWindowsProfile_STATUS_ARM(gens 
 	gens["DisableOutboundNat"] = gen.PtrOf(gen.Bool())
 }
 
+func Test_IPTag_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of IPTag_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForIPTag_STATUS_ARM, IPTag_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForIPTag_STATUS_ARM runs a test to see if a specific instance of IPTag_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForIPTag_STATUS_ARM(subject IPTag_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual IPTag_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of IPTag_STATUS_ARM instances for property testing - lazily instantiated by IPTag_STATUS_ARMGenerator()
+var ipTag_STATUS_ARMGenerator gopter.Gen
+
+// IPTag_STATUS_ARMGenerator returns a generator of IPTag_STATUS_ARM instances for property testing.
+func IPTag_STATUS_ARMGenerator() gopter.Gen {
+	if ipTag_STATUS_ARMGenerator != nil {
+		return ipTag_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForIPTag_STATUS_ARM(generators)
+	ipTag_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(IPTag_STATUS_ARM{}), generators)
+
+	return ipTag_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForIPTag_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForIPTag_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["IpTagType"] = gen.PtrOf(gen.AlphaString())
+	gens["Tag"] = gen.PtrOf(gen.AlphaString())
+}
+
 func Test_KubeletConfig_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -573,20 +424,20 @@ func AddRelatedPropertyGeneratorsForLinuxOSConfig_STATUS_ARM(gens map[string]gop
 	gens["Sysctls"] = gen.PtrOf(SysctlConfig_STATUS_ARMGenerator())
 }
 
-func Test_IPTag_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedClusterAgentPoolProfileProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of IPTag_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForIPTag_STATUS_ARM, IPTag_STATUS_ARMGenerator()))
+		"Round trip of ManagedClusterAgentPoolProfileProperties_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterAgentPoolProfileProperties_STATUS_ARM, ManagedClusterAgentPoolProfileProperties_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForIPTag_STATUS_ARM runs a test to see if a specific instance of IPTag_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForIPTag_STATUS_ARM(subject IPTag_STATUS_ARM) string {
+// RunJSONSerializationTestForManagedClusterAgentPoolProfileProperties_STATUS_ARM runs a test to see if a specific instance of ManagedClusterAgentPoolProfileProperties_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterAgentPoolProfileProperties_STATUS_ARM(subject ManagedClusterAgentPoolProfileProperties_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -594,7 +445,7 @@ func RunJSONSerializationTestForIPTag_STATUS_ARM(subject IPTag_STATUS_ARM) strin
 	}
 
 	// Deserialize back into memory
-	var actual IPTag_STATUS_ARM
+	var actual ManagedClusterAgentPoolProfileProperties_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -612,26 +463,175 @@ func RunJSONSerializationTestForIPTag_STATUS_ARM(subject IPTag_STATUS_ARM) strin
 	return ""
 }
 
-// Generator of IPTag_STATUS_ARM instances for property testing - lazily instantiated by IPTag_STATUS_ARMGenerator()
-var ipTag_STATUS_ARMGenerator gopter.Gen
+// Generator of ManagedClusterAgentPoolProfileProperties_STATUS_ARM instances for property testing - lazily instantiated
+// by ManagedClusterAgentPoolProfileProperties_STATUS_ARMGenerator()
+var managedClusterAgentPoolProfileProperties_STATUS_ARMGenerator gopter.Gen
 
-// IPTag_STATUS_ARMGenerator returns a generator of IPTag_STATUS_ARM instances for property testing.
-func IPTag_STATUS_ARMGenerator() gopter.Gen {
-	if ipTag_STATUS_ARMGenerator != nil {
-		return ipTag_STATUS_ARMGenerator
+// ManagedClusterAgentPoolProfileProperties_STATUS_ARMGenerator returns a generator of ManagedClusterAgentPoolProfileProperties_STATUS_ARM instances for property testing.
+// We first initialize managedClusterAgentPoolProfileProperties_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ManagedClusterAgentPoolProfileProperties_STATUS_ARMGenerator() gopter.Gen {
+	if managedClusterAgentPoolProfileProperties_STATUS_ARMGenerator != nil {
+		return managedClusterAgentPoolProfileProperties_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIPTag_STATUS_ARM(generators)
-	ipTag_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(IPTag_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfileProperties_STATUS_ARM(generators)
+	managedClusterAgentPoolProfileProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAgentPoolProfileProperties_STATUS_ARM{}), generators)
 
-	return ipTag_STATUS_ARMGenerator
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfileProperties_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfileProperties_STATUS_ARM(generators)
+	managedClusterAgentPoolProfileProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAgentPoolProfileProperties_STATUS_ARM{}), generators)
+
+	return managedClusterAgentPoolProfileProperties_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForIPTag_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForIPTag_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["IpTagType"] = gen.PtrOf(gen.AlphaString())
-	gens["Tag"] = gen.PtrOf(gen.AlphaString())
+// AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfileProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfileProperties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["AvailabilityZones"] = gen.SliceOf(gen.AlphaString())
+	gens["CapacityReservationGroupID"] = gen.PtrOf(gen.AlphaString())
+	gens["Count"] = gen.PtrOf(gen.Int())
+	gens["CurrentOrchestratorVersion"] = gen.PtrOf(gen.AlphaString())
+	gens["EnableAutoScaling"] = gen.PtrOf(gen.Bool())
+	gens["EnableCustomCATrust"] = gen.PtrOf(gen.Bool())
+	gens["EnableEncryptionAtHost"] = gen.PtrOf(gen.Bool())
+	gens["EnableFIPS"] = gen.PtrOf(gen.Bool())
+	gens["EnableNodePublicIP"] = gen.PtrOf(gen.Bool())
+	gens["EnableUltraSSD"] = gen.PtrOf(gen.Bool())
+	gens["GpuInstanceProfile"] = gen.PtrOf(gen.OneConstOf(
+		GPUInstanceProfile_STATUS_MIG1G,
+		GPUInstanceProfile_STATUS_MIG2G,
+		GPUInstanceProfile_STATUS_MIG3G,
+		GPUInstanceProfile_STATUS_MIG4G,
+		GPUInstanceProfile_STATUS_MIG7G))
+	gens["HostGroupID"] = gen.PtrOf(gen.AlphaString())
+	gens["KubeletDiskType"] = gen.PtrOf(gen.OneConstOf(KubeletDiskType_STATUS_OS, KubeletDiskType_STATUS_Temporary))
+	gens["MaxCount"] = gen.PtrOf(gen.Int())
+	gens["MaxPods"] = gen.PtrOf(gen.Int())
+	gens["MessageOfTheDay"] = gen.PtrOf(gen.AlphaString())
+	gens["MinCount"] = gen.PtrOf(gen.Int())
+	gens["Mode"] = gen.PtrOf(gen.OneConstOf(AgentPoolMode_STATUS_System, AgentPoolMode_STATUS_User))
+	gens["NodeImageVersion"] = gen.PtrOf(gen.AlphaString())
+	gens["NodeLabels"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["NodePublicIPPrefixID"] = gen.PtrOf(gen.AlphaString())
+	gens["NodeTaints"] = gen.SliceOf(gen.AlphaString())
+	gens["OrchestratorVersion"] = gen.PtrOf(gen.AlphaString())
+	gens["OsDiskSizeGB"] = gen.PtrOf(gen.Int())
+	gens["OsDiskType"] = gen.PtrOf(gen.OneConstOf(OSDiskType_STATUS_Ephemeral, OSDiskType_STATUS_Managed))
+	gens["OsSKU"] = gen.PtrOf(gen.OneConstOf(
+		OSSKU_STATUS_CBLMariner,
+		OSSKU_STATUS_Mariner,
+		OSSKU_STATUS_Ubuntu,
+		OSSKU_STATUS_Windows2019,
+		OSSKU_STATUS_Windows2022))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(OSType_STATUS_Linux, OSType_STATUS_Windows))
+	gens["PodSubnetID"] = gen.PtrOf(gen.AlphaString())
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
+	gens["ProximityPlacementGroupID"] = gen.PtrOf(gen.AlphaString())
+	gens["ScaleDownMode"] = gen.PtrOf(gen.OneConstOf(ScaleDownMode_STATUS_Deallocate, ScaleDownMode_STATUS_Delete))
+	gens["ScaleSetEvictionPolicy"] = gen.PtrOf(gen.OneConstOf(ScaleSetEvictionPolicy_STATUS_Deallocate, ScaleSetEvictionPolicy_STATUS_Delete))
+	gens["ScaleSetPriority"] = gen.PtrOf(gen.OneConstOf(ScaleSetPriority_STATUS_Regular, ScaleSetPriority_STATUS_Spot))
+	gens["SpotMaxPrice"] = gen.PtrOf(gen.Float64())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(AgentPoolType_STATUS_AvailabilitySet, AgentPoolType_STATUS_VirtualMachineScaleSets))
+	gens["VmSize"] = gen.PtrOf(gen.AlphaString())
+	gens["VnetSubnetID"] = gen.PtrOf(gen.AlphaString())
+	gens["WorkloadRuntime"] = gen.PtrOf(gen.OneConstOf(WorkloadRuntime_STATUS_KataMshvVmIsolation, WorkloadRuntime_STATUS_OCIContainer, WorkloadRuntime_STATUS_WasmWasi))
+}
+
+// AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfileProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfileProperties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["CreationData"] = gen.PtrOf(CreationData_STATUS_ARMGenerator())
+	gens["KubeletConfig"] = gen.PtrOf(KubeletConfig_STATUS_ARMGenerator())
+	gens["LinuxOSConfig"] = gen.PtrOf(LinuxOSConfig_STATUS_ARMGenerator())
+	gens["NetworkProfile"] = gen.PtrOf(AgentPoolNetworkProfile_STATUS_ARMGenerator())
+	gens["PowerState"] = gen.PtrOf(PowerState_STATUS_ARMGenerator())
+	gens["UpgradeSettings"] = gen.PtrOf(AgentPoolUpgradeSettings_STATUS_ARMGenerator())
+	gens["WindowsProfile"] = gen.PtrOf(AgentPoolWindowsProfile_STATUS_ARMGenerator())
+}
+
+func Test_ManagedClusters_AgentPool_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedClusters_AgentPool_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusters_AgentPool_STATUS_ARM, ManagedClusters_AgentPool_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusters_AgentPool_STATUS_ARM runs a test to see if a specific instance of ManagedClusters_AgentPool_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusters_AgentPool_STATUS_ARM(subject ManagedClusters_AgentPool_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedClusters_AgentPool_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedClusters_AgentPool_STATUS_ARM instances for property testing - lazily instantiated by
+// ManagedClusters_AgentPool_STATUS_ARMGenerator()
+var managedClusters_AgentPool_STATUS_ARMGenerator gopter.Gen
+
+// ManagedClusters_AgentPool_STATUS_ARMGenerator returns a generator of ManagedClusters_AgentPool_STATUS_ARM instances for property testing.
+// We first initialize managedClusters_AgentPool_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ManagedClusters_AgentPool_STATUS_ARMGenerator() gopter.Gen {
+	if managedClusters_AgentPool_STATUS_ARMGenerator != nil {
+		return managedClusters_AgentPool_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusters_AgentPool_STATUS_ARM(generators)
+	managedClusters_AgentPool_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusters_AgentPool_STATUS_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusters_AgentPool_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForManagedClusters_AgentPool_STATUS_ARM(generators)
+	managedClusters_AgentPool_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusters_AgentPool_STATUS_ARM{}), generators)
+
+	return managedClusters_AgentPool_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedClusters_AgentPool_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusters_AgentPool_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForManagedClusters_AgentPool_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClusters_AgentPool_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(ManagedClusterAgentPoolProfileProperties_STATUS_ARMGenerator())
 }
 
 func Test_PortRange_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

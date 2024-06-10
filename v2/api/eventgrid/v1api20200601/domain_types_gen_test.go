@@ -5,7 +5,7 @@ package v1api20200601
 
 import (
 	"encoding/json"
-	v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForDomain(subject Domain) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20200601s.Domain
+	var hub storage.Domain
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForDomain(subject Domain) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.Domain
+	var other storage.Domain
 	err := copied.AssignProperties_To_Domain(&other)
 	if err != nil {
 		return err.Error()
@@ -164,129 +164,6 @@ func AddRelatedPropertyGeneratorsForDomain(gens map[string]gopter.Gen) {
 	gens["Status"] = Domain_STATUSGenerator()
 }
 
-func Test_Domain_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Domain_Spec to Domain_Spec via AssignProperties_To_Domain_Spec & AssignProperties_From_Domain_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDomain_Spec, Domain_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForDomain_Spec tests if a specific instance of Domain_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDomain_Spec(subject Domain_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.Domain_Spec
-	err := copied.AssignProperties_To_Domain_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Domain_Spec
-	err = actual.AssignProperties_From_Domain_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_Domain_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Domain_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDomain_Spec, Domain_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForDomain_Spec runs a test to see if a specific instance of Domain_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForDomain_Spec(subject Domain_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Domain_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Domain_Spec instances for property testing - lazily instantiated by Domain_SpecGenerator()
-var domain_SpecGenerator gopter.Gen
-
-// Domain_SpecGenerator returns a generator of Domain_Spec instances for property testing.
-// We first initialize domain_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Domain_SpecGenerator() gopter.Gen {
-	if domain_SpecGenerator != nil {
-		return domain_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDomain_Spec(generators)
-	domain_SpecGenerator = gen.Struct(reflect.TypeOf(Domain_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDomain_Spec(generators)
-	AddRelatedPropertyGeneratorsForDomain_Spec(generators)
-	domain_SpecGenerator = gen.Struct(reflect.TypeOf(Domain_Spec{}), generators)
-
-	return domain_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDomain_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDomain_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(DomainProperties_InputSchema_CloudEventSchemaV1_0, DomainProperties_InputSchema_CustomEventSchema, DomainProperties_InputSchema_EventGridSchema))
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(DomainProperties_PublicNetworkAccess_Disabled, DomainProperties_PublicNetworkAccess_Enabled))
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDomain_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDomain_Spec(gens map[string]gopter.Gen) {
-	gens["InboundIpRules"] = gen.SliceOf(InboundIpRuleGenerator())
-	gens["InputSchemaMapping"] = gen.PtrOf(InputSchemaMappingGenerator())
-}
-
 func Test_Domain_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -304,7 +181,7 @@ func RunPropertyAssignmentTestForDomain_STATUS(subject Domain_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.Domain_STATUS
+	var other storage.Domain_STATUS
 	err := copied.AssignProperties_To_Domain_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -423,6 +300,129 @@ func AddRelatedPropertyGeneratorsForDomain_STATUS(gens map[string]gopter.Gen) {
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
+func Test_Domain_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Domain_Spec to Domain_Spec via AssignProperties_To_Domain_Spec & AssignProperties_From_Domain_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDomain_Spec, Domain_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDomain_Spec tests if a specific instance of Domain_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDomain_Spec(subject Domain_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Domain_Spec
+	err := copied.AssignProperties_To_Domain_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Domain_Spec
+	err = actual.AssignProperties_From_Domain_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Domain_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Domain_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDomain_Spec, Domain_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDomain_Spec runs a test to see if a specific instance of Domain_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForDomain_Spec(subject Domain_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Domain_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Domain_Spec instances for property testing - lazily instantiated by Domain_SpecGenerator()
+var domain_SpecGenerator gopter.Gen
+
+// Domain_SpecGenerator returns a generator of Domain_Spec instances for property testing.
+// We first initialize domain_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Domain_SpecGenerator() gopter.Gen {
+	if domain_SpecGenerator != nil {
+		return domain_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDomain_Spec(generators)
+	domain_SpecGenerator = gen.Struct(reflect.TypeOf(Domain_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDomain_Spec(generators)
+	AddRelatedPropertyGeneratorsForDomain_Spec(generators)
+	domain_SpecGenerator = gen.Struct(reflect.TypeOf(Domain_Spec{}), generators)
+
+	return domain_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForDomain_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDomain_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(DomainProperties_InputSchema_CloudEventSchemaV1_0, DomainProperties_InputSchema_CustomEventSchema, DomainProperties_InputSchema_EventGridSchema))
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(DomainProperties_PublicNetworkAccess_Disabled, DomainProperties_PublicNetworkAccess_Enabled))
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForDomain_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDomain_Spec(gens map[string]gopter.Gen) {
+	gens["InboundIpRules"] = gen.SliceOf(InboundIpRuleGenerator())
+	gens["InputSchemaMapping"] = gen.PtrOf(InputSchemaMappingGenerator())
+}
+
 func Test_InboundIpRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -440,7 +440,7 @@ func RunPropertyAssignmentTestForInboundIpRule(subject InboundIpRule) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.InboundIpRule
+	var other storage.InboundIpRule
 	err := copied.AssignProperties_To_InboundIpRule(&other)
 	if err != nil {
 		return err.Error()
@@ -543,7 +543,7 @@ func RunPropertyAssignmentTestForInboundIpRule_STATUS(subject InboundIpRule_STAT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.InboundIpRule_STATUS
+	var other storage.InboundIpRule_STATUS
 	err := copied.AssignProperties_To_InboundIpRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -647,7 +647,7 @@ func RunPropertyAssignmentTestForInputSchemaMapping(subject InputSchemaMapping) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.InputSchemaMapping
+	var other storage.InputSchemaMapping
 	err := copied.AssignProperties_To_InputSchemaMapping(&other)
 	if err != nil {
 		return err.Error()
@@ -757,7 +757,7 @@ func RunPropertyAssignmentTestForInputSchemaMapping_STATUS(subject InputSchemaMa
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.InputSchemaMapping_STATUS
+	var other storage.InputSchemaMapping_STATUS
 	err := copied.AssignProperties_To_InputSchemaMapping_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -851,32 +851,32 @@ func AddRelatedPropertyGeneratorsForInputSchemaMapping_STATUS(gens map[string]go
 	}) // generate one case for OneOf type
 }
 
-func Test_PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_JsonField_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded to PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded via AssignProperties_To_PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded & AssignProperties_From_PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded, PrivateEndpointConnection_STATUS_Domain_SubResourceEmbeddedGenerator()))
+		"Round trip from JsonField to JsonField via AssignProperties_To_JsonField & AssignProperties_From_JsonField returns original",
+		prop.ForAll(RunPropertyAssignmentTestForJsonField, JsonFieldGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded tests if a specific instance of PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded(subject PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded) string {
+// RunPropertyAssignmentTestForJsonField tests if a specific instance of JsonField can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForJsonField(subject JsonField) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded
-	err := copied.AssignProperties_To_PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded(&other)
+	var other storage.JsonField
+	err := copied.AssignProperties_To_JsonField(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded
-	err = actual.AssignProperties_From_PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded(&other)
+	var actual JsonField
+	err = actual.AssignProperties_From_JsonField(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -893,20 +893,20 @@ func RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS_Domain_SubReso
 	return ""
 }
 
-func Test_PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_JsonField_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
+	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded, PrivateEndpointConnection_STATUS_Domain_SubResourceEmbeddedGenerator()))
+		"Round trip of JsonField via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForJsonField, JsonFieldGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded runs a test to see if a specific instance of PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded(subject PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded) string {
+// RunJSONSerializationTestForJsonField runs a test to see if a specific instance of JsonField round trips to JSON and back losslessly
+func RunJSONSerializationTestForJsonField(subject JsonField) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -914,7 +914,7 @@ func RunJSONSerializationTestForPrivateEndpointConnection_STATUS_Domain_SubResou
 	}
 
 	// Deserialize back into memory
-	var actual PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded
+	var actual JsonField
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -932,54 +932,53 @@ func RunJSONSerializationTestForPrivateEndpointConnection_STATUS_Domain_SubResou
 	return ""
 }
 
-// Generator of PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded instances for property testing - lazily
-// instantiated by PrivateEndpointConnection_STATUS_Domain_SubResourceEmbeddedGenerator()
-var privateEndpointConnection_STATUS_Domain_SubResourceEmbeddedGenerator gopter.Gen
+// Generator of JsonField instances for property testing - lazily instantiated by JsonFieldGenerator()
+var jsonFieldGenerator gopter.Gen
 
-// PrivateEndpointConnection_STATUS_Domain_SubResourceEmbeddedGenerator returns a generator of PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded instances for property testing.
-func PrivateEndpointConnection_STATUS_Domain_SubResourceEmbeddedGenerator() gopter.Gen {
-	if privateEndpointConnection_STATUS_Domain_SubResourceEmbeddedGenerator != nil {
-		return privateEndpointConnection_STATUS_Domain_SubResourceEmbeddedGenerator
+// JsonFieldGenerator returns a generator of JsonField instances for property testing.
+func JsonFieldGenerator() gopter.Gen {
+	if jsonFieldGenerator != nil {
+		return jsonFieldGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded(generators)
-	privateEndpointConnection_STATUS_Domain_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForJsonField(generators)
+	jsonFieldGenerator = gen.Struct(reflect.TypeOf(JsonField{}), generators)
 
-	return privateEndpointConnection_STATUS_Domain_SubResourceEmbeddedGenerator
+	return jsonFieldGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
+// AddIndependentPropertyGeneratorsForJsonField is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForJsonField(gens map[string]gopter.Gen) {
+	gens["SourceField"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_JsonFieldWithDefault_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from SystemData_STATUS to SystemData_STATUS via AssignProperties_To_SystemData_STATUS & AssignProperties_From_SystemData_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSystemData_STATUS, SystemData_STATUSGenerator()))
+		"Round trip from JsonFieldWithDefault to JsonFieldWithDefault via AssignProperties_To_JsonFieldWithDefault & AssignProperties_From_JsonFieldWithDefault returns original",
+		prop.ForAll(RunPropertyAssignmentTestForJsonFieldWithDefault, JsonFieldWithDefaultGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSystemData_STATUS tests if a specific instance of SystemData_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) string {
+// RunPropertyAssignmentTestForJsonFieldWithDefault tests if a specific instance of JsonFieldWithDefault can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForJsonFieldWithDefault(subject JsonFieldWithDefault) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.SystemData_STATUS
-	err := copied.AssignProperties_To_SystemData_STATUS(&other)
+	var other storage.JsonFieldWithDefault
+	err := copied.AssignProperties_To_JsonFieldWithDefault(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SystemData_STATUS
-	err = actual.AssignProperties_From_SystemData_STATUS(&other)
+	var actual JsonFieldWithDefault
+	err = actual.AssignProperties_From_JsonFieldWithDefault(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -996,20 +995,20 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 	return ""
 }
 
-func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_JsonFieldWithDefault_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
+	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of SystemData_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSystemData_STATUS, SystemData_STATUSGenerator()))
+		"Round trip of JsonFieldWithDefault via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForJsonFieldWithDefault, JsonFieldWithDefaultGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSystemData_STATUS runs a test to see if a specific instance of SystemData_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSystemData_STATUS(subject SystemData_STATUS) string {
+// RunJSONSerializationTestForJsonFieldWithDefault runs a test to see if a specific instance of JsonFieldWithDefault round trips to JSON and back losslessly
+func RunJSONSerializationTestForJsonFieldWithDefault(subject JsonFieldWithDefault) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1017,7 +1016,7 @@ func RunJSONSerializationTestForSystemData_STATUS(subject SystemData_STATUS) str
 	}
 
 	// Deserialize back into memory
-	var actual SystemData_STATUS
+	var actual JsonFieldWithDefault
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1035,38 +1034,233 @@ func RunJSONSerializationTestForSystemData_STATUS(subject SystemData_STATUS) str
 	return ""
 }
 
-// Generator of SystemData_STATUS instances for property testing - lazily instantiated by SystemData_STATUSGenerator()
-var systemData_STATUSGenerator gopter.Gen
+// Generator of JsonFieldWithDefault instances for property testing - lazily instantiated by
+// JsonFieldWithDefaultGenerator()
+var jsonFieldWithDefaultGenerator gopter.Gen
 
-// SystemData_STATUSGenerator returns a generator of SystemData_STATUS instances for property testing.
-func SystemData_STATUSGenerator() gopter.Gen {
-	if systemData_STATUSGenerator != nil {
-		return systemData_STATUSGenerator
+// JsonFieldWithDefaultGenerator returns a generator of JsonFieldWithDefault instances for property testing.
+func JsonFieldWithDefaultGenerator() gopter.Gen {
+	if jsonFieldWithDefaultGenerator != nil {
+		return jsonFieldWithDefaultGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSystemData_STATUS(generators)
-	systemData_STATUSGenerator = gen.Struct(reflect.TypeOf(SystemData_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForJsonFieldWithDefault(generators)
+	jsonFieldWithDefaultGenerator = gen.Struct(reflect.TypeOf(JsonFieldWithDefault{}), generators)
 
-	return systemData_STATUSGenerator
+	return jsonFieldWithDefaultGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSystemData_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter.Gen) {
-	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_STATUS_Application,
-		SystemData_CreatedByType_STATUS_Key,
-		SystemData_CreatedByType_STATUS_ManagedIdentity,
-		SystemData_CreatedByType_STATUS_User))
-	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_STATUS_Application,
-		SystemData_LastModifiedByType_STATUS_Key,
-		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-		SystemData_LastModifiedByType_STATUS_User))
+// AddIndependentPropertyGeneratorsForJsonFieldWithDefault is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForJsonFieldWithDefault(gens map[string]gopter.Gen) {
+	gens["DefaultValue"] = gen.PtrOf(gen.AlphaString())
+	gens["SourceField"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_JsonFieldWithDefault_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from JsonFieldWithDefault_STATUS to JsonFieldWithDefault_STATUS via AssignProperties_To_JsonFieldWithDefault_STATUS & AssignProperties_From_JsonFieldWithDefault_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForJsonFieldWithDefault_STATUS, JsonFieldWithDefault_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForJsonFieldWithDefault_STATUS tests if a specific instance of JsonFieldWithDefault_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForJsonFieldWithDefault_STATUS(subject JsonFieldWithDefault_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.JsonFieldWithDefault_STATUS
+	err := copied.AssignProperties_To_JsonFieldWithDefault_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual JsonFieldWithDefault_STATUS
+	err = actual.AssignProperties_From_JsonFieldWithDefault_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_JsonFieldWithDefault_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of JsonFieldWithDefault_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForJsonFieldWithDefault_STATUS, JsonFieldWithDefault_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForJsonFieldWithDefault_STATUS runs a test to see if a specific instance of JsonFieldWithDefault_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForJsonFieldWithDefault_STATUS(subject JsonFieldWithDefault_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual JsonFieldWithDefault_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of JsonFieldWithDefault_STATUS instances for property testing - lazily instantiated by
+// JsonFieldWithDefault_STATUSGenerator()
+var jsonFieldWithDefault_STATUSGenerator gopter.Gen
+
+// JsonFieldWithDefault_STATUSGenerator returns a generator of JsonFieldWithDefault_STATUS instances for property testing.
+func JsonFieldWithDefault_STATUSGenerator() gopter.Gen {
+	if jsonFieldWithDefault_STATUSGenerator != nil {
+		return jsonFieldWithDefault_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForJsonFieldWithDefault_STATUS(generators)
+	jsonFieldWithDefault_STATUSGenerator = gen.Struct(reflect.TypeOf(JsonFieldWithDefault_STATUS{}), generators)
+
+	return jsonFieldWithDefault_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForJsonFieldWithDefault_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForJsonFieldWithDefault_STATUS(gens map[string]gopter.Gen) {
+	gens["DefaultValue"] = gen.PtrOf(gen.AlphaString())
+	gens["SourceField"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_JsonField_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from JsonField_STATUS to JsonField_STATUS via AssignProperties_To_JsonField_STATUS & AssignProperties_From_JsonField_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForJsonField_STATUS, JsonField_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForJsonField_STATUS tests if a specific instance of JsonField_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForJsonField_STATUS(subject JsonField_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.JsonField_STATUS
+	err := copied.AssignProperties_To_JsonField_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual JsonField_STATUS
+	err = actual.AssignProperties_From_JsonField_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_JsonField_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of JsonField_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForJsonField_STATUS, JsonField_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForJsonField_STATUS runs a test to see if a specific instance of JsonField_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForJsonField_STATUS(subject JsonField_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual JsonField_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of JsonField_STATUS instances for property testing - lazily instantiated by JsonField_STATUSGenerator()
+var jsonField_STATUSGenerator gopter.Gen
+
+// JsonField_STATUSGenerator returns a generator of JsonField_STATUS instances for property testing.
+func JsonField_STATUSGenerator() gopter.Gen {
+	if jsonField_STATUSGenerator != nil {
+		return jsonField_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForJsonField_STATUS(generators)
+	jsonField_STATUSGenerator = gen.Struct(reflect.TypeOf(JsonField_STATUS{}), generators)
+
+	return jsonField_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForJsonField_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForJsonField_STATUS(gens map[string]gopter.Gen) {
+	gens["SourceField"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_JsonInputSchemaMapping_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1086,7 +1280,7 @@ func RunPropertyAssignmentTestForJsonInputSchemaMapping(subject JsonInputSchemaM
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.JsonInputSchemaMapping
+	var other storage.JsonInputSchemaMapping
 	err := copied.AssignProperties_To_JsonInputSchemaMapping(&other)
 	if err != nil {
 		return err.Error()
@@ -1208,7 +1402,7 @@ func RunPropertyAssignmentTestForJsonInputSchemaMapping_STATUS(subject JsonInput
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.JsonInputSchemaMapping_STATUS
+	var other storage.JsonInputSchemaMapping_STATUS
 	err := copied.AssignProperties_To_JsonInputSchemaMapping_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1313,32 +1507,32 @@ func AddRelatedPropertyGeneratorsForJsonInputSchemaMapping_STATUS(gens map[strin
 	gens["Topic"] = gen.PtrOf(JsonField_STATUSGenerator())
 }
 
-func Test_JsonField_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from JsonField to JsonField via AssignProperties_To_JsonField & AssignProperties_From_JsonField returns original",
-		prop.ForAll(RunPropertyAssignmentTestForJsonField, JsonFieldGenerator()))
+		"Round trip from PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded to PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded via AssignProperties_To_PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded & AssignProperties_From_PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded, PrivateEndpointConnection_STATUS_Domain_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForJsonField tests if a specific instance of JsonField can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForJsonField(subject JsonField) string {
+// RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded tests if a specific instance of PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded(subject PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.JsonField
-	err := copied.AssignProperties_To_JsonField(&other)
+	var other storage.PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded
+	err := copied.AssignProperties_To_PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual JsonField
-	err = actual.AssignProperties_From_JsonField(&other)
+	var actual PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded
+	err = actual.AssignProperties_From_PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1355,122 +1549,20 @@ func RunPropertyAssignmentTestForJsonField(subject JsonField) string {
 	return ""
 }
 
-func Test_JsonField_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of JsonField via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForJsonField, JsonFieldGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForJsonField runs a test to see if a specific instance of JsonField round trips to JSON and back losslessly
-func RunJSONSerializationTestForJsonField(subject JsonField) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual JsonField
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of JsonField instances for property testing - lazily instantiated by JsonFieldGenerator()
-var jsonFieldGenerator gopter.Gen
-
-// JsonFieldGenerator returns a generator of JsonField instances for property testing.
-func JsonFieldGenerator() gopter.Gen {
-	if jsonFieldGenerator != nil {
-		return jsonFieldGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForJsonField(generators)
-	jsonFieldGenerator = gen.Struct(reflect.TypeOf(JsonField{}), generators)
-
-	return jsonFieldGenerator
-}
-
-// AddIndependentPropertyGeneratorsForJsonField is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForJsonField(gens map[string]gopter.Gen) {
-	gens["SourceField"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_JsonField_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from JsonField_STATUS to JsonField_STATUS via AssignProperties_To_JsonField_STATUS & AssignProperties_From_JsonField_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForJsonField_STATUS, JsonField_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForJsonField_STATUS tests if a specific instance of JsonField_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForJsonField_STATUS(subject JsonField_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.JsonField_STATUS
-	err := copied.AssignProperties_To_JsonField_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual JsonField_STATUS
-	err = actual.AssignProperties_From_JsonField_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_JsonField_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of JsonField_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForJsonField_STATUS, JsonField_STATUSGenerator()))
+		"Round trip of PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded, PrivateEndpointConnection_STATUS_Domain_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForJsonField_STATUS runs a test to see if a specific instance of JsonField_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForJsonField_STATUS(subject JsonField_STATUS) string {
+// RunJSONSerializationTestForPrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded runs a test to see if a specific instance of PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded(subject PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1478,7 +1570,7 @@ func RunJSONSerializationTestForJsonField_STATUS(subject JsonField_STATUS) strin
 	}
 
 	// Deserialize back into memory
-	var actual JsonField_STATUS
+	var actual PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1496,53 +1588,54 @@ func RunJSONSerializationTestForJsonField_STATUS(subject JsonField_STATUS) strin
 	return ""
 }
 
-// Generator of JsonField_STATUS instances for property testing - lazily instantiated by JsonField_STATUSGenerator()
-var jsonField_STATUSGenerator gopter.Gen
+// Generator of PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded instances for property testing - lazily
+// instantiated by PrivateEndpointConnection_STATUS_Domain_SubResourceEmbeddedGenerator()
+var privateEndpointConnection_STATUS_Domain_SubResourceEmbeddedGenerator gopter.Gen
 
-// JsonField_STATUSGenerator returns a generator of JsonField_STATUS instances for property testing.
-func JsonField_STATUSGenerator() gopter.Gen {
-	if jsonField_STATUSGenerator != nil {
-		return jsonField_STATUSGenerator
+// PrivateEndpointConnection_STATUS_Domain_SubResourceEmbeddedGenerator returns a generator of PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded instances for property testing.
+func PrivateEndpointConnection_STATUS_Domain_SubResourceEmbeddedGenerator() gopter.Gen {
+	if privateEndpointConnection_STATUS_Domain_SubResourceEmbeddedGenerator != nil {
+		return privateEndpointConnection_STATUS_Domain_SubResourceEmbeddedGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForJsonField_STATUS(generators)
-	jsonField_STATUSGenerator = gen.Struct(reflect.TypeOf(JsonField_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded(generators)
+	privateEndpointConnection_STATUS_Domain_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded{}), generators)
 
-	return jsonField_STATUSGenerator
+	return privateEndpointConnection_STATUS_Domain_SubResourceEmbeddedGenerator
 }
 
-// AddIndependentPropertyGeneratorsForJsonField_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForJsonField_STATUS(gens map[string]gopter.Gen) {
-	gens["SourceField"] = gen.PtrOf(gen.AlphaString())
+// AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_JsonFieldWithDefault_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from JsonFieldWithDefault to JsonFieldWithDefault via AssignProperties_To_JsonFieldWithDefault & AssignProperties_From_JsonFieldWithDefault returns original",
-		prop.ForAll(RunPropertyAssignmentTestForJsonFieldWithDefault, JsonFieldWithDefaultGenerator()))
+		"Round trip from SystemData_STATUS to SystemData_STATUS via AssignProperties_To_SystemData_STATUS & AssignProperties_From_SystemData_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSystemData_STATUS, SystemData_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForJsonFieldWithDefault tests if a specific instance of JsonFieldWithDefault can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForJsonFieldWithDefault(subject JsonFieldWithDefault) string {
+// RunPropertyAssignmentTestForSystemData_STATUS tests if a specific instance of SystemData_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.JsonFieldWithDefault
-	err := copied.AssignProperties_To_JsonFieldWithDefault(&other)
+	var other storage.SystemData_STATUS
+	err := copied.AssignProperties_To_SystemData_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual JsonFieldWithDefault
-	err = actual.AssignProperties_From_JsonFieldWithDefault(&other)
+	var actual SystemData_STATUS
+	err = actual.AssignProperties_From_SystemData_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1559,124 +1652,20 @@ func RunPropertyAssignmentTestForJsonFieldWithDefault(subject JsonFieldWithDefau
 	return ""
 }
 
-func Test_JsonFieldWithDefault_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of JsonFieldWithDefault via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForJsonFieldWithDefault, JsonFieldWithDefaultGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForJsonFieldWithDefault runs a test to see if a specific instance of JsonFieldWithDefault round trips to JSON and back losslessly
-func RunJSONSerializationTestForJsonFieldWithDefault(subject JsonFieldWithDefault) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual JsonFieldWithDefault
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of JsonFieldWithDefault instances for property testing - lazily instantiated by
-// JsonFieldWithDefaultGenerator()
-var jsonFieldWithDefaultGenerator gopter.Gen
-
-// JsonFieldWithDefaultGenerator returns a generator of JsonFieldWithDefault instances for property testing.
-func JsonFieldWithDefaultGenerator() gopter.Gen {
-	if jsonFieldWithDefaultGenerator != nil {
-		return jsonFieldWithDefaultGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForJsonFieldWithDefault(generators)
-	jsonFieldWithDefaultGenerator = gen.Struct(reflect.TypeOf(JsonFieldWithDefault{}), generators)
-
-	return jsonFieldWithDefaultGenerator
-}
-
-// AddIndependentPropertyGeneratorsForJsonFieldWithDefault is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForJsonFieldWithDefault(gens map[string]gopter.Gen) {
-	gens["DefaultValue"] = gen.PtrOf(gen.AlphaString())
-	gens["SourceField"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_JsonFieldWithDefault_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from JsonFieldWithDefault_STATUS to JsonFieldWithDefault_STATUS via AssignProperties_To_JsonFieldWithDefault_STATUS & AssignProperties_From_JsonFieldWithDefault_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForJsonFieldWithDefault_STATUS, JsonFieldWithDefault_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForJsonFieldWithDefault_STATUS tests if a specific instance of JsonFieldWithDefault_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForJsonFieldWithDefault_STATUS(subject JsonFieldWithDefault_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.JsonFieldWithDefault_STATUS
-	err := copied.AssignProperties_To_JsonFieldWithDefault_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual JsonFieldWithDefault_STATUS
-	err = actual.AssignProperties_From_JsonFieldWithDefault_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_JsonFieldWithDefault_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of JsonFieldWithDefault_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForJsonFieldWithDefault_STATUS, JsonFieldWithDefault_STATUSGenerator()))
+		"Round trip of SystemData_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSystemData_STATUS, SystemData_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForJsonFieldWithDefault_STATUS runs a test to see if a specific instance of JsonFieldWithDefault_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForJsonFieldWithDefault_STATUS(subject JsonFieldWithDefault_STATUS) string {
+// RunJSONSerializationTestForSystemData_STATUS runs a test to see if a specific instance of SystemData_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForSystemData_STATUS(subject SystemData_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1684,7 +1673,7 @@ func RunJSONSerializationTestForJsonFieldWithDefault_STATUS(subject JsonFieldWit
 	}
 
 	// Deserialize back into memory
-	var actual JsonFieldWithDefault_STATUS
+	var actual SystemData_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1702,25 +1691,36 @@ func RunJSONSerializationTestForJsonFieldWithDefault_STATUS(subject JsonFieldWit
 	return ""
 }
 
-// Generator of JsonFieldWithDefault_STATUS instances for property testing - lazily instantiated by
-// JsonFieldWithDefault_STATUSGenerator()
-var jsonFieldWithDefault_STATUSGenerator gopter.Gen
+// Generator of SystemData_STATUS instances for property testing - lazily instantiated by SystemData_STATUSGenerator()
+var systemData_STATUSGenerator gopter.Gen
 
-// JsonFieldWithDefault_STATUSGenerator returns a generator of JsonFieldWithDefault_STATUS instances for property testing.
-func JsonFieldWithDefault_STATUSGenerator() gopter.Gen {
-	if jsonFieldWithDefault_STATUSGenerator != nil {
-		return jsonFieldWithDefault_STATUSGenerator
+// SystemData_STATUSGenerator returns a generator of SystemData_STATUS instances for property testing.
+func SystemData_STATUSGenerator() gopter.Gen {
+	if systemData_STATUSGenerator != nil {
+		return systemData_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForJsonFieldWithDefault_STATUS(generators)
-	jsonFieldWithDefault_STATUSGenerator = gen.Struct(reflect.TypeOf(JsonFieldWithDefault_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForSystemData_STATUS(generators)
+	systemData_STATUSGenerator = gen.Struct(reflect.TypeOf(SystemData_STATUS{}), generators)
 
-	return jsonFieldWithDefault_STATUSGenerator
+	return systemData_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForJsonFieldWithDefault_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForJsonFieldWithDefault_STATUS(gens map[string]gopter.Gen) {
-	gens["DefaultValue"] = gen.PtrOf(gen.AlphaString())
-	gens["SourceField"] = gen.PtrOf(gen.AlphaString())
+// AddIndependentPropertyGeneratorsForSystemData_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter.Gen) {
+	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
+	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
+	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
+		SystemData_CreatedByType_STATUS_Application,
+		SystemData_CreatedByType_STATUS_Key,
+		SystemData_CreatedByType_STATUS_ManagedIdentity,
+		SystemData_CreatedByType_STATUS_User))
+	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
+	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
+	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
+		SystemData_LastModifiedByType_STATUS_Application,
+		SystemData_LastModifiedByType_STATUS_Key,
+		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+		SystemData_LastModifiedByType_STATUS_User))
 }

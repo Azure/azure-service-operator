@@ -78,20 +78,20 @@ func AddRelatedPropertyGeneratorsForComponent(gens map[string]gopter.Gen) {
 	gens["Status"] = Component_STATUSGenerator()
 }
 
-func Test_Component_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ComponentOperatorConfigMaps_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
+	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Component_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForComponent_Spec, Component_SpecGenerator()))
+		"Round trip of ComponentOperatorConfigMaps via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForComponentOperatorConfigMaps, ComponentOperatorConfigMapsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForComponent_Spec runs a test to see if a specific instance of Component_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForComponent_Spec(subject Component_Spec) string {
+// RunJSONSerializationTestForComponentOperatorConfigMaps runs a test to see if a specific instance of ComponentOperatorConfigMaps round trips to JSON and back losslessly
+func RunJSONSerializationTestForComponentOperatorConfigMaps(subject ComponentOperatorConfigMaps) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -99,7 +99,7 @@ func RunJSONSerializationTestForComponent_Spec(subject Component_Spec) string {
 	}
 
 	// Deserialize back into memory
-	var actual Component_Spec
+	var actual ComponentOperatorConfigMaps
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -117,59 +117,81 @@ func RunJSONSerializationTestForComponent_Spec(subject Component_Spec) string {
 	return ""
 }
 
-// Generator of Component_Spec instances for property testing - lazily instantiated by Component_SpecGenerator()
-var component_SpecGenerator gopter.Gen
+// Generator of ComponentOperatorConfigMaps instances for property testing - lazily instantiated by
+// ComponentOperatorConfigMapsGenerator()
+var componentOperatorConfigMapsGenerator gopter.Gen
 
-// Component_SpecGenerator returns a generator of Component_Spec instances for property testing.
-// We first initialize component_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Component_SpecGenerator() gopter.Gen {
-	if component_SpecGenerator != nil {
-		return component_SpecGenerator
+// ComponentOperatorConfigMapsGenerator returns a generator of ComponentOperatorConfigMaps instances for property testing.
+func ComponentOperatorConfigMapsGenerator() gopter.Gen {
+	if componentOperatorConfigMapsGenerator != nil {
+		return componentOperatorConfigMapsGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForComponent_Spec(generators)
-	component_SpecGenerator = gen.Struct(reflect.TypeOf(Component_Spec{}), generators)
+	componentOperatorConfigMapsGenerator = gen.Struct(reflect.TypeOf(ComponentOperatorConfigMaps{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForComponent_Spec(generators)
-	AddRelatedPropertyGeneratorsForComponent_Spec(generators)
-	component_SpecGenerator = gen.Struct(reflect.TypeOf(Component_Spec{}), generators)
-
-	return component_SpecGenerator
+	return componentOperatorConfigMapsGenerator
 }
 
-// AddIndependentPropertyGeneratorsForComponent_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForComponent_Spec(gens map[string]gopter.Gen) {
-	gens["Application_Type"] = gen.PtrOf(gen.AlphaString())
-	gens["AzureName"] = gen.AlphaString()
-	gens["DisableIpMasking"] = gen.PtrOf(gen.Bool())
-	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["Flow_Type"] = gen.PtrOf(gen.AlphaString())
-	gens["ForceCustomerStorageForProfiler"] = gen.PtrOf(gen.Bool())
-	gens["HockeyAppId"] = gen.PtrOf(gen.AlphaString())
-	gens["ImmediatePurgeDataOn30Days"] = gen.PtrOf(gen.Bool())
-	gens["IngestionMode"] = gen.PtrOf(gen.AlphaString())
-	gens["Kind"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.AlphaString())
-	gens["Request_Source"] = gen.PtrOf(gen.AlphaString())
-	gens["RetentionInDays"] = gen.PtrOf(gen.Int())
-	gens["SamplingPercentage"] = gen.PtrOf(gen.Float64())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
+func Test_ComponentOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ComponentOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForComponentOperatorSpec, ComponentOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// AddRelatedPropertyGeneratorsForComponent_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForComponent_Spec(gens map[string]gopter.Gen) {
-	gens["OperatorSpec"] = gen.PtrOf(ComponentOperatorSpecGenerator())
+// RunJSONSerializationTestForComponentOperatorSpec runs a test to see if a specific instance of ComponentOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForComponentOperatorSpec(subject ComponentOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ComponentOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ComponentOperatorSpec instances for property testing - lazily instantiated by
+// ComponentOperatorSpecGenerator()
+var componentOperatorSpecGenerator gopter.Gen
+
+// ComponentOperatorSpecGenerator returns a generator of ComponentOperatorSpec instances for property testing.
+func ComponentOperatorSpecGenerator() gopter.Gen {
+	if componentOperatorSpecGenerator != nil {
+		return componentOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForComponentOperatorSpec(generators)
+	componentOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ComponentOperatorSpec{}), generators)
+
+	return componentOperatorSpecGenerator
+}
+
+// AddRelatedPropertyGeneratorsForComponentOperatorSpec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForComponentOperatorSpec(gens map[string]gopter.Gen) {
+	gens["ConfigMaps"] = gen.PtrOf(ComponentOperatorConfigMapsGenerator())
 }
 
 func Test_Component_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -278,20 +300,20 @@ func AddRelatedPropertyGeneratorsForComponent_STATUS(gens map[string]gopter.Gen)
 	gens["PrivateLinkScopedResources"] = gen.SliceOf(PrivateLinkScopedResource_STATUSGenerator())
 }
 
-func Test_ComponentOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Component_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ComponentOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForComponentOperatorSpec, ComponentOperatorSpecGenerator()))
+		"Round trip of Component_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForComponent_Spec, Component_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForComponentOperatorSpec runs a test to see if a specific instance of ComponentOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForComponentOperatorSpec(subject ComponentOperatorSpec) string {
+// RunJSONSerializationTestForComponent_Spec runs a test to see if a specific instance of Component_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForComponent_Spec(subject Component_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -299,7 +321,7 @@ func RunJSONSerializationTestForComponentOperatorSpec(subject ComponentOperatorS
 	}
 
 	// Deserialize back into memory
-	var actual ComponentOperatorSpec
+	var actual Component_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -317,26 +339,59 @@ func RunJSONSerializationTestForComponentOperatorSpec(subject ComponentOperatorS
 	return ""
 }
 
-// Generator of ComponentOperatorSpec instances for property testing - lazily instantiated by
-// ComponentOperatorSpecGenerator()
-var componentOperatorSpecGenerator gopter.Gen
+// Generator of Component_Spec instances for property testing - lazily instantiated by Component_SpecGenerator()
+var component_SpecGenerator gopter.Gen
 
-// ComponentOperatorSpecGenerator returns a generator of ComponentOperatorSpec instances for property testing.
-func ComponentOperatorSpecGenerator() gopter.Gen {
-	if componentOperatorSpecGenerator != nil {
-		return componentOperatorSpecGenerator
+// Component_SpecGenerator returns a generator of Component_Spec instances for property testing.
+// We first initialize component_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Component_SpecGenerator() gopter.Gen {
+	if component_SpecGenerator != nil {
+		return component_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForComponentOperatorSpec(generators)
-	componentOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ComponentOperatorSpec{}), generators)
+	AddIndependentPropertyGeneratorsForComponent_Spec(generators)
+	component_SpecGenerator = gen.Struct(reflect.TypeOf(Component_Spec{}), generators)
 
-	return componentOperatorSpecGenerator
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForComponent_Spec(generators)
+	AddRelatedPropertyGeneratorsForComponent_Spec(generators)
+	component_SpecGenerator = gen.Struct(reflect.TypeOf(Component_Spec{}), generators)
+
+	return component_SpecGenerator
 }
 
-// AddRelatedPropertyGeneratorsForComponentOperatorSpec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForComponentOperatorSpec(gens map[string]gopter.Gen) {
-	gens["ConfigMaps"] = gen.PtrOf(ComponentOperatorConfigMapsGenerator())
+// AddIndependentPropertyGeneratorsForComponent_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForComponent_Spec(gens map[string]gopter.Gen) {
+	gens["Application_Type"] = gen.PtrOf(gen.AlphaString())
+	gens["AzureName"] = gen.AlphaString()
+	gens["DisableIpMasking"] = gen.PtrOf(gen.Bool())
+	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
+	gens["Etag"] = gen.PtrOf(gen.AlphaString())
+	gens["Flow_Type"] = gen.PtrOf(gen.AlphaString())
+	gens["ForceCustomerStorageForProfiler"] = gen.PtrOf(gen.Bool())
+	gens["HockeyAppId"] = gen.PtrOf(gen.AlphaString())
+	gens["ImmediatePurgeDataOn30Days"] = gen.PtrOf(gen.Bool())
+	gens["IngestionMode"] = gen.PtrOf(gen.AlphaString())
+	gens["Kind"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.AlphaString())
+	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.AlphaString())
+	gens["Request_Source"] = gen.PtrOf(gen.AlphaString())
+	gens["RetentionInDays"] = gen.PtrOf(gen.Int())
+	gens["SamplingPercentage"] = gen.PtrOf(gen.Float64())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForComponent_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForComponent_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(ComponentOperatorSpecGenerator())
 }
 
 func Test_PrivateLinkScopedResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -399,59 +454,4 @@ func PrivateLinkScopedResource_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForPrivateLinkScopedResource_STATUS(gens map[string]gopter.Gen) {
 	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["ScopeId"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_ComponentOperatorConfigMaps_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ComponentOperatorConfigMaps via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForComponentOperatorConfigMaps, ComponentOperatorConfigMapsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForComponentOperatorConfigMaps runs a test to see if a specific instance of ComponentOperatorConfigMaps round trips to JSON and back losslessly
-func RunJSONSerializationTestForComponentOperatorConfigMaps(subject ComponentOperatorConfigMaps) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ComponentOperatorConfigMaps
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ComponentOperatorConfigMaps instances for property testing - lazily instantiated by
-// ComponentOperatorConfigMapsGenerator()
-var componentOperatorConfigMapsGenerator gopter.Gen
-
-// ComponentOperatorConfigMapsGenerator returns a generator of ComponentOperatorConfigMaps instances for property testing.
-func ComponentOperatorConfigMapsGenerator() gopter.Gen {
-	if componentOperatorConfigMapsGenerator != nil {
-		return componentOperatorConfigMapsGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	componentOperatorConfigMapsGenerator = gen.Struct(reflect.TypeOf(ComponentOperatorConfigMaps{}), generators)
-
-	return componentOperatorConfigMapsGenerator
 }

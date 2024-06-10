@@ -17,6 +17,67 @@ import (
 	"testing"
 )
 
+func Test_AdvancedThreatProtectionProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of AdvancedThreatProtectionProperties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAdvancedThreatProtectionProperties_ARM, AdvancedThreatProtectionProperties_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForAdvancedThreatProtectionProperties_ARM runs a test to see if a specific instance of AdvancedThreatProtectionProperties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForAdvancedThreatProtectionProperties_ARM(subject AdvancedThreatProtectionProperties_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual AdvancedThreatProtectionProperties_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of AdvancedThreatProtectionProperties_ARM instances for property testing - lazily instantiated by
+// AdvancedThreatProtectionProperties_ARMGenerator()
+var advancedThreatProtectionProperties_ARMGenerator gopter.Gen
+
+// AdvancedThreatProtectionProperties_ARMGenerator returns a generator of AdvancedThreatProtectionProperties_ARM instances for property testing.
+func AdvancedThreatProtectionProperties_ARMGenerator() gopter.Gen {
+	if advancedThreatProtectionProperties_ARMGenerator != nil {
+		return advancedThreatProtectionProperties_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForAdvancedThreatProtectionProperties_ARM(generators)
+	advancedThreatProtectionProperties_ARMGenerator = gen.Struct(reflect.TypeOf(AdvancedThreatProtectionProperties_ARM{}), generators)
+
+	return advancedThreatProtectionProperties_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForAdvancedThreatProtectionProperties_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAdvancedThreatProtectionProperties_ARM(gens map[string]gopter.Gen) {
+	gens["State"] = gen.PtrOf(gen.OneConstOf(AdvancedThreatProtectionProperties_State_Disabled, AdvancedThreatProtectionProperties_State_Enabled, AdvancedThreatProtectionProperties_State_New))
+}
+
 func Test_Servers_AdvancedThreatProtectionSetting_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -90,65 +151,4 @@ func AddIndependentPropertyGeneratorsForServers_AdvancedThreatProtectionSetting_
 // AddRelatedPropertyGeneratorsForServers_AdvancedThreatProtectionSetting_Spec_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForServers_AdvancedThreatProtectionSetting_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(AdvancedThreatProtectionProperties_ARMGenerator())
-}
-
-func Test_AdvancedThreatProtectionProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AdvancedThreatProtectionProperties_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAdvancedThreatProtectionProperties_ARM, AdvancedThreatProtectionProperties_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForAdvancedThreatProtectionProperties_ARM runs a test to see if a specific instance of AdvancedThreatProtectionProperties_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForAdvancedThreatProtectionProperties_ARM(subject AdvancedThreatProtectionProperties_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual AdvancedThreatProtectionProperties_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of AdvancedThreatProtectionProperties_ARM instances for property testing - lazily instantiated by
-// AdvancedThreatProtectionProperties_ARMGenerator()
-var advancedThreatProtectionProperties_ARMGenerator gopter.Gen
-
-// AdvancedThreatProtectionProperties_ARMGenerator returns a generator of AdvancedThreatProtectionProperties_ARM instances for property testing.
-func AdvancedThreatProtectionProperties_ARMGenerator() gopter.Gen {
-	if advancedThreatProtectionProperties_ARMGenerator != nil {
-		return advancedThreatProtectionProperties_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAdvancedThreatProtectionProperties_ARM(generators)
-	advancedThreatProtectionProperties_ARMGenerator = gen.Struct(reflect.TypeOf(AdvancedThreatProtectionProperties_ARM{}), generators)
-
-	return advancedThreatProtectionProperties_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAdvancedThreatProtectionProperties_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAdvancedThreatProtectionProperties_ARM(gens map[string]gopter.Gen) {
-	gens["State"] = gen.PtrOf(gen.OneConstOf(AdvancedThreatProtectionProperties_State_Disabled, AdvancedThreatProtectionProperties_State_Enabled, AdvancedThreatProtectionProperties_State_New))
 }

@@ -1,7 +1,7 @@
 ---
 title: "v2.1.0 Breaking Changes"
 linkTitle: "v2.1.0"
-weight: 80
+weight: -10  # This should be 5 lower than the previous breaking change document
 ---
 
 ## The operator no longer installs CRDs by default

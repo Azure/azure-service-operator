@@ -5,7 +5,7 @@ package v1api20220702
 
 import (
 	"encoding/json"
-	v20220702s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -17,6 +17,230 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_ApiErrorBase_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApiErrorBase_STATUS to ApiErrorBase_STATUS via AssignProperties_To_ApiErrorBase_STATUS & AssignProperties_From_ApiErrorBase_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApiErrorBase_STATUS, ApiErrorBase_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApiErrorBase_STATUS tests if a specific instance of ApiErrorBase_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForApiErrorBase_STATUS(subject ApiErrorBase_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ApiErrorBase_STATUS
+	err := copied.AssignProperties_To_ApiErrorBase_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApiErrorBase_STATUS
+	err = actual.AssignProperties_From_ApiErrorBase_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ApiErrorBase_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApiErrorBase_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApiErrorBase_STATUS, ApiErrorBase_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApiErrorBase_STATUS runs a test to see if a specific instance of ApiErrorBase_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForApiErrorBase_STATUS(subject ApiErrorBase_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApiErrorBase_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApiErrorBase_STATUS instances for property testing - lazily instantiated by
+// ApiErrorBase_STATUSGenerator()
+var apiErrorBase_STATUSGenerator gopter.Gen
+
+// ApiErrorBase_STATUSGenerator returns a generator of ApiErrorBase_STATUS instances for property testing.
+func ApiErrorBase_STATUSGenerator() gopter.Gen {
+	if apiErrorBase_STATUSGenerator != nil {
+		return apiErrorBase_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApiErrorBase_STATUS(generators)
+	apiErrorBase_STATUSGenerator = gen.Struct(reflect.TypeOf(ApiErrorBase_STATUS{}), generators)
+
+	return apiErrorBase_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForApiErrorBase_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApiErrorBase_STATUS(gens map[string]gopter.Gen) {
+	gens["Code"] = gen.PtrOf(gen.AlphaString())
+	gens["Message"] = gen.PtrOf(gen.AlphaString())
+	gens["Target"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ApiError_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApiError_STATUS to ApiError_STATUS via AssignProperties_To_ApiError_STATUS & AssignProperties_From_ApiError_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApiError_STATUS, ApiError_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApiError_STATUS tests if a specific instance of ApiError_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForApiError_STATUS(subject ApiError_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ApiError_STATUS
+	err := copied.AssignProperties_To_ApiError_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApiError_STATUS
+	err = actual.AssignProperties_From_ApiError_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ApiError_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApiError_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApiError_STATUS, ApiError_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApiError_STATUS runs a test to see if a specific instance of ApiError_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForApiError_STATUS(subject ApiError_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApiError_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApiError_STATUS instances for property testing - lazily instantiated by ApiError_STATUSGenerator()
+var apiError_STATUSGenerator gopter.Gen
+
+// ApiError_STATUSGenerator returns a generator of ApiError_STATUS instances for property testing.
+// We first initialize apiError_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ApiError_STATUSGenerator() gopter.Gen {
+	if apiError_STATUSGenerator != nil {
+		return apiError_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApiError_STATUS(generators)
+	apiError_STATUSGenerator = gen.Struct(reflect.TypeOf(ApiError_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApiError_STATUS(generators)
+	AddRelatedPropertyGeneratorsForApiError_STATUS(generators)
+	apiError_STATUSGenerator = gen.Struct(reflect.TypeOf(ApiError_STATUS{}), generators)
+
+	return apiError_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForApiError_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApiError_STATUS(gens map[string]gopter.Gen) {
+	gens["Code"] = gen.PtrOf(gen.AlphaString())
+	gens["Message"] = gen.PtrOf(gen.AlphaString())
+	gens["Target"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForApiError_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForApiError_STATUS(gens map[string]gopter.Gen) {
+	gens["Details"] = gen.SliceOf(ApiErrorBase_STATUSGenerator())
+	gens["Innererror"] = gen.PtrOf(InnerError_STATUSGenerator())
+}
 
 func Test_DiskEncryptionSet_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
@@ -36,7 +260,7 @@ func RunResourceConversionTestForDiskEncryptionSet(subject DiskEncryptionSet) st
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20220702s.DiskEncryptionSet
+	var hub storage.DiskEncryptionSet
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +302,7 @@ func RunPropertyAssignmentTestForDiskEncryptionSet(subject DiskEncryptionSet) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220702s.DiskEncryptionSet
+	var other storage.DiskEncryptionSet
 	err := copied.AssignProperties_To_DiskEncryptionSet(&other)
 	if err != nil {
 		return err.Error()
@@ -164,131 +388,6 @@ func AddRelatedPropertyGeneratorsForDiskEncryptionSet(gens map[string]gopter.Gen
 	gens["Status"] = DiskEncryptionSet_STATUSGenerator()
 }
 
-func Test_DiskEncryptionSet_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DiskEncryptionSet_Spec to DiskEncryptionSet_Spec via AssignProperties_To_DiskEncryptionSet_Spec & AssignProperties_From_DiskEncryptionSet_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDiskEncryptionSet_Spec, DiskEncryptionSet_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForDiskEncryptionSet_Spec tests if a specific instance of DiskEncryptionSet_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDiskEncryptionSet_Spec(subject DiskEncryptionSet_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220702s.DiskEncryptionSet_Spec
-	err := copied.AssignProperties_To_DiskEncryptionSet_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DiskEncryptionSet_Spec
-	err = actual.AssignProperties_From_DiskEncryptionSet_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_DiskEncryptionSet_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DiskEncryptionSet_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDiskEncryptionSet_Spec, DiskEncryptionSet_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForDiskEncryptionSet_Spec runs a test to see if a specific instance of DiskEncryptionSet_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForDiskEncryptionSet_Spec(subject DiskEncryptionSet_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual DiskEncryptionSet_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of DiskEncryptionSet_Spec instances for property testing - lazily instantiated by
-// DiskEncryptionSet_SpecGenerator()
-var diskEncryptionSet_SpecGenerator gopter.Gen
-
-// DiskEncryptionSet_SpecGenerator returns a generator of DiskEncryptionSet_Spec instances for property testing.
-// We first initialize diskEncryptionSet_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DiskEncryptionSet_SpecGenerator() gopter.Gen {
-	if diskEncryptionSet_SpecGenerator != nil {
-		return diskEncryptionSet_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDiskEncryptionSet_Spec(generators)
-	diskEncryptionSet_SpecGenerator = gen.Struct(reflect.TypeOf(DiskEncryptionSet_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDiskEncryptionSet_Spec(generators)
-	AddRelatedPropertyGeneratorsForDiskEncryptionSet_Spec(generators)
-	diskEncryptionSet_SpecGenerator = gen.Struct(reflect.TypeOf(DiskEncryptionSet_Spec{}), generators)
-
-	return diskEncryptionSet_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDiskEncryptionSet_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDiskEncryptionSet_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["EncryptionType"] = gen.PtrOf(gen.OneConstOf(DiskEncryptionSetType_ConfidentialVmEncryptedWithCustomerKey, DiskEncryptionSetType_EncryptionAtRestWithCustomerKey, DiskEncryptionSetType_EncryptionAtRestWithPlatformAndCustomerKeys))
-	gens["FederatedClientId"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["RotationToLatestKeyVersionEnabled"] = gen.PtrOf(gen.Bool())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDiskEncryptionSet_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDiskEncryptionSet_Spec(gens map[string]gopter.Gen) {
-	gens["ActiveKey"] = gen.PtrOf(KeyForDiskEncryptionSetGenerator())
-	gens["Identity"] = gen.PtrOf(EncryptionSetIdentityGenerator())
-}
-
 func Test_DiskEncryptionSet_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -306,7 +405,7 @@ func RunPropertyAssignmentTestForDiskEncryptionSet_STATUS(subject DiskEncryption
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220702s.DiskEncryptionSet_STATUS
+	var other storage.DiskEncryptionSet_STATUS
 	err := copied.AssignProperties_To_DiskEncryptionSet_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -420,32 +519,32 @@ func AddRelatedPropertyGeneratorsForDiskEncryptionSet_STATUS(gens map[string]gop
 	gens["PreviousKeys"] = gen.SliceOf(KeyForDiskEncryptionSet_STATUSGenerator())
 }
 
-func Test_ApiError_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_DiskEncryptionSet_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ApiError_STATUS to ApiError_STATUS via AssignProperties_To_ApiError_STATUS & AssignProperties_From_ApiError_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApiError_STATUS, ApiError_STATUSGenerator()))
+		"Round trip from DiskEncryptionSet_Spec to DiskEncryptionSet_Spec via AssignProperties_To_DiskEncryptionSet_Spec & AssignProperties_From_DiskEncryptionSet_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDiskEncryptionSet_Spec, DiskEncryptionSet_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApiError_STATUS tests if a specific instance of ApiError_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApiError_STATUS(subject ApiError_STATUS) string {
+// RunPropertyAssignmentTestForDiskEncryptionSet_Spec tests if a specific instance of DiskEncryptionSet_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDiskEncryptionSet_Spec(subject DiskEncryptionSet_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220702s.ApiError_STATUS
-	err := copied.AssignProperties_To_ApiError_STATUS(&other)
+	var other storage.DiskEncryptionSet_Spec
+	err := copied.AssignProperties_To_DiskEncryptionSet_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApiError_STATUS
-	err = actual.AssignProperties_From_ApiError_STATUS(&other)
+	var actual DiskEncryptionSet_Spec
+	err = actual.AssignProperties_From_DiskEncryptionSet_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -462,20 +561,20 @@ func RunPropertyAssignmentTestForApiError_STATUS(subject ApiError_STATUS) string
 	return ""
 }
 
-func Test_ApiError_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DiskEncryptionSet_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ApiError_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApiError_STATUS, ApiError_STATUSGenerator()))
+		"Round trip of DiskEncryptionSet_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDiskEncryptionSet_Spec, DiskEncryptionSet_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForApiError_STATUS runs a test to see if a specific instance of ApiError_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForApiError_STATUS(subject ApiError_STATUS) string {
+// RunJSONSerializationTestForDiskEncryptionSet_Spec runs a test to see if a specific instance of DiskEncryptionSet_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForDiskEncryptionSet_Spec(subject DiskEncryptionSet_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -483,7 +582,7 @@ func RunJSONSerializationTestForApiError_STATUS(subject ApiError_STATUS) string 
 	}
 
 	// Deserialize back into memory
-	var actual ApiError_STATUS
+	var actual DiskEncryptionSet_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -501,42 +600,48 @@ func RunJSONSerializationTestForApiError_STATUS(subject ApiError_STATUS) string 
 	return ""
 }
 
-// Generator of ApiError_STATUS instances for property testing - lazily instantiated by ApiError_STATUSGenerator()
-var apiError_STATUSGenerator gopter.Gen
+// Generator of DiskEncryptionSet_Spec instances for property testing - lazily instantiated by
+// DiskEncryptionSet_SpecGenerator()
+var diskEncryptionSet_SpecGenerator gopter.Gen
 
-// ApiError_STATUSGenerator returns a generator of ApiError_STATUS instances for property testing.
-// We first initialize apiError_STATUSGenerator with a simplified generator based on the
+// DiskEncryptionSet_SpecGenerator returns a generator of DiskEncryptionSet_Spec instances for property testing.
+// We first initialize diskEncryptionSet_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ApiError_STATUSGenerator() gopter.Gen {
-	if apiError_STATUSGenerator != nil {
-		return apiError_STATUSGenerator
+func DiskEncryptionSet_SpecGenerator() gopter.Gen {
+	if diskEncryptionSet_SpecGenerator != nil {
+		return diskEncryptionSet_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApiError_STATUS(generators)
-	apiError_STATUSGenerator = gen.Struct(reflect.TypeOf(ApiError_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForDiskEncryptionSet_Spec(generators)
+	diskEncryptionSet_SpecGenerator = gen.Struct(reflect.TypeOf(DiskEncryptionSet_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApiError_STATUS(generators)
-	AddRelatedPropertyGeneratorsForApiError_STATUS(generators)
-	apiError_STATUSGenerator = gen.Struct(reflect.TypeOf(ApiError_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForDiskEncryptionSet_Spec(generators)
+	AddRelatedPropertyGeneratorsForDiskEncryptionSet_Spec(generators)
+	diskEncryptionSet_SpecGenerator = gen.Struct(reflect.TypeOf(DiskEncryptionSet_Spec{}), generators)
 
-	return apiError_STATUSGenerator
+	return diskEncryptionSet_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForApiError_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApiError_STATUS(gens map[string]gopter.Gen) {
-	gens["Code"] = gen.PtrOf(gen.AlphaString())
-	gens["Message"] = gen.PtrOf(gen.AlphaString())
-	gens["Target"] = gen.PtrOf(gen.AlphaString())
+// AddIndependentPropertyGeneratorsForDiskEncryptionSet_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDiskEncryptionSet_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["EncryptionType"] = gen.PtrOf(gen.OneConstOf(DiskEncryptionSetType_ConfidentialVmEncryptedWithCustomerKey, DiskEncryptionSetType_EncryptionAtRestWithCustomerKey, DiskEncryptionSetType_EncryptionAtRestWithPlatformAndCustomerKeys))
+	gens["FederatedClientId"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["RotationToLatestKeyVersionEnabled"] = gen.PtrOf(gen.Bool())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForApiError_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForApiError_STATUS(gens map[string]gopter.Gen) {
-	gens["Details"] = gen.SliceOf(ApiErrorBase_STATUSGenerator())
-	gens["Innererror"] = gen.PtrOf(InnerError_STATUSGenerator())
+// AddRelatedPropertyGeneratorsForDiskEncryptionSet_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDiskEncryptionSet_Spec(gens map[string]gopter.Gen) {
+	gens["ActiveKey"] = gen.PtrOf(KeyForDiskEncryptionSetGenerator())
+	gens["Identity"] = gen.PtrOf(EncryptionSetIdentityGenerator())
 }
 
 func Test_EncryptionSetIdentity_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -556,7 +661,7 @@ func RunPropertyAssignmentTestForEncryptionSetIdentity(subject EncryptionSetIden
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220702s.EncryptionSetIdentity
+	var other storage.EncryptionSetIdentity
 	err := copied.AssignProperties_To_EncryptionSetIdentity(&other)
 	if err != nil {
 		return err.Error()
@@ -677,7 +782,7 @@ func RunPropertyAssignmentTestForEncryptionSetIdentity_STATUS(subject Encryption
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220702s.EncryptionSetIdentity_STATUS
+	var other storage.EncryptionSetIdentity_STATUS
 	err := copied.AssignProperties_To_EncryptionSetIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -785,6 +890,213 @@ func AddRelatedPropertyGeneratorsForEncryptionSetIdentity_STATUS(gens map[string
 		EncryptionSetIdentity_UserAssignedIdentities_STATUSGenerator())
 }
 
+func Test_EncryptionSetIdentity_UserAssignedIdentities_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from EncryptionSetIdentity_UserAssignedIdentities_STATUS to EncryptionSetIdentity_UserAssignedIdentities_STATUS via AssignProperties_To_EncryptionSetIdentity_UserAssignedIdentities_STATUS & AssignProperties_From_EncryptionSetIdentity_UserAssignedIdentities_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForEncryptionSetIdentity_UserAssignedIdentities_STATUS, EncryptionSetIdentity_UserAssignedIdentities_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForEncryptionSetIdentity_UserAssignedIdentities_STATUS tests if a specific instance of EncryptionSetIdentity_UserAssignedIdentities_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForEncryptionSetIdentity_UserAssignedIdentities_STATUS(subject EncryptionSetIdentity_UserAssignedIdentities_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.EncryptionSetIdentity_UserAssignedIdentities_STATUS
+	err := copied.AssignProperties_To_EncryptionSetIdentity_UserAssignedIdentities_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual EncryptionSetIdentity_UserAssignedIdentities_STATUS
+	err = actual.AssignProperties_From_EncryptionSetIdentity_UserAssignedIdentities_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_EncryptionSetIdentity_UserAssignedIdentities_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of EncryptionSetIdentity_UserAssignedIdentities_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForEncryptionSetIdentity_UserAssignedIdentities_STATUS, EncryptionSetIdentity_UserAssignedIdentities_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForEncryptionSetIdentity_UserAssignedIdentities_STATUS runs a test to see if a specific instance of EncryptionSetIdentity_UserAssignedIdentities_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForEncryptionSetIdentity_UserAssignedIdentities_STATUS(subject EncryptionSetIdentity_UserAssignedIdentities_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual EncryptionSetIdentity_UserAssignedIdentities_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of EncryptionSetIdentity_UserAssignedIdentities_STATUS instances for property testing - lazily instantiated
+// by EncryptionSetIdentity_UserAssignedIdentities_STATUSGenerator()
+var encryptionSetIdentity_UserAssignedIdentities_STATUSGenerator gopter.Gen
+
+// EncryptionSetIdentity_UserAssignedIdentities_STATUSGenerator returns a generator of EncryptionSetIdentity_UserAssignedIdentities_STATUS instances for property testing.
+func EncryptionSetIdentity_UserAssignedIdentities_STATUSGenerator() gopter.Gen {
+	if encryptionSetIdentity_UserAssignedIdentities_STATUSGenerator != nil {
+		return encryptionSetIdentity_UserAssignedIdentities_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForEncryptionSetIdentity_UserAssignedIdentities_STATUS(generators)
+	encryptionSetIdentity_UserAssignedIdentities_STATUSGenerator = gen.Struct(reflect.TypeOf(EncryptionSetIdentity_UserAssignedIdentities_STATUS{}), generators)
+
+	return encryptionSetIdentity_UserAssignedIdentities_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForEncryptionSetIdentity_UserAssignedIdentities_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForEncryptionSetIdentity_UserAssignedIdentities_STATUS(gens map[string]gopter.Gen) {
+	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
+	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_InnerError_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from InnerError_STATUS to InnerError_STATUS via AssignProperties_To_InnerError_STATUS & AssignProperties_From_InnerError_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForInnerError_STATUS, InnerError_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForInnerError_STATUS tests if a specific instance of InnerError_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForInnerError_STATUS(subject InnerError_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.InnerError_STATUS
+	err := copied.AssignProperties_To_InnerError_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual InnerError_STATUS
+	err = actual.AssignProperties_From_InnerError_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_InnerError_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of InnerError_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForInnerError_STATUS, InnerError_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForInnerError_STATUS runs a test to see if a specific instance of InnerError_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForInnerError_STATUS(subject InnerError_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual InnerError_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of InnerError_STATUS instances for property testing - lazily instantiated by InnerError_STATUSGenerator()
+var innerError_STATUSGenerator gopter.Gen
+
+// InnerError_STATUSGenerator returns a generator of InnerError_STATUS instances for property testing.
+func InnerError_STATUSGenerator() gopter.Gen {
+	if innerError_STATUSGenerator != nil {
+		return innerError_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForInnerError_STATUS(generators)
+	innerError_STATUSGenerator = gen.Struct(reflect.TypeOf(InnerError_STATUS{}), generators)
+
+	return innerError_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForInnerError_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForInnerError_STATUS(gens map[string]gopter.Gen) {
+	gens["Errordetail"] = gen.PtrOf(gen.AlphaString())
+	gens["Exceptiontype"] = gen.PtrOf(gen.AlphaString())
+}
+
 func Test_KeyForDiskEncryptionSet_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -802,7 +1114,7 @@ func RunPropertyAssignmentTestForKeyForDiskEncryptionSet(subject KeyForDiskEncry
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220702s.KeyForDiskEncryptionSet
+	var other storage.KeyForDiskEncryptionSet
 	err := copied.AssignProperties_To_KeyForDiskEncryptionSet(&other)
 	if err != nil {
 		return err.Error()
@@ -919,7 +1231,7 @@ func RunPropertyAssignmentTestForKeyForDiskEncryptionSet_STATUS(subject KeyForDi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220702s.KeyForDiskEncryptionSet_STATUS
+	var other storage.KeyForDiskEncryptionSet_STATUS
 	err := copied.AssignProperties_To_KeyForDiskEncryptionSet_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1019,318 +1331,6 @@ func AddRelatedPropertyGeneratorsForKeyForDiskEncryptionSet_STATUS(gens map[stri
 	gens["SourceVault"] = gen.PtrOf(SourceVault_STATUSGenerator())
 }
 
-func Test_ApiErrorBase_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ApiErrorBase_STATUS to ApiErrorBase_STATUS via AssignProperties_To_ApiErrorBase_STATUS & AssignProperties_From_ApiErrorBase_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApiErrorBase_STATUS, ApiErrorBase_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForApiErrorBase_STATUS tests if a specific instance of ApiErrorBase_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApiErrorBase_STATUS(subject ApiErrorBase_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220702s.ApiErrorBase_STATUS
-	err := copied.AssignProperties_To_ApiErrorBase_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApiErrorBase_STATUS
-	err = actual.AssignProperties_From_ApiErrorBase_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ApiErrorBase_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApiErrorBase_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApiErrorBase_STATUS, ApiErrorBase_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForApiErrorBase_STATUS runs a test to see if a specific instance of ApiErrorBase_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForApiErrorBase_STATUS(subject ApiErrorBase_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ApiErrorBase_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ApiErrorBase_STATUS instances for property testing - lazily instantiated by
-// ApiErrorBase_STATUSGenerator()
-var apiErrorBase_STATUSGenerator gopter.Gen
-
-// ApiErrorBase_STATUSGenerator returns a generator of ApiErrorBase_STATUS instances for property testing.
-func ApiErrorBase_STATUSGenerator() gopter.Gen {
-	if apiErrorBase_STATUSGenerator != nil {
-		return apiErrorBase_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApiErrorBase_STATUS(generators)
-	apiErrorBase_STATUSGenerator = gen.Struct(reflect.TypeOf(ApiErrorBase_STATUS{}), generators)
-
-	return apiErrorBase_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApiErrorBase_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApiErrorBase_STATUS(gens map[string]gopter.Gen) {
-	gens["Code"] = gen.PtrOf(gen.AlphaString())
-	gens["Message"] = gen.PtrOf(gen.AlphaString())
-	gens["Target"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_EncryptionSetIdentity_UserAssignedIdentities_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from EncryptionSetIdentity_UserAssignedIdentities_STATUS to EncryptionSetIdentity_UserAssignedIdentities_STATUS via AssignProperties_To_EncryptionSetIdentity_UserAssignedIdentities_STATUS & AssignProperties_From_EncryptionSetIdentity_UserAssignedIdentities_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForEncryptionSetIdentity_UserAssignedIdentities_STATUS, EncryptionSetIdentity_UserAssignedIdentities_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForEncryptionSetIdentity_UserAssignedIdentities_STATUS tests if a specific instance of EncryptionSetIdentity_UserAssignedIdentities_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForEncryptionSetIdentity_UserAssignedIdentities_STATUS(subject EncryptionSetIdentity_UserAssignedIdentities_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220702s.EncryptionSetIdentity_UserAssignedIdentities_STATUS
-	err := copied.AssignProperties_To_EncryptionSetIdentity_UserAssignedIdentities_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual EncryptionSetIdentity_UserAssignedIdentities_STATUS
-	err = actual.AssignProperties_From_EncryptionSetIdentity_UserAssignedIdentities_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_EncryptionSetIdentity_UserAssignedIdentities_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of EncryptionSetIdentity_UserAssignedIdentities_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForEncryptionSetIdentity_UserAssignedIdentities_STATUS, EncryptionSetIdentity_UserAssignedIdentities_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForEncryptionSetIdentity_UserAssignedIdentities_STATUS runs a test to see if a specific instance of EncryptionSetIdentity_UserAssignedIdentities_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForEncryptionSetIdentity_UserAssignedIdentities_STATUS(subject EncryptionSetIdentity_UserAssignedIdentities_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual EncryptionSetIdentity_UserAssignedIdentities_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of EncryptionSetIdentity_UserAssignedIdentities_STATUS instances for property testing - lazily instantiated
-// by EncryptionSetIdentity_UserAssignedIdentities_STATUSGenerator()
-var encryptionSetIdentity_UserAssignedIdentities_STATUSGenerator gopter.Gen
-
-// EncryptionSetIdentity_UserAssignedIdentities_STATUSGenerator returns a generator of EncryptionSetIdentity_UserAssignedIdentities_STATUS instances for property testing.
-func EncryptionSetIdentity_UserAssignedIdentities_STATUSGenerator() gopter.Gen {
-	if encryptionSetIdentity_UserAssignedIdentities_STATUSGenerator != nil {
-		return encryptionSetIdentity_UserAssignedIdentities_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEncryptionSetIdentity_UserAssignedIdentities_STATUS(generators)
-	encryptionSetIdentity_UserAssignedIdentities_STATUSGenerator = gen.Struct(reflect.TypeOf(EncryptionSetIdentity_UserAssignedIdentities_STATUS{}), generators)
-
-	return encryptionSetIdentity_UserAssignedIdentities_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForEncryptionSetIdentity_UserAssignedIdentities_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForEncryptionSetIdentity_UserAssignedIdentities_STATUS(gens map[string]gopter.Gen) {
-	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_InnerError_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from InnerError_STATUS to InnerError_STATUS via AssignProperties_To_InnerError_STATUS & AssignProperties_From_InnerError_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForInnerError_STATUS, InnerError_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForInnerError_STATUS tests if a specific instance of InnerError_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForInnerError_STATUS(subject InnerError_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220702s.InnerError_STATUS
-	err := copied.AssignProperties_To_InnerError_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual InnerError_STATUS
-	err = actual.AssignProperties_From_InnerError_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_InnerError_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of InnerError_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForInnerError_STATUS, InnerError_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForInnerError_STATUS runs a test to see if a specific instance of InnerError_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForInnerError_STATUS(subject InnerError_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual InnerError_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of InnerError_STATUS instances for property testing - lazily instantiated by InnerError_STATUSGenerator()
-var innerError_STATUSGenerator gopter.Gen
-
-// InnerError_STATUSGenerator returns a generator of InnerError_STATUS instances for property testing.
-func InnerError_STATUSGenerator() gopter.Gen {
-	if innerError_STATUSGenerator != nil {
-		return innerError_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForInnerError_STATUS(generators)
-	innerError_STATUSGenerator = gen.Struct(reflect.TypeOf(InnerError_STATUS{}), generators)
-
-	return innerError_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForInnerError_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForInnerError_STATUS(gens map[string]gopter.Gen) {
-	gens["Errordetail"] = gen.PtrOf(gen.AlphaString())
-	gens["Exceptiontype"] = gen.PtrOf(gen.AlphaString())
-}
-
 func Test_SourceVault_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1348,7 +1348,7 @@ func RunPropertyAssignmentTestForSourceVault(subject SourceVault) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220702s.SourceVault
+	var other storage.SourceVault
 	err := copied.AssignProperties_To_SourceVault(&other)
 	if err != nil {
 		return err.Error()
@@ -1444,7 +1444,7 @@ func RunPropertyAssignmentTestForSourceVault_STATUS(subject SourceVault_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220702s.SourceVault_STATUS
+	var other storage.SourceVault_STATUS
 	err := copied.AssignProperties_To_SourceVault_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1546,7 +1546,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentityDetails(subject UserAssigne
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220702s.UserAssignedIdentityDetails
+	var other storage.UserAssignedIdentityDetails
 	err := copied.AssignProperties_To_UserAssignedIdentityDetails(&other)
 	if err != nil {
 		return err.Error()

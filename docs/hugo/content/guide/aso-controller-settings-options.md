@@ -71,6 +71,8 @@ This sync exists to detect and correct changes that happened in Azure that Kuber
 BE VERY CAREFUL setting this value low - even a modest number of resources can cause
 subscription level throttling if they are re-synced frequently. If nil or empty (`""`), sync period defaults to `1h`.
 
+Specify the special value `"never"` to stop syncing.
+
 **Format:** `duration string`
 
 **Example:** `"1h"`, `"15m"`, or `"60s"`. See [ParseDuration](https://pkg.go.dev/time#ParseDuration) for more details.

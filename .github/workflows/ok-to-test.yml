@@ -9,6 +9,8 @@ on:
 jobs:
   ok-to-test:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write  # Required to comment on PR comments
     # Only run for PRs, not issue comments
     if: ${{ github.event.issue.pull_request }}
     steps:

@@ -5,7 +5,7 @@ package v1api20220701
 
 import (
 	"encoding/json"
-	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForBastionHost(subject BastionHost) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20220701s.BastionHost
+	var hub storage.BastionHost
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForBastionHost(subject BastionHost) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.BastionHost
+	var other storage.BastionHost
 	err := copied.AssignProperties_To_BastionHost(&other)
 	if err != nil {
 		return err.Error()
@@ -164,270 +164,6 @@ func AddRelatedPropertyGeneratorsForBastionHost(gens map[string]gopter.Gen) {
 	gens["Status"] = BastionHost_STATUSGenerator()
 }
 
-func Test_BastionHost_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from BastionHost_Spec to BastionHost_Spec via AssignProperties_To_BastionHost_Spec & AssignProperties_From_BastionHost_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForBastionHost_Spec, BastionHost_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForBastionHost_Spec tests if a specific instance of BastionHost_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForBastionHost_Spec(subject BastionHost_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.BastionHost_Spec
-	err := copied.AssignProperties_To_BastionHost_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual BastionHost_Spec
-	err = actual.AssignProperties_From_BastionHost_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_BastionHost_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BastionHost_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBastionHost_Spec, BastionHost_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForBastionHost_Spec runs a test to see if a specific instance of BastionHost_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForBastionHost_Spec(subject BastionHost_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual BastionHost_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of BastionHost_Spec instances for property testing - lazily instantiated by BastionHost_SpecGenerator()
-var bastionHost_SpecGenerator gopter.Gen
-
-// BastionHost_SpecGenerator returns a generator of BastionHost_Spec instances for property testing.
-// We first initialize bastionHost_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func BastionHost_SpecGenerator() gopter.Gen {
-	if bastionHost_SpecGenerator != nil {
-		return bastionHost_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBastionHost_Spec(generators)
-	bastionHost_SpecGenerator = gen.Struct(reflect.TypeOf(BastionHost_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBastionHost_Spec(generators)
-	AddRelatedPropertyGeneratorsForBastionHost_Spec(generators)
-	bastionHost_SpecGenerator = gen.Struct(reflect.TypeOf(BastionHost_Spec{}), generators)
-
-	return bastionHost_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForBastionHost_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBastionHost_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["DisableCopyPaste"] = gen.PtrOf(gen.Bool())
-	gens["DnsName"] = gen.PtrOf(gen.AlphaString())
-	gens["EnableFileCopy"] = gen.PtrOf(gen.Bool())
-	gens["EnableIpConnect"] = gen.PtrOf(gen.Bool())
-	gens["EnableShareableLink"] = gen.PtrOf(gen.Bool())
-	gens["EnableTunneling"] = gen.PtrOf(gen.Bool())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["ScaleUnits"] = gen.PtrOf(gen.Int())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForBastionHost_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForBastionHost_Spec(gens map[string]gopter.Gen) {
-	gens["IpConfigurations"] = gen.SliceOf(BastionHostIPConfigurationGenerator())
-	gens["Sku"] = gen.PtrOf(SkuGenerator())
-}
-
-func Test_BastionHost_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from BastionHost_STATUS to BastionHost_STATUS via AssignProperties_To_BastionHost_STATUS & AssignProperties_From_BastionHost_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForBastionHost_STATUS, BastionHost_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForBastionHost_STATUS tests if a specific instance of BastionHost_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForBastionHost_STATUS(subject BastionHost_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.BastionHost_STATUS
-	err := copied.AssignProperties_To_BastionHost_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual BastionHost_STATUS
-	err = actual.AssignProperties_From_BastionHost_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_BastionHost_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BastionHost_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBastionHost_STATUS, BastionHost_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForBastionHost_STATUS runs a test to see if a specific instance of BastionHost_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForBastionHost_STATUS(subject BastionHost_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual BastionHost_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of BastionHost_STATUS instances for property testing - lazily instantiated by BastionHost_STATUSGenerator()
-var bastionHost_STATUSGenerator gopter.Gen
-
-// BastionHost_STATUSGenerator returns a generator of BastionHost_STATUS instances for property testing.
-// We first initialize bastionHost_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func BastionHost_STATUSGenerator() gopter.Gen {
-	if bastionHost_STATUSGenerator != nil {
-		return bastionHost_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBastionHost_STATUS(generators)
-	bastionHost_STATUSGenerator = gen.Struct(reflect.TypeOf(BastionHost_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBastionHost_STATUS(generators)
-	AddRelatedPropertyGeneratorsForBastionHost_STATUS(generators)
-	bastionHost_STATUSGenerator = gen.Struct(reflect.TypeOf(BastionHost_STATUS{}), generators)
-
-	return bastionHost_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForBastionHost_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBastionHost_STATUS(gens map[string]gopter.Gen) {
-	gens["DisableCopyPaste"] = gen.PtrOf(gen.Bool())
-	gens["DnsName"] = gen.PtrOf(gen.AlphaString())
-	gens["EnableFileCopy"] = gen.PtrOf(gen.Bool())
-	gens["EnableIpConnect"] = gen.PtrOf(gen.Bool())
-	gens["EnableShareableLink"] = gen.PtrOf(gen.Bool())
-	gens["EnableTunneling"] = gen.PtrOf(gen.Bool())
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		BastionHostProvisioningState_STATUS_Deleting,
-		BastionHostProvisioningState_STATUS_Failed,
-		BastionHostProvisioningState_STATUS_Succeeded,
-		BastionHostProvisioningState_STATUS_Updating))
-	gens["ScaleUnits"] = gen.PtrOf(gen.Int())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForBastionHost_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForBastionHost_STATUS(gens map[string]gopter.Gen) {
-	gens["IpConfigurations"] = gen.SliceOf(BastionHostIPConfiguration_STATUSGenerator())
-	gens["Sku"] = gen.PtrOf(Sku_STATUSGenerator())
-}
-
 func Test_BastionHostIPConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -445,7 +181,7 @@ func RunPropertyAssignmentTestForBastionHostIPConfiguration(subject BastionHostI
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.BastionHostIPConfiguration
+	var other storage.BastionHostIPConfiguration
 	err := copied.AssignProperties_To_BastionHostIPConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -564,7 +300,7 @@ func RunPropertyAssignmentTestForBastionHostIPConfiguration_STATUS(subject Basti
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.BastionHostIPConfiguration_STATUS
+	var other storage.BastionHostIPConfiguration_STATUS
 	err := copied.AssignProperties_To_BastionHostIPConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -650,6 +386,367 @@ func AddIndependentPropertyGeneratorsForBastionHostIPConfiguration_STATUS(gens m
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_BastionHostSubResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from BastionHostSubResource to BastionHostSubResource via AssignProperties_To_BastionHostSubResource & AssignProperties_From_BastionHostSubResource returns original",
+		prop.ForAll(RunPropertyAssignmentTestForBastionHostSubResource, BastionHostSubResourceGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForBastionHostSubResource tests if a specific instance of BastionHostSubResource can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForBastionHostSubResource(subject BastionHostSubResource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.BastionHostSubResource
+	err := copied.AssignProperties_To_BastionHostSubResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual BastionHostSubResource
+	err = actual.AssignProperties_From_BastionHostSubResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_BastionHostSubResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of BastionHostSubResource via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBastionHostSubResource, BastionHostSubResourceGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForBastionHostSubResource runs a test to see if a specific instance of BastionHostSubResource round trips to JSON and back losslessly
+func RunJSONSerializationTestForBastionHostSubResource(subject BastionHostSubResource) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual BastionHostSubResource
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of BastionHostSubResource instances for property testing - lazily instantiated by
+// BastionHostSubResourceGenerator()
+var bastionHostSubResourceGenerator gopter.Gen
+
+// BastionHostSubResourceGenerator returns a generator of BastionHostSubResource instances for property testing.
+func BastionHostSubResourceGenerator() gopter.Gen {
+	if bastionHostSubResourceGenerator != nil {
+		return bastionHostSubResourceGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	bastionHostSubResourceGenerator = gen.Struct(reflect.TypeOf(BastionHostSubResource{}), generators)
+
+	return bastionHostSubResourceGenerator
+}
+
+func Test_BastionHost_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from BastionHost_STATUS to BastionHost_STATUS via AssignProperties_To_BastionHost_STATUS & AssignProperties_From_BastionHost_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForBastionHost_STATUS, BastionHost_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForBastionHost_STATUS tests if a specific instance of BastionHost_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForBastionHost_STATUS(subject BastionHost_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.BastionHost_STATUS
+	err := copied.AssignProperties_To_BastionHost_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual BastionHost_STATUS
+	err = actual.AssignProperties_From_BastionHost_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_BastionHost_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of BastionHost_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBastionHost_STATUS, BastionHost_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForBastionHost_STATUS runs a test to see if a specific instance of BastionHost_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForBastionHost_STATUS(subject BastionHost_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual BastionHost_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of BastionHost_STATUS instances for property testing - lazily instantiated by BastionHost_STATUSGenerator()
+var bastionHost_STATUSGenerator gopter.Gen
+
+// BastionHost_STATUSGenerator returns a generator of BastionHost_STATUS instances for property testing.
+// We first initialize bastionHost_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func BastionHost_STATUSGenerator() gopter.Gen {
+	if bastionHost_STATUSGenerator != nil {
+		return bastionHost_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForBastionHost_STATUS(generators)
+	bastionHost_STATUSGenerator = gen.Struct(reflect.TypeOf(BastionHost_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForBastionHost_STATUS(generators)
+	AddRelatedPropertyGeneratorsForBastionHost_STATUS(generators)
+	bastionHost_STATUSGenerator = gen.Struct(reflect.TypeOf(BastionHost_STATUS{}), generators)
+
+	return bastionHost_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForBastionHost_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForBastionHost_STATUS(gens map[string]gopter.Gen) {
+	gens["DisableCopyPaste"] = gen.PtrOf(gen.Bool())
+	gens["DnsName"] = gen.PtrOf(gen.AlphaString())
+	gens["EnableFileCopy"] = gen.PtrOf(gen.Bool())
+	gens["EnableIpConnect"] = gen.PtrOf(gen.Bool())
+	gens["EnableShareableLink"] = gen.PtrOf(gen.Bool())
+	gens["EnableTunneling"] = gen.PtrOf(gen.Bool())
+	gens["Etag"] = gen.PtrOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		BastionHostProvisioningState_STATUS_Deleting,
+		BastionHostProvisioningState_STATUS_Failed,
+		BastionHostProvisioningState_STATUS_Succeeded,
+		BastionHostProvisioningState_STATUS_Updating))
+	gens["ScaleUnits"] = gen.PtrOf(gen.Int())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForBastionHost_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForBastionHost_STATUS(gens map[string]gopter.Gen) {
+	gens["IpConfigurations"] = gen.SliceOf(BastionHostIPConfiguration_STATUSGenerator())
+	gens["Sku"] = gen.PtrOf(Sku_STATUSGenerator())
+}
+
+func Test_BastionHost_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from BastionHost_Spec to BastionHost_Spec via AssignProperties_To_BastionHost_Spec & AssignProperties_From_BastionHost_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForBastionHost_Spec, BastionHost_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForBastionHost_Spec tests if a specific instance of BastionHost_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForBastionHost_Spec(subject BastionHost_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.BastionHost_Spec
+	err := copied.AssignProperties_To_BastionHost_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual BastionHost_Spec
+	err = actual.AssignProperties_From_BastionHost_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_BastionHost_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of BastionHost_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBastionHost_Spec, BastionHost_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForBastionHost_Spec runs a test to see if a specific instance of BastionHost_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForBastionHost_Spec(subject BastionHost_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual BastionHost_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of BastionHost_Spec instances for property testing - lazily instantiated by BastionHost_SpecGenerator()
+var bastionHost_SpecGenerator gopter.Gen
+
+// BastionHost_SpecGenerator returns a generator of BastionHost_Spec instances for property testing.
+// We first initialize bastionHost_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func BastionHost_SpecGenerator() gopter.Gen {
+	if bastionHost_SpecGenerator != nil {
+		return bastionHost_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForBastionHost_Spec(generators)
+	bastionHost_SpecGenerator = gen.Struct(reflect.TypeOf(BastionHost_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForBastionHost_Spec(generators)
+	AddRelatedPropertyGeneratorsForBastionHost_Spec(generators)
+	bastionHost_SpecGenerator = gen.Struct(reflect.TypeOf(BastionHost_Spec{}), generators)
+
+	return bastionHost_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForBastionHost_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForBastionHost_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["DisableCopyPaste"] = gen.PtrOf(gen.Bool())
+	gens["DnsName"] = gen.PtrOf(gen.AlphaString())
+	gens["EnableFileCopy"] = gen.PtrOf(gen.Bool())
+	gens["EnableIpConnect"] = gen.PtrOf(gen.Bool())
+	gens["EnableShareableLink"] = gen.PtrOf(gen.Bool())
+	gens["EnableTunneling"] = gen.PtrOf(gen.Bool())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["ScaleUnits"] = gen.PtrOf(gen.Int())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForBastionHost_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForBastionHost_Spec(gens map[string]gopter.Gen) {
+	gens["IpConfigurations"] = gen.SliceOf(BastionHostIPConfigurationGenerator())
+	gens["Sku"] = gen.PtrOf(SkuGenerator())
+}
+
 func Test_Sku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -667,7 +764,7 @@ func RunPropertyAssignmentTestForSku(subject Sku) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.Sku
+	var other storage.Sku
 	err := copied.AssignProperties_To_Sku(&other)
 	if err != nil {
 		return err.Error()
@@ -769,7 +866,7 @@ func RunPropertyAssignmentTestForSku_STATUS(subject Sku_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.Sku_STATUS
+	var other storage.Sku_STATUS
 	err := copied.AssignProperties_To_Sku_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -852,101 +949,4 @@ func Sku_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSku_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSku_STATUS(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(Sku_Name_STATUS_Basic, Sku_Name_STATUS_Standard))
-}
-
-func Test_BastionHostSubResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from BastionHostSubResource to BastionHostSubResource via AssignProperties_To_BastionHostSubResource & AssignProperties_From_BastionHostSubResource returns original",
-		prop.ForAll(RunPropertyAssignmentTestForBastionHostSubResource, BastionHostSubResourceGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForBastionHostSubResource tests if a specific instance of BastionHostSubResource can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForBastionHostSubResource(subject BastionHostSubResource) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.BastionHostSubResource
-	err := copied.AssignProperties_To_BastionHostSubResource(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual BastionHostSubResource
-	err = actual.AssignProperties_From_BastionHostSubResource(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_BastionHostSubResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BastionHostSubResource via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBastionHostSubResource, BastionHostSubResourceGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForBastionHostSubResource runs a test to see if a specific instance of BastionHostSubResource round trips to JSON and back losslessly
-func RunJSONSerializationTestForBastionHostSubResource(subject BastionHostSubResource) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual BastionHostSubResource
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of BastionHostSubResource instances for property testing - lazily instantiated by
-// BastionHostSubResourceGenerator()
-var bastionHostSubResourceGenerator gopter.Gen
-
-// BastionHostSubResourceGenerator returns a generator of BastionHostSubResource instances for property testing.
-func BastionHostSubResourceGenerator() gopter.Gen {
-	if bastionHostSubResourceGenerator != nil {
-		return bastionHostSubResourceGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	bastionHostSubResourceGenerator = gen.Struct(reflect.TypeOf(BastionHostSubResource{}), generators)
-
-	return bastionHostSubResourceGenerator
 }

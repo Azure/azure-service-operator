@@ -17,6 +17,67 @@ import (
 	"testing"
 )
 
+func Test_OutboundFirewallRuleProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of OutboundFirewallRuleProperties_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForOutboundFirewallRuleProperties_STATUS_ARM, OutboundFirewallRuleProperties_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForOutboundFirewallRuleProperties_STATUS_ARM runs a test to see if a specific instance of OutboundFirewallRuleProperties_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForOutboundFirewallRuleProperties_STATUS_ARM(subject OutboundFirewallRuleProperties_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual OutboundFirewallRuleProperties_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of OutboundFirewallRuleProperties_STATUS_ARM instances for property testing - lazily instantiated by
+// OutboundFirewallRuleProperties_STATUS_ARMGenerator()
+var outboundFirewallRuleProperties_STATUS_ARMGenerator gopter.Gen
+
+// OutboundFirewallRuleProperties_STATUS_ARMGenerator returns a generator of OutboundFirewallRuleProperties_STATUS_ARM instances for property testing.
+func OutboundFirewallRuleProperties_STATUS_ARMGenerator() gopter.Gen {
+	if outboundFirewallRuleProperties_STATUS_ARMGenerator != nil {
+		return outboundFirewallRuleProperties_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForOutboundFirewallRuleProperties_STATUS_ARM(generators)
+	outboundFirewallRuleProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(OutboundFirewallRuleProperties_STATUS_ARM{}), generators)
+
+	return outboundFirewallRuleProperties_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForOutboundFirewallRuleProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForOutboundFirewallRuleProperties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
+}
+
 func Test_Servers_OutboundFirewallRule_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -92,65 +153,4 @@ func AddIndependentPropertyGeneratorsForServers_OutboundFirewallRule_STATUS_ARM(
 // AddRelatedPropertyGeneratorsForServers_OutboundFirewallRule_STATUS_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForServers_OutboundFirewallRule_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(OutboundFirewallRuleProperties_STATUS_ARMGenerator())
-}
-
-func Test_OutboundFirewallRuleProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of OutboundFirewallRuleProperties_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForOutboundFirewallRuleProperties_STATUS_ARM, OutboundFirewallRuleProperties_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForOutboundFirewallRuleProperties_STATUS_ARM runs a test to see if a specific instance of OutboundFirewallRuleProperties_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForOutboundFirewallRuleProperties_STATUS_ARM(subject OutboundFirewallRuleProperties_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual OutboundFirewallRuleProperties_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of OutboundFirewallRuleProperties_STATUS_ARM instances for property testing - lazily instantiated by
-// OutboundFirewallRuleProperties_STATUS_ARMGenerator()
-var outboundFirewallRuleProperties_STATUS_ARMGenerator gopter.Gen
-
-// OutboundFirewallRuleProperties_STATUS_ARMGenerator returns a generator of OutboundFirewallRuleProperties_STATUS_ARM instances for property testing.
-func OutboundFirewallRuleProperties_STATUS_ARMGenerator() gopter.Gen {
-	if outboundFirewallRuleProperties_STATUS_ARMGenerator != nil {
-		return outboundFirewallRuleProperties_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOutboundFirewallRuleProperties_STATUS_ARM(generators)
-	outboundFirewallRuleProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(OutboundFirewallRuleProperties_STATUS_ARM{}), generators)
-
-	return outboundFirewallRuleProperties_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForOutboundFirewallRuleProperties_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForOutboundFirewallRuleProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 }

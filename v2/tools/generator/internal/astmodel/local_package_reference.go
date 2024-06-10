@@ -149,7 +149,7 @@ func (pr LocalPackageReference) ImportAlias(style PackageImportStyle) string {
 	groupForAlias := strings.Replace(pr.group, ".", "", -1)
 
 	switch style {
-	case VersionOnly:
+	case Name, VersionOnly:
 		return fmt.Sprintf(
 			"%s%s",
 			pr.simplifiedGeneratorVersion(pr.generatorVersion),

@@ -17,176 +17,6 @@ import (
 	"testing"
 )
 
-func Test_Trafficmanagerprofile_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Trafficmanagerprofile_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForTrafficmanagerprofile_Spec_ARM, Trafficmanagerprofile_Spec_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForTrafficmanagerprofile_Spec_ARM runs a test to see if a specific instance of Trafficmanagerprofile_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForTrafficmanagerprofile_Spec_ARM(subject Trafficmanagerprofile_Spec_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Trafficmanagerprofile_Spec_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Trafficmanagerprofile_Spec_ARM instances for property testing - lazily instantiated by
-// Trafficmanagerprofile_Spec_ARMGenerator()
-var trafficmanagerprofile_Spec_ARMGenerator gopter.Gen
-
-// Trafficmanagerprofile_Spec_ARMGenerator returns a generator of Trafficmanagerprofile_Spec_ARM instances for property testing.
-// We first initialize trafficmanagerprofile_Spec_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Trafficmanagerprofile_Spec_ARMGenerator() gopter.Gen {
-	if trafficmanagerprofile_Spec_ARMGenerator != nil {
-		return trafficmanagerprofile_Spec_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForTrafficmanagerprofile_Spec_ARM(generators)
-	trafficmanagerprofile_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Trafficmanagerprofile_Spec_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForTrafficmanagerprofile_Spec_ARM(generators)
-	AddRelatedPropertyGeneratorsForTrafficmanagerprofile_Spec_ARM(generators)
-	trafficmanagerprofile_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Trafficmanagerprofile_Spec_ARM{}), generators)
-
-	return trafficmanagerprofile_Spec_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForTrafficmanagerprofile_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForTrafficmanagerprofile_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForTrafficmanagerprofile_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForTrafficmanagerprofile_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(ProfileProperties_ARMGenerator())
-}
-
-func Test_ProfileProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ProfileProperties_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProfileProperties_ARM, ProfileProperties_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForProfileProperties_ARM runs a test to see if a specific instance of ProfileProperties_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForProfileProperties_ARM(subject ProfileProperties_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ProfileProperties_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ProfileProperties_ARM instances for property testing - lazily instantiated by
-// ProfileProperties_ARMGenerator()
-var profileProperties_ARMGenerator gopter.Gen
-
-// ProfileProperties_ARMGenerator returns a generator of ProfileProperties_ARM instances for property testing.
-// We first initialize profileProperties_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ProfileProperties_ARMGenerator() gopter.Gen {
-	if profileProperties_ARMGenerator != nil {
-		return profileProperties_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfileProperties_ARM(generators)
-	profileProperties_ARMGenerator = gen.Struct(reflect.TypeOf(ProfileProperties_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfileProperties_ARM(generators)
-	AddRelatedPropertyGeneratorsForProfileProperties_ARM(generators)
-	profileProperties_ARMGenerator = gen.Struct(reflect.TypeOf(ProfileProperties_ARM{}), generators)
-
-	return profileProperties_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForProfileProperties_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProfileProperties_ARM(gens map[string]gopter.Gen) {
-	gens["AllowedEndpointRecordTypes"] = gen.SliceOf(gen.OneConstOf(
-		AllowedEndpointRecordType_Any,
-		AllowedEndpointRecordType_DomainName,
-		AllowedEndpointRecordType_IPv4Address,
-		AllowedEndpointRecordType_IPv6Address))
-	gens["MaxReturn"] = gen.PtrOf(gen.Int())
-	gens["ProfileStatus"] = gen.PtrOf(gen.OneConstOf(ProfileProperties_ProfileStatus_Disabled, ProfileProperties_ProfileStatus_Enabled))
-	gens["TrafficRoutingMethod"] = gen.PtrOf(gen.OneConstOf(
-		ProfileProperties_TrafficRoutingMethod_Geographic,
-		ProfileProperties_TrafficRoutingMethod_MultiValue,
-		ProfileProperties_TrafficRoutingMethod_Performance,
-		ProfileProperties_TrafficRoutingMethod_Priority,
-		ProfileProperties_TrafficRoutingMethod_Subnet,
-		ProfileProperties_TrafficRoutingMethod_Weighted))
-	gens["TrafficViewEnrollmentStatus"] = gen.PtrOf(gen.OneConstOf(ProfileProperties_TrafficViewEnrollmentStatus_Disabled, ProfileProperties_TrafficViewEnrollmentStatus_Enabled))
-}
-
-// AddRelatedPropertyGeneratorsForProfileProperties_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForProfileProperties_ARM(gens map[string]gopter.Gen) {
-	gens["DnsConfig"] = gen.PtrOf(DnsConfig_ARMGenerator())
-	gens["MonitorConfig"] = gen.PtrOf(MonitorConfig_ARMGenerator())
-}
-
 func Test_DnsConfig_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -456,4 +286,174 @@ func MonitorConfig_ExpectedStatusCodeRanges_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForMonitorConfig_ExpectedStatusCodeRanges_ARM(gens map[string]gopter.Gen) {
 	gens["Max"] = gen.PtrOf(gen.Int())
 	gens["Min"] = gen.PtrOf(gen.Int())
+}
+
+func Test_ProfileProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ProfileProperties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForProfileProperties_ARM, ProfileProperties_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForProfileProperties_ARM runs a test to see if a specific instance of ProfileProperties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForProfileProperties_ARM(subject ProfileProperties_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ProfileProperties_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ProfileProperties_ARM instances for property testing - lazily instantiated by
+// ProfileProperties_ARMGenerator()
+var profileProperties_ARMGenerator gopter.Gen
+
+// ProfileProperties_ARMGenerator returns a generator of ProfileProperties_ARM instances for property testing.
+// We first initialize profileProperties_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ProfileProperties_ARMGenerator() gopter.Gen {
+	if profileProperties_ARMGenerator != nil {
+		return profileProperties_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForProfileProperties_ARM(generators)
+	profileProperties_ARMGenerator = gen.Struct(reflect.TypeOf(ProfileProperties_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForProfileProperties_ARM(generators)
+	AddRelatedPropertyGeneratorsForProfileProperties_ARM(generators)
+	profileProperties_ARMGenerator = gen.Struct(reflect.TypeOf(ProfileProperties_ARM{}), generators)
+
+	return profileProperties_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForProfileProperties_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForProfileProperties_ARM(gens map[string]gopter.Gen) {
+	gens["AllowedEndpointRecordTypes"] = gen.SliceOf(gen.OneConstOf(
+		AllowedEndpointRecordType_Any,
+		AllowedEndpointRecordType_DomainName,
+		AllowedEndpointRecordType_IPv4Address,
+		AllowedEndpointRecordType_IPv6Address))
+	gens["MaxReturn"] = gen.PtrOf(gen.Int())
+	gens["ProfileStatus"] = gen.PtrOf(gen.OneConstOf(ProfileProperties_ProfileStatus_Disabled, ProfileProperties_ProfileStatus_Enabled))
+	gens["TrafficRoutingMethod"] = gen.PtrOf(gen.OneConstOf(
+		ProfileProperties_TrafficRoutingMethod_Geographic,
+		ProfileProperties_TrafficRoutingMethod_MultiValue,
+		ProfileProperties_TrafficRoutingMethod_Performance,
+		ProfileProperties_TrafficRoutingMethod_Priority,
+		ProfileProperties_TrafficRoutingMethod_Subnet,
+		ProfileProperties_TrafficRoutingMethod_Weighted))
+	gens["TrafficViewEnrollmentStatus"] = gen.PtrOf(gen.OneConstOf(ProfileProperties_TrafficViewEnrollmentStatus_Disabled, ProfileProperties_TrafficViewEnrollmentStatus_Enabled))
+}
+
+// AddRelatedPropertyGeneratorsForProfileProperties_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForProfileProperties_ARM(gens map[string]gopter.Gen) {
+	gens["DnsConfig"] = gen.PtrOf(DnsConfig_ARMGenerator())
+	gens["MonitorConfig"] = gen.PtrOf(MonitorConfig_ARMGenerator())
+}
+
+func Test_Trafficmanagerprofile_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Trafficmanagerprofile_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForTrafficmanagerprofile_Spec_ARM, Trafficmanagerprofile_Spec_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForTrafficmanagerprofile_Spec_ARM runs a test to see if a specific instance of Trafficmanagerprofile_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForTrafficmanagerprofile_Spec_ARM(subject Trafficmanagerprofile_Spec_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Trafficmanagerprofile_Spec_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Trafficmanagerprofile_Spec_ARM instances for property testing - lazily instantiated by
+// Trafficmanagerprofile_Spec_ARMGenerator()
+var trafficmanagerprofile_Spec_ARMGenerator gopter.Gen
+
+// Trafficmanagerprofile_Spec_ARMGenerator returns a generator of Trafficmanagerprofile_Spec_ARM instances for property testing.
+// We first initialize trafficmanagerprofile_Spec_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Trafficmanagerprofile_Spec_ARMGenerator() gopter.Gen {
+	if trafficmanagerprofile_Spec_ARMGenerator != nil {
+		return trafficmanagerprofile_Spec_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForTrafficmanagerprofile_Spec_ARM(generators)
+	trafficmanagerprofile_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Trafficmanagerprofile_Spec_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForTrafficmanagerprofile_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForTrafficmanagerprofile_Spec_ARM(generators)
+	trafficmanagerprofile_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Trafficmanagerprofile_Spec_ARM{}), generators)
+
+	return trafficmanagerprofile_Spec_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForTrafficmanagerprofile_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForTrafficmanagerprofile_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.AlphaString()
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForTrafficmanagerprofile_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForTrafficmanagerprofile_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(ProfileProperties_ARMGenerator())
 }

@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForNamespacesTopic(subject NamespacesTopic) string
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20211101s.NamespacesTopic
+	var hub storage.NamespacesTopic
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForNamespacesTopic(subject NamespacesTopic) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211101s.NamespacesTopic
+	var other storage.NamespacesTopic
 	err := copied.AssignProperties_To_NamespacesTopic(&other)
 	if err != nil {
 		return err.Error()
@@ -164,119 +164,6 @@ func AddRelatedPropertyGeneratorsForNamespacesTopic(gens map[string]gopter.Gen) 
 	gens["Status"] = Namespaces_Topic_STATUSGenerator()
 }
 
-func Test_Namespaces_Topic_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Namespaces_Topic_Spec to Namespaces_Topic_Spec via AssignProperties_To_Namespaces_Topic_Spec & AssignProperties_From_Namespaces_Topic_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForNamespaces_Topic_Spec, Namespaces_Topic_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForNamespaces_Topic_Spec tests if a specific instance of Namespaces_Topic_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForNamespaces_Topic_Spec(subject Namespaces_Topic_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211101s.Namespaces_Topic_Spec
-	err := copied.AssignProperties_To_Namespaces_Topic_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Namespaces_Topic_Spec
-	err = actual.AssignProperties_From_Namespaces_Topic_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_Namespaces_Topic_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Namespaces_Topic_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamespaces_Topic_Spec, Namespaces_Topic_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForNamespaces_Topic_Spec runs a test to see if a specific instance of Namespaces_Topic_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamespaces_Topic_Spec(subject Namespaces_Topic_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Namespaces_Topic_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Namespaces_Topic_Spec instances for property testing - lazily instantiated by
-// Namespaces_Topic_SpecGenerator()
-var namespaces_Topic_SpecGenerator gopter.Gen
-
-// Namespaces_Topic_SpecGenerator returns a generator of Namespaces_Topic_Spec instances for property testing.
-func Namespaces_Topic_SpecGenerator() gopter.Gen {
-	if namespaces_Topic_SpecGenerator != nil {
-		return namespaces_Topic_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespaces_Topic_Spec(generators)
-	namespaces_Topic_SpecGenerator = gen.Struct(reflect.TypeOf(Namespaces_Topic_Spec{}), generators)
-
-	return namespaces_Topic_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForNamespaces_Topic_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNamespaces_Topic_Spec(gens map[string]gopter.Gen) {
-	gens["AutoDeleteOnIdle"] = gen.PtrOf(gen.AlphaString())
-	gens["AzureName"] = gen.AlphaString()
-	gens["DefaultMessageTimeToLive"] = gen.PtrOf(gen.AlphaString())
-	gens["DuplicateDetectionHistoryTimeWindow"] = gen.PtrOf(gen.AlphaString())
-	gens["EnableBatchedOperations"] = gen.PtrOf(gen.Bool())
-	gens["EnableExpress"] = gen.PtrOf(gen.Bool())
-	gens["EnablePartitioning"] = gen.PtrOf(gen.Bool())
-	gens["MaxMessageSizeInKilobytes"] = gen.PtrOf(gen.Int())
-	gens["MaxSizeInMegabytes"] = gen.PtrOf(gen.Int())
-	gens["RequiresDuplicateDetection"] = gen.PtrOf(gen.Bool())
-	gens["SupportOrdering"] = gen.PtrOf(gen.Bool())
-}
-
 func Test_Namespaces_Topic_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -294,7 +181,7 @@ func RunPropertyAssignmentTestForNamespaces_Topic_STATUS(subject Namespaces_Topi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211101s.Namespaces_Topic_STATUS
+	var other storage.Namespaces_Topic_STATUS
 	err := copied.AssignProperties_To_Namespaces_Topic_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -421,4 +308,117 @@ func AddIndependentPropertyGeneratorsForNamespaces_Topic_STATUS(gens map[string]
 func AddRelatedPropertyGeneratorsForNamespaces_Topic_STATUS(gens map[string]gopter.Gen) {
 	gens["CountDetails"] = gen.PtrOf(MessageCountDetails_STATUSGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
+}
+
+func Test_Namespaces_Topic_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Namespaces_Topic_Spec to Namespaces_Topic_Spec via AssignProperties_To_Namespaces_Topic_Spec & AssignProperties_From_Namespaces_Topic_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamespaces_Topic_Spec, Namespaces_Topic_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNamespaces_Topic_Spec tests if a specific instance of Namespaces_Topic_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForNamespaces_Topic_Spec(subject Namespaces_Topic_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Namespaces_Topic_Spec
+	err := copied.AssignProperties_To_Namespaces_Topic_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Namespaces_Topic_Spec
+	err = actual.AssignProperties_From_Namespaces_Topic_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Namespaces_Topic_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Namespaces_Topic_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespaces_Topic_Spec, Namespaces_Topic_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForNamespaces_Topic_Spec runs a test to see if a specific instance of Namespaces_Topic_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespaces_Topic_Spec(subject Namespaces_Topic_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Namespaces_Topic_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Namespaces_Topic_Spec instances for property testing - lazily instantiated by
+// Namespaces_Topic_SpecGenerator()
+var namespaces_Topic_SpecGenerator gopter.Gen
+
+// Namespaces_Topic_SpecGenerator returns a generator of Namespaces_Topic_Spec instances for property testing.
+func Namespaces_Topic_SpecGenerator() gopter.Gen {
+	if namespaces_Topic_SpecGenerator != nil {
+		return namespaces_Topic_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNamespaces_Topic_Spec(generators)
+	namespaces_Topic_SpecGenerator = gen.Struct(reflect.TypeOf(Namespaces_Topic_Spec{}), generators)
+
+	return namespaces_Topic_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForNamespaces_Topic_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespaces_Topic_Spec(gens map[string]gopter.Gen) {
+	gens["AutoDeleteOnIdle"] = gen.PtrOf(gen.AlphaString())
+	gens["AzureName"] = gen.AlphaString()
+	gens["DefaultMessageTimeToLive"] = gen.PtrOf(gen.AlphaString())
+	gens["DuplicateDetectionHistoryTimeWindow"] = gen.PtrOf(gen.AlphaString())
+	gens["EnableBatchedOperations"] = gen.PtrOf(gen.Bool())
+	gens["EnableExpress"] = gen.PtrOf(gen.Bool())
+	gens["EnablePartitioning"] = gen.PtrOf(gen.Bool())
+	gens["MaxMessageSizeInKilobytes"] = gen.PtrOf(gen.Int())
+	gens["MaxSizeInMegabytes"] = gen.PtrOf(gen.Int())
+	gens["RequiresDuplicateDetection"] = gen.PtrOf(gen.Bool())
+	gens["SupportOrdering"] = gen.PtrOf(gen.Bool())
 }

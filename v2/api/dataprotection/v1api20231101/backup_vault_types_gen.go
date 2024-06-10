@@ -6,7 +6,7 @@ package v1api20231101
 import (
 	"context"
 	"fmt"
-	v20231101s "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -54,7 +54,7 @@ var _ conversion.Convertible = &BackupVault{}
 
 // ConvertFrom populates our BackupVault from the provided hub BackupVault
 func (vault *BackupVault) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20231101s.BackupVault)
+	source, ok := hub.(*storage.BackupVault)
 	if !ok {
 		return fmt.Errorf("expected dataprotection/v1api20231101/storage/BackupVault but received %T instead", hub)
 	}
@@ -64,7 +64,7 @@ func (vault *BackupVault) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub BackupVault from our BackupVault
 func (vault *BackupVault) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20231101s.BackupVault)
+	destination, ok := hub.(*storage.BackupVault)
 	if !ok {
 		return fmt.Errorf("expected dataprotection/v1api20231101/storage/BackupVault but received %T instead", hub)
 	}
@@ -295,7 +295,7 @@ func (vault *BackupVault) validateWriteOnceProperties(old runtime.Object) (admis
 }
 
 // AssignProperties_From_BackupVault populates our BackupVault from the provided source BackupVault
-func (vault *BackupVault) AssignProperties_From_BackupVault(source *v20231101s.BackupVault) error {
+func (vault *BackupVault) AssignProperties_From_BackupVault(source *storage.BackupVault) error {
 
 	// ObjectMeta
 	vault.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -321,13 +321,13 @@ func (vault *BackupVault) AssignProperties_From_BackupVault(source *v20231101s.B
 }
 
 // AssignProperties_To_BackupVault populates the provided destination BackupVault from our BackupVault
-func (vault *BackupVault) AssignProperties_To_BackupVault(destination *v20231101s.BackupVault) error {
+func (vault *BackupVault) AssignProperties_To_BackupVault(destination *storage.BackupVault) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *vault.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20231101s.BackupVault_Spec
+	var spec storage.BackupVault_Spec
 	err := vault.Spec.AssignProperties_To_BackupVault_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_BackupVault_Spec() to populate field Spec")
@@ -335,7 +335,7 @@ func (vault *BackupVault) AssignProperties_To_BackupVault(destination *v20231101
 	destination.Spec = spec
 
 	// Status
-	var status v20231101s.BackupVaultResource_STATUS
+	var status storage.BackupVaultResource_STATUS
 	err = vault.Status.AssignProperties_To_BackupVaultResource_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_BackupVaultResource_STATUS() to populate field Status")
@@ -514,14 +514,14 @@ var _ genruntime.ConvertibleSpec = &BackupVault_Spec{}
 
 // ConvertSpecFrom populates our BackupVault_Spec from the provided source
 func (vault *BackupVault_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20231101s.BackupVault_Spec)
+	src, ok := source.(*storage.BackupVault_Spec)
 	if ok {
 		// Populate our instance from source
 		return vault.AssignProperties_From_BackupVault_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20231101s.BackupVault_Spec{}
+	src = &storage.BackupVault_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -538,14 +538,14 @@ func (vault *BackupVault_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec
 
 // ConvertSpecTo populates the provided destination from our BackupVault_Spec
 func (vault *BackupVault_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20231101s.BackupVault_Spec)
+	dst, ok := destination.(*storage.BackupVault_Spec)
 	if ok {
 		// Populate destination from our instance
 		return vault.AssignProperties_To_BackupVault_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20231101s.BackupVault_Spec{}
+	dst = &storage.BackupVault_Spec{}
 	err := vault.AssignProperties_To_BackupVault_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -561,7 +561,7 @@ func (vault *BackupVault_Spec) ConvertSpecTo(destination genruntime.ConvertibleS
 }
 
 // AssignProperties_From_BackupVault_Spec populates our BackupVault_Spec from the provided source BackupVault_Spec
-func (vault *BackupVault_Spec) AssignProperties_From_BackupVault_Spec(source *v20231101s.BackupVault_Spec) error {
+func (vault *BackupVault_Spec) AssignProperties_From_BackupVault_Spec(source *storage.BackupVault_Spec) error {
 
 	// AzureName
 	vault.AzureName = source.AzureName
@@ -621,7 +621,7 @@ func (vault *BackupVault_Spec) AssignProperties_From_BackupVault_Spec(source *v2
 }
 
 // AssignProperties_To_BackupVault_Spec populates the provided destination BackupVault_Spec from our BackupVault_Spec
-func (vault *BackupVault_Spec) AssignProperties_To_BackupVault_Spec(destination *v20231101s.BackupVault_Spec) error {
+func (vault *BackupVault_Spec) AssignProperties_To_BackupVault_Spec(destination *storage.BackupVault_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -630,7 +630,7 @@ func (vault *BackupVault_Spec) AssignProperties_To_BackupVault_Spec(destination 
 
 	// Identity
 	if vault.Identity != nil {
-		var identity v20231101s.DppIdentityDetails
+		var identity storage.DppIdentityDetails
 		err := vault.Identity.AssignProperties_To_DppIdentityDetails(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DppIdentityDetails() to populate field Identity")
@@ -645,7 +645,7 @@ func (vault *BackupVault_Spec) AssignProperties_To_BackupVault_Spec(destination 
 
 	// OperatorSpec
 	if vault.OperatorSpec != nil {
-		var operatorSpec v20231101s.BackupVaultOperatorSpec
+		var operatorSpec storage.BackupVaultOperatorSpec
 		err := vault.OperatorSpec.AssignProperties_To_BackupVaultOperatorSpec(&operatorSpec)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_BackupVaultOperatorSpec() to populate field OperatorSpec")
@@ -668,7 +668,7 @@ func (vault *BackupVault_Spec) AssignProperties_To_BackupVault_Spec(destination 
 
 	// Properties
 	if vault.Properties != nil {
-		var property v20231101s.BackupVaultSpec
+		var property storage.BackupVaultSpec
 		err := vault.Properties.AssignProperties_To_BackupVaultSpec(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_BackupVaultSpec() to populate field Properties")
@@ -774,14 +774,14 @@ var _ genruntime.ConvertibleStatus = &BackupVaultResource_STATUS{}
 
 // ConvertStatusFrom populates our BackupVaultResource_STATUS from the provided source
 func (resource *BackupVaultResource_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20231101s.BackupVaultResource_STATUS)
+	src, ok := source.(*storage.BackupVaultResource_STATUS)
 	if ok {
 		// Populate our instance from source
 		return resource.AssignProperties_From_BackupVaultResource_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20231101s.BackupVaultResource_STATUS{}
+	src = &storage.BackupVaultResource_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -798,14 +798,14 @@ func (resource *BackupVaultResource_STATUS) ConvertStatusFrom(source genruntime.
 
 // ConvertStatusTo populates the provided destination from our BackupVaultResource_STATUS
 func (resource *BackupVaultResource_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20231101s.BackupVaultResource_STATUS)
+	dst, ok := destination.(*storage.BackupVaultResource_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return resource.AssignProperties_To_BackupVaultResource_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20231101s.BackupVaultResource_STATUS{}
+	dst = &storage.BackupVaultResource_STATUS{}
 	err := resource.AssignProperties_To_BackupVaultResource_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -912,7 +912,7 @@ func (resource *BackupVaultResource_STATUS) PopulateFromARM(owner genruntime.Arb
 }
 
 // AssignProperties_From_BackupVaultResource_STATUS populates our BackupVaultResource_STATUS from the provided source BackupVaultResource_STATUS
-func (resource *BackupVaultResource_STATUS) AssignProperties_From_BackupVaultResource_STATUS(source *v20231101s.BackupVaultResource_STATUS) error {
+func (resource *BackupVaultResource_STATUS) AssignProperties_From_BackupVaultResource_STATUS(source *storage.BackupVaultResource_STATUS) error {
 
 	// Conditions
 	resource.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -976,7 +976,7 @@ func (resource *BackupVaultResource_STATUS) AssignProperties_From_BackupVaultRes
 }
 
 // AssignProperties_To_BackupVaultResource_STATUS populates the provided destination BackupVaultResource_STATUS from our BackupVaultResource_STATUS
-func (resource *BackupVaultResource_STATUS) AssignProperties_To_BackupVaultResource_STATUS(destination *v20231101s.BackupVaultResource_STATUS) error {
+func (resource *BackupVaultResource_STATUS) AssignProperties_To_BackupVaultResource_STATUS(destination *storage.BackupVaultResource_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -991,7 +991,7 @@ func (resource *BackupVaultResource_STATUS) AssignProperties_To_BackupVaultResou
 
 	// Identity
 	if resource.Identity != nil {
-		var identity v20231101s.DppIdentityDetails_STATUS
+		var identity storage.DppIdentityDetails_STATUS
 		err := resource.Identity.AssignProperties_To_DppIdentityDetails_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DppIdentityDetails_STATUS() to populate field Identity")
@@ -1009,7 +1009,7 @@ func (resource *BackupVaultResource_STATUS) AssignProperties_To_BackupVaultResou
 
 	// Properties
 	if resource.Properties != nil {
-		var property v20231101s.BackupVault_STATUS
+		var property storage.BackupVault_STATUS
 		err := resource.Properties.AssignProperties_To_BackupVault_STATUS(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_BackupVault_STATUS() to populate field Properties")
@@ -1021,7 +1021,7 @@ func (resource *BackupVaultResource_STATUS) AssignProperties_To_BackupVaultResou
 
 	// SystemData
 	if resource.SystemData != nil {
-		var systemDatum v20231101s.SystemData_STATUS
+		var systemDatum storage.SystemData_STATUS
 		err := resource.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
@@ -1183,7 +1183,7 @@ func (vault *BackupVault_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 }
 
 // AssignProperties_From_BackupVault_STATUS populates our BackupVault_STATUS from the provided source BackupVault_STATUS
-func (vault *BackupVault_STATUS) AssignProperties_From_BackupVault_STATUS(source *v20231101s.BackupVault_STATUS) error {
+func (vault *BackupVault_STATUS) AssignProperties_From_BackupVault_STATUS(source *storage.BackupVault_STATUS) error {
 
 	// FeatureSettings
 	if source.FeatureSettings != nil {
@@ -1294,13 +1294,13 @@ func (vault *BackupVault_STATUS) AssignProperties_From_BackupVault_STATUS(source
 }
 
 // AssignProperties_To_BackupVault_STATUS populates the provided destination BackupVault_STATUS from our BackupVault_STATUS
-func (vault *BackupVault_STATUS) AssignProperties_To_BackupVault_STATUS(destination *v20231101s.BackupVault_STATUS) error {
+func (vault *BackupVault_STATUS) AssignProperties_To_BackupVault_STATUS(destination *storage.BackupVault_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// FeatureSettings
 	if vault.FeatureSettings != nil {
-		var featureSetting v20231101s.FeatureSettings_STATUS
+		var featureSetting storage.FeatureSettings_STATUS
 		err := vault.FeatureSettings.AssignProperties_To_FeatureSettings_STATUS(&featureSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_FeatureSettings_STATUS() to populate field FeatureSettings")
@@ -1320,7 +1320,7 @@ func (vault *BackupVault_STATUS) AssignProperties_To_BackupVault_STATUS(destinat
 
 	// MonitoringSettings
 	if vault.MonitoringSettings != nil {
-		var monitoringSetting v20231101s.MonitoringSettings_STATUS
+		var monitoringSetting storage.MonitoringSettings_STATUS
 		err := vault.MonitoringSettings.AssignProperties_To_MonitoringSettings_STATUS(&monitoringSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_MonitoringSettings_STATUS() to populate field MonitoringSettings")
@@ -1343,7 +1343,7 @@ func (vault *BackupVault_STATUS) AssignProperties_To_BackupVault_STATUS(destinat
 
 	// ResourceMoveDetails
 	if vault.ResourceMoveDetails != nil {
-		var resourceMoveDetail v20231101s.ResourceMoveDetails_STATUS
+		var resourceMoveDetail storage.ResourceMoveDetails_STATUS
 		err := vault.ResourceMoveDetails.AssignProperties_To_ResourceMoveDetails_STATUS(&resourceMoveDetail)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ResourceMoveDetails_STATUS() to populate field ResourceMoveDetails")
@@ -1371,7 +1371,7 @@ func (vault *BackupVault_STATUS) AssignProperties_To_BackupVault_STATUS(destinat
 
 	// SecuritySettings
 	if vault.SecuritySettings != nil {
-		var securitySetting v20231101s.SecuritySettings_STATUS
+		var securitySetting storage.SecuritySettings_STATUS
 		err := vault.SecuritySettings.AssignProperties_To_SecuritySettings_STATUS(&securitySetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SecuritySettings_STATUS() to populate field SecuritySettings")
@@ -1383,11 +1383,11 @@ func (vault *BackupVault_STATUS) AssignProperties_To_BackupVault_STATUS(destinat
 
 	// StorageSettings
 	if vault.StorageSettings != nil {
-		storageSettingList := make([]v20231101s.StorageSetting_STATUS, len(vault.StorageSettings))
+		storageSettingList := make([]storage.StorageSetting_STATUS, len(vault.StorageSettings))
 		for storageSettingIndex, storageSettingItem := range vault.StorageSettings {
 			// Shadow the loop variable to avoid aliasing
 			storageSettingItem := storageSettingItem
-			var storageSetting v20231101s.StorageSetting_STATUS
+			var storageSetting storage.StorageSetting_STATUS
 			err := storageSettingItem.AssignProperties_To_StorageSetting_STATUS(&storageSetting)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_StorageSetting_STATUS() to populate field StorageSettings")
@@ -1417,7 +1417,7 @@ type BackupVaultOperatorSpec struct {
 }
 
 // AssignProperties_From_BackupVaultOperatorSpec populates our BackupVaultOperatorSpec from the provided source BackupVaultOperatorSpec
-func (operator *BackupVaultOperatorSpec) AssignProperties_From_BackupVaultOperatorSpec(source *v20231101s.BackupVaultOperatorSpec) error {
+func (operator *BackupVaultOperatorSpec) AssignProperties_From_BackupVaultOperatorSpec(source *storage.BackupVaultOperatorSpec) error {
 
 	// ConfigMaps
 	if source.ConfigMaps != nil {
@@ -1436,13 +1436,13 @@ func (operator *BackupVaultOperatorSpec) AssignProperties_From_BackupVaultOperat
 }
 
 // AssignProperties_To_BackupVaultOperatorSpec populates the provided destination BackupVaultOperatorSpec from our BackupVaultOperatorSpec
-func (operator *BackupVaultOperatorSpec) AssignProperties_To_BackupVaultOperatorSpec(destination *v20231101s.BackupVaultOperatorSpec) error {
+func (operator *BackupVaultOperatorSpec) AssignProperties_To_BackupVaultOperatorSpec(destination *storage.BackupVaultOperatorSpec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ConfigMaps
 	if operator.ConfigMaps != nil {
-		var configMap v20231101s.BackupVaultOperatorConfigMaps
+		var configMap storage.BackupVaultOperatorConfigMaps
 		err := operator.ConfigMaps.AssignProperties_To_BackupVaultOperatorConfigMaps(&configMap)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_BackupVaultOperatorConfigMaps() to populate field ConfigMaps")
@@ -1602,7 +1602,7 @@ func (vault *BackupVaultSpec) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 }
 
 // AssignProperties_From_BackupVaultSpec populates our BackupVaultSpec from the provided source BackupVaultSpec
-func (vault *BackupVaultSpec) AssignProperties_From_BackupVaultSpec(source *v20231101s.BackupVaultSpec) error {
+func (vault *BackupVaultSpec) AssignProperties_From_BackupVaultSpec(source *storage.BackupVaultSpec) error {
 
 	// FeatureSettings
 	if source.FeatureSettings != nil {
@@ -1666,13 +1666,13 @@ func (vault *BackupVaultSpec) AssignProperties_From_BackupVaultSpec(source *v202
 }
 
 // AssignProperties_To_BackupVaultSpec populates the provided destination BackupVaultSpec from our BackupVaultSpec
-func (vault *BackupVaultSpec) AssignProperties_To_BackupVaultSpec(destination *v20231101s.BackupVaultSpec) error {
+func (vault *BackupVaultSpec) AssignProperties_To_BackupVaultSpec(destination *storage.BackupVaultSpec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// FeatureSettings
 	if vault.FeatureSettings != nil {
-		var featureSetting v20231101s.FeatureSettings
+		var featureSetting storage.FeatureSettings
 		err := vault.FeatureSettings.AssignProperties_To_FeatureSettings(&featureSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_FeatureSettings() to populate field FeatureSettings")
@@ -1684,7 +1684,7 @@ func (vault *BackupVaultSpec) AssignProperties_To_BackupVaultSpec(destination *v
 
 	// MonitoringSettings
 	if vault.MonitoringSettings != nil {
-		var monitoringSetting v20231101s.MonitoringSettings
+		var monitoringSetting storage.MonitoringSettings
 		err := vault.MonitoringSettings.AssignProperties_To_MonitoringSettings(&monitoringSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_MonitoringSettings() to populate field MonitoringSettings")
@@ -1699,7 +1699,7 @@ func (vault *BackupVaultSpec) AssignProperties_To_BackupVaultSpec(destination *v
 
 	// SecuritySettings
 	if vault.SecuritySettings != nil {
-		var securitySetting v20231101s.SecuritySettings
+		var securitySetting storage.SecuritySettings
 		err := vault.SecuritySettings.AssignProperties_To_SecuritySettings(&securitySetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SecuritySettings() to populate field SecuritySettings")
@@ -1711,11 +1711,11 @@ func (vault *BackupVaultSpec) AssignProperties_To_BackupVaultSpec(destination *v
 
 	// StorageSettings
 	if vault.StorageSettings != nil {
-		storageSettingList := make([]v20231101s.StorageSetting, len(vault.StorageSettings))
+		storageSettingList := make([]storage.StorageSetting, len(vault.StorageSettings))
 		for storageSettingIndex, storageSettingItem := range vault.StorageSettings {
 			// Shadow the loop variable to avoid aliasing
 			storageSettingItem := storageSettingItem
-			var storageSetting v20231101s.StorageSetting
+			var storageSetting storage.StorageSetting
 			err := storageSettingItem.AssignProperties_To_StorageSetting(&storageSetting)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_StorageSetting() to populate field StorageSettings")
@@ -1864,7 +1864,7 @@ func (details *DppIdentityDetails) PopulateFromARM(owner genruntime.ArbitraryOwn
 }
 
 // AssignProperties_From_DppIdentityDetails populates our DppIdentityDetails from the provided source DppIdentityDetails
-func (details *DppIdentityDetails) AssignProperties_From_DppIdentityDetails(source *v20231101s.DppIdentityDetails) error {
+func (details *DppIdentityDetails) AssignProperties_From_DppIdentityDetails(source *storage.DppIdentityDetails) error {
 
 	// Type
 	details.Type = genruntime.ClonePointerToString(source.Type)
@@ -1892,7 +1892,7 @@ func (details *DppIdentityDetails) AssignProperties_From_DppIdentityDetails(sour
 }
 
 // AssignProperties_To_DppIdentityDetails populates the provided destination DppIdentityDetails from our DppIdentityDetails
-func (details *DppIdentityDetails) AssignProperties_To_DppIdentityDetails(destination *v20231101s.DppIdentityDetails) error {
+func (details *DppIdentityDetails) AssignProperties_To_DppIdentityDetails(destination *storage.DppIdentityDetails) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1901,11 +1901,11 @@ func (details *DppIdentityDetails) AssignProperties_To_DppIdentityDetails(destin
 
 	// UserAssignedIdentities
 	if details.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]v20231101s.UserAssignedIdentityDetails, len(details.UserAssignedIdentities))
+		userAssignedIdentityList := make([]storage.UserAssignedIdentityDetails, len(details.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range details.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityItem := userAssignedIdentityItem
-			var userAssignedIdentity v20231101s.UserAssignedIdentityDetails
+			var userAssignedIdentity storage.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
@@ -2016,7 +2016,7 @@ func (details *DppIdentityDetails_STATUS) PopulateFromARM(owner genruntime.Arbit
 }
 
 // AssignProperties_From_DppIdentityDetails_STATUS populates our DppIdentityDetails_STATUS from the provided source DppIdentityDetails_STATUS
-func (details *DppIdentityDetails_STATUS) AssignProperties_From_DppIdentityDetails_STATUS(source *v20231101s.DppIdentityDetails_STATUS) error {
+func (details *DppIdentityDetails_STATUS) AssignProperties_From_DppIdentityDetails_STATUS(source *storage.DppIdentityDetails_STATUS) error {
 
 	// PrincipalId
 	details.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
@@ -2050,7 +2050,7 @@ func (details *DppIdentityDetails_STATUS) AssignProperties_From_DppIdentityDetai
 }
 
 // AssignProperties_To_DppIdentityDetails_STATUS populates the provided destination DppIdentityDetails_STATUS from our DppIdentityDetails_STATUS
-func (details *DppIdentityDetails_STATUS) AssignProperties_To_DppIdentityDetails_STATUS(destination *v20231101s.DppIdentityDetails_STATUS) error {
+func (details *DppIdentityDetails_STATUS) AssignProperties_To_DppIdentityDetails_STATUS(destination *storage.DppIdentityDetails_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2065,11 +2065,11 @@ func (details *DppIdentityDetails_STATUS) AssignProperties_To_DppIdentityDetails
 
 	// UserAssignedIdentities
 	if details.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v20231101s.UserAssignedIdentity_STATUS, len(details.UserAssignedIdentities))
+		userAssignedIdentityMap := make(map[string]storage.UserAssignedIdentity_STATUS, len(details.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range details.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity v20231101s.UserAssignedIdentity_STATUS
+			var userAssignedIdentity storage.UserAssignedIdentity_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_UserAssignedIdentity_STATUS(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentities")
@@ -2168,7 +2168,7 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 }
 
 // AssignProperties_From_SystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v20231101s.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *storage.SystemData_STATUS) error {
 
 	// CreatedAt
 	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
@@ -2205,7 +2205,7 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 }
 
 // AssignProperties_To_SystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *v20231101s.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *storage.SystemData_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2254,7 +2254,7 @@ type BackupVaultOperatorConfigMaps struct {
 }
 
 // AssignProperties_From_BackupVaultOperatorConfigMaps populates our BackupVaultOperatorConfigMaps from the provided source BackupVaultOperatorConfigMaps
-func (maps *BackupVaultOperatorConfigMaps) AssignProperties_From_BackupVaultOperatorConfigMaps(source *v20231101s.BackupVaultOperatorConfigMaps) error {
+func (maps *BackupVaultOperatorConfigMaps) AssignProperties_From_BackupVaultOperatorConfigMaps(source *storage.BackupVaultOperatorConfigMaps) error {
 
 	// PrincipalId
 	if source.PrincipalId != nil {
@@ -2269,7 +2269,7 @@ func (maps *BackupVaultOperatorConfigMaps) AssignProperties_From_BackupVaultOper
 }
 
 // AssignProperties_To_BackupVaultOperatorConfigMaps populates the provided destination BackupVaultOperatorConfigMaps from our BackupVaultOperatorConfigMaps
-func (maps *BackupVaultOperatorConfigMaps) AssignProperties_To_BackupVaultOperatorConfigMaps(destination *v20231101s.BackupVaultOperatorConfigMaps) error {
+func (maps *BackupVaultOperatorConfigMaps) AssignProperties_To_BackupVaultOperatorConfigMaps(destination *storage.BackupVaultOperatorConfigMaps) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2370,7 +2370,7 @@ func (settings *FeatureSettings) PopulateFromARM(owner genruntime.ArbitraryOwner
 }
 
 // AssignProperties_From_FeatureSettings populates our FeatureSettings from the provided source FeatureSettings
-func (settings *FeatureSettings) AssignProperties_From_FeatureSettings(source *v20231101s.FeatureSettings) error {
+func (settings *FeatureSettings) AssignProperties_From_FeatureSettings(source *storage.FeatureSettings) error {
 
 	// CrossRegionRestoreSettings
 	if source.CrossRegionRestoreSettings != nil {
@@ -2401,13 +2401,13 @@ func (settings *FeatureSettings) AssignProperties_From_FeatureSettings(source *v
 }
 
 // AssignProperties_To_FeatureSettings populates the provided destination FeatureSettings from our FeatureSettings
-func (settings *FeatureSettings) AssignProperties_To_FeatureSettings(destination *v20231101s.FeatureSettings) error {
+func (settings *FeatureSettings) AssignProperties_To_FeatureSettings(destination *storage.FeatureSettings) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// CrossRegionRestoreSettings
 	if settings.CrossRegionRestoreSettings != nil {
-		var crossRegionRestoreSetting v20231101s.CrossRegionRestoreSettings
+		var crossRegionRestoreSetting storage.CrossRegionRestoreSettings
 		err := settings.CrossRegionRestoreSettings.AssignProperties_To_CrossRegionRestoreSettings(&crossRegionRestoreSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CrossRegionRestoreSettings() to populate field CrossRegionRestoreSettings")
@@ -2419,7 +2419,7 @@ func (settings *FeatureSettings) AssignProperties_To_FeatureSettings(destination
 
 	// CrossSubscriptionRestoreSettings
 	if settings.CrossSubscriptionRestoreSettings != nil {
-		var crossSubscriptionRestoreSetting v20231101s.CrossSubscriptionRestoreSettings
+		var crossSubscriptionRestoreSetting storage.CrossSubscriptionRestoreSettings
 		err := settings.CrossSubscriptionRestoreSettings.AssignProperties_To_CrossSubscriptionRestoreSettings(&crossSubscriptionRestoreSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CrossSubscriptionRestoreSettings() to populate field CrossSubscriptionRestoreSettings")
@@ -2520,7 +2520,7 @@ func (settings *FeatureSettings_STATUS) PopulateFromARM(owner genruntime.Arbitra
 }
 
 // AssignProperties_From_FeatureSettings_STATUS populates our FeatureSettings_STATUS from the provided source FeatureSettings_STATUS
-func (settings *FeatureSettings_STATUS) AssignProperties_From_FeatureSettings_STATUS(source *v20231101s.FeatureSettings_STATUS) error {
+func (settings *FeatureSettings_STATUS) AssignProperties_From_FeatureSettings_STATUS(source *storage.FeatureSettings_STATUS) error {
 
 	// CrossRegionRestoreSettings
 	if source.CrossRegionRestoreSettings != nil {
@@ -2551,13 +2551,13 @@ func (settings *FeatureSettings_STATUS) AssignProperties_From_FeatureSettings_ST
 }
 
 // AssignProperties_To_FeatureSettings_STATUS populates the provided destination FeatureSettings_STATUS from our FeatureSettings_STATUS
-func (settings *FeatureSettings_STATUS) AssignProperties_To_FeatureSettings_STATUS(destination *v20231101s.FeatureSettings_STATUS) error {
+func (settings *FeatureSettings_STATUS) AssignProperties_To_FeatureSettings_STATUS(destination *storage.FeatureSettings_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// CrossRegionRestoreSettings
 	if settings.CrossRegionRestoreSettings != nil {
-		var crossRegionRestoreSetting v20231101s.CrossRegionRestoreSettings_STATUS
+		var crossRegionRestoreSetting storage.CrossRegionRestoreSettings_STATUS
 		err := settings.CrossRegionRestoreSettings.AssignProperties_To_CrossRegionRestoreSettings_STATUS(&crossRegionRestoreSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CrossRegionRestoreSettings_STATUS() to populate field CrossRegionRestoreSettings")
@@ -2569,7 +2569,7 @@ func (settings *FeatureSettings_STATUS) AssignProperties_To_FeatureSettings_STAT
 
 	// CrossSubscriptionRestoreSettings
 	if settings.CrossSubscriptionRestoreSettings != nil {
-		var crossSubscriptionRestoreSetting v20231101s.CrossSubscriptionRestoreSettings_STATUS
+		var crossSubscriptionRestoreSetting storage.CrossSubscriptionRestoreSettings_STATUS
 		err := settings.CrossSubscriptionRestoreSettings.AssignProperties_To_CrossSubscriptionRestoreSettings_STATUS(&crossSubscriptionRestoreSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CrossSubscriptionRestoreSettings_STATUS() to populate field CrossSubscriptionRestoreSettings")
@@ -2645,7 +2645,7 @@ func (settings *MonitoringSettings) PopulateFromARM(owner genruntime.ArbitraryOw
 }
 
 // AssignProperties_From_MonitoringSettings populates our MonitoringSettings from the provided source MonitoringSettings
-func (settings *MonitoringSettings) AssignProperties_From_MonitoringSettings(source *v20231101s.MonitoringSettings) error {
+func (settings *MonitoringSettings) AssignProperties_From_MonitoringSettings(source *storage.MonitoringSettings) error {
 
 	// AzureMonitorAlertSettings
 	if source.AzureMonitorAlertSettings != nil {
@@ -2664,13 +2664,13 @@ func (settings *MonitoringSettings) AssignProperties_From_MonitoringSettings(sou
 }
 
 // AssignProperties_To_MonitoringSettings populates the provided destination MonitoringSettings from our MonitoringSettings
-func (settings *MonitoringSettings) AssignProperties_To_MonitoringSettings(destination *v20231101s.MonitoringSettings) error {
+func (settings *MonitoringSettings) AssignProperties_To_MonitoringSettings(destination *storage.MonitoringSettings) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureMonitorAlertSettings
 	if settings.AzureMonitorAlertSettings != nil {
-		var azureMonitorAlertSetting v20231101s.AzureMonitorAlertSettings
+		var azureMonitorAlertSetting storage.AzureMonitorAlertSettings
 		err := settings.AzureMonitorAlertSettings.AssignProperties_To_AzureMonitorAlertSettings(&azureMonitorAlertSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AzureMonitorAlertSettings() to populate field AzureMonitorAlertSettings")
@@ -2746,7 +2746,7 @@ func (settings *MonitoringSettings_STATUS) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignProperties_From_MonitoringSettings_STATUS populates our MonitoringSettings_STATUS from the provided source MonitoringSettings_STATUS
-func (settings *MonitoringSettings_STATUS) AssignProperties_From_MonitoringSettings_STATUS(source *v20231101s.MonitoringSettings_STATUS) error {
+func (settings *MonitoringSettings_STATUS) AssignProperties_From_MonitoringSettings_STATUS(source *storage.MonitoringSettings_STATUS) error {
 
 	// AzureMonitorAlertSettings
 	if source.AzureMonitorAlertSettings != nil {
@@ -2765,13 +2765,13 @@ func (settings *MonitoringSettings_STATUS) AssignProperties_From_MonitoringSetti
 }
 
 // AssignProperties_To_MonitoringSettings_STATUS populates the provided destination MonitoringSettings_STATUS from our MonitoringSettings_STATUS
-func (settings *MonitoringSettings_STATUS) AssignProperties_To_MonitoringSettings_STATUS(destination *v20231101s.MonitoringSettings_STATUS) error {
+func (settings *MonitoringSettings_STATUS) AssignProperties_To_MonitoringSettings_STATUS(destination *storage.MonitoringSettings_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureMonitorAlertSettings
 	if settings.AzureMonitorAlertSettings != nil {
-		var azureMonitorAlertSetting v20231101s.AzureMonitorAlertSettings_STATUS
+		var azureMonitorAlertSetting storage.AzureMonitorAlertSettings_STATUS
 		err := settings.AzureMonitorAlertSettings.AssignProperties_To_AzureMonitorAlertSettings_STATUS(&azureMonitorAlertSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AzureMonitorAlertSettings_STATUS() to populate field AzureMonitorAlertSettings")
@@ -2859,7 +2859,7 @@ func (details *ResourceMoveDetails_STATUS) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignProperties_From_ResourceMoveDetails_STATUS populates our ResourceMoveDetails_STATUS from the provided source ResourceMoveDetails_STATUS
-func (details *ResourceMoveDetails_STATUS) AssignProperties_From_ResourceMoveDetails_STATUS(source *v20231101s.ResourceMoveDetails_STATUS) error {
+func (details *ResourceMoveDetails_STATUS) AssignProperties_From_ResourceMoveDetails_STATUS(source *storage.ResourceMoveDetails_STATUS) error {
 
 	// CompletionTimeUtc
 	details.CompletionTimeUtc = genruntime.ClonePointerToString(source.CompletionTimeUtc)
@@ -2881,7 +2881,7 @@ func (details *ResourceMoveDetails_STATUS) AssignProperties_From_ResourceMoveDet
 }
 
 // AssignProperties_To_ResourceMoveDetails_STATUS populates the provided destination ResourceMoveDetails_STATUS from our ResourceMoveDetails_STATUS
-func (details *ResourceMoveDetails_STATUS) AssignProperties_To_ResourceMoveDetails_STATUS(destination *v20231101s.ResourceMoveDetails_STATUS) error {
+func (details *ResourceMoveDetails_STATUS) AssignProperties_To_ResourceMoveDetails_STATUS(destination *storage.ResourceMoveDetails_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2990,7 +2990,7 @@ func (settings *SecuritySettings) PopulateFromARM(owner genruntime.ArbitraryOwne
 }
 
 // AssignProperties_From_SecuritySettings populates our SecuritySettings from the provided source SecuritySettings
-func (settings *SecuritySettings) AssignProperties_From_SecuritySettings(source *v20231101s.SecuritySettings) error {
+func (settings *SecuritySettings) AssignProperties_From_SecuritySettings(source *storage.SecuritySettings) error {
 
 	// ImmutabilitySettings
 	if source.ImmutabilitySettings != nil {
@@ -3021,13 +3021,13 @@ func (settings *SecuritySettings) AssignProperties_From_SecuritySettings(source 
 }
 
 // AssignProperties_To_SecuritySettings populates the provided destination SecuritySettings from our SecuritySettings
-func (settings *SecuritySettings) AssignProperties_To_SecuritySettings(destination *v20231101s.SecuritySettings) error {
+func (settings *SecuritySettings) AssignProperties_To_SecuritySettings(destination *storage.SecuritySettings) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ImmutabilitySettings
 	if settings.ImmutabilitySettings != nil {
-		var immutabilitySetting v20231101s.ImmutabilitySettings
+		var immutabilitySetting storage.ImmutabilitySettings
 		err := settings.ImmutabilitySettings.AssignProperties_To_ImmutabilitySettings(&immutabilitySetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ImmutabilitySettings() to populate field ImmutabilitySettings")
@@ -3039,7 +3039,7 @@ func (settings *SecuritySettings) AssignProperties_To_SecuritySettings(destinati
 
 	// SoftDeleteSettings
 	if settings.SoftDeleteSettings != nil {
-		var softDeleteSetting v20231101s.SoftDeleteSettings
+		var softDeleteSetting storage.SoftDeleteSettings
 		err := settings.SoftDeleteSettings.AssignProperties_To_SoftDeleteSettings(&softDeleteSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SoftDeleteSettings() to populate field SoftDeleteSettings")
@@ -3141,7 +3141,7 @@ func (settings *SecuritySettings_STATUS) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_SecuritySettings_STATUS populates our SecuritySettings_STATUS from the provided source SecuritySettings_STATUS
-func (settings *SecuritySettings_STATUS) AssignProperties_From_SecuritySettings_STATUS(source *v20231101s.SecuritySettings_STATUS) error {
+func (settings *SecuritySettings_STATUS) AssignProperties_From_SecuritySettings_STATUS(source *storage.SecuritySettings_STATUS) error {
 
 	// ImmutabilitySettings
 	if source.ImmutabilitySettings != nil {
@@ -3172,13 +3172,13 @@ func (settings *SecuritySettings_STATUS) AssignProperties_From_SecuritySettings_
 }
 
 // AssignProperties_To_SecuritySettings_STATUS populates the provided destination SecuritySettings_STATUS from our SecuritySettings_STATUS
-func (settings *SecuritySettings_STATUS) AssignProperties_To_SecuritySettings_STATUS(destination *v20231101s.SecuritySettings_STATUS) error {
+func (settings *SecuritySettings_STATUS) AssignProperties_To_SecuritySettings_STATUS(destination *storage.SecuritySettings_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ImmutabilitySettings
 	if settings.ImmutabilitySettings != nil {
-		var immutabilitySetting v20231101s.ImmutabilitySettings_STATUS
+		var immutabilitySetting storage.ImmutabilitySettings_STATUS
 		err := settings.ImmutabilitySettings.AssignProperties_To_ImmutabilitySettings_STATUS(&immutabilitySetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ImmutabilitySettings_STATUS() to populate field ImmutabilitySettings")
@@ -3190,7 +3190,7 @@ func (settings *SecuritySettings_STATUS) AssignProperties_To_SecuritySettings_ST
 
 	// SoftDeleteSettings
 	if settings.SoftDeleteSettings != nil {
-		var softDeleteSetting v20231101s.SoftDeleteSettings_STATUS
+		var softDeleteSetting storage.SoftDeleteSettings_STATUS
 		err := settings.SoftDeleteSettings.AssignProperties_To_SoftDeleteSettings_STATUS(&softDeleteSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SoftDeleteSettings_STATUS() to populate field SoftDeleteSettings")
@@ -3272,7 +3272,7 @@ func (setting *StorageSetting) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 }
 
 // AssignProperties_From_StorageSetting populates our StorageSetting from the provided source StorageSetting
-func (setting *StorageSetting) AssignProperties_From_StorageSetting(source *v20231101s.StorageSetting) error {
+func (setting *StorageSetting) AssignProperties_From_StorageSetting(source *storage.StorageSetting) error {
 
 	// DatastoreType
 	if source.DatastoreType != nil {
@@ -3297,7 +3297,7 @@ func (setting *StorageSetting) AssignProperties_From_StorageSetting(source *v202
 }
 
 // AssignProperties_To_StorageSetting populates the provided destination StorageSetting from our StorageSetting
-func (setting *StorageSetting) AssignProperties_To_StorageSetting(destination *v20231101s.StorageSetting) error {
+func (setting *StorageSetting) AssignProperties_To_StorageSetting(destination *storage.StorageSetting) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3391,7 +3391,7 @@ func (setting *StorageSetting_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 }
 
 // AssignProperties_From_StorageSetting_STATUS populates our StorageSetting_STATUS from the provided source StorageSetting_STATUS
-func (setting *StorageSetting_STATUS) AssignProperties_From_StorageSetting_STATUS(source *v20231101s.StorageSetting_STATUS) error {
+func (setting *StorageSetting_STATUS) AssignProperties_From_StorageSetting_STATUS(source *storage.StorageSetting_STATUS) error {
 
 	// DatastoreType
 	if source.DatastoreType != nil {
@@ -3416,7 +3416,7 @@ func (setting *StorageSetting_STATUS) AssignProperties_From_StorageSetting_STATU
 }
 
 // AssignProperties_To_StorageSetting_STATUS populates the provided destination StorageSetting_STATUS from our StorageSetting_STATUS
-func (setting *StorageSetting_STATUS) AssignProperties_To_StorageSetting_STATUS(destination *v20231101s.StorageSetting_STATUS) error {
+func (setting *StorageSetting_STATUS) AssignProperties_To_StorageSetting_STATUS(destination *storage.StorageSetting_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3487,7 +3487,7 @@ func (identity *UserAssignedIdentity_STATUS) PopulateFromARM(owner genruntime.Ar
 }
 
 // AssignProperties_From_UserAssignedIdentity_STATUS populates our UserAssignedIdentity_STATUS from the provided source UserAssignedIdentity_STATUS
-func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedIdentity_STATUS(source *v20231101s.UserAssignedIdentity_STATUS) error {
+func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedIdentity_STATUS(source *storage.UserAssignedIdentity_STATUS) error {
 
 	// ClientId
 	identity.ClientId = genruntime.ClonePointerToString(source.ClientId)
@@ -3500,7 +3500,7 @@ func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedI
 }
 
 // AssignProperties_To_UserAssignedIdentity_STATUS populates the provided destination UserAssignedIdentity_STATUS from our UserAssignedIdentity_STATUS
-func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIdentity_STATUS(destination *v20231101s.UserAssignedIdentity_STATUS) error {
+func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIdentity_STATUS(destination *storage.UserAssignedIdentity_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3527,7 +3527,7 @@ type UserAssignedIdentityDetails struct {
 }
 
 // AssignProperties_From_UserAssignedIdentityDetails populates our UserAssignedIdentityDetails from the provided source UserAssignedIdentityDetails
-func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *v20231101s.UserAssignedIdentityDetails) error {
+func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *storage.UserAssignedIdentityDetails) error {
 
 	// Reference
 	details.Reference = source.Reference.Copy()
@@ -3537,7 +3537,7 @@ func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedId
 }
 
 // AssignProperties_To_UserAssignedIdentityDetails populates the provided destination UserAssignedIdentityDetails from our UserAssignedIdentityDetails
-func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *v20231101s.UserAssignedIdentityDetails) error {
+func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *storage.UserAssignedIdentityDetails) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3600,7 +3600,7 @@ func (settings *AzureMonitorAlertSettings) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignProperties_From_AzureMonitorAlertSettings populates our AzureMonitorAlertSettings from the provided source AzureMonitorAlertSettings
-func (settings *AzureMonitorAlertSettings) AssignProperties_From_AzureMonitorAlertSettings(source *v20231101s.AzureMonitorAlertSettings) error {
+func (settings *AzureMonitorAlertSettings) AssignProperties_From_AzureMonitorAlertSettings(source *storage.AzureMonitorAlertSettings) error {
 
 	// AlertsForAllJobFailures
 	if source.AlertsForAllJobFailures != nil {
@@ -3616,7 +3616,7 @@ func (settings *AzureMonitorAlertSettings) AssignProperties_From_AzureMonitorAle
 }
 
 // AssignProperties_To_AzureMonitorAlertSettings populates the provided destination AzureMonitorAlertSettings from our AzureMonitorAlertSettings
-func (settings *AzureMonitorAlertSettings) AssignProperties_To_AzureMonitorAlertSettings(destination *v20231101s.AzureMonitorAlertSettings) error {
+func (settings *AzureMonitorAlertSettings) AssignProperties_To_AzureMonitorAlertSettings(destination *storage.AzureMonitorAlertSettings) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3684,7 +3684,7 @@ func (settings *AzureMonitorAlertSettings_STATUS) PopulateFromARM(owner genrunti
 }
 
 // AssignProperties_From_AzureMonitorAlertSettings_STATUS populates our AzureMonitorAlertSettings_STATUS from the provided source AzureMonitorAlertSettings_STATUS
-func (settings *AzureMonitorAlertSettings_STATUS) AssignProperties_From_AzureMonitorAlertSettings_STATUS(source *v20231101s.AzureMonitorAlertSettings_STATUS) error {
+func (settings *AzureMonitorAlertSettings_STATUS) AssignProperties_From_AzureMonitorAlertSettings_STATUS(source *storage.AzureMonitorAlertSettings_STATUS) error {
 
 	// AlertsForAllJobFailures
 	if source.AlertsForAllJobFailures != nil {
@@ -3700,7 +3700,7 @@ func (settings *AzureMonitorAlertSettings_STATUS) AssignProperties_From_AzureMon
 }
 
 // AssignProperties_To_AzureMonitorAlertSettings_STATUS populates the provided destination AzureMonitorAlertSettings_STATUS from our AzureMonitorAlertSettings_STATUS
-func (settings *AzureMonitorAlertSettings_STATUS) AssignProperties_To_AzureMonitorAlertSettings_STATUS(destination *v20231101s.AzureMonitorAlertSettings_STATUS) error {
+func (settings *AzureMonitorAlertSettings_STATUS) AssignProperties_To_AzureMonitorAlertSettings_STATUS(destination *storage.AzureMonitorAlertSettings_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3768,7 +3768,7 @@ func (settings *CrossRegionRestoreSettings) PopulateFromARM(owner genruntime.Arb
 }
 
 // AssignProperties_From_CrossRegionRestoreSettings populates our CrossRegionRestoreSettings from the provided source CrossRegionRestoreSettings
-func (settings *CrossRegionRestoreSettings) AssignProperties_From_CrossRegionRestoreSettings(source *v20231101s.CrossRegionRestoreSettings) error {
+func (settings *CrossRegionRestoreSettings) AssignProperties_From_CrossRegionRestoreSettings(source *storage.CrossRegionRestoreSettings) error {
 
 	// State
 	if source.State != nil {
@@ -3784,7 +3784,7 @@ func (settings *CrossRegionRestoreSettings) AssignProperties_From_CrossRegionRes
 }
 
 // AssignProperties_To_CrossRegionRestoreSettings populates the provided destination CrossRegionRestoreSettings from our CrossRegionRestoreSettings
-func (settings *CrossRegionRestoreSettings) AssignProperties_To_CrossRegionRestoreSettings(destination *v20231101s.CrossRegionRestoreSettings) error {
+func (settings *CrossRegionRestoreSettings) AssignProperties_To_CrossRegionRestoreSettings(destination *storage.CrossRegionRestoreSettings) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3852,7 +3852,7 @@ func (settings *CrossRegionRestoreSettings_STATUS) PopulateFromARM(owner genrunt
 }
 
 // AssignProperties_From_CrossRegionRestoreSettings_STATUS populates our CrossRegionRestoreSettings_STATUS from the provided source CrossRegionRestoreSettings_STATUS
-func (settings *CrossRegionRestoreSettings_STATUS) AssignProperties_From_CrossRegionRestoreSettings_STATUS(source *v20231101s.CrossRegionRestoreSettings_STATUS) error {
+func (settings *CrossRegionRestoreSettings_STATUS) AssignProperties_From_CrossRegionRestoreSettings_STATUS(source *storage.CrossRegionRestoreSettings_STATUS) error {
 
 	// State
 	if source.State != nil {
@@ -3868,7 +3868,7 @@ func (settings *CrossRegionRestoreSettings_STATUS) AssignProperties_From_CrossRe
 }
 
 // AssignProperties_To_CrossRegionRestoreSettings_STATUS populates the provided destination CrossRegionRestoreSettings_STATUS from our CrossRegionRestoreSettings_STATUS
-func (settings *CrossRegionRestoreSettings_STATUS) AssignProperties_To_CrossRegionRestoreSettings_STATUS(destination *v20231101s.CrossRegionRestoreSettings_STATUS) error {
+func (settings *CrossRegionRestoreSettings_STATUS) AssignProperties_To_CrossRegionRestoreSettings_STATUS(destination *storage.CrossRegionRestoreSettings_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3937,7 +3937,7 @@ func (settings *CrossSubscriptionRestoreSettings) PopulateFromARM(owner genrunti
 }
 
 // AssignProperties_From_CrossSubscriptionRestoreSettings populates our CrossSubscriptionRestoreSettings from the provided source CrossSubscriptionRestoreSettings
-func (settings *CrossSubscriptionRestoreSettings) AssignProperties_From_CrossSubscriptionRestoreSettings(source *v20231101s.CrossSubscriptionRestoreSettings) error {
+func (settings *CrossSubscriptionRestoreSettings) AssignProperties_From_CrossSubscriptionRestoreSettings(source *storage.CrossSubscriptionRestoreSettings) error {
 
 	// State
 	if source.State != nil {
@@ -3953,7 +3953,7 @@ func (settings *CrossSubscriptionRestoreSettings) AssignProperties_From_CrossSub
 }
 
 // AssignProperties_To_CrossSubscriptionRestoreSettings populates the provided destination CrossSubscriptionRestoreSettings from our CrossSubscriptionRestoreSettings
-func (settings *CrossSubscriptionRestoreSettings) AssignProperties_To_CrossSubscriptionRestoreSettings(destination *v20231101s.CrossSubscriptionRestoreSettings) error {
+func (settings *CrossSubscriptionRestoreSettings) AssignProperties_To_CrossSubscriptionRestoreSettings(destination *storage.CrossSubscriptionRestoreSettings) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4022,7 +4022,7 @@ func (settings *CrossSubscriptionRestoreSettings_STATUS) PopulateFromARM(owner g
 }
 
 // AssignProperties_From_CrossSubscriptionRestoreSettings_STATUS populates our CrossSubscriptionRestoreSettings_STATUS from the provided source CrossSubscriptionRestoreSettings_STATUS
-func (settings *CrossSubscriptionRestoreSettings_STATUS) AssignProperties_From_CrossSubscriptionRestoreSettings_STATUS(source *v20231101s.CrossSubscriptionRestoreSettings_STATUS) error {
+func (settings *CrossSubscriptionRestoreSettings_STATUS) AssignProperties_From_CrossSubscriptionRestoreSettings_STATUS(source *storage.CrossSubscriptionRestoreSettings_STATUS) error {
 
 	// State
 	if source.State != nil {
@@ -4038,7 +4038,7 @@ func (settings *CrossSubscriptionRestoreSettings_STATUS) AssignProperties_From_C
 }
 
 // AssignProperties_To_CrossSubscriptionRestoreSettings_STATUS populates the provided destination CrossSubscriptionRestoreSettings_STATUS from our CrossSubscriptionRestoreSettings_STATUS
-func (settings *CrossSubscriptionRestoreSettings_STATUS) AssignProperties_To_CrossSubscriptionRestoreSettings_STATUS(destination *v20231101s.CrossSubscriptionRestoreSettings_STATUS) error {
+func (settings *CrossSubscriptionRestoreSettings_STATUS) AssignProperties_To_CrossSubscriptionRestoreSettings_STATUS(destination *storage.CrossSubscriptionRestoreSettings_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4107,7 +4107,7 @@ func (settings *ImmutabilitySettings) PopulateFromARM(owner genruntime.Arbitrary
 }
 
 // AssignProperties_From_ImmutabilitySettings populates our ImmutabilitySettings from the provided source ImmutabilitySettings
-func (settings *ImmutabilitySettings) AssignProperties_From_ImmutabilitySettings(source *v20231101s.ImmutabilitySettings) error {
+func (settings *ImmutabilitySettings) AssignProperties_From_ImmutabilitySettings(source *storage.ImmutabilitySettings) error {
 
 	// State
 	if source.State != nil {
@@ -4123,7 +4123,7 @@ func (settings *ImmutabilitySettings) AssignProperties_From_ImmutabilitySettings
 }
 
 // AssignProperties_To_ImmutabilitySettings populates the provided destination ImmutabilitySettings from our ImmutabilitySettings
-func (settings *ImmutabilitySettings) AssignProperties_To_ImmutabilitySettings(destination *v20231101s.ImmutabilitySettings) error {
+func (settings *ImmutabilitySettings) AssignProperties_To_ImmutabilitySettings(destination *storage.ImmutabilitySettings) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4192,7 +4192,7 @@ func (settings *ImmutabilitySettings_STATUS) PopulateFromARM(owner genruntime.Ar
 }
 
 // AssignProperties_From_ImmutabilitySettings_STATUS populates our ImmutabilitySettings_STATUS from the provided source ImmutabilitySettings_STATUS
-func (settings *ImmutabilitySettings_STATUS) AssignProperties_From_ImmutabilitySettings_STATUS(source *v20231101s.ImmutabilitySettings_STATUS) error {
+func (settings *ImmutabilitySettings_STATUS) AssignProperties_From_ImmutabilitySettings_STATUS(source *storage.ImmutabilitySettings_STATUS) error {
 
 	// State
 	if source.State != nil {
@@ -4208,7 +4208,7 @@ func (settings *ImmutabilitySettings_STATUS) AssignProperties_From_ImmutabilityS
 }
 
 // AssignProperties_To_ImmutabilitySettings_STATUS populates the provided destination ImmutabilitySettings_STATUS from our ImmutabilitySettings_STATUS
-func (settings *ImmutabilitySettings_STATUS) AssignProperties_To_ImmutabilitySettings_STATUS(destination *v20231101s.ImmutabilitySettings_STATUS) error {
+func (settings *ImmutabilitySettings_STATUS) AssignProperties_To_ImmutabilitySettings_STATUS(destination *storage.ImmutabilitySettings_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4292,7 +4292,7 @@ func (settings *SoftDeleteSettings) PopulateFromARM(owner genruntime.ArbitraryOw
 }
 
 // AssignProperties_From_SoftDeleteSettings populates our SoftDeleteSettings from the provided source SoftDeleteSettings
-func (settings *SoftDeleteSettings) AssignProperties_From_SoftDeleteSettings(source *v20231101s.SoftDeleteSettings) error {
+func (settings *SoftDeleteSettings) AssignProperties_From_SoftDeleteSettings(source *storage.SoftDeleteSettings) error {
 
 	// RetentionDurationInDays
 	if source.RetentionDurationInDays != nil {
@@ -4316,7 +4316,7 @@ func (settings *SoftDeleteSettings) AssignProperties_From_SoftDeleteSettings(sou
 }
 
 // AssignProperties_To_SoftDeleteSettings populates the provided destination SoftDeleteSettings from our SoftDeleteSettings
-func (settings *SoftDeleteSettings) AssignProperties_To_SoftDeleteSettings(destination *v20231101s.SoftDeleteSettings) error {
+func (settings *SoftDeleteSettings) AssignProperties_To_SoftDeleteSettings(destination *storage.SoftDeleteSettings) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4410,7 +4410,7 @@ func (settings *SoftDeleteSettings_STATUS) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignProperties_From_SoftDeleteSettings_STATUS populates our SoftDeleteSettings_STATUS from the provided source SoftDeleteSettings_STATUS
-func (settings *SoftDeleteSettings_STATUS) AssignProperties_From_SoftDeleteSettings_STATUS(source *v20231101s.SoftDeleteSettings_STATUS) error {
+func (settings *SoftDeleteSettings_STATUS) AssignProperties_From_SoftDeleteSettings_STATUS(source *storage.SoftDeleteSettings_STATUS) error {
 
 	// RetentionDurationInDays
 	if source.RetentionDurationInDays != nil {
@@ -4434,7 +4434,7 @@ func (settings *SoftDeleteSettings_STATUS) AssignProperties_From_SoftDeleteSetti
 }
 
 // AssignProperties_To_SoftDeleteSettings_STATUS populates the provided destination SoftDeleteSettings_STATUS from our SoftDeleteSettings_STATUS
-func (settings *SoftDeleteSettings_STATUS) AssignProperties_To_SoftDeleteSettings_STATUS(destination *v20231101s.SoftDeleteSettings_STATUS) error {
+func (settings *SoftDeleteSettings_STATUS) AssignProperties_To_SoftDeleteSettings_STATUS(destination *storage.SoftDeleteSettings_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

@@ -14,7 +14,8 @@ import (
 
 // Type represents something that is a Go type
 type Type interface {
-	// RequiredPackageReferences returns a set of packages imports required by this type
+	// RequiredPackageReferences returns a set of packages imports required by this type.
+	// The set should *not* include the package in which the type is defined.
 	RequiredPackageReferences() *PackageReferenceSet
 
 	// References returns the names of all types that this type

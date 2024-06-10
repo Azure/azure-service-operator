@@ -5,7 +5,7 @@ package v1api20230501
 
 import (
 	"fmt"
-	v20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &Secret{}
 
 // ConvertFrom populates our Secret from the provided hub Secret
 func (secret *Secret) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20230501s.Secret)
+	source, ok := hub.(*storage.Secret)
 	if !ok {
 		return fmt.Errorf("expected cdn/v1api20230501/storage/Secret but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (secret *Secret) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub Secret from our Secret
 func (secret *Secret) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20230501s.Secret)
+	destination, ok := hub.(*storage.Secret)
 	if !ok {
 		return fmt.Errorf("expected cdn/v1api20230501/storage/Secret but received %T instead", hub)
 	}
@@ -254,7 +254,7 @@ func (secret *Secret) validateWriteOnceProperties(old runtime.Object) (admission
 }
 
 // AssignProperties_From_Secret populates our Secret from the provided source Secret
-func (secret *Secret) AssignProperties_From_Secret(source *v20230501s.Secret) error {
+func (secret *Secret) AssignProperties_From_Secret(source *storage.Secret) error {
 
 	// ObjectMeta
 	secret.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -280,13 +280,13 @@ func (secret *Secret) AssignProperties_From_Secret(source *v20230501s.Secret) er
 }
 
 // AssignProperties_To_Secret populates the provided destination Secret from our Secret
-func (secret *Secret) AssignProperties_To_Secret(destination *v20230501s.Secret) error {
+func (secret *Secret) AssignProperties_To_Secret(destination *storage.Secret) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *secret.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20230501s.Profiles_Secret_Spec
+	var spec storage.Profiles_Secret_Spec
 	err := secret.Spec.AssignProperties_To_Profiles_Secret_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Profiles_Secret_Spec() to populate field Spec")
@@ -294,7 +294,7 @@ func (secret *Secret) AssignProperties_To_Secret(destination *v20230501s.Secret)
 	destination.Spec = spec
 
 	// Status
-	var status v20230501s.Profiles_Secret_STATUS
+	var status storage.Profiles_Secret_STATUS
 	err = secret.Status.AssignProperties_To_Profiles_Secret_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Profiles_Secret_STATUS() to populate field Status")
@@ -409,14 +409,14 @@ var _ genruntime.ConvertibleSpec = &Profiles_Secret_Spec{}
 
 // ConvertSpecFrom populates our Profiles_Secret_Spec from the provided source
 func (secret *Profiles_Secret_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20230501s.Profiles_Secret_Spec)
+	src, ok := source.(*storage.Profiles_Secret_Spec)
 	if ok {
 		// Populate our instance from source
 		return secret.AssignProperties_From_Profiles_Secret_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20230501s.Profiles_Secret_Spec{}
+	src = &storage.Profiles_Secret_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -433,14 +433,14 @@ func (secret *Profiles_Secret_Spec) ConvertSpecFrom(source genruntime.Convertibl
 
 // ConvertSpecTo populates the provided destination from our Profiles_Secret_Spec
 func (secret *Profiles_Secret_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20230501s.Profiles_Secret_Spec)
+	dst, ok := destination.(*storage.Profiles_Secret_Spec)
 	if ok {
 		// Populate destination from our instance
 		return secret.AssignProperties_To_Profiles_Secret_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20230501s.Profiles_Secret_Spec{}
+	dst = &storage.Profiles_Secret_Spec{}
 	err := secret.AssignProperties_To_Profiles_Secret_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -456,7 +456,7 @@ func (secret *Profiles_Secret_Spec) ConvertSpecTo(destination genruntime.Convert
 }
 
 // AssignProperties_From_Profiles_Secret_Spec populates our Profiles_Secret_Spec from the provided source Profiles_Secret_Spec
-func (secret *Profiles_Secret_Spec) AssignProperties_From_Profiles_Secret_Spec(source *v20230501s.Profiles_Secret_Spec) error {
+func (secret *Profiles_Secret_Spec) AssignProperties_From_Profiles_Secret_Spec(source *storage.Profiles_Secret_Spec) error {
 
 	// AzureName
 	secret.AzureName = source.AzureName
@@ -486,7 +486,7 @@ func (secret *Profiles_Secret_Spec) AssignProperties_From_Profiles_Secret_Spec(s
 }
 
 // AssignProperties_To_Profiles_Secret_Spec populates the provided destination Profiles_Secret_Spec from our Profiles_Secret_Spec
-func (secret *Profiles_Secret_Spec) AssignProperties_To_Profiles_Secret_Spec(destination *v20230501s.Profiles_Secret_Spec) error {
+func (secret *Profiles_Secret_Spec) AssignProperties_To_Profiles_Secret_Spec(destination *storage.Profiles_Secret_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -506,7 +506,7 @@ func (secret *Profiles_Secret_Spec) AssignProperties_To_Profiles_Secret_Spec(des
 
 	// Parameters
 	if secret.Parameters != nil {
-		var parameter v20230501s.SecretParameters
+		var parameter storage.SecretParameters
 		err := secret.Parameters.AssignProperties_To_SecretParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SecretParameters() to populate field Parameters")
@@ -585,14 +585,14 @@ var _ genruntime.ConvertibleStatus = &Profiles_Secret_STATUS{}
 
 // ConvertStatusFrom populates our Profiles_Secret_STATUS from the provided source
 func (secret *Profiles_Secret_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20230501s.Profiles_Secret_STATUS)
+	src, ok := source.(*storage.Profiles_Secret_STATUS)
 	if ok {
 		// Populate our instance from source
 		return secret.AssignProperties_From_Profiles_Secret_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20230501s.Profiles_Secret_STATUS{}
+	src = &storage.Profiles_Secret_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -609,14 +609,14 @@ func (secret *Profiles_Secret_STATUS) ConvertStatusFrom(source genruntime.Conver
 
 // ConvertStatusTo populates the provided destination from our Profiles_Secret_STATUS
 func (secret *Profiles_Secret_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20230501s.Profiles_Secret_STATUS)
+	dst, ok := destination.(*storage.Profiles_Secret_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return secret.AssignProperties_To_Profiles_Secret_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20230501s.Profiles_Secret_STATUS{}
+	dst = &storage.Profiles_Secret_STATUS{}
 	err := secret.AssignProperties_To_Profiles_Secret_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -722,7 +722,7 @@ func (secret *Profiles_Secret_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 }
 
 // AssignProperties_From_Profiles_Secret_STATUS populates our Profiles_Secret_STATUS from the provided source Profiles_Secret_STATUS
-func (secret *Profiles_Secret_STATUS) AssignProperties_From_Profiles_Secret_STATUS(source *v20230501s.Profiles_Secret_STATUS) error {
+func (secret *Profiles_Secret_STATUS) AssignProperties_From_Profiles_Secret_STATUS(source *storage.Profiles_Secret_STATUS) error {
 
 	// Conditions
 	secret.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -786,7 +786,7 @@ func (secret *Profiles_Secret_STATUS) AssignProperties_From_Profiles_Secret_STAT
 }
 
 // AssignProperties_To_Profiles_Secret_STATUS populates the provided destination Profiles_Secret_STATUS from our Profiles_Secret_STATUS
-func (secret *Profiles_Secret_STATUS) AssignProperties_To_Profiles_Secret_STATUS(destination *v20230501s.Profiles_Secret_STATUS) error {
+func (secret *Profiles_Secret_STATUS) AssignProperties_To_Profiles_Secret_STATUS(destination *storage.Profiles_Secret_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -809,7 +809,7 @@ func (secret *Profiles_Secret_STATUS) AssignProperties_To_Profiles_Secret_STATUS
 
 	// Parameters
 	if secret.Parameters != nil {
-		var parameter v20230501s.SecretParameters_STATUS
+		var parameter storage.SecretParameters_STATUS
 		err := secret.Parameters.AssignProperties_To_SecretParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SecretParameters_STATUS() to populate field Parameters")
@@ -832,7 +832,7 @@ func (secret *Profiles_Secret_STATUS) AssignProperties_To_Profiles_Secret_STATUS
 
 	// SystemData
 	if secret.SystemData != nil {
-		var systemDatum v20230501s.SystemData_STATUS
+		var systemDatum storage.SystemData_STATUS
 		err := secret.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
@@ -982,7 +982,7 @@ func (parameters *SecretParameters) PopulateFromARM(owner genruntime.ArbitraryOw
 }
 
 // AssignProperties_From_SecretParameters populates our SecretParameters from the provided source SecretParameters
-func (parameters *SecretParameters) AssignProperties_From_SecretParameters(source *v20230501s.SecretParameters) error {
+func (parameters *SecretParameters) AssignProperties_From_SecretParameters(source *storage.SecretParameters) error {
 
 	// AzureFirstPartyManagedCertificate
 	if source.AzureFirstPartyManagedCertificate != nil {
@@ -1037,13 +1037,13 @@ func (parameters *SecretParameters) AssignProperties_From_SecretParameters(sourc
 }
 
 // AssignProperties_To_SecretParameters populates the provided destination SecretParameters from our SecretParameters
-func (parameters *SecretParameters) AssignProperties_To_SecretParameters(destination *v20230501s.SecretParameters) error {
+func (parameters *SecretParameters) AssignProperties_To_SecretParameters(destination *storage.SecretParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureFirstPartyManagedCertificate
 	if parameters.AzureFirstPartyManagedCertificate != nil {
-		var azureFirstPartyManagedCertificate v20230501s.AzureFirstPartyManagedCertificateParameters
+		var azureFirstPartyManagedCertificate storage.AzureFirstPartyManagedCertificateParameters
 		err := parameters.AzureFirstPartyManagedCertificate.AssignProperties_To_AzureFirstPartyManagedCertificateParameters(&azureFirstPartyManagedCertificate)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AzureFirstPartyManagedCertificateParameters() to populate field AzureFirstPartyManagedCertificate")
@@ -1055,7 +1055,7 @@ func (parameters *SecretParameters) AssignProperties_To_SecretParameters(destina
 
 	// CustomerCertificate
 	if parameters.CustomerCertificate != nil {
-		var customerCertificate v20230501s.CustomerCertificateParameters
+		var customerCertificate storage.CustomerCertificateParameters
 		err := parameters.CustomerCertificate.AssignProperties_To_CustomerCertificateParameters(&customerCertificate)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CustomerCertificateParameters() to populate field CustomerCertificate")
@@ -1067,7 +1067,7 @@ func (parameters *SecretParameters) AssignProperties_To_SecretParameters(destina
 
 	// ManagedCertificate
 	if parameters.ManagedCertificate != nil {
-		var managedCertificate v20230501s.ManagedCertificateParameters
+		var managedCertificate storage.ManagedCertificateParameters
 		err := parameters.ManagedCertificate.AssignProperties_To_ManagedCertificateParameters(&managedCertificate)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedCertificateParameters() to populate field ManagedCertificate")
@@ -1079,7 +1079,7 @@ func (parameters *SecretParameters) AssignProperties_To_SecretParameters(destina
 
 	// UrlSigningKey
 	if parameters.UrlSigningKey != nil {
-		var urlSigningKey v20230501s.UrlSigningKeyParameters
+		var urlSigningKey storage.UrlSigningKeyParameters
 		err := parameters.UrlSigningKey.AssignProperties_To_UrlSigningKeyParameters(&urlSigningKey)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlSigningKeyParameters() to populate field UrlSigningKey")
@@ -1232,7 +1232,7 @@ func (parameters *SecretParameters_STATUS) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignProperties_From_SecretParameters_STATUS populates our SecretParameters_STATUS from the provided source SecretParameters_STATUS
-func (parameters *SecretParameters_STATUS) AssignProperties_From_SecretParameters_STATUS(source *v20230501s.SecretParameters_STATUS) error {
+func (parameters *SecretParameters_STATUS) AssignProperties_From_SecretParameters_STATUS(source *storage.SecretParameters_STATUS) error {
 
 	// AzureFirstPartyManagedCertificate
 	if source.AzureFirstPartyManagedCertificate != nil {
@@ -1287,13 +1287,13 @@ func (parameters *SecretParameters_STATUS) AssignProperties_From_SecretParameter
 }
 
 // AssignProperties_To_SecretParameters_STATUS populates the provided destination SecretParameters_STATUS from our SecretParameters_STATUS
-func (parameters *SecretParameters_STATUS) AssignProperties_To_SecretParameters_STATUS(destination *v20230501s.SecretParameters_STATUS) error {
+func (parameters *SecretParameters_STATUS) AssignProperties_To_SecretParameters_STATUS(destination *storage.SecretParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureFirstPartyManagedCertificate
 	if parameters.AzureFirstPartyManagedCertificate != nil {
-		var azureFirstPartyManagedCertificate v20230501s.AzureFirstPartyManagedCertificateParameters_STATUS
+		var azureFirstPartyManagedCertificate storage.AzureFirstPartyManagedCertificateParameters_STATUS
 		err := parameters.AzureFirstPartyManagedCertificate.AssignProperties_To_AzureFirstPartyManagedCertificateParameters_STATUS(&azureFirstPartyManagedCertificate)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AzureFirstPartyManagedCertificateParameters_STATUS() to populate field AzureFirstPartyManagedCertificate")
@@ -1305,7 +1305,7 @@ func (parameters *SecretParameters_STATUS) AssignProperties_To_SecretParameters_
 
 	// CustomerCertificate
 	if parameters.CustomerCertificate != nil {
-		var customerCertificate v20230501s.CustomerCertificateParameters_STATUS
+		var customerCertificate storage.CustomerCertificateParameters_STATUS
 		err := parameters.CustomerCertificate.AssignProperties_To_CustomerCertificateParameters_STATUS(&customerCertificate)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CustomerCertificateParameters_STATUS() to populate field CustomerCertificate")
@@ -1317,7 +1317,7 @@ func (parameters *SecretParameters_STATUS) AssignProperties_To_SecretParameters_
 
 	// ManagedCertificate
 	if parameters.ManagedCertificate != nil {
-		var managedCertificate v20230501s.ManagedCertificateParameters_STATUS
+		var managedCertificate storage.ManagedCertificateParameters_STATUS
 		err := parameters.ManagedCertificate.AssignProperties_To_ManagedCertificateParameters_STATUS(&managedCertificate)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedCertificateParameters_STATUS() to populate field ManagedCertificate")
@@ -1329,7 +1329,7 @@ func (parameters *SecretParameters_STATUS) AssignProperties_To_SecretParameters_
 
 	// UrlSigningKey
 	if parameters.UrlSigningKey != nil {
-		var urlSigningKey v20230501s.UrlSigningKeyParameters_STATUS
+		var urlSigningKey storage.UrlSigningKeyParameters_STATUS
 		err := parameters.UrlSigningKey.AssignProperties_To_UrlSigningKeyParameters_STATUS(&urlSigningKey)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlSigningKeyParameters_STATUS() to populate field UrlSigningKey")
@@ -1404,7 +1404,7 @@ func (parameters *AzureFirstPartyManagedCertificateParameters) PopulateFromARM(o
 }
 
 // AssignProperties_From_AzureFirstPartyManagedCertificateParameters populates our AzureFirstPartyManagedCertificateParameters from the provided source AzureFirstPartyManagedCertificateParameters
-func (parameters *AzureFirstPartyManagedCertificateParameters) AssignProperties_From_AzureFirstPartyManagedCertificateParameters(source *v20230501s.AzureFirstPartyManagedCertificateParameters) error {
+func (parameters *AzureFirstPartyManagedCertificateParameters) AssignProperties_From_AzureFirstPartyManagedCertificateParameters(source *storage.AzureFirstPartyManagedCertificateParameters) error {
 
 	// SubjectAlternativeNames
 	parameters.SubjectAlternativeNames = genruntime.CloneSliceOfString(source.SubjectAlternativeNames)
@@ -1423,7 +1423,7 @@ func (parameters *AzureFirstPartyManagedCertificateParameters) AssignProperties_
 }
 
 // AssignProperties_To_AzureFirstPartyManagedCertificateParameters populates the provided destination AzureFirstPartyManagedCertificateParameters from our AzureFirstPartyManagedCertificateParameters
-func (parameters *AzureFirstPartyManagedCertificateParameters) AssignProperties_To_AzureFirstPartyManagedCertificateParameters(destination *v20230501s.AzureFirstPartyManagedCertificateParameters) error {
+func (parameters *AzureFirstPartyManagedCertificateParameters) AssignProperties_To_AzureFirstPartyManagedCertificateParameters(destination *storage.AzureFirstPartyManagedCertificateParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1551,7 +1551,7 @@ func (parameters *AzureFirstPartyManagedCertificateParameters_STATUS) PopulateFr
 }
 
 // AssignProperties_From_AzureFirstPartyManagedCertificateParameters_STATUS populates our AzureFirstPartyManagedCertificateParameters_STATUS from the provided source AzureFirstPartyManagedCertificateParameters_STATUS
-func (parameters *AzureFirstPartyManagedCertificateParameters_STATUS) AssignProperties_From_AzureFirstPartyManagedCertificateParameters_STATUS(source *v20230501s.AzureFirstPartyManagedCertificateParameters_STATUS) error {
+func (parameters *AzureFirstPartyManagedCertificateParameters_STATUS) AssignProperties_From_AzureFirstPartyManagedCertificateParameters_STATUS(source *storage.AzureFirstPartyManagedCertificateParameters_STATUS) error {
 
 	// CertificateAuthority
 	parameters.CertificateAuthority = genruntime.ClonePointerToString(source.CertificateAuthority)
@@ -1594,7 +1594,7 @@ func (parameters *AzureFirstPartyManagedCertificateParameters_STATUS) AssignProp
 }
 
 // AssignProperties_To_AzureFirstPartyManagedCertificateParameters_STATUS populates the provided destination AzureFirstPartyManagedCertificateParameters_STATUS from our AzureFirstPartyManagedCertificateParameters_STATUS
-func (parameters *AzureFirstPartyManagedCertificateParameters_STATUS) AssignProperties_To_AzureFirstPartyManagedCertificateParameters_STATUS(destination *v20230501s.AzureFirstPartyManagedCertificateParameters_STATUS) error {
+func (parameters *AzureFirstPartyManagedCertificateParameters_STATUS) AssignProperties_To_AzureFirstPartyManagedCertificateParameters_STATUS(destination *storage.AzureFirstPartyManagedCertificateParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1606,7 +1606,7 @@ func (parameters *AzureFirstPartyManagedCertificateParameters_STATUS) AssignProp
 
 	// SecretSource
 	if parameters.SecretSource != nil {
-		var secretSource v20230501s.ResourceReference_STATUS
+		var secretSource storage.ResourceReference_STATUS
 		err := parameters.SecretSource.AssignProperties_To_ResourceReference_STATUS(&secretSource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field SecretSource")
@@ -1754,7 +1754,7 @@ func (parameters *CustomerCertificateParameters) PopulateFromARM(owner genruntim
 }
 
 // AssignProperties_From_CustomerCertificateParameters populates our CustomerCertificateParameters from the provided source CustomerCertificateParameters
-func (parameters *CustomerCertificateParameters) AssignProperties_From_CustomerCertificateParameters(source *v20230501s.CustomerCertificateParameters) error {
+func (parameters *CustomerCertificateParameters) AssignProperties_From_CustomerCertificateParameters(source *storage.CustomerCertificateParameters) error {
 
 	// SecretSource
 	if source.SecretSource != nil {
@@ -1796,13 +1796,13 @@ func (parameters *CustomerCertificateParameters) AssignProperties_From_CustomerC
 }
 
 // AssignProperties_To_CustomerCertificateParameters populates the provided destination CustomerCertificateParameters from our CustomerCertificateParameters
-func (parameters *CustomerCertificateParameters) AssignProperties_To_CustomerCertificateParameters(destination *v20230501s.CustomerCertificateParameters) error {
+func (parameters *CustomerCertificateParameters) AssignProperties_To_CustomerCertificateParameters(destination *storage.CustomerCertificateParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// SecretSource
 	if parameters.SecretSource != nil {
-		var secretSource v20230501s.ResourceReference
+		var secretSource storage.ResourceReference
 		err := parameters.SecretSource.AssignProperties_To_ResourceReference(&secretSource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field SecretSource")
@@ -1988,7 +1988,7 @@ func (parameters *CustomerCertificateParameters_STATUS) PopulateFromARM(owner ge
 }
 
 // AssignProperties_From_CustomerCertificateParameters_STATUS populates our CustomerCertificateParameters_STATUS from the provided source CustomerCertificateParameters_STATUS
-func (parameters *CustomerCertificateParameters_STATUS) AssignProperties_From_CustomerCertificateParameters_STATUS(source *v20230501s.CustomerCertificateParameters_STATUS) error {
+func (parameters *CustomerCertificateParameters_STATUS) AssignProperties_From_CustomerCertificateParameters_STATUS(source *storage.CustomerCertificateParameters_STATUS) error {
 
 	// CertificateAuthority
 	parameters.CertificateAuthority = genruntime.ClonePointerToString(source.CertificateAuthority)
@@ -2042,7 +2042,7 @@ func (parameters *CustomerCertificateParameters_STATUS) AssignProperties_From_Cu
 }
 
 // AssignProperties_To_CustomerCertificateParameters_STATUS populates the provided destination CustomerCertificateParameters_STATUS from our CustomerCertificateParameters_STATUS
-func (parameters *CustomerCertificateParameters_STATUS) AssignProperties_To_CustomerCertificateParameters_STATUS(destination *v20230501s.CustomerCertificateParameters_STATUS) error {
+func (parameters *CustomerCertificateParameters_STATUS) AssignProperties_To_CustomerCertificateParameters_STATUS(destination *storage.CustomerCertificateParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2054,7 +2054,7 @@ func (parameters *CustomerCertificateParameters_STATUS) AssignProperties_To_Cust
 
 	// SecretSource
 	if parameters.SecretSource != nil {
-		var secretSource v20230501s.ResourceReference_STATUS
+		var secretSource storage.ResourceReference_STATUS
 		err := parameters.SecretSource.AssignProperties_To_ResourceReference_STATUS(&secretSource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field SecretSource")
@@ -2144,7 +2144,7 @@ func (parameters *ManagedCertificateParameters) PopulateFromARM(owner genruntime
 }
 
 // AssignProperties_From_ManagedCertificateParameters populates our ManagedCertificateParameters from the provided source ManagedCertificateParameters
-func (parameters *ManagedCertificateParameters) AssignProperties_From_ManagedCertificateParameters(source *v20230501s.ManagedCertificateParameters) error {
+func (parameters *ManagedCertificateParameters) AssignProperties_From_ManagedCertificateParameters(source *storage.ManagedCertificateParameters) error {
 
 	// Type
 	if source.Type != nil {
@@ -2160,7 +2160,7 @@ func (parameters *ManagedCertificateParameters) AssignProperties_From_ManagedCer
 }
 
 // AssignProperties_To_ManagedCertificateParameters populates the provided destination ManagedCertificateParameters from our ManagedCertificateParameters
-func (parameters *ManagedCertificateParameters) AssignProperties_To_ManagedCertificateParameters(destination *v20230501s.ManagedCertificateParameters) error {
+func (parameters *ManagedCertificateParameters) AssignProperties_To_ManagedCertificateParameters(destination *storage.ManagedCertificateParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2241,7 +2241,7 @@ func (parameters *ManagedCertificateParameters_STATUS) PopulateFromARM(owner gen
 }
 
 // AssignProperties_From_ManagedCertificateParameters_STATUS populates our ManagedCertificateParameters_STATUS from the provided source ManagedCertificateParameters_STATUS
-func (parameters *ManagedCertificateParameters_STATUS) AssignProperties_From_ManagedCertificateParameters_STATUS(source *v20230501s.ManagedCertificateParameters_STATUS) error {
+func (parameters *ManagedCertificateParameters_STATUS) AssignProperties_From_ManagedCertificateParameters_STATUS(source *storage.ManagedCertificateParameters_STATUS) error {
 
 	// ExpirationDate
 	parameters.ExpirationDate = genruntime.ClonePointerToString(source.ExpirationDate)
@@ -2263,7 +2263,7 @@ func (parameters *ManagedCertificateParameters_STATUS) AssignProperties_From_Man
 }
 
 // AssignProperties_To_ManagedCertificateParameters_STATUS populates the provided destination ManagedCertificateParameters_STATUS from our ManagedCertificateParameters_STATUS
-func (parameters *ManagedCertificateParameters_STATUS) AssignProperties_To_ManagedCertificateParameters_STATUS(destination *v20230501s.ManagedCertificateParameters_STATUS) error {
+func (parameters *ManagedCertificateParameters_STATUS) AssignProperties_To_ManagedCertificateParameters_STATUS(destination *storage.ManagedCertificateParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2391,7 +2391,7 @@ func (parameters *UrlSigningKeyParameters) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignProperties_From_UrlSigningKeyParameters populates our UrlSigningKeyParameters from the provided source UrlSigningKeyParameters
-func (parameters *UrlSigningKeyParameters) AssignProperties_From_UrlSigningKeyParameters(source *v20230501s.UrlSigningKeyParameters) error {
+func (parameters *UrlSigningKeyParameters) AssignProperties_From_UrlSigningKeyParameters(source *storage.UrlSigningKeyParameters) error {
 
 	// KeyId
 	parameters.KeyId = genruntime.ClonePointerToString(source.KeyId)
@@ -2425,7 +2425,7 @@ func (parameters *UrlSigningKeyParameters) AssignProperties_From_UrlSigningKeyPa
 }
 
 // AssignProperties_To_UrlSigningKeyParameters populates the provided destination UrlSigningKeyParameters from our UrlSigningKeyParameters
-func (parameters *UrlSigningKeyParameters) AssignProperties_To_UrlSigningKeyParameters(destination *v20230501s.UrlSigningKeyParameters) error {
+func (parameters *UrlSigningKeyParameters) AssignProperties_To_UrlSigningKeyParameters(destination *storage.UrlSigningKeyParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2434,7 +2434,7 @@ func (parameters *UrlSigningKeyParameters) AssignProperties_To_UrlSigningKeyPara
 
 	// SecretSource
 	if parameters.SecretSource != nil {
-		var secretSource v20230501s.ResourceReference
+		var secretSource storage.ResourceReference
 		err := parameters.SecretSource.AssignProperties_To_ResourceReference(&secretSource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field SecretSource")
@@ -2558,7 +2558,7 @@ func (parameters *UrlSigningKeyParameters_STATUS) PopulateFromARM(owner genrunti
 }
 
 // AssignProperties_From_UrlSigningKeyParameters_STATUS populates our UrlSigningKeyParameters_STATUS from the provided source UrlSigningKeyParameters_STATUS
-func (parameters *UrlSigningKeyParameters_STATUS) AssignProperties_From_UrlSigningKeyParameters_STATUS(source *v20230501s.UrlSigningKeyParameters_STATUS) error {
+func (parameters *UrlSigningKeyParameters_STATUS) AssignProperties_From_UrlSigningKeyParameters_STATUS(source *storage.UrlSigningKeyParameters_STATUS) error {
 
 	// KeyId
 	parameters.KeyId = genruntime.ClonePointerToString(source.KeyId)
@@ -2592,7 +2592,7 @@ func (parameters *UrlSigningKeyParameters_STATUS) AssignProperties_From_UrlSigni
 }
 
 // AssignProperties_To_UrlSigningKeyParameters_STATUS populates the provided destination UrlSigningKeyParameters_STATUS from our UrlSigningKeyParameters_STATUS
-func (parameters *UrlSigningKeyParameters_STATUS) AssignProperties_To_UrlSigningKeyParameters_STATUS(destination *v20230501s.UrlSigningKeyParameters_STATUS) error {
+func (parameters *UrlSigningKeyParameters_STATUS) AssignProperties_To_UrlSigningKeyParameters_STATUS(destination *storage.UrlSigningKeyParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2601,7 +2601,7 @@ func (parameters *UrlSigningKeyParameters_STATUS) AssignProperties_To_UrlSigning
 
 	// SecretSource
 	if parameters.SecretSource != nil {
-		var secretSource v20230501s.ResourceReference_STATUS
+		var secretSource storage.ResourceReference_STATUS
 		err := parameters.SecretSource.AssignProperties_To_ResourceReference_STATUS(&secretSource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field SecretSource")

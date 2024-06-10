@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &ServersDatabase{}
 
 // ConvertFrom populates our ServersDatabase from the provided hub ServersDatabase
 func (database *ServersDatabase) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20211101s.ServersDatabase)
+	source, ok := hub.(*storage.ServersDatabase)
 	if !ok {
 		return fmt.Errorf("expected sql/v1api20211101/storage/ServersDatabase but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (database *ServersDatabase) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub ServersDatabase from our ServersDatabase
 func (database *ServersDatabase) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20211101s.ServersDatabase)
+	destination, ok := hub.(*storage.ServersDatabase)
 	if !ok {
 		return fmt.Errorf("expected sql/v1api20211101/storage/ServersDatabase but received %T instead", hub)
 	}
@@ -254,7 +254,7 @@ func (database *ServersDatabase) validateWriteOnceProperties(old runtime.Object)
 }
 
 // AssignProperties_From_ServersDatabase populates our ServersDatabase from the provided source ServersDatabase
-func (database *ServersDatabase) AssignProperties_From_ServersDatabase(source *v20211101s.ServersDatabase) error {
+func (database *ServersDatabase) AssignProperties_From_ServersDatabase(source *storage.ServersDatabase) error {
 
 	// ObjectMeta
 	database.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -280,13 +280,13 @@ func (database *ServersDatabase) AssignProperties_From_ServersDatabase(source *v
 }
 
 // AssignProperties_To_ServersDatabase populates the provided destination ServersDatabase from our ServersDatabase
-func (database *ServersDatabase) AssignProperties_To_ServersDatabase(destination *v20211101s.ServersDatabase) error {
+func (database *ServersDatabase) AssignProperties_To_ServersDatabase(destination *storage.ServersDatabase) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *database.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20211101s.Servers_Database_Spec
+	var spec storage.Servers_Database_Spec
 	err := database.Spec.AssignProperties_To_Servers_Database_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Servers_Database_Spec() to populate field Spec")
@@ -294,7 +294,7 @@ func (database *ServersDatabase) AssignProperties_To_ServersDatabase(destination
 	destination.Spec = spec
 
 	// Status
-	var status v20211101s.Servers_Database_STATUS
+	var status storage.Servers_Database_STATUS
 	err = database.Status.AssignProperties_To_Servers_Database_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Servers_Database_STATUS() to populate field Status")
@@ -922,14 +922,14 @@ var _ genruntime.ConvertibleSpec = &Servers_Database_Spec{}
 
 // ConvertSpecFrom populates our Servers_Database_Spec from the provided source
 func (database *Servers_Database_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20211101s.Servers_Database_Spec)
+	src, ok := source.(*storage.Servers_Database_Spec)
 	if ok {
 		// Populate our instance from source
 		return database.AssignProperties_From_Servers_Database_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20211101s.Servers_Database_Spec{}
+	src = &storage.Servers_Database_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -946,14 +946,14 @@ func (database *Servers_Database_Spec) ConvertSpecFrom(source genruntime.Convert
 
 // ConvertSpecTo populates the provided destination from our Servers_Database_Spec
 func (database *Servers_Database_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20211101s.Servers_Database_Spec)
+	dst, ok := destination.(*storage.Servers_Database_Spec)
 	if ok {
 		// Populate destination from our instance
 		return database.AssignProperties_To_Servers_Database_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20211101s.Servers_Database_Spec{}
+	dst = &storage.Servers_Database_Spec{}
 	err := database.AssignProperties_To_Servers_Database_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -969,7 +969,7 @@ func (database *Servers_Database_Spec) ConvertSpecTo(destination genruntime.Conv
 }
 
 // AssignProperties_From_Servers_Database_Spec populates our Servers_Database_Spec from the provided source Servers_Database_Spec
-func (database *Servers_Database_Spec) AssignProperties_From_Servers_Database_Spec(source *v20211101s.Servers_Database_Spec) error {
+func (database *Servers_Database_Spec) AssignProperties_From_Servers_Database_Spec(source *storage.Servers_Database_Spec) error {
 
 	// AutoPauseDelay
 	database.AutoPauseDelay = genruntime.ClonePointerToInt(source.AutoPauseDelay)
@@ -1189,7 +1189,7 @@ func (database *Servers_Database_Spec) AssignProperties_From_Servers_Database_Sp
 }
 
 // AssignProperties_To_Servers_Database_Spec populates the provided destination Servers_Database_Spec from our Servers_Database_Spec
-func (database *Servers_Database_Spec) AssignProperties_To_Servers_Database_Spec(destination *v20211101s.Servers_Database_Spec) error {
+func (database *Servers_Database_Spec) AssignProperties_To_Servers_Database_Spec(destination *storage.Servers_Database_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1239,7 +1239,7 @@ func (database *Servers_Database_Spec) AssignProperties_To_Servers_Database_Spec
 
 	// Identity
 	if database.Identity != nil {
-		var identity v20211101s.DatabaseIdentity
+		var identity storage.DatabaseIdentity
 		err := database.Identity.AssignProperties_To_DatabaseIdentity(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DatabaseIdentity() to populate field Identity")
@@ -1362,7 +1362,7 @@ func (database *Servers_Database_Spec) AssignProperties_To_Servers_Database_Spec
 
 	// Sku
 	if database.Sku != nil {
-		var sku v20211101s.Sku
+		var sku storage.Sku
 		err := database.Sku.AssignProperties_To_Sku(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
@@ -1829,14 +1829,14 @@ var _ genruntime.ConvertibleStatus = &Servers_Database_STATUS{}
 
 // ConvertStatusFrom populates our Servers_Database_STATUS from the provided source
 func (database *Servers_Database_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20211101s.Servers_Database_STATUS)
+	src, ok := source.(*storage.Servers_Database_STATUS)
 	if ok {
 		// Populate our instance from source
 		return database.AssignProperties_From_Servers_Database_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20211101s.Servers_Database_STATUS{}
+	src = &storage.Servers_Database_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -1853,14 +1853,14 @@ func (database *Servers_Database_STATUS) ConvertStatusFrom(source genruntime.Con
 
 // ConvertStatusTo populates the provided destination from our Servers_Database_STATUS
 func (database *Servers_Database_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20211101s.Servers_Database_STATUS)
+	dst, ok := destination.(*storage.Servers_Database_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return database.AssignProperties_To_Servers_Database_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20211101s.Servers_Database_STATUS{}
+	dst = &storage.Servers_Database_STATUS{}
 	err := database.AssignProperties_To_Servers_Database_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -2318,7 +2318,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_Servers_Database_STATUS populates our Servers_Database_STATUS from the provided source Servers_Database_STATUS
-func (database *Servers_Database_STATUS) AssignProperties_From_Servers_Database_STATUS(source *v20211101s.Servers_Database_STATUS) error {
+func (database *Servers_Database_STATUS) AssignProperties_From_Servers_Database_STATUS(source *storage.Servers_Database_STATUS) error {
 
 	// AutoPauseDelay
 	database.AutoPauseDelay = genruntime.ClonePointerToInt(source.AutoPauseDelay)
@@ -2573,7 +2573,7 @@ func (database *Servers_Database_STATUS) AssignProperties_From_Servers_Database_
 }
 
 // AssignProperties_To_Servers_Database_STATUS populates the provided destination Servers_Database_STATUS from our Servers_Database_STATUS
-func (database *Servers_Database_STATUS) AssignProperties_To_Servers_Database_STATUS(destination *v20211101s.Servers_Database_STATUS) error {
+func (database *Servers_Database_STATUS) AssignProperties_To_Servers_Database_STATUS(destination *storage.Servers_Database_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2618,7 +2618,7 @@ func (database *Servers_Database_STATUS) AssignProperties_To_Servers_Database_ST
 
 	// CurrentSku
 	if database.CurrentSku != nil {
-		var currentSku v20211101s.Sku_STATUS
+		var currentSku storage.Sku_STATUS
 		err := database.CurrentSku.AssignProperties_To_Sku_STATUS(&currentSku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field CurrentSku")
@@ -2654,7 +2654,7 @@ func (database *Servers_Database_STATUS) AssignProperties_To_Servers_Database_ST
 
 	// Identity
 	if database.Identity != nil {
-		var identity v20211101s.DatabaseIdentity_STATUS
+		var identity storage.DatabaseIdentity_STATUS
 		err := database.Identity.AssignProperties_To_DatabaseIdentity_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DatabaseIdentity_STATUS() to populate field Identity")
@@ -2775,7 +2775,7 @@ func (database *Servers_Database_STATUS) AssignProperties_To_Servers_Database_ST
 
 	// Sku
 	if database.Sku != nil {
-		var sku v20211101s.Sku_STATUS
+		var sku storage.Sku_STATUS
 		err := database.Sku.AssignProperties_To_Sku_STATUS(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
@@ -2889,7 +2889,7 @@ func (identity *DatabaseIdentity) PopulateFromARM(owner genruntime.ArbitraryOwne
 }
 
 // AssignProperties_From_DatabaseIdentity populates our DatabaseIdentity from the provided source DatabaseIdentity
-func (identity *DatabaseIdentity) AssignProperties_From_DatabaseIdentity(source *v20211101s.DatabaseIdentity) error {
+func (identity *DatabaseIdentity) AssignProperties_From_DatabaseIdentity(source *storage.DatabaseIdentity) error {
 
 	// Type
 	if source.Type != nil {
@@ -2923,7 +2923,7 @@ func (identity *DatabaseIdentity) AssignProperties_From_DatabaseIdentity(source 
 }
 
 // AssignProperties_To_DatabaseIdentity populates the provided destination DatabaseIdentity from our DatabaseIdentity
-func (identity *DatabaseIdentity) AssignProperties_To_DatabaseIdentity(destination *v20211101s.DatabaseIdentity) error {
+func (identity *DatabaseIdentity) AssignProperties_To_DatabaseIdentity(destination *storage.DatabaseIdentity) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2937,11 +2937,11 @@ func (identity *DatabaseIdentity) AssignProperties_To_DatabaseIdentity(destinati
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]v20211101s.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
+		userAssignedIdentityList := make([]storage.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range identity.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityItem := userAssignedIdentityItem
-			var userAssignedIdentity v20211101s.UserAssignedIdentityDetails
+			var userAssignedIdentity storage.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
@@ -3047,7 +3047,7 @@ func (identity *DatabaseIdentity_STATUS) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_DatabaseIdentity_STATUS populates our DatabaseIdentity_STATUS from the provided source DatabaseIdentity_STATUS
-func (identity *DatabaseIdentity_STATUS) AssignProperties_From_DatabaseIdentity_STATUS(source *v20211101s.DatabaseIdentity_STATUS) error {
+func (identity *DatabaseIdentity_STATUS) AssignProperties_From_DatabaseIdentity_STATUS(source *storage.DatabaseIdentity_STATUS) error {
 
 	// TenantId
 	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
@@ -3084,7 +3084,7 @@ func (identity *DatabaseIdentity_STATUS) AssignProperties_From_DatabaseIdentity_
 }
 
 // AssignProperties_To_DatabaseIdentity_STATUS populates the provided destination DatabaseIdentity_STATUS from our DatabaseIdentity_STATUS
-func (identity *DatabaseIdentity_STATUS) AssignProperties_To_DatabaseIdentity_STATUS(destination *v20211101s.DatabaseIdentity_STATUS) error {
+func (identity *DatabaseIdentity_STATUS) AssignProperties_To_DatabaseIdentity_STATUS(destination *storage.DatabaseIdentity_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3101,11 +3101,11 @@ func (identity *DatabaseIdentity_STATUS) AssignProperties_To_DatabaseIdentity_ST
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v20211101s.DatabaseUserIdentity_STATUS, len(identity.UserAssignedIdentities))
+		userAssignedIdentityMap := make(map[string]storage.DatabaseUserIdentity_STATUS, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity v20211101s.DatabaseUserIdentity_STATUS
+			var userAssignedIdentity storage.DatabaseUserIdentity_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_DatabaseUserIdentity_STATUS(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_DatabaseUserIdentity_STATUS() to populate field UserAssignedIdentities")
@@ -3542,7 +3542,7 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 }
 
 // AssignProperties_From_Sku populates our Sku from the provided source Sku
-func (sku *Sku) AssignProperties_From_Sku(source *v20211101s.Sku) error {
+func (sku *Sku) AssignProperties_From_Sku(source *storage.Sku) error {
 
 	// Capacity
 	sku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
@@ -3564,7 +3564,7 @@ func (sku *Sku) AssignProperties_From_Sku(source *v20211101s.Sku) error {
 }
 
 // AssignProperties_To_Sku populates the provided destination Sku from our Sku
-func (sku *Sku) AssignProperties_To_Sku(destination *v20211101s.Sku) error {
+func (sku *Sku) AssignProperties_To_Sku(destination *storage.Sku) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3683,7 +3683,7 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 }
 
 // AssignProperties_From_Sku_STATUS populates our Sku_STATUS from the provided source Sku_STATUS
-func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20211101s.Sku_STATUS) error {
+func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *storage.Sku_STATUS) error {
 
 	// Capacity
 	sku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
@@ -3705,7 +3705,7 @@ func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20211101s.Sku_S
 }
 
 // AssignProperties_To_Sku_STATUS populates the provided destination Sku_STATUS from our Sku_STATUS
-func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20211101s.Sku_STATUS) error {
+func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *storage.Sku_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3775,7 +3775,7 @@ func (identity *DatabaseUserIdentity_STATUS) PopulateFromARM(owner genruntime.Ar
 }
 
 // AssignProperties_From_DatabaseUserIdentity_STATUS populates our DatabaseUserIdentity_STATUS from the provided source DatabaseUserIdentity_STATUS
-func (identity *DatabaseUserIdentity_STATUS) AssignProperties_From_DatabaseUserIdentity_STATUS(source *v20211101s.DatabaseUserIdentity_STATUS) error {
+func (identity *DatabaseUserIdentity_STATUS) AssignProperties_From_DatabaseUserIdentity_STATUS(source *storage.DatabaseUserIdentity_STATUS) error {
 
 	// ClientId
 	identity.ClientId = genruntime.ClonePointerToString(source.ClientId)
@@ -3788,7 +3788,7 @@ func (identity *DatabaseUserIdentity_STATUS) AssignProperties_From_DatabaseUserI
 }
 
 // AssignProperties_To_DatabaseUserIdentity_STATUS populates the provided destination DatabaseUserIdentity_STATUS from our DatabaseUserIdentity_STATUS
-func (identity *DatabaseUserIdentity_STATUS) AssignProperties_To_DatabaseUserIdentity_STATUS(destination *v20211101s.DatabaseUserIdentity_STATUS) error {
+func (identity *DatabaseUserIdentity_STATUS) AssignProperties_To_DatabaseUserIdentity_STATUS(destination *storage.DatabaseUserIdentity_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

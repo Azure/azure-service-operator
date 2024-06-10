@@ -17,6 +17,73 @@ import (
 	"testing"
 )
 
+func Test_DomainTopicProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DomainTopicProperties_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDomainTopicProperties_STATUS_ARM, DomainTopicProperties_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDomainTopicProperties_STATUS_ARM runs a test to see if a specific instance of DomainTopicProperties_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDomainTopicProperties_STATUS_ARM(subject DomainTopicProperties_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DomainTopicProperties_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DomainTopicProperties_STATUS_ARM instances for property testing - lazily instantiated by
+// DomainTopicProperties_STATUS_ARMGenerator()
+var domainTopicProperties_STATUS_ARMGenerator gopter.Gen
+
+// DomainTopicProperties_STATUS_ARMGenerator returns a generator of DomainTopicProperties_STATUS_ARM instances for property testing.
+func DomainTopicProperties_STATUS_ARMGenerator() gopter.Gen {
+	if domainTopicProperties_STATUS_ARMGenerator != nil {
+		return domainTopicProperties_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDomainTopicProperties_STATUS_ARM(generators)
+	domainTopicProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(DomainTopicProperties_STATUS_ARM{}), generators)
+
+	return domainTopicProperties_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForDomainTopicProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDomainTopicProperties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		DomainTopicProperties_ProvisioningState_STATUS_Canceled,
+		DomainTopicProperties_ProvisioningState_STATUS_Creating,
+		DomainTopicProperties_ProvisioningState_STATUS_Deleting,
+		DomainTopicProperties_ProvisioningState_STATUS_Failed,
+		DomainTopicProperties_ProvisioningState_STATUS_Succeeded,
+		DomainTopicProperties_ProvisioningState_STATUS_Updating))
+}
+
 func Test_Domains_Topic_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -93,71 +160,4 @@ func AddIndependentPropertyGeneratorsForDomains_Topic_STATUS_ARM(gens map[string
 func AddRelatedPropertyGeneratorsForDomains_Topic_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(DomainTopicProperties_STATUS_ARMGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUS_ARMGenerator())
-}
-
-func Test_DomainTopicProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DomainTopicProperties_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDomainTopicProperties_STATUS_ARM, DomainTopicProperties_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForDomainTopicProperties_STATUS_ARM runs a test to see if a specific instance of DomainTopicProperties_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDomainTopicProperties_STATUS_ARM(subject DomainTopicProperties_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual DomainTopicProperties_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of DomainTopicProperties_STATUS_ARM instances for property testing - lazily instantiated by
-// DomainTopicProperties_STATUS_ARMGenerator()
-var domainTopicProperties_STATUS_ARMGenerator gopter.Gen
-
-// DomainTopicProperties_STATUS_ARMGenerator returns a generator of DomainTopicProperties_STATUS_ARM instances for property testing.
-func DomainTopicProperties_STATUS_ARMGenerator() gopter.Gen {
-	if domainTopicProperties_STATUS_ARMGenerator != nil {
-		return domainTopicProperties_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDomainTopicProperties_STATUS_ARM(generators)
-	domainTopicProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(DomainTopicProperties_STATUS_ARM{}), generators)
-
-	return domainTopicProperties_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDomainTopicProperties_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDomainTopicProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		DomainTopicProperties_ProvisioningState_STATUS_Canceled,
-		DomainTopicProperties_ProvisioningState_STATUS_Creating,
-		DomainTopicProperties_ProvisioningState_STATUS_Deleting,
-		DomainTopicProperties_ProvisioningState_STATUS_Failed,
-		DomainTopicProperties_ProvisioningState_STATUS_Succeeded,
-		DomainTopicProperties_ProvisioningState_STATUS_Updating))
 }

@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_Subscription_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Service_Subscription_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Subscription via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSubscription, SubscriptionGenerator()))
+		"Round trip of Service_Subscription_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForService_Subscription_STATUS, Service_Subscription_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSubscription runs a test to see if a specific instance of Subscription round trips to JSON and back losslessly
-func RunJSONSerializationTestForSubscription(subject Subscription) string {
+// RunJSONSerializationTestForService_Subscription_STATUS runs a test to see if a specific instance of Service_Subscription_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForService_Subscription_STATUS(subject Service_Subscription_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForSubscription(subject Subscription) string {
 	}
 
 	// Deserialize back into memory
-	var actual Subscription
+	var actual Service_Subscription_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,26 +56,39 @@ func RunJSONSerializationTestForSubscription(subject Subscription) string {
 	return ""
 }
 
-// Generator of Subscription instances for property testing - lazily instantiated by SubscriptionGenerator()
-var subscriptionGenerator gopter.Gen
+// Generator of Service_Subscription_STATUS instances for property testing - lazily instantiated by
+// Service_Subscription_STATUSGenerator()
+var service_Subscription_STATUSGenerator gopter.Gen
 
-// SubscriptionGenerator returns a generator of Subscription instances for property testing.
-func SubscriptionGenerator() gopter.Gen {
-	if subscriptionGenerator != nil {
-		return subscriptionGenerator
+// Service_Subscription_STATUSGenerator returns a generator of Service_Subscription_STATUS instances for property testing.
+func Service_Subscription_STATUSGenerator() gopter.Gen {
+	if service_Subscription_STATUSGenerator != nil {
+		return service_Subscription_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForSubscription(generators)
-	subscriptionGenerator = gen.Struct(reflect.TypeOf(Subscription{}), generators)
+	AddIndependentPropertyGeneratorsForService_Subscription_STATUS(generators)
+	service_Subscription_STATUSGenerator = gen.Struct(reflect.TypeOf(Service_Subscription_STATUS{}), generators)
 
-	return subscriptionGenerator
+	return service_Subscription_STATUSGenerator
 }
 
-// AddRelatedPropertyGeneratorsForSubscription is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSubscription(gens map[string]gopter.Gen) {
-	gens["Spec"] = Service_Subscription_SpecGenerator()
-	gens["Status"] = Service_Subscription_STATUSGenerator()
+// AddIndependentPropertyGeneratorsForService_Subscription_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForService_Subscription_STATUS(gens map[string]gopter.Gen) {
+	gens["AllowTracing"] = gen.PtrOf(gen.Bool())
+	gens["CreatedDate"] = gen.PtrOf(gen.AlphaString())
+	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
+	gens["EndDate"] = gen.PtrOf(gen.AlphaString())
+	gens["ExpirationDate"] = gen.PtrOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["NotificationDate"] = gen.PtrOf(gen.AlphaString())
+	gens["OwnerId"] = gen.PtrOf(gen.AlphaString())
+	gens["Scope"] = gen.PtrOf(gen.AlphaString())
+	gens["StartDate"] = gen.PtrOf(gen.AlphaString())
+	gens["State"] = gen.PtrOf(gen.AlphaString())
+	gens["StateComment"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_Service_Subscription_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -158,20 +171,20 @@ func AddRelatedPropertyGeneratorsForService_Subscription_Spec(gens map[string]go
 	gens["OperatorSpec"] = gen.PtrOf(SubscriptionOperatorSpecGenerator())
 }
 
-func Test_Service_Subscription_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Subscription_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
+	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Service_Subscription_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForService_Subscription_STATUS, Service_Subscription_STATUSGenerator()))
+		"Round trip of Subscription via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSubscription, SubscriptionGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForService_Subscription_STATUS runs a test to see if a specific instance of Service_Subscription_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForService_Subscription_STATUS(subject Service_Subscription_STATUS) string {
+// RunJSONSerializationTestForSubscription runs a test to see if a specific instance of Subscription round trips to JSON and back losslessly
+func RunJSONSerializationTestForSubscription(subject Subscription) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -179,7 +192,7 @@ func RunJSONSerializationTestForService_Subscription_STATUS(subject Service_Subs
 	}
 
 	// Deserialize back into memory
-	var actual Service_Subscription_STATUS
+	var actual Subscription
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -197,39 +210,81 @@ func RunJSONSerializationTestForService_Subscription_STATUS(subject Service_Subs
 	return ""
 }
 
-// Generator of Service_Subscription_STATUS instances for property testing - lazily instantiated by
-// Service_Subscription_STATUSGenerator()
-var service_Subscription_STATUSGenerator gopter.Gen
+// Generator of Subscription instances for property testing - lazily instantiated by SubscriptionGenerator()
+var subscriptionGenerator gopter.Gen
 
-// Service_Subscription_STATUSGenerator returns a generator of Service_Subscription_STATUS instances for property testing.
-func Service_Subscription_STATUSGenerator() gopter.Gen {
-	if service_Subscription_STATUSGenerator != nil {
-		return service_Subscription_STATUSGenerator
+// SubscriptionGenerator returns a generator of Subscription instances for property testing.
+func SubscriptionGenerator() gopter.Gen {
+	if subscriptionGenerator != nil {
+		return subscriptionGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForService_Subscription_STATUS(generators)
-	service_Subscription_STATUSGenerator = gen.Struct(reflect.TypeOf(Service_Subscription_STATUS{}), generators)
+	AddRelatedPropertyGeneratorsForSubscription(generators)
+	subscriptionGenerator = gen.Struct(reflect.TypeOf(Subscription{}), generators)
 
-	return service_Subscription_STATUSGenerator
+	return subscriptionGenerator
 }
 
-// AddIndependentPropertyGeneratorsForService_Subscription_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForService_Subscription_STATUS(gens map[string]gopter.Gen) {
-	gens["AllowTracing"] = gen.PtrOf(gen.Bool())
-	gens["CreatedDate"] = gen.PtrOf(gen.AlphaString())
-	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
-	gens["EndDate"] = gen.PtrOf(gen.AlphaString())
-	gens["ExpirationDate"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["NotificationDate"] = gen.PtrOf(gen.AlphaString())
-	gens["OwnerId"] = gen.PtrOf(gen.AlphaString())
-	gens["Scope"] = gen.PtrOf(gen.AlphaString())
-	gens["StartDate"] = gen.PtrOf(gen.AlphaString())
-	gens["State"] = gen.PtrOf(gen.AlphaString())
-	gens["StateComment"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
+// AddRelatedPropertyGeneratorsForSubscription is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSubscription(gens map[string]gopter.Gen) {
+	gens["Spec"] = Service_Subscription_SpecGenerator()
+	gens["Status"] = Service_Subscription_STATUSGenerator()
+}
+
+func Test_SubscriptionOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SubscriptionOperatorSecrets via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSubscriptionOperatorSecrets, SubscriptionOperatorSecretsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSubscriptionOperatorSecrets runs a test to see if a specific instance of SubscriptionOperatorSecrets round trips to JSON and back losslessly
+func RunJSONSerializationTestForSubscriptionOperatorSecrets(subject SubscriptionOperatorSecrets) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SubscriptionOperatorSecrets
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SubscriptionOperatorSecrets instances for property testing - lazily instantiated by
+// SubscriptionOperatorSecretsGenerator()
+var subscriptionOperatorSecretsGenerator gopter.Gen
+
+// SubscriptionOperatorSecretsGenerator returns a generator of SubscriptionOperatorSecrets instances for property testing.
+func SubscriptionOperatorSecretsGenerator() gopter.Gen {
+	if subscriptionOperatorSecretsGenerator != nil {
+		return subscriptionOperatorSecretsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	subscriptionOperatorSecretsGenerator = gen.Struct(reflect.TypeOf(SubscriptionOperatorSecrets{}), generators)
+
+	return subscriptionOperatorSecretsGenerator
 }
 
 func Test_SubscriptionOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -291,59 +346,4 @@ func SubscriptionOperatorSpecGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForSubscriptionOperatorSpec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSubscriptionOperatorSpec(gens map[string]gopter.Gen) {
 	gens["Secrets"] = gen.PtrOf(SubscriptionOperatorSecretsGenerator())
-}
-
-func Test_SubscriptionOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SubscriptionOperatorSecrets via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSubscriptionOperatorSecrets, SubscriptionOperatorSecretsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSubscriptionOperatorSecrets runs a test to see if a specific instance of SubscriptionOperatorSecrets round trips to JSON and back losslessly
-func RunJSONSerializationTestForSubscriptionOperatorSecrets(subject SubscriptionOperatorSecrets) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual SubscriptionOperatorSecrets
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of SubscriptionOperatorSecrets instances for property testing - lazily instantiated by
-// SubscriptionOperatorSecretsGenerator()
-var subscriptionOperatorSecretsGenerator gopter.Gen
-
-// SubscriptionOperatorSecretsGenerator returns a generator of SubscriptionOperatorSecrets instances for property testing.
-func SubscriptionOperatorSecretsGenerator() gopter.Gen {
-	if subscriptionOperatorSecretsGenerator != nil {
-		return subscriptionOperatorSecretsGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	subscriptionOperatorSecretsGenerator = gen.Struct(reflect.TypeOf(SubscriptionOperatorSecrets{}), generators)
-
-	return subscriptionOperatorSecretsGenerator
 }

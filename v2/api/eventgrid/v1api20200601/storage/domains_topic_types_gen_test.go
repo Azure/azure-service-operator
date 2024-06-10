@@ -78,67 +78,6 @@ func AddRelatedPropertyGeneratorsForDomainsTopic(gens map[string]gopter.Gen) {
 	gens["Status"] = Domains_Topic_STATUSGenerator()
 }
 
-func Test_Domains_Topic_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Domains_Topic_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDomains_Topic_Spec, Domains_Topic_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForDomains_Topic_Spec runs a test to see if a specific instance of Domains_Topic_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForDomains_Topic_Spec(subject Domains_Topic_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Domains_Topic_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Domains_Topic_Spec instances for property testing - lazily instantiated by Domains_Topic_SpecGenerator()
-var domains_Topic_SpecGenerator gopter.Gen
-
-// Domains_Topic_SpecGenerator returns a generator of Domains_Topic_Spec instances for property testing.
-func Domains_Topic_SpecGenerator() gopter.Gen {
-	if domains_Topic_SpecGenerator != nil {
-		return domains_Topic_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDomains_Topic_Spec(generators)
-	domains_Topic_SpecGenerator = gen.Struct(reflect.TypeOf(Domains_Topic_Spec{}), generators)
-
-	return domains_Topic_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDomains_Topic_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDomains_Topic_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["OriginalVersion"] = gen.AlphaString()
-}
-
 func Test_Domains_Topic_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -215,4 +154,65 @@ func AddIndependentPropertyGeneratorsForDomains_Topic_STATUS(gens map[string]gop
 // AddRelatedPropertyGeneratorsForDomains_Topic_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDomains_Topic_STATUS(gens map[string]gopter.Gen) {
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
+}
+
+func Test_Domains_Topic_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Domains_Topic_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDomains_Topic_Spec, Domains_Topic_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDomains_Topic_Spec runs a test to see if a specific instance of Domains_Topic_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForDomains_Topic_Spec(subject Domains_Topic_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Domains_Topic_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Domains_Topic_Spec instances for property testing - lazily instantiated by Domains_Topic_SpecGenerator()
+var domains_Topic_SpecGenerator gopter.Gen
+
+// Domains_Topic_SpecGenerator returns a generator of Domains_Topic_Spec instances for property testing.
+func Domains_Topic_SpecGenerator() gopter.Gen {
+	if domains_Topic_SpecGenerator != nil {
+		return domains_Topic_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDomains_Topic_Spec(generators)
+	domains_Topic_SpecGenerator = gen.Struct(reflect.TypeOf(Domains_Topic_Spec{}), generators)
+
+	return domains_Topic_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForDomains_Topic_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDomains_Topic_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["OriginalVersion"] = gen.AlphaString()
 }

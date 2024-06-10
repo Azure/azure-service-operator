@@ -5,7 +5,7 @@ package storage
 
 import (
 	"encoding/json"
-	v20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -77,87 +77,6 @@ func DnsZoneGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForDnsZone(gens map[string]gopter.Gen) {
 	gens["Spec"] = DnsZone_SpecGenerator()
 	gens["Status"] = DnsZone_STATUSGenerator()
-}
-
-func Test_DnsZone_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DnsZone_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDnsZone_Spec, DnsZone_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForDnsZone_Spec runs a test to see if a specific instance of DnsZone_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForDnsZone_Spec(subject DnsZone_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual DnsZone_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of DnsZone_Spec instances for property testing - lazily instantiated by DnsZone_SpecGenerator()
-var dnsZone_SpecGenerator gopter.Gen
-
-// DnsZone_SpecGenerator returns a generator of DnsZone_Spec instances for property testing.
-// We first initialize dnsZone_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DnsZone_SpecGenerator() gopter.Gen {
-	if dnsZone_SpecGenerator != nil {
-		return dnsZone_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsZone_Spec(generators)
-	dnsZone_SpecGenerator = gen.Struct(reflect.TypeOf(DnsZone_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsZone_Spec(generators)
-	AddRelatedPropertyGeneratorsForDnsZone_Spec(generators)
-	dnsZone_SpecGenerator = gen.Struct(reflect.TypeOf(DnsZone_Spec{}), generators)
-
-	return dnsZone_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDnsZone_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDnsZone_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["ZoneType"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDnsZone_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDnsZone_Spec(gens map[string]gopter.Gen) {
-	gens["RegistrationVirtualNetworks"] = gen.SliceOf(SubResourceGenerator())
-	gens["ResolutionVirtualNetworks"] = gen.SliceOf(SubResourceGenerator())
 }
 
 func Test_DnsZone_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -247,6 +166,87 @@ func AddRelatedPropertyGeneratorsForDnsZone_STATUS(gens map[string]gopter.Gen) {
 	gens["ResolutionVirtualNetworks"] = gen.SliceOf(SubResource_STATUSGenerator())
 }
 
+func Test_DnsZone_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DnsZone_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDnsZone_Spec, DnsZone_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDnsZone_Spec runs a test to see if a specific instance of DnsZone_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForDnsZone_Spec(subject DnsZone_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DnsZone_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DnsZone_Spec instances for property testing - lazily instantiated by DnsZone_SpecGenerator()
+var dnsZone_SpecGenerator gopter.Gen
+
+// DnsZone_SpecGenerator returns a generator of DnsZone_Spec instances for property testing.
+// We first initialize dnsZone_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func DnsZone_SpecGenerator() gopter.Gen {
+	if dnsZone_SpecGenerator != nil {
+		return dnsZone_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDnsZone_Spec(generators)
+	dnsZone_SpecGenerator = gen.Struct(reflect.TypeOf(DnsZone_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDnsZone_Spec(generators)
+	AddRelatedPropertyGeneratorsForDnsZone_Spec(generators)
+	dnsZone_SpecGenerator = gen.Struct(reflect.TypeOf(DnsZone_Spec{}), generators)
+
+	return dnsZone_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForDnsZone_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDnsZone_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["ZoneType"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForDnsZone_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDnsZone_Spec(gens map[string]gopter.Gen) {
+	gens["RegistrationVirtualNetworks"] = gen.SliceOf(SubResourceGenerator())
+	gens["ResolutionVirtualNetworks"] = gen.SliceOf(SubResourceGenerator())
+}
+
 func Test_SubResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -264,7 +264,7 @@ func RunPropertyAssignmentTestForSubResource(subject SubResource) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.SubResource
+	var other storage.SubResource
 	err := copied.AssignProperties_To_SubResource(&other)
 	if err != nil {
 		return err.Error()
@@ -360,7 +360,7 @@ func RunPropertyAssignmentTestForSubResource_STATUS(subject SubResource_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.SubResource_STATUS
+	var other storage.SubResource_STATUS
 	err := copied.AssignProperties_To_SubResource_STATUS(&other)
 	if err != nil {
 		return err.Error()

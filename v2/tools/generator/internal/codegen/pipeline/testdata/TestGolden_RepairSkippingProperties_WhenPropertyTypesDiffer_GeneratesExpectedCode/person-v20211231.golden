@@ -4,7 +4,7 @@
 package v20211231
 
 import (
-	v20211231s "github.com/Azure/azure-service-operator/testing/person/v20211231/storage"
+	storage "github.com/Azure/azure-service-operator/testing/person/v20211231/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -17,7 +17,7 @@ type Person_Spec struct {
 }
 
 // AssignProperties_From_Person_Spec populates our Person_Spec from the provided source Person_Spec
-func (person *Person_Spec) AssignProperties_From_Person_Spec(source *v20211231s.Person_Spec) error {
+func (person *Person_Spec) AssignProperties_From_Person_Spec(source *storage.Person_Spec) error {
 
 	// FamilyName
 	person.FamilyName = genruntime.GetOptionalStringValue(source.FamilyName)
@@ -30,7 +30,7 @@ func (person *Person_Spec) AssignProperties_From_Person_Spec(source *v20211231s.
 }
 
 // AssignProperties_To_Person_Spec populates the provided destination Person_Spec from our Person_Spec
-func (person *Person_Spec) AssignProperties_To_Person_Spec(destination *v20211231s.Person_Spec) error {
+func (person *Person_Spec) AssignProperties_To_Person_Spec(destination *storage.Person_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

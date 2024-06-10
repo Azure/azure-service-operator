@@ -5,7 +5,7 @@ package v1api20220101
 
 import (
 	"fmt"
-	v20220101s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -50,7 +50,7 @@ var _ conversion.Convertible = &FlexibleServersAdministrator{}
 // ConvertFrom populates our FlexibleServersAdministrator from the provided hub FlexibleServersAdministrator
 func (administrator *FlexibleServersAdministrator) ConvertFrom(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var source v20220101s.FlexibleServersAdministrator
+	var source storage.FlexibleServersAdministrator
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
@@ -68,7 +68,7 @@ func (administrator *FlexibleServersAdministrator) ConvertFrom(hub conversion.Hu
 // ConvertTo populates the provided hub FlexibleServersAdministrator from our FlexibleServersAdministrator
 func (administrator *FlexibleServersAdministrator) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var destination v20220101s.FlexibleServersAdministrator
+	var destination storage.FlexibleServersAdministrator
 	err := administrator.AssignProperties_To_FlexibleServersAdministrator(&destination)
 	if err != nil {
 		return errors.Wrap(err, "converting to destination from administrator")
@@ -262,7 +262,7 @@ func (administrator *FlexibleServersAdministrator) validateWriteOnceProperties(o
 }
 
 // AssignProperties_From_FlexibleServersAdministrator populates our FlexibleServersAdministrator from the provided source FlexibleServersAdministrator
-func (administrator *FlexibleServersAdministrator) AssignProperties_From_FlexibleServersAdministrator(source *v20220101s.FlexibleServersAdministrator) error {
+func (administrator *FlexibleServersAdministrator) AssignProperties_From_FlexibleServersAdministrator(source *storage.FlexibleServersAdministrator) error {
 
 	// ObjectMeta
 	administrator.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -288,13 +288,13 @@ func (administrator *FlexibleServersAdministrator) AssignProperties_From_Flexibl
 }
 
 // AssignProperties_To_FlexibleServersAdministrator populates the provided destination FlexibleServersAdministrator from our FlexibleServersAdministrator
-func (administrator *FlexibleServersAdministrator) AssignProperties_To_FlexibleServersAdministrator(destination *v20220101s.FlexibleServersAdministrator) error {
+func (administrator *FlexibleServersAdministrator) AssignProperties_To_FlexibleServersAdministrator(destination *storage.FlexibleServersAdministrator) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *administrator.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20220101s.FlexibleServers_Administrator_Spec
+	var spec storage.FlexibleServers_Administrator_Spec
 	err := administrator.Spec.AssignProperties_To_FlexibleServers_Administrator_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_FlexibleServers_Administrator_Spec() to populate field Spec")
@@ -302,7 +302,7 @@ func (administrator *FlexibleServersAdministrator) AssignProperties_To_FlexibleS
 	destination.Spec = spec
 
 	// Status
-	var status v20220101s.FlexibleServers_Administrator_STATUS
+	var status storage.FlexibleServers_Administrator_STATUS
 	err = administrator.Status.AssignProperties_To_FlexibleServers_Administrator_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_FlexibleServers_Administrator_STATUS() to populate field Status")
@@ -499,14 +499,14 @@ var _ genruntime.ConvertibleSpec = &FlexibleServers_Administrator_Spec{}
 
 // ConvertSpecFrom populates our FlexibleServers_Administrator_Spec from the provided source
 func (administrator *FlexibleServers_Administrator_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20220101s.FlexibleServers_Administrator_Spec)
+	src, ok := source.(*storage.FlexibleServers_Administrator_Spec)
 	if ok {
 		// Populate our instance from source
 		return administrator.AssignProperties_From_FlexibleServers_Administrator_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220101s.FlexibleServers_Administrator_Spec{}
+	src = &storage.FlexibleServers_Administrator_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -523,14 +523,14 @@ func (administrator *FlexibleServers_Administrator_Spec) ConvertSpecFrom(source 
 
 // ConvertSpecTo populates the provided destination from our FlexibleServers_Administrator_Spec
 func (administrator *FlexibleServers_Administrator_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20220101s.FlexibleServers_Administrator_Spec)
+	dst, ok := destination.(*storage.FlexibleServers_Administrator_Spec)
 	if ok {
 		// Populate destination from our instance
 		return administrator.AssignProperties_To_FlexibleServers_Administrator_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220101s.FlexibleServers_Administrator_Spec{}
+	dst = &storage.FlexibleServers_Administrator_Spec{}
 	err := administrator.AssignProperties_To_FlexibleServers_Administrator_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -546,7 +546,7 @@ func (administrator *FlexibleServers_Administrator_Spec) ConvertSpecTo(destinati
 }
 
 // AssignProperties_From_FlexibleServers_Administrator_Spec populates our FlexibleServers_Administrator_Spec from the provided source FlexibleServers_Administrator_Spec
-func (administrator *FlexibleServers_Administrator_Spec) AssignProperties_From_FlexibleServers_Administrator_Spec(source *v20220101s.FlexibleServers_Administrator_Spec) error {
+func (administrator *FlexibleServers_Administrator_Spec) AssignProperties_From_FlexibleServers_Administrator_Spec(source *storage.FlexibleServers_Administrator_Spec) error {
 
 	// AdministratorType
 	if source.AdministratorType != nil {
@@ -603,7 +603,7 @@ func (administrator *FlexibleServers_Administrator_Spec) AssignProperties_From_F
 }
 
 // AssignProperties_To_FlexibleServers_Administrator_Spec populates the provided destination FlexibleServers_Administrator_Spec from our FlexibleServers_Administrator_Spec
-func (administrator *FlexibleServers_Administrator_Spec) AssignProperties_To_FlexibleServers_Administrator_Spec(destination *v20220101s.FlexibleServers_Administrator_Spec) error {
+func (administrator *FlexibleServers_Administrator_Spec) AssignProperties_To_FlexibleServers_Administrator_Spec(destination *storage.FlexibleServers_Administrator_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -712,14 +712,14 @@ var _ genruntime.ConvertibleStatus = &FlexibleServers_Administrator_STATUS{}
 
 // ConvertStatusFrom populates our FlexibleServers_Administrator_STATUS from the provided source
 func (administrator *FlexibleServers_Administrator_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20220101s.FlexibleServers_Administrator_STATUS)
+	src, ok := source.(*storage.FlexibleServers_Administrator_STATUS)
 	if ok {
 		// Populate our instance from source
 		return administrator.AssignProperties_From_FlexibleServers_Administrator_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220101s.FlexibleServers_Administrator_STATUS{}
+	src = &storage.FlexibleServers_Administrator_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -736,14 +736,14 @@ func (administrator *FlexibleServers_Administrator_STATUS) ConvertStatusFrom(sou
 
 // ConvertStatusTo populates the provided destination from our FlexibleServers_Administrator_STATUS
 func (administrator *FlexibleServers_Administrator_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20220101s.FlexibleServers_Administrator_STATUS)
+	dst, ok := destination.(*storage.FlexibleServers_Administrator_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return administrator.AssignProperties_To_FlexibleServers_Administrator_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220101s.FlexibleServers_Administrator_STATUS{}
+	dst = &storage.FlexibleServers_Administrator_STATUS{}
 	err := administrator.AssignProperties_To_FlexibleServers_Administrator_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -853,7 +853,7 @@ func (administrator *FlexibleServers_Administrator_STATUS) PopulateFromARM(owner
 }
 
 // AssignProperties_From_FlexibleServers_Administrator_STATUS populates our FlexibleServers_Administrator_STATUS from the provided source FlexibleServers_Administrator_STATUS
-func (administrator *FlexibleServers_Administrator_STATUS) AssignProperties_From_FlexibleServers_Administrator_STATUS(source *v20220101s.FlexibleServers_Administrator_STATUS) error {
+func (administrator *FlexibleServers_Administrator_STATUS) AssignProperties_From_FlexibleServers_Administrator_STATUS(source *storage.FlexibleServers_Administrator_STATUS) error {
 
 	// AdministratorType
 	if source.AdministratorType != nil {
@@ -905,7 +905,7 @@ func (administrator *FlexibleServers_Administrator_STATUS) AssignProperties_From
 }
 
 // AssignProperties_To_FlexibleServers_Administrator_STATUS populates the provided destination FlexibleServers_Administrator_STATUS from our FlexibleServers_Administrator_STATUS
-func (administrator *FlexibleServers_Administrator_STATUS) AssignProperties_To_FlexibleServers_Administrator_STATUS(destination *v20220101s.FlexibleServers_Administrator_STATUS) error {
+func (administrator *FlexibleServers_Administrator_STATUS) AssignProperties_To_FlexibleServers_Administrator_STATUS(destination *storage.FlexibleServers_Administrator_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -937,7 +937,7 @@ func (administrator *FlexibleServers_Administrator_STATUS) AssignProperties_To_F
 
 	// SystemData
 	if administrator.SystemData != nil {
-		var systemDatum v20220101s.SystemData_STATUS
+		var systemDatum storage.SystemData_STATUS
 		err := administrator.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
@@ -1059,7 +1059,7 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 }
 
 // AssignProperties_From_SystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v20220101s.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *storage.SystemData_STATUS) error {
 
 	// CreatedAt
 	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
@@ -1096,7 +1096,7 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 }
 
 // AssignProperties_To_SystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *v20220101s.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *storage.SystemData_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

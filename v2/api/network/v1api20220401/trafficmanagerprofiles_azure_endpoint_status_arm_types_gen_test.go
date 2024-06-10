@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_Trafficmanagerprofiles_AzureEndpoint_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_EndpointProperties_CustomHeaders_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Trafficmanagerprofiles_AzureEndpoint_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForTrafficmanagerprofiles_AzureEndpoint_STATUS_ARM, Trafficmanagerprofiles_AzureEndpoint_STATUS_ARMGenerator()))
+		"Round trip of EndpointProperties_CustomHeaders_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForEndpointProperties_CustomHeaders_STATUS_ARM, EndpointProperties_CustomHeaders_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForTrafficmanagerprofiles_AzureEndpoint_STATUS_ARM runs a test to see if a specific instance of Trafficmanagerprofiles_AzureEndpoint_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForTrafficmanagerprofiles_AzureEndpoint_STATUS_ARM(subject Trafficmanagerprofiles_AzureEndpoint_STATUS_ARM) string {
+// RunJSONSerializationTestForEndpointProperties_CustomHeaders_STATUS_ARM runs a test to see if a specific instance of EndpointProperties_CustomHeaders_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForEndpointProperties_CustomHeaders_STATUS_ARM(subject EndpointProperties_CustomHeaders_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForTrafficmanagerprofiles_AzureEndpoint_STATUS_ARM(
 	}
 
 	// Deserialize back into memory
-	var actual Trafficmanagerprofiles_AzureEndpoint_STATUS_ARM
+	var actual EndpointProperties_CustomHeaders_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,42 +56,27 @@ func RunJSONSerializationTestForTrafficmanagerprofiles_AzureEndpoint_STATUS_ARM(
 	return ""
 }
 
-// Generator of Trafficmanagerprofiles_AzureEndpoint_STATUS_ARM instances for property testing - lazily instantiated by
-// Trafficmanagerprofiles_AzureEndpoint_STATUS_ARMGenerator()
-var trafficmanagerprofiles_AzureEndpoint_STATUS_ARMGenerator gopter.Gen
+// Generator of EndpointProperties_CustomHeaders_STATUS_ARM instances for property testing - lazily instantiated by
+// EndpointProperties_CustomHeaders_STATUS_ARMGenerator()
+var endpointProperties_CustomHeaders_STATUS_ARMGenerator gopter.Gen
 
-// Trafficmanagerprofiles_AzureEndpoint_STATUS_ARMGenerator returns a generator of Trafficmanagerprofiles_AzureEndpoint_STATUS_ARM instances for property testing.
-// We first initialize trafficmanagerprofiles_AzureEndpoint_STATUS_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Trafficmanagerprofiles_AzureEndpoint_STATUS_ARMGenerator() gopter.Gen {
-	if trafficmanagerprofiles_AzureEndpoint_STATUS_ARMGenerator != nil {
-		return trafficmanagerprofiles_AzureEndpoint_STATUS_ARMGenerator
+// EndpointProperties_CustomHeaders_STATUS_ARMGenerator returns a generator of EndpointProperties_CustomHeaders_STATUS_ARM instances for property testing.
+func EndpointProperties_CustomHeaders_STATUS_ARMGenerator() gopter.Gen {
+	if endpointProperties_CustomHeaders_STATUS_ARMGenerator != nil {
+		return endpointProperties_CustomHeaders_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForTrafficmanagerprofiles_AzureEndpoint_STATUS_ARM(generators)
-	trafficmanagerprofiles_AzureEndpoint_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Trafficmanagerprofiles_AzureEndpoint_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForEndpointProperties_CustomHeaders_STATUS_ARM(generators)
+	endpointProperties_CustomHeaders_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(EndpointProperties_CustomHeaders_STATUS_ARM{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForTrafficmanagerprofiles_AzureEndpoint_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForTrafficmanagerprofiles_AzureEndpoint_STATUS_ARM(generators)
-	trafficmanagerprofiles_AzureEndpoint_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Trafficmanagerprofiles_AzureEndpoint_STATUS_ARM{}), generators)
-
-	return trafficmanagerprofiles_AzureEndpoint_STATUS_ARMGenerator
+	return endpointProperties_CustomHeaders_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForTrafficmanagerprofiles_AzureEndpoint_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForTrafficmanagerprofiles_AzureEndpoint_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
+// AddIndependentPropertyGeneratorsForEndpointProperties_CustomHeaders_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForEndpointProperties_CustomHeaders_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForTrafficmanagerprofiles_AzureEndpoint_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForTrafficmanagerprofiles_AzureEndpoint_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(EndpointProperties_STATUS_ARMGenerator())
+	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_EndpointProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -188,68 +173,6 @@ func AddRelatedPropertyGeneratorsForEndpointProperties_STATUS_ARM(gens map[strin
 	gens["Subnets"] = gen.SliceOf(EndpointProperties_Subnets_STATUS_ARMGenerator())
 }
 
-func Test_EndpointProperties_CustomHeaders_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of EndpointProperties_CustomHeaders_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForEndpointProperties_CustomHeaders_STATUS_ARM, EndpointProperties_CustomHeaders_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForEndpointProperties_CustomHeaders_STATUS_ARM runs a test to see if a specific instance of EndpointProperties_CustomHeaders_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForEndpointProperties_CustomHeaders_STATUS_ARM(subject EndpointProperties_CustomHeaders_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual EndpointProperties_CustomHeaders_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of EndpointProperties_CustomHeaders_STATUS_ARM instances for property testing - lazily instantiated by
-// EndpointProperties_CustomHeaders_STATUS_ARMGenerator()
-var endpointProperties_CustomHeaders_STATUS_ARMGenerator gopter.Gen
-
-// EndpointProperties_CustomHeaders_STATUS_ARMGenerator returns a generator of EndpointProperties_CustomHeaders_STATUS_ARM instances for property testing.
-func EndpointProperties_CustomHeaders_STATUS_ARMGenerator() gopter.Gen {
-	if endpointProperties_CustomHeaders_STATUS_ARMGenerator != nil {
-		return endpointProperties_CustomHeaders_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEndpointProperties_CustomHeaders_STATUS_ARM(generators)
-	endpointProperties_CustomHeaders_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(EndpointProperties_CustomHeaders_STATUS_ARM{}), generators)
-
-	return endpointProperties_CustomHeaders_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForEndpointProperties_CustomHeaders_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForEndpointProperties_CustomHeaders_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Value"] = gen.PtrOf(gen.AlphaString())
-}
-
 func Test_EndpointProperties_Subnets_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -311,4 +234,81 @@ func AddIndependentPropertyGeneratorsForEndpointProperties_Subnets_STATUS_ARM(ge
 	gens["First"] = gen.PtrOf(gen.AlphaString())
 	gens["Last"] = gen.PtrOf(gen.AlphaString())
 	gens["Scope"] = gen.PtrOf(gen.Int())
+}
+
+func Test_Trafficmanagerprofiles_AzureEndpoint_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Trafficmanagerprofiles_AzureEndpoint_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForTrafficmanagerprofiles_AzureEndpoint_STATUS_ARM, Trafficmanagerprofiles_AzureEndpoint_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForTrafficmanagerprofiles_AzureEndpoint_STATUS_ARM runs a test to see if a specific instance of Trafficmanagerprofiles_AzureEndpoint_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForTrafficmanagerprofiles_AzureEndpoint_STATUS_ARM(subject Trafficmanagerprofiles_AzureEndpoint_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Trafficmanagerprofiles_AzureEndpoint_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Trafficmanagerprofiles_AzureEndpoint_STATUS_ARM instances for property testing - lazily instantiated by
+// Trafficmanagerprofiles_AzureEndpoint_STATUS_ARMGenerator()
+var trafficmanagerprofiles_AzureEndpoint_STATUS_ARMGenerator gopter.Gen
+
+// Trafficmanagerprofiles_AzureEndpoint_STATUS_ARMGenerator returns a generator of Trafficmanagerprofiles_AzureEndpoint_STATUS_ARM instances for property testing.
+// We first initialize trafficmanagerprofiles_AzureEndpoint_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Trafficmanagerprofiles_AzureEndpoint_STATUS_ARMGenerator() gopter.Gen {
+	if trafficmanagerprofiles_AzureEndpoint_STATUS_ARMGenerator != nil {
+		return trafficmanagerprofiles_AzureEndpoint_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForTrafficmanagerprofiles_AzureEndpoint_STATUS_ARM(generators)
+	trafficmanagerprofiles_AzureEndpoint_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Trafficmanagerprofiles_AzureEndpoint_STATUS_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForTrafficmanagerprofiles_AzureEndpoint_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForTrafficmanagerprofiles_AzureEndpoint_STATUS_ARM(generators)
+	trafficmanagerprofiles_AzureEndpoint_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Trafficmanagerprofiles_AzureEndpoint_STATUS_ARM{}), generators)
+
+	return trafficmanagerprofiles_AzureEndpoint_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForTrafficmanagerprofiles_AzureEndpoint_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForTrafficmanagerprofiles_AzureEndpoint_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForTrafficmanagerprofiles_AzureEndpoint_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForTrafficmanagerprofiles_AzureEndpoint_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(EndpointProperties_STATUS_ARMGenerator())
 }

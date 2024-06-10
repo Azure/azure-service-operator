@@ -5,7 +5,7 @@ package v1api20220701
 
 import (
 	"encoding/json"
-	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -17,6 +17,620 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded to ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded via AssignProperties_To_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded & AssignProperties_From_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded, ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded tests if a specific instance of ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded(subject ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded
+	err := copied.AssignProperties_To_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded
+	err = actual.AssignProperties_From_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded, ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded runs a test to see if a specific instance of ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded(subject ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded instances for property testing - lazily
+// instantiated by ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbeddedGenerator()
+var applicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbeddedGenerator gopter.Gen
+
+// ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbeddedGenerator returns a generator of ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded instances for property testing.
+func ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbeddedGenerator() gopter.Gen {
+	if applicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbeddedGenerator != nil {
+		return applicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbeddedGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	applicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded{}), generators)
+
+	return applicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbeddedGenerator
+}
+
+func Test_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded to ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded via AssignProperties_To_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded & AssignProperties_From_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded, ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded tests if a specific instance of ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded(subject ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded
+	err := copied.AssignProperties_To_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded
+	err = actual.AssignProperties_From_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded, ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded runs a test to see if a specific instance of ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded(subject ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded instances for property testing -
+// lazily instantiated by ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator()
+var applicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator gopter.Gen
+
+// ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator returns a generator of ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded instances for property testing.
+func ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator() gopter.Gen {
+	if applicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator != nil {
+		return applicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded(generators)
+	applicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded{}), generators)
+
+	return applicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator
+}
+
+// AddIndependentPropertyGeneratorsForApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_CustomDnsConfigPropertiesFormat_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CustomDnsConfigPropertiesFormat_STATUS to CustomDnsConfigPropertiesFormat_STATUS via AssignProperties_To_CustomDnsConfigPropertiesFormat_STATUS & AssignProperties_From_CustomDnsConfigPropertiesFormat_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCustomDnsConfigPropertiesFormat_STATUS, CustomDnsConfigPropertiesFormat_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCustomDnsConfigPropertiesFormat_STATUS tests if a specific instance of CustomDnsConfigPropertiesFormat_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForCustomDnsConfigPropertiesFormat_STATUS(subject CustomDnsConfigPropertiesFormat_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.CustomDnsConfigPropertiesFormat_STATUS
+	err := copied.AssignProperties_To_CustomDnsConfigPropertiesFormat_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual CustomDnsConfigPropertiesFormat_STATUS
+	err = actual.AssignProperties_From_CustomDnsConfigPropertiesFormat_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_CustomDnsConfigPropertiesFormat_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of CustomDnsConfigPropertiesFormat_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForCustomDnsConfigPropertiesFormat_STATUS, CustomDnsConfigPropertiesFormat_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForCustomDnsConfigPropertiesFormat_STATUS runs a test to see if a specific instance of CustomDnsConfigPropertiesFormat_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForCustomDnsConfigPropertiesFormat_STATUS(subject CustomDnsConfigPropertiesFormat_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual CustomDnsConfigPropertiesFormat_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of CustomDnsConfigPropertiesFormat_STATUS instances for property testing - lazily instantiated by
+// CustomDnsConfigPropertiesFormat_STATUSGenerator()
+var customDnsConfigPropertiesFormat_STATUSGenerator gopter.Gen
+
+// CustomDnsConfigPropertiesFormat_STATUSGenerator returns a generator of CustomDnsConfigPropertiesFormat_STATUS instances for property testing.
+func CustomDnsConfigPropertiesFormat_STATUSGenerator() gopter.Gen {
+	if customDnsConfigPropertiesFormat_STATUSGenerator != nil {
+		return customDnsConfigPropertiesFormat_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForCustomDnsConfigPropertiesFormat_STATUS(generators)
+	customDnsConfigPropertiesFormat_STATUSGenerator = gen.Struct(reflect.TypeOf(CustomDnsConfigPropertiesFormat_STATUS{}), generators)
+
+	return customDnsConfigPropertiesFormat_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForCustomDnsConfigPropertiesFormat_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForCustomDnsConfigPropertiesFormat_STATUS(gens map[string]gopter.Gen) {
+	gens["Fqdn"] = gen.PtrOf(gen.AlphaString())
+	gens["IpAddresses"] = gen.SliceOf(gen.AlphaString())
+}
+
+func Test_ExtendedLocation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ExtendedLocation to ExtendedLocation via AssignProperties_To_ExtendedLocation & AssignProperties_From_ExtendedLocation returns original",
+		prop.ForAll(RunPropertyAssignmentTestForExtendedLocation, ExtendedLocationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForExtendedLocation tests if a specific instance of ExtendedLocation can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForExtendedLocation(subject ExtendedLocation) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ExtendedLocation
+	err := copied.AssignProperties_To_ExtendedLocation(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ExtendedLocation
+	err = actual.AssignProperties_From_ExtendedLocation(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ExtendedLocation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ExtendedLocation via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForExtendedLocation, ExtendedLocationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForExtendedLocation runs a test to see if a specific instance of ExtendedLocation round trips to JSON and back losslessly
+func RunJSONSerializationTestForExtendedLocation(subject ExtendedLocation) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ExtendedLocation
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ExtendedLocation instances for property testing - lazily instantiated by ExtendedLocationGenerator()
+var extendedLocationGenerator gopter.Gen
+
+// ExtendedLocationGenerator returns a generator of ExtendedLocation instances for property testing.
+func ExtendedLocationGenerator() gopter.Gen {
+	if extendedLocationGenerator != nil {
+		return extendedLocationGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForExtendedLocation(generators)
+	extendedLocationGenerator = gen.Struct(reflect.TypeOf(ExtendedLocation{}), generators)
+
+	return extendedLocationGenerator
+}
+
+// AddIndependentPropertyGeneratorsForExtendedLocation is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForExtendedLocation(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_EdgeZone))
+}
+
+func Test_ExtendedLocation_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ExtendedLocation_STATUS to ExtendedLocation_STATUS via AssignProperties_To_ExtendedLocation_STATUS & AssignProperties_From_ExtendedLocation_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForExtendedLocation_STATUS, ExtendedLocation_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForExtendedLocation_STATUS tests if a specific instance of ExtendedLocation_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForExtendedLocation_STATUS(subject ExtendedLocation_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ExtendedLocation_STATUS
+	err := copied.AssignProperties_To_ExtendedLocation_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ExtendedLocation_STATUS
+	err = actual.AssignProperties_From_ExtendedLocation_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ExtendedLocation_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ExtendedLocation_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForExtendedLocation_STATUS, ExtendedLocation_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForExtendedLocation_STATUS runs a test to see if a specific instance of ExtendedLocation_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForExtendedLocation_STATUS(subject ExtendedLocation_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ExtendedLocation_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ExtendedLocation_STATUS instances for property testing - lazily instantiated by
+// ExtendedLocation_STATUSGenerator()
+var extendedLocation_STATUSGenerator gopter.Gen
+
+// ExtendedLocation_STATUSGenerator returns a generator of ExtendedLocation_STATUS instances for property testing.
+func ExtendedLocation_STATUSGenerator() gopter.Gen {
+	if extendedLocation_STATUSGenerator != nil {
+		return extendedLocation_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForExtendedLocation_STATUS(generators)
+	extendedLocation_STATUSGenerator = gen.Struct(reflect.TypeOf(ExtendedLocation_STATUS{}), generators)
+
+	return extendedLocation_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForExtendedLocation_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForExtendedLocation_STATUS(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_STATUS_EdgeZone))
+}
+
+func Test_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded to NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded via AssignProperties_To_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded & AssignProperties_From_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded, NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded tests if a specific instance of NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForNetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded(subject NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded
+	err := copied.AssignProperties_To_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded
+	err = actual.AssignProperties_From_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded, NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForNetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded runs a test to see if a specific instance of NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForNetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded(subject NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded instances for property testing - lazily
+// instantiated by NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator()
+var networkInterface_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator gopter.Gen
+
+// NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator returns a generator of NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded instances for property testing.
+func NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator() gopter.Gen {
+	if networkInterface_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator != nil {
+		return networkInterface_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded(generators)
+	networkInterface_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded{}), generators)
+
+	return networkInterface_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator
+}
+
+// AddIndependentPropertyGeneratorsForNetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
 
 func Test_PrivateEndpoint_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
@@ -36,7 +650,7 @@ func RunResourceConversionTestForPrivateEndpoint(subject PrivateEndpoint) string
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20220701s.PrivateEndpoint
+	var hub storage.PrivateEndpoint
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +692,7 @@ func RunPropertyAssignmentTestForPrivateEndpoint(subject PrivateEndpoint) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.PrivateEndpoint
+	var other storage.PrivateEndpoint
 	err := copied.AssignProperties_To_PrivateEndpoint(&other)
 	if err != nil {
 		return err.Error()
@@ -164,32 +778,32 @@ func AddRelatedPropertyGeneratorsForPrivateEndpoint(gens map[string]gopter.Gen) 
 	gens["Status"] = PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator()
 }
 
-func Test_PrivateEndpoint_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_PrivateEndpointIPConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from PrivateEndpoint_Spec to PrivateEndpoint_Spec via AssignProperties_To_PrivateEndpoint_Spec & AssignProperties_From_PrivateEndpoint_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPrivateEndpoint_Spec, PrivateEndpoint_SpecGenerator()))
+		"Round trip from PrivateEndpointIPConfiguration to PrivateEndpointIPConfiguration via AssignProperties_To_PrivateEndpointIPConfiguration & AssignProperties_From_PrivateEndpointIPConfiguration returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPrivateEndpointIPConfiguration, PrivateEndpointIPConfigurationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateEndpoint_Spec tests if a specific instance of PrivateEndpoint_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForPrivateEndpoint_Spec(subject PrivateEndpoint_Spec) string {
+// RunPropertyAssignmentTestForPrivateEndpointIPConfiguration tests if a specific instance of PrivateEndpointIPConfiguration can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForPrivateEndpointIPConfiguration(subject PrivateEndpointIPConfiguration) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.PrivateEndpoint_Spec
-	err := copied.AssignProperties_To_PrivateEndpoint_Spec(&other)
+	var other storage.PrivateEndpointIPConfiguration
+	err := copied.AssignProperties_To_PrivateEndpointIPConfiguration(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual PrivateEndpoint_Spec
-	err = actual.AssignProperties_From_PrivateEndpoint_Spec(&other)
+	var actual PrivateEndpointIPConfiguration
+	err = actual.AssignProperties_From_PrivateEndpointIPConfiguration(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -206,20 +820,20 @@ func RunPropertyAssignmentTestForPrivateEndpoint_Spec(subject PrivateEndpoint_Sp
 	return ""
 }
 
-func Test_PrivateEndpoint_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_PrivateEndpointIPConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
+	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of PrivateEndpoint_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateEndpoint_Spec, PrivateEndpoint_SpecGenerator()))
+		"Round trip of PrivateEndpointIPConfiguration via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateEndpointIPConfiguration, PrivateEndpointIPConfigurationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPrivateEndpoint_Spec runs a test to see if a specific instance of PrivateEndpoint_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateEndpoint_Spec(subject PrivateEndpoint_Spec) string {
+// RunJSONSerializationTestForPrivateEndpointIPConfiguration runs a test to see if a specific instance of PrivateEndpointIPConfiguration round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateEndpointIPConfiguration(subject PrivateEndpointIPConfiguration) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -227,7 +841,7 @@ func RunJSONSerializationTestForPrivateEndpoint_Spec(subject PrivateEndpoint_Spe
 	}
 
 	// Deserialize back into memory
-	var actual PrivateEndpoint_Spec
+	var actual PrivateEndpointIPConfiguration
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -245,50 +859,137 @@ func RunJSONSerializationTestForPrivateEndpoint_Spec(subject PrivateEndpoint_Spe
 	return ""
 }
 
-// Generator of PrivateEndpoint_Spec instances for property testing - lazily instantiated by
-// PrivateEndpoint_SpecGenerator()
-var privateEndpoint_SpecGenerator gopter.Gen
+// Generator of PrivateEndpointIPConfiguration instances for property testing - lazily instantiated by
+// PrivateEndpointIPConfigurationGenerator()
+var privateEndpointIPConfigurationGenerator gopter.Gen
 
-// PrivateEndpoint_SpecGenerator returns a generator of PrivateEndpoint_Spec instances for property testing.
-// We first initialize privateEndpoint_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func PrivateEndpoint_SpecGenerator() gopter.Gen {
-	if privateEndpoint_SpecGenerator != nil {
-		return privateEndpoint_SpecGenerator
+// PrivateEndpointIPConfigurationGenerator returns a generator of PrivateEndpointIPConfiguration instances for property testing.
+func PrivateEndpointIPConfigurationGenerator() gopter.Gen {
+	if privateEndpointIPConfigurationGenerator != nil {
+		return privateEndpointIPConfigurationGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpoint_Spec(generators)
-	privateEndpoint_SpecGenerator = gen.Struct(reflect.TypeOf(PrivateEndpoint_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForPrivateEndpointIPConfiguration(generators)
+	privateEndpointIPConfigurationGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointIPConfiguration{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpoint_Spec(generators)
-	AddRelatedPropertyGeneratorsForPrivateEndpoint_Spec(generators)
-	privateEndpoint_SpecGenerator = gen.Struct(reflect.TypeOf(PrivateEndpoint_Spec{}), generators)
-
-	return privateEndpoint_SpecGenerator
+	return privateEndpointIPConfigurationGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPrivateEndpoint_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateEndpoint_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["CustomNetworkInterfaceName"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
+// AddIndependentPropertyGeneratorsForPrivateEndpointIPConfiguration is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateEndpointIPConfiguration(gens map[string]gopter.Gen) {
+	gens["GroupId"] = gen.PtrOf(gen.AlphaString())
+	gens["MemberName"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["PrivateIPAddress"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForPrivateEndpoint_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPrivateEndpoint_Spec(gens map[string]gopter.Gen) {
-	gens["ApplicationSecurityGroups"] = gen.SliceOf(ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbeddedGenerator())
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
-	gens["IpConfigurations"] = gen.SliceOf(PrivateEndpointIPConfigurationGenerator())
-	gens["ManualPrivateLinkServiceConnections"] = gen.SliceOf(PrivateLinkServiceConnectionGenerator())
-	gens["PrivateLinkServiceConnections"] = gen.SliceOf(PrivateLinkServiceConnectionGenerator())
-	gens["Subnet"] = gen.PtrOf(Subnet_PrivateEndpoint_SubResourceEmbeddedGenerator())
+func Test_PrivateEndpointIPConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PrivateEndpointIPConfiguration_STATUS to PrivateEndpointIPConfiguration_STATUS via AssignProperties_To_PrivateEndpointIPConfiguration_STATUS & AssignProperties_From_PrivateEndpointIPConfiguration_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPrivateEndpointIPConfiguration_STATUS, PrivateEndpointIPConfiguration_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPrivateEndpointIPConfiguration_STATUS tests if a specific instance of PrivateEndpointIPConfiguration_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForPrivateEndpointIPConfiguration_STATUS(subject PrivateEndpointIPConfiguration_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.PrivateEndpointIPConfiguration_STATUS
+	err := copied.AssignProperties_To_PrivateEndpointIPConfiguration_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PrivateEndpointIPConfiguration_STATUS
+	err = actual.AssignProperties_From_PrivateEndpointIPConfiguration_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_PrivateEndpointIPConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PrivateEndpointIPConfiguration_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateEndpointIPConfiguration_STATUS, PrivateEndpointIPConfiguration_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPrivateEndpointIPConfiguration_STATUS runs a test to see if a specific instance of PrivateEndpointIPConfiguration_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateEndpointIPConfiguration_STATUS(subject PrivateEndpointIPConfiguration_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PrivateEndpointIPConfiguration_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PrivateEndpointIPConfiguration_STATUS instances for property testing - lazily instantiated by
+// PrivateEndpointIPConfiguration_STATUSGenerator()
+var privateEndpointIPConfiguration_STATUSGenerator gopter.Gen
+
+// PrivateEndpointIPConfiguration_STATUSGenerator returns a generator of PrivateEndpointIPConfiguration_STATUS instances for property testing.
+func PrivateEndpointIPConfiguration_STATUSGenerator() gopter.Gen {
+	if privateEndpointIPConfiguration_STATUSGenerator != nil {
+		return privateEndpointIPConfiguration_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPrivateEndpointIPConfiguration_STATUS(generators)
+	privateEndpointIPConfiguration_STATUSGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointIPConfiguration_STATUS{}), generators)
+
+	return privateEndpointIPConfiguration_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForPrivateEndpointIPConfiguration_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateEndpointIPConfiguration_STATUS(gens map[string]gopter.Gen) {
+	gens["Etag"] = gen.PtrOf(gen.AlphaString())
+	gens["GroupId"] = gen.PtrOf(gen.AlphaString())
+	gens["MemberName"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["PrivateIPAddress"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -308,7 +1009,7 @@ func RunPropertyAssignmentTestForPrivateEndpoint_STATUS_PrivateEndpoint_SubResou
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded
+	var other storage.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded
 	err := copied.AssignProperties_To_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -428,32 +1129,32 @@ func AddRelatedPropertyGeneratorsForPrivateEndpoint_STATUS_PrivateEndpoint_SubRe
 	gens["Subnet"] = gen.PtrOf(Subnet_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator())
 }
 
-func Test_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_PrivateEndpoint_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded to ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded via AssignProperties_To_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded & AssignProperties_From_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded, ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator()))
+		"Round trip from PrivateEndpoint_Spec to PrivateEndpoint_Spec via AssignProperties_To_PrivateEndpoint_Spec & AssignProperties_From_PrivateEndpoint_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPrivateEndpoint_Spec, PrivateEndpoint_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded tests if a specific instance of ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded(subject ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded) string {
+// RunPropertyAssignmentTestForPrivateEndpoint_Spec tests if a specific instance of PrivateEndpoint_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForPrivateEndpoint_Spec(subject PrivateEndpoint_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded
-	err := copied.AssignProperties_To_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded(&other)
+	var other storage.PrivateEndpoint_Spec
+	err := copied.AssignProperties_To_PrivateEndpoint_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded
-	err = actual.AssignProperties_From_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded(&other)
+	var actual PrivateEndpoint_Spec
+	err = actual.AssignProperties_From_PrivateEndpoint_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -470,20 +1171,20 @@ func RunPropertyAssignmentTestForApplicationSecurityGroup_STATUS_PrivateEndpoint
 	return ""
 }
 
-func Test_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_PrivateEndpoint_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded, ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator()))
+		"Round trip of PrivateEndpoint_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateEndpoint_Spec, PrivateEndpoint_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded runs a test to see if a specific instance of ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded(subject ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded) string {
+// RunJSONSerializationTestForPrivateEndpoint_Spec runs a test to see if a specific instance of PrivateEndpoint_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateEndpoint_Spec(subject PrivateEndpoint_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -491,7 +1192,7 @@ func RunJSONSerializationTestForApplicationSecurityGroup_STATUS_PrivateEndpoint_
 	}
 
 	// Deserialize back into memory
-	var actual ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded
+	var actual PrivateEndpoint_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -509,751 +1210,50 @@ func RunJSONSerializationTestForApplicationSecurityGroup_STATUS_PrivateEndpoint_
 	return ""
 }
 
-// Generator of ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded instances for property testing -
-// lazily instantiated by ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator()
-var applicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator gopter.Gen
+// Generator of PrivateEndpoint_Spec instances for property testing - lazily instantiated by
+// PrivateEndpoint_SpecGenerator()
+var privateEndpoint_SpecGenerator gopter.Gen
 
-// ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator returns a generator of ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded instances for property testing.
-func ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator() gopter.Gen {
-	if applicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator != nil {
-		return applicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator
+// PrivateEndpoint_SpecGenerator returns a generator of PrivateEndpoint_Spec instances for property testing.
+// We first initialize privateEndpoint_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func PrivateEndpoint_SpecGenerator() gopter.Gen {
+	if privateEndpoint_SpecGenerator != nil {
+		return privateEndpoint_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded(generators)
-	applicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForPrivateEndpoint_Spec(generators)
+	privateEndpoint_SpecGenerator = gen.Struct(reflect.TypeOf(PrivateEndpoint_Spec{}), generators)
 
-	return applicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPrivateEndpoint_Spec(generators)
+	AddRelatedPropertyGeneratorsForPrivateEndpoint_Spec(generators)
+	privateEndpoint_SpecGenerator = gen.Struct(reflect.TypeOf(PrivateEndpoint_Spec{}), generators)
+
+	return privateEndpoint_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
+// AddIndependentPropertyGeneratorsForPrivateEndpoint_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateEndpoint_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["CustomNetworkInterfaceName"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
-func Test_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded to ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded via AssignProperties_To_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded & AssignProperties_From_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded, ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbeddedGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded tests if a specific instance of ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded(subject ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded
-	err := copied.AssignProperties_To_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded
-	err = actual.AssignProperties_From_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded, ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbeddedGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded runs a test to see if a specific instance of ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded(subject ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded instances for property testing - lazily
-// instantiated by ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbeddedGenerator()
-var applicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbeddedGenerator gopter.Gen
-
-// ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbeddedGenerator returns a generator of ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded instances for property testing.
-func ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbeddedGenerator() gopter.Gen {
-	if applicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbeddedGenerator != nil {
-		return applicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbeddedGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	applicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded{}), generators)
-
-	return applicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbeddedGenerator
-}
-
-func Test_CustomDnsConfigPropertiesFormat_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from CustomDnsConfigPropertiesFormat_STATUS to CustomDnsConfigPropertiesFormat_STATUS via AssignProperties_To_CustomDnsConfigPropertiesFormat_STATUS & AssignProperties_From_CustomDnsConfigPropertiesFormat_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForCustomDnsConfigPropertiesFormat_STATUS, CustomDnsConfigPropertiesFormat_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForCustomDnsConfigPropertiesFormat_STATUS tests if a specific instance of CustomDnsConfigPropertiesFormat_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForCustomDnsConfigPropertiesFormat_STATUS(subject CustomDnsConfigPropertiesFormat_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.CustomDnsConfigPropertiesFormat_STATUS
-	err := copied.AssignProperties_To_CustomDnsConfigPropertiesFormat_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual CustomDnsConfigPropertiesFormat_STATUS
-	err = actual.AssignProperties_From_CustomDnsConfigPropertiesFormat_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_CustomDnsConfigPropertiesFormat_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CustomDnsConfigPropertiesFormat_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCustomDnsConfigPropertiesFormat_STATUS, CustomDnsConfigPropertiesFormat_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForCustomDnsConfigPropertiesFormat_STATUS runs a test to see if a specific instance of CustomDnsConfigPropertiesFormat_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForCustomDnsConfigPropertiesFormat_STATUS(subject CustomDnsConfigPropertiesFormat_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual CustomDnsConfigPropertiesFormat_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of CustomDnsConfigPropertiesFormat_STATUS instances for property testing - lazily instantiated by
-// CustomDnsConfigPropertiesFormat_STATUSGenerator()
-var customDnsConfigPropertiesFormat_STATUSGenerator gopter.Gen
-
-// CustomDnsConfigPropertiesFormat_STATUSGenerator returns a generator of CustomDnsConfigPropertiesFormat_STATUS instances for property testing.
-func CustomDnsConfigPropertiesFormat_STATUSGenerator() gopter.Gen {
-	if customDnsConfigPropertiesFormat_STATUSGenerator != nil {
-		return customDnsConfigPropertiesFormat_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCustomDnsConfigPropertiesFormat_STATUS(generators)
-	customDnsConfigPropertiesFormat_STATUSGenerator = gen.Struct(reflect.TypeOf(CustomDnsConfigPropertiesFormat_STATUS{}), generators)
-
-	return customDnsConfigPropertiesFormat_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCustomDnsConfigPropertiesFormat_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCustomDnsConfigPropertiesFormat_STATUS(gens map[string]gopter.Gen) {
-	gens["Fqdn"] = gen.PtrOf(gen.AlphaString())
-	gens["IpAddresses"] = gen.SliceOf(gen.AlphaString())
-}
-
-func Test_ExtendedLocation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ExtendedLocation to ExtendedLocation via AssignProperties_To_ExtendedLocation & AssignProperties_From_ExtendedLocation returns original",
-		prop.ForAll(RunPropertyAssignmentTestForExtendedLocation, ExtendedLocationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForExtendedLocation tests if a specific instance of ExtendedLocation can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForExtendedLocation(subject ExtendedLocation) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ExtendedLocation
-	err := copied.AssignProperties_To_ExtendedLocation(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ExtendedLocation
-	err = actual.AssignProperties_From_ExtendedLocation(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ExtendedLocation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ExtendedLocation via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForExtendedLocation, ExtendedLocationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForExtendedLocation runs a test to see if a specific instance of ExtendedLocation round trips to JSON and back losslessly
-func RunJSONSerializationTestForExtendedLocation(subject ExtendedLocation) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ExtendedLocation
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ExtendedLocation instances for property testing - lazily instantiated by ExtendedLocationGenerator()
-var extendedLocationGenerator gopter.Gen
-
-// ExtendedLocationGenerator returns a generator of ExtendedLocation instances for property testing.
-func ExtendedLocationGenerator() gopter.Gen {
-	if extendedLocationGenerator != nil {
-		return extendedLocationGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForExtendedLocation(generators)
-	extendedLocationGenerator = gen.Struct(reflect.TypeOf(ExtendedLocation{}), generators)
-
-	return extendedLocationGenerator
-}
-
-// AddIndependentPropertyGeneratorsForExtendedLocation is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForExtendedLocation(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_EdgeZone))
-}
-
-func Test_ExtendedLocation_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ExtendedLocation_STATUS to ExtendedLocation_STATUS via AssignProperties_To_ExtendedLocation_STATUS & AssignProperties_From_ExtendedLocation_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForExtendedLocation_STATUS, ExtendedLocation_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForExtendedLocation_STATUS tests if a specific instance of ExtendedLocation_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForExtendedLocation_STATUS(subject ExtendedLocation_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.ExtendedLocation_STATUS
-	err := copied.AssignProperties_To_ExtendedLocation_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ExtendedLocation_STATUS
-	err = actual.AssignProperties_From_ExtendedLocation_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ExtendedLocation_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ExtendedLocation_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForExtendedLocation_STATUS, ExtendedLocation_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForExtendedLocation_STATUS runs a test to see if a specific instance of ExtendedLocation_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForExtendedLocation_STATUS(subject ExtendedLocation_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ExtendedLocation_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ExtendedLocation_STATUS instances for property testing - lazily instantiated by
-// ExtendedLocation_STATUSGenerator()
-var extendedLocation_STATUSGenerator gopter.Gen
-
-// ExtendedLocation_STATUSGenerator returns a generator of ExtendedLocation_STATUS instances for property testing.
-func ExtendedLocation_STATUSGenerator() gopter.Gen {
-	if extendedLocation_STATUSGenerator != nil {
-		return extendedLocation_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForExtendedLocation_STATUS(generators)
-	extendedLocation_STATUSGenerator = gen.Struct(reflect.TypeOf(ExtendedLocation_STATUS{}), generators)
-
-	return extendedLocation_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForExtendedLocation_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForExtendedLocation_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_STATUS_EdgeZone))
-}
-
-func Test_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded to NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded via AssignProperties_To_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded & AssignProperties_From_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded returns original",
-		prop.ForAll(RunPropertyAssignmentTestForNetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded, NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForNetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded tests if a specific instance of NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForNetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded(subject NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded
-	err := copied.AssignProperties_To_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded
-	err = actual.AssignProperties_From_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded, NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForNetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded runs a test to see if a specific instance of NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForNetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded(subject NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded instances for property testing - lazily
-// instantiated by NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator()
-var networkInterface_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator gopter.Gen
-
-// NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator returns a generator of NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded instances for property testing.
-func NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator() gopter.Gen {
-	if networkInterface_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator != nil {
-		return networkInterface_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded(generators)
-	networkInterface_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded{}), generators)
-
-	return networkInterface_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator
-}
-
-// AddIndependentPropertyGeneratorsForNetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_PrivateEndpointIPConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from PrivateEndpointIPConfiguration to PrivateEndpointIPConfiguration via AssignProperties_To_PrivateEndpointIPConfiguration & AssignProperties_From_PrivateEndpointIPConfiguration returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPrivateEndpointIPConfiguration, PrivateEndpointIPConfigurationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForPrivateEndpointIPConfiguration tests if a specific instance of PrivateEndpointIPConfiguration can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForPrivateEndpointIPConfiguration(subject PrivateEndpointIPConfiguration) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.PrivateEndpointIPConfiguration
-	err := copied.AssignProperties_To_PrivateEndpointIPConfiguration(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual PrivateEndpointIPConfiguration
-	err = actual.AssignProperties_From_PrivateEndpointIPConfiguration(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_PrivateEndpointIPConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrivateEndpointIPConfiguration via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateEndpointIPConfiguration, PrivateEndpointIPConfigurationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPrivateEndpointIPConfiguration runs a test to see if a specific instance of PrivateEndpointIPConfiguration round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateEndpointIPConfiguration(subject PrivateEndpointIPConfiguration) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual PrivateEndpointIPConfiguration
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of PrivateEndpointIPConfiguration instances for property testing - lazily instantiated by
-// PrivateEndpointIPConfigurationGenerator()
-var privateEndpointIPConfigurationGenerator gopter.Gen
-
-// PrivateEndpointIPConfigurationGenerator returns a generator of PrivateEndpointIPConfiguration instances for property testing.
-func PrivateEndpointIPConfigurationGenerator() gopter.Gen {
-	if privateEndpointIPConfigurationGenerator != nil {
-		return privateEndpointIPConfigurationGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpointIPConfiguration(generators)
-	privateEndpointIPConfigurationGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointIPConfiguration{}), generators)
-
-	return privateEndpointIPConfigurationGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrivateEndpointIPConfiguration is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateEndpointIPConfiguration(gens map[string]gopter.Gen) {
-	gens["GroupId"] = gen.PtrOf(gen.AlphaString())
-	gens["MemberName"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["PrivateIPAddress"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_PrivateEndpointIPConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from PrivateEndpointIPConfiguration_STATUS to PrivateEndpointIPConfiguration_STATUS via AssignProperties_To_PrivateEndpointIPConfiguration_STATUS & AssignProperties_From_PrivateEndpointIPConfiguration_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPrivateEndpointIPConfiguration_STATUS, PrivateEndpointIPConfiguration_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForPrivateEndpointIPConfiguration_STATUS tests if a specific instance of PrivateEndpointIPConfiguration_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForPrivateEndpointIPConfiguration_STATUS(subject PrivateEndpointIPConfiguration_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.PrivateEndpointIPConfiguration_STATUS
-	err := copied.AssignProperties_To_PrivateEndpointIPConfiguration_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual PrivateEndpointIPConfiguration_STATUS
-	err = actual.AssignProperties_From_PrivateEndpointIPConfiguration_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_PrivateEndpointIPConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrivateEndpointIPConfiguration_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateEndpointIPConfiguration_STATUS, PrivateEndpointIPConfiguration_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPrivateEndpointIPConfiguration_STATUS runs a test to see if a specific instance of PrivateEndpointIPConfiguration_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateEndpointIPConfiguration_STATUS(subject PrivateEndpointIPConfiguration_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual PrivateEndpointIPConfiguration_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of PrivateEndpointIPConfiguration_STATUS instances for property testing - lazily instantiated by
-// PrivateEndpointIPConfiguration_STATUSGenerator()
-var privateEndpointIPConfiguration_STATUSGenerator gopter.Gen
-
-// PrivateEndpointIPConfiguration_STATUSGenerator returns a generator of PrivateEndpointIPConfiguration_STATUS instances for property testing.
-func PrivateEndpointIPConfiguration_STATUSGenerator() gopter.Gen {
-	if privateEndpointIPConfiguration_STATUSGenerator != nil {
-		return privateEndpointIPConfiguration_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpointIPConfiguration_STATUS(generators)
-	privateEndpointIPConfiguration_STATUSGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointIPConfiguration_STATUS{}), generators)
-
-	return privateEndpointIPConfiguration_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrivateEndpointIPConfiguration_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateEndpointIPConfiguration_STATUS(gens map[string]gopter.Gen) {
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["GroupId"] = gen.PtrOf(gen.AlphaString())
-	gens["MemberName"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["PrivateIPAddress"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
+// AddRelatedPropertyGeneratorsForPrivateEndpoint_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForPrivateEndpoint_Spec(gens map[string]gopter.Gen) {
+	gens["ApplicationSecurityGroups"] = gen.SliceOf(ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbeddedGenerator())
+	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
+	gens["IpConfigurations"] = gen.SliceOf(PrivateEndpointIPConfigurationGenerator())
+	gens["ManualPrivateLinkServiceConnections"] = gen.SliceOf(PrivateLinkServiceConnectionGenerator())
+	gens["PrivateLinkServiceConnections"] = gen.SliceOf(PrivateLinkServiceConnectionGenerator())
+	gens["Subnet"] = gen.PtrOf(Subnet_PrivateEndpoint_SubResourceEmbeddedGenerator())
 }
 
 func Test_PrivateLinkServiceConnection_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1273,7 +1273,7 @@ func RunPropertyAssignmentTestForPrivateLinkServiceConnection(subject PrivateLin
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.PrivateLinkServiceConnection
+	var other storage.PrivateLinkServiceConnection
 	err := copied.AssignProperties_To_PrivateLinkServiceConnection(&other)
 	if err != nil {
 		return err.Error()
@@ -1375,6 +1375,216 @@ func AddRelatedPropertyGeneratorsForPrivateLinkServiceConnection(gens map[string
 	gens["PrivateLinkServiceConnectionState"] = gen.PtrOf(PrivateLinkServiceConnectionStateGenerator())
 }
 
+func Test_PrivateLinkServiceConnectionState_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PrivateLinkServiceConnectionState to PrivateLinkServiceConnectionState via AssignProperties_To_PrivateLinkServiceConnectionState & AssignProperties_From_PrivateLinkServiceConnectionState returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPrivateLinkServiceConnectionState, PrivateLinkServiceConnectionStateGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPrivateLinkServiceConnectionState tests if a specific instance of PrivateLinkServiceConnectionState can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForPrivateLinkServiceConnectionState(subject PrivateLinkServiceConnectionState) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.PrivateLinkServiceConnectionState
+	err := copied.AssignProperties_To_PrivateLinkServiceConnectionState(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PrivateLinkServiceConnectionState
+	err = actual.AssignProperties_From_PrivateLinkServiceConnectionState(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_PrivateLinkServiceConnectionState_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PrivateLinkServiceConnectionState via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateLinkServiceConnectionState, PrivateLinkServiceConnectionStateGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPrivateLinkServiceConnectionState runs a test to see if a specific instance of PrivateLinkServiceConnectionState round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateLinkServiceConnectionState(subject PrivateLinkServiceConnectionState) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PrivateLinkServiceConnectionState
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PrivateLinkServiceConnectionState instances for property testing - lazily instantiated by
+// PrivateLinkServiceConnectionStateGenerator()
+var privateLinkServiceConnectionStateGenerator gopter.Gen
+
+// PrivateLinkServiceConnectionStateGenerator returns a generator of PrivateLinkServiceConnectionState instances for property testing.
+func PrivateLinkServiceConnectionStateGenerator() gopter.Gen {
+	if privateLinkServiceConnectionStateGenerator != nil {
+		return privateLinkServiceConnectionStateGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionState(generators)
+	privateLinkServiceConnectionStateGenerator = gen.Struct(reflect.TypeOf(PrivateLinkServiceConnectionState{}), generators)
+
+	return privateLinkServiceConnectionStateGenerator
+}
+
+// AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionState is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionState(gens map[string]gopter.Gen) {
+	gens["ActionsRequired"] = gen.PtrOf(gen.AlphaString())
+	gens["Description"] = gen.PtrOf(gen.AlphaString())
+	gens["Status"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_PrivateLinkServiceConnectionState_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PrivateLinkServiceConnectionState_STATUS to PrivateLinkServiceConnectionState_STATUS via AssignProperties_To_PrivateLinkServiceConnectionState_STATUS & AssignProperties_From_PrivateLinkServiceConnectionState_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPrivateLinkServiceConnectionState_STATUS, PrivateLinkServiceConnectionState_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPrivateLinkServiceConnectionState_STATUS tests if a specific instance of PrivateLinkServiceConnectionState_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForPrivateLinkServiceConnectionState_STATUS(subject PrivateLinkServiceConnectionState_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.PrivateLinkServiceConnectionState_STATUS
+	err := copied.AssignProperties_To_PrivateLinkServiceConnectionState_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PrivateLinkServiceConnectionState_STATUS
+	err = actual.AssignProperties_From_PrivateLinkServiceConnectionState_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_PrivateLinkServiceConnectionState_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PrivateLinkServiceConnectionState_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateLinkServiceConnectionState_STATUS, PrivateLinkServiceConnectionState_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPrivateLinkServiceConnectionState_STATUS runs a test to see if a specific instance of PrivateLinkServiceConnectionState_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateLinkServiceConnectionState_STATUS(subject PrivateLinkServiceConnectionState_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PrivateLinkServiceConnectionState_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PrivateLinkServiceConnectionState_STATUS instances for property testing - lazily instantiated by
+// PrivateLinkServiceConnectionState_STATUSGenerator()
+var privateLinkServiceConnectionState_STATUSGenerator gopter.Gen
+
+// PrivateLinkServiceConnectionState_STATUSGenerator returns a generator of PrivateLinkServiceConnectionState_STATUS instances for property testing.
+func PrivateLinkServiceConnectionState_STATUSGenerator() gopter.Gen {
+	if privateLinkServiceConnectionState_STATUSGenerator != nil {
+		return privateLinkServiceConnectionState_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionState_STATUS(generators)
+	privateLinkServiceConnectionState_STATUSGenerator = gen.Struct(reflect.TypeOf(PrivateLinkServiceConnectionState_STATUS{}), generators)
+
+	return privateLinkServiceConnectionState_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionState_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionState_STATUS(gens map[string]gopter.Gen) {
+	gens["ActionsRequired"] = gen.PtrOf(gen.AlphaString())
+	gens["Description"] = gen.PtrOf(gen.AlphaString())
+	gens["Status"] = gen.PtrOf(gen.AlphaString())
+}
+
 func Test_PrivateLinkServiceConnection_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1392,7 +1602,7 @@ func RunPropertyAssignmentTestForPrivateLinkServiceConnection_STATUS(subject Pri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.PrivateLinkServiceConnection_STATUS
+	var other storage.PrivateLinkServiceConnection_STATUS
 	err := copied.AssignProperties_To_PrivateLinkServiceConnection_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1520,7 +1730,7 @@ func RunPropertyAssignmentTestForSubnet_PrivateEndpoint_SubResourceEmbedded(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.Subnet_PrivateEndpoint_SubResourceEmbedded
+	var other storage.Subnet_PrivateEndpoint_SubResourceEmbedded
 	err := copied.AssignProperties_To_Subnet_PrivateEndpoint_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -1617,7 +1827,7 @@ func RunPropertyAssignmentTestForSubnet_STATUS_PrivateEndpoint_SubResourceEmbedd
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded
+	var other storage.Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded
 	err := copied.AssignProperties_To_Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -1701,214 +1911,4 @@ func Subnet_STATUS_PrivateEndpoint_SubResourceEmbeddedGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSubnet_STATUS_PrivateEndpoint_SubResourceEmbedded is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSubnet_STATUS_PrivateEndpoint_SubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_PrivateLinkServiceConnectionState_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from PrivateLinkServiceConnectionState to PrivateLinkServiceConnectionState via AssignProperties_To_PrivateLinkServiceConnectionState & AssignProperties_From_PrivateLinkServiceConnectionState returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPrivateLinkServiceConnectionState, PrivateLinkServiceConnectionStateGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForPrivateLinkServiceConnectionState tests if a specific instance of PrivateLinkServiceConnectionState can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForPrivateLinkServiceConnectionState(subject PrivateLinkServiceConnectionState) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.PrivateLinkServiceConnectionState
-	err := copied.AssignProperties_To_PrivateLinkServiceConnectionState(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual PrivateLinkServiceConnectionState
-	err = actual.AssignProperties_From_PrivateLinkServiceConnectionState(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_PrivateLinkServiceConnectionState_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrivateLinkServiceConnectionState via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateLinkServiceConnectionState, PrivateLinkServiceConnectionStateGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPrivateLinkServiceConnectionState runs a test to see if a specific instance of PrivateLinkServiceConnectionState round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateLinkServiceConnectionState(subject PrivateLinkServiceConnectionState) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual PrivateLinkServiceConnectionState
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of PrivateLinkServiceConnectionState instances for property testing - lazily instantiated by
-// PrivateLinkServiceConnectionStateGenerator()
-var privateLinkServiceConnectionStateGenerator gopter.Gen
-
-// PrivateLinkServiceConnectionStateGenerator returns a generator of PrivateLinkServiceConnectionState instances for property testing.
-func PrivateLinkServiceConnectionStateGenerator() gopter.Gen {
-	if privateLinkServiceConnectionStateGenerator != nil {
-		return privateLinkServiceConnectionStateGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionState(generators)
-	privateLinkServiceConnectionStateGenerator = gen.Struct(reflect.TypeOf(PrivateLinkServiceConnectionState{}), generators)
-
-	return privateLinkServiceConnectionStateGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionState is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionState(gens map[string]gopter.Gen) {
-	gens["ActionsRequired"] = gen.PtrOf(gen.AlphaString())
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Status"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_PrivateLinkServiceConnectionState_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from PrivateLinkServiceConnectionState_STATUS to PrivateLinkServiceConnectionState_STATUS via AssignProperties_To_PrivateLinkServiceConnectionState_STATUS & AssignProperties_From_PrivateLinkServiceConnectionState_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPrivateLinkServiceConnectionState_STATUS, PrivateLinkServiceConnectionState_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForPrivateLinkServiceConnectionState_STATUS tests if a specific instance of PrivateLinkServiceConnectionState_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForPrivateLinkServiceConnectionState_STATUS(subject PrivateLinkServiceConnectionState_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.PrivateLinkServiceConnectionState_STATUS
-	err := copied.AssignProperties_To_PrivateLinkServiceConnectionState_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual PrivateLinkServiceConnectionState_STATUS
-	err = actual.AssignProperties_From_PrivateLinkServiceConnectionState_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_PrivateLinkServiceConnectionState_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrivateLinkServiceConnectionState_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateLinkServiceConnectionState_STATUS, PrivateLinkServiceConnectionState_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPrivateLinkServiceConnectionState_STATUS runs a test to see if a specific instance of PrivateLinkServiceConnectionState_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateLinkServiceConnectionState_STATUS(subject PrivateLinkServiceConnectionState_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual PrivateLinkServiceConnectionState_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of PrivateLinkServiceConnectionState_STATUS instances for property testing - lazily instantiated by
-// PrivateLinkServiceConnectionState_STATUSGenerator()
-var privateLinkServiceConnectionState_STATUSGenerator gopter.Gen
-
-// PrivateLinkServiceConnectionState_STATUSGenerator returns a generator of PrivateLinkServiceConnectionState_STATUS instances for property testing.
-func PrivateLinkServiceConnectionState_STATUSGenerator() gopter.Gen {
-	if privateLinkServiceConnectionState_STATUSGenerator != nil {
-		return privateLinkServiceConnectionState_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionState_STATUS(generators)
-	privateLinkServiceConnectionState_STATUSGenerator = gen.Struct(reflect.TypeOf(PrivateLinkServiceConnectionState_STATUS{}), generators)
-
-	return privateLinkServiceConnectionState_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionState_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionState_STATUS(gens map[string]gopter.Gen) {
-	gens["ActionsRequired"] = gen.PtrOf(gen.AlphaString())
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Status"] = gen.PtrOf(gen.AlphaString())
 }

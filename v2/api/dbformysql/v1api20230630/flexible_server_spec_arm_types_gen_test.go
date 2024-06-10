@@ -17,317 +17,6 @@ import (
 	"testing"
 )
 
-func Test_FlexibleServer_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FlexibleServer_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFlexibleServer_Spec_ARM, FlexibleServer_Spec_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForFlexibleServer_Spec_ARM runs a test to see if a specific instance of FlexibleServer_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForFlexibleServer_Spec_ARM(subject FlexibleServer_Spec_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual FlexibleServer_Spec_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of FlexibleServer_Spec_ARM instances for property testing - lazily instantiated by
-// FlexibleServer_Spec_ARMGenerator()
-var flexibleServer_Spec_ARMGenerator gopter.Gen
-
-// FlexibleServer_Spec_ARMGenerator returns a generator of FlexibleServer_Spec_ARM instances for property testing.
-// We first initialize flexibleServer_Spec_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func FlexibleServer_Spec_ARMGenerator() gopter.Gen {
-	if flexibleServer_Spec_ARMGenerator != nil {
-		return flexibleServer_Spec_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlexibleServer_Spec_ARM(generators)
-	flexibleServer_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(FlexibleServer_Spec_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlexibleServer_Spec_ARM(generators)
-	AddRelatedPropertyGeneratorsForFlexibleServer_Spec_ARM(generators)
-	flexibleServer_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(FlexibleServer_Spec_ARM{}), generators)
-
-	return flexibleServer_Spec_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForFlexibleServer_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFlexibleServer_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForFlexibleServer_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFlexibleServer_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Identity"] = gen.PtrOf(MySQLServerIdentity_ARMGenerator())
-	gens["Properties"] = gen.PtrOf(ServerProperties_ARMGenerator())
-	gens["Sku"] = gen.PtrOf(MySQLServerSku_ARMGenerator())
-}
-
-func Test_MySQLServerIdentity_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of MySQLServerIdentity_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMySQLServerIdentity_ARM, MySQLServerIdentity_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForMySQLServerIdentity_ARM runs a test to see if a specific instance of MySQLServerIdentity_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForMySQLServerIdentity_ARM(subject MySQLServerIdentity_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual MySQLServerIdentity_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of MySQLServerIdentity_ARM instances for property testing - lazily instantiated by
-// MySQLServerIdentity_ARMGenerator()
-var mySQLServerIdentity_ARMGenerator gopter.Gen
-
-// MySQLServerIdentity_ARMGenerator returns a generator of MySQLServerIdentity_ARM instances for property testing.
-// We first initialize mySQLServerIdentity_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func MySQLServerIdentity_ARMGenerator() gopter.Gen {
-	if mySQLServerIdentity_ARMGenerator != nil {
-		return mySQLServerIdentity_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMySQLServerIdentity_ARM(generators)
-	mySQLServerIdentity_ARMGenerator = gen.Struct(reflect.TypeOf(MySQLServerIdentity_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMySQLServerIdentity_ARM(generators)
-	AddRelatedPropertyGeneratorsForMySQLServerIdentity_ARM(generators)
-	mySQLServerIdentity_ARMGenerator = gen.Struct(reflect.TypeOf(MySQLServerIdentity_ARM{}), generators)
-
-	return mySQLServerIdentity_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForMySQLServerIdentity_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMySQLServerIdentity_ARM(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(MySQLServerIdentity_Type_UserAssigned))
-}
-
-// AddRelatedPropertyGeneratorsForMySQLServerIdentity_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForMySQLServerIdentity_ARM(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(
-		gen.AlphaString(),
-		UserAssignedIdentityDetails_ARMGenerator())
-}
-
-func Test_MySQLServerSku_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of MySQLServerSku_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMySQLServerSku_ARM, MySQLServerSku_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForMySQLServerSku_ARM runs a test to see if a specific instance of MySQLServerSku_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForMySQLServerSku_ARM(subject MySQLServerSku_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual MySQLServerSku_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of MySQLServerSku_ARM instances for property testing - lazily instantiated by MySQLServerSku_ARMGenerator()
-var mySQLServerSku_ARMGenerator gopter.Gen
-
-// MySQLServerSku_ARMGenerator returns a generator of MySQLServerSku_ARM instances for property testing.
-func MySQLServerSku_ARMGenerator() gopter.Gen {
-	if mySQLServerSku_ARMGenerator != nil {
-		return mySQLServerSku_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMySQLServerSku_ARM(generators)
-	mySQLServerSku_ARMGenerator = gen.Struct(reflect.TypeOf(MySQLServerSku_ARM{}), generators)
-
-	return mySQLServerSku_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForMySQLServerSku_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMySQLServerSku_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(MySQLServerSku_Tier_Burstable, MySQLServerSku_Tier_GeneralPurpose, MySQLServerSku_Tier_MemoryOptimized))
-}
-
-func Test_ServerProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ServerProperties_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServerProperties_ARM, ServerProperties_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForServerProperties_ARM runs a test to see if a specific instance of ServerProperties_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForServerProperties_ARM(subject ServerProperties_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ServerProperties_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ServerProperties_ARM instances for property testing - lazily instantiated by
-// ServerProperties_ARMGenerator()
-var serverProperties_ARMGenerator gopter.Gen
-
-// ServerProperties_ARMGenerator returns a generator of ServerProperties_ARM instances for property testing.
-// We first initialize serverProperties_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ServerProperties_ARMGenerator() gopter.Gen {
-	if serverProperties_ARMGenerator != nil {
-		return serverProperties_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServerProperties_ARM(generators)
-	serverProperties_ARMGenerator = gen.Struct(reflect.TypeOf(ServerProperties_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServerProperties_ARM(generators)
-	AddRelatedPropertyGeneratorsForServerProperties_ARM(generators)
-	serverProperties_ARMGenerator = gen.Struct(reflect.TypeOf(ServerProperties_ARM{}), generators)
-
-	return serverProperties_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForServerProperties_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServerProperties_ARM(gens map[string]gopter.Gen) {
-	gens["AdministratorLogin"] = gen.PtrOf(gen.AlphaString())
-	gens["AdministratorLoginPassword"] = gen.PtrOf(gen.AlphaString())
-	gens["AvailabilityZone"] = gen.PtrOf(gen.AlphaString())
-	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(
-		ServerProperties_CreateMode_Default,
-		ServerProperties_CreateMode_GeoRestore,
-		ServerProperties_CreateMode_PointInTimeRestore,
-		ServerProperties_CreateMode_Replica))
-	gens["ReplicationRole"] = gen.PtrOf(gen.OneConstOf(ReplicationRole_None, ReplicationRole_Replica, ReplicationRole_Source))
-	gens["RestorePointInTime"] = gen.PtrOf(gen.AlphaString())
-	gens["SourceServerResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["Version"] = gen.PtrOf(gen.OneConstOf(ServerVersion_57, ServerVersion_8021))
-}
-
-// AddRelatedPropertyGeneratorsForServerProperties_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForServerProperties_ARM(gens map[string]gopter.Gen) {
-	gens["Backup"] = gen.PtrOf(Backup_ARMGenerator())
-	gens["DataEncryption"] = gen.PtrOf(DataEncryption_ARMGenerator())
-	gens["HighAvailability"] = gen.PtrOf(HighAvailability_ARMGenerator())
-	gens["ImportSourceProperties"] = gen.PtrOf(ImportSourceProperties_ARMGenerator())
-	gens["MaintenanceWindow"] = gen.PtrOf(MaintenanceWindow_ARMGenerator())
-	gens["Network"] = gen.PtrOf(Network_ARMGenerator())
-	gens["Storage"] = gen.PtrOf(Storage_ARMGenerator())
-}
-
 func Test_Backup_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -451,6 +140,87 @@ func AddIndependentPropertyGeneratorsForDataEncryption_ARM(gens map[string]gopte
 	gens["PrimaryKeyURI"] = gen.PtrOf(gen.AlphaString())
 	gens["PrimaryUserAssignedIdentityId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(DataEncryption_Type_AzureKeyVault, DataEncryption_Type_SystemManaged))
+}
+
+func Test_FlexibleServer_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of FlexibleServer_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFlexibleServer_Spec_ARM, FlexibleServer_Spec_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForFlexibleServer_Spec_ARM runs a test to see if a specific instance of FlexibleServer_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForFlexibleServer_Spec_ARM(subject FlexibleServer_Spec_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual FlexibleServer_Spec_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of FlexibleServer_Spec_ARM instances for property testing - lazily instantiated by
+// FlexibleServer_Spec_ARMGenerator()
+var flexibleServer_Spec_ARMGenerator gopter.Gen
+
+// FlexibleServer_Spec_ARMGenerator returns a generator of FlexibleServer_Spec_ARM instances for property testing.
+// We first initialize flexibleServer_Spec_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func FlexibleServer_Spec_ARMGenerator() gopter.Gen {
+	if flexibleServer_Spec_ARMGenerator != nil {
+		return flexibleServer_Spec_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForFlexibleServer_Spec_ARM(generators)
+	flexibleServer_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(FlexibleServer_Spec_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForFlexibleServer_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForFlexibleServer_Spec_ARM(generators)
+	flexibleServer_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(FlexibleServer_Spec_ARM{}), generators)
+
+	return flexibleServer_Spec_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForFlexibleServer_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForFlexibleServer_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.AlphaString()
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForFlexibleServer_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForFlexibleServer_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Identity"] = gen.PtrOf(MySQLServerIdentity_ARMGenerator())
+	gens["Properties"] = gen.PtrOf(ServerProperties_ARMGenerator())
+	gens["Sku"] = gen.PtrOf(MySQLServerSku_ARMGenerator())
 }
 
 func Test_HighAvailability_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -643,6 +413,144 @@ func AddIndependentPropertyGeneratorsForMaintenanceWindow_ARM(gens map[string]go
 	gens["StartMinute"] = gen.PtrOf(gen.Int())
 }
 
+func Test_MySQLServerIdentity_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of MySQLServerIdentity_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMySQLServerIdentity_ARM, MySQLServerIdentity_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForMySQLServerIdentity_ARM runs a test to see if a specific instance of MySQLServerIdentity_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForMySQLServerIdentity_ARM(subject MySQLServerIdentity_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual MySQLServerIdentity_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of MySQLServerIdentity_ARM instances for property testing - lazily instantiated by
+// MySQLServerIdentity_ARMGenerator()
+var mySQLServerIdentity_ARMGenerator gopter.Gen
+
+// MySQLServerIdentity_ARMGenerator returns a generator of MySQLServerIdentity_ARM instances for property testing.
+// We first initialize mySQLServerIdentity_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func MySQLServerIdentity_ARMGenerator() gopter.Gen {
+	if mySQLServerIdentity_ARMGenerator != nil {
+		return mySQLServerIdentity_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForMySQLServerIdentity_ARM(generators)
+	mySQLServerIdentity_ARMGenerator = gen.Struct(reflect.TypeOf(MySQLServerIdentity_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForMySQLServerIdentity_ARM(generators)
+	AddRelatedPropertyGeneratorsForMySQLServerIdentity_ARM(generators)
+	mySQLServerIdentity_ARMGenerator = gen.Struct(reflect.TypeOf(MySQLServerIdentity_ARM{}), generators)
+
+	return mySQLServerIdentity_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForMySQLServerIdentity_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMySQLServerIdentity_ARM(gens map[string]gopter.Gen) {
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(MySQLServerIdentity_Type_UserAssigned))
+}
+
+// AddRelatedPropertyGeneratorsForMySQLServerIdentity_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForMySQLServerIdentity_ARM(gens map[string]gopter.Gen) {
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserAssignedIdentityDetails_ARMGenerator())
+}
+
+func Test_MySQLServerSku_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of MySQLServerSku_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMySQLServerSku_ARM, MySQLServerSku_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForMySQLServerSku_ARM runs a test to see if a specific instance of MySQLServerSku_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForMySQLServerSku_ARM(subject MySQLServerSku_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual MySQLServerSku_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of MySQLServerSku_ARM instances for property testing - lazily instantiated by MySQLServerSku_ARMGenerator()
+var mySQLServerSku_ARMGenerator gopter.Gen
+
+// MySQLServerSku_ARMGenerator returns a generator of MySQLServerSku_ARM instances for property testing.
+func MySQLServerSku_ARMGenerator() gopter.Gen {
+	if mySQLServerSku_ARMGenerator != nil {
+		return mySQLServerSku_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForMySQLServerSku_ARM(generators)
+	mySQLServerSku_ARMGenerator = gen.Struct(reflect.TypeOf(MySQLServerSku_ARM{}), generators)
+
+	return mySQLServerSku_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForMySQLServerSku_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMySQLServerSku_ARM(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(MySQLServerSku_Tier_Burstable, MySQLServerSku_Tier_GeneralPurpose, MySQLServerSku_Tier_MemoryOptimized))
+}
+
 func Test_Network_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -703,6 +611,98 @@ func AddIndependentPropertyGeneratorsForNetwork_ARM(gens map[string]gopter.Gen) 
 	gens["DelegatedSubnetResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateDnsZoneResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(EnableStatusEnum_Disabled, EnableStatusEnum_Enabled))
+}
+
+func Test_ServerProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ServerProperties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServerProperties_ARM, ServerProperties_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForServerProperties_ARM runs a test to see if a specific instance of ServerProperties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForServerProperties_ARM(subject ServerProperties_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ServerProperties_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ServerProperties_ARM instances for property testing - lazily instantiated by
+// ServerProperties_ARMGenerator()
+var serverProperties_ARMGenerator gopter.Gen
+
+// ServerProperties_ARMGenerator returns a generator of ServerProperties_ARM instances for property testing.
+// We first initialize serverProperties_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ServerProperties_ARMGenerator() gopter.Gen {
+	if serverProperties_ARMGenerator != nil {
+		return serverProperties_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServerProperties_ARM(generators)
+	serverProperties_ARMGenerator = gen.Struct(reflect.TypeOf(ServerProperties_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServerProperties_ARM(generators)
+	AddRelatedPropertyGeneratorsForServerProperties_ARM(generators)
+	serverProperties_ARMGenerator = gen.Struct(reflect.TypeOf(ServerProperties_ARM{}), generators)
+
+	return serverProperties_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForServerProperties_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServerProperties_ARM(gens map[string]gopter.Gen) {
+	gens["AdministratorLogin"] = gen.PtrOf(gen.AlphaString())
+	gens["AdministratorLoginPassword"] = gen.PtrOf(gen.AlphaString())
+	gens["AvailabilityZone"] = gen.PtrOf(gen.AlphaString())
+	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(
+		ServerProperties_CreateMode_Default,
+		ServerProperties_CreateMode_GeoRestore,
+		ServerProperties_CreateMode_PointInTimeRestore,
+		ServerProperties_CreateMode_Replica))
+	gens["ReplicationRole"] = gen.PtrOf(gen.OneConstOf(ReplicationRole_None, ReplicationRole_Replica, ReplicationRole_Source))
+	gens["RestorePointInTime"] = gen.PtrOf(gen.AlphaString())
+	gens["SourceServerResourceId"] = gen.PtrOf(gen.AlphaString())
+	gens["Version"] = gen.PtrOf(gen.OneConstOf(ServerVersion_57, ServerVersion_8021))
+}
+
+// AddRelatedPropertyGeneratorsForServerProperties_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServerProperties_ARM(gens map[string]gopter.Gen) {
+	gens["Backup"] = gen.PtrOf(Backup_ARMGenerator())
+	gens["DataEncryption"] = gen.PtrOf(DataEncryption_ARMGenerator())
+	gens["HighAvailability"] = gen.PtrOf(HighAvailability_ARMGenerator())
+	gens["ImportSourceProperties"] = gen.PtrOf(ImportSourceProperties_ARMGenerator())
+	gens["MaintenanceWindow"] = gen.PtrOf(MaintenanceWindow_ARMGenerator())
+	gens["Network"] = gen.PtrOf(Network_ARMGenerator())
+	gens["Storage"] = gen.PtrOf(Storage_ARMGenerator())
 }
 
 func Test_Storage_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

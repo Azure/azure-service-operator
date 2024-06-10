@@ -61,8 +61,7 @@ type Values struct {
 	// If nil, no sync is performed. Durations are specified as "1h", "15m", or "60s". See
 	// https://pkg.go.dev/time#ParseDuration for more details.
 	//
-	// This can be set to nil by specifying empty string for AZURE_SYNC_PERIOD explicitly in
-	// the config.
+	// Specify the special value "never" for AZURE_SYNC_PERIOD to prevent syncing.
 	SyncPeriod *time.Duration
 
 	// ResourceManagerEndpoint is the Azure Resource Manager endpoint.
@@ -232,7 +231,7 @@ func parseTargetNamespaces(fromEnv string) []string {
 // parseSyncPeriod parses the sync period from the environment
 func parseSyncPeriod() (*time.Duration, error) {
 	syncPeriodStr := envOrDefault(config.SyncPeriod, "1h")
-	if syncPeriodStr == "" {
+	if syncPeriodStr == "never" { // magical string that means no sync
 		return nil, nil
 	}
 
@@ -248,6 +247,9 @@ func parseSyncPeriod() (*time.Duration, error) {
 func envOrDefault(env string, def string) string {
 	result, specified := os.LookupEnv(env)
 	if !specified {
+		return def
+	}
+	if result == "" {
 		return def
 	}
 

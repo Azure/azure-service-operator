@@ -871,6 +871,17 @@ status:
 #     in the ASO types. The shape serialized to ARM uses the original name.
 #
 objectModelConfiguration:
+  alertsmanagement:
+    2023-03-01:
+      PrometheusRuleGroup:
+        $export: true
+        $supportedFrom: v2.8.0
+      PrometheusRuleGroupProperties:
+        Scopes:
+          $armReference: true
+      PrometheusRuleGroupAction:
+        ActionGroupId:
+          $armReference: true
   apimanagement:
     2022-08-01:
       AdditionalLocation:
@@ -2424,6 +2435,11 @@ objectModelConfiguration:
       Workspaces_Connection:
         $exportAs: WorkspacesConnection
         $supportedFrom: v2.0.0-beta.2
+  monitor:
+    2023-04-03:
+      Account:
+        $export: true
+        $supportedFrom: v2.8.0
   network:
     2018-05-01:
       DnsZone:

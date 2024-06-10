@@ -5,7 +5,7 @@ package storage
 
 import (
 	"encoding/json"
-	v20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -17,454 +17,6 @@ import (
 	"reflect"
 	"testing"
 )
-
-func Test_DnsZonesAAAARecord_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DnsZonesAAAARecord via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDnsZonesAAAARecord, DnsZonesAAAARecordGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForDnsZonesAAAARecord runs a test to see if a specific instance of DnsZonesAAAARecord round trips to JSON and back losslessly
-func RunJSONSerializationTestForDnsZonesAAAARecord(subject DnsZonesAAAARecord) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual DnsZonesAAAARecord
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of DnsZonesAAAARecord instances for property testing - lazily instantiated by DnsZonesAAAARecordGenerator()
-var dnsZonesAAAARecordGenerator gopter.Gen
-
-// DnsZonesAAAARecordGenerator returns a generator of DnsZonesAAAARecord instances for property testing.
-func DnsZonesAAAARecordGenerator() gopter.Gen {
-	if dnsZonesAAAARecordGenerator != nil {
-		return dnsZonesAAAARecordGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForDnsZonesAAAARecord(generators)
-	dnsZonesAAAARecordGenerator = gen.Struct(reflect.TypeOf(DnsZonesAAAARecord{}), generators)
-
-	return dnsZonesAAAARecordGenerator
-}
-
-// AddRelatedPropertyGeneratorsForDnsZonesAAAARecord is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDnsZonesAAAARecord(gens map[string]gopter.Gen) {
-	gens["Spec"] = DnsZones_AAAA_SpecGenerator()
-	gens["Status"] = DnsZones_AAAA_STATUSGenerator()
-}
-
-func Test_DnsZones_AAAA_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DnsZones_AAAA_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDnsZones_AAAA_Spec, DnsZones_AAAA_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForDnsZones_AAAA_Spec runs a test to see if a specific instance of DnsZones_AAAA_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForDnsZones_AAAA_Spec(subject DnsZones_AAAA_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual DnsZones_AAAA_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of DnsZones_AAAA_Spec instances for property testing - lazily instantiated by DnsZones_AAAA_SpecGenerator()
-var dnsZones_AAAA_SpecGenerator gopter.Gen
-
-// DnsZones_AAAA_SpecGenerator returns a generator of DnsZones_AAAA_Spec instances for property testing.
-// We first initialize dnsZones_AAAA_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DnsZones_AAAA_SpecGenerator() gopter.Gen {
-	if dnsZones_AAAA_SpecGenerator != nil {
-		return dnsZones_AAAA_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsZones_AAAA_Spec(generators)
-	dnsZones_AAAA_SpecGenerator = gen.Struct(reflect.TypeOf(DnsZones_AAAA_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsZones_AAAA_Spec(generators)
-	AddRelatedPropertyGeneratorsForDnsZones_AAAA_Spec(generators)
-	dnsZones_AAAA_SpecGenerator = gen.Struct(reflect.TypeOf(DnsZones_AAAA_Spec{}), generators)
-
-	return dnsZones_AAAA_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDnsZones_AAAA_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDnsZones_AAAA_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["Metadata"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["TTL"] = gen.PtrOf(gen.Int())
-}
-
-// AddRelatedPropertyGeneratorsForDnsZones_AAAA_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDnsZones_AAAA_Spec(gens map[string]gopter.Gen) {
-	gens["AAAARecords"] = gen.SliceOf(AaaaRecordGenerator())
-	gens["ARecords"] = gen.SliceOf(ARecordGenerator())
-	gens["CNAMERecord"] = gen.PtrOf(CnameRecordGenerator())
-	gens["CaaRecords"] = gen.SliceOf(CaaRecordGenerator())
-	gens["MXRecords"] = gen.SliceOf(MxRecordGenerator())
-	gens["NSRecords"] = gen.SliceOf(NsRecordGenerator())
-	gens["PTRRecords"] = gen.SliceOf(PtrRecordGenerator())
-	gens["SOARecord"] = gen.PtrOf(SoaRecordGenerator())
-	gens["SRVRecords"] = gen.SliceOf(SrvRecordGenerator())
-	gens["TXTRecords"] = gen.SliceOf(TxtRecordGenerator())
-	gens["TargetResource"] = gen.PtrOf(SubResourceGenerator())
-}
-
-func Test_DnsZones_AAAA_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DnsZones_AAAA_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDnsZones_AAAA_STATUS, DnsZones_AAAA_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForDnsZones_AAAA_STATUS runs a test to see if a specific instance of DnsZones_AAAA_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDnsZones_AAAA_STATUS(subject DnsZones_AAAA_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual DnsZones_AAAA_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of DnsZones_AAAA_STATUS instances for property testing - lazily instantiated by
-// DnsZones_AAAA_STATUSGenerator()
-var dnsZones_AAAA_STATUSGenerator gopter.Gen
-
-// DnsZones_AAAA_STATUSGenerator returns a generator of DnsZones_AAAA_STATUS instances for property testing.
-// We first initialize dnsZones_AAAA_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DnsZones_AAAA_STATUSGenerator() gopter.Gen {
-	if dnsZones_AAAA_STATUSGenerator != nil {
-		return dnsZones_AAAA_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsZones_AAAA_STATUS(generators)
-	dnsZones_AAAA_STATUSGenerator = gen.Struct(reflect.TypeOf(DnsZones_AAAA_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsZones_AAAA_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDnsZones_AAAA_STATUS(generators)
-	dnsZones_AAAA_STATUSGenerator = gen.Struct(reflect.TypeOf(DnsZones_AAAA_STATUS{}), generators)
-
-	return dnsZones_AAAA_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDnsZones_AAAA_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDnsZones_AAAA_STATUS(gens map[string]gopter.Gen) {
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["Fqdn"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Metadata"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["TTL"] = gen.PtrOf(gen.Int())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDnsZones_AAAA_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDnsZones_AAAA_STATUS(gens map[string]gopter.Gen) {
-	gens["AAAARecords"] = gen.SliceOf(AaaaRecord_STATUSGenerator())
-	gens["ARecords"] = gen.SliceOf(ARecord_STATUSGenerator())
-	gens["CNAMERecord"] = gen.PtrOf(CnameRecord_STATUSGenerator())
-	gens["CaaRecords"] = gen.SliceOf(CaaRecord_STATUSGenerator())
-	gens["MXRecords"] = gen.SliceOf(MxRecord_STATUSGenerator())
-	gens["NSRecords"] = gen.SliceOf(NsRecord_STATUSGenerator())
-	gens["PTRRecords"] = gen.SliceOf(PtrRecord_STATUSGenerator())
-	gens["SOARecord"] = gen.PtrOf(SoaRecord_STATUSGenerator())
-	gens["SRVRecords"] = gen.SliceOf(SrvRecord_STATUSGenerator())
-	gens["TXTRecords"] = gen.SliceOf(TxtRecord_STATUSGenerator())
-	gens["TargetResource"] = gen.PtrOf(SubResource_STATUSGenerator())
-}
-
-func Test_AaaaRecord_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AaaaRecord to AaaaRecord via AssignProperties_To_AaaaRecord & AssignProperties_From_AaaaRecord returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAaaaRecord, AaaaRecordGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForAaaaRecord tests if a specific instance of AaaaRecord can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForAaaaRecord(subject AaaaRecord) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.AaaaRecord
-	err := copied.AssignProperties_To_AaaaRecord(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AaaaRecord
-	err = actual.AssignProperties_From_AaaaRecord(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_AaaaRecord_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AaaaRecord via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAaaaRecord, AaaaRecordGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForAaaaRecord runs a test to see if a specific instance of AaaaRecord round trips to JSON and back losslessly
-func RunJSONSerializationTestForAaaaRecord(subject AaaaRecord) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual AaaaRecord
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of AaaaRecord instances for property testing - lazily instantiated by AaaaRecordGenerator()
-var aaaaRecordGenerator gopter.Gen
-
-// AaaaRecordGenerator returns a generator of AaaaRecord instances for property testing.
-func AaaaRecordGenerator() gopter.Gen {
-	if aaaaRecordGenerator != nil {
-		return aaaaRecordGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAaaaRecord(generators)
-	aaaaRecordGenerator = gen.Struct(reflect.TypeOf(AaaaRecord{}), generators)
-
-	return aaaaRecordGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAaaaRecord is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAaaaRecord(gens map[string]gopter.Gen) {
-	gens["Ipv6Address"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_AaaaRecord_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AaaaRecord_STATUS to AaaaRecord_STATUS via AssignProperties_To_AaaaRecord_STATUS & AssignProperties_From_AaaaRecord_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAaaaRecord_STATUS, AaaaRecord_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForAaaaRecord_STATUS tests if a specific instance of AaaaRecord_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForAaaaRecord_STATUS(subject AaaaRecord_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.AaaaRecord_STATUS
-	err := copied.AssignProperties_To_AaaaRecord_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AaaaRecord_STATUS
-	err = actual.AssignProperties_From_AaaaRecord_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_AaaaRecord_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AaaaRecord_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAaaaRecord_STATUS, AaaaRecord_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForAaaaRecord_STATUS runs a test to see if a specific instance of AaaaRecord_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForAaaaRecord_STATUS(subject AaaaRecord_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual AaaaRecord_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of AaaaRecord_STATUS instances for property testing - lazily instantiated by AaaaRecord_STATUSGenerator()
-var aaaaRecord_STATUSGenerator gopter.Gen
-
-// AaaaRecord_STATUSGenerator returns a generator of AaaaRecord_STATUS instances for property testing.
-func AaaaRecord_STATUSGenerator() gopter.Gen {
-	if aaaaRecord_STATUSGenerator != nil {
-		return aaaaRecord_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAaaaRecord_STATUS(generators)
-	aaaaRecord_STATUSGenerator = gen.Struct(reflect.TypeOf(AaaaRecord_STATUS{}), generators)
-
-	return aaaaRecord_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAaaaRecord_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAaaaRecord_STATUS(gens map[string]gopter.Gen) {
-	gens["Ipv6Address"] = gen.PtrOf(gen.AlphaString())
-}
 
 func Test_ARecord_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
@@ -483,7 +35,7 @@ func RunPropertyAssignmentTestForARecord(subject ARecord) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.ARecord
+	var other storage.ARecord
 	err := copied.AssignProperties_To_ARecord(&other)
 	if err != nil {
 		return err.Error()
@@ -585,7 +137,7 @@ func RunPropertyAssignmentTestForARecord_STATUS(subject ARecord_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.ARecord_STATUS
+	var other storage.ARecord_STATUS
 	err := copied.AssignProperties_To_ARecord_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -668,6 +220,210 @@ func ARecord_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForARecord_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForARecord_STATUS(gens map[string]gopter.Gen) {
 	gens["Ipv4Address"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_AaaaRecord_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AaaaRecord to AaaaRecord via AssignProperties_To_AaaaRecord & AssignProperties_From_AaaaRecord returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAaaaRecord, AaaaRecordGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAaaaRecord tests if a specific instance of AaaaRecord can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAaaaRecord(subject AaaaRecord) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.AaaaRecord
+	err := copied.AssignProperties_To_AaaaRecord(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AaaaRecord
+	err = actual.AssignProperties_From_AaaaRecord(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_AaaaRecord_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of AaaaRecord via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAaaaRecord, AaaaRecordGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForAaaaRecord runs a test to see if a specific instance of AaaaRecord round trips to JSON and back losslessly
+func RunJSONSerializationTestForAaaaRecord(subject AaaaRecord) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual AaaaRecord
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of AaaaRecord instances for property testing - lazily instantiated by AaaaRecordGenerator()
+var aaaaRecordGenerator gopter.Gen
+
+// AaaaRecordGenerator returns a generator of AaaaRecord instances for property testing.
+func AaaaRecordGenerator() gopter.Gen {
+	if aaaaRecordGenerator != nil {
+		return aaaaRecordGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForAaaaRecord(generators)
+	aaaaRecordGenerator = gen.Struct(reflect.TypeOf(AaaaRecord{}), generators)
+
+	return aaaaRecordGenerator
+}
+
+// AddIndependentPropertyGeneratorsForAaaaRecord is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAaaaRecord(gens map[string]gopter.Gen) {
+	gens["Ipv6Address"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_AaaaRecord_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AaaaRecord_STATUS to AaaaRecord_STATUS via AssignProperties_To_AaaaRecord_STATUS & AssignProperties_From_AaaaRecord_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAaaaRecord_STATUS, AaaaRecord_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAaaaRecord_STATUS tests if a specific instance of AaaaRecord_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAaaaRecord_STATUS(subject AaaaRecord_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.AaaaRecord_STATUS
+	err := copied.AssignProperties_To_AaaaRecord_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AaaaRecord_STATUS
+	err = actual.AssignProperties_From_AaaaRecord_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_AaaaRecord_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of AaaaRecord_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAaaaRecord_STATUS, AaaaRecord_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForAaaaRecord_STATUS runs a test to see if a specific instance of AaaaRecord_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForAaaaRecord_STATUS(subject AaaaRecord_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual AaaaRecord_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of AaaaRecord_STATUS instances for property testing - lazily instantiated by AaaaRecord_STATUSGenerator()
+var aaaaRecord_STATUSGenerator gopter.Gen
+
+// AaaaRecord_STATUSGenerator returns a generator of AaaaRecord_STATUS instances for property testing.
+func AaaaRecord_STATUSGenerator() gopter.Gen {
+	if aaaaRecord_STATUSGenerator != nil {
+		return aaaaRecord_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForAaaaRecord_STATUS(generators)
+	aaaaRecord_STATUSGenerator = gen.Struct(reflect.TypeOf(AaaaRecord_STATUS{}), generators)
+
+	return aaaaRecord_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForAaaaRecord_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAaaaRecord_STATUS(gens map[string]gopter.Gen) {
+	gens["Ipv6Address"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_CaaRecord_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -811,7 +567,7 @@ func RunPropertyAssignmentTestForCnameRecord(subject CnameRecord) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.CnameRecord
+	var other storage.CnameRecord
 	err := copied.AssignProperties_To_CnameRecord(&other)
 	if err != nil {
 		return err.Error()
@@ -913,7 +669,7 @@ func RunPropertyAssignmentTestForCnameRecord_STATUS(subject CnameRecord_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.CnameRecord_STATUS
+	var other storage.CnameRecord_STATUS
 	err := copied.AssignProperties_To_CnameRecord_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -998,6 +754,250 @@ func AddIndependentPropertyGeneratorsForCnameRecord_STATUS(gens map[string]gopte
 	gens["Cname"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_DnsZonesAAAARecord_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DnsZonesAAAARecord via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDnsZonesAAAARecord, DnsZonesAAAARecordGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDnsZonesAAAARecord runs a test to see if a specific instance of DnsZonesAAAARecord round trips to JSON and back losslessly
+func RunJSONSerializationTestForDnsZonesAAAARecord(subject DnsZonesAAAARecord) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DnsZonesAAAARecord
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DnsZonesAAAARecord instances for property testing - lazily instantiated by DnsZonesAAAARecordGenerator()
+var dnsZonesAAAARecordGenerator gopter.Gen
+
+// DnsZonesAAAARecordGenerator returns a generator of DnsZonesAAAARecord instances for property testing.
+func DnsZonesAAAARecordGenerator() gopter.Gen {
+	if dnsZonesAAAARecordGenerator != nil {
+		return dnsZonesAAAARecordGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForDnsZonesAAAARecord(generators)
+	dnsZonesAAAARecordGenerator = gen.Struct(reflect.TypeOf(DnsZonesAAAARecord{}), generators)
+
+	return dnsZonesAAAARecordGenerator
+}
+
+// AddRelatedPropertyGeneratorsForDnsZonesAAAARecord is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDnsZonesAAAARecord(gens map[string]gopter.Gen) {
+	gens["Spec"] = DnsZones_AAAA_SpecGenerator()
+	gens["Status"] = DnsZones_AAAA_STATUSGenerator()
+}
+
+func Test_DnsZones_AAAA_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DnsZones_AAAA_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDnsZones_AAAA_STATUS, DnsZones_AAAA_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDnsZones_AAAA_STATUS runs a test to see if a specific instance of DnsZones_AAAA_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForDnsZones_AAAA_STATUS(subject DnsZones_AAAA_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DnsZones_AAAA_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DnsZones_AAAA_STATUS instances for property testing - lazily instantiated by
+// DnsZones_AAAA_STATUSGenerator()
+var dnsZones_AAAA_STATUSGenerator gopter.Gen
+
+// DnsZones_AAAA_STATUSGenerator returns a generator of DnsZones_AAAA_STATUS instances for property testing.
+// We first initialize dnsZones_AAAA_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func DnsZones_AAAA_STATUSGenerator() gopter.Gen {
+	if dnsZones_AAAA_STATUSGenerator != nil {
+		return dnsZones_AAAA_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDnsZones_AAAA_STATUS(generators)
+	dnsZones_AAAA_STATUSGenerator = gen.Struct(reflect.TypeOf(DnsZones_AAAA_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDnsZones_AAAA_STATUS(generators)
+	AddRelatedPropertyGeneratorsForDnsZones_AAAA_STATUS(generators)
+	dnsZones_AAAA_STATUSGenerator = gen.Struct(reflect.TypeOf(DnsZones_AAAA_STATUS{}), generators)
+
+	return dnsZones_AAAA_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForDnsZones_AAAA_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDnsZones_AAAA_STATUS(gens map[string]gopter.Gen) {
+	gens["Etag"] = gen.PtrOf(gen.AlphaString())
+	gens["Fqdn"] = gen.PtrOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
+	gens["TTL"] = gen.PtrOf(gen.Int())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForDnsZones_AAAA_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDnsZones_AAAA_STATUS(gens map[string]gopter.Gen) {
+	gens["AAAARecords"] = gen.SliceOf(AaaaRecord_STATUSGenerator())
+	gens["ARecords"] = gen.SliceOf(ARecord_STATUSGenerator())
+	gens["CNAMERecord"] = gen.PtrOf(CnameRecord_STATUSGenerator())
+	gens["CaaRecords"] = gen.SliceOf(CaaRecord_STATUSGenerator())
+	gens["MXRecords"] = gen.SliceOf(MxRecord_STATUSGenerator())
+	gens["NSRecords"] = gen.SliceOf(NsRecord_STATUSGenerator())
+	gens["PTRRecords"] = gen.SliceOf(PtrRecord_STATUSGenerator())
+	gens["SOARecord"] = gen.PtrOf(SoaRecord_STATUSGenerator())
+	gens["SRVRecords"] = gen.SliceOf(SrvRecord_STATUSGenerator())
+	gens["TXTRecords"] = gen.SliceOf(TxtRecord_STATUSGenerator())
+	gens["TargetResource"] = gen.PtrOf(SubResource_STATUSGenerator())
+}
+
+func Test_DnsZones_AAAA_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DnsZones_AAAA_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDnsZones_AAAA_Spec, DnsZones_AAAA_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDnsZones_AAAA_Spec runs a test to see if a specific instance of DnsZones_AAAA_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForDnsZones_AAAA_Spec(subject DnsZones_AAAA_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DnsZones_AAAA_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DnsZones_AAAA_Spec instances for property testing - lazily instantiated by DnsZones_AAAA_SpecGenerator()
+var dnsZones_AAAA_SpecGenerator gopter.Gen
+
+// DnsZones_AAAA_SpecGenerator returns a generator of DnsZones_AAAA_Spec instances for property testing.
+// We first initialize dnsZones_AAAA_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func DnsZones_AAAA_SpecGenerator() gopter.Gen {
+	if dnsZones_AAAA_SpecGenerator != nil {
+		return dnsZones_AAAA_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDnsZones_AAAA_Spec(generators)
+	dnsZones_AAAA_SpecGenerator = gen.Struct(reflect.TypeOf(DnsZones_AAAA_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDnsZones_AAAA_Spec(generators)
+	AddRelatedPropertyGeneratorsForDnsZones_AAAA_Spec(generators)
+	dnsZones_AAAA_SpecGenerator = gen.Struct(reflect.TypeOf(DnsZones_AAAA_Spec{}), generators)
+
+	return dnsZones_AAAA_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForDnsZones_AAAA_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDnsZones_AAAA_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["TTL"] = gen.PtrOf(gen.Int())
+}
+
+// AddRelatedPropertyGeneratorsForDnsZones_AAAA_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDnsZones_AAAA_Spec(gens map[string]gopter.Gen) {
+	gens["AAAARecords"] = gen.SliceOf(AaaaRecordGenerator())
+	gens["ARecords"] = gen.SliceOf(ARecordGenerator())
+	gens["CNAMERecord"] = gen.PtrOf(CnameRecordGenerator())
+	gens["CaaRecords"] = gen.SliceOf(CaaRecordGenerator())
+	gens["MXRecords"] = gen.SliceOf(MxRecordGenerator())
+	gens["NSRecords"] = gen.SliceOf(NsRecordGenerator())
+	gens["PTRRecords"] = gen.SliceOf(PtrRecordGenerator())
+	gens["SOARecord"] = gen.PtrOf(SoaRecordGenerator())
+	gens["SRVRecords"] = gen.SliceOf(SrvRecordGenerator())
+	gens["TXTRecords"] = gen.SliceOf(TxtRecordGenerator())
+	gens["TargetResource"] = gen.PtrOf(SubResourceGenerator())
+}
+
 func Test_MxRecord_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1015,7 +1015,7 @@ func RunPropertyAssignmentTestForMxRecord(subject MxRecord) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.MxRecord
+	var other storage.MxRecord
 	err := copied.AssignProperties_To_MxRecord(&other)
 	if err != nil {
 		return err.Error()
@@ -1118,7 +1118,7 @@ func RunPropertyAssignmentTestForMxRecord_STATUS(subject MxRecord_STATUS) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.MxRecord_STATUS
+	var other storage.MxRecord_STATUS
 	err := copied.AssignProperties_To_MxRecord_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1341,7 +1341,7 @@ func RunPropertyAssignmentTestForPtrRecord(subject PtrRecord) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.PtrRecord
+	var other storage.PtrRecord
 	err := copied.AssignProperties_To_PtrRecord(&other)
 	if err != nil {
 		return err.Error()
@@ -1443,7 +1443,7 @@ func RunPropertyAssignmentTestForPtrRecord_STATUS(subject PtrRecord_STATUS) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.PtrRecord_STATUS
+	var other storage.PtrRecord_STATUS
 	err := copied.AssignProperties_To_PtrRecord_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1545,7 +1545,7 @@ func RunPropertyAssignmentTestForSoaRecord(subject SoaRecord) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.SoaRecord
+	var other storage.SoaRecord
 	err := copied.AssignProperties_To_SoaRecord(&other)
 	if err != nil {
 		return err.Error()
@@ -1653,7 +1653,7 @@ func RunPropertyAssignmentTestForSoaRecord_STATUS(subject SoaRecord_STATUS) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.SoaRecord_STATUS
+	var other storage.SoaRecord_STATUS
 	err := copied.AssignProperties_To_SoaRecord_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1761,7 +1761,7 @@ func RunPropertyAssignmentTestForSrvRecord(subject SrvRecord) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.SrvRecord
+	var other storage.SrvRecord
 	err := copied.AssignProperties_To_SrvRecord(&other)
 	if err != nil {
 		return err.Error()
@@ -1866,7 +1866,7 @@ func RunPropertyAssignmentTestForSrvRecord_STATUS(subject SrvRecord_STATUS) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.SrvRecord_STATUS
+	var other storage.SrvRecord_STATUS
 	err := copied.AssignProperties_To_SrvRecord_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1971,7 +1971,7 @@ func RunPropertyAssignmentTestForTxtRecord(subject TxtRecord) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.TxtRecord
+	var other storage.TxtRecord
 	err := copied.AssignProperties_To_TxtRecord(&other)
 	if err != nil {
 		return err.Error()
@@ -2073,7 +2073,7 @@ func RunPropertyAssignmentTestForTxtRecord_STATUS(subject TxtRecord_STATUS) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.TxtRecord_STATUS
+	var other storage.TxtRecord_STATUS
 	err := copied.AssignProperties_To_TxtRecord_STATUS(&other)
 	if err != nil {
 		return err.Error()

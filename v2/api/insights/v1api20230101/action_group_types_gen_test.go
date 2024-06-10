@@ -5,7 +5,7 @@ package v1api20230101
 
 import (
 	"encoding/json"
-	v20230101s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForActionGroup(subject ActionGroup) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20230101s.ActionGroup
+	var hub storage.ActionGroup
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForActionGroup(subject ActionGroup) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.ActionGroup
+	var other storage.ActionGroup
 	err := copied.AssignProperties_To_ActionGroup(&other)
 	if err != nil {
 		return err.Error()
@@ -164,138 +164,6 @@ func AddRelatedPropertyGeneratorsForActionGroup(gens map[string]gopter.Gen) {
 	gens["Status"] = ActionGroupResource_STATUSGenerator()
 }
 
-func Test_ActionGroup_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ActionGroup_Spec to ActionGroup_Spec via AssignProperties_To_ActionGroup_Spec & AssignProperties_From_ActionGroup_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForActionGroup_Spec, ActionGroup_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForActionGroup_Spec tests if a specific instance of ActionGroup_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForActionGroup_Spec(subject ActionGroup_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.ActionGroup_Spec
-	err := copied.AssignProperties_To_ActionGroup_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ActionGroup_Spec
-	err = actual.AssignProperties_From_ActionGroup_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ActionGroup_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ActionGroup_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForActionGroup_Spec, ActionGroup_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForActionGroup_Spec runs a test to see if a specific instance of ActionGroup_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForActionGroup_Spec(subject ActionGroup_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ActionGroup_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ActionGroup_Spec instances for property testing - lazily instantiated by ActionGroup_SpecGenerator()
-var actionGroup_SpecGenerator gopter.Gen
-
-// ActionGroup_SpecGenerator returns a generator of ActionGroup_Spec instances for property testing.
-// We first initialize actionGroup_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ActionGroup_SpecGenerator() gopter.Gen {
-	if actionGroup_SpecGenerator != nil {
-		return actionGroup_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForActionGroup_Spec(generators)
-	actionGroup_SpecGenerator = gen.Struct(reflect.TypeOf(ActionGroup_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForActionGroup_Spec(generators)
-	AddRelatedPropertyGeneratorsForActionGroup_Spec(generators)
-	actionGroup_SpecGenerator = gen.Struct(reflect.TypeOf(ActionGroup_Spec{}), generators)
-
-	return actionGroup_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForActionGroup_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForActionGroup_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["GroupShortName"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForActionGroup_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForActionGroup_Spec(gens map[string]gopter.Gen) {
-	gens["ArmRoleReceivers"] = gen.SliceOf(ArmRoleReceiverGenerator())
-	gens["AutomationRunbookReceivers"] = gen.SliceOf(AutomationRunbookReceiverGenerator())
-	gens["AzureAppPushReceivers"] = gen.SliceOf(AzureAppPushReceiverGenerator())
-	gens["AzureFunctionReceivers"] = gen.SliceOf(AzureFunctionReceiverGenerator())
-	gens["EmailReceivers"] = gen.SliceOf(EmailReceiverGenerator())
-	gens["EventHubReceivers"] = gen.SliceOf(EventHubReceiverGenerator())
-	gens["ItsmReceivers"] = gen.SliceOf(ItsmReceiverGenerator())
-	gens["LogicAppReceivers"] = gen.SliceOf(LogicAppReceiverGenerator())
-	gens["SmsReceivers"] = gen.SliceOf(SmsReceiverGenerator())
-	gens["VoiceReceivers"] = gen.SliceOf(VoiceReceiverGenerator())
-	gens["WebhookReceivers"] = gen.SliceOf(WebhookReceiverGenerator())
-}
-
 func Test_ActionGroupResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -313,7 +181,7 @@ func RunPropertyAssignmentTestForActionGroupResource_STATUS(subject ActionGroupR
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.ActionGroupResource_STATUS
+	var other storage.ActionGroupResource_STATUS
 	err := copied.AssignProperties_To_ActionGroupResource_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -431,6 +299,138 @@ func AddRelatedPropertyGeneratorsForActionGroupResource_STATUS(gens map[string]g
 	gens["WebhookReceivers"] = gen.SliceOf(WebhookReceiver_STATUSGenerator())
 }
 
+func Test_ActionGroup_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ActionGroup_Spec to ActionGroup_Spec via AssignProperties_To_ActionGroup_Spec & AssignProperties_From_ActionGroup_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForActionGroup_Spec, ActionGroup_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForActionGroup_Spec tests if a specific instance of ActionGroup_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForActionGroup_Spec(subject ActionGroup_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ActionGroup_Spec
+	err := copied.AssignProperties_To_ActionGroup_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ActionGroup_Spec
+	err = actual.AssignProperties_From_ActionGroup_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ActionGroup_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ActionGroup_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForActionGroup_Spec, ActionGroup_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForActionGroup_Spec runs a test to see if a specific instance of ActionGroup_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForActionGroup_Spec(subject ActionGroup_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ActionGroup_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ActionGroup_Spec instances for property testing - lazily instantiated by ActionGroup_SpecGenerator()
+var actionGroup_SpecGenerator gopter.Gen
+
+// ActionGroup_SpecGenerator returns a generator of ActionGroup_Spec instances for property testing.
+// We first initialize actionGroup_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ActionGroup_SpecGenerator() gopter.Gen {
+	if actionGroup_SpecGenerator != nil {
+		return actionGroup_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForActionGroup_Spec(generators)
+	actionGroup_SpecGenerator = gen.Struct(reflect.TypeOf(ActionGroup_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForActionGroup_Spec(generators)
+	AddRelatedPropertyGeneratorsForActionGroup_Spec(generators)
+	actionGroup_SpecGenerator = gen.Struct(reflect.TypeOf(ActionGroup_Spec{}), generators)
+
+	return actionGroup_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForActionGroup_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForActionGroup_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["Enabled"] = gen.PtrOf(gen.Bool())
+	gens["GroupShortName"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForActionGroup_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForActionGroup_Spec(gens map[string]gopter.Gen) {
+	gens["ArmRoleReceivers"] = gen.SliceOf(ArmRoleReceiverGenerator())
+	gens["AutomationRunbookReceivers"] = gen.SliceOf(AutomationRunbookReceiverGenerator())
+	gens["AzureAppPushReceivers"] = gen.SliceOf(AzureAppPushReceiverGenerator())
+	gens["AzureFunctionReceivers"] = gen.SliceOf(AzureFunctionReceiverGenerator())
+	gens["EmailReceivers"] = gen.SliceOf(EmailReceiverGenerator())
+	gens["EventHubReceivers"] = gen.SliceOf(EventHubReceiverGenerator())
+	gens["ItsmReceivers"] = gen.SliceOf(ItsmReceiverGenerator())
+	gens["LogicAppReceivers"] = gen.SliceOf(LogicAppReceiverGenerator())
+	gens["SmsReceivers"] = gen.SliceOf(SmsReceiverGenerator())
+	gens["VoiceReceivers"] = gen.SliceOf(VoiceReceiverGenerator())
+	gens["WebhookReceivers"] = gen.SliceOf(WebhookReceiverGenerator())
+}
+
 func Test_ArmRoleReceiver_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -448,7 +448,7 @@ func RunPropertyAssignmentTestForArmRoleReceiver(subject ArmRoleReceiver) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.ArmRoleReceiver
+	var other storage.ArmRoleReceiver
 	err := copied.AssignProperties_To_ArmRoleReceiver(&other)
 	if err != nil {
 		return err.Error()
@@ -552,7 +552,7 @@ func RunPropertyAssignmentTestForArmRoleReceiver_STATUS(subject ArmRoleReceiver_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.ArmRoleReceiver_STATUS
+	var other storage.ArmRoleReceiver_STATUS
 	err := copied.AssignProperties_To_ArmRoleReceiver_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -657,7 +657,7 @@ func RunPropertyAssignmentTestForAutomationRunbookReceiver(subject AutomationRun
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.AutomationRunbookReceiver
+	var other storage.AutomationRunbookReceiver
 	err := copied.AssignProperties_To_AutomationRunbookReceiver(&other)
 	if err != nil {
 		return err.Error()
@@ -765,7 +765,7 @@ func RunPropertyAssignmentTestForAutomationRunbookReceiver_STATUS(subject Automa
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.AutomationRunbookReceiver_STATUS
+	var other storage.AutomationRunbookReceiver_STATUS
 	err := copied.AssignProperties_To_AutomationRunbookReceiver_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -874,7 +874,7 @@ func RunPropertyAssignmentTestForAzureAppPushReceiver(subject AzureAppPushReceiv
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.AzureAppPushReceiver
+	var other storage.AzureAppPushReceiver
 	err := copied.AssignProperties_To_AzureAppPushReceiver(&other)
 	if err != nil {
 		return err.Error()
@@ -978,7 +978,7 @@ func RunPropertyAssignmentTestForAzureAppPushReceiver_STATUS(subject AzureAppPus
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.AzureAppPushReceiver_STATUS
+	var other storage.AzureAppPushReceiver_STATUS
 	err := copied.AssignProperties_To_AzureAppPushReceiver_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1082,7 +1082,7 @@ func RunPropertyAssignmentTestForAzureFunctionReceiver(subject AzureFunctionRece
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.AzureFunctionReceiver
+	var other storage.AzureFunctionReceiver
 	err := copied.AssignProperties_To_AzureFunctionReceiver(&other)
 	if err != nil {
 		return err.Error()
@@ -1188,7 +1188,7 @@ func RunPropertyAssignmentTestForAzureFunctionReceiver_STATUS(subject AzureFunct
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.AzureFunctionReceiver_STATUS
+	var other storage.AzureFunctionReceiver_STATUS
 	err := copied.AssignProperties_To_AzureFunctionReceiver_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1295,7 +1295,7 @@ func RunPropertyAssignmentTestForEmailReceiver(subject EmailReceiver) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.EmailReceiver
+	var other storage.EmailReceiver
 	err := copied.AssignProperties_To_EmailReceiver(&other)
 	if err != nil {
 		return err.Error()
@@ -1399,7 +1399,7 @@ func RunPropertyAssignmentTestForEmailReceiver_STATUS(subject EmailReceiver_STAT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.EmailReceiver_STATUS
+	var other storage.EmailReceiver_STATUS
 	err := copied.AssignProperties_To_EmailReceiver_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1505,7 +1505,7 @@ func RunPropertyAssignmentTestForEventHubReceiver(subject EventHubReceiver) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.EventHubReceiver
+	var other storage.EventHubReceiver
 	err := copied.AssignProperties_To_EventHubReceiver(&other)
 	if err != nil {
 		return err.Error()
@@ -1612,7 +1612,7 @@ func RunPropertyAssignmentTestForEventHubReceiver_STATUS(subject EventHubReceive
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.EventHubReceiver_STATUS
+	var other storage.EventHubReceiver_STATUS
 	err := copied.AssignProperties_To_EventHubReceiver_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1720,7 +1720,7 @@ func RunPropertyAssignmentTestForItsmReceiver(subject ItsmReceiver) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.ItsmReceiver
+	var other storage.ItsmReceiver
 	err := copied.AssignProperties_To_ItsmReceiver(&other)
 	if err != nil {
 		return err.Error()
@@ -1826,7 +1826,7 @@ func RunPropertyAssignmentTestForItsmReceiver_STATUS(subject ItsmReceiver_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.ItsmReceiver_STATUS
+	var other storage.ItsmReceiver_STATUS
 	err := copied.AssignProperties_To_ItsmReceiver_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1933,7 +1933,7 @@ func RunPropertyAssignmentTestForLogicAppReceiver(subject LogicAppReceiver) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.LogicAppReceiver
+	var other storage.LogicAppReceiver
 	err := copied.AssignProperties_To_LogicAppReceiver(&other)
 	if err != nil {
 		return err.Error()
@@ -2037,7 +2037,7 @@ func RunPropertyAssignmentTestForLogicAppReceiver_STATUS(subject LogicAppReceive
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.LogicAppReceiver_STATUS
+	var other storage.LogicAppReceiver_STATUS
 	err := copied.AssignProperties_To_LogicAppReceiver_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2143,7 +2143,7 @@ func RunPropertyAssignmentTestForSmsReceiver(subject SmsReceiver) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.SmsReceiver
+	var other storage.SmsReceiver
 	err := copied.AssignProperties_To_SmsReceiver(&other)
 	if err != nil {
 		return err.Error()
@@ -2247,7 +2247,7 @@ func RunPropertyAssignmentTestForSmsReceiver_STATUS(subject SmsReceiver_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.SmsReceiver_STATUS
+	var other storage.SmsReceiver_STATUS
 	err := copied.AssignProperties_To_SmsReceiver_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2352,7 +2352,7 @@ func RunPropertyAssignmentTestForVoiceReceiver(subject VoiceReceiver) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.VoiceReceiver
+	var other storage.VoiceReceiver
 	err := copied.AssignProperties_To_VoiceReceiver(&other)
 	if err != nil {
 		return err.Error()
@@ -2456,7 +2456,7 @@ func RunPropertyAssignmentTestForVoiceReceiver_STATUS(subject VoiceReceiver_STAT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.VoiceReceiver_STATUS
+	var other storage.VoiceReceiver_STATUS
 	err := copied.AssignProperties_To_VoiceReceiver_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2561,7 +2561,7 @@ func RunPropertyAssignmentTestForWebhookReceiver(subject WebhookReceiver) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.WebhookReceiver
+	var other storage.WebhookReceiver
 	err := copied.AssignProperties_To_WebhookReceiver(&other)
 	if err != nil {
 		return err.Error()
@@ -2669,7 +2669,7 @@ func RunPropertyAssignmentTestForWebhookReceiver_STATUS(subject WebhookReceiver_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.WebhookReceiver_STATUS
+	var other storage.WebhookReceiver_STATUS
 	err := copied.AssignProperties_To_WebhookReceiver_STATUS(&other)
 	if err != nil {
 		return err.Error()

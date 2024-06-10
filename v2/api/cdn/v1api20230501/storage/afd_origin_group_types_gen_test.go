@@ -78,169 +78,6 @@ func AddRelatedPropertyGeneratorsForAfdOriginGroup(gens map[string]gopter.Gen) {
 	gens["Status"] = Profiles_OriginGroup_STATUSGenerator()
 }
 
-func Test_Profiles_OriginGroup_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Profiles_OriginGroup_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProfiles_OriginGroup_Spec, Profiles_OriginGroup_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForProfiles_OriginGroup_Spec runs a test to see if a specific instance of Profiles_OriginGroup_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForProfiles_OriginGroup_Spec(subject Profiles_OriginGroup_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Profiles_OriginGroup_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Profiles_OriginGroup_Spec instances for property testing - lazily instantiated by
-// Profiles_OriginGroup_SpecGenerator()
-var profiles_OriginGroup_SpecGenerator gopter.Gen
-
-// Profiles_OriginGroup_SpecGenerator returns a generator of Profiles_OriginGroup_Spec instances for property testing.
-// We first initialize profiles_OriginGroup_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Profiles_OriginGroup_SpecGenerator() gopter.Gen {
-	if profiles_OriginGroup_SpecGenerator != nil {
-		return profiles_OriginGroup_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_OriginGroup_Spec(generators)
-	profiles_OriginGroup_SpecGenerator = gen.Struct(reflect.TypeOf(Profiles_OriginGroup_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_OriginGroup_Spec(generators)
-	AddRelatedPropertyGeneratorsForProfiles_OriginGroup_Spec(generators)
-	profiles_OriginGroup_SpecGenerator = gen.Struct(reflect.TypeOf(Profiles_OriginGroup_Spec{}), generators)
-
-	return profiles_OriginGroup_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForProfiles_OriginGroup_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProfiles_OriginGroup_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["SessionAffinityState"] = gen.PtrOf(gen.AlphaString())
-	gens["TrafficRestorationTimeToHealedOrNewEndpointsInMinutes"] = gen.PtrOf(gen.Int())
-}
-
-// AddRelatedPropertyGeneratorsForProfiles_OriginGroup_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForProfiles_OriginGroup_Spec(gens map[string]gopter.Gen) {
-	gens["HealthProbeSettings"] = gen.PtrOf(HealthProbeParametersGenerator())
-	gens["LoadBalancingSettings"] = gen.PtrOf(LoadBalancingSettingsParametersGenerator())
-}
-
-func Test_Profiles_OriginGroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Profiles_OriginGroup_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProfiles_OriginGroup_STATUS, Profiles_OriginGroup_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForProfiles_OriginGroup_STATUS runs a test to see if a specific instance of Profiles_OriginGroup_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForProfiles_OriginGroup_STATUS(subject Profiles_OriginGroup_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Profiles_OriginGroup_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Profiles_OriginGroup_STATUS instances for property testing - lazily instantiated by
-// Profiles_OriginGroup_STATUSGenerator()
-var profiles_OriginGroup_STATUSGenerator gopter.Gen
-
-// Profiles_OriginGroup_STATUSGenerator returns a generator of Profiles_OriginGroup_STATUS instances for property testing.
-// We first initialize profiles_OriginGroup_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Profiles_OriginGroup_STATUSGenerator() gopter.Gen {
-	if profiles_OriginGroup_STATUSGenerator != nil {
-		return profiles_OriginGroup_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_OriginGroup_STATUS(generators)
-	profiles_OriginGroup_STATUSGenerator = gen.Struct(reflect.TypeOf(Profiles_OriginGroup_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_OriginGroup_STATUS(generators)
-	AddRelatedPropertyGeneratorsForProfiles_OriginGroup_STATUS(generators)
-	profiles_OriginGroup_STATUSGenerator = gen.Struct(reflect.TypeOf(Profiles_OriginGroup_STATUS{}), generators)
-
-	return profiles_OriginGroup_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForProfiles_OriginGroup_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProfiles_OriginGroup_STATUS(gens map[string]gopter.Gen) {
-	gens["DeploymentStatus"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ProfileName"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["SessionAffinityState"] = gen.PtrOf(gen.AlphaString())
-	gens["TrafficRestorationTimeToHealedOrNewEndpointsInMinutes"] = gen.PtrOf(gen.Int())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForProfiles_OriginGroup_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForProfiles_OriginGroup_STATUS(gens map[string]gopter.Gen) {
-	gens["HealthProbeSettings"] = gen.PtrOf(HealthProbeParameters_STATUSGenerator())
-	gens["LoadBalancingSettings"] = gen.PtrOf(LoadBalancingSettingsParameters_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
-}
-
 func Test_HealthProbeParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -493,4 +330,167 @@ func AddIndependentPropertyGeneratorsForLoadBalancingSettingsParameters_STATUS(g
 	gens["AdditionalLatencyInMilliseconds"] = gen.PtrOf(gen.Int())
 	gens["SampleSize"] = gen.PtrOf(gen.Int())
 	gens["SuccessfulSamplesRequired"] = gen.PtrOf(gen.Int())
+}
+
+func Test_Profiles_OriginGroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Profiles_OriginGroup_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForProfiles_OriginGroup_STATUS, Profiles_OriginGroup_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForProfiles_OriginGroup_STATUS runs a test to see if a specific instance of Profiles_OriginGroup_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForProfiles_OriginGroup_STATUS(subject Profiles_OriginGroup_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Profiles_OriginGroup_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Profiles_OriginGroup_STATUS instances for property testing - lazily instantiated by
+// Profiles_OriginGroup_STATUSGenerator()
+var profiles_OriginGroup_STATUSGenerator gopter.Gen
+
+// Profiles_OriginGroup_STATUSGenerator returns a generator of Profiles_OriginGroup_STATUS instances for property testing.
+// We first initialize profiles_OriginGroup_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Profiles_OriginGroup_STATUSGenerator() gopter.Gen {
+	if profiles_OriginGroup_STATUSGenerator != nil {
+		return profiles_OriginGroup_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForProfiles_OriginGroup_STATUS(generators)
+	profiles_OriginGroup_STATUSGenerator = gen.Struct(reflect.TypeOf(Profiles_OriginGroup_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForProfiles_OriginGroup_STATUS(generators)
+	AddRelatedPropertyGeneratorsForProfiles_OriginGroup_STATUS(generators)
+	profiles_OriginGroup_STATUSGenerator = gen.Struct(reflect.TypeOf(Profiles_OriginGroup_STATUS{}), generators)
+
+	return profiles_OriginGroup_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForProfiles_OriginGroup_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForProfiles_OriginGroup_STATUS(gens map[string]gopter.Gen) {
+	gens["DeploymentStatus"] = gen.PtrOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["ProfileName"] = gen.PtrOf(gen.AlphaString())
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
+	gens["SessionAffinityState"] = gen.PtrOf(gen.AlphaString())
+	gens["TrafficRestorationTimeToHealedOrNewEndpointsInMinutes"] = gen.PtrOf(gen.Int())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForProfiles_OriginGroup_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForProfiles_OriginGroup_STATUS(gens map[string]gopter.Gen) {
+	gens["HealthProbeSettings"] = gen.PtrOf(HealthProbeParameters_STATUSGenerator())
+	gens["LoadBalancingSettings"] = gen.PtrOf(LoadBalancingSettingsParameters_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
+}
+
+func Test_Profiles_OriginGroup_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Profiles_OriginGroup_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForProfiles_OriginGroup_Spec, Profiles_OriginGroup_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForProfiles_OriginGroup_Spec runs a test to see if a specific instance of Profiles_OriginGroup_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForProfiles_OriginGroup_Spec(subject Profiles_OriginGroup_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Profiles_OriginGroup_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Profiles_OriginGroup_Spec instances for property testing - lazily instantiated by
+// Profiles_OriginGroup_SpecGenerator()
+var profiles_OriginGroup_SpecGenerator gopter.Gen
+
+// Profiles_OriginGroup_SpecGenerator returns a generator of Profiles_OriginGroup_Spec instances for property testing.
+// We first initialize profiles_OriginGroup_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Profiles_OriginGroup_SpecGenerator() gopter.Gen {
+	if profiles_OriginGroup_SpecGenerator != nil {
+		return profiles_OriginGroup_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForProfiles_OriginGroup_Spec(generators)
+	profiles_OriginGroup_SpecGenerator = gen.Struct(reflect.TypeOf(Profiles_OriginGroup_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForProfiles_OriginGroup_Spec(generators)
+	AddRelatedPropertyGeneratorsForProfiles_OriginGroup_Spec(generators)
+	profiles_OriginGroup_SpecGenerator = gen.Struct(reflect.TypeOf(Profiles_OriginGroup_Spec{}), generators)
+
+	return profiles_OriginGroup_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForProfiles_OriginGroup_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForProfiles_OriginGroup_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["SessionAffinityState"] = gen.PtrOf(gen.AlphaString())
+	gens["TrafficRestorationTimeToHealedOrNewEndpointsInMinutes"] = gen.PtrOf(gen.Int())
+}
+
+// AddRelatedPropertyGeneratorsForProfiles_OriginGroup_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForProfiles_OriginGroup_Spec(gens map[string]gopter.Gen) {
+	gens["HealthProbeSettings"] = gen.PtrOf(HealthProbeParametersGenerator())
+	gens["LoadBalancingSettings"] = gen.PtrOf(LoadBalancingSettingsParametersGenerator())
 }

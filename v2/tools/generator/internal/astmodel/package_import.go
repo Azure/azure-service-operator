@@ -60,7 +60,7 @@ func (pi PackageImport) HasExplicitName() bool {
 	return pi.name != ""
 }
 
-// Equals returns true if the passed package reference references the same package, false otherwise
+// Equals returns true if the passed package import references the same package with the same name, false otherwise
 func (pi PackageImport) Equals(ref PackageImport) bool {
 	packagesEqual := pi.packageReference.Equals(ref.packageReference)
 	namesEqual := pi.name == ref.name

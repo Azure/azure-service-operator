@@ -78,20 +78,20 @@ func AddRelatedPropertyGeneratorsForBackend(gens map[string]gopter.Gen) {
 	gens["Status"] = Service_Backend_STATUSGenerator()
 }
 
-func Test_Service_Backend_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_BackendAuthorizationHeaderCredentials_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
+	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Service_Backend_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForService_Backend_Spec, Service_Backend_SpecGenerator()))
+		"Round trip of BackendAuthorizationHeaderCredentials via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBackendAuthorizationHeaderCredentials, BackendAuthorizationHeaderCredentialsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForService_Backend_Spec runs a test to see if a specific instance of Service_Backend_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForService_Backend_Spec(subject Service_Backend_Spec) string {
+// RunJSONSerializationTestForBackendAuthorizationHeaderCredentials runs a test to see if a specific instance of BackendAuthorizationHeaderCredentials round trips to JSON and back losslessly
+func RunJSONSerializationTestForBackendAuthorizationHeaderCredentials(subject BackendAuthorizationHeaderCredentials) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -99,7 +99,7 @@ func RunJSONSerializationTestForService_Backend_Spec(subject Service_Backend_Spe
 	}
 
 	// Deserialize back into memory
-	var actual Service_Backend_Spec
+	var actual BackendAuthorizationHeaderCredentials
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -117,64 +117,43 @@ func RunJSONSerializationTestForService_Backend_Spec(subject Service_Backend_Spe
 	return ""
 }
 
-// Generator of Service_Backend_Spec instances for property testing - lazily instantiated by
-// Service_Backend_SpecGenerator()
-var service_Backend_SpecGenerator gopter.Gen
+// Generator of BackendAuthorizationHeaderCredentials instances for property testing - lazily instantiated by
+// BackendAuthorizationHeaderCredentialsGenerator()
+var backendAuthorizationHeaderCredentialsGenerator gopter.Gen
 
-// Service_Backend_SpecGenerator returns a generator of Service_Backend_Spec instances for property testing.
-// We first initialize service_Backend_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Service_Backend_SpecGenerator() gopter.Gen {
-	if service_Backend_SpecGenerator != nil {
-		return service_Backend_SpecGenerator
+// BackendAuthorizationHeaderCredentialsGenerator returns a generator of BackendAuthorizationHeaderCredentials instances for property testing.
+func BackendAuthorizationHeaderCredentialsGenerator() gopter.Gen {
+	if backendAuthorizationHeaderCredentialsGenerator != nil {
+		return backendAuthorizationHeaderCredentialsGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForService_Backend_Spec(generators)
-	service_Backend_SpecGenerator = gen.Struct(reflect.TypeOf(Service_Backend_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForBackendAuthorizationHeaderCredentials(generators)
+	backendAuthorizationHeaderCredentialsGenerator = gen.Struct(reflect.TypeOf(BackendAuthorizationHeaderCredentials{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForService_Backend_Spec(generators)
-	AddRelatedPropertyGeneratorsForService_Backend_Spec(generators)
-	service_Backend_SpecGenerator = gen.Struct(reflect.TypeOf(Service_Backend_Spec{}), generators)
-
-	return service_Backend_SpecGenerator
+	return backendAuthorizationHeaderCredentialsGenerator
 }
 
-// AddIndependentPropertyGeneratorsForService_Backend_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForService_Backend_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Protocol"] = gen.PtrOf(gen.AlphaString())
-	gens["Title"] = gen.PtrOf(gen.AlphaString())
-	gens["Url"] = gen.PtrOf(gen.AlphaString())
+// AddIndependentPropertyGeneratorsForBackendAuthorizationHeaderCredentials is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForBackendAuthorizationHeaderCredentials(gens map[string]gopter.Gen) {
+	gens["Parameter"] = gen.PtrOf(gen.AlphaString())
+	gens["Scheme"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForService_Backend_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForService_Backend_Spec(gens map[string]gopter.Gen) {
-	gens["Credentials"] = gen.PtrOf(BackendCredentialsContractGenerator())
-	gens["Properties"] = gen.PtrOf(BackendPropertiesGenerator())
-	gens["Proxy"] = gen.PtrOf(BackendProxyContractGenerator())
-	gens["Tls"] = gen.PtrOf(BackendTlsPropertiesGenerator())
-}
-
-func Test_Service_Backend_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_BackendAuthorizationHeaderCredentials_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Service_Backend_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForService_Backend_STATUS, Service_Backend_STATUSGenerator()))
+		"Round trip of BackendAuthorizationHeaderCredentials_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBackendAuthorizationHeaderCredentials_STATUS, BackendAuthorizationHeaderCredentials_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForService_Backend_STATUS runs a test to see if a specific instance of Service_Backend_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForService_Backend_STATUS(subject Service_Backend_STATUS) string {
+// RunJSONSerializationTestForBackendAuthorizationHeaderCredentials_STATUS runs a test to see if a specific instance of BackendAuthorizationHeaderCredentials_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForBackendAuthorizationHeaderCredentials_STATUS(subject BackendAuthorizationHeaderCredentials_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -182,7 +161,7 @@ func RunJSONSerializationTestForService_Backend_STATUS(subject Service_Backend_S
 	}
 
 	// Deserialize back into memory
-	var actual Service_Backend_STATUS
+	var actual BackendAuthorizationHeaderCredentials_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -200,50 +179,27 @@ func RunJSONSerializationTestForService_Backend_STATUS(subject Service_Backend_S
 	return ""
 }
 
-// Generator of Service_Backend_STATUS instances for property testing - lazily instantiated by
-// Service_Backend_STATUSGenerator()
-var service_Backend_STATUSGenerator gopter.Gen
+// Generator of BackendAuthorizationHeaderCredentials_STATUS instances for property testing - lazily instantiated by
+// BackendAuthorizationHeaderCredentials_STATUSGenerator()
+var backendAuthorizationHeaderCredentials_STATUSGenerator gopter.Gen
 
-// Service_Backend_STATUSGenerator returns a generator of Service_Backend_STATUS instances for property testing.
-// We first initialize service_Backend_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Service_Backend_STATUSGenerator() gopter.Gen {
-	if service_Backend_STATUSGenerator != nil {
-		return service_Backend_STATUSGenerator
+// BackendAuthorizationHeaderCredentials_STATUSGenerator returns a generator of BackendAuthorizationHeaderCredentials_STATUS instances for property testing.
+func BackendAuthorizationHeaderCredentials_STATUSGenerator() gopter.Gen {
+	if backendAuthorizationHeaderCredentials_STATUSGenerator != nil {
+		return backendAuthorizationHeaderCredentials_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForService_Backend_STATUS(generators)
-	service_Backend_STATUSGenerator = gen.Struct(reflect.TypeOf(Service_Backend_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForBackendAuthorizationHeaderCredentials_STATUS(generators)
+	backendAuthorizationHeaderCredentials_STATUSGenerator = gen.Struct(reflect.TypeOf(BackendAuthorizationHeaderCredentials_STATUS{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForService_Backend_STATUS(generators)
-	AddRelatedPropertyGeneratorsForService_Backend_STATUS(generators)
-	service_Backend_STATUSGenerator = gen.Struct(reflect.TypeOf(Service_Backend_STATUS{}), generators)
-
-	return service_Backend_STATUSGenerator
+	return backendAuthorizationHeaderCredentials_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForService_Backend_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForService_Backend_STATUS(gens map[string]gopter.Gen) {
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Protocol"] = gen.PtrOf(gen.AlphaString())
-	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["Title"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["Url"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForService_Backend_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForService_Backend_STATUS(gens map[string]gopter.Gen) {
-	gens["Credentials"] = gen.PtrOf(BackendCredentialsContract_STATUSGenerator())
-	gens["Properties"] = gen.PtrOf(BackendProperties_STATUSGenerator())
-	gens["Proxy"] = gen.PtrOf(BackendProxyContract_STATUSGenerator())
-	gens["Tls"] = gen.PtrOf(BackendTlsProperties_STATUSGenerator())
+// AddIndependentPropertyGeneratorsForBackendAuthorizationHeaderCredentials_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForBackendAuthorizationHeaderCredentials_STATUS(gens map[string]gopter.Gen) {
+	gens["Parameter"] = gen.PtrOf(gen.AlphaString())
+	gens["Scheme"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_BackendCredentialsContract_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -655,254 +611,6 @@ func AddIndependentPropertyGeneratorsForBackendProxyContract_STATUS(gens map[str
 	gens["Username"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_BackendTlsProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BackendTlsProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBackendTlsProperties, BackendTlsPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForBackendTlsProperties runs a test to see if a specific instance of BackendTlsProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForBackendTlsProperties(subject BackendTlsProperties) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual BackendTlsProperties
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of BackendTlsProperties instances for property testing - lazily instantiated by
-// BackendTlsPropertiesGenerator()
-var backendTlsPropertiesGenerator gopter.Gen
-
-// BackendTlsPropertiesGenerator returns a generator of BackendTlsProperties instances for property testing.
-func BackendTlsPropertiesGenerator() gopter.Gen {
-	if backendTlsPropertiesGenerator != nil {
-		return backendTlsPropertiesGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBackendTlsProperties(generators)
-	backendTlsPropertiesGenerator = gen.Struct(reflect.TypeOf(BackendTlsProperties{}), generators)
-
-	return backendTlsPropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForBackendTlsProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBackendTlsProperties(gens map[string]gopter.Gen) {
-	gens["ValidateCertificateChain"] = gen.PtrOf(gen.Bool())
-	gens["ValidateCertificateName"] = gen.PtrOf(gen.Bool())
-}
-
-func Test_BackendTlsProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BackendTlsProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBackendTlsProperties_STATUS, BackendTlsProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForBackendTlsProperties_STATUS runs a test to see if a specific instance of BackendTlsProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForBackendTlsProperties_STATUS(subject BackendTlsProperties_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual BackendTlsProperties_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of BackendTlsProperties_STATUS instances for property testing - lazily instantiated by
-// BackendTlsProperties_STATUSGenerator()
-var backendTlsProperties_STATUSGenerator gopter.Gen
-
-// BackendTlsProperties_STATUSGenerator returns a generator of BackendTlsProperties_STATUS instances for property testing.
-func BackendTlsProperties_STATUSGenerator() gopter.Gen {
-	if backendTlsProperties_STATUSGenerator != nil {
-		return backendTlsProperties_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBackendTlsProperties_STATUS(generators)
-	backendTlsProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(BackendTlsProperties_STATUS{}), generators)
-
-	return backendTlsProperties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForBackendTlsProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBackendTlsProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["ValidateCertificateChain"] = gen.PtrOf(gen.Bool())
-	gens["ValidateCertificateName"] = gen.PtrOf(gen.Bool())
-}
-
-func Test_BackendAuthorizationHeaderCredentials_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BackendAuthorizationHeaderCredentials via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBackendAuthorizationHeaderCredentials, BackendAuthorizationHeaderCredentialsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForBackendAuthorizationHeaderCredentials runs a test to see if a specific instance of BackendAuthorizationHeaderCredentials round trips to JSON and back losslessly
-func RunJSONSerializationTestForBackendAuthorizationHeaderCredentials(subject BackendAuthorizationHeaderCredentials) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual BackendAuthorizationHeaderCredentials
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of BackendAuthorizationHeaderCredentials instances for property testing - lazily instantiated by
-// BackendAuthorizationHeaderCredentialsGenerator()
-var backendAuthorizationHeaderCredentialsGenerator gopter.Gen
-
-// BackendAuthorizationHeaderCredentialsGenerator returns a generator of BackendAuthorizationHeaderCredentials instances for property testing.
-func BackendAuthorizationHeaderCredentialsGenerator() gopter.Gen {
-	if backendAuthorizationHeaderCredentialsGenerator != nil {
-		return backendAuthorizationHeaderCredentialsGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBackendAuthorizationHeaderCredentials(generators)
-	backendAuthorizationHeaderCredentialsGenerator = gen.Struct(reflect.TypeOf(BackendAuthorizationHeaderCredentials{}), generators)
-
-	return backendAuthorizationHeaderCredentialsGenerator
-}
-
-// AddIndependentPropertyGeneratorsForBackendAuthorizationHeaderCredentials is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBackendAuthorizationHeaderCredentials(gens map[string]gopter.Gen) {
-	gens["Parameter"] = gen.PtrOf(gen.AlphaString())
-	gens["Scheme"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_BackendAuthorizationHeaderCredentials_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BackendAuthorizationHeaderCredentials_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBackendAuthorizationHeaderCredentials_STATUS, BackendAuthorizationHeaderCredentials_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForBackendAuthorizationHeaderCredentials_STATUS runs a test to see if a specific instance of BackendAuthorizationHeaderCredentials_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForBackendAuthorizationHeaderCredentials_STATUS(subject BackendAuthorizationHeaderCredentials_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual BackendAuthorizationHeaderCredentials_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of BackendAuthorizationHeaderCredentials_STATUS instances for property testing - lazily instantiated by
-// BackendAuthorizationHeaderCredentials_STATUSGenerator()
-var backendAuthorizationHeaderCredentials_STATUSGenerator gopter.Gen
-
-// BackendAuthorizationHeaderCredentials_STATUSGenerator returns a generator of BackendAuthorizationHeaderCredentials_STATUS instances for property testing.
-func BackendAuthorizationHeaderCredentials_STATUSGenerator() gopter.Gen {
-	if backendAuthorizationHeaderCredentials_STATUSGenerator != nil {
-		return backendAuthorizationHeaderCredentials_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBackendAuthorizationHeaderCredentials_STATUS(generators)
-	backendAuthorizationHeaderCredentials_STATUSGenerator = gen.Struct(reflect.TypeOf(BackendAuthorizationHeaderCredentials_STATUS{}), generators)
-
-	return backendAuthorizationHeaderCredentials_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForBackendAuthorizationHeaderCredentials_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBackendAuthorizationHeaderCredentials_STATUS(gens map[string]gopter.Gen) {
-	gens["Parameter"] = gen.PtrOf(gen.AlphaString())
-	gens["Scheme"] = gen.PtrOf(gen.AlphaString())
-}
-
 func Test_BackendServiceFabricClusterProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1059,6 +767,298 @@ func AddIndependentPropertyGeneratorsForBackendServiceFabricClusterProperties_ST
 // AddRelatedPropertyGeneratorsForBackendServiceFabricClusterProperties_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForBackendServiceFabricClusterProperties_STATUS(gens map[string]gopter.Gen) {
 	gens["ServerX509Names"] = gen.SliceOf(X509CertificateName_STATUSGenerator())
+}
+
+func Test_BackendTlsProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of BackendTlsProperties via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBackendTlsProperties, BackendTlsPropertiesGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForBackendTlsProperties runs a test to see if a specific instance of BackendTlsProperties round trips to JSON and back losslessly
+func RunJSONSerializationTestForBackendTlsProperties(subject BackendTlsProperties) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual BackendTlsProperties
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of BackendTlsProperties instances for property testing - lazily instantiated by
+// BackendTlsPropertiesGenerator()
+var backendTlsPropertiesGenerator gopter.Gen
+
+// BackendTlsPropertiesGenerator returns a generator of BackendTlsProperties instances for property testing.
+func BackendTlsPropertiesGenerator() gopter.Gen {
+	if backendTlsPropertiesGenerator != nil {
+		return backendTlsPropertiesGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForBackendTlsProperties(generators)
+	backendTlsPropertiesGenerator = gen.Struct(reflect.TypeOf(BackendTlsProperties{}), generators)
+
+	return backendTlsPropertiesGenerator
+}
+
+// AddIndependentPropertyGeneratorsForBackendTlsProperties is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForBackendTlsProperties(gens map[string]gopter.Gen) {
+	gens["ValidateCertificateChain"] = gen.PtrOf(gen.Bool())
+	gens["ValidateCertificateName"] = gen.PtrOf(gen.Bool())
+}
+
+func Test_BackendTlsProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of BackendTlsProperties_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBackendTlsProperties_STATUS, BackendTlsProperties_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForBackendTlsProperties_STATUS runs a test to see if a specific instance of BackendTlsProperties_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForBackendTlsProperties_STATUS(subject BackendTlsProperties_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual BackendTlsProperties_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of BackendTlsProperties_STATUS instances for property testing - lazily instantiated by
+// BackendTlsProperties_STATUSGenerator()
+var backendTlsProperties_STATUSGenerator gopter.Gen
+
+// BackendTlsProperties_STATUSGenerator returns a generator of BackendTlsProperties_STATUS instances for property testing.
+func BackendTlsProperties_STATUSGenerator() gopter.Gen {
+	if backendTlsProperties_STATUSGenerator != nil {
+		return backendTlsProperties_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForBackendTlsProperties_STATUS(generators)
+	backendTlsProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(BackendTlsProperties_STATUS{}), generators)
+
+	return backendTlsProperties_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForBackendTlsProperties_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForBackendTlsProperties_STATUS(gens map[string]gopter.Gen) {
+	gens["ValidateCertificateChain"] = gen.PtrOf(gen.Bool())
+	gens["ValidateCertificateName"] = gen.PtrOf(gen.Bool())
+}
+
+func Test_Service_Backend_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Service_Backend_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForService_Backend_STATUS, Service_Backend_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForService_Backend_STATUS runs a test to see if a specific instance of Service_Backend_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForService_Backend_STATUS(subject Service_Backend_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Service_Backend_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Service_Backend_STATUS instances for property testing - lazily instantiated by
+// Service_Backend_STATUSGenerator()
+var service_Backend_STATUSGenerator gopter.Gen
+
+// Service_Backend_STATUSGenerator returns a generator of Service_Backend_STATUS instances for property testing.
+// We first initialize service_Backend_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Service_Backend_STATUSGenerator() gopter.Gen {
+	if service_Backend_STATUSGenerator != nil {
+		return service_Backend_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForService_Backend_STATUS(generators)
+	service_Backend_STATUSGenerator = gen.Struct(reflect.TypeOf(Service_Backend_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForService_Backend_STATUS(generators)
+	AddRelatedPropertyGeneratorsForService_Backend_STATUS(generators)
+	service_Backend_STATUSGenerator = gen.Struct(reflect.TypeOf(Service_Backend_STATUS{}), generators)
+
+	return service_Backend_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForService_Backend_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForService_Backend_STATUS(gens map[string]gopter.Gen) {
+	gens["Description"] = gen.PtrOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Protocol"] = gen.PtrOf(gen.AlphaString())
+	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
+	gens["Title"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+	gens["Url"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForService_Backend_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForService_Backend_STATUS(gens map[string]gopter.Gen) {
+	gens["Credentials"] = gen.PtrOf(BackendCredentialsContract_STATUSGenerator())
+	gens["Properties"] = gen.PtrOf(BackendProperties_STATUSGenerator())
+	gens["Proxy"] = gen.PtrOf(BackendProxyContract_STATUSGenerator())
+	gens["Tls"] = gen.PtrOf(BackendTlsProperties_STATUSGenerator())
+}
+
+func Test_Service_Backend_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Service_Backend_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForService_Backend_Spec, Service_Backend_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForService_Backend_Spec runs a test to see if a specific instance of Service_Backend_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForService_Backend_Spec(subject Service_Backend_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Service_Backend_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Service_Backend_Spec instances for property testing - lazily instantiated by
+// Service_Backend_SpecGenerator()
+var service_Backend_SpecGenerator gopter.Gen
+
+// Service_Backend_SpecGenerator returns a generator of Service_Backend_Spec instances for property testing.
+// We first initialize service_Backend_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Service_Backend_SpecGenerator() gopter.Gen {
+	if service_Backend_SpecGenerator != nil {
+		return service_Backend_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForService_Backend_Spec(generators)
+	service_Backend_SpecGenerator = gen.Struct(reflect.TypeOf(Service_Backend_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForService_Backend_Spec(generators)
+	AddRelatedPropertyGeneratorsForService_Backend_Spec(generators)
+	service_Backend_SpecGenerator = gen.Struct(reflect.TypeOf(Service_Backend_Spec{}), generators)
+
+	return service_Backend_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForService_Backend_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForService_Backend_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["Description"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["Protocol"] = gen.PtrOf(gen.AlphaString())
+	gens["Title"] = gen.PtrOf(gen.AlphaString())
+	gens["Url"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForService_Backend_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForService_Backend_Spec(gens map[string]gopter.Gen) {
+	gens["Credentials"] = gen.PtrOf(BackendCredentialsContractGenerator())
+	gens["Properties"] = gen.PtrOf(BackendPropertiesGenerator())
+	gens["Proxy"] = gen.PtrOf(BackendProxyContractGenerator())
+	gens["Tls"] = gen.PtrOf(BackendTlsPropertiesGenerator())
 }
 
 func Test_X509CertificateName_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

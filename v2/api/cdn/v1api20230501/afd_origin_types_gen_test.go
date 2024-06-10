@@ -5,7 +5,7 @@ package v1api20230501
 
 import (
 	"encoding/json"
-	v20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForAfdOrigin(subject AfdOrigin) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20230501s.AfdOrigin
+	var hub storage.AfdOrigin
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForAfdOrigin(subject AfdOrigin) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.AfdOrigin
+	var other storage.AfdOrigin
 	err := copied.AssignProperties_To_AfdOrigin(&other)
 	if err != nil {
 		return err.Error()
@@ -164,132 +164,6 @@ func AddRelatedPropertyGeneratorsForAfdOrigin(gens map[string]gopter.Gen) {
 	gens["Status"] = Profiles_OriginGroups_Origin_STATUSGenerator()
 }
 
-func Test_Profiles_OriginGroups_Origin_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Profiles_OriginGroups_Origin_Spec to Profiles_OriginGroups_Origin_Spec via AssignProperties_To_Profiles_OriginGroups_Origin_Spec & AssignProperties_From_Profiles_OriginGroups_Origin_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForProfiles_OriginGroups_Origin_Spec, Profiles_OriginGroups_Origin_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForProfiles_OriginGroups_Origin_Spec tests if a specific instance of Profiles_OriginGroups_Origin_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForProfiles_OriginGroups_Origin_Spec(subject Profiles_OriginGroups_Origin_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.Profiles_OriginGroups_Origin_Spec
-	err := copied.AssignProperties_To_Profiles_OriginGroups_Origin_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Profiles_OriginGroups_Origin_Spec
-	err = actual.AssignProperties_From_Profiles_OriginGroups_Origin_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_Profiles_OriginGroups_Origin_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Profiles_OriginGroups_Origin_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProfiles_OriginGroups_Origin_Spec, Profiles_OriginGroups_Origin_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForProfiles_OriginGroups_Origin_Spec runs a test to see if a specific instance of Profiles_OriginGroups_Origin_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForProfiles_OriginGroups_Origin_Spec(subject Profiles_OriginGroups_Origin_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Profiles_OriginGroups_Origin_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Profiles_OriginGroups_Origin_Spec instances for property testing - lazily instantiated by
-// Profiles_OriginGroups_Origin_SpecGenerator()
-var profiles_OriginGroups_Origin_SpecGenerator gopter.Gen
-
-// Profiles_OriginGroups_Origin_SpecGenerator returns a generator of Profiles_OriginGroups_Origin_Spec instances for property testing.
-// We first initialize profiles_OriginGroups_Origin_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Profiles_OriginGroups_Origin_SpecGenerator() gopter.Gen {
-	if profiles_OriginGroups_Origin_SpecGenerator != nil {
-		return profiles_OriginGroups_Origin_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_OriginGroups_Origin_Spec(generators)
-	profiles_OriginGroups_Origin_SpecGenerator = gen.Struct(reflect.TypeOf(Profiles_OriginGroups_Origin_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_OriginGroups_Origin_Spec(generators)
-	AddRelatedPropertyGeneratorsForProfiles_OriginGroups_Origin_Spec(generators)
-	profiles_OriginGroups_Origin_SpecGenerator = gen.Struct(reflect.TypeOf(Profiles_OriginGroups_Origin_Spec{}), generators)
-
-	return profiles_OriginGroups_Origin_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForProfiles_OriginGroups_Origin_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProfiles_OriginGroups_Origin_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(AFDOriginProperties_EnabledState_Disabled, AFDOriginProperties_EnabledState_Enabled))
-	gens["EnforceCertificateNameCheck"] = gen.PtrOf(gen.Bool())
-	gens["HostName"] = gen.PtrOf(gen.AlphaString())
-	gens["HttpPort"] = gen.PtrOf(gen.Int())
-	gens["HttpsPort"] = gen.PtrOf(gen.Int())
-	gens["OriginHostHeader"] = gen.PtrOf(gen.AlphaString())
-	gens["Priority"] = gen.PtrOf(gen.Int())
-	gens["Weight"] = gen.PtrOf(gen.Int())
-}
-
-// AddRelatedPropertyGeneratorsForProfiles_OriginGroups_Origin_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForProfiles_OriginGroups_Origin_Spec(gens map[string]gopter.Gen) {
-	gens["AzureOrigin"] = gen.PtrOf(ResourceReferenceGenerator())
-	gens["SharedPrivateLinkResource"] = gen.PtrOf(SharedPrivateLinkResourcePropertiesGenerator())
-}
-
 func Test_Profiles_OriginGroups_Origin_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -307,7 +181,7 @@ func RunPropertyAssignmentTestForProfiles_OriginGroups_Origin_STATUS(subject Pro
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.Profiles_OriginGroups_Origin_STATUS
+	var other storage.Profiles_OriginGroups_Origin_STATUS
 	err := copied.AssignProperties_To_Profiles_OriginGroups_Origin_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -431,6 +305,132 @@ func AddRelatedPropertyGeneratorsForProfiles_OriginGroups_Origin_STATUS(gens map
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
+func Test_Profiles_OriginGroups_Origin_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Profiles_OriginGroups_Origin_Spec to Profiles_OriginGroups_Origin_Spec via AssignProperties_To_Profiles_OriginGroups_Origin_Spec & AssignProperties_From_Profiles_OriginGroups_Origin_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForProfiles_OriginGroups_Origin_Spec, Profiles_OriginGroups_Origin_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForProfiles_OriginGroups_Origin_Spec tests if a specific instance of Profiles_OriginGroups_Origin_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForProfiles_OriginGroups_Origin_Spec(subject Profiles_OriginGroups_Origin_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Profiles_OriginGroups_Origin_Spec
+	err := copied.AssignProperties_To_Profiles_OriginGroups_Origin_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Profiles_OriginGroups_Origin_Spec
+	err = actual.AssignProperties_From_Profiles_OriginGroups_Origin_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Profiles_OriginGroups_Origin_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Profiles_OriginGroups_Origin_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForProfiles_OriginGroups_Origin_Spec, Profiles_OriginGroups_Origin_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForProfiles_OriginGroups_Origin_Spec runs a test to see if a specific instance of Profiles_OriginGroups_Origin_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForProfiles_OriginGroups_Origin_Spec(subject Profiles_OriginGroups_Origin_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Profiles_OriginGroups_Origin_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Profiles_OriginGroups_Origin_Spec instances for property testing - lazily instantiated by
+// Profiles_OriginGroups_Origin_SpecGenerator()
+var profiles_OriginGroups_Origin_SpecGenerator gopter.Gen
+
+// Profiles_OriginGroups_Origin_SpecGenerator returns a generator of Profiles_OriginGroups_Origin_Spec instances for property testing.
+// We first initialize profiles_OriginGroups_Origin_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Profiles_OriginGroups_Origin_SpecGenerator() gopter.Gen {
+	if profiles_OriginGroups_Origin_SpecGenerator != nil {
+		return profiles_OriginGroups_Origin_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForProfiles_OriginGroups_Origin_Spec(generators)
+	profiles_OriginGroups_Origin_SpecGenerator = gen.Struct(reflect.TypeOf(Profiles_OriginGroups_Origin_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForProfiles_OriginGroups_Origin_Spec(generators)
+	AddRelatedPropertyGeneratorsForProfiles_OriginGroups_Origin_Spec(generators)
+	profiles_OriginGroups_Origin_SpecGenerator = gen.Struct(reflect.TypeOf(Profiles_OriginGroups_Origin_Spec{}), generators)
+
+	return profiles_OriginGroups_Origin_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForProfiles_OriginGroups_Origin_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForProfiles_OriginGroups_Origin_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(AFDOriginProperties_EnabledState_Disabled, AFDOriginProperties_EnabledState_Enabled))
+	gens["EnforceCertificateNameCheck"] = gen.PtrOf(gen.Bool())
+	gens["HostName"] = gen.PtrOf(gen.AlphaString())
+	gens["HttpPort"] = gen.PtrOf(gen.Int())
+	gens["HttpsPort"] = gen.PtrOf(gen.Int())
+	gens["OriginHostHeader"] = gen.PtrOf(gen.AlphaString())
+	gens["Priority"] = gen.PtrOf(gen.Int())
+	gens["Weight"] = gen.PtrOf(gen.Int())
+}
+
+// AddRelatedPropertyGeneratorsForProfiles_OriginGroups_Origin_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForProfiles_OriginGroups_Origin_Spec(gens map[string]gopter.Gen) {
+	gens["AzureOrigin"] = gen.PtrOf(ResourceReferenceGenerator())
+	gens["SharedPrivateLinkResource"] = gen.PtrOf(SharedPrivateLinkResourcePropertiesGenerator())
+}
+
 func Test_SharedPrivateLinkResourceProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -448,7 +448,7 @@ func RunPropertyAssignmentTestForSharedPrivateLinkResourceProperties(subject Sha
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.SharedPrivateLinkResourceProperties
+	var other storage.SharedPrivateLinkResourceProperties
 	err := copied.AssignProperties_To_SharedPrivateLinkResourceProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -573,7 +573,7 @@ func RunPropertyAssignmentTestForSharedPrivateLinkResourceProperties_STATUS(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.SharedPrivateLinkResourceProperties_STATUS
+	var other storage.SharedPrivateLinkResourceProperties_STATUS
 	err := copied.AssignProperties_To_SharedPrivateLinkResourceProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()

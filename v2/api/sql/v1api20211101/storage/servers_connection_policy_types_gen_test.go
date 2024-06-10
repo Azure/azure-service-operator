@@ -79,68 +79,6 @@ func AddRelatedPropertyGeneratorsForServersConnectionPolicy(gens map[string]gopt
 	gens["Status"] = Servers_ConnectionPolicy_STATUSGenerator()
 }
 
-func Test_Servers_ConnectionPolicy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Servers_ConnectionPolicy_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServers_ConnectionPolicy_Spec, Servers_ConnectionPolicy_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForServers_ConnectionPolicy_Spec runs a test to see if a specific instance of Servers_ConnectionPolicy_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForServers_ConnectionPolicy_Spec(subject Servers_ConnectionPolicy_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Servers_ConnectionPolicy_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Servers_ConnectionPolicy_Spec instances for property testing - lazily instantiated by
-// Servers_ConnectionPolicy_SpecGenerator()
-var servers_ConnectionPolicy_SpecGenerator gopter.Gen
-
-// Servers_ConnectionPolicy_SpecGenerator returns a generator of Servers_ConnectionPolicy_Spec instances for property testing.
-func Servers_ConnectionPolicy_SpecGenerator() gopter.Gen {
-	if servers_ConnectionPolicy_SpecGenerator != nil {
-		return servers_ConnectionPolicy_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_ConnectionPolicy_Spec(generators)
-	servers_ConnectionPolicy_SpecGenerator = gen.Struct(reflect.TypeOf(Servers_ConnectionPolicy_Spec{}), generators)
-
-	return servers_ConnectionPolicy_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForServers_ConnectionPolicy_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServers_ConnectionPolicy_Spec(gens map[string]gopter.Gen) {
-	gens["ConnectionType"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-}
-
 func Test_Servers_ConnectionPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -205,4 +143,66 @@ func AddIndependentPropertyGeneratorsForServers_ConnectionPolicy_STATUS(gens map
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_Servers_ConnectionPolicy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Servers_ConnectionPolicy_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServers_ConnectionPolicy_Spec, Servers_ConnectionPolicy_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForServers_ConnectionPolicy_Spec runs a test to see if a specific instance of Servers_ConnectionPolicy_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForServers_ConnectionPolicy_Spec(subject Servers_ConnectionPolicy_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Servers_ConnectionPolicy_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Servers_ConnectionPolicy_Spec instances for property testing - lazily instantiated by
+// Servers_ConnectionPolicy_SpecGenerator()
+var servers_ConnectionPolicy_SpecGenerator gopter.Gen
+
+// Servers_ConnectionPolicy_SpecGenerator returns a generator of Servers_ConnectionPolicy_Spec instances for property testing.
+func Servers_ConnectionPolicy_SpecGenerator() gopter.Gen {
+	if servers_ConnectionPolicy_SpecGenerator != nil {
+		return servers_ConnectionPolicy_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServers_ConnectionPolicy_Spec(generators)
+	servers_ConnectionPolicy_SpecGenerator = gen.Struct(reflect.TypeOf(Servers_ConnectionPolicy_Spec{}), generators)
+
+	return servers_ConnectionPolicy_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForServers_ConnectionPolicy_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServers_ConnectionPolicy_Spec(gens map[string]gopter.Gen) {
+	gens["ConnectionType"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
 }

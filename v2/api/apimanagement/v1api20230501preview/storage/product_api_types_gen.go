@@ -5,7 +5,7 @@ package storage
 
 import (
 	"fmt"
-	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
@@ -47,7 +47,7 @@ var _ conversion.Convertible = &ProductApi{}
 
 // ConvertFrom populates our ProductApi from the provided hub ProductApi
 func (productApi *ProductApi) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20220801s.ProductApi)
+	source, ok := hub.(*storage.ProductApi)
 	if !ok {
 		return fmt.Errorf("expected apimanagement/v1api20220801/storage/ProductApi but received %T instead", hub)
 	}
@@ -57,7 +57,7 @@ func (productApi *ProductApi) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub ProductApi from our ProductApi
 func (productApi *ProductApi) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20220801s.ProductApi)
+	destination, ok := hub.(*storage.ProductApi)
 	if !ok {
 		return fmt.Errorf("expected apimanagement/v1api20220801/storage/ProductApi but received %T instead", hub)
 	}
@@ -137,7 +137,7 @@ func (productApi *ProductApi) SetStatus(status genruntime.ConvertibleStatus) err
 }
 
 // AssignProperties_From_ProductApi populates our ProductApi from the provided source ProductApi
-func (productApi *ProductApi) AssignProperties_From_ProductApi(source *v20220801s.ProductApi) error {
+func (productApi *ProductApi) AssignProperties_From_ProductApi(source *storage.ProductApi) error {
 
 	// ObjectMeta
 	productApi.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -172,13 +172,13 @@ func (productApi *ProductApi) AssignProperties_From_ProductApi(source *v20220801
 }
 
 // AssignProperties_To_ProductApi populates the provided destination ProductApi from our ProductApi
-func (productApi *ProductApi) AssignProperties_To_ProductApi(destination *v20220801s.ProductApi) error {
+func (productApi *ProductApi) AssignProperties_To_ProductApi(destination *storage.ProductApi) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *productApi.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20220801s.Service_Products_Api_Spec
+	var spec storage.Service_Products_Api_Spec
 	err := productApi.Spec.AssignProperties_To_Service_Products_Api_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Service_Products_Api_Spec() to populate field Spec")
@@ -186,7 +186,7 @@ func (productApi *ProductApi) AssignProperties_To_ProductApi(destination *v20220
 	destination.Spec = spec
 
 	// Status
-	var status v20220801s.Service_Products_Api_STATUS
+	var status storage.Service_Products_Api_STATUS
 	err = productApi.Status.AssignProperties_To_Service_Products_Api_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Service_Products_Api_STATUS() to populate field Status")
@@ -227,8 +227,8 @@ type ProductApiList struct {
 }
 
 type augmentConversionForProductApi interface {
-	AssignPropertiesFrom(src *v20220801s.ProductApi) error
-	AssignPropertiesTo(dst *v20220801s.ProductApi) error
+	AssignPropertiesFrom(src *storage.ProductApi) error
+	AssignPropertiesTo(dst *storage.ProductApi) error
 }
 
 // Storage version of v1api20230501preview.Service_Products_Api_Spec
@@ -250,14 +250,14 @@ var _ genruntime.ConvertibleSpec = &Service_Products_Api_Spec{}
 
 // ConvertSpecFrom populates our Service_Products_Api_Spec from the provided source
 func (productsApi *Service_Products_Api_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20220801s.Service_Products_Api_Spec)
+	src, ok := source.(*storage.Service_Products_Api_Spec)
 	if ok {
 		// Populate our instance from source
 		return productsApi.AssignProperties_From_Service_Products_Api_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220801s.Service_Products_Api_Spec{}
+	src = &storage.Service_Products_Api_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -274,14 +274,14 @@ func (productsApi *Service_Products_Api_Spec) ConvertSpecFrom(source genruntime.
 
 // ConvertSpecTo populates the provided destination from our Service_Products_Api_Spec
 func (productsApi *Service_Products_Api_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20220801s.Service_Products_Api_Spec)
+	dst, ok := destination.(*storage.Service_Products_Api_Spec)
 	if ok {
 		// Populate destination from our instance
 		return productsApi.AssignProperties_To_Service_Products_Api_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220801s.Service_Products_Api_Spec{}
+	dst = &storage.Service_Products_Api_Spec{}
 	err := productsApi.AssignProperties_To_Service_Products_Api_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -297,7 +297,7 @@ func (productsApi *Service_Products_Api_Spec) ConvertSpecTo(destination genrunti
 }
 
 // AssignProperties_From_Service_Products_Api_Spec populates our Service_Products_Api_Spec from the provided source Service_Products_Api_Spec
-func (productsApi *Service_Products_Api_Spec) AssignProperties_From_Service_Products_Api_Spec(source *v20220801s.Service_Products_Api_Spec) error {
+func (productsApi *Service_Products_Api_Spec) AssignProperties_From_Service_Products_Api_Spec(source *storage.Service_Products_Api_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -336,7 +336,7 @@ func (productsApi *Service_Products_Api_Spec) AssignProperties_From_Service_Prod
 }
 
 // AssignProperties_To_Service_Products_Api_Spec populates the provided destination Service_Products_Api_Spec from our Service_Products_Api_Spec
-func (productsApi *Service_Products_Api_Spec) AssignProperties_To_Service_Products_Api_Spec(destination *v20220801s.Service_Products_Api_Spec) error {
+func (productsApi *Service_Products_Api_Spec) AssignProperties_To_Service_Products_Api_Spec(destination *storage.Service_Products_Api_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(productsApi.PropertyBag)
 
@@ -384,14 +384,14 @@ var _ genruntime.ConvertibleStatus = &Service_Products_Api_STATUS{}
 
 // ConvertStatusFrom populates our Service_Products_Api_STATUS from the provided source
 func (productsApi *Service_Products_Api_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20220801s.Service_Products_Api_STATUS)
+	src, ok := source.(*storage.Service_Products_Api_STATUS)
 	if ok {
 		// Populate our instance from source
 		return productsApi.AssignProperties_From_Service_Products_Api_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220801s.Service_Products_Api_STATUS{}
+	src = &storage.Service_Products_Api_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -408,14 +408,14 @@ func (productsApi *Service_Products_Api_STATUS) ConvertStatusFrom(source genrunt
 
 // ConvertStatusTo populates the provided destination from our Service_Products_Api_STATUS
 func (productsApi *Service_Products_Api_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20220801s.Service_Products_Api_STATUS)
+	dst, ok := destination.(*storage.Service_Products_Api_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return productsApi.AssignProperties_To_Service_Products_Api_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220801s.Service_Products_Api_STATUS{}
+	dst = &storage.Service_Products_Api_STATUS{}
 	err := productsApi.AssignProperties_To_Service_Products_Api_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -431,7 +431,7 @@ func (productsApi *Service_Products_Api_STATUS) ConvertStatusTo(destination genr
 }
 
 // AssignProperties_From_Service_Products_Api_STATUS populates our Service_Products_Api_STATUS from the provided source Service_Products_Api_STATUS
-func (productsApi *Service_Products_Api_STATUS) AssignProperties_From_Service_Products_Api_STATUS(source *v20220801s.Service_Products_Api_STATUS) error {
+func (productsApi *Service_Products_Api_STATUS) AssignProperties_From_Service_Products_Api_STATUS(source *storage.Service_Products_Api_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -459,7 +459,7 @@ func (productsApi *Service_Products_Api_STATUS) AssignProperties_From_Service_Pr
 }
 
 // AssignProperties_To_Service_Products_Api_STATUS populates the provided destination Service_Products_Api_STATUS from our Service_Products_Api_STATUS
-func (productsApi *Service_Products_Api_STATUS) AssignProperties_To_Service_Products_Api_STATUS(destination *v20220801s.Service_Products_Api_STATUS) error {
+func (productsApi *Service_Products_Api_STATUS) AssignProperties_To_Service_Products_Api_STATUS(destination *storage.Service_Products_Api_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(productsApi.PropertyBag)
 
@@ -487,13 +487,13 @@ func (productsApi *Service_Products_Api_STATUS) AssignProperties_To_Service_Prod
 }
 
 type augmentConversionForService_Products_Api_Spec interface {
-	AssignPropertiesFrom(src *v20220801s.Service_Products_Api_Spec) error
-	AssignPropertiesTo(dst *v20220801s.Service_Products_Api_Spec) error
+	AssignPropertiesFrom(src *storage.Service_Products_Api_Spec) error
+	AssignPropertiesTo(dst *storage.Service_Products_Api_Spec) error
 }
 
 type augmentConversionForService_Products_Api_STATUS interface {
-	AssignPropertiesFrom(src *v20220801s.Service_Products_Api_STATUS) error
-	AssignPropertiesTo(dst *v20220801s.Service_Products_Api_STATUS) error
+	AssignPropertiesFrom(src *storage.Service_Products_Api_STATUS) error
+	AssignPropertiesTo(dst *storage.Service_Products_Api_STATUS) error
 }
 
 func init() {

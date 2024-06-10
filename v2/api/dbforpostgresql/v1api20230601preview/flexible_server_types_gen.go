@@ -6,7 +6,7 @@ package v1api20230601preview
 import (
 	"context"
 	"fmt"
-	v20230601ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20230601preview/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20230601preview/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -55,7 +55,7 @@ var _ conversion.Convertible = &FlexibleServer{}
 // ConvertFrom populates our FlexibleServer from the provided hub FlexibleServer
 func (server *FlexibleServer) ConvertFrom(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var source v20230601ps.FlexibleServer
+	var source storage.FlexibleServer
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
@@ -73,7 +73,7 @@ func (server *FlexibleServer) ConvertFrom(hub conversion.Hub) error {
 // ConvertTo populates the provided hub FlexibleServer from our FlexibleServer
 func (server *FlexibleServer) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var destination v20230601ps.FlexibleServer
+	var destination storage.FlexibleServer
 	err := server.AssignProperties_To_FlexibleServer(&destination)
 	if err != nil {
 		return errors.Wrap(err, "converting to destination from server")
@@ -313,7 +313,7 @@ func (server *FlexibleServer) validateWriteOnceProperties(old runtime.Object) (a
 }
 
 // AssignProperties_From_FlexibleServer populates our FlexibleServer from the provided source FlexibleServer
-func (server *FlexibleServer) AssignProperties_From_FlexibleServer(source *v20230601ps.FlexibleServer) error {
+func (server *FlexibleServer) AssignProperties_From_FlexibleServer(source *storage.FlexibleServer) error {
 
 	// ObjectMeta
 	server.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -339,13 +339,13 @@ func (server *FlexibleServer) AssignProperties_From_FlexibleServer(source *v2023
 }
 
 // AssignProperties_To_FlexibleServer populates the provided destination FlexibleServer from our FlexibleServer
-func (server *FlexibleServer) AssignProperties_To_FlexibleServer(destination *v20230601ps.FlexibleServer) error {
+func (server *FlexibleServer) AssignProperties_To_FlexibleServer(destination *storage.FlexibleServer) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *server.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20230601ps.FlexibleServer_Spec
+	var spec storage.FlexibleServer_Spec
 	err := server.Spec.AssignProperties_To_FlexibleServer_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_FlexibleServer_Spec() to populate field Spec")
@@ -353,7 +353,7 @@ func (server *FlexibleServer) AssignProperties_To_FlexibleServer(destination *v2
 	destination.Spec = spec
 
 	// Status
-	var status v20230601ps.FlexibleServer_STATUS
+	var status storage.FlexibleServer_STATUS
 	err = server.Status.AssignProperties_To_FlexibleServer_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_FlexibleServer_STATUS() to populate field Status")
@@ -882,14 +882,14 @@ var _ genruntime.ConvertibleSpec = &FlexibleServer_Spec{}
 
 // ConvertSpecFrom populates our FlexibleServer_Spec from the provided source
 func (server *FlexibleServer_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20230601ps.FlexibleServer_Spec)
+	src, ok := source.(*storage.FlexibleServer_Spec)
 	if ok {
 		// Populate our instance from source
 		return server.AssignProperties_From_FlexibleServer_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20230601ps.FlexibleServer_Spec{}
+	src = &storage.FlexibleServer_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -906,14 +906,14 @@ func (server *FlexibleServer_Spec) ConvertSpecFrom(source genruntime.Convertible
 
 // ConvertSpecTo populates the provided destination from our FlexibleServer_Spec
 func (server *FlexibleServer_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20230601ps.FlexibleServer_Spec)
+	dst, ok := destination.(*storage.FlexibleServer_Spec)
 	if ok {
 		// Populate destination from our instance
 		return server.AssignProperties_To_FlexibleServer_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20230601ps.FlexibleServer_Spec{}
+	dst = &storage.FlexibleServer_Spec{}
 	err := server.AssignProperties_To_FlexibleServer_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -929,7 +929,7 @@ func (server *FlexibleServer_Spec) ConvertSpecTo(destination genruntime.Converti
 }
 
 // AssignProperties_From_FlexibleServer_Spec populates our FlexibleServer_Spec from the provided source FlexibleServer_Spec
-func (server *FlexibleServer_Spec) AssignProperties_From_FlexibleServer_Spec(source *v20230601ps.FlexibleServer_Spec) error {
+func (server *FlexibleServer_Spec) AssignProperties_From_FlexibleServer_Spec(source *storage.FlexibleServer_Spec) error {
 
 	// AdministratorLogin
 	server.AdministratorLogin = genruntime.ClonePointerToString(source.AdministratorLogin)
@@ -1137,7 +1137,7 @@ func (server *FlexibleServer_Spec) AssignProperties_From_FlexibleServer_Spec(sou
 }
 
 // AssignProperties_To_FlexibleServer_Spec populates the provided destination FlexibleServer_Spec from our FlexibleServer_Spec
-func (server *FlexibleServer_Spec) AssignProperties_To_FlexibleServer_Spec(destination *v20230601ps.FlexibleServer_Spec) error {
+func (server *FlexibleServer_Spec) AssignProperties_To_FlexibleServer_Spec(destination *storage.FlexibleServer_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1154,7 +1154,7 @@ func (server *FlexibleServer_Spec) AssignProperties_To_FlexibleServer_Spec(desti
 
 	// AuthConfig
 	if server.AuthConfig != nil {
-		var authConfig v20230601ps.AuthConfig
+		var authConfig storage.AuthConfig
 		err := server.AuthConfig.AssignProperties_To_AuthConfig(&authConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AuthConfig() to populate field AuthConfig")
@@ -1172,7 +1172,7 @@ func (server *FlexibleServer_Spec) AssignProperties_To_FlexibleServer_Spec(desti
 
 	// Backup
 	if server.Backup != nil {
-		var backup v20230601ps.Backup
+		var backup storage.Backup
 		err := server.Backup.AssignProperties_To_Backup(&backup)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Backup() to populate field Backup")
@@ -1192,7 +1192,7 @@ func (server *FlexibleServer_Spec) AssignProperties_To_FlexibleServer_Spec(desti
 
 	// DataEncryption
 	if server.DataEncryption != nil {
-		var dataEncryption v20230601ps.DataEncryption
+		var dataEncryption storage.DataEncryption
 		err := server.DataEncryption.AssignProperties_To_DataEncryption(&dataEncryption)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DataEncryption() to populate field DataEncryption")
@@ -1204,7 +1204,7 @@ func (server *FlexibleServer_Spec) AssignProperties_To_FlexibleServer_Spec(desti
 
 	// HighAvailability
 	if server.HighAvailability != nil {
-		var highAvailability v20230601ps.HighAvailability
+		var highAvailability storage.HighAvailability
 		err := server.HighAvailability.AssignProperties_To_HighAvailability(&highAvailability)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HighAvailability() to populate field HighAvailability")
@@ -1216,7 +1216,7 @@ func (server *FlexibleServer_Spec) AssignProperties_To_FlexibleServer_Spec(desti
 
 	// Identity
 	if server.Identity != nil {
-		var identity v20230601ps.UserAssignedIdentity
+		var identity storage.UserAssignedIdentity
 		err := server.Identity.AssignProperties_To_UserAssignedIdentity(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity() to populate field Identity")
@@ -1231,7 +1231,7 @@ func (server *FlexibleServer_Spec) AssignProperties_To_FlexibleServer_Spec(desti
 
 	// MaintenanceWindow
 	if server.MaintenanceWindow != nil {
-		var maintenanceWindow v20230601ps.MaintenanceWindow
+		var maintenanceWindow storage.MaintenanceWindow
 		err := server.MaintenanceWindow.AssignProperties_To_MaintenanceWindow(&maintenanceWindow)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_MaintenanceWindow() to populate field MaintenanceWindow")
@@ -1243,7 +1243,7 @@ func (server *FlexibleServer_Spec) AssignProperties_To_FlexibleServer_Spec(desti
 
 	// Network
 	if server.Network != nil {
-		var network v20230601ps.Network
+		var network storage.Network
 		err := server.Network.AssignProperties_To_Network(&network)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Network() to populate field Network")
@@ -1255,7 +1255,7 @@ func (server *FlexibleServer_Spec) AssignProperties_To_FlexibleServer_Spec(desti
 
 	// OperatorSpec
 	if server.OperatorSpec != nil {
-		var operatorSpec v20230601ps.FlexibleServerOperatorSpec
+		var operatorSpec storage.FlexibleServerOperatorSpec
 		err := server.OperatorSpec.AssignProperties_To_FlexibleServerOperatorSpec(&operatorSpec)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_FlexibleServerOperatorSpec() to populate field OperatorSpec")
@@ -1281,7 +1281,7 @@ func (server *FlexibleServer_Spec) AssignProperties_To_FlexibleServer_Spec(desti
 
 	// Replica
 	if server.Replica != nil {
-		var replica v20230601ps.Replica
+		var replica storage.Replica
 		err := server.Replica.AssignProperties_To_Replica(&replica)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Replica() to populate field Replica")
@@ -1301,7 +1301,7 @@ func (server *FlexibleServer_Spec) AssignProperties_To_FlexibleServer_Spec(desti
 
 	// Sku
 	if server.Sku != nil {
-		var sku v20230601ps.Sku
+		var sku storage.Sku
 		err := server.Sku.AssignProperties_To_Sku(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
@@ -1321,7 +1321,7 @@ func (server *FlexibleServer_Spec) AssignProperties_To_FlexibleServer_Spec(desti
 
 	// Storage
 	if server.Storage != nil {
-		var storage v20230601ps.Storage
+		var storage storage.Storage
 		err := server.Storage.AssignProperties_To_Storage(&storage)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Storage() to populate field Storage")
@@ -1460,14 +1460,14 @@ var _ genruntime.ConvertibleStatus = &FlexibleServer_STATUS{}
 
 // ConvertStatusFrom populates our FlexibleServer_STATUS from the provided source
 func (server *FlexibleServer_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20230601ps.FlexibleServer_STATUS)
+	src, ok := source.(*storage.FlexibleServer_STATUS)
 	if ok {
 		// Populate our instance from source
 		return server.AssignProperties_From_FlexibleServer_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20230601ps.FlexibleServer_STATUS{}
+	src = &storage.FlexibleServer_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -1484,14 +1484,14 @@ func (server *FlexibleServer_STATUS) ConvertStatusFrom(source genruntime.Convert
 
 // ConvertStatusTo populates the provided destination from our FlexibleServer_STATUS
 func (server *FlexibleServer_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20230601ps.FlexibleServer_STATUS)
+	dst, ok := destination.(*storage.FlexibleServer_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return server.AssignProperties_To_FlexibleServer_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20230601ps.FlexibleServer_STATUS{}
+	dst = &storage.FlexibleServer_STATUS{}
 	err := server.AssignProperties_To_FlexibleServer_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1816,7 +1816,7 @@ func (server *FlexibleServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 }
 
 // AssignProperties_From_FlexibleServer_STATUS populates our FlexibleServer_STATUS from the provided source FlexibleServer_STATUS
-func (server *FlexibleServer_STATUS) AssignProperties_From_FlexibleServer_STATUS(source *v20230601ps.FlexibleServer_STATUS) error {
+func (server *FlexibleServer_STATUS) AssignProperties_From_FlexibleServer_STATUS(source *storage.FlexibleServer_STATUS) error {
 
 	// AdministratorLogin
 	server.AdministratorLogin = genruntime.ClonePointerToString(source.AdministratorLogin)
@@ -2048,7 +2048,7 @@ func (server *FlexibleServer_STATUS) AssignProperties_From_FlexibleServer_STATUS
 }
 
 // AssignProperties_To_FlexibleServer_STATUS populates the provided destination FlexibleServer_STATUS from our FlexibleServer_STATUS
-func (server *FlexibleServer_STATUS) AssignProperties_To_FlexibleServer_STATUS(destination *v20230601ps.FlexibleServer_STATUS) error {
+func (server *FlexibleServer_STATUS) AssignProperties_To_FlexibleServer_STATUS(destination *storage.FlexibleServer_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2057,7 +2057,7 @@ func (server *FlexibleServer_STATUS) AssignProperties_To_FlexibleServer_STATUS(d
 
 	// AuthConfig
 	if server.AuthConfig != nil {
-		var authConfig v20230601ps.AuthConfig_STATUS
+		var authConfig storage.AuthConfig_STATUS
 		err := server.AuthConfig.AssignProperties_To_AuthConfig_STATUS(&authConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AuthConfig_STATUS() to populate field AuthConfig")
@@ -2072,7 +2072,7 @@ func (server *FlexibleServer_STATUS) AssignProperties_To_FlexibleServer_STATUS(d
 
 	// Backup
 	if server.Backup != nil {
-		var backup v20230601ps.Backup_STATUS
+		var backup storage.Backup_STATUS
 		err := server.Backup.AssignProperties_To_Backup_STATUS(&backup)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Backup_STATUS() to populate field Backup")
@@ -2095,7 +2095,7 @@ func (server *FlexibleServer_STATUS) AssignProperties_To_FlexibleServer_STATUS(d
 
 	// DataEncryption
 	if server.DataEncryption != nil {
-		var dataEncryption v20230601ps.DataEncryption_STATUS
+		var dataEncryption storage.DataEncryption_STATUS
 		err := server.DataEncryption.AssignProperties_To_DataEncryption_STATUS(&dataEncryption)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DataEncryption_STATUS() to populate field DataEncryption")
@@ -2110,7 +2110,7 @@ func (server *FlexibleServer_STATUS) AssignProperties_To_FlexibleServer_STATUS(d
 
 	// HighAvailability
 	if server.HighAvailability != nil {
-		var highAvailability v20230601ps.HighAvailability_STATUS
+		var highAvailability storage.HighAvailability_STATUS
 		err := server.HighAvailability.AssignProperties_To_HighAvailability_STATUS(&highAvailability)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HighAvailability_STATUS() to populate field HighAvailability")
@@ -2125,7 +2125,7 @@ func (server *FlexibleServer_STATUS) AssignProperties_To_FlexibleServer_STATUS(d
 
 	// Identity
 	if server.Identity != nil {
-		var identity v20230601ps.UserAssignedIdentity_STATUS
+		var identity storage.UserAssignedIdentity_STATUS
 		err := server.Identity.AssignProperties_To_UserAssignedIdentity_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field Identity")
@@ -2140,7 +2140,7 @@ func (server *FlexibleServer_STATUS) AssignProperties_To_FlexibleServer_STATUS(d
 
 	// MaintenanceWindow
 	if server.MaintenanceWindow != nil {
-		var maintenanceWindow v20230601ps.MaintenanceWindow_STATUS
+		var maintenanceWindow storage.MaintenanceWindow_STATUS
 		err := server.MaintenanceWindow.AssignProperties_To_MaintenanceWindow_STATUS(&maintenanceWindow)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_MaintenanceWindow_STATUS() to populate field MaintenanceWindow")
@@ -2158,7 +2158,7 @@ func (server *FlexibleServer_STATUS) AssignProperties_To_FlexibleServer_STATUS(d
 
 	// Network
 	if server.Network != nil {
-		var network v20230601ps.Network_STATUS
+		var network storage.Network_STATUS
 		err := server.Network.AssignProperties_To_Network_STATUS(&network)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Network_STATUS() to populate field Network")
@@ -2173,11 +2173,11 @@ func (server *FlexibleServer_STATUS) AssignProperties_To_FlexibleServer_STATUS(d
 
 	// PrivateEndpointConnections
 	if server.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]v20230601ps.PrivateEndpointConnection_STATUS, len(server.PrivateEndpointConnections))
+		privateEndpointConnectionList := make([]storage.PrivateEndpointConnection_STATUS, len(server.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range server.PrivateEndpointConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v20230601ps.PrivateEndpointConnection_STATUS
+			var privateEndpointConnection storage.PrivateEndpointConnection_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
@@ -2191,7 +2191,7 @@ func (server *FlexibleServer_STATUS) AssignProperties_To_FlexibleServer_STATUS(d
 
 	// Replica
 	if server.Replica != nil {
-		var replica v20230601ps.Replica_STATUS
+		var replica storage.Replica_STATUS
 		err := server.Replica.AssignProperties_To_Replica_STATUS(&replica)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Replica_STATUS() to populate field Replica")
@@ -2214,7 +2214,7 @@ func (server *FlexibleServer_STATUS) AssignProperties_To_FlexibleServer_STATUS(d
 
 	// Sku
 	if server.Sku != nil {
-		var sku v20230601ps.Sku_STATUS
+		var sku storage.Sku_STATUS
 		err := server.Sku.AssignProperties_To_Sku_STATUS(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
@@ -2237,7 +2237,7 @@ func (server *FlexibleServer_STATUS) AssignProperties_To_FlexibleServer_STATUS(d
 
 	// Storage
 	if server.Storage != nil {
-		var storage v20230601ps.Storage_STATUS
+		var storage storage.Storage_STATUS
 		err := server.Storage.AssignProperties_To_Storage_STATUS(&storage)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Storage_STATUS() to populate field Storage")
@@ -2249,7 +2249,7 @@ func (server *FlexibleServer_STATUS) AssignProperties_To_FlexibleServer_STATUS(d
 
 	// SystemData
 	if server.SystemData != nil {
-		var systemDatum v20230601ps.SystemData_STATUS
+		var systemDatum storage.SystemData_STATUS
 		err := server.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
@@ -2360,7 +2360,7 @@ func (config *AuthConfig) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 }
 
 // AssignProperties_From_AuthConfig populates our AuthConfig from the provided source AuthConfig
-func (config *AuthConfig) AssignProperties_From_AuthConfig(source *v20230601ps.AuthConfig) error {
+func (config *AuthConfig) AssignProperties_From_AuthConfig(source *storage.AuthConfig) error {
 
 	// ActiveDirectoryAuth
 	if source.ActiveDirectoryAuth != nil {
@@ -2388,7 +2388,7 @@ func (config *AuthConfig) AssignProperties_From_AuthConfig(source *v20230601ps.A
 }
 
 // AssignProperties_To_AuthConfig populates the provided destination AuthConfig from our AuthConfig
-func (config *AuthConfig) AssignProperties_To_AuthConfig(destination *v20230601ps.AuthConfig) error {
+func (config *AuthConfig) AssignProperties_To_AuthConfig(destination *storage.AuthConfig) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2471,7 +2471,7 @@ func (config *AuthConfig_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 }
 
 // AssignProperties_From_AuthConfig_STATUS populates our AuthConfig_STATUS from the provided source AuthConfig_STATUS
-func (config *AuthConfig_STATUS) AssignProperties_From_AuthConfig_STATUS(source *v20230601ps.AuthConfig_STATUS) error {
+func (config *AuthConfig_STATUS) AssignProperties_From_AuthConfig_STATUS(source *storage.AuthConfig_STATUS) error {
 
 	// ActiveDirectoryAuth
 	if source.ActiveDirectoryAuth != nil {
@@ -2499,7 +2499,7 @@ func (config *AuthConfig_STATUS) AssignProperties_From_AuthConfig_STATUS(source 
 }
 
 // AssignProperties_To_AuthConfig_STATUS populates the provided destination AuthConfig_STATUS from our AuthConfig_STATUS
-func (config *AuthConfig_STATUS) AssignProperties_To_AuthConfig_STATUS(destination *v20230601ps.AuthConfig_STATUS) error {
+func (config *AuthConfig_STATUS) AssignProperties_To_AuthConfig_STATUS(destination *storage.AuthConfig_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2594,7 +2594,7 @@ func (backup *Backup) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, 
 }
 
 // AssignProperties_From_Backup populates our Backup from the provided source Backup
-func (backup *Backup) AssignProperties_From_Backup(source *v20230601ps.Backup) error {
+func (backup *Backup) AssignProperties_From_Backup(source *storage.Backup) error {
 
 	// BackupRetentionDays
 	backup.BackupRetentionDays = genruntime.ClonePointerToInt(source.BackupRetentionDays)
@@ -2613,7 +2613,7 @@ func (backup *Backup) AssignProperties_From_Backup(source *v20230601ps.Backup) e
 }
 
 // AssignProperties_To_Backup populates the provided destination Backup from our Backup
-func (backup *Backup) AssignProperties_To_Backup(destination *v20230601ps.Backup) error {
+func (backup *Backup) AssignProperties_To_Backup(destination *storage.Backup) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2688,7 +2688,7 @@ func (backup *Backup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 }
 
 // AssignProperties_From_Backup_STATUS populates our Backup_STATUS from the provided source Backup_STATUS
-func (backup *Backup_STATUS) AssignProperties_From_Backup_STATUS(source *v20230601ps.Backup_STATUS) error {
+func (backup *Backup_STATUS) AssignProperties_From_Backup_STATUS(source *storage.Backup_STATUS) error {
 
 	// BackupRetentionDays
 	backup.BackupRetentionDays = genruntime.ClonePointerToInt(source.BackupRetentionDays)
@@ -2710,7 +2710,7 @@ func (backup *Backup_STATUS) AssignProperties_From_Backup_STATUS(source *v202306
 }
 
 // AssignProperties_To_Backup_STATUS populates the provided destination Backup_STATUS from our Backup_STATUS
-func (backup *Backup_STATUS) AssignProperties_To_Backup_STATUS(destination *v20230601ps.Backup_STATUS) error {
+func (backup *Backup_STATUS) AssignProperties_To_Backup_STATUS(destination *storage.Backup_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2877,7 +2877,7 @@ func (encryption *DataEncryption) PopulateFromARM(owner genruntime.ArbitraryOwne
 }
 
 // AssignProperties_From_DataEncryption populates our DataEncryption from the provided source DataEncryption
-func (encryption *DataEncryption) AssignProperties_From_DataEncryption(source *v20230601ps.DataEncryption) error {
+func (encryption *DataEncryption) AssignProperties_From_DataEncryption(source *storage.DataEncryption) error {
 
 	// GeoBackupEncryptionKeyStatus
 	if source.GeoBackupEncryptionKeyStatus != nil {
@@ -2933,7 +2933,7 @@ func (encryption *DataEncryption) AssignProperties_From_DataEncryption(source *v
 }
 
 // AssignProperties_To_DataEncryption populates the provided destination DataEncryption from our DataEncryption
-func (encryption *DataEncryption) AssignProperties_To_DataEncryption(destination *v20230601ps.DataEncryption) error {
+func (encryption *DataEncryption) AssignProperties_To_DataEncryption(destination *storage.DataEncryption) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3081,7 +3081,7 @@ func (encryption *DataEncryption_STATUS) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_DataEncryption_STATUS populates our DataEncryption_STATUS from the provided source DataEncryption_STATUS
-func (encryption *DataEncryption_STATUS) AssignProperties_From_DataEncryption_STATUS(source *v20230601ps.DataEncryption_STATUS) error {
+func (encryption *DataEncryption_STATUS) AssignProperties_From_DataEncryption_STATUS(source *storage.DataEncryption_STATUS) error {
 
 	// GeoBackupEncryptionKeyStatus
 	if source.GeoBackupEncryptionKeyStatus != nil {
@@ -3127,7 +3127,7 @@ func (encryption *DataEncryption_STATUS) AssignProperties_From_DataEncryption_ST
 }
 
 // AssignProperties_To_DataEncryption_STATUS populates the provided destination DataEncryption_STATUS from our DataEncryption_STATUS
-func (encryption *DataEncryption_STATUS) AssignProperties_To_DataEncryption_STATUS(destination *v20230601ps.DataEncryption_STATUS) error {
+func (encryption *DataEncryption_STATUS) AssignProperties_To_DataEncryption_STATUS(destination *storage.DataEncryption_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3188,7 +3188,7 @@ type FlexibleServerOperatorSpec struct {
 }
 
 // AssignProperties_From_FlexibleServerOperatorSpec populates our FlexibleServerOperatorSpec from the provided source FlexibleServerOperatorSpec
-func (operator *FlexibleServerOperatorSpec) AssignProperties_From_FlexibleServerOperatorSpec(source *v20230601ps.FlexibleServerOperatorSpec) error {
+func (operator *FlexibleServerOperatorSpec) AssignProperties_From_FlexibleServerOperatorSpec(source *storage.FlexibleServerOperatorSpec) error {
 
 	// ConfigMaps
 	if source.ConfigMaps != nil {
@@ -3219,13 +3219,13 @@ func (operator *FlexibleServerOperatorSpec) AssignProperties_From_FlexibleServer
 }
 
 // AssignProperties_To_FlexibleServerOperatorSpec populates the provided destination FlexibleServerOperatorSpec from our FlexibleServerOperatorSpec
-func (operator *FlexibleServerOperatorSpec) AssignProperties_To_FlexibleServerOperatorSpec(destination *v20230601ps.FlexibleServerOperatorSpec) error {
+func (operator *FlexibleServerOperatorSpec) AssignProperties_To_FlexibleServerOperatorSpec(destination *storage.FlexibleServerOperatorSpec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ConfigMaps
 	if operator.ConfigMaps != nil {
-		var configMap v20230601ps.FlexibleServerOperatorConfigMaps
+		var configMap storage.FlexibleServerOperatorConfigMaps
 		err := operator.ConfigMaps.AssignProperties_To_FlexibleServerOperatorConfigMaps(&configMap)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_FlexibleServerOperatorConfigMaps() to populate field ConfigMaps")
@@ -3237,7 +3237,7 @@ func (operator *FlexibleServerOperatorSpec) AssignProperties_To_FlexibleServerOp
 
 	// Secrets
 	if operator.Secrets != nil {
-		var secret v20230601ps.FlexibleServerOperatorSecrets
+		var secret storage.FlexibleServerOperatorSecrets
 		err := operator.Secrets.AssignProperties_To_FlexibleServerOperatorSecrets(&secret)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_FlexibleServerOperatorSecrets() to populate field Secrets")
@@ -3319,7 +3319,7 @@ func (availability *HighAvailability) PopulateFromARM(owner genruntime.Arbitrary
 }
 
 // AssignProperties_From_HighAvailability populates our HighAvailability from the provided source HighAvailability
-func (availability *HighAvailability) AssignProperties_From_HighAvailability(source *v20230601ps.HighAvailability) error {
+func (availability *HighAvailability) AssignProperties_From_HighAvailability(source *storage.HighAvailability) error {
 
 	// Mode
 	if source.Mode != nil {
@@ -3338,7 +3338,7 @@ func (availability *HighAvailability) AssignProperties_From_HighAvailability(sou
 }
 
 // AssignProperties_To_HighAvailability populates the provided destination HighAvailability from our HighAvailability
-func (availability *HighAvailability) AssignProperties_To_HighAvailability(destination *v20230601ps.HighAvailability) error {
+func (availability *HighAvailability) AssignProperties_To_HighAvailability(destination *storage.HighAvailability) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3413,7 +3413,7 @@ func (availability *HighAvailability_STATUS) PopulateFromARM(owner genruntime.Ar
 }
 
 // AssignProperties_From_HighAvailability_STATUS populates our HighAvailability_STATUS from the provided source HighAvailability_STATUS
-func (availability *HighAvailability_STATUS) AssignProperties_From_HighAvailability_STATUS(source *v20230601ps.HighAvailability_STATUS) error {
+func (availability *HighAvailability_STATUS) AssignProperties_From_HighAvailability_STATUS(source *storage.HighAvailability_STATUS) error {
 
 	// Mode
 	if source.Mode != nil {
@@ -3441,7 +3441,7 @@ func (availability *HighAvailability_STATUS) AssignProperties_From_HighAvailabil
 }
 
 // AssignProperties_To_HighAvailability_STATUS populates the provided destination HighAvailability_STATUS from our HighAvailability_STATUS
-func (availability *HighAvailability_STATUS) AssignProperties_To_HighAvailability_STATUS(destination *v20230601ps.HighAvailability_STATUS) error {
+func (availability *HighAvailability_STATUS) AssignProperties_To_HighAvailability_STATUS(destination *storage.HighAvailability_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3566,7 +3566,7 @@ func (window *MaintenanceWindow) PopulateFromARM(owner genruntime.ArbitraryOwner
 }
 
 // AssignProperties_From_MaintenanceWindow populates our MaintenanceWindow from the provided source MaintenanceWindow
-func (window *MaintenanceWindow) AssignProperties_From_MaintenanceWindow(source *v20230601ps.MaintenanceWindow) error {
+func (window *MaintenanceWindow) AssignProperties_From_MaintenanceWindow(source *storage.MaintenanceWindow) error {
 
 	// CustomWindow
 	window.CustomWindow = genruntime.ClonePointerToString(source.CustomWindow)
@@ -3585,7 +3585,7 @@ func (window *MaintenanceWindow) AssignProperties_From_MaintenanceWindow(source 
 }
 
 // AssignProperties_To_MaintenanceWindow populates the provided destination MaintenanceWindow from our MaintenanceWindow
-func (window *MaintenanceWindow) AssignProperties_To_MaintenanceWindow(destination *v20230601ps.MaintenanceWindow) error {
+func (window *MaintenanceWindow) AssignProperties_To_MaintenanceWindow(destination *storage.MaintenanceWindow) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3670,7 +3670,7 @@ func (window *MaintenanceWindow_STATUS) PopulateFromARM(owner genruntime.Arbitra
 }
 
 // AssignProperties_From_MaintenanceWindow_STATUS populates our MaintenanceWindow_STATUS from the provided source MaintenanceWindow_STATUS
-func (window *MaintenanceWindow_STATUS) AssignProperties_From_MaintenanceWindow_STATUS(source *v20230601ps.MaintenanceWindow_STATUS) error {
+func (window *MaintenanceWindow_STATUS) AssignProperties_From_MaintenanceWindow_STATUS(source *storage.MaintenanceWindow_STATUS) error {
 
 	// CustomWindow
 	window.CustomWindow = genruntime.ClonePointerToString(source.CustomWindow)
@@ -3689,7 +3689,7 @@ func (window *MaintenanceWindow_STATUS) AssignProperties_From_MaintenanceWindow_
 }
 
 // AssignProperties_To_MaintenanceWindow_STATUS populates the provided destination MaintenanceWindow_STATUS from our MaintenanceWindow_STATUS
-func (window *MaintenanceWindow_STATUS) AssignProperties_To_MaintenanceWindow_STATUS(destination *v20230601ps.MaintenanceWindow_STATUS) error {
+func (window *MaintenanceWindow_STATUS) AssignProperties_To_MaintenanceWindow_STATUS(destination *storage.MaintenanceWindow_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3796,7 +3796,7 @@ func (network *Network) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 }
 
 // AssignProperties_From_Network populates our Network from the provided source Network
-func (network *Network) AssignProperties_From_Network(source *v20230601ps.Network) error {
+func (network *Network) AssignProperties_From_Network(source *storage.Network) error {
 
 	// DelegatedSubnetResourceReference
 	if source.DelegatedSubnetResourceReference != nil {
@@ -3828,7 +3828,7 @@ func (network *Network) AssignProperties_From_Network(source *v20230601ps.Networ
 }
 
 // AssignProperties_To_Network populates the provided destination Network from our Network
-func (network *Network) AssignProperties_To_Network(destination *v20230601ps.Network) error {
+func (network *Network) AssignProperties_To_Network(destination *storage.Network) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3920,7 +3920,7 @@ func (network *Network_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 }
 
 // AssignProperties_From_Network_STATUS populates our Network_STATUS from the provided source Network_STATUS
-func (network *Network_STATUS) AssignProperties_From_Network_STATUS(source *v20230601ps.Network_STATUS) error {
+func (network *Network_STATUS) AssignProperties_From_Network_STATUS(source *storage.Network_STATUS) error {
 
 	// DelegatedSubnetResourceId
 	network.DelegatedSubnetResourceId = genruntime.ClonePointerToString(source.DelegatedSubnetResourceId)
@@ -3942,7 +3942,7 @@ func (network *Network_STATUS) AssignProperties_From_Network_STATUS(source *v202
 }
 
 // AssignProperties_To_Network_STATUS populates the provided destination Network_STATUS from our Network_STATUS
-func (network *Network_STATUS) AssignProperties_To_Network_STATUS(destination *v20230601ps.Network_STATUS) error {
+func (network *Network_STATUS) AssignProperties_To_Network_STATUS(destination *storage.Network_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4003,7 +4003,7 @@ func (connection *PrivateEndpointConnection_STATUS) PopulateFromARM(owner genrun
 }
 
 // AssignProperties_From_PrivateEndpointConnection_STATUS populates our PrivateEndpointConnection_STATUS from the provided source PrivateEndpointConnection_STATUS
-func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_PrivateEndpointConnection_STATUS(source *v20230601ps.PrivateEndpointConnection_STATUS) error {
+func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_PrivateEndpointConnection_STATUS(source *storage.PrivateEndpointConnection_STATUS) error {
 
 	// Id
 	connection.Id = genruntime.ClonePointerToString(source.Id)
@@ -4013,7 +4013,7 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_Privat
 }
 
 // AssignProperties_To_PrivateEndpointConnection_STATUS populates the provided destination PrivateEndpointConnection_STATUS from our PrivateEndpointConnection_STATUS
-func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateEndpointConnection_STATUS(destination *v20230601ps.PrivateEndpointConnection_STATUS) error {
+func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateEndpointConnection_STATUS(destination *storage.PrivateEndpointConnection_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4107,7 +4107,7 @@ func (replica *Replica) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 }
 
 // AssignProperties_From_Replica populates our Replica from the provided source Replica
-func (replica *Replica) AssignProperties_From_Replica(source *v20230601ps.Replica) error {
+func (replica *Replica) AssignProperties_From_Replica(source *storage.Replica) error {
 
 	// PromoteMode
 	if source.PromoteMode != nil {
@@ -4141,7 +4141,7 @@ func (replica *Replica) AssignProperties_From_Replica(source *v20230601ps.Replic
 }
 
 // AssignProperties_To_Replica populates the provided destination Replica from our Replica
-func (replica *Replica) AssignProperties_To_Replica(destination *v20230601ps.Replica) error {
+func (replica *Replica) AssignProperties_To_Replica(destination *storage.Replica) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4248,7 +4248,7 @@ func (replica *Replica_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 }
 
 // AssignProperties_From_Replica_STATUS populates our Replica_STATUS from the provided source Replica_STATUS
-func (replica *Replica_STATUS) AssignProperties_From_Replica_STATUS(source *v20230601ps.Replica_STATUS) error {
+func (replica *Replica_STATUS) AssignProperties_From_Replica_STATUS(source *storage.Replica_STATUS) error {
 
 	// Capacity
 	replica.Capacity = genruntime.ClonePointerToInt(source.Capacity)
@@ -4294,7 +4294,7 @@ func (replica *Replica_STATUS) AssignProperties_From_Replica_STATUS(source *v202
 }
 
 // AssignProperties_To_Replica_STATUS populates the provided destination Replica_STATUS from our Replica_STATUS
-func (replica *Replica_STATUS) AssignProperties_To_Replica_STATUS(destination *v20230601ps.Replica_STATUS) error {
+func (replica *Replica_STATUS) AssignProperties_To_Replica_STATUS(destination *storage.Replica_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4559,7 +4559,7 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 }
 
 // AssignProperties_From_Sku populates our Sku from the provided source Sku
-func (sku *Sku) AssignProperties_From_Sku(source *v20230601ps.Sku) error {
+func (sku *Sku) AssignProperties_From_Sku(source *storage.Sku) error {
 
 	// Name
 	sku.Name = genruntime.ClonePointerToString(source.Name)
@@ -4578,7 +4578,7 @@ func (sku *Sku) AssignProperties_From_Sku(source *v20230601ps.Sku) error {
 }
 
 // AssignProperties_To_Sku populates the provided destination Sku from our Sku
-func (sku *Sku) AssignProperties_To_Sku(destination *v20230601ps.Sku) error {
+func (sku *Sku) AssignProperties_To_Sku(destination *storage.Sku) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4644,7 +4644,7 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 }
 
 // AssignProperties_From_Sku_STATUS populates our Sku_STATUS from the provided source Sku_STATUS
-func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20230601ps.Sku_STATUS) error {
+func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *storage.Sku_STATUS) error {
 
 	// Name
 	sku.Name = genruntime.ClonePointerToString(source.Name)
@@ -4663,7 +4663,7 @@ func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20230601ps.Sku_
 }
 
 // AssignProperties_To_Sku_STATUS populates the provided destination Sku_STATUS from our Sku_STATUS
-func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20230601ps.Sku_STATUS) error {
+func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *storage.Sku_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4811,7 +4811,7 @@ func (storage *Storage) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 }
 
 // AssignProperties_From_Storage populates our Storage from the provided source Storage
-func (storage *Storage) AssignProperties_From_Storage(source *v20230601ps.Storage) error {
+func (storage *Storage) AssignProperties_From_Storage(source *storage.Storage) error {
 
 	// AutoGrow
 	if source.AutoGrow != nil {
@@ -4854,7 +4854,7 @@ func (storage *Storage) AssignProperties_From_Storage(source *v20230601ps.Storag
 }
 
 // AssignProperties_To_Storage populates the provided destination Storage from our Storage
-func (storage *Storage) AssignProperties_To_Storage(destination *v20230601ps.Storage) error {
+func (storage *Storage) AssignProperties_To_Storage(destination *storage.Storage) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4979,7 +4979,7 @@ func (storage *Storage_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 }
 
 // AssignProperties_From_Storage_STATUS populates our Storage_STATUS from the provided source Storage_STATUS
-func (storage *Storage_STATUS) AssignProperties_From_Storage_STATUS(source *v20230601ps.Storage_STATUS) error {
+func (storage *Storage_STATUS) AssignProperties_From_Storage_STATUS(source *storage.Storage_STATUS) error {
 
 	// AutoGrow
 	if source.AutoGrow != nil {
@@ -5022,7 +5022,7 @@ func (storage *Storage_STATUS) AssignProperties_From_Storage_STATUS(source *v202
 }
 
 // AssignProperties_To_Storage_STATUS populates the provided destination Storage_STATUS from our Storage_STATUS
-func (storage *Storage_STATUS) AssignProperties_To_Storage_STATUS(destination *v20230601ps.Storage_STATUS) error {
+func (storage *Storage_STATUS) AssignProperties_To_Storage_STATUS(destination *storage.Storage_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5146,7 +5146,7 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 }
 
 // AssignProperties_From_SystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v20230601ps.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *storage.SystemData_STATUS) error {
 
 	// CreatedAt
 	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
@@ -5183,7 +5183,7 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 }
 
 // AssignProperties_To_SystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *v20230601ps.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *storage.SystemData_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5289,7 +5289,7 @@ func (identity *UserAssignedIdentity) PopulateFromARM(owner genruntime.Arbitrary
 }
 
 // AssignProperties_From_UserAssignedIdentity populates our UserAssignedIdentity from the provided source UserAssignedIdentity
-func (identity *UserAssignedIdentity) AssignProperties_From_UserAssignedIdentity(source *v20230601ps.UserAssignedIdentity) error {
+func (identity *UserAssignedIdentity) AssignProperties_From_UserAssignedIdentity(source *storage.UserAssignedIdentity) error {
 
 	// Type
 	if source.Type != nil {
@@ -5323,7 +5323,7 @@ func (identity *UserAssignedIdentity) AssignProperties_From_UserAssignedIdentity
 }
 
 // AssignProperties_To_UserAssignedIdentity populates the provided destination UserAssignedIdentity from our UserAssignedIdentity
-func (identity *UserAssignedIdentity) AssignProperties_To_UserAssignedIdentity(destination *v20230601ps.UserAssignedIdentity) error {
+func (identity *UserAssignedIdentity) AssignProperties_To_UserAssignedIdentity(destination *storage.UserAssignedIdentity) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5337,11 +5337,11 @@ func (identity *UserAssignedIdentity) AssignProperties_To_UserAssignedIdentity(d
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]v20230601ps.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
+		userAssignedIdentityList := make([]storage.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range identity.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityItem := userAssignedIdentityItem
-			var userAssignedIdentity v20230601ps.UserAssignedIdentityDetails
+			var userAssignedIdentity storage.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
@@ -5420,7 +5420,7 @@ func (identity *UserAssignedIdentity_STATUS) PopulateFromARM(owner genruntime.Ar
 }
 
 // AssignProperties_From_UserAssignedIdentity_STATUS populates our UserAssignedIdentity_STATUS from the provided source UserAssignedIdentity_STATUS
-func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedIdentity_STATUS(source *v20230601ps.UserAssignedIdentity_STATUS) error {
+func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedIdentity_STATUS(source *storage.UserAssignedIdentity_STATUS) error {
 
 	// TenantId
 	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
@@ -5457,7 +5457,7 @@ func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedI
 }
 
 // AssignProperties_To_UserAssignedIdentity_STATUS populates the provided destination UserAssignedIdentity_STATUS from our UserAssignedIdentity_STATUS
-func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIdentity_STATUS(destination *v20230601ps.UserAssignedIdentity_STATUS) error {
+func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIdentity_STATUS(destination *storage.UserAssignedIdentity_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5474,11 +5474,11 @@ func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIde
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v20230601ps.UserIdentity_STATUS, len(identity.UserAssignedIdentities))
+		userAssignedIdentityMap := make(map[string]storage.UserIdentity_STATUS, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity v20230601ps.UserIdentity_STATUS
+			var userAssignedIdentity storage.UserIdentity_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_UserIdentity_STATUS(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_UserIdentity_STATUS() to populate field UserAssignedIdentities")
@@ -5670,7 +5670,7 @@ type FlexibleServerOperatorConfigMaps struct {
 }
 
 // AssignProperties_From_FlexibleServerOperatorConfigMaps populates our FlexibleServerOperatorConfigMaps from the provided source FlexibleServerOperatorConfigMaps
-func (maps *FlexibleServerOperatorConfigMaps) AssignProperties_From_FlexibleServerOperatorConfigMaps(source *v20230601ps.FlexibleServerOperatorConfigMaps) error {
+func (maps *FlexibleServerOperatorConfigMaps) AssignProperties_From_FlexibleServerOperatorConfigMaps(source *storage.FlexibleServerOperatorConfigMaps) error {
 
 	// FullyQualifiedDomainName
 	if source.FullyQualifiedDomainName != nil {
@@ -5685,7 +5685,7 @@ func (maps *FlexibleServerOperatorConfigMaps) AssignProperties_From_FlexibleServ
 }
 
 // AssignProperties_To_FlexibleServerOperatorConfigMaps populates the provided destination FlexibleServerOperatorConfigMaps from our FlexibleServerOperatorConfigMaps
-func (maps *FlexibleServerOperatorConfigMaps) AssignProperties_To_FlexibleServerOperatorConfigMaps(destination *v20230601ps.FlexibleServerOperatorConfigMaps) error {
+func (maps *FlexibleServerOperatorConfigMaps) AssignProperties_To_FlexibleServerOperatorConfigMaps(destination *storage.FlexibleServerOperatorConfigMaps) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5715,7 +5715,7 @@ type FlexibleServerOperatorSecrets struct {
 }
 
 // AssignProperties_From_FlexibleServerOperatorSecrets populates our FlexibleServerOperatorSecrets from the provided source FlexibleServerOperatorSecrets
-func (secrets *FlexibleServerOperatorSecrets) AssignProperties_From_FlexibleServerOperatorSecrets(source *v20230601ps.FlexibleServerOperatorSecrets) error {
+func (secrets *FlexibleServerOperatorSecrets) AssignProperties_From_FlexibleServerOperatorSecrets(source *storage.FlexibleServerOperatorSecrets) error {
 
 	// FullyQualifiedDomainName
 	if source.FullyQualifiedDomainName != nil {
@@ -5730,7 +5730,7 @@ func (secrets *FlexibleServerOperatorSecrets) AssignProperties_From_FlexibleServ
 }
 
 // AssignProperties_To_FlexibleServerOperatorSecrets populates the provided destination FlexibleServerOperatorSecrets from our FlexibleServerOperatorSecrets
-func (secrets *FlexibleServerOperatorSecrets) AssignProperties_To_FlexibleServerOperatorSecrets(destination *v20230601ps.FlexibleServerOperatorSecrets) error {
+func (secrets *FlexibleServerOperatorSecrets) AssignProperties_To_FlexibleServerOperatorSecrets(destination *storage.FlexibleServerOperatorSecrets) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6042,7 +6042,7 @@ type UserAssignedIdentityDetails struct {
 }
 
 // AssignProperties_From_UserAssignedIdentityDetails populates our UserAssignedIdentityDetails from the provided source UserAssignedIdentityDetails
-func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *v20230601ps.UserAssignedIdentityDetails) error {
+func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *storage.UserAssignedIdentityDetails) error {
 
 	// Reference
 	details.Reference = source.Reference.Copy()
@@ -6052,7 +6052,7 @@ func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedId
 }
 
 // AssignProperties_To_UserAssignedIdentityDetails populates the provided destination UserAssignedIdentityDetails from our UserAssignedIdentityDetails
-func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *v20230601ps.UserAssignedIdentityDetails) error {
+func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *storage.UserAssignedIdentityDetails) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6110,7 +6110,7 @@ func (identity *UserIdentity_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 }
 
 // AssignProperties_From_UserIdentity_STATUS populates our UserIdentity_STATUS from the provided source UserIdentity_STATUS
-func (identity *UserIdentity_STATUS) AssignProperties_From_UserIdentity_STATUS(source *v20230601ps.UserIdentity_STATUS) error {
+func (identity *UserIdentity_STATUS) AssignProperties_From_UserIdentity_STATUS(source *storage.UserIdentity_STATUS) error {
 
 	// ClientId
 	identity.ClientId = genruntime.ClonePointerToString(source.ClientId)
@@ -6123,7 +6123,7 @@ func (identity *UserIdentity_STATUS) AssignProperties_From_UserIdentity_STATUS(s
 }
 
 // AssignProperties_To_UserIdentity_STATUS populates the provided destination UserIdentity_STATUS from our UserIdentity_STATUS
-func (identity *UserIdentity_STATUS) AssignProperties_To_UserIdentity_STATUS(destination *v20230601ps.UserIdentity_STATUS) error {
+func (identity *UserIdentity_STATUS) AssignProperties_To_UserIdentity_STATUS(destination *storage.UserIdentity_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

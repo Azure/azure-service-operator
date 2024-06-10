@@ -17,81 +17,20 @@ import (
 	"testing"
 )
 
-func Test_SecurityPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SecurityPolicy via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSecurityPolicy, SecurityPolicyGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSecurityPolicy runs a test to see if a specific instance of SecurityPolicy round trips to JSON and back losslessly
-func RunJSONSerializationTestForSecurityPolicy(subject SecurityPolicy) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual SecurityPolicy
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of SecurityPolicy instances for property testing - lazily instantiated by SecurityPolicyGenerator()
-var securityPolicyGenerator gopter.Gen
-
-// SecurityPolicyGenerator returns a generator of SecurityPolicy instances for property testing.
-func SecurityPolicyGenerator() gopter.Gen {
-	if securityPolicyGenerator != nil {
-		return securityPolicyGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForSecurityPolicy(generators)
-	securityPolicyGenerator = gen.Struct(reflect.TypeOf(SecurityPolicy{}), generators)
-
-	return securityPolicyGenerator
-}
-
-// AddRelatedPropertyGeneratorsForSecurityPolicy is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSecurityPolicy(gens map[string]gopter.Gen) {
-	gens["Spec"] = Profiles_SecurityPolicy_SpecGenerator()
-	gens["Status"] = Profiles_SecurityPolicy_STATUSGenerator()
-}
-
-func Test_Profiles_SecurityPolicy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Profiles_SecurityPolicy_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProfiles_SecurityPolicy_Spec, Profiles_SecurityPolicy_SpecGenerator()))
+		"Round trip of ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded, ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForProfiles_SecurityPolicy_Spec runs a test to see if a specific instance of Profiles_SecurityPolicy_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForProfiles_SecurityPolicy_Spec(subject Profiles_SecurityPolicy_Spec) string {
+// RunJSONSerializationTestForActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded runs a test to see if a specific instance of ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(subject ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -99,7 +38,7 @@ func RunJSONSerializationTestForProfiles_SecurityPolicy_Spec(subject Profiles_Se
 	}
 
 	// Deserialize back into memory
-	var actual Profiles_SecurityPolicy_Spec
+	var actual ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -117,41 +56,26 @@ func RunJSONSerializationTestForProfiles_SecurityPolicy_Spec(subject Profiles_Se
 	return ""
 }
 
-// Generator of Profiles_SecurityPolicy_Spec instances for property testing - lazily instantiated by
-// Profiles_SecurityPolicy_SpecGenerator()
-var profiles_SecurityPolicy_SpecGenerator gopter.Gen
+// Generator of ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded instances for property
+// testing - lazily instantiated by ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbeddedGenerator()
+var activatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbeddedGenerator gopter.Gen
 
-// Profiles_SecurityPolicy_SpecGenerator returns a generator of Profiles_SecurityPolicy_Spec instances for property testing.
-// We first initialize profiles_SecurityPolicy_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Profiles_SecurityPolicy_SpecGenerator() gopter.Gen {
-	if profiles_SecurityPolicy_SpecGenerator != nil {
-		return profiles_SecurityPolicy_SpecGenerator
+// ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbeddedGenerator returns a generator of ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded instances for property testing.
+func ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbeddedGenerator() gopter.Gen {
+	if activatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbeddedGenerator != nil {
+		return activatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbeddedGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_SecurityPolicy_Spec(generators)
-	profiles_SecurityPolicy_SpecGenerator = gen.Struct(reflect.TypeOf(Profiles_SecurityPolicy_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(generators)
+	activatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_SecurityPolicy_Spec(generators)
-	AddRelatedPropertyGeneratorsForProfiles_SecurityPolicy_Spec(generators)
-	profiles_SecurityPolicy_SpecGenerator = gen.Struct(reflect.TypeOf(Profiles_SecurityPolicy_Spec{}), generators)
-
-	return profiles_SecurityPolicy_SpecGenerator
+	return activatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbeddedGenerator
 }
 
-// AddIndependentPropertyGeneratorsForProfiles_SecurityPolicy_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProfiles_SecurityPolicy_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["OriginalVersion"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForProfiles_SecurityPolicy_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForProfiles_SecurityPolicy_Spec(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(SecurityPolicyPropertiesParametersGenerator())
+// AddIndependentPropertyGeneratorsForActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_Profiles_SecurityPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -233,6 +157,143 @@ func AddIndependentPropertyGeneratorsForProfiles_SecurityPolicy_STATUS(gens map[
 func AddRelatedPropertyGeneratorsForProfiles_SecurityPolicy_STATUS(gens map[string]gopter.Gen) {
 	gens["Parameters"] = gen.PtrOf(SecurityPolicyPropertiesParameters_STATUSGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
+}
+
+func Test_Profiles_SecurityPolicy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Profiles_SecurityPolicy_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForProfiles_SecurityPolicy_Spec, Profiles_SecurityPolicy_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForProfiles_SecurityPolicy_Spec runs a test to see if a specific instance of Profiles_SecurityPolicy_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForProfiles_SecurityPolicy_Spec(subject Profiles_SecurityPolicy_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Profiles_SecurityPolicy_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Profiles_SecurityPolicy_Spec instances for property testing - lazily instantiated by
+// Profiles_SecurityPolicy_SpecGenerator()
+var profiles_SecurityPolicy_SpecGenerator gopter.Gen
+
+// Profiles_SecurityPolicy_SpecGenerator returns a generator of Profiles_SecurityPolicy_Spec instances for property testing.
+// We first initialize profiles_SecurityPolicy_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Profiles_SecurityPolicy_SpecGenerator() gopter.Gen {
+	if profiles_SecurityPolicy_SpecGenerator != nil {
+		return profiles_SecurityPolicy_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForProfiles_SecurityPolicy_Spec(generators)
+	profiles_SecurityPolicy_SpecGenerator = gen.Struct(reflect.TypeOf(Profiles_SecurityPolicy_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForProfiles_SecurityPolicy_Spec(generators)
+	AddRelatedPropertyGeneratorsForProfiles_SecurityPolicy_Spec(generators)
+	profiles_SecurityPolicy_SpecGenerator = gen.Struct(reflect.TypeOf(Profiles_SecurityPolicy_Spec{}), generators)
+
+	return profiles_SecurityPolicy_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForProfiles_SecurityPolicy_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForProfiles_SecurityPolicy_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["OriginalVersion"] = gen.AlphaString()
+}
+
+// AddRelatedPropertyGeneratorsForProfiles_SecurityPolicy_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForProfiles_SecurityPolicy_Spec(gens map[string]gopter.Gen) {
+	gens["Parameters"] = gen.PtrOf(SecurityPolicyPropertiesParametersGenerator())
+}
+
+func Test_SecurityPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SecurityPolicy via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSecurityPolicy, SecurityPolicyGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSecurityPolicy runs a test to see if a specific instance of SecurityPolicy round trips to JSON and back losslessly
+func RunJSONSerializationTestForSecurityPolicy(subject SecurityPolicy) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SecurityPolicy
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SecurityPolicy instances for property testing - lazily instantiated by SecurityPolicyGenerator()
+var securityPolicyGenerator gopter.Gen
+
+// SecurityPolicyGenerator returns a generator of SecurityPolicy instances for property testing.
+func SecurityPolicyGenerator() gopter.Gen {
+	if securityPolicyGenerator != nil {
+		return securityPolicyGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForSecurityPolicy(generators)
+	securityPolicyGenerator = gen.Struct(reflect.TypeOf(SecurityPolicy{}), generators)
+
+	return securityPolicyGenerator
+}
+
+// AddRelatedPropertyGeneratorsForSecurityPolicy is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSecurityPolicy(gens map[string]gopter.Gen) {
+	gens["Spec"] = Profiles_SecurityPolicy_SpecGenerator()
+	gens["Status"] = Profiles_SecurityPolicy_STATUSGenerator()
 }
 
 func Test_SecurityPolicyPropertiesParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -371,158 +432,6 @@ func AddRelatedPropertyGeneratorsForSecurityPolicyPropertiesParameters_STATUS(ge
 	gens["WebApplicationFirewall"] = SecurityPolicyWebApplicationFirewallParameters_STATUSGenerator().Map(func(it SecurityPolicyWebApplicationFirewallParameters_STATUS) *SecurityPolicyWebApplicationFirewallParameters_STATUS {
 		return &it
 	}) // generate one case for OneOf type
-}
-
-func Test_SecurityPolicyWebApplicationFirewallParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SecurityPolicyWebApplicationFirewallParameters via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSecurityPolicyWebApplicationFirewallParameters, SecurityPolicyWebApplicationFirewallParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSecurityPolicyWebApplicationFirewallParameters runs a test to see if a specific instance of SecurityPolicyWebApplicationFirewallParameters round trips to JSON and back losslessly
-func RunJSONSerializationTestForSecurityPolicyWebApplicationFirewallParameters(subject SecurityPolicyWebApplicationFirewallParameters) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual SecurityPolicyWebApplicationFirewallParameters
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of SecurityPolicyWebApplicationFirewallParameters instances for property testing - lazily instantiated by
-// SecurityPolicyWebApplicationFirewallParametersGenerator()
-var securityPolicyWebApplicationFirewallParametersGenerator gopter.Gen
-
-// SecurityPolicyWebApplicationFirewallParametersGenerator returns a generator of SecurityPolicyWebApplicationFirewallParameters instances for property testing.
-// We first initialize securityPolicyWebApplicationFirewallParametersGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func SecurityPolicyWebApplicationFirewallParametersGenerator() gopter.Gen {
-	if securityPolicyWebApplicationFirewallParametersGenerator != nil {
-		return securityPolicyWebApplicationFirewallParametersGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters(generators)
-	securityPolicyWebApplicationFirewallParametersGenerator = gen.Struct(reflect.TypeOf(SecurityPolicyWebApplicationFirewallParameters{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters(generators)
-	AddRelatedPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters(generators)
-	securityPolicyWebApplicationFirewallParametersGenerator = gen.Struct(reflect.TypeOf(SecurityPolicyWebApplicationFirewallParameters{}), generators)
-
-	return securityPolicyWebApplicationFirewallParametersGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters(gens map[string]gopter.Gen) {
-	gens["Associations"] = gen.SliceOf(SecurityPolicyWebApplicationFirewallAssociationGenerator())
-	gens["WafPolicy"] = gen.PtrOf(ResourceReferenceGenerator())
-}
-
-func Test_SecurityPolicyWebApplicationFirewallParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SecurityPolicyWebApplicationFirewallParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSecurityPolicyWebApplicationFirewallParameters_STATUS, SecurityPolicyWebApplicationFirewallParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSecurityPolicyWebApplicationFirewallParameters_STATUS runs a test to see if a specific instance of SecurityPolicyWebApplicationFirewallParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSecurityPolicyWebApplicationFirewallParameters_STATUS(subject SecurityPolicyWebApplicationFirewallParameters_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual SecurityPolicyWebApplicationFirewallParameters_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of SecurityPolicyWebApplicationFirewallParameters_STATUS instances for property testing - lazily
-// instantiated by SecurityPolicyWebApplicationFirewallParameters_STATUSGenerator()
-var securityPolicyWebApplicationFirewallParameters_STATUSGenerator gopter.Gen
-
-// SecurityPolicyWebApplicationFirewallParameters_STATUSGenerator returns a generator of SecurityPolicyWebApplicationFirewallParameters_STATUS instances for property testing.
-// We first initialize securityPolicyWebApplicationFirewallParameters_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func SecurityPolicyWebApplicationFirewallParameters_STATUSGenerator() gopter.Gen {
-	if securityPolicyWebApplicationFirewallParameters_STATUSGenerator != nil {
-		return securityPolicyWebApplicationFirewallParameters_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters_STATUS(generators)
-	securityPolicyWebApplicationFirewallParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(SecurityPolicyWebApplicationFirewallParameters_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters_STATUS(generators)
-	AddRelatedPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters_STATUS(generators)
-	securityPolicyWebApplicationFirewallParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(SecurityPolicyWebApplicationFirewallParameters_STATUS{}), generators)
-
-	return securityPolicyWebApplicationFirewallParameters_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["Associations"] = gen.SliceOf(SecurityPolicyWebApplicationFirewallAssociation_STATUSGenerator())
-	gens["WafPolicy"] = gen.PtrOf(ResourceReference_STATUSGenerator())
 }
 
 func Test_SecurityPolicyWebApplicationFirewallAssociation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -675,20 +584,20 @@ func AddRelatedPropertyGeneratorsForSecurityPolicyWebApplicationFirewallAssociat
 	gens["Domains"] = gen.SliceOf(ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbeddedGenerator())
 }
 
-func Test_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SecurityPolicyWebApplicationFirewallParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
+	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded, ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbeddedGenerator()))
+		"Round trip of SecurityPolicyWebApplicationFirewallParameters via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSecurityPolicyWebApplicationFirewallParameters, SecurityPolicyWebApplicationFirewallParametersGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded runs a test to see if a specific instance of ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(subject ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded) string {
+// RunJSONSerializationTestForSecurityPolicyWebApplicationFirewallParameters runs a test to see if a specific instance of SecurityPolicyWebApplicationFirewallParameters round trips to JSON and back losslessly
+func RunJSONSerializationTestForSecurityPolicyWebApplicationFirewallParameters(subject SecurityPolicyWebApplicationFirewallParameters) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -696,7 +605,7 @@ func RunJSONSerializationTestForActivatedResourceReference_STATUS_Profiles_Secur
 	}
 
 	// Deserialize back into memory
-	var actual ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded
+	var actual SecurityPolicyWebApplicationFirewallParameters
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -714,24 +623,115 @@ func RunJSONSerializationTestForActivatedResourceReference_STATUS_Profiles_Secur
 	return ""
 }
 
-// Generator of ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded instances for property
-// testing - lazily instantiated by ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbeddedGenerator()
-var activatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbeddedGenerator gopter.Gen
+// Generator of SecurityPolicyWebApplicationFirewallParameters instances for property testing - lazily instantiated by
+// SecurityPolicyWebApplicationFirewallParametersGenerator()
+var securityPolicyWebApplicationFirewallParametersGenerator gopter.Gen
 
-// ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbeddedGenerator returns a generator of ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded instances for property testing.
-func ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbeddedGenerator() gopter.Gen {
-	if activatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbeddedGenerator != nil {
-		return activatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbeddedGenerator
+// SecurityPolicyWebApplicationFirewallParametersGenerator returns a generator of SecurityPolicyWebApplicationFirewallParameters instances for property testing.
+// We first initialize securityPolicyWebApplicationFirewallParametersGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func SecurityPolicyWebApplicationFirewallParametersGenerator() gopter.Gen {
+	if securityPolicyWebApplicationFirewallParametersGenerator != nil {
+		return securityPolicyWebApplicationFirewallParametersGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(generators)
-	activatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters(generators)
+	securityPolicyWebApplicationFirewallParametersGenerator = gen.Struct(reflect.TypeOf(SecurityPolicyWebApplicationFirewallParameters{}), generators)
 
-	return activatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbeddedGenerator
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters(generators)
+	AddRelatedPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters(generators)
+	securityPolicyWebApplicationFirewallParametersGenerator = gen.Struct(reflect.TypeOf(SecurityPolicyWebApplicationFirewallParameters{}), generators)
+
+	return securityPolicyWebApplicationFirewallParametersGenerator
 }
 
-// AddIndependentPropertyGeneratorsForActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
+// AddIndependentPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters(gens map[string]gopter.Gen) {
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters(gens map[string]gopter.Gen) {
+	gens["Associations"] = gen.SliceOf(SecurityPolicyWebApplicationFirewallAssociationGenerator())
+	gens["WafPolicy"] = gen.PtrOf(ResourceReferenceGenerator())
+}
+
+func Test_SecurityPolicyWebApplicationFirewallParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SecurityPolicyWebApplicationFirewallParameters_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSecurityPolicyWebApplicationFirewallParameters_STATUS, SecurityPolicyWebApplicationFirewallParameters_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSecurityPolicyWebApplicationFirewallParameters_STATUS runs a test to see if a specific instance of SecurityPolicyWebApplicationFirewallParameters_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForSecurityPolicyWebApplicationFirewallParameters_STATUS(subject SecurityPolicyWebApplicationFirewallParameters_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SecurityPolicyWebApplicationFirewallParameters_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SecurityPolicyWebApplicationFirewallParameters_STATUS instances for property testing - lazily
+// instantiated by SecurityPolicyWebApplicationFirewallParameters_STATUSGenerator()
+var securityPolicyWebApplicationFirewallParameters_STATUSGenerator gopter.Gen
+
+// SecurityPolicyWebApplicationFirewallParameters_STATUSGenerator returns a generator of SecurityPolicyWebApplicationFirewallParameters_STATUS instances for property testing.
+// We first initialize securityPolicyWebApplicationFirewallParameters_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func SecurityPolicyWebApplicationFirewallParameters_STATUSGenerator() gopter.Gen {
+	if securityPolicyWebApplicationFirewallParameters_STATUSGenerator != nil {
+		return securityPolicyWebApplicationFirewallParameters_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters_STATUS(generators)
+	securityPolicyWebApplicationFirewallParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(SecurityPolicyWebApplicationFirewallParameters_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters_STATUS(generators)
+	AddRelatedPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters_STATUS(generators)
+	securityPolicyWebApplicationFirewallParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(SecurityPolicyWebApplicationFirewallParameters_STATUS{}), generators)
+
+	return securityPolicyWebApplicationFirewallParameters_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters_STATUS(gens map[string]gopter.Gen) {
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters_STATUS(gens map[string]gopter.Gen) {
+	gens["Associations"] = gen.SliceOf(SecurityPolicyWebApplicationFirewallAssociation_STATUSGenerator())
+	gens["WafPolicy"] = gen.PtrOf(ResourceReference_STATUSGenerator())
 }

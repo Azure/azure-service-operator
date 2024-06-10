@@ -5,7 +5,7 @@ package v1api20220301
 
 import (
 	"fmt"
-	v20220301s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -50,7 +50,7 @@ var _ conversion.Convertible = &VirtualMachineScaleSetsExtension{}
 
 // ConvertFrom populates our VirtualMachineScaleSetsExtension from the provided hub VirtualMachineScaleSetsExtension
 func (extension *VirtualMachineScaleSetsExtension) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20220301s.VirtualMachineScaleSetsExtension)
+	source, ok := hub.(*storage.VirtualMachineScaleSetsExtension)
 	if !ok {
 		return fmt.Errorf("expected compute/v1api20220301/storage/VirtualMachineScaleSetsExtension but received %T instead", hub)
 	}
@@ -60,7 +60,7 @@ func (extension *VirtualMachineScaleSetsExtension) ConvertFrom(hub conversion.Hu
 
 // ConvertTo populates the provided hub VirtualMachineScaleSetsExtension from our VirtualMachineScaleSetsExtension
 func (extension *VirtualMachineScaleSetsExtension) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20220301s.VirtualMachineScaleSetsExtension)
+	destination, ok := hub.(*storage.VirtualMachineScaleSetsExtension)
 	if !ok {
 		return fmt.Errorf("expected compute/v1api20220301/storage/VirtualMachineScaleSetsExtension but received %T instead", hub)
 	}
@@ -255,7 +255,7 @@ func (extension *VirtualMachineScaleSetsExtension) validateWriteOnceProperties(o
 }
 
 // AssignProperties_From_VirtualMachineScaleSetsExtension populates our VirtualMachineScaleSetsExtension from the provided source VirtualMachineScaleSetsExtension
-func (extension *VirtualMachineScaleSetsExtension) AssignProperties_From_VirtualMachineScaleSetsExtension(source *v20220301s.VirtualMachineScaleSetsExtension) error {
+func (extension *VirtualMachineScaleSetsExtension) AssignProperties_From_VirtualMachineScaleSetsExtension(source *storage.VirtualMachineScaleSetsExtension) error {
 
 	// ObjectMeta
 	extension.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -281,13 +281,13 @@ func (extension *VirtualMachineScaleSetsExtension) AssignProperties_From_Virtual
 }
 
 // AssignProperties_To_VirtualMachineScaleSetsExtension populates the provided destination VirtualMachineScaleSetsExtension from our VirtualMachineScaleSetsExtension
-func (extension *VirtualMachineScaleSetsExtension) AssignProperties_To_VirtualMachineScaleSetsExtension(destination *v20220301s.VirtualMachineScaleSetsExtension) error {
+func (extension *VirtualMachineScaleSetsExtension) AssignProperties_To_VirtualMachineScaleSetsExtension(destination *storage.VirtualMachineScaleSetsExtension) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *extension.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20220301s.VirtualMachineScaleSets_Extension_Spec
+	var spec storage.VirtualMachineScaleSets_Extension_Spec
 	err := extension.Spec.AssignProperties_To_VirtualMachineScaleSets_Extension_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineScaleSets_Extension_Spec() to populate field Spec")
@@ -295,7 +295,7 @@ func (extension *VirtualMachineScaleSetsExtension) AssignProperties_To_VirtualMa
 	destination.Spec = spec
 
 	// Status
-	var status v20220301s.VirtualMachineScaleSets_Extension_STATUS
+	var status storage.VirtualMachineScaleSets_Extension_STATUS
 	err = extension.Status.AssignProperties_To_VirtualMachineScaleSets_Extension_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineScaleSets_Extension_STATUS() to populate field Status")
@@ -587,14 +587,14 @@ var _ genruntime.ConvertibleSpec = &VirtualMachineScaleSets_Extension_Spec{}
 
 // ConvertSpecFrom populates our VirtualMachineScaleSets_Extension_Spec from the provided source
 func (extension *VirtualMachineScaleSets_Extension_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20220301s.VirtualMachineScaleSets_Extension_Spec)
+	src, ok := source.(*storage.VirtualMachineScaleSets_Extension_Spec)
 	if ok {
 		// Populate our instance from source
 		return extension.AssignProperties_From_VirtualMachineScaleSets_Extension_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220301s.VirtualMachineScaleSets_Extension_Spec{}
+	src = &storage.VirtualMachineScaleSets_Extension_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -611,14 +611,14 @@ func (extension *VirtualMachineScaleSets_Extension_Spec) ConvertSpecFrom(source 
 
 // ConvertSpecTo populates the provided destination from our VirtualMachineScaleSets_Extension_Spec
 func (extension *VirtualMachineScaleSets_Extension_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20220301s.VirtualMachineScaleSets_Extension_Spec)
+	dst, ok := destination.(*storage.VirtualMachineScaleSets_Extension_Spec)
 	if ok {
 		// Populate destination from our instance
 		return extension.AssignProperties_To_VirtualMachineScaleSets_Extension_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220301s.VirtualMachineScaleSets_Extension_Spec{}
+	dst = &storage.VirtualMachineScaleSets_Extension_Spec{}
 	err := extension.AssignProperties_To_VirtualMachineScaleSets_Extension_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -634,7 +634,7 @@ func (extension *VirtualMachineScaleSets_Extension_Spec) ConvertSpecTo(destinati
 }
 
 // AssignProperties_From_VirtualMachineScaleSets_Extension_Spec populates our VirtualMachineScaleSets_Extension_Spec from the provided source VirtualMachineScaleSets_Extension_Spec
-func (extension *VirtualMachineScaleSets_Extension_Spec) AssignProperties_From_VirtualMachineScaleSets_Extension_Spec(source *v20220301s.VirtualMachineScaleSets_Extension_Spec) error {
+func (extension *VirtualMachineScaleSets_Extension_Spec) AssignProperties_From_VirtualMachineScaleSets_Extension_Spec(source *storage.VirtualMachineScaleSets_Extension_Spec) error {
 
 	// AutoUpgradeMinorVersion
 	if source.AutoUpgradeMinorVersion != nil {
@@ -724,7 +724,7 @@ func (extension *VirtualMachineScaleSets_Extension_Spec) AssignProperties_From_V
 }
 
 // AssignProperties_To_VirtualMachineScaleSets_Extension_Spec populates the provided destination VirtualMachineScaleSets_Extension_Spec from our VirtualMachineScaleSets_Extension_Spec
-func (extension *VirtualMachineScaleSets_Extension_Spec) AssignProperties_To_VirtualMachineScaleSets_Extension_Spec(destination *v20220301s.VirtualMachineScaleSets_Extension_Spec) error {
+func (extension *VirtualMachineScaleSets_Extension_Spec) AssignProperties_To_VirtualMachineScaleSets_Extension_Spec(destination *storage.VirtualMachineScaleSets_Extension_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -771,7 +771,7 @@ func (extension *VirtualMachineScaleSets_Extension_Spec) AssignProperties_To_Vir
 
 	// ProtectedSettingsFromKeyVault
 	if extension.ProtectedSettingsFromKeyVault != nil {
-		var protectedSettingsFromKeyVault v20220301s.KeyVaultSecretReference
+		var protectedSettingsFromKeyVault storage.KeyVaultSecretReference
 		err := extension.ProtectedSettingsFromKeyVault.AssignProperties_To_KeyVaultSecretReference(&protectedSettingsFromKeyVault)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultSecretReference() to populate field ProtectedSettingsFromKeyVault")
@@ -963,14 +963,14 @@ var _ genruntime.ConvertibleStatus = &VirtualMachineScaleSets_Extension_STATUS{}
 
 // ConvertStatusFrom populates our VirtualMachineScaleSets_Extension_STATUS from the provided source
 func (extension *VirtualMachineScaleSets_Extension_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20220301s.VirtualMachineScaleSets_Extension_STATUS)
+	src, ok := source.(*storage.VirtualMachineScaleSets_Extension_STATUS)
 	if ok {
 		// Populate our instance from source
 		return extension.AssignProperties_From_VirtualMachineScaleSets_Extension_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220301s.VirtualMachineScaleSets_Extension_STATUS{}
+	src = &storage.VirtualMachineScaleSets_Extension_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -987,14 +987,14 @@ func (extension *VirtualMachineScaleSets_Extension_STATUS) ConvertStatusFrom(sou
 
 // ConvertStatusTo populates the provided destination from our VirtualMachineScaleSets_Extension_STATUS
 func (extension *VirtualMachineScaleSets_Extension_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20220301s.VirtualMachineScaleSets_Extension_STATUS)
+	dst, ok := destination.(*storage.VirtualMachineScaleSets_Extension_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return extension.AssignProperties_To_VirtualMachineScaleSets_Extension_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220301s.VirtualMachineScaleSets_Extension_STATUS{}
+	dst = &storage.VirtualMachineScaleSets_Extension_STATUS{}
 	err := extension.AssignProperties_To_VirtualMachineScaleSets_Extension_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1153,7 +1153,7 @@ func (extension *VirtualMachineScaleSets_Extension_STATUS) PopulateFromARM(owner
 }
 
 // AssignProperties_From_VirtualMachineScaleSets_Extension_STATUS populates our VirtualMachineScaleSets_Extension_STATUS from the provided source VirtualMachineScaleSets_Extension_STATUS
-func (extension *VirtualMachineScaleSets_Extension_STATUS) AssignProperties_From_VirtualMachineScaleSets_Extension_STATUS(source *v20220301s.VirtualMachineScaleSets_Extension_STATUS) error {
+func (extension *VirtualMachineScaleSets_Extension_STATUS) AssignProperties_From_VirtualMachineScaleSets_Extension_STATUS(source *storage.VirtualMachineScaleSets_Extension_STATUS) error {
 
 	// AutoUpgradeMinorVersion
 	if source.AutoUpgradeMinorVersion != nil {
@@ -1239,7 +1239,7 @@ func (extension *VirtualMachineScaleSets_Extension_STATUS) AssignProperties_From
 }
 
 // AssignProperties_To_VirtualMachineScaleSets_Extension_STATUS populates the provided destination VirtualMachineScaleSets_Extension_STATUS from our VirtualMachineScaleSets_Extension_STATUS
-func (extension *VirtualMachineScaleSets_Extension_STATUS) AssignProperties_To_VirtualMachineScaleSets_Extension_STATUS(destination *v20220301s.VirtualMachineScaleSets_Extension_STATUS) error {
+func (extension *VirtualMachineScaleSets_Extension_STATUS) AssignProperties_To_VirtualMachineScaleSets_Extension_STATUS(destination *storage.VirtualMachineScaleSets_Extension_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1276,7 +1276,7 @@ func (extension *VirtualMachineScaleSets_Extension_STATUS) AssignProperties_To_V
 
 	// ProtectedSettingsFromKeyVault
 	if extension.ProtectedSettingsFromKeyVault != nil {
-		var protectedSettingsFromKeyVault v20220301s.KeyVaultSecretReference_STATUS
+		var protectedSettingsFromKeyVault storage.KeyVaultSecretReference_STATUS
 		err := extension.ProtectedSettingsFromKeyVault.AssignProperties_To_KeyVaultSecretReference_STATUS(&protectedSettingsFromKeyVault)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultSecretReference_STATUS() to populate field ProtectedSettingsFromKeyVault")
@@ -1405,7 +1405,7 @@ func (reference *KeyVaultSecretReference) PopulateFromARM(owner genruntime.Arbit
 }
 
 // AssignProperties_From_KeyVaultSecretReference populates our KeyVaultSecretReference from the provided source KeyVaultSecretReference
-func (reference *KeyVaultSecretReference) AssignProperties_From_KeyVaultSecretReference(source *v20220301s.KeyVaultSecretReference) error {
+func (reference *KeyVaultSecretReference) AssignProperties_From_KeyVaultSecretReference(source *storage.KeyVaultSecretReference) error {
 
 	// SecretUrl
 	reference.SecretUrl = genruntime.ClonePointerToString(source.SecretUrl)
@@ -1427,7 +1427,7 @@ func (reference *KeyVaultSecretReference) AssignProperties_From_KeyVaultSecretRe
 }
 
 // AssignProperties_To_KeyVaultSecretReference populates the provided destination KeyVaultSecretReference from our KeyVaultSecretReference
-func (reference *KeyVaultSecretReference) AssignProperties_To_KeyVaultSecretReference(destination *v20220301s.KeyVaultSecretReference) error {
+func (reference *KeyVaultSecretReference) AssignProperties_To_KeyVaultSecretReference(destination *storage.KeyVaultSecretReference) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1436,7 +1436,7 @@ func (reference *KeyVaultSecretReference) AssignProperties_To_KeyVaultSecretRefe
 
 	// SourceVault
 	if reference.SourceVault != nil {
-		var sourceVault v20220301s.SubResource
+		var sourceVault storage.SubResource
 		err := reference.SourceVault.AssignProperties_To_SubResource(&sourceVault)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SourceVault")
@@ -1524,7 +1524,7 @@ func (reference *KeyVaultSecretReference_STATUS) PopulateFromARM(owner genruntim
 }
 
 // AssignProperties_From_KeyVaultSecretReference_STATUS populates our KeyVaultSecretReference_STATUS from the provided source KeyVaultSecretReference_STATUS
-func (reference *KeyVaultSecretReference_STATUS) AssignProperties_From_KeyVaultSecretReference_STATUS(source *v20220301s.KeyVaultSecretReference_STATUS) error {
+func (reference *KeyVaultSecretReference_STATUS) AssignProperties_From_KeyVaultSecretReference_STATUS(source *storage.KeyVaultSecretReference_STATUS) error {
 
 	// SecretUrl
 	reference.SecretUrl = genruntime.ClonePointerToString(source.SecretUrl)
@@ -1546,7 +1546,7 @@ func (reference *KeyVaultSecretReference_STATUS) AssignProperties_From_KeyVaultS
 }
 
 // AssignProperties_To_KeyVaultSecretReference_STATUS populates the provided destination KeyVaultSecretReference_STATUS from our KeyVaultSecretReference_STATUS
-func (reference *KeyVaultSecretReference_STATUS) AssignProperties_To_KeyVaultSecretReference_STATUS(destination *v20220301s.KeyVaultSecretReference_STATUS) error {
+func (reference *KeyVaultSecretReference_STATUS) AssignProperties_To_KeyVaultSecretReference_STATUS(destination *storage.KeyVaultSecretReference_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1555,7 +1555,7 @@ func (reference *KeyVaultSecretReference_STATUS) AssignProperties_To_KeyVaultSec
 
 	// SourceVault
 	if reference.SourceVault != nil {
-		var sourceVault v20220301s.SubResource_STATUS
+		var sourceVault storage.SubResource_STATUS
 		err := reference.SourceVault.AssignProperties_To_SubResource_STATUS(&sourceVault)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SourceVault")

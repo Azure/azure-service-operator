@@ -5,7 +5,7 @@ package storage
 
 import (
 	"encoding/json"
-	v20230101s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForStorageAccountsTableServicesTable(subject Stora
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20230101s.StorageAccountsTableServicesTable
+	var hub storage.StorageAccountsTableServicesTable
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForStorageAccountsTableServicesTable(subject Stora
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.StorageAccountsTableServicesTable
+	var other storage.StorageAccountsTableServicesTable
 	err := copied.AssignProperties_To_StorageAccountsTableServicesTable(&other)
 	if err != nil {
 		return err.Error()
@@ -165,124 +165,6 @@ func AddRelatedPropertyGeneratorsForStorageAccountsTableServicesTable(gens map[s
 	gens["Status"] = StorageAccounts_TableServices_Table_STATUSGenerator()
 }
 
-func Test_StorageAccounts_TableServices_Table_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from StorageAccounts_TableServices_Table_Spec to StorageAccounts_TableServices_Table_Spec via AssignProperties_To_StorageAccounts_TableServices_Table_Spec & AssignProperties_From_StorageAccounts_TableServices_Table_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForStorageAccounts_TableServices_Table_Spec, StorageAccounts_TableServices_Table_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForStorageAccounts_TableServices_Table_Spec tests if a specific instance of StorageAccounts_TableServices_Table_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForStorageAccounts_TableServices_Table_Spec(subject StorageAccounts_TableServices_Table_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.StorageAccounts_TableServices_Table_Spec
-	err := copied.AssignProperties_To_StorageAccounts_TableServices_Table_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual StorageAccounts_TableServices_Table_Spec
-	err = actual.AssignProperties_From_StorageAccounts_TableServices_Table_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_StorageAccounts_TableServices_Table_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of StorageAccounts_TableServices_Table_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForStorageAccounts_TableServices_Table_Spec, StorageAccounts_TableServices_Table_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForStorageAccounts_TableServices_Table_Spec runs a test to see if a specific instance of StorageAccounts_TableServices_Table_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForStorageAccounts_TableServices_Table_Spec(subject StorageAccounts_TableServices_Table_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual StorageAccounts_TableServices_Table_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of StorageAccounts_TableServices_Table_Spec instances for property testing - lazily instantiated by
-// StorageAccounts_TableServices_Table_SpecGenerator()
-var storageAccounts_TableServices_Table_SpecGenerator gopter.Gen
-
-// StorageAccounts_TableServices_Table_SpecGenerator returns a generator of StorageAccounts_TableServices_Table_Spec instances for property testing.
-// We first initialize storageAccounts_TableServices_Table_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func StorageAccounts_TableServices_Table_SpecGenerator() gopter.Gen {
-	if storageAccounts_TableServices_Table_SpecGenerator != nil {
-		return storageAccounts_TableServices_Table_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageAccounts_TableServices_Table_Spec(generators)
-	storageAccounts_TableServices_Table_SpecGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_TableServices_Table_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageAccounts_TableServices_Table_Spec(generators)
-	AddRelatedPropertyGeneratorsForStorageAccounts_TableServices_Table_Spec(generators)
-	storageAccounts_TableServices_Table_SpecGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_TableServices_Table_Spec{}), generators)
-
-	return storageAccounts_TableServices_Table_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForStorageAccounts_TableServices_Table_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForStorageAccounts_TableServices_Table_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["OriginalVersion"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForStorageAccounts_TableServices_Table_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForStorageAccounts_TableServices_Table_Spec(gens map[string]gopter.Gen) {
-	gens["SignedIdentifiers"] = gen.SliceOf(TableSignedIdentifierGenerator())
-}
-
 func Test_StorageAccounts_TableServices_Table_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -300,7 +182,7 @@ func RunPropertyAssignmentTestForStorageAccounts_TableServices_Table_STATUS(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.StorageAccounts_TableServices_Table_STATUS
+	var other storage.StorageAccounts_TableServices_Table_STATUS
 	err := copied.AssignProperties_To_StorageAccounts_TableServices_Table_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -403,32 +285,32 @@ func AddRelatedPropertyGeneratorsForStorageAccounts_TableServices_Table_STATUS(g
 	gens["SignedIdentifiers"] = gen.SliceOf(TableSignedIdentifier_STATUSGenerator())
 }
 
-func Test_TableSignedIdentifier_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_StorageAccounts_TableServices_Table_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from TableSignedIdentifier to TableSignedIdentifier via AssignProperties_To_TableSignedIdentifier & AssignProperties_From_TableSignedIdentifier returns original",
-		prop.ForAll(RunPropertyAssignmentTestForTableSignedIdentifier, TableSignedIdentifierGenerator()))
+		"Round trip from StorageAccounts_TableServices_Table_Spec to StorageAccounts_TableServices_Table_Spec via AssignProperties_To_StorageAccounts_TableServices_Table_Spec & AssignProperties_From_StorageAccounts_TableServices_Table_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForStorageAccounts_TableServices_Table_Spec, StorageAccounts_TableServices_Table_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForTableSignedIdentifier tests if a specific instance of TableSignedIdentifier can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForTableSignedIdentifier(subject TableSignedIdentifier) string {
+// RunPropertyAssignmentTestForStorageAccounts_TableServices_Table_Spec tests if a specific instance of StorageAccounts_TableServices_Table_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForStorageAccounts_TableServices_Table_Spec(subject StorageAccounts_TableServices_Table_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.TableSignedIdentifier
-	err := copied.AssignProperties_To_TableSignedIdentifier(&other)
+	var other storage.StorageAccounts_TableServices_Table_Spec
+	err := copied.AssignProperties_To_StorageAccounts_TableServices_Table_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual TableSignedIdentifier
-	err = actual.AssignProperties_From_TableSignedIdentifier(&other)
+	var actual StorageAccounts_TableServices_Table_Spec
+	err = actual.AssignProperties_From_StorageAccounts_TableServices_Table_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -445,123 +327,20 @@ func RunPropertyAssignmentTestForTableSignedIdentifier(subject TableSignedIdenti
 	return ""
 }
 
-func Test_TableSignedIdentifier_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of TableSignedIdentifier via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForTableSignedIdentifier, TableSignedIdentifierGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForTableSignedIdentifier runs a test to see if a specific instance of TableSignedIdentifier round trips to JSON and back losslessly
-func RunJSONSerializationTestForTableSignedIdentifier(subject TableSignedIdentifier) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual TableSignedIdentifier
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of TableSignedIdentifier instances for property testing - lazily instantiated by
-// TableSignedIdentifierGenerator()
-var tableSignedIdentifierGenerator gopter.Gen
-
-// TableSignedIdentifierGenerator returns a generator of TableSignedIdentifier instances for property testing.
-func TableSignedIdentifierGenerator() gopter.Gen {
-	if tableSignedIdentifierGenerator != nil {
-		return tableSignedIdentifierGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForTableSignedIdentifier(generators)
-	tableSignedIdentifierGenerator = gen.Struct(reflect.TypeOf(TableSignedIdentifier{}), generators)
-
-	return tableSignedIdentifierGenerator
-}
-
-// AddRelatedPropertyGeneratorsForTableSignedIdentifier is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForTableSignedIdentifier(gens map[string]gopter.Gen) {
-	gens["AccessPolicy"] = gen.PtrOf(TableAccessPolicyGenerator())
-}
-
-func Test_TableSignedIdentifier_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from TableSignedIdentifier_STATUS to TableSignedIdentifier_STATUS via AssignProperties_To_TableSignedIdentifier_STATUS & AssignProperties_From_TableSignedIdentifier_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForTableSignedIdentifier_STATUS, TableSignedIdentifier_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForTableSignedIdentifier_STATUS tests if a specific instance of TableSignedIdentifier_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForTableSignedIdentifier_STATUS(subject TableSignedIdentifier_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.TableSignedIdentifier_STATUS
-	err := copied.AssignProperties_To_TableSignedIdentifier_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual TableSignedIdentifier_STATUS
-	err = actual.AssignProperties_From_TableSignedIdentifier_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_TableSignedIdentifier_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_StorageAccounts_TableServices_Table_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of TableSignedIdentifier_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForTableSignedIdentifier_STATUS, TableSignedIdentifier_STATUSGenerator()))
+		"Round trip of StorageAccounts_TableServices_Table_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageAccounts_TableServices_Table_Spec, StorageAccounts_TableServices_Table_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForTableSignedIdentifier_STATUS runs a test to see if a specific instance of TableSignedIdentifier_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForTableSignedIdentifier_STATUS(subject TableSignedIdentifier_STATUS) string {
+// RunJSONSerializationTestForStorageAccounts_TableServices_Table_Spec runs a test to see if a specific instance of StorageAccounts_TableServices_Table_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageAccounts_TableServices_Table_Spec(subject StorageAccounts_TableServices_Table_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -569,7 +348,7 @@ func RunJSONSerializationTestForTableSignedIdentifier_STATUS(subject TableSigned
 	}
 
 	// Deserialize back into memory
-	var actual TableSignedIdentifier_STATUS
+	var actual StorageAccounts_TableServices_Table_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -587,40 +366,41 @@ func RunJSONSerializationTestForTableSignedIdentifier_STATUS(subject TableSigned
 	return ""
 }
 
-// Generator of TableSignedIdentifier_STATUS instances for property testing - lazily instantiated by
-// TableSignedIdentifier_STATUSGenerator()
-var tableSignedIdentifier_STATUSGenerator gopter.Gen
+// Generator of StorageAccounts_TableServices_Table_Spec instances for property testing - lazily instantiated by
+// StorageAccounts_TableServices_Table_SpecGenerator()
+var storageAccounts_TableServices_Table_SpecGenerator gopter.Gen
 
-// TableSignedIdentifier_STATUSGenerator returns a generator of TableSignedIdentifier_STATUS instances for property testing.
-// We first initialize tableSignedIdentifier_STATUSGenerator with a simplified generator based on the
+// StorageAccounts_TableServices_Table_SpecGenerator returns a generator of StorageAccounts_TableServices_Table_Spec instances for property testing.
+// We first initialize storageAccounts_TableServices_Table_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func TableSignedIdentifier_STATUSGenerator() gopter.Gen {
-	if tableSignedIdentifier_STATUSGenerator != nil {
-		return tableSignedIdentifier_STATUSGenerator
+func StorageAccounts_TableServices_Table_SpecGenerator() gopter.Gen {
+	if storageAccounts_TableServices_Table_SpecGenerator != nil {
+		return storageAccounts_TableServices_Table_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForTableSignedIdentifier_STATUS(generators)
-	tableSignedIdentifier_STATUSGenerator = gen.Struct(reflect.TypeOf(TableSignedIdentifier_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForStorageAccounts_TableServices_Table_Spec(generators)
+	storageAccounts_TableServices_Table_SpecGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_TableServices_Table_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForTableSignedIdentifier_STATUS(generators)
-	AddRelatedPropertyGeneratorsForTableSignedIdentifier_STATUS(generators)
-	tableSignedIdentifier_STATUSGenerator = gen.Struct(reflect.TypeOf(TableSignedIdentifier_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForStorageAccounts_TableServices_Table_Spec(generators)
+	AddRelatedPropertyGeneratorsForStorageAccounts_TableServices_Table_Spec(generators)
+	storageAccounts_TableServices_Table_SpecGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_TableServices_Table_Spec{}), generators)
 
-	return tableSignedIdentifier_STATUSGenerator
+	return storageAccounts_TableServices_Table_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForTableSignedIdentifier_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForTableSignedIdentifier_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
+// AddIndependentPropertyGeneratorsForStorageAccounts_TableServices_Table_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForStorageAccounts_TableServices_Table_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["OriginalVersion"] = gen.AlphaString()
 }
 
-// AddRelatedPropertyGeneratorsForTableSignedIdentifier_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForTableSignedIdentifier_STATUS(gens map[string]gopter.Gen) {
-	gens["AccessPolicy"] = gen.PtrOf(TableAccessPolicy_STATUSGenerator())
+// AddRelatedPropertyGeneratorsForStorageAccounts_TableServices_Table_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForStorageAccounts_TableServices_Table_Spec(gens map[string]gopter.Gen) {
+	gens["SignedIdentifiers"] = gen.SliceOf(TableSignedIdentifierGenerator())
 }
 
 func Test_TableAccessPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -640,7 +420,7 @@ func RunPropertyAssignmentTestForTableAccessPolicy(subject TableAccessPolicy) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.TableAccessPolicy
+	var other storage.TableAccessPolicy
 	err := copied.AssignProperties_To_TableAccessPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -744,7 +524,7 @@ func RunPropertyAssignmentTestForTableAccessPolicy_STATUS(subject TableAccessPol
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230101s.TableAccessPolicy_STATUS
+	var other storage.TableAccessPolicy_STATUS
 	err := copied.AssignProperties_To_TableAccessPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -830,4 +610,224 @@ func AddIndependentPropertyGeneratorsForTableAccessPolicy_STATUS(gens map[string
 	gens["ExpiryTime"] = gen.PtrOf(gen.AlphaString())
 	gens["Permission"] = gen.PtrOf(gen.AlphaString())
 	gens["StartTime"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_TableSignedIdentifier_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from TableSignedIdentifier to TableSignedIdentifier via AssignProperties_To_TableSignedIdentifier & AssignProperties_From_TableSignedIdentifier returns original",
+		prop.ForAll(RunPropertyAssignmentTestForTableSignedIdentifier, TableSignedIdentifierGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForTableSignedIdentifier tests if a specific instance of TableSignedIdentifier can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForTableSignedIdentifier(subject TableSignedIdentifier) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.TableSignedIdentifier
+	err := copied.AssignProperties_To_TableSignedIdentifier(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual TableSignedIdentifier
+	err = actual.AssignProperties_From_TableSignedIdentifier(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_TableSignedIdentifier_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of TableSignedIdentifier via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForTableSignedIdentifier, TableSignedIdentifierGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForTableSignedIdentifier runs a test to see if a specific instance of TableSignedIdentifier round trips to JSON and back losslessly
+func RunJSONSerializationTestForTableSignedIdentifier(subject TableSignedIdentifier) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual TableSignedIdentifier
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of TableSignedIdentifier instances for property testing - lazily instantiated by
+// TableSignedIdentifierGenerator()
+var tableSignedIdentifierGenerator gopter.Gen
+
+// TableSignedIdentifierGenerator returns a generator of TableSignedIdentifier instances for property testing.
+func TableSignedIdentifierGenerator() gopter.Gen {
+	if tableSignedIdentifierGenerator != nil {
+		return tableSignedIdentifierGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForTableSignedIdentifier(generators)
+	tableSignedIdentifierGenerator = gen.Struct(reflect.TypeOf(TableSignedIdentifier{}), generators)
+
+	return tableSignedIdentifierGenerator
+}
+
+// AddRelatedPropertyGeneratorsForTableSignedIdentifier is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForTableSignedIdentifier(gens map[string]gopter.Gen) {
+	gens["AccessPolicy"] = gen.PtrOf(TableAccessPolicyGenerator())
+}
+
+func Test_TableSignedIdentifier_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from TableSignedIdentifier_STATUS to TableSignedIdentifier_STATUS via AssignProperties_To_TableSignedIdentifier_STATUS & AssignProperties_From_TableSignedIdentifier_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForTableSignedIdentifier_STATUS, TableSignedIdentifier_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForTableSignedIdentifier_STATUS tests if a specific instance of TableSignedIdentifier_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForTableSignedIdentifier_STATUS(subject TableSignedIdentifier_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.TableSignedIdentifier_STATUS
+	err := copied.AssignProperties_To_TableSignedIdentifier_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual TableSignedIdentifier_STATUS
+	err = actual.AssignProperties_From_TableSignedIdentifier_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_TableSignedIdentifier_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of TableSignedIdentifier_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForTableSignedIdentifier_STATUS, TableSignedIdentifier_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForTableSignedIdentifier_STATUS runs a test to see if a specific instance of TableSignedIdentifier_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForTableSignedIdentifier_STATUS(subject TableSignedIdentifier_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual TableSignedIdentifier_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of TableSignedIdentifier_STATUS instances for property testing - lazily instantiated by
+// TableSignedIdentifier_STATUSGenerator()
+var tableSignedIdentifier_STATUSGenerator gopter.Gen
+
+// TableSignedIdentifier_STATUSGenerator returns a generator of TableSignedIdentifier_STATUS instances for property testing.
+// We first initialize tableSignedIdentifier_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func TableSignedIdentifier_STATUSGenerator() gopter.Gen {
+	if tableSignedIdentifier_STATUSGenerator != nil {
+		return tableSignedIdentifier_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForTableSignedIdentifier_STATUS(generators)
+	tableSignedIdentifier_STATUSGenerator = gen.Struct(reflect.TypeOf(TableSignedIdentifier_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForTableSignedIdentifier_STATUS(generators)
+	AddRelatedPropertyGeneratorsForTableSignedIdentifier_STATUS(generators)
+	tableSignedIdentifier_STATUSGenerator = gen.Struct(reflect.TypeOf(TableSignedIdentifier_STATUS{}), generators)
+
+	return tableSignedIdentifier_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForTableSignedIdentifier_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForTableSignedIdentifier_STATUS(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForTableSignedIdentifier_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForTableSignedIdentifier_STATUS(gens map[string]gopter.Gen) {
+	gens["AccessPolicy"] = gen.PtrOf(TableAccessPolicy_STATUSGenerator())
 }

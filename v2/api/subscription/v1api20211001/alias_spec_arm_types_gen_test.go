@@ -91,6 +91,72 @@ func AddRelatedPropertyGeneratorsForAlias_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(PutAliasRequestProperties_ARMGenerator())
 }
 
+func Test_PutAliasRequestAdditionalProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PutAliasRequestAdditionalProperties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPutAliasRequestAdditionalProperties_ARM, PutAliasRequestAdditionalProperties_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPutAliasRequestAdditionalProperties_ARM runs a test to see if a specific instance of PutAliasRequestAdditionalProperties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForPutAliasRequestAdditionalProperties_ARM(subject PutAliasRequestAdditionalProperties_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PutAliasRequestAdditionalProperties_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PutAliasRequestAdditionalProperties_ARM instances for property testing - lazily instantiated by
+// PutAliasRequestAdditionalProperties_ARMGenerator()
+var putAliasRequestAdditionalProperties_ARMGenerator gopter.Gen
+
+// PutAliasRequestAdditionalProperties_ARMGenerator returns a generator of PutAliasRequestAdditionalProperties_ARM instances for property testing.
+func PutAliasRequestAdditionalProperties_ARMGenerator() gopter.Gen {
+	if putAliasRequestAdditionalProperties_ARMGenerator != nil {
+		return putAliasRequestAdditionalProperties_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPutAliasRequestAdditionalProperties_ARM(generators)
+	putAliasRequestAdditionalProperties_ARMGenerator = gen.Struct(reflect.TypeOf(PutAliasRequestAdditionalProperties_ARM{}), generators)
+
+	return putAliasRequestAdditionalProperties_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForPutAliasRequestAdditionalProperties_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPutAliasRequestAdditionalProperties_ARM(gens map[string]gopter.Gen) {
+	gens["ManagementGroupId"] = gen.PtrOf(gen.AlphaString())
+	gens["SubscriptionOwnerId"] = gen.PtrOf(gen.AlphaString())
+	gens["SubscriptionTenantId"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+}
+
 func Test_PutAliasRequestProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -168,70 +234,4 @@ func AddIndependentPropertyGeneratorsForPutAliasRequestProperties_ARM(gens map[s
 // AddRelatedPropertyGeneratorsForPutAliasRequestProperties_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForPutAliasRequestProperties_ARM(gens map[string]gopter.Gen) {
 	gens["AdditionalProperties"] = gen.PtrOf(PutAliasRequestAdditionalProperties_ARMGenerator())
-}
-
-func Test_PutAliasRequestAdditionalProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PutAliasRequestAdditionalProperties_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPutAliasRequestAdditionalProperties_ARM, PutAliasRequestAdditionalProperties_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPutAliasRequestAdditionalProperties_ARM runs a test to see if a specific instance of PutAliasRequestAdditionalProperties_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForPutAliasRequestAdditionalProperties_ARM(subject PutAliasRequestAdditionalProperties_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual PutAliasRequestAdditionalProperties_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of PutAliasRequestAdditionalProperties_ARM instances for property testing - lazily instantiated by
-// PutAliasRequestAdditionalProperties_ARMGenerator()
-var putAliasRequestAdditionalProperties_ARMGenerator gopter.Gen
-
-// PutAliasRequestAdditionalProperties_ARMGenerator returns a generator of PutAliasRequestAdditionalProperties_ARM instances for property testing.
-func PutAliasRequestAdditionalProperties_ARMGenerator() gopter.Gen {
-	if putAliasRequestAdditionalProperties_ARMGenerator != nil {
-		return putAliasRequestAdditionalProperties_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPutAliasRequestAdditionalProperties_ARM(generators)
-	putAliasRequestAdditionalProperties_ARMGenerator = gen.Struct(reflect.TypeOf(PutAliasRequestAdditionalProperties_ARM{}), generators)
-
-	return putAliasRequestAdditionalProperties_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPutAliasRequestAdditionalProperties_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPutAliasRequestAdditionalProperties_ARM(gens map[string]gopter.Gen) {
-	gens["ManagementGroupId"] = gen.PtrOf(gen.AlphaString())
-	gens["SubscriptionOwnerId"] = gen.PtrOf(gen.AlphaString())
-	gens["SubscriptionTenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
 }

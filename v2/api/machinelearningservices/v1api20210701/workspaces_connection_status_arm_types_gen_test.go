@@ -17,6 +17,71 @@ import (
 	"testing"
 )
 
+func Test_WorkspaceConnectionProps_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of WorkspaceConnectionProps_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWorkspaceConnectionProps_STATUS_ARM, WorkspaceConnectionProps_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForWorkspaceConnectionProps_STATUS_ARM runs a test to see if a specific instance of WorkspaceConnectionProps_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForWorkspaceConnectionProps_STATUS_ARM(subject WorkspaceConnectionProps_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual WorkspaceConnectionProps_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of WorkspaceConnectionProps_STATUS_ARM instances for property testing - lazily instantiated by
+// WorkspaceConnectionProps_STATUS_ARMGenerator()
+var workspaceConnectionProps_STATUS_ARMGenerator gopter.Gen
+
+// WorkspaceConnectionProps_STATUS_ARMGenerator returns a generator of WorkspaceConnectionProps_STATUS_ARM instances for property testing.
+func WorkspaceConnectionProps_STATUS_ARMGenerator() gopter.Gen {
+	if workspaceConnectionProps_STATUS_ARMGenerator != nil {
+		return workspaceConnectionProps_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForWorkspaceConnectionProps_STATUS_ARM(generators)
+	workspaceConnectionProps_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(WorkspaceConnectionProps_STATUS_ARM{}), generators)
+
+	return workspaceConnectionProps_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForWorkspaceConnectionProps_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWorkspaceConnectionProps_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["AuthType"] = gen.PtrOf(gen.AlphaString())
+	gens["Category"] = gen.PtrOf(gen.AlphaString())
+	gens["Target"] = gen.PtrOf(gen.AlphaString())
+	gens["Value"] = gen.PtrOf(gen.AlphaString())
+	gens["ValueFormat"] = gen.PtrOf(gen.OneConstOf(WorkspaceConnectionProps_ValueFormat_STATUS_JSON))
+}
+
 func Test_Workspaces_Connection_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -92,69 +157,4 @@ func AddIndependentPropertyGeneratorsForWorkspaces_Connection_STATUS_ARM(gens ma
 // AddRelatedPropertyGeneratorsForWorkspaces_Connection_STATUS_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForWorkspaces_Connection_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(WorkspaceConnectionProps_STATUS_ARMGenerator())
-}
-
-func Test_WorkspaceConnectionProps_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of WorkspaceConnectionProps_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWorkspaceConnectionProps_STATUS_ARM, WorkspaceConnectionProps_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForWorkspaceConnectionProps_STATUS_ARM runs a test to see if a specific instance of WorkspaceConnectionProps_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForWorkspaceConnectionProps_STATUS_ARM(subject WorkspaceConnectionProps_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual WorkspaceConnectionProps_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of WorkspaceConnectionProps_STATUS_ARM instances for property testing - lazily instantiated by
-// WorkspaceConnectionProps_STATUS_ARMGenerator()
-var workspaceConnectionProps_STATUS_ARMGenerator gopter.Gen
-
-// WorkspaceConnectionProps_STATUS_ARMGenerator returns a generator of WorkspaceConnectionProps_STATUS_ARM instances for property testing.
-func WorkspaceConnectionProps_STATUS_ARMGenerator() gopter.Gen {
-	if workspaceConnectionProps_STATUS_ARMGenerator != nil {
-		return workspaceConnectionProps_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspaceConnectionProps_STATUS_ARM(generators)
-	workspaceConnectionProps_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(WorkspaceConnectionProps_STATUS_ARM{}), generators)
-
-	return workspaceConnectionProps_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForWorkspaceConnectionProps_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWorkspaceConnectionProps_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["AuthType"] = gen.PtrOf(gen.AlphaString())
-	gens["Category"] = gen.PtrOf(gen.AlphaString())
-	gens["Target"] = gen.PtrOf(gen.AlphaString())
-	gens["Value"] = gen.PtrOf(gen.AlphaString())
-	gens["ValueFormat"] = gen.PtrOf(gen.OneConstOf(WorkspaceConnectionProps_ValueFormat_STATUS_JSON))
 }

@@ -5,7 +5,7 @@ package v1api20200601
 
 import (
 	"fmt"
-	v20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &PrivateDnsZonesSRVRecord{}
 
 // ConvertFrom populates our PrivateDnsZonesSRVRecord from the provided hub PrivateDnsZonesSRVRecord
 func (record *PrivateDnsZonesSRVRecord) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20200601s.PrivateDnsZonesSRVRecord)
+	source, ok := hub.(*storage.PrivateDnsZonesSRVRecord)
 	if !ok {
 		return fmt.Errorf("expected network/v1api20200601/storage/PrivateDnsZonesSRVRecord but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (record *PrivateDnsZonesSRVRecord) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub PrivateDnsZonesSRVRecord from our PrivateDnsZonesSRVRecord
 func (record *PrivateDnsZonesSRVRecord) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20200601s.PrivateDnsZonesSRVRecord)
+	destination, ok := hub.(*storage.PrivateDnsZonesSRVRecord)
 	if !ok {
 		return fmt.Errorf("expected network/v1api20200601/storage/PrivateDnsZonesSRVRecord but received %T instead", hub)
 	}
@@ -254,7 +254,7 @@ func (record *PrivateDnsZonesSRVRecord) validateWriteOnceProperties(old runtime.
 }
 
 // AssignProperties_From_PrivateDnsZonesSRVRecord populates our PrivateDnsZonesSRVRecord from the provided source PrivateDnsZonesSRVRecord
-func (record *PrivateDnsZonesSRVRecord) AssignProperties_From_PrivateDnsZonesSRVRecord(source *v20200601s.PrivateDnsZonesSRVRecord) error {
+func (record *PrivateDnsZonesSRVRecord) AssignProperties_From_PrivateDnsZonesSRVRecord(source *storage.PrivateDnsZonesSRVRecord) error {
 
 	// ObjectMeta
 	record.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -280,13 +280,13 @@ func (record *PrivateDnsZonesSRVRecord) AssignProperties_From_PrivateDnsZonesSRV
 }
 
 // AssignProperties_To_PrivateDnsZonesSRVRecord populates the provided destination PrivateDnsZonesSRVRecord from our PrivateDnsZonesSRVRecord
-func (record *PrivateDnsZonesSRVRecord) AssignProperties_To_PrivateDnsZonesSRVRecord(destination *v20200601s.PrivateDnsZonesSRVRecord) error {
+func (record *PrivateDnsZonesSRVRecord) AssignProperties_To_PrivateDnsZonesSRVRecord(destination *storage.PrivateDnsZonesSRVRecord) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *record.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20200601s.PrivateDnsZones_SRV_Spec
+	var spec storage.PrivateDnsZones_SRV_Spec
 	err := record.Spec.AssignProperties_To_PrivateDnsZones_SRV_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_PrivateDnsZones_SRV_Spec() to populate field Spec")
@@ -294,7 +294,7 @@ func (record *PrivateDnsZonesSRVRecord) AssignProperties_To_PrivateDnsZonesSRVRe
 	destination.Spec = spec
 
 	// Status
-	var status v20200601s.PrivateDnsZones_SRV_STATUS
+	var status storage.PrivateDnsZones_SRV_STATUS
 	err = record.Status.AssignProperties_To_PrivateDnsZones_SRV_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_PrivateDnsZones_SRV_STATUS() to populate field Status")
@@ -632,14 +632,14 @@ var _ genruntime.ConvertibleSpec = &PrivateDnsZones_SRV_Spec{}
 
 // ConvertSpecFrom populates our PrivateDnsZones_SRV_Spec from the provided source
 func (zonesSRV *PrivateDnsZones_SRV_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20200601s.PrivateDnsZones_SRV_Spec)
+	src, ok := source.(*storage.PrivateDnsZones_SRV_Spec)
 	if ok {
 		// Populate our instance from source
 		return zonesSRV.AssignProperties_From_PrivateDnsZones_SRV_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20200601s.PrivateDnsZones_SRV_Spec{}
+	src = &storage.PrivateDnsZones_SRV_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -656,14 +656,14 @@ func (zonesSRV *PrivateDnsZones_SRV_Spec) ConvertSpecFrom(source genruntime.Conv
 
 // ConvertSpecTo populates the provided destination from our PrivateDnsZones_SRV_Spec
 func (zonesSRV *PrivateDnsZones_SRV_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20200601s.PrivateDnsZones_SRV_Spec)
+	dst, ok := destination.(*storage.PrivateDnsZones_SRV_Spec)
 	if ok {
 		// Populate destination from our instance
 		return zonesSRV.AssignProperties_To_PrivateDnsZones_SRV_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20200601s.PrivateDnsZones_SRV_Spec{}
+	dst = &storage.PrivateDnsZones_SRV_Spec{}
 	err := zonesSRV.AssignProperties_To_PrivateDnsZones_SRV_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -679,7 +679,7 @@ func (zonesSRV *PrivateDnsZones_SRV_Spec) ConvertSpecTo(destination genruntime.C
 }
 
 // AssignProperties_From_PrivateDnsZones_SRV_Spec populates our PrivateDnsZones_SRV_Spec from the provided source PrivateDnsZones_SRV_Spec
-func (zonesSRV *PrivateDnsZones_SRV_Spec) AssignProperties_From_PrivateDnsZones_SRV_Spec(source *v20200601s.PrivateDnsZones_SRV_Spec) error {
+func (zonesSRV *PrivateDnsZones_SRV_Spec) AssignProperties_From_PrivateDnsZones_SRV_Spec(source *storage.PrivateDnsZones_SRV_Spec) error {
 
 	// ARecords
 	if source.ARecords != nil {
@@ -838,17 +838,17 @@ func (zonesSRV *PrivateDnsZones_SRV_Spec) AssignProperties_From_PrivateDnsZones_
 }
 
 // AssignProperties_To_PrivateDnsZones_SRV_Spec populates the provided destination PrivateDnsZones_SRV_Spec from our PrivateDnsZones_SRV_Spec
-func (zonesSRV *PrivateDnsZones_SRV_Spec) AssignProperties_To_PrivateDnsZones_SRV_Spec(destination *v20200601s.PrivateDnsZones_SRV_Spec) error {
+func (zonesSRV *PrivateDnsZones_SRV_Spec) AssignProperties_To_PrivateDnsZones_SRV_Spec(destination *storage.PrivateDnsZones_SRV_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ARecords
 	if zonesSRV.ARecords != nil {
-		aRecordList := make([]v20200601s.ARecord, len(zonesSRV.ARecords))
+		aRecordList := make([]storage.ARecord, len(zonesSRV.ARecords))
 		for aRecordIndex, aRecordItem := range zonesSRV.ARecords {
 			// Shadow the loop variable to avoid aliasing
 			aRecordItem := aRecordItem
-			var aRecord v20200601s.ARecord
+			var aRecord storage.ARecord
 			err := aRecordItem.AssignProperties_To_ARecord(&aRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ARecord() to populate field ARecords")
@@ -862,11 +862,11 @@ func (zonesSRV *PrivateDnsZones_SRV_Spec) AssignProperties_To_PrivateDnsZones_SR
 
 	// AaaaRecords
 	if zonesSRV.AaaaRecords != nil {
-		aaaaRecordList := make([]v20200601s.AaaaRecord, len(zonesSRV.AaaaRecords))
+		aaaaRecordList := make([]storage.AaaaRecord, len(zonesSRV.AaaaRecords))
 		for aaaaRecordIndex, aaaaRecordItem := range zonesSRV.AaaaRecords {
 			// Shadow the loop variable to avoid aliasing
 			aaaaRecordItem := aaaaRecordItem
-			var aaaaRecord v20200601s.AaaaRecord
+			var aaaaRecord storage.AaaaRecord
 			err := aaaaRecordItem.AssignProperties_To_AaaaRecord(&aaaaRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_AaaaRecord() to populate field AaaaRecords")
@@ -883,7 +883,7 @@ func (zonesSRV *PrivateDnsZones_SRV_Spec) AssignProperties_To_PrivateDnsZones_SR
 
 	// CnameRecord
 	if zonesSRV.CnameRecord != nil {
-		var cnameRecord v20200601s.CnameRecord
+		var cnameRecord storage.CnameRecord
 		err := zonesSRV.CnameRecord.AssignProperties_To_CnameRecord(&cnameRecord)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CnameRecord() to populate field CnameRecord")
@@ -901,11 +901,11 @@ func (zonesSRV *PrivateDnsZones_SRV_Spec) AssignProperties_To_PrivateDnsZones_SR
 
 	// MxRecords
 	if zonesSRV.MxRecords != nil {
-		mxRecordList := make([]v20200601s.MxRecord, len(zonesSRV.MxRecords))
+		mxRecordList := make([]storage.MxRecord, len(zonesSRV.MxRecords))
 		for mxRecordIndex, mxRecordItem := range zonesSRV.MxRecords {
 			// Shadow the loop variable to avoid aliasing
 			mxRecordItem := mxRecordItem
-			var mxRecord v20200601s.MxRecord
+			var mxRecord storage.MxRecord
 			err := mxRecordItem.AssignProperties_To_MxRecord(&mxRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_MxRecord() to populate field MxRecords")
@@ -930,11 +930,11 @@ func (zonesSRV *PrivateDnsZones_SRV_Spec) AssignProperties_To_PrivateDnsZones_SR
 
 	// PtrRecords
 	if zonesSRV.PtrRecords != nil {
-		ptrRecordList := make([]v20200601s.PtrRecord, len(zonesSRV.PtrRecords))
+		ptrRecordList := make([]storage.PtrRecord, len(zonesSRV.PtrRecords))
 		for ptrRecordIndex, ptrRecordItem := range zonesSRV.PtrRecords {
 			// Shadow the loop variable to avoid aliasing
 			ptrRecordItem := ptrRecordItem
-			var ptrRecord v20200601s.PtrRecord
+			var ptrRecord storage.PtrRecord
 			err := ptrRecordItem.AssignProperties_To_PtrRecord(&ptrRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PtrRecord() to populate field PtrRecords")
@@ -948,7 +948,7 @@ func (zonesSRV *PrivateDnsZones_SRV_Spec) AssignProperties_To_PrivateDnsZones_SR
 
 	// SoaRecord
 	if zonesSRV.SoaRecord != nil {
-		var soaRecord v20200601s.SoaRecord
+		var soaRecord storage.SoaRecord
 		err := zonesSRV.SoaRecord.AssignProperties_To_SoaRecord(&soaRecord)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SoaRecord() to populate field SoaRecord")
@@ -960,11 +960,11 @@ func (zonesSRV *PrivateDnsZones_SRV_Spec) AssignProperties_To_PrivateDnsZones_SR
 
 	// SrvRecords
 	if zonesSRV.SrvRecords != nil {
-		srvRecordList := make([]v20200601s.SrvRecord, len(zonesSRV.SrvRecords))
+		srvRecordList := make([]storage.SrvRecord, len(zonesSRV.SrvRecords))
 		for srvRecordIndex, srvRecordItem := range zonesSRV.SrvRecords {
 			// Shadow the loop variable to avoid aliasing
 			srvRecordItem := srvRecordItem
-			var srvRecord v20200601s.SrvRecord
+			var srvRecord storage.SrvRecord
 			err := srvRecordItem.AssignProperties_To_SrvRecord(&srvRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SrvRecord() to populate field SrvRecords")
@@ -981,11 +981,11 @@ func (zonesSRV *PrivateDnsZones_SRV_Spec) AssignProperties_To_PrivateDnsZones_SR
 
 	// TxtRecords
 	if zonesSRV.TxtRecords != nil {
-		txtRecordList := make([]v20200601s.TxtRecord, len(zonesSRV.TxtRecords))
+		txtRecordList := make([]storage.TxtRecord, len(zonesSRV.TxtRecords))
 		for txtRecordIndex, txtRecordItem := range zonesSRV.TxtRecords {
 			// Shadow the loop variable to avoid aliasing
 			txtRecordItem := txtRecordItem
-			var txtRecord v20200601s.TxtRecord
+			var txtRecord storage.TxtRecord
 			err := txtRecordItem.AssignProperties_To_TxtRecord(&txtRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_TxtRecord() to populate field TxtRecords")
@@ -1224,14 +1224,14 @@ var _ genruntime.ConvertibleStatus = &PrivateDnsZones_SRV_STATUS{}
 
 // ConvertStatusFrom populates our PrivateDnsZones_SRV_STATUS from the provided source
 func (zonesSRV *PrivateDnsZones_SRV_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20200601s.PrivateDnsZones_SRV_STATUS)
+	src, ok := source.(*storage.PrivateDnsZones_SRV_STATUS)
 	if ok {
 		// Populate our instance from source
 		return zonesSRV.AssignProperties_From_PrivateDnsZones_SRV_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20200601s.PrivateDnsZones_SRV_STATUS{}
+	src = &storage.PrivateDnsZones_SRV_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -1248,14 +1248,14 @@ func (zonesSRV *PrivateDnsZones_SRV_STATUS) ConvertStatusFrom(source genruntime.
 
 // ConvertStatusTo populates the provided destination from our PrivateDnsZones_SRV_STATUS
 func (zonesSRV *PrivateDnsZones_SRV_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20200601s.PrivateDnsZones_SRV_STATUS)
+	dst, ok := destination.(*storage.PrivateDnsZones_SRV_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return zonesSRV.AssignProperties_To_PrivateDnsZones_SRV_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20200601s.PrivateDnsZones_SRV_STATUS{}
+	dst = &storage.PrivateDnsZones_SRV_STATUS{}
 	err := zonesSRV.AssignProperties_To_PrivateDnsZones_SRV_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1459,7 +1459,7 @@ func (zonesSRV *PrivateDnsZones_SRV_STATUS) PopulateFromARM(owner genruntime.Arb
 }
 
 // AssignProperties_From_PrivateDnsZones_SRV_STATUS populates our PrivateDnsZones_SRV_STATUS from the provided source PrivateDnsZones_SRV_STATUS
-func (zonesSRV *PrivateDnsZones_SRV_STATUS) AssignProperties_From_PrivateDnsZones_SRV_STATUS(source *v20200601s.PrivateDnsZones_SRV_STATUS) error {
+func (zonesSRV *PrivateDnsZones_SRV_STATUS) AssignProperties_From_PrivateDnsZones_SRV_STATUS(source *storage.PrivateDnsZones_SRV_STATUS) error {
 
 	// ARecords
 	if source.ARecords != nil {
@@ -1630,17 +1630,17 @@ func (zonesSRV *PrivateDnsZones_SRV_STATUS) AssignProperties_From_PrivateDnsZone
 }
 
 // AssignProperties_To_PrivateDnsZones_SRV_STATUS populates the provided destination PrivateDnsZones_SRV_STATUS from our PrivateDnsZones_SRV_STATUS
-func (zonesSRV *PrivateDnsZones_SRV_STATUS) AssignProperties_To_PrivateDnsZones_SRV_STATUS(destination *v20200601s.PrivateDnsZones_SRV_STATUS) error {
+func (zonesSRV *PrivateDnsZones_SRV_STATUS) AssignProperties_To_PrivateDnsZones_SRV_STATUS(destination *storage.PrivateDnsZones_SRV_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ARecords
 	if zonesSRV.ARecords != nil {
-		aRecordList := make([]v20200601s.ARecord_STATUS, len(zonesSRV.ARecords))
+		aRecordList := make([]storage.ARecord_STATUS, len(zonesSRV.ARecords))
 		for aRecordIndex, aRecordItem := range zonesSRV.ARecords {
 			// Shadow the loop variable to avoid aliasing
 			aRecordItem := aRecordItem
-			var aRecord v20200601s.ARecord_STATUS
+			var aRecord storage.ARecord_STATUS
 			err := aRecordItem.AssignProperties_To_ARecord_STATUS(&aRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ARecord_STATUS() to populate field ARecords")
@@ -1654,11 +1654,11 @@ func (zonesSRV *PrivateDnsZones_SRV_STATUS) AssignProperties_To_PrivateDnsZones_
 
 	// AaaaRecords
 	if zonesSRV.AaaaRecords != nil {
-		aaaaRecordList := make([]v20200601s.AaaaRecord_STATUS, len(zonesSRV.AaaaRecords))
+		aaaaRecordList := make([]storage.AaaaRecord_STATUS, len(zonesSRV.AaaaRecords))
 		for aaaaRecordIndex, aaaaRecordItem := range zonesSRV.AaaaRecords {
 			// Shadow the loop variable to avoid aliasing
 			aaaaRecordItem := aaaaRecordItem
-			var aaaaRecord v20200601s.AaaaRecord_STATUS
+			var aaaaRecord storage.AaaaRecord_STATUS
 			err := aaaaRecordItem.AssignProperties_To_AaaaRecord_STATUS(&aaaaRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_AaaaRecord_STATUS() to populate field AaaaRecords")
@@ -1672,7 +1672,7 @@ func (zonesSRV *PrivateDnsZones_SRV_STATUS) AssignProperties_To_PrivateDnsZones_
 
 	// CnameRecord
 	if zonesSRV.CnameRecord != nil {
-		var cnameRecord v20200601s.CnameRecord_STATUS
+		var cnameRecord storage.CnameRecord_STATUS
 		err := zonesSRV.CnameRecord.AssignProperties_To_CnameRecord_STATUS(&cnameRecord)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CnameRecord_STATUS() to populate field CnameRecord")
@@ -1707,11 +1707,11 @@ func (zonesSRV *PrivateDnsZones_SRV_STATUS) AssignProperties_To_PrivateDnsZones_
 
 	// MxRecords
 	if zonesSRV.MxRecords != nil {
-		mxRecordList := make([]v20200601s.MxRecord_STATUS, len(zonesSRV.MxRecords))
+		mxRecordList := make([]storage.MxRecord_STATUS, len(zonesSRV.MxRecords))
 		for mxRecordIndex, mxRecordItem := range zonesSRV.MxRecords {
 			// Shadow the loop variable to avoid aliasing
 			mxRecordItem := mxRecordItem
-			var mxRecord v20200601s.MxRecord_STATUS
+			var mxRecord storage.MxRecord_STATUS
 			err := mxRecordItem.AssignProperties_To_MxRecord_STATUS(&mxRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_MxRecord_STATUS() to populate field MxRecords")
@@ -1728,11 +1728,11 @@ func (zonesSRV *PrivateDnsZones_SRV_STATUS) AssignProperties_To_PrivateDnsZones_
 
 	// PtrRecords
 	if zonesSRV.PtrRecords != nil {
-		ptrRecordList := make([]v20200601s.PtrRecord_STATUS, len(zonesSRV.PtrRecords))
+		ptrRecordList := make([]storage.PtrRecord_STATUS, len(zonesSRV.PtrRecords))
 		for ptrRecordIndex, ptrRecordItem := range zonesSRV.PtrRecords {
 			// Shadow the loop variable to avoid aliasing
 			ptrRecordItem := ptrRecordItem
-			var ptrRecord v20200601s.PtrRecord_STATUS
+			var ptrRecord storage.PtrRecord_STATUS
 			err := ptrRecordItem.AssignProperties_To_PtrRecord_STATUS(&ptrRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PtrRecord_STATUS() to populate field PtrRecords")
@@ -1746,7 +1746,7 @@ func (zonesSRV *PrivateDnsZones_SRV_STATUS) AssignProperties_To_PrivateDnsZones_
 
 	// SoaRecord
 	if zonesSRV.SoaRecord != nil {
-		var soaRecord v20200601s.SoaRecord_STATUS
+		var soaRecord storage.SoaRecord_STATUS
 		err := zonesSRV.SoaRecord.AssignProperties_To_SoaRecord_STATUS(&soaRecord)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SoaRecord_STATUS() to populate field SoaRecord")
@@ -1758,11 +1758,11 @@ func (zonesSRV *PrivateDnsZones_SRV_STATUS) AssignProperties_To_PrivateDnsZones_
 
 	// SrvRecords
 	if zonesSRV.SrvRecords != nil {
-		srvRecordList := make([]v20200601s.SrvRecord_STATUS, len(zonesSRV.SrvRecords))
+		srvRecordList := make([]storage.SrvRecord_STATUS, len(zonesSRV.SrvRecords))
 		for srvRecordIndex, srvRecordItem := range zonesSRV.SrvRecords {
 			// Shadow the loop variable to avoid aliasing
 			srvRecordItem := srvRecordItem
-			var srvRecord v20200601s.SrvRecord_STATUS
+			var srvRecord storage.SrvRecord_STATUS
 			err := srvRecordItem.AssignProperties_To_SrvRecord_STATUS(&srvRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SrvRecord_STATUS() to populate field SrvRecords")
@@ -1779,11 +1779,11 @@ func (zonesSRV *PrivateDnsZones_SRV_STATUS) AssignProperties_To_PrivateDnsZones_
 
 	// TxtRecords
 	if zonesSRV.TxtRecords != nil {
-		txtRecordList := make([]v20200601s.TxtRecord_STATUS, len(zonesSRV.TxtRecords))
+		txtRecordList := make([]storage.TxtRecord_STATUS, len(zonesSRV.TxtRecords))
 		for txtRecordIndex, txtRecordItem := range zonesSRV.TxtRecords {
 			// Shadow the loop variable to avoid aliasing
 			txtRecordItem := txtRecordItem
-			var txtRecord v20200601s.TxtRecord_STATUS
+			var txtRecord storage.TxtRecord_STATUS
 			err := txtRecordItem.AssignProperties_To_TxtRecord_STATUS(&txtRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_TxtRecord_STATUS() to populate field TxtRecords")

@@ -78,72 +78,6 @@ func AddRelatedPropertyGeneratorsForRouteTable(gens map[string]gopter.Gen) {
 	gens["Status"] = RouteTable_STATUSGenerator()
 }
 
-func Test_RouteTable_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RouteTable_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRouteTable_Spec, RouteTable_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForRouteTable_Spec runs a test to see if a specific instance of RouteTable_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForRouteTable_Spec(subject RouteTable_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual RouteTable_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of RouteTable_Spec instances for property testing - lazily instantiated by RouteTable_SpecGenerator()
-var routeTable_SpecGenerator gopter.Gen
-
-// RouteTable_SpecGenerator returns a generator of RouteTable_Spec instances for property testing.
-func RouteTable_SpecGenerator() gopter.Gen {
-	if routeTable_SpecGenerator != nil {
-		return routeTable_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRouteTable_Spec(generators)
-	routeTable_SpecGenerator = gen.Struct(reflect.TypeOf(RouteTable_Spec{}), generators)
-
-	return routeTable_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRouteTable_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRouteTable_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["DisableBgpRoutePropagation"] = gen.PtrOf(gen.Bool())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
 func Test_RouteTable_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -212,4 +146,70 @@ func AddIndependentPropertyGeneratorsForRouteTable_STATUS(gens map[string]gopter
 		gen.AlphaString(),
 		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_RouteTable_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of RouteTable_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRouteTable_Spec, RouteTable_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForRouteTable_Spec runs a test to see if a specific instance of RouteTable_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForRouteTable_Spec(subject RouteTable_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual RouteTable_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of RouteTable_Spec instances for property testing - lazily instantiated by RouteTable_SpecGenerator()
+var routeTable_SpecGenerator gopter.Gen
+
+// RouteTable_SpecGenerator returns a generator of RouteTable_Spec instances for property testing.
+func RouteTable_SpecGenerator() gopter.Gen {
+	if routeTable_SpecGenerator != nil {
+		return routeTable_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRouteTable_Spec(generators)
+	routeTable_SpecGenerator = gen.Struct(reflect.TypeOf(RouteTable_Spec{}), generators)
+
+	return routeTable_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForRouteTable_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRouteTable_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["DisableBgpRoutePropagation"] = gen.PtrOf(gen.Bool())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }

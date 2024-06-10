@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_Service_Api_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ApiContactInformation_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
+	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Service_Api_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForService_Api_Spec_ARM, Service_Api_Spec_ARMGenerator()))
+		"Round trip of ApiContactInformation_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApiContactInformation_ARM, ApiContactInformation_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForService_Api_Spec_ARM runs a test to see if a specific instance of Service_Api_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForService_Api_Spec_ARM(subject Service_Api_Spec_ARM) string {
+// RunJSONSerializationTestForApiContactInformation_ARM runs a test to see if a specific instance of ApiContactInformation_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForApiContactInformation_ARM(subject ApiContactInformation_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForService_Api_Spec_ARM(subject Service_Api_Spec_AR
 	}
 
 	// Deserialize back into memory
-	var actual Service_Api_Spec_ARM
+	var actual ApiContactInformation_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,40 +56,28 @@ func RunJSONSerializationTestForService_Api_Spec_ARM(subject Service_Api_Spec_AR
 	return ""
 }
 
-// Generator of Service_Api_Spec_ARM instances for property testing - lazily instantiated by
-// Service_Api_Spec_ARMGenerator()
-var service_Api_Spec_ARMGenerator gopter.Gen
+// Generator of ApiContactInformation_ARM instances for property testing - lazily instantiated by
+// ApiContactInformation_ARMGenerator()
+var apiContactInformation_ARMGenerator gopter.Gen
 
-// Service_Api_Spec_ARMGenerator returns a generator of Service_Api_Spec_ARM instances for property testing.
-// We first initialize service_Api_Spec_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Service_Api_Spec_ARMGenerator() gopter.Gen {
-	if service_Api_Spec_ARMGenerator != nil {
-		return service_Api_Spec_ARMGenerator
+// ApiContactInformation_ARMGenerator returns a generator of ApiContactInformation_ARM instances for property testing.
+func ApiContactInformation_ARMGenerator() gopter.Gen {
+	if apiContactInformation_ARMGenerator != nil {
+		return apiContactInformation_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForService_Api_Spec_ARM(generators)
-	service_Api_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Service_Api_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForApiContactInformation_ARM(generators)
+	apiContactInformation_ARMGenerator = gen.Struct(reflect.TypeOf(ApiContactInformation_ARM{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForService_Api_Spec_ARM(generators)
-	AddRelatedPropertyGeneratorsForService_Api_Spec_ARM(generators)
-	service_Api_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Service_Api_Spec_ARM{}), generators)
-
-	return service_Api_Spec_ARMGenerator
+	return apiContactInformation_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForService_Api_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForService_Api_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForService_Api_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForService_Api_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(ApiCreateOrUpdateProperties_ARMGenerator())
+// AddIndependentPropertyGeneratorsForApiContactInformation_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApiContactInformation_ARM(gens map[string]gopter.Gen) {
+	gens["Email"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Url"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ApiCreateOrUpdateProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -211,69 +199,6 @@ func AddRelatedPropertyGeneratorsForApiCreateOrUpdateProperties_ARM(gens map[str
 	gens["License"] = gen.PtrOf(ApiLicenseInformation_ARMGenerator())
 	gens["SubscriptionKeyParameterNames"] = gen.PtrOf(SubscriptionKeyParameterNamesContract_ARMGenerator())
 	gens["WsdlSelector"] = gen.PtrOf(ApiCreateOrUpdateProperties_WsdlSelector_ARMGenerator())
-}
-
-func Test_ApiContactInformation_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApiContactInformation_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApiContactInformation_ARM, ApiContactInformation_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForApiContactInformation_ARM runs a test to see if a specific instance of ApiContactInformation_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForApiContactInformation_ARM(subject ApiContactInformation_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ApiContactInformation_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ApiContactInformation_ARM instances for property testing - lazily instantiated by
-// ApiContactInformation_ARMGenerator()
-var apiContactInformation_ARMGenerator gopter.Gen
-
-// ApiContactInformation_ARMGenerator returns a generator of ApiContactInformation_ARM instances for property testing.
-func ApiContactInformation_ARMGenerator() gopter.Gen {
-	if apiContactInformation_ARMGenerator != nil {
-		return apiContactInformation_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApiContactInformation_ARM(generators)
-	apiContactInformation_ARMGenerator = gen.Struct(reflect.TypeOf(ApiContactInformation_ARM{}), generators)
-
-	return apiContactInformation_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApiContactInformation_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApiContactInformation_ARM(gens map[string]gopter.Gen) {
-	gens["Email"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Url"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ApiCreateOrUpdateProperties_WsdlSelector_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -530,68 +455,6 @@ func AddRelatedPropertyGeneratorsForAuthenticationSettingsContract_ARM(gens map[
 	gens["OpenidAuthenticationSettings"] = gen.SliceOf(OpenIdAuthenticationSettingsContract_ARMGenerator())
 }
 
-func Test_SubscriptionKeyParameterNamesContract_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SubscriptionKeyParameterNamesContract_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSubscriptionKeyParameterNamesContract_ARM, SubscriptionKeyParameterNamesContract_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSubscriptionKeyParameterNamesContract_ARM runs a test to see if a specific instance of SubscriptionKeyParameterNamesContract_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSubscriptionKeyParameterNamesContract_ARM(subject SubscriptionKeyParameterNamesContract_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual SubscriptionKeyParameterNamesContract_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of SubscriptionKeyParameterNamesContract_ARM instances for property testing - lazily instantiated by
-// SubscriptionKeyParameterNamesContract_ARMGenerator()
-var subscriptionKeyParameterNamesContract_ARMGenerator gopter.Gen
-
-// SubscriptionKeyParameterNamesContract_ARMGenerator returns a generator of SubscriptionKeyParameterNamesContract_ARM instances for property testing.
-func SubscriptionKeyParameterNamesContract_ARMGenerator() gopter.Gen {
-	if subscriptionKeyParameterNamesContract_ARMGenerator != nil {
-		return subscriptionKeyParameterNamesContract_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSubscriptionKeyParameterNamesContract_ARM(generators)
-	subscriptionKeyParameterNamesContract_ARMGenerator = gen.Struct(reflect.TypeOf(SubscriptionKeyParameterNamesContract_ARM{}), generators)
-
-	return subscriptionKeyParameterNamesContract_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSubscriptionKeyParameterNamesContract_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSubscriptionKeyParameterNamesContract_ARM(gens map[string]gopter.Gen) {
-	gens["Header"] = gen.PtrOf(gen.AlphaString())
-	gens["Query"] = gen.PtrOf(gen.AlphaString())
-}
-
 func Test_OAuth2AuthenticationSettingsContract_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -714,4 +577,141 @@ func OpenIdAuthenticationSettingsContract_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForOpenIdAuthenticationSettingsContract_ARM(gens map[string]gopter.Gen) {
 	gens["BearerTokenSendingMethods"] = gen.SliceOf(gen.OneConstOf(BearerTokenSendingMethodsContract_AuthorizationHeader, BearerTokenSendingMethodsContract_Query))
 	gens["OpenidProviderId"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_Service_Api_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Service_Api_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForService_Api_Spec_ARM, Service_Api_Spec_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForService_Api_Spec_ARM runs a test to see if a specific instance of Service_Api_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForService_Api_Spec_ARM(subject Service_Api_Spec_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Service_Api_Spec_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Service_Api_Spec_ARM instances for property testing - lazily instantiated by
+// Service_Api_Spec_ARMGenerator()
+var service_Api_Spec_ARMGenerator gopter.Gen
+
+// Service_Api_Spec_ARMGenerator returns a generator of Service_Api_Spec_ARM instances for property testing.
+// We first initialize service_Api_Spec_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Service_Api_Spec_ARMGenerator() gopter.Gen {
+	if service_Api_Spec_ARMGenerator != nil {
+		return service_Api_Spec_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForService_Api_Spec_ARM(generators)
+	service_Api_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Service_Api_Spec_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForService_Api_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForService_Api_Spec_ARM(generators)
+	service_Api_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Service_Api_Spec_ARM{}), generators)
+
+	return service_Api_Spec_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForService_Api_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForService_Api_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.AlphaString()
+}
+
+// AddRelatedPropertyGeneratorsForService_Api_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForService_Api_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(ApiCreateOrUpdateProperties_ARMGenerator())
+}
+
+func Test_SubscriptionKeyParameterNamesContract_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SubscriptionKeyParameterNamesContract_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSubscriptionKeyParameterNamesContract_ARM, SubscriptionKeyParameterNamesContract_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSubscriptionKeyParameterNamesContract_ARM runs a test to see if a specific instance of SubscriptionKeyParameterNamesContract_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSubscriptionKeyParameterNamesContract_ARM(subject SubscriptionKeyParameterNamesContract_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SubscriptionKeyParameterNamesContract_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SubscriptionKeyParameterNamesContract_ARM instances for property testing - lazily instantiated by
+// SubscriptionKeyParameterNamesContract_ARMGenerator()
+var subscriptionKeyParameterNamesContract_ARMGenerator gopter.Gen
+
+// SubscriptionKeyParameterNamesContract_ARMGenerator returns a generator of SubscriptionKeyParameterNamesContract_ARM instances for property testing.
+func SubscriptionKeyParameterNamesContract_ARMGenerator() gopter.Gen {
+	if subscriptionKeyParameterNamesContract_ARMGenerator != nil {
+		return subscriptionKeyParameterNamesContract_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSubscriptionKeyParameterNamesContract_ARM(generators)
+	subscriptionKeyParameterNamesContract_ARMGenerator = gen.Struct(reflect.TypeOf(SubscriptionKeyParameterNamesContract_ARM{}), generators)
+
+	return subscriptionKeyParameterNamesContract_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForSubscriptionKeyParameterNamesContract_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSubscriptionKeyParameterNamesContract_ARM(gens map[string]gopter.Gen) {
+	gens["Header"] = gen.PtrOf(gen.AlphaString())
+	gens["Query"] = gen.PtrOf(gen.AlphaString())
 }

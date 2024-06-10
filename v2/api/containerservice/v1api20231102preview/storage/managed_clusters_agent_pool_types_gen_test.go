@@ -19,381 +19,6 @@ import (
 	"testing"
 )
 
-func Test_ManagedClustersAgentPool_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ManagedClustersAgentPool to hub returns original",
-		prop.ForAll(RunResourceConversionTestForManagedClustersAgentPool, ManagedClustersAgentPoolGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunResourceConversionTestForManagedClustersAgentPool tests if a specific instance of ManagedClustersAgentPool round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForManagedClustersAgentPool(subject ManagedClustersAgentPool) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub v20231001s.ManagedClustersAgentPool
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual ManagedClustersAgentPool
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ManagedClustersAgentPool_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ManagedClustersAgentPool to ManagedClustersAgentPool via AssignProperties_To_ManagedClustersAgentPool & AssignProperties_From_ManagedClustersAgentPool returns original",
-		prop.ForAll(RunPropertyAssignmentTestForManagedClustersAgentPool, ManagedClustersAgentPoolGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForManagedClustersAgentPool tests if a specific instance of ManagedClustersAgentPool can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForManagedClustersAgentPool(subject ManagedClustersAgentPool) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231001s.ManagedClustersAgentPool
-	err := copied.AssignProperties_To_ManagedClustersAgentPool(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ManagedClustersAgentPool
-	err = actual.AssignProperties_From_ManagedClustersAgentPool(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ManagedClustersAgentPool_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedClustersAgentPool via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClustersAgentPool, ManagedClustersAgentPoolGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedClustersAgentPool runs a test to see if a specific instance of ManagedClustersAgentPool round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClustersAgentPool(subject ManagedClustersAgentPool) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedClustersAgentPool
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedClustersAgentPool instances for property testing - lazily instantiated by
-// ManagedClustersAgentPoolGenerator()
-var managedClustersAgentPoolGenerator gopter.Gen
-
-// ManagedClustersAgentPoolGenerator returns a generator of ManagedClustersAgentPool instances for property testing.
-func ManagedClustersAgentPoolGenerator() gopter.Gen {
-	if managedClustersAgentPoolGenerator != nil {
-		return managedClustersAgentPoolGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForManagedClustersAgentPool(generators)
-	managedClustersAgentPoolGenerator = gen.Struct(reflect.TypeOf(ManagedClustersAgentPool{}), generators)
-
-	return managedClustersAgentPoolGenerator
-}
-
-// AddRelatedPropertyGeneratorsForManagedClustersAgentPool is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedClustersAgentPool(gens map[string]gopter.Gen) {
-	gens["Spec"] = ManagedClusters_AgentPool_SpecGenerator()
-	gens["Status"] = ManagedClusters_AgentPool_STATUSGenerator()
-}
-
-func Test_ManagedClusters_AgentPool_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ManagedClusters_AgentPool_Spec to ManagedClusters_AgentPool_Spec via AssignProperties_To_ManagedClusters_AgentPool_Spec & AssignProperties_From_ManagedClusters_AgentPool_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForManagedClusters_AgentPool_Spec, ManagedClusters_AgentPool_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForManagedClusters_AgentPool_Spec tests if a specific instance of ManagedClusters_AgentPool_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForManagedClusters_AgentPool_Spec(subject ManagedClusters_AgentPool_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231001s.ManagedClusters_AgentPool_Spec
-	err := copied.AssignProperties_To_ManagedClusters_AgentPool_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ManagedClusters_AgentPool_Spec
-	err = actual.AssignProperties_From_ManagedClusters_AgentPool_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ManagedClusters_AgentPool_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedClusters_AgentPool_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusters_AgentPool_Spec, ManagedClusters_AgentPool_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedClusters_AgentPool_Spec runs a test to see if a specific instance of ManagedClusters_AgentPool_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusters_AgentPool_Spec(subject ManagedClusters_AgentPool_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedClusters_AgentPool_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedClusters_AgentPool_Spec instances for property testing - lazily instantiated by
-// ManagedClusters_AgentPool_SpecGenerator()
-var managedClusters_AgentPool_SpecGenerator gopter.Gen
-
-// ManagedClusters_AgentPool_SpecGenerator returns a generator of ManagedClusters_AgentPool_Spec instances for property testing.
-func ManagedClusters_AgentPool_SpecGenerator() gopter.Gen {
-	if managedClusters_AgentPool_SpecGenerator != nil {
-		return managedClusters_AgentPool_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForManagedClusters_AgentPool_Spec(generators)
-	managedClusters_AgentPool_SpecGenerator = gen.Struct(reflect.TypeOf(ManagedClusters_AgentPool_Spec{}), generators)
-
-	return managedClusters_AgentPool_SpecGenerator
-}
-
-// AddRelatedPropertyGeneratorsForManagedClusters_AgentPool_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedClusters_AgentPool_Spec(gens map[string]gopter.Gen) {
-	gens["ArtifactStreamingProfile"] = gen.PtrOf(AgentPoolArtifactStreamingProfileGenerator())
-	gens["CreationData"] = gen.PtrOf(CreationDataGenerator())
-	gens["GpuProfile"] = gen.PtrOf(AgentPoolGPUProfileGenerator())
-	gens["KubeletConfig"] = gen.PtrOf(KubeletConfigGenerator())
-	gens["LinuxOSConfig"] = gen.PtrOf(LinuxOSConfigGenerator())
-	gens["NetworkProfile"] = gen.PtrOf(AgentPoolNetworkProfileGenerator())
-	gens["PowerState"] = gen.PtrOf(PowerStateGenerator())
-	gens["SecurityProfile"] = gen.PtrOf(AgentPoolSecurityProfileGenerator())
-	gens["UpgradeSettings"] = gen.PtrOf(AgentPoolUpgradeSettingsGenerator())
-	gens["VirtualMachineNodesStatus"] = gen.SliceOf(VirtualMachineNodesGenerator())
-	gens["VirtualMachinesProfile"] = gen.PtrOf(VirtualMachinesProfileGenerator())
-	gens["WindowsProfile"] = gen.PtrOf(AgentPoolWindowsProfileGenerator())
-}
-
-func Test_ManagedClusters_AgentPool_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ManagedClusters_AgentPool_STATUS to ManagedClusters_AgentPool_STATUS via AssignProperties_To_ManagedClusters_AgentPool_STATUS & AssignProperties_From_ManagedClusters_AgentPool_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForManagedClusters_AgentPool_STATUS, ManagedClusters_AgentPool_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForManagedClusters_AgentPool_STATUS tests if a specific instance of ManagedClusters_AgentPool_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForManagedClusters_AgentPool_STATUS(subject ManagedClusters_AgentPool_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231001s.ManagedClusters_AgentPool_STATUS
-	err := copied.AssignProperties_To_ManagedClusters_AgentPool_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ManagedClusters_AgentPool_STATUS
-	err = actual.AssignProperties_From_ManagedClusters_AgentPool_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ManagedClusters_AgentPool_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedClusters_AgentPool_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusters_AgentPool_STATUS, ManagedClusters_AgentPool_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedClusters_AgentPool_STATUS runs a test to see if a specific instance of ManagedClusters_AgentPool_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusters_AgentPool_STATUS(subject ManagedClusters_AgentPool_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedClusters_AgentPool_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedClusters_AgentPool_STATUS instances for property testing - lazily instantiated by
-// ManagedClusters_AgentPool_STATUSGenerator()
-var managedClusters_AgentPool_STATUSGenerator gopter.Gen
-
-// ManagedClusters_AgentPool_STATUSGenerator returns a generator of ManagedClusters_AgentPool_STATUS instances for property testing.
-func ManagedClusters_AgentPool_STATUSGenerator() gopter.Gen {
-	if managedClusters_AgentPool_STATUSGenerator != nil {
-		return managedClusters_AgentPool_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForManagedClusters_AgentPool_STATUS(generators)
-	managedClusters_AgentPool_STATUSGenerator = gen.Struct(reflect.TypeOf(ManagedClusters_AgentPool_STATUS{}), generators)
-
-	return managedClusters_AgentPool_STATUSGenerator
-}
-
-// AddRelatedPropertyGeneratorsForManagedClusters_AgentPool_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedClusters_AgentPool_STATUS(gens map[string]gopter.Gen) {
-	gens["ArtifactStreamingProfile"] = gen.PtrOf(AgentPoolArtifactStreamingProfile_STATUSGenerator())
-	gens["CreationData"] = gen.PtrOf(CreationData_STATUSGenerator())
-	gens["GpuProfile"] = gen.PtrOf(AgentPoolGPUProfile_STATUSGenerator())
-	gens["KubeletConfig"] = gen.PtrOf(KubeletConfig_STATUSGenerator())
-	gens["LinuxOSConfig"] = gen.PtrOf(LinuxOSConfig_STATUSGenerator())
-	gens["NetworkProfile"] = gen.PtrOf(AgentPoolNetworkProfile_STATUSGenerator())
-	gens["PowerState"] = gen.PtrOf(PowerState_STATUSGenerator())
-	gens["SecurityProfile"] = gen.PtrOf(AgentPoolSecurityProfile_STATUSGenerator())
-	gens["UpgradeSettings"] = gen.PtrOf(AgentPoolUpgradeSettings_STATUSGenerator())
-	gens["VirtualMachineNodesStatus"] = gen.SliceOf(VirtualMachineNodes_STATUSGenerator())
-	gens["VirtualMachinesProfile"] = gen.PtrOf(VirtualMachinesProfile_STATUSGenerator())
-	gens["WindowsProfile"] = gen.PtrOf(AgentPoolWindowsProfile_STATUSGenerator())
-}
-
 func Test_AgentPoolArtifactStreamingProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1402,6 +1027,212 @@ func AddIndependentPropertyGeneratorsForAgentPoolWindowsProfile_STATUS(gens map[
 	gens["DisableOutboundNat"] = gen.PtrOf(gen.Bool())
 }
 
+func Test_IPTag_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from IPTag to IPTag via AssignProperties_To_IPTag & AssignProperties_From_IPTag returns original",
+		prop.ForAll(RunPropertyAssignmentTestForIPTag, IPTagGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForIPTag tests if a specific instance of IPTag can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForIPTag(subject IPTag) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20231001s.IPTag
+	err := copied.AssignProperties_To_IPTag(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual IPTag
+	err = actual.AssignProperties_From_IPTag(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_IPTag_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of IPTag via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForIPTag, IPTagGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForIPTag runs a test to see if a specific instance of IPTag round trips to JSON and back losslessly
+func RunJSONSerializationTestForIPTag(subject IPTag) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual IPTag
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of IPTag instances for property testing - lazily instantiated by IPTagGenerator()
+var ipTagGenerator gopter.Gen
+
+// IPTagGenerator returns a generator of IPTag instances for property testing.
+func IPTagGenerator() gopter.Gen {
+	if ipTagGenerator != nil {
+		return ipTagGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForIPTag(generators)
+	ipTagGenerator = gen.Struct(reflect.TypeOf(IPTag{}), generators)
+
+	return ipTagGenerator
+}
+
+// AddIndependentPropertyGeneratorsForIPTag is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForIPTag(gens map[string]gopter.Gen) {
+	gens["IpTagType"] = gen.PtrOf(gen.AlphaString())
+	gens["Tag"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_IPTag_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from IPTag_STATUS to IPTag_STATUS via AssignProperties_To_IPTag_STATUS & AssignProperties_From_IPTag_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForIPTag_STATUS, IPTag_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForIPTag_STATUS tests if a specific instance of IPTag_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForIPTag_STATUS(subject IPTag_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20231001s.IPTag_STATUS
+	err := copied.AssignProperties_To_IPTag_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual IPTag_STATUS
+	err = actual.AssignProperties_From_IPTag_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_IPTag_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of IPTag_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForIPTag_STATUS, IPTag_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForIPTag_STATUS runs a test to see if a specific instance of IPTag_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForIPTag_STATUS(subject IPTag_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual IPTag_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of IPTag_STATUS instances for property testing - lazily instantiated by IPTag_STATUSGenerator()
+var ipTag_STATUSGenerator gopter.Gen
+
+// IPTag_STATUSGenerator returns a generator of IPTag_STATUS instances for property testing.
+func IPTag_STATUSGenerator() gopter.Gen {
+	if ipTag_STATUSGenerator != nil {
+		return ipTag_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForIPTag_STATUS(generators)
+	ipTag_STATUSGenerator = gen.Struct(reflect.TypeOf(IPTag_STATUS{}), generators)
+
+	return ipTag_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForIPTag_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForIPTag_STATUS(gens map[string]gopter.Gen) {
+	gens["IpTagType"] = gen.PtrOf(gen.AlphaString())
+	gens["Tag"] = gen.PtrOf(gen.AlphaString())
+}
+
 func Test_KubeletConfig_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1864,32 +1695,75 @@ func AddRelatedPropertyGeneratorsForLinuxOSConfig_STATUS(gens map[string]gopter.
 	gens["Sysctls"] = gen.PtrOf(SysctlConfig_STATUSGenerator())
 }
 
-func Test_PowerState_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_ManagedClustersAgentPool_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ManagedClustersAgentPool to hub returns original",
+		prop.ForAll(RunResourceConversionTestForManagedClustersAgentPool, ManagedClustersAgentPoolGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForManagedClustersAgentPool tests if a specific instance of ManagedClustersAgentPool round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForManagedClustersAgentPool(subject ManagedClustersAgentPool) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v20231001s.ManagedClustersAgentPool
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual ManagedClustersAgentPool
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ManagedClustersAgentPool_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from PowerState to PowerState via AssignProperties_To_PowerState & AssignProperties_From_PowerState returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPowerState, PowerStateGenerator()))
+		"Round trip from ManagedClustersAgentPool to ManagedClustersAgentPool via AssignProperties_To_ManagedClustersAgentPool & AssignProperties_From_ManagedClustersAgentPool returns original",
+		prop.ForAll(RunPropertyAssignmentTestForManagedClustersAgentPool, ManagedClustersAgentPoolGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPowerState tests if a specific instance of PowerState can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForPowerState(subject PowerState) string {
+// RunPropertyAssignmentTestForManagedClustersAgentPool tests if a specific instance of ManagedClustersAgentPool can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForManagedClustersAgentPool(subject ManagedClustersAgentPool) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231001s.PowerState
-	err := copied.AssignProperties_To_PowerState(&other)
+	var other v20231001s.ManagedClustersAgentPool
+	err := copied.AssignProperties_To_ManagedClustersAgentPool(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual PowerState
-	err = actual.AssignProperties_From_PowerState(&other)
+	var actual ManagedClustersAgentPool
+	err = actual.AssignProperties_From_ManagedClustersAgentPool(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1906,20 +1780,20 @@ func RunPropertyAssignmentTestForPowerState(subject PowerState) string {
 	return ""
 }
 
-func Test_PowerState_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedClustersAgentPool_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of PowerState via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPowerState, PowerStateGenerator()))
+		"Round trip of ManagedClustersAgentPool via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClustersAgentPool, ManagedClustersAgentPoolGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPowerState runs a test to see if a specific instance of PowerState round trips to JSON and back losslessly
-func RunJSONSerializationTestForPowerState(subject PowerState) string {
+// RunJSONSerializationTestForManagedClustersAgentPool runs a test to see if a specific instance of ManagedClustersAgentPool round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClustersAgentPool(subject ManagedClustersAgentPool) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1927,7 +1801,7 @@ func RunJSONSerializationTestForPowerState(subject PowerState) string {
 	}
 
 	// Deserialize back into memory
-	var actual PowerState
+	var actual ManagedClustersAgentPool
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1945,41 +1819,85 @@ func RunJSONSerializationTestForPowerState(subject PowerState) string {
 	return ""
 }
 
-// Generator of PowerState instances for property testing - lazily instantiated by PowerStateGenerator()
-var powerStateGenerator gopter.Gen
+// Generator of ManagedClustersAgentPool instances for property testing - lazily instantiated by
+// ManagedClustersAgentPoolGenerator()
+var managedClustersAgentPoolGenerator gopter.Gen
 
-// PowerStateGenerator returns a generator of PowerState instances for property testing.
-func PowerStateGenerator() gopter.Gen {
-	if powerStateGenerator != nil {
-		return powerStateGenerator
+// ManagedClustersAgentPoolGenerator returns a generator of ManagedClustersAgentPool instances for property testing.
+func ManagedClustersAgentPoolGenerator() gopter.Gen {
+	if managedClustersAgentPoolGenerator != nil {
+		return managedClustersAgentPoolGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPowerState(generators)
-	powerStateGenerator = gen.Struct(reflect.TypeOf(PowerState{}), generators)
+	AddRelatedPropertyGeneratorsForManagedClustersAgentPool(generators)
+	managedClustersAgentPoolGenerator = gen.Struct(reflect.TypeOf(ManagedClustersAgentPool{}), generators)
 
-	return powerStateGenerator
+	return managedClustersAgentPoolGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPowerState is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPowerState(gens map[string]gopter.Gen) {
-	gens["Code"] = gen.PtrOf(gen.AlphaString())
+// AddRelatedPropertyGeneratorsForManagedClustersAgentPool is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClustersAgentPool(gens map[string]gopter.Gen) {
+	gens["Spec"] = ManagedClusters_AgentPool_SpecGenerator()
+	gens["Status"] = ManagedClusters_AgentPool_STATUSGenerator()
 }
 
-func Test_VirtualMachineNodes_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedClusters_AgentPool_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ManagedClusters_AgentPool_STATUS to ManagedClusters_AgentPool_STATUS via AssignProperties_To_ManagedClusters_AgentPool_STATUS & AssignProperties_From_ManagedClusters_AgentPool_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForManagedClusters_AgentPool_STATUS, ManagedClusters_AgentPool_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForManagedClusters_AgentPool_STATUS tests if a specific instance of ManagedClusters_AgentPool_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForManagedClusters_AgentPool_STATUS(subject ManagedClusters_AgentPool_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20231001s.ManagedClusters_AgentPool_STATUS
+	err := copied.AssignProperties_To_ManagedClusters_AgentPool_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ManagedClusters_AgentPool_STATUS
+	err = actual.AssignProperties_From_ManagedClusters_AgentPool_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ManagedClusters_AgentPool_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualMachineNodes via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineNodes, VirtualMachineNodesGenerator()))
+		"Round trip of ManagedClusters_AgentPool_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusters_AgentPool_STATUS, ManagedClusters_AgentPool_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineNodes runs a test to see if a specific instance of VirtualMachineNodes round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineNodes(subject VirtualMachineNodes) string {
+// RunJSONSerializationTestForManagedClusters_AgentPool_STATUS runs a test to see if a specific instance of ManagedClusters_AgentPool_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusters_AgentPool_STATUS(subject ManagedClusters_AgentPool_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1987,7 +1905,7 @@ func RunJSONSerializationTestForVirtualMachineNodes(subject VirtualMachineNodes)
 	}
 
 	// Deserialize back into memory
-	var actual VirtualMachineNodes
+	var actual ManagedClusters_AgentPool_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2005,43 +1923,228 @@ func RunJSONSerializationTestForVirtualMachineNodes(subject VirtualMachineNodes)
 	return ""
 }
 
-// Generator of VirtualMachineNodes instances for property testing - lazily instantiated by
-// VirtualMachineNodesGenerator()
-var virtualMachineNodesGenerator gopter.Gen
+// Generator of ManagedClusters_AgentPool_STATUS instances for property testing - lazily instantiated by
+// ManagedClusters_AgentPool_STATUSGenerator()
+var managedClusters_AgentPool_STATUSGenerator gopter.Gen
 
-// VirtualMachineNodesGenerator returns a generator of VirtualMachineNodes instances for property testing.
-func VirtualMachineNodesGenerator() gopter.Gen {
-	if virtualMachineNodesGenerator != nil {
-		return virtualMachineNodesGenerator
+// ManagedClusters_AgentPool_STATUSGenerator returns a generator of ManagedClusters_AgentPool_STATUS instances for property testing.
+func ManagedClusters_AgentPool_STATUSGenerator() gopter.Gen {
+	if managedClusters_AgentPool_STATUSGenerator != nil {
+		return managedClusters_AgentPool_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineNodes(generators)
-	virtualMachineNodesGenerator = gen.Struct(reflect.TypeOf(VirtualMachineNodes{}), generators)
+	AddRelatedPropertyGeneratorsForManagedClusters_AgentPool_STATUS(generators)
+	managedClusters_AgentPool_STATUSGenerator = gen.Struct(reflect.TypeOf(ManagedClusters_AgentPool_STATUS{}), generators)
 
-	return virtualMachineNodesGenerator
+	return managedClusters_AgentPool_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineNodes is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineNodes(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForManagedClusters_AgentPool_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClusters_AgentPool_STATUS(gens map[string]gopter.Gen) {
+	gens["ArtifactStreamingProfile"] = gen.PtrOf(AgentPoolArtifactStreamingProfile_STATUSGenerator())
+	gens["CreationData"] = gen.PtrOf(CreationData_STATUSGenerator())
+	gens["GpuProfile"] = gen.PtrOf(AgentPoolGPUProfile_STATUSGenerator())
+	gens["KubeletConfig"] = gen.PtrOf(KubeletConfig_STATUSGenerator())
+	gens["LinuxOSConfig"] = gen.PtrOf(LinuxOSConfig_STATUSGenerator())
+	gens["NetworkProfile"] = gen.PtrOf(AgentPoolNetworkProfile_STATUSGenerator())
+	gens["PowerState"] = gen.PtrOf(PowerState_STATUSGenerator())
+	gens["SecurityProfile"] = gen.PtrOf(AgentPoolSecurityProfile_STATUSGenerator())
+	gens["UpgradeSettings"] = gen.PtrOf(AgentPoolUpgradeSettings_STATUSGenerator())
+	gens["VirtualMachineNodesStatus"] = gen.SliceOf(VirtualMachineNodes_STATUSGenerator())
+	gens["VirtualMachinesProfile"] = gen.PtrOf(VirtualMachinesProfile_STATUSGenerator())
+	gens["WindowsProfile"] = gen.PtrOf(AgentPoolWindowsProfile_STATUSGenerator())
+}
+
+func Test_ManagedClusters_AgentPool_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ManagedClusters_AgentPool_Spec to ManagedClusters_AgentPool_Spec via AssignProperties_To_ManagedClusters_AgentPool_Spec & AssignProperties_From_ManagedClusters_AgentPool_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForManagedClusters_AgentPool_Spec, ManagedClusters_AgentPool_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForManagedClusters_AgentPool_Spec tests if a specific instance of ManagedClusters_AgentPool_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForManagedClusters_AgentPool_Spec(subject ManagedClusters_AgentPool_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20231001s.ManagedClusters_AgentPool_Spec
+	err := copied.AssignProperties_To_ManagedClusters_AgentPool_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ManagedClusters_AgentPool_Spec
+	err = actual.AssignProperties_From_ManagedClusters_AgentPool_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ManagedClusters_AgentPool_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedClusters_AgentPool_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusters_AgentPool_Spec, ManagedClusters_AgentPool_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusters_AgentPool_Spec runs a test to see if a specific instance of ManagedClusters_AgentPool_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusters_AgentPool_Spec(subject ManagedClusters_AgentPool_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedClusters_AgentPool_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedClusters_AgentPool_Spec instances for property testing - lazily instantiated by
+// ManagedClusters_AgentPool_SpecGenerator()
+var managedClusters_AgentPool_SpecGenerator gopter.Gen
+
+// ManagedClusters_AgentPool_SpecGenerator returns a generator of ManagedClusters_AgentPool_Spec instances for property testing.
+func ManagedClusters_AgentPool_SpecGenerator() gopter.Gen {
+	if managedClusters_AgentPool_SpecGenerator != nil {
+		return managedClusters_AgentPool_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForManagedClusters_AgentPool_Spec(generators)
+	managedClusters_AgentPool_SpecGenerator = gen.Struct(reflect.TypeOf(ManagedClusters_AgentPool_Spec{}), generators)
+
+	return managedClusters_AgentPool_SpecGenerator
+}
+
+// AddRelatedPropertyGeneratorsForManagedClusters_AgentPool_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClusters_AgentPool_Spec(gens map[string]gopter.Gen) {
+	gens["ArtifactStreamingProfile"] = gen.PtrOf(AgentPoolArtifactStreamingProfileGenerator())
+	gens["CreationData"] = gen.PtrOf(CreationDataGenerator())
+	gens["GpuProfile"] = gen.PtrOf(AgentPoolGPUProfileGenerator())
+	gens["KubeletConfig"] = gen.PtrOf(KubeletConfigGenerator())
+	gens["LinuxOSConfig"] = gen.PtrOf(LinuxOSConfigGenerator())
+	gens["NetworkProfile"] = gen.PtrOf(AgentPoolNetworkProfileGenerator())
+	gens["PowerState"] = gen.PtrOf(PowerStateGenerator())
+	gens["SecurityProfile"] = gen.PtrOf(AgentPoolSecurityProfileGenerator())
+	gens["UpgradeSettings"] = gen.PtrOf(AgentPoolUpgradeSettingsGenerator())
+	gens["VirtualMachineNodesStatus"] = gen.SliceOf(VirtualMachineNodesGenerator())
+	gens["VirtualMachinesProfile"] = gen.PtrOf(VirtualMachinesProfileGenerator())
+	gens["WindowsProfile"] = gen.PtrOf(AgentPoolWindowsProfileGenerator())
+}
+
+func Test_ManualScaleProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManualScaleProfile via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManualScaleProfile, ManualScaleProfileGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManualScaleProfile runs a test to see if a specific instance of ManualScaleProfile round trips to JSON and back losslessly
+func RunJSONSerializationTestForManualScaleProfile(subject ManualScaleProfile) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManualScaleProfile
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManualScaleProfile instances for property testing - lazily instantiated by ManualScaleProfileGenerator()
+var manualScaleProfileGenerator gopter.Gen
+
+// ManualScaleProfileGenerator returns a generator of ManualScaleProfile instances for property testing.
+func ManualScaleProfileGenerator() gopter.Gen {
+	if manualScaleProfileGenerator != nil {
+		return manualScaleProfileGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManualScaleProfile(generators)
+	manualScaleProfileGenerator = gen.Struct(reflect.TypeOf(ManualScaleProfile{}), generators)
+
+	return manualScaleProfileGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManualScaleProfile is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManualScaleProfile(gens map[string]gopter.Gen) {
 	gens["Count"] = gen.PtrOf(gen.Int())
-	gens["Size"] = gen.PtrOf(gen.AlphaString())
+	gens["Sizes"] = gen.SliceOf(gen.AlphaString())
 }
 
-func Test_VirtualMachineNodes_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManualScaleProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualMachineNodes_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineNodes_STATUS, VirtualMachineNodes_STATUSGenerator()))
+		"Round trip of ManualScaleProfile_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManualScaleProfile_STATUS, ManualScaleProfile_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineNodes_STATUS runs a test to see if a specific instance of VirtualMachineNodes_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineNodes_STATUS(subject VirtualMachineNodes_STATUS) string {
+// RunJSONSerializationTestForManualScaleProfile_STATUS runs a test to see if a specific instance of ManualScaleProfile_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForManualScaleProfile_STATUS(subject ManualScaleProfile_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2049,7 +2152,7 @@ func RunJSONSerializationTestForVirtualMachineNodes_STATUS(subject VirtualMachin
 	}
 
 	// Deserialize back into memory
-	var actual VirtualMachineNodes_STATUS
+	var actual ManualScaleProfile_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2067,355 +2170,27 @@ func RunJSONSerializationTestForVirtualMachineNodes_STATUS(subject VirtualMachin
 	return ""
 }
 
-// Generator of VirtualMachineNodes_STATUS instances for property testing - lazily instantiated by
-// VirtualMachineNodes_STATUSGenerator()
-var virtualMachineNodes_STATUSGenerator gopter.Gen
+// Generator of ManualScaleProfile_STATUS instances for property testing - lazily instantiated by
+// ManualScaleProfile_STATUSGenerator()
+var manualScaleProfile_STATUSGenerator gopter.Gen
 
-// VirtualMachineNodes_STATUSGenerator returns a generator of VirtualMachineNodes_STATUS instances for property testing.
-func VirtualMachineNodes_STATUSGenerator() gopter.Gen {
-	if virtualMachineNodes_STATUSGenerator != nil {
-		return virtualMachineNodes_STATUSGenerator
+// ManualScaleProfile_STATUSGenerator returns a generator of ManualScaleProfile_STATUS instances for property testing.
+func ManualScaleProfile_STATUSGenerator() gopter.Gen {
+	if manualScaleProfile_STATUSGenerator != nil {
+		return manualScaleProfile_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineNodes_STATUS(generators)
-	virtualMachineNodes_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineNodes_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForManualScaleProfile_STATUS(generators)
+	manualScaleProfile_STATUSGenerator = gen.Struct(reflect.TypeOf(ManualScaleProfile_STATUS{}), generators)
 
-	return virtualMachineNodes_STATUSGenerator
+	return manualScaleProfile_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineNodes_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineNodes_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForManualScaleProfile_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManualScaleProfile_STATUS(gens map[string]gopter.Gen) {
 	gens["Count"] = gen.PtrOf(gen.Int())
-	gens["Size"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_VirtualMachinesProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualMachinesProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachinesProfile, VirtualMachinesProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForVirtualMachinesProfile runs a test to see if a specific instance of VirtualMachinesProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachinesProfile(subject VirtualMachinesProfile) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual VirtualMachinesProfile
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of VirtualMachinesProfile instances for property testing - lazily instantiated by
-// VirtualMachinesProfileGenerator()
-var virtualMachinesProfileGenerator gopter.Gen
-
-// VirtualMachinesProfileGenerator returns a generator of VirtualMachinesProfile instances for property testing.
-func VirtualMachinesProfileGenerator() gopter.Gen {
-	if virtualMachinesProfileGenerator != nil {
-		return virtualMachinesProfileGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForVirtualMachinesProfile(generators)
-	virtualMachinesProfileGenerator = gen.Struct(reflect.TypeOf(VirtualMachinesProfile{}), generators)
-
-	return virtualMachinesProfileGenerator
-}
-
-// AddRelatedPropertyGeneratorsForVirtualMachinesProfile is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachinesProfile(gens map[string]gopter.Gen) {
-	gens["Scale"] = gen.PtrOf(ScaleProfileGenerator())
-}
-
-func Test_VirtualMachinesProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualMachinesProfile_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachinesProfile_STATUS, VirtualMachinesProfile_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForVirtualMachinesProfile_STATUS runs a test to see if a specific instance of VirtualMachinesProfile_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachinesProfile_STATUS(subject VirtualMachinesProfile_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual VirtualMachinesProfile_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of VirtualMachinesProfile_STATUS instances for property testing - lazily instantiated by
-// VirtualMachinesProfile_STATUSGenerator()
-var virtualMachinesProfile_STATUSGenerator gopter.Gen
-
-// VirtualMachinesProfile_STATUSGenerator returns a generator of VirtualMachinesProfile_STATUS instances for property testing.
-func VirtualMachinesProfile_STATUSGenerator() gopter.Gen {
-	if virtualMachinesProfile_STATUSGenerator != nil {
-		return virtualMachinesProfile_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForVirtualMachinesProfile_STATUS(generators)
-	virtualMachinesProfile_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachinesProfile_STATUS{}), generators)
-
-	return virtualMachinesProfile_STATUSGenerator
-}
-
-// AddRelatedPropertyGeneratorsForVirtualMachinesProfile_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachinesProfile_STATUS(gens map[string]gopter.Gen) {
-	gens["Scale"] = gen.PtrOf(ScaleProfile_STATUSGenerator())
-}
-
-func Test_IPTag_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from IPTag to IPTag via AssignProperties_To_IPTag & AssignProperties_From_IPTag returns original",
-		prop.ForAll(RunPropertyAssignmentTestForIPTag, IPTagGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForIPTag tests if a specific instance of IPTag can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForIPTag(subject IPTag) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231001s.IPTag
-	err := copied.AssignProperties_To_IPTag(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual IPTag
-	err = actual.AssignProperties_From_IPTag(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_IPTag_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of IPTag via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForIPTag, IPTagGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForIPTag runs a test to see if a specific instance of IPTag round trips to JSON and back losslessly
-func RunJSONSerializationTestForIPTag(subject IPTag) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual IPTag
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of IPTag instances for property testing - lazily instantiated by IPTagGenerator()
-var ipTagGenerator gopter.Gen
-
-// IPTagGenerator returns a generator of IPTag instances for property testing.
-func IPTagGenerator() gopter.Gen {
-	if ipTagGenerator != nil {
-		return ipTagGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIPTag(generators)
-	ipTagGenerator = gen.Struct(reflect.TypeOf(IPTag{}), generators)
-
-	return ipTagGenerator
-}
-
-// AddIndependentPropertyGeneratorsForIPTag is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForIPTag(gens map[string]gopter.Gen) {
-	gens["IpTagType"] = gen.PtrOf(gen.AlphaString())
-	gens["Tag"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_IPTag_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from IPTag_STATUS to IPTag_STATUS via AssignProperties_To_IPTag_STATUS & AssignProperties_From_IPTag_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForIPTag_STATUS, IPTag_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForIPTag_STATUS tests if a specific instance of IPTag_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForIPTag_STATUS(subject IPTag_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231001s.IPTag_STATUS
-	err := copied.AssignProperties_To_IPTag_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual IPTag_STATUS
-	err = actual.AssignProperties_From_IPTag_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_IPTag_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of IPTag_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForIPTag_STATUS, IPTag_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForIPTag_STATUS runs a test to see if a specific instance of IPTag_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForIPTag_STATUS(subject IPTag_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual IPTag_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of IPTag_STATUS instances for property testing - lazily instantiated by IPTag_STATUSGenerator()
-var ipTag_STATUSGenerator gopter.Gen
-
-// IPTag_STATUSGenerator returns a generator of IPTag_STATUS instances for property testing.
-func IPTag_STATUSGenerator() gopter.Gen {
-	if ipTag_STATUSGenerator != nil {
-		return ipTag_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIPTag_STATUS(generators)
-	ipTag_STATUSGenerator = gen.Struct(reflect.TypeOf(IPTag_STATUS{}), generators)
-
-	return ipTag_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForIPTag_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForIPTag_STATUS(gens map[string]gopter.Gen) {
-	gens["IpTagType"] = gen.PtrOf(gen.AlphaString())
-	gens["Tag"] = gen.PtrOf(gen.AlphaString())
+	gens["Sizes"] = gen.SliceOf(gen.AlphaString())
 }
 
 func Test_PortRange_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2624,6 +2399,108 @@ func AddIndependentPropertyGeneratorsForPortRange_STATUS(gens map[string]gopter.
 	gens["PortEnd"] = gen.PtrOf(gen.Int())
 	gens["PortStart"] = gen.PtrOf(gen.Int())
 	gens["Protocol"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_PowerState_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PowerState to PowerState via AssignProperties_To_PowerState & AssignProperties_From_PowerState returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPowerState, PowerStateGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPowerState tests if a specific instance of PowerState can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForPowerState(subject PowerState) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20231001s.PowerState
+	err := copied.AssignProperties_To_PowerState(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PowerState
+	err = actual.AssignProperties_From_PowerState(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_PowerState_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PowerState via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPowerState, PowerStateGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPowerState runs a test to see if a specific instance of PowerState round trips to JSON and back losslessly
+func RunJSONSerializationTestForPowerState(subject PowerState) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PowerState
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PowerState instances for property testing - lazily instantiated by PowerStateGenerator()
+var powerStateGenerator gopter.Gen
+
+// PowerStateGenerator returns a generator of PowerState instances for property testing.
+func PowerStateGenerator() gopter.Gen {
+	if powerStateGenerator != nil {
+		return powerStateGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPowerState(generators)
+	powerStateGenerator = gen.Struct(reflect.TypeOf(PowerState{}), generators)
+
+	return powerStateGenerator
+}
+
+// AddIndependentPropertyGeneratorsForPowerState is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPowerState(gens map[string]gopter.Gen) {
+	gens["Code"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ScaleProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3006,20 +2883,20 @@ func AddIndependentPropertyGeneratorsForSysctlConfig_STATUS(gens map[string]gopt
 	gens["VmVfsCachePressure"] = gen.PtrOf(gen.Int())
 }
 
-func Test_ManualScaleProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualMachineNodes_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManualScaleProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManualScaleProfile, ManualScaleProfileGenerator()))
+		"Round trip of VirtualMachineNodes via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineNodes, VirtualMachineNodesGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManualScaleProfile runs a test to see if a specific instance of ManualScaleProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForManualScaleProfile(subject ManualScaleProfile) string {
+// RunJSONSerializationTestForVirtualMachineNodes runs a test to see if a specific instance of VirtualMachineNodes round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineNodes(subject VirtualMachineNodes) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -3027,7 +2904,7 @@ func RunJSONSerializationTestForManualScaleProfile(subject ManualScaleProfile) s
 	}
 
 	// Deserialize back into memory
-	var actual ManualScaleProfile
+	var actual VirtualMachineNodes
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -3045,42 +2922,43 @@ func RunJSONSerializationTestForManualScaleProfile(subject ManualScaleProfile) s
 	return ""
 }
 
-// Generator of ManualScaleProfile instances for property testing - lazily instantiated by ManualScaleProfileGenerator()
-var manualScaleProfileGenerator gopter.Gen
+// Generator of VirtualMachineNodes instances for property testing - lazily instantiated by
+// VirtualMachineNodesGenerator()
+var virtualMachineNodesGenerator gopter.Gen
 
-// ManualScaleProfileGenerator returns a generator of ManualScaleProfile instances for property testing.
-func ManualScaleProfileGenerator() gopter.Gen {
-	if manualScaleProfileGenerator != nil {
-		return manualScaleProfileGenerator
+// VirtualMachineNodesGenerator returns a generator of VirtualMachineNodes instances for property testing.
+func VirtualMachineNodesGenerator() gopter.Gen {
+	if virtualMachineNodesGenerator != nil {
+		return virtualMachineNodesGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManualScaleProfile(generators)
-	manualScaleProfileGenerator = gen.Struct(reflect.TypeOf(ManualScaleProfile{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineNodes(generators)
+	virtualMachineNodesGenerator = gen.Struct(reflect.TypeOf(VirtualMachineNodes{}), generators)
 
-	return manualScaleProfileGenerator
+	return virtualMachineNodesGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManualScaleProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManualScaleProfile(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineNodes is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineNodes(gens map[string]gopter.Gen) {
 	gens["Count"] = gen.PtrOf(gen.Int())
-	gens["Sizes"] = gen.SliceOf(gen.AlphaString())
+	gens["Size"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_ManualScaleProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualMachineNodes_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManualScaleProfile_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManualScaleProfile_STATUS, ManualScaleProfile_STATUSGenerator()))
+		"Round trip of VirtualMachineNodes_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineNodes_STATUS, VirtualMachineNodes_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManualScaleProfile_STATUS runs a test to see if a specific instance of ManualScaleProfile_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForManualScaleProfile_STATUS(subject ManualScaleProfile_STATUS) string {
+// RunJSONSerializationTestForVirtualMachineNodes_STATUS runs a test to see if a specific instance of VirtualMachineNodes_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineNodes_STATUS(subject VirtualMachineNodes_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -3088,7 +2966,7 @@ func RunJSONSerializationTestForManualScaleProfile_STATUS(subject ManualScalePro
 	}
 
 	// Deserialize back into memory
-	var actual ManualScaleProfile_STATUS
+	var actual VirtualMachineNodes_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -3106,25 +2984,147 @@ func RunJSONSerializationTestForManualScaleProfile_STATUS(subject ManualScalePro
 	return ""
 }
 
-// Generator of ManualScaleProfile_STATUS instances for property testing - lazily instantiated by
-// ManualScaleProfile_STATUSGenerator()
-var manualScaleProfile_STATUSGenerator gopter.Gen
+// Generator of VirtualMachineNodes_STATUS instances for property testing - lazily instantiated by
+// VirtualMachineNodes_STATUSGenerator()
+var virtualMachineNodes_STATUSGenerator gopter.Gen
 
-// ManualScaleProfile_STATUSGenerator returns a generator of ManualScaleProfile_STATUS instances for property testing.
-func ManualScaleProfile_STATUSGenerator() gopter.Gen {
-	if manualScaleProfile_STATUSGenerator != nil {
-		return manualScaleProfile_STATUSGenerator
+// VirtualMachineNodes_STATUSGenerator returns a generator of VirtualMachineNodes_STATUS instances for property testing.
+func VirtualMachineNodes_STATUSGenerator() gopter.Gen {
+	if virtualMachineNodes_STATUSGenerator != nil {
+		return virtualMachineNodes_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManualScaleProfile_STATUS(generators)
-	manualScaleProfile_STATUSGenerator = gen.Struct(reflect.TypeOf(ManualScaleProfile_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineNodes_STATUS(generators)
+	virtualMachineNodes_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineNodes_STATUS{}), generators)
 
-	return manualScaleProfile_STATUSGenerator
+	return virtualMachineNodes_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManualScaleProfile_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManualScaleProfile_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineNodes_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineNodes_STATUS(gens map[string]gopter.Gen) {
 	gens["Count"] = gen.PtrOf(gen.Int())
-	gens["Sizes"] = gen.SliceOf(gen.AlphaString())
+	gens["Size"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_VirtualMachinesProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualMachinesProfile via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachinesProfile, VirtualMachinesProfileGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualMachinesProfile runs a test to see if a specific instance of VirtualMachinesProfile round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachinesProfile(subject VirtualMachinesProfile) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualMachinesProfile
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualMachinesProfile instances for property testing - lazily instantiated by
+// VirtualMachinesProfileGenerator()
+var virtualMachinesProfileGenerator gopter.Gen
+
+// VirtualMachinesProfileGenerator returns a generator of VirtualMachinesProfile instances for property testing.
+func VirtualMachinesProfileGenerator() gopter.Gen {
+	if virtualMachinesProfileGenerator != nil {
+		return virtualMachinesProfileGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForVirtualMachinesProfile(generators)
+	virtualMachinesProfileGenerator = gen.Struct(reflect.TypeOf(VirtualMachinesProfile{}), generators)
+
+	return virtualMachinesProfileGenerator
+}
+
+// AddRelatedPropertyGeneratorsForVirtualMachinesProfile is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachinesProfile(gens map[string]gopter.Gen) {
+	gens["Scale"] = gen.PtrOf(ScaleProfileGenerator())
+}
+
+func Test_VirtualMachinesProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualMachinesProfile_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachinesProfile_STATUS, VirtualMachinesProfile_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualMachinesProfile_STATUS runs a test to see if a specific instance of VirtualMachinesProfile_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachinesProfile_STATUS(subject VirtualMachinesProfile_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualMachinesProfile_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualMachinesProfile_STATUS instances for property testing - lazily instantiated by
+// VirtualMachinesProfile_STATUSGenerator()
+var virtualMachinesProfile_STATUSGenerator gopter.Gen
+
+// VirtualMachinesProfile_STATUSGenerator returns a generator of VirtualMachinesProfile_STATUS instances for property testing.
+func VirtualMachinesProfile_STATUSGenerator() gopter.Gen {
+	if virtualMachinesProfile_STATUSGenerator != nil {
+		return virtualMachinesProfile_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForVirtualMachinesProfile_STATUS(generators)
+	virtualMachinesProfile_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachinesProfile_STATUS{}), generators)
+
+	return virtualMachinesProfile_STATUSGenerator
+}
+
+// AddRelatedPropertyGeneratorsForVirtualMachinesProfile_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachinesProfile_STATUS(gens map[string]gopter.Gen) {
+	gens["Scale"] = gen.PtrOf(ScaleProfile_STATUSGenerator())
 }

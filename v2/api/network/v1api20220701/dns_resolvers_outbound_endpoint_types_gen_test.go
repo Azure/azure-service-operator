@@ -5,7 +5,7 @@ package v1api20220701
 
 import (
 	"encoding/json"
-	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForDnsResolversOutboundEndpoint(subject DnsResolve
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20220701s.DnsResolversOutboundEndpoint
+	var hub storage.DnsResolversOutboundEndpoint
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForDnsResolversOutboundEndpoint(subject DnsResolve
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.DnsResolversOutboundEndpoint
+	var other storage.DnsResolversOutboundEndpoint
 	err := copied.AssignProperties_To_DnsResolversOutboundEndpoint(&other)
 	if err != nil {
 		return err.Error()
@@ -165,127 +165,6 @@ func AddRelatedPropertyGeneratorsForDnsResolversOutboundEndpoint(gens map[string
 	gens["Status"] = DnsResolvers_OutboundEndpoint_STATUSGenerator()
 }
 
-func Test_DnsResolvers_OutboundEndpoint_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DnsResolvers_OutboundEndpoint_Spec to DnsResolvers_OutboundEndpoint_Spec via AssignProperties_To_DnsResolvers_OutboundEndpoint_Spec & AssignProperties_From_DnsResolvers_OutboundEndpoint_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDnsResolvers_OutboundEndpoint_Spec, DnsResolvers_OutboundEndpoint_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForDnsResolvers_OutboundEndpoint_Spec tests if a specific instance of DnsResolvers_OutboundEndpoint_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDnsResolvers_OutboundEndpoint_Spec(subject DnsResolvers_OutboundEndpoint_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.DnsResolvers_OutboundEndpoint_Spec
-	err := copied.AssignProperties_To_DnsResolvers_OutboundEndpoint_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DnsResolvers_OutboundEndpoint_Spec
-	err = actual.AssignProperties_From_DnsResolvers_OutboundEndpoint_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_DnsResolvers_OutboundEndpoint_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DnsResolvers_OutboundEndpoint_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDnsResolvers_OutboundEndpoint_Spec, DnsResolvers_OutboundEndpoint_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForDnsResolvers_OutboundEndpoint_Spec runs a test to see if a specific instance of DnsResolvers_OutboundEndpoint_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForDnsResolvers_OutboundEndpoint_Spec(subject DnsResolvers_OutboundEndpoint_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual DnsResolvers_OutboundEndpoint_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of DnsResolvers_OutboundEndpoint_Spec instances for property testing - lazily instantiated by
-// DnsResolvers_OutboundEndpoint_SpecGenerator()
-var dnsResolvers_OutboundEndpoint_SpecGenerator gopter.Gen
-
-// DnsResolvers_OutboundEndpoint_SpecGenerator returns a generator of DnsResolvers_OutboundEndpoint_Spec instances for property testing.
-// We first initialize dnsResolvers_OutboundEndpoint_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DnsResolvers_OutboundEndpoint_SpecGenerator() gopter.Gen {
-	if dnsResolvers_OutboundEndpoint_SpecGenerator != nil {
-		return dnsResolvers_OutboundEndpoint_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsResolvers_OutboundEndpoint_Spec(generators)
-	dnsResolvers_OutboundEndpoint_SpecGenerator = gen.Struct(reflect.TypeOf(DnsResolvers_OutboundEndpoint_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsResolvers_OutboundEndpoint_Spec(generators)
-	AddRelatedPropertyGeneratorsForDnsResolvers_OutboundEndpoint_Spec(generators)
-	dnsResolvers_OutboundEndpoint_SpecGenerator = gen.Struct(reflect.TypeOf(DnsResolvers_OutboundEndpoint_Spec{}), generators)
-
-	return dnsResolvers_OutboundEndpoint_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDnsResolvers_OutboundEndpoint_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDnsResolvers_OutboundEndpoint_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDnsResolvers_OutboundEndpoint_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDnsResolvers_OutboundEndpoint_Spec(gens map[string]gopter.Gen) {
-	gens["Subnet"] = gen.PtrOf(DnsresolverSubResourceGenerator())
-}
-
 func Test_DnsResolvers_OutboundEndpoint_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -303,7 +182,7 @@ func RunPropertyAssignmentTestForDnsResolvers_OutboundEndpoint_STATUS(subject Dn
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220701s.DnsResolvers_OutboundEndpoint_STATUS
+	var other storage.DnsResolvers_OutboundEndpoint_STATUS
 	err := copied.AssignProperties_To_DnsResolvers_OutboundEndpoint_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -417,4 +296,125 @@ func AddIndependentPropertyGeneratorsForDnsResolvers_OutboundEndpoint_STATUS(gen
 func AddRelatedPropertyGeneratorsForDnsResolvers_OutboundEndpoint_STATUS(gens map[string]gopter.Gen) {
 	gens["Subnet"] = gen.PtrOf(DnsresolverSubResource_STATUSGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
+}
+
+func Test_DnsResolvers_OutboundEndpoint_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DnsResolvers_OutboundEndpoint_Spec to DnsResolvers_OutboundEndpoint_Spec via AssignProperties_To_DnsResolvers_OutboundEndpoint_Spec & AssignProperties_From_DnsResolvers_OutboundEndpoint_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDnsResolvers_OutboundEndpoint_Spec, DnsResolvers_OutboundEndpoint_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDnsResolvers_OutboundEndpoint_Spec tests if a specific instance of DnsResolvers_OutboundEndpoint_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDnsResolvers_OutboundEndpoint_Spec(subject DnsResolvers_OutboundEndpoint_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.DnsResolvers_OutboundEndpoint_Spec
+	err := copied.AssignProperties_To_DnsResolvers_OutboundEndpoint_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DnsResolvers_OutboundEndpoint_Spec
+	err = actual.AssignProperties_From_DnsResolvers_OutboundEndpoint_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_DnsResolvers_OutboundEndpoint_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DnsResolvers_OutboundEndpoint_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDnsResolvers_OutboundEndpoint_Spec, DnsResolvers_OutboundEndpoint_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDnsResolvers_OutboundEndpoint_Spec runs a test to see if a specific instance of DnsResolvers_OutboundEndpoint_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForDnsResolvers_OutboundEndpoint_Spec(subject DnsResolvers_OutboundEndpoint_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DnsResolvers_OutboundEndpoint_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DnsResolvers_OutboundEndpoint_Spec instances for property testing - lazily instantiated by
+// DnsResolvers_OutboundEndpoint_SpecGenerator()
+var dnsResolvers_OutboundEndpoint_SpecGenerator gopter.Gen
+
+// DnsResolvers_OutboundEndpoint_SpecGenerator returns a generator of DnsResolvers_OutboundEndpoint_Spec instances for property testing.
+// We first initialize dnsResolvers_OutboundEndpoint_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func DnsResolvers_OutboundEndpoint_SpecGenerator() gopter.Gen {
+	if dnsResolvers_OutboundEndpoint_SpecGenerator != nil {
+		return dnsResolvers_OutboundEndpoint_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDnsResolvers_OutboundEndpoint_Spec(generators)
+	dnsResolvers_OutboundEndpoint_SpecGenerator = gen.Struct(reflect.TypeOf(DnsResolvers_OutboundEndpoint_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDnsResolvers_OutboundEndpoint_Spec(generators)
+	AddRelatedPropertyGeneratorsForDnsResolvers_OutboundEndpoint_Spec(generators)
+	dnsResolvers_OutboundEndpoint_SpecGenerator = gen.Struct(reflect.TypeOf(DnsResolvers_OutboundEndpoint_Spec{}), generators)
+
+	return dnsResolvers_OutboundEndpoint_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForDnsResolvers_OutboundEndpoint_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDnsResolvers_OutboundEndpoint_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForDnsResolvers_OutboundEndpoint_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDnsResolvers_OutboundEndpoint_Spec(gens map[string]gopter.Gen) {
+	gens["Subnet"] = gen.PtrOf(DnsresolverSubResourceGenerator())
 }

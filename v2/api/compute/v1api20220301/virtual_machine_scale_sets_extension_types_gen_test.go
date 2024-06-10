@@ -5,7 +5,7 @@ package v1api20220301
 
 import (
 	"encoding/json"
-	v20220301s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -17,406 +17,6 @@ import (
 	"reflect"
 	"testing"
 )
-
-func Test_VirtualMachineScaleSetsExtension_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from VirtualMachineScaleSetsExtension to hub returns original",
-		prop.ForAll(RunResourceConversionTestForVirtualMachineScaleSetsExtension, VirtualMachineScaleSetsExtensionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunResourceConversionTestForVirtualMachineScaleSetsExtension tests if a specific instance of VirtualMachineScaleSetsExtension round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForVirtualMachineScaleSetsExtension(subject VirtualMachineScaleSetsExtension) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub v20220301s.VirtualMachineScaleSetsExtension
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual VirtualMachineScaleSetsExtension
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_VirtualMachineScaleSetsExtension_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from VirtualMachineScaleSetsExtension to VirtualMachineScaleSetsExtension via AssignProperties_To_VirtualMachineScaleSetsExtension & AssignProperties_From_VirtualMachineScaleSetsExtension returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetsExtension, VirtualMachineScaleSetsExtensionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForVirtualMachineScaleSetsExtension tests if a specific instance of VirtualMachineScaleSetsExtension can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForVirtualMachineScaleSetsExtension(subject VirtualMachineScaleSetsExtension) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220301s.VirtualMachineScaleSetsExtension
-	err := copied.AssignProperties_To_VirtualMachineScaleSetsExtension(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualMachineScaleSetsExtension
-	err = actual.AssignProperties_From_VirtualMachineScaleSetsExtension(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_VirtualMachineScaleSetsExtension_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualMachineScaleSetsExtension via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetsExtension, VirtualMachineScaleSetsExtensionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForVirtualMachineScaleSetsExtension runs a test to see if a specific instance of VirtualMachineScaleSetsExtension round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetsExtension(subject VirtualMachineScaleSetsExtension) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual VirtualMachineScaleSetsExtension
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of VirtualMachineScaleSetsExtension instances for property testing - lazily instantiated by
-// VirtualMachineScaleSetsExtensionGenerator()
-var virtualMachineScaleSetsExtensionGenerator gopter.Gen
-
-// VirtualMachineScaleSetsExtensionGenerator returns a generator of VirtualMachineScaleSetsExtension instances for property testing.
-func VirtualMachineScaleSetsExtensionGenerator() gopter.Gen {
-	if virtualMachineScaleSetsExtensionGenerator != nil {
-		return virtualMachineScaleSetsExtensionGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsExtension(generators)
-	virtualMachineScaleSetsExtensionGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetsExtension{}), generators)
-
-	return virtualMachineScaleSetsExtensionGenerator
-}
-
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsExtension is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsExtension(gens map[string]gopter.Gen) {
-	gens["Spec"] = VirtualMachineScaleSets_Extension_SpecGenerator()
-	gens["Status"] = VirtualMachineScaleSets_Extension_STATUSGenerator()
-}
-
-func Test_VirtualMachineScaleSets_Extension_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from VirtualMachineScaleSets_Extension_Spec to VirtualMachineScaleSets_Extension_Spec via AssignProperties_To_VirtualMachineScaleSets_Extension_Spec & AssignProperties_From_VirtualMachineScaleSets_Extension_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSets_Extension_Spec, VirtualMachineScaleSets_Extension_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForVirtualMachineScaleSets_Extension_Spec tests if a specific instance of VirtualMachineScaleSets_Extension_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForVirtualMachineScaleSets_Extension_Spec(subject VirtualMachineScaleSets_Extension_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220301s.VirtualMachineScaleSets_Extension_Spec
-	err := copied.AssignProperties_To_VirtualMachineScaleSets_Extension_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualMachineScaleSets_Extension_Spec
-	err = actual.AssignProperties_From_VirtualMachineScaleSets_Extension_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_VirtualMachineScaleSets_Extension_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualMachineScaleSets_Extension_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSets_Extension_Spec, VirtualMachineScaleSets_Extension_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForVirtualMachineScaleSets_Extension_Spec runs a test to see if a specific instance of VirtualMachineScaleSets_Extension_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSets_Extension_Spec(subject VirtualMachineScaleSets_Extension_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual VirtualMachineScaleSets_Extension_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of VirtualMachineScaleSets_Extension_Spec instances for property testing - lazily instantiated by
-// VirtualMachineScaleSets_Extension_SpecGenerator()
-var virtualMachineScaleSets_Extension_SpecGenerator gopter.Gen
-
-// VirtualMachineScaleSets_Extension_SpecGenerator returns a generator of VirtualMachineScaleSets_Extension_Spec instances for property testing.
-// We first initialize virtualMachineScaleSets_Extension_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSets_Extension_SpecGenerator() gopter.Gen {
-	if virtualMachineScaleSets_Extension_SpecGenerator != nil {
-		return virtualMachineScaleSets_Extension_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSets_Extension_Spec(generators)
-	virtualMachineScaleSets_Extension_SpecGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSets_Extension_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSets_Extension_Spec(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSets_Extension_Spec(generators)
-	virtualMachineScaleSets_Extension_SpecGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSets_Extension_Spec{}), generators)
-
-	return virtualMachineScaleSets_Extension_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSets_Extension_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSets_Extension_Spec(gens map[string]gopter.Gen) {
-	gens["AutoUpgradeMinorVersion"] = gen.PtrOf(gen.Bool())
-	gens["AzureName"] = gen.AlphaString()
-	gens["EnableAutomaticUpgrade"] = gen.PtrOf(gen.Bool())
-	gens["ForceUpdateTag"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisionAfterExtensions"] = gen.SliceOf(gen.AlphaString())
-	gens["Publisher"] = gen.PtrOf(gen.AlphaString())
-	gens["SuppressFailures"] = gen.PtrOf(gen.Bool())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["TypeHandlerVersion"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSets_Extension_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSets_Extension_Spec(gens map[string]gopter.Gen) {
-	gens["ProtectedSettingsFromKeyVault"] = gen.PtrOf(KeyVaultSecretReferenceGenerator())
-}
-
-func Test_VirtualMachineScaleSets_Extension_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from VirtualMachineScaleSets_Extension_STATUS to VirtualMachineScaleSets_Extension_STATUS via AssignProperties_To_VirtualMachineScaleSets_Extension_STATUS & AssignProperties_From_VirtualMachineScaleSets_Extension_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSets_Extension_STATUS, VirtualMachineScaleSets_Extension_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForVirtualMachineScaleSets_Extension_STATUS tests if a specific instance of VirtualMachineScaleSets_Extension_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForVirtualMachineScaleSets_Extension_STATUS(subject VirtualMachineScaleSets_Extension_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220301s.VirtualMachineScaleSets_Extension_STATUS
-	err := copied.AssignProperties_To_VirtualMachineScaleSets_Extension_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualMachineScaleSets_Extension_STATUS
-	err = actual.AssignProperties_From_VirtualMachineScaleSets_Extension_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_VirtualMachineScaleSets_Extension_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualMachineScaleSets_Extension_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSets_Extension_STATUS, VirtualMachineScaleSets_Extension_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForVirtualMachineScaleSets_Extension_STATUS runs a test to see if a specific instance of VirtualMachineScaleSets_Extension_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSets_Extension_STATUS(subject VirtualMachineScaleSets_Extension_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual VirtualMachineScaleSets_Extension_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of VirtualMachineScaleSets_Extension_STATUS instances for property testing - lazily instantiated by
-// VirtualMachineScaleSets_Extension_STATUSGenerator()
-var virtualMachineScaleSets_Extension_STATUSGenerator gopter.Gen
-
-// VirtualMachineScaleSets_Extension_STATUSGenerator returns a generator of VirtualMachineScaleSets_Extension_STATUS instances for property testing.
-// We first initialize virtualMachineScaleSets_Extension_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSets_Extension_STATUSGenerator() gopter.Gen {
-	if virtualMachineScaleSets_Extension_STATUSGenerator != nil {
-		return virtualMachineScaleSets_Extension_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSets_Extension_STATUS(generators)
-	virtualMachineScaleSets_Extension_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSets_Extension_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSets_Extension_STATUS(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSets_Extension_STATUS(generators)
-	virtualMachineScaleSets_Extension_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSets_Extension_STATUS{}), generators)
-
-	return virtualMachineScaleSets_Extension_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSets_Extension_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSets_Extension_STATUS(gens map[string]gopter.Gen) {
-	gens["AutoUpgradeMinorVersion"] = gen.PtrOf(gen.Bool())
-	gens["EnableAutomaticUpgrade"] = gen.PtrOf(gen.Bool())
-	gens["ForceUpdateTag"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["PropertiesType"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisionAfterExtensions"] = gen.SliceOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["Publisher"] = gen.PtrOf(gen.AlphaString())
-	gens["SuppressFailures"] = gen.PtrOf(gen.Bool())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["TypeHandlerVersion"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSets_Extension_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSets_Extension_STATUS(gens map[string]gopter.Gen) {
-	gens["ProtectedSettingsFromKeyVault"] = gen.PtrOf(KeyVaultSecretReference_STATUSGenerator())
-}
 
 func Test_KeyVaultSecretReference_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
@@ -435,7 +35,7 @@ func RunPropertyAssignmentTestForKeyVaultSecretReference(subject KeyVaultSecretR
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220301s.KeyVaultSecretReference
+	var other storage.KeyVaultSecretReference
 	err := copied.AssignProperties_To_KeyVaultSecretReference(&other)
 	if err != nil {
 		return err.Error()
@@ -552,7 +152,7 @@ func RunPropertyAssignmentTestForKeyVaultSecretReference_STATUS(subject KeyVault
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220301s.KeyVaultSecretReference_STATUS
+	var other storage.KeyVaultSecretReference_STATUS
 	err := copied.AssignProperties_To_KeyVaultSecretReference_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -650,4 +250,404 @@ func AddIndependentPropertyGeneratorsForKeyVaultSecretReference_STATUS(gens map[
 // AddRelatedPropertyGeneratorsForKeyVaultSecretReference_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForKeyVaultSecretReference_STATUS(gens map[string]gopter.Gen) {
 	gens["SourceVault"] = gen.PtrOf(SubResource_STATUSGenerator())
+}
+
+func Test_VirtualMachineScaleSetsExtension_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualMachineScaleSetsExtension to hub returns original",
+		prop.ForAll(RunResourceConversionTestForVirtualMachineScaleSetsExtension, VirtualMachineScaleSetsExtensionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForVirtualMachineScaleSetsExtension tests if a specific instance of VirtualMachineScaleSetsExtension round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForVirtualMachineScaleSetsExtension(subject VirtualMachineScaleSetsExtension) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.VirtualMachineScaleSetsExtension
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual VirtualMachineScaleSetsExtension
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_VirtualMachineScaleSetsExtension_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualMachineScaleSetsExtension to VirtualMachineScaleSetsExtension via AssignProperties_To_VirtualMachineScaleSetsExtension & AssignProperties_From_VirtualMachineScaleSetsExtension returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetsExtension, VirtualMachineScaleSetsExtensionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualMachineScaleSetsExtension tests if a specific instance of VirtualMachineScaleSetsExtension can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachineScaleSetsExtension(subject VirtualMachineScaleSetsExtension) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.VirtualMachineScaleSetsExtension
+	err := copied.AssignProperties_To_VirtualMachineScaleSetsExtension(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualMachineScaleSetsExtension
+	err = actual.AssignProperties_From_VirtualMachineScaleSetsExtension(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_VirtualMachineScaleSetsExtension_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualMachineScaleSetsExtension via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetsExtension, VirtualMachineScaleSetsExtensionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualMachineScaleSetsExtension runs a test to see if a specific instance of VirtualMachineScaleSetsExtension round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetsExtension(subject VirtualMachineScaleSetsExtension) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualMachineScaleSetsExtension
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualMachineScaleSetsExtension instances for property testing - lazily instantiated by
+// VirtualMachineScaleSetsExtensionGenerator()
+var virtualMachineScaleSetsExtensionGenerator gopter.Gen
+
+// VirtualMachineScaleSetsExtensionGenerator returns a generator of VirtualMachineScaleSetsExtension instances for property testing.
+func VirtualMachineScaleSetsExtensionGenerator() gopter.Gen {
+	if virtualMachineScaleSetsExtensionGenerator != nil {
+		return virtualMachineScaleSetsExtensionGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsExtension(generators)
+	virtualMachineScaleSetsExtensionGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetsExtension{}), generators)
+
+	return virtualMachineScaleSetsExtensionGenerator
+}
+
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsExtension is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsExtension(gens map[string]gopter.Gen) {
+	gens["Spec"] = VirtualMachineScaleSets_Extension_SpecGenerator()
+	gens["Status"] = VirtualMachineScaleSets_Extension_STATUSGenerator()
+}
+
+func Test_VirtualMachineScaleSets_Extension_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualMachineScaleSets_Extension_STATUS to VirtualMachineScaleSets_Extension_STATUS via AssignProperties_To_VirtualMachineScaleSets_Extension_STATUS & AssignProperties_From_VirtualMachineScaleSets_Extension_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSets_Extension_STATUS, VirtualMachineScaleSets_Extension_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualMachineScaleSets_Extension_STATUS tests if a specific instance of VirtualMachineScaleSets_Extension_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachineScaleSets_Extension_STATUS(subject VirtualMachineScaleSets_Extension_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.VirtualMachineScaleSets_Extension_STATUS
+	err := copied.AssignProperties_To_VirtualMachineScaleSets_Extension_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualMachineScaleSets_Extension_STATUS
+	err = actual.AssignProperties_From_VirtualMachineScaleSets_Extension_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_VirtualMachineScaleSets_Extension_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualMachineScaleSets_Extension_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSets_Extension_STATUS, VirtualMachineScaleSets_Extension_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualMachineScaleSets_Extension_STATUS runs a test to see if a specific instance of VirtualMachineScaleSets_Extension_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSets_Extension_STATUS(subject VirtualMachineScaleSets_Extension_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualMachineScaleSets_Extension_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualMachineScaleSets_Extension_STATUS instances for property testing - lazily instantiated by
+// VirtualMachineScaleSets_Extension_STATUSGenerator()
+var virtualMachineScaleSets_Extension_STATUSGenerator gopter.Gen
+
+// VirtualMachineScaleSets_Extension_STATUSGenerator returns a generator of VirtualMachineScaleSets_Extension_STATUS instances for property testing.
+// We first initialize virtualMachineScaleSets_Extension_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func VirtualMachineScaleSets_Extension_STATUSGenerator() gopter.Gen {
+	if virtualMachineScaleSets_Extension_STATUSGenerator != nil {
+		return virtualMachineScaleSets_Extension_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSets_Extension_STATUS(generators)
+	virtualMachineScaleSets_Extension_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSets_Extension_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSets_Extension_STATUS(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSets_Extension_STATUS(generators)
+	virtualMachineScaleSets_Extension_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSets_Extension_STATUS{}), generators)
+
+	return virtualMachineScaleSets_Extension_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSets_Extension_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSets_Extension_STATUS(gens map[string]gopter.Gen) {
+	gens["AutoUpgradeMinorVersion"] = gen.PtrOf(gen.Bool())
+	gens["EnableAutomaticUpgrade"] = gen.PtrOf(gen.Bool())
+	gens["ForceUpdateTag"] = gen.PtrOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["PropertiesType"] = gen.PtrOf(gen.AlphaString())
+	gens["ProvisionAfterExtensions"] = gen.SliceOf(gen.AlphaString())
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
+	gens["Publisher"] = gen.PtrOf(gen.AlphaString())
+	gens["SuppressFailures"] = gen.PtrOf(gen.Bool())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+	gens["TypeHandlerVersion"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSets_Extension_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSets_Extension_STATUS(gens map[string]gopter.Gen) {
+	gens["ProtectedSettingsFromKeyVault"] = gen.PtrOf(KeyVaultSecretReference_STATUSGenerator())
+}
+
+func Test_VirtualMachineScaleSets_Extension_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualMachineScaleSets_Extension_Spec to VirtualMachineScaleSets_Extension_Spec via AssignProperties_To_VirtualMachineScaleSets_Extension_Spec & AssignProperties_From_VirtualMachineScaleSets_Extension_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSets_Extension_Spec, VirtualMachineScaleSets_Extension_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualMachineScaleSets_Extension_Spec tests if a specific instance of VirtualMachineScaleSets_Extension_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachineScaleSets_Extension_Spec(subject VirtualMachineScaleSets_Extension_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.VirtualMachineScaleSets_Extension_Spec
+	err := copied.AssignProperties_To_VirtualMachineScaleSets_Extension_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualMachineScaleSets_Extension_Spec
+	err = actual.AssignProperties_From_VirtualMachineScaleSets_Extension_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_VirtualMachineScaleSets_Extension_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualMachineScaleSets_Extension_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSets_Extension_Spec, VirtualMachineScaleSets_Extension_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualMachineScaleSets_Extension_Spec runs a test to see if a specific instance of VirtualMachineScaleSets_Extension_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSets_Extension_Spec(subject VirtualMachineScaleSets_Extension_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualMachineScaleSets_Extension_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualMachineScaleSets_Extension_Spec instances for property testing - lazily instantiated by
+// VirtualMachineScaleSets_Extension_SpecGenerator()
+var virtualMachineScaleSets_Extension_SpecGenerator gopter.Gen
+
+// VirtualMachineScaleSets_Extension_SpecGenerator returns a generator of VirtualMachineScaleSets_Extension_Spec instances for property testing.
+// We first initialize virtualMachineScaleSets_Extension_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func VirtualMachineScaleSets_Extension_SpecGenerator() gopter.Gen {
+	if virtualMachineScaleSets_Extension_SpecGenerator != nil {
+		return virtualMachineScaleSets_Extension_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSets_Extension_Spec(generators)
+	virtualMachineScaleSets_Extension_SpecGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSets_Extension_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSets_Extension_Spec(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSets_Extension_Spec(generators)
+	virtualMachineScaleSets_Extension_SpecGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSets_Extension_Spec{}), generators)
+
+	return virtualMachineScaleSets_Extension_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSets_Extension_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSets_Extension_Spec(gens map[string]gopter.Gen) {
+	gens["AutoUpgradeMinorVersion"] = gen.PtrOf(gen.Bool())
+	gens["AzureName"] = gen.AlphaString()
+	gens["EnableAutomaticUpgrade"] = gen.PtrOf(gen.Bool())
+	gens["ForceUpdateTag"] = gen.PtrOf(gen.AlphaString())
+	gens["ProvisionAfterExtensions"] = gen.SliceOf(gen.AlphaString())
+	gens["Publisher"] = gen.PtrOf(gen.AlphaString())
+	gens["SuppressFailures"] = gen.PtrOf(gen.Bool())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+	gens["TypeHandlerVersion"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSets_Extension_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSets_Extension_Spec(gens map[string]gopter.Gen) {
+	gens["ProtectedSettingsFromKeyVault"] = gen.PtrOf(KeyVaultSecretReferenceGenerator())
 }

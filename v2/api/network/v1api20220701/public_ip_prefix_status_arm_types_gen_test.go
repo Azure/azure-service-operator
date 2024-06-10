@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_PublicIPPrefix_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_IpTag_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of PublicIPPrefix_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPublicIPPrefix_STATUS_ARM, PublicIPPrefix_STATUS_ARMGenerator()))
+		"Round trip of IpTag_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForIpTag_STATUS_ARM, IpTag_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPublicIPPrefix_STATUS_ARM runs a test to see if a specific instance of PublicIPPrefix_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForPublicIPPrefix_STATUS_ARM(subject PublicIPPrefix_STATUS_ARM) string {
+// RunJSONSerializationTestForIpTag_STATUS_ARM runs a test to see if a specific instance of IpTag_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForIpTag_STATUS_ARM(subject IpTag_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForPublicIPPrefix_STATUS_ARM(subject PublicIPPrefix
 	}
 
 	// Deserialize back into memory
-	var actual PublicIPPrefix_STATUS_ARM
+	var actual IpTag_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,50 +56,87 @@ func RunJSONSerializationTestForPublicIPPrefix_STATUS_ARM(subject PublicIPPrefix
 	return ""
 }
 
-// Generator of PublicIPPrefix_STATUS_ARM instances for property testing - lazily instantiated by
-// PublicIPPrefix_STATUS_ARMGenerator()
-var publicIPPrefix_STATUS_ARMGenerator gopter.Gen
+// Generator of IpTag_STATUS_ARM instances for property testing - lazily instantiated by IpTag_STATUS_ARMGenerator()
+var ipTag_STATUS_ARMGenerator gopter.Gen
 
-// PublicIPPrefix_STATUS_ARMGenerator returns a generator of PublicIPPrefix_STATUS_ARM instances for property testing.
-// We first initialize publicIPPrefix_STATUS_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func PublicIPPrefix_STATUS_ARMGenerator() gopter.Gen {
-	if publicIPPrefix_STATUS_ARMGenerator != nil {
-		return publicIPPrefix_STATUS_ARMGenerator
+// IpTag_STATUS_ARMGenerator returns a generator of IpTag_STATUS_ARM instances for property testing.
+func IpTag_STATUS_ARMGenerator() gopter.Gen {
+	if ipTag_STATUS_ARMGenerator != nil {
+		return ipTag_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPublicIPPrefix_STATUS_ARM(generators)
-	publicIPPrefix_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(PublicIPPrefix_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForIpTag_STATUS_ARM(generators)
+	ipTag_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(IpTag_STATUS_ARM{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPublicIPPrefix_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForPublicIPPrefix_STATUS_ARM(generators)
-	publicIPPrefix_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(PublicIPPrefix_STATUS_ARM{}), generators)
-
-	return publicIPPrefix_STATUS_ARMGenerator
+	return ipTag_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPublicIPPrefix_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPublicIPPrefix_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
+// AddIndependentPropertyGeneratorsForIpTag_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForIpTag_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["IpTagType"] = gen.PtrOf(gen.AlphaString())
+	gens["Tag"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARM, NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForNatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARM runs a test to see if a specific instance of NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForNatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARM(subject NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARM instances for property testing - lazily
+// instantiated by NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARMGenerator()
+var natGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARMGenerator gopter.Gen
+
+// NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARMGenerator returns a generator of NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARM instances for property testing.
+func NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARMGenerator() gopter.Gen {
+	if natGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARMGenerator != nil {
+		return natGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARM(generators)
+	natGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARMGenerator = gen.Struct(reflect.TypeOf(NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARM{}), generators)
+
+	return natGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForNatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["Zones"] = gen.SliceOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForPublicIPPrefix_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPublicIPPrefix_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUS_ARMGenerator())
-	gens["Properties"] = gen.PtrOf(PublicIPPrefixPropertiesFormat_STATUS_ARMGenerator())
-	gens["Sku"] = gen.PtrOf(PublicIPPrefixSku_STATUS_ARMGenerator())
 }
 
 func Test_PublicIPPrefixPropertiesFormat_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -251,20 +288,20 @@ func AddIndependentPropertyGeneratorsForPublicIPPrefixSku_STATUS_ARM(gens map[st
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(PublicIPPrefixSku_Tier_STATUS_Global, PublicIPPrefixSku_Tier_STATUS_Regional))
 }
 
-func Test_IpTag_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_PublicIPPrefix_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of IpTag_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForIpTag_STATUS_ARM, IpTag_STATUS_ARMGenerator()))
+		"Round trip of PublicIPPrefix_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPublicIPPrefix_STATUS_ARM, PublicIPPrefix_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForIpTag_STATUS_ARM runs a test to see if a specific instance of IpTag_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForIpTag_STATUS_ARM(subject IpTag_STATUS_ARM) string {
+// RunJSONSerializationTestForPublicIPPrefix_STATUS_ARM runs a test to see if a specific instance of PublicIPPrefix_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForPublicIPPrefix_STATUS_ARM(subject PublicIPPrefix_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -272,7 +309,7 @@ func RunJSONSerializationTestForIpTag_STATUS_ARM(subject IpTag_STATUS_ARM) strin
 	}
 
 	// Deserialize back into memory
-	var actual IpTag_STATUS_ARM
+	var actual PublicIPPrefix_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -290,87 +327,50 @@ func RunJSONSerializationTestForIpTag_STATUS_ARM(subject IpTag_STATUS_ARM) strin
 	return ""
 }
 
-// Generator of IpTag_STATUS_ARM instances for property testing - lazily instantiated by IpTag_STATUS_ARMGenerator()
-var ipTag_STATUS_ARMGenerator gopter.Gen
+// Generator of PublicIPPrefix_STATUS_ARM instances for property testing - lazily instantiated by
+// PublicIPPrefix_STATUS_ARMGenerator()
+var publicIPPrefix_STATUS_ARMGenerator gopter.Gen
 
-// IpTag_STATUS_ARMGenerator returns a generator of IpTag_STATUS_ARM instances for property testing.
-func IpTag_STATUS_ARMGenerator() gopter.Gen {
-	if ipTag_STATUS_ARMGenerator != nil {
-		return ipTag_STATUS_ARMGenerator
+// PublicIPPrefix_STATUS_ARMGenerator returns a generator of PublicIPPrefix_STATUS_ARM instances for property testing.
+// We first initialize publicIPPrefix_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func PublicIPPrefix_STATUS_ARMGenerator() gopter.Gen {
+	if publicIPPrefix_STATUS_ARMGenerator != nil {
+		return publicIPPrefix_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIpTag_STATUS_ARM(generators)
-	ipTag_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(IpTag_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForPublicIPPrefix_STATUS_ARM(generators)
+	publicIPPrefix_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(PublicIPPrefix_STATUS_ARM{}), generators)
 
-	return ipTag_STATUS_ARMGenerator
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPublicIPPrefix_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForPublicIPPrefix_STATUS_ARM(generators)
+	publicIPPrefix_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(PublicIPPrefix_STATUS_ARM{}), generators)
+
+	return publicIPPrefix_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForIpTag_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForIpTag_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["IpTagType"] = gen.PtrOf(gen.AlphaString())
-	gens["Tag"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARM, NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForNatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARM runs a test to see if a specific instance of NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForNatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARM(subject NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARM instances for property testing - lazily
-// instantiated by NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARMGenerator()
-var natGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARMGenerator gopter.Gen
-
-// NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARMGenerator returns a generator of NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARM instances for property testing.
-func NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARMGenerator() gopter.Gen {
-	if natGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARMGenerator != nil {
-		return natGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARM(generators)
-	natGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARMGenerator = gen.Struct(reflect.TypeOf(NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARM{}), generators)
-
-	return natGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForNatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForPublicIPPrefix_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPublicIPPrefix_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+	gens["Zones"] = gen.SliceOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForPublicIPPrefix_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForPublicIPPrefix_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUS_ARMGenerator())
+	gens["Properties"] = gen.PtrOf(PublicIPPrefixPropertiesFormat_STATUS_ARMGenerator())
+	gens["Sku"] = gen.PtrOf(PublicIPPrefixSku_STATUS_ARMGenerator())
 }
 
 func Test_PublicIpPrefixSubResource_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

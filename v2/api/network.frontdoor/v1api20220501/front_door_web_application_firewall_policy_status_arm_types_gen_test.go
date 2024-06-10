@@ -17,6 +17,153 @@ import (
 	"testing"
 )
 
+func Test_CustomRuleList_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of CustomRuleList_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForCustomRuleList_STATUS_ARM, CustomRuleList_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForCustomRuleList_STATUS_ARM runs a test to see if a specific instance of CustomRuleList_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForCustomRuleList_STATUS_ARM(subject CustomRuleList_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual CustomRuleList_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of CustomRuleList_STATUS_ARM instances for property testing - lazily instantiated by
+// CustomRuleList_STATUS_ARMGenerator()
+var customRuleList_STATUS_ARMGenerator gopter.Gen
+
+// CustomRuleList_STATUS_ARMGenerator returns a generator of CustomRuleList_STATUS_ARM instances for property testing.
+func CustomRuleList_STATUS_ARMGenerator() gopter.Gen {
+	if customRuleList_STATUS_ARMGenerator != nil {
+		return customRuleList_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForCustomRuleList_STATUS_ARM(generators)
+	customRuleList_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(CustomRuleList_STATUS_ARM{}), generators)
+
+	return customRuleList_STATUS_ARMGenerator
+}
+
+// AddRelatedPropertyGeneratorsForCustomRuleList_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForCustomRuleList_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Rules"] = gen.SliceOf(CustomRule_STATUS_ARMGenerator())
+}
+
+func Test_CustomRule_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of CustomRule_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForCustomRule_STATUS_ARM, CustomRule_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForCustomRule_STATUS_ARM runs a test to see if a specific instance of CustomRule_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForCustomRule_STATUS_ARM(subject CustomRule_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual CustomRule_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of CustomRule_STATUS_ARM instances for property testing - lazily instantiated by
+// CustomRule_STATUS_ARMGenerator()
+var customRule_STATUS_ARMGenerator gopter.Gen
+
+// CustomRule_STATUS_ARMGenerator returns a generator of CustomRule_STATUS_ARM instances for property testing.
+// We first initialize customRule_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func CustomRule_STATUS_ARMGenerator() gopter.Gen {
+	if customRule_STATUS_ARMGenerator != nil {
+		return customRule_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForCustomRule_STATUS_ARM(generators)
+	customRule_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(CustomRule_STATUS_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForCustomRule_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForCustomRule_STATUS_ARM(generators)
+	customRule_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(CustomRule_STATUS_ARM{}), generators)
+
+	return customRule_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForCustomRule_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForCustomRule_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Action"] = gen.PtrOf(gen.OneConstOf(
+		ActionType_STATUS_Allow,
+		ActionType_STATUS_AnomalyScoring,
+		ActionType_STATUS_Block,
+		ActionType_STATUS_Log,
+		ActionType_STATUS_Redirect))
+	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(CustomRule_EnabledState_STATUS_Disabled, CustomRule_EnabledState_STATUS_Enabled))
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Priority"] = gen.PtrOf(gen.Int())
+	gens["RateLimitDurationInMinutes"] = gen.PtrOf(gen.Int())
+	gens["RateLimitThreshold"] = gen.PtrOf(gen.Int())
+	gens["RuleType"] = gen.PtrOf(gen.OneConstOf(CustomRule_RuleType_STATUS_MatchRule, CustomRule_RuleType_STATUS_RateLimitRule))
+}
+
+// AddRelatedPropertyGeneratorsForCustomRule_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForCustomRule_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["MatchConditions"] = gen.SliceOf(MatchCondition_STATUS_ARMGenerator())
+}
+
 func Test_FrontDoorWebApplicationFirewallPolicy_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -100,214 +247,6 @@ func AddRelatedPropertyGeneratorsForFrontDoorWebApplicationFirewallPolicy_STATUS
 	gens["Sku"] = gen.PtrOf(Sku_STATUS_ARMGenerator())
 }
 
-func Test_Sku_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Sku_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSku_STATUS_ARM, Sku_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSku_STATUS_ARM runs a test to see if a specific instance of Sku_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSku_STATUS_ARM(subject Sku_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Sku_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Sku_STATUS_ARM instances for property testing - lazily instantiated by Sku_STATUS_ARMGenerator()
-var sku_STATUS_ARMGenerator gopter.Gen
-
-// Sku_STATUS_ARMGenerator returns a generator of Sku_STATUS_ARM instances for property testing.
-func Sku_STATUS_ARMGenerator() gopter.Gen {
-	if sku_STATUS_ARMGenerator != nil {
-		return sku_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSku_STATUS_ARM(generators)
-	sku_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Sku_STATUS_ARM{}), generators)
-
-	return sku_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSku_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSku_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(Sku_Name_STATUS_Classic_AzureFrontDoor, Sku_Name_STATUS_Premium_AzureFrontDoor, Sku_Name_STATUS_Standard_AzureFrontDoor))
-}
-
-func Test_WebApplicationFirewallPolicyProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of WebApplicationFirewallPolicyProperties_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWebApplicationFirewallPolicyProperties_STATUS_ARM, WebApplicationFirewallPolicyProperties_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForWebApplicationFirewallPolicyProperties_STATUS_ARM runs a test to see if a specific instance of WebApplicationFirewallPolicyProperties_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForWebApplicationFirewallPolicyProperties_STATUS_ARM(subject WebApplicationFirewallPolicyProperties_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual WebApplicationFirewallPolicyProperties_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of WebApplicationFirewallPolicyProperties_STATUS_ARM instances for property testing - lazily instantiated
-// by WebApplicationFirewallPolicyProperties_STATUS_ARMGenerator()
-var webApplicationFirewallPolicyProperties_STATUS_ARMGenerator gopter.Gen
-
-// WebApplicationFirewallPolicyProperties_STATUS_ARMGenerator returns a generator of WebApplicationFirewallPolicyProperties_STATUS_ARM instances for property testing.
-// We first initialize webApplicationFirewallPolicyProperties_STATUS_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func WebApplicationFirewallPolicyProperties_STATUS_ARMGenerator() gopter.Gen {
-	if webApplicationFirewallPolicyProperties_STATUS_ARMGenerator != nil {
-		return webApplicationFirewallPolicyProperties_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebApplicationFirewallPolicyProperties_STATUS_ARM(generators)
-	webApplicationFirewallPolicyProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(WebApplicationFirewallPolicyProperties_STATUS_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebApplicationFirewallPolicyProperties_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForWebApplicationFirewallPolicyProperties_STATUS_ARM(generators)
-	webApplicationFirewallPolicyProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(WebApplicationFirewallPolicyProperties_STATUS_ARM{}), generators)
-
-	return webApplicationFirewallPolicyProperties_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForWebApplicationFirewallPolicyProperties_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWebApplicationFirewallPolicyProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
-		WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Creating,
-		WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Deleting,
-		WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Disabled,
-		WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Disabling,
-		WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Enabled,
-		WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Enabling))
-}
-
-// AddRelatedPropertyGeneratorsForWebApplicationFirewallPolicyProperties_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForWebApplicationFirewallPolicyProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["CustomRules"] = gen.PtrOf(CustomRuleList_STATUS_ARMGenerator())
-	gens["FrontendEndpointLinks"] = gen.SliceOf(FrontendEndpointLink_STATUS_ARMGenerator())
-	gens["ManagedRules"] = gen.PtrOf(ManagedRuleSetList_STATUS_ARMGenerator())
-	gens["PolicySettings"] = gen.PtrOf(PolicySettings_STATUS_ARMGenerator())
-	gens["RoutingRuleLinks"] = gen.SliceOf(RoutingRuleLink_STATUS_ARMGenerator())
-	gens["SecurityPolicyLinks"] = gen.SliceOf(SecurityPolicyLink_STATUS_ARMGenerator())
-}
-
-func Test_CustomRuleList_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CustomRuleList_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCustomRuleList_STATUS_ARM, CustomRuleList_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForCustomRuleList_STATUS_ARM runs a test to see if a specific instance of CustomRuleList_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForCustomRuleList_STATUS_ARM(subject CustomRuleList_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual CustomRuleList_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of CustomRuleList_STATUS_ARM instances for property testing - lazily instantiated by
-// CustomRuleList_STATUS_ARMGenerator()
-var customRuleList_STATUS_ARMGenerator gopter.Gen
-
-// CustomRuleList_STATUS_ARMGenerator returns a generator of CustomRuleList_STATUS_ARM instances for property testing.
-func CustomRuleList_STATUS_ARMGenerator() gopter.Gen {
-	if customRuleList_STATUS_ARMGenerator != nil {
-		return customRuleList_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForCustomRuleList_STATUS_ARM(generators)
-	customRuleList_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(CustomRuleList_STATUS_ARM{}), generators)
-
-	return customRuleList_STATUS_ARMGenerator
-}
-
-// AddRelatedPropertyGeneratorsForCustomRuleList_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForCustomRuleList_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Rules"] = gen.SliceOf(CustomRule_STATUS_ARMGenerator())
-}
-
 func Test_FrontendEndpointLink_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -369,6 +308,237 @@ func AddIndependentPropertyGeneratorsForFrontendEndpointLink_STATUS_ARM(gens map
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_ManagedRuleExclusion_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedRuleExclusion_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedRuleExclusion_STATUS_ARM, ManagedRuleExclusion_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedRuleExclusion_STATUS_ARM runs a test to see if a specific instance of ManagedRuleExclusion_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedRuleExclusion_STATUS_ARM(subject ManagedRuleExclusion_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedRuleExclusion_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedRuleExclusion_STATUS_ARM instances for property testing - lazily instantiated by
+// ManagedRuleExclusion_STATUS_ARMGenerator()
+var managedRuleExclusion_STATUS_ARMGenerator gopter.Gen
+
+// ManagedRuleExclusion_STATUS_ARMGenerator returns a generator of ManagedRuleExclusion_STATUS_ARM instances for property testing.
+func ManagedRuleExclusion_STATUS_ARMGenerator() gopter.Gen {
+	if managedRuleExclusion_STATUS_ARMGenerator != nil {
+		return managedRuleExclusion_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedRuleExclusion_STATUS_ARM(generators)
+	managedRuleExclusion_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedRuleExclusion_STATUS_ARM{}), generators)
+
+	return managedRuleExclusion_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedRuleExclusion_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedRuleExclusion_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["MatchVariable"] = gen.PtrOf(gen.OneConstOf(
+		ManagedRuleExclusion_MatchVariable_STATUS_QueryStringArgNames,
+		ManagedRuleExclusion_MatchVariable_STATUS_RequestBodyJsonArgNames,
+		ManagedRuleExclusion_MatchVariable_STATUS_RequestBodyPostArgNames,
+		ManagedRuleExclusion_MatchVariable_STATUS_RequestCookieNames,
+		ManagedRuleExclusion_MatchVariable_STATUS_RequestHeaderNames))
+	gens["Selector"] = gen.PtrOf(gen.AlphaString())
+	gens["SelectorMatchOperator"] = gen.PtrOf(gen.OneConstOf(
+		ManagedRuleExclusion_SelectorMatchOperator_STATUS_Contains,
+		ManagedRuleExclusion_SelectorMatchOperator_STATUS_EndsWith,
+		ManagedRuleExclusion_SelectorMatchOperator_STATUS_Equals,
+		ManagedRuleExclusion_SelectorMatchOperator_STATUS_EqualsAny,
+		ManagedRuleExclusion_SelectorMatchOperator_STATUS_StartsWith))
+}
+
+func Test_ManagedRuleGroupOverride_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedRuleGroupOverride_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedRuleGroupOverride_STATUS_ARM, ManagedRuleGroupOverride_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedRuleGroupOverride_STATUS_ARM runs a test to see if a specific instance of ManagedRuleGroupOverride_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedRuleGroupOverride_STATUS_ARM(subject ManagedRuleGroupOverride_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedRuleGroupOverride_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedRuleGroupOverride_STATUS_ARM instances for property testing - lazily instantiated by
+// ManagedRuleGroupOverride_STATUS_ARMGenerator()
+var managedRuleGroupOverride_STATUS_ARMGenerator gopter.Gen
+
+// ManagedRuleGroupOverride_STATUS_ARMGenerator returns a generator of ManagedRuleGroupOverride_STATUS_ARM instances for property testing.
+// We first initialize managedRuleGroupOverride_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ManagedRuleGroupOverride_STATUS_ARMGenerator() gopter.Gen {
+	if managedRuleGroupOverride_STATUS_ARMGenerator != nil {
+		return managedRuleGroupOverride_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedRuleGroupOverride_STATUS_ARM(generators)
+	managedRuleGroupOverride_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedRuleGroupOverride_STATUS_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedRuleGroupOverride_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForManagedRuleGroupOverride_STATUS_ARM(generators)
+	managedRuleGroupOverride_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedRuleGroupOverride_STATUS_ARM{}), generators)
+
+	return managedRuleGroupOverride_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedRuleGroupOverride_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedRuleGroupOverride_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["RuleGroupName"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForManagedRuleGroupOverride_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedRuleGroupOverride_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Exclusions"] = gen.SliceOf(ManagedRuleExclusion_STATUS_ARMGenerator())
+	gens["Rules"] = gen.SliceOf(ManagedRuleOverride_STATUS_ARMGenerator())
+}
+
+func Test_ManagedRuleOverride_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedRuleOverride_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedRuleOverride_STATUS_ARM, ManagedRuleOverride_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedRuleOverride_STATUS_ARM runs a test to see if a specific instance of ManagedRuleOverride_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedRuleOverride_STATUS_ARM(subject ManagedRuleOverride_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedRuleOverride_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedRuleOverride_STATUS_ARM instances for property testing - lazily instantiated by
+// ManagedRuleOverride_STATUS_ARMGenerator()
+var managedRuleOverride_STATUS_ARMGenerator gopter.Gen
+
+// ManagedRuleOverride_STATUS_ARMGenerator returns a generator of ManagedRuleOverride_STATUS_ARM instances for property testing.
+// We first initialize managedRuleOverride_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ManagedRuleOverride_STATUS_ARMGenerator() gopter.Gen {
+	if managedRuleOverride_STATUS_ARMGenerator != nil {
+		return managedRuleOverride_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedRuleOverride_STATUS_ARM(generators)
+	managedRuleOverride_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedRuleOverride_STATUS_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedRuleOverride_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForManagedRuleOverride_STATUS_ARM(generators)
+	managedRuleOverride_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedRuleOverride_STATUS_ARM{}), generators)
+
+	return managedRuleOverride_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedRuleOverride_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedRuleOverride_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Action"] = gen.PtrOf(gen.OneConstOf(
+		ActionType_STATUS_Allow,
+		ActionType_STATUS_AnomalyScoring,
+		ActionType_STATUS_Block,
+		ActionType_STATUS_Log,
+		ActionType_STATUS_Redirect))
+	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(ManagedRuleEnabledState_STATUS_Disabled, ManagedRuleEnabledState_STATUS_Enabled))
+	gens["RuleId"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForManagedRuleOverride_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedRuleOverride_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Exclusions"] = gen.SliceOf(ManagedRuleExclusion_STATUS_ARMGenerator())
+}
+
 func Test_ManagedRuleSetList_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -428,6 +598,177 @@ func ManagedRuleSetList_STATUS_ARMGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForManagedRuleSetList_STATUS_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedRuleSetList_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ManagedRuleSets"] = gen.SliceOf(ManagedRuleSet_STATUS_ARMGenerator())
+}
+
+func Test_ManagedRuleSet_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedRuleSet_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedRuleSet_STATUS_ARM, ManagedRuleSet_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedRuleSet_STATUS_ARM runs a test to see if a specific instance of ManagedRuleSet_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedRuleSet_STATUS_ARM(subject ManagedRuleSet_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedRuleSet_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedRuleSet_STATUS_ARM instances for property testing - lazily instantiated by
+// ManagedRuleSet_STATUS_ARMGenerator()
+var managedRuleSet_STATUS_ARMGenerator gopter.Gen
+
+// ManagedRuleSet_STATUS_ARMGenerator returns a generator of ManagedRuleSet_STATUS_ARM instances for property testing.
+// We first initialize managedRuleSet_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ManagedRuleSet_STATUS_ARMGenerator() gopter.Gen {
+	if managedRuleSet_STATUS_ARMGenerator != nil {
+		return managedRuleSet_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedRuleSet_STATUS_ARM(generators)
+	managedRuleSet_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedRuleSet_STATUS_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedRuleSet_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForManagedRuleSet_STATUS_ARM(generators)
+	managedRuleSet_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedRuleSet_STATUS_ARM{}), generators)
+
+	return managedRuleSet_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedRuleSet_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedRuleSet_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["RuleSetAction"] = gen.PtrOf(gen.OneConstOf(ManagedRuleSetActionType_STATUS_Block, ManagedRuleSetActionType_STATUS_Log, ManagedRuleSetActionType_STATUS_Redirect))
+	gens["RuleSetType"] = gen.PtrOf(gen.AlphaString())
+	gens["RuleSetVersion"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForManagedRuleSet_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedRuleSet_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Exclusions"] = gen.SliceOf(ManagedRuleExclusion_STATUS_ARMGenerator())
+	gens["RuleGroupOverrides"] = gen.SliceOf(ManagedRuleGroupOverride_STATUS_ARMGenerator())
+}
+
+func Test_MatchCondition_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of MatchCondition_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMatchCondition_STATUS_ARM, MatchCondition_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForMatchCondition_STATUS_ARM runs a test to see if a specific instance of MatchCondition_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForMatchCondition_STATUS_ARM(subject MatchCondition_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual MatchCondition_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of MatchCondition_STATUS_ARM instances for property testing - lazily instantiated by
+// MatchCondition_STATUS_ARMGenerator()
+var matchCondition_STATUS_ARMGenerator gopter.Gen
+
+// MatchCondition_STATUS_ARMGenerator returns a generator of MatchCondition_STATUS_ARM instances for property testing.
+func MatchCondition_STATUS_ARMGenerator() gopter.Gen {
+	if matchCondition_STATUS_ARMGenerator != nil {
+		return matchCondition_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForMatchCondition_STATUS_ARM(generators)
+	matchCondition_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(MatchCondition_STATUS_ARM{}), generators)
+
+	return matchCondition_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForMatchCondition_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMatchCondition_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["MatchValue"] = gen.SliceOf(gen.AlphaString())
+	gens["MatchVariable"] = gen.PtrOf(gen.OneConstOf(
+		MatchCondition_MatchVariable_STATUS_Cookies,
+		MatchCondition_MatchVariable_STATUS_PostArgs,
+		MatchCondition_MatchVariable_STATUS_QueryString,
+		MatchCondition_MatchVariable_STATUS_RemoteAddr,
+		MatchCondition_MatchVariable_STATUS_RequestBody,
+		MatchCondition_MatchVariable_STATUS_RequestHeader,
+		MatchCondition_MatchVariable_STATUS_RequestMethod,
+		MatchCondition_MatchVariable_STATUS_RequestUri,
+		MatchCondition_MatchVariable_STATUS_SocketAddr))
+	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
+	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
+		MatchCondition_Operator_STATUS_Any,
+		MatchCondition_Operator_STATUS_BeginsWith,
+		MatchCondition_Operator_STATUS_Contains,
+		MatchCondition_Operator_STATUS_EndsWith,
+		MatchCondition_Operator_STATUS_Equal,
+		MatchCondition_Operator_STATUS_GeoMatch,
+		MatchCondition_Operator_STATUS_GreaterThan,
+		MatchCondition_Operator_STATUS_GreaterThanOrEqual,
+		MatchCondition_Operator_STATUS_IPMatch,
+		MatchCondition_Operator_STATUS_LessThan,
+		MatchCondition_Operator_STATUS_LessThanOrEqual,
+		MatchCondition_Operator_STATUS_RegEx))
+	gens["Selector"] = gen.PtrOf(gen.AlphaString())
+	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
+		TransformType_STATUS_Lowercase,
+		TransformType_STATUS_RemoveNulls,
+		TransformType_STATUS_Trim,
+		TransformType_STATUS_Uppercase,
+		TransformType_STATUS_UrlDecode,
+		TransformType_STATUS_UrlEncode))
 }
 
 func Test_PolicySettings_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -618,20 +959,20 @@ func AddIndependentPropertyGeneratorsForSecurityPolicyLink_STATUS_ARM(gens map[s
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_CustomRule_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Sku_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of CustomRule_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCustomRule_STATUS_ARM, CustomRule_STATUS_ARMGenerator()))
+		"Round trip of Sku_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSku_STATUS_ARM, Sku_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForCustomRule_STATUS_ARM runs a test to see if a specific instance of CustomRule_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForCustomRule_STATUS_ARM(subject CustomRule_STATUS_ARM) string {
+// RunJSONSerializationTestForSku_STATUS_ARM runs a test to see if a specific instance of Sku_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSku_STATUS_ARM(subject Sku_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -639,7 +980,7 @@ func RunJSONSerializationTestForCustomRule_STATUS_ARM(subject CustomRule_STATUS_
 	}
 
 	// Deserialize back into memory
-	var actual CustomRule_STATUS_ARM
+	var actual Sku_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -657,451 +998,110 @@ func RunJSONSerializationTestForCustomRule_STATUS_ARM(subject CustomRule_STATUS_
 	return ""
 }
 
-// Generator of CustomRule_STATUS_ARM instances for property testing - lazily instantiated by
-// CustomRule_STATUS_ARMGenerator()
-var customRule_STATUS_ARMGenerator gopter.Gen
+// Generator of Sku_STATUS_ARM instances for property testing - lazily instantiated by Sku_STATUS_ARMGenerator()
+var sku_STATUS_ARMGenerator gopter.Gen
 
-// CustomRule_STATUS_ARMGenerator returns a generator of CustomRule_STATUS_ARM instances for property testing.
-// We first initialize customRule_STATUS_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func CustomRule_STATUS_ARMGenerator() gopter.Gen {
-	if customRule_STATUS_ARMGenerator != nil {
-		return customRule_STATUS_ARMGenerator
+// Sku_STATUS_ARMGenerator returns a generator of Sku_STATUS_ARM instances for property testing.
+func Sku_STATUS_ARMGenerator() gopter.Gen {
+	if sku_STATUS_ARMGenerator != nil {
+		return sku_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCustomRule_STATUS_ARM(generators)
-	customRule_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(CustomRule_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForSku_STATUS_ARM(generators)
+	sku_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Sku_STATUS_ARM{}), generators)
+
+	return sku_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForSku_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSku_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(Sku_Name_STATUS_Classic_AzureFrontDoor, Sku_Name_STATUS_Premium_AzureFrontDoor, Sku_Name_STATUS_Standard_AzureFrontDoor))
+}
+
+func Test_WebApplicationFirewallPolicyProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of WebApplicationFirewallPolicyProperties_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWebApplicationFirewallPolicyProperties_STATUS_ARM, WebApplicationFirewallPolicyProperties_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForWebApplicationFirewallPolicyProperties_STATUS_ARM runs a test to see if a specific instance of WebApplicationFirewallPolicyProperties_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForWebApplicationFirewallPolicyProperties_STATUS_ARM(subject WebApplicationFirewallPolicyProperties_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual WebApplicationFirewallPolicyProperties_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of WebApplicationFirewallPolicyProperties_STATUS_ARM instances for property testing - lazily instantiated
+// by WebApplicationFirewallPolicyProperties_STATUS_ARMGenerator()
+var webApplicationFirewallPolicyProperties_STATUS_ARMGenerator gopter.Gen
+
+// WebApplicationFirewallPolicyProperties_STATUS_ARMGenerator returns a generator of WebApplicationFirewallPolicyProperties_STATUS_ARM instances for property testing.
+// We first initialize webApplicationFirewallPolicyProperties_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func WebApplicationFirewallPolicyProperties_STATUS_ARMGenerator() gopter.Gen {
+	if webApplicationFirewallPolicyProperties_STATUS_ARMGenerator != nil {
+		return webApplicationFirewallPolicyProperties_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForWebApplicationFirewallPolicyProperties_STATUS_ARM(generators)
+	webApplicationFirewallPolicyProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(WebApplicationFirewallPolicyProperties_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCustomRule_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForCustomRule_STATUS_ARM(generators)
-	customRule_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(CustomRule_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForWebApplicationFirewallPolicyProperties_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForWebApplicationFirewallPolicyProperties_STATUS_ARM(generators)
+	webApplicationFirewallPolicyProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(WebApplicationFirewallPolicyProperties_STATUS_ARM{}), generators)
 
-	return customRule_STATUS_ARMGenerator
+	return webApplicationFirewallPolicyProperties_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForCustomRule_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCustomRule_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Action"] = gen.PtrOf(gen.OneConstOf(
-		ActionType_STATUS_Allow,
-		ActionType_STATUS_AnomalyScoring,
-		ActionType_STATUS_Block,
-		ActionType_STATUS_Log,
-		ActionType_STATUS_Redirect))
-	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(CustomRule_EnabledState_STATUS_Disabled, CustomRule_EnabledState_STATUS_Enabled))
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Priority"] = gen.PtrOf(gen.Int())
-	gens["RateLimitDurationInMinutes"] = gen.PtrOf(gen.Int())
-	gens["RateLimitThreshold"] = gen.PtrOf(gen.Int())
-	gens["RuleType"] = gen.PtrOf(gen.OneConstOf(CustomRule_RuleType_STATUS_MatchRule, CustomRule_RuleType_STATUS_RateLimitRule))
+// AddIndependentPropertyGeneratorsForWebApplicationFirewallPolicyProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWebApplicationFirewallPolicyProperties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
+	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
+		WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Creating,
+		WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Deleting,
+		WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Disabled,
+		WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Disabling,
+		WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Enabled,
+		WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Enabling))
 }
 
-// AddRelatedPropertyGeneratorsForCustomRule_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForCustomRule_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["MatchConditions"] = gen.SliceOf(MatchCondition_STATUS_ARMGenerator())
-}
-
-func Test_ManagedRuleSet_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedRuleSet_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedRuleSet_STATUS_ARM, ManagedRuleSet_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedRuleSet_STATUS_ARM runs a test to see if a specific instance of ManagedRuleSet_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedRuleSet_STATUS_ARM(subject ManagedRuleSet_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedRuleSet_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedRuleSet_STATUS_ARM instances for property testing - lazily instantiated by
-// ManagedRuleSet_STATUS_ARMGenerator()
-var managedRuleSet_STATUS_ARMGenerator gopter.Gen
-
-// ManagedRuleSet_STATUS_ARMGenerator returns a generator of ManagedRuleSet_STATUS_ARM instances for property testing.
-// We first initialize managedRuleSet_STATUS_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ManagedRuleSet_STATUS_ARMGenerator() gopter.Gen {
-	if managedRuleSet_STATUS_ARMGenerator != nil {
-		return managedRuleSet_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedRuleSet_STATUS_ARM(generators)
-	managedRuleSet_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedRuleSet_STATUS_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedRuleSet_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForManagedRuleSet_STATUS_ARM(generators)
-	managedRuleSet_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedRuleSet_STATUS_ARM{}), generators)
-
-	return managedRuleSet_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedRuleSet_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedRuleSet_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["RuleSetAction"] = gen.PtrOf(gen.OneConstOf(ManagedRuleSetActionType_STATUS_Block, ManagedRuleSetActionType_STATUS_Log, ManagedRuleSetActionType_STATUS_Redirect))
-	gens["RuleSetType"] = gen.PtrOf(gen.AlphaString())
-	gens["RuleSetVersion"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForManagedRuleSet_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedRuleSet_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Exclusions"] = gen.SliceOf(ManagedRuleExclusion_STATUS_ARMGenerator())
-	gens["RuleGroupOverrides"] = gen.SliceOf(ManagedRuleGroupOverride_STATUS_ARMGenerator())
-}
-
-func Test_ManagedRuleExclusion_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedRuleExclusion_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedRuleExclusion_STATUS_ARM, ManagedRuleExclusion_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedRuleExclusion_STATUS_ARM runs a test to see if a specific instance of ManagedRuleExclusion_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedRuleExclusion_STATUS_ARM(subject ManagedRuleExclusion_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedRuleExclusion_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedRuleExclusion_STATUS_ARM instances for property testing - lazily instantiated by
-// ManagedRuleExclusion_STATUS_ARMGenerator()
-var managedRuleExclusion_STATUS_ARMGenerator gopter.Gen
-
-// ManagedRuleExclusion_STATUS_ARMGenerator returns a generator of ManagedRuleExclusion_STATUS_ARM instances for property testing.
-func ManagedRuleExclusion_STATUS_ARMGenerator() gopter.Gen {
-	if managedRuleExclusion_STATUS_ARMGenerator != nil {
-		return managedRuleExclusion_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedRuleExclusion_STATUS_ARM(generators)
-	managedRuleExclusion_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedRuleExclusion_STATUS_ARM{}), generators)
-
-	return managedRuleExclusion_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedRuleExclusion_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedRuleExclusion_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["MatchVariable"] = gen.PtrOf(gen.OneConstOf(
-		ManagedRuleExclusion_MatchVariable_STATUS_QueryStringArgNames,
-		ManagedRuleExclusion_MatchVariable_STATUS_RequestBodyJsonArgNames,
-		ManagedRuleExclusion_MatchVariable_STATUS_RequestBodyPostArgNames,
-		ManagedRuleExclusion_MatchVariable_STATUS_RequestCookieNames,
-		ManagedRuleExclusion_MatchVariable_STATUS_RequestHeaderNames))
-	gens["Selector"] = gen.PtrOf(gen.AlphaString())
-	gens["SelectorMatchOperator"] = gen.PtrOf(gen.OneConstOf(
-		ManagedRuleExclusion_SelectorMatchOperator_STATUS_Contains,
-		ManagedRuleExclusion_SelectorMatchOperator_STATUS_EndsWith,
-		ManagedRuleExclusion_SelectorMatchOperator_STATUS_Equals,
-		ManagedRuleExclusion_SelectorMatchOperator_STATUS_EqualsAny,
-		ManagedRuleExclusion_SelectorMatchOperator_STATUS_StartsWith))
-}
-
-func Test_ManagedRuleGroupOverride_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedRuleGroupOverride_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedRuleGroupOverride_STATUS_ARM, ManagedRuleGroupOverride_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedRuleGroupOverride_STATUS_ARM runs a test to see if a specific instance of ManagedRuleGroupOverride_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedRuleGroupOverride_STATUS_ARM(subject ManagedRuleGroupOverride_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedRuleGroupOverride_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedRuleGroupOverride_STATUS_ARM instances for property testing - lazily instantiated by
-// ManagedRuleGroupOverride_STATUS_ARMGenerator()
-var managedRuleGroupOverride_STATUS_ARMGenerator gopter.Gen
-
-// ManagedRuleGroupOverride_STATUS_ARMGenerator returns a generator of ManagedRuleGroupOverride_STATUS_ARM instances for property testing.
-// We first initialize managedRuleGroupOverride_STATUS_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ManagedRuleGroupOverride_STATUS_ARMGenerator() gopter.Gen {
-	if managedRuleGroupOverride_STATUS_ARMGenerator != nil {
-		return managedRuleGroupOverride_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedRuleGroupOverride_STATUS_ARM(generators)
-	managedRuleGroupOverride_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedRuleGroupOverride_STATUS_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedRuleGroupOverride_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForManagedRuleGroupOverride_STATUS_ARM(generators)
-	managedRuleGroupOverride_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedRuleGroupOverride_STATUS_ARM{}), generators)
-
-	return managedRuleGroupOverride_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedRuleGroupOverride_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedRuleGroupOverride_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["RuleGroupName"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForManagedRuleGroupOverride_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedRuleGroupOverride_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Exclusions"] = gen.SliceOf(ManagedRuleExclusion_STATUS_ARMGenerator())
-	gens["Rules"] = gen.SliceOf(ManagedRuleOverride_STATUS_ARMGenerator())
-}
-
-func Test_MatchCondition_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of MatchCondition_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMatchCondition_STATUS_ARM, MatchCondition_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForMatchCondition_STATUS_ARM runs a test to see if a specific instance of MatchCondition_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForMatchCondition_STATUS_ARM(subject MatchCondition_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual MatchCondition_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of MatchCondition_STATUS_ARM instances for property testing - lazily instantiated by
-// MatchCondition_STATUS_ARMGenerator()
-var matchCondition_STATUS_ARMGenerator gopter.Gen
-
-// MatchCondition_STATUS_ARMGenerator returns a generator of MatchCondition_STATUS_ARM instances for property testing.
-func MatchCondition_STATUS_ARMGenerator() gopter.Gen {
-	if matchCondition_STATUS_ARMGenerator != nil {
-		return matchCondition_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMatchCondition_STATUS_ARM(generators)
-	matchCondition_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(MatchCondition_STATUS_ARM{}), generators)
-
-	return matchCondition_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForMatchCondition_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMatchCondition_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["MatchValue"] = gen.SliceOf(gen.AlphaString())
-	gens["MatchVariable"] = gen.PtrOf(gen.OneConstOf(
-		MatchCondition_MatchVariable_STATUS_Cookies,
-		MatchCondition_MatchVariable_STATUS_PostArgs,
-		MatchCondition_MatchVariable_STATUS_QueryString,
-		MatchCondition_MatchVariable_STATUS_RemoteAddr,
-		MatchCondition_MatchVariable_STATUS_RequestBody,
-		MatchCondition_MatchVariable_STATUS_RequestHeader,
-		MatchCondition_MatchVariable_STATUS_RequestMethod,
-		MatchCondition_MatchVariable_STATUS_RequestUri,
-		MatchCondition_MatchVariable_STATUS_SocketAddr))
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		MatchCondition_Operator_STATUS_Any,
-		MatchCondition_Operator_STATUS_BeginsWith,
-		MatchCondition_Operator_STATUS_Contains,
-		MatchCondition_Operator_STATUS_EndsWith,
-		MatchCondition_Operator_STATUS_Equal,
-		MatchCondition_Operator_STATUS_GeoMatch,
-		MatchCondition_Operator_STATUS_GreaterThan,
-		MatchCondition_Operator_STATUS_GreaterThanOrEqual,
-		MatchCondition_Operator_STATUS_IPMatch,
-		MatchCondition_Operator_STATUS_LessThan,
-		MatchCondition_Operator_STATUS_LessThanOrEqual,
-		MatchCondition_Operator_STATUS_RegEx))
-	gens["Selector"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		TransformType_STATUS_Lowercase,
-		TransformType_STATUS_RemoveNulls,
-		TransformType_STATUS_Trim,
-		TransformType_STATUS_Uppercase,
-		TransformType_STATUS_UrlDecode,
-		TransformType_STATUS_UrlEncode))
-}
-
-func Test_ManagedRuleOverride_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedRuleOverride_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedRuleOverride_STATUS_ARM, ManagedRuleOverride_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedRuleOverride_STATUS_ARM runs a test to see if a specific instance of ManagedRuleOverride_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedRuleOverride_STATUS_ARM(subject ManagedRuleOverride_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedRuleOverride_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedRuleOverride_STATUS_ARM instances for property testing - lazily instantiated by
-// ManagedRuleOverride_STATUS_ARMGenerator()
-var managedRuleOverride_STATUS_ARMGenerator gopter.Gen
-
-// ManagedRuleOverride_STATUS_ARMGenerator returns a generator of ManagedRuleOverride_STATUS_ARM instances for property testing.
-// We first initialize managedRuleOverride_STATUS_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ManagedRuleOverride_STATUS_ARMGenerator() gopter.Gen {
-	if managedRuleOverride_STATUS_ARMGenerator != nil {
-		return managedRuleOverride_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedRuleOverride_STATUS_ARM(generators)
-	managedRuleOverride_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedRuleOverride_STATUS_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedRuleOverride_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForManagedRuleOverride_STATUS_ARM(generators)
-	managedRuleOverride_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedRuleOverride_STATUS_ARM{}), generators)
-
-	return managedRuleOverride_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedRuleOverride_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedRuleOverride_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Action"] = gen.PtrOf(gen.OneConstOf(
-		ActionType_STATUS_Allow,
-		ActionType_STATUS_AnomalyScoring,
-		ActionType_STATUS_Block,
-		ActionType_STATUS_Log,
-		ActionType_STATUS_Redirect))
-	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(ManagedRuleEnabledState_STATUS_Disabled, ManagedRuleEnabledState_STATUS_Enabled))
-	gens["RuleId"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForManagedRuleOverride_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedRuleOverride_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Exclusions"] = gen.SliceOf(ManagedRuleExclusion_STATUS_ARMGenerator())
+// AddRelatedPropertyGeneratorsForWebApplicationFirewallPolicyProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForWebApplicationFirewallPolicyProperties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["CustomRules"] = gen.PtrOf(CustomRuleList_STATUS_ARMGenerator())
+	gens["FrontendEndpointLinks"] = gen.SliceOf(FrontendEndpointLink_STATUS_ARMGenerator())
+	gens["ManagedRules"] = gen.PtrOf(ManagedRuleSetList_STATUS_ARMGenerator())
+	gens["PolicySettings"] = gen.PtrOf(PolicySettings_STATUS_ARMGenerator())
+	gens["RoutingRuleLinks"] = gen.SliceOf(RoutingRuleLink_STATUS_ARMGenerator())
+	gens["SecurityPolicyLinks"] = gen.SliceOf(SecurityPolicyLink_STATUS_ARMGenerator())
 }

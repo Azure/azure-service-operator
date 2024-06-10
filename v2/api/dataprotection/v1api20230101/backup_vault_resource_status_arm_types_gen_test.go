@@ -17,6 +17,67 @@ import (
 	"testing"
 )
 
+func Test_AzureMonitorAlertSettings_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of AzureMonitorAlertSettings_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAzureMonitorAlertSettings_STATUS_ARM, AzureMonitorAlertSettings_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForAzureMonitorAlertSettings_STATUS_ARM runs a test to see if a specific instance of AzureMonitorAlertSettings_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForAzureMonitorAlertSettings_STATUS_ARM(subject AzureMonitorAlertSettings_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual AzureMonitorAlertSettings_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of AzureMonitorAlertSettings_STATUS_ARM instances for property testing - lazily instantiated by
+// AzureMonitorAlertSettings_STATUS_ARMGenerator()
+var azureMonitorAlertSettings_STATUS_ARMGenerator gopter.Gen
+
+// AzureMonitorAlertSettings_STATUS_ARMGenerator returns a generator of AzureMonitorAlertSettings_STATUS_ARM instances for property testing.
+func AzureMonitorAlertSettings_STATUS_ARMGenerator() gopter.Gen {
+	if azureMonitorAlertSettings_STATUS_ARMGenerator != nil {
+		return azureMonitorAlertSettings_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForAzureMonitorAlertSettings_STATUS_ARM(generators)
+	azureMonitorAlertSettings_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(AzureMonitorAlertSettings_STATUS_ARM{}), generators)
+
+	return azureMonitorAlertSettings_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForAzureMonitorAlertSettings_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAzureMonitorAlertSettings_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["AlertsForAllJobFailures"] = gen.PtrOf(gen.OneConstOf(AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_Disabled, AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_Enabled))
+}
+
 func Test_BackupVaultResource_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -197,6 +258,67 @@ func AddRelatedPropertyGeneratorsForBackupVault_STATUS_ARM(gens map[string]gopte
 	gens["StorageSettings"] = gen.SliceOf(StorageSetting_STATUS_ARMGenerator())
 }
 
+func Test_CrossSubscriptionRestoreSettings_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of CrossSubscriptionRestoreSettings_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForCrossSubscriptionRestoreSettings_STATUS_ARM, CrossSubscriptionRestoreSettings_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForCrossSubscriptionRestoreSettings_STATUS_ARM runs a test to see if a specific instance of CrossSubscriptionRestoreSettings_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForCrossSubscriptionRestoreSettings_STATUS_ARM(subject CrossSubscriptionRestoreSettings_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual CrossSubscriptionRestoreSettings_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of CrossSubscriptionRestoreSettings_STATUS_ARM instances for property testing - lazily instantiated by
+// CrossSubscriptionRestoreSettings_STATUS_ARMGenerator()
+var crossSubscriptionRestoreSettings_STATUS_ARMGenerator gopter.Gen
+
+// CrossSubscriptionRestoreSettings_STATUS_ARMGenerator returns a generator of CrossSubscriptionRestoreSettings_STATUS_ARM instances for property testing.
+func CrossSubscriptionRestoreSettings_STATUS_ARMGenerator() gopter.Gen {
+	if crossSubscriptionRestoreSettings_STATUS_ARMGenerator != nil {
+		return crossSubscriptionRestoreSettings_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForCrossSubscriptionRestoreSettings_STATUS_ARM(generators)
+	crossSubscriptionRestoreSettings_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(CrossSubscriptionRestoreSettings_STATUS_ARM{}), generators)
+
+	return crossSubscriptionRestoreSettings_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForCrossSubscriptionRestoreSettings_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForCrossSubscriptionRestoreSettings_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["State"] = gen.PtrOf(gen.OneConstOf(CrossSubscriptionRestoreSettings_State_STATUS_Disabled, CrossSubscriptionRestoreSettings_State_STATUS_Enabled, CrossSubscriptionRestoreSettings_State_STATUS_PermanentlyDisabled))
+}
+
 func Test_DppIdentityDetails_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -260,80 +382,6 @@ func AddIndependentPropertyGeneratorsForDppIdentityDetails_STATUS_ARM(gens map[s
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_SystemData_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SystemData_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSystemData_STATUS_ARM, SystemData_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSystemData_STATUS_ARM runs a test to see if a specific instance of SystemData_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSystemData_STATUS_ARM(subject SystemData_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual SystemData_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of SystemData_STATUS_ARM instances for property testing - lazily instantiated by
-// SystemData_STATUS_ARMGenerator()
-var systemData_STATUS_ARMGenerator gopter.Gen
-
-// SystemData_STATUS_ARMGenerator returns a generator of SystemData_STATUS_ARM instances for property testing.
-func SystemData_STATUS_ARMGenerator() gopter.Gen {
-	if systemData_STATUS_ARMGenerator != nil {
-		return systemData_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSystemData_STATUS_ARM(generators)
-	systemData_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(SystemData_STATUS_ARM{}), generators)
-
-	return systemData_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSystemData_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSystemData_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_STATUS_Application,
-		SystemData_CreatedByType_STATUS_Key,
-		SystemData_CreatedByType_STATUS_ManagedIdentity,
-		SystemData_CreatedByType_STATUS_User))
-	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_STATUS_Application,
-		SystemData_LastModifiedByType_STATUS_Key,
-		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-		SystemData_LastModifiedByType_STATUS_User))
-}
-
 func Test_FeatureSettings_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -393,6 +441,67 @@ func FeatureSettings_STATUS_ARMGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForFeatureSettings_STATUS_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForFeatureSettings_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["CrossSubscriptionRestoreSettings"] = gen.PtrOf(CrossSubscriptionRestoreSettings_STATUS_ARMGenerator())
+}
+
+func Test_ImmutabilitySettings_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ImmutabilitySettings_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForImmutabilitySettings_STATUS_ARM, ImmutabilitySettings_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForImmutabilitySettings_STATUS_ARM runs a test to see if a specific instance of ImmutabilitySettings_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForImmutabilitySettings_STATUS_ARM(subject ImmutabilitySettings_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ImmutabilitySettings_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ImmutabilitySettings_STATUS_ARM instances for property testing - lazily instantiated by
+// ImmutabilitySettings_STATUS_ARMGenerator()
+var immutabilitySettings_STATUS_ARMGenerator gopter.Gen
+
+// ImmutabilitySettings_STATUS_ARMGenerator returns a generator of ImmutabilitySettings_STATUS_ARM instances for property testing.
+func ImmutabilitySettings_STATUS_ARMGenerator() gopter.Gen {
+	if immutabilitySettings_STATUS_ARMGenerator != nil {
+		return immutabilitySettings_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForImmutabilitySettings_STATUS_ARM(generators)
+	immutabilitySettings_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ImmutabilitySettings_STATUS_ARM{}), generators)
+
+	return immutabilitySettings_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForImmutabilitySettings_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForImmutabilitySettings_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["State"] = gen.PtrOf(gen.OneConstOf(ImmutabilitySettings_State_STATUS_Disabled, ImmutabilitySettings_State_STATUS_Locked, ImmutabilitySettings_State_STATUS_Unlocked))
 }
 
 func Test_MonitoringSettings_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -583,6 +692,68 @@ func AddRelatedPropertyGeneratorsForSecuritySettings_STATUS_ARM(gens map[string]
 	gens["SoftDeleteSettings"] = gen.PtrOf(SoftDeleteSettings_STATUS_ARMGenerator())
 }
 
+func Test_SoftDeleteSettings_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SoftDeleteSettings_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSoftDeleteSettings_STATUS_ARM, SoftDeleteSettings_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSoftDeleteSettings_STATUS_ARM runs a test to see if a specific instance of SoftDeleteSettings_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSoftDeleteSettings_STATUS_ARM(subject SoftDeleteSettings_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SoftDeleteSettings_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SoftDeleteSettings_STATUS_ARM instances for property testing - lazily instantiated by
+// SoftDeleteSettings_STATUS_ARMGenerator()
+var softDeleteSettings_STATUS_ARMGenerator gopter.Gen
+
+// SoftDeleteSettings_STATUS_ARMGenerator returns a generator of SoftDeleteSettings_STATUS_ARM instances for property testing.
+func SoftDeleteSettings_STATUS_ARMGenerator() gopter.Gen {
+	if softDeleteSettings_STATUS_ARMGenerator != nil {
+		return softDeleteSettings_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSoftDeleteSettings_STATUS_ARM(generators)
+	softDeleteSettings_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(SoftDeleteSettings_STATUS_ARM{}), generators)
+
+	return softDeleteSettings_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForSoftDeleteSettings_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSoftDeleteSettings_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["RetentionDurationInDays"] = gen.PtrOf(gen.Float64())
+	gens["State"] = gen.PtrOf(gen.OneConstOf(SoftDeleteSettings_State_STATUS_AlwaysOn, SoftDeleteSettings_State_STATUS_Off, SoftDeleteSettings_State_STATUS_On))
+}
+
 func Test_StorageSetting_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -645,20 +816,20 @@ func AddIndependentPropertyGeneratorsForStorageSetting_STATUS_ARM(gens map[strin
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(StorageSetting_Type_STATUS_GeoRedundant, StorageSetting_Type_STATUS_LocallyRedundant, StorageSetting_Type_STATUS_ZoneRedundant))
 }
 
-func Test_AzureMonitorAlertSettings_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SystemData_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of AzureMonitorAlertSettings_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAzureMonitorAlertSettings_STATUS_ARM, AzureMonitorAlertSettings_STATUS_ARMGenerator()))
+		"Round trip of SystemData_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSystemData_STATUS_ARM, SystemData_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAzureMonitorAlertSettings_STATUS_ARM runs a test to see if a specific instance of AzureMonitorAlertSettings_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForAzureMonitorAlertSettings_STATUS_ARM(subject AzureMonitorAlertSettings_STATUS_ARM) string {
+// RunJSONSerializationTestForSystemData_STATUS_ARM runs a test to see if a specific instance of SystemData_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSystemData_STATUS_ARM(subject SystemData_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -666,7 +837,7 @@ func RunJSONSerializationTestForAzureMonitorAlertSettings_STATUS_ARM(subject Azu
 	}
 
 	// Deserialize back into memory
-	var actual AzureMonitorAlertSettings_STATUS_ARM
+	var actual SystemData_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -684,208 +855,37 @@ func RunJSONSerializationTestForAzureMonitorAlertSettings_STATUS_ARM(subject Azu
 	return ""
 }
 
-// Generator of AzureMonitorAlertSettings_STATUS_ARM instances for property testing - lazily instantiated by
-// AzureMonitorAlertSettings_STATUS_ARMGenerator()
-var azureMonitorAlertSettings_STATUS_ARMGenerator gopter.Gen
+// Generator of SystemData_STATUS_ARM instances for property testing - lazily instantiated by
+// SystemData_STATUS_ARMGenerator()
+var systemData_STATUS_ARMGenerator gopter.Gen
 
-// AzureMonitorAlertSettings_STATUS_ARMGenerator returns a generator of AzureMonitorAlertSettings_STATUS_ARM instances for property testing.
-func AzureMonitorAlertSettings_STATUS_ARMGenerator() gopter.Gen {
-	if azureMonitorAlertSettings_STATUS_ARMGenerator != nil {
-		return azureMonitorAlertSettings_STATUS_ARMGenerator
+// SystemData_STATUS_ARMGenerator returns a generator of SystemData_STATUS_ARM instances for property testing.
+func SystemData_STATUS_ARMGenerator() gopter.Gen {
+	if systemData_STATUS_ARMGenerator != nil {
+		return systemData_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAzureMonitorAlertSettings_STATUS_ARM(generators)
-	azureMonitorAlertSettings_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(AzureMonitorAlertSettings_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForSystemData_STATUS_ARM(generators)
+	systemData_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(SystemData_STATUS_ARM{}), generators)
 
-	return azureMonitorAlertSettings_STATUS_ARMGenerator
+	return systemData_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAzureMonitorAlertSettings_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAzureMonitorAlertSettings_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["AlertsForAllJobFailures"] = gen.PtrOf(gen.OneConstOf(AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_Disabled, AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_Enabled))
-}
-
-func Test_CrossSubscriptionRestoreSettings_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CrossSubscriptionRestoreSettings_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCrossSubscriptionRestoreSettings_STATUS_ARM, CrossSubscriptionRestoreSettings_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForCrossSubscriptionRestoreSettings_STATUS_ARM runs a test to see if a specific instance of CrossSubscriptionRestoreSettings_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForCrossSubscriptionRestoreSettings_STATUS_ARM(subject CrossSubscriptionRestoreSettings_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual CrossSubscriptionRestoreSettings_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of CrossSubscriptionRestoreSettings_STATUS_ARM instances for property testing - lazily instantiated by
-// CrossSubscriptionRestoreSettings_STATUS_ARMGenerator()
-var crossSubscriptionRestoreSettings_STATUS_ARMGenerator gopter.Gen
-
-// CrossSubscriptionRestoreSettings_STATUS_ARMGenerator returns a generator of CrossSubscriptionRestoreSettings_STATUS_ARM instances for property testing.
-func CrossSubscriptionRestoreSettings_STATUS_ARMGenerator() gopter.Gen {
-	if crossSubscriptionRestoreSettings_STATUS_ARMGenerator != nil {
-		return crossSubscriptionRestoreSettings_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCrossSubscriptionRestoreSettings_STATUS_ARM(generators)
-	crossSubscriptionRestoreSettings_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(CrossSubscriptionRestoreSettings_STATUS_ARM{}), generators)
-
-	return crossSubscriptionRestoreSettings_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCrossSubscriptionRestoreSettings_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCrossSubscriptionRestoreSettings_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["State"] = gen.PtrOf(gen.OneConstOf(CrossSubscriptionRestoreSettings_State_STATUS_Disabled, CrossSubscriptionRestoreSettings_State_STATUS_Enabled, CrossSubscriptionRestoreSettings_State_STATUS_PermanentlyDisabled))
-}
-
-func Test_ImmutabilitySettings_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ImmutabilitySettings_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForImmutabilitySettings_STATUS_ARM, ImmutabilitySettings_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForImmutabilitySettings_STATUS_ARM runs a test to see if a specific instance of ImmutabilitySettings_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForImmutabilitySettings_STATUS_ARM(subject ImmutabilitySettings_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ImmutabilitySettings_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ImmutabilitySettings_STATUS_ARM instances for property testing - lazily instantiated by
-// ImmutabilitySettings_STATUS_ARMGenerator()
-var immutabilitySettings_STATUS_ARMGenerator gopter.Gen
-
-// ImmutabilitySettings_STATUS_ARMGenerator returns a generator of ImmutabilitySettings_STATUS_ARM instances for property testing.
-func ImmutabilitySettings_STATUS_ARMGenerator() gopter.Gen {
-	if immutabilitySettings_STATUS_ARMGenerator != nil {
-		return immutabilitySettings_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImmutabilitySettings_STATUS_ARM(generators)
-	immutabilitySettings_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ImmutabilitySettings_STATUS_ARM{}), generators)
-
-	return immutabilitySettings_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForImmutabilitySettings_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForImmutabilitySettings_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["State"] = gen.PtrOf(gen.OneConstOf(ImmutabilitySettings_State_STATUS_Disabled, ImmutabilitySettings_State_STATUS_Locked, ImmutabilitySettings_State_STATUS_Unlocked))
-}
-
-func Test_SoftDeleteSettings_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SoftDeleteSettings_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSoftDeleteSettings_STATUS_ARM, SoftDeleteSettings_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSoftDeleteSettings_STATUS_ARM runs a test to see if a specific instance of SoftDeleteSettings_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSoftDeleteSettings_STATUS_ARM(subject SoftDeleteSettings_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual SoftDeleteSettings_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of SoftDeleteSettings_STATUS_ARM instances for property testing - lazily instantiated by
-// SoftDeleteSettings_STATUS_ARMGenerator()
-var softDeleteSettings_STATUS_ARMGenerator gopter.Gen
-
-// SoftDeleteSettings_STATUS_ARMGenerator returns a generator of SoftDeleteSettings_STATUS_ARM instances for property testing.
-func SoftDeleteSettings_STATUS_ARMGenerator() gopter.Gen {
-	if softDeleteSettings_STATUS_ARMGenerator != nil {
-		return softDeleteSettings_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSoftDeleteSettings_STATUS_ARM(generators)
-	softDeleteSettings_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(SoftDeleteSettings_STATUS_ARM{}), generators)
-
-	return softDeleteSettings_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSoftDeleteSettings_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSoftDeleteSettings_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["RetentionDurationInDays"] = gen.PtrOf(gen.Float64())
-	gens["State"] = gen.PtrOf(gen.OneConstOf(SoftDeleteSettings_State_STATUS_AlwaysOn, SoftDeleteSettings_State_STATUS_Off, SoftDeleteSettings_State_STATUS_On))
+// AddIndependentPropertyGeneratorsForSystemData_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSystemData_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
+	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
+	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
+		SystemData_CreatedByType_STATUS_Application,
+		SystemData_CreatedByType_STATUS_Key,
+		SystemData_CreatedByType_STATUS_ManagedIdentity,
+		SystemData_CreatedByType_STATUS_User))
+	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
+	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
+	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
+		SystemData_LastModifiedByType_STATUS_Application,
+		SystemData_LastModifiedByType_STATUS_Key,
+		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+		SystemData_LastModifiedByType_STATUS_User))
 }
