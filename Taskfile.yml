@@ -715,7 +715,7 @@ tasks:
           VERSION_TAG: "{{.LATEST_VERSION_TAG}}"
           CONTROLLER_IMAGE: "azureserviceoperator:{{.LATEST_VERSION_TAG}}"
     cmds:
-      - "{{.SCRIPTS_ROOT}}/validate_helm.py --helm_dir=$PWD/charts/azure-service-operator --yaml_path=$PWD/bin/azureserviceoperator_{{.LATEST_VERSION_TAG}}.yaml"
+      - "{{.SCRIPTS_ROOT}}/validate_helm.py --helm-dir=$PWD/charts/azure-service-operator --yaml-path=$PWD/bin/azureserviceoperator_{{.LATEST_VERSION_TAG}}.yaml"
 
   controller:package-helm-manifest:
     desc: Package helm manifest for the release

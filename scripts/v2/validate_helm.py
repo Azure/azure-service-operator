@@ -1,4 +1,4 @@
-#!venv/bin/python3
+#!/usr/bin/env python3
 
 import subprocess
 from argparse import ArgumentParser
@@ -67,8 +67,8 @@ if __name__ == '__main__':
 
     args_parser = ArgumentParser()
 
-    args_parser.add_argument("--helm_dir", type=str, help="path to the helm directory")
-    args_parser.add_argument("--yaml_path", type=str, help="path to the aso yaml file. This should be a single YAML file containing all of the ASO resources")
+    args_parser.add_argument("--helm-dir", type=str, help="path to the helm directory")
+    args_parser.add_argument("--yaml-path", type=str, help="path to the aso yaml file. This should be a single YAML file containing all of the ASO resources")
     args = args_parser.parse_args()
     print(args.yaml_path)
     validate_helm(args.helm_dir, args.yaml_path)
