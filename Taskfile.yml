@@ -677,11 +677,11 @@ tasks:
     dir: "v2/"
     cmds:
       - mkdir -p bin # in case it doesn't exist
-      - "{{.SCRIPTS_ROOT}}/kustomize-build.sh -k operator -v {{.VERSION}} | sed -e 's@{{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}}@{{.PUBLIC_REGISTRY}}{{.CONTROLLER_IMAGE}}@g' > bin/azureserviceoperator_{{.VERSION}}.yaml"
+      - "{{.SCRIPTS_ROOT}}/kustomize-build.sh -k operator -v {{.VERSION}} | sed -e 's@{{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}}@{{.PUBLIC_REGISTRY}}{{.CONTROLLER_DOCKER_IMAGE}}@g' > bin/azureserviceoperator_{{.VERSION}}.yaml"
       - "{{.SCRIPTS_ROOT}}/kustomize-build.sh -k crd -v {{.VERSION}} > bin/azureserviceoperator_customresourcedefinitions_{{.VERSION}}.yaml"
     vars:
       VERSION: "{{default .VERSION .VERSION_TAG}}"
-      CONTROLLER_IMAGE: "{{default .CONTROLLER_DOCKER_IMAGE .CONTROLLER_IMAGE}}"
+      CONTROLLER_DOCKER_IMAGE: "{{default .CONTROLLER_DOCKER_IMAGE .CONTROLLER_IMAGE}}"
 
   controller:make-multitenant-files:
     desc: Splits the deployment yaml into cluster and tenant files for multitenant deployment
