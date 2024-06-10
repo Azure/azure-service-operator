@@ -1,6 +1,13 @@
 #!/bin/bash
 
-# This script generates helm manifest and replaces required values in helm chart.
+# package-helm-manifest.sh script is used to copy the generated files by kustomize and package the helm chart.
+# The generated files are updated when a new resource is added. To eliminate the manual process of updating generated files, we use this script for automation.
+# Generated files include below files:
+# - admissionregistration.k8s.io_v1_mutatingwebhookconfiguration_azureserviceoperator-mutating-webhook-configuration.yaml
+# - admissionregistration.k8s.io_v1_validatingwebhookconfiguration_azureserviceoperator-validating-webhook-configuration.yaml
+# - rbac.authorization.k8s.io_v1_clusterrole_azureserviceoperator-manager-role.yaml
+
+# Above files are always updated when a new resource is added
 
 set -e
 
@@ -42,7 +49,7 @@ sed -i "s@\($PUBLIC_REGISTRY\)\(.*\)@\1azureserviceoperator:$VERSION@g" "$ASO_CH
 # Chart replacements
 sed -i "s/\(version: \)\(.*\)/\1${VERSION//v}/g" "$ASO_CHART"/Chart.yaml  # find version key and update the value with the current version
 
-mkdir "$TEMP_DIR"
+mkdir -p "$TEMP_DIR"
 ${SCRIPT_DIR}/kustomize-build.sh -v "$VERSION" -k operator -o "$TEMP_DIR"
 
 echo "Making sed replacements and copying generated yamls"

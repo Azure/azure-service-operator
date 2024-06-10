@@ -1,4 +1,4 @@
-#!/usr/local/bin/venv/python3
+#!/usr/local/bin/venv/bin/python3
 
 import subprocess
 from argparse import ArgumentParser
