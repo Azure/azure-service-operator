@@ -314,11 +314,6 @@ if [ "$VERBOSE" == true ]; then
     echo "Installed tools: $(ls "$TOOL_DEST")"
 fi
 
-# python packages to be installed for helm validation script
-# using `--break-system-packages` here since the python3 env is externally managed through the OS, so we have to pass this to install the dependency for local environment.
-pip3 install deepdiff --break-system-packages
-pip3 install pyyaml --break-system-packages
-
 if [ "$DEVCONTAINER" == true ]; then
 
     # Webhook Certs
@@ -332,3 +327,21 @@ if [ "$DEVCONTAINER" == true ]; then
     # Workaround for issue where /workspace has different owner because checkout happens outside the container
     git config --global --add safe.directory /workspace
 fi
+
+# python virtual env and packages to be installed for helm validation script
+SCRIPTS_PATH=$(git rev-parse --show-toplevel)/scripts/v2
+
+# Install virtualenv
+pip3 install virtualenv --break-system-packages
+
+# Set up a venv for our python scripts
+python3 -m virtualenv "$SCRIPTS_PATH/venv"
+
+# activate the venv
+source "$SCRIPTS_PATH"/venv/bin/activate
+
+# install from requirements.txt
+pip3 install -r "$SCRIPTS_PATH"/requirements.txt
+
+# deactivate the venv for now
+deactivate

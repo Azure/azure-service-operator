@@ -4,10 +4,30 @@
 
 set -e
 
-LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE=$1
-PUBLIC_REGISTRY=$2
-VERSION=$3
-DIR=$4
+print_usage() {
+  echo "Usage: package-helm-manifest.sh -d <DIRECTORY> -v <VERSION> -r <PUBLIC_REGISTRY> -i <LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE>"
+}
+
+LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE=
+PUBLIC_REGISTRY=
+VERSION=
+DIR=
+
+while getopts 'i:r:v:d:' flag; do
+  case "${flag}" in
+    i) LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE="${OPTARG}" ;;
+    r) PUBLIC_REGISTRY="${OPTARG}" ;;
+    v) VERSION="${OPTARG}" ;;
+    d) DIR="${OPTARG}" ;;
+    *) print_usage
+       exit 1 ;;
+  esac
+done
+
+if [[ -z "$DIR" ]] || [[ -z "$VERSION" ]] || [[ -z "$PUBLIC_REGISTRY" ]] || [[ -z "$LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE" ]]; then
+  print_usage
+  exit 1
+fi
 
 ASO_CHART="$DIR"charts/azure-service-operator
 GEN_FILES_DIR="$ASO_CHART"/templates/generated
