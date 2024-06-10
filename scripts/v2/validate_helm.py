@@ -17,16 +17,10 @@ def get_yaml(yaml_path):
         return aso_yaml
 
 def get_helm_templates(helm_dir):
-    helm_res = subprocess.run(
-        f"helm template asov2 {helm_dir} --namespace=azureserviceoperator-system".split(" "),
-        capture_output=True)
+    helm_res = subprocess.check_output(
+        f"helm template asov2 {helm_dir} --namespace=azureserviceoperator-system".split(" "))
 
-    if helm_res.returncode != 0:
-        error = helm_res.stderr.decode("utf-8")
-        logger.error(f"helm template failed: \n{error}")
-        exit(helm_res.returncode)
-
-    helm_resources = yaml.full_load_all(helm_res.stdout.decode("utf-8"))
+    helm_resources = yaml.full_load_all(helm_res.decode("utf-8"))
     return helm_resources
 
 def validate_helm(helm_dir, yaml_path):
@@ -70,5 +64,4 @@ if __name__ == '__main__':
     args_parser.add_argument("--helm-dir", type=str, help="path to the helm directory")
     args_parser.add_argument("--yaml-path", type=str, help="path to the aso yaml file. This should be a single YAML file containing all of the ASO resources")
     args = args_parser.parse_args()
-    print(args.yaml_path)
     validate_helm(args.helm_dir, args.yaml_path)
