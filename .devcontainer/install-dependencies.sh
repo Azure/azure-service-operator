@@ -328,20 +328,22 @@ if [ "$DEVCONTAINER" == true ]; then
     git config --global --add safe.directory /workspace
 fi
 
-# python virtual env and packages to be installed for helm validation script
-SCRIPTS_PATH=$(git rev-parse --show-toplevel)/scripts/v2
+write-info "Setting up python virtual environment"
 
+# python virtual env and packages to be installed for helm validation script
 # Install virtualenv
+VENV_DEST=/usr/local/bin/venv
 pip3 install virtualenv --break-system-packages
 
 # Set up a venv for our python scripts
-python3 -m virtualenv "$SCRIPTS_PATH/venv"
+python3 -m virtualenv "$VENV_DEST"
 
 # activate the venv
-source "$SCRIPTS_PATH"/venv/bin/activate
+source "$VENV_DEST"/bin/activate
 
-# install from requirements.txt
-pip3 install -r "$SCRIPTS_PATH"/requirements.txt
+# install python requirements
+pip3 install deepdiff
+pip3 install pyyaml
 
 # deactivate the venv for now
 deactivate
