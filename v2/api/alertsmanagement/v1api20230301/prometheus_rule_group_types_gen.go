@@ -5,6 +5,7 @@ package v1api20230301
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20230301/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20230301/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -378,7 +379,7 @@ func (group *PrometheusRuleGroup_Spec) ConvertToARM(resolved genruntime.ConvertT
 	if group == nil {
 		return nil, nil
 	}
-	result := &PrometheusRuleGroup_Spec_ARM{}
+	result := &arm.PrometheusRuleGroup_Spec{}
 
 	// Set property "Location":
 	if group.Location != nil {
@@ -396,7 +397,7 @@ func (group *PrometheusRuleGroup_Spec) ConvertToARM(resolved genruntime.ConvertT
 		group.Interval != nil ||
 		group.Rules != nil ||
 		group.ScopesReferences != nil {
-		result.Properties = &PrometheusRuleGroupProperties_ARM{}
+		result.Properties = &arm.PrometheusRuleGroupProperties{}
 	}
 	if group.ClusterName != nil {
 		clusterName := *group.ClusterName
@@ -419,7 +420,7 @@ func (group *PrometheusRuleGroup_Spec) ConvertToARM(resolved genruntime.ConvertT
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Rules = append(result.Properties.Rules, *item_ARM.(*PrometheusRule_ARM))
+		result.Properties.Rules = append(result.Properties.Rules, *item_ARM.(*arm.PrometheusRule))
 	}
 	for _, item := range group.ScopesReferences {
 		itemARMID, err := resolved.ResolvedReferences.Lookup(item)
@@ -441,14 +442,14 @@ func (group *PrometheusRuleGroup_Spec) ConvertToARM(resolved genruntime.ConvertT
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (group *PrometheusRuleGroup_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrometheusRuleGroup_Spec_ARM{}
+	return &arm.PrometheusRuleGroup_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (group *PrometheusRuleGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrometheusRuleGroup_Spec_ARM)
+	typedInput, ok := armInput.(arm.PrometheusRuleGroup_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrometheusRuleGroup_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrometheusRuleGroup_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -889,14 +890,14 @@ var _ genruntime.FromARMConverter = &PrometheusRuleGroup_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (group *PrometheusRuleGroup_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrometheusRuleGroup_STATUS_ARM{}
+	return &arm.PrometheusRuleGroup_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (group *PrometheusRuleGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrometheusRuleGroup_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PrometheusRuleGroup_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrometheusRuleGroup_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrometheusRuleGroup_STATUS, got %T", armInput)
 	}
 
 	// Set property "ClusterName":
@@ -1208,7 +1209,7 @@ func (rule *PrometheusRule) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	if rule == nil {
 		return nil, nil
 	}
-	result := &PrometheusRule_ARM{}
+	result := &arm.PrometheusRule{}
 
 	// Set property "Actions":
 	for _, item := range rule.Actions {
@@ -1216,7 +1217,7 @@ func (rule *PrometheusRule) ConvertToARM(resolved genruntime.ConvertToARMResolve
 		if err != nil {
 			return nil, err
 		}
-		result.Actions = append(result.Actions, *item_ARM.(*PrometheusRuleGroupAction_ARM))
+		result.Actions = append(result.Actions, *item_ARM.(*arm.PrometheusRuleGroupAction))
 	}
 
 	// Set property "Alert":
@@ -1271,7 +1272,7 @@ func (rule *PrometheusRule) ConvertToARM(resolved genruntime.ConvertToARMResolve
 		if err != nil {
 			return nil, err
 		}
-		resolveConfiguration := *resolveConfiguration_ARM.(*PrometheusRuleResolveConfiguration_ARM)
+		resolveConfiguration := *resolveConfiguration_ARM.(*arm.PrometheusRuleResolveConfiguration)
 		result.ResolveConfiguration = &resolveConfiguration
 	}
 
@@ -1285,14 +1286,14 @@ func (rule *PrometheusRule) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *PrometheusRule) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrometheusRule_ARM{}
+	return &arm.PrometheusRule{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *PrometheusRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrometheusRule_ARM)
+	typedInput, ok := armInput.(arm.PrometheusRule)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrometheusRule_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrometheusRule, got %T", armInput)
 	}
 
 	// Set property "Actions":
@@ -1619,14 +1620,14 @@ var _ genruntime.FromARMConverter = &PrometheusRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *PrometheusRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrometheusRule_STATUS_ARM{}
+	return &arm.PrometheusRule_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *PrometheusRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrometheusRule_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PrometheusRule_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrometheusRule_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrometheusRule_STATUS, got %T", armInput)
 	}
 
 	// Set property "Actions":
@@ -1872,14 +1873,14 @@ var _ genruntime.FromARMConverter = &SystemData_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (data *SystemData_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SystemData_STATUS_ARM{}
+	return &arm.SystemData_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SystemData_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SystemData_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SystemData_STATUS, got %T", armInput)
 	}
 
 	// Set property "CreatedAt":
@@ -2019,7 +2020,7 @@ func (action *PrometheusRuleGroupAction) ConvertToARM(resolved genruntime.Conver
 	if action == nil {
 		return nil, nil
 	}
-	result := &PrometheusRuleGroupAction_ARM{}
+	result := &arm.PrometheusRuleGroupAction{}
 
 	// Set property "ActionGroupId":
 	if action.ActionGroupReference != nil {
@@ -2043,14 +2044,14 @@ func (action *PrometheusRuleGroupAction) ConvertToARM(resolved genruntime.Conver
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (action *PrometheusRuleGroupAction) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrometheusRuleGroupAction_ARM{}
+	return &arm.PrometheusRuleGroupAction{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (action *PrometheusRuleGroupAction) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrometheusRuleGroupAction_ARM)
+	typedInput, ok := armInput.(arm.PrometheusRuleGroupAction)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrometheusRuleGroupAction_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrometheusRuleGroupAction, got %T", armInput)
 	}
 
 	// no assignment for property "ActionGroupReference"
@@ -2143,14 +2144,14 @@ var _ genruntime.FromARMConverter = &PrometheusRuleGroupAction_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (action *PrometheusRuleGroupAction_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrometheusRuleGroupAction_STATUS_ARM{}
+	return &arm.PrometheusRuleGroupAction_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (action *PrometheusRuleGroupAction_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrometheusRuleGroupAction_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PrometheusRuleGroupAction_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrometheusRuleGroupAction_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrometheusRuleGroupAction_STATUS, got %T", armInput)
 	}
 
 	// Set property "ActionGroupId":
@@ -2222,7 +2223,7 @@ func (configuration *PrometheusRuleResolveConfiguration) ConvertToARM(resolved g
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &PrometheusRuleResolveConfiguration_ARM{}
+	result := &arm.PrometheusRuleResolveConfiguration{}
 
 	// Set property "AutoResolved":
 	if configuration.AutoResolved != nil {
@@ -2240,14 +2241,14 @@ func (configuration *PrometheusRuleResolveConfiguration) ConvertToARM(resolved g
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *PrometheusRuleResolveConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrometheusRuleResolveConfiguration_ARM{}
+	return &arm.PrometheusRuleResolveConfiguration{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *PrometheusRuleResolveConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrometheusRuleResolveConfiguration_ARM)
+	typedInput, ok := armInput.(arm.PrometheusRuleResolveConfiguration)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrometheusRuleResolveConfiguration_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrometheusRuleResolveConfiguration, got %T", armInput)
 	}
 
 	// Set property "AutoResolved":
@@ -2342,14 +2343,14 @@ var _ genruntime.FromARMConverter = &PrometheusRuleResolveConfiguration_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *PrometheusRuleResolveConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrometheusRuleResolveConfiguration_STATUS_ARM{}
+	return &arm.PrometheusRuleResolveConfiguration_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *PrometheusRuleResolveConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrometheusRuleResolveConfiguration_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PrometheusRuleResolveConfiguration_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrometheusRuleResolveConfiguration_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrometheusRuleResolveConfiguration_STATUS, got %T", armInput)
 	}
 
 	// Set property "AutoResolved":
@@ -2411,6 +2412,40 @@ func (configuration *PrometheusRuleResolveConfiguration_STATUS) AssignProperties
 
 	// No error
 	return nil
+}
+
+type SystemData_CreatedByType_STATUS string
+
+const (
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
+}
+
+type SystemData_LastModifiedByType_STATUS string
+
+const (
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
 }
 
 func init() {

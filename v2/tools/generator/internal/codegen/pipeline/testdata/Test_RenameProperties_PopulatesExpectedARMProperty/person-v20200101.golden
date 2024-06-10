@@ -5,6 +5,7 @@
  
  import (
  	"fmt"
+ 	arm "github.com/Azure/azure-service-operator/testing/person/v20200101/arm"
  	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
  	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
  )
@@ -23,56 +24,6 @@
  	metav1.TypeMeta `json:",inline"`
  	metav1.ListMeta `json:"metadata,omitempty"`
  	Items           []Person `json:"items"`
- }
- 
- type Person_Spec_ARM struct {
- 	APIVersion *APIVersion `json:"apiVersion,omitempty"`
- 
- 	// FamilyName: Shared name of the family
- 	FamilyName string `json:"familyName,omitempty"`
- 
- 	// FullName: As would be used to address mail
- 	FullName string `json:"fullName,omitempty"`
- 
- 	// KnownAs: How the person is generally known
- 	KnownAs string `json:"knownAs,omitempty"`
- 
- 	// Name: The name of the resource
- 	Name string `json:"name,omitempty"`
- }
- 
- var _ genruntime.ARMResourceSpec = &Person_Spec_ARM{}
- 
- // GetAPIVersion returns the ARM API version of the resource. This is always 2020-06-01
- func (person Person_Spec_ARM) GetAPIVersion() string {
- 	return string(APIVersion_apiVersion)
- }
- 
- // GetName returns the Name of the resource
- func (person *Person_Spec_ARM) GetName() string {
- 	return person.Name
- }
- 
- // GetType returns the ARM Type of the resource. This is always ""
- func (person *Person_Spec_ARM) GetType() string {
- 	return ""
- }
- 
- type Person_STATUS_ARM struct {
- 	// FamilyName: Shared name of the family
- 	FamilyName string `json:"familyName,omitempty"`
- 
- 	// FullName: As would be used to address mail
- 	FullName string `json:"fullName,omitempty"`
- 
- 	// KnownAs: How the person is generally known
- 	KnownAs string `json:"knownAs,omitempty"`
- 
- 	// Name: The name of the resource
- 	Name string `json:"name,omitempty"`
- 
- 	// Status: Current status
- 	Status string `json:"status,omitempty"`
  }
  
  // +kubebuilder:validation:Enum={2020-06-01}
@@ -108,7 +59,7 @@
  	if person == nil {
  		return nil, nil
  	}
- 	result := &Person_Spec_ARM{}
+ 	result := &arm.Person_Spec{}
  
  	// Set property "APIVersion":
  	if person.APIVersion != nil {
@@ -123,8 +74,7 @@
  	result.FullName = person.FullName
  
  	// Set property "KnownAs":
--	result.KnownAs = person.KnownAs
-+	result.KnownAs = person.Alias
+ 	result.KnownAs = person.Alias
  
  	// Set property "Name":
  	result.Name = resolved.Name
@@ -133,14 +83,14 @@
  
  // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
  func (person *Person_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
- 	return &Person_Spec_ARM{}
+ 	return &arm.Person_Spec{}
  }
  
  // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
  func (person *Person_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
- 	typedInput, ok := armInput.(Person_Spec_ARM)
+ 	typedInput, ok := armInput.(arm.Person_Spec)
  	if !ok {
- 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Person_Spec_ARM, got %T", armInput)
+ 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Person_Spec, got %T", armInput)
  	}
  
  	// Set property "APIVersion":
@@ -149,9 +99,9 @@
  		person.APIVersion = &apiVersion
  	}
  
-+	// Set property "Alias":
-+	person.Alias = typedInput.KnownAs
-+
+ 	// Set property "Alias":
+ 	person.Alias = typedInput.KnownAs
+ 
  	// Set property "AzureName":
  	person.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
  
@@ -161,9 +111,6 @@
  	// Set property "FullName":
  	person.FullName = typedInput.FullName
  
--	// Set property "KnownAs":
--	person.KnownAs = typedInput.KnownAs
--
  	// No error
  	return nil
  }
@@ -189,14 +136,14 @@
  
  // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
  func (person *Person_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
- 	return &Person_STATUS_ARM{}
+ 	return &arm.Person_STATUS{}
  }
  
  // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
  func (person *Person_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
- 	typedInput, ok := armInput.(Person_STATUS_ARM)
+ 	typedInput, ok := armInput.(arm.Person_STATUS)
  	if !ok {
- 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Person_STATUS_ARM, got %T", armInput)
+ 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Person_STATUS, got %T", armInput)
  	}
  
  	// Set property "FamilyName":

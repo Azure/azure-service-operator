@@ -8,9 +8,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-type Person_Spec_BOOMBABOOMBA struct {
+type Person_Spec struct {
 	APIVersion *v20200101.APIVersion `json:"apiVersion,omitempty"`
-	Address    *Address_BOOMBABOOMBA `json:"address,omitempty"`
+	Address    *Address              `json:"address,omitempty"`
 
 	// FamilyName: Shared name of the family
 	FamilyName string `json:"familyName,omitempty"`
@@ -25,24 +25,24 @@ type Person_Spec_BOOMBABOOMBA struct {
 	Name string `json:"name,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Person_Spec_BOOMBABOOMBA{}
+var _ genruntime.ARMResourceSpec = &Person_Spec{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always 2020-06-01
-func (boombaboomba Person_Spec_BOOMBABOOMBA) GetAPIVersion() string {
+func (person Person_Spec) GetAPIVersion() string {
 	return string(APIVersion_apiVersion)
 }
 
 // GetName returns the Name of the resource
-func (boombaboomba *Person_Spec_BOOMBABOOMBA) GetName() string {
-	return boombaboomba.Name
+func (person *Person_Spec) GetName() string {
+	return person.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always ""
-func (boombaboomba *Person_Spec_BOOMBABOOMBA) GetType() string {
+func (person *Person_Spec) GetType() string {
 	return ""
 }
 
-type Person_STATUS_BOOMBABOOMBA struct {
+type Person_STATUS struct {
 	// FamilyName: Shared name of the family
 	FamilyName string `json:"familyName,omitempty"`
 
@@ -59,7 +59,7 @@ type Person_STATUS_BOOMBABOOMBA struct {
 	Status string `json:"status,omitempty"`
 }
 
-type Address_BOOMBABOOMBA struct {
+type Address struct {
 	// City: City or town (or nearest)
 	City string `json:"city,omitempty"`
 
