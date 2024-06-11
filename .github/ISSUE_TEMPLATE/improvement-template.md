@@ -1,7 +1,8 @@
 ---
 name: Improvement template
 about: Request an improvement to an existing feature or behavior
-labels: task
+title: ''
+labels: ''
 assignees: ''
 
 ---
