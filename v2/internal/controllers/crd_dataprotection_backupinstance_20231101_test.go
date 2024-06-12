@@ -12,17 +12,16 @@ import (
 	. "github.com/onsi/gomega"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
+	authorization "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview"
+	akscluster "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001"
+	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240402preview"
+	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101"
+	kubernetesconfiguration "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-
-	authorization "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview"
-	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202preview"
-	akscluster "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001"
-	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101"
-	kubernetesconfiguration "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501"
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 )
 
 func Test_DataProtection_BackupInstance_20231101_CRUD(t *testing.T) {
