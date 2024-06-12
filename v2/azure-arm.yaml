@@ -1144,6 +1144,13 @@ objectModelConfiguration:
           $armReference: true
         PrincipalId:
           $importConfigMapMode: optional
+      RoleDefinition:
+        $export: true
+        $supportedFrom: v2.8.0
+        $defaultAzureName: false
+      RoleDefinitionProperties:
+        AssignableScopes:
+          $armReference: true
   batch:
     2021-01-01:
       BatchAccount:

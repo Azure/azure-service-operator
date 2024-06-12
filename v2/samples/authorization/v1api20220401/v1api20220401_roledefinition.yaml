@@ -1,0 +1,25 @@
+apiVersion: authorization.azure.com/v1api20220401
+kind: RoleDefinition
+metadata:
+  name: aso-sample-roledef
+  namespace: default
+spec:
+  roleName: aso-sample-roledef
+  assignableScopesReferences:
+    - name: aso-sample-rg
+      group: resources.azure.com
+      kind: ResourceGroup
+      # This can also be a reference to a raw ARM ID such as a subscription instead
+      # of an ASO managed resource group, like so:
+      # armId: /subscriptions/00000000-0000-0000-0000-000000000000
+  owner:
+    name: aso-sample-rg
+    group: resources.azure.com
+    kind: ResourceGroup
+    # This can also be a reference to a raw ARM ID such as a subscription instead
+    # of an ASO managed resource group, like so:
+    # armId: /subscriptions/00000000-0000-0000-0000-000000000000
+  permissions:
+    - actions:
+      - Microsoft.Resources/subscriptions/resourceGroups/read
+  type: customRole

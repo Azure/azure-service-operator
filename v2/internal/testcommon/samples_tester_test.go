@@ -46,6 +46,25 @@ func Test_SamplesTester_UpdatesSubscriptionReferences(t *testing.T) {
 	g.Expect(sample.Reference.ARMID).To(ContainSubstring(tester.azureSubscription))
 }
 
+func Test_SamplesTester_UpdatesSubscriptionOnlyReference(t *testing.T) {
+	t.Parallel()
+
+	g := NewGomegaWithT(t)
+
+	tester := &SamplesTester{
+		azureSubscription: uuid.New().String(),
+	}
+
+	sample := &sampleResource{
+		Reference: genruntime.CreateResourceReferenceFromARMID("subscriptions/00000000-0000-0000-0000-000000000000"),
+	}
+
+	err := tester.updateFieldsForTest(sample)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	g.Expect(sample.Reference.ARMID).To(ContainSubstring(tester.azureSubscription))
+}
+
 func Test_SamplesTester_UpdatesSubscriptionID(t *testing.T) {
 	t.Parallel()
 
@@ -82,6 +101,29 @@ func Test_SamplesTester_UpdatesTenantID(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(sample.TenantID).To(Equal(tester.azureTenant))
+}
+
+func Test_SamplesTester_UpdatesResourceGroupName(t *testing.T) {
+	t.Parallel()
+
+	g := NewGomegaWithT(t)
+
+	tester := &SamplesTester{
+		rgName: "somerandomrg",
+	}
+
+	sample := &sampleResource{
+		Reference: genruntime.ResourceReference{
+			Group: "resources.azure.com",
+			Kind:  "ResourceGroup",
+			Name:  "aso-sample-rg",
+		},
+	}
+
+	err := tester.updateFieldsForTest(sample)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	g.Expect(sample.Reference.Name).To(Equal(tester.rgName))
 }
 
 func (s *sampleResource) GetSupportedOperations() []genruntime.ResourceOperation {

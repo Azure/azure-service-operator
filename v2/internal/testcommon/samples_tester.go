@@ -23,9 +23,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
-
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
-
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -34,8 +32,8 @@ const (
 	defaultResourceGroup = "aso-sample-rg"
 )
 
-// Regex to match '/00000000-0000-0000-0000-000000000000/' strings, to replace with the subscriptionID
-var subRegex = regexp.MustCompile("\\/([0]+-?)+\\/")
+// Regex to match '/00000000-0000-0000-0000-000000000000' strings, to replace with the subscriptionID
+var subRegex = regexp.MustCompile("\\/([0]+-?)+")
 
 // An empty GUID, used to replace the subscriptionID and tenantID in the sample files
 var emptyGuid = uuid.Nil.String()
@@ -334,7 +332,7 @@ func (t *SamplesTester) updateFieldsForTest(obj genruntime.ARMMetaObject) error 
 	visitor := reflecthelpers.NewReflectVisitor()
 	visitor.VisitStruct = t.visitStruct
 
-	err := visitor.Visit(obj, nil)
+	err := visitor.Visit(obj, t.rgName)
 	if err != nil {
 		return errors.Wrapf(err, "updating fields for test")
 	}
@@ -351,12 +349,17 @@ func (t *SamplesTester) visitStruct(this *reflecthelpers.ReflectVisitor, it refl
 
 	// Set the value of any SubscriptionID Field that's got an empty GUID as the value
 	if field := it.FieldByNameFunc(isField("subscriptionID")); field.IsValid() {
-		t.assignString(field, t.azureSubscription)
+		t.conditionalAssignString(field, emptyGuid, t.azureSubscription)
+	}
+
+	// Replace the empty-guid value in any armID field
+	if field := it.FieldByNameFunc(isField("armId")); field.IsValid() {
+		t.replaceString(field, emptyGuid, t.azureSubscription)
 	}
 
 	// Set the value of any TenantID Field that's got an empty GUID as the value
 	if field := it.FieldByNameFunc(isField("tenantID")); field.IsValid() {
-		t.assignString(field, t.azureTenant)
+		t.conditionalAssignString(field, emptyGuid, t.azureTenant)
 	}
 
 	return reflecthelpers.IdentityVisitStruct(this, it, ctx)
@@ -369,44 +372,66 @@ func isField(field string) func(name string) bool {
 	}
 }
 
-func (t *SamplesTester) assignString(field reflect.Value, value string) {
-	if field.Kind() == reflect.String &&
-		// Set simple string field
-		field.String() == emptyGuid {
-		field.SetString(value)
+func (t *SamplesTester) conditionalAssignString(field reflect.Value, match string, value string) {
+	if field.Kind() == reflect.Ptr {
+		field = field.Elem()
+	}
+
+	if field.Kind() != reflect.String {
 		return
 	}
 
-	if field.Kind() == reflect.Ptr &&
-		field.Elem().Kind() == reflect.String &&
-		field.Elem().String() == emptyGuid {
-		// Set pointer to string field
-		field.Elem().SetString(value)
+	if field.String() == match {
+		field.SetString(value)
 	}
 }
 
+func (t *SamplesTester) replaceString(field reflect.Value, old string, new string) {
+	if field.Kind() == reflect.Ptr {
+		field = field.Elem()
+	}
+
+	if field.Kind() != reflect.String {
+		return
+	}
+
+	val := field.String()
+	val = strings.Replace(val, old, new, -1)
+	field.SetString(val)
+}
+
 // visitResourceReference checks and sets the SubscriptionID and ResourceGroup name for ARM references to current values
-func (t *SamplesTester) visitResourceReference(_ *reflecthelpers.ReflectVisitor, it reflect.Value, _ any) error {
+func (t *SamplesTester) visitResourceReference(_ *reflecthelpers.ReflectVisitor, it reflect.Value, ctx any) error {
 	if !it.CanInterface() {
 		// This should be impossible given how the visitor works
 		panic("genruntime.ResourceReference field was unexpectedly nil")
 	}
 
+	ownersName := ctx.(string)
+
 	reference := it.Interface().(genruntime.ResourceReference)
-	if reference.ARMID == "" {
-		return nil
+	if reference.ARMID != "" {
+		armIDField := it.FieldByName("ARMID")
+		if !armIDField.CanSet() {
+			return errors.New("cannot set 'ARMID' field of 'genruntime.ResourceReference'")
+		}
+
+		armIDString := armIDField.String()
+		armIDString = strings.ReplaceAll(armIDString, defaultResourceGroup, t.rgName)
+		armIDString = subRegex.ReplaceAllString(armIDString, fmt.Sprint("/", t.azureSubscription))
+
+		armIDField.SetString(armIDString)
+	} else if reference.Kind == "ResourceGroup" && ownersName != "" { // If we're referring to a resourceGroup, it needs to be updated to refer to the random one
+		// TODO: We're making the assumption that every reference of type ResourceGroup is by definition referring
+		// TODO: to the randomly generated RG name, but it's possible at some future date we have multiple resourceGroups
+		// TODO: floating around. If that happens we may need to update this logic to be a bit more discerning.
+		nameField := it.FieldByName("Name")
+		if !nameField.CanSet() {
+			return errors.New("cannot set 'Name' field of 'genruntime.ResourceReference'")
+		}
+
+		nameField.SetString(ownersName)
 	}
-
-	armIDField := it.FieldByName("ARMID")
-	if !armIDField.CanSet() {
-		return errors.New("cannot set 'ARMID' field of 'genruntime.ResourceReference'")
-	}
-
-	armIDString := armIDField.String()
-	armIDString = strings.ReplaceAll(armIDString, defaultResourceGroup, t.rgName)
-	armIDString = subRegex.ReplaceAllString(armIDString, fmt.Sprint("/", t.azureSubscription, "/"))
-
-	armIDField.SetString(armIDString)
 
 	return nil
 }
