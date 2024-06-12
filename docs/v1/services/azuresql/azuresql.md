@@ -56,7 +56,7 @@ apiVersion: v1alpha1
 data:
   fullyqualifiedservername: c3Fsc2VydmVyLXNhbXBsZS04ODguZGF0YWJhc2Uud2luZG93cy5uZXQ=
   fullyqualifiedusername: aGFzMTUzMnVAc3Fsc2VydmVyLXNhbXBsZS04ODg=
-  password: XTdpMmQqNsd7YlpFdEApMw==
+  password: <password>
   sqlservername: c3Fsc2VyfmVyLXNhbXBsZS04ODg=
   username: aGFzMTFzMnU=
 kind: Secret
