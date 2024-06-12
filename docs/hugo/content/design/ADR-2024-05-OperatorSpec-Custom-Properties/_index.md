@@ -4,7 +4,7 @@ title: 2024-05 OperatorSpec Custom Properties
 
 ## Context
 
-When generating the AzureName for a RoleAssignment, we currently use a deterministic algorithm to generate a GUID, allowing RoleAssignment resources to be moved between instances of Azure Service Operator (AS)O without changes. This approach doesn't handle every scenario, and we have a bug report (see [#3637](https://github.com/Azure/azure-service-operator/issues/3637)) from a user who needs different behaviour.
+When generating the AzureName for a RoleAssignment, we currently use a deterministic algorithm to generate a GUID, allowing RoleAssignment resources to be moved between instances of Azure Service Operator (ASO) without changes. This approach doesn't handle every scenario, and we have a bug report (see [#3637](https://github.com/Azure/azure-service-operator/issues/3637)) from a user who needs different behaviour.
 
 This spotlights a need we've previously identified informally, where we want to be able to provide additional resource configuration over and above the shape defined by the Azure REST API.
 
