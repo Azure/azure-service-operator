@@ -29,6 +29,8 @@ ADR documents should be updated over time to keep them relevant, typically by up
 
 ## 2024
 
+[**OperatorSpec Custom Properties**]({{< relref "ADR-2024-05-OperatorSpec-Custom-Properties" >}}) - injecting additional properties into OperatorSpec for additional flexibility and extensibility of resources.
+
 [**Upstream Deletion**]({{< relref "ADR-2024-02-Upstream-Deletion" >}}) - when might deletion of an upstream resource occur and how will ASO handle it.
 
 ## 2023
