@@ -1,7 +1,8 @@
 github.com/Azure/azure-service-operator/testing/person/v20200101
-└── Person: Object (3 properties)
-    ├── FamilyName: string
-    ├── FullName: string
-    ├── KnownAs: string
-    ├── Goodbye()
-    └── Hello()
+----------------------------------------------------------------
+Person: Object (3 properties)
+├── FamilyName: string
+├── FullName: string
+├── KnownAs: string
+├── Goodbye()
+└── Hello()

@@ -25,7 +25,7 @@ func TestDebugReport_GeneratesExpectedOutput(t *testing.T) {
 	var buf bytes.Buffer
 	g.Expect(r.SaveTo(&buf)).To(Succeed())
 
-	gold.Assert(t, t.Name(), []byte(buf.String()))
+	gold.Assert(t, t.Name(), buf.Bytes())
 }
 
 func addNodes(r *StructureReport, name string, count int) {

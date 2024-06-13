@@ -384,6 +384,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(authorization_v20220401s.RoleDefinition)})
 	result = append(result, &registration.StorageType{Obj: new(batch_v20210101s.BatchAccount)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20230401s.Redis)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20230401s.RedisFirewallRule)})
@@ -1194,8 +1195,14 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(appconfiguration_v20220501s.ConfigurationStore))
 	result = append(result, new(authorization_v20200801p.RoleAssignment))
 	result = append(result, new(authorization_v20200801ps.RoleAssignment))
-	result = append(result, new(authorization_v20220401.RoleAssignment))
-	result = append(result, new(authorization_v20220401s.RoleAssignment))
+	result = append(
+		result,
+		new(authorization_v20220401.RoleAssignment),
+		new(authorization_v20220401.RoleDefinition))
+	result = append(
+		result,
+		new(authorization_v20220401s.RoleAssignment),
+		new(authorization_v20220401s.RoleDefinition))
 	result = append(result, new(batch_v20210101.BatchAccount))
 	result = append(result, new(batch_v20210101s.BatchAccount))
 	result = append(
@@ -2096,6 +2103,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &apimanagement_customizations.SubscriptionExtension{})
 	result = append(result, &appconfiguration_customizations.ConfigurationStoreExtension{})
 	result = append(result, &authorization_customizations.RoleAssignmentExtension{})
+	result = append(result, &authorization_customizations.RoleDefinitionExtension{})
 	result = append(result, &batch_customizations.BatchAccountExtension{})
 	result = append(result, &cache_customizations.RedisEnterpriseDatabaseExtension{})
 	result = append(result, &cache_customizations.RedisEnterpriseExtension{})

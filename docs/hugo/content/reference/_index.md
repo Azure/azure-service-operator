@@ -22,9 +22,9 @@ To install the CRDs for these resources, your ASO configuration must include `al
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource            | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                             |
-|---------------------|-------------|---------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
-| PrometheusRuleGroup | 2023-03-01  | v1api20230301 | v2.8.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/alertsmanagement/v1api20230301/v1api20230301_prometheusrulegroup.yaml) |
+| Resource                                                                                                                                                                     | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                             |
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
+| [PrometheusRuleGroup](https://azure.github.io/azure-service-operator/reference/alertsmanagement/v1api20230301/#alertsmanagement.azure.com/v1api20230301.PrometheusRuleGroup) | 2023-03-01  | v1api20230301 | v2.8.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/alertsmanagement/v1api20230301/v1api20230301_prometheusrulegroup.yaml) |
 
 ## ApiManagement
 
@@ -80,6 +80,14 @@ These resource(s) are available for use in the current release of ASO. Different
 ## Authorization
 
 To install the CRDs for these resources, your ASO configuration must include `authorization.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                                                                                                                                                     | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                     |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------|
+| [RoleDefinition](https://azure.github.io/azure-service-operator/reference/authorization/v1api20220401/#authorization.azure.com/v1api20220401.RoleDefinition) | 2022-04-01  | v1api20220401 | v2.8.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/authorization/v1api20220401/v1api20220401_roledefinition.yaml) |
 
 ### Released
 
@@ -484,9 +492,9 @@ To install the CRDs for these resources, your ASO configuration must include `mo
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource | ARM Version | CRD Version   | Supported From | Sample                                                                                                                        |
-|----------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------|
-| Account  | 2023-04-03  | v1api20230403 | v2.8.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/monitor/v1api20230403/v1api20230403_account.yaml) |
+| Resource                                                                                                                           | ARM Version | CRD Version   | Supported From | Sample                                                                                                                        |
+|------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------|
+| [Account](https://azure.github.io/azure-service-operator/reference/monitor/v1api20230403/#monitor.azure.com/v1api20230403.Account) | 2023-04-03  | v1api20230403 | v2.8.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/monitor/v1api20230403/v1api20230403_account.yaml) |
 
 ## Network
 

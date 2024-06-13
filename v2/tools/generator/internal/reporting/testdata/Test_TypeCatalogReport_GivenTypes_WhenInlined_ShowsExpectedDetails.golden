@@ -1,8 +1,9 @@
 github.com/Azure/azure-service-operator/testing/person/v20200101
-└── TestResource: Resource
-    ├── Spec: Object (3 properties)
-    │   ├── FamilyName: string
-    │   ├── FullName: string
-    │   └── KnownAs: string
-    └── Status: Object (1 property)
-        └── Status: string
+----------------------------------------------------------------
+TestResource: Resource
+├── Spec: Object (3 properties)
+│   ├── FamilyName: string
+│   ├── FullName: string
+│   └── KnownAs: string
+└── Status: Object (1 property)
+    └── Status: string

@@ -334,40 +334,57 @@ tasks:
       - task: controller:kind-create-wi
       - task: controller:create-mi-for-workload-identity
       - task: controller:install-cert-manager
-      - task: controller:docker-push-local
       - task: controller:package-helm-manifest
       # We need the below to wait until cert-manager is up, otherwise the subsequent installation of webhooks fails. See https://cert-manager.io/next-docs/installation/verify/
       - "cmctl check api --wait=2m"
 
-  controller:test-upgrade-pre:
-    desc: Test upgrading {{.CONTROLLER_APP}} and helm chart for new release
+  controller:test-upgrade-pre-setup:
+    desc: Setup for the test-upgrade-pre step
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
       - "helm repo add asov2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts"
       - "helm repo update"
       - "helm upgrade --install aso2 asov2/azure-service-operator \
-      --create-namespace \
-      --namespace={{.ASO_NAMESPACE}} \
-      --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
-      --set azureTenantID=$AZURE_TENANT_ID \
-      --set azureClientID={{.AZURE_MI_CLIENT_ID}} \
-      --set useWorkloadIdentityAuth=true \
-      --set crdPattern=*"
-      - "kubectl create namespace pre-release"
+        --create-namespace \
+        --namespace={{.ASO_NAMESPACE}} \
+        --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
+        --set azureTenantID=$AZURE_TENANT_ID \
+        --set azureClientID={{.AZURE_MI_CLIENT_ID}} \
+        --set useWorkloadIdentityAuth=true \
+        --set crdPattern=*"
       - task: controller:wait-for-operator-ready
+    vars:
+      AZURE_MI_CLIENT_ID:
+        sh: "cat {{.KIND_WORKLOAD_IDENTITY_PATH}}/azure/miclientid.txt"
+
+  controller:test-upgrade-pre:
+    desc: Test upgrading {{.CONTROLLER_APP}} and helm chart for new release
+    dir: "{{.CONTROLLER_ROOT}}"
+    deps:
+      - controller:test-upgrade-pre-setup
+    cmds:
+      - "kubectl create namespace pre-release"
       - "go test -timeout 15m -count=1 -v -run Test_Pre_Release_ResourceCanBeCreated_BeforeUpgrade ./test/pre-release"
     vars:
       AZURE_MI_CLIENT_ID:
         sh: "cat {{.KIND_WORKLOAD_IDENTITY_PATH}}/azure/miclientid.txt"
 
-  controller:test-upgrade-post:
-    desc: Test upgrading {{.CONTROLLER_APP}} and helm chart for new release
+  controller:test-upgrade-apply-prerelease-chart:
+    desc: Apply the {{.CONTROLLER_APP}} prelease chart for new release
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
+      - task: controller:docker-push-local
+      - task: controller:gen-helm-manifest
       - task: controller:install-helm-wi
         vars:
           AZURE_MI_CLIENT_ID:
             sh: "cat {{.KIND_WORKLOAD_IDENTITY_PATH}}/azure/miclientid.txt"
+
+  controller:test-upgrade-post:
+    desc: Test upgrading {{.CONTROLLER_APP}} and helm chart for new release
+    dir: "{{.CONTROLLER_ROOT}}"
+    cmds:
+      - task: controller:test-upgrade-apply-prerelease-chart
       - "go test -timeout 15m -count=1 -v -run Test_Pre_Release_ResourceCanBeCreated_AfterUpgrade ./test/pre-release"
       - task controller:kind-delete
 
