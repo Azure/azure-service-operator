@@ -330,20 +330,5 @@ fi
 
 write-info "Setting up python virtual environment"
 
-# python virtual env and packages to be installed for helm validation script
-# Install virtualenv
-VENV_DEST=/usr/local/bin/venv
+# Install python virtualenv
 pip3 install virtualenv --break-system-packages
-
-# Set up a venv for our python scripts
-python3 -m virtualenv "$VENV_DEST"
-
-# activate the venv
-source "$VENV_DEST"/bin/activate
-
-# install python requirements
-pip3 install deepdiff
-pip3 install pyyaml
-
-# deactivate the venv for now
-deactivate
