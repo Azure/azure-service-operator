@@ -339,6 +339,9 @@ type Account_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
+	// PublicNetworkAccess: Gets or sets allow or disallow public network access to Azure Monitor Workspace
+	PublicNetworkAccess *AzureMonitorWorkspace_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 }
@@ -360,6 +363,15 @@ func (account *Account_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "Name":
 	result.Name = resolved.Name
+
+	// Set property "Properties":
+	if account.PublicNetworkAccess != nil {
+		result.Properties = &AzureMonitorWorkspace_ARM{}
+	}
+	if account.PublicNetworkAccess != nil {
+		publicNetworkAccess := *account.PublicNetworkAccess
+		result.Properties.PublicNetworkAccess = &publicNetworkAccess
+	}
 
 	// Set property "Tags":
 	if account.Tags != nil {
@@ -396,6 +408,15 @@ func (account *Account_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	account.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
 		ARMID: owner.ARMID,
+	}
+
+	// Set property "PublicNetworkAccess":
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PublicNetworkAccess != nil {
+			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			account.PublicNetworkAccess = &publicNetworkAccess
+		}
 	}
 
 	// Set property "Tags":
@@ -477,6 +498,15 @@ func (account *Account_Spec) AssignProperties_From_Account_Spec(source *storage.
 		account.Owner = nil
 	}
 
+	// PublicNetworkAccess
+	if source.PublicNetworkAccess != nil {
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, azureMonitorWorkspace_PublicNetworkAccess_Values)
+		account.PublicNetworkAccess = &publicNetworkAccessTemp
+	} else {
+		account.PublicNetworkAccess = nil
+	}
+
 	// Tags
 	account.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
@@ -506,6 +536,14 @@ func (account *Account_Spec) AssignProperties_To_Account_Spec(destination *stora
 		destination.Owner = nil
 	}
 
+	// PublicNetworkAccess
+	if account.PublicNetworkAccess != nil {
+		publicNetworkAccess := string(*account.PublicNetworkAccess)
+		destination.PublicNetworkAccess = &publicNetworkAccess
+	} else {
+		destination.PublicNetworkAccess = nil
+	}
+
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(account.Tags)
 
@@ -525,6 +563,14 @@ func (account *Account_Spec) Initialize_From_Account_STATUS(source *Account_STAT
 
 	// Location
 	account.Location = genruntime.ClonePointerToString(source.Location)
+
+	// PublicNetworkAccess
+	if source.PublicNetworkAccess != nil {
+		publicNetworkAccess := AzureMonitorWorkspace_PublicNetworkAccess(*source.PublicNetworkAccess)
+		account.PublicNetworkAccess = &publicNetworkAccess
+	} else {
+		account.PublicNetworkAccess = nil
+	}
 
 	// Tags
 	account.Tags = genruntime.CloneMapOfStringToString(source.Tags)
@@ -1008,6 +1054,20 @@ var azureMonitorWorkspace_ProvisioningState_STATUS_Values = map[string]AzureMoni
 	"deleting":  AzureMonitorWorkspace_ProvisioningState_STATUS_Deleting,
 	"failed":    AzureMonitorWorkspace_ProvisioningState_STATUS_Failed,
 	"succeeded": AzureMonitorWorkspace_ProvisioningState_STATUS_Succeeded,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type AzureMonitorWorkspace_PublicNetworkAccess string
+
+const (
+	AzureMonitorWorkspace_PublicNetworkAccess_Disabled = AzureMonitorWorkspace_PublicNetworkAccess("Disabled")
+	AzureMonitorWorkspace_PublicNetworkAccess_Enabled  = AzureMonitorWorkspace_PublicNetworkAccess("Enabled")
+)
+
+// Mapping from string to AzureMonitorWorkspace_PublicNetworkAccess
+var azureMonitorWorkspace_PublicNetworkAccess_Values = map[string]AzureMonitorWorkspace_PublicNetworkAccess{
+	"disabled": AzureMonitorWorkspace_PublicNetworkAccess_Disabled,
+	"enabled":  AzureMonitorWorkspace_PublicNetworkAccess_Enabled,
 }
 
 type AzureMonitorWorkspace_PublicNetworkAccess_STATUS string

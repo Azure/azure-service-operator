@@ -60,6 +60,9 @@ func RunJSONSerializationTestForAccount_Spec_ARM(subject Account_Spec_ARM) strin
 var account_Spec_ARMGenerator gopter.Gen
 
 // Account_Spec_ARMGenerator returns a generator of Account_Spec_ARM instances for property testing.
+// We first initialize account_Spec_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func Account_Spec_ARMGenerator() gopter.Gen {
 	if account_Spec_ARMGenerator != nil {
 		return account_Spec_ARMGenerator
@@ -67,6 +70,12 @@ func Account_Spec_ARMGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForAccount_Spec_ARM(generators)
+	account_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Account_Spec_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForAccount_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForAccount_Spec_ARM(generators)
 	account_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Account_Spec_ARM{}), generators)
 
 	return account_Spec_ARMGenerator
@@ -79,4 +88,70 @@ func AddIndependentPropertyGeneratorsForAccount_Spec_ARM(gens map[string]gopter.
 	gens["Tags"] = gen.MapOf(
 		gen.AlphaString(),
 		gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForAccount_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForAccount_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(AzureMonitorWorkspace_ARMGenerator())
+}
+
+func Test_AzureMonitorWorkspace_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of AzureMonitorWorkspace_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAzureMonitorWorkspace_ARM, AzureMonitorWorkspace_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForAzureMonitorWorkspace_ARM runs a test to see if a specific instance of AzureMonitorWorkspace_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForAzureMonitorWorkspace_ARM(subject AzureMonitorWorkspace_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual AzureMonitorWorkspace_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of AzureMonitorWorkspace_ARM instances for property testing - lazily instantiated by
+// AzureMonitorWorkspace_ARMGenerator()
+var azureMonitorWorkspace_ARMGenerator gopter.Gen
+
+// AzureMonitorWorkspace_ARMGenerator returns a generator of AzureMonitorWorkspace_ARM instances for property testing.
+func AzureMonitorWorkspace_ARMGenerator() gopter.Gen {
+	if azureMonitorWorkspace_ARMGenerator != nil {
+		return azureMonitorWorkspace_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForAzureMonitorWorkspace_ARM(generators)
+	azureMonitorWorkspace_ARMGenerator = gen.Struct(reflect.TypeOf(AzureMonitorWorkspace_ARM{}), generators)
+
+	return azureMonitorWorkspace_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForAzureMonitorWorkspace_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAzureMonitorWorkspace_ARM(gens map[string]gopter.Gen) {
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(AzureMonitorWorkspace_PublicNetworkAccess_Disabled, AzureMonitorWorkspace_PublicNetworkAccess_Enabled))
 }

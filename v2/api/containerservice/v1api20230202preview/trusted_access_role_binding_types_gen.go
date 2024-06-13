@@ -49,22 +49,36 @@ var _ conversion.Convertible = &TrustedAccessRoleBinding{}
 
 // ConvertFrom populates our TrustedAccessRoleBinding from the provided hub TrustedAccessRoleBinding
 func (binding *TrustedAccessRoleBinding) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.TrustedAccessRoleBinding)
-	if !ok {
-		return fmt.Errorf("expected containerservice/v1api20230202preview/storage/TrustedAccessRoleBinding but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.TrustedAccessRoleBinding
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return binding.AssignProperties_From_TrustedAccessRoleBinding(source)
+	err = binding.AssignProperties_From_TrustedAccessRoleBinding(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to binding")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub TrustedAccessRoleBinding from our TrustedAccessRoleBinding
 func (binding *TrustedAccessRoleBinding) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.TrustedAccessRoleBinding)
-	if !ok {
-		return fmt.Errorf("expected containerservice/v1api20230202preview/storage/TrustedAccessRoleBinding but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.TrustedAccessRoleBinding
+	err := binding.AssignProperties_To_TrustedAccessRoleBinding(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from binding")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return binding.AssignProperties_To_TrustedAccessRoleBinding(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-containerservice-azure-com-v1api20230202preview-trustedaccessrolebinding,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerservice.azure.com,resources=trustedaccessrolebindings,verbs=create;update,versions=v1api20230202preview,name=default.v1api20230202preview.trustedaccessrolebindings.containerservice.azure.com,admissionReviewVersions=v1
@@ -89,17 +103,6 @@ func (binding *TrustedAccessRoleBinding) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the TrustedAccessRoleBinding resource
 func (binding *TrustedAccessRoleBinding) defaultImpl() { binding.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &TrustedAccessRoleBinding{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (binding *TrustedAccessRoleBinding) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*ManagedClusters_TrustedAccessRoleBinding_STATUS); ok {
-		return binding.Spec.Initialize_From_ManagedClusters_TrustedAccessRoleBinding_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type ManagedClusters_TrustedAccessRoleBinding_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &TrustedAccessRoleBinding{}
 
@@ -527,24 +530,6 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) AssignProperties_T
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ManagedClusters_TrustedAccessRoleBinding_STATUS populates our ManagedClusters_TrustedAccessRoleBinding_Spec from the provided source ManagedClusters_TrustedAccessRoleBinding_STATUS
-func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) Initialize_From_ManagedClusters_TrustedAccessRoleBinding_STATUS(source *ManagedClusters_TrustedAccessRoleBinding_STATUS) error {
-
-	// Roles
-	binding.Roles = genruntime.CloneSliceOfString(source.Roles)
-
-	// SourceResourceReference
-	if source.SourceResourceId != nil {
-		sourceResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.SourceResourceId)
-		binding.SourceResourceReference = &sourceResourceReference
-	} else {
-		binding.SourceResourceReference = nil
 	}
 
 	// No error

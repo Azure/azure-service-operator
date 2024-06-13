@@ -67,11 +67,6 @@ typeFilters:
     because: We want to export this particular preview version
 
   - action: include
-    group: containerservice
-    version: v*20230202preview
-    because: We want to export this particular preview version
-
-  - action: include
     group: insights
     version: v*20180501preview
     because: We're using webTests from this. There is a "newer" version but it's not actually supported, see https://github.com/Azure/azure-rest-api-specs/issues/14827
@@ -1144,6 +1139,13 @@ objectModelConfiguration:
           $armReference: true
         PrincipalId:
           $importConfigMapMode: optional
+      RoleDefinition:
+        $export: true
+        $supportedFrom: v2.8.0
+        $defaultAzureName: false
+      RoleDefinitionProperties:
+        AssignableScopes:
+          $armReference: true
   batch:
     2021-01-01:
       BatchAccount:
@@ -1661,6 +1663,9 @@ objectModelConfiguration:
       PrivateLinkResource:
         Id:
           $armReference: true
+      ManagedClusters_TrustedAccessRoleBinding:
+        $exportAs: TrustedAccessRoleBinding
+        $supportedFrom: v2.8.0
     2023-11-02-preview:
       DelegatedResource:
         ResourceId:
@@ -1699,6 +1704,47 @@ objectModelConfiguration:
       PrivateLinkResource:
         Id:
           $armReference: true
+    2024-04-02-preview:
+      DelegatedResource:
+        ResourceId:
+          $armReference: true
+      ManagedCluster:
+        $export: true
+        $supportedFrom: v2.8.0
+        $azureGeneratedSecrets:
+          - AdminCredentials
+          - UserCredentials
+        $generatedConfigs:
+          OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
+      ManagedCluster_Spec:
+        Tags:
+          $payloadType: explicitEmptyCollections
+      ManagedClusterAgentPoolProfile:
+        NodeLabels:
+          $payloadType: explicitEmptyCollections
+        NodeTaints:
+          $payloadType: explicitEmptyCollections
+        Tags:
+          $payloadType: explicitEmptyCollections
+      ManagedClusterAgentPoolProfileProperties:
+        NodeLabels:
+          $payloadType: explicitEmptyCollections
+        NodeTaints:
+          $payloadType: explicitEmptyCollections
+        Tags:
+          $payloadType: explicitEmptyCollections
+      ManagedClusters_AgentPool:
+        $exportAs: ManagedClustersAgentPool
+        $supportedFrom: v2.8.0
+      ManagedClusterServicePrincipalProfile:
+        Secret:
+          $isSecret: true
+      PrivateLinkResource:
+        Id:
+          $armReference: true
+      ManagedClusters_TrustedAccessRoleBinding:
+        $exportAs: TrustedAccessRoleBinding
+        $supportedFrom: v2.8.0
   datafactory:
     2018-06-01:
       PurviewConfiguration:

@@ -1045,3 +1045,29 @@ ManagedClustersAgentPool: Resource
     ├── VmSize: *string
     ├── VnetSubnetID: *string
     └── WorkloadRuntime: *string
+TrustedAccessRoleBinding: Resource
+├── Owner: containerservice/v1api20231001.ManagedCluster
+├── Spec: Object (6 properties)
+│   ├── AzureName: string
+│   ├── OriginalVersion: string
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── PropertyBag: genruntime.PropertyBag
+│   ├── Roles: string[]
+│   └── SourceResourceReference: *genruntime.ResourceReference
+└── Status: Object (9 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── Id: *string
+    ├── Name: *string
+    ├── PropertyBag: genruntime.PropertyBag
+    ├── ProvisioningState: *string
+    ├── Roles: string[]
+    ├── SourceResourceId: *string
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
+    └── Type: *string
