@@ -727,7 +727,7 @@ tasks:
     desc: Creates a Python virtual env
     dir: "{{.SCRIPTS_ROOT}}"
     cmds:
-      - python3 -m virtualenv venv/bin/pip3
+      - python3 -m virtualenv venv
       - venv/bin/pip3 install -r requirements.txt
 
   controller:validate-helm:
