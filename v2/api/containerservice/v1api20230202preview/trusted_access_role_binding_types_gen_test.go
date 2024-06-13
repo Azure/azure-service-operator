@@ -5,7 +5,8 @@ package v1api20230202preview
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202preview/storage"
+	v20230202ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202preview/storage"
+	v20231001s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunPropertyAssignmentTestForManagedClusters_TrustedAccessRoleBinding_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedClusters_TrustedAccessRoleBinding_STATUS
+	var other v20230202ps.ManagedClusters_TrustedAccessRoleBinding_STATUS
 	err := copied.AssignProperties_To_ManagedClusters_TrustedAccessRoleBinding_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -162,7 +163,7 @@ func RunPropertyAssignmentTestForManagedClusters_TrustedAccessRoleBinding_Spec(s
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedClusters_TrustedAccessRoleBinding_Spec
+	var other v20230202ps.ManagedClusters_TrustedAccessRoleBinding_Spec
 	err := copied.AssignProperties_To_ManagedClusters_TrustedAccessRoleBinding_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -267,7 +268,7 @@ func RunResourceConversionTestForTrustedAccessRoleBinding(subject TrustedAccessR
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.TrustedAccessRoleBinding
+	var hub v20231001s.TrustedAccessRoleBinding
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -309,7 +310,7 @@ func RunPropertyAssignmentTestForTrustedAccessRoleBinding(subject TrustedAccessR
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.TrustedAccessRoleBinding
+	var other v20230202ps.TrustedAccessRoleBinding
 	err := copied.AssignProperties_To_TrustedAccessRoleBinding(&other)
 	if err != nil {
 		return err.Error()
