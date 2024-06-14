@@ -123,6 +123,7 @@ func (params ConversionParameters) copy() ConversionParameters {
 type ConversionHandler func(builder *ConversionFunctionBuilder, params ConversionParameters) ([]dst.Stmt, error)
 
 // TODO: There feels like overlap between this and the Storage Conversion Factories? Need further thinking to combine them?
+
 // ConversionFunctionBuilder is used to build a function converting between two similar types.
 // It has a set of built-in conversions and can be configured with additional conversions.
 type ConversionFunctionBuilder struct {
@@ -156,6 +157,8 @@ func NewConversionFunctionBuilder(
 			IdentityAssignPrimitiveType,
 			AssignToOptional,
 			AssignFromOptional,
+			AssignToEnum,
+			AssignFromEnum,
 			IdentityDeepCopyJSON,
 			IdentityAssignTypeName,
 		},
@@ -678,6 +681,151 @@ func AssignFromOptional(
 		astbuilder.IfNotNil(
 			params.GetSource(),
 			result...)), nil
+}
+
+// AssignToEnum stores a value into an enum type.
+// This function generates code that looks like this:
+// <destination> = <enumType>(<source>)
+func AssignToEnum(
+	builder *ConversionFunctionBuilder,
+	params ConversionParameters,
+) ([]dst.Stmt, error) {
+	// Is the destination a typename of an enum?
+	itn, ok := params.DestinationType.(InternalTypeName)
+	if !ok {
+		// Not a typename
+		return nil, nil
+	}
+
+	def, err := builder.CodeGenerationContext.GetDefinition(itn)
+	if err != nil {
+		// Couldn't the definition, this handler isn't the one we want
+		// (not actually an error)
+		return nil, nil
+	}
+
+	et, ok := AsEnumType(def.Type())
+	if !ok {
+		// Definition isn't for an enum type,
+		return nil, nil
+	}
+
+	if TypeEquals(et.BaseType(), params.SourceType) {
+		// We can directly cast the source to the destination
+		var cast dst.Expr
+		if builder.CodeGenerationContext.CurrentPackage() == itn.PackageReference() {
+			cast = astbuilder.CallFunc(itn.Name(), params.GetSource())
+		} else {
+			alias := builder.CodeGenerationContext.MustGetImportedPackageName(itn.PackageReference())
+			cast = astbuilder.CallQualifiedFunc(alias, itn.Name(), params.GetSource())
+		}
+
+		return astbuilder.Statements(
+			params.AssignmentHandlerOrDefault()(
+				params.GetDestination(),
+				cast)), nil
+	}
+
+	// a more complex conversion is needed
+	dstType := et.BaseType()
+	tmpLocal := builder.CreateLocal(params.Locals, "temp", params.NameHint)
+
+	conversion, err := builder.BuildConversion(
+		ConversionParameters{
+			Source:              params.Source,
+			SourceType:          params.SourceType,
+			Destination:         dst.NewIdent(tmpLocal),
+			DestinationType:     dstType,
+			NameHint:            tmpLocal,
+			ConversionContext:   nil,
+			AssignmentHandler:   nil,
+			Locals:              params.Locals,
+			SourceProperty:      params.SourceProperty,
+			DestinationProperty: params.DestinationProperty,
+		})
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to build inner conversion to enum %s", itn.name)
+	}
+
+	if len(conversion) == 0 {
+		// unable to build inner conversion
+		return nil, nil
+	}
+
+	destinationTypeExpr, err := dstType.AsTypeExpr(builder.CodeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating destination type expression")
+	}
+
+	var cast dst.Expr
+	if builder.CodeGenerationContext.CurrentPackage() == itn.PackageReference() {
+		cast = astbuilder.CallFunc(itn.Name(), dst.NewIdent(tmpLocal))
+	} else {
+		alias := builder.CodeGenerationContext.MustGetImportedPackageName(itn.PackageReference())
+		cast = astbuilder.CallQualifiedFunc(alias, itn.Name(), dst.NewIdent(tmpLocal))
+	}
+
+	return astbuilder.Statements(
+		astbuilder.LocalVariableDeclaration(tmpLocal, destinationTypeExpr, ""),
+		conversion,
+		params.AssignmentHandlerOrDefault()(
+			params.GetDestination(),
+			cast)), nil
+}
+
+// AssignFromEnum reads a value from an enum type.
+// This function generates code that looks like this:
+// <destination> = <primitiveType>(<source>)
+func AssignFromEnum(
+	builder *ConversionFunctionBuilder,
+	params ConversionParameters,
+) ([]dst.Stmt, error) {
+	// Is the source a typename of an enum?
+	itn, ok := params.SourceType.(InternalTypeName)
+	if !ok {
+		// Not a typename
+		return nil, nil
+	}
+
+	def, err := builder.CodeGenerationContext.GetDefinition(itn)
+	if err != nil {
+		// Couldn't the definition, this handler isn't the one we want
+		// (not actually an error)
+		return nil, nil
+	}
+
+	et, ok := AsEnumType(def.Type())
+	if !ok {
+		// Definition isn't for an enum type,
+		return nil, nil
+	}
+
+	srcType := et.BaseType()
+	cast := astbuilder.CallFunc(srcType.Name(), params.GetSource())
+
+	conversion, err := builder.BuildConversion(
+		ConversionParameters{
+			Source:              cast,
+			SourceType:          srcType,
+			Destination:         params.Destination,
+			DestinationType:     params.DestinationType,
+			NameHint:            "",
+			ConversionContext:   nil,
+			AssignmentHandler:   nil,
+			Locals:              params.Locals,
+			SourceProperty:      params.SourceProperty,
+			DestinationProperty: params.DestinationProperty,
+		})
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to build inner conversion to enum %s", itn.name)
+	}
+
+	if len(conversion) == 0 {
+		// unable to build inner conversion
+		return nil, nil
+	}
+
+	return conversion, nil
 }
 
 // IdentityAssignValidatedTypeDestination generates an assignment to the underlying validated type Element
