@@ -553,6 +553,12 @@ func (c *armTypeCreator) visitARMTypeName(
 		return astmodel.CreateARMTypeName(def.Name()), nil
 	}
 
+	// If the name references a primitive type, we use that type directly
+	// (though we sanitise it by running through the type visitor first)
+	if _, ok := astmodel.AsPrimitiveType(def.Type()); ok {
+		return this.Visit(def.Type(), ctx)
+	}
+
 	// We may or may not need to use an updated type name (i.e. if it's an aliased primitive type we can
 	// just keep using that alias)
 	updatedType, err := this.Visit(def.Type(), ctx)
