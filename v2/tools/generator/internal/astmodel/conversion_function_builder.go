@@ -159,6 +159,8 @@ func NewConversionFunctionBuilder(
 			AssignFromOptional,
 			AssignToEnum,
 			AssignFromEnum,
+			AssignToAlias,
+			AssignFromAlias,
 			IdentityDeepCopyJSON,
 			IdentityAssignTypeName,
 		},
@@ -186,6 +188,12 @@ func (builder *ConversionFunctionBuilder) PrependConversionHandlers(conversionHa
 
 // BuildConversion creates a conversion between the source and destination defined by params.
 func (builder *ConversionFunctionBuilder) BuildConversion(params ConversionParameters) ([]dst.Stmt, error) {
+	srcDebug := DebugDescription(params.SourceType)
+	destDebug := DebugDescription(params.DestinationType)
+	if destDebug == "CircuitBreakerFailureCondition_ErrorReasons" || srcDebug == "CircuitBreakerFailureCondition_ErrorReasons" {
+		destDebug = "CircuitBreakerFailureCondition_ErrorReasons"
+	}
+
 	for _, conversion := range builder.conversions {
 		result, err := conversion(builder, params)
 		if err != nil {
@@ -195,12 +203,13 @@ func (builder *ConversionFunctionBuilder) BuildConversion(params ConversionParam
 		if len(result) > 0 {
 			return result, nil
 		}
+
 	}
 
 	msg := fmt.Sprintf(
 		"don't know how to perform conversion for %s -> %s",
-		DebugDescription(params.SourceType),
-		DebugDescription(params.DestinationType))
+		srcDebug,
+		destDebug)
 	panic(msg)
 }
 
@@ -699,8 +708,9 @@ func AssignToEnum(
 
 	def, err := builder.CodeGenerationContext.GetDefinition(itn)
 	if err != nil {
-		// Couldn't the definition, this handler isn't the one we want
+		// Couldn't get the definition, this handler isn't the one we want
 		// (not actually an error)
+		//nolint:nilerr
 		return nil, nil
 	}
 
@@ -789,8 +799,9 @@ func AssignFromEnum(
 
 	def, err := builder.CodeGenerationContext.GetDefinition(itn)
 	if err != nil {
-		// Couldn't the definition, this handler isn't the one we want
+		// Couldn't get the definition, this handler isn't the one we want
 		// (not actually an error)
+		//nolint:nilerr
 		return nil, nil
 	}
 
@@ -807,6 +818,150 @@ func AssignFromEnum(
 		ConversionParameters{
 			Source:              cast,
 			SourceType:          srcType,
+			Destination:         params.Destination,
+			DestinationType:     params.DestinationType,
+			NameHint:            "",
+			ConversionContext:   nil,
+			AssignmentHandler:   nil,
+			Locals:              params.Locals,
+			SourceProperty:      params.SourceProperty,
+			DestinationProperty: params.DestinationProperty,
+		})
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to build inner conversion to enum %s", itn.name)
+	}
+
+	if len(conversion) == 0 {
+		// unable to build inner conversion
+		return nil, nil
+	}
+
+	return conversion, nil
+}
+
+// AssignToAlias stores a value into an aliased type
+// This function generates code that looks like this:
+// <destination> = <alias>(<source>)
+func AssignToAlias(
+	builder *ConversionFunctionBuilder,
+	params ConversionParameters,
+) ([]dst.Stmt, error) {
+	// Is the destination a typename of a primitive type?
+	itn, ok := params.DestinationType.(InternalTypeName)
+	if !ok {
+		// Not a typename
+		return nil, nil
+	}
+
+	def, err := builder.CodeGenerationContext.GetDefinition(itn)
+	if err != nil {
+		// Couldn't get the definition, this handler isn't the one we want
+		// (not actually an error)
+		//nolint:nilerr
+		return nil, nil
+	}
+
+	if _, ok := AsPrimitiveType(def.Type()); !ok {
+		// Definition isn't for an alias of a primitive type
+		return nil, nil
+	}
+
+	if TypeEquals(def.Type(), params.SourceType) {
+		// We can directly cast the source to the destination
+		var cast dst.Expr
+		if builder.CodeGenerationContext.CurrentPackage() == itn.PackageReference() {
+			cast = astbuilder.CallFunc(itn.Name(), params.GetSource())
+		} else {
+			alias := builder.CodeGenerationContext.MustGetImportedPackageName(itn.PackageReference())
+			cast = astbuilder.CallQualifiedFunc(alias, itn.Name(), params.GetSource())
+		}
+
+		return astbuilder.Statements(
+			params.AssignmentHandlerOrDefault()(
+				params.GetDestination(),
+				cast)), nil
+	}
+
+	// a more complex conversion is needed
+	tmpLocal := builder.CreateLocal(params.Locals, "temp", params.NameHint)
+
+	conversion, err := builder.BuildConversion(
+		ConversionParameters{
+			Source:              params.Source,
+			SourceType:          params.SourceType,
+			Destination:         dst.NewIdent(tmpLocal),
+			DestinationType:     def.Type(),
+			NameHint:            tmpLocal,
+			ConversionContext:   nil,
+			AssignmentHandler:   nil,
+			Locals:              params.Locals,
+			SourceProperty:      params.SourceProperty,
+			DestinationProperty: params.DestinationProperty,
+		})
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to build inner conversion to enum %s", itn.name)
+	}
+
+	if len(conversion) == 0 {
+		// unable to build inner conversion
+		return nil, nil
+	}
+
+	destinationTypeExpr, err := def.Type().AsTypeExpr(builder.CodeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating destination type expression")
+	}
+
+	var cast dst.Expr
+	if builder.CodeGenerationContext.CurrentPackage() == itn.PackageReference() {
+		cast = astbuilder.CallFunc(itn.Name(), dst.NewIdent(tmpLocal))
+	} else {
+		alias := builder.CodeGenerationContext.MustGetImportedPackageName(itn.PackageReference())
+		cast = astbuilder.CallQualifiedFunc(alias, itn.Name(), dst.NewIdent(tmpLocal))
+	}
+
+	return astbuilder.Statements(
+		astbuilder.LocalVariableDeclaration(tmpLocal, destinationTypeExpr, ""),
+		conversion,
+		params.AssignmentHandlerOrDefault()(
+			params.GetDestination(),
+			cast)), nil
+}
+
+// AssignFromAlias reads a value from an alias of a primitive type
+// This function generates code that looks like this:
+// <destination> = <alias>(<source>)
+func AssignFromAlias(
+	builder *ConversionFunctionBuilder,
+	params ConversionParameters,
+) ([]dst.Stmt, error) {
+	// Is the source a typename of a primitive type?
+	itn, ok := params.SourceType.(InternalTypeName)
+	if !ok {
+		// Not a typename
+		return nil, nil
+	}
+
+	def, err := builder.CodeGenerationContext.GetDefinition(itn)
+	if err != nil {
+		// Couldn't get the definition, this handler isn't the one we want
+		// (not actually an error)
+		//nolint:nilerr
+		return nil, nil
+	}
+
+	pt, ok := AsPrimitiveType(def.Type())
+	if !ok {
+		// Definition isn't for a primitive type,
+		return nil, nil
+	}
+
+	cast := astbuilder.CallFunc(pt.Name(), params.GetSource())
+
+	conversion, err := builder.BuildConversion(
+		ConversionParameters{
+			Source:              cast,
+			SourceType:          pt,
 			Destination:         params.Destination,
 			DestinationType:     params.DestinationType,
 			NameHint:            "",

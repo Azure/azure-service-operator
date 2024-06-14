@@ -25,8 +25,12 @@ func TestConversionFunctionBuilderBuildConversion_GivenSourceAndDestinationTypes
 		MakeEnumValue("Delta", "delta"))
 	enumDef := MakeTypeDefinition(enumName, enumType)
 
+	aliasName := MakeInternalTypeName(pkg, "alias")
+	aliasDef := MakeTypeDefinition(aliasName, StringType)
+
 	pkgDef := NewPackageDefinition(pkg)
 	pkgDef.AddDefinition(enumDef)
+	pkgDef.AddDefinition(aliasDef)
 
 	pkgs := map[InternalPackageReference]*PackageDefinition{
 		pkg: pkgDef,
@@ -67,6 +71,14 @@ func TestConversionFunctionBuilderBuildConversion_GivenSourceAndDestinationTypes
 		"to optional enum from string": {
 			sourceType:      StringType,
 			destinationType: NewOptionalType(enumName),
+		},
+		"to alias from string": {
+			sourceType:      StringType,
+			destinationType: aliasName,
+		},
+		"from alias to string": {
+			sourceType:      aliasName,
+			destinationType: StringType,
 		},
 	}
 
