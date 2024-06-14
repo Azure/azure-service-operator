@@ -16,6 +16,22 @@ import (
 func TestConversionFunctionBuilderBuildConversion_GivenSourceAndDestinationTypes_GeneratesExpectedCode(t *testing.T) {
 	t.Parallel()
 
+	enumName := MakeInternalTypeName(pkg, "GreekEnum")
+	enumType := NewEnumType(
+		StringType,
+		MakeEnumValue("Alpha", "alpha"),
+		MakeEnumValue("Beta", "beta"),
+		MakeEnumValue("Gamma", "gamma"),
+		MakeEnumValue("Delta", "delta"))
+	enumDef := MakeTypeDefinition(enumName, enumType)
+
+	pkgDef := NewPackageDefinition(pkg)
+	pkgDef.AddDefinition(enumDef)
+
+	pkgs := map[InternalPackageReference]*PackageDefinition{
+		pkg: pkgDef,
+	}
+
 	cases := map[string]struct {
 		sourceType      Type
 		destinationType Type
@@ -32,9 +48,27 @@ func TestConversionFunctionBuilderBuildConversion_GivenSourceAndDestinationTypes
 			sourceType:      StringType,
 			destinationType: NewOptionalType(StringType),
 		},
+		"to enum from string": {
+			sourceType:      StringType,
+			destinationType: enumName,
+		},
+		"from enum to string": {
+			sourceType:      enumName,
+			destinationType: StringType,
+		},
+		"between identical enums": {
+			sourceType:      enumName,
+			destinationType: enumName,
+		},
+		"from optional enum to string": {
+			sourceType:      NewOptionalType(enumName),
+			destinationType: StringType,
+		},
+		"to optional enum from string": {
+			sourceType:      StringType,
+			destinationType: NewOptionalType(enumName),
+		},
 	}
-
-	pkgs := make(map[InternalPackageReference]*PackageDefinition)
 
 	for name, c := range cases {
 		c := c
@@ -55,6 +89,7 @@ func TestConversionFunctionBuilderBuildConversion_GivenSourceAndDestinationTypes
 				Destination:     dst.NewIdent("destination"),
 				DestinationType: c.destinationType,
 				NameHint:        "test",
+				Locals:          NewKnownLocalsSet(idFactory),
 			}
 
 			stmts, err := builder.BuildConversion(params)
