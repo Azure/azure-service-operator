@@ -106,7 +106,6 @@ func (c *armTypeCreator) createARMTypes() (astmodel.TypeDefinitionSet, error) {
 	resourceSpecDefs := make(astmodel.TypeDefinitionSet)
 
 	resourceDefs := astmodel.FindResourceDefinitions(c.definitions)
-
 	for _, def := range resourceDefs {
 		resolved, err := c.definitions.ResolveResourceSpecAndStatus(def)
 		if err != nil {
@@ -123,10 +122,14 @@ func (c *armTypeCreator) createARMTypes() (astmodel.TypeDefinitionSet, error) {
 		result.Add(armSpecDef)
 	}
 
-	otherDefs := c.definitions.Except(resourceSpecDefs).Where(func(def astmodel.TypeDefinition) bool {
-		_, ok := astmodel.AsObjectType(def.Type())
-		return ok
-	})
+	// Collect other object and enum definitions, as we need to create ARM variants of those too
+	otherDefs := c.definitions.Except(resourceSpecDefs).
+		Where(
+			func(def astmodel.TypeDefinition) bool {
+				_, isObject := astmodel.AsObjectType(def.Type())
+				_, isEnum := astmodel.AsEnumType(def.Type())
+				return isObject || isEnum
+			})
 
 	for name, def := range otherDefs {
 		if !requiresARMType(def) {
@@ -210,6 +213,22 @@ func (c *armTypeCreator) createARMTypeDefinition(
 	def astmodel.TypeDefinition,
 	convContext *armPropertyTypeConversionContext,
 ) (astmodel.TypeDefinition, error) {
+	if _, isObject := astmodel.AsObjectType(def.Type()); isObject {
+		return c.createARMObjectTypeDefinition(def, convContext)
+	}
+
+	if _, isEnum := astmodel.AsEnumType(def.Type()); isEnum {
+		return c.createARMEnumTypeDefinition(def, convContext)
+	}
+
+	debug := astmodel.DebugDescription(def.Type())
+	return astmodel.TypeDefinition{}, errors.New("unsupported type: " + debug)
+}
+
+func (c *armTypeCreator) createARMObjectTypeDefinition(
+	def astmodel.TypeDefinition,
+	convContext *armPropertyTypeConversionContext,
+) (astmodel.TypeDefinition, error) {
 	convertObjectPropertiesForARM := func(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
 		return c.convertObjectPropertiesForARM(t, convContext)
 	}
@@ -256,6 +275,14 @@ func (c *armTypeCreator) createARMTypeDefinition(
 	}
 
 	return result, nil
+}
+
+func (c *armTypeCreator) createARMEnumTypeDefinition(
+	def astmodel.TypeDefinition,
+	_ *armPropertyTypeConversionContext,
+) (astmodel.TypeDefinition, error) {
+	name := astmodel.CreateARMTypeName(def.Name())
+	return def.WithName(name), nil
 }
 
 func (c *armTypeCreator) createARMTypeIfNeeded(t astmodel.Type) (astmodel.Type, error) {
@@ -521,6 +548,11 @@ func (c *armTypeCreator) visitARMTypeName(
 		return astmodel.CreateARMTypeName(def.Name()), nil
 	}
 
+	// If the name references an enum type, we need an updated name, create it and return
+	if _, ok := astmodel.AsEnumType(def.Type()); ok {
+		return astmodel.CreateARMTypeName(def.Name()), nil
+	}
+
 	// We may or may not need to use an updated type name (i.e. if it's an aliased primitive type we can
 	// just keep using that alias)
 	updatedType, err := this.Visit(def.Type(), ctx)
@@ -528,10 +560,12 @@ func (c *armTypeCreator) visitARMTypeName(
 		return nil, errors.Wrapf(err, "failed to update definition %s", def.Name())
 	}
 
+	// If no change, keep the existing name
 	if astmodel.TypeEquals(updatedType, def.Type()) {
 		return it, nil
 	}
 
+	// Otherwise give it a new name, and use that
 	return astmodel.CreateARMTypeName(def.Name()), nil
 }
 
