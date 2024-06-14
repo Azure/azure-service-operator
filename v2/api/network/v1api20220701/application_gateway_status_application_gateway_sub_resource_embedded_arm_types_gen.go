@@ -100,7 +100,7 @@ type ApplicationGatewayPropertiesFormat_STATUS_ARM struct {
 	LoadDistributionPolicies []ApplicationGatewayLoadDistributionPolicy_STATUS_ARM `json:"loadDistributionPolicies,omitempty"`
 
 	// OperationalState: Operational state of the application gateway resource.
-	OperationalState *ApplicationGatewayPropertiesFormat_OperationalState_STATUS `json:"operationalState,omitempty"`
+	OperationalState *ApplicationGatewayPropertiesFormat_OperationalState_STATUS_ARM `json:"operationalState,omitempty"`
 
 	// PrivateEndpointConnections: Private Endpoint connections on application gateway.
 	PrivateEndpointConnections []ApplicationGatewayPrivateEndpointConnection_STATUS_ARM `json:"privateEndpointConnections,omitempty"`
@@ -112,7 +112,7 @@ type ApplicationGatewayPropertiesFormat_STATUS_ARM struct {
 	Probes []ApplicationGatewayProbe_STATUS_ARM `json:"probes,omitempty"`
 
 	// ProvisioningState: The provisioning state of the application gateway resource.
-	ProvisioningState *ApplicationGatewayProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ApplicationGatewayProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// RedirectConfigurations: Redirect configurations of the application gateway resource. For default limits, see
 	// [Application Gateway
@@ -176,7 +176,7 @@ type ManagedServiceIdentity_STATUS_ARM struct {
 	// Type: The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly
 	// created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual
 	// machine.
-	Type *ManagedServiceIdentity_Type_STATUS `json:"type,omitempty"`
+	Type *ManagedServiceIdentity_Type_STATUS_ARM `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The list of user identities associated with resource. The user identity dictionary key
 	// references will be ARM resource ids in the form:
@@ -223,7 +223,7 @@ type ApplicationGatewayCustomError_STATUS_ARM struct {
 	CustomErrorPageUrl *string `json:"customErrorPageUrl,omitempty"`
 
 	// StatusCode: Status code of the application gateway customer error.
-	StatusCode *ApplicationGatewayCustomError_StatusCode_STATUS `json:"statusCode,omitempty"`
+	StatusCode *ApplicationGatewayCustomError_StatusCode_STATUS_ARM `json:"statusCode,omitempty"`
 }
 
 // Frontend IP configuration of an application gateway.
@@ -289,6 +289,41 @@ type ApplicationGatewayProbe_STATUS_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
+type ApplicationGatewayPropertiesFormat_OperationalState_STATUS_ARM string
+
+const (
+	ApplicationGatewayPropertiesFormat_OperationalState_STATUS_ARM_Running  = ApplicationGatewayPropertiesFormat_OperationalState_STATUS_ARM("Running")
+	ApplicationGatewayPropertiesFormat_OperationalState_STATUS_ARM_Starting = ApplicationGatewayPropertiesFormat_OperationalState_STATUS_ARM("Starting")
+	ApplicationGatewayPropertiesFormat_OperationalState_STATUS_ARM_Stopped  = ApplicationGatewayPropertiesFormat_OperationalState_STATUS_ARM("Stopped")
+	ApplicationGatewayPropertiesFormat_OperationalState_STATUS_ARM_Stopping = ApplicationGatewayPropertiesFormat_OperationalState_STATUS_ARM("Stopping")
+)
+
+// Mapping from string to ApplicationGatewayPropertiesFormat_OperationalState_STATUS_ARM
+var applicationGatewayPropertiesFormat_OperationalState_STATUS_ARM_Values = map[string]ApplicationGatewayPropertiesFormat_OperationalState_STATUS_ARM{
+	"running":  ApplicationGatewayPropertiesFormat_OperationalState_STATUS_ARM_Running,
+	"starting": ApplicationGatewayPropertiesFormat_OperationalState_STATUS_ARM_Starting,
+	"stopped":  ApplicationGatewayPropertiesFormat_OperationalState_STATUS_ARM_Stopped,
+	"stopping": ApplicationGatewayPropertiesFormat_OperationalState_STATUS_ARM_Stopping,
+}
+
+// The current provisioning state.
+type ApplicationGatewayProvisioningState_STATUS_ARM string
+
+const (
+	ApplicationGatewayProvisioningState_STATUS_ARM_Deleting  = ApplicationGatewayProvisioningState_STATUS_ARM("Deleting")
+	ApplicationGatewayProvisioningState_STATUS_ARM_Failed    = ApplicationGatewayProvisioningState_STATUS_ARM("Failed")
+	ApplicationGatewayProvisioningState_STATUS_ARM_Succeeded = ApplicationGatewayProvisioningState_STATUS_ARM("Succeeded")
+	ApplicationGatewayProvisioningState_STATUS_ARM_Updating  = ApplicationGatewayProvisioningState_STATUS_ARM("Updating")
+)
+
+// Mapping from string to ApplicationGatewayProvisioningState_STATUS_ARM
+var applicationGatewayProvisioningState_STATUS_ARM_Values = map[string]ApplicationGatewayProvisioningState_STATUS_ARM{
+	"deleting":  ApplicationGatewayProvisioningState_STATUS_ARM_Deleting,
+	"failed":    ApplicationGatewayProvisioningState_STATUS_ARM_Failed,
+	"succeeded": ApplicationGatewayProvisioningState_STATUS_ARM_Succeeded,
+	"updating":  ApplicationGatewayProvisioningState_STATUS_ARM_Updating,
+}
+
 // Redirect configuration of an application gateway.
 type ApplicationGatewayRedirectConfiguration_STATUS_ARM struct {
 	// Id: Resource ID.
@@ -319,10 +354,10 @@ type ApplicationGatewaySku_STATUS_ARM struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	// Name: Name of an application gateway SKU.
-	Name *ApplicationGatewaySku_Name_STATUS `json:"name,omitempty"`
+	Name *ApplicationGatewaySku_Name_STATUS_ARM `json:"name,omitempty"`
 
 	// Tier: Tier of an application gateway.
-	Tier *ApplicationGatewaySku_Tier_STATUS `json:"tier,omitempty"`
+	Tier *ApplicationGatewaySku_Tier_STATUS_ARM `json:"tier,omitempty"`
 }
 
 // SSL certificates of an application gateway.
@@ -334,19 +369,19 @@ type ApplicationGatewaySslCertificate_STATUS_ARM struct {
 // Application Gateway Ssl policy.
 type ApplicationGatewaySslPolicy_STATUS_ARM struct {
 	// CipherSuites: Ssl cipher suites to be enabled in the specified order to application gateway.
-	CipherSuites []CipherSuitesEnum_STATUS `json:"cipherSuites,omitempty"`
+	CipherSuites []CipherSuitesEnum_STATUS_ARM `json:"cipherSuites,omitempty"`
 
 	// DisabledSslProtocols: Ssl protocols to be disabled on application gateway.
-	DisabledSslProtocols []ProtocolsEnum_STATUS `json:"disabledSslProtocols,omitempty"`
+	DisabledSslProtocols []ProtocolsEnum_STATUS_ARM `json:"disabledSslProtocols,omitempty"`
 
 	// MinProtocolVersion: Minimum version of Ssl protocol to be supported on application gateway.
-	MinProtocolVersion *ProtocolsEnum_STATUS `json:"minProtocolVersion,omitempty"`
+	MinProtocolVersion *ProtocolsEnum_STATUS_ARM `json:"minProtocolVersion,omitempty"`
 
 	// PolicyName: Name of Ssl predefined policy.
-	PolicyName *PolicyNameEnum_STATUS `json:"policyName,omitempty"`
+	PolicyName *PolicyNameEnum_STATUS_ARM `json:"policyName,omitempty"`
 
 	// PolicyType: Type of Ssl Policy.
-	PolicyType *ApplicationGatewaySslPolicy_PolicyType_STATUS `json:"policyType,omitempty"`
+	PolicyType *ApplicationGatewaySslPolicy_PolicyType_STATUS_ARM `json:"policyType,omitempty"`
 }
 
 // SSL profile of an application gateway.
@@ -394,7 +429,7 @@ type ApplicationGatewayWebApplicationFirewallConfiguration_STATUS_ARM struct {
 	FileUploadLimitInMb *int `json:"fileUploadLimitInMb,omitempty"`
 
 	// FirewallMode: Web application firewall mode.
-	FirewallMode *ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_STATUS `json:"firewallMode,omitempty"`
+	FirewallMode *ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_STATUS_ARM `json:"firewallMode,omitempty"`
 
 	// MaxRequestBodySize: Maximum request body size for WAF.
 	MaxRequestBodySize *int `json:"maxRequestBodySize,omitempty"`
@@ -412,21 +447,21 @@ type ApplicationGatewayWebApplicationFirewallConfiguration_STATUS_ARM struct {
 	RuleSetVersion *string `json:"ruleSetVersion,omitempty"`
 }
 
-type ManagedServiceIdentity_Type_STATUS string
+type ManagedServiceIdentity_Type_STATUS_ARM string
 
 const (
-	ManagedServiceIdentity_Type_STATUS_None                       = ManagedServiceIdentity_Type_STATUS("None")
-	ManagedServiceIdentity_Type_STATUS_SystemAssigned             = ManagedServiceIdentity_Type_STATUS("SystemAssigned")
-	ManagedServiceIdentity_Type_STATUS_SystemAssignedUserAssigned = ManagedServiceIdentity_Type_STATUS("SystemAssigned, UserAssigned")
-	ManagedServiceIdentity_Type_STATUS_UserAssigned               = ManagedServiceIdentity_Type_STATUS("UserAssigned")
+	ManagedServiceIdentity_Type_STATUS_ARM_None                       = ManagedServiceIdentity_Type_STATUS_ARM("None")
+	ManagedServiceIdentity_Type_STATUS_ARM_SystemAssigned             = ManagedServiceIdentity_Type_STATUS_ARM("SystemAssigned")
+	ManagedServiceIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned = ManagedServiceIdentity_Type_STATUS_ARM("SystemAssigned, UserAssigned")
+	ManagedServiceIdentity_Type_STATUS_ARM_UserAssigned               = ManagedServiceIdentity_Type_STATUS_ARM("UserAssigned")
 )
 
-// Mapping from string to ManagedServiceIdentity_Type_STATUS
-var managedServiceIdentity_Type_STATUS_Values = map[string]ManagedServiceIdentity_Type_STATUS{
-	"none":                         ManagedServiceIdentity_Type_STATUS_None,
-	"systemassigned":               ManagedServiceIdentity_Type_STATUS_SystemAssigned,
-	"systemassigned, userassigned": ManagedServiceIdentity_Type_STATUS_SystemAssignedUserAssigned,
-	"userassigned":                 ManagedServiceIdentity_Type_STATUS_UserAssigned,
+// Mapping from string to ManagedServiceIdentity_Type_STATUS_ARM
+var managedServiceIdentity_Type_STATUS_ARM_Values = map[string]ManagedServiceIdentity_Type_STATUS_ARM{
+	"none":                         ManagedServiceIdentity_Type_STATUS_ARM_None,
+	"systemassigned":               ManagedServiceIdentity_Type_STATUS_ARM_SystemAssigned,
+	"systemassigned, userassigned": ManagedServiceIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned,
+	"userassigned":                 ManagedServiceIdentity_Type_STATUS_ARM_UserAssigned,
 }
 
 type ManagedServiceIdentity_UserAssignedIdentities_STATUS_ARM struct {
@@ -435,6 +470,19 @@ type ManagedServiceIdentity_UserAssignedIdentities_STATUS_ARM struct {
 
 	// PrincipalId: The principal id of user assigned identity.
 	PrincipalId *string `json:"principalId,omitempty"`
+}
+
+type ApplicationGatewayCustomError_StatusCode_STATUS_ARM string
+
+const (
+	ApplicationGatewayCustomError_StatusCode_STATUS_ARM_HttpStatus403 = ApplicationGatewayCustomError_StatusCode_STATUS_ARM("HttpStatus403")
+	ApplicationGatewayCustomError_StatusCode_STATUS_ARM_HttpStatus502 = ApplicationGatewayCustomError_StatusCode_STATUS_ARM("HttpStatus502")
+)
+
+// Mapping from string to ApplicationGatewayCustomError_StatusCode_STATUS_ARM
+var applicationGatewayCustomError_StatusCode_STATUS_ARM_Values = map[string]ApplicationGatewayCustomError_StatusCode_STATUS_ARM{
+	"httpstatus403": ApplicationGatewayCustomError_StatusCode_STATUS_ARM_HttpStatus403,
+	"httpstatus502": ApplicationGatewayCustomError_StatusCode_STATUS_ARM_HttpStatus502,
 }
 
 // Allows to disable rules within a rule group or an entire rule group.
@@ -458,4 +506,176 @@ type ApplicationGatewayFirewallExclusion_STATUS_ARM struct {
 	// SelectorMatchOperator: When matchVariable is a collection, operate on the selector to specify which elements in the
 	// collection this exclusion applies to.
 	SelectorMatchOperator *string `json:"selectorMatchOperator,omitempty"`
+}
+
+type ApplicationGatewaySku_Name_STATUS_ARM string
+
+const (
+	ApplicationGatewaySku_Name_STATUS_ARM_Standard_Large  = ApplicationGatewaySku_Name_STATUS_ARM("Standard_Large")
+	ApplicationGatewaySku_Name_STATUS_ARM_Standard_Medium = ApplicationGatewaySku_Name_STATUS_ARM("Standard_Medium")
+	ApplicationGatewaySku_Name_STATUS_ARM_Standard_Small  = ApplicationGatewaySku_Name_STATUS_ARM("Standard_Small")
+	ApplicationGatewaySku_Name_STATUS_ARM_Standard_V2     = ApplicationGatewaySku_Name_STATUS_ARM("Standard_v2")
+	ApplicationGatewaySku_Name_STATUS_ARM_WAF_Large       = ApplicationGatewaySku_Name_STATUS_ARM("WAF_Large")
+	ApplicationGatewaySku_Name_STATUS_ARM_WAF_Medium      = ApplicationGatewaySku_Name_STATUS_ARM("WAF_Medium")
+	ApplicationGatewaySku_Name_STATUS_ARM_WAF_V2          = ApplicationGatewaySku_Name_STATUS_ARM("WAF_v2")
+)
+
+// Mapping from string to ApplicationGatewaySku_Name_STATUS_ARM
+var applicationGatewaySku_Name_STATUS_ARM_Values = map[string]ApplicationGatewaySku_Name_STATUS_ARM{
+	"standard_large":  ApplicationGatewaySku_Name_STATUS_ARM_Standard_Large,
+	"standard_medium": ApplicationGatewaySku_Name_STATUS_ARM_Standard_Medium,
+	"standard_small":  ApplicationGatewaySku_Name_STATUS_ARM_Standard_Small,
+	"standard_v2":     ApplicationGatewaySku_Name_STATUS_ARM_Standard_V2,
+	"waf_large":       ApplicationGatewaySku_Name_STATUS_ARM_WAF_Large,
+	"waf_medium":      ApplicationGatewaySku_Name_STATUS_ARM_WAF_Medium,
+	"waf_v2":          ApplicationGatewaySku_Name_STATUS_ARM_WAF_V2,
+}
+
+type ApplicationGatewaySku_Tier_STATUS_ARM string
+
+const (
+	ApplicationGatewaySku_Tier_STATUS_ARM_Standard    = ApplicationGatewaySku_Tier_STATUS_ARM("Standard")
+	ApplicationGatewaySku_Tier_STATUS_ARM_Standard_V2 = ApplicationGatewaySku_Tier_STATUS_ARM("Standard_v2")
+	ApplicationGatewaySku_Tier_STATUS_ARM_WAF         = ApplicationGatewaySku_Tier_STATUS_ARM("WAF")
+	ApplicationGatewaySku_Tier_STATUS_ARM_WAF_V2      = ApplicationGatewaySku_Tier_STATUS_ARM("WAF_v2")
+)
+
+// Mapping from string to ApplicationGatewaySku_Tier_STATUS_ARM
+var applicationGatewaySku_Tier_STATUS_ARM_Values = map[string]ApplicationGatewaySku_Tier_STATUS_ARM{
+	"standard":    ApplicationGatewaySku_Tier_STATUS_ARM_Standard,
+	"standard_v2": ApplicationGatewaySku_Tier_STATUS_ARM_Standard_V2,
+	"waf":         ApplicationGatewaySku_Tier_STATUS_ARM_WAF,
+	"waf_v2":      ApplicationGatewaySku_Tier_STATUS_ARM_WAF_V2,
+}
+
+type ApplicationGatewaySslPolicy_PolicyType_STATUS_ARM string
+
+const (
+	ApplicationGatewaySslPolicy_PolicyType_STATUS_ARM_Custom     = ApplicationGatewaySslPolicy_PolicyType_STATUS_ARM("Custom")
+	ApplicationGatewaySslPolicy_PolicyType_STATUS_ARM_CustomV2   = ApplicationGatewaySslPolicy_PolicyType_STATUS_ARM("CustomV2")
+	ApplicationGatewaySslPolicy_PolicyType_STATUS_ARM_Predefined = ApplicationGatewaySslPolicy_PolicyType_STATUS_ARM("Predefined")
+)
+
+// Mapping from string to ApplicationGatewaySslPolicy_PolicyType_STATUS_ARM
+var applicationGatewaySslPolicy_PolicyType_STATUS_ARM_Values = map[string]ApplicationGatewaySslPolicy_PolicyType_STATUS_ARM{
+	"custom":     ApplicationGatewaySslPolicy_PolicyType_STATUS_ARM_Custom,
+	"customv2":   ApplicationGatewaySslPolicy_PolicyType_STATUS_ARM_CustomV2,
+	"predefined": ApplicationGatewaySslPolicy_PolicyType_STATUS_ARM_Predefined,
+}
+
+type ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_STATUS_ARM string
+
+const (
+	ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_STATUS_ARM_Detection  = ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_STATUS_ARM("Detection")
+	ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_STATUS_ARM_Prevention = ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_STATUS_ARM("Prevention")
+)
+
+// Mapping from string to ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_STATUS_ARM
+var applicationGatewayWebApplicationFirewallConfiguration_FirewallMode_STATUS_ARM_Values = map[string]ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_STATUS_ARM{
+	"detection":  ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_STATUS_ARM_Detection,
+	"prevention": ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_STATUS_ARM_Prevention,
+}
+
+// Ssl cipher suites enums.
+type CipherSuitesEnum_STATUS_ARM string
+
+const (
+	CipherSuitesEnum_STATUS_ARM_TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA       = CipherSuitesEnum_STATUS_ARM("TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA")
+	CipherSuitesEnum_STATUS_ARM_TLS_DHE_DSS_WITH_AES_128_CBC_SHA        = CipherSuitesEnum_STATUS_ARM("TLS_DHE_DSS_WITH_AES_128_CBC_SHA")
+	CipherSuitesEnum_STATUS_ARM_TLS_DHE_DSS_WITH_AES_128_CBC_SHA256     = CipherSuitesEnum_STATUS_ARM("TLS_DHE_DSS_WITH_AES_128_CBC_SHA256")
+	CipherSuitesEnum_STATUS_ARM_TLS_DHE_DSS_WITH_AES_256_CBC_SHA        = CipherSuitesEnum_STATUS_ARM("TLS_DHE_DSS_WITH_AES_256_CBC_SHA")
+	CipherSuitesEnum_STATUS_ARM_TLS_DHE_DSS_WITH_AES_256_CBC_SHA256     = CipherSuitesEnum_STATUS_ARM("TLS_DHE_DSS_WITH_AES_256_CBC_SHA256")
+	CipherSuitesEnum_STATUS_ARM_TLS_DHE_RSA_WITH_AES_128_CBC_SHA        = CipherSuitesEnum_STATUS_ARM("TLS_DHE_RSA_WITH_AES_128_CBC_SHA")
+	CipherSuitesEnum_STATUS_ARM_TLS_DHE_RSA_WITH_AES_128_GCM_SHA256     = CipherSuitesEnum_STATUS_ARM("TLS_DHE_RSA_WITH_AES_128_GCM_SHA256")
+	CipherSuitesEnum_STATUS_ARM_TLS_DHE_RSA_WITH_AES_256_CBC_SHA        = CipherSuitesEnum_STATUS_ARM("TLS_DHE_RSA_WITH_AES_256_CBC_SHA")
+	CipherSuitesEnum_STATUS_ARM_TLS_DHE_RSA_WITH_AES_256_GCM_SHA384     = CipherSuitesEnum_STATUS_ARM("TLS_DHE_RSA_WITH_AES_256_GCM_SHA384")
+	CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA    = CipherSuitesEnum_STATUS_ARM("TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA")
+	CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256 = CipherSuitesEnum_STATUS_ARM("TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256")
+	CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256 = CipherSuitesEnum_STATUS_ARM("TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256")
+	CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA    = CipherSuitesEnum_STATUS_ARM("TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA")
+	CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384 = CipherSuitesEnum_STATUS_ARM("TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384")
+	CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384 = CipherSuitesEnum_STATUS_ARM("TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384")
+	CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA      = CipherSuitesEnum_STATUS_ARM("TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA")
+	CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256   = CipherSuitesEnum_STATUS_ARM("TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256")
+	CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256   = CipherSuitesEnum_STATUS_ARM("TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256")
+	CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA      = CipherSuitesEnum_STATUS_ARM("TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA")
+	CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384   = CipherSuitesEnum_STATUS_ARM("TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384")
+	CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384   = CipherSuitesEnum_STATUS_ARM("TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384")
+	CipherSuitesEnum_STATUS_ARM_TLS_RSA_WITH_3DES_EDE_CBC_SHA           = CipherSuitesEnum_STATUS_ARM("TLS_RSA_WITH_3DES_EDE_CBC_SHA")
+	CipherSuitesEnum_STATUS_ARM_TLS_RSA_WITH_AES_128_CBC_SHA            = CipherSuitesEnum_STATUS_ARM("TLS_RSA_WITH_AES_128_CBC_SHA")
+	CipherSuitesEnum_STATUS_ARM_TLS_RSA_WITH_AES_128_CBC_SHA256         = CipherSuitesEnum_STATUS_ARM("TLS_RSA_WITH_AES_128_CBC_SHA256")
+	CipherSuitesEnum_STATUS_ARM_TLS_RSA_WITH_AES_128_GCM_SHA256         = CipherSuitesEnum_STATUS_ARM("TLS_RSA_WITH_AES_128_GCM_SHA256")
+	CipherSuitesEnum_STATUS_ARM_TLS_RSA_WITH_AES_256_CBC_SHA            = CipherSuitesEnum_STATUS_ARM("TLS_RSA_WITH_AES_256_CBC_SHA")
+	CipherSuitesEnum_STATUS_ARM_TLS_RSA_WITH_AES_256_CBC_SHA256         = CipherSuitesEnum_STATUS_ARM("TLS_RSA_WITH_AES_256_CBC_SHA256")
+	CipherSuitesEnum_STATUS_ARM_TLS_RSA_WITH_AES_256_GCM_SHA384         = CipherSuitesEnum_STATUS_ARM("TLS_RSA_WITH_AES_256_GCM_SHA384")
+)
+
+// Mapping from string to CipherSuitesEnum_STATUS_ARM
+var cipherSuitesEnum_STATUS_ARM_Values = map[string]CipherSuitesEnum_STATUS_ARM{
+	"tls_dhe_dss_with_3des_ede_cbc_sha":       CipherSuitesEnum_STATUS_ARM_TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA,
+	"tls_dhe_dss_with_aes_128_cbc_sha":        CipherSuitesEnum_STATUS_ARM_TLS_DHE_DSS_WITH_AES_128_CBC_SHA,
+	"tls_dhe_dss_with_aes_128_cbc_sha256":     CipherSuitesEnum_STATUS_ARM_TLS_DHE_DSS_WITH_AES_128_CBC_SHA256,
+	"tls_dhe_dss_with_aes_256_cbc_sha":        CipherSuitesEnum_STATUS_ARM_TLS_DHE_DSS_WITH_AES_256_CBC_SHA,
+	"tls_dhe_dss_with_aes_256_cbc_sha256":     CipherSuitesEnum_STATUS_ARM_TLS_DHE_DSS_WITH_AES_256_CBC_SHA256,
+	"tls_dhe_rsa_with_aes_128_cbc_sha":        CipherSuitesEnum_STATUS_ARM_TLS_DHE_RSA_WITH_AES_128_CBC_SHA,
+	"tls_dhe_rsa_with_aes_128_gcm_sha256":     CipherSuitesEnum_STATUS_ARM_TLS_DHE_RSA_WITH_AES_128_GCM_SHA256,
+	"tls_dhe_rsa_with_aes_256_cbc_sha":        CipherSuitesEnum_STATUS_ARM_TLS_DHE_RSA_WITH_AES_256_CBC_SHA,
+	"tls_dhe_rsa_with_aes_256_gcm_sha384":     CipherSuitesEnum_STATUS_ARM_TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,
+	"tls_ecdhe_ecdsa_with_aes_128_cbc_sha":    CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,
+	"tls_ecdhe_ecdsa_with_aes_128_cbc_sha256": CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,
+	"tls_ecdhe_ecdsa_with_aes_128_gcm_sha256": CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+	"tls_ecdhe_ecdsa_with_aes_256_cbc_sha":    CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,
+	"tls_ecdhe_ecdsa_with_aes_256_cbc_sha384": CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384,
+	"tls_ecdhe_ecdsa_with_aes_256_gcm_sha384": CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
+	"tls_ecdhe_rsa_with_aes_128_cbc_sha":      CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,
+	"tls_ecdhe_rsa_with_aes_128_cbc_sha256":   CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,
+	"tls_ecdhe_rsa_with_aes_128_gcm_sha256":   CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+	"tls_ecdhe_rsa_with_aes_256_cbc_sha":      CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,
+	"tls_ecdhe_rsa_with_aes_256_cbc_sha384":   CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
+	"tls_ecdhe_rsa_with_aes_256_gcm_sha384":   CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
+	"tls_rsa_with_3des_ede_cbc_sha":           CipherSuitesEnum_STATUS_ARM_TLS_RSA_WITH_3DES_EDE_CBC_SHA,
+	"tls_rsa_with_aes_128_cbc_sha":            CipherSuitesEnum_STATUS_ARM_TLS_RSA_WITH_AES_128_CBC_SHA,
+	"tls_rsa_with_aes_128_cbc_sha256":         CipherSuitesEnum_STATUS_ARM_TLS_RSA_WITH_AES_128_CBC_SHA256,
+	"tls_rsa_with_aes_128_gcm_sha256":         CipherSuitesEnum_STATUS_ARM_TLS_RSA_WITH_AES_128_GCM_SHA256,
+	"tls_rsa_with_aes_256_cbc_sha":            CipherSuitesEnum_STATUS_ARM_TLS_RSA_WITH_AES_256_CBC_SHA,
+	"tls_rsa_with_aes_256_cbc_sha256":         CipherSuitesEnum_STATUS_ARM_TLS_RSA_WITH_AES_256_CBC_SHA256,
+	"tls_rsa_with_aes_256_gcm_sha384":         CipherSuitesEnum_STATUS_ARM_TLS_RSA_WITH_AES_256_GCM_SHA384,
+}
+
+// Ssl predefined policy name enums.
+type PolicyNameEnum_STATUS_ARM string
+
+const (
+	PolicyNameEnum_STATUS_ARM_AppGwSslPolicy20150501  = PolicyNameEnum_STATUS_ARM("AppGwSslPolicy20150501")
+	PolicyNameEnum_STATUS_ARM_AppGwSslPolicy20170401  = PolicyNameEnum_STATUS_ARM("AppGwSslPolicy20170401")
+	PolicyNameEnum_STATUS_ARM_AppGwSslPolicy20170401S = PolicyNameEnum_STATUS_ARM("AppGwSslPolicy20170401S")
+	PolicyNameEnum_STATUS_ARM_AppGwSslPolicy20220101  = PolicyNameEnum_STATUS_ARM("AppGwSslPolicy20220101")
+	PolicyNameEnum_STATUS_ARM_AppGwSslPolicy20220101S = PolicyNameEnum_STATUS_ARM("AppGwSslPolicy20220101S")
+)
+
+// Mapping from string to PolicyNameEnum_STATUS_ARM
+var policyNameEnum_STATUS_ARM_Values = map[string]PolicyNameEnum_STATUS_ARM{
+	"appgwsslpolicy20150501":  PolicyNameEnum_STATUS_ARM_AppGwSslPolicy20150501,
+	"appgwsslpolicy20170401":  PolicyNameEnum_STATUS_ARM_AppGwSslPolicy20170401,
+	"appgwsslpolicy20170401s": PolicyNameEnum_STATUS_ARM_AppGwSslPolicy20170401S,
+	"appgwsslpolicy20220101":  PolicyNameEnum_STATUS_ARM_AppGwSslPolicy20220101,
+	"appgwsslpolicy20220101s": PolicyNameEnum_STATUS_ARM_AppGwSslPolicy20220101S,
+}
+
+// Ssl protocol enums.
+type ProtocolsEnum_STATUS_ARM string
+
+const (
+	ProtocolsEnum_STATUS_ARM_TLSv1_0 = ProtocolsEnum_STATUS_ARM("TLSv1_0")
+	ProtocolsEnum_STATUS_ARM_TLSv1_1 = ProtocolsEnum_STATUS_ARM("TLSv1_1")
+	ProtocolsEnum_STATUS_ARM_TLSv1_2 = ProtocolsEnum_STATUS_ARM("TLSv1_2")
+	ProtocolsEnum_STATUS_ARM_TLSv1_3 = ProtocolsEnum_STATUS_ARM("TLSv1_3")
+)
+
+// Mapping from string to ProtocolsEnum_STATUS_ARM
+var protocolsEnum_STATUS_ARM_Values = map[string]ProtocolsEnum_STATUS_ARM{
+	"tlsv1_0": ProtocolsEnum_STATUS_ARM_TLSv1_0,
+	"tlsv1_1": ProtocolsEnum_STATUS_ARM_TLSv1_1,
+	"tlsv1_2": ProtocolsEnum_STATUS_ARM_TLSv1_2,
+	"tlsv1_3": ProtocolsEnum_STATUS_ARM_TLSv1_3,
 }

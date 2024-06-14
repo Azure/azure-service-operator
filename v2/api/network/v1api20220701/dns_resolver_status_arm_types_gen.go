@@ -35,15 +35,28 @@ type DnsResolver_STATUS_ARM struct {
 type DnsResolverProperties_STATUS_ARM struct {
 	// DnsResolverState: The current status of the DNS resolver. This is a read-only property and any attempt to set this value
 	// will be ignored.
-	DnsResolverState *DnsResolverProperties_DnsResolverState_STATUS `json:"dnsResolverState,omitempty"`
+	DnsResolverState *DnsResolverProperties_DnsResolverState_STATUS_ARM `json:"dnsResolverState,omitempty"`
 
 	// ProvisioningState: The current provisioning state of the DNS resolver. This is a read-only property and any attempt to
 	// set this value will be ignored.
-	ProvisioningState *DnsresolverProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *DnsresolverProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// ResourceGuid: The resourceGuid property of the DNS resolver resource.
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
 
 	// VirtualNetwork: The reference to the virtual network. This cannot be changed after creation.
 	VirtualNetwork *DnsresolverSubResource_STATUS_ARM `json:"virtualNetwork,omitempty"`
+}
+
+type DnsResolverProperties_DnsResolverState_STATUS_ARM string
+
+const (
+	DnsResolverProperties_DnsResolverState_STATUS_ARM_Connected    = DnsResolverProperties_DnsResolverState_STATUS_ARM("Connected")
+	DnsResolverProperties_DnsResolverState_STATUS_ARM_Disconnected = DnsResolverProperties_DnsResolverState_STATUS_ARM("Disconnected")
+)
+
+// Mapping from string to DnsResolverProperties_DnsResolverState_STATUS_ARM
+var dnsResolverProperties_DnsResolverState_STATUS_ARM_Values = map[string]DnsResolverProperties_DnsResolverState_STATUS_ARM{
+	"connected":    DnsResolverProperties_DnsResolverState_STATUS_ARM_Connected,
+	"disconnected": DnsResolverProperties_DnsResolverState_STATUS_ARM_Disconnected,
 }

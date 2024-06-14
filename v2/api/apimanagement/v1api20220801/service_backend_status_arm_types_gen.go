@@ -30,7 +30,7 @@ type BackendContractProperties_STATUS_ARM struct {
 	Properties *BackendProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Protocol: Backend communication protocol.
-	Protocol *BackendContractProperties_Protocol_STATUS `json:"protocol,omitempty"`
+	Protocol *BackendContractProperties_Protocol_STATUS_ARM `json:"protocol,omitempty"`
 
 	// Proxy: Backend gateway Contract Properties
 	Proxy *BackendProxyContract_STATUS_ARM `json:"proxy,omitempty"`
@@ -47,6 +47,19 @@ type BackendContractProperties_STATUS_ARM struct {
 
 	// Url: Runtime Url of the Backend.
 	Url *string `json:"url,omitempty"`
+}
+
+type BackendContractProperties_Protocol_STATUS_ARM string
+
+const (
+	BackendContractProperties_Protocol_STATUS_ARM_Http = BackendContractProperties_Protocol_STATUS_ARM("http")
+	BackendContractProperties_Protocol_STATUS_ARM_Soap = BackendContractProperties_Protocol_STATUS_ARM("soap")
+)
+
+// Mapping from string to BackendContractProperties_Protocol_STATUS_ARM
+var backendContractProperties_Protocol_STATUS_ARM_Values = map[string]BackendContractProperties_Protocol_STATUS_ARM{
+	"http": BackendContractProperties_Protocol_STATUS_ARM_Http,
+	"soap": BackendContractProperties_Protocol_STATUS_ARM_Soap,
 }
 
 // Details of the Credentials used to connect to Backend.

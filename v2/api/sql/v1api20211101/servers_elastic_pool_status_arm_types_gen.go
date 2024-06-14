@@ -45,7 +45,7 @@ type ElasticPoolProperties_STATUS_ARM struct {
 	HighAvailabilityReplicaCount *int `json:"highAvailabilityReplicaCount,omitempty"`
 
 	// LicenseType: The license type to apply for this elastic pool.
-	LicenseType *ElasticPoolProperties_LicenseType_STATUS `json:"licenseType,omitempty"`
+	LicenseType *ElasticPoolProperties_LicenseType_STATUS_ARM `json:"licenseType,omitempty"`
 
 	// MaintenanceConfigurationId: Maintenance configuration id assigned to the elastic pool. This configuration defines the
 	// period when the maintenance updates will will occur.
@@ -61,7 +61,7 @@ type ElasticPoolProperties_STATUS_ARM struct {
 	PerDatabaseSettings *ElasticPoolPerDatabaseSettings_STATUS_ARM `json:"perDatabaseSettings,omitempty"`
 
 	// State: The state of the elastic pool.
-	State *ElasticPoolProperties_State_STATUS `json:"state,omitempty"`
+	State *ElasticPoolProperties_State_STATUS_ARM `json:"state,omitempty"`
 
 	// ZoneRedundant: Whether or not this elastic pool is zone redundant, which means the replicas of this elastic pool will be
 	// spread across multiple availability zones.
@@ -75,4 +75,32 @@ type ElasticPoolPerDatabaseSettings_STATUS_ARM struct {
 
 	// MinCapacity: The minimum capacity all databases are guaranteed.
 	MinCapacity *float64 `json:"minCapacity,omitempty"`
+}
+
+type ElasticPoolProperties_LicenseType_STATUS_ARM string
+
+const (
+	ElasticPoolProperties_LicenseType_STATUS_ARM_BasePrice       = ElasticPoolProperties_LicenseType_STATUS_ARM("BasePrice")
+	ElasticPoolProperties_LicenseType_STATUS_ARM_LicenseIncluded = ElasticPoolProperties_LicenseType_STATUS_ARM("LicenseIncluded")
+)
+
+// Mapping from string to ElasticPoolProperties_LicenseType_STATUS_ARM
+var elasticPoolProperties_LicenseType_STATUS_ARM_Values = map[string]ElasticPoolProperties_LicenseType_STATUS_ARM{
+	"baseprice":       ElasticPoolProperties_LicenseType_STATUS_ARM_BasePrice,
+	"licenseincluded": ElasticPoolProperties_LicenseType_STATUS_ARM_LicenseIncluded,
+}
+
+type ElasticPoolProperties_State_STATUS_ARM string
+
+const (
+	ElasticPoolProperties_State_STATUS_ARM_Creating = ElasticPoolProperties_State_STATUS_ARM("Creating")
+	ElasticPoolProperties_State_STATUS_ARM_Disabled = ElasticPoolProperties_State_STATUS_ARM("Disabled")
+	ElasticPoolProperties_State_STATUS_ARM_Ready    = ElasticPoolProperties_State_STATUS_ARM("Ready")
+)
+
+// Mapping from string to ElasticPoolProperties_State_STATUS_ARM
+var elasticPoolProperties_State_STATUS_ARM_Values = map[string]ElasticPoolProperties_State_STATUS_ARM{
+	"creating": ElasticPoolProperties_State_STATUS_ARM_Creating,
+	"disabled": ElasticPoolProperties_State_STATUS_ARM_Disabled,
+	"ready":    ElasticPoolProperties_State_STATUS_ARM_Ready,
 }

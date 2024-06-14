@@ -46,7 +46,7 @@ func (store *ConfigurationStore_Spec_ARM) GetType() string {
 // The properties of a configuration store.
 type ConfigurationStoreProperties_ARM struct {
 	// CreateMode: Indicates whether the configuration store need to be recovered.
-	CreateMode *ConfigurationStoreProperties_CreateMode `json:"createMode,omitempty"`
+	CreateMode *ConfigurationStoreProperties_CreateMode_ARM `json:"createMode,omitempty"`
 
 	// DisableLocalAuth: Disables all authentication methods other than AAD authentication.
 	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
@@ -59,7 +59,7 @@ type ConfigurationStoreProperties_ARM struct {
 
 	// PublicNetworkAccess: Control permission for data plane traffic coming from public networks while private endpoint is
 	// enabled.
-	PublicNetworkAccess *ConfigurationStoreProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *ConfigurationStoreProperties_PublicNetworkAccess_ARM `json:"publicNetworkAccess,omitempty"`
 
 	// SoftDeleteRetentionInDays: The amount of time in days that the configuration store will be retained when it is soft
 	// deleted.
@@ -70,7 +70,7 @@ type ConfigurationStoreProperties_ARM struct {
 type ResourceIdentity_ARM struct {
 	// Type: The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created
 	// identity and a set of user-assigned identities. The type 'None' will remove any identities.
-	Type                   *ResourceIdentity_Type                     `json:"type,omitempty"`
+	Type                   *ResourceIdentity_Type_ARM                 `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -89,7 +89,7 @@ type SystemData_ARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_CreatedByType_ARM `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -98,7 +98,35 @@ type SystemData_ARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType_ARM `json:"lastModifiedByType,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Default","Recover"}
+type ConfigurationStoreProperties_CreateMode_ARM string
+
+const (
+	ConfigurationStoreProperties_CreateMode_ARM_Default = ConfigurationStoreProperties_CreateMode_ARM("Default")
+	ConfigurationStoreProperties_CreateMode_ARM_Recover = ConfigurationStoreProperties_CreateMode_ARM("Recover")
+)
+
+// Mapping from string to ConfigurationStoreProperties_CreateMode_ARM
+var configurationStoreProperties_CreateMode_ARM_Values = map[string]ConfigurationStoreProperties_CreateMode_ARM{
+	"default": ConfigurationStoreProperties_CreateMode_ARM_Default,
+	"recover": ConfigurationStoreProperties_CreateMode_ARM_Recover,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type ConfigurationStoreProperties_PublicNetworkAccess_ARM string
+
+const (
+	ConfigurationStoreProperties_PublicNetworkAccess_ARM_Disabled = ConfigurationStoreProperties_PublicNetworkAccess_ARM("Disabled")
+	ConfigurationStoreProperties_PublicNetworkAccess_ARM_Enabled  = ConfigurationStoreProperties_PublicNetworkAccess_ARM("Enabled")
+)
+
+// Mapping from string to ConfigurationStoreProperties_PublicNetworkAccess_ARM
+var configurationStoreProperties_PublicNetworkAccess_ARM_Values = map[string]ConfigurationStoreProperties_PublicNetworkAccess_ARM{
+	"disabled": ConfigurationStoreProperties_PublicNetworkAccess_ARM_Disabled,
+	"enabled":  ConfigurationStoreProperties_PublicNetworkAccess_ARM_Enabled,
 }
 
 // The encryption settings for a configuration store.
@@ -108,57 +136,57 @@ type EncryptionProperties_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
-type ResourceIdentity_Type string
+type ResourceIdentity_Type_ARM string
 
 const (
-	ResourceIdentity_Type_None                       = ResourceIdentity_Type("None")
-	ResourceIdentity_Type_SystemAssigned             = ResourceIdentity_Type("SystemAssigned")
-	ResourceIdentity_Type_SystemAssignedUserAssigned = ResourceIdentity_Type("SystemAssigned, UserAssigned")
-	ResourceIdentity_Type_UserAssigned               = ResourceIdentity_Type("UserAssigned")
+	ResourceIdentity_Type_ARM_None                       = ResourceIdentity_Type_ARM("None")
+	ResourceIdentity_Type_ARM_SystemAssigned             = ResourceIdentity_Type_ARM("SystemAssigned")
+	ResourceIdentity_Type_ARM_SystemAssignedUserAssigned = ResourceIdentity_Type_ARM("SystemAssigned, UserAssigned")
+	ResourceIdentity_Type_ARM_UserAssigned               = ResourceIdentity_Type_ARM("UserAssigned")
 )
 
-// Mapping from string to ResourceIdentity_Type
-var resourceIdentity_Type_Values = map[string]ResourceIdentity_Type{
-	"none":                         ResourceIdentity_Type_None,
-	"systemassigned":               ResourceIdentity_Type_SystemAssigned,
-	"systemassigned, userassigned": ResourceIdentity_Type_SystemAssignedUserAssigned,
-	"userassigned":                 ResourceIdentity_Type_UserAssigned,
+// Mapping from string to ResourceIdentity_Type_ARM
+var resourceIdentity_Type_ARM_Values = map[string]ResourceIdentity_Type_ARM{
+	"none":                         ResourceIdentity_Type_ARM_None,
+	"systemassigned":               ResourceIdentity_Type_ARM_SystemAssigned,
+	"systemassigned, userassigned": ResourceIdentity_Type_ARM_SystemAssignedUserAssigned,
+	"userassigned":                 ResourceIdentity_Type_ARM_UserAssigned,
 }
 
 // +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
-type SystemData_CreatedByType string
+type SystemData_CreatedByType_ARM string
 
 const (
-	SystemData_CreatedByType_Application     = SystemData_CreatedByType("Application")
-	SystemData_CreatedByType_Key             = SystemData_CreatedByType("Key")
-	SystemData_CreatedByType_ManagedIdentity = SystemData_CreatedByType("ManagedIdentity")
-	SystemData_CreatedByType_User            = SystemData_CreatedByType("User")
+	SystemData_CreatedByType_ARM_Application     = SystemData_CreatedByType_ARM("Application")
+	SystemData_CreatedByType_ARM_Key             = SystemData_CreatedByType_ARM("Key")
+	SystemData_CreatedByType_ARM_ManagedIdentity = SystemData_CreatedByType_ARM("ManagedIdentity")
+	SystemData_CreatedByType_ARM_User            = SystemData_CreatedByType_ARM("User")
 )
 
-// Mapping from string to SystemData_CreatedByType
-var systemData_CreatedByType_Values = map[string]SystemData_CreatedByType{
-	"application":     SystemData_CreatedByType_Application,
-	"key":             SystemData_CreatedByType_Key,
-	"managedidentity": SystemData_CreatedByType_ManagedIdentity,
-	"user":            SystemData_CreatedByType_User,
+// Mapping from string to SystemData_CreatedByType_ARM
+var systemData_CreatedByType_ARM_Values = map[string]SystemData_CreatedByType_ARM{
+	"application":     SystemData_CreatedByType_ARM_Application,
+	"key":             SystemData_CreatedByType_ARM_Key,
+	"managedidentity": SystemData_CreatedByType_ARM_ManagedIdentity,
+	"user":            SystemData_CreatedByType_ARM_User,
 }
 
 // +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
-type SystemData_LastModifiedByType string
+type SystemData_LastModifiedByType_ARM string
 
 const (
-	SystemData_LastModifiedByType_Application     = SystemData_LastModifiedByType("Application")
-	SystemData_LastModifiedByType_Key             = SystemData_LastModifiedByType("Key")
-	SystemData_LastModifiedByType_ManagedIdentity = SystemData_LastModifiedByType("ManagedIdentity")
-	SystemData_LastModifiedByType_User            = SystemData_LastModifiedByType("User")
+	SystemData_LastModifiedByType_ARM_Application     = SystemData_LastModifiedByType_ARM("Application")
+	SystemData_LastModifiedByType_ARM_Key             = SystemData_LastModifiedByType_ARM("Key")
+	SystemData_LastModifiedByType_ARM_ManagedIdentity = SystemData_LastModifiedByType_ARM("ManagedIdentity")
+	SystemData_LastModifiedByType_ARM_User            = SystemData_LastModifiedByType_ARM("User")
 )
 
-// Mapping from string to SystemData_LastModifiedByType
-var systemData_LastModifiedByType_Values = map[string]SystemData_LastModifiedByType{
-	"application":     SystemData_LastModifiedByType_Application,
-	"key":             SystemData_LastModifiedByType_Key,
-	"managedidentity": SystemData_LastModifiedByType_ManagedIdentity,
-	"user":            SystemData_LastModifiedByType_User,
+// Mapping from string to SystemData_LastModifiedByType_ARM
+var systemData_LastModifiedByType_ARM_Values = map[string]SystemData_LastModifiedByType_ARM{
+	"application":     SystemData_LastModifiedByType_ARM_Application,
+	"key":             SystemData_LastModifiedByType_ARM_Key,
+	"managedidentity": SystemData_LastModifiedByType_ARM_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_ARM_User,
 }
 
 // Information about the user assigned identity for the resource

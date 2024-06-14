@@ -371,7 +371,9 @@ func (configuration *FlexibleServers_Configuration_Spec) ConvertToARM(resolved g
 		result.Properties.CurrentValue = &currentValue
 	}
 	if configuration.Source != nil {
-		source := *configuration.Source
+		var temp string
+		temp = string(*configuration.Source)
+		source := ConfigurationProperties_Source_ARM(temp)
 		result.Properties.Source = &source
 	}
 	if configuration.Value != nil {
@@ -415,7 +417,9 @@ func (configuration *FlexibleServers_Configuration_Spec) PopulateFromARM(owner g
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Source != nil {
-			source := *typedInput.Properties.Source
+			var temp string
+			temp = string(*typedInput.Properties.Source)
+			source := ConfigurationProperties_Source(temp)
 			configuration.Source = &source
 		}
 	}
@@ -751,7 +755,9 @@ func (configuration *FlexibleServers_Configuration_STATUS) PopulateFromARM(owner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsConfigPendingRestart != nil {
-			isConfigPendingRestart := *typedInput.Properties.IsConfigPendingRestart
+			var temp string
+			temp = string(*typedInput.Properties.IsConfigPendingRestart)
+			isConfigPendingRestart := ConfigurationProperties_IsConfigPendingRestart_STATUS(temp)
 			configuration.IsConfigPendingRestart = &isConfigPendingRestart
 		}
 	}
@@ -760,7 +766,9 @@ func (configuration *FlexibleServers_Configuration_STATUS) PopulateFromARM(owner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsDynamicConfig != nil {
-			isDynamicConfig := *typedInput.Properties.IsDynamicConfig
+			var temp string
+			temp = string(*typedInput.Properties.IsDynamicConfig)
+			isDynamicConfig := ConfigurationProperties_IsDynamicConfig_STATUS(temp)
 			configuration.IsDynamicConfig = &isDynamicConfig
 		}
 	}
@@ -769,7 +777,9 @@ func (configuration *FlexibleServers_Configuration_STATUS) PopulateFromARM(owner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsReadOnly != nil {
-			isReadOnly := *typedInput.Properties.IsReadOnly
+			var temp string
+			temp = string(*typedInput.Properties.IsReadOnly)
+			isReadOnly := ConfigurationProperties_IsReadOnly_STATUS(temp)
 			configuration.IsReadOnly = &isReadOnly
 		}
 	}
@@ -784,7 +794,9 @@ func (configuration *FlexibleServers_Configuration_STATUS) PopulateFromARM(owner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Source != nil {
-			source := *typedInput.Properties.Source
+			var temp string
+			temp = string(*typedInput.Properties.Source)
+			source := ConfigurationProperties_Source_STATUS(temp)
 			configuration.Source = &source
 		}
 	}

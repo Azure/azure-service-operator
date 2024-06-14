@@ -927,7 +927,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "CreatedByType":
 	if typedInput.CreatedByType != nil {
-		createdByType := *typedInput.CreatedByType
+		var temp string
+		temp = string(*typedInput.CreatedByType)
+		createdByType := IdentityType_STATUS(temp)
 		data.CreatedByType = &createdByType
 	}
 
@@ -945,7 +947,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "LastModifiedByType":
 	if typedInput.LastModifiedByType != nil {
-		lastModifiedByType := *typedInput.LastModifiedByType
+		var temp string
+		temp = string(*typedInput.LastModifiedByType)
+		lastModifiedByType := IdentityType_STATUS(temp)
 		data.LastModifiedByType = &lastModifiedByType
 	}
 
@@ -1125,7 +1129,9 @@ func (properties *VaultProperties) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "CreateMode":
 	if properties.CreateMode != nil {
-		createMode := *properties.CreateMode
+		var temp string
+		temp = string(*properties.CreateMode)
+		createMode := VaultProperties_CreateMode_ARM(temp)
 		result.CreateMode = &createMode
 	}
 
@@ -1177,7 +1183,9 @@ func (properties *VaultProperties) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "ProvisioningState":
 	if properties.ProvisioningState != nil {
-		provisioningState := *properties.ProvisioningState
+		var temp string
+		temp = string(*properties.ProvisioningState)
+		provisioningState := VaultProperties_ProvisioningState_ARM(temp)
 		result.ProvisioningState = &provisioningState
 	}
 
@@ -1249,7 +1257,9 @@ func (properties *VaultProperties) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property "CreateMode":
 	if typedInput.CreateMode != nil {
-		createMode := *typedInput.CreateMode
+		var temp string
+		temp = string(*typedInput.CreateMode)
+		createMode := VaultProperties_CreateMode(temp)
 		properties.CreateMode = &createMode
 	}
 
@@ -1302,7 +1312,9 @@ func (properties *VaultProperties) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property "ProvisioningState":
 	if typedInput.ProvisioningState != nil {
-		provisioningState := *typedInput.ProvisioningState
+		var temp string
+		temp = string(*typedInput.ProvisioningState)
+		provisioningState := VaultProperties_ProvisioningState(temp)
 		properties.ProvisioningState = &provisioningState
 	}
 
@@ -1861,7 +1873,9 @@ func (properties *VaultProperties_STATUS) PopulateFromARM(owner genruntime.Arbit
 
 	// Set property "CreateMode":
 	if typedInput.CreateMode != nil {
-		createMode := *typedInput.CreateMode
+		var temp string
+		temp = string(*typedInput.CreateMode)
+		createMode := VaultProperties_CreateMode_STATUS(temp)
 		properties.CreateMode = &createMode
 	}
 
@@ -1930,7 +1944,9 @@ func (properties *VaultProperties_STATUS) PopulateFromARM(owner genruntime.Arbit
 
 	// Set property "ProvisioningState":
 	if typedInput.ProvisioningState != nil {
-		provisioningState := *typedInput.ProvisioningState
+		var temp string
+		temp = string(*typedInput.ProvisioningState)
+		provisioningState := VaultProperties_ProvisioningState_STATUS(temp)
 		properties.ProvisioningState = &provisioningState
 	}
 
@@ -2721,6 +2737,24 @@ func (entry *AccessPolicyEntry_STATUS) AssignProperties_To_AccessPolicyEntry_STA
 	return nil
 }
 
+// The type of identity.
+type IdentityType_STATUS string
+
+const (
+	IdentityType_STATUS_Application     = IdentityType_STATUS("Application")
+	IdentityType_STATUS_Key             = IdentityType_STATUS("Key")
+	IdentityType_STATUS_ManagedIdentity = IdentityType_STATUS("ManagedIdentity")
+	IdentityType_STATUS_User            = IdentityType_STATUS("User")
+)
+
+// Mapping from string to IdentityType_STATUS
+var identityType_STATUS_Values = map[string]IdentityType_STATUS{
+	"application":     IdentityType_STATUS_Application,
+	"key":             IdentityType_STATUS_Key,
+	"managedidentity": IdentityType_STATUS_ManagedIdentity,
+	"user":            IdentityType_STATUS_User,
+}
+
 // A set of rules governing the network accessibility of a vault.
 type NetworkRuleSet struct {
 	// Bypass: Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'.  If not specified the
@@ -2749,13 +2783,17 @@ func (ruleSet *NetworkRuleSet) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "Bypass":
 	if ruleSet.Bypass != nil {
-		bypass := *ruleSet.Bypass
+		var temp string
+		temp = string(*ruleSet.Bypass)
+		bypass := NetworkRuleSet_Bypass_ARM(temp)
 		result.Bypass = &bypass
 	}
 
 	// Set property "DefaultAction":
 	if ruleSet.DefaultAction != nil {
-		defaultAction := *ruleSet.DefaultAction
+		var temp string
+		temp = string(*ruleSet.DefaultAction)
+		defaultAction := NetworkRuleSet_DefaultAction_ARM(temp)
 		result.DefaultAction = &defaultAction
 	}
 
@@ -2793,13 +2831,17 @@ func (ruleSet *NetworkRuleSet) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "Bypass":
 	if typedInput.Bypass != nil {
-		bypass := *typedInput.Bypass
+		var temp string
+		temp = string(*typedInput.Bypass)
+		bypass := NetworkRuleSet_Bypass(temp)
 		ruleSet.Bypass = &bypass
 	}
 
 	// Set property "DefaultAction":
 	if typedInput.DefaultAction != nil {
-		defaultAction := *typedInput.DefaultAction
+		var temp string
+		temp = string(*typedInput.DefaultAction)
+		defaultAction := NetworkRuleSet_DefaultAction(temp)
 		ruleSet.DefaultAction = &defaultAction
 	}
 
@@ -3048,13 +3090,17 @@ func (ruleSet *NetworkRuleSet_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property "Bypass":
 	if typedInput.Bypass != nil {
-		bypass := *typedInput.Bypass
+		var temp string
+		temp = string(*typedInput.Bypass)
+		bypass := NetworkRuleSet_Bypass_STATUS(temp)
 		ruleSet.Bypass = &bypass
 	}
 
 	// Set property "DefaultAction":
 	if typedInput.DefaultAction != nil {
-		defaultAction := *typedInput.DefaultAction
+		var temp string
+		temp = string(*typedInput.DefaultAction)
+		defaultAction := NetworkRuleSet_DefaultAction_STATUS(temp)
 		ruleSet.DefaultAction = &defaultAction
 	}
 
@@ -3287,7 +3333,9 @@ func (item *PrivateEndpointConnectionItem_STATUS) PopulateFromARM(owner genrunti
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := PrivateEndpointConnectionProvisioningState_STATUS(temp)
 			item.ProvisioningState = &provisioningState
 		}
 	}
@@ -3418,13 +3466,17 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 
 	// Set property "Family":
 	if sku.Family != nil {
-		family := *sku.Family
+		var temp string
+		temp = string(*sku.Family)
+		family := Sku_Family_ARM(temp)
 		result.Family = &family
 	}
 
 	// Set property "Name":
 	if sku.Name != nil {
-		name := *sku.Name
+		var temp string
+		temp = string(*sku.Name)
+		name := Sku_Name_ARM(temp)
 		result.Name = &name
 	}
 	return result, nil
@@ -3444,13 +3496,17 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 
 	// Set property "Family":
 	if typedInput.Family != nil {
-		family := *typedInput.Family
+		var temp string
+		temp = string(*typedInput.Family)
+		family := Sku_Family(temp)
 		sku.Family = &family
 	}
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := Sku_Name(temp)
 		sku.Name = &name
 	}
 
@@ -3563,13 +3619,17 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 
 	// Set property "Family":
 	if typedInput.Family != nil {
-		family := *typedInput.Family
+		var temp string
+		temp = string(*typedInput.Family)
+		family := Sku_Family_STATUS(temp)
 		sku.Family = &family
 	}
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := Sku_Name_STATUS(temp)
 		sku.Name = &name
 	}
 
@@ -3632,6 +3692,68 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *storage.Sku_S
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"createOrRecover","default","purgeThenCreate","recover"}
+type VaultProperties_CreateMode string
+
+const (
+	VaultProperties_CreateMode_CreateOrRecover = VaultProperties_CreateMode("createOrRecover")
+	VaultProperties_CreateMode_Default         = VaultProperties_CreateMode("default")
+	VaultProperties_CreateMode_PurgeThenCreate = VaultProperties_CreateMode("purgeThenCreate")
+	VaultProperties_CreateMode_Recover         = VaultProperties_CreateMode("recover")
+)
+
+// Mapping from string to VaultProperties_CreateMode
+var vaultProperties_CreateMode_Values = map[string]VaultProperties_CreateMode{
+	"createorrecover": VaultProperties_CreateMode_CreateOrRecover,
+	"default":         VaultProperties_CreateMode_Default,
+	"purgethencreate": VaultProperties_CreateMode_PurgeThenCreate,
+	"recover":         VaultProperties_CreateMode_Recover,
+}
+
+type VaultProperties_CreateMode_STATUS string
+
+const (
+	VaultProperties_CreateMode_STATUS_CreateOrRecover = VaultProperties_CreateMode_STATUS("createOrRecover")
+	VaultProperties_CreateMode_STATUS_Default         = VaultProperties_CreateMode_STATUS("default")
+	VaultProperties_CreateMode_STATUS_PurgeThenCreate = VaultProperties_CreateMode_STATUS("purgeThenCreate")
+	VaultProperties_CreateMode_STATUS_Recover         = VaultProperties_CreateMode_STATUS("recover")
+)
+
+// Mapping from string to VaultProperties_CreateMode_STATUS
+var vaultProperties_CreateMode_STATUS_Values = map[string]VaultProperties_CreateMode_STATUS{
+	"createorrecover": VaultProperties_CreateMode_STATUS_CreateOrRecover,
+	"default":         VaultProperties_CreateMode_STATUS_Default,
+	"purgethencreate": VaultProperties_CreateMode_STATUS_PurgeThenCreate,
+	"recover":         VaultProperties_CreateMode_STATUS_Recover,
+}
+
+// +kubebuilder:validation:Enum={"RegisteringDns","Succeeded"}
+type VaultProperties_ProvisioningState string
+
+const (
+	VaultProperties_ProvisioningState_RegisteringDns = VaultProperties_ProvisioningState("RegisteringDns")
+	VaultProperties_ProvisioningState_Succeeded      = VaultProperties_ProvisioningState("Succeeded")
+)
+
+// Mapping from string to VaultProperties_ProvisioningState
+var vaultProperties_ProvisioningState_Values = map[string]VaultProperties_ProvisioningState{
+	"registeringdns": VaultProperties_ProvisioningState_RegisteringDns,
+	"succeeded":      VaultProperties_ProvisioningState_Succeeded,
+}
+
+type VaultProperties_ProvisioningState_STATUS string
+
+const (
+	VaultProperties_ProvisioningState_STATUS_RegisteringDns = VaultProperties_ProvisioningState_STATUS("RegisteringDns")
+	VaultProperties_ProvisioningState_STATUS_Succeeded      = VaultProperties_ProvisioningState_STATUS("Succeeded")
+)
+
+// Mapping from string to VaultProperties_ProvisioningState_STATUS
+var vaultProperties_ProvisioningState_STATUS_Values = map[string]VaultProperties_ProvisioningState_STATUS{
+	"registeringdns": VaultProperties_ProvisioningState_STATUS_RegisteringDns,
+	"succeeded":      VaultProperties_ProvisioningState_STATUS_Succeeded,
 }
 
 // A rule governing the accessibility of a vault from a specific ip address or ip range.
@@ -3780,6 +3902,60 @@ func (rule *IPRule_STATUS) AssignProperties_To_IPRule_STATUS(destination *storag
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"AzureServices","None"}
+type NetworkRuleSet_Bypass string
+
+const (
+	NetworkRuleSet_Bypass_AzureServices = NetworkRuleSet_Bypass("AzureServices")
+	NetworkRuleSet_Bypass_None          = NetworkRuleSet_Bypass("None")
+)
+
+// Mapping from string to NetworkRuleSet_Bypass
+var networkRuleSet_Bypass_Values = map[string]NetworkRuleSet_Bypass{
+	"azureservices": NetworkRuleSet_Bypass_AzureServices,
+	"none":          NetworkRuleSet_Bypass_None,
+}
+
+type NetworkRuleSet_Bypass_STATUS string
+
+const (
+	NetworkRuleSet_Bypass_STATUS_AzureServices = NetworkRuleSet_Bypass_STATUS("AzureServices")
+	NetworkRuleSet_Bypass_STATUS_None          = NetworkRuleSet_Bypass_STATUS("None")
+)
+
+// Mapping from string to NetworkRuleSet_Bypass_STATUS
+var networkRuleSet_Bypass_STATUS_Values = map[string]NetworkRuleSet_Bypass_STATUS{
+	"azureservices": NetworkRuleSet_Bypass_STATUS_AzureServices,
+	"none":          NetworkRuleSet_Bypass_STATUS_None,
+}
+
+// +kubebuilder:validation:Enum={"Allow","Deny"}
+type NetworkRuleSet_DefaultAction string
+
+const (
+	NetworkRuleSet_DefaultAction_Allow = NetworkRuleSet_DefaultAction("Allow")
+	NetworkRuleSet_DefaultAction_Deny  = NetworkRuleSet_DefaultAction("Deny")
+)
+
+// Mapping from string to NetworkRuleSet_DefaultAction
+var networkRuleSet_DefaultAction_Values = map[string]NetworkRuleSet_DefaultAction{
+	"allow": NetworkRuleSet_DefaultAction_Allow,
+	"deny":  NetworkRuleSet_DefaultAction_Deny,
+}
+
+type NetworkRuleSet_DefaultAction_STATUS string
+
+const (
+	NetworkRuleSet_DefaultAction_STATUS_Allow = NetworkRuleSet_DefaultAction_STATUS("Allow")
+	NetworkRuleSet_DefaultAction_STATUS_Deny  = NetworkRuleSet_DefaultAction_STATUS("Deny")
+)
+
+// Mapping from string to NetworkRuleSet_DefaultAction_STATUS
+var networkRuleSet_DefaultAction_STATUS_Values = map[string]NetworkRuleSet_DefaultAction_STATUS{
+	"allow": NetworkRuleSet_DefaultAction_STATUS_Allow,
+	"deny":  NetworkRuleSet_DefaultAction_STATUS_Deny,
+}
+
 // Permissions the identity has for keys, secrets, certificates and storage.
 type Permissions struct {
 	// Certificates: Permissions to certificates
@@ -3806,22 +3982,30 @@ func (permissions *Permissions) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "Certificates":
 	for _, item := range permissions.Certificates {
-		result.Certificates = append(result.Certificates, item)
+		var temp string
+		temp = string(item)
+		result.Certificates = append(result.Certificates, Permissions_Certificates_ARM(temp))
 	}
 
 	// Set property "Keys":
 	for _, item := range permissions.Keys {
-		result.Keys = append(result.Keys, item)
+		var temp string
+		temp = string(item)
+		result.Keys = append(result.Keys, Permissions_Keys_ARM(temp))
 	}
 
 	// Set property "Secrets":
 	for _, item := range permissions.Secrets {
-		result.Secrets = append(result.Secrets, item)
+		var temp string
+		temp = string(item)
+		result.Secrets = append(result.Secrets, Permissions_Secrets_ARM(temp))
 	}
 
 	// Set property "Storage":
 	for _, item := range permissions.Storage {
-		result.Storage = append(result.Storage, item)
+		var temp string
+		temp = string(item)
+		result.Storage = append(result.Storage, Permissions_Storage_ARM(temp))
 	}
 	return result, nil
 }
@@ -3840,22 +4024,30 @@ func (permissions *Permissions) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 
 	// Set property "Certificates":
 	for _, item := range typedInput.Certificates {
-		permissions.Certificates = append(permissions.Certificates, item)
+		var temp string
+		temp = string(item)
+		permissions.Certificates = append(permissions.Certificates, Permissions_Certificates(temp))
 	}
 
 	// Set property "Keys":
 	for _, item := range typedInput.Keys {
-		permissions.Keys = append(permissions.Keys, item)
+		var temp string
+		temp = string(item)
+		permissions.Keys = append(permissions.Keys, Permissions_Keys(temp))
 	}
 
 	// Set property "Secrets":
 	for _, item := range typedInput.Secrets {
-		permissions.Secrets = append(permissions.Secrets, item)
+		var temp string
+		temp = string(item)
+		permissions.Secrets = append(permissions.Secrets, Permissions_Secrets(temp))
 	}
 
 	// Set property "Storage":
 	for _, item := range typedInput.Storage {
-		permissions.Storage = append(permissions.Storage, item)
+		var temp string
+		temp = string(item)
+		permissions.Storage = append(permissions.Storage, Permissions_Storage(temp))
 	}
 
 	// No error
@@ -4083,22 +4275,30 @@ func (permissions *Permissions_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property "Certificates":
 	for _, item := range typedInput.Certificates {
-		permissions.Certificates = append(permissions.Certificates, item)
+		var temp string
+		temp = string(item)
+		permissions.Certificates = append(permissions.Certificates, Permissions_Certificates_STATUS(temp))
 	}
 
 	// Set property "Keys":
 	for _, item := range typedInput.Keys {
-		permissions.Keys = append(permissions.Keys, item)
+		var temp string
+		temp = string(item)
+		permissions.Keys = append(permissions.Keys, Permissions_Keys_STATUS(temp))
 	}
 
 	// Set property "Secrets":
 	for _, item := range typedInput.Secrets {
-		permissions.Secrets = append(permissions.Secrets, item)
+		var temp string
+		temp = string(item)
+		permissions.Secrets = append(permissions.Secrets, Permissions_Secrets_STATUS(temp))
 	}
 
 	// Set property "Storage":
 	for _, item := range typedInput.Storage {
-		permissions.Storage = append(permissions.Storage, item)
+		var temp string
+		temp = string(item)
+		permissions.Storage = append(permissions.Storage, Permissions_Storage_STATUS(temp))
 	}
 
 	// No error
@@ -4341,7 +4541,9 @@ func (state *PrivateLinkServiceConnectionState_STATUS) PopulateFromARM(owner gen
 
 	// Set property "ActionsRequired":
 	if typedInput.ActionsRequired != nil {
-		actionsRequired := *typedInput.ActionsRequired
+		var temp string
+		temp = string(*typedInput.ActionsRequired)
+		actionsRequired := PrivateLinkServiceConnectionState_ActionsRequired_STATUS(temp)
 		state.ActionsRequired = &actionsRequired
 	}
 
@@ -4353,7 +4555,9 @@ func (state *PrivateLinkServiceConnectionState_STATUS) PopulateFromARM(owner gen
 
 	// Set property "Status":
 	if typedInput.Status != nil {
-		status := *typedInput.Status
+		var temp string
+		temp = string(*typedInput.Status)
+		status := PrivateEndpointServiceConnectionStatus_STATUS(temp)
 		state.Status = &status
 	}
 
@@ -4422,6 +4626,52 @@ func (state *PrivateLinkServiceConnectionState_STATUS) AssignProperties_To_Priva
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"A"}
+type Sku_Family string
+
+const Sku_Family_A = Sku_Family("A")
+
+// Mapping from string to Sku_Family
+var sku_Family_Values = map[string]Sku_Family{
+	"a": Sku_Family_A,
+}
+
+type Sku_Family_STATUS string
+
+const Sku_Family_STATUS_A = Sku_Family_STATUS("A")
+
+// Mapping from string to Sku_Family_STATUS
+var sku_Family_STATUS_Values = map[string]Sku_Family_STATUS{
+	"a": Sku_Family_STATUS_A,
+}
+
+// +kubebuilder:validation:Enum={"premium","standard"}
+type Sku_Name string
+
+const (
+	Sku_Name_Premium  = Sku_Name("premium")
+	Sku_Name_Standard = Sku_Name("standard")
+)
+
+// Mapping from string to Sku_Name
+var sku_Name_Values = map[string]Sku_Name{
+	"premium":  Sku_Name_Premium,
+	"standard": Sku_Name_Standard,
+}
+
+type Sku_Name_STATUS string
+
+const (
+	Sku_Name_STATUS_Premium  = Sku_Name_STATUS("premium")
+	Sku_Name_STATUS_Standard = Sku_Name_STATUS("standard")
+)
+
+// Mapping from string to Sku_Name_STATUS
+var sku_Name_STATUS_Values = map[string]Sku_Name_STATUS{
+	"premium":  Sku_Name_STATUS_Premium,
+	"standard": Sku_Name_STATUS_Standard,
 }
 
 // A rule governing the accessibility of a vault from a specific virtual network.
@@ -4649,6 +4899,330 @@ func (rule *VirtualNetworkRule_STATUS) AssignProperties_To_VirtualNetworkRule_ST
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"all","backup","create","delete","deleteissuers","get","getissuers","import","list","listissuers","managecontacts","manageissuers","purge","recover","restore","setissuers","update"}
+type Permissions_Certificates string
+
+const (
+	Permissions_Certificates_All            = Permissions_Certificates("all")
+	Permissions_Certificates_Backup         = Permissions_Certificates("backup")
+	Permissions_Certificates_Create         = Permissions_Certificates("create")
+	Permissions_Certificates_Delete         = Permissions_Certificates("delete")
+	Permissions_Certificates_Deleteissuers  = Permissions_Certificates("deleteissuers")
+	Permissions_Certificates_Get            = Permissions_Certificates("get")
+	Permissions_Certificates_Getissuers     = Permissions_Certificates("getissuers")
+	Permissions_Certificates_Import         = Permissions_Certificates("import")
+	Permissions_Certificates_List           = Permissions_Certificates("list")
+	Permissions_Certificates_Listissuers    = Permissions_Certificates("listissuers")
+	Permissions_Certificates_Managecontacts = Permissions_Certificates("managecontacts")
+	Permissions_Certificates_Manageissuers  = Permissions_Certificates("manageissuers")
+	Permissions_Certificates_Purge          = Permissions_Certificates("purge")
+	Permissions_Certificates_Recover        = Permissions_Certificates("recover")
+	Permissions_Certificates_Restore        = Permissions_Certificates("restore")
+	Permissions_Certificates_Setissuers     = Permissions_Certificates("setissuers")
+	Permissions_Certificates_Update         = Permissions_Certificates("update")
+)
+
+// Mapping from string to Permissions_Certificates
+var permissions_Certificates_Values = map[string]Permissions_Certificates{
+	"all":            Permissions_Certificates_All,
+	"backup":         Permissions_Certificates_Backup,
+	"create":         Permissions_Certificates_Create,
+	"delete":         Permissions_Certificates_Delete,
+	"deleteissuers":  Permissions_Certificates_Deleteissuers,
+	"get":            Permissions_Certificates_Get,
+	"getissuers":     Permissions_Certificates_Getissuers,
+	"import":         Permissions_Certificates_Import,
+	"list":           Permissions_Certificates_List,
+	"listissuers":    Permissions_Certificates_Listissuers,
+	"managecontacts": Permissions_Certificates_Managecontacts,
+	"manageissuers":  Permissions_Certificates_Manageissuers,
+	"purge":          Permissions_Certificates_Purge,
+	"recover":        Permissions_Certificates_Recover,
+	"restore":        Permissions_Certificates_Restore,
+	"setissuers":     Permissions_Certificates_Setissuers,
+	"update":         Permissions_Certificates_Update,
+}
+
+type Permissions_Certificates_STATUS string
+
+const (
+	Permissions_Certificates_STATUS_All            = Permissions_Certificates_STATUS("all")
+	Permissions_Certificates_STATUS_Backup         = Permissions_Certificates_STATUS("backup")
+	Permissions_Certificates_STATUS_Create         = Permissions_Certificates_STATUS("create")
+	Permissions_Certificates_STATUS_Delete         = Permissions_Certificates_STATUS("delete")
+	Permissions_Certificates_STATUS_Deleteissuers  = Permissions_Certificates_STATUS("deleteissuers")
+	Permissions_Certificates_STATUS_Get            = Permissions_Certificates_STATUS("get")
+	Permissions_Certificates_STATUS_Getissuers     = Permissions_Certificates_STATUS("getissuers")
+	Permissions_Certificates_STATUS_Import         = Permissions_Certificates_STATUS("import")
+	Permissions_Certificates_STATUS_List           = Permissions_Certificates_STATUS("list")
+	Permissions_Certificates_STATUS_Listissuers    = Permissions_Certificates_STATUS("listissuers")
+	Permissions_Certificates_STATUS_Managecontacts = Permissions_Certificates_STATUS("managecontacts")
+	Permissions_Certificates_STATUS_Manageissuers  = Permissions_Certificates_STATUS("manageissuers")
+	Permissions_Certificates_STATUS_Purge          = Permissions_Certificates_STATUS("purge")
+	Permissions_Certificates_STATUS_Recover        = Permissions_Certificates_STATUS("recover")
+	Permissions_Certificates_STATUS_Restore        = Permissions_Certificates_STATUS("restore")
+	Permissions_Certificates_STATUS_Setissuers     = Permissions_Certificates_STATUS("setissuers")
+	Permissions_Certificates_STATUS_Update         = Permissions_Certificates_STATUS("update")
+)
+
+// Mapping from string to Permissions_Certificates_STATUS
+var permissions_Certificates_STATUS_Values = map[string]Permissions_Certificates_STATUS{
+	"all":            Permissions_Certificates_STATUS_All,
+	"backup":         Permissions_Certificates_STATUS_Backup,
+	"create":         Permissions_Certificates_STATUS_Create,
+	"delete":         Permissions_Certificates_STATUS_Delete,
+	"deleteissuers":  Permissions_Certificates_STATUS_Deleteissuers,
+	"get":            Permissions_Certificates_STATUS_Get,
+	"getissuers":     Permissions_Certificates_STATUS_Getissuers,
+	"import":         Permissions_Certificates_STATUS_Import,
+	"list":           Permissions_Certificates_STATUS_List,
+	"listissuers":    Permissions_Certificates_STATUS_Listissuers,
+	"managecontacts": Permissions_Certificates_STATUS_Managecontacts,
+	"manageissuers":  Permissions_Certificates_STATUS_Manageissuers,
+	"purge":          Permissions_Certificates_STATUS_Purge,
+	"recover":        Permissions_Certificates_STATUS_Recover,
+	"restore":        Permissions_Certificates_STATUS_Restore,
+	"setissuers":     Permissions_Certificates_STATUS_Setissuers,
+	"update":         Permissions_Certificates_STATUS_Update,
+}
+
+// +kubebuilder:validation:Enum={"all","backup","create","decrypt","delete","encrypt","get","getrotationpolicy","import","list","purge","recover","release","restore","rotate","setrotationpolicy","sign","unwrapKey","update","verify","wrapKey"}
+type Permissions_Keys string
+
+const (
+	Permissions_Keys_All               = Permissions_Keys("all")
+	Permissions_Keys_Backup            = Permissions_Keys("backup")
+	Permissions_Keys_Create            = Permissions_Keys("create")
+	Permissions_Keys_Decrypt           = Permissions_Keys("decrypt")
+	Permissions_Keys_Delete            = Permissions_Keys("delete")
+	Permissions_Keys_Encrypt           = Permissions_Keys("encrypt")
+	Permissions_Keys_Get               = Permissions_Keys("get")
+	Permissions_Keys_Getrotationpolicy = Permissions_Keys("getrotationpolicy")
+	Permissions_Keys_Import            = Permissions_Keys("import")
+	Permissions_Keys_List              = Permissions_Keys("list")
+	Permissions_Keys_Purge             = Permissions_Keys("purge")
+	Permissions_Keys_Recover           = Permissions_Keys("recover")
+	Permissions_Keys_Release           = Permissions_Keys("release")
+	Permissions_Keys_Restore           = Permissions_Keys("restore")
+	Permissions_Keys_Rotate            = Permissions_Keys("rotate")
+	Permissions_Keys_Setrotationpolicy = Permissions_Keys("setrotationpolicy")
+	Permissions_Keys_Sign              = Permissions_Keys("sign")
+	Permissions_Keys_UnwrapKey         = Permissions_Keys("unwrapKey")
+	Permissions_Keys_Update            = Permissions_Keys("update")
+	Permissions_Keys_Verify            = Permissions_Keys("verify")
+	Permissions_Keys_WrapKey           = Permissions_Keys("wrapKey")
+)
+
+// Mapping from string to Permissions_Keys
+var permissions_Keys_Values = map[string]Permissions_Keys{
+	"all":               Permissions_Keys_All,
+	"backup":            Permissions_Keys_Backup,
+	"create":            Permissions_Keys_Create,
+	"decrypt":           Permissions_Keys_Decrypt,
+	"delete":            Permissions_Keys_Delete,
+	"encrypt":           Permissions_Keys_Encrypt,
+	"get":               Permissions_Keys_Get,
+	"getrotationpolicy": Permissions_Keys_Getrotationpolicy,
+	"import":            Permissions_Keys_Import,
+	"list":              Permissions_Keys_List,
+	"purge":             Permissions_Keys_Purge,
+	"recover":           Permissions_Keys_Recover,
+	"release":           Permissions_Keys_Release,
+	"restore":           Permissions_Keys_Restore,
+	"rotate":            Permissions_Keys_Rotate,
+	"setrotationpolicy": Permissions_Keys_Setrotationpolicy,
+	"sign":              Permissions_Keys_Sign,
+	"unwrapkey":         Permissions_Keys_UnwrapKey,
+	"update":            Permissions_Keys_Update,
+	"verify":            Permissions_Keys_Verify,
+	"wrapkey":           Permissions_Keys_WrapKey,
+}
+
+type Permissions_Keys_STATUS string
+
+const (
+	Permissions_Keys_STATUS_All               = Permissions_Keys_STATUS("all")
+	Permissions_Keys_STATUS_Backup            = Permissions_Keys_STATUS("backup")
+	Permissions_Keys_STATUS_Create            = Permissions_Keys_STATUS("create")
+	Permissions_Keys_STATUS_Decrypt           = Permissions_Keys_STATUS("decrypt")
+	Permissions_Keys_STATUS_Delete            = Permissions_Keys_STATUS("delete")
+	Permissions_Keys_STATUS_Encrypt           = Permissions_Keys_STATUS("encrypt")
+	Permissions_Keys_STATUS_Get               = Permissions_Keys_STATUS("get")
+	Permissions_Keys_STATUS_Getrotationpolicy = Permissions_Keys_STATUS("getrotationpolicy")
+	Permissions_Keys_STATUS_Import            = Permissions_Keys_STATUS("import")
+	Permissions_Keys_STATUS_List              = Permissions_Keys_STATUS("list")
+	Permissions_Keys_STATUS_Purge             = Permissions_Keys_STATUS("purge")
+	Permissions_Keys_STATUS_Recover           = Permissions_Keys_STATUS("recover")
+	Permissions_Keys_STATUS_Release           = Permissions_Keys_STATUS("release")
+	Permissions_Keys_STATUS_Restore           = Permissions_Keys_STATUS("restore")
+	Permissions_Keys_STATUS_Rotate            = Permissions_Keys_STATUS("rotate")
+	Permissions_Keys_STATUS_Setrotationpolicy = Permissions_Keys_STATUS("setrotationpolicy")
+	Permissions_Keys_STATUS_Sign              = Permissions_Keys_STATUS("sign")
+	Permissions_Keys_STATUS_UnwrapKey         = Permissions_Keys_STATUS("unwrapKey")
+	Permissions_Keys_STATUS_Update            = Permissions_Keys_STATUS("update")
+	Permissions_Keys_STATUS_Verify            = Permissions_Keys_STATUS("verify")
+	Permissions_Keys_STATUS_WrapKey           = Permissions_Keys_STATUS("wrapKey")
+)
+
+// Mapping from string to Permissions_Keys_STATUS
+var permissions_Keys_STATUS_Values = map[string]Permissions_Keys_STATUS{
+	"all":               Permissions_Keys_STATUS_All,
+	"backup":            Permissions_Keys_STATUS_Backup,
+	"create":            Permissions_Keys_STATUS_Create,
+	"decrypt":           Permissions_Keys_STATUS_Decrypt,
+	"delete":            Permissions_Keys_STATUS_Delete,
+	"encrypt":           Permissions_Keys_STATUS_Encrypt,
+	"get":               Permissions_Keys_STATUS_Get,
+	"getrotationpolicy": Permissions_Keys_STATUS_Getrotationpolicy,
+	"import":            Permissions_Keys_STATUS_Import,
+	"list":              Permissions_Keys_STATUS_List,
+	"purge":             Permissions_Keys_STATUS_Purge,
+	"recover":           Permissions_Keys_STATUS_Recover,
+	"release":           Permissions_Keys_STATUS_Release,
+	"restore":           Permissions_Keys_STATUS_Restore,
+	"rotate":            Permissions_Keys_STATUS_Rotate,
+	"setrotationpolicy": Permissions_Keys_STATUS_Setrotationpolicy,
+	"sign":              Permissions_Keys_STATUS_Sign,
+	"unwrapkey":         Permissions_Keys_STATUS_UnwrapKey,
+	"update":            Permissions_Keys_STATUS_Update,
+	"verify":            Permissions_Keys_STATUS_Verify,
+	"wrapkey":           Permissions_Keys_STATUS_WrapKey,
+}
+
+// +kubebuilder:validation:Enum={"all","backup","delete","get","list","purge","recover","restore","set"}
+type Permissions_Secrets string
+
+const (
+	Permissions_Secrets_All     = Permissions_Secrets("all")
+	Permissions_Secrets_Backup  = Permissions_Secrets("backup")
+	Permissions_Secrets_Delete  = Permissions_Secrets("delete")
+	Permissions_Secrets_Get     = Permissions_Secrets("get")
+	Permissions_Secrets_List    = Permissions_Secrets("list")
+	Permissions_Secrets_Purge   = Permissions_Secrets("purge")
+	Permissions_Secrets_Recover = Permissions_Secrets("recover")
+	Permissions_Secrets_Restore = Permissions_Secrets("restore")
+	Permissions_Secrets_Set     = Permissions_Secrets("set")
+)
+
+// Mapping from string to Permissions_Secrets
+var permissions_Secrets_Values = map[string]Permissions_Secrets{
+	"all":     Permissions_Secrets_All,
+	"backup":  Permissions_Secrets_Backup,
+	"delete":  Permissions_Secrets_Delete,
+	"get":     Permissions_Secrets_Get,
+	"list":    Permissions_Secrets_List,
+	"purge":   Permissions_Secrets_Purge,
+	"recover": Permissions_Secrets_Recover,
+	"restore": Permissions_Secrets_Restore,
+	"set":     Permissions_Secrets_Set,
+}
+
+type Permissions_Secrets_STATUS string
+
+const (
+	Permissions_Secrets_STATUS_All     = Permissions_Secrets_STATUS("all")
+	Permissions_Secrets_STATUS_Backup  = Permissions_Secrets_STATUS("backup")
+	Permissions_Secrets_STATUS_Delete  = Permissions_Secrets_STATUS("delete")
+	Permissions_Secrets_STATUS_Get     = Permissions_Secrets_STATUS("get")
+	Permissions_Secrets_STATUS_List    = Permissions_Secrets_STATUS("list")
+	Permissions_Secrets_STATUS_Purge   = Permissions_Secrets_STATUS("purge")
+	Permissions_Secrets_STATUS_Recover = Permissions_Secrets_STATUS("recover")
+	Permissions_Secrets_STATUS_Restore = Permissions_Secrets_STATUS("restore")
+	Permissions_Secrets_STATUS_Set     = Permissions_Secrets_STATUS("set")
+)
+
+// Mapping from string to Permissions_Secrets_STATUS
+var permissions_Secrets_STATUS_Values = map[string]Permissions_Secrets_STATUS{
+	"all":     Permissions_Secrets_STATUS_All,
+	"backup":  Permissions_Secrets_STATUS_Backup,
+	"delete":  Permissions_Secrets_STATUS_Delete,
+	"get":     Permissions_Secrets_STATUS_Get,
+	"list":    Permissions_Secrets_STATUS_List,
+	"purge":   Permissions_Secrets_STATUS_Purge,
+	"recover": Permissions_Secrets_STATUS_Recover,
+	"restore": Permissions_Secrets_STATUS_Restore,
+	"set":     Permissions_Secrets_STATUS_Set,
+}
+
+// +kubebuilder:validation:Enum={"all","backup","delete","deletesas","get","getsas","list","listsas","purge","recover","regeneratekey","restore","set","setsas","update"}
+type Permissions_Storage string
+
+const (
+	Permissions_Storage_All           = Permissions_Storage("all")
+	Permissions_Storage_Backup        = Permissions_Storage("backup")
+	Permissions_Storage_Delete        = Permissions_Storage("delete")
+	Permissions_Storage_Deletesas     = Permissions_Storage("deletesas")
+	Permissions_Storage_Get           = Permissions_Storage("get")
+	Permissions_Storage_Getsas        = Permissions_Storage("getsas")
+	Permissions_Storage_List          = Permissions_Storage("list")
+	Permissions_Storage_Listsas       = Permissions_Storage("listsas")
+	Permissions_Storage_Purge         = Permissions_Storage("purge")
+	Permissions_Storage_Recover       = Permissions_Storage("recover")
+	Permissions_Storage_Regeneratekey = Permissions_Storage("regeneratekey")
+	Permissions_Storage_Restore       = Permissions_Storage("restore")
+	Permissions_Storage_Set           = Permissions_Storage("set")
+	Permissions_Storage_Setsas        = Permissions_Storage("setsas")
+	Permissions_Storage_Update        = Permissions_Storage("update")
+)
+
+// Mapping from string to Permissions_Storage
+var permissions_Storage_Values = map[string]Permissions_Storage{
+	"all":           Permissions_Storage_All,
+	"backup":        Permissions_Storage_Backup,
+	"delete":        Permissions_Storage_Delete,
+	"deletesas":     Permissions_Storage_Deletesas,
+	"get":           Permissions_Storage_Get,
+	"getsas":        Permissions_Storage_Getsas,
+	"list":          Permissions_Storage_List,
+	"listsas":       Permissions_Storage_Listsas,
+	"purge":         Permissions_Storage_Purge,
+	"recover":       Permissions_Storage_Recover,
+	"regeneratekey": Permissions_Storage_Regeneratekey,
+	"restore":       Permissions_Storage_Restore,
+	"set":           Permissions_Storage_Set,
+	"setsas":        Permissions_Storage_Setsas,
+	"update":        Permissions_Storage_Update,
+}
+
+type Permissions_Storage_STATUS string
+
+const (
+	Permissions_Storage_STATUS_All           = Permissions_Storage_STATUS("all")
+	Permissions_Storage_STATUS_Backup        = Permissions_Storage_STATUS("backup")
+	Permissions_Storage_STATUS_Delete        = Permissions_Storage_STATUS("delete")
+	Permissions_Storage_STATUS_Deletesas     = Permissions_Storage_STATUS("deletesas")
+	Permissions_Storage_STATUS_Get           = Permissions_Storage_STATUS("get")
+	Permissions_Storage_STATUS_Getsas        = Permissions_Storage_STATUS("getsas")
+	Permissions_Storage_STATUS_List          = Permissions_Storage_STATUS("list")
+	Permissions_Storage_STATUS_Listsas       = Permissions_Storage_STATUS("listsas")
+	Permissions_Storage_STATUS_Purge         = Permissions_Storage_STATUS("purge")
+	Permissions_Storage_STATUS_Recover       = Permissions_Storage_STATUS("recover")
+	Permissions_Storage_STATUS_Regeneratekey = Permissions_Storage_STATUS("regeneratekey")
+	Permissions_Storage_STATUS_Restore       = Permissions_Storage_STATUS("restore")
+	Permissions_Storage_STATUS_Set           = Permissions_Storage_STATUS("set")
+	Permissions_Storage_STATUS_Setsas        = Permissions_Storage_STATUS("setsas")
+	Permissions_Storage_STATUS_Update        = Permissions_Storage_STATUS("update")
+)
+
+// Mapping from string to Permissions_Storage_STATUS
+var permissions_Storage_STATUS_Values = map[string]Permissions_Storage_STATUS{
+	"all":           Permissions_Storage_STATUS_All,
+	"backup":        Permissions_Storage_STATUS_Backup,
+	"delete":        Permissions_Storage_STATUS_Delete,
+	"deletesas":     Permissions_Storage_STATUS_Deletesas,
+	"get":           Permissions_Storage_STATUS_Get,
+	"getsas":        Permissions_Storage_STATUS_Getsas,
+	"list":          Permissions_Storage_STATUS_List,
+	"listsas":       Permissions_Storage_STATUS_Listsas,
+	"purge":         Permissions_Storage_STATUS_Purge,
+	"recover":       Permissions_Storage_STATUS_Recover,
+	"regeneratekey": Permissions_Storage_STATUS_Regeneratekey,
+	"restore":       Permissions_Storage_STATUS_Restore,
+	"set":           Permissions_Storage_STATUS_Set,
+	"setsas":        Permissions_Storage_STATUS_Setsas,
+	"update":        Permissions_Storage_STATUS_Update,
 }
 
 // The private endpoint connection status.

@@ -33,8 +33,16 @@ func (policy *Servers_Databases_BackupShortTermRetentionPolicy_Spec_ARM) GetType
 type BackupShortTermRetentionPolicyProperties_ARM struct {
 	// DiffBackupIntervalInHours: The differential backup interval in hours. This is how many interval hours between each
 	// differential backup will be supported. This is only applicable to live databases but not dropped databases.
-	DiffBackupIntervalInHours *BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours `json:"diffBackupIntervalInHours,omitempty"`
+	DiffBackupIntervalInHours *BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours_ARM `json:"diffBackupIntervalInHours,omitempty"`
 
 	// RetentionDays: The backup retention period in days. This is how many days Point-in-Time Restore will be supported.
 	RetentionDays *int `json:"retentionDays,omitempty"`
 }
+
+// +kubebuilder:validation:Enum={12,24}
+type BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours_ARM int
+
+const (
+	BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours_ARM_12 = BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours_ARM(12)
+	BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours_ARM_24 = BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours_ARM(24)
+)

@@ -11,7 +11,7 @@ type SignalR_STATUS_ARM struct {
 	Identity *ManagedIdentity_STATUS_ARM `json:"identity,omitempty"`
 
 	// Kind: The kind of the service, it can be SignalR or RawWebSockets
-	Kind *ServiceKind_STATUS `json:"kind,omitempty"`
+	Kind *ServiceKind_STATUS_ARM `json:"kind,omitempty"`
 
 	// Location: The GEO location of the resource. e.g. West US | East US | North Central US | South Central US.
 	Location *string `json:"location,omitempty"`
@@ -46,7 +46,7 @@ type ManagedIdentity_STATUS_ARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: Represents the identity type: systemAssigned, userAssigned, None
-	Type *ManagedIdentityType_STATUS `json:"type,omitempty"`
+	Type *ManagedIdentityType_STATUS_ARM `json:"type,omitempty"`
 
 	// UserAssignedIdentities: Get or set the user assigned identities
 	UserAssignedIdentities map[string]UserAssignedIdentityProperty_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
@@ -72,21 +72,21 @@ type ResourceSku_STATUS_ARM struct {
 
 	// Tier: Optional tier of this particular SKU. 'Standard' or 'Free'.
 	// `Basic` is deprecated, use `Standard` instead.
-	Tier *SignalRSkuTier_STATUS `json:"tier,omitempty"`
+	Tier *SignalRSkuTier_STATUS_ARM `json:"tier,omitempty"`
 }
 
 // The kind of the service, it can be SignalR or RawWebSockets
-type ServiceKind_STATUS string
+type ServiceKind_STATUS_ARM string
 
 const (
-	ServiceKind_STATUS_RawWebSockets = ServiceKind_STATUS("RawWebSockets")
-	ServiceKind_STATUS_SignalR       = ServiceKind_STATUS("SignalR")
+	ServiceKind_STATUS_ARM_RawWebSockets = ServiceKind_STATUS_ARM("RawWebSockets")
+	ServiceKind_STATUS_ARM_SignalR       = ServiceKind_STATUS_ARM("SignalR")
 )
 
-// Mapping from string to ServiceKind_STATUS
-var serviceKind_STATUS_Values = map[string]ServiceKind_STATUS{
-	"rawwebsockets": ServiceKind_STATUS_RawWebSockets,
-	"signalr":       ServiceKind_STATUS_SignalR,
+// Mapping from string to ServiceKind_STATUS_ARM
+var serviceKind_STATUS_ARM_Values = map[string]ServiceKind_STATUS_ARM{
+	"rawwebsockets": ServiceKind_STATUS_ARM_RawWebSockets,
+	"signalr":       ServiceKind_STATUS_ARM_SignalR,
 }
 
 // A class that describes the properties of the resource
@@ -127,7 +127,7 @@ type SignalRProperties_STATUS_ARM struct {
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded_ARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: Provisioning state of the resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccess: Enable or disable public network access. Default to "Enabled".
 	// When it's Enabled, network ACLs still apply.
@@ -165,7 +165,7 @@ type SystemData_STATUS_ARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_CreatedByType_STATUS_ARM `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -174,29 +174,57 @@ type SystemData_STATUS_ARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS_ARM `json:"lastModifiedByType,omitempty"`
 }
 
 // Represents the identity type: systemAssigned, userAssigned, None
-type ManagedIdentityType_STATUS string
+type ManagedIdentityType_STATUS_ARM string
 
 const (
-	ManagedIdentityType_STATUS_None           = ManagedIdentityType_STATUS("None")
-	ManagedIdentityType_STATUS_SystemAssigned = ManagedIdentityType_STATUS("SystemAssigned")
-	ManagedIdentityType_STATUS_UserAssigned   = ManagedIdentityType_STATUS("UserAssigned")
+	ManagedIdentityType_STATUS_ARM_None           = ManagedIdentityType_STATUS_ARM("None")
+	ManagedIdentityType_STATUS_ARM_SystemAssigned = ManagedIdentityType_STATUS_ARM("SystemAssigned")
+	ManagedIdentityType_STATUS_ARM_UserAssigned   = ManagedIdentityType_STATUS_ARM("UserAssigned")
 )
 
-// Mapping from string to ManagedIdentityType_STATUS
-var managedIdentityType_STATUS_Values = map[string]ManagedIdentityType_STATUS{
-	"none":           ManagedIdentityType_STATUS_None,
-	"systemassigned": ManagedIdentityType_STATUS_SystemAssigned,
-	"userassigned":   ManagedIdentityType_STATUS_UserAssigned,
+// Mapping from string to ManagedIdentityType_STATUS_ARM
+var managedIdentityType_STATUS_ARM_Values = map[string]ManagedIdentityType_STATUS_ARM{
+	"none":           ManagedIdentityType_STATUS_ARM_None,
+	"systemassigned": ManagedIdentityType_STATUS_ARM_SystemAssigned,
+	"userassigned":   ManagedIdentityType_STATUS_ARM_UserAssigned,
 }
 
 // A private endpoint connection to an azure resource
 type PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded_ARM struct {
 	// Id: Fully qualified resource Id for the resource.
 	Id *string `json:"id,omitempty"`
+}
+
+// Provisioning state of the resource.
+type ProvisioningState_STATUS_ARM string
+
+const (
+	ProvisioningState_STATUS_ARM_Canceled  = ProvisioningState_STATUS_ARM("Canceled")
+	ProvisioningState_STATUS_ARM_Creating  = ProvisioningState_STATUS_ARM("Creating")
+	ProvisioningState_STATUS_ARM_Deleting  = ProvisioningState_STATUS_ARM("Deleting")
+	ProvisioningState_STATUS_ARM_Failed    = ProvisioningState_STATUS_ARM("Failed")
+	ProvisioningState_STATUS_ARM_Moving    = ProvisioningState_STATUS_ARM("Moving")
+	ProvisioningState_STATUS_ARM_Running   = ProvisioningState_STATUS_ARM("Running")
+	ProvisioningState_STATUS_ARM_Succeeded = ProvisioningState_STATUS_ARM("Succeeded")
+	ProvisioningState_STATUS_ARM_Unknown   = ProvisioningState_STATUS_ARM("Unknown")
+	ProvisioningState_STATUS_ARM_Updating  = ProvisioningState_STATUS_ARM("Updating")
+)
+
+// Mapping from string to ProvisioningState_STATUS_ARM
+var provisioningState_STATUS_ARM_Values = map[string]ProvisioningState_STATUS_ARM{
+	"canceled":  ProvisioningState_STATUS_ARM_Canceled,
+	"creating":  ProvisioningState_STATUS_ARM_Creating,
+	"deleting":  ProvisioningState_STATUS_ARM_Deleting,
+	"failed":    ProvisioningState_STATUS_ARM_Failed,
+	"moving":    ProvisioningState_STATUS_ARM_Moving,
+	"running":   ProvisioningState_STATUS_ARM_Running,
+	"succeeded": ProvisioningState_STATUS_ARM_Succeeded,
+	"unknown":   ProvisioningState_STATUS_ARM_Unknown,
+	"updating":  ProvisioningState_STATUS_ARM_Updating,
 }
 
 // Resource log configuration of a Microsoft.SignalRService resource.
@@ -236,7 +264,7 @@ type SignalRFeature_STATUS_ARM struct {
 	// traces in real time, it will be helpful when you developing your own Azure SignalR based web application  or
 	// self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged.
 	// Values allowed: "true"/"false", to enable/disable live trace feature.
-	Flag *FeatureFlags_STATUS `json:"flag,omitempty"`
+	Flag *FeatureFlags_STATUS_ARM `json:"flag,omitempty"`
 
 	// Properties: Optional properties related to this feature.
 	Properties map[string]string `json:"properties,omitempty"`
@@ -249,7 +277,7 @@ type SignalRFeature_STATUS_ARM struct {
 // Network ACLs for the resource
 type SignalRNetworkACLs_STATUS_ARM struct {
 	// DefaultAction: Azure Networking ACL Action.
-	DefaultAction *ACLAction_STATUS `json:"defaultAction,omitempty"`
+	DefaultAction *ACLAction_STATUS_ARM `json:"defaultAction,omitempty"`
 
 	// PrivateEndpoints: ACLs for requests from private endpoints
 	PrivateEndpoints []PrivateEndpointACL_STATUS_ARM `json:"privateEndpoints,omitempty"`
@@ -260,21 +288,21 @@ type SignalRNetworkACLs_STATUS_ARM struct {
 
 // Optional tier of this particular SKU. 'Standard' or 'Free'.
 // `Basic` is deprecated, use `Standard` instead.
-type SignalRSkuTier_STATUS string
+type SignalRSkuTier_STATUS_ARM string
 
 const (
-	SignalRSkuTier_STATUS_Basic    = SignalRSkuTier_STATUS("Basic")
-	SignalRSkuTier_STATUS_Free     = SignalRSkuTier_STATUS("Free")
-	SignalRSkuTier_STATUS_Premium  = SignalRSkuTier_STATUS("Premium")
-	SignalRSkuTier_STATUS_Standard = SignalRSkuTier_STATUS("Standard")
+	SignalRSkuTier_STATUS_ARM_Basic    = SignalRSkuTier_STATUS_ARM("Basic")
+	SignalRSkuTier_STATUS_ARM_Free     = SignalRSkuTier_STATUS_ARM("Free")
+	SignalRSkuTier_STATUS_ARM_Premium  = SignalRSkuTier_STATUS_ARM("Premium")
+	SignalRSkuTier_STATUS_ARM_Standard = SignalRSkuTier_STATUS_ARM("Standard")
 )
 
-// Mapping from string to SignalRSkuTier_STATUS
-var signalRSkuTier_STATUS_Values = map[string]SignalRSkuTier_STATUS{
-	"basic":    SignalRSkuTier_STATUS_Basic,
-	"free":     SignalRSkuTier_STATUS_Free,
-	"premium":  SignalRSkuTier_STATUS_Premium,
-	"standard": SignalRSkuTier_STATUS_Standard,
+// Mapping from string to SignalRSkuTier_STATUS_ARM
+var signalRSkuTier_STATUS_ARM_Values = map[string]SignalRSkuTier_STATUS_ARM{
+	"basic":    SignalRSkuTier_STATUS_ARM_Basic,
+	"free":     SignalRSkuTier_STATUS_ARM_Free,
+	"premium":  SignalRSkuTier_STATUS_ARM_Premium,
+	"standard": SignalRSkuTier_STATUS_ARM_Standard,
 }
 
 // TLS settings for the resource
@@ -283,38 +311,38 @@ type SignalRTlsSettings_STATUS_ARM struct {
 	ClientCertEnabled *bool `json:"clientCertEnabled,omitempty"`
 }
 
-type SystemData_CreatedByType_STATUS string
+type SystemData_CreatedByType_STATUS_ARM string
 
 const (
-	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+	SystemData_CreatedByType_STATUS_ARM_Application     = SystemData_CreatedByType_STATUS_ARM("Application")
+	SystemData_CreatedByType_STATUS_ARM_Key             = SystemData_CreatedByType_STATUS_ARM("Key")
+	SystemData_CreatedByType_STATUS_ARM_ManagedIdentity = SystemData_CreatedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_ARM_User            = SystemData_CreatedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_CreatedByType_STATUS
-var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
-	"application":     SystemData_CreatedByType_STATUS_Application,
-	"key":             SystemData_CreatedByType_STATUS_Key,
-	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_CreatedByType_STATUS_User,
+// Mapping from string to SystemData_CreatedByType_STATUS_ARM
+var systemData_CreatedByType_STATUS_ARM_Values = map[string]SystemData_CreatedByType_STATUS_ARM{
+	"application":     SystemData_CreatedByType_STATUS_ARM_Application,
+	"key":             SystemData_CreatedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_ARM_User,
 }
 
-type SystemData_LastModifiedByType_STATUS string
+type SystemData_LastModifiedByType_STATUS_ARM string
 
 const (
-	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+	SystemData_LastModifiedByType_STATUS_ARM_Application     = SystemData_LastModifiedByType_STATUS_ARM("Application")
+	SystemData_LastModifiedByType_STATUS_ARM_Key             = SystemData_LastModifiedByType_STATUS_ARM("Key")
+	SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity = SystemData_LastModifiedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_ARM_User            = SystemData_LastModifiedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_LastModifiedByType_STATUS
-var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
-	"application":     SystemData_LastModifiedByType_STATUS_Application,
-	"key":             SystemData_LastModifiedByType_STATUS_Key,
-	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_LastModifiedByType_STATUS_User,
+// Mapping from string to SystemData_LastModifiedByType_STATUS_ARM
+var systemData_LastModifiedByType_STATUS_ARM_Values = map[string]SystemData_LastModifiedByType_STATUS_ARM{
+	"application":     SystemData_LastModifiedByType_STATUS_ARM_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_ARM_User,
 }
 
 // Properties of user assigned identity.
@@ -326,22 +354,66 @@ type UserAssignedIdentityProperty_STATUS_ARM struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
+// Azure Networking ACL Action.
+type ACLAction_STATUS_ARM string
+
+const (
+	ACLAction_STATUS_ARM_Allow = ACLAction_STATUS_ARM("Allow")
+	ACLAction_STATUS_ARM_Deny  = ACLAction_STATUS_ARM("Deny")
+)
+
+// Mapping from string to ACLAction_STATUS_ARM
+var aCLAction_STATUS_ARM_Values = map[string]ACLAction_STATUS_ARM{
+	"allow": ACLAction_STATUS_ARM_Allow,
+	"deny":  ACLAction_STATUS_ARM_Deny,
+}
+
+// FeatureFlags is the supported features of Azure SignalR service.
+// - ServiceMode: Flag for backend server for SignalR
+// service. Values allowed: "Default": have your own backend server; "Serverless": your application doesn't have a backend
+// server; "Classic": for backward compatibility. Support both Default and Serverless mode but not recommended;
+// "PredefinedOnly": for future use.
+// - EnableConnectivityLogs: "true"/"false", to enable/disable the connectivity log
+// category respectively.
+// - EnableMessagingLogs: "true"/"false", to enable/disable the connectivity log category
+// respectively.
+// - EnableLiveTrace: Live Trace allows you to know what's happening inside Azure SignalR service, it will
+// give you live traces in real time, it will be helpful when you developing your own Azure SignalR based web application
+// or self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged.
+// Values allowed: "true"/"false", to enable/disable live trace feature.
+type FeatureFlags_STATUS_ARM string
+
+const (
+	FeatureFlags_STATUS_ARM_EnableConnectivityLogs = FeatureFlags_STATUS_ARM("EnableConnectivityLogs")
+	FeatureFlags_STATUS_ARM_EnableLiveTrace        = FeatureFlags_STATUS_ARM("EnableLiveTrace")
+	FeatureFlags_STATUS_ARM_EnableMessagingLogs    = FeatureFlags_STATUS_ARM("EnableMessagingLogs")
+	FeatureFlags_STATUS_ARM_ServiceMode            = FeatureFlags_STATUS_ARM("ServiceMode")
+)
+
+// Mapping from string to FeatureFlags_STATUS_ARM
+var featureFlags_STATUS_ARM_Values = map[string]FeatureFlags_STATUS_ARM{
+	"enableconnectivitylogs": FeatureFlags_STATUS_ARM_EnableConnectivityLogs,
+	"enablelivetrace":        FeatureFlags_STATUS_ARM_EnableLiveTrace,
+	"enablemessaginglogs":    FeatureFlags_STATUS_ARM_EnableMessagingLogs,
+	"servicemode":            FeatureFlags_STATUS_ARM_ServiceMode,
+}
+
 // Network ACL
 type NetworkACL_STATUS_ARM struct {
 	// Allow: Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
-	Allow []SignalRRequestType_STATUS `json:"allow,omitempty"`
+	Allow []SignalRRequestType_STATUS_ARM `json:"allow,omitempty"`
 
 	// Deny: Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
-	Deny []SignalRRequestType_STATUS `json:"deny,omitempty"`
+	Deny []SignalRRequestType_STATUS_ARM `json:"deny,omitempty"`
 }
 
 // ACL for a private endpoint
 type PrivateEndpointACL_STATUS_ARM struct {
 	// Allow: Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
-	Allow []SignalRRequestType_STATUS `json:"allow,omitempty"`
+	Allow []SignalRRequestType_STATUS_ARM `json:"allow,omitempty"`
 
 	// Deny: Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
-	Deny []SignalRRequestType_STATUS `json:"deny,omitempty"`
+	Deny []SignalRRequestType_STATUS_ARM `json:"deny,omitempty"`
 
 	// Name: Name of the private endpoint connection
 	Name *string `json:"name,omitempty"`
@@ -396,13 +468,31 @@ type UpstreamTemplate_STATUS_ARM struct {
 	UrlTemplate *string `json:"urlTemplate,omitempty"`
 }
 
+// The incoming request type to the service
+type SignalRRequestType_STATUS_ARM string
+
+const (
+	SignalRRequestType_STATUS_ARM_ClientConnection = SignalRRequestType_STATUS_ARM("ClientConnection")
+	SignalRRequestType_STATUS_ARM_RESTAPI          = SignalRRequestType_STATUS_ARM("RESTAPI")
+	SignalRRequestType_STATUS_ARM_ServerConnection = SignalRRequestType_STATUS_ARM("ServerConnection")
+	SignalRRequestType_STATUS_ARM_Trace            = SignalRRequestType_STATUS_ARM("Trace")
+)
+
+// Mapping from string to SignalRRequestType_STATUS_ARM
+var signalRRequestType_STATUS_ARM_Values = map[string]SignalRRequestType_STATUS_ARM{
+	"clientconnection": SignalRRequestType_STATUS_ARM_ClientConnection,
+	"restapi":          SignalRRequestType_STATUS_ARM_RESTAPI,
+	"serverconnection": SignalRRequestType_STATUS_ARM_ServerConnection,
+	"trace":            SignalRRequestType_STATUS_ARM_Trace,
+}
+
 // Upstream auth settings. If not set, no auth is used for upstream messages.
 type UpstreamAuthSettings_STATUS_ARM struct {
 	// ManagedIdentity: Managed identity settings for upstream.
 	ManagedIdentity *ManagedIdentitySettings_STATUS_ARM `json:"managedIdentity,omitempty"`
 
 	// Type: Upstream auth type enum.
-	Type *UpstreamAuthType_STATUS `json:"type,omitempty"`
+	Type *UpstreamAuthType_STATUS_ARM `json:"type,omitempty"`
 }
 
 // Managed identity settings for upstream.
@@ -410,4 +500,18 @@ type ManagedIdentitySettings_STATUS_ARM struct {
 	// Resource: The Resource indicating the App ID URI of the target resource.
 	// It also appears in the aud (audience) claim of the issued token.
 	Resource *string `json:"resource,omitempty"`
+}
+
+// Upstream auth type enum.
+type UpstreamAuthType_STATUS_ARM string
+
+const (
+	UpstreamAuthType_STATUS_ARM_ManagedIdentity = UpstreamAuthType_STATUS_ARM("ManagedIdentity")
+	UpstreamAuthType_STATUS_ARM_None            = UpstreamAuthType_STATUS_ARM("None")
+)
+
+// Mapping from string to UpstreamAuthType_STATUS_ARM
+var upstreamAuthType_STATUS_ARM_Values = map[string]UpstreamAuthType_STATUS_ARM{
+	"managedidentity": UpstreamAuthType_STATUS_ARM_ManagedIdentity,
+	"none":            UpstreamAuthType_STATUS_ARM_None,
 }

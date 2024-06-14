@@ -46,7 +46,7 @@ func (site *Site_Spec_ARM) GetType() string {
 // Managed service identity.
 type ManagedServiceIdentity_ARM struct {
 	// Type: Type of managed service identity.
-	Type                   *ManagedServiceIdentity_Type               `json:"type,omitempty"`
+	Type                   *ManagedServiceIdentity_Type_ARM           `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -66,7 +66,7 @@ type Site_Properties_Spec_ARM struct {
 	// - ClientCertEnabled: false means ClientCert is ignored.
 	// - ClientCertEnabled: true and ClientCertMode: Required means ClientCert is required.
 	// - ClientCertEnabled: true and ClientCertMode: Optional means ClientCert is optional or accepted.
-	ClientCertMode *Site_Properties_ClientCertMode_Spec `json:"clientCertMode,omitempty"`
+	ClientCertMode *Site_Properties_ClientCertMode_Spec_ARM `json:"clientCertMode,omitempty"`
 
 	// CloningInfo: If specified during app creation, the app is cloned from a source app.
 	CloningInfo *CloningInfo_ARM `json:"cloningInfo,omitempty"`
@@ -113,7 +113,7 @@ type Site_Properties_Spec_ARM struct {
 	PublicNetworkAccess *string `json:"publicNetworkAccess,omitempty"`
 
 	// RedundancyMode: Site redundancy mode
-	RedundancyMode *Site_Properties_RedundancyMode_Spec `json:"redundancyMode,omitempty"`
+	RedundancyMode *Site_Properties_RedundancyMode_Spec_ARM `json:"redundancyMode,omitempty"`
 
 	// Reserved: <code>true</code> if reserved; otherwise, <code>false</code>.
 	Reserved *bool `json:"reserved,omitempty"`
@@ -180,13 +180,13 @@ type CloningInfo_ARM struct {
 // SSL-enabled hostname.
 type HostNameSslState_ARM struct {
 	// HostType: Indicates whether the hostname is a standard or repository hostname.
-	HostType *HostNameSslState_HostType `json:"hostType,omitempty"`
+	HostType *HostNameSslState_HostType_ARM `json:"hostType,omitempty"`
 
 	// Name: Hostname.
 	Name *string `json:"name,omitempty"`
 
 	// SslState: SSL type.
-	SslState *HostNameSslState_SslState `json:"sslState,omitempty"`
+	SslState *HostNameSslState_SslState_ARM `json:"sslState,omitempty"`
 
 	// Thumbprint: SSL certificate thumbprint.
 	Thumbprint *string `json:"thumbprint,omitempty"`
@@ -199,21 +199,57 @@ type HostNameSslState_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
-type ManagedServiceIdentity_Type string
+type ManagedServiceIdentity_Type_ARM string
 
 const (
-	ManagedServiceIdentity_Type_None                       = ManagedServiceIdentity_Type("None")
-	ManagedServiceIdentity_Type_SystemAssigned             = ManagedServiceIdentity_Type("SystemAssigned")
-	ManagedServiceIdentity_Type_SystemAssignedUserAssigned = ManagedServiceIdentity_Type("SystemAssigned, UserAssigned")
-	ManagedServiceIdentity_Type_UserAssigned               = ManagedServiceIdentity_Type("UserAssigned")
+	ManagedServiceIdentity_Type_ARM_None                       = ManagedServiceIdentity_Type_ARM("None")
+	ManagedServiceIdentity_Type_ARM_SystemAssigned             = ManagedServiceIdentity_Type_ARM("SystemAssigned")
+	ManagedServiceIdentity_Type_ARM_SystemAssignedUserAssigned = ManagedServiceIdentity_Type_ARM("SystemAssigned, UserAssigned")
+	ManagedServiceIdentity_Type_ARM_UserAssigned               = ManagedServiceIdentity_Type_ARM("UserAssigned")
 )
 
-// Mapping from string to ManagedServiceIdentity_Type
-var managedServiceIdentity_Type_Values = map[string]ManagedServiceIdentity_Type{
-	"none":                         ManagedServiceIdentity_Type_None,
-	"systemassigned":               ManagedServiceIdentity_Type_SystemAssigned,
-	"systemassigned, userassigned": ManagedServiceIdentity_Type_SystemAssignedUserAssigned,
-	"userassigned":                 ManagedServiceIdentity_Type_UserAssigned,
+// Mapping from string to ManagedServiceIdentity_Type_ARM
+var managedServiceIdentity_Type_ARM_Values = map[string]ManagedServiceIdentity_Type_ARM{
+	"none":                         ManagedServiceIdentity_Type_ARM_None,
+	"systemassigned":               ManagedServiceIdentity_Type_ARM_SystemAssigned,
+	"systemassigned, userassigned": ManagedServiceIdentity_Type_ARM_SystemAssignedUserAssigned,
+	"userassigned":                 ManagedServiceIdentity_Type_ARM_UserAssigned,
+}
+
+// +kubebuilder:validation:Enum={"Optional","OptionalInteractiveUser","Required"}
+type Site_Properties_ClientCertMode_Spec_ARM string
+
+const (
+	Site_Properties_ClientCertMode_Spec_ARM_Optional                = Site_Properties_ClientCertMode_Spec_ARM("Optional")
+	Site_Properties_ClientCertMode_Spec_ARM_OptionalInteractiveUser = Site_Properties_ClientCertMode_Spec_ARM("OptionalInteractiveUser")
+	Site_Properties_ClientCertMode_Spec_ARM_Required                = Site_Properties_ClientCertMode_Spec_ARM("Required")
+)
+
+// Mapping from string to Site_Properties_ClientCertMode_Spec_ARM
+var site_Properties_ClientCertMode_Spec_ARM_Values = map[string]Site_Properties_ClientCertMode_Spec_ARM{
+	"optional":                Site_Properties_ClientCertMode_Spec_ARM_Optional,
+	"optionalinteractiveuser": Site_Properties_ClientCertMode_Spec_ARM_OptionalInteractiveUser,
+	"required":                Site_Properties_ClientCertMode_Spec_ARM_Required,
+}
+
+// +kubebuilder:validation:Enum={"ActiveActive","Failover","GeoRedundant","Manual","None"}
+type Site_Properties_RedundancyMode_Spec_ARM string
+
+const (
+	Site_Properties_RedundancyMode_Spec_ARM_ActiveActive = Site_Properties_RedundancyMode_Spec_ARM("ActiveActive")
+	Site_Properties_RedundancyMode_Spec_ARM_Failover     = Site_Properties_RedundancyMode_Spec_ARM("Failover")
+	Site_Properties_RedundancyMode_Spec_ARM_GeoRedundant = Site_Properties_RedundancyMode_Spec_ARM("GeoRedundant")
+	Site_Properties_RedundancyMode_Spec_ARM_Manual       = Site_Properties_RedundancyMode_Spec_ARM("Manual")
+	Site_Properties_RedundancyMode_Spec_ARM_None         = Site_Properties_RedundancyMode_Spec_ARM("None")
+)
+
+// Mapping from string to Site_Properties_RedundancyMode_Spec_ARM
+var site_Properties_RedundancyMode_Spec_ARM_Values = map[string]Site_Properties_RedundancyMode_Spec_ARM{
+	"activeactive": Site_Properties_RedundancyMode_Spec_ARM_ActiveActive,
+	"failover":     Site_Properties_RedundancyMode_Spec_ARM_Failover,
+	"georedundant": Site_Properties_RedundancyMode_Spec_ARM_GeoRedundant,
+	"manual":       Site_Properties_RedundancyMode_Spec_ARM_Manual,
+	"none":         Site_Properties_RedundancyMode_Spec_ARM_None,
 }
 
 // Configuration of an App Service app.
@@ -270,7 +306,7 @@ type SiteConfig_ARM struct {
 	Experiments *Experiments_ARM `json:"experiments,omitempty"`
 
 	// FtpsState: State of FTP / FTPS service
-	FtpsState *SiteConfig_FtpsState `json:"ftpsState,omitempty"`
+	FtpsState *SiteConfig_FtpsState_ARM `json:"ftpsState,omitempty"`
 
 	// FunctionAppScaleLimit: Maximum number of workers that a site can scale out to.
 	// This setting only applies to the Consumption and Elastic Premium Plans
@@ -316,7 +352,7 @@ type SiteConfig_ARM struct {
 	LinuxFxVersion *string `json:"linuxFxVersion,omitempty"`
 
 	// LoadBalancing: Site load balancing.
-	LoadBalancing *SiteConfig_LoadBalancing `json:"loadBalancing,omitempty"`
+	LoadBalancing *SiteConfig_LoadBalancing_ARM `json:"loadBalancing,omitempty"`
 
 	// LocalMySqlEnabled: <code>true</code> to enable local MySQL; otherwise, <code>false</code>.
 	LocalMySqlEnabled *bool `json:"localMySqlEnabled,omitempty"`
@@ -325,13 +361,13 @@ type SiteConfig_ARM struct {
 	LogsDirectorySizeLimit *int `json:"logsDirectorySizeLimit,omitempty"`
 
 	// ManagedPipelineMode: Managed pipeline mode.
-	ManagedPipelineMode *SiteConfig_ManagedPipelineMode `json:"managedPipelineMode,omitempty"`
+	ManagedPipelineMode *SiteConfig_ManagedPipelineMode_ARM `json:"managedPipelineMode,omitempty"`
 
 	// ManagedServiceIdentityId: Managed Service Identity Id
 	ManagedServiceIdentityId *int `json:"managedServiceIdentityId,omitempty"`
 
 	// MinTlsVersion: MinTlsVersion: configures the minimum version of TLS required for SSL requests
-	MinTlsVersion *SiteConfig_MinTlsVersion `json:"minTlsVersion,omitempty"`
+	MinTlsVersion *SiteConfig_MinTlsVersion_ARM `json:"minTlsVersion,omitempty"`
 
 	// MinimumElasticInstanceCount: Number of minimum instance count for a site
 	// This setting only applies to the Elastic Plans
@@ -387,10 +423,10 @@ type SiteConfig_ARM struct {
 	ScmIpSecurityRestrictionsUseMain *bool `json:"scmIpSecurityRestrictionsUseMain,omitempty"`
 
 	// ScmMinTlsVersion: ScmMinTlsVersion: configures the minimum version of TLS required for SSL requests for SCM site
-	ScmMinTlsVersion *SiteConfig_ScmMinTlsVersion `json:"scmMinTlsVersion,omitempty"`
+	ScmMinTlsVersion *SiteConfig_ScmMinTlsVersion_ARM `json:"scmMinTlsVersion,omitempty"`
 
 	// ScmType: SCM type.
-	ScmType *SiteConfig_ScmType `json:"scmType,omitempty"`
+	ScmType *SiteConfig_ScmType_ARM `json:"scmType,omitempty"`
 
 	// TracingOptions: Tracing options.
 	TracingOptions *string `json:"tracingOptions,omitempty"`
@@ -467,7 +503,7 @@ type AzureStorageInfoValue_ARM struct {
 	ShareName *string `json:"shareName,omitempty"`
 
 	// Type: Type of storage.
-	Type *AzureStorageInfoValue_Type `json:"type,omitempty"`
+	Type *AzureStorageInfoValue_Type_ARM `json:"type,omitempty"`
 }
 
 // Database connection string information.
@@ -479,7 +515,7 @@ type ConnStringInfo_ARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: Type of database.
-	Type *ConnStringInfo_Type `json:"type,omitempty"`
+	Type *ConnStringInfo_Type_ARM `json:"type,omitempty"`
 }
 
 // Cross-Origin Resource Sharing (CORS) settings for the app.
@@ -512,6 +548,36 @@ type HandlerMapping_ARM struct {
 
 	// ScriptProcessor: The absolute path to the FastCGI application.
 	ScriptProcessor *string `json:"scriptProcessor,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Repository","Standard"}
+type HostNameSslState_HostType_ARM string
+
+const (
+	HostNameSslState_HostType_ARM_Repository = HostNameSslState_HostType_ARM("Repository")
+	HostNameSslState_HostType_ARM_Standard   = HostNameSslState_HostType_ARM("Standard")
+)
+
+// Mapping from string to HostNameSslState_HostType_ARM
+var hostNameSslState_HostType_ARM_Values = map[string]HostNameSslState_HostType_ARM{
+	"repository": HostNameSslState_HostType_ARM_Repository,
+	"standard":   HostNameSslState_HostType_ARM_Standard,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","IpBasedEnabled","SniEnabled"}
+type HostNameSslState_SslState_ARM string
+
+const (
+	HostNameSslState_SslState_ARM_Disabled       = HostNameSslState_SslState_ARM("Disabled")
+	HostNameSslState_SslState_ARM_IpBasedEnabled = HostNameSslState_SslState_ARM("IpBasedEnabled")
+	HostNameSslState_SslState_ARM_SniEnabled     = HostNameSslState_SslState_ARM("SniEnabled")
+)
+
+// Mapping from string to HostNameSslState_SslState_ARM
+var hostNameSslState_SslState_ARM_Values = map[string]HostNameSslState_SslState_ARM{
+	"disabled":       HostNameSslState_SslState_ARM_Disabled,
+	"ipbasedenabled": HostNameSslState_SslState_ARM_IpBasedEnabled,
+	"snienabled":     HostNameSslState_SslState_ARM_SniEnabled,
 }
 
 // IP security restriction on an app.
@@ -558,8 +624,8 @@ type IpSecurityRestriction_ARM struct {
 	SubnetTrafficTag *int `json:"subnetTrafficTag,omitempty"`
 
 	// Tag: Defines what this IP filter will be used for. This is to support IP filtering on proxies.
-	Tag                  *IpSecurityRestriction_Tag `json:"tag,omitempty"`
-	VnetSubnetResourceId *string                    `json:"vnetSubnetResourceId,omitempty"`
+	Tag                  *IpSecurityRestriction_Tag_ARM `json:"tag,omitempty"`
+	VnetSubnetResourceId *string                        `json:"vnetSubnetResourceId,omitempty"`
 
 	// VnetTrafficTag: (internal) Vnet traffic tag
 	VnetTrafficTag *int `json:"vnetTrafficTag,omitempty"`
@@ -581,6 +647,128 @@ type PushSettings_ARM struct {
 
 	// Properties: PushSettings resource specific properties
 	Properties *PushSettings_Properties_ARM `json:"properties,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"AllAllowed","Disabled","FtpsOnly"}
+type SiteConfig_FtpsState_ARM string
+
+const (
+	SiteConfig_FtpsState_ARM_AllAllowed = SiteConfig_FtpsState_ARM("AllAllowed")
+	SiteConfig_FtpsState_ARM_Disabled   = SiteConfig_FtpsState_ARM("Disabled")
+	SiteConfig_FtpsState_ARM_FtpsOnly   = SiteConfig_FtpsState_ARM("FtpsOnly")
+)
+
+// Mapping from string to SiteConfig_FtpsState_ARM
+var siteConfig_FtpsState_ARM_Values = map[string]SiteConfig_FtpsState_ARM{
+	"allallowed": SiteConfig_FtpsState_ARM_AllAllowed,
+	"disabled":   SiteConfig_FtpsState_ARM_Disabled,
+	"ftpsonly":   SiteConfig_FtpsState_ARM_FtpsOnly,
+}
+
+// +kubebuilder:validation:Enum={"LeastRequests","LeastResponseTime","PerSiteRoundRobin","RequestHash","WeightedRoundRobin","WeightedTotalTraffic"}
+type SiteConfig_LoadBalancing_ARM string
+
+const (
+	SiteConfig_LoadBalancing_ARM_LeastRequests        = SiteConfig_LoadBalancing_ARM("LeastRequests")
+	SiteConfig_LoadBalancing_ARM_LeastResponseTime    = SiteConfig_LoadBalancing_ARM("LeastResponseTime")
+	SiteConfig_LoadBalancing_ARM_PerSiteRoundRobin    = SiteConfig_LoadBalancing_ARM("PerSiteRoundRobin")
+	SiteConfig_LoadBalancing_ARM_RequestHash          = SiteConfig_LoadBalancing_ARM("RequestHash")
+	SiteConfig_LoadBalancing_ARM_WeightedRoundRobin   = SiteConfig_LoadBalancing_ARM("WeightedRoundRobin")
+	SiteConfig_LoadBalancing_ARM_WeightedTotalTraffic = SiteConfig_LoadBalancing_ARM("WeightedTotalTraffic")
+)
+
+// Mapping from string to SiteConfig_LoadBalancing_ARM
+var siteConfig_LoadBalancing_ARM_Values = map[string]SiteConfig_LoadBalancing_ARM{
+	"leastrequests":        SiteConfig_LoadBalancing_ARM_LeastRequests,
+	"leastresponsetime":    SiteConfig_LoadBalancing_ARM_LeastResponseTime,
+	"persiteroundrobin":    SiteConfig_LoadBalancing_ARM_PerSiteRoundRobin,
+	"requesthash":          SiteConfig_LoadBalancing_ARM_RequestHash,
+	"weightedroundrobin":   SiteConfig_LoadBalancing_ARM_WeightedRoundRobin,
+	"weightedtotaltraffic": SiteConfig_LoadBalancing_ARM_WeightedTotalTraffic,
+}
+
+// +kubebuilder:validation:Enum={"Classic","Integrated"}
+type SiteConfig_ManagedPipelineMode_ARM string
+
+const (
+	SiteConfig_ManagedPipelineMode_ARM_Classic    = SiteConfig_ManagedPipelineMode_ARM("Classic")
+	SiteConfig_ManagedPipelineMode_ARM_Integrated = SiteConfig_ManagedPipelineMode_ARM("Integrated")
+)
+
+// Mapping from string to SiteConfig_ManagedPipelineMode_ARM
+var siteConfig_ManagedPipelineMode_ARM_Values = map[string]SiteConfig_ManagedPipelineMode_ARM{
+	"classic":    SiteConfig_ManagedPipelineMode_ARM_Classic,
+	"integrated": SiteConfig_ManagedPipelineMode_ARM_Integrated,
+}
+
+// +kubebuilder:validation:Enum={"1.0","1.1","1.2"}
+type SiteConfig_MinTlsVersion_ARM string
+
+const (
+	SiteConfig_MinTlsVersion_ARM_10 = SiteConfig_MinTlsVersion_ARM("1.0")
+	SiteConfig_MinTlsVersion_ARM_11 = SiteConfig_MinTlsVersion_ARM("1.1")
+	SiteConfig_MinTlsVersion_ARM_12 = SiteConfig_MinTlsVersion_ARM("1.2")
+)
+
+// Mapping from string to SiteConfig_MinTlsVersion_ARM
+var siteConfig_MinTlsVersion_ARM_Values = map[string]SiteConfig_MinTlsVersion_ARM{
+	"1.0": SiteConfig_MinTlsVersion_ARM_10,
+	"1.1": SiteConfig_MinTlsVersion_ARM_11,
+	"1.2": SiteConfig_MinTlsVersion_ARM_12,
+}
+
+// +kubebuilder:validation:Enum={"1.0","1.1","1.2"}
+type SiteConfig_ScmMinTlsVersion_ARM string
+
+const (
+	SiteConfig_ScmMinTlsVersion_ARM_10 = SiteConfig_ScmMinTlsVersion_ARM("1.0")
+	SiteConfig_ScmMinTlsVersion_ARM_11 = SiteConfig_ScmMinTlsVersion_ARM("1.1")
+	SiteConfig_ScmMinTlsVersion_ARM_12 = SiteConfig_ScmMinTlsVersion_ARM("1.2")
+)
+
+// Mapping from string to SiteConfig_ScmMinTlsVersion_ARM
+var siteConfig_ScmMinTlsVersion_ARM_Values = map[string]SiteConfig_ScmMinTlsVersion_ARM{
+	"1.0": SiteConfig_ScmMinTlsVersion_ARM_10,
+	"1.1": SiteConfig_ScmMinTlsVersion_ARM_11,
+	"1.2": SiteConfig_ScmMinTlsVersion_ARM_12,
+}
+
+// +kubebuilder:validation:Enum={"BitbucketGit","BitbucketHg","CodePlexGit","CodePlexHg","Dropbox","ExternalGit","ExternalHg","GitHub","LocalGit","None","OneDrive","Tfs","VSO","VSTSRM"}
+type SiteConfig_ScmType_ARM string
+
+const (
+	SiteConfig_ScmType_ARM_BitbucketGit = SiteConfig_ScmType_ARM("BitbucketGit")
+	SiteConfig_ScmType_ARM_BitbucketHg  = SiteConfig_ScmType_ARM("BitbucketHg")
+	SiteConfig_ScmType_ARM_CodePlexGit  = SiteConfig_ScmType_ARM("CodePlexGit")
+	SiteConfig_ScmType_ARM_CodePlexHg   = SiteConfig_ScmType_ARM("CodePlexHg")
+	SiteConfig_ScmType_ARM_Dropbox      = SiteConfig_ScmType_ARM("Dropbox")
+	SiteConfig_ScmType_ARM_ExternalGit  = SiteConfig_ScmType_ARM("ExternalGit")
+	SiteConfig_ScmType_ARM_ExternalHg   = SiteConfig_ScmType_ARM("ExternalHg")
+	SiteConfig_ScmType_ARM_GitHub       = SiteConfig_ScmType_ARM("GitHub")
+	SiteConfig_ScmType_ARM_LocalGit     = SiteConfig_ScmType_ARM("LocalGit")
+	SiteConfig_ScmType_ARM_None         = SiteConfig_ScmType_ARM("None")
+	SiteConfig_ScmType_ARM_OneDrive     = SiteConfig_ScmType_ARM("OneDrive")
+	SiteConfig_ScmType_ARM_Tfs          = SiteConfig_ScmType_ARM("Tfs")
+	SiteConfig_ScmType_ARM_VSO          = SiteConfig_ScmType_ARM("VSO")
+	SiteConfig_ScmType_ARM_VSTSRM       = SiteConfig_ScmType_ARM("VSTSRM")
+)
+
+// Mapping from string to SiteConfig_ScmType_ARM
+var siteConfig_ScmType_ARM_Values = map[string]SiteConfig_ScmType_ARM{
+	"bitbucketgit": SiteConfig_ScmType_ARM_BitbucketGit,
+	"bitbuckethg":  SiteConfig_ScmType_ARM_BitbucketHg,
+	"codeplexgit":  SiteConfig_ScmType_ARM_CodePlexGit,
+	"codeplexhg":   SiteConfig_ScmType_ARM_CodePlexHg,
+	"dropbox":      SiteConfig_ScmType_ARM_Dropbox,
+	"externalgit":  SiteConfig_ScmType_ARM_ExternalGit,
+	"externalhg":   SiteConfig_ScmType_ARM_ExternalHg,
+	"github":       SiteConfig_ScmType_ARM_GitHub,
+	"localgit":     SiteConfig_ScmType_ARM_LocalGit,
+	"none":         SiteConfig_ScmType_ARM_None,
+	"onedrive":     SiteConfig_ScmType_ARM_OneDrive,
+	"tfs":          SiteConfig_ScmType_ARM_Tfs,
+	"vso":          SiteConfig_ScmType_ARM_VSO,
+	"vstsrm":       SiteConfig_ScmType_ARM_VSTSRM,
 }
 
 // Metric limits set on an app.
@@ -613,7 +801,7 @@ type VirtualApplication_ARM struct {
 // Actions which to take by the auto-heal module when a rule is triggered.
 type AutoHealActions_ARM struct {
 	// ActionType: Predefined action to be taken.
-	ActionType *AutoHealActions_ActionType `json:"actionType,omitempty"`
+	ActionType *AutoHealActions_ActionType_ARM `json:"actionType,omitempty"`
 
 	// CustomAction: Custom action to be taken.
 	CustomAction *AutoHealCustomAction_ARM `json:"customAction,omitempty"`
@@ -642,6 +830,68 @@ type AutoHealTriggers_ARM struct {
 
 	// StatusCodesRange: A rule based on status codes ranges.
 	StatusCodesRange []StatusCodesRangeBasedTrigger_ARM `json:"statusCodesRange,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"AzureBlob","AzureFiles"}
+type AzureStorageInfoValue_Type_ARM string
+
+const (
+	AzureStorageInfoValue_Type_ARM_AzureBlob  = AzureStorageInfoValue_Type_ARM("AzureBlob")
+	AzureStorageInfoValue_Type_ARM_AzureFiles = AzureStorageInfoValue_Type_ARM("AzureFiles")
+)
+
+// Mapping from string to AzureStorageInfoValue_Type_ARM
+var azureStorageInfoValue_Type_ARM_Values = map[string]AzureStorageInfoValue_Type_ARM{
+	"azureblob":  AzureStorageInfoValue_Type_ARM_AzureBlob,
+	"azurefiles": AzureStorageInfoValue_Type_ARM_AzureFiles,
+}
+
+// +kubebuilder:validation:Enum={"ApiHub","Custom","DocDb","EventHub","MySql","NotificationHub","PostgreSQL","RedisCache","SQLAzure","SQLServer","ServiceBus"}
+type ConnStringInfo_Type_ARM string
+
+const (
+	ConnStringInfo_Type_ARM_ApiHub          = ConnStringInfo_Type_ARM("ApiHub")
+	ConnStringInfo_Type_ARM_Custom          = ConnStringInfo_Type_ARM("Custom")
+	ConnStringInfo_Type_ARM_DocDb           = ConnStringInfo_Type_ARM("DocDb")
+	ConnStringInfo_Type_ARM_EventHub        = ConnStringInfo_Type_ARM("EventHub")
+	ConnStringInfo_Type_ARM_MySql           = ConnStringInfo_Type_ARM("MySql")
+	ConnStringInfo_Type_ARM_NotificationHub = ConnStringInfo_Type_ARM("NotificationHub")
+	ConnStringInfo_Type_ARM_PostgreSQL      = ConnStringInfo_Type_ARM("PostgreSQL")
+	ConnStringInfo_Type_ARM_RedisCache      = ConnStringInfo_Type_ARM("RedisCache")
+	ConnStringInfo_Type_ARM_SQLAzure        = ConnStringInfo_Type_ARM("SQLAzure")
+	ConnStringInfo_Type_ARM_SQLServer       = ConnStringInfo_Type_ARM("SQLServer")
+	ConnStringInfo_Type_ARM_ServiceBus      = ConnStringInfo_Type_ARM("ServiceBus")
+)
+
+// Mapping from string to ConnStringInfo_Type_ARM
+var connStringInfo_Type_ARM_Values = map[string]ConnStringInfo_Type_ARM{
+	"apihub":          ConnStringInfo_Type_ARM_ApiHub,
+	"custom":          ConnStringInfo_Type_ARM_Custom,
+	"docdb":           ConnStringInfo_Type_ARM_DocDb,
+	"eventhub":        ConnStringInfo_Type_ARM_EventHub,
+	"mysql":           ConnStringInfo_Type_ARM_MySql,
+	"notificationhub": ConnStringInfo_Type_ARM_NotificationHub,
+	"postgresql":      ConnStringInfo_Type_ARM_PostgreSQL,
+	"rediscache":      ConnStringInfo_Type_ARM_RedisCache,
+	"sqlazure":        ConnStringInfo_Type_ARM_SQLAzure,
+	"sqlserver":       ConnStringInfo_Type_ARM_SQLServer,
+	"servicebus":      ConnStringInfo_Type_ARM_ServiceBus,
+}
+
+// +kubebuilder:validation:Enum={"Default","ServiceTag","XffProxy"}
+type IpSecurityRestriction_Tag_ARM string
+
+const (
+	IpSecurityRestriction_Tag_ARM_Default    = IpSecurityRestriction_Tag_ARM("Default")
+	IpSecurityRestriction_Tag_ARM_ServiceTag = IpSecurityRestriction_Tag_ARM("ServiceTag")
+	IpSecurityRestriction_Tag_ARM_XffProxy   = IpSecurityRestriction_Tag_ARM("XffProxy")
+)
+
+// Mapping from string to IpSecurityRestriction_Tag_ARM
+var ipSecurityRestriction_Tag_ARM_Values = map[string]IpSecurityRestriction_Tag_ARM{
+	"default":    IpSecurityRestriction_Tag_ARM_Default,
+	"servicetag": IpSecurityRestriction_Tag_ARM_ServiceTag,
+	"xffproxy":   IpSecurityRestriction_Tag_ARM_XffProxy,
 }
 
 type PushSettings_Properties_ARM struct {
@@ -707,6 +957,22 @@ type VirtualDirectory_ARM struct {
 
 	// VirtualPath: Path to virtual application.
 	VirtualPath *string `json:"virtualPath,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"CustomAction","LogEvent","Recycle"}
+type AutoHealActions_ActionType_ARM string
+
+const (
+	AutoHealActions_ActionType_ARM_CustomAction = AutoHealActions_ActionType_ARM("CustomAction")
+	AutoHealActions_ActionType_ARM_LogEvent     = AutoHealActions_ActionType_ARM("LogEvent")
+	AutoHealActions_ActionType_ARM_Recycle      = AutoHealActions_ActionType_ARM("Recycle")
+)
+
+// Mapping from string to AutoHealActions_ActionType_ARM
+var autoHealActions_ActionType_ARM_Values = map[string]AutoHealActions_ActionType_ARM{
+	"customaction": AutoHealActions_ActionType_ARM_CustomAction,
+	"logevent":     AutoHealActions_ActionType_ARM_LogEvent,
+	"recycle":      AutoHealActions_ActionType_ARM_Recycle,
 }
 
 // Custom action to be executed

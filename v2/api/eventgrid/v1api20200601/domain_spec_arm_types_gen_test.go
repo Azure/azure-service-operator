@@ -84,8 +84,8 @@ func DomainProperties_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDomainProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDomainProperties_ARM(gens map[string]gopter.Gen) {
-	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(DomainProperties_InputSchema_CloudEventSchemaV1_0, DomainProperties_InputSchema_CustomEventSchema, DomainProperties_InputSchema_EventGridSchema))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(DomainProperties_PublicNetworkAccess_Disabled, DomainProperties_PublicNetworkAccess_Enabled))
+	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(DomainProperties_InputSchema_ARM_CloudEventSchemaV1_0, DomainProperties_InputSchema_ARM_CustomEventSchema, DomainProperties_InputSchema_ARM_EventGridSchema))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(DomainProperties_PublicNetworkAccess_ARM_Disabled, DomainProperties_PublicNetworkAccess_ARM_Enabled))
 }
 
 // AddRelatedPropertyGeneratorsForDomainProperties_ARM is a factory method for creating gopter generators
@@ -229,7 +229,7 @@ func InboundIpRule_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForInboundIpRule_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInboundIpRule_ARM(gens map[string]gopter.Gen) {
-	gens["Action"] = gen.PtrOf(gen.OneConstOf(InboundIpRule_Action_Allow))
+	gens["Action"] = gen.PtrOf(gen.OneConstOf(InboundIpRule_Action_ARM_Allow))
 	gens["IpMask"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -557,7 +557,7 @@ func JsonInputSchemaMapping_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForJsonInputSchemaMapping_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForJsonInputSchemaMapping_ARM(gens map[string]gopter.Gen) {
-	gens["InputSchemaMappingType"] = gen.OneConstOf(JsonInputSchemaMapping_InputSchemaMappingType_Json)
+	gens["InputSchemaMappingType"] = gen.OneConstOf(JsonInputSchemaMapping_InputSchemaMappingType_ARM_Json)
 }
 
 // AddRelatedPropertyGeneratorsForJsonInputSchemaMapping_ARM is a factory method for creating gopter generators

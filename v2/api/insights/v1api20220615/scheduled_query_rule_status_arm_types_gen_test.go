@@ -212,20 +212,20 @@ func AddIndependentPropertyGeneratorsForCondition_STATUS_ARM(gens map[string]gop
 	gens["MetricMeasureColumn"] = gen.PtrOf(gen.AlphaString())
 	gens["MetricName"] = gen.PtrOf(gen.AlphaString())
 	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		Condition_Operator_STATUS_Equals,
-		Condition_Operator_STATUS_GreaterThan,
-		Condition_Operator_STATUS_GreaterThanOrEqual,
-		Condition_Operator_STATUS_LessThan,
-		Condition_Operator_STATUS_LessThanOrEqual))
+		Condition_Operator_STATUS_ARM_Equals,
+		Condition_Operator_STATUS_ARM_GreaterThan,
+		Condition_Operator_STATUS_ARM_GreaterThanOrEqual,
+		Condition_Operator_STATUS_ARM_LessThan,
+		Condition_Operator_STATUS_ARM_LessThanOrEqual))
 	gens["Query"] = gen.PtrOf(gen.AlphaString())
 	gens["ResourceIdColumn"] = gen.PtrOf(gen.AlphaString())
 	gens["Threshold"] = gen.PtrOf(gen.Float64())
 	gens["TimeAggregation"] = gen.PtrOf(gen.OneConstOf(
-		Condition_TimeAggregation_STATUS_Average,
-		Condition_TimeAggregation_STATUS_Count,
-		Condition_TimeAggregation_STATUS_Maximum,
-		Condition_TimeAggregation_STATUS_Minimum,
-		Condition_TimeAggregation_STATUS_Total))
+		Condition_TimeAggregation_STATUS_ARM_Average,
+		Condition_TimeAggregation_STATUS_ARM_Count,
+		Condition_TimeAggregation_STATUS_ARM_Maximum,
+		Condition_TimeAggregation_STATUS_ARM_Minimum,
+		Condition_TimeAggregation_STATUS_ARM_Total))
 }
 
 // AddRelatedPropertyGeneratorsForCondition_STATUS_ARM is a factory method for creating gopter generators
@@ -293,7 +293,7 @@ func Dimension_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDimension_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDimension_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Operator"] = gen.PtrOf(gen.OneConstOf(Dimension_Operator_STATUS_Exclude, Dimension_Operator_STATUS_Include))
+	gens["Operator"] = gen.PtrOf(gen.OneConstOf(Dimension_Operator_STATUS_ARM_Exclude, Dimension_Operator_STATUS_ARM_Include))
 	gens["Values"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -438,11 +438,11 @@ func AddIndependentPropertyGeneratorsForScheduledQueryRuleProperties_STATUS_ARM(
 	gens["OverrideQueryTimeRange"] = gen.PtrOf(gen.AlphaString())
 	gens["Scopes"] = gen.SliceOf(gen.AlphaString())
 	gens["Severity"] = gen.PtrOf(gen.OneConstOf(
-		ScheduledQueryRuleProperties_Severity_STATUS_0,
-		ScheduledQueryRuleProperties_Severity_STATUS_1,
-		ScheduledQueryRuleProperties_Severity_STATUS_2,
-		ScheduledQueryRuleProperties_Severity_STATUS_3,
-		ScheduledQueryRuleProperties_Severity_STATUS_4))
+		ScheduledQueryRuleProperties_Severity_STATUS_ARM_0,
+		ScheduledQueryRuleProperties_Severity_STATUS_ARM_1,
+		ScheduledQueryRuleProperties_Severity_STATUS_ARM_2,
+		ScheduledQueryRuleProperties_Severity_STATUS_ARM_3,
+		ScheduledQueryRuleProperties_Severity_STATUS_ARM_4))
 	gens["SkipQueryValidation"] = gen.PtrOf(gen.Bool())
 	gens["TargetResourceTypes"] = gen.SliceOf(gen.AlphaString())
 	gens["WindowSize"] = gen.PtrOf(gen.AlphaString())
@@ -523,7 +523,7 @@ func ScheduledQueryRule_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForScheduledQueryRule_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(ScheduledQueryRule_Kind_STATUS_LogAlert, ScheduledQueryRule_Kind_STATUS_LogToMetric))
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(ScheduledQueryRule_Kind_STATUS_ARM_LogAlert, ScheduledQueryRule_Kind_STATUS_ARM_LogToMetric))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(
@@ -599,15 +599,15 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS_ARM(gens map[string]go
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_STATUS_Application,
-		SystemData_CreatedByType_STATUS_Key,
-		SystemData_CreatedByType_STATUS_ManagedIdentity,
-		SystemData_CreatedByType_STATUS_User))
+		SystemData_CreatedByType_STATUS_ARM_Application,
+		SystemData_CreatedByType_STATUS_ARM_Key,
+		SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
+		SystemData_CreatedByType_STATUS_ARM_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_STATUS_Application,
-		SystemData_LastModifiedByType_STATUS_Key,
-		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-		SystemData_LastModifiedByType_STATUS_User))
+		SystemData_LastModifiedByType_STATUS_ARM_Application,
+		SystemData_LastModifiedByType_STATUS_ARM_Key,
+		SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
+		SystemData_LastModifiedByType_STATUS_ARM_User))
 }

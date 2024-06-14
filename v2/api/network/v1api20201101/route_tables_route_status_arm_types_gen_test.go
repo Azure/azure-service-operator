@@ -79,16 +79,16 @@ func AddIndependentPropertyGeneratorsForRoutePropertiesFormat_STATUS_ARM(gens ma
 	gens["HasBgpOverride"] = gen.PtrOf(gen.Bool())
 	gens["NextHopIpAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["NextHopType"] = gen.PtrOf(gen.OneConstOf(
-		RouteNextHopType_STATUS_Internet,
-		RouteNextHopType_STATUS_None,
-		RouteNextHopType_STATUS_VirtualAppliance,
-		RouteNextHopType_STATUS_VirtualNetworkGateway,
-		RouteNextHopType_STATUS_VnetLocal))
+		RouteNextHopType_STATUS_ARM_Internet,
+		RouteNextHopType_STATUS_ARM_None,
+		RouteNextHopType_STATUS_ARM_VirtualAppliance,
+		RouteNextHopType_STATUS_ARM_VirtualNetworkGateway,
+		RouteNextHopType_STATUS_ARM_VnetLocal))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_STATUS_Deleting,
-		ProvisioningState_STATUS_Failed,
-		ProvisioningState_STATUS_Succeeded,
-		ProvisioningState_STATUS_Updating))
+		ProvisioningState_STATUS_ARM_Deleting,
+		ProvisioningState_STATUS_ARM_Failed,
+		ProvisioningState_STATUS_ARM_Succeeded,
+		ProvisioningState_STATUS_ARM_Updating))
 }
 
 func Test_RouteTables_Route_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -537,7 +537,9 @@ func (database *Servers_Database_Spec) ConvertToARM(resolved genruntime.ConvertT
 		result.Properties.AutoPauseDelay = &autoPauseDelay
 	}
 	if database.CatalogCollation != nil {
-		catalogCollation := *database.CatalogCollation
+		var temp string
+		temp = string(*database.CatalogCollation)
+		catalogCollation := DatabaseProperties_CatalogCollation_ARM(temp)
 		result.Properties.CatalogCollation = &catalogCollation
 	}
 	if database.Collation != nil {
@@ -545,7 +547,9 @@ func (database *Servers_Database_Spec) ConvertToARM(resolved genruntime.ConvertT
 		result.Properties.Collation = &collation
 	}
 	if database.CreateMode != nil {
-		createMode := *database.CreateMode
+		var temp string
+		temp = string(*database.CreateMode)
+		createMode := DatabaseProperties_CreateMode_ARM(temp)
 		result.Properties.CreateMode = &createMode
 	}
 	if database.ElasticPoolReference != nil {
@@ -569,7 +573,9 @@ func (database *Servers_Database_Spec) ConvertToARM(resolved genruntime.ConvertT
 		result.Properties.IsLedgerOn = &isLedgerOn
 	}
 	if database.LicenseType != nil {
-		licenseType := *database.LicenseType
+		var temp string
+		temp = string(*database.LicenseType)
+		licenseType := DatabaseProperties_LicenseType_ARM(temp)
 		result.Properties.LicenseType = &licenseType
 	}
 	if database.LongTermRetentionBackupResourceReference != nil {
@@ -593,7 +599,9 @@ func (database *Servers_Database_Spec) ConvertToARM(resolved genruntime.ConvertT
 		result.Properties.MinCapacity = &minCapacity
 	}
 	if database.ReadScale != nil {
-		readScale := *database.ReadScale
+		var temp string
+		temp = string(*database.ReadScale)
+		readScale := DatabaseProperties_ReadScale_ARM(temp)
 		result.Properties.ReadScale = &readScale
 	}
 	if database.RecoverableDatabaseReference != nil {
@@ -613,7 +621,9 @@ func (database *Servers_Database_Spec) ConvertToARM(resolved genruntime.ConvertT
 		result.Properties.RecoveryServicesRecoveryPointId = &recoveryServicesRecoveryPointId
 	}
 	if database.RequestedBackupStorageRedundancy != nil {
-		requestedBackupStorageRedundancy := *database.RequestedBackupStorageRedundancy
+		var temp string
+		temp = string(*database.RequestedBackupStorageRedundancy)
+		requestedBackupStorageRedundancy := DatabaseProperties_RequestedBackupStorageRedundancy_ARM(temp)
 		result.Properties.RequestedBackupStorageRedundancy = &requestedBackupStorageRedundancy
 	}
 	if database.RestorableDroppedDatabaseReference != nil {
@@ -629,11 +639,15 @@ func (database *Servers_Database_Spec) ConvertToARM(resolved genruntime.ConvertT
 		result.Properties.RestorePointInTime = &restorePointInTime
 	}
 	if database.SampleName != nil {
-		sampleName := *database.SampleName
+		var temp string
+		temp = string(*database.SampleName)
+		sampleName := DatabaseProperties_SampleName_ARM(temp)
 		result.Properties.SampleName = &sampleName
 	}
 	if database.SecondaryType != nil {
-		secondaryType := *database.SecondaryType
+		var temp string
+		temp = string(*database.SecondaryType)
+		secondaryType := DatabaseProperties_SecondaryType_ARM(temp)
 		result.Properties.SecondaryType = &secondaryType
 	}
 	if database.SourceDatabaseDeletionDate != nil {
@@ -709,7 +723,9 @@ func (database *Servers_Database_Spec) PopulateFromARM(owner genruntime.Arbitrar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CatalogCollation != nil {
-			catalogCollation := *typedInput.Properties.CatalogCollation
+			var temp string
+			temp = string(*typedInput.Properties.CatalogCollation)
+			catalogCollation := DatabaseProperties_CatalogCollation(temp)
 			database.CatalogCollation = &catalogCollation
 		}
 	}
@@ -727,7 +743,9 @@ func (database *Servers_Database_Spec) PopulateFromARM(owner genruntime.Arbitrar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CreateMode != nil {
-			createMode := *typedInput.Properties.CreateMode
+			var temp string
+			temp = string(*typedInput.Properties.CreateMode)
+			createMode := DatabaseProperties_CreateMode(temp)
 			database.CreateMode = &createMode
 		}
 	}
@@ -776,7 +794,9 @@ func (database *Servers_Database_Spec) PopulateFromARM(owner genruntime.Arbitrar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LicenseType != nil {
-			licenseType := *typedInput.Properties.LicenseType
+			var temp string
+			temp = string(*typedInput.Properties.LicenseType)
+			licenseType := DatabaseProperties_LicenseType(temp)
 			database.LicenseType = &licenseType
 		}
 	}
@@ -826,7 +846,9 @@ func (database *Servers_Database_Spec) PopulateFromARM(owner genruntime.Arbitrar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ReadScale != nil {
-			readScale := *typedInput.Properties.ReadScale
+			var temp string
+			temp = string(*typedInput.Properties.ReadScale)
+			readScale := DatabaseProperties_ReadScale(temp)
 			database.ReadScale = &readScale
 		}
 	}
@@ -839,7 +861,9 @@ func (database *Servers_Database_Spec) PopulateFromARM(owner genruntime.Arbitrar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RequestedBackupStorageRedundancy != nil {
-			requestedBackupStorageRedundancy := *typedInput.Properties.RequestedBackupStorageRedundancy
+			var temp string
+			temp = string(*typedInput.Properties.RequestedBackupStorageRedundancy)
+			requestedBackupStorageRedundancy := DatabaseProperties_RequestedBackupStorageRedundancy(temp)
 			database.RequestedBackupStorageRedundancy = &requestedBackupStorageRedundancy
 		}
 	}
@@ -859,7 +883,9 @@ func (database *Servers_Database_Spec) PopulateFromARM(owner genruntime.Arbitrar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SampleName != nil {
-			sampleName := *typedInput.Properties.SampleName
+			var temp string
+			temp = string(*typedInput.Properties.SampleName)
+			sampleName := DatabaseProperties_SampleName(temp)
 			database.SampleName = &sampleName
 		}
 	}
@@ -868,7 +894,9 @@ func (database *Servers_Database_Spec) PopulateFromARM(owner genruntime.Arbitrar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SecondaryType != nil {
-			secondaryType := *typedInput.Properties.SecondaryType
+			var temp string
+			temp = string(*typedInput.Properties.SecondaryType)
+			secondaryType := DatabaseProperties_SecondaryType(temp)
 			database.SecondaryType = &secondaryType
 		}
 	}
@@ -1902,7 +1930,9 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CatalogCollation != nil {
-			catalogCollation := *typedInput.Properties.CatalogCollation
+			var temp string
+			temp = string(*typedInput.Properties.CatalogCollation)
+			catalogCollation := DatabaseProperties_CatalogCollation_STATUS(temp)
 			database.CatalogCollation = &catalogCollation
 		}
 	}
@@ -1922,7 +1952,9 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CreateMode != nil {
-			createMode := *typedInput.Properties.CreateMode
+			var temp string
+			temp = string(*typedInput.Properties.CreateMode)
+			createMode := DatabaseProperties_CreateMode_STATUS(temp)
 			database.CreateMode = &createMode
 		}
 	}
@@ -1940,7 +1972,9 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CurrentBackupStorageRedundancy != nil {
-			currentBackupStorageRedundancy := *typedInput.Properties.CurrentBackupStorageRedundancy
+			var temp string
+			temp = string(*typedInput.Properties.CurrentBackupStorageRedundancy)
+			currentBackupStorageRedundancy := DatabaseProperties_CurrentBackupStorageRedundancy_STATUS(temp)
 			database.CurrentBackupStorageRedundancy = &currentBackupStorageRedundancy
 		}
 	}
@@ -2076,7 +2110,9 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LicenseType != nil {
-			licenseType := *typedInput.Properties.LicenseType
+			var temp string
+			temp = string(*typedInput.Properties.LicenseType)
+			licenseType := DatabaseProperties_LicenseType_STATUS(temp)
 			database.LicenseType = &licenseType
 		}
 	}
@@ -2157,7 +2193,9 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ReadScale != nil {
-			readScale := *typedInput.Properties.ReadScale
+			var temp string
+			temp = string(*typedInput.Properties.ReadScale)
+			readScale := DatabaseProperties_ReadScale_STATUS(temp)
 			database.ReadScale = &readScale
 		}
 	}
@@ -2184,7 +2222,9 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RequestedBackupStorageRedundancy != nil {
-			requestedBackupStorageRedundancy := *typedInput.Properties.RequestedBackupStorageRedundancy
+			var temp string
+			temp = string(*typedInput.Properties.RequestedBackupStorageRedundancy)
+			requestedBackupStorageRedundancy := DatabaseProperties_RequestedBackupStorageRedundancy_STATUS(temp)
 			database.RequestedBackupStorageRedundancy = &requestedBackupStorageRedundancy
 		}
 	}
@@ -2229,7 +2269,9 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SampleName != nil {
-			sampleName := *typedInput.Properties.SampleName
+			var temp string
+			temp = string(*typedInput.Properties.SampleName)
+			sampleName := DatabaseProperties_SampleName_STATUS(temp)
 			database.SampleName = &sampleName
 		}
 	}
@@ -2238,7 +2280,9 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SecondaryType != nil {
-			secondaryType := *typedInput.Properties.SecondaryType
+			var temp string
+			temp = string(*typedInput.Properties.SecondaryType)
+			secondaryType := DatabaseProperties_SecondaryType_STATUS(temp)
 			database.SecondaryType = &secondaryType
 		}
 	}
@@ -2285,7 +2329,9 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Status != nil {
-			status := *typedInput.Properties.Status
+			var temp string
+			temp = string(*typedInput.Properties.Status)
+			status := DatabaseProperties_Status_STATUS(temp)
 			database.Status = &status
 		}
 	}
@@ -2847,7 +2893,9 @@ func (identity *DatabaseIdentity) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "Type":
 	if identity.Type != nil {
-		typeVar := *identity.Type
+		var temp string
+		temp = string(*identity.Type)
+		typeVar := DatabaseIdentity_Type_ARM(temp)
 		result.Type = &typeVar
 	}
 
@@ -2878,7 +2926,9 @@ func (identity *DatabaseIdentity) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := DatabaseIdentity_Type(temp)
 		identity.Type = &typeVar
 	}
 
@@ -3025,7 +3075,9 @@ func (identity *DatabaseIdentity_STATUS) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := DatabaseIdentity_Type_STATUS(temp)
 		identity.Type = &typeVar
 	}
 
@@ -3733,6 +3785,33 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *storage.Sku_S
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"None","UserAssigned"}
+type DatabaseIdentity_Type string
+
+const (
+	DatabaseIdentity_Type_None         = DatabaseIdentity_Type("None")
+	DatabaseIdentity_Type_UserAssigned = DatabaseIdentity_Type("UserAssigned")
+)
+
+// Mapping from string to DatabaseIdentity_Type
+var databaseIdentity_Type_Values = map[string]DatabaseIdentity_Type{
+	"none":         DatabaseIdentity_Type_None,
+	"userassigned": DatabaseIdentity_Type_UserAssigned,
+}
+
+type DatabaseIdentity_Type_STATUS string
+
+const (
+	DatabaseIdentity_Type_STATUS_None         = DatabaseIdentity_Type_STATUS("None")
+	DatabaseIdentity_Type_STATUS_UserAssigned = DatabaseIdentity_Type_STATUS("UserAssigned")
+)
+
+// Mapping from string to DatabaseIdentity_Type_STATUS
+var databaseIdentity_Type_STATUS_Values = map[string]DatabaseIdentity_Type_STATUS{
+	"none":         DatabaseIdentity_Type_STATUS_None,
+	"userassigned": DatabaseIdentity_Type_STATUS_UserAssigned,
 }
 
 // Azure Active Directory identity configuration for a resource.

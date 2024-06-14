@@ -350,7 +350,9 @@ func (policy *Service_Policy_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties = &PolicyContractProperties_ARM{}
 	}
 	if policy.Format != nil {
-		format := *policy.Format
+		var temp string
+		temp = string(*policy.Format)
+		format := PolicyContractProperties_Format_ARM(temp)
 		result.Properties.Format = &format
 	}
 	if policy.Value != nil {
@@ -376,7 +378,9 @@ func (policy *Service_Policy_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Format != nil {
-			format := *typedInput.Properties.Format
+			var temp string
+			temp = string(*typedInput.Properties.Format)
+			format := PolicyContractProperties_Format(temp)
 			policy.Format = &format
 		}
 	}
@@ -629,7 +633,9 @@ func (policy *Service_Policy_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Format != nil {
-			format := *typedInput.Properties.Format
+			var temp string
+			temp = string(*typedInput.Properties.Format)
+			format := PolicyContractProperties_Format_STATUS(temp)
 			policy.Format = &format
 		}
 	}

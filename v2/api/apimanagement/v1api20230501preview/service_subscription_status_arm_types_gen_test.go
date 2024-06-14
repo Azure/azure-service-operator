@@ -162,11 +162,11 @@ func AddIndependentPropertyGeneratorsForSubscriptionContractProperties_STATUS_AR
 	gens["Scope"] = gen.PtrOf(gen.AlphaString())
 	gens["StartDate"] = gen.PtrOf(gen.AlphaString())
 	gens["State"] = gen.PtrOf(gen.OneConstOf(
-		SubscriptionContractProperties_State_STATUS_Active,
-		SubscriptionContractProperties_State_STATUS_Cancelled,
-		SubscriptionContractProperties_State_STATUS_Expired,
-		SubscriptionContractProperties_State_STATUS_Rejected,
-		SubscriptionContractProperties_State_STATUS_Submitted,
-		SubscriptionContractProperties_State_STATUS_Suspended))
+		SubscriptionContractProperties_State_STATUS_ARM_Active,
+		SubscriptionContractProperties_State_STATUS_ARM_Cancelled,
+		SubscriptionContractProperties_State_STATUS_ARM_Expired,
+		SubscriptionContractProperties_State_STATUS_ARM_Rejected,
+		SubscriptionContractProperties_State_STATUS_ARM_Submitted,
+		SubscriptionContractProperties_State_STATUS_ARM_Suspended))
 	gens["StateComment"] = gen.PtrOf(gen.AlphaString())
 }

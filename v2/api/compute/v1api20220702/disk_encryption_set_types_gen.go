@@ -427,7 +427,9 @@ func (encryptionSet *DiskEncryptionSet_Spec) ConvertToARM(resolved genruntime.Co
 		result.Properties.ActiveKey = &activeKey
 	}
 	if encryptionSet.EncryptionType != nil {
-		encryptionType := *encryptionSet.EncryptionType
+		var temp string
+		temp = string(*encryptionSet.EncryptionType)
+		encryptionType := DiskEncryptionSetType_ARM(temp)
 		result.Properties.EncryptionType = &encryptionType
 	}
 	if encryptionSet.FederatedClientId != nil {
@@ -490,7 +492,9 @@ func (encryptionSet *DiskEncryptionSet_Spec) PopulateFromARM(owner genruntime.Ar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EncryptionType != nil {
-			encryptionType := *typedInput.Properties.EncryptionType
+			var temp string
+			temp = string(*typedInput.Properties.EncryptionType)
+			encryptionType := DiskEncryptionSetType(temp)
 			encryptionSet.EncryptionType = &encryptionType
 		}
 	}
@@ -980,7 +984,9 @@ func (encryptionSet *DiskEncryptionSet_STATUS) PopulateFromARM(owner genruntime.
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EncryptionType != nil {
-			encryptionType := *typedInput.Properties.EncryptionType
+			var temp string
+			temp = string(*typedInput.Properties.EncryptionType)
+			encryptionType := DiskEncryptionSetType_STATUS(temp)
 			encryptionSet.EncryptionType = &encryptionType
 		}
 	}
@@ -1533,7 +1539,9 @@ func (identity *EncryptionSetIdentity) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property "Type":
 	if identity.Type != nil {
-		typeVar := *identity.Type
+		var temp string
+		temp = string(*identity.Type)
+		typeVar := EncryptionSetIdentity_Type_ARM(temp)
 		result.Type = &typeVar
 	}
 
@@ -1564,7 +1572,9 @@ func (identity *EncryptionSetIdentity) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := EncryptionSetIdentity_Type(temp)
 		identity.Type = &typeVar
 	}
 
@@ -1727,7 +1737,9 @@ func (identity *EncryptionSetIdentity_STATUS) PopulateFromARM(owner genruntime.A
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := EncryptionSetIdentity_Type_STATUS(temp)
 		identity.Type = &typeVar
 	}
 
@@ -2198,6 +2210,41 @@ func (base *ApiErrorBase_STATUS) AssignProperties_To_ApiErrorBase_STATUS(destina
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
+type EncryptionSetIdentity_Type string
+
+const (
+	EncryptionSetIdentity_Type_None                       = EncryptionSetIdentity_Type("None")
+	EncryptionSetIdentity_Type_SystemAssigned             = EncryptionSetIdentity_Type("SystemAssigned")
+	EncryptionSetIdentity_Type_SystemAssignedUserAssigned = EncryptionSetIdentity_Type("SystemAssigned, UserAssigned")
+	EncryptionSetIdentity_Type_UserAssigned               = EncryptionSetIdentity_Type("UserAssigned")
+)
+
+// Mapping from string to EncryptionSetIdentity_Type
+var encryptionSetIdentity_Type_Values = map[string]EncryptionSetIdentity_Type{
+	"none":                         EncryptionSetIdentity_Type_None,
+	"systemassigned":               EncryptionSetIdentity_Type_SystemAssigned,
+	"systemassigned, userassigned": EncryptionSetIdentity_Type_SystemAssignedUserAssigned,
+	"userassigned":                 EncryptionSetIdentity_Type_UserAssigned,
+}
+
+type EncryptionSetIdentity_Type_STATUS string
+
+const (
+	EncryptionSetIdentity_Type_STATUS_None                       = EncryptionSetIdentity_Type_STATUS("None")
+	EncryptionSetIdentity_Type_STATUS_SystemAssigned             = EncryptionSetIdentity_Type_STATUS("SystemAssigned")
+	EncryptionSetIdentity_Type_STATUS_SystemAssignedUserAssigned = EncryptionSetIdentity_Type_STATUS("SystemAssigned, UserAssigned")
+	EncryptionSetIdentity_Type_STATUS_UserAssigned               = EncryptionSetIdentity_Type_STATUS("UserAssigned")
+)
+
+// Mapping from string to EncryptionSetIdentity_Type_STATUS
+var encryptionSetIdentity_Type_STATUS_Values = map[string]EncryptionSetIdentity_Type_STATUS{
+	"none":                         EncryptionSetIdentity_Type_STATUS_None,
+	"systemassigned":               EncryptionSetIdentity_Type_STATUS_SystemAssigned,
+	"systemassigned, userassigned": EncryptionSetIdentity_Type_STATUS_SystemAssignedUserAssigned,
+	"userassigned":                 EncryptionSetIdentity_Type_STATUS_UserAssigned,
 }
 
 type EncryptionSetIdentity_UserAssignedIdentities_STATUS struct {

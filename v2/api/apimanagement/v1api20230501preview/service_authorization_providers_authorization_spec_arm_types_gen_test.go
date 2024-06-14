@@ -75,8 +75,8 @@ func AuthorizationContractProperties_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAuthorizationContractProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAuthorizationContractProperties_ARM(gens map[string]gopter.Gen) {
-	gens["AuthorizationType"] = gen.PtrOf(gen.OneConstOf(AuthorizationContractProperties_AuthorizationType_OAuth2))
-	gens["Oauth2GrantType"] = gen.PtrOf(gen.OneConstOf(AuthorizationContractProperties_Oauth2GrantType_AuthorizationCode, AuthorizationContractProperties_Oauth2GrantType_ClientCredentials))
+	gens["AuthorizationType"] = gen.PtrOf(gen.OneConstOf(AuthorizationContractProperties_AuthorizationType_ARM_OAuth2))
+	gens["Oauth2GrantType"] = gen.PtrOf(gen.OneConstOf(AuthorizationContractProperties_Oauth2GrantType_ARM_AuthorizationCode, AuthorizationContractProperties_Oauth2GrantType_ARM_ClientCredentials))
 	gens["Parameters"] = gen.MapOf(
 		gen.AlphaString(),
 		gen.AlphaString())

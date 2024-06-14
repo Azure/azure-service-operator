@@ -416,7 +416,9 @@ func (assignment *RoleAssignment_Spec) ConvertToARM(resolved genruntime.ConvertT
 		result.Properties.PrincipalId = &principalId
 	}
 	if assignment.PrincipalType != nil {
-		principalType := *assignment.PrincipalType
+		var temp string
+		temp = string(*assignment.PrincipalType)
+		principalType := RoleAssignmentProperties_PrincipalType_ARM(temp)
 		result.Properties.PrincipalType = &principalType
 	}
 	if assignment.RoleDefinitionReference != nil {
@@ -499,7 +501,9 @@ func (assignment *RoleAssignment_Spec) PopulateFromARM(owner genruntime.Arbitrar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrincipalType != nil {
-			principalType := *typedInput.Properties.PrincipalType
+			var temp string
+			temp = string(*typedInput.Properties.PrincipalType)
+			principalType := RoleAssignmentProperties_PrincipalType(temp)
 			assignment.PrincipalType = &principalType
 		}
 	}
@@ -933,7 +937,9 @@ func (assignment *RoleAssignment_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrincipalType != nil {
-			principalType := *typedInput.Properties.PrincipalType
+			var temp string
+			temp = string(*typedInput.Properties.PrincipalType)
+			principalType := RoleAssignmentProperties_PrincipalType_STATUS(temp)
 			assignment.PrincipalType = &principalType
 		}
 	}

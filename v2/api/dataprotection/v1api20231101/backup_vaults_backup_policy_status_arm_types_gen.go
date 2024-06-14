@@ -54,20 +54,20 @@ func (policy *BaseBackupPolicy_STATUS_ARM) UnmarshalJSON(data []byte) error {
 
 type BackupPolicy_STATUS_ARM struct {
 	// DatasourceTypes: Type of datasource for the backup management
-	DatasourceTypes []string                       `json:"datasourceTypes,omitempty"`
-	ObjectType      BackupPolicy_ObjectType_STATUS `json:"objectType,omitempty"`
+	DatasourceTypes []string                           `json:"datasourceTypes,omitempty"`
+	ObjectType      BackupPolicy_ObjectType_STATUS_ARM `json:"objectType,omitempty"`
 
 	// PolicyRules: Policy rule dictionary that contains rules for each backuptype i.e Full/Incremental/Logs etc
 	PolicyRules []BasePolicyRule_STATUS_ARM `json:"policyRules,omitempty"`
 }
 
-type BackupPolicy_ObjectType_STATUS string
+type BackupPolicy_ObjectType_STATUS_ARM string
 
-const BackupPolicy_ObjectType_STATUS_BackupPolicy = BackupPolicy_ObjectType_STATUS("BackupPolicy")
+const BackupPolicy_ObjectType_STATUS_ARM_BackupPolicy = BackupPolicy_ObjectType_STATUS_ARM("BackupPolicy")
 
-// Mapping from string to BackupPolicy_ObjectType_STATUS
-var backupPolicy_ObjectType_STATUS_Values = map[string]BackupPolicy_ObjectType_STATUS{
-	"backuppolicy": BackupPolicy_ObjectType_STATUS_BackupPolicy,
+// Mapping from string to BackupPolicy_ObjectType_STATUS_ARM
+var backupPolicy_ObjectType_STATUS_ARM_Values = map[string]BackupPolicy_ObjectType_STATUS_ARM{
+	"backuppolicy": BackupPolicy_ObjectType_STATUS_ARM_BackupPolicy,
 }
 
 type BasePolicyRule_STATUS_ARM struct {
@@ -114,35 +114,35 @@ type AzureBackupRule_STATUS_ARM struct {
 	BackupParameters *BackupParameters_STATUS_ARM `json:"backupParameters,omitempty"`
 
 	// DataStore: DataStoreInfo base
-	DataStore  *DataStoreInfoBase_STATUS_ARM     `json:"dataStore,omitempty"`
-	Name       *string                           `json:"name,omitempty"`
-	ObjectType AzureBackupRule_ObjectType_STATUS `json:"objectType,omitempty"`
-	Trigger    *TriggerContext_STATUS_ARM        `json:"trigger,omitempty"`
+	DataStore  *DataStoreInfoBase_STATUS_ARM         `json:"dataStore,omitempty"`
+	Name       *string                               `json:"name,omitempty"`
+	ObjectType AzureBackupRule_ObjectType_STATUS_ARM `json:"objectType,omitempty"`
+	Trigger    *TriggerContext_STATUS_ARM            `json:"trigger,omitempty"`
 }
 
 type AzureRetentionRule_STATUS_ARM struct {
-	IsDefault  *bool                                `json:"isDefault,omitempty"`
-	Lifecycles []SourceLifeCycle_STATUS_ARM         `json:"lifecycles,omitempty"`
-	Name       *string                              `json:"name,omitempty"`
-	ObjectType AzureRetentionRule_ObjectType_STATUS `json:"objectType,omitempty"`
+	IsDefault  *bool                                    `json:"isDefault,omitempty"`
+	Lifecycles []SourceLifeCycle_STATUS_ARM             `json:"lifecycles,omitempty"`
+	Name       *string                                  `json:"name,omitempty"`
+	ObjectType AzureRetentionRule_ObjectType_STATUS_ARM `json:"objectType,omitempty"`
 }
 
-type AzureBackupRule_ObjectType_STATUS string
+type AzureBackupRule_ObjectType_STATUS_ARM string
 
-const AzureBackupRule_ObjectType_STATUS_AzureBackupRule = AzureBackupRule_ObjectType_STATUS("AzureBackupRule")
+const AzureBackupRule_ObjectType_STATUS_ARM_AzureBackupRule = AzureBackupRule_ObjectType_STATUS_ARM("AzureBackupRule")
 
-// Mapping from string to AzureBackupRule_ObjectType_STATUS
-var azureBackupRule_ObjectType_STATUS_Values = map[string]AzureBackupRule_ObjectType_STATUS{
-	"azurebackuprule": AzureBackupRule_ObjectType_STATUS_AzureBackupRule,
+// Mapping from string to AzureBackupRule_ObjectType_STATUS_ARM
+var azureBackupRule_ObjectType_STATUS_ARM_Values = map[string]AzureBackupRule_ObjectType_STATUS_ARM{
+	"azurebackuprule": AzureBackupRule_ObjectType_STATUS_ARM_AzureBackupRule,
 }
 
-type AzureRetentionRule_ObjectType_STATUS string
+type AzureRetentionRule_ObjectType_STATUS_ARM string
 
-const AzureRetentionRule_ObjectType_STATUS_AzureRetentionRule = AzureRetentionRule_ObjectType_STATUS("AzureRetentionRule")
+const AzureRetentionRule_ObjectType_STATUS_ARM_AzureRetentionRule = AzureRetentionRule_ObjectType_STATUS_ARM("AzureRetentionRule")
 
-// Mapping from string to AzureRetentionRule_ObjectType_STATUS
-var azureRetentionRule_ObjectType_STATUS_Values = map[string]AzureRetentionRule_ObjectType_STATUS{
-	"azureretentionrule": AzureRetentionRule_ObjectType_STATUS_AzureRetentionRule,
+// Mapping from string to AzureRetentionRule_ObjectType_STATUS_ARM
+var azureRetentionRule_ObjectType_STATUS_ARM_Values = map[string]AzureRetentionRule_ObjectType_STATUS_ARM{
+	"azureretentionrule": AzureRetentionRule_ObjectType_STATUS_ARM_AzureRetentionRule,
 }
 
 type BackupParameters_STATUS_ARM struct {
@@ -178,7 +178,7 @@ func (parameters *BackupParameters_STATUS_ARM) UnmarshalJSON(data []byte) error 
 // DataStoreInfo base
 type DataStoreInfoBase_STATUS_ARM struct {
 	// DataStoreType: type of datastore; Operational/Vault/Archive
-	DataStoreType *DataStoreInfoBase_DataStoreType_STATUS `json:"dataStoreType,omitempty"`
+	DataStoreType *DataStoreInfoBase_DataStoreType_STATUS_ARM `json:"dataStoreType,omitempty"`
 
 	// ObjectType: Type of Datasource object, used to initialize the right inherited type
 	ObjectType *string `json:"objectType,omitempty"`
@@ -235,7 +235,7 @@ func (context *TriggerContext_STATUS_ARM) UnmarshalJSON(data []byte) error {
 
 type AdhocBasedTriggerContext_STATUS_ARM struct {
 	// ObjectType: Type of the specific object - used for deserializing
-	ObjectType AdhocBasedTriggerContext_ObjectType_STATUS `json:"objectType,omitempty"`
+	ObjectType AdhocBasedTriggerContext_ObjectType_STATUS_ARM `json:"objectType,omitempty"`
 
 	// TaggingCriteria: Tagging Criteria containing retention tag for adhoc backup.
 	TaggingCriteria *AdhocBasedTaggingCriteria_STATUS_ARM `json:"taggingCriteria,omitempty"`
@@ -246,22 +246,22 @@ type AzureBackupParams_STATUS_ARM struct {
 	BackupType *string `json:"backupType,omitempty"`
 
 	// ObjectType: Type of the specific object - used for deserializing
-	ObjectType AzureBackupParams_ObjectType_STATUS `json:"objectType,omitempty"`
+	ObjectType AzureBackupParams_ObjectType_STATUS_ARM `json:"objectType,omitempty"`
 }
 
-type DataStoreInfoBase_DataStoreType_STATUS string
+type DataStoreInfoBase_DataStoreType_STATUS_ARM string
 
 const (
-	DataStoreInfoBase_DataStoreType_STATUS_ArchiveStore     = DataStoreInfoBase_DataStoreType_STATUS("ArchiveStore")
-	DataStoreInfoBase_DataStoreType_STATUS_OperationalStore = DataStoreInfoBase_DataStoreType_STATUS("OperationalStore")
-	DataStoreInfoBase_DataStoreType_STATUS_VaultStore       = DataStoreInfoBase_DataStoreType_STATUS("VaultStore")
+	DataStoreInfoBase_DataStoreType_STATUS_ARM_ArchiveStore     = DataStoreInfoBase_DataStoreType_STATUS_ARM("ArchiveStore")
+	DataStoreInfoBase_DataStoreType_STATUS_ARM_OperationalStore = DataStoreInfoBase_DataStoreType_STATUS_ARM("OperationalStore")
+	DataStoreInfoBase_DataStoreType_STATUS_ARM_VaultStore       = DataStoreInfoBase_DataStoreType_STATUS_ARM("VaultStore")
 )
 
-// Mapping from string to DataStoreInfoBase_DataStoreType_STATUS
-var dataStoreInfoBase_DataStoreType_STATUS_Values = map[string]DataStoreInfoBase_DataStoreType_STATUS{
-	"archivestore":     DataStoreInfoBase_DataStoreType_STATUS_ArchiveStore,
-	"operationalstore": DataStoreInfoBase_DataStoreType_STATUS_OperationalStore,
-	"vaultstore":       DataStoreInfoBase_DataStoreType_STATUS_VaultStore,
+// Mapping from string to DataStoreInfoBase_DataStoreType_STATUS_ARM
+var dataStoreInfoBase_DataStoreType_STATUS_ARM_Values = map[string]DataStoreInfoBase_DataStoreType_STATUS_ARM{
+	"archivestore":     DataStoreInfoBase_DataStoreType_STATUS_ARM_ArchiveStore,
+	"operationalstore": DataStoreInfoBase_DataStoreType_STATUS_ARM_OperationalStore,
+	"vaultstore":       DataStoreInfoBase_DataStoreType_STATUS_ARM_VaultStore,
 }
 
 type DeleteOption_STATUS_ARM struct {
@@ -296,7 +296,7 @@ func (option *DeleteOption_STATUS_ARM) UnmarshalJSON(data []byte) error {
 
 type ScheduleBasedTriggerContext_STATUS_ARM struct {
 	// ObjectType: Type of the specific object - used for deserializing
-	ObjectType ScheduleBasedTriggerContext_ObjectType_STATUS `json:"objectType,omitempty"`
+	ObjectType ScheduleBasedTriggerContext_ObjectType_STATUS_ARM `json:"objectType,omitempty"`
 
 	// Schedule: Schedule for this backup
 	Schedule *BackupSchedule_STATUS_ARM `json:"schedule,omitempty"`
@@ -319,7 +319,7 @@ type AbsoluteDeleteOption_STATUS_ARM struct {
 	Duration *string `json:"duration,omitempty"`
 
 	// ObjectType: Type of the specific object - used for deserializing
-	ObjectType AbsoluteDeleteOption_ObjectType_STATUS `json:"objectType,omitempty"`
+	ObjectType AbsoluteDeleteOption_ObjectType_STATUS_ARM `json:"objectType,omitempty"`
 }
 
 // Adhoc backup tagging criteria
@@ -328,22 +328,22 @@ type AdhocBasedTaggingCriteria_STATUS_ARM struct {
 	TagInfo *RetentionTag_STATUS_ARM `json:"tagInfo,omitempty"`
 }
 
-type AdhocBasedTriggerContext_ObjectType_STATUS string
+type AdhocBasedTriggerContext_ObjectType_STATUS_ARM string
 
-const AdhocBasedTriggerContext_ObjectType_STATUS_AdhocBasedTriggerContext = AdhocBasedTriggerContext_ObjectType_STATUS("AdhocBasedTriggerContext")
+const AdhocBasedTriggerContext_ObjectType_STATUS_ARM_AdhocBasedTriggerContext = AdhocBasedTriggerContext_ObjectType_STATUS_ARM("AdhocBasedTriggerContext")
 
-// Mapping from string to AdhocBasedTriggerContext_ObjectType_STATUS
-var adhocBasedTriggerContext_ObjectType_STATUS_Values = map[string]AdhocBasedTriggerContext_ObjectType_STATUS{
-	"adhocbasedtriggercontext": AdhocBasedTriggerContext_ObjectType_STATUS_AdhocBasedTriggerContext,
+// Mapping from string to AdhocBasedTriggerContext_ObjectType_STATUS_ARM
+var adhocBasedTriggerContext_ObjectType_STATUS_ARM_Values = map[string]AdhocBasedTriggerContext_ObjectType_STATUS_ARM{
+	"adhocbasedtriggercontext": AdhocBasedTriggerContext_ObjectType_STATUS_ARM_AdhocBasedTriggerContext,
 }
 
-type AzureBackupParams_ObjectType_STATUS string
+type AzureBackupParams_ObjectType_STATUS_ARM string
 
-const AzureBackupParams_ObjectType_STATUS_AzureBackupParams = AzureBackupParams_ObjectType_STATUS("AzureBackupParams")
+const AzureBackupParams_ObjectType_STATUS_ARM_AzureBackupParams = AzureBackupParams_ObjectType_STATUS_ARM("AzureBackupParams")
 
-// Mapping from string to AzureBackupParams_ObjectType_STATUS
-var azureBackupParams_ObjectType_STATUS_Values = map[string]AzureBackupParams_ObjectType_STATUS{
-	"azurebackupparams": AzureBackupParams_ObjectType_STATUS_AzureBackupParams,
+// Mapping from string to AzureBackupParams_ObjectType_STATUS_ARM
+var azureBackupParams_ObjectType_STATUS_ARM_Values = map[string]AzureBackupParams_ObjectType_STATUS_ARM{
+	"azurebackupparams": AzureBackupParams_ObjectType_STATUS_ARM_AzureBackupParams,
 }
 
 // Schedule for backup
@@ -405,13 +405,13 @@ func (option *CopyOption_STATUS_ARM) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-type ScheduleBasedTriggerContext_ObjectType_STATUS string
+type ScheduleBasedTriggerContext_ObjectType_STATUS_ARM string
 
-const ScheduleBasedTriggerContext_ObjectType_STATUS_ScheduleBasedTriggerContext = ScheduleBasedTriggerContext_ObjectType_STATUS("ScheduleBasedTriggerContext")
+const ScheduleBasedTriggerContext_ObjectType_STATUS_ARM_ScheduleBasedTriggerContext = ScheduleBasedTriggerContext_ObjectType_STATUS_ARM("ScheduleBasedTriggerContext")
 
-// Mapping from string to ScheduleBasedTriggerContext_ObjectType_STATUS
-var scheduleBasedTriggerContext_ObjectType_STATUS_Values = map[string]ScheduleBasedTriggerContext_ObjectType_STATUS{
-	"schedulebasedtriggercontext": ScheduleBasedTriggerContext_ObjectType_STATUS_ScheduleBasedTriggerContext,
+// Mapping from string to ScheduleBasedTriggerContext_ObjectType_STATUS_ARM
+var scheduleBasedTriggerContext_ObjectType_STATUS_ARM_Values = map[string]ScheduleBasedTriggerContext_ObjectType_STATUS_ARM{
+	"schedulebasedtriggercontext": ScheduleBasedTriggerContext_ObjectType_STATUS_ARM_ScheduleBasedTriggerContext,
 }
 
 // Tagging criteria
@@ -429,13 +429,13 @@ type TaggingCriteria_STATUS_ARM struct {
 	TaggingPriority *int `json:"taggingPriority,omitempty"`
 }
 
-type AbsoluteDeleteOption_ObjectType_STATUS string
+type AbsoluteDeleteOption_ObjectType_STATUS_ARM string
 
-const AbsoluteDeleteOption_ObjectType_STATUS_AbsoluteDeleteOption = AbsoluteDeleteOption_ObjectType_STATUS("AbsoluteDeleteOption")
+const AbsoluteDeleteOption_ObjectType_STATUS_ARM_AbsoluteDeleteOption = AbsoluteDeleteOption_ObjectType_STATUS_ARM("AbsoluteDeleteOption")
 
-// Mapping from string to AbsoluteDeleteOption_ObjectType_STATUS
-var absoluteDeleteOption_ObjectType_STATUS_Values = map[string]AbsoluteDeleteOption_ObjectType_STATUS{
-	"absolutedeleteoption": AbsoluteDeleteOption_ObjectType_STATUS_AbsoluteDeleteOption,
+// Mapping from string to AbsoluteDeleteOption_ObjectType_STATUS_ARM
+var absoluteDeleteOption_ObjectType_STATUS_ARM_Values = map[string]AbsoluteDeleteOption_ObjectType_STATUS_ARM{
+	"absolutedeleteoption": AbsoluteDeleteOption_ObjectType_STATUS_ARM_AbsoluteDeleteOption,
 }
 
 type BackupCriteria_STATUS_ARM struct {
@@ -470,7 +470,7 @@ func (criteria *BackupCriteria_STATUS_ARM) UnmarshalJSON(data []byte) error {
 
 type CopyOnExpiryOption_STATUS_ARM struct {
 	// ObjectType: Type of the specific object - used for deserializing
-	ObjectType CopyOnExpiryOption_ObjectType_STATUS `json:"objectType,omitempty"`
+	ObjectType CopyOnExpiryOption_ObjectType_STATUS_ARM `json:"objectType,omitempty"`
 }
 
 type CustomCopyOption_STATUS_ARM struct {
@@ -478,12 +478,12 @@ type CustomCopyOption_STATUS_ARM struct {
 	Duration *string `json:"duration,omitempty"`
 
 	// ObjectType: Type of the specific object - used for deserializing
-	ObjectType CustomCopyOption_ObjectType_STATUS `json:"objectType,omitempty"`
+	ObjectType CustomCopyOption_ObjectType_STATUS_ARM `json:"objectType,omitempty"`
 }
 
 type ImmediateCopyOption_STATUS_ARM struct {
 	// ObjectType: Type of the specific object - used for deserializing
-	ObjectType ImmediateCopyOption_ObjectType_STATUS `json:"objectType,omitempty"`
+	ObjectType ImmediateCopyOption_ObjectType_STATUS_ARM `json:"objectType,omitempty"`
 }
 
 // Retention tag
@@ -498,55 +498,55 @@ type RetentionTag_STATUS_ARM struct {
 	TagName *string `json:"tagName,omitempty"`
 }
 
-type CopyOnExpiryOption_ObjectType_STATUS string
+type CopyOnExpiryOption_ObjectType_STATUS_ARM string
 
-const CopyOnExpiryOption_ObjectType_STATUS_CopyOnExpiryOption = CopyOnExpiryOption_ObjectType_STATUS("CopyOnExpiryOption")
+const CopyOnExpiryOption_ObjectType_STATUS_ARM_CopyOnExpiryOption = CopyOnExpiryOption_ObjectType_STATUS_ARM("CopyOnExpiryOption")
 
-// Mapping from string to CopyOnExpiryOption_ObjectType_STATUS
-var copyOnExpiryOption_ObjectType_STATUS_Values = map[string]CopyOnExpiryOption_ObjectType_STATUS{
-	"copyonexpiryoption": CopyOnExpiryOption_ObjectType_STATUS_CopyOnExpiryOption,
+// Mapping from string to CopyOnExpiryOption_ObjectType_STATUS_ARM
+var copyOnExpiryOption_ObjectType_STATUS_ARM_Values = map[string]CopyOnExpiryOption_ObjectType_STATUS_ARM{
+	"copyonexpiryoption": CopyOnExpiryOption_ObjectType_STATUS_ARM_CopyOnExpiryOption,
 }
 
-type CustomCopyOption_ObjectType_STATUS string
+type CustomCopyOption_ObjectType_STATUS_ARM string
 
-const CustomCopyOption_ObjectType_STATUS_CustomCopyOption = CustomCopyOption_ObjectType_STATUS("CustomCopyOption")
+const CustomCopyOption_ObjectType_STATUS_ARM_CustomCopyOption = CustomCopyOption_ObjectType_STATUS_ARM("CustomCopyOption")
 
-// Mapping from string to CustomCopyOption_ObjectType_STATUS
-var customCopyOption_ObjectType_STATUS_Values = map[string]CustomCopyOption_ObjectType_STATUS{
-	"customcopyoption": CustomCopyOption_ObjectType_STATUS_CustomCopyOption,
+// Mapping from string to CustomCopyOption_ObjectType_STATUS_ARM
+var customCopyOption_ObjectType_STATUS_ARM_Values = map[string]CustomCopyOption_ObjectType_STATUS_ARM{
+	"customcopyoption": CustomCopyOption_ObjectType_STATUS_ARM_CustomCopyOption,
 }
 
-type ImmediateCopyOption_ObjectType_STATUS string
+type ImmediateCopyOption_ObjectType_STATUS_ARM string
 
-const ImmediateCopyOption_ObjectType_STATUS_ImmediateCopyOption = ImmediateCopyOption_ObjectType_STATUS("ImmediateCopyOption")
+const ImmediateCopyOption_ObjectType_STATUS_ARM_ImmediateCopyOption = ImmediateCopyOption_ObjectType_STATUS_ARM("ImmediateCopyOption")
 
-// Mapping from string to ImmediateCopyOption_ObjectType_STATUS
-var immediateCopyOption_ObjectType_STATUS_Values = map[string]ImmediateCopyOption_ObjectType_STATUS{
-	"immediatecopyoption": ImmediateCopyOption_ObjectType_STATUS_ImmediateCopyOption,
+// Mapping from string to ImmediateCopyOption_ObjectType_STATUS_ARM
+var immediateCopyOption_ObjectType_STATUS_ARM_Values = map[string]ImmediateCopyOption_ObjectType_STATUS_ARM{
+	"immediatecopyoption": ImmediateCopyOption_ObjectType_STATUS_ARM_ImmediateCopyOption,
 }
 
 type ScheduleBasedBackupCriteria_STATUS_ARM struct {
 	// AbsoluteCriteria: it contains absolute values like "AllBackup" / "FirstOfDay" / "FirstOfWeek" / "FirstOfMonth"
 	// and should be part of AbsoluteMarker enum
-	AbsoluteCriteria []ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS `json:"absoluteCriteria,omitempty"`
+	AbsoluteCriteria []ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_ARM `json:"absoluteCriteria,omitempty"`
 
 	// DaysOfMonth: This is day of the month from 1 to 28 other wise last of month
 	DaysOfMonth []Day_STATUS_ARM `json:"daysOfMonth,omitempty"`
 
 	// DaysOfTheWeek: It should be Sunday/Monday/T..../Saturday
-	DaysOfTheWeek []ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS `json:"daysOfTheWeek,omitempty"`
+	DaysOfTheWeek []ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_ARM `json:"daysOfTheWeek,omitempty"`
 
 	// MonthsOfYear: It should be January/February/....../December
-	MonthsOfYear []ScheduleBasedBackupCriteria_MonthsOfYear_STATUS `json:"monthsOfYear,omitempty"`
+	MonthsOfYear []ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM `json:"monthsOfYear,omitempty"`
 
 	// ObjectType: Type of the specific object - used for deserializing
-	ObjectType ScheduleBasedBackupCriteria_ObjectType_STATUS `json:"objectType,omitempty"`
+	ObjectType ScheduleBasedBackupCriteria_ObjectType_STATUS_ARM `json:"objectType,omitempty"`
 
 	// ScheduleTimes: List of schedule times for backup
 	ScheduleTimes []string `json:"scheduleTimes,omitempty"`
 
 	// WeeksOfTheMonth: It should be First/Second/Third/Fourth/Last
-	WeeksOfTheMonth []ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS `json:"weeksOfTheMonth,omitempty"`
+	WeeksOfTheMonth []ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_ARM `json:"weeksOfTheMonth,omitempty"`
 }
 
 // Day of the week
@@ -558,105 +558,105 @@ type Day_STATUS_ARM struct {
 	IsLast *bool `json:"isLast,omitempty"`
 }
 
-type ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS string
+type ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_ARM string
 
 const (
-	ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_AllBackup    = ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS("AllBackup")
-	ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_FirstOfDay   = ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS("FirstOfDay")
-	ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_FirstOfMonth = ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS("FirstOfMonth")
-	ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_FirstOfWeek  = ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS("FirstOfWeek")
-	ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_FirstOfYear  = ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS("FirstOfYear")
+	ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_ARM_AllBackup    = ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_ARM("AllBackup")
+	ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_ARM_FirstOfDay   = ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_ARM("FirstOfDay")
+	ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_ARM_FirstOfMonth = ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_ARM("FirstOfMonth")
+	ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_ARM_FirstOfWeek  = ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_ARM("FirstOfWeek")
+	ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_ARM_FirstOfYear  = ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_ARM("FirstOfYear")
 )
 
-// Mapping from string to ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS
-var scheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_Values = map[string]ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS{
-	"allbackup":    ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_AllBackup,
-	"firstofday":   ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_FirstOfDay,
-	"firstofmonth": ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_FirstOfMonth,
-	"firstofweek":  ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_FirstOfWeek,
-	"firstofyear":  ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_FirstOfYear,
+// Mapping from string to ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_ARM
+var scheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_ARM_Values = map[string]ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_ARM{
+	"allbackup":    ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_ARM_AllBackup,
+	"firstofday":   ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_ARM_FirstOfDay,
+	"firstofmonth": ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_ARM_FirstOfMonth,
+	"firstofweek":  ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_ARM_FirstOfWeek,
+	"firstofyear":  ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_ARM_FirstOfYear,
 }
 
-type ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS string
+type ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_ARM string
 
 const (
-	ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Friday    = ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS("Friday")
-	ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Monday    = ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS("Monday")
-	ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Saturday  = ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS("Saturday")
-	ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Sunday    = ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS("Sunday")
-	ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Thursday  = ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS("Thursday")
-	ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Tuesday   = ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS("Tuesday")
-	ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Wednesday = ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS("Wednesday")
+	ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_ARM_Friday    = ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_ARM("Friday")
+	ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_ARM_Monday    = ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_ARM("Monday")
+	ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_ARM_Saturday  = ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_ARM("Saturday")
+	ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_ARM_Sunday    = ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_ARM("Sunday")
+	ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_ARM_Thursday  = ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_ARM("Thursday")
+	ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_ARM_Tuesday   = ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_ARM("Tuesday")
+	ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_ARM_Wednesday = ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_ARM("Wednesday")
 )
 
-// Mapping from string to ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS
-var scheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Values = map[string]ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS{
-	"friday":    ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Friday,
-	"monday":    ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Monday,
-	"saturday":  ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Saturday,
-	"sunday":    ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Sunday,
-	"thursday":  ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Thursday,
-	"tuesday":   ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Tuesday,
-	"wednesday": ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Wednesday,
+// Mapping from string to ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_ARM
+var scheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_ARM_Values = map[string]ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_ARM{
+	"friday":    ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_ARM_Friday,
+	"monday":    ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_ARM_Monday,
+	"saturday":  ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_ARM_Saturday,
+	"sunday":    ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_ARM_Sunday,
+	"thursday":  ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_ARM_Thursday,
+	"tuesday":   ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_ARM_Tuesday,
+	"wednesday": ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_ARM_Wednesday,
 }
 
-type ScheduleBasedBackupCriteria_MonthsOfYear_STATUS string
+type ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM string
 
 const (
-	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_April     = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS("April")
-	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_August    = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS("August")
-	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_December  = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS("December")
-	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_February  = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS("February")
-	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_January   = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS("January")
-	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_July      = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS("July")
-	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_June      = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS("June")
-	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_March     = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS("March")
-	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_May       = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS("May")
-	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_November  = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS("November")
-	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_October   = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS("October")
-	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_September = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS("September")
+	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM_April     = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM("April")
+	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM_August    = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM("August")
+	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM_December  = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM("December")
+	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM_February  = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM("February")
+	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM_January   = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM("January")
+	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM_July      = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM("July")
+	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM_June      = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM("June")
+	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM_March     = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM("March")
+	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM_May       = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM("May")
+	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM_November  = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM("November")
+	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM_October   = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM("October")
+	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM_September = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM("September")
 )
 
-// Mapping from string to ScheduleBasedBackupCriteria_MonthsOfYear_STATUS
-var scheduleBasedBackupCriteria_MonthsOfYear_STATUS_Values = map[string]ScheduleBasedBackupCriteria_MonthsOfYear_STATUS{
-	"april":     ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_April,
-	"august":    ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_August,
-	"december":  ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_December,
-	"february":  ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_February,
-	"january":   ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_January,
-	"july":      ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_July,
-	"june":      ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_June,
-	"march":     ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_March,
-	"may":       ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_May,
-	"november":  ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_November,
-	"october":   ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_October,
-	"september": ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_September,
+// Mapping from string to ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM
+var scheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM_Values = map[string]ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM{
+	"april":     ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM_April,
+	"august":    ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM_August,
+	"december":  ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM_December,
+	"february":  ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM_February,
+	"january":   ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM_January,
+	"july":      ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM_July,
+	"june":      ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM_June,
+	"march":     ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM_March,
+	"may":       ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM_May,
+	"november":  ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM_November,
+	"october":   ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM_October,
+	"september": ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM_September,
 }
 
-type ScheduleBasedBackupCriteria_ObjectType_STATUS string
+type ScheduleBasedBackupCriteria_ObjectType_STATUS_ARM string
 
-const ScheduleBasedBackupCriteria_ObjectType_STATUS_ScheduleBasedBackupCriteria = ScheduleBasedBackupCriteria_ObjectType_STATUS("ScheduleBasedBackupCriteria")
+const ScheduleBasedBackupCriteria_ObjectType_STATUS_ARM_ScheduleBasedBackupCriteria = ScheduleBasedBackupCriteria_ObjectType_STATUS_ARM("ScheduleBasedBackupCriteria")
 
-// Mapping from string to ScheduleBasedBackupCriteria_ObjectType_STATUS
-var scheduleBasedBackupCriteria_ObjectType_STATUS_Values = map[string]ScheduleBasedBackupCriteria_ObjectType_STATUS{
-	"schedulebasedbackupcriteria": ScheduleBasedBackupCriteria_ObjectType_STATUS_ScheduleBasedBackupCriteria,
+// Mapping from string to ScheduleBasedBackupCriteria_ObjectType_STATUS_ARM
+var scheduleBasedBackupCriteria_ObjectType_STATUS_ARM_Values = map[string]ScheduleBasedBackupCriteria_ObjectType_STATUS_ARM{
+	"schedulebasedbackupcriteria": ScheduleBasedBackupCriteria_ObjectType_STATUS_ARM_ScheduleBasedBackupCriteria,
 }
 
-type ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS string
+type ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_ARM string
 
 const (
-	ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_First  = ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS("First")
-	ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_Fourth = ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS("Fourth")
-	ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_Last   = ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS("Last")
-	ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_Second = ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS("Second")
-	ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_Third  = ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS("Third")
+	ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_ARM_First  = ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_ARM("First")
+	ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_ARM_Fourth = ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_ARM("Fourth")
+	ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_ARM_Last   = ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_ARM("Last")
+	ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_ARM_Second = ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_ARM("Second")
+	ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_ARM_Third  = ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_ARM("Third")
 )
 
-// Mapping from string to ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS
-var scheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_Values = map[string]ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS{
-	"first":  ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_First,
-	"fourth": ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_Fourth,
-	"last":   ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_Last,
-	"second": ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_Second,
-	"third":  ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_Third,
+// Mapping from string to ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_ARM
+var scheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_ARM_Values = map[string]ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_ARM{
+	"first":  ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_ARM_First,
+	"fourth": ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_ARM_Fourth,
+	"last":   ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_ARM_Last,
+	"second": ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_ARM_Second,
+	"third":  ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_ARM_Third,
 }

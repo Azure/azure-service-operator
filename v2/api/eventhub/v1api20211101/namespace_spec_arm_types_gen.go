@@ -43,7 +43,7 @@ func (namespace *Namespace_Spec_ARM) GetType() string {
 // Properties to configure Identity for Bring your Own Keys
 type Identity_ARM struct {
 	// Type: Type of managed service identity.
-	Type                   *Identity_Type                             `json:"type,omitempty"`
+	Type                   *Identity_Type_ARM                         `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -79,16 +79,16 @@ type Sku_ARM struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	// Name: Name of this SKU.
-	Name *Sku_Name `json:"name,omitempty"`
+	Name *Sku_Name_ARM `json:"name,omitempty"`
 
 	// Tier: The billing tier of this particular SKU.
-	Tier *Sku_Tier `json:"tier,omitempty"`
+	Tier *Sku_Tier_ARM `json:"tier,omitempty"`
 }
 
 // Properties to configure Encryption
 type Encryption_ARM struct {
 	// KeySource: Enumerates the possible value of keySource for Encryption
-	KeySource *Encryption_KeySource `json:"keySource,omitempty"`
+	KeySource *Encryption_KeySource_ARM `json:"keySource,omitempty"`
 
 	// KeyVaultProperties: Properties of KeyVault
 	KeyVaultProperties []KeyVaultProperties_ARM `json:"keyVaultProperties,omitempty"`
@@ -98,57 +98,67 @@ type Encryption_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
-type Identity_Type string
+type Identity_Type_ARM string
 
 const (
-	Identity_Type_None                       = Identity_Type("None")
-	Identity_Type_SystemAssigned             = Identity_Type("SystemAssigned")
-	Identity_Type_SystemAssignedUserAssigned = Identity_Type("SystemAssigned, UserAssigned")
-	Identity_Type_UserAssigned               = Identity_Type("UserAssigned")
+	Identity_Type_ARM_None                       = Identity_Type_ARM("None")
+	Identity_Type_ARM_SystemAssigned             = Identity_Type_ARM("SystemAssigned")
+	Identity_Type_ARM_SystemAssignedUserAssigned = Identity_Type_ARM("SystemAssigned, UserAssigned")
+	Identity_Type_ARM_UserAssigned               = Identity_Type_ARM("UserAssigned")
 )
 
-// Mapping from string to Identity_Type
-var identity_Type_Values = map[string]Identity_Type{
-	"none":                         Identity_Type_None,
-	"systemassigned":               Identity_Type_SystemAssigned,
-	"systemassigned, userassigned": Identity_Type_SystemAssignedUserAssigned,
-	"userassigned":                 Identity_Type_UserAssigned,
+// Mapping from string to Identity_Type_ARM
+var identity_Type_ARM_Values = map[string]Identity_Type_ARM{
+	"none":                         Identity_Type_ARM_None,
+	"systemassigned":               Identity_Type_ARM_SystemAssigned,
+	"systemassigned, userassigned": Identity_Type_ARM_SystemAssignedUserAssigned,
+	"userassigned":                 Identity_Type_ARM_UserAssigned,
 }
 
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
-type Sku_Name string
+type Sku_Name_ARM string
 
 const (
-	Sku_Name_Basic    = Sku_Name("Basic")
-	Sku_Name_Premium  = Sku_Name("Premium")
-	Sku_Name_Standard = Sku_Name("Standard")
+	Sku_Name_ARM_Basic    = Sku_Name_ARM("Basic")
+	Sku_Name_ARM_Premium  = Sku_Name_ARM("Premium")
+	Sku_Name_ARM_Standard = Sku_Name_ARM("Standard")
 )
 
-// Mapping from string to Sku_Name
-var sku_Name_Values = map[string]Sku_Name{
-	"basic":    Sku_Name_Basic,
-	"premium":  Sku_Name_Premium,
-	"standard": Sku_Name_Standard,
+// Mapping from string to Sku_Name_ARM
+var sku_Name_ARM_Values = map[string]Sku_Name_ARM{
+	"basic":    Sku_Name_ARM_Basic,
+	"premium":  Sku_Name_ARM_Premium,
+	"standard": Sku_Name_ARM_Standard,
 }
 
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
-type Sku_Tier string
+type Sku_Tier_ARM string
 
 const (
-	Sku_Tier_Basic    = Sku_Tier("Basic")
-	Sku_Tier_Premium  = Sku_Tier("Premium")
-	Sku_Tier_Standard = Sku_Tier("Standard")
+	Sku_Tier_ARM_Basic    = Sku_Tier_ARM("Basic")
+	Sku_Tier_ARM_Premium  = Sku_Tier_ARM("Premium")
+	Sku_Tier_ARM_Standard = Sku_Tier_ARM("Standard")
 )
 
-// Mapping from string to Sku_Tier
-var sku_Tier_Values = map[string]Sku_Tier{
-	"basic":    Sku_Tier_Basic,
-	"premium":  Sku_Tier_Premium,
-	"standard": Sku_Tier_Standard,
+// Mapping from string to Sku_Tier_ARM
+var sku_Tier_ARM_Values = map[string]Sku_Tier_ARM{
+	"basic":    Sku_Tier_ARM_Basic,
+	"premium":  Sku_Tier_ARM_Premium,
+	"standard": Sku_Tier_ARM_Standard,
 }
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails_ARM struct {
+}
+
+// +kubebuilder:validation:Enum={"Microsoft.KeyVault"}
+type Encryption_KeySource_ARM string
+
+const Encryption_KeySource_ARM_MicrosoftKeyVault = Encryption_KeySource_ARM("Microsoft.KeyVault")
+
+// Mapping from string to Encryption_KeySource_ARM
+var encryption_KeySource_ARM_Values = map[string]Encryption_KeySource_ARM{
+	"microsoft.keyvault": Encryption_KeySource_ARM_MicrosoftKeyVault,
 }
 
 // Properties to configure keyVault Properties

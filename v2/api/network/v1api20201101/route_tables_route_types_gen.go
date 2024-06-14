@@ -382,7 +382,9 @@ func (route *RouteTables_Route_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		result.Properties.NextHopIpAddress = &nextHopIpAddress
 	}
 	if route.NextHopType != nil {
-		nextHopType := *route.NextHopType
+		var temp string
+		temp = string(*route.NextHopType)
+		nextHopType := RouteNextHopType_ARM(temp)
 		result.Properties.NextHopType = &nextHopType
 	}
 	return result, nil
@@ -434,7 +436,9 @@ func (route *RouteTables_Route_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NextHopType != nil {
-			nextHopType := *typedInput.Properties.NextHopType
+			var temp string
+			temp = string(*typedInput.Properties.NextHopType)
+			nextHopType := RouteNextHopType(temp)
 			route.NextHopType = &nextHopType
 		}
 	}
@@ -777,7 +781,9 @@ func (route *RouteTables_Route_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NextHopType != nil {
-			nextHopType := *typedInput.Properties.NextHopType
+			var temp string
+			temp = string(*typedInput.Properties.NextHopType)
+			nextHopType := RouteNextHopType_STATUS(temp)
 			route.NextHopType = &nextHopType
 		}
 	}
@@ -786,7 +792,9 @@ func (route *RouteTables_Route_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := ProvisioningState_STATUS(temp)
 			route.ProvisioningState = &provisioningState
 		}
 	}

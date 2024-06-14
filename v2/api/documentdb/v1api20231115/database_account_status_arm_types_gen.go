@@ -13,7 +13,7 @@ type DatabaseAccount_STATUS_ARM struct {
 	Identity *ManagedServiceIdentity_STATUS_ARM `json:"identity,omitempty"`
 
 	// Kind: Indicates the type of database account. This can only be set at database account creation.
-	Kind *DatabaseAccount_Kind_STATUS `json:"kind,omitempty"`
+	Kind *DatabaseAccount_Kind_STATUS_ARM `json:"kind,omitempty"`
 
 	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
@@ -32,19 +32,19 @@ type DatabaseAccount_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type DatabaseAccount_Kind_STATUS string
+type DatabaseAccount_Kind_STATUS_ARM string
 
 const (
-	DatabaseAccount_Kind_STATUS_GlobalDocumentDB = DatabaseAccount_Kind_STATUS("GlobalDocumentDB")
-	DatabaseAccount_Kind_STATUS_MongoDB          = DatabaseAccount_Kind_STATUS("MongoDB")
-	DatabaseAccount_Kind_STATUS_Parse            = DatabaseAccount_Kind_STATUS("Parse")
+	DatabaseAccount_Kind_STATUS_ARM_GlobalDocumentDB = DatabaseAccount_Kind_STATUS_ARM("GlobalDocumentDB")
+	DatabaseAccount_Kind_STATUS_ARM_MongoDB          = DatabaseAccount_Kind_STATUS_ARM("MongoDB")
+	DatabaseAccount_Kind_STATUS_ARM_Parse            = DatabaseAccount_Kind_STATUS_ARM("Parse")
 )
 
-// Mapping from string to DatabaseAccount_Kind_STATUS
-var databaseAccount_Kind_STATUS_Values = map[string]DatabaseAccount_Kind_STATUS{
-	"globaldocumentdb": DatabaseAccount_Kind_STATUS_GlobalDocumentDB,
-	"mongodb":          DatabaseAccount_Kind_STATUS_MongoDB,
-	"parse":            DatabaseAccount_Kind_STATUS_Parse,
+// Mapping from string to DatabaseAccount_Kind_STATUS_ARM
+var databaseAccount_Kind_STATUS_ARM_Values = map[string]DatabaseAccount_Kind_STATUS_ARM{
+	"globaldocumentdb": DatabaseAccount_Kind_STATUS_ARM_GlobalDocumentDB,
+	"mongodb":          DatabaseAccount_Kind_STATUS_ARM_MongoDB,
+	"parse":            DatabaseAccount_Kind_STATUS_ARM_Parse,
 }
 
 // Properties for the database account.
@@ -65,7 +65,7 @@ type DatabaseAccountGetProperties_STATUS_ARM struct {
 	Capacity *Capacity_STATUS_ARM `json:"capacity,omitempty"`
 
 	// ConnectorOffer: The cassandra connector offer type for the Cosmos DB database C* account.
-	ConnectorOffer *ConnectorOffer_STATUS `json:"connectorOffer,omitempty"`
+	ConnectorOffer *ConnectorOffer_STATUS_ARM `json:"connectorOffer,omitempty"`
 
 	// ConsistencyPolicy: The consistency policy for the Cosmos DB database account.
 	ConsistencyPolicy *ConsistencyPolicy_STATUS_ARM `json:"consistencyPolicy,omitempty"`
@@ -74,14 +74,14 @@ type DatabaseAccountGetProperties_STATUS_ARM struct {
 	Cors []CorsPolicy_STATUS_ARM `json:"cors,omitempty"`
 
 	// CreateMode: Enum to indicate the mode of account creation.
-	CreateMode *CreateMode_STATUS `json:"createMode,omitempty"`
+	CreateMode *CreateMode_STATUS_ARM `json:"createMode,omitempty"`
 
 	// CustomerManagedKeyStatus: Indicates the status of the Customer Managed Key feature on the account. In case there are
 	// errors, the property provides troubleshooting guidance.
 	CustomerManagedKeyStatus *string `json:"customerManagedKeyStatus,omitempty"`
 
 	// DatabaseAccountOfferType: The offer type for the Cosmos DB database account. Default value: Standard.
-	DatabaseAccountOfferType *DatabaseAccountOfferType_STATUS `json:"databaseAccountOfferType,omitempty"`
+	DatabaseAccountOfferType *DatabaseAccountOfferType_STATUS_ARM `json:"databaseAccountOfferType,omitempty"`
 
 	// DefaultIdentity: The default identity for accessing key vault used in features like customer managed keys. The default
 	// identity needs to be explicitly set by the users. It can be "FirstPartyIdentity", "SystemAssignedIdentity" and more.
@@ -143,10 +143,10 @@ type DatabaseAccountGetProperties_STATUS_ARM struct {
 
 	// MinimalTlsVersion: Indicates the minimum allowed Tls version. The default value is Tls 1.2. Cassandra and Mongo APIs
 	// only work with Tls 1.2.
-	MinimalTlsVersion *MinimalTlsVersion_STATUS `json:"minimalTlsVersion,omitempty"`
+	MinimalTlsVersion *MinimalTlsVersion_STATUS_ARM `json:"minimalTlsVersion,omitempty"`
 
 	// NetworkAclBypass: Indicates what services are allowed to bypass firewall checks.
-	NetworkAclBypass *NetworkAclBypass_STATUS `json:"networkAclBypass,omitempty"`
+	NetworkAclBypass *NetworkAclBypass_STATUS_ARM `json:"networkAclBypass,omitempty"`
 
 	// NetworkAclBypassResourceIds: An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account.
 	NetworkAclBypassResourceIds []string `json:"networkAclBypassResourceIds,omitempty"`
@@ -156,7 +156,7 @@ type DatabaseAccountGetProperties_STATUS_ARM struct {
 	ProvisioningState          *string                                `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccess: Whether requests from Public Network are allowed
-	PublicNetworkAccess *PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *PublicNetworkAccess_STATUS_ARM `json:"publicNetworkAccess,omitempty"`
 
 	// ReadLocations: An array that contains of the read locations enabled for the Cosmos DB account.
 	ReadLocations []Location_STATUS_ARM `json:"readLocations,omitempty"`
@@ -183,7 +183,7 @@ type ManagedServiceIdentity_STATUS_ARM struct {
 
 	// Type: The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly
 	// created identity and a set of user assigned identities. The type 'None' will remove any identities from the service.
-	Type *ManagedServiceIdentity_Type_STATUS `json:"type,omitempty"`
+	Type *ManagedServiceIdentity_Type_STATUS_ARM `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The list of user identities associated with resource. The user identity dictionary key
 	// references will be ARM resource ids in the form:
@@ -200,7 +200,7 @@ type SystemData_STATUS_ARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_CreatedByType_STATUS_ARM `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -209,18 +209,18 @@ type SystemData_STATUS_ARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS_ARM `json:"lastModifiedByType,omitempty"`
 }
 
 // Analytical storage specific properties.
 type AnalyticalStorageConfiguration_STATUS_ARM struct {
 	// SchemaType: Describes the types of schema for analytical storage.
-	SchemaType *AnalyticalStorageSchemaType_STATUS `json:"schemaType,omitempty"`
+	SchemaType *AnalyticalStorageSchemaType_STATUS_ARM `json:"schemaType,omitempty"`
 }
 
 type ApiProperties_STATUS_ARM struct {
 	// ServerVersion: Describes the ServerVersion of an a MongoDB account.
-	ServerVersion *ApiProperties_ServerVersion_STATUS `json:"serverVersion,omitempty"`
+	ServerVersion *ApiProperties_ServerVersion_STATUS_ARM `json:"serverVersion,omitempty"`
 }
 
 type BackupPolicy_STATUS_ARM struct {
@@ -278,10 +278,20 @@ type Capacity_STATUS_ARM struct {
 	TotalThroughputLimit *int `json:"totalThroughputLimit,omitempty"`
 }
 
+// The cassandra connector offer type for the Cosmos DB C* database account.
+type ConnectorOffer_STATUS_ARM string
+
+const ConnectorOffer_STATUS_ARM_Small = ConnectorOffer_STATUS_ARM("Small")
+
+// Mapping from string to ConnectorOffer_STATUS_ARM
+var connectorOffer_STATUS_ARM_Values = map[string]ConnectorOffer_STATUS_ARM{
+	"small": ConnectorOffer_STATUS_ARM_Small,
+}
+
 // The consistency policy for the Cosmos DB database account.
 type ConsistencyPolicy_STATUS_ARM struct {
 	// DefaultConsistencyLevel: The default consistency level and configuration settings of the Cosmos DB account.
-	DefaultConsistencyLevel *ConsistencyPolicy_DefaultConsistencyLevel_STATUS `json:"defaultConsistencyLevel,omitempty"`
+	DefaultConsistencyLevel *ConsistencyPolicy_DefaultConsistencyLevel_STATUS_ARM `json:"defaultConsistencyLevel,omitempty"`
 
 	// MaxIntervalInSeconds: When used with the Bounded Staleness consistency level, this value represents the time amount of
 	// staleness (in seconds) tolerated. Accepted range for this value is 5 - 86400. Required when defaultConsistencyPolicy is
@@ -313,6 +323,20 @@ type CorsPolicy_STATUS_ARM struct {
 	MaxAgeInSeconds *int `json:"maxAgeInSeconds,omitempty"`
 }
 
+// Enum to indicate the mode of account creation.
+type CreateMode_STATUS_ARM string
+
+const (
+	CreateMode_STATUS_ARM_Default = CreateMode_STATUS_ARM("Default")
+	CreateMode_STATUS_ARM_Restore = CreateMode_STATUS_ARM("Restore")
+)
+
+// Mapping from string to CreateMode_STATUS_ARM
+var createMode_STATUS_ARM_Values = map[string]CreateMode_STATUS_ARM{
+	"default": CreateMode_STATUS_ARM_Default,
+	"restore": CreateMode_STATUS_ARM_Restore,
+}
+
 // The metadata related to each access key for the given Cosmos DB database account.
 type DatabaseAccountKeysMetadata_STATUS_ARM struct {
 	// PrimaryMasterKey: The metadata related to the Primary Read-Write Key for the given Cosmos DB database account.
@@ -326,6 +350,16 @@ type DatabaseAccountKeysMetadata_STATUS_ARM struct {
 
 	// SecondaryReadonlyMasterKey: The metadata related to the Secondary Read-Only Key for the given Cosmos DB database account.
 	SecondaryReadonlyMasterKey *AccountKeyMetadata_STATUS_ARM `json:"secondaryReadonlyMasterKey,omitempty"`
+}
+
+// The offer type for the Cosmos DB database account.
+type DatabaseAccountOfferType_STATUS_ARM string
+
+const DatabaseAccountOfferType_STATUS_ARM_Standard = DatabaseAccountOfferType_STATUS_ARM("Standard")
+
+// Mapping from string to DatabaseAccountOfferType_STATUS_ARM
+var databaseAccountOfferType_STATUS_ARM_Values = map[string]DatabaseAccountOfferType_STATUS_ARM{
+	"standard": DatabaseAccountOfferType_STATUS_ARM_Standard,
 }
 
 // The failover policy for a given region of a database account.
@@ -374,21 +408,21 @@ type Location_STATUS_ARM struct {
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 }
 
-type ManagedServiceIdentity_Type_STATUS string
+type ManagedServiceIdentity_Type_STATUS_ARM string
 
 const (
-	ManagedServiceIdentity_Type_STATUS_None                       = ManagedServiceIdentity_Type_STATUS("None")
-	ManagedServiceIdentity_Type_STATUS_SystemAssigned             = ManagedServiceIdentity_Type_STATUS("SystemAssigned")
-	ManagedServiceIdentity_Type_STATUS_SystemAssignedUserAssigned = ManagedServiceIdentity_Type_STATUS("SystemAssigned,UserAssigned")
-	ManagedServiceIdentity_Type_STATUS_UserAssigned               = ManagedServiceIdentity_Type_STATUS("UserAssigned")
+	ManagedServiceIdentity_Type_STATUS_ARM_None                       = ManagedServiceIdentity_Type_STATUS_ARM("None")
+	ManagedServiceIdentity_Type_STATUS_ARM_SystemAssigned             = ManagedServiceIdentity_Type_STATUS_ARM("SystemAssigned")
+	ManagedServiceIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned = ManagedServiceIdentity_Type_STATUS_ARM("SystemAssigned,UserAssigned")
+	ManagedServiceIdentity_Type_STATUS_ARM_UserAssigned               = ManagedServiceIdentity_Type_STATUS_ARM("UserAssigned")
 )
 
-// Mapping from string to ManagedServiceIdentity_Type_STATUS
-var managedServiceIdentity_Type_STATUS_Values = map[string]ManagedServiceIdentity_Type_STATUS{
-	"none":                        ManagedServiceIdentity_Type_STATUS_None,
-	"systemassigned":              ManagedServiceIdentity_Type_STATUS_SystemAssigned,
-	"systemassigned,userassigned": ManagedServiceIdentity_Type_STATUS_SystemAssignedUserAssigned,
-	"userassigned":                ManagedServiceIdentity_Type_STATUS_UserAssigned,
+// Mapping from string to ManagedServiceIdentity_Type_STATUS_ARM
+var managedServiceIdentity_Type_STATUS_ARM_Values = map[string]ManagedServiceIdentity_Type_STATUS_ARM{
+	"none":                        ManagedServiceIdentity_Type_STATUS_ARM_None,
+	"systemassigned":              ManagedServiceIdentity_Type_STATUS_ARM_SystemAssigned,
+	"systemassigned,userassigned": ManagedServiceIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned,
+	"userassigned":                ManagedServiceIdentity_Type_STATUS_ARM_UserAssigned,
 }
 
 type ManagedServiceIdentity_UserAssignedIdentities_STATUS_ARM struct {
@@ -399,11 +433,57 @@ type ManagedServiceIdentity_UserAssignedIdentities_STATUS_ARM struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
+// Indicates the minimum allowed Tls version. The default value is Tls 1.2. Cassandra and Mongo APIs only work with Tls 1.2.
+type MinimalTlsVersion_STATUS_ARM string
+
+const (
+	MinimalTlsVersion_STATUS_ARM_Tls   = MinimalTlsVersion_STATUS_ARM("Tls")
+	MinimalTlsVersion_STATUS_ARM_Tls11 = MinimalTlsVersion_STATUS_ARM("Tls11")
+	MinimalTlsVersion_STATUS_ARM_Tls12 = MinimalTlsVersion_STATUS_ARM("Tls12")
+)
+
+// Mapping from string to MinimalTlsVersion_STATUS_ARM
+var minimalTlsVersion_STATUS_ARM_Values = map[string]MinimalTlsVersion_STATUS_ARM{
+	"tls":   MinimalTlsVersion_STATUS_ARM_Tls,
+	"tls11": MinimalTlsVersion_STATUS_ARM_Tls11,
+	"tls12": MinimalTlsVersion_STATUS_ARM_Tls12,
+}
+
+// Indicates what services are allowed to bypass firewall checks.
+type NetworkAclBypass_STATUS_ARM string
+
+const (
+	NetworkAclBypass_STATUS_ARM_AzureServices = NetworkAclBypass_STATUS_ARM("AzureServices")
+	NetworkAclBypass_STATUS_ARM_None          = NetworkAclBypass_STATUS_ARM("None")
+)
+
+// Mapping from string to NetworkAclBypass_STATUS_ARM
+var networkAclBypass_STATUS_ARM_Values = map[string]NetworkAclBypass_STATUS_ARM{
+	"azureservices": NetworkAclBypass_STATUS_ARM_AzureServices,
+	"none":          NetworkAclBypass_STATUS_ARM_None,
+}
+
 // A private endpoint connection
 type PrivateEndpointConnection_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
+}
+
+// Whether requests from Public Network are allowed
+type PublicNetworkAccess_STATUS_ARM string
+
+const (
+	PublicNetworkAccess_STATUS_ARM_Disabled           = PublicNetworkAccess_STATUS_ARM("Disabled")
+	PublicNetworkAccess_STATUS_ARM_Enabled            = PublicNetworkAccess_STATUS_ARM("Enabled")
+	PublicNetworkAccess_STATUS_ARM_SecuredByPerimeter = PublicNetworkAccess_STATUS_ARM("SecuredByPerimeter")
+)
+
+// Mapping from string to PublicNetworkAccess_STATUS_ARM
+var publicNetworkAccess_STATUS_ARM_Values = map[string]PublicNetworkAccess_STATUS_ARM{
+	"disabled":           PublicNetworkAccess_STATUS_ARM_Disabled,
+	"enabled":            PublicNetworkAccess_STATUS_ARM_Enabled,
+	"securedbyperimeter": PublicNetworkAccess_STATUS_ARM_SecuredByPerimeter,
 }
 
 // Parameters to indicate the information about the restore.
@@ -415,7 +495,7 @@ type RestoreParameters_STATUS_ARM struct {
 	GremlinDatabasesToRestore []GremlinDatabaseRestoreResource_STATUS_ARM `json:"gremlinDatabasesToRestore,omitempty"`
 
 	// RestoreMode: Describes the mode of the restore.
-	RestoreMode *RestoreParameters_RestoreMode_STATUS `json:"restoreMode,omitempty"`
+	RestoreMode *RestoreParameters_RestoreMode_STATUS_ARM `json:"restoreMode,omitempty"`
 
 	// RestoreSource: The id of the restorable database account from which the restore has to be initiated. For example:
 	// /subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{restorableDatabaseAccountName}
@@ -428,38 +508,38 @@ type RestoreParameters_STATUS_ARM struct {
 	TablesToRestore []string `json:"tablesToRestore,omitempty"`
 }
 
-type SystemData_CreatedByType_STATUS string
+type SystemData_CreatedByType_STATUS_ARM string
 
 const (
-	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+	SystemData_CreatedByType_STATUS_ARM_Application     = SystemData_CreatedByType_STATUS_ARM("Application")
+	SystemData_CreatedByType_STATUS_ARM_Key             = SystemData_CreatedByType_STATUS_ARM("Key")
+	SystemData_CreatedByType_STATUS_ARM_ManagedIdentity = SystemData_CreatedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_ARM_User            = SystemData_CreatedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_CreatedByType_STATUS
-var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
-	"application":     SystemData_CreatedByType_STATUS_Application,
-	"key":             SystemData_CreatedByType_STATUS_Key,
-	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_CreatedByType_STATUS_User,
+// Mapping from string to SystemData_CreatedByType_STATUS_ARM
+var systemData_CreatedByType_STATUS_ARM_Values = map[string]SystemData_CreatedByType_STATUS_ARM{
+	"application":     SystemData_CreatedByType_STATUS_ARM_Application,
+	"key":             SystemData_CreatedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_ARM_User,
 }
 
-type SystemData_LastModifiedByType_STATUS string
+type SystemData_LastModifiedByType_STATUS_ARM string
 
 const (
-	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+	SystemData_LastModifiedByType_STATUS_ARM_Application     = SystemData_LastModifiedByType_STATUS_ARM("Application")
+	SystemData_LastModifiedByType_STATUS_ARM_Key             = SystemData_LastModifiedByType_STATUS_ARM("Key")
+	SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity = SystemData_LastModifiedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_ARM_User            = SystemData_LastModifiedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_LastModifiedByType_STATUS
-var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
-	"application":     SystemData_LastModifiedByType_STATUS_Application,
-	"key":             SystemData_LastModifiedByType_STATUS_Key,
-	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_LastModifiedByType_STATUS_User,
+// Mapping from string to SystemData_LastModifiedByType_STATUS_ARM
+var systemData_LastModifiedByType_STATUS_ARM_Values = map[string]SystemData_LastModifiedByType_STATUS_ARM{
+	"application":     SystemData_LastModifiedByType_STATUS_ARM_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_ARM_User,
 }
 
 // Virtual Network ACL Rule object
@@ -479,6 +559,56 @@ type AccountKeyMetadata_STATUS_ARM struct {
 	GenerationTime *string `json:"generationTime,omitempty"`
 }
 
+// Describes the types of schema for analytical storage.
+type AnalyticalStorageSchemaType_STATUS_ARM string
+
+const (
+	AnalyticalStorageSchemaType_STATUS_ARM_FullFidelity = AnalyticalStorageSchemaType_STATUS_ARM("FullFidelity")
+	AnalyticalStorageSchemaType_STATUS_ARM_WellDefined  = AnalyticalStorageSchemaType_STATUS_ARM("WellDefined")
+)
+
+// Mapping from string to AnalyticalStorageSchemaType_STATUS_ARM
+var analyticalStorageSchemaType_STATUS_ARM_Values = map[string]AnalyticalStorageSchemaType_STATUS_ARM{
+	"fullfidelity": AnalyticalStorageSchemaType_STATUS_ARM_FullFidelity,
+	"welldefined":  AnalyticalStorageSchemaType_STATUS_ARM_WellDefined,
+}
+
+type ApiProperties_ServerVersion_STATUS_ARM string
+
+const (
+	ApiProperties_ServerVersion_STATUS_ARM_32 = ApiProperties_ServerVersion_STATUS_ARM("3.2")
+	ApiProperties_ServerVersion_STATUS_ARM_36 = ApiProperties_ServerVersion_STATUS_ARM("3.6")
+	ApiProperties_ServerVersion_STATUS_ARM_40 = ApiProperties_ServerVersion_STATUS_ARM("4.0")
+	ApiProperties_ServerVersion_STATUS_ARM_42 = ApiProperties_ServerVersion_STATUS_ARM("4.2")
+)
+
+// Mapping from string to ApiProperties_ServerVersion_STATUS_ARM
+var apiProperties_ServerVersion_STATUS_ARM_Values = map[string]ApiProperties_ServerVersion_STATUS_ARM{
+	"3.2": ApiProperties_ServerVersion_STATUS_ARM_32,
+	"3.6": ApiProperties_ServerVersion_STATUS_ARM_36,
+	"4.0": ApiProperties_ServerVersion_STATUS_ARM_40,
+	"4.2": ApiProperties_ServerVersion_STATUS_ARM_42,
+}
+
+type ConsistencyPolicy_DefaultConsistencyLevel_STATUS_ARM string
+
+const (
+	ConsistencyPolicy_DefaultConsistencyLevel_STATUS_ARM_BoundedStaleness = ConsistencyPolicy_DefaultConsistencyLevel_STATUS_ARM("BoundedStaleness")
+	ConsistencyPolicy_DefaultConsistencyLevel_STATUS_ARM_ConsistentPrefix = ConsistencyPolicy_DefaultConsistencyLevel_STATUS_ARM("ConsistentPrefix")
+	ConsistencyPolicy_DefaultConsistencyLevel_STATUS_ARM_Eventual         = ConsistencyPolicy_DefaultConsistencyLevel_STATUS_ARM("Eventual")
+	ConsistencyPolicy_DefaultConsistencyLevel_STATUS_ARM_Session          = ConsistencyPolicy_DefaultConsistencyLevel_STATUS_ARM("Session")
+	ConsistencyPolicy_DefaultConsistencyLevel_STATUS_ARM_Strong           = ConsistencyPolicy_DefaultConsistencyLevel_STATUS_ARM("Strong")
+)
+
+// Mapping from string to ConsistencyPolicy_DefaultConsistencyLevel_STATUS_ARM
+var consistencyPolicy_DefaultConsistencyLevel_STATUS_ARM_Values = map[string]ConsistencyPolicy_DefaultConsistencyLevel_STATUS_ARM{
+	"boundedstaleness": ConsistencyPolicy_DefaultConsistencyLevel_STATUS_ARM_BoundedStaleness,
+	"consistentprefix": ConsistencyPolicy_DefaultConsistencyLevel_STATUS_ARM_ConsistentPrefix,
+	"eventual":         ConsistencyPolicy_DefaultConsistencyLevel_STATUS_ARM_Eventual,
+	"session":          ConsistencyPolicy_DefaultConsistencyLevel_STATUS_ARM_Session,
+	"strong":           ConsistencyPolicy_DefaultConsistencyLevel_STATUS_ARM_Strong,
+}
+
 type ContinuousModeBackupPolicy_STATUS_ARM struct {
 	// ContinuousModeProperties: Configuration values for continuous mode backup
 	ContinuousModeProperties *ContinuousModeProperties_STATUS_ARM `json:"continuousModeProperties,omitempty"`
@@ -487,7 +617,7 @@ type ContinuousModeBackupPolicy_STATUS_ARM struct {
 	MigrationState *BackupPolicyMigrationState_STATUS_ARM `json:"migrationState,omitempty"`
 
 	// Type: Describes the mode of backups.
-	Type ContinuousModeBackupPolicy_Type_STATUS `json:"type,omitempty"`
+	Type ContinuousModeBackupPolicy_Type_STATUS_ARM `json:"type,omitempty"`
 }
 
 // Specific Databases to restore.
@@ -516,7 +646,16 @@ type PeriodicModeBackupPolicy_STATUS_ARM struct {
 	PeriodicModeProperties *PeriodicModeProperties_STATUS_ARM `json:"periodicModeProperties,omitempty"`
 
 	// Type: Describes the mode of backups.
-	Type PeriodicModeBackupPolicy_Type_STATUS `json:"type,omitempty"`
+	Type PeriodicModeBackupPolicy_Type_STATUS_ARM `json:"type,omitempty"`
+}
+
+type RestoreParameters_RestoreMode_STATUS_ARM string
+
+const RestoreParameters_RestoreMode_STATUS_ARM_PointInTime = RestoreParameters_RestoreMode_STATUS_ARM("PointInTime")
+
+// Mapping from string to RestoreParameters_RestoreMode_STATUS_ARM
+var restoreParameters_RestoreMode_STATUS_ARM_Values = map[string]RestoreParameters_RestoreMode_STATUS_ARM{
+	"pointintime": RestoreParameters_RestoreMode_STATUS_ARM_PointInTime,
 }
 
 // The object representing the state of the migration between the backup policies.
@@ -525,16 +664,34 @@ type BackupPolicyMigrationState_STATUS_ARM struct {
 	StartTime *string `json:"startTime,omitempty"`
 
 	// Status: Describes the status of migration between backup policy types.
-	Status *BackupPolicyMigrationStatus_STATUS `json:"status,omitempty"`
+	Status *BackupPolicyMigrationStatus_STATUS_ARM `json:"status,omitempty"`
 
 	// TargetType: Describes the target backup policy type of the backup policy migration.
-	TargetType *BackupPolicyType_STATUS `json:"targetType,omitempty"`
+	TargetType *BackupPolicyType_STATUS_ARM `json:"targetType,omitempty"`
+}
+
+type ContinuousModeBackupPolicy_Type_STATUS_ARM string
+
+const ContinuousModeBackupPolicy_Type_STATUS_ARM_Continuous = ContinuousModeBackupPolicy_Type_STATUS_ARM("Continuous")
+
+// Mapping from string to ContinuousModeBackupPolicy_Type_STATUS_ARM
+var continuousModeBackupPolicy_Type_STATUS_ARM_Values = map[string]ContinuousModeBackupPolicy_Type_STATUS_ARM{
+	"continuous": ContinuousModeBackupPolicy_Type_STATUS_ARM_Continuous,
 }
 
 // Configuration values for periodic mode backup
 type ContinuousModeProperties_STATUS_ARM struct {
 	// Tier: Enum to indicate type of Continuous backup mode
-	Tier *ContinuousTier_STATUS `json:"tier,omitempty"`
+	Tier *ContinuousTier_STATUS_ARM `json:"tier,omitempty"`
+}
+
+type PeriodicModeBackupPolicy_Type_STATUS_ARM string
+
+const PeriodicModeBackupPolicy_Type_STATUS_ARM_Periodic = PeriodicModeBackupPolicy_Type_STATUS_ARM("Periodic")
+
+// Mapping from string to PeriodicModeBackupPolicy_Type_STATUS_ARM
+var periodicModeBackupPolicy_Type_STATUS_ARM_Values = map[string]PeriodicModeBackupPolicy_Type_STATUS_ARM{
+	"periodic": PeriodicModeBackupPolicy_Type_STATUS_ARM_Periodic,
 }
 
 // Configuration values for periodic mode backup
@@ -546,5 +703,67 @@ type PeriodicModeProperties_STATUS_ARM struct {
 	BackupRetentionIntervalInHours *int `json:"backupRetentionIntervalInHours,omitempty"`
 
 	// BackupStorageRedundancy: Enum to indicate type of backup residency
-	BackupStorageRedundancy *BackupStorageRedundancy_STATUS `json:"backupStorageRedundancy,omitempty"`
+	BackupStorageRedundancy *BackupStorageRedundancy_STATUS_ARM `json:"backupStorageRedundancy,omitempty"`
+}
+
+// Describes the status of migration between backup policy types.
+type BackupPolicyMigrationStatus_STATUS_ARM string
+
+const (
+	BackupPolicyMigrationStatus_STATUS_ARM_Completed  = BackupPolicyMigrationStatus_STATUS_ARM("Completed")
+	BackupPolicyMigrationStatus_STATUS_ARM_Failed     = BackupPolicyMigrationStatus_STATUS_ARM("Failed")
+	BackupPolicyMigrationStatus_STATUS_ARM_InProgress = BackupPolicyMigrationStatus_STATUS_ARM("InProgress")
+	BackupPolicyMigrationStatus_STATUS_ARM_Invalid    = BackupPolicyMigrationStatus_STATUS_ARM("Invalid")
+)
+
+// Mapping from string to BackupPolicyMigrationStatus_STATUS_ARM
+var backupPolicyMigrationStatus_STATUS_ARM_Values = map[string]BackupPolicyMigrationStatus_STATUS_ARM{
+	"completed":  BackupPolicyMigrationStatus_STATUS_ARM_Completed,
+	"failed":     BackupPolicyMigrationStatus_STATUS_ARM_Failed,
+	"inprogress": BackupPolicyMigrationStatus_STATUS_ARM_InProgress,
+	"invalid":    BackupPolicyMigrationStatus_STATUS_ARM_Invalid,
+}
+
+// Describes the mode of backups.
+type BackupPolicyType_STATUS_ARM string
+
+const (
+	BackupPolicyType_STATUS_ARM_Continuous = BackupPolicyType_STATUS_ARM("Continuous")
+	BackupPolicyType_STATUS_ARM_Periodic   = BackupPolicyType_STATUS_ARM("Periodic")
+)
+
+// Mapping from string to BackupPolicyType_STATUS_ARM
+var backupPolicyType_STATUS_ARM_Values = map[string]BackupPolicyType_STATUS_ARM{
+	"continuous": BackupPolicyType_STATUS_ARM_Continuous,
+	"periodic":   BackupPolicyType_STATUS_ARM_Periodic,
+}
+
+// Enum to indicate type of backup storage redundancy.
+type BackupStorageRedundancy_STATUS_ARM string
+
+const (
+	BackupStorageRedundancy_STATUS_ARM_Geo   = BackupStorageRedundancy_STATUS_ARM("Geo")
+	BackupStorageRedundancy_STATUS_ARM_Local = BackupStorageRedundancy_STATUS_ARM("Local")
+	BackupStorageRedundancy_STATUS_ARM_Zone  = BackupStorageRedundancy_STATUS_ARM("Zone")
+)
+
+// Mapping from string to BackupStorageRedundancy_STATUS_ARM
+var backupStorageRedundancy_STATUS_ARM_Values = map[string]BackupStorageRedundancy_STATUS_ARM{
+	"geo":   BackupStorageRedundancy_STATUS_ARM_Geo,
+	"local": BackupStorageRedundancy_STATUS_ARM_Local,
+	"zone":  BackupStorageRedundancy_STATUS_ARM_Zone,
+}
+
+// Enum to indicate type of Continuous backup tier.
+type ContinuousTier_STATUS_ARM string
+
+const (
+	ContinuousTier_STATUS_ARM_Continuous30Days = ContinuousTier_STATUS_ARM("Continuous30Days")
+	ContinuousTier_STATUS_ARM_Continuous7Days  = ContinuousTier_STATUS_ARM("Continuous7Days")
+)
+
+// Mapping from string to ContinuousTier_STATUS_ARM
+var continuousTier_STATUS_ARM_Values = map[string]ContinuousTier_STATUS_ARM{
+	"continuous30days": ContinuousTier_STATUS_ARM_Continuous30Days,
+	"continuous7days":  ContinuousTier_STATUS_ARM_Continuous7Days,
 }

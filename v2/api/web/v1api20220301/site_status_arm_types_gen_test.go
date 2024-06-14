@@ -206,7 +206,7 @@ func AutoHealActions_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAutoHealActions_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAutoHealActions_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ActionType"] = gen.PtrOf(gen.OneConstOf(AutoHealActions_ActionType_STATUS_CustomAction, AutoHealActions_ActionType_STATUS_LogEvent, AutoHealActions_ActionType_STATUS_Recycle))
+	gens["ActionType"] = gen.PtrOf(gen.OneConstOf(AutoHealActions_ActionType_STATUS_ARM_CustomAction, AutoHealActions_ActionType_STATUS_ARM_LogEvent, AutoHealActions_ActionType_STATUS_ARM_Recycle))
 	gens["MinProcessExecutionTime"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -480,11 +480,11 @@ func AddIndependentPropertyGeneratorsForAzureStorageInfoValue_STATUS_ARM(gens ma
 	gens["MountPath"] = gen.PtrOf(gen.AlphaString())
 	gens["ShareName"] = gen.PtrOf(gen.AlphaString())
 	gens["State"] = gen.PtrOf(gen.OneConstOf(
-		AzureStorageInfoValue_State_STATUS_InvalidCredentials,
-		AzureStorageInfoValue_State_STATUS_InvalidShare,
-		AzureStorageInfoValue_State_STATUS_NotValidated,
-		AzureStorageInfoValue_State_STATUS_Ok))
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(AzureStorageInfoValue_Type_STATUS_AzureBlob, AzureStorageInfoValue_Type_STATUS_AzureFiles))
+		AzureStorageInfoValue_State_STATUS_ARM_InvalidCredentials,
+		AzureStorageInfoValue_State_STATUS_ARM_InvalidShare,
+		AzureStorageInfoValue_State_STATUS_ARM_NotValidated,
+		AzureStorageInfoValue_State_STATUS_ARM_Ok))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(AzureStorageInfoValue_Type_STATUS_ARM_AzureBlob, AzureStorageInfoValue_Type_STATUS_ARM_AzureFiles))
 }
 
 func Test_CloningInfo_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -621,17 +621,17 @@ func AddIndependentPropertyGeneratorsForConnStringInfo_STATUS_ARM(gens map[strin
 	gens["ConnectionString"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ConnStringInfo_Type_STATUS_ApiHub,
-		ConnStringInfo_Type_STATUS_Custom,
-		ConnStringInfo_Type_STATUS_DocDb,
-		ConnStringInfo_Type_STATUS_EventHub,
-		ConnStringInfo_Type_STATUS_MySql,
-		ConnStringInfo_Type_STATUS_NotificationHub,
-		ConnStringInfo_Type_STATUS_PostgreSQL,
-		ConnStringInfo_Type_STATUS_RedisCache,
-		ConnStringInfo_Type_STATUS_SQLAzure,
-		ConnStringInfo_Type_STATUS_SQLServer,
-		ConnStringInfo_Type_STATUS_ServiceBus))
+		ConnStringInfo_Type_STATUS_ARM_ApiHub,
+		ConnStringInfo_Type_STATUS_ARM_Custom,
+		ConnStringInfo_Type_STATUS_ARM_DocDb,
+		ConnStringInfo_Type_STATUS_ARM_EventHub,
+		ConnStringInfo_Type_STATUS_ARM_MySql,
+		ConnStringInfo_Type_STATUS_ARM_NotificationHub,
+		ConnStringInfo_Type_STATUS_ARM_PostgreSQL,
+		ConnStringInfo_Type_STATUS_ARM_RedisCache,
+		ConnStringInfo_Type_STATUS_ARM_SQLAzure,
+		ConnStringInfo_Type_STATUS_ARM_SQLServer,
+		ConnStringInfo_Type_STATUS_ARM_ServiceBus))
 }
 
 func Test_CorsSettings_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -878,9 +878,9 @@ func HostNameSslState_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForHostNameSslState_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForHostNameSslState_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["HostType"] = gen.PtrOf(gen.OneConstOf(HostNameSslState_HostType_STATUS_Repository, HostNameSslState_HostType_STATUS_Standard))
+	gens["HostType"] = gen.PtrOf(gen.OneConstOf(HostNameSslState_HostType_STATUS_ARM_Repository, HostNameSslState_HostType_STATUS_ARM_Standard))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["SslState"] = gen.PtrOf(gen.OneConstOf(HostNameSslState_SslState_STATUS_Disabled, HostNameSslState_SslState_STATUS_IpBasedEnabled, HostNameSslState_SslState_STATUS_SniEnabled))
+	gens["SslState"] = gen.PtrOf(gen.OneConstOf(HostNameSslState_SslState_STATUS_ARM_Disabled, HostNameSslState_SslState_STATUS_ARM_IpBasedEnabled, HostNameSslState_SslState_STATUS_ARM_SniEnabled))
 	gens["Thumbprint"] = gen.PtrOf(gen.AlphaString())
 	gens["ToUpdate"] = gen.PtrOf(gen.Bool())
 	gens["VirtualIP"] = gen.PtrOf(gen.AlphaString())
@@ -954,7 +954,7 @@ func AddIndependentPropertyGeneratorsForIpSecurityRestriction_STATUS_ARM(gens ma
 	gens["Priority"] = gen.PtrOf(gen.Int())
 	gens["SubnetMask"] = gen.PtrOf(gen.AlphaString())
 	gens["SubnetTrafficTag"] = gen.PtrOf(gen.Int())
-	gens["Tag"] = gen.PtrOf(gen.OneConstOf(IpSecurityRestriction_Tag_STATUS_Default, IpSecurityRestriction_Tag_STATUS_ServiceTag, IpSecurityRestriction_Tag_STATUS_XffProxy))
+	gens["Tag"] = gen.PtrOf(gen.OneConstOf(IpSecurityRestriction_Tag_STATUS_ARM_Default, IpSecurityRestriction_Tag_STATUS_ARM_ServiceTag, IpSecurityRestriction_Tag_STATUS_ARM_XffProxy))
 	gens["VnetSubnetResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["VnetTrafficTag"] = gen.PtrOf(gen.Int())
 }
@@ -1029,10 +1029,10 @@ func AddIndependentPropertyGeneratorsForManagedServiceIdentity_STATUS_ARM(gens m
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ManagedServiceIdentity_Type_STATUS_None,
-		ManagedServiceIdentity_Type_STATUS_SystemAssigned,
-		ManagedServiceIdentity_Type_STATUS_SystemAssignedUserAssigned,
-		ManagedServiceIdentity_Type_STATUS_UserAssigned))
+		ManagedServiceIdentity_Type_STATUS_ARM_None,
+		ManagedServiceIdentity_Type_STATUS_ARM_SystemAssigned,
+		ManagedServiceIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned,
+		ManagedServiceIdentity_Type_STATUS_ARM_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForManagedServiceIdentity_STATUS_ARM is a factory method for creating gopter generators
@@ -1647,11 +1647,11 @@ func Site_Properties_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSite_Properties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSite_Properties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["AvailabilityState"] = gen.PtrOf(gen.OneConstOf(Site_Properties_AvailabilityState_STATUS_DisasterRecoveryMode, Site_Properties_AvailabilityState_STATUS_Limited, Site_Properties_AvailabilityState_STATUS_Normal))
+	gens["AvailabilityState"] = gen.PtrOf(gen.OneConstOf(Site_Properties_AvailabilityState_STATUS_ARM_DisasterRecoveryMode, Site_Properties_AvailabilityState_STATUS_ARM_Limited, Site_Properties_AvailabilityState_STATUS_ARM_Normal))
 	gens["ClientAffinityEnabled"] = gen.PtrOf(gen.Bool())
 	gens["ClientCertEnabled"] = gen.PtrOf(gen.Bool())
 	gens["ClientCertExclusionPaths"] = gen.PtrOf(gen.AlphaString())
-	gens["ClientCertMode"] = gen.PtrOf(gen.OneConstOf(Site_Properties_ClientCertMode_STATUS_Optional, Site_Properties_ClientCertMode_STATUS_OptionalInteractiveUser, Site_Properties_ClientCertMode_STATUS_Required))
+	gens["ClientCertMode"] = gen.PtrOf(gen.OneConstOf(Site_Properties_ClientCertMode_STATUS_ARM_Optional, Site_Properties_ClientCertMode_STATUS_ARM_OptionalInteractiveUser, Site_Properties_ClientCertMode_STATUS_ARM_Required))
 	gens["ContainerSize"] = gen.PtrOf(gen.Int())
 	gens["CustomDomainVerificationId"] = gen.PtrOf(gen.AlphaString())
 	gens["DailyMemoryTimeQuota"] = gen.PtrOf(gen.Int())
@@ -1672,11 +1672,11 @@ func AddIndependentPropertyGeneratorsForSite_Properties_STATUS_ARM(gens map[stri
 	gens["PossibleOutboundIpAddresses"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
 	gens["RedundancyMode"] = gen.PtrOf(gen.OneConstOf(
-		Site_Properties_RedundancyMode_STATUS_ActiveActive,
-		Site_Properties_RedundancyMode_STATUS_Failover,
-		Site_Properties_RedundancyMode_STATUS_GeoRedundant,
-		Site_Properties_RedundancyMode_STATUS_Manual,
-		Site_Properties_RedundancyMode_STATUS_None))
+		Site_Properties_RedundancyMode_STATUS_ARM_ActiveActive,
+		Site_Properties_RedundancyMode_STATUS_ARM_Failover,
+		Site_Properties_RedundancyMode_STATUS_ARM_GeoRedundant,
+		Site_Properties_RedundancyMode_STATUS_ARM_Manual,
+		Site_Properties_RedundancyMode_STATUS_ARM_None))
 	gens["RepositorySiteName"] = gen.PtrOf(gen.AlphaString())
 	gens["Reserved"] = gen.PtrOf(gen.Bool())
 	gens["ResourceGroup"] = gen.PtrOf(gen.AlphaString())
@@ -1687,7 +1687,7 @@ func AddIndependentPropertyGeneratorsForSite_Properties_STATUS_ARM(gens map[stri
 	gens["SuspendedTill"] = gen.PtrOf(gen.AlphaString())
 	gens["TargetSwapSlot"] = gen.PtrOf(gen.AlphaString())
 	gens["TrafficManagerHostNames"] = gen.SliceOf(gen.AlphaString())
-	gens["UsageState"] = gen.PtrOf(gen.OneConstOf(Site_Properties_UsageState_STATUS_Exceeded, Site_Properties_UsageState_STATUS_Normal))
+	gens["UsageState"] = gen.PtrOf(gen.OneConstOf(Site_Properties_UsageState_STATUS_ARM_Exceeded, Site_Properties_UsageState_STATUS_ARM_Normal))
 	gens["VirtualNetworkSubnetId"] = gen.PtrOf(gen.AlphaString())
 	gens["VnetContentShareEnabled"] = gen.PtrOf(gen.Bool())
 	gens["VnetImagePullEnabled"] = gen.PtrOf(gen.Bool())

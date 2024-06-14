@@ -50,7 +50,7 @@ type DatabaseIdentity_STATUS_ARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: The identity type
-	Type *DatabaseIdentity_Type_STATUS `json:"type,omitempty"`
+	Type *DatabaseIdentity_Type_STATUS_ARM `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The resource ids of the user assigned identities to use
 	UserAssignedIdentities map[string]DatabaseUserIdentity_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
@@ -63,7 +63,7 @@ type DatabaseProperties_STATUS_ARM struct {
 	AutoPauseDelay *int `json:"autoPauseDelay,omitempty"`
 
 	// CatalogCollation: Collation of the metadata catalog.
-	CatalogCollation *DatabaseProperties_CatalogCollation_STATUS `json:"catalogCollation,omitempty"`
+	CatalogCollation *DatabaseProperties_CatalogCollation_STATUS_ARM `json:"catalogCollation,omitempty"`
 
 	// Collation: The collation of the database.
 	Collation *string `json:"collation,omitempty"`
@@ -85,13 +85,13 @@ type DatabaseProperties_STATUS_ARM struct {
 	// RestoreLongTermRetentionBackup: Creates a database by restoring from a long term retention vault.
 	// recoveryServicesRecoveryPointResourceId must be specified as the recovery point resource ID.
 	// Copy, Secondary, and RestoreLongTermRetentionBackup are not supported for DataWarehouse edition.
-	CreateMode *DatabaseProperties_CreateMode_STATUS `json:"createMode,omitempty"`
+	CreateMode *DatabaseProperties_CreateMode_STATUS_ARM `json:"createMode,omitempty"`
 
 	// CreationDate: The creation date of the database (ISO8601 format).
 	CreationDate *string `json:"creationDate,omitempty"`
 
 	// CurrentBackupStorageRedundancy: The storage account type used to store backups for this database.
-	CurrentBackupStorageRedundancy *DatabaseProperties_CurrentBackupStorageRedundancy_STATUS `json:"currentBackupStorageRedundancy,omitempty"`
+	CurrentBackupStorageRedundancy *DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_ARM `json:"currentBackupStorageRedundancy,omitempty"`
 
 	// CurrentServiceObjectiveName: The current service level objective name of the database.
 	CurrentServiceObjectiveName *string `json:"currentServiceObjectiveName,omitempty"`
@@ -131,7 +131,7 @@ type DatabaseProperties_STATUS_ARM struct {
 
 	// LicenseType: The license type to apply for this database. `LicenseIncluded` if you need a license, or `BasePrice` if you
 	// have a license and are eligible for the Azure Hybrid Benefit.
-	LicenseType *DatabaseProperties_LicenseType_STATUS `json:"licenseType,omitempty"`
+	LicenseType *DatabaseProperties_LicenseType_STATUS_ARM `json:"licenseType,omitempty"`
 
 	// LongTermRetentionBackupResourceId: The resource identifier of the long term retention backup associated with create
 	// operation of this database.
@@ -157,7 +157,7 @@ type DatabaseProperties_STATUS_ARM struct {
 	// ReadScale: The state of read-only routing. If enabled, connections that have application intent set to readonly in their
 	// connection string may be routed to a readonly secondary replica in the same region. Not applicable to a Hyperscale
 	// database within an elastic pool.
-	ReadScale *DatabaseProperties_ReadScale_STATUS `json:"readScale,omitempty"`
+	ReadScale *DatabaseProperties_ReadScale_STATUS_ARM `json:"readScale,omitempty"`
 
 	// RecoverableDatabaseId: The resource identifier of the recoverable database associated with create operation of this
 	// database.
@@ -168,7 +168,7 @@ type DatabaseProperties_STATUS_ARM struct {
 	RecoveryServicesRecoveryPointId *string `json:"recoveryServicesRecoveryPointId,omitempty"`
 
 	// RequestedBackupStorageRedundancy: The storage account type to be used to store backups for this database.
-	RequestedBackupStorageRedundancy *DatabaseProperties_RequestedBackupStorageRedundancy_STATUS `json:"requestedBackupStorageRedundancy,omitempty"`
+	RequestedBackupStorageRedundancy *DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_ARM `json:"requestedBackupStorageRedundancy,omitempty"`
 
 	// RequestedServiceObjectiveName: The requested service level objective name of the database.
 	RequestedServiceObjectiveName *string `json:"requestedServiceObjectiveName,omitempty"`
@@ -186,10 +186,10 @@ type DatabaseProperties_STATUS_ARM struct {
 	ResumedDate *string `json:"resumedDate,omitempty"`
 
 	// SampleName: The name of the sample schema to apply when creating this database.
-	SampleName *DatabaseProperties_SampleName_STATUS `json:"sampleName,omitempty"`
+	SampleName *DatabaseProperties_SampleName_STATUS_ARM `json:"sampleName,omitempty"`
 
 	// SecondaryType: The secondary type of the database if it is a secondary.  Valid values are Geo and Named.
-	SecondaryType *DatabaseProperties_SecondaryType_STATUS `json:"secondaryType,omitempty"`
+	SecondaryType *DatabaseProperties_SecondaryType_STATUS_ARM `json:"secondaryType,omitempty"`
 
 	// SourceDatabaseDeletionDate: Specifies the time that the database was deleted.
 	SourceDatabaseDeletionDate *string `json:"sourceDatabaseDeletionDate,omitempty"`
@@ -213,7 +213,7 @@ type DatabaseProperties_STATUS_ARM struct {
 	SourceResourceId *string `json:"sourceResourceId,omitempty"`
 
 	// Status: The status of the database.
-	Status *DatabaseProperties_Status_STATUS `json:"status,omitempty"`
+	Status *DatabaseProperties_Status_STATUS_ARM `json:"status,omitempty"`
 
 	// ZoneRedundant: Whether or not this database is zone redundant, which means the replicas of this database will be spread
 	// across multiple availability zones.
@@ -238,17 +238,204 @@ type Sku_STATUS_ARM struct {
 	Tier *string `json:"tier,omitempty"`
 }
 
-type DatabaseIdentity_Type_STATUS string
+type DatabaseIdentity_Type_STATUS_ARM string
 
 const (
-	DatabaseIdentity_Type_STATUS_None         = DatabaseIdentity_Type_STATUS("None")
-	DatabaseIdentity_Type_STATUS_UserAssigned = DatabaseIdentity_Type_STATUS("UserAssigned")
+	DatabaseIdentity_Type_STATUS_ARM_None         = DatabaseIdentity_Type_STATUS_ARM("None")
+	DatabaseIdentity_Type_STATUS_ARM_UserAssigned = DatabaseIdentity_Type_STATUS_ARM("UserAssigned")
 )
 
-// Mapping from string to DatabaseIdentity_Type_STATUS
-var databaseIdentity_Type_STATUS_Values = map[string]DatabaseIdentity_Type_STATUS{
-	"none":         DatabaseIdentity_Type_STATUS_None,
-	"userassigned": DatabaseIdentity_Type_STATUS_UserAssigned,
+// Mapping from string to DatabaseIdentity_Type_STATUS_ARM
+var databaseIdentity_Type_STATUS_ARM_Values = map[string]DatabaseIdentity_Type_STATUS_ARM{
+	"none":         DatabaseIdentity_Type_STATUS_ARM_None,
+	"userassigned": DatabaseIdentity_Type_STATUS_ARM_UserAssigned,
+}
+
+type DatabaseProperties_CatalogCollation_STATUS_ARM string
+
+const (
+	DatabaseProperties_CatalogCollation_STATUS_ARM_DATABASE_DEFAULT             = DatabaseProperties_CatalogCollation_STATUS_ARM("DATABASE_DEFAULT")
+	DatabaseProperties_CatalogCollation_STATUS_ARM_SQL_Latin1_General_CP1_CI_AS = DatabaseProperties_CatalogCollation_STATUS_ARM("SQL_Latin1_General_CP1_CI_AS")
+)
+
+// Mapping from string to DatabaseProperties_CatalogCollation_STATUS_ARM
+var databaseProperties_CatalogCollation_STATUS_ARM_Values = map[string]DatabaseProperties_CatalogCollation_STATUS_ARM{
+	"database_default":             DatabaseProperties_CatalogCollation_STATUS_ARM_DATABASE_DEFAULT,
+	"sql_latin1_general_cp1_ci_as": DatabaseProperties_CatalogCollation_STATUS_ARM_SQL_Latin1_General_CP1_CI_AS,
+}
+
+type DatabaseProperties_CreateMode_STATUS_ARM string
+
+const (
+	DatabaseProperties_CreateMode_STATUS_ARM_Copy                           = DatabaseProperties_CreateMode_STATUS_ARM("Copy")
+	DatabaseProperties_CreateMode_STATUS_ARM_Default                        = DatabaseProperties_CreateMode_STATUS_ARM("Default")
+	DatabaseProperties_CreateMode_STATUS_ARM_OnlineSecondary                = DatabaseProperties_CreateMode_STATUS_ARM("OnlineSecondary")
+	DatabaseProperties_CreateMode_STATUS_ARM_PointInTimeRestore             = DatabaseProperties_CreateMode_STATUS_ARM("PointInTimeRestore")
+	DatabaseProperties_CreateMode_STATUS_ARM_Recovery                       = DatabaseProperties_CreateMode_STATUS_ARM("Recovery")
+	DatabaseProperties_CreateMode_STATUS_ARM_Restore                        = DatabaseProperties_CreateMode_STATUS_ARM("Restore")
+	DatabaseProperties_CreateMode_STATUS_ARM_RestoreExternalBackup          = DatabaseProperties_CreateMode_STATUS_ARM("RestoreExternalBackup")
+	DatabaseProperties_CreateMode_STATUS_ARM_RestoreExternalBackupSecondary = DatabaseProperties_CreateMode_STATUS_ARM("RestoreExternalBackupSecondary")
+	DatabaseProperties_CreateMode_STATUS_ARM_RestoreLongTermRetentionBackup = DatabaseProperties_CreateMode_STATUS_ARM("RestoreLongTermRetentionBackup")
+	DatabaseProperties_CreateMode_STATUS_ARM_Secondary                      = DatabaseProperties_CreateMode_STATUS_ARM("Secondary")
+)
+
+// Mapping from string to DatabaseProperties_CreateMode_STATUS_ARM
+var databaseProperties_CreateMode_STATUS_ARM_Values = map[string]DatabaseProperties_CreateMode_STATUS_ARM{
+	"copy":                           DatabaseProperties_CreateMode_STATUS_ARM_Copy,
+	"default":                        DatabaseProperties_CreateMode_STATUS_ARM_Default,
+	"onlinesecondary":                DatabaseProperties_CreateMode_STATUS_ARM_OnlineSecondary,
+	"pointintimerestore":             DatabaseProperties_CreateMode_STATUS_ARM_PointInTimeRestore,
+	"recovery":                       DatabaseProperties_CreateMode_STATUS_ARM_Recovery,
+	"restore":                        DatabaseProperties_CreateMode_STATUS_ARM_Restore,
+	"restoreexternalbackup":          DatabaseProperties_CreateMode_STATUS_ARM_RestoreExternalBackup,
+	"restoreexternalbackupsecondary": DatabaseProperties_CreateMode_STATUS_ARM_RestoreExternalBackupSecondary,
+	"restorelongtermretentionbackup": DatabaseProperties_CreateMode_STATUS_ARM_RestoreLongTermRetentionBackup,
+	"secondary":                      DatabaseProperties_CreateMode_STATUS_ARM_Secondary,
+}
+
+type DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_ARM string
+
+const (
+	DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_ARM_Geo     = DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_ARM("Geo")
+	DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_ARM_GeoZone = DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_ARM("GeoZone")
+	DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_ARM_Local   = DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_ARM("Local")
+	DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_ARM_Zone    = DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_ARM("Zone")
+)
+
+// Mapping from string to DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_ARM
+var databaseProperties_CurrentBackupStorageRedundancy_STATUS_ARM_Values = map[string]DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_ARM{
+	"geo":     DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_ARM_Geo,
+	"geozone": DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_ARM_GeoZone,
+	"local":   DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_ARM_Local,
+	"zone":    DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_ARM_Zone,
+}
+
+type DatabaseProperties_LicenseType_STATUS_ARM string
+
+const (
+	DatabaseProperties_LicenseType_STATUS_ARM_BasePrice       = DatabaseProperties_LicenseType_STATUS_ARM("BasePrice")
+	DatabaseProperties_LicenseType_STATUS_ARM_LicenseIncluded = DatabaseProperties_LicenseType_STATUS_ARM("LicenseIncluded")
+)
+
+// Mapping from string to DatabaseProperties_LicenseType_STATUS_ARM
+var databaseProperties_LicenseType_STATUS_ARM_Values = map[string]DatabaseProperties_LicenseType_STATUS_ARM{
+	"baseprice":       DatabaseProperties_LicenseType_STATUS_ARM_BasePrice,
+	"licenseincluded": DatabaseProperties_LicenseType_STATUS_ARM_LicenseIncluded,
+}
+
+type DatabaseProperties_ReadScale_STATUS_ARM string
+
+const (
+	DatabaseProperties_ReadScale_STATUS_ARM_Disabled = DatabaseProperties_ReadScale_STATUS_ARM("Disabled")
+	DatabaseProperties_ReadScale_STATUS_ARM_Enabled  = DatabaseProperties_ReadScale_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to DatabaseProperties_ReadScale_STATUS_ARM
+var databaseProperties_ReadScale_STATUS_ARM_Values = map[string]DatabaseProperties_ReadScale_STATUS_ARM{
+	"disabled": DatabaseProperties_ReadScale_STATUS_ARM_Disabled,
+	"enabled":  DatabaseProperties_ReadScale_STATUS_ARM_Enabled,
+}
+
+type DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_ARM string
+
+const (
+	DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_ARM_Geo     = DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_ARM("Geo")
+	DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_ARM_GeoZone = DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_ARM("GeoZone")
+	DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_ARM_Local   = DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_ARM("Local")
+	DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_ARM_Zone    = DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_ARM("Zone")
+)
+
+// Mapping from string to DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_ARM
+var databaseProperties_RequestedBackupStorageRedundancy_STATUS_ARM_Values = map[string]DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_ARM{
+	"geo":     DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_ARM_Geo,
+	"geozone": DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_ARM_GeoZone,
+	"local":   DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_ARM_Local,
+	"zone":    DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_ARM_Zone,
+}
+
+type DatabaseProperties_SampleName_STATUS_ARM string
+
+const (
+	DatabaseProperties_SampleName_STATUS_ARM_AdventureWorksLT       = DatabaseProperties_SampleName_STATUS_ARM("AdventureWorksLT")
+	DatabaseProperties_SampleName_STATUS_ARM_WideWorldImportersFull = DatabaseProperties_SampleName_STATUS_ARM("WideWorldImportersFull")
+	DatabaseProperties_SampleName_STATUS_ARM_WideWorldImportersStd  = DatabaseProperties_SampleName_STATUS_ARM("WideWorldImportersStd")
+)
+
+// Mapping from string to DatabaseProperties_SampleName_STATUS_ARM
+var databaseProperties_SampleName_STATUS_ARM_Values = map[string]DatabaseProperties_SampleName_STATUS_ARM{
+	"adventureworkslt":       DatabaseProperties_SampleName_STATUS_ARM_AdventureWorksLT,
+	"wideworldimportersfull": DatabaseProperties_SampleName_STATUS_ARM_WideWorldImportersFull,
+	"wideworldimportersstd":  DatabaseProperties_SampleName_STATUS_ARM_WideWorldImportersStd,
+}
+
+type DatabaseProperties_SecondaryType_STATUS_ARM string
+
+const (
+	DatabaseProperties_SecondaryType_STATUS_ARM_Geo   = DatabaseProperties_SecondaryType_STATUS_ARM("Geo")
+	DatabaseProperties_SecondaryType_STATUS_ARM_Named = DatabaseProperties_SecondaryType_STATUS_ARM("Named")
+)
+
+// Mapping from string to DatabaseProperties_SecondaryType_STATUS_ARM
+var databaseProperties_SecondaryType_STATUS_ARM_Values = map[string]DatabaseProperties_SecondaryType_STATUS_ARM{
+	"geo":   DatabaseProperties_SecondaryType_STATUS_ARM_Geo,
+	"named": DatabaseProperties_SecondaryType_STATUS_ARM_Named,
+}
+
+type DatabaseProperties_Status_STATUS_ARM string
+
+const (
+	DatabaseProperties_Status_STATUS_ARM_AutoClosed                        = DatabaseProperties_Status_STATUS_ARM("AutoClosed")
+	DatabaseProperties_Status_STATUS_ARM_Copying                           = DatabaseProperties_Status_STATUS_ARM("Copying")
+	DatabaseProperties_Status_STATUS_ARM_Creating                          = DatabaseProperties_Status_STATUS_ARM("Creating")
+	DatabaseProperties_Status_STATUS_ARM_Disabled                          = DatabaseProperties_Status_STATUS_ARM("Disabled")
+	DatabaseProperties_Status_STATUS_ARM_EmergencyMode                     = DatabaseProperties_Status_STATUS_ARM("EmergencyMode")
+	DatabaseProperties_Status_STATUS_ARM_Inaccessible                      = DatabaseProperties_Status_STATUS_ARM("Inaccessible")
+	DatabaseProperties_Status_STATUS_ARM_Offline                           = DatabaseProperties_Status_STATUS_ARM("Offline")
+	DatabaseProperties_Status_STATUS_ARM_OfflineChangingDwPerformanceTiers = DatabaseProperties_Status_STATUS_ARM("OfflineChangingDwPerformanceTiers")
+	DatabaseProperties_Status_STATUS_ARM_OfflineSecondary                  = DatabaseProperties_Status_STATUS_ARM("OfflineSecondary")
+	DatabaseProperties_Status_STATUS_ARM_Online                            = DatabaseProperties_Status_STATUS_ARM("Online")
+	DatabaseProperties_Status_STATUS_ARM_OnlineChangingDwPerformanceTiers  = DatabaseProperties_Status_STATUS_ARM("OnlineChangingDwPerformanceTiers")
+	DatabaseProperties_Status_STATUS_ARM_Paused                            = DatabaseProperties_Status_STATUS_ARM("Paused")
+	DatabaseProperties_Status_STATUS_ARM_Pausing                           = DatabaseProperties_Status_STATUS_ARM("Pausing")
+	DatabaseProperties_Status_STATUS_ARM_Recovering                        = DatabaseProperties_Status_STATUS_ARM("Recovering")
+	DatabaseProperties_Status_STATUS_ARM_RecoveryPending                   = DatabaseProperties_Status_STATUS_ARM("RecoveryPending")
+	DatabaseProperties_Status_STATUS_ARM_Restoring                         = DatabaseProperties_Status_STATUS_ARM("Restoring")
+	DatabaseProperties_Status_STATUS_ARM_Resuming                          = DatabaseProperties_Status_STATUS_ARM("Resuming")
+	DatabaseProperties_Status_STATUS_ARM_Scaling                           = DatabaseProperties_Status_STATUS_ARM("Scaling")
+	DatabaseProperties_Status_STATUS_ARM_Shutdown                          = DatabaseProperties_Status_STATUS_ARM("Shutdown")
+	DatabaseProperties_Status_STATUS_ARM_Standby                           = DatabaseProperties_Status_STATUS_ARM("Standby")
+	DatabaseProperties_Status_STATUS_ARM_Starting                          = DatabaseProperties_Status_STATUS_ARM("Starting")
+	DatabaseProperties_Status_STATUS_ARM_Stopped                           = DatabaseProperties_Status_STATUS_ARM("Stopped")
+	DatabaseProperties_Status_STATUS_ARM_Stopping                          = DatabaseProperties_Status_STATUS_ARM("Stopping")
+	DatabaseProperties_Status_STATUS_ARM_Suspect                           = DatabaseProperties_Status_STATUS_ARM("Suspect")
+)
+
+// Mapping from string to DatabaseProperties_Status_STATUS_ARM
+var databaseProperties_Status_STATUS_ARM_Values = map[string]DatabaseProperties_Status_STATUS_ARM{
+	"autoclosed":                        DatabaseProperties_Status_STATUS_ARM_AutoClosed,
+	"copying":                           DatabaseProperties_Status_STATUS_ARM_Copying,
+	"creating":                          DatabaseProperties_Status_STATUS_ARM_Creating,
+	"disabled":                          DatabaseProperties_Status_STATUS_ARM_Disabled,
+	"emergencymode":                     DatabaseProperties_Status_STATUS_ARM_EmergencyMode,
+	"inaccessible":                      DatabaseProperties_Status_STATUS_ARM_Inaccessible,
+	"offline":                           DatabaseProperties_Status_STATUS_ARM_Offline,
+	"offlinechangingdwperformancetiers": DatabaseProperties_Status_STATUS_ARM_OfflineChangingDwPerformanceTiers,
+	"offlinesecondary":                  DatabaseProperties_Status_STATUS_ARM_OfflineSecondary,
+	"online":                            DatabaseProperties_Status_STATUS_ARM_Online,
+	"onlinechangingdwperformancetiers":  DatabaseProperties_Status_STATUS_ARM_OnlineChangingDwPerformanceTiers,
+	"paused":                            DatabaseProperties_Status_STATUS_ARM_Paused,
+	"pausing":                           DatabaseProperties_Status_STATUS_ARM_Pausing,
+	"recovering":                        DatabaseProperties_Status_STATUS_ARM_Recovering,
+	"recoverypending":                   DatabaseProperties_Status_STATUS_ARM_RecoveryPending,
+	"restoring":                         DatabaseProperties_Status_STATUS_ARM_Restoring,
+	"resuming":                          DatabaseProperties_Status_STATUS_ARM_Resuming,
+	"scaling":                           DatabaseProperties_Status_STATUS_ARM_Scaling,
+	"shutdown":                          DatabaseProperties_Status_STATUS_ARM_Shutdown,
+	"standby":                           DatabaseProperties_Status_STATUS_ARM_Standby,
+	"starting":                          DatabaseProperties_Status_STATUS_ARM_Starting,
+	"stopped":                           DatabaseProperties_Status_STATUS_ARM_Stopped,
+	"stopping":                          DatabaseProperties_Status_STATUS_ARM_Stopping,
+	"suspect":                           DatabaseProperties_Status_STATUS_ARM_Suspect,
 }
 
 // Azure Active Directory identity configuration for a resource.

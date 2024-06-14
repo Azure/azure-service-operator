@@ -208,10 +208,10 @@ func BackendContractProperties_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForBackendContractProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBackendContractProperties_ARM(gens map[string]gopter.Gen) {
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(BackendContractProperties_Protocol_Http, BackendContractProperties_Protocol_Soap))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(BackendContractProperties_Protocol_ARM_Http, BackendContractProperties_Protocol_ARM_Soap))
 	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["Title"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(BackendContractProperties_Type_Pool, BackendContractProperties_Type_Single))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(BackendContractProperties_Type_ARM_Pool, BackendContractProperties_Type_ARM_Single))
 	gens["Url"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -761,15 +761,13 @@ func CircuitBreakerFailureCondition_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForCircuitBreakerFailureCondition_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCircuitBreakerFailureCondition_ARM(gens map[string]gopter.Gen) {
 	gens["Count"] = gen.PtrOf(gen.Int())
-	gens["ErrorReasons"] = gen.SliceOf(gen.AlphaString().Map(func(it string) CircuitBreakerFailureCondition_ErrorReasons {
-		return CircuitBreakerFailureCondition_ErrorReasons(it)
-	}))
 	gens["Interval"] = gen.PtrOf(gen.AlphaString())
 	gens["Percentage"] = gen.PtrOf(gen.Int())
 }
 
 // AddRelatedPropertyGeneratorsForCircuitBreakerFailureCondition_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForCircuitBreakerFailureCondition_ARM(gens map[string]gopter.Gen) {
+	gens["ErrorReasons"] = gen.SliceOf(CircuitBreakerFailureCondition_ErrorReasons_ARMGenerator())
 	gens["StatusCodeRanges"] = gen.SliceOf(FailureStatusCodeRange_ARMGenerator())
 }
 

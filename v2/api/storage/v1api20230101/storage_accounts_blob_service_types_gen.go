@@ -2251,7 +2251,9 @@ func (policy *LastAccessTimeTrackingPolicy) ConvertToARM(resolved genruntime.Con
 
 	// Set property "Name":
 	if policy.Name != nil {
-		name := *policy.Name
+		var temp string
+		temp = string(*policy.Name)
+		name := LastAccessTimeTrackingPolicy_Name_ARM(temp)
 		result.Name = &name
 	}
 
@@ -2288,7 +2290,9 @@ func (policy *LastAccessTimeTrackingPolicy) PopulateFromARM(owner genruntime.Arb
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := LastAccessTimeTrackingPolicy_Name(temp)
 		policy.Name = &name
 	}
 
@@ -2443,7 +2447,9 @@ func (policy *LastAccessTimeTrackingPolicy_STATUS) PopulateFromARM(owner genrunt
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := LastAccessTimeTrackingPolicy_Name_STATUS(temp)
 		policy.Name = &name
 	}
 
@@ -2823,7 +2829,9 @@ func (rule *CorsRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 
 	// Set property "AllowedMethods":
 	for _, item := range rule.AllowedMethods {
-		result.AllowedMethods = append(result.AllowedMethods, item)
+		var temp string
+		temp = string(item)
+		result.AllowedMethods = append(result.AllowedMethods, CorsRule_AllowedMethods_ARM(temp))
 	}
 
 	// Set property "AllowedOrigins":
@@ -2863,7 +2871,9 @@ func (rule *CorsRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, 
 
 	// Set property "AllowedMethods":
 	for _, item := range typedInput.AllowedMethods {
-		rule.AllowedMethods = append(rule.AllowedMethods, item)
+		var temp string
+		temp = string(item)
+		rule.AllowedMethods = append(rule.AllowedMethods, CorsRule_AllowedMethods(temp))
 	}
 
 	// Set property "AllowedOrigins":
@@ -3035,7 +3045,9 @@ func (rule *CorsRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 
 	// Set property "AllowedMethods":
 	for _, item := range typedInput.AllowedMethods {
-		rule.AllowedMethods = append(rule.AllowedMethods, item)
+		var temp string
+		temp = string(item)
+		rule.AllowedMethods = append(rule.AllowedMethods, CorsRule_AllowedMethods_STATUS(temp))
 	}
 
 	// Set property "AllowedOrigins":

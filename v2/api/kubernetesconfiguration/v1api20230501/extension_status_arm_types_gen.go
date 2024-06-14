@@ -65,7 +65,7 @@ type Extension_Properties_STATUS_ARM struct {
 	PackageUri *string `json:"packageUri,omitempty"`
 
 	// ProvisioningState: Status of installation of this extension.
-	ProvisioningState *ProvisioningStateDefinition_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningStateDefinition_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// ReleaseTrain: ReleaseTrain this extension participates in for auto-upgrade (e.g. Stable, Preview, etc.) - only if
 	// autoUpgradeMinorVersion is 'true'.
@@ -91,7 +91,7 @@ type Identity_STATUS_ARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: The identity type.
-	Type *Identity_Type_STATUS `json:"type,omitempty"`
+	Type *Identity_Type_STATUS_ARM `json:"type,omitempty"`
 }
 
 // Plan for the resource.
@@ -122,7 +122,7 @@ type SystemData_STATUS_ARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_CreatedByType_STATUS_ARM `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -131,7 +131,7 @@ type SystemData_STATUS_ARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS_ARM `json:"lastModifiedByType,omitempty"`
 }
 
 // The error detail.
@@ -160,7 +160,7 @@ type Extension_Properties_AksAssignedIdentity_STATUS_ARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: The identity type.
-	Type *Extension_Properties_AksAssignedIdentity_Type_STATUS `json:"type,omitempty"`
+	Type *Extension_Properties_AksAssignedIdentity_Type_STATUS_ARM `json:"type,omitempty"`
 }
 
 // Status from the extension.
@@ -172,7 +172,7 @@ type ExtensionStatus_STATUS_ARM struct {
 	DisplayStatus *string `json:"displayStatus,omitempty"`
 
 	// Level: Level of the status.
-	Level *ExtensionStatus_Level_STATUS `json:"level,omitempty"`
+	Level *ExtensionStatus_Level_STATUS_ARM `json:"level,omitempty"`
 
 	// Message: Detailed message of the status from the Extension.
 	Message *string `json:"message,omitempty"`
@@ -181,13 +181,35 @@ type ExtensionStatus_STATUS_ARM struct {
 	Time *string `json:"time,omitempty"`
 }
 
-type Identity_Type_STATUS string
+type Identity_Type_STATUS_ARM string
 
-const Identity_Type_STATUS_SystemAssigned = Identity_Type_STATUS("SystemAssigned")
+const Identity_Type_STATUS_ARM_SystemAssigned = Identity_Type_STATUS_ARM("SystemAssigned")
 
-// Mapping from string to Identity_Type_STATUS
-var identity_Type_STATUS_Values = map[string]Identity_Type_STATUS{
-	"systemassigned": Identity_Type_STATUS_SystemAssigned,
+// Mapping from string to Identity_Type_STATUS_ARM
+var identity_Type_STATUS_ARM_Values = map[string]Identity_Type_STATUS_ARM{
+	"systemassigned": Identity_Type_STATUS_ARM_SystemAssigned,
+}
+
+// The provisioning state of the resource.
+type ProvisioningStateDefinition_STATUS_ARM string
+
+const (
+	ProvisioningStateDefinition_STATUS_ARM_Canceled  = ProvisioningStateDefinition_STATUS_ARM("Canceled")
+	ProvisioningStateDefinition_STATUS_ARM_Creating  = ProvisioningStateDefinition_STATUS_ARM("Creating")
+	ProvisioningStateDefinition_STATUS_ARM_Deleting  = ProvisioningStateDefinition_STATUS_ARM("Deleting")
+	ProvisioningStateDefinition_STATUS_ARM_Failed    = ProvisioningStateDefinition_STATUS_ARM("Failed")
+	ProvisioningStateDefinition_STATUS_ARM_Succeeded = ProvisioningStateDefinition_STATUS_ARM("Succeeded")
+	ProvisioningStateDefinition_STATUS_ARM_Updating  = ProvisioningStateDefinition_STATUS_ARM("Updating")
+)
+
+// Mapping from string to ProvisioningStateDefinition_STATUS_ARM
+var provisioningStateDefinition_STATUS_ARM_Values = map[string]ProvisioningStateDefinition_STATUS_ARM{
+	"canceled":  ProvisioningStateDefinition_STATUS_ARM_Canceled,
+	"creating":  ProvisioningStateDefinition_STATUS_ARM_Creating,
+	"deleting":  ProvisioningStateDefinition_STATUS_ARM_Deleting,
+	"failed":    ProvisioningStateDefinition_STATUS_ARM_Failed,
+	"succeeded": ProvisioningStateDefinition_STATUS_ARM_Succeeded,
+	"updating":  ProvisioningStateDefinition_STATUS_ARM_Updating,
 }
 
 // Scope of the extension. It can be either Cluster or Namespace; but not both.
@@ -199,38 +221,38 @@ type Scope_STATUS_ARM struct {
 	Namespace *ScopeNamespace_STATUS_ARM `json:"namespace,omitempty"`
 }
 
-type SystemData_CreatedByType_STATUS string
+type SystemData_CreatedByType_STATUS_ARM string
 
 const (
-	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+	SystemData_CreatedByType_STATUS_ARM_Application     = SystemData_CreatedByType_STATUS_ARM("Application")
+	SystemData_CreatedByType_STATUS_ARM_Key             = SystemData_CreatedByType_STATUS_ARM("Key")
+	SystemData_CreatedByType_STATUS_ARM_ManagedIdentity = SystemData_CreatedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_ARM_User            = SystemData_CreatedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_CreatedByType_STATUS
-var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
-	"application":     SystemData_CreatedByType_STATUS_Application,
-	"key":             SystemData_CreatedByType_STATUS_Key,
-	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_CreatedByType_STATUS_User,
+// Mapping from string to SystemData_CreatedByType_STATUS_ARM
+var systemData_CreatedByType_STATUS_ARM_Values = map[string]SystemData_CreatedByType_STATUS_ARM{
+	"application":     SystemData_CreatedByType_STATUS_ARM_Application,
+	"key":             SystemData_CreatedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_ARM_User,
 }
 
-type SystemData_LastModifiedByType_STATUS string
+type SystemData_LastModifiedByType_STATUS_ARM string
 
 const (
-	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+	SystemData_LastModifiedByType_STATUS_ARM_Application     = SystemData_LastModifiedByType_STATUS_ARM("Application")
+	SystemData_LastModifiedByType_STATUS_ARM_Key             = SystemData_LastModifiedByType_STATUS_ARM("Key")
+	SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity = SystemData_LastModifiedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_ARM_User            = SystemData_LastModifiedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_LastModifiedByType_STATUS
-var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
-	"application":     SystemData_LastModifiedByType_STATUS_Application,
-	"key":             SystemData_LastModifiedByType_STATUS_Key,
-	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_LastModifiedByType_STATUS_User,
+// Mapping from string to SystemData_LastModifiedByType_STATUS_ARM
+var systemData_LastModifiedByType_STATUS_ARM_Values = map[string]SystemData_LastModifiedByType_STATUS_ARM{
+	"application":     SystemData_LastModifiedByType_STATUS_ARM_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_ARM_User,
 }
 
 // The resource management error additional info.
@@ -254,6 +276,34 @@ type ErrorDetail_STATUS_Unrolled_ARM struct {
 
 	// Target: The error target.
 	Target *string `json:"target,omitempty"`
+}
+
+type Extension_Properties_AksAssignedIdentity_Type_STATUS_ARM string
+
+const (
+	Extension_Properties_AksAssignedIdentity_Type_STATUS_ARM_SystemAssigned = Extension_Properties_AksAssignedIdentity_Type_STATUS_ARM("SystemAssigned")
+	Extension_Properties_AksAssignedIdentity_Type_STATUS_ARM_UserAssigned   = Extension_Properties_AksAssignedIdentity_Type_STATUS_ARM("UserAssigned")
+)
+
+// Mapping from string to Extension_Properties_AksAssignedIdentity_Type_STATUS_ARM
+var extension_Properties_AksAssignedIdentity_Type_STATUS_ARM_Values = map[string]Extension_Properties_AksAssignedIdentity_Type_STATUS_ARM{
+	"systemassigned": Extension_Properties_AksAssignedIdentity_Type_STATUS_ARM_SystemAssigned,
+	"userassigned":   Extension_Properties_AksAssignedIdentity_Type_STATUS_ARM_UserAssigned,
+}
+
+type ExtensionStatus_Level_STATUS_ARM string
+
+const (
+	ExtensionStatus_Level_STATUS_ARM_Error       = ExtensionStatus_Level_STATUS_ARM("Error")
+	ExtensionStatus_Level_STATUS_ARM_Information = ExtensionStatus_Level_STATUS_ARM("Information")
+	ExtensionStatus_Level_STATUS_ARM_Warning     = ExtensionStatus_Level_STATUS_ARM("Warning")
+)
+
+// Mapping from string to ExtensionStatus_Level_STATUS_ARM
+var extensionStatus_Level_STATUS_ARM_Values = map[string]ExtensionStatus_Level_STATUS_ARM{
+	"error":       ExtensionStatus_Level_STATUS_ARM_Error,
+	"information": ExtensionStatus_Level_STATUS_ARM_Information,
+	"warning":     ExtensionStatus_Level_STATUS_ARM_Warning,
 }
 
 // Specifies that the scope of the extension is Cluster

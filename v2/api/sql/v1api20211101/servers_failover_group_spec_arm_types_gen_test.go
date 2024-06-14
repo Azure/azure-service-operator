@@ -152,7 +152,7 @@ func FailoverGroupReadOnlyEndpoint_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForFailoverGroupReadOnlyEndpoint_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFailoverGroupReadOnlyEndpoint_ARM(gens map[string]gopter.Gen) {
-	gens["FailoverPolicy"] = gen.PtrOf(gen.OneConstOf(FailoverGroupReadOnlyEndpoint_FailoverPolicy_Disabled, FailoverGroupReadOnlyEndpoint_FailoverPolicy_Enabled))
+	gens["FailoverPolicy"] = gen.PtrOf(gen.OneConstOf(FailoverGroupReadOnlyEndpoint_FailoverPolicy_ARM_Disabled, FailoverGroupReadOnlyEndpoint_FailoverPolicy_ARM_Enabled))
 }
 
 func Test_FailoverGroupReadWriteEndpoint_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -213,7 +213,7 @@ func FailoverGroupReadWriteEndpoint_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForFailoverGroupReadWriteEndpoint_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFailoverGroupReadWriteEndpoint_ARM(gens map[string]gopter.Gen) {
-	gens["FailoverPolicy"] = gen.PtrOf(gen.OneConstOf(FailoverGroupReadWriteEndpoint_FailoverPolicy_Automatic, FailoverGroupReadWriteEndpoint_FailoverPolicy_Manual))
+	gens["FailoverPolicy"] = gen.PtrOf(gen.OneConstOf(FailoverGroupReadWriteEndpoint_FailoverPolicy_ARM_Automatic, FailoverGroupReadWriteEndpoint_FailoverPolicy_ARM_Manual))
 	gens["FailoverWithDataLossGracePeriodMinutes"] = gen.PtrOf(gen.Int())
 }
 

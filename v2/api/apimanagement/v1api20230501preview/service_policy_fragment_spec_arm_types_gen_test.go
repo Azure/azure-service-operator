@@ -76,7 +76,7 @@ func PolicyFragmentContractProperties_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForPolicyFragmentContractProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPolicyFragmentContractProperties_ARM(gens map[string]gopter.Gen) {
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Format"] = gen.PtrOf(gen.OneConstOf(PolicyFragmentContractProperties_Format_Rawxml, PolicyFragmentContractProperties_Format_Xml))
+	gens["Format"] = gen.PtrOf(gen.OneConstOf(PolicyFragmentContractProperties_Format_ARM_Rawxml, PolicyFragmentContractProperties_Format_ARM_Xml))
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 

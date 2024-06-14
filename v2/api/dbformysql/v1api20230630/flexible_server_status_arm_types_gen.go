@@ -44,7 +44,7 @@ type MySQLServerIdentity_STATUS_ARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: Type of managed service identity.
-	Type *MySQLServerIdentity_Type_STATUS `json:"type,omitempty"`
+	Type *MySQLServerIdentity_Type_STATUS_ARM `json:"type,omitempty"`
 
 	// UserAssignedIdentities: Metadata of user assigned identity.
 	UserAssignedIdentities map[string]v1.JSON `json:"userAssignedIdentities,omitempty"`
@@ -56,7 +56,7 @@ type MySQLServerSku_STATUS_ARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Tier: The tier of the particular SKU, e.g. GeneralPurpose.
-	Tier *MySQLServerSku_Tier_STATUS `json:"tier,omitempty"`
+	Tier *MySQLServerSku_Tier_STATUS_ARM `json:"tier,omitempty"`
 }
 
 // The properties of a server.
@@ -72,7 +72,7 @@ type ServerProperties_STATUS_ARM struct {
 	Backup *Backup_STATUS_ARM `json:"backup,omitempty"`
 
 	// CreateMode: The mode to create a new MySQL server.
-	CreateMode *ServerProperties_CreateMode_STATUS `json:"createMode,omitempty"`
+	CreateMode *ServerProperties_CreateMode_STATUS_ARM `json:"createMode,omitempty"`
 
 	// DataEncryption: The Data Encryption for CMK.
 	DataEncryption *DataEncryption_STATUS_ARM `json:"dataEncryption,omitempty"`
@@ -99,7 +99,7 @@ type ServerProperties_STATUS_ARM struct {
 	ReplicaCapacity *int `json:"replicaCapacity,omitempty"`
 
 	// ReplicationRole: The replication role.
-	ReplicationRole *ReplicationRole_STATUS `json:"replicationRole,omitempty"`
+	ReplicationRole *ReplicationRole_STATUS_ARM `json:"replicationRole,omitempty"`
 
 	// RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.
 	RestorePointInTime *string `json:"restorePointInTime,omitempty"`
@@ -108,13 +108,13 @@ type ServerProperties_STATUS_ARM struct {
 	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
 
 	// State: The state of a server.
-	State *ServerProperties_State_STATUS `json:"state,omitempty"`
+	State *ServerProperties_State_STATUS_ARM `json:"state,omitempty"`
 
 	// Storage: Storage related properties of a server.
 	Storage *Storage_STATUS_ARM `json:"storage,omitempty"`
 
 	// Version: Server version.
-	Version *ServerVersion_STATUS `json:"version,omitempty"`
+	Version *ServerVersion_STATUS_ARM `json:"version,omitempty"`
 }
 
 // Metadata pertaining to creation and last modification of the resource.
@@ -126,7 +126,7 @@ type SystemData_STATUS_ARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_CreatedByType_STATUS_ARM `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -135,7 +135,7 @@ type SystemData_STATUS_ARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS_ARM `json:"lastModifiedByType,omitempty"`
 }
 
 // Storage Profile properties of a server
@@ -147,7 +147,7 @@ type Backup_STATUS_ARM struct {
 	EarliestRestoreDate *string `json:"earliestRestoreDate,omitempty"`
 
 	// GeoRedundantBackup: Whether or not geo redundant backup is enabled.
-	GeoRedundantBackup *EnableStatusEnum_STATUS `json:"geoRedundantBackup,omitempty"`
+	GeoRedundantBackup *EnableStatusEnum_STATUS_ARM `json:"geoRedundantBackup,omitempty"`
 }
 
 // The date encryption for cmk.
@@ -166,19 +166,19 @@ type DataEncryption_STATUS_ARM struct {
 	PrimaryUserAssignedIdentityId *string `json:"primaryUserAssignedIdentityId,omitempty"`
 
 	// Type: The key type, AzureKeyVault for enable cmk, SystemManaged for disable cmk.
-	Type *DataEncryption_Type_STATUS `json:"type,omitempty"`
+	Type *DataEncryption_Type_STATUS_ARM `json:"type,omitempty"`
 }
 
 // Network related properties of a server
 type HighAvailability_STATUS_ARM struct {
 	// Mode: High availability mode for a server.
-	Mode *HighAvailability_Mode_STATUS `json:"mode,omitempty"`
+	Mode *HighAvailability_Mode_STATUS_ARM `json:"mode,omitempty"`
 
 	// StandbyAvailabilityZone: Availability zone of the standby server.
 	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
 
 	// State: The state of server high availability.
-	State *HighAvailability_State_STATUS `json:"state,omitempty"`
+	State *HighAvailability_State_STATUS_ARM `json:"state,omitempty"`
 }
 
 // Import source related properties.
@@ -187,7 +187,7 @@ type ImportSourceProperties_STATUS_ARM struct {
 	DataDirPath *string `json:"dataDirPath,omitempty"`
 
 	// StorageType: Storage type of import source.
-	StorageType *ImportSourceProperties_StorageType_STATUS `json:"storageType,omitempty"`
+	StorageType *ImportSourceProperties_StorageType_STATUS_ARM `json:"storageType,omitempty"`
 
 	// StorageUrl: Uri of the import source storage.
 	StorageUrl *string `json:"storageUrl,omitempty"`
@@ -208,28 +208,28 @@ type MaintenanceWindow_STATUS_ARM struct {
 	StartMinute *int `json:"startMinute,omitempty"`
 }
 
-type MySQLServerIdentity_Type_STATUS string
+type MySQLServerIdentity_Type_STATUS_ARM string
 
-const MySQLServerIdentity_Type_STATUS_UserAssigned = MySQLServerIdentity_Type_STATUS("UserAssigned")
+const MySQLServerIdentity_Type_STATUS_ARM_UserAssigned = MySQLServerIdentity_Type_STATUS_ARM("UserAssigned")
 
-// Mapping from string to MySQLServerIdentity_Type_STATUS
-var mySQLServerIdentity_Type_STATUS_Values = map[string]MySQLServerIdentity_Type_STATUS{
-	"userassigned": MySQLServerIdentity_Type_STATUS_UserAssigned,
+// Mapping from string to MySQLServerIdentity_Type_STATUS_ARM
+var mySQLServerIdentity_Type_STATUS_ARM_Values = map[string]MySQLServerIdentity_Type_STATUS_ARM{
+	"userassigned": MySQLServerIdentity_Type_STATUS_ARM_UserAssigned,
 }
 
-type MySQLServerSku_Tier_STATUS string
+type MySQLServerSku_Tier_STATUS_ARM string
 
 const (
-	MySQLServerSku_Tier_STATUS_Burstable       = MySQLServerSku_Tier_STATUS("Burstable")
-	MySQLServerSku_Tier_STATUS_GeneralPurpose  = MySQLServerSku_Tier_STATUS("GeneralPurpose")
-	MySQLServerSku_Tier_STATUS_MemoryOptimized = MySQLServerSku_Tier_STATUS("MemoryOptimized")
+	MySQLServerSku_Tier_STATUS_ARM_Burstable       = MySQLServerSku_Tier_STATUS_ARM("Burstable")
+	MySQLServerSku_Tier_STATUS_ARM_GeneralPurpose  = MySQLServerSku_Tier_STATUS_ARM("GeneralPurpose")
+	MySQLServerSku_Tier_STATUS_ARM_MemoryOptimized = MySQLServerSku_Tier_STATUS_ARM("MemoryOptimized")
 )
 
-// Mapping from string to MySQLServerSku_Tier_STATUS
-var mySQLServerSku_Tier_STATUS_Values = map[string]MySQLServerSku_Tier_STATUS{
-	"burstable":       MySQLServerSku_Tier_STATUS_Burstable,
-	"generalpurpose":  MySQLServerSku_Tier_STATUS_GeneralPurpose,
-	"memoryoptimized": MySQLServerSku_Tier_STATUS_MemoryOptimized,
+// Mapping from string to MySQLServerSku_Tier_STATUS_ARM
+var mySQLServerSku_Tier_STATUS_ARM_Values = map[string]MySQLServerSku_Tier_STATUS_ARM{
+	"burstable":       MySQLServerSku_Tier_STATUS_ARM_Burstable,
+	"generalpurpose":  MySQLServerSku_Tier_STATUS_ARM_GeneralPurpose,
+	"memoryoptimized": MySQLServerSku_Tier_STATUS_ARM_MemoryOptimized,
 }
 
 // Network related properties of a server
@@ -242,7 +242,7 @@ type Network_STATUS_ARM struct {
 
 	// PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is 'Disabled' when server
 	// has VNet integration.
-	PublicNetworkAccess *EnableStatusEnum_STATUS `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *EnableStatusEnum_STATUS_ARM `json:"publicNetworkAccess,omitempty"`
 }
 
 // The private endpoint connection resource.
@@ -252,19 +252,89 @@ type PrivateEndpointConnection_STATUS_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
+// The replication role.
+type ReplicationRole_STATUS_ARM string
+
+const (
+	ReplicationRole_STATUS_ARM_None    = ReplicationRole_STATUS_ARM("None")
+	ReplicationRole_STATUS_ARM_Replica = ReplicationRole_STATUS_ARM("Replica")
+	ReplicationRole_STATUS_ARM_Source  = ReplicationRole_STATUS_ARM("Source")
+)
+
+// Mapping from string to ReplicationRole_STATUS_ARM
+var replicationRole_STATUS_ARM_Values = map[string]ReplicationRole_STATUS_ARM{
+	"none":    ReplicationRole_STATUS_ARM_None,
+	"replica": ReplicationRole_STATUS_ARM_Replica,
+	"source":  ReplicationRole_STATUS_ARM_Source,
+}
+
+type ServerProperties_CreateMode_STATUS_ARM string
+
+const (
+	ServerProperties_CreateMode_STATUS_ARM_Default            = ServerProperties_CreateMode_STATUS_ARM("Default")
+	ServerProperties_CreateMode_STATUS_ARM_GeoRestore         = ServerProperties_CreateMode_STATUS_ARM("GeoRestore")
+	ServerProperties_CreateMode_STATUS_ARM_PointInTimeRestore = ServerProperties_CreateMode_STATUS_ARM("PointInTimeRestore")
+	ServerProperties_CreateMode_STATUS_ARM_Replica            = ServerProperties_CreateMode_STATUS_ARM("Replica")
+)
+
+// Mapping from string to ServerProperties_CreateMode_STATUS_ARM
+var serverProperties_CreateMode_STATUS_ARM_Values = map[string]ServerProperties_CreateMode_STATUS_ARM{
+	"default":            ServerProperties_CreateMode_STATUS_ARM_Default,
+	"georestore":         ServerProperties_CreateMode_STATUS_ARM_GeoRestore,
+	"pointintimerestore": ServerProperties_CreateMode_STATUS_ARM_PointInTimeRestore,
+	"replica":            ServerProperties_CreateMode_STATUS_ARM_Replica,
+}
+
+type ServerProperties_State_STATUS_ARM string
+
+const (
+	ServerProperties_State_STATUS_ARM_Disabled = ServerProperties_State_STATUS_ARM("Disabled")
+	ServerProperties_State_STATUS_ARM_Dropping = ServerProperties_State_STATUS_ARM("Dropping")
+	ServerProperties_State_STATUS_ARM_Ready    = ServerProperties_State_STATUS_ARM("Ready")
+	ServerProperties_State_STATUS_ARM_Starting = ServerProperties_State_STATUS_ARM("Starting")
+	ServerProperties_State_STATUS_ARM_Stopped  = ServerProperties_State_STATUS_ARM("Stopped")
+	ServerProperties_State_STATUS_ARM_Stopping = ServerProperties_State_STATUS_ARM("Stopping")
+	ServerProperties_State_STATUS_ARM_Updating = ServerProperties_State_STATUS_ARM("Updating")
+)
+
+// Mapping from string to ServerProperties_State_STATUS_ARM
+var serverProperties_State_STATUS_ARM_Values = map[string]ServerProperties_State_STATUS_ARM{
+	"disabled": ServerProperties_State_STATUS_ARM_Disabled,
+	"dropping": ServerProperties_State_STATUS_ARM_Dropping,
+	"ready":    ServerProperties_State_STATUS_ARM_Ready,
+	"starting": ServerProperties_State_STATUS_ARM_Starting,
+	"stopped":  ServerProperties_State_STATUS_ARM_Stopped,
+	"stopping": ServerProperties_State_STATUS_ARM_Stopping,
+	"updating": ServerProperties_State_STATUS_ARM_Updating,
+}
+
+// The version of a server.
+type ServerVersion_STATUS_ARM string
+
+const (
+	ServerVersion_STATUS_ARM_57   = ServerVersion_STATUS_ARM("5.7")
+	ServerVersion_STATUS_ARM_8021 = ServerVersion_STATUS_ARM("8.0.21")
+)
+
+// Mapping from string to ServerVersion_STATUS_ARM
+var serverVersion_STATUS_ARM_Values = map[string]ServerVersion_STATUS_ARM{
+	"5.7":    ServerVersion_STATUS_ARM_57,
+	"8.0.21": ServerVersion_STATUS_ARM_8021,
+}
+
 // Storage Profile properties of a server
 type Storage_STATUS_ARM struct {
 	// AutoGrow: Enable Storage Auto Grow or not.
-	AutoGrow *EnableStatusEnum_STATUS `json:"autoGrow,omitempty"`
+	AutoGrow *EnableStatusEnum_STATUS_ARM `json:"autoGrow,omitempty"`
 
 	// AutoIoScaling: Enable IO Auto Scaling or not.
-	AutoIoScaling *EnableStatusEnum_STATUS `json:"autoIoScaling,omitempty"`
+	AutoIoScaling *EnableStatusEnum_STATUS_ARM `json:"autoIoScaling,omitempty"`
 
 	// Iops: Storage IOPS for a server.
 	Iops *int `json:"iops,omitempty"`
 
 	// LogOnDisk: Enable Log On Disk or not.
-	LogOnDisk *EnableStatusEnum_STATUS `json:"logOnDisk,omitempty"`
+	LogOnDisk *EnableStatusEnum_STATUS_ARM `json:"logOnDisk,omitempty"`
 
 	// StorageSizeGB: Max storage size allowed for a server.
 	StorageSizeGB *int `json:"storageSizeGB,omitempty"`
@@ -273,36 +343,106 @@ type Storage_STATUS_ARM struct {
 	StorageSku *string `json:"storageSku,omitempty"`
 }
 
-type SystemData_CreatedByType_STATUS string
+type SystemData_CreatedByType_STATUS_ARM string
 
 const (
-	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+	SystemData_CreatedByType_STATUS_ARM_Application     = SystemData_CreatedByType_STATUS_ARM("Application")
+	SystemData_CreatedByType_STATUS_ARM_Key             = SystemData_CreatedByType_STATUS_ARM("Key")
+	SystemData_CreatedByType_STATUS_ARM_ManagedIdentity = SystemData_CreatedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_ARM_User            = SystemData_CreatedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_CreatedByType_STATUS
-var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
-	"application":     SystemData_CreatedByType_STATUS_Application,
-	"key":             SystemData_CreatedByType_STATUS_Key,
-	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_CreatedByType_STATUS_User,
+// Mapping from string to SystemData_CreatedByType_STATUS_ARM
+var systemData_CreatedByType_STATUS_ARM_Values = map[string]SystemData_CreatedByType_STATUS_ARM{
+	"application":     SystemData_CreatedByType_STATUS_ARM_Application,
+	"key":             SystemData_CreatedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_ARM_User,
 }
 
-type SystemData_LastModifiedByType_STATUS string
+type SystemData_LastModifiedByType_STATUS_ARM string
 
 const (
-	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+	SystemData_LastModifiedByType_STATUS_ARM_Application     = SystemData_LastModifiedByType_STATUS_ARM("Application")
+	SystemData_LastModifiedByType_STATUS_ARM_Key             = SystemData_LastModifiedByType_STATUS_ARM("Key")
+	SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity = SystemData_LastModifiedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_ARM_User            = SystemData_LastModifiedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_LastModifiedByType_STATUS
-var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
-	"application":     SystemData_LastModifiedByType_STATUS_Application,
-	"key":             SystemData_LastModifiedByType_STATUS_Key,
-	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_LastModifiedByType_STATUS_User,
+// Mapping from string to SystemData_LastModifiedByType_STATUS_ARM
+var systemData_LastModifiedByType_STATUS_ARM_Values = map[string]SystemData_LastModifiedByType_STATUS_ARM{
+	"application":     SystemData_LastModifiedByType_STATUS_ARM_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_ARM_User,
+}
+
+type DataEncryption_Type_STATUS_ARM string
+
+const (
+	DataEncryption_Type_STATUS_ARM_AzureKeyVault = DataEncryption_Type_STATUS_ARM("AzureKeyVault")
+	DataEncryption_Type_STATUS_ARM_SystemManaged = DataEncryption_Type_STATUS_ARM("SystemManaged")
+)
+
+// Mapping from string to DataEncryption_Type_STATUS_ARM
+var dataEncryption_Type_STATUS_ARM_Values = map[string]DataEncryption_Type_STATUS_ARM{
+	"azurekeyvault": DataEncryption_Type_STATUS_ARM_AzureKeyVault,
+	"systemmanaged": DataEncryption_Type_STATUS_ARM_SystemManaged,
+}
+
+// Enum to indicate whether value is 'Enabled' or 'Disabled'
+type EnableStatusEnum_STATUS_ARM string
+
+const (
+	EnableStatusEnum_STATUS_ARM_Disabled = EnableStatusEnum_STATUS_ARM("Disabled")
+	EnableStatusEnum_STATUS_ARM_Enabled  = EnableStatusEnum_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to EnableStatusEnum_STATUS_ARM
+var enableStatusEnum_STATUS_ARM_Values = map[string]EnableStatusEnum_STATUS_ARM{
+	"disabled": EnableStatusEnum_STATUS_ARM_Disabled,
+	"enabled":  EnableStatusEnum_STATUS_ARM_Enabled,
+}
+
+type HighAvailability_Mode_STATUS_ARM string
+
+const (
+	HighAvailability_Mode_STATUS_ARM_Disabled      = HighAvailability_Mode_STATUS_ARM("Disabled")
+	HighAvailability_Mode_STATUS_ARM_SameZone      = HighAvailability_Mode_STATUS_ARM("SameZone")
+	HighAvailability_Mode_STATUS_ARM_ZoneRedundant = HighAvailability_Mode_STATUS_ARM("ZoneRedundant")
+)
+
+// Mapping from string to HighAvailability_Mode_STATUS_ARM
+var highAvailability_Mode_STATUS_ARM_Values = map[string]HighAvailability_Mode_STATUS_ARM{
+	"disabled":      HighAvailability_Mode_STATUS_ARM_Disabled,
+	"samezone":      HighAvailability_Mode_STATUS_ARM_SameZone,
+	"zoneredundant": HighAvailability_Mode_STATUS_ARM_ZoneRedundant,
+}
+
+type HighAvailability_State_STATUS_ARM string
+
+const (
+	HighAvailability_State_STATUS_ARM_CreatingStandby = HighAvailability_State_STATUS_ARM("CreatingStandby")
+	HighAvailability_State_STATUS_ARM_FailingOver     = HighAvailability_State_STATUS_ARM("FailingOver")
+	HighAvailability_State_STATUS_ARM_Healthy         = HighAvailability_State_STATUS_ARM("Healthy")
+	HighAvailability_State_STATUS_ARM_NotEnabled      = HighAvailability_State_STATUS_ARM("NotEnabled")
+	HighAvailability_State_STATUS_ARM_RemovingStandby = HighAvailability_State_STATUS_ARM("RemovingStandby")
+)
+
+// Mapping from string to HighAvailability_State_STATUS_ARM
+var highAvailability_State_STATUS_ARM_Values = map[string]HighAvailability_State_STATUS_ARM{
+	"creatingstandby": HighAvailability_State_STATUS_ARM_CreatingStandby,
+	"failingover":     HighAvailability_State_STATUS_ARM_FailingOver,
+	"healthy":         HighAvailability_State_STATUS_ARM_Healthy,
+	"notenabled":      HighAvailability_State_STATUS_ARM_NotEnabled,
+	"removingstandby": HighAvailability_State_STATUS_ARM_RemovingStandby,
+}
+
+type ImportSourceProperties_StorageType_STATUS_ARM string
+
+const ImportSourceProperties_StorageType_STATUS_ARM_AzureBlob = ImportSourceProperties_StorageType_STATUS_ARM("AzureBlob")
+
+// Mapping from string to ImportSourceProperties_StorageType_STATUS_ARM
+var importSourceProperties_StorageType_STATUS_ARM_Values = map[string]ImportSourceProperties_StorageType_STATUS_ARM{
+	"azureblob": ImportSourceProperties_StorageType_STATUS_ARM_AzureBlob,
 }

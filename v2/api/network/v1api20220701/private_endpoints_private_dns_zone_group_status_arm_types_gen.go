@@ -23,7 +23,7 @@ type PrivateDnsZoneGroupPropertiesFormat_STATUS_ARM struct {
 	PrivateDnsZoneConfigs []PrivateDnsZoneConfig_STATUS_ARM `json:"privateDnsZoneConfigs,omitempty"`
 
 	// ProvisioningState: The provisioning state of the private dns zone group resource.
-	ProvisioningState *PrivateEndpointProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *PrivateEndpointProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 }
 
 // PrivateDnsZoneConfig resource.
@@ -33,6 +33,24 @@ type PrivateDnsZoneConfig_STATUS_ARM struct {
 
 	// Properties: Properties of the private dns zone configuration.
 	Properties *PrivateDnsZonePropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
+}
+
+// The current provisioning state.
+type PrivateEndpointProvisioningState_STATUS_ARM string
+
+const (
+	PrivateEndpointProvisioningState_STATUS_ARM_Deleting  = PrivateEndpointProvisioningState_STATUS_ARM("Deleting")
+	PrivateEndpointProvisioningState_STATUS_ARM_Failed    = PrivateEndpointProvisioningState_STATUS_ARM("Failed")
+	PrivateEndpointProvisioningState_STATUS_ARM_Succeeded = PrivateEndpointProvisioningState_STATUS_ARM("Succeeded")
+	PrivateEndpointProvisioningState_STATUS_ARM_Updating  = PrivateEndpointProvisioningState_STATUS_ARM("Updating")
+)
+
+// Mapping from string to PrivateEndpointProvisioningState_STATUS_ARM
+var privateEndpointProvisioningState_STATUS_ARM_Values = map[string]PrivateEndpointProvisioningState_STATUS_ARM{
+	"deleting":  PrivateEndpointProvisioningState_STATUS_ARM_Deleting,
+	"failed":    PrivateEndpointProvisioningState_STATUS_ARM_Failed,
+	"succeeded": PrivateEndpointProvisioningState_STATUS_ARM_Succeeded,
+	"updating":  PrivateEndpointProvisioningState_STATUS_ARM_Updating,
 }
 
 // Properties of the private dns zone configuration resource.
@@ -53,7 +71,7 @@ type RecordSet_STATUS_ARM struct {
 	IpAddresses []string `json:"ipAddresses,omitempty"`
 
 	// ProvisioningState: The provisioning state of the recordset.
-	ProvisioningState *PrivateEndpointProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *PrivateEndpointProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// RecordSetName: Recordset name.
 	RecordSetName *string `json:"recordSetName,omitempty"`

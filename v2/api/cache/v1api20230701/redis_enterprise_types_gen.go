@@ -381,7 +381,9 @@ func (enterprise *RedisEnterprise_Spec) ConvertToARM(resolved genruntime.Convert
 		result.Properties = &ClusterProperties_ARM{}
 	}
 	if enterprise.MinimumTlsVersion != nil {
-		minimumTlsVersion := *enterprise.MinimumTlsVersion
+		var temp string
+		temp = string(*enterprise.MinimumTlsVersion)
+		minimumTlsVersion := ClusterProperties_MinimumTlsVersion_ARM(temp)
 		result.Properties.MinimumTlsVersion = &minimumTlsVersion
 	}
 
@@ -435,7 +437,9 @@ func (enterprise *RedisEnterprise_Spec) PopulateFromARM(owner genruntime.Arbitra
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MinimumTlsVersion != nil {
-			minimumTlsVersion := *typedInput.Properties.MinimumTlsVersion
+			var temp string
+			temp = string(*typedInput.Properties.MinimumTlsVersion)
+			minimumTlsVersion := ClusterProperties_MinimumTlsVersion(temp)
 			enterprise.MinimumTlsVersion = &minimumTlsVersion
 		}
 	}
@@ -813,7 +817,9 @@ func (enterprise *RedisEnterprise_STATUS) PopulateFromARM(owner genruntime.Arbit
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MinimumTlsVersion != nil {
-			minimumTlsVersion := *typedInput.Properties.MinimumTlsVersion
+			var temp string
+			temp = string(*typedInput.Properties.MinimumTlsVersion)
+			minimumTlsVersion := ClusterProperties_MinimumTlsVersion_STATUS(temp)
 			enterprise.MinimumTlsVersion = &minimumTlsVersion
 		}
 	}
@@ -841,7 +847,9 @@ func (enterprise *RedisEnterprise_STATUS) PopulateFromARM(owner genruntime.Arbit
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := ProvisioningState_STATUS(temp)
 			enterprise.ProvisioningState = &provisioningState
 		}
 	}
@@ -859,7 +867,9 @@ func (enterprise *RedisEnterprise_STATUS) PopulateFromARM(owner genruntime.Arbit
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceState != nil {
-			resourceState := *typedInput.Properties.ResourceState
+			var temp string
+			temp = string(*typedInput.Properties.ResourceState)
+			resourceState := ResourceState_STATUS(temp)
 			enterprise.ResourceState = &resourceState
 		}
 	}
@@ -1261,7 +1271,9 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 
 	// Set property "Name":
 	if sku.Name != nil {
-		name := *sku.Name
+		var temp string
+		temp = string(*sku.Name)
+		name := Sku_Name_ARM(temp)
 		result.Name = &name
 	}
 	return result, nil
@@ -1287,7 +1299,9 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := Sku_Name(temp)
 		sku.Name = &name
 	}
 
@@ -1391,7 +1405,9 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := Sku_Name_STATUS(temp)
 		sku.Name = &name
 	}
 
@@ -1443,6 +1459,53 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *storage.Sku_S
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"EnterpriseFlash_F1500","EnterpriseFlash_F300","EnterpriseFlash_F700","Enterprise_E10","Enterprise_E100","Enterprise_E20","Enterprise_E50"}
+type Sku_Name string
+
+const (
+	Sku_Name_EnterpriseFlash_F1500 = Sku_Name("EnterpriseFlash_F1500")
+	Sku_Name_EnterpriseFlash_F300  = Sku_Name("EnterpriseFlash_F300")
+	Sku_Name_EnterpriseFlash_F700  = Sku_Name("EnterpriseFlash_F700")
+	Sku_Name_Enterprise_E10        = Sku_Name("Enterprise_E10")
+	Sku_Name_Enterprise_E100       = Sku_Name("Enterprise_E100")
+	Sku_Name_Enterprise_E20        = Sku_Name("Enterprise_E20")
+	Sku_Name_Enterprise_E50        = Sku_Name("Enterprise_E50")
+)
+
+// Mapping from string to Sku_Name
+var sku_Name_Values = map[string]Sku_Name{
+	"enterpriseflash_f1500": Sku_Name_EnterpriseFlash_F1500,
+	"enterpriseflash_f300":  Sku_Name_EnterpriseFlash_F300,
+	"enterpriseflash_f700":  Sku_Name_EnterpriseFlash_F700,
+	"enterprise_e10":        Sku_Name_Enterprise_E10,
+	"enterprise_e100":       Sku_Name_Enterprise_E100,
+	"enterprise_e20":        Sku_Name_Enterprise_E20,
+	"enterprise_e50":        Sku_Name_Enterprise_E50,
+}
+
+type Sku_Name_STATUS string
+
+const (
+	Sku_Name_STATUS_EnterpriseFlash_F1500 = Sku_Name_STATUS("EnterpriseFlash_F1500")
+	Sku_Name_STATUS_EnterpriseFlash_F300  = Sku_Name_STATUS("EnterpriseFlash_F300")
+	Sku_Name_STATUS_EnterpriseFlash_F700  = Sku_Name_STATUS("EnterpriseFlash_F700")
+	Sku_Name_STATUS_Enterprise_E10        = Sku_Name_STATUS("Enterprise_E10")
+	Sku_Name_STATUS_Enterprise_E100       = Sku_Name_STATUS("Enterprise_E100")
+	Sku_Name_STATUS_Enterprise_E20        = Sku_Name_STATUS("Enterprise_E20")
+	Sku_Name_STATUS_Enterprise_E50        = Sku_Name_STATUS("Enterprise_E50")
+)
+
+// Mapping from string to Sku_Name_STATUS
+var sku_Name_STATUS_Values = map[string]Sku_Name_STATUS{
+	"enterpriseflash_f1500": Sku_Name_STATUS_EnterpriseFlash_F1500,
+	"enterpriseflash_f300":  Sku_Name_STATUS_EnterpriseFlash_F300,
+	"enterpriseflash_f700":  Sku_Name_STATUS_EnterpriseFlash_F700,
+	"enterprise_e10":        Sku_Name_STATUS_Enterprise_E10,
+	"enterprise_e100":       Sku_Name_STATUS_Enterprise_E100,
+	"enterprise_e20":        Sku_Name_STATUS_Enterprise_E20,
+	"enterprise_e50":        Sku_Name_STATUS_Enterprise_E50,
 }
 
 func init() {

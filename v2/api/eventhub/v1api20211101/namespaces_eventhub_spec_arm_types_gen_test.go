@@ -85,7 +85,7 @@ func CaptureDescription_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForCaptureDescription_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCaptureDescription_ARM(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["Encoding"] = gen.PtrOf(gen.OneConstOf(CaptureDescription_Encoding_Avro, CaptureDescription_Encoding_AvroDeflate))
+	gens["Encoding"] = gen.PtrOf(gen.OneConstOf(CaptureDescription_Encoding_ARM_Avro, CaptureDescription_Encoding_ARM_AvroDeflate))
 	gens["IntervalInSeconds"] = gen.PtrOf(gen.Int())
 	gens["SizeLimitInBytes"] = gen.PtrOf(gen.Int())
 	gens["SkipEmptyArchives"] = gen.PtrOf(gen.Bool())

@@ -21,19 +21,41 @@ type Service_AuthorizationProviders_Authorization_STATUS_ARM struct {
 // Authorization details.
 type AuthorizationContractProperties_STATUS_ARM struct {
 	// AuthorizationType: Authorization type options
-	AuthorizationType *AuthorizationContractProperties_AuthorizationType_STATUS `json:"authorizationType,omitempty"`
+	AuthorizationType *AuthorizationContractProperties_AuthorizationType_STATUS_ARM `json:"authorizationType,omitempty"`
 
 	// Error: Authorization error details.
 	Error *AuthorizationError_STATUS_ARM `json:"error,omitempty"`
 
 	// Oauth2GrantType: OAuth2 grant type options
-	Oauth2GrantType *AuthorizationContractProperties_Oauth2GrantType_STATUS `json:"oauth2grantType,omitempty"`
+	Oauth2GrantType *AuthorizationContractProperties_Oauth2GrantType_STATUS_ARM `json:"oauth2grantType,omitempty"`
 
 	// Parameters: Authorization parameters
 	Parameters map[string]string `json:"parameters,omitempty"`
 
 	// Status: Status of the Authorization
 	Status *string `json:"status,omitempty"`
+}
+
+type AuthorizationContractProperties_AuthorizationType_STATUS_ARM string
+
+const AuthorizationContractProperties_AuthorizationType_STATUS_ARM_OAuth2 = AuthorizationContractProperties_AuthorizationType_STATUS_ARM("OAuth2")
+
+// Mapping from string to AuthorizationContractProperties_AuthorizationType_STATUS_ARM
+var authorizationContractProperties_AuthorizationType_STATUS_ARM_Values = map[string]AuthorizationContractProperties_AuthorizationType_STATUS_ARM{
+	"oauth2": AuthorizationContractProperties_AuthorizationType_STATUS_ARM_OAuth2,
+}
+
+type AuthorizationContractProperties_Oauth2GrantType_STATUS_ARM string
+
+const (
+	AuthorizationContractProperties_Oauth2GrantType_STATUS_ARM_AuthorizationCode = AuthorizationContractProperties_Oauth2GrantType_STATUS_ARM("AuthorizationCode")
+	AuthorizationContractProperties_Oauth2GrantType_STATUS_ARM_ClientCredentials = AuthorizationContractProperties_Oauth2GrantType_STATUS_ARM("ClientCredentials")
+)
+
+// Mapping from string to AuthorizationContractProperties_Oauth2GrantType_STATUS_ARM
+var authorizationContractProperties_Oauth2GrantType_STATUS_ARM_Values = map[string]AuthorizationContractProperties_Oauth2GrantType_STATUS_ARM{
+	"authorizationcode": AuthorizationContractProperties_Oauth2GrantType_STATUS_ARM_AuthorizationCode,
+	"clientcredentials": AuthorizationContractProperties_Oauth2GrantType_STATUS_ARM_ClientCredentials,
 }
 
 // Authorization error details.

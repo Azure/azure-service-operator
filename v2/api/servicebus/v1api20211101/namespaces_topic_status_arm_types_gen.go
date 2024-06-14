@@ -73,7 +73,7 @@ type SBTopicProperties_STATUS_ARM struct {
 	SizeInBytes *int `json:"sizeInBytes,omitempty"`
 
 	// Status: Enumerates the possible values for the status of a messaging entity.
-	Status *EntityStatus_STATUS `json:"status,omitempty"`
+	Status *EntityStatus_STATUS_ARM `json:"status,omitempty"`
 
 	// SubscriptionCount: Number of subscriptions.
 	SubscriptionCount *int `json:"subscriptionCount,omitempty"`

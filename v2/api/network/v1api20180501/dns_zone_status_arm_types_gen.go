@@ -53,11 +53,24 @@ type ZoneProperties_STATUS_ARM struct {
 	ResolutionVirtualNetworks []SubResource_STATUS_ARM `json:"resolutionVirtualNetworks,omitempty"`
 
 	// ZoneType: The type of this DNS zone (Public or Private).
-	ZoneType *ZoneProperties_ZoneType_STATUS `json:"zoneType,omitempty"`
+	ZoneType *ZoneProperties_ZoneType_STATUS_ARM `json:"zoneType,omitempty"`
 }
 
 // A reference to a another resource
 type SubResource_STATUS_ARM struct {
 	// Id: Resource Id.
 	Id *string `json:"id,omitempty"`
+}
+
+type ZoneProperties_ZoneType_STATUS_ARM string
+
+const (
+	ZoneProperties_ZoneType_STATUS_ARM_Private = ZoneProperties_ZoneType_STATUS_ARM("Private")
+	ZoneProperties_ZoneType_STATUS_ARM_Public  = ZoneProperties_ZoneType_STATUS_ARM("Public")
+)
+
+// Mapping from string to ZoneProperties_ZoneType_STATUS_ARM
+var zoneProperties_ZoneType_STATUS_ARM_Values = map[string]ZoneProperties_ZoneType_STATUS_ARM{
+	"private": ZoneProperties_ZoneType_STATUS_ARM_Private,
+	"public":  ZoneProperties_ZoneType_STATUS_ARM_Public,
 }

@@ -398,7 +398,9 @@ func (zone *DnsZone_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		result.Properties.ResolutionVirtualNetworks = append(result.Properties.ResolutionVirtualNetworks, *item_ARM.(*SubResource_ARM))
 	}
 	if zone.ZoneType != nil {
-		zoneType := *zone.ZoneType
+		var temp string
+		temp = string(*zone.ZoneType)
+		zoneType := ZoneProperties_ZoneType_ARM(temp)
 		result.Properties.ZoneType = &zoneType
 	}
 
@@ -477,7 +479,9 @@ func (zone *DnsZone_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ZoneType != nil {
-			zoneType := *typedInput.Properties.ZoneType
+			var temp string
+			temp = string(*typedInput.Properties.ZoneType)
+			zoneType := ZoneProperties_ZoneType(temp)
 			zone.ZoneType = &zoneType
 		}
 	}
@@ -969,7 +973,9 @@ func (zone *DnsZone_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ZoneType != nil {
-			zoneType := *typedInput.Properties.ZoneType
+			var temp string
+			temp = string(*typedInput.Properties.ZoneType)
+			zoneType := ZoneProperties_ZoneType_STATUS(temp)
 			zone.ZoneType = &zoneType
 		}
 	}

@@ -54,7 +54,7 @@ type BastionHostPropertiesFormat_STATUS_ARM struct {
 	IpConfigurations []BastionHostIPConfiguration_STATUS_ARM `json:"ipConfigurations,omitempty"`
 
 	// ProvisioningState: The provisioning state of the bastion host resource.
-	ProvisioningState *BastionHostProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *BastionHostProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// ScaleUnits: The scale units for the Bastion Host resource.
 	ScaleUnits *int `json:"scaleUnits,omitempty"`
@@ -63,7 +63,7 @@ type BastionHostPropertiesFormat_STATUS_ARM struct {
 // The sku of this Bastion Host.
 type Sku_STATUS_ARM struct {
 	// Name: The name of this Bastion Host.
-	Name *Sku_Name_STATUS `json:"name,omitempty"`
+	Name *Sku_Name_STATUS_ARM `json:"name,omitempty"`
 }
 
 // IP configuration of an Bastion Host.
@@ -72,15 +72,33 @@ type BastionHostIPConfiguration_STATUS_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-type Sku_Name_STATUS string
+// The current provisioning state.
+type BastionHostProvisioningState_STATUS_ARM string
 
 const (
-	Sku_Name_STATUS_Basic    = Sku_Name_STATUS("Basic")
-	Sku_Name_STATUS_Standard = Sku_Name_STATUS("Standard")
+	BastionHostProvisioningState_STATUS_ARM_Deleting  = BastionHostProvisioningState_STATUS_ARM("Deleting")
+	BastionHostProvisioningState_STATUS_ARM_Failed    = BastionHostProvisioningState_STATUS_ARM("Failed")
+	BastionHostProvisioningState_STATUS_ARM_Succeeded = BastionHostProvisioningState_STATUS_ARM("Succeeded")
+	BastionHostProvisioningState_STATUS_ARM_Updating  = BastionHostProvisioningState_STATUS_ARM("Updating")
 )
 
-// Mapping from string to Sku_Name_STATUS
-var sku_Name_STATUS_Values = map[string]Sku_Name_STATUS{
-	"basic":    Sku_Name_STATUS_Basic,
-	"standard": Sku_Name_STATUS_Standard,
+// Mapping from string to BastionHostProvisioningState_STATUS_ARM
+var bastionHostProvisioningState_STATUS_ARM_Values = map[string]BastionHostProvisioningState_STATUS_ARM{
+	"deleting":  BastionHostProvisioningState_STATUS_ARM_Deleting,
+	"failed":    BastionHostProvisioningState_STATUS_ARM_Failed,
+	"succeeded": BastionHostProvisioningState_STATUS_ARM_Succeeded,
+	"updating":  BastionHostProvisioningState_STATUS_ARM_Updating,
+}
+
+type Sku_Name_STATUS_ARM string
+
+const (
+	Sku_Name_STATUS_ARM_Basic    = Sku_Name_STATUS_ARM("Basic")
+	Sku_Name_STATUS_ARM_Standard = Sku_Name_STATUS_ARM("Standard")
+)
+
+// Mapping from string to Sku_Name_STATUS_ARM
+var sku_Name_STATUS_ARM_Values = map[string]Sku_Name_STATUS_ARM{
+	"basic":    Sku_Name_STATUS_ARM_Basic,
+	"standard": Sku_Name_STATUS_ARM_Standard,
 }

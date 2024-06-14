@@ -76,7 +76,7 @@ func ConfigurationProperties_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForConfigurationProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForConfigurationProperties_ARM(gens map[string]gopter.Gen) {
 	gens["CurrentValue"] = gen.PtrOf(gen.AlphaString())
-	gens["Source"] = gen.PtrOf(gen.OneConstOf(ConfigurationProperties_Source_SystemDefault, ConfigurationProperties_Source_UserOverride))
+	gens["Source"] = gen.PtrOf(gen.OneConstOf(ConfigurationProperties_Source_ARM_SystemDefault, ConfigurationProperties_Source_ARM_UserOverride))
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 

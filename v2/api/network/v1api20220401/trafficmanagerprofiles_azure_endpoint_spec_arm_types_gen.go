@@ -37,7 +37,7 @@ func (endpoint *Trafficmanagerprofiles_AzureEndpoint_Spec_ARM) GetType() string 
 type EndpointProperties_ARM struct {
 	// AlwaysServe: If Always Serve is enabled, probing for endpoint health will be disabled and endpoints will be included in
 	// the traffic routing method.
-	AlwaysServe *EndpointProperties_AlwaysServe `json:"alwaysServe,omitempty"`
+	AlwaysServe *EndpointProperties_AlwaysServe_ARM `json:"alwaysServe,omitempty"`
 
 	// CustomHeaders: List of custom headers.
 	CustomHeaders []EndpointProperties_CustomHeaders_ARM `json:"customHeaders,omitempty"`
@@ -47,11 +47,11 @@ type EndpointProperties_ARM struct {
 	EndpointLocation *string `json:"endpointLocation,omitempty"`
 
 	// EndpointMonitorStatus: The monitoring status of the endpoint.
-	EndpointMonitorStatus *EndpointProperties_EndpointMonitorStatus `json:"endpointMonitorStatus,omitempty"`
+	EndpointMonitorStatus *EndpointProperties_EndpointMonitorStatus_ARM `json:"endpointMonitorStatus,omitempty"`
 
 	// EndpointStatus: The status of the endpoint. If the endpoint is Enabled, it is probed for endpoint health and is included
 	// in the traffic routing method.
-	EndpointStatus *EndpointProperties_EndpointStatus `json:"endpointStatus,omitempty"`
+	EndpointStatus *EndpointProperties_EndpointStatus_ARM `json:"endpointStatus,omitempty"`
 
 	// GeoMapping: The list of countries/regions mapped to this endpoint when using the 'Geographic' traffic routing method.
 	// Please consult Traffic Manager Geographic documentation for a full list of accepted values.
@@ -89,12 +89,64 @@ type EndpointProperties_ARM struct {
 	Weight *int `json:"weight,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type EndpointProperties_AlwaysServe_ARM string
+
+const (
+	EndpointProperties_AlwaysServe_ARM_Disabled = EndpointProperties_AlwaysServe_ARM("Disabled")
+	EndpointProperties_AlwaysServe_ARM_Enabled  = EndpointProperties_AlwaysServe_ARM("Enabled")
+)
+
+// Mapping from string to EndpointProperties_AlwaysServe_ARM
+var endpointProperties_AlwaysServe_ARM_Values = map[string]EndpointProperties_AlwaysServe_ARM{
+	"disabled": EndpointProperties_AlwaysServe_ARM_Disabled,
+	"enabled":  EndpointProperties_AlwaysServe_ARM_Enabled,
+}
+
 type EndpointProperties_CustomHeaders_ARM struct {
 	// Name: Header name.
 	Name *string `json:"name,omitempty"`
 
 	// Value: Header value.
 	Value *string `json:"value,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"CheckingEndpoint","Degraded","Disabled","Inactive","Online","Stopped","Unmonitored"}
+type EndpointProperties_EndpointMonitorStatus_ARM string
+
+const (
+	EndpointProperties_EndpointMonitorStatus_ARM_CheckingEndpoint = EndpointProperties_EndpointMonitorStatus_ARM("CheckingEndpoint")
+	EndpointProperties_EndpointMonitorStatus_ARM_Degraded         = EndpointProperties_EndpointMonitorStatus_ARM("Degraded")
+	EndpointProperties_EndpointMonitorStatus_ARM_Disabled         = EndpointProperties_EndpointMonitorStatus_ARM("Disabled")
+	EndpointProperties_EndpointMonitorStatus_ARM_Inactive         = EndpointProperties_EndpointMonitorStatus_ARM("Inactive")
+	EndpointProperties_EndpointMonitorStatus_ARM_Online           = EndpointProperties_EndpointMonitorStatus_ARM("Online")
+	EndpointProperties_EndpointMonitorStatus_ARM_Stopped          = EndpointProperties_EndpointMonitorStatus_ARM("Stopped")
+	EndpointProperties_EndpointMonitorStatus_ARM_Unmonitored      = EndpointProperties_EndpointMonitorStatus_ARM("Unmonitored")
+)
+
+// Mapping from string to EndpointProperties_EndpointMonitorStatus_ARM
+var endpointProperties_EndpointMonitorStatus_ARM_Values = map[string]EndpointProperties_EndpointMonitorStatus_ARM{
+	"checkingendpoint": EndpointProperties_EndpointMonitorStatus_ARM_CheckingEndpoint,
+	"degraded":         EndpointProperties_EndpointMonitorStatus_ARM_Degraded,
+	"disabled":         EndpointProperties_EndpointMonitorStatus_ARM_Disabled,
+	"inactive":         EndpointProperties_EndpointMonitorStatus_ARM_Inactive,
+	"online":           EndpointProperties_EndpointMonitorStatus_ARM_Online,
+	"stopped":          EndpointProperties_EndpointMonitorStatus_ARM_Stopped,
+	"unmonitored":      EndpointProperties_EndpointMonitorStatus_ARM_Unmonitored,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type EndpointProperties_EndpointStatus_ARM string
+
+const (
+	EndpointProperties_EndpointStatus_ARM_Disabled = EndpointProperties_EndpointStatus_ARM("Disabled")
+	EndpointProperties_EndpointStatus_ARM_Enabled  = EndpointProperties_EndpointStatus_ARM("Enabled")
+)
+
+// Mapping from string to EndpointProperties_EndpointStatus_ARM
+var endpointProperties_EndpointStatus_ARM_Values = map[string]EndpointProperties_EndpointStatus_ARM{
+	"disabled": EndpointProperties_EndpointStatus_ARM_Disabled,
+	"enabled":  EndpointProperties_EndpointStatus_ARM_Enabled,
 }
 
 type EndpointProperties_Subnets_ARM struct {

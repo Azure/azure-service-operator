@@ -212,7 +212,7 @@ func ManagedClusterUpgradeSpec_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForManagedClusterUpgradeSpec_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterUpgradeSpec_ARM(gens map[string]gopter.Gen) {
 	gens["KubernetesVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedClusterUpgradeType_Full, ManagedClusterUpgradeType_NodeImageOnly))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedClusterUpgradeType_ARM_Full, ManagedClusterUpgradeType_ARM_NodeImageOnly))
 }
 
 func Test_UpdateGroup_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -38,7 +38,7 @@ type WebTestProperties_STATUS_ARM struct {
 	Frequency *int `json:"Frequency,omitempty"`
 
 	// Kind: The kind of web test this is, valid choices are ping, multistep and standard.
-	Kind *WebTestProperties_Kind_STATUS `json:"Kind,omitempty"`
+	Kind *WebTestProperties_Kind_STATUS_ARM `json:"Kind,omitempty"`
 
 	// Locations: A list of where to physically run the tests from to give global coverage for accessibility of your
 	// application.
@@ -77,6 +77,21 @@ type WebTestGeolocation_STATUS_ARM struct {
 type WebTestProperties_Configuration_STATUS_ARM struct {
 	// WebTest: The XML specification of a WebTest to run against an application.
 	WebTest *string `json:"WebTest,omitempty"`
+}
+
+type WebTestProperties_Kind_STATUS_ARM string
+
+const (
+	WebTestProperties_Kind_STATUS_ARM_Multistep = WebTestProperties_Kind_STATUS_ARM("multistep")
+	WebTestProperties_Kind_STATUS_ARM_Ping      = WebTestProperties_Kind_STATUS_ARM("ping")
+	WebTestProperties_Kind_STATUS_ARM_Standard  = WebTestProperties_Kind_STATUS_ARM("standard")
+)
+
+// Mapping from string to WebTestProperties_Kind_STATUS_ARM
+var webTestProperties_Kind_STATUS_ARM_Values = map[string]WebTestProperties_Kind_STATUS_ARM{
+	"multistep": WebTestProperties_Kind_STATUS_ARM_Multistep,
+	"ping":      WebTestProperties_Kind_STATUS_ARM_Ping,
+	"standard":  WebTestProperties_Kind_STATUS_ARM_Standard,
 }
 
 type WebTestProperties_Request_STATUS_ARM struct {

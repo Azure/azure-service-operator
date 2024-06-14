@@ -84,7 +84,7 @@ func AutoscaleNotification_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAutoscaleNotification_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAutoscaleNotification_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Operation"] = gen.PtrOf(gen.OneConstOf(AutoscaleNotification_Operation_STATUS_Scale))
+	gens["Operation"] = gen.PtrOf(gen.OneConstOf(AutoscaleNotification_Operation_STATUS_ARM_Scale))
 }
 
 // AddRelatedPropertyGeneratorsForAutoscaleNotification_STATUS_ARM is a factory method for creating gopter generators
@@ -469,26 +469,26 @@ func AddIndependentPropertyGeneratorsForMetricTrigger_STATUS_ARM(gens map[string
 	gens["MetricResourceLocation"] = gen.PtrOf(gen.AlphaString())
 	gens["MetricResourceUri"] = gen.PtrOf(gen.AlphaString())
 	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		MetricTrigger_Operator_STATUS_Equals,
-		MetricTrigger_Operator_STATUS_GreaterThan,
-		MetricTrigger_Operator_STATUS_GreaterThanOrEqual,
-		MetricTrigger_Operator_STATUS_LessThan,
-		MetricTrigger_Operator_STATUS_LessThanOrEqual,
-		MetricTrigger_Operator_STATUS_NotEquals))
+		MetricTrigger_Operator_STATUS_ARM_Equals,
+		MetricTrigger_Operator_STATUS_ARM_GreaterThan,
+		MetricTrigger_Operator_STATUS_ARM_GreaterThanOrEqual,
+		MetricTrigger_Operator_STATUS_ARM_LessThan,
+		MetricTrigger_Operator_STATUS_ARM_LessThanOrEqual,
+		MetricTrigger_Operator_STATUS_ARM_NotEquals))
 	gens["Statistic"] = gen.PtrOf(gen.OneConstOf(
-		MetricTrigger_Statistic_STATUS_Average,
-		MetricTrigger_Statistic_STATUS_Count,
-		MetricTrigger_Statistic_STATUS_Max,
-		MetricTrigger_Statistic_STATUS_Min,
-		MetricTrigger_Statistic_STATUS_Sum))
+		MetricTrigger_Statistic_STATUS_ARM_Average,
+		MetricTrigger_Statistic_STATUS_ARM_Count,
+		MetricTrigger_Statistic_STATUS_ARM_Max,
+		MetricTrigger_Statistic_STATUS_ARM_Min,
+		MetricTrigger_Statistic_STATUS_ARM_Sum))
 	gens["Threshold"] = gen.PtrOf(gen.Float64())
 	gens["TimeAggregation"] = gen.PtrOf(gen.OneConstOf(
-		MetricTrigger_TimeAggregation_STATUS_Average,
-		MetricTrigger_TimeAggregation_STATUS_Count,
-		MetricTrigger_TimeAggregation_STATUS_Last,
-		MetricTrigger_TimeAggregation_STATUS_Maximum,
-		MetricTrigger_TimeAggregation_STATUS_Minimum,
-		MetricTrigger_TimeAggregation_STATUS_Total))
+		MetricTrigger_TimeAggregation_STATUS_ARM_Average,
+		MetricTrigger_TimeAggregation_STATUS_ARM_Count,
+		MetricTrigger_TimeAggregation_STATUS_ARM_Last,
+		MetricTrigger_TimeAggregation_STATUS_ARM_Maximum,
+		MetricTrigger_TimeAggregation_STATUS_ARM_Minimum,
+		MetricTrigger_TimeAggregation_STATUS_ARM_Total))
 	gens["TimeGrain"] = gen.PtrOf(gen.AlphaString())
 	gens["TimeWindow"] = gen.PtrOf(gen.AlphaString())
 }
@@ -557,7 +557,7 @@ func PredictiveAutoscalePolicy_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForPredictiveAutoscalePolicy_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPredictiveAutoscalePolicy_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ScaleLookAheadTime"] = gen.PtrOf(gen.AlphaString())
-	gens["ScaleMode"] = gen.PtrOf(gen.OneConstOf(PredictiveAutoscalePolicy_ScaleMode_STATUS_Disabled, PredictiveAutoscalePolicy_ScaleMode_STATUS_Enabled, PredictiveAutoscalePolicy_ScaleMode_STATUS_ForecastOnly))
+	gens["ScaleMode"] = gen.PtrOf(gen.OneConstOf(PredictiveAutoscalePolicy_ScaleMode_STATUS_ARM_Disabled, PredictiveAutoscalePolicy_ScaleMode_STATUS_ARM_Enabled, PredictiveAutoscalePolicy_ScaleMode_STATUS_ARM_ForecastOnly))
 }
 
 func Test_Recurrence_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -628,14 +628,14 @@ func Recurrence_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForRecurrence_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRecurrence_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Frequency"] = gen.PtrOf(gen.OneConstOf(
-		Recurrence_Frequency_STATUS_Day,
-		Recurrence_Frequency_STATUS_Hour,
-		Recurrence_Frequency_STATUS_Minute,
-		Recurrence_Frequency_STATUS_Month,
-		Recurrence_Frequency_STATUS_None,
-		Recurrence_Frequency_STATUS_Second,
-		Recurrence_Frequency_STATUS_Week,
-		Recurrence_Frequency_STATUS_Year))
+		Recurrence_Frequency_STATUS_ARM_Day,
+		Recurrence_Frequency_STATUS_ARM_Hour,
+		Recurrence_Frequency_STATUS_ARM_Minute,
+		Recurrence_Frequency_STATUS_ARM_Month,
+		Recurrence_Frequency_STATUS_ARM_None,
+		Recurrence_Frequency_STATUS_ARM_Second,
+		Recurrence_Frequency_STATUS_ARM_Week,
+		Recurrence_Frequency_STATUS_ARM_Year))
 }
 
 // AddRelatedPropertyGeneratorsForRecurrence_STATUS_ARM is a factory method for creating gopter generators
@@ -766,12 +766,12 @@ func ScaleAction_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForScaleAction_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForScaleAction_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Cooldown"] = gen.PtrOf(gen.AlphaString())
-	gens["Direction"] = gen.PtrOf(gen.OneConstOf(ScaleAction_Direction_STATUS_Decrease, ScaleAction_Direction_STATUS_Increase, ScaleAction_Direction_STATUS_None))
+	gens["Direction"] = gen.PtrOf(gen.OneConstOf(ScaleAction_Direction_STATUS_ARM_Decrease, ScaleAction_Direction_STATUS_ARM_Increase, ScaleAction_Direction_STATUS_ARM_None))
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ScaleAction_Type_STATUS_ChangeCount,
-		ScaleAction_Type_STATUS_ExactCount,
-		ScaleAction_Type_STATUS_PercentChangeCount,
-		ScaleAction_Type_STATUS_ServiceAllowedNextValue))
+		ScaleAction_Type_STATUS_ARM_ChangeCount,
+		ScaleAction_Type_STATUS_ARM_ExactCount,
+		ScaleAction_Type_STATUS_ARM_PercentChangeCount,
+		ScaleAction_Type_STATUS_ARM_ServiceAllowedNextValue))
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -897,7 +897,7 @@ func ScaleRuleMetricDimension_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForScaleRuleMetricDimension_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForScaleRuleMetricDimension_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["DimensionName"] = gen.PtrOf(gen.AlphaString())
-	gens["Operator"] = gen.PtrOf(gen.OneConstOf(ScaleRuleMetricDimension_Operator_STATUS_Equals, ScaleRuleMetricDimension_Operator_STATUS_NotEquals))
+	gens["Operator"] = gen.PtrOf(gen.OneConstOf(ScaleRuleMetricDimension_Operator_STATUS_ARM_Equals, ScaleRuleMetricDimension_Operator_STATUS_ARM_NotEquals))
 	gens["Values"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -1024,17 +1024,17 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS_ARM(gens map[string]go
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_STATUS_Application,
-		SystemData_CreatedByType_STATUS_Key,
-		SystemData_CreatedByType_STATUS_ManagedIdentity,
-		SystemData_CreatedByType_STATUS_User))
+		SystemData_CreatedByType_STATUS_ARM_Application,
+		SystemData_CreatedByType_STATUS_ARM_Key,
+		SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
+		SystemData_CreatedByType_STATUS_ARM_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_STATUS_Application,
-		SystemData_LastModifiedByType_STATUS_Key,
-		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-		SystemData_LastModifiedByType_STATUS_User))
+		SystemData_LastModifiedByType_STATUS_ARM_Application,
+		SystemData_LastModifiedByType_STATUS_ARM_Key,
+		SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
+		SystemData_LastModifiedByType_STATUS_ARM_User))
 }
 
 func Test_TimeWindow_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -206,7 +206,7 @@ func AutoHealActions_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAutoHealActions_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAutoHealActions_ARM(gens map[string]gopter.Gen) {
-	gens["ActionType"] = gen.PtrOf(gen.OneConstOf(AutoHealActions_ActionType_CustomAction, AutoHealActions_ActionType_LogEvent, AutoHealActions_ActionType_Recycle))
+	gens["ActionType"] = gen.PtrOf(gen.OneConstOf(AutoHealActions_ActionType_ARM_CustomAction, AutoHealActions_ActionType_ARM_LogEvent, AutoHealActions_ActionType_ARM_Recycle))
 	gens["MinProcessExecutionTime"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -479,7 +479,7 @@ func AddIndependentPropertyGeneratorsForAzureStorageInfoValue_ARM(gens map[strin
 	gens["AccountName"] = gen.PtrOf(gen.AlphaString())
 	gens["MountPath"] = gen.PtrOf(gen.AlphaString())
 	gens["ShareName"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(AzureStorageInfoValue_Type_AzureBlob, AzureStorageInfoValue_Type_AzureFiles))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(AzureStorageInfoValue_Type_ARM_AzureBlob, AzureStorageInfoValue_Type_ARM_AzureFiles))
 }
 
 func Test_CloningInfo_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -614,17 +614,17 @@ func AddIndependentPropertyGeneratorsForConnStringInfo_ARM(gens map[string]gopte
 	gens["ConnectionString"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ConnStringInfo_Type_ApiHub,
-		ConnStringInfo_Type_Custom,
-		ConnStringInfo_Type_DocDb,
-		ConnStringInfo_Type_EventHub,
-		ConnStringInfo_Type_MySql,
-		ConnStringInfo_Type_NotificationHub,
-		ConnStringInfo_Type_PostgreSQL,
-		ConnStringInfo_Type_RedisCache,
-		ConnStringInfo_Type_SQLAzure,
-		ConnStringInfo_Type_SQLServer,
-		ConnStringInfo_Type_ServiceBus))
+		ConnStringInfo_Type_ARM_ApiHub,
+		ConnStringInfo_Type_ARM_Custom,
+		ConnStringInfo_Type_ARM_DocDb,
+		ConnStringInfo_Type_ARM_EventHub,
+		ConnStringInfo_Type_ARM_MySql,
+		ConnStringInfo_Type_ARM_NotificationHub,
+		ConnStringInfo_Type_ARM_PostgreSQL,
+		ConnStringInfo_Type_ARM_RedisCache,
+		ConnStringInfo_Type_ARM_SQLAzure,
+		ConnStringInfo_Type_ARM_SQLServer,
+		ConnStringInfo_Type_ARM_ServiceBus))
 }
 
 func Test_CorsSettings_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -868,9 +868,9 @@ func HostNameSslState_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForHostNameSslState_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForHostNameSslState_ARM(gens map[string]gopter.Gen) {
-	gens["HostType"] = gen.PtrOf(gen.OneConstOf(HostNameSslState_HostType_Repository, HostNameSslState_HostType_Standard))
+	gens["HostType"] = gen.PtrOf(gen.OneConstOf(HostNameSslState_HostType_ARM_Repository, HostNameSslState_HostType_ARM_Standard))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["SslState"] = gen.PtrOf(gen.OneConstOf(HostNameSslState_SslState_Disabled, HostNameSslState_SslState_IpBasedEnabled, HostNameSslState_SslState_SniEnabled))
+	gens["SslState"] = gen.PtrOf(gen.OneConstOf(HostNameSslState_SslState_ARM_Disabled, HostNameSslState_SslState_ARM_IpBasedEnabled, HostNameSslState_SslState_ARM_SniEnabled))
 	gens["Thumbprint"] = gen.PtrOf(gen.AlphaString())
 	gens["ToUpdate"] = gen.PtrOf(gen.Bool())
 	gens["VirtualIP"] = gen.PtrOf(gen.AlphaString())
@@ -944,7 +944,7 @@ func AddIndependentPropertyGeneratorsForIpSecurityRestriction_ARM(gens map[strin
 	gens["Priority"] = gen.PtrOf(gen.Int())
 	gens["SubnetMask"] = gen.PtrOf(gen.AlphaString())
 	gens["SubnetTrafficTag"] = gen.PtrOf(gen.Int())
-	gens["Tag"] = gen.PtrOf(gen.OneConstOf(IpSecurityRestriction_Tag_Default, IpSecurityRestriction_Tag_ServiceTag, IpSecurityRestriction_Tag_XffProxy))
+	gens["Tag"] = gen.PtrOf(gen.OneConstOf(IpSecurityRestriction_Tag_ARM_Default, IpSecurityRestriction_Tag_ARM_ServiceTag, IpSecurityRestriction_Tag_ARM_XffProxy))
 	gens["VnetSubnetResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["VnetTrafficTag"] = gen.PtrOf(gen.Int())
 }
@@ -1017,10 +1017,10 @@ func ManagedServiceIdentity_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForManagedServiceIdentity_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedServiceIdentity_ARM(gens map[string]gopter.Gen) {
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ManagedServiceIdentity_Type_None,
-		ManagedServiceIdentity_Type_SystemAssigned,
-		ManagedServiceIdentity_Type_SystemAssignedUserAssigned,
-		ManagedServiceIdentity_Type_UserAssigned))
+		ManagedServiceIdentity_Type_ARM_None,
+		ManagedServiceIdentity_Type_ARM_SystemAssigned,
+		ManagedServiceIdentity_Type_ARM_SystemAssignedUserAssigned,
+		ManagedServiceIdentity_Type_ARM_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForManagedServiceIdentity_ARM is a factory method for creating gopter generators
@@ -1565,7 +1565,7 @@ func AddIndependentPropertyGeneratorsForSite_Properties_Spec_ARM(gens map[string
 	gens["ClientAffinityEnabled"] = gen.PtrOf(gen.Bool())
 	gens["ClientCertEnabled"] = gen.PtrOf(gen.Bool())
 	gens["ClientCertExclusionPaths"] = gen.PtrOf(gen.AlphaString())
-	gens["ClientCertMode"] = gen.PtrOf(gen.OneConstOf(Site_Properties_ClientCertMode_Spec_Optional, Site_Properties_ClientCertMode_Spec_OptionalInteractiveUser, Site_Properties_ClientCertMode_Spec_Required))
+	gens["ClientCertMode"] = gen.PtrOf(gen.OneConstOf(Site_Properties_ClientCertMode_Spec_ARM_Optional, Site_Properties_ClientCertMode_Spec_ARM_OptionalInteractiveUser, Site_Properties_ClientCertMode_Spec_ARM_Required))
 	gens["ContainerSize"] = gen.PtrOf(gen.Int())
 	gens["CustomDomainVerificationId"] = gen.PtrOf(gen.AlphaString())
 	gens["DailyMemoryTimeQuota"] = gen.PtrOf(gen.Int())
@@ -1577,11 +1577,11 @@ func AddIndependentPropertyGeneratorsForSite_Properties_Spec_ARM(gens map[string
 	gens["KeyVaultReferenceIdentity"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
 	gens["RedundancyMode"] = gen.PtrOf(gen.OneConstOf(
-		Site_Properties_RedundancyMode_Spec_ActiveActive,
-		Site_Properties_RedundancyMode_Spec_Failover,
-		Site_Properties_RedundancyMode_Spec_GeoRedundant,
-		Site_Properties_RedundancyMode_Spec_Manual,
-		Site_Properties_RedundancyMode_Spec_None))
+		Site_Properties_RedundancyMode_Spec_ARM_ActiveActive,
+		Site_Properties_RedundancyMode_Spec_ARM_Failover,
+		Site_Properties_RedundancyMode_Spec_ARM_GeoRedundant,
+		Site_Properties_RedundancyMode_Spec_ARM_Manual,
+		Site_Properties_RedundancyMode_Spec_ARM_None))
 	gens["Reserved"] = gen.PtrOf(gen.Bool())
 	gens["ScmSiteAlsoStopped"] = gen.PtrOf(gen.Bool())
 	gens["ServerFarmId"] = gen.PtrOf(gen.AlphaString())

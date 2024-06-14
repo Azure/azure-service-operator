@@ -507,7 +507,9 @@ func (scaleSet *VirtualMachineScaleSet_Spec) ConvertToARM(resolved genruntime.Co
 		result.Properties.HostGroup = &hostGroup
 	}
 	if scaleSet.OrchestrationMode != nil {
-		orchestrationMode := *scaleSet.OrchestrationMode
+		var temp string
+		temp = string(*scaleSet.OrchestrationMode)
+		orchestrationMode := OrchestrationMode_ARM(temp)
 		result.Properties.OrchestrationMode = &orchestrationMode
 	}
 	if scaleSet.Overprovision != nil {
@@ -682,7 +684,9 @@ func (scaleSet *VirtualMachineScaleSet_Spec) PopulateFromARM(owner genruntime.Ar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OrchestrationMode != nil {
-			orchestrationMode := *typedInput.Properties.OrchestrationMode
+			var temp string
+			temp = string(*typedInput.Properties.OrchestrationMode)
+			orchestrationMode := OrchestrationMode(temp)
 			scaleSet.OrchestrationMode = &orchestrationMode
 		}
 	}
@@ -1556,7 +1560,9 @@ func (scaleSet *VirtualMachineScaleSet_STATUS) PopulateFromARM(owner genruntime.
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OrchestrationMode != nil {
-			orchestrationMode := *typedInput.Properties.OrchestrationMode
+			var temp string
+			temp = string(*typedInput.Properties.OrchestrationMode)
+			orchestrationMode := OrchestrationMode_STATUS(temp)
 			scaleSet.OrchestrationMode = &orchestrationMode
 		}
 	}
@@ -2397,7 +2403,9 @@ func (policy *ScaleInPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "Rules":
 	for _, item := range policy.Rules {
-		result.Rules = append(result.Rules, item)
+		var temp string
+		temp = string(item)
+		result.Rules = append(result.Rules, ScaleInPolicy_Rules_ARM(temp))
 	}
 	return result, nil
 }
@@ -2416,7 +2424,9 @@ func (policy *ScaleInPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 
 	// Set property "Rules":
 	for _, item := range typedInput.Rules {
-		policy.Rules = append(policy.Rules, item)
+		var temp string
+		temp = string(item)
+		policy.Rules = append(policy.Rules, ScaleInPolicy_Rules(temp))
 	}
 
 	// No error
@@ -2504,7 +2514,9 @@ func (policy *ScaleInPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 
 	// Set property "Rules":
 	for _, item := range typedInput.Rules {
-		policy.Rules = append(policy.Rules, item)
+		var temp string
+		temp = string(item)
+		policy.Rules = append(policy.Rules, ScaleInPolicy_Rules_STATUS(temp))
 	}
 
 	// No error
@@ -2810,7 +2822,9 @@ func (policy *UpgradePolicy) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "Mode":
 	if policy.Mode != nil {
-		mode := *policy.Mode
+		var temp string
+		temp = string(*policy.Mode)
+		mode := UpgradePolicy_Mode_ARM(temp)
 		result.Mode = &mode
 	}
 
@@ -2851,7 +2865,9 @@ func (policy *UpgradePolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 
 	// Set property "Mode":
 	if typedInput.Mode != nil {
-		mode := *typedInput.Mode
+		var temp string
+		temp = string(*typedInput.Mode)
+		mode := UpgradePolicy_Mode(temp)
 		policy.Mode = &mode
 	}
 
@@ -3001,7 +3017,9 @@ func (policy *UpgradePolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 
 	// Set property "Mode":
 	if typedInput.Mode != nil {
-		mode := *typedInput.Mode
+		var temp string
+		temp = string(*typedInput.Mode)
+		mode := UpgradePolicy_Mode_STATUS(temp)
 		policy.Mode = &mode
 	}
 
@@ -3132,7 +3150,9 @@ func (identity *VirtualMachineScaleSetIdentity) ConvertToARM(resolved genruntime
 
 	// Set property "Type":
 	if identity.Type != nil {
-		typeVar := *identity.Type
+		var temp string
+		temp = string(*identity.Type)
+		typeVar := VirtualMachineScaleSetIdentity_Type_ARM(temp)
 		result.Type = &typeVar
 	}
 
@@ -3163,7 +3183,9 @@ func (identity *VirtualMachineScaleSetIdentity) PopulateFromARM(owner genruntime
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := VirtualMachineScaleSetIdentity_Type(temp)
 		identity.Type = &typeVar
 	}
 
@@ -3298,7 +3320,9 @@ func (identity *VirtualMachineScaleSetIdentity_STATUS) PopulateFromARM(owner gen
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := VirtualMachineScaleSetIdentity_Type_STATUS(temp)
 		identity.Type = &typeVar
 	}
 
@@ -3491,7 +3515,9 @@ func (profile *VirtualMachineScaleSetVMProfile) ConvertToARM(resolved genruntime
 
 	// Set property "EvictionPolicy":
 	if profile.EvictionPolicy != nil {
-		evictionPolicy := *profile.EvictionPolicy
+		var temp string
+		temp = string(*profile.EvictionPolicy)
+		evictionPolicy := EvictionPolicy_ARM(temp)
 		result.EvictionPolicy = &evictionPolicy
 	}
 
@@ -3533,7 +3559,9 @@ func (profile *VirtualMachineScaleSetVMProfile) ConvertToARM(resolved genruntime
 
 	// Set property "Priority":
 	if profile.Priority != nil {
-		priority := *profile.Priority
+		var temp string
+		temp = string(*profile.Priority)
+		priority := Priority_ARM(temp)
 		result.Priority = &priority
 	}
 
@@ -3605,7 +3633,9 @@ func (profile *VirtualMachineScaleSetVMProfile) PopulateFromARM(owner genruntime
 
 	// Set property "EvictionPolicy":
 	if typedInput.EvictionPolicy != nil {
-		evictionPolicy := *typedInput.EvictionPolicy
+		var temp string
+		temp = string(*typedInput.EvictionPolicy)
+		evictionPolicy := EvictionPolicy(temp)
 		profile.EvictionPolicy = &evictionPolicy
 	}
 
@@ -3650,7 +3680,9 @@ func (profile *VirtualMachineScaleSetVMProfile) PopulateFromARM(owner genruntime
 
 	// Set property "Priority":
 	if typedInput.Priority != nil {
-		priority := *typedInput.Priority
+		var temp string
+		temp = string(*typedInput.Priority)
+		priority := Priority(temp)
 		profile.Priority = &priority
 	}
 
@@ -4037,7 +4069,9 @@ func (profile *VirtualMachineScaleSetVMProfile_STATUS) PopulateFromARM(owner gen
 
 	// Set property "EvictionPolicy":
 	if typedInput.EvictionPolicy != nil {
-		evictionPolicy := *typedInput.EvictionPolicy
+		var temp string
+		temp = string(*typedInput.EvictionPolicy)
+		evictionPolicy := EvictionPolicy_STATUS(temp)
 		profile.EvictionPolicy = &evictionPolicy
 	}
 
@@ -4082,7 +4116,9 @@ func (profile *VirtualMachineScaleSetVMProfile_STATUS) PopulateFromARM(owner gen
 
 	// Set property "Priority":
 	if typedInput.Priority != nil {
-		priority := *typedInput.Priority
+		var temp string
+		temp = string(*typedInput.Priority)
+		priority := Priority_STATUS(temp)
 		profile.Priority = &priority
 	}
 
@@ -5489,6 +5525,41 @@ func (profile *VirtualMachineScaleSetExtensionProfile_STATUS) AssignProperties_T
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
+type VirtualMachineScaleSetIdentity_Type string
+
+const (
+	VirtualMachineScaleSetIdentity_Type_None                       = VirtualMachineScaleSetIdentity_Type("None")
+	VirtualMachineScaleSetIdentity_Type_SystemAssigned             = VirtualMachineScaleSetIdentity_Type("SystemAssigned")
+	VirtualMachineScaleSetIdentity_Type_SystemAssignedUserAssigned = VirtualMachineScaleSetIdentity_Type("SystemAssigned, UserAssigned")
+	VirtualMachineScaleSetIdentity_Type_UserAssigned               = VirtualMachineScaleSetIdentity_Type("UserAssigned")
+)
+
+// Mapping from string to VirtualMachineScaleSetIdentity_Type
+var virtualMachineScaleSetIdentity_Type_Values = map[string]VirtualMachineScaleSetIdentity_Type{
+	"none":                         VirtualMachineScaleSetIdentity_Type_None,
+	"systemassigned":               VirtualMachineScaleSetIdentity_Type_SystemAssigned,
+	"systemassigned, userassigned": VirtualMachineScaleSetIdentity_Type_SystemAssignedUserAssigned,
+	"userassigned":                 VirtualMachineScaleSetIdentity_Type_UserAssigned,
+}
+
+type VirtualMachineScaleSetIdentity_Type_STATUS string
+
+const (
+	VirtualMachineScaleSetIdentity_Type_STATUS_None                       = VirtualMachineScaleSetIdentity_Type_STATUS("None")
+	VirtualMachineScaleSetIdentity_Type_STATUS_SystemAssigned             = VirtualMachineScaleSetIdentity_Type_STATUS("SystemAssigned")
+	VirtualMachineScaleSetIdentity_Type_STATUS_SystemAssignedUserAssigned = VirtualMachineScaleSetIdentity_Type_STATUS("SystemAssigned, UserAssigned")
+	VirtualMachineScaleSetIdentity_Type_STATUS_UserAssigned               = VirtualMachineScaleSetIdentity_Type_STATUS("UserAssigned")
+)
+
+// Mapping from string to VirtualMachineScaleSetIdentity_Type_STATUS
+var virtualMachineScaleSetIdentity_Type_STATUS_Values = map[string]VirtualMachineScaleSetIdentity_Type_STATUS{
+	"none":                         VirtualMachineScaleSetIdentity_Type_STATUS_None,
+	"systemassigned":               VirtualMachineScaleSetIdentity_Type_STATUS_SystemAssigned,
+	"systemassigned, userassigned": VirtualMachineScaleSetIdentity_Type_STATUS_SystemAssignedUserAssigned,
+	"userassigned":                 VirtualMachineScaleSetIdentity_Type_STATUS_UserAssigned,
 }
 
 type VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS struct {
@@ -7203,13 +7274,17 @@ func (disk *VirtualMachineScaleSetDataDisk) ConvertToARM(resolved genruntime.Con
 
 	// Set property "Caching":
 	if disk.Caching != nil {
-		caching := *disk.Caching
+		var temp string
+		temp = string(*disk.Caching)
+		caching := Caching_ARM(temp)
 		result.Caching = &caching
 	}
 
 	// Set property "CreateOption":
 	if disk.CreateOption != nil {
-		createOption := *disk.CreateOption
+		var temp string
+		temp = string(*disk.CreateOption)
+		createOption := CreateOption_ARM(temp)
 		result.CreateOption = &createOption
 	}
 
@@ -7275,13 +7350,17 @@ func (disk *VirtualMachineScaleSetDataDisk) PopulateFromARM(owner genruntime.Arb
 
 	// Set property "Caching":
 	if typedInput.Caching != nil {
-		caching := *typedInput.Caching
+		var temp string
+		temp = string(*typedInput.Caching)
+		caching := Caching(temp)
 		disk.Caching = &caching
 	}
 
 	// Set property "CreateOption":
 	if typedInput.CreateOption != nil {
-		createOption := *typedInput.CreateOption
+		var temp string
+		temp = string(*typedInput.CreateOption)
+		createOption := CreateOption(temp)
 		disk.CreateOption = &createOption
 	}
 
@@ -7519,13 +7598,17 @@ func (disk *VirtualMachineScaleSetDataDisk_STATUS) PopulateFromARM(owner genrunt
 
 	// Set property "Caching":
 	if typedInput.Caching != nil {
-		caching := *typedInput.Caching
+		var temp string
+		temp = string(*typedInput.Caching)
+		caching := Caching_STATUS(temp)
 		disk.Caching = &caching
 	}
 
 	// Set property "CreateOption":
 	if typedInput.CreateOption != nil {
-		createOption := *typedInput.CreateOption
+		var temp string
+		temp = string(*typedInput.CreateOption)
+		createOption := CreateOption_STATUS(temp)
 		disk.CreateOption = &createOption
 	}
 
@@ -9126,13 +9209,17 @@ func (disk *VirtualMachineScaleSetOSDisk) ConvertToARM(resolved genruntime.Conve
 
 	// Set property "Caching":
 	if disk.Caching != nil {
-		caching := *disk.Caching
+		var temp string
+		temp = string(*disk.Caching)
+		caching := Caching_ARM(temp)
 		result.Caching = &caching
 	}
 
 	// Set property "CreateOption":
 	if disk.CreateOption != nil {
-		createOption := *disk.CreateOption
+		var temp string
+		temp = string(*disk.CreateOption)
+		createOption := CreateOption_ARM(temp)
 		result.CreateOption = &createOption
 	}
 
@@ -9180,7 +9267,9 @@ func (disk *VirtualMachineScaleSetOSDisk) ConvertToARM(resolved genruntime.Conve
 
 	// Set property "OsType":
 	if disk.OsType != nil {
-		osType := *disk.OsType
+		var temp string
+		temp = string(*disk.OsType)
+		osType := VirtualMachineScaleSetOSDisk_OsType_ARM(temp)
 		result.OsType = &osType
 	}
 
@@ -9211,13 +9300,17 @@ func (disk *VirtualMachineScaleSetOSDisk) PopulateFromARM(owner genruntime.Arbit
 
 	// Set property "Caching":
 	if typedInput.Caching != nil {
-		caching := *typedInput.Caching
+		var temp string
+		temp = string(*typedInput.Caching)
+		caching := Caching(temp)
 		disk.Caching = &caching
 	}
 
 	// Set property "CreateOption":
 	if typedInput.CreateOption != nil {
-		createOption := *typedInput.CreateOption
+		var temp string
+		temp = string(*typedInput.CreateOption)
+		createOption := CreateOption(temp)
 		disk.CreateOption = &createOption
 	}
 
@@ -9268,7 +9361,9 @@ func (disk *VirtualMachineScaleSetOSDisk) PopulateFromARM(owner genruntime.Arbit
 
 	// Set property "OsType":
 	if typedInput.OsType != nil {
-		osType := *typedInput.OsType
+		var temp string
+		temp = string(*typedInput.OsType)
+		osType := VirtualMachineScaleSetOSDisk_OsType(temp)
 		disk.OsType = &osType
 	}
 
@@ -9531,13 +9626,17 @@ func (disk *VirtualMachineScaleSetOSDisk_STATUS) PopulateFromARM(owner genruntim
 
 	// Set property "Caching":
 	if typedInput.Caching != nil {
-		caching := *typedInput.Caching
+		var temp string
+		temp = string(*typedInput.Caching)
+		caching := Caching_STATUS(temp)
 		disk.Caching = &caching
 	}
 
 	// Set property "CreateOption":
 	if typedInput.CreateOption != nil {
-		createOption := *typedInput.CreateOption
+		var temp string
+		temp = string(*typedInput.CreateOption)
+		createOption := CreateOption_STATUS(temp)
 		disk.CreateOption = &createOption
 	}
 
@@ -9588,7 +9687,9 @@ func (disk *VirtualMachineScaleSetOSDisk_STATUS) PopulateFromARM(owner genruntim
 
 	// Set property "OsType":
 	if typedInput.OsType != nil {
-		osType := *typedInput.OsType
+		var temp string
+		temp = string(*typedInput.OsType)
+		osType := VirtualMachineScaleSetOSDisk_OsType_STATUS(temp)
 		disk.OsType = &osType
 	}
 
@@ -9897,7 +9998,9 @@ func (configuration *VirtualMachineScaleSetIPConfiguration) ConvertToARM(resolve
 		result.Properties.Primary = &primary
 	}
 	if configuration.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := *configuration.PrivateIPAddressVersion
+		var temp string
+		temp = string(*configuration.PrivateIPAddressVersion)
+		privateIPAddressVersion := VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_ARM(temp)
 		result.Properties.PrivateIPAddressVersion = &privateIPAddressVersion
 	}
 	if configuration.PublicIPAddressConfiguration != nil {
@@ -10002,7 +10105,9 @@ func (configuration *VirtualMachineScaleSetIPConfiguration) PopulateFromARM(owne
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateIPAddressVersion != nil {
-			privateIPAddressVersion := *typedInput.Properties.PrivateIPAddressVersion
+			var temp string
+			temp = string(*typedInput.Properties.PrivateIPAddressVersion)
+			privateIPAddressVersion := VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion(temp)
 			configuration.PrivateIPAddressVersion = &privateIPAddressVersion
 		}
 	}
@@ -10442,7 +10547,9 @@ func (configuration *VirtualMachineScaleSetIPConfiguration_STATUS) PopulateFromA
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateIPAddressVersion != nil {
-			privateIPAddressVersion := *typedInput.Properties.PrivateIPAddressVersion
+			var temp string
+			temp = string(*typedInput.Properties.PrivateIPAddressVersion)
+			privateIPAddressVersion := VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS(temp)
 			configuration.PrivateIPAddressVersion = &privateIPAddressVersion
 		}
 	}
@@ -10770,7 +10877,9 @@ func (parameters *VirtualMachineScaleSetManagedDiskParameters) ConvertToARM(reso
 
 	// Set property "StorageAccountType":
 	if parameters.StorageAccountType != nil {
-		storageAccountType := *parameters.StorageAccountType
+		var temp string
+		temp = string(*parameters.StorageAccountType)
+		storageAccountType := StorageAccountType_ARM(temp)
 		result.StorageAccountType = &storageAccountType
 	}
 	return result, nil
@@ -10801,7 +10910,9 @@ func (parameters *VirtualMachineScaleSetManagedDiskParameters) PopulateFromARM(o
 
 	// Set property "StorageAccountType":
 	if typedInput.StorageAccountType != nil {
-		storageAccountType := *typedInput.StorageAccountType
+		var temp string
+		temp = string(*typedInput.StorageAccountType)
+		storageAccountType := StorageAccountType(temp)
 		parameters.StorageAccountType = &storageAccountType
 	}
 
@@ -10910,7 +11021,9 @@ func (parameters *VirtualMachineScaleSetManagedDiskParameters_STATUS) PopulateFr
 
 	// Set property "StorageAccountType":
 	if typedInput.StorageAccountType != nil {
-		storageAccountType := *typedInput.StorageAccountType
+		var temp string
+		temp = string(*typedInput.StorageAccountType)
+		storageAccountType := StorageAccountType_STATUS(temp)
 		parameters.StorageAccountType = &storageAccountType
 	}
 
@@ -11232,7 +11345,9 @@ func (configuration *VirtualMachineScaleSetPublicIPAddressConfiguration) Convert
 		result.Properties.IpTags = append(result.Properties.IpTags, *item_ARM.(*VirtualMachineScaleSetIpTag_ARM))
 	}
 	if configuration.PublicIPAddressVersion != nil {
-		publicIPAddressVersion := *configuration.PublicIPAddressVersion
+		var temp string
+		temp = string(*configuration.PublicIPAddressVersion)
+		publicIPAddressVersion := VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_ARM(temp)
 		result.Properties.PublicIPAddressVersion = &publicIPAddressVersion
 	}
 	if configuration.PublicIPPrefix != nil {
@@ -11304,7 +11419,9 @@ func (configuration *VirtualMachineScaleSetPublicIPAddressConfiguration) Populat
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicIPAddressVersion != nil {
-			publicIPAddressVersion := *typedInput.Properties.PublicIPAddressVersion
+			var temp string
+			temp = string(*typedInput.Properties.PublicIPAddressVersion)
+			publicIPAddressVersion := VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion(temp)
 			configuration.PublicIPAddressVersion = &publicIPAddressVersion
 		}
 	}
@@ -11545,7 +11662,9 @@ func (configuration *VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS) 
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicIPAddressVersion != nil {
-			publicIPAddressVersion := *typedInput.Properties.PublicIPAddressVersion
+			var temp string
+			temp = string(*typedInput.Properties.PublicIPAddressVersion)
+			publicIPAddressVersion := VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS(temp)
 			configuration.PublicIPAddressVersion = &publicIPAddressVersion
 		}
 	}

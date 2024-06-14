@@ -84,8 +84,8 @@ func AFDDomainHttpsParameters_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAFDDomainHttpsParameters_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAFDDomainHttpsParameters_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["CertificateType"] = gen.PtrOf(gen.OneConstOf(AFDDomainHttpsParameters_CertificateType_STATUS_AzureFirstPartyManagedCertificate, AFDDomainHttpsParameters_CertificateType_STATUS_CustomerCertificate, AFDDomainHttpsParameters_CertificateType_STATUS_ManagedCertificate))
-	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(AFDDomainHttpsParameters_MinimumTlsVersion_STATUS_TLS10, AFDDomainHttpsParameters_MinimumTlsVersion_STATUS_TLS12))
+	gens["CertificateType"] = gen.PtrOf(gen.OneConstOf(AFDDomainHttpsParameters_CertificateType_STATUS_ARM_AzureFirstPartyManagedCertificate, AFDDomainHttpsParameters_CertificateType_STATUS_ARM_CustomerCertificate, AFDDomainHttpsParameters_CertificateType_STATUS_ARM_ManagedCertificate))
+	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(AFDDomainHttpsParameters_MinimumTlsVersion_STATUS_ARM_TLS10, AFDDomainHttpsParameters_MinimumTlsVersion_STATUS_ARM_TLS12))
 }
 
 // AddRelatedPropertyGeneratorsForAFDDomainHttpsParameters_STATUS_ARM is a factory method for creating gopter generators
@@ -161,31 +161,31 @@ func AFDDomainProperties_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAFDDomainProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAFDDomainProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["DeploymentStatus"] = gen.PtrOf(gen.OneConstOf(
-		AFDDomainProperties_DeploymentStatus_STATUS_Failed,
-		AFDDomainProperties_DeploymentStatus_STATUS_InProgress,
-		AFDDomainProperties_DeploymentStatus_STATUS_NotStarted,
-		AFDDomainProperties_DeploymentStatus_STATUS_Succeeded))
+		AFDDomainProperties_DeploymentStatus_STATUS_ARM_Failed,
+		AFDDomainProperties_DeploymentStatus_STATUS_ARM_InProgress,
+		AFDDomainProperties_DeploymentStatus_STATUS_ARM_NotStarted,
+		AFDDomainProperties_DeploymentStatus_STATUS_ARM_Succeeded))
 	gens["DomainValidationState"] = gen.PtrOf(gen.OneConstOf(
-		AFDDomainProperties_DomainValidationState_STATUS_Approved,
-		AFDDomainProperties_DomainValidationState_STATUS_InternalError,
-		AFDDomainProperties_DomainValidationState_STATUS_Pending,
-		AFDDomainProperties_DomainValidationState_STATUS_PendingRevalidation,
-		AFDDomainProperties_DomainValidationState_STATUS_RefreshingValidationToken,
-		AFDDomainProperties_DomainValidationState_STATUS_Rejected,
-		AFDDomainProperties_DomainValidationState_STATUS_Submitting,
-		AFDDomainProperties_DomainValidationState_STATUS_TimedOut,
-		AFDDomainProperties_DomainValidationState_STATUS_Unknown))
+		AFDDomainProperties_DomainValidationState_STATUS_ARM_Approved,
+		AFDDomainProperties_DomainValidationState_STATUS_ARM_InternalError,
+		AFDDomainProperties_DomainValidationState_STATUS_ARM_Pending,
+		AFDDomainProperties_DomainValidationState_STATUS_ARM_PendingRevalidation,
+		AFDDomainProperties_DomainValidationState_STATUS_ARM_RefreshingValidationToken,
+		AFDDomainProperties_DomainValidationState_STATUS_ARM_Rejected,
+		AFDDomainProperties_DomainValidationState_STATUS_ARM_Submitting,
+		AFDDomainProperties_DomainValidationState_STATUS_ARM_TimedOut,
+		AFDDomainProperties_DomainValidationState_STATUS_ARM_Unknown))
 	gens["ExtendedProperties"] = gen.MapOf(
 		gen.AlphaString(),
 		gen.AlphaString())
 	gens["HostName"] = gen.PtrOf(gen.AlphaString())
 	gens["ProfileName"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		AFDDomainProperties_ProvisioningState_STATUS_Creating,
-		AFDDomainProperties_ProvisioningState_STATUS_Deleting,
-		AFDDomainProperties_ProvisioningState_STATUS_Failed,
-		AFDDomainProperties_ProvisioningState_STATUS_Succeeded,
-		AFDDomainProperties_ProvisioningState_STATUS_Updating))
+		AFDDomainProperties_ProvisioningState_STATUS_ARM_Creating,
+		AFDDomainProperties_ProvisioningState_STATUS_ARM_Deleting,
+		AFDDomainProperties_ProvisioningState_STATUS_ARM_Failed,
+		AFDDomainProperties_ProvisioningState_STATUS_ARM_Succeeded,
+		AFDDomainProperties_ProvisioningState_STATUS_ARM_Updating))
 }
 
 // AddRelatedPropertyGeneratorsForAFDDomainProperties_STATUS_ARM is a factory method for creating gopter generators

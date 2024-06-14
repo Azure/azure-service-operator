@@ -41,7 +41,7 @@ type ManagedServiceIdentity_STATUS_ARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
-	Type                   *ManagedServiceIdentityType_STATUS         `json:"type,omitempty"`
+	Type                   *ManagedServiceIdentityType_STATUS_ARM     `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -61,7 +61,7 @@ type RedisProperties_STATUS_ARM struct {
 
 	// MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1',
 	// '1.2')
-	MinimumTlsVersion *RedisProperties_MinimumTlsVersion_STATUS `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *RedisProperties_MinimumTlsVersion_STATUS_ARM `json:"minimumTlsVersion,omitempty"`
 
 	// Port: Redis non-SSL port.
 	Port *int `json:"port,omitempty"`
@@ -70,13 +70,13 @@ type RedisProperties_STATUS_ARM struct {
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_ARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: Redis instance provisioning status.
-	ProvisioningState *RedisProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *RedisProperties_ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional, but if passed
 	// in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is
 	// 'Enabled'. Note: This setting is important for caches with private endpoints. It has *no effect* on caches that are
 	// joined to, or injected into, a virtual network subnet.
-	PublicNetworkAccess *RedisProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *RedisProperties_PublicNetworkAccess_STATUS_ARM `json:"publicNetworkAccess,omitempty"`
 
 	// RedisConfiguration: All Redis Settings. Few possible keys:
 	// rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
@@ -116,21 +116,21 @@ type RedisProperties_STATUS_ARM struct {
 }
 
 // Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
-type ManagedServiceIdentityType_STATUS string
+type ManagedServiceIdentityType_STATUS_ARM string
 
 const (
-	ManagedServiceIdentityType_STATUS_None                       = ManagedServiceIdentityType_STATUS("None")
-	ManagedServiceIdentityType_STATUS_SystemAssigned             = ManagedServiceIdentityType_STATUS("SystemAssigned")
-	ManagedServiceIdentityType_STATUS_SystemAssignedUserAssigned = ManagedServiceIdentityType_STATUS("SystemAssigned, UserAssigned")
-	ManagedServiceIdentityType_STATUS_UserAssigned               = ManagedServiceIdentityType_STATUS("UserAssigned")
+	ManagedServiceIdentityType_STATUS_ARM_None                       = ManagedServiceIdentityType_STATUS_ARM("None")
+	ManagedServiceIdentityType_STATUS_ARM_SystemAssigned             = ManagedServiceIdentityType_STATUS_ARM("SystemAssigned")
+	ManagedServiceIdentityType_STATUS_ARM_SystemAssignedUserAssigned = ManagedServiceIdentityType_STATUS_ARM("SystemAssigned, UserAssigned")
+	ManagedServiceIdentityType_STATUS_ARM_UserAssigned               = ManagedServiceIdentityType_STATUS_ARM("UserAssigned")
 )
 
-// Mapping from string to ManagedServiceIdentityType_STATUS
-var managedServiceIdentityType_STATUS_Values = map[string]ManagedServiceIdentityType_STATUS{
-	"none":                         ManagedServiceIdentityType_STATUS_None,
-	"systemassigned":               ManagedServiceIdentityType_STATUS_SystemAssigned,
-	"systemassigned, userassigned": ManagedServiceIdentityType_STATUS_SystemAssignedUserAssigned,
-	"userassigned":                 ManagedServiceIdentityType_STATUS_UserAssigned,
+// Mapping from string to ManagedServiceIdentityType_STATUS_ARM
+var managedServiceIdentityType_STATUS_ARM_Values = map[string]ManagedServiceIdentityType_STATUS_ARM{
+	"none":                         ManagedServiceIdentityType_STATUS_ARM_None,
+	"systemassigned":               ManagedServiceIdentityType_STATUS_ARM_SystemAssigned,
+	"systemassigned, userassigned": ManagedServiceIdentityType_STATUS_ARM_SystemAssignedUserAssigned,
+	"userassigned":                 ManagedServiceIdentityType_STATUS_ARM_UserAssigned,
 }
 
 // The Private Endpoint Connection resource.
@@ -165,6 +165,67 @@ type RedisInstanceDetails_STATUS_ARM struct {
 type RedisLinkedServer_STATUS_ARM struct {
 	// Id: Linked server Id.
 	Id *string `json:"id,omitempty"`
+}
+
+type RedisProperties_MinimumTlsVersion_STATUS_ARM string
+
+const (
+	RedisProperties_MinimumTlsVersion_STATUS_ARM_10 = RedisProperties_MinimumTlsVersion_STATUS_ARM("1.0")
+	RedisProperties_MinimumTlsVersion_STATUS_ARM_11 = RedisProperties_MinimumTlsVersion_STATUS_ARM("1.1")
+	RedisProperties_MinimumTlsVersion_STATUS_ARM_12 = RedisProperties_MinimumTlsVersion_STATUS_ARM("1.2")
+)
+
+// Mapping from string to RedisProperties_MinimumTlsVersion_STATUS_ARM
+var redisProperties_MinimumTlsVersion_STATUS_ARM_Values = map[string]RedisProperties_MinimumTlsVersion_STATUS_ARM{
+	"1.0": RedisProperties_MinimumTlsVersion_STATUS_ARM_10,
+	"1.1": RedisProperties_MinimumTlsVersion_STATUS_ARM_11,
+	"1.2": RedisProperties_MinimumTlsVersion_STATUS_ARM_12,
+}
+
+type RedisProperties_ProvisioningState_STATUS_ARM string
+
+const (
+	RedisProperties_ProvisioningState_STATUS_ARM_Creating               = RedisProperties_ProvisioningState_STATUS_ARM("Creating")
+	RedisProperties_ProvisioningState_STATUS_ARM_Deleting               = RedisProperties_ProvisioningState_STATUS_ARM("Deleting")
+	RedisProperties_ProvisioningState_STATUS_ARM_Disabled               = RedisProperties_ProvisioningState_STATUS_ARM("Disabled")
+	RedisProperties_ProvisioningState_STATUS_ARM_Failed                 = RedisProperties_ProvisioningState_STATUS_ARM("Failed")
+	RedisProperties_ProvisioningState_STATUS_ARM_Linking                = RedisProperties_ProvisioningState_STATUS_ARM("Linking")
+	RedisProperties_ProvisioningState_STATUS_ARM_Provisioning           = RedisProperties_ProvisioningState_STATUS_ARM("Provisioning")
+	RedisProperties_ProvisioningState_STATUS_ARM_RecoveringScaleFailure = RedisProperties_ProvisioningState_STATUS_ARM("RecoveringScaleFailure")
+	RedisProperties_ProvisioningState_STATUS_ARM_Scaling                = RedisProperties_ProvisioningState_STATUS_ARM("Scaling")
+	RedisProperties_ProvisioningState_STATUS_ARM_Succeeded              = RedisProperties_ProvisioningState_STATUS_ARM("Succeeded")
+	RedisProperties_ProvisioningState_STATUS_ARM_Unlinking              = RedisProperties_ProvisioningState_STATUS_ARM("Unlinking")
+	RedisProperties_ProvisioningState_STATUS_ARM_Unprovisioning         = RedisProperties_ProvisioningState_STATUS_ARM("Unprovisioning")
+	RedisProperties_ProvisioningState_STATUS_ARM_Updating               = RedisProperties_ProvisioningState_STATUS_ARM("Updating")
+)
+
+// Mapping from string to RedisProperties_ProvisioningState_STATUS_ARM
+var redisProperties_ProvisioningState_STATUS_ARM_Values = map[string]RedisProperties_ProvisioningState_STATUS_ARM{
+	"creating":               RedisProperties_ProvisioningState_STATUS_ARM_Creating,
+	"deleting":               RedisProperties_ProvisioningState_STATUS_ARM_Deleting,
+	"disabled":               RedisProperties_ProvisioningState_STATUS_ARM_Disabled,
+	"failed":                 RedisProperties_ProvisioningState_STATUS_ARM_Failed,
+	"linking":                RedisProperties_ProvisioningState_STATUS_ARM_Linking,
+	"provisioning":           RedisProperties_ProvisioningState_STATUS_ARM_Provisioning,
+	"recoveringscalefailure": RedisProperties_ProvisioningState_STATUS_ARM_RecoveringScaleFailure,
+	"scaling":                RedisProperties_ProvisioningState_STATUS_ARM_Scaling,
+	"succeeded":              RedisProperties_ProvisioningState_STATUS_ARM_Succeeded,
+	"unlinking":              RedisProperties_ProvisioningState_STATUS_ARM_Unlinking,
+	"unprovisioning":         RedisProperties_ProvisioningState_STATUS_ARM_Unprovisioning,
+	"updating":               RedisProperties_ProvisioningState_STATUS_ARM_Updating,
+}
+
+type RedisProperties_PublicNetworkAccess_STATUS_ARM string
+
+const (
+	RedisProperties_PublicNetworkAccess_STATUS_ARM_Disabled = RedisProperties_PublicNetworkAccess_STATUS_ARM("Disabled")
+	RedisProperties_PublicNetworkAccess_STATUS_ARM_Enabled  = RedisProperties_PublicNetworkAccess_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to RedisProperties_PublicNetworkAccess_STATUS_ARM
+var redisProperties_PublicNetworkAccess_STATUS_ARM_Values = map[string]RedisProperties_PublicNetworkAccess_STATUS_ARM{
+	"disabled": RedisProperties_PublicNetworkAccess_STATUS_ARM_Disabled,
+	"enabled":  RedisProperties_PublicNetworkAccess_STATUS_ARM_Enabled,
 }
 
 type RedisProperties_RedisConfiguration_STATUS_ARM struct {
@@ -231,10 +292,10 @@ type Sku_STATUS_ARM struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	// Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).
-	Family *Sku_Family_STATUS `json:"family,omitempty"`
+	Family *Sku_Family_STATUS_ARM `json:"family,omitempty"`
 
 	// Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)
-	Name *Sku_Name_STATUS `json:"name,omitempty"`
+	Name *Sku_Name_STATUS_ARM `json:"name,omitempty"`
 }
 
 // User assigned identity properties
@@ -244,4 +305,32 @@ type UserAssignedIdentity_STATUS_ARM struct {
 
 	// PrincipalId: The principal ID of the assigned identity.
 	PrincipalId *string `json:"principalId,omitempty"`
+}
+
+type Sku_Family_STATUS_ARM string
+
+const (
+	Sku_Family_STATUS_ARM_C = Sku_Family_STATUS_ARM("C")
+	Sku_Family_STATUS_ARM_P = Sku_Family_STATUS_ARM("P")
+)
+
+// Mapping from string to Sku_Family_STATUS_ARM
+var sku_Family_STATUS_ARM_Values = map[string]Sku_Family_STATUS_ARM{
+	"c": Sku_Family_STATUS_ARM_C,
+	"p": Sku_Family_STATUS_ARM_P,
+}
+
+type Sku_Name_STATUS_ARM string
+
+const (
+	Sku_Name_STATUS_ARM_Basic    = Sku_Name_STATUS_ARM("Basic")
+	Sku_Name_STATUS_ARM_Premium  = Sku_Name_STATUS_ARM("Premium")
+	Sku_Name_STATUS_ARM_Standard = Sku_Name_STATUS_ARM("Standard")
+)
+
+// Mapping from string to Sku_Name_STATUS_ARM
+var sku_Name_STATUS_ARM_Values = map[string]Sku_Name_STATUS_ARM{
+	"basic":    Sku_Name_STATUS_ARM_Basic,
+	"premium":  Sku_Name_STATUS_ARM_Premium,
+	"standard": Sku_Name_STATUS_ARM_Standard,
 }

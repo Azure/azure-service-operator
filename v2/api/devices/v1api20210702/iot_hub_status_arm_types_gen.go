@@ -45,7 +45,7 @@ type ArmIdentity_STATUS_ARM struct {
 
 	// Type: The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly
 	// created identity and a set of user assigned identities. The type 'None' will remove any identities from the service.
-	Type                   *ArmIdentity_Type_STATUS              `json:"type,omitempty"`
+	Type                   *ArmIdentity_Type_STATUS_ARM          `json:"type,omitempty"`
 	UserAssignedIdentities map[string]ArmUserIdentity_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -84,7 +84,7 @@ type IotHubProperties_STATUS_ARM struct {
 	EventHubEndpoints map[string]EventHubProperties_STATUS_ARM `json:"eventHubEndpoints,omitempty"`
 
 	// Features: The capabilities and features enabled for the IoT hub.
-	Features *IotHubProperties_Features_STATUS `json:"features,omitempty"`
+	Features *IotHubProperties_Features_STATUS_ARM `json:"features,omitempty"`
 
 	// HostName: The name of the host.
 	HostName *string `json:"hostName,omitempty"`
@@ -112,7 +112,7 @@ type IotHubProperties_STATUS_ARM struct {
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccess: Whether requests from Public Network are allowed
-	PublicNetworkAccess *IotHubProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *IotHubProperties_PublicNetworkAccess_STATUS_ARM `json:"publicNetworkAccess,omitempty"`
 
 	// RestrictOutboundNetworkAccess: If true, egress from IotHub will be restricted to only the allowed FQDNs that are
 	// configured via allowedFqdnList.
@@ -139,10 +139,10 @@ type IotHubSkuInfo_STATUS_ARM struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	// Name: The name of the SKU.
-	Name *IotHubSkuInfo_Name_STATUS `json:"name,omitempty"`
+	Name *IotHubSkuInfo_Name_STATUS_ARM `json:"name,omitempty"`
 
 	// Tier: The billing tier for the IoT hub.
-	Tier *IotHubSkuInfo_Tier_STATUS `json:"tier,omitempty"`
+	Tier *IotHubSkuInfo_Tier_STATUS_ARM `json:"tier,omitempty"`
 }
 
 // Metadata pertaining to creation and last modification of the resource.
@@ -154,7 +154,7 @@ type SystemData_STATUS_ARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_CreatedByType_STATUS_ARM `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -163,24 +163,24 @@ type SystemData_STATUS_ARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS_ARM `json:"lastModifiedByType,omitempty"`
 }
 
-type ArmIdentity_Type_STATUS string
+type ArmIdentity_Type_STATUS_ARM string
 
 const (
-	ArmIdentity_Type_STATUS_None                       = ArmIdentity_Type_STATUS("None")
-	ArmIdentity_Type_STATUS_SystemAssigned             = ArmIdentity_Type_STATUS("SystemAssigned")
-	ArmIdentity_Type_STATUS_SystemAssignedUserAssigned = ArmIdentity_Type_STATUS("SystemAssigned, UserAssigned")
-	ArmIdentity_Type_STATUS_UserAssigned               = ArmIdentity_Type_STATUS("UserAssigned")
+	ArmIdentity_Type_STATUS_ARM_None                       = ArmIdentity_Type_STATUS_ARM("None")
+	ArmIdentity_Type_STATUS_ARM_SystemAssigned             = ArmIdentity_Type_STATUS_ARM("SystemAssigned")
+	ArmIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned = ArmIdentity_Type_STATUS_ARM("SystemAssigned, UserAssigned")
+	ArmIdentity_Type_STATUS_ARM_UserAssigned               = ArmIdentity_Type_STATUS_ARM("UserAssigned")
 )
 
-// Mapping from string to ArmIdentity_Type_STATUS
-var armIdentity_Type_STATUS_Values = map[string]ArmIdentity_Type_STATUS{
-	"none":                         ArmIdentity_Type_STATUS_None,
-	"systemassigned":               ArmIdentity_Type_STATUS_SystemAssigned,
-	"systemassigned, userassigned": ArmIdentity_Type_STATUS_SystemAssignedUserAssigned,
-	"userassigned":                 ArmIdentity_Type_STATUS_UserAssigned,
+// Mapping from string to ArmIdentity_Type_STATUS_ARM
+var armIdentity_Type_STATUS_ARM_Values = map[string]ArmIdentity_Type_STATUS_ARM{
+	"none":                         ArmIdentity_Type_STATUS_ARM_None,
+	"systemassigned":               ArmIdentity_Type_STATUS_ARM_SystemAssigned,
+	"systemassigned, userassigned": ArmIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned,
+	"userassigned":                 ArmIdentity_Type_STATUS_ARM_UserAssigned,
 }
 
 type ArmUserIdentity_STATUS_ARM struct {
@@ -230,77 +230,77 @@ type IotHubLocationDescription_STATUS_ARM struct {
 	// Role: The role of the region, can be either primary or secondary. The primary region is where the IoT hub is currently
 	// provisioned. The secondary region is the Azure disaster recovery (DR) paired region and also the region where the IoT
 	// hub can failover to.
-	Role *IotHubLocationDescription_Role_STATUS `json:"role,omitempty"`
+	Role *IotHubLocationDescription_Role_STATUS_ARM `json:"role,omitempty"`
 }
 
-type IotHubProperties_Features_STATUS string
+type IotHubProperties_Features_STATUS_ARM string
 
 const (
-	IotHubProperties_Features_STATUS_DeviceManagement = IotHubProperties_Features_STATUS("DeviceManagement")
-	IotHubProperties_Features_STATUS_None             = IotHubProperties_Features_STATUS("None")
+	IotHubProperties_Features_STATUS_ARM_DeviceManagement = IotHubProperties_Features_STATUS_ARM("DeviceManagement")
+	IotHubProperties_Features_STATUS_ARM_None             = IotHubProperties_Features_STATUS_ARM("None")
 )
 
-// Mapping from string to IotHubProperties_Features_STATUS
-var iotHubProperties_Features_STATUS_Values = map[string]IotHubProperties_Features_STATUS{
-	"devicemanagement": IotHubProperties_Features_STATUS_DeviceManagement,
-	"none":             IotHubProperties_Features_STATUS_None,
+// Mapping from string to IotHubProperties_Features_STATUS_ARM
+var iotHubProperties_Features_STATUS_ARM_Values = map[string]IotHubProperties_Features_STATUS_ARM{
+	"devicemanagement": IotHubProperties_Features_STATUS_ARM_DeviceManagement,
+	"none":             IotHubProperties_Features_STATUS_ARM_None,
 }
 
-type IotHubProperties_PublicNetworkAccess_STATUS string
+type IotHubProperties_PublicNetworkAccess_STATUS_ARM string
 
 const (
-	IotHubProperties_PublicNetworkAccess_STATUS_Disabled = IotHubProperties_PublicNetworkAccess_STATUS("Disabled")
-	IotHubProperties_PublicNetworkAccess_STATUS_Enabled  = IotHubProperties_PublicNetworkAccess_STATUS("Enabled")
+	IotHubProperties_PublicNetworkAccess_STATUS_ARM_Disabled = IotHubProperties_PublicNetworkAccess_STATUS_ARM("Disabled")
+	IotHubProperties_PublicNetworkAccess_STATUS_ARM_Enabled  = IotHubProperties_PublicNetworkAccess_STATUS_ARM("Enabled")
 )
 
-// Mapping from string to IotHubProperties_PublicNetworkAccess_STATUS
-var iotHubProperties_PublicNetworkAccess_STATUS_Values = map[string]IotHubProperties_PublicNetworkAccess_STATUS{
-	"disabled": IotHubProperties_PublicNetworkAccess_STATUS_Disabled,
-	"enabled":  IotHubProperties_PublicNetworkAccess_STATUS_Enabled,
+// Mapping from string to IotHubProperties_PublicNetworkAccess_STATUS_ARM
+var iotHubProperties_PublicNetworkAccess_STATUS_ARM_Values = map[string]IotHubProperties_PublicNetworkAccess_STATUS_ARM{
+	"disabled": IotHubProperties_PublicNetworkAccess_STATUS_ARM_Disabled,
+	"enabled":  IotHubProperties_PublicNetworkAccess_STATUS_ARM_Enabled,
 }
 
-type IotHubSkuInfo_Name_STATUS string
+type IotHubSkuInfo_Name_STATUS_ARM string
 
 const (
-	IotHubSkuInfo_Name_STATUS_B1 = IotHubSkuInfo_Name_STATUS("B1")
-	IotHubSkuInfo_Name_STATUS_B2 = IotHubSkuInfo_Name_STATUS("B2")
-	IotHubSkuInfo_Name_STATUS_B3 = IotHubSkuInfo_Name_STATUS("B3")
-	IotHubSkuInfo_Name_STATUS_F1 = IotHubSkuInfo_Name_STATUS("F1")
-	IotHubSkuInfo_Name_STATUS_S1 = IotHubSkuInfo_Name_STATUS("S1")
-	IotHubSkuInfo_Name_STATUS_S2 = IotHubSkuInfo_Name_STATUS("S2")
-	IotHubSkuInfo_Name_STATUS_S3 = IotHubSkuInfo_Name_STATUS("S3")
+	IotHubSkuInfo_Name_STATUS_ARM_B1 = IotHubSkuInfo_Name_STATUS_ARM("B1")
+	IotHubSkuInfo_Name_STATUS_ARM_B2 = IotHubSkuInfo_Name_STATUS_ARM("B2")
+	IotHubSkuInfo_Name_STATUS_ARM_B3 = IotHubSkuInfo_Name_STATUS_ARM("B3")
+	IotHubSkuInfo_Name_STATUS_ARM_F1 = IotHubSkuInfo_Name_STATUS_ARM("F1")
+	IotHubSkuInfo_Name_STATUS_ARM_S1 = IotHubSkuInfo_Name_STATUS_ARM("S1")
+	IotHubSkuInfo_Name_STATUS_ARM_S2 = IotHubSkuInfo_Name_STATUS_ARM("S2")
+	IotHubSkuInfo_Name_STATUS_ARM_S3 = IotHubSkuInfo_Name_STATUS_ARM("S3")
 )
 
-// Mapping from string to IotHubSkuInfo_Name_STATUS
-var iotHubSkuInfo_Name_STATUS_Values = map[string]IotHubSkuInfo_Name_STATUS{
-	"b1": IotHubSkuInfo_Name_STATUS_B1,
-	"b2": IotHubSkuInfo_Name_STATUS_B2,
-	"b3": IotHubSkuInfo_Name_STATUS_B3,
-	"f1": IotHubSkuInfo_Name_STATUS_F1,
-	"s1": IotHubSkuInfo_Name_STATUS_S1,
-	"s2": IotHubSkuInfo_Name_STATUS_S2,
-	"s3": IotHubSkuInfo_Name_STATUS_S3,
+// Mapping from string to IotHubSkuInfo_Name_STATUS_ARM
+var iotHubSkuInfo_Name_STATUS_ARM_Values = map[string]IotHubSkuInfo_Name_STATUS_ARM{
+	"b1": IotHubSkuInfo_Name_STATUS_ARM_B1,
+	"b2": IotHubSkuInfo_Name_STATUS_ARM_B2,
+	"b3": IotHubSkuInfo_Name_STATUS_ARM_B3,
+	"f1": IotHubSkuInfo_Name_STATUS_ARM_F1,
+	"s1": IotHubSkuInfo_Name_STATUS_ARM_S1,
+	"s2": IotHubSkuInfo_Name_STATUS_ARM_S2,
+	"s3": IotHubSkuInfo_Name_STATUS_ARM_S3,
 }
 
-type IotHubSkuInfo_Tier_STATUS string
+type IotHubSkuInfo_Tier_STATUS_ARM string
 
 const (
-	IotHubSkuInfo_Tier_STATUS_Basic    = IotHubSkuInfo_Tier_STATUS("Basic")
-	IotHubSkuInfo_Tier_STATUS_Free     = IotHubSkuInfo_Tier_STATUS("Free")
-	IotHubSkuInfo_Tier_STATUS_Standard = IotHubSkuInfo_Tier_STATUS("Standard")
+	IotHubSkuInfo_Tier_STATUS_ARM_Basic    = IotHubSkuInfo_Tier_STATUS_ARM("Basic")
+	IotHubSkuInfo_Tier_STATUS_ARM_Free     = IotHubSkuInfo_Tier_STATUS_ARM("Free")
+	IotHubSkuInfo_Tier_STATUS_ARM_Standard = IotHubSkuInfo_Tier_STATUS_ARM("Standard")
 )
 
-// Mapping from string to IotHubSkuInfo_Tier_STATUS
-var iotHubSkuInfo_Tier_STATUS_Values = map[string]IotHubSkuInfo_Tier_STATUS{
-	"basic":    IotHubSkuInfo_Tier_STATUS_Basic,
-	"free":     IotHubSkuInfo_Tier_STATUS_Free,
-	"standard": IotHubSkuInfo_Tier_STATUS_Standard,
+// Mapping from string to IotHubSkuInfo_Tier_STATUS_ARM
+var iotHubSkuInfo_Tier_STATUS_ARM_Values = map[string]IotHubSkuInfo_Tier_STATUS_ARM{
+	"basic":    IotHubSkuInfo_Tier_STATUS_ARM_Basic,
+	"free":     IotHubSkuInfo_Tier_STATUS_ARM_Free,
+	"standard": IotHubSkuInfo_Tier_STATUS_ARM_Standard,
 }
 
 // The IP filter rules for the IoT hub.
 type IpFilterRule_STATUS_ARM struct {
 	// Action: The desired action for requests captured by this rule.
-	Action *IpFilterRule_Action_STATUS `json:"action,omitempty"`
+	Action *IpFilterRule_Action_STATUS_ARM `json:"action,omitempty"`
 
 	// FilterName: The name of the IP filter rule.
 	FilterName *string `json:"filterName,omitempty"`
@@ -329,7 +329,7 @@ type NetworkRuleSetProperties_STATUS_ARM struct {
 	ApplyToBuiltInEventHubEndpoint *bool `json:"applyToBuiltInEventHubEndpoint,omitempty"`
 
 	// DefaultAction: Default Action for Network Rule Set
-	DefaultAction *NetworkRuleSetProperties_DefaultAction_STATUS `json:"defaultAction,omitempty"`
+	DefaultAction *NetworkRuleSetProperties_DefaultAction_STATUS_ARM `json:"defaultAction,omitempty"`
 
 	// IpRules: List of IP Rules
 	IpRules []NetworkRuleSetIpRule_STATUS_ARM `json:"ipRules,omitempty"`
@@ -369,13 +369,13 @@ type SharedAccessSignatureAuthorizationRule_STATUS_ARM struct {
 	KeyName *string `json:"keyName,omitempty"`
 
 	// Rights: The permissions assigned to the shared access policy.
-	Rights *SharedAccessSignatureAuthorizationRule_Rights_STATUS `json:"rights,omitempty"`
+	Rights *SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM `json:"rights,omitempty"`
 }
 
 // The properties of the Azure Storage endpoint for file upload.
 type StorageEndpointProperties_STATUS_ARM struct {
 	// AuthenticationType: Specifies authentication type being used for connecting to the storage account.
-	AuthenticationType *StorageEndpointProperties_AuthenticationType_STATUS `json:"authenticationType,omitempty"`
+	AuthenticationType *StorageEndpointProperties_AuthenticationType_STATUS_ARM `json:"authenticationType,omitempty"`
 
 	// ContainerName: The name of the root container where you upload files. The container need not exist but should be
 	// creatable using the connectionString specified.
@@ -389,38 +389,38 @@ type StorageEndpointProperties_STATUS_ARM struct {
 	SasTtlAsIso8601 *string `json:"sasTtlAsIso8601,omitempty"`
 }
 
-type SystemData_CreatedByType_STATUS string
+type SystemData_CreatedByType_STATUS_ARM string
 
 const (
-	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+	SystemData_CreatedByType_STATUS_ARM_Application     = SystemData_CreatedByType_STATUS_ARM("Application")
+	SystemData_CreatedByType_STATUS_ARM_Key             = SystemData_CreatedByType_STATUS_ARM("Key")
+	SystemData_CreatedByType_STATUS_ARM_ManagedIdentity = SystemData_CreatedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_ARM_User            = SystemData_CreatedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_CreatedByType_STATUS
-var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
-	"application":     SystemData_CreatedByType_STATUS_Application,
-	"key":             SystemData_CreatedByType_STATUS_Key,
-	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_CreatedByType_STATUS_User,
+// Mapping from string to SystemData_CreatedByType_STATUS_ARM
+var systemData_CreatedByType_STATUS_ARM_Values = map[string]SystemData_CreatedByType_STATUS_ARM{
+	"application":     SystemData_CreatedByType_STATUS_ARM_Application,
+	"key":             SystemData_CreatedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_ARM_User,
 }
 
-type SystemData_LastModifiedByType_STATUS string
+type SystemData_LastModifiedByType_STATUS_ARM string
 
 const (
-	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+	SystemData_LastModifiedByType_STATUS_ARM_Application     = SystemData_LastModifiedByType_STATUS_ARM("Application")
+	SystemData_LastModifiedByType_STATUS_ARM_Key             = SystemData_LastModifiedByType_STATUS_ARM("Key")
+	SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity = SystemData_LastModifiedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_ARM_User            = SystemData_LastModifiedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_LastModifiedByType_STATUS
-var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
-	"application":     SystemData_LastModifiedByType_STATUS_Application,
-	"key":             SystemData_LastModifiedByType_STATUS_Key,
-	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_LastModifiedByType_STATUS_User,
+// Mapping from string to SystemData_LastModifiedByType_STATUS_ARM
+var systemData_LastModifiedByType_STATUS_ARM_Values = map[string]SystemData_LastModifiedByType_STATUS_ARM{
+	"application":     SystemData_LastModifiedByType_STATUS_ARM_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_ARM_User,
 }
 
 // The properties of an enrichment that your IoT hub applies to messages delivered to endpoints.
@@ -454,7 +454,7 @@ type FallbackRouteProperties_STATUS_ARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Source: The source to which the routing rule is to be applied to. For example, DeviceMessages
-	Source *FallbackRouteProperties_Source_STATUS `json:"source,omitempty"`
+	Source *FallbackRouteProperties_Source_STATUS_ARM `json:"source,omitempty"`
 }
 
 // The properties of the feedback queue for cloud-to-device messages.
@@ -472,30 +472,30 @@ type FeedbackProperties_STATUS_ARM struct {
 	TtlAsIso8601 *string `json:"ttlAsIso8601,omitempty"`
 }
 
-type IotHubLocationDescription_Role_STATUS string
+type IotHubLocationDescription_Role_STATUS_ARM string
 
 const (
-	IotHubLocationDescription_Role_STATUS_Primary   = IotHubLocationDescription_Role_STATUS("primary")
-	IotHubLocationDescription_Role_STATUS_Secondary = IotHubLocationDescription_Role_STATUS("secondary")
+	IotHubLocationDescription_Role_STATUS_ARM_Primary   = IotHubLocationDescription_Role_STATUS_ARM("primary")
+	IotHubLocationDescription_Role_STATUS_ARM_Secondary = IotHubLocationDescription_Role_STATUS_ARM("secondary")
 )
 
-// Mapping from string to IotHubLocationDescription_Role_STATUS
-var iotHubLocationDescription_Role_STATUS_Values = map[string]IotHubLocationDescription_Role_STATUS{
-	"primary":   IotHubLocationDescription_Role_STATUS_Primary,
-	"secondary": IotHubLocationDescription_Role_STATUS_Secondary,
+// Mapping from string to IotHubLocationDescription_Role_STATUS_ARM
+var iotHubLocationDescription_Role_STATUS_ARM_Values = map[string]IotHubLocationDescription_Role_STATUS_ARM{
+	"primary":   IotHubLocationDescription_Role_STATUS_ARM_Primary,
+	"secondary": IotHubLocationDescription_Role_STATUS_ARM_Secondary,
 }
 
-type IpFilterRule_Action_STATUS string
+type IpFilterRule_Action_STATUS_ARM string
 
 const (
-	IpFilterRule_Action_STATUS_Accept = IpFilterRule_Action_STATUS("Accept")
-	IpFilterRule_Action_STATUS_Reject = IpFilterRule_Action_STATUS("Reject")
+	IpFilterRule_Action_STATUS_ARM_Accept = IpFilterRule_Action_STATUS_ARM("Accept")
+	IpFilterRule_Action_STATUS_ARM_Reject = IpFilterRule_Action_STATUS_ARM("Reject")
 )
 
-// Mapping from string to IpFilterRule_Action_STATUS
-var ipFilterRule_Action_STATUS_Values = map[string]IpFilterRule_Action_STATUS{
-	"accept": IpFilterRule_Action_STATUS_Accept,
-	"reject": IpFilterRule_Action_STATUS_Reject,
+// Mapping from string to IpFilterRule_Action_STATUS_ARM
+var ipFilterRule_Action_STATUS_ARM_Values = map[string]IpFilterRule_Action_STATUS_ARM{
+	"accept": IpFilterRule_Action_STATUS_ARM_Accept,
+	"reject": IpFilterRule_Action_STATUS_ARM_Reject,
 }
 
 // The properties of the Managed identity.
@@ -507,7 +507,7 @@ type ManagedIdentity_STATUS_ARM struct {
 // IP Rule to be applied as part of Network Rule Set
 type NetworkRuleSetIpRule_STATUS_ARM struct {
 	// Action: IP Filter Action
-	Action *NetworkRuleSetIpRule_Action_STATUS `json:"action,omitempty"`
+	Action *NetworkRuleSetIpRule_Action_STATUS_ARM `json:"action,omitempty"`
 
 	// FilterName: Name of the IP filter rule.
 	FilterName *string `json:"filterName,omitempty"`
@@ -516,17 +516,17 @@ type NetworkRuleSetIpRule_STATUS_ARM struct {
 	IpMask *string `json:"ipMask,omitempty"`
 }
 
-type NetworkRuleSetProperties_DefaultAction_STATUS string
+type NetworkRuleSetProperties_DefaultAction_STATUS_ARM string
 
 const (
-	NetworkRuleSetProperties_DefaultAction_STATUS_Allow = NetworkRuleSetProperties_DefaultAction_STATUS("Allow")
-	NetworkRuleSetProperties_DefaultAction_STATUS_Deny  = NetworkRuleSetProperties_DefaultAction_STATUS("Deny")
+	NetworkRuleSetProperties_DefaultAction_STATUS_ARM_Allow = NetworkRuleSetProperties_DefaultAction_STATUS_ARM("Allow")
+	NetworkRuleSetProperties_DefaultAction_STATUS_ARM_Deny  = NetworkRuleSetProperties_DefaultAction_STATUS_ARM("Deny")
 )
 
-// Mapping from string to NetworkRuleSetProperties_DefaultAction_STATUS
-var networkRuleSetProperties_DefaultAction_STATUS_Values = map[string]NetworkRuleSetProperties_DefaultAction_STATUS{
-	"allow": NetworkRuleSetProperties_DefaultAction_STATUS_Allow,
-	"deny":  NetworkRuleSetProperties_DefaultAction_STATUS_Deny,
+// Mapping from string to NetworkRuleSetProperties_DefaultAction_STATUS_ARM
+var networkRuleSetProperties_DefaultAction_STATUS_ARM_Values = map[string]NetworkRuleSetProperties_DefaultAction_STATUS_ARM{
+	"allow": NetworkRuleSetProperties_DefaultAction_STATUS_ARM_Allow,
+	"deny":  NetworkRuleSetProperties_DefaultAction_STATUS_ARM_Deny,
 }
 
 // The properties of a routing rule that your IoT hub uses to route messages to endpoints.
@@ -547,7 +547,7 @@ type RouteProperties_STATUS_ARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Source: The source that the routing rule is to be applied to, such as DeviceMessages.
-	Source *RouteProperties_Source_STATUS `json:"source,omitempty"`
+	Source *RouteProperties_Source_STATUS_ARM `json:"source,omitempty"`
 }
 
 // The properties related to the custom endpoints to which your IoT hub routes messages based on the routing rules. A
@@ -570,101 +570,101 @@ type RoutingEndpoints_STATUS_ARM struct {
 	StorageContainers []RoutingStorageContainerProperties_STATUS_ARM `json:"storageContainers,omitempty"`
 }
 
-type SharedAccessSignatureAuthorizationRule_Rights_STATUS string
+type SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM string
 
 const (
-	SharedAccessSignatureAuthorizationRule_Rights_STATUS_DeviceConnect                                        = SharedAccessSignatureAuthorizationRule_Rights_STATUS("DeviceConnect")
-	SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryRead                                         = SharedAccessSignatureAuthorizationRule_Rights_STATUS("RegistryRead")
-	SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadDeviceConnect                            = SharedAccessSignatureAuthorizationRule_Rights_STATUS("RegistryRead, DeviceConnect")
-	SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadRegistryWrite                            = SharedAccessSignatureAuthorizationRule_Rights_STATUS("RegistryRead, RegistryWrite")
-	SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadRegistryWriteDeviceConnect               = SharedAccessSignatureAuthorizationRule_Rights_STATUS("RegistryRead, RegistryWrite, DeviceConnect")
-	SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadRegistryWriteServiceConnect              = SharedAccessSignatureAuthorizationRule_Rights_STATUS("RegistryRead, RegistryWrite, ServiceConnect")
-	SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadRegistryWriteServiceConnectDeviceConnect = SharedAccessSignatureAuthorizationRule_Rights_STATUS("RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect")
-	SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadServiceConnect                           = SharedAccessSignatureAuthorizationRule_Rights_STATUS("RegistryRead, ServiceConnect")
-	SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadServiceConnectDeviceConnect              = SharedAccessSignatureAuthorizationRule_Rights_STATUS("RegistryRead, ServiceConnect, DeviceConnect")
-	SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryWrite                                        = SharedAccessSignatureAuthorizationRule_Rights_STATUS("RegistryWrite")
-	SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryWriteDeviceConnect                           = SharedAccessSignatureAuthorizationRule_Rights_STATUS("RegistryWrite, DeviceConnect")
-	SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryWriteServiceConnect                          = SharedAccessSignatureAuthorizationRule_Rights_STATUS("RegistryWrite, ServiceConnect")
-	SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryWriteServiceConnectDeviceConnect             = SharedAccessSignatureAuthorizationRule_Rights_STATUS("RegistryWrite, ServiceConnect, DeviceConnect")
-	SharedAccessSignatureAuthorizationRule_Rights_STATUS_ServiceConnect                                       = SharedAccessSignatureAuthorizationRule_Rights_STATUS("ServiceConnect")
-	SharedAccessSignatureAuthorizationRule_Rights_STATUS_ServiceConnectDeviceConnect                          = SharedAccessSignatureAuthorizationRule_Rights_STATUS("ServiceConnect, DeviceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_DeviceConnect                                        = SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM("DeviceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryRead                                         = SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM("RegistryRead")
+	SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryReadDeviceConnect                            = SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM("RegistryRead, DeviceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryReadRegistryWrite                            = SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM("RegistryRead, RegistryWrite")
+	SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryReadRegistryWriteDeviceConnect               = SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM("RegistryRead, RegistryWrite, DeviceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryReadRegistryWriteServiceConnect              = SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM("RegistryRead, RegistryWrite, ServiceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryReadRegistryWriteServiceConnectDeviceConnect = SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM("RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryReadServiceConnect                           = SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM("RegistryRead, ServiceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryReadServiceConnectDeviceConnect              = SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM("RegistryRead, ServiceConnect, DeviceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryWrite                                        = SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM("RegistryWrite")
+	SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryWriteDeviceConnect                           = SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM("RegistryWrite, DeviceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryWriteServiceConnect                          = SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM("RegistryWrite, ServiceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryWriteServiceConnectDeviceConnect             = SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM("RegistryWrite, ServiceConnect, DeviceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_ServiceConnect                                       = SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM("ServiceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_ServiceConnectDeviceConnect                          = SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM("ServiceConnect, DeviceConnect")
 )
 
-// Mapping from string to SharedAccessSignatureAuthorizationRule_Rights_STATUS
-var sharedAccessSignatureAuthorizationRule_Rights_STATUS_Values = map[string]SharedAccessSignatureAuthorizationRule_Rights_STATUS{
-	"deviceconnect":                                              SharedAccessSignatureAuthorizationRule_Rights_STATUS_DeviceConnect,
-	"registryread":                                               SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryRead,
-	"registryread, deviceconnect":                                SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadDeviceConnect,
-	"registryread, registrywrite":                                SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadRegistryWrite,
-	"registryread, registrywrite, deviceconnect":                 SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadRegistryWriteDeviceConnect,
-	"registryread, registrywrite, serviceconnect":                SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadRegistryWriteServiceConnect,
-	"registryread, registrywrite, serviceconnect, deviceconnect": SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadRegistryWriteServiceConnectDeviceConnect,
-	"registryread, serviceconnect":                               SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadServiceConnect,
-	"registryread, serviceconnect, deviceconnect":                SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadServiceConnectDeviceConnect,
-	"registrywrite":                                              SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryWrite,
-	"registrywrite, deviceconnect":                               SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryWriteDeviceConnect,
-	"registrywrite, serviceconnect":                              SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryWriteServiceConnect,
-	"registrywrite, serviceconnect, deviceconnect":               SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryWriteServiceConnectDeviceConnect,
-	"serviceconnect":                                             SharedAccessSignatureAuthorizationRule_Rights_STATUS_ServiceConnect,
-	"serviceconnect, deviceconnect":                              SharedAccessSignatureAuthorizationRule_Rights_STATUS_ServiceConnectDeviceConnect,
+// Mapping from string to SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM
+var sharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_Values = map[string]SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM{
+	"deviceconnect":                                              SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_DeviceConnect,
+	"registryread":                                               SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryRead,
+	"registryread, deviceconnect":                                SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryReadDeviceConnect,
+	"registryread, registrywrite":                                SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryReadRegistryWrite,
+	"registryread, registrywrite, deviceconnect":                 SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryReadRegistryWriteDeviceConnect,
+	"registryread, registrywrite, serviceconnect":                SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryReadRegistryWriteServiceConnect,
+	"registryread, registrywrite, serviceconnect, deviceconnect": SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryReadRegistryWriteServiceConnectDeviceConnect,
+	"registryread, serviceconnect":                               SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryReadServiceConnect,
+	"registryread, serviceconnect, deviceconnect":                SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryReadServiceConnectDeviceConnect,
+	"registrywrite":                                              SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryWrite,
+	"registrywrite, deviceconnect":                               SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryWriteDeviceConnect,
+	"registrywrite, serviceconnect":                              SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryWriteServiceConnect,
+	"registrywrite, serviceconnect, deviceconnect":               SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryWriteServiceConnectDeviceConnect,
+	"serviceconnect":                                             SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_ServiceConnect,
+	"serviceconnect, deviceconnect":                              SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_ServiceConnectDeviceConnect,
 }
 
-type StorageEndpointProperties_AuthenticationType_STATUS string
+type StorageEndpointProperties_AuthenticationType_STATUS_ARM string
 
 const (
-	StorageEndpointProperties_AuthenticationType_STATUS_IdentityBased = StorageEndpointProperties_AuthenticationType_STATUS("identityBased")
-	StorageEndpointProperties_AuthenticationType_STATUS_KeyBased      = StorageEndpointProperties_AuthenticationType_STATUS("keyBased")
+	StorageEndpointProperties_AuthenticationType_STATUS_ARM_IdentityBased = StorageEndpointProperties_AuthenticationType_STATUS_ARM("identityBased")
+	StorageEndpointProperties_AuthenticationType_STATUS_ARM_KeyBased      = StorageEndpointProperties_AuthenticationType_STATUS_ARM("keyBased")
 )
 
-// Mapping from string to StorageEndpointProperties_AuthenticationType_STATUS
-var storageEndpointProperties_AuthenticationType_STATUS_Values = map[string]StorageEndpointProperties_AuthenticationType_STATUS{
-	"identitybased": StorageEndpointProperties_AuthenticationType_STATUS_IdentityBased,
-	"keybased":      StorageEndpointProperties_AuthenticationType_STATUS_KeyBased,
+// Mapping from string to StorageEndpointProperties_AuthenticationType_STATUS_ARM
+var storageEndpointProperties_AuthenticationType_STATUS_ARM_Values = map[string]StorageEndpointProperties_AuthenticationType_STATUS_ARM{
+	"identitybased": StorageEndpointProperties_AuthenticationType_STATUS_ARM_IdentityBased,
+	"keybased":      StorageEndpointProperties_AuthenticationType_STATUS_ARM_KeyBased,
 }
 
-type FallbackRouteProperties_Source_STATUS string
+type FallbackRouteProperties_Source_STATUS_ARM string
 
-const FallbackRouteProperties_Source_STATUS_DeviceMessages = FallbackRouteProperties_Source_STATUS("DeviceMessages")
+const FallbackRouteProperties_Source_STATUS_ARM_DeviceMessages = FallbackRouteProperties_Source_STATUS_ARM("DeviceMessages")
 
-// Mapping from string to FallbackRouteProperties_Source_STATUS
-var fallbackRouteProperties_Source_STATUS_Values = map[string]FallbackRouteProperties_Source_STATUS{
-	"devicemessages": FallbackRouteProperties_Source_STATUS_DeviceMessages,
+// Mapping from string to FallbackRouteProperties_Source_STATUS_ARM
+var fallbackRouteProperties_Source_STATUS_ARM_Values = map[string]FallbackRouteProperties_Source_STATUS_ARM{
+	"devicemessages": FallbackRouteProperties_Source_STATUS_ARM_DeviceMessages,
 }
 
-type NetworkRuleSetIpRule_Action_STATUS string
+type NetworkRuleSetIpRule_Action_STATUS_ARM string
 
-const NetworkRuleSetIpRule_Action_STATUS_Allow = NetworkRuleSetIpRule_Action_STATUS("Allow")
+const NetworkRuleSetIpRule_Action_STATUS_ARM_Allow = NetworkRuleSetIpRule_Action_STATUS_ARM("Allow")
 
-// Mapping from string to NetworkRuleSetIpRule_Action_STATUS
-var networkRuleSetIpRule_Action_STATUS_Values = map[string]NetworkRuleSetIpRule_Action_STATUS{
-	"allow": NetworkRuleSetIpRule_Action_STATUS_Allow,
+// Mapping from string to NetworkRuleSetIpRule_Action_STATUS_ARM
+var networkRuleSetIpRule_Action_STATUS_ARM_Values = map[string]NetworkRuleSetIpRule_Action_STATUS_ARM{
+	"allow": NetworkRuleSetIpRule_Action_STATUS_ARM_Allow,
 }
 
-type RouteProperties_Source_STATUS string
+type RouteProperties_Source_STATUS_ARM string
 
 const (
-	RouteProperties_Source_STATUS_DeviceConnectionStateEvents = RouteProperties_Source_STATUS("DeviceConnectionStateEvents")
-	RouteProperties_Source_STATUS_DeviceJobLifecycleEvents    = RouteProperties_Source_STATUS("DeviceJobLifecycleEvents")
-	RouteProperties_Source_STATUS_DeviceLifecycleEvents       = RouteProperties_Source_STATUS("DeviceLifecycleEvents")
-	RouteProperties_Source_STATUS_DeviceMessages              = RouteProperties_Source_STATUS("DeviceMessages")
-	RouteProperties_Source_STATUS_Invalid                     = RouteProperties_Source_STATUS("Invalid")
-	RouteProperties_Source_STATUS_TwinChangeEvents            = RouteProperties_Source_STATUS("TwinChangeEvents")
+	RouteProperties_Source_STATUS_ARM_DeviceConnectionStateEvents = RouteProperties_Source_STATUS_ARM("DeviceConnectionStateEvents")
+	RouteProperties_Source_STATUS_ARM_DeviceJobLifecycleEvents    = RouteProperties_Source_STATUS_ARM("DeviceJobLifecycleEvents")
+	RouteProperties_Source_STATUS_ARM_DeviceLifecycleEvents       = RouteProperties_Source_STATUS_ARM("DeviceLifecycleEvents")
+	RouteProperties_Source_STATUS_ARM_DeviceMessages              = RouteProperties_Source_STATUS_ARM("DeviceMessages")
+	RouteProperties_Source_STATUS_ARM_Invalid                     = RouteProperties_Source_STATUS_ARM("Invalid")
+	RouteProperties_Source_STATUS_ARM_TwinChangeEvents            = RouteProperties_Source_STATUS_ARM("TwinChangeEvents")
 )
 
-// Mapping from string to RouteProperties_Source_STATUS
-var routeProperties_Source_STATUS_Values = map[string]RouteProperties_Source_STATUS{
-	"deviceconnectionstateevents": RouteProperties_Source_STATUS_DeviceConnectionStateEvents,
-	"devicejoblifecycleevents":    RouteProperties_Source_STATUS_DeviceJobLifecycleEvents,
-	"devicelifecycleevents":       RouteProperties_Source_STATUS_DeviceLifecycleEvents,
-	"devicemessages":              RouteProperties_Source_STATUS_DeviceMessages,
-	"invalid":                     RouteProperties_Source_STATUS_Invalid,
-	"twinchangeevents":            RouteProperties_Source_STATUS_TwinChangeEvents,
+// Mapping from string to RouteProperties_Source_STATUS_ARM
+var routeProperties_Source_STATUS_ARM_Values = map[string]RouteProperties_Source_STATUS_ARM{
+	"deviceconnectionstateevents": RouteProperties_Source_STATUS_ARM_DeviceConnectionStateEvents,
+	"devicejoblifecycleevents":    RouteProperties_Source_STATUS_ARM_DeviceJobLifecycleEvents,
+	"devicelifecycleevents":       RouteProperties_Source_STATUS_ARM_DeviceLifecycleEvents,
+	"devicemessages":              RouteProperties_Source_STATUS_ARM_DeviceMessages,
+	"invalid":                     RouteProperties_Source_STATUS_ARM_Invalid,
+	"twinchangeevents":            RouteProperties_Source_STATUS_ARM_TwinChangeEvents,
 }
 
 // The properties related to an event hub endpoint.
 type RoutingEventHubProperties_STATUS_ARM struct {
 	// AuthenticationType: Method used to authenticate against the event hub endpoint
-	AuthenticationType *RoutingEventHubProperties_AuthenticationType_STATUS `json:"authenticationType,omitempty"`
+	AuthenticationType *RoutingEventHubProperties_AuthenticationType_STATUS_ARM `json:"authenticationType,omitempty"`
 
 	// EndpointUri: The url of the event hub endpoint. It must include the protocol sb://
 	EndpointUri *string `json:"endpointUri,omitempty"`
@@ -693,7 +693,7 @@ type RoutingEventHubProperties_STATUS_ARM struct {
 // The properties related to service bus queue endpoint types.
 type RoutingServiceBusQueueEndpointProperties_STATUS_ARM struct {
 	// AuthenticationType: Method used to authenticate against the service bus queue endpoint
-	AuthenticationType *RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS `json:"authenticationType,omitempty"`
+	AuthenticationType *RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_ARM `json:"authenticationType,omitempty"`
 
 	// EndpointUri: The url of the service bus queue endpoint. It must include the protocol sb://
 	EndpointUri *string `json:"endpointUri,omitempty"`
@@ -722,7 +722,7 @@ type RoutingServiceBusQueueEndpointProperties_STATUS_ARM struct {
 // The properties related to service bus topic endpoint types.
 type RoutingServiceBusTopicEndpointProperties_STATUS_ARM struct {
 	// AuthenticationType: Method used to authenticate against the service bus topic endpoint
-	AuthenticationType *RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS `json:"authenticationType,omitempty"`
+	AuthenticationType *RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_ARM `json:"authenticationType,omitempty"`
 
 	// EndpointUri: The url of the service bus topic endpoint. It must include the protocol sb://
 	EndpointUri *string `json:"endpointUri,omitempty"`
@@ -751,7 +751,7 @@ type RoutingServiceBusTopicEndpointProperties_STATUS_ARM struct {
 // The properties related to a storage container endpoint.
 type RoutingStorageContainerProperties_STATUS_ARM struct {
 	// AuthenticationType: Method used to authenticate against the storage endpoint
-	AuthenticationType *RoutingStorageContainerProperties_AuthenticationType_STATUS `json:"authenticationType,omitempty"`
+	AuthenticationType *RoutingStorageContainerProperties_AuthenticationType_STATUS_ARM `json:"authenticationType,omitempty"`
 
 	// BatchFrequencyInSeconds: Time interval at which blobs are written to storage. Value should be between 60 and 720
 	// seconds. Default value is 300 seconds.
@@ -762,7 +762,7 @@ type RoutingStorageContainerProperties_STATUS_ARM struct {
 
 	// Encoding: Encoding that is used to serialize messages to blobs. Supported values are 'avro', 'avrodeflate', and 'JSON'.
 	// Default value is 'avro'.
-	Encoding *RoutingStorageContainerProperties_Encoding_STATUS `json:"encoding,omitempty"`
+	Encoding *RoutingStorageContainerProperties_Encoding_STATUS_ARM `json:"encoding,omitempty"`
 
 	// EndpointUri: The url of the storage endpoint. It must include the protocol https://
 	EndpointUri *string `json:"endpointUri,omitempty"`
@@ -793,69 +793,69 @@ type RoutingStorageContainerProperties_STATUS_ARM struct {
 	SubscriptionId *string `json:"subscriptionId,omitempty"`
 }
 
-type RoutingEventHubProperties_AuthenticationType_STATUS string
+type RoutingEventHubProperties_AuthenticationType_STATUS_ARM string
 
 const (
-	RoutingEventHubProperties_AuthenticationType_STATUS_IdentityBased = RoutingEventHubProperties_AuthenticationType_STATUS("identityBased")
-	RoutingEventHubProperties_AuthenticationType_STATUS_KeyBased      = RoutingEventHubProperties_AuthenticationType_STATUS("keyBased")
+	RoutingEventHubProperties_AuthenticationType_STATUS_ARM_IdentityBased = RoutingEventHubProperties_AuthenticationType_STATUS_ARM("identityBased")
+	RoutingEventHubProperties_AuthenticationType_STATUS_ARM_KeyBased      = RoutingEventHubProperties_AuthenticationType_STATUS_ARM("keyBased")
 )
 
-// Mapping from string to RoutingEventHubProperties_AuthenticationType_STATUS
-var routingEventHubProperties_AuthenticationType_STATUS_Values = map[string]RoutingEventHubProperties_AuthenticationType_STATUS{
-	"identitybased": RoutingEventHubProperties_AuthenticationType_STATUS_IdentityBased,
-	"keybased":      RoutingEventHubProperties_AuthenticationType_STATUS_KeyBased,
+// Mapping from string to RoutingEventHubProperties_AuthenticationType_STATUS_ARM
+var routingEventHubProperties_AuthenticationType_STATUS_ARM_Values = map[string]RoutingEventHubProperties_AuthenticationType_STATUS_ARM{
+	"identitybased": RoutingEventHubProperties_AuthenticationType_STATUS_ARM_IdentityBased,
+	"keybased":      RoutingEventHubProperties_AuthenticationType_STATUS_ARM_KeyBased,
 }
 
-type RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS string
+type RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_ARM string
 
 const (
-	RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_IdentityBased = RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS("identityBased")
-	RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_KeyBased      = RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS("keyBased")
+	RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_ARM_IdentityBased = RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_ARM("identityBased")
+	RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_ARM_KeyBased      = RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_ARM("keyBased")
 )
 
-// Mapping from string to RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS
-var routingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_Values = map[string]RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS{
-	"identitybased": RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_IdentityBased,
-	"keybased":      RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_KeyBased,
+// Mapping from string to RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_ARM
+var routingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_ARM_Values = map[string]RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_ARM{
+	"identitybased": RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_ARM_IdentityBased,
+	"keybased":      RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_ARM_KeyBased,
 }
 
-type RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS string
+type RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_ARM string
 
 const (
-	RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_IdentityBased = RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS("identityBased")
-	RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_KeyBased      = RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS("keyBased")
+	RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_ARM_IdentityBased = RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_ARM("identityBased")
+	RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_ARM_KeyBased      = RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_ARM("keyBased")
 )
 
-// Mapping from string to RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS
-var routingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_Values = map[string]RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS{
-	"identitybased": RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_IdentityBased,
-	"keybased":      RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_KeyBased,
+// Mapping from string to RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_ARM
+var routingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_ARM_Values = map[string]RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_ARM{
+	"identitybased": RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_ARM_IdentityBased,
+	"keybased":      RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_ARM_KeyBased,
 }
 
-type RoutingStorageContainerProperties_AuthenticationType_STATUS string
+type RoutingStorageContainerProperties_AuthenticationType_STATUS_ARM string
 
 const (
-	RoutingStorageContainerProperties_AuthenticationType_STATUS_IdentityBased = RoutingStorageContainerProperties_AuthenticationType_STATUS("identityBased")
-	RoutingStorageContainerProperties_AuthenticationType_STATUS_KeyBased      = RoutingStorageContainerProperties_AuthenticationType_STATUS("keyBased")
+	RoutingStorageContainerProperties_AuthenticationType_STATUS_ARM_IdentityBased = RoutingStorageContainerProperties_AuthenticationType_STATUS_ARM("identityBased")
+	RoutingStorageContainerProperties_AuthenticationType_STATUS_ARM_KeyBased      = RoutingStorageContainerProperties_AuthenticationType_STATUS_ARM("keyBased")
 )
 
-// Mapping from string to RoutingStorageContainerProperties_AuthenticationType_STATUS
-var routingStorageContainerProperties_AuthenticationType_STATUS_Values = map[string]RoutingStorageContainerProperties_AuthenticationType_STATUS{
-	"identitybased": RoutingStorageContainerProperties_AuthenticationType_STATUS_IdentityBased,
-	"keybased":      RoutingStorageContainerProperties_AuthenticationType_STATUS_KeyBased,
+// Mapping from string to RoutingStorageContainerProperties_AuthenticationType_STATUS_ARM
+var routingStorageContainerProperties_AuthenticationType_STATUS_ARM_Values = map[string]RoutingStorageContainerProperties_AuthenticationType_STATUS_ARM{
+	"identitybased": RoutingStorageContainerProperties_AuthenticationType_STATUS_ARM_IdentityBased,
+	"keybased":      RoutingStorageContainerProperties_AuthenticationType_STATUS_ARM_KeyBased,
 }
 
-type RoutingStorageContainerProperties_Encoding_STATUS string
+type RoutingStorageContainerProperties_Encoding_STATUS_ARM string
 
 const (
-	RoutingStorageContainerProperties_Encoding_STATUS_Avro        = RoutingStorageContainerProperties_Encoding_STATUS("Avro")
-	RoutingStorageContainerProperties_Encoding_STATUS_AvroDeflate = RoutingStorageContainerProperties_Encoding_STATUS("AvroDeflate")
-	RoutingStorageContainerProperties_Encoding_STATUS_JSON        = RoutingStorageContainerProperties_Encoding_STATUS("JSON")
+	RoutingStorageContainerProperties_Encoding_STATUS_ARM_Avro        = RoutingStorageContainerProperties_Encoding_STATUS_ARM("Avro")
+	RoutingStorageContainerProperties_Encoding_STATUS_ARM_AvroDeflate = RoutingStorageContainerProperties_Encoding_STATUS_ARM("AvroDeflate")
+	RoutingStorageContainerProperties_Encoding_STATUS_ARM_JSON        = RoutingStorageContainerProperties_Encoding_STATUS_ARM("JSON")
 )
 
-// Mapping from string to RoutingStorageContainerProperties_Encoding_STATUS
-var routingStorageContainerProperties_Encoding_STATUS_Values = map[string]RoutingStorageContainerProperties_Encoding_STATUS{
-	"avro":        RoutingStorageContainerProperties_Encoding_STATUS_Avro,
-	"avrodeflate": RoutingStorageContainerProperties_Encoding_STATUS_AvroDeflate,
-	"json":        RoutingStorageContainerProperties_Encoding_STATUS_JSON,
+// Mapping from string to RoutingStorageContainerProperties_Encoding_STATUS_ARM
+var routingStorageContainerProperties_Encoding_STATUS_ARM_Values = map[string]RoutingStorageContainerProperties_Encoding_STATUS_ARM{
+	"avro":        RoutingStorageContainerProperties_Encoding_STATUS_ARM_Avro,
+	"avrodeflate": RoutingStorageContainerProperties_Encoding_STATUS_ARM_AvroDeflate,
+	"json":        RoutingStorageContainerProperties_Encoding_STATUS_ARM_JSON,
 }

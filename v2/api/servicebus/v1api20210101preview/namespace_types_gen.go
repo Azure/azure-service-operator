@@ -1316,7 +1316,9 @@ func (encryption *Encryption) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "KeySource":
 	if encryption.KeySource != nil {
-		keySource := *encryption.KeySource
+		var temp string
+		temp = string(*encryption.KeySource)
+		keySource := Encryption_KeySource_ARM(temp)
 		result.KeySource = &keySource
 	}
 
@@ -1351,7 +1353,9 @@ func (encryption *Encryption) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 
 	// Set property "KeySource":
 	if typedInput.KeySource != nil {
-		keySource := *typedInput.KeySource
+		var temp string
+		temp = string(*typedInput.KeySource)
+		keySource := Encryption_KeySource(temp)
 		encryption.KeySource = &keySource
 	}
 
@@ -1495,7 +1499,9 @@ func (encryption *Encryption_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property "KeySource":
 	if typedInput.KeySource != nil {
-		keySource := *typedInput.KeySource
+		var temp string
+		temp = string(*typedInput.KeySource)
+		keySource := Encryption_KeySource_STATUS(temp)
 		encryption.KeySource = &keySource
 	}
 
@@ -1631,7 +1637,9 @@ func (identity *Identity) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "Type":
 	if identity.Type != nil {
-		typeVar := *identity.Type
+		var temp string
+		temp = string(*identity.Type)
+		typeVar := Identity_Type_ARM(temp)
 		result.Type = &typeVar
 	}
 
@@ -1662,7 +1670,9 @@ func (identity *Identity) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := Identity_Type(temp)
 		identity.Type = &typeVar
 	}
 
@@ -1791,7 +1801,9 @@ func (identity *Identity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := Identity_Type_STATUS(temp)
 		identity.Type = &typeVar
 	}
 
@@ -2042,13 +2054,17 @@ func (sbSku *SBSku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 
 	// Set property "Name":
 	if sbSku.Name != nil {
-		name := *sbSku.Name
+		var temp string
+		temp = string(*sbSku.Name)
+		name := SBSku_Name_ARM(temp)
 		result.Name = &name
 	}
 
 	// Set property "Tier":
 	if sbSku.Tier != nil {
-		tier := *sbSku.Tier
+		var temp string
+		temp = string(*sbSku.Tier)
+		tier := SBSku_Tier_ARM(temp)
 		result.Tier = &tier
 	}
 	return result, nil
@@ -2074,13 +2090,17 @@ func (sbSku *SBSku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, ar
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := SBSku_Name(temp)
 		sbSku.Name = &name
 	}
 
 	// Set property "Tier":
 	if typedInput.Tier != nil {
-		tier := *typedInput.Tier
+		var temp string
+		temp = string(*typedInput.Tier)
+		tier := SBSku_Tier(temp)
 		sbSku.Tier = &tier
 	}
 
@@ -2185,13 +2205,17 @@ func (sbSku *SBSku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := SBSku_Name_STATUS(temp)
 		sbSku.Name = &name
 	}
 
 	// Set property "Tier":
 	if typedInput.Tier != nil {
-		tier := *typedInput.Tier
+		var temp string
+		temp = string(*typedInput.Tier)
+		tier := SBSku_Tier_STATUS(temp)
 		sbSku.Tier = &tier
 	}
 
@@ -2311,7 +2335,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "CreatedByType":
 	if typedInput.CreatedByType != nil {
-		createdByType := *typedInput.CreatedByType
+		var temp string
+		temp = string(*typedInput.CreatedByType)
+		createdByType := SystemData_CreatedByType_STATUS(temp)
 		data.CreatedByType = &createdByType
 	}
 
@@ -2329,7 +2355,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "LastModifiedByType":
 	if typedInput.LastModifiedByType != nil {
-		lastModifiedByType := *typedInput.LastModifiedByType
+		var temp string
+		temp = string(*typedInput.LastModifiedByType)
+		lastModifiedByType := SystemData_LastModifiedByType_STATUS(temp)
 		data.LastModifiedByType = &lastModifiedByType
 	}
 
@@ -2509,6 +2537,41 @@ const Encryption_KeySource_STATUS_MicrosoftKeyVault = Encryption_KeySource_STATU
 // Mapping from string to Encryption_KeySource_STATUS
 var encryption_KeySource_STATUS_Values = map[string]Encryption_KeySource_STATUS{
 	"microsoft.keyvault": Encryption_KeySource_STATUS_MicrosoftKeyVault,
+}
+
+// +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
+type Identity_Type string
+
+const (
+	Identity_Type_None                       = Identity_Type("None")
+	Identity_Type_SystemAssigned             = Identity_Type("SystemAssigned")
+	Identity_Type_SystemAssignedUserAssigned = Identity_Type("SystemAssigned, UserAssigned")
+	Identity_Type_UserAssigned               = Identity_Type("UserAssigned")
+)
+
+// Mapping from string to Identity_Type
+var identity_Type_Values = map[string]Identity_Type{
+	"none":                         Identity_Type_None,
+	"systemassigned":               Identity_Type_SystemAssigned,
+	"systemassigned, userassigned": Identity_Type_SystemAssignedUserAssigned,
+	"userassigned":                 Identity_Type_UserAssigned,
+}
+
+type Identity_Type_STATUS string
+
+const (
+	Identity_Type_STATUS_None                       = Identity_Type_STATUS("None")
+	Identity_Type_STATUS_SystemAssigned             = Identity_Type_STATUS("SystemAssigned")
+	Identity_Type_STATUS_SystemAssignedUserAssigned = Identity_Type_STATUS("SystemAssigned, UserAssigned")
+	Identity_Type_STATUS_UserAssigned               = Identity_Type_STATUS("UserAssigned")
+)
+
+// Mapping from string to Identity_Type_STATUS
+var identity_Type_STATUS_Values = map[string]Identity_Type_STATUS{
+	"none":                         Identity_Type_STATUS_None,
+	"systemassigned":               Identity_Type_STATUS_SystemAssigned,
+	"systemassigned, userassigned": Identity_Type_STATUS_SystemAssignedUserAssigned,
+	"userassigned":                 Identity_Type_STATUS_UserAssigned,
 }
 
 // Properties to configure keyVault Properties
@@ -2922,6 +2985,102 @@ func (secrets *NamespaceOperatorSecrets) AssignProperties_To_NamespaceOperatorSe
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
+type SBSku_Name string
+
+const (
+	SBSku_Name_Basic    = SBSku_Name("Basic")
+	SBSku_Name_Premium  = SBSku_Name("Premium")
+	SBSku_Name_Standard = SBSku_Name("Standard")
+)
+
+// Mapping from string to SBSku_Name
+var sBSku_Name_Values = map[string]SBSku_Name{
+	"basic":    SBSku_Name_Basic,
+	"premium":  SBSku_Name_Premium,
+	"standard": SBSku_Name_Standard,
+}
+
+type SBSku_Name_STATUS string
+
+const (
+	SBSku_Name_STATUS_Basic    = SBSku_Name_STATUS("Basic")
+	SBSku_Name_STATUS_Premium  = SBSku_Name_STATUS("Premium")
+	SBSku_Name_STATUS_Standard = SBSku_Name_STATUS("Standard")
+)
+
+// Mapping from string to SBSku_Name_STATUS
+var sBSku_Name_STATUS_Values = map[string]SBSku_Name_STATUS{
+	"basic":    SBSku_Name_STATUS_Basic,
+	"premium":  SBSku_Name_STATUS_Premium,
+	"standard": SBSku_Name_STATUS_Standard,
+}
+
+// +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
+type SBSku_Tier string
+
+const (
+	SBSku_Tier_Basic    = SBSku_Tier("Basic")
+	SBSku_Tier_Premium  = SBSku_Tier("Premium")
+	SBSku_Tier_Standard = SBSku_Tier("Standard")
+)
+
+// Mapping from string to SBSku_Tier
+var sBSku_Tier_Values = map[string]SBSku_Tier{
+	"basic":    SBSku_Tier_Basic,
+	"premium":  SBSku_Tier_Premium,
+	"standard": SBSku_Tier_Standard,
+}
+
+type SBSku_Tier_STATUS string
+
+const (
+	SBSku_Tier_STATUS_Basic    = SBSku_Tier_STATUS("Basic")
+	SBSku_Tier_STATUS_Premium  = SBSku_Tier_STATUS("Premium")
+	SBSku_Tier_STATUS_Standard = SBSku_Tier_STATUS("Standard")
+)
+
+// Mapping from string to SBSku_Tier_STATUS
+var sBSku_Tier_STATUS_Values = map[string]SBSku_Tier_STATUS{
+	"basic":    SBSku_Tier_STATUS_Basic,
+	"premium":  SBSku_Tier_STATUS_Premium,
+	"standard": SBSku_Tier_STATUS_Standard,
+}
+
+type SystemData_CreatedByType_STATUS string
+
+const (
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
+}
+
+type SystemData_LastModifiedByType_STATUS string
+
+const (
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
 }
 
 // Information about the user assigned identity for the resource

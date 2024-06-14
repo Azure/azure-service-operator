@@ -87,10 +87,10 @@ func AddIndependentPropertyGeneratorsForArmIdentity_STATUS_ARM(gens map[string]g
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ArmIdentity_Type_STATUS_None,
-		ArmIdentity_Type_STATUS_SystemAssigned,
-		ArmIdentity_Type_STATUS_SystemAssignedUserAssigned,
-		ArmIdentity_Type_STATUS_UserAssigned))
+		ArmIdentity_Type_STATUS_ARM_None,
+		ArmIdentity_Type_STATUS_ARM_SystemAssigned,
+		ArmIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned,
+		ArmIdentity_Type_STATUS_ARM_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForArmIdentity_STATUS_ARM is a factory method for creating gopter generators
@@ -428,7 +428,7 @@ func AddIndependentPropertyGeneratorsForFallbackRouteProperties_STATUS_ARM(gens 
 	gens["EndpointNames"] = gen.SliceOf(gen.AlphaString())
 	gens["IsEnabled"] = gen.PtrOf(gen.Bool())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Source"] = gen.PtrOf(gen.OneConstOf(FallbackRouteProperties_Source_STATUS_DeviceMessages))
+	gens["Source"] = gen.PtrOf(gen.OneConstOf(FallbackRouteProperties_Source_STATUS_ARM_DeviceMessages))
 }
 
 func Test_FeedbackProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -553,7 +553,7 @@ func IotHubLocationDescription_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForIotHubLocationDescription_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIotHubLocationDescription_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Role"] = gen.PtrOf(gen.OneConstOf(IotHubLocationDescription_Role_STATUS_Primary, IotHubLocationDescription_Role_STATUS_Secondary))
+	gens["Role"] = gen.PtrOf(gen.OneConstOf(IotHubLocationDescription_Role_STATUS_ARM_Primary, IotHubLocationDescription_Role_STATUS_ARM_Secondary))
 }
 
 func Test_IotHubProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -630,11 +630,11 @@ func AddIndependentPropertyGeneratorsForIotHubProperties_STATUS_ARM(gens map[str
 	gens["DisableModuleSAS"] = gen.PtrOf(gen.Bool())
 	gens["EnableDataResidency"] = gen.PtrOf(gen.Bool())
 	gens["EnableFileUploadNotifications"] = gen.PtrOf(gen.Bool())
-	gens["Features"] = gen.PtrOf(gen.OneConstOf(IotHubProperties_Features_STATUS_DeviceManagement, IotHubProperties_Features_STATUS_None))
+	gens["Features"] = gen.PtrOf(gen.OneConstOf(IotHubProperties_Features_STATUS_ARM_DeviceManagement, IotHubProperties_Features_STATUS_ARM_None))
 	gens["HostName"] = gen.PtrOf(gen.AlphaString())
 	gens["MinTlsVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(IotHubProperties_PublicNetworkAccess_STATUS_Disabled, IotHubProperties_PublicNetworkAccess_STATUS_Enabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(IotHubProperties_PublicNetworkAccess_STATUS_ARM_Disabled, IotHubProperties_PublicNetworkAccess_STATUS_ARM_Enabled))
 	gens["RestrictOutboundNetworkAccess"] = gen.PtrOf(gen.Bool())
 	gens["State"] = gen.PtrOf(gen.AlphaString())
 }
@@ -719,14 +719,14 @@ func IotHubSkuInfo_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForIotHubSkuInfo_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		IotHubSkuInfo_Name_STATUS_B1,
-		IotHubSkuInfo_Name_STATUS_B2,
-		IotHubSkuInfo_Name_STATUS_B3,
-		IotHubSkuInfo_Name_STATUS_F1,
-		IotHubSkuInfo_Name_STATUS_S1,
-		IotHubSkuInfo_Name_STATUS_S2,
-		IotHubSkuInfo_Name_STATUS_S3))
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(IotHubSkuInfo_Tier_STATUS_Basic, IotHubSkuInfo_Tier_STATUS_Free, IotHubSkuInfo_Tier_STATUS_Standard))
+		IotHubSkuInfo_Name_STATUS_ARM_B1,
+		IotHubSkuInfo_Name_STATUS_ARM_B2,
+		IotHubSkuInfo_Name_STATUS_ARM_B3,
+		IotHubSkuInfo_Name_STATUS_ARM_F1,
+		IotHubSkuInfo_Name_STATUS_ARM_S1,
+		IotHubSkuInfo_Name_STATUS_ARM_S2,
+		IotHubSkuInfo_Name_STATUS_ARM_S3))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(IotHubSkuInfo_Tier_STATUS_ARM_Basic, IotHubSkuInfo_Tier_STATUS_ARM_Free, IotHubSkuInfo_Tier_STATUS_ARM_Standard))
 }
 
 func Test_IotHub_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -871,7 +871,7 @@ func IpFilterRule_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForIpFilterRule_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIpFilterRule_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Action"] = gen.PtrOf(gen.OneConstOf(IpFilterRule_Action_STATUS_Accept, IpFilterRule_Action_STATUS_Reject))
+	gens["Action"] = gen.PtrOf(gen.OneConstOf(IpFilterRule_Action_STATUS_ARM_Accept, IpFilterRule_Action_STATUS_ARM_Reject))
 	gens["FilterName"] = gen.PtrOf(gen.AlphaString())
 	gens["IpMask"] = gen.PtrOf(gen.AlphaString())
 }
@@ -1058,7 +1058,7 @@ func NetworkRuleSetIpRule_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNetworkRuleSetIpRule_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkRuleSetIpRule_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Action"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSetIpRule_Action_STATUS_Allow))
+	gens["Action"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSetIpRule_Action_STATUS_ARM_Allow))
 	gens["FilterName"] = gen.PtrOf(gen.AlphaString())
 	gens["IpMask"] = gen.PtrOf(gen.AlphaString())
 }
@@ -1131,7 +1131,7 @@ func NetworkRuleSetProperties_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForNetworkRuleSetProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkRuleSetProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ApplyToBuiltInEventHubEndpoint"] = gen.PtrOf(gen.Bool())
-	gens["DefaultAction"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSetProperties_DefaultAction_STATUS_Allow, NetworkRuleSetProperties_DefaultAction_STATUS_Deny))
+	gens["DefaultAction"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSetProperties_DefaultAction_STATUS_ARM_Allow, NetworkRuleSetProperties_DefaultAction_STATUS_ARM_Deny))
 }
 
 // AddRelatedPropertyGeneratorsForNetworkRuleSetProperties_STATUS_ARM is a factory method for creating gopter generators
@@ -1263,12 +1263,12 @@ func AddIndependentPropertyGeneratorsForRouteProperties_STATUS_ARM(gens map[stri
 	gens["IsEnabled"] = gen.PtrOf(gen.Bool())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Source"] = gen.PtrOf(gen.OneConstOf(
-		RouteProperties_Source_STATUS_DeviceConnectionStateEvents,
-		RouteProperties_Source_STATUS_DeviceJobLifecycleEvents,
-		RouteProperties_Source_STATUS_DeviceLifecycleEvents,
-		RouteProperties_Source_STATUS_DeviceMessages,
-		RouteProperties_Source_STATUS_Invalid,
-		RouteProperties_Source_STATUS_TwinChangeEvents))
+		RouteProperties_Source_STATUS_ARM_DeviceConnectionStateEvents,
+		RouteProperties_Source_STATUS_ARM_DeviceJobLifecycleEvents,
+		RouteProperties_Source_STATUS_ARM_DeviceLifecycleEvents,
+		RouteProperties_Source_STATUS_ARM_DeviceMessages,
+		RouteProperties_Source_STATUS_ARM_Invalid,
+		RouteProperties_Source_STATUS_ARM_TwinChangeEvents))
 }
 
 func Test_RoutingEndpoints_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1402,7 +1402,7 @@ func RoutingEventHubProperties_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRoutingEventHubProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRoutingEventHubProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["AuthenticationType"] = gen.PtrOf(gen.OneConstOf(RoutingEventHubProperties_AuthenticationType_STATUS_IdentityBased, RoutingEventHubProperties_AuthenticationType_STATUS_KeyBased))
+	gens["AuthenticationType"] = gen.PtrOf(gen.OneConstOf(RoutingEventHubProperties_AuthenticationType_STATUS_ARM_IdentityBased, RoutingEventHubProperties_AuthenticationType_STATUS_ARM_KeyBased))
 	gens["EndpointUri"] = gen.PtrOf(gen.AlphaString())
 	gens["EntityPath"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
@@ -1547,7 +1547,7 @@ func RoutingServiceBusQueueEndpointProperties_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRoutingServiceBusQueueEndpointProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRoutingServiceBusQueueEndpointProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["AuthenticationType"] = gen.PtrOf(gen.OneConstOf(RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_IdentityBased, RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_KeyBased))
+	gens["AuthenticationType"] = gen.PtrOf(gen.OneConstOf(RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_ARM_IdentityBased, RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_ARM_KeyBased))
 	gens["EndpointUri"] = gen.PtrOf(gen.AlphaString())
 	gens["EntityPath"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
@@ -1628,7 +1628,7 @@ func RoutingServiceBusTopicEndpointProperties_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRoutingServiceBusTopicEndpointProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRoutingServiceBusTopicEndpointProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["AuthenticationType"] = gen.PtrOf(gen.OneConstOf(RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_IdentityBased, RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_KeyBased))
+	gens["AuthenticationType"] = gen.PtrOf(gen.OneConstOf(RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_ARM_IdentityBased, RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_ARM_KeyBased))
 	gens["EndpointUri"] = gen.PtrOf(gen.AlphaString())
 	gens["EntityPath"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
@@ -1709,10 +1709,10 @@ func RoutingStorageContainerProperties_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRoutingStorageContainerProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRoutingStorageContainerProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["AuthenticationType"] = gen.PtrOf(gen.OneConstOf(RoutingStorageContainerProperties_AuthenticationType_STATUS_IdentityBased, RoutingStorageContainerProperties_AuthenticationType_STATUS_KeyBased))
+	gens["AuthenticationType"] = gen.PtrOf(gen.OneConstOf(RoutingStorageContainerProperties_AuthenticationType_STATUS_ARM_IdentityBased, RoutingStorageContainerProperties_AuthenticationType_STATUS_ARM_KeyBased))
 	gens["BatchFrequencyInSeconds"] = gen.PtrOf(gen.Int())
 	gens["ContainerName"] = gen.PtrOf(gen.AlphaString())
-	gens["Encoding"] = gen.PtrOf(gen.OneConstOf(RoutingStorageContainerProperties_Encoding_STATUS_Avro, RoutingStorageContainerProperties_Encoding_STATUS_AvroDeflate, RoutingStorageContainerProperties_Encoding_STATUS_JSON))
+	gens["Encoding"] = gen.PtrOf(gen.OneConstOf(RoutingStorageContainerProperties_Encoding_STATUS_ARM_Avro, RoutingStorageContainerProperties_Encoding_STATUS_ARM_AvroDeflate, RoutingStorageContainerProperties_Encoding_STATUS_ARM_JSON))
 	gens["EndpointUri"] = gen.PtrOf(gen.AlphaString())
 	gens["FileNameFormat"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
@@ -1787,21 +1787,21 @@ func SharedAccessSignatureAuthorizationRule_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSharedAccessSignatureAuthorizationRule_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["KeyName"] = gen.PtrOf(gen.AlphaString())
 	gens["Rights"] = gen.PtrOf(gen.OneConstOf(
-		SharedAccessSignatureAuthorizationRule_Rights_STATUS_DeviceConnect,
-		SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryRead,
-		SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadDeviceConnect,
-		SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadRegistryWrite,
-		SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadRegistryWriteDeviceConnect,
-		SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadRegistryWriteServiceConnect,
-		SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadRegistryWriteServiceConnectDeviceConnect,
-		SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadServiceConnect,
-		SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadServiceConnectDeviceConnect,
-		SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryWrite,
-		SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryWriteDeviceConnect,
-		SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryWriteServiceConnect,
-		SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryWriteServiceConnectDeviceConnect,
-		SharedAccessSignatureAuthorizationRule_Rights_STATUS_ServiceConnect,
-		SharedAccessSignatureAuthorizationRule_Rights_STATUS_ServiceConnectDeviceConnect))
+		SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_DeviceConnect,
+		SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryRead,
+		SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryReadDeviceConnect,
+		SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryReadRegistryWrite,
+		SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryReadRegistryWriteDeviceConnect,
+		SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryReadRegistryWriteServiceConnect,
+		SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryReadRegistryWriteServiceConnectDeviceConnect,
+		SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryReadServiceConnect,
+		SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryReadServiceConnectDeviceConnect,
+		SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryWrite,
+		SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryWriteDeviceConnect,
+		SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryWriteServiceConnect,
+		SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_RegistryWriteServiceConnectDeviceConnect,
+		SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_ServiceConnect,
+		SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM_ServiceConnectDeviceConnect))
 }
 
 func Test_StorageEndpointProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1871,7 +1871,7 @@ func StorageEndpointProperties_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForStorageEndpointProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageEndpointProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["AuthenticationType"] = gen.PtrOf(gen.OneConstOf(StorageEndpointProperties_AuthenticationType_STATUS_IdentityBased, StorageEndpointProperties_AuthenticationType_STATUS_KeyBased))
+	gens["AuthenticationType"] = gen.PtrOf(gen.OneConstOf(StorageEndpointProperties_AuthenticationType_STATUS_ARM_IdentityBased, StorageEndpointProperties_AuthenticationType_STATUS_ARM_KeyBased))
 	gens["ContainerName"] = gen.PtrOf(gen.AlphaString())
 	gens["SasTtlAsIso8601"] = gen.PtrOf(gen.AlphaString())
 }
@@ -1942,15 +1942,15 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS_ARM(gens map[string]go
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_STATUS_Application,
-		SystemData_CreatedByType_STATUS_Key,
-		SystemData_CreatedByType_STATUS_ManagedIdentity,
-		SystemData_CreatedByType_STATUS_User))
+		SystemData_CreatedByType_STATUS_ARM_Application,
+		SystemData_CreatedByType_STATUS_ARM_Key,
+		SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
+		SystemData_CreatedByType_STATUS_ARM_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_STATUS_Application,
-		SystemData_LastModifiedByType_STATUS_Key,
-		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-		SystemData_LastModifiedByType_STATUS_User))
+		SystemData_LastModifiedByType_STATUS_ARM_Application,
+		SystemData_LastModifiedByType_STATUS_ARM_Key,
+		SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
+		SystemData_LastModifiedByType_STATUS_ARM_User))
 }

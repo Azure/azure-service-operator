@@ -147,10 +147,10 @@ func AfdRouteCacheConfiguration_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForAfdRouteCacheConfiguration_ARM(gens map[string]gopter.Gen) {
 	gens["QueryParameters"] = gen.PtrOf(gen.AlphaString())
 	gens["QueryStringCachingBehavior"] = gen.PtrOf(gen.OneConstOf(
-		AfdRouteCacheConfiguration_QueryStringCachingBehavior_IgnoreQueryString,
-		AfdRouteCacheConfiguration_QueryStringCachingBehavior_IgnoreSpecifiedQueryStrings,
-		AfdRouteCacheConfiguration_QueryStringCachingBehavior_IncludeSpecifiedQueryStrings,
-		AfdRouteCacheConfiguration_QueryStringCachingBehavior_UseQueryString))
+		AfdRouteCacheConfiguration_QueryStringCachingBehavior_ARM_IgnoreQueryString,
+		AfdRouteCacheConfiguration_QueryStringCachingBehavior_ARM_IgnoreSpecifiedQueryStrings,
+		AfdRouteCacheConfiguration_QueryStringCachingBehavior_ARM_IncludeSpecifiedQueryStrings,
+		AfdRouteCacheConfiguration_QueryStringCachingBehavior_ARM_UseQueryString))
 }
 
 // AddRelatedPropertyGeneratorsForAfdRouteCacheConfiguration_ARM is a factory method for creating gopter generators
@@ -423,13 +423,13 @@ func RouteProperties_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRouteProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRouteProperties_ARM(gens map[string]gopter.Gen) {
-	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(RouteProperties_EnabledState_Disabled, RouteProperties_EnabledState_Enabled))
-	gens["ForwardingProtocol"] = gen.PtrOf(gen.OneConstOf(RouteProperties_ForwardingProtocol_HttpOnly, RouteProperties_ForwardingProtocol_HttpsOnly, RouteProperties_ForwardingProtocol_MatchRequest))
-	gens["HttpsRedirect"] = gen.PtrOf(gen.OneConstOf(RouteProperties_HttpsRedirect_Disabled, RouteProperties_HttpsRedirect_Enabled))
-	gens["LinkToDefaultDomain"] = gen.PtrOf(gen.OneConstOf(RouteProperties_LinkToDefaultDomain_Disabled, RouteProperties_LinkToDefaultDomain_Enabled))
+	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(RouteProperties_EnabledState_ARM_Disabled, RouteProperties_EnabledState_ARM_Enabled))
+	gens["ForwardingProtocol"] = gen.PtrOf(gen.OneConstOf(RouteProperties_ForwardingProtocol_ARM_HttpOnly, RouteProperties_ForwardingProtocol_ARM_HttpsOnly, RouteProperties_ForwardingProtocol_ARM_MatchRequest))
+	gens["HttpsRedirect"] = gen.PtrOf(gen.OneConstOf(RouteProperties_HttpsRedirect_ARM_Disabled, RouteProperties_HttpsRedirect_ARM_Enabled))
+	gens["LinkToDefaultDomain"] = gen.PtrOf(gen.OneConstOf(RouteProperties_LinkToDefaultDomain_ARM_Disabled, RouteProperties_LinkToDefaultDomain_ARM_Enabled))
 	gens["OriginPath"] = gen.PtrOf(gen.AlphaString())
 	gens["PatternsToMatch"] = gen.SliceOf(gen.AlphaString())
-	gens["SupportedProtocols"] = gen.SliceOf(gen.OneConstOf(AFDEndpointProtocols_Http, AFDEndpointProtocols_Https))
+	gens["SupportedProtocols"] = gen.SliceOf(gen.OneConstOf(AFDEndpointProtocols_ARM_Http, AFDEndpointProtocols_ARM_Https))
 }
 
 // AddRelatedPropertyGeneratorsForRouteProperties_ARM is a factory method for creating gopter generators

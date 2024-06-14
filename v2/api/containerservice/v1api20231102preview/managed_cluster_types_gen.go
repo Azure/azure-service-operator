@@ -839,7 +839,9 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.PrivateLinkResources = append(result.Properties.PrivateLinkResources, *item_ARM.(*PrivateLinkResource_ARM))
 	}
 	if cluster.PublicNetworkAccess != nil {
-		publicNetworkAccess := *cluster.PublicNetworkAccess
+		var temp string
+		temp = string(*cluster.PublicNetworkAccess)
+		publicNetworkAccess := ManagedClusterProperties_PublicNetworkAccess_ARM(temp)
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 	if cluster.SafeguardsProfile != nil {
@@ -883,7 +885,9 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.StorageProfile = &storageProfile
 	}
 	if cluster.SupportPlan != nil {
-		supportPlan := *cluster.SupportPlan
+		var temp string
+		temp = string(*cluster.SupportPlan)
+		supportPlan := KubernetesSupportPlan_ARM(temp)
 		result.Properties.SupportPlan = &supportPlan
 	}
 	if cluster.UpgradeSettings != nil {
@@ -1345,7 +1349,9 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
-			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccess)
+			publicNetworkAccess := ManagedClusterProperties_PublicNetworkAccess(temp)
 			cluster.PublicNetworkAccess = &publicNetworkAccess
 		}
 	}
@@ -1435,7 +1441,9 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SupportPlan != nil {
-			supportPlan := *typedInput.Properties.SupportPlan
+			var temp string
+			temp = string(*typedInput.Properties.SupportPlan)
+			supportPlan := KubernetesSupportPlan(temp)
 			cluster.SupportPlan = &supportPlan
 		}
 	}
@@ -3298,7 +3306,9 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
-			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccess)
+			publicNetworkAccess := ManagedClusterProperties_PublicNetworkAccess_STATUS(temp)
 			cluster.PublicNetworkAccess = &publicNetworkAccess
 		}
 	}
@@ -3397,7 +3407,9 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SupportPlan != nil {
-			supportPlan := *typedInput.Properties.SupportPlan
+			var temp string
+			temp = string(*typedInput.Properties.SupportPlan)
+			supportPlan := KubernetesSupportPlan_STATUS(temp)
 			cluster.SupportPlan = &supportPlan
 		}
 	}
@@ -5042,7 +5054,9 @@ func (profile *ContainerServiceNetworkProfile) ConvertToARM(resolved genruntime.
 
 	// Set property "IpFamilies":
 	for _, item := range profile.IpFamilies {
-		result.IpFamilies = append(result.IpFamilies, item)
+		var temp string
+		temp = string(item)
+		result.IpFamilies = append(result.IpFamilies, IpFamily_ARM(temp))
 	}
 
 	// Set property "KubeProxyConfig":
@@ -5067,7 +5081,9 @@ func (profile *ContainerServiceNetworkProfile) ConvertToARM(resolved genruntime.
 
 	// Set property "LoadBalancerSku":
 	if profile.LoadBalancerSku != nil {
-		loadBalancerSku := *profile.LoadBalancerSku
+		var temp string
+		temp = string(*profile.LoadBalancerSku)
+		loadBalancerSku := LoadBalancerSku_ARM(temp)
 		result.LoadBalancerSku = &loadBalancerSku
 	}
 
@@ -5093,37 +5109,49 @@ func (profile *ContainerServiceNetworkProfile) ConvertToARM(resolved genruntime.
 
 	// Set property "NetworkDataplane":
 	if profile.NetworkDataplane != nil {
-		networkDataplane := *profile.NetworkDataplane
+		var temp string
+		temp = string(*profile.NetworkDataplane)
+		networkDataplane := NetworkDataplane_ARM(temp)
 		result.NetworkDataplane = &networkDataplane
 	}
 
 	// Set property "NetworkMode":
 	if profile.NetworkMode != nil {
-		networkMode := *profile.NetworkMode
+		var temp string
+		temp = string(*profile.NetworkMode)
+		networkMode := NetworkMode_ARM(temp)
 		result.NetworkMode = &networkMode
 	}
 
 	// Set property "NetworkPlugin":
 	if profile.NetworkPlugin != nil {
-		networkPlugin := *profile.NetworkPlugin
+		var temp string
+		temp = string(*profile.NetworkPlugin)
+		networkPlugin := NetworkPlugin_ARM(temp)
 		result.NetworkPlugin = &networkPlugin
 	}
 
 	// Set property "NetworkPluginMode":
 	if profile.NetworkPluginMode != nil {
-		networkPluginMode := *profile.NetworkPluginMode
+		var temp string
+		temp = string(*profile.NetworkPluginMode)
+		networkPluginMode := NetworkPluginMode_ARM(temp)
 		result.NetworkPluginMode = &networkPluginMode
 	}
 
 	// Set property "NetworkPolicy":
 	if profile.NetworkPolicy != nil {
-		networkPolicy := *profile.NetworkPolicy
+		var temp string
+		temp = string(*profile.NetworkPolicy)
+		networkPolicy := NetworkPolicy_ARM(temp)
 		result.NetworkPolicy = &networkPolicy
 	}
 
 	// Set property "OutboundType":
 	if profile.OutboundType != nil {
-		outboundType := *profile.OutboundType
+		var temp string
+		temp = string(*profile.OutboundType)
+		outboundType := ContainerServiceNetworkProfile_OutboundType_ARM(temp)
 		result.OutboundType = &outboundType
 	}
 
@@ -5171,7 +5199,9 @@ func (profile *ContainerServiceNetworkProfile) PopulateFromARM(owner genruntime.
 
 	// Set property "IpFamilies":
 	for _, item := range typedInput.IpFamilies {
-		profile.IpFamilies = append(profile.IpFamilies, item)
+		var temp string
+		temp = string(item)
+		profile.IpFamilies = append(profile.IpFamilies, IpFamily(temp))
 	}
 
 	// Set property "KubeProxyConfig":
@@ -5198,7 +5228,9 @@ func (profile *ContainerServiceNetworkProfile) PopulateFromARM(owner genruntime.
 
 	// Set property "LoadBalancerSku":
 	if typedInput.LoadBalancerSku != nil {
-		loadBalancerSku := *typedInput.LoadBalancerSku
+		var temp string
+		temp = string(*typedInput.LoadBalancerSku)
+		loadBalancerSku := LoadBalancerSku(temp)
 		profile.LoadBalancerSku = &loadBalancerSku
 	}
 
@@ -5226,37 +5258,49 @@ func (profile *ContainerServiceNetworkProfile) PopulateFromARM(owner genruntime.
 
 	// Set property "NetworkDataplane":
 	if typedInput.NetworkDataplane != nil {
-		networkDataplane := *typedInput.NetworkDataplane
+		var temp string
+		temp = string(*typedInput.NetworkDataplane)
+		networkDataplane := NetworkDataplane(temp)
 		profile.NetworkDataplane = &networkDataplane
 	}
 
 	// Set property "NetworkMode":
 	if typedInput.NetworkMode != nil {
-		networkMode := *typedInput.NetworkMode
+		var temp string
+		temp = string(*typedInput.NetworkMode)
+		networkMode := NetworkMode(temp)
 		profile.NetworkMode = &networkMode
 	}
 
 	// Set property "NetworkPlugin":
 	if typedInput.NetworkPlugin != nil {
-		networkPlugin := *typedInput.NetworkPlugin
+		var temp string
+		temp = string(*typedInput.NetworkPlugin)
+		networkPlugin := NetworkPlugin(temp)
 		profile.NetworkPlugin = &networkPlugin
 	}
 
 	// Set property "NetworkPluginMode":
 	if typedInput.NetworkPluginMode != nil {
-		networkPluginMode := *typedInput.NetworkPluginMode
+		var temp string
+		temp = string(*typedInput.NetworkPluginMode)
+		networkPluginMode := NetworkPluginMode(temp)
 		profile.NetworkPluginMode = &networkPluginMode
 	}
 
 	// Set property "NetworkPolicy":
 	if typedInput.NetworkPolicy != nil {
-		networkPolicy := *typedInput.NetworkPolicy
+		var temp string
+		temp = string(*typedInput.NetworkPolicy)
+		networkPolicy := NetworkPolicy(temp)
 		profile.NetworkPolicy = &networkPolicy
 	}
 
 	// Set property "OutboundType":
 	if typedInput.OutboundType != nil {
-		outboundType := *typedInput.OutboundType
+		var temp string
+		temp = string(*typedInput.OutboundType)
+		outboundType := ContainerServiceNetworkProfile_OutboundType(temp)
 		profile.OutboundType = &outboundType
 	}
 
@@ -5697,7 +5741,9 @@ func (profile *ContainerServiceNetworkProfile_STATUS) PopulateFromARM(owner genr
 
 	// Set property "IpFamilies":
 	for _, item := range typedInput.IpFamilies {
-		profile.IpFamilies = append(profile.IpFamilies, item)
+		var temp string
+		temp = string(item)
+		profile.IpFamilies = append(profile.IpFamilies, IpFamily_STATUS(temp))
 	}
 
 	// Set property "KubeProxyConfig":
@@ -5724,7 +5770,9 @@ func (profile *ContainerServiceNetworkProfile_STATUS) PopulateFromARM(owner genr
 
 	// Set property "LoadBalancerSku":
 	if typedInput.LoadBalancerSku != nil {
-		loadBalancerSku := *typedInput.LoadBalancerSku
+		var temp string
+		temp = string(*typedInput.LoadBalancerSku)
+		loadBalancerSku := LoadBalancerSku_STATUS(temp)
 		profile.LoadBalancerSku = &loadBalancerSku
 	}
 
@@ -5752,37 +5800,49 @@ func (profile *ContainerServiceNetworkProfile_STATUS) PopulateFromARM(owner genr
 
 	// Set property "NetworkDataplane":
 	if typedInput.NetworkDataplane != nil {
-		networkDataplane := *typedInput.NetworkDataplane
+		var temp string
+		temp = string(*typedInput.NetworkDataplane)
+		networkDataplane := NetworkDataplane_STATUS(temp)
 		profile.NetworkDataplane = &networkDataplane
 	}
 
 	// Set property "NetworkMode":
 	if typedInput.NetworkMode != nil {
-		networkMode := *typedInput.NetworkMode
+		var temp string
+		temp = string(*typedInput.NetworkMode)
+		networkMode := NetworkMode_STATUS(temp)
 		profile.NetworkMode = &networkMode
 	}
 
 	// Set property "NetworkPlugin":
 	if typedInput.NetworkPlugin != nil {
-		networkPlugin := *typedInput.NetworkPlugin
+		var temp string
+		temp = string(*typedInput.NetworkPlugin)
+		networkPlugin := NetworkPlugin_STATUS(temp)
 		profile.NetworkPlugin = &networkPlugin
 	}
 
 	// Set property "NetworkPluginMode":
 	if typedInput.NetworkPluginMode != nil {
-		networkPluginMode := *typedInput.NetworkPluginMode
+		var temp string
+		temp = string(*typedInput.NetworkPluginMode)
+		networkPluginMode := NetworkPluginMode_STATUS(temp)
 		profile.NetworkPluginMode = &networkPluginMode
 	}
 
 	// Set property "NetworkPolicy":
 	if typedInput.NetworkPolicy != nil {
-		networkPolicy := *typedInput.NetworkPolicy
+		var temp string
+		temp = string(*typedInput.NetworkPolicy)
+		networkPolicy := NetworkPolicy_STATUS(temp)
 		profile.NetworkPolicy = &networkPolicy
 	}
 
 	// Set property "OutboundType":
 	if typedInput.OutboundType != nil {
-		outboundType := *typedInput.OutboundType
+		var temp string
+		temp = string(*typedInput.OutboundType)
+		outboundType := ContainerServiceNetworkProfile_OutboundType_STATUS(temp)
 		profile.OutboundType = &outboundType
 	}
 
@@ -6275,7 +6335,9 @@ func (location *ExtendedLocation) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "Type":
 	if location.Type != nil {
-		typeVar := *location.Type
+		var temp string
+		temp = string(*location.Type)
+		typeVar := ExtendedLocationType_ARM(temp)
 		result.Type = &typeVar
 	}
 	return result, nil
@@ -6301,7 +6363,9 @@ func (location *ExtendedLocation) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ExtendedLocationType(temp)
 		location.Type = &typeVar
 	}
 
@@ -6386,7 +6450,9 @@ func (location *ExtendedLocation_STATUS) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ExtendedLocationType_STATUS(temp)
 		location.Type = &typeVar
 	}
 
@@ -7374,7 +7440,9 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 
 	// Set property "GpuInstanceProfile":
 	if profile.GpuInstanceProfile != nil {
-		gpuInstanceProfile := *profile.GpuInstanceProfile
+		var temp string
+		temp = string(*profile.GpuInstanceProfile)
+		gpuInstanceProfile := GPUInstanceProfile_ARM(temp)
 		result.GpuInstanceProfile = &gpuInstanceProfile
 	}
 
@@ -7410,7 +7478,9 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 
 	// Set property "KubeletDiskType":
 	if profile.KubeletDiskType != nil {
-		kubeletDiskType := *profile.KubeletDiskType
+		var temp string
+		temp = string(*profile.KubeletDiskType)
+		kubeletDiskType := KubeletDiskType_ARM(temp)
 		result.KubeletDiskType = &kubeletDiskType
 	}
 
@@ -7450,7 +7520,9 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 
 	// Set property "Mode":
 	if profile.Mode != nil {
-		mode := *profile.Mode
+		var temp string
+		temp = string(*profile.Mode)
+		mode := AgentPoolMode_ARM(temp)
 		result.Mode = &mode
 	}
 
@@ -7513,25 +7585,35 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 
 	// Set property "OsDiskSizeGB":
 	if profile.OsDiskSizeGB != nil {
-		osDiskSizeGB := *profile.OsDiskSizeGB
+		osDiskSizeGB_ARM, err := (*profile.OsDiskSizeGB).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		osDiskSizeGB := *osDiskSizeGB_ARM.(*ContainerServiceOSDisk_ARM)
 		result.OsDiskSizeGB = &osDiskSizeGB
 	}
 
 	// Set property "OsDiskType":
 	if profile.OsDiskType != nil {
-		osDiskType := *profile.OsDiskType
+		var temp string
+		temp = string(*profile.OsDiskType)
+		osDiskType := OSDiskType_ARM(temp)
 		result.OsDiskType = &osDiskType
 	}
 
 	// Set property "OsSKU":
 	if profile.OsSKU != nil {
-		osSKU := *profile.OsSKU
+		var temp string
+		temp = string(*profile.OsSKU)
+		osSKU := OSSKU_ARM(temp)
 		result.OsSKU = &osSKU
 	}
 
 	// Set property "OsType":
 	if profile.OsType != nil {
-		osType := *profile.OsType
+		var temp string
+		temp = string(*profile.OsType)
+		osType := OSType_ARM(temp)
 		result.OsType = &osType
 	}
 
@@ -7567,19 +7649,25 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 
 	// Set property "ScaleDownMode":
 	if profile.ScaleDownMode != nil {
-		scaleDownMode := *profile.ScaleDownMode
+		var temp string
+		temp = string(*profile.ScaleDownMode)
+		scaleDownMode := ScaleDownMode_ARM(temp)
 		result.ScaleDownMode = &scaleDownMode
 	}
 
 	// Set property "ScaleSetEvictionPolicy":
 	if profile.ScaleSetEvictionPolicy != nil {
-		scaleSetEvictionPolicy := *profile.ScaleSetEvictionPolicy
+		var temp string
+		temp = string(*profile.ScaleSetEvictionPolicy)
+		scaleSetEvictionPolicy := ScaleSetEvictionPolicy_ARM(temp)
 		result.ScaleSetEvictionPolicy = &scaleSetEvictionPolicy
 	}
 
 	// Set property "ScaleSetPriority":
 	if profile.ScaleSetPriority != nil {
-		scaleSetPriority := *profile.ScaleSetPriority
+		var temp string
+		temp = string(*profile.ScaleSetPriority)
+		scaleSetPriority := ScaleSetPriority_ARM(temp)
 		result.ScaleSetPriority = &scaleSetPriority
 	}
 
@@ -7612,7 +7700,9 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 
 	// Set property "Type":
 	if profile.Type != nil {
-		typeVar := *profile.Type
+		var temp string
+		temp = string(*profile.Type)
+		typeVar := AgentPoolType_ARM(temp)
 		result.Type = &typeVar
 	}
 
@@ -7673,7 +7763,9 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 
 	// Set property "WorkloadRuntime":
 	if profile.WorkloadRuntime != nil {
-		workloadRuntime := *profile.WorkloadRuntime
+		var temp string
+		temp = string(*profile.WorkloadRuntime)
+		workloadRuntime := WorkloadRuntime_ARM(temp)
 		result.WorkloadRuntime = &workloadRuntime
 	}
 	return result, nil
@@ -7764,7 +7856,9 @@ func (profile *ManagedClusterAgentPoolProfile) PopulateFromARM(owner genruntime.
 
 	// Set property "GpuInstanceProfile":
 	if typedInput.GpuInstanceProfile != nil {
-		gpuInstanceProfile := *typedInput.GpuInstanceProfile
+		var temp string
+		temp = string(*typedInput.GpuInstanceProfile)
+		gpuInstanceProfile := GPUInstanceProfile(temp)
 		profile.GpuInstanceProfile = &gpuInstanceProfile
 	}
 
@@ -7794,7 +7888,9 @@ func (profile *ManagedClusterAgentPoolProfile) PopulateFromARM(owner genruntime.
 
 	// Set property "KubeletDiskType":
 	if typedInput.KubeletDiskType != nil {
-		kubeletDiskType := *typedInput.KubeletDiskType
+		var temp string
+		temp = string(*typedInput.KubeletDiskType)
+		kubeletDiskType := KubeletDiskType(temp)
 		profile.KubeletDiskType = &kubeletDiskType
 	}
 
@@ -7835,7 +7931,9 @@ func (profile *ManagedClusterAgentPoolProfile) PopulateFromARM(owner genruntime.
 
 	// Set property "Mode":
 	if typedInput.Mode != nil {
-		mode := *typedInput.Mode
+		var temp string
+		temp = string(*typedInput.Mode)
+		mode := AgentPoolMode(temp)
 		profile.Mode = &mode
 	}
 
@@ -7884,25 +7982,36 @@ func (profile *ManagedClusterAgentPoolProfile) PopulateFromARM(owner genruntime.
 
 	// Set property "OsDiskSizeGB":
 	if typedInput.OsDiskSizeGB != nil {
-		osDiskSizeGB := *typedInput.OsDiskSizeGB
+		var osDiskSizeGB1 ContainerServiceOSDisk
+		err := osDiskSizeGB1.PopulateFromARM(owner, *typedInput.OsDiskSizeGB)
+		if err != nil {
+			return err
+		}
+		osDiskSizeGB := osDiskSizeGB1
 		profile.OsDiskSizeGB = &osDiskSizeGB
 	}
 
 	// Set property "OsDiskType":
 	if typedInput.OsDiskType != nil {
-		osDiskType := *typedInput.OsDiskType
+		var temp string
+		temp = string(*typedInput.OsDiskType)
+		osDiskType := OSDiskType(temp)
 		profile.OsDiskType = &osDiskType
 	}
 
 	// Set property "OsSKU":
 	if typedInput.OsSKU != nil {
-		osSKU := *typedInput.OsSKU
+		var temp string
+		temp = string(*typedInput.OsSKU)
+		osSKU := OSSKU(temp)
 		profile.OsSKU = &osSKU
 	}
 
 	// Set property "OsType":
 	if typedInput.OsType != nil {
-		osType := *typedInput.OsType
+		var temp string
+		temp = string(*typedInput.OsType)
+		osType := OSType(temp)
 		profile.OsType = &osType
 	}
 
@@ -7923,19 +8032,25 @@ func (profile *ManagedClusterAgentPoolProfile) PopulateFromARM(owner genruntime.
 
 	// Set property "ScaleDownMode":
 	if typedInput.ScaleDownMode != nil {
-		scaleDownMode := *typedInput.ScaleDownMode
+		var temp string
+		temp = string(*typedInput.ScaleDownMode)
+		scaleDownMode := ScaleDownMode(temp)
 		profile.ScaleDownMode = &scaleDownMode
 	}
 
 	// Set property "ScaleSetEvictionPolicy":
 	if typedInput.ScaleSetEvictionPolicy != nil {
-		scaleSetEvictionPolicy := *typedInput.ScaleSetEvictionPolicy
+		var temp string
+		temp = string(*typedInput.ScaleSetEvictionPolicy)
+		scaleSetEvictionPolicy := ScaleSetEvictionPolicy(temp)
 		profile.ScaleSetEvictionPolicy = &scaleSetEvictionPolicy
 	}
 
 	// Set property "ScaleSetPriority":
 	if typedInput.ScaleSetPriority != nil {
-		scaleSetPriority := *typedInput.ScaleSetPriority
+		var temp string
+		temp = string(*typedInput.ScaleSetPriority)
+		scaleSetPriority := ScaleSetPriority(temp)
 		profile.ScaleSetPriority = &scaleSetPriority
 	}
 
@@ -7966,7 +8081,9 @@ func (profile *ManagedClusterAgentPoolProfile) PopulateFromARM(owner genruntime.
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := AgentPoolType(temp)
 		profile.Type = &typeVar
 	}
 
@@ -8023,7 +8140,9 @@ func (profile *ManagedClusterAgentPoolProfile) PopulateFromARM(owner genruntime.
 
 	// Set property "WorkloadRuntime":
 	if typedInput.WorkloadRuntime != nil {
-		workloadRuntime := *typedInput.WorkloadRuntime
+		var temp string
+		temp = string(*typedInput.WorkloadRuntime)
+		workloadRuntime := WorkloadRuntime(temp)
 		profile.WorkloadRuntime = &workloadRuntime
 	}
 
@@ -9154,7 +9273,9 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) PopulateFromARM(owner genr
 
 	// Set property "GpuInstanceProfile":
 	if typedInput.GpuInstanceProfile != nil {
-		gpuInstanceProfile := *typedInput.GpuInstanceProfile
+		var temp string
+		temp = string(*typedInput.GpuInstanceProfile)
+		gpuInstanceProfile := GPUInstanceProfile_STATUS(temp)
 		profile.GpuInstanceProfile = &gpuInstanceProfile
 	}
 
@@ -9188,7 +9309,9 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) PopulateFromARM(owner genr
 
 	// Set property "KubeletDiskType":
 	if typedInput.KubeletDiskType != nil {
-		kubeletDiskType := *typedInput.KubeletDiskType
+		var temp string
+		temp = string(*typedInput.KubeletDiskType)
+		kubeletDiskType := KubeletDiskType_STATUS(temp)
 		profile.KubeletDiskType = &kubeletDiskType
 	}
 
@@ -9229,7 +9352,9 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) PopulateFromARM(owner genr
 
 	// Set property "Mode":
 	if typedInput.Mode != nil {
-		mode := *typedInput.Mode
+		var temp string
+		temp = string(*typedInput.Mode)
+		mode := AgentPoolMode_STATUS(temp)
 		profile.Mode = &mode
 	}
 
@@ -9294,19 +9419,25 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) PopulateFromARM(owner genr
 
 	// Set property "OsDiskType":
 	if typedInput.OsDiskType != nil {
-		osDiskType := *typedInput.OsDiskType
+		var temp string
+		temp = string(*typedInput.OsDiskType)
+		osDiskType := OSDiskType_STATUS(temp)
 		profile.OsDiskType = &osDiskType
 	}
 
 	// Set property "OsSKU":
 	if typedInput.OsSKU != nil {
-		osSKU := *typedInput.OsSKU
+		var temp string
+		temp = string(*typedInput.OsSKU)
+		osSKU := OSSKU_STATUS(temp)
 		profile.OsSKU = &osSKU
 	}
 
 	// Set property "OsType":
 	if typedInput.OsType != nil {
-		osType := *typedInput.OsType
+		var temp string
+		temp = string(*typedInput.OsType)
+		osType := OSType_STATUS(temp)
 		profile.OsType = &osType
 	}
 
@@ -9341,19 +9472,25 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) PopulateFromARM(owner genr
 
 	// Set property "ScaleDownMode":
 	if typedInput.ScaleDownMode != nil {
-		scaleDownMode := *typedInput.ScaleDownMode
+		var temp string
+		temp = string(*typedInput.ScaleDownMode)
+		scaleDownMode := ScaleDownMode_STATUS(temp)
 		profile.ScaleDownMode = &scaleDownMode
 	}
 
 	// Set property "ScaleSetEvictionPolicy":
 	if typedInput.ScaleSetEvictionPolicy != nil {
-		scaleSetEvictionPolicy := *typedInput.ScaleSetEvictionPolicy
+		var temp string
+		temp = string(*typedInput.ScaleSetEvictionPolicy)
+		scaleSetEvictionPolicy := ScaleSetEvictionPolicy_STATUS(temp)
 		profile.ScaleSetEvictionPolicy = &scaleSetEvictionPolicy
 	}
 
 	// Set property "ScaleSetPriority":
 	if typedInput.ScaleSetPriority != nil {
-		scaleSetPriority := *typedInput.ScaleSetPriority
+		var temp string
+		temp = string(*typedInput.ScaleSetPriority)
+		scaleSetPriority := ScaleSetPriority_STATUS(temp)
 		profile.ScaleSetPriority = &scaleSetPriority
 	}
 
@@ -9384,7 +9521,9 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) PopulateFromARM(owner genr
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := AgentPoolType_STATUS(temp)
 		profile.Type = &typeVar
 	}
 
@@ -9445,7 +9584,9 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) PopulateFromARM(owner genr
 
 	// Set property "WorkloadRuntime":
 	if typedInput.WorkloadRuntime != nil {
-		workloadRuntime := *typedInput.WorkloadRuntime
+		var temp string
+		temp = string(*typedInput.WorkloadRuntime)
+		workloadRuntime := WorkloadRuntime_STATUS(temp)
 		profile.WorkloadRuntime = &workloadRuntime
 	}
 
@@ -10829,13 +10970,17 @@ func (profile *ManagedClusterAutoUpgradeProfile) ConvertToARM(resolved genruntim
 
 	// Set property "NodeOSUpgradeChannel":
 	if profile.NodeOSUpgradeChannel != nil {
-		nodeOSUpgradeChannel := *profile.NodeOSUpgradeChannel
+		var temp string
+		temp = string(*profile.NodeOSUpgradeChannel)
+		nodeOSUpgradeChannel := ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_ARM(temp)
 		result.NodeOSUpgradeChannel = &nodeOSUpgradeChannel
 	}
 
 	// Set property "UpgradeChannel":
 	if profile.UpgradeChannel != nil {
-		upgradeChannel := *profile.UpgradeChannel
+		var temp string
+		temp = string(*profile.UpgradeChannel)
+		upgradeChannel := ManagedClusterAutoUpgradeProfile_UpgradeChannel_ARM(temp)
 		result.UpgradeChannel = &upgradeChannel
 	}
 	return result, nil
@@ -10855,13 +11000,17 @@ func (profile *ManagedClusterAutoUpgradeProfile) PopulateFromARM(owner genruntim
 
 	// Set property "NodeOSUpgradeChannel":
 	if typedInput.NodeOSUpgradeChannel != nil {
-		nodeOSUpgradeChannel := *typedInput.NodeOSUpgradeChannel
+		var temp string
+		temp = string(*typedInput.NodeOSUpgradeChannel)
+		nodeOSUpgradeChannel := ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel(temp)
 		profile.NodeOSUpgradeChannel = &nodeOSUpgradeChannel
 	}
 
 	// Set property "UpgradeChannel":
 	if typedInput.UpgradeChannel != nil {
-		upgradeChannel := *typedInput.UpgradeChannel
+		var temp string
+		temp = string(*typedInput.UpgradeChannel)
+		upgradeChannel := ManagedClusterAutoUpgradeProfile_UpgradeChannel(temp)
 		profile.UpgradeChannel = &upgradeChannel
 	}
 
@@ -10952,13 +11101,17 @@ func (profile *ManagedClusterAutoUpgradeProfile_STATUS) PopulateFromARM(owner ge
 
 	// Set property "NodeOSUpgradeChannel":
 	if typedInput.NodeOSUpgradeChannel != nil {
-		nodeOSUpgradeChannel := *typedInput.NodeOSUpgradeChannel
+		var temp string
+		temp = string(*typedInput.NodeOSUpgradeChannel)
+		nodeOSUpgradeChannel := ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_STATUS(temp)
 		profile.NodeOSUpgradeChannel = &nodeOSUpgradeChannel
 	}
 
 	// Set property "UpgradeChannel":
 	if typedInput.UpgradeChannel != nil {
-		upgradeChannel := *typedInput.UpgradeChannel
+		var temp string
+		temp = string(*typedInput.UpgradeChannel)
+		upgradeChannel := ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS(temp)
 		profile.UpgradeChannel = &upgradeChannel
 	}
 
@@ -11585,7 +11738,9 @@ func (identity *ManagedClusterIdentity) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "Type":
 	if identity.Type != nil {
-		typeVar := *identity.Type
+		var temp string
+		temp = string(*identity.Type)
+		typeVar := ManagedClusterIdentity_Type_ARM(temp)
 		result.Type = &typeVar
 	}
 
@@ -11629,7 +11784,9 @@ func (identity *ManagedClusterIdentity) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ManagedClusterIdentity_Type(temp)
 		identity.Type = &typeVar
 	}
 
@@ -11813,7 +11970,9 @@ func (identity *ManagedClusterIdentity_STATUS) PopulateFromARM(owner genruntime.
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ManagedClusterIdentity_Type_STATUS(temp)
 		identity.Type = &typeVar
 	}
 
@@ -12340,7 +12499,9 @@ func (profile *ManagedClusterNodeProvisioningProfile) ConvertToARM(resolved genr
 
 	// Set property "Mode":
 	if profile.Mode != nil {
-		mode := *profile.Mode
+		var temp string
+		temp = string(*profile.Mode)
+		mode := ManagedClusterNodeProvisioningProfile_Mode_ARM(temp)
 		result.Mode = &mode
 	}
 	return result, nil
@@ -12360,7 +12521,9 @@ func (profile *ManagedClusterNodeProvisioningProfile) PopulateFromARM(owner genr
 
 	// Set property "Mode":
 	if typedInput.Mode != nil {
-		mode := *typedInput.Mode
+		var temp string
+		temp = string(*typedInput.Mode)
+		mode := ManagedClusterNodeProvisioningProfile_Mode(temp)
 		profile.Mode = &mode
 	}
 
@@ -12429,7 +12592,9 @@ func (profile *ManagedClusterNodeProvisioningProfile_STATUS) PopulateFromARM(own
 
 	// Set property "Mode":
 	if typedInput.Mode != nil {
-		mode := *typedInput.Mode
+		var temp string
+		temp = string(*typedInput.Mode)
+		mode := ManagedClusterNodeProvisioningProfile_Mode_STATUS(temp)
 		profile.Mode = &mode
 	}
 
@@ -12494,7 +12659,9 @@ func (profile *ManagedClusterNodeResourceGroupProfile) ConvertToARM(resolved gen
 
 	// Set property "RestrictionLevel":
 	if profile.RestrictionLevel != nil {
-		restrictionLevel := *profile.RestrictionLevel
+		var temp string
+		temp = string(*profile.RestrictionLevel)
+		restrictionLevel := ManagedClusterNodeResourceGroupProfile_RestrictionLevel_ARM(temp)
 		result.RestrictionLevel = &restrictionLevel
 	}
 	return result, nil
@@ -12514,7 +12681,9 @@ func (profile *ManagedClusterNodeResourceGroupProfile) PopulateFromARM(owner gen
 
 	// Set property "RestrictionLevel":
 	if typedInput.RestrictionLevel != nil {
-		restrictionLevel := *typedInput.RestrictionLevel
+		var temp string
+		temp = string(*typedInput.RestrictionLevel)
+		restrictionLevel := ManagedClusterNodeResourceGroupProfile_RestrictionLevel(temp)
 		profile.RestrictionLevel = &restrictionLevel
 	}
 
@@ -12584,7 +12753,9 @@ func (profile *ManagedClusterNodeResourceGroupProfile_STATUS) PopulateFromARM(ow
 
 	// Set property "RestrictionLevel":
 	if typedInput.RestrictionLevel != nil {
-		restrictionLevel := *typedInput.RestrictionLevel
+		var temp string
+		temp = string(*typedInput.RestrictionLevel)
+		restrictionLevel := ManagedClusterNodeResourceGroupProfile_RestrictionLevel_STATUS(temp)
 		profile.RestrictionLevel = &restrictionLevel
 	}
 
@@ -13415,7 +13586,9 @@ func (profile *ManagedClusterProperties_AutoScalerProfile) ConvertToARM(resolved
 
 	// Set property "Expander":
 	if profile.Expander != nil {
-		expander := *profile.Expander
+		var temp string
+		temp = string(*profile.Expander)
+		expander := Expander_ARM(temp)
 		result.Expander = &expander
 	}
 
@@ -13549,7 +13722,9 @@ func (profile *ManagedClusterProperties_AutoScalerProfile) PopulateFromARM(owner
 
 	// Set property "Expander":
 	if typedInput.Expander != nil {
-		expander := *typedInput.Expander
+		var temp string
+		temp = string(*typedInput.Expander)
+		expander := Expander(temp)
 		profile.Expander = &expander
 	}
 
@@ -13946,7 +14121,9 @@ func (profile *ManagedClusterProperties_AutoScalerProfile_STATUS) PopulateFromAR
 
 	// Set property "Expander":
 	if typedInput.Expander != nil {
-		expander := *typedInput.Expander
+		var temp string
+		temp = string(*typedInput.Expander)
+		expander := Expander_STATUS(temp)
 		profile.Expander = &expander
 	}
 
@@ -14317,7 +14494,11 @@ func (profile *ManagedClusterSecurityProfile) ConvertToARM(resolved genruntime.C
 	}
 
 	// Set property "CustomCATrustCertificates":
-	result.CustomCATrustCertificates = profile.CustomCATrustCertificates
+	customCATrustCertificates_ARM, err := profile.CustomCATrustCertificates.ConvertToARM(resolved)
+	if err != nil {
+		return nil, err
+	}
+	result.CustomCATrustCertificates = *customCATrustCertificates_ARM.(*ManagedClusterSecurityProfileCustomCATrustCertificates_ARM)
 
 	// Set property "Defender":
 	if profile.Defender != nil {
@@ -14395,12 +14576,17 @@ func (profile *ManagedClusterSecurityProfile) PopulateFromARM(owner genruntime.A
 	}
 
 	// Set property "CustomCATrustCertificates":
-	profile.CustomCATrustCertificates = typedInput.CustomCATrustCertificates
+	var customCATrustCertificates ManagedClusterSecurityProfileCustomCATrustCertificates
+	err := customCATrustCertificates.PopulateFromARM(owner, typedInput.CustomCATrustCertificates)
+	if err != nil {
+		return err
+	}
+	profile.CustomCATrustCertificates = customCATrustCertificates
 
 	// Set property "Defender":
 	if typedInput.Defender != nil {
 		var defender1 ManagedClusterSecurityProfileDefender
-		err := defender1.PopulateFromARM(owner, *typedInput.Defender)
+		err = defender1.PopulateFromARM(owner, *typedInput.Defender)
 		if err != nil {
 			return err
 		}
@@ -14411,7 +14597,7 @@ func (profile *ManagedClusterSecurityProfile) PopulateFromARM(owner genruntime.A
 	// Set property "ImageCleaner":
 	if typedInput.ImageCleaner != nil {
 		var imageCleaner1 ManagedClusterSecurityProfileImageCleaner
-		err := imageCleaner1.PopulateFromARM(owner, *typedInput.ImageCleaner)
+		err = imageCleaner1.PopulateFromARM(owner, *typedInput.ImageCleaner)
 		if err != nil {
 			return err
 		}
@@ -14422,7 +14608,7 @@ func (profile *ManagedClusterSecurityProfile) PopulateFromARM(owner genruntime.A
 	// Set property "ImageIntegrity":
 	if typedInput.ImageIntegrity != nil {
 		var imageIntegrity1 ManagedClusterSecurityProfileImageIntegrity
-		err := imageIntegrity1.PopulateFromARM(owner, *typedInput.ImageIntegrity)
+		err = imageIntegrity1.PopulateFromARM(owner, *typedInput.ImageIntegrity)
 		if err != nil {
 			return err
 		}
@@ -14433,7 +14619,7 @@ func (profile *ManagedClusterSecurityProfile) PopulateFromARM(owner genruntime.A
 	// Set property "NodeRestriction":
 	if typedInput.NodeRestriction != nil {
 		var nodeRestriction1 ManagedClusterSecurityProfileNodeRestriction
-		err := nodeRestriction1.PopulateFromARM(owner, *typedInput.NodeRestriction)
+		err = nodeRestriction1.PopulateFromARM(owner, *typedInput.NodeRestriction)
 		if err != nil {
 			return err
 		}
@@ -14444,7 +14630,7 @@ func (profile *ManagedClusterSecurityProfile) PopulateFromARM(owner genruntime.A
 	// Set property "WorkloadIdentity":
 	if typedInput.WorkloadIdentity != nil {
 		var workloadIdentity1 ManagedClusterSecurityProfileWorkloadIdentity
-		err := workloadIdentity1.PopulateFromARM(owner, *typedInput.WorkloadIdentity)
+		err = workloadIdentity1.PopulateFromARM(owner, *typedInput.WorkloadIdentity)
 		if err != nil {
 			return err
 		}
@@ -15109,13 +15295,17 @@ func (clusterSKU *ManagedClusterSKU) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property "Name":
 	if clusterSKU.Name != nil {
-		name := *clusterSKU.Name
+		var temp string
+		temp = string(*clusterSKU.Name)
+		name := ManagedClusterSKU_Name_ARM(temp)
 		result.Name = &name
 	}
 
 	// Set property "Tier":
 	if clusterSKU.Tier != nil {
-		tier := *clusterSKU.Tier
+		var temp string
+		temp = string(*clusterSKU.Tier)
+		tier := ManagedClusterSKU_Tier_ARM(temp)
 		result.Tier = &tier
 	}
 	return result, nil
@@ -15135,13 +15325,17 @@ func (clusterSKU *ManagedClusterSKU) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := ManagedClusterSKU_Name(temp)
 		clusterSKU.Name = &name
 	}
 
 	// Set property "Tier":
 	if typedInput.Tier != nil {
-		tier := *typedInput.Tier
+		var temp string
+		temp = string(*typedInput.Tier)
+		tier := ManagedClusterSKU_Tier(temp)
 		clusterSKU.Tier = &tier
 	}
 
@@ -15232,13 +15426,17 @@ func (clusterSKU *ManagedClusterSKU_STATUS) PopulateFromARM(owner genruntime.Arb
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := ManagedClusterSKU_Name_STATUS(temp)
 		clusterSKU.Name = &name
 	}
 
 	// Set property "Tier":
 	if typedInput.Tier != nil {
-		tier := *typedInput.Tier
+		var temp string
+		temp = string(*typedInput.Tier)
+		tier := ManagedClusterSKU_Tier_STATUS(temp)
 		clusterSKU.Tier = &tier
 	}
 
@@ -15823,7 +16021,9 @@ func (profile *ManagedClusterWindowsProfile) ConvertToARM(resolved genruntime.Co
 
 	// Set property "LicenseType":
 	if profile.LicenseType != nil {
-		licenseType := *profile.LicenseType
+		var temp string
+		temp = string(*profile.LicenseType)
+		licenseType := ManagedClusterWindowsProfile_LicenseType_ARM(temp)
 		result.LicenseType = &licenseType
 	}
 	return result, nil
@@ -15868,7 +16068,9 @@ func (profile *ManagedClusterWindowsProfile) PopulateFromARM(owner genruntime.Ar
 
 	// Set property "LicenseType":
 	if typedInput.LicenseType != nil {
-		licenseType := *typedInput.LicenseType
+		var temp string
+		temp = string(*typedInput.LicenseType)
+		licenseType := ManagedClusterWindowsProfile_LicenseType(temp)
 		profile.LicenseType = &licenseType
 	}
 
@@ -16040,7 +16242,9 @@ func (profile *ManagedClusterWindowsProfile_STATUS) PopulateFromARM(owner genrun
 
 	// Set property "LicenseType":
 	if typedInput.LicenseType != nil {
-		licenseType := *typedInput.LicenseType
+		var temp string
+		temp = string(*typedInput.LicenseType)
+		licenseType := ManagedClusterWindowsProfile_LicenseType_STATUS(temp)
 		profile.LicenseType = &licenseType
 	}
 
@@ -16421,7 +16625,9 @@ func (state *PowerState_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 
 	// Set property "Code":
 	if typedInput.Code != nil {
-		code := *typedInput.Code
+		var temp string
+		temp = string(*typedInput.Code)
+		code := PowerState_Code_STATUS(temp)
 		state.Code = &code
 	}
 
@@ -16798,7 +17004,9 @@ func (profile *SafeguardsProfile) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "Level":
 	if profile.Level != nil {
-		level := *profile.Level
+		var temp string
+		temp = string(*profile.Level)
+		level := SafeguardsProfile_Level_ARM(temp)
 		result.Level = &level
 	}
 
@@ -16829,7 +17037,9 @@ func (profile *SafeguardsProfile) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property "Level":
 	if typedInput.Level != nil {
-		level := *typedInput.Level
+		var temp string
+		temp = string(*typedInput.Level)
+		level := SafeguardsProfile_Level(temp)
 		profile.Level = &level
 	}
 
@@ -16932,7 +17142,9 @@ func (profile *SafeguardsProfile_STATUS) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "Level":
 	if typedInput.Level != nil {
-		level := *typedInput.Level
+		var temp string
+		temp = string(*typedInput.Level)
+		level := SafeguardsProfile_Level_STATUS(temp)
 		profile.Level = &level
 	}
 
@@ -17040,7 +17252,9 @@ func (profile *ServiceMeshProfile) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "Mode":
 	if profile.Mode != nil {
-		mode := *profile.Mode
+		var temp string
+		temp = string(*profile.Mode)
+		mode := ServiceMeshProfile_Mode_ARM(temp)
 		result.Mode = &mode
 	}
 	return result, nil
@@ -17071,7 +17285,9 @@ func (profile *ServiceMeshProfile) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property "Mode":
 	if typedInput.Mode != nil {
-		mode := *typedInput.Mode
+		var temp string
+		temp = string(*typedInput.Mode)
+		mode := ServiceMeshProfile_Mode(temp)
 		profile.Mode = &mode
 	}
 
@@ -17179,7 +17395,9 @@ func (profile *ServiceMeshProfile_STATUS) PopulateFromARM(owner genruntime.Arbit
 
 	// Set property "Mode":
 	if typedInput.Mode != nil {
-		mode := *typedInput.Mode
+		var temp string
+		temp = string(*typedInput.Mode)
+		mode := ServiceMeshProfile_Mode_STATUS(temp)
 		profile.Mode = &mode
 	}
 
@@ -17300,7 +17518,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "CreatedByType":
 	if typedInput.CreatedByType != nil {
-		createdByType := *typedInput.CreatedByType
+		var temp string
+		temp = string(*typedInput.CreatedByType)
+		createdByType := SystemData_CreatedByType_STATUS(temp)
 		data.CreatedByType = &createdByType
 	}
 
@@ -17318,7 +17538,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "LastModifiedByType":
 	if typedInput.LastModifiedByType != nil {
-		lastModifiedByType := *typedInput.LastModifiedByType
+		var temp string
+		temp = string(*typedInput.LastModifiedByType)
+		lastModifiedByType := SystemData_LastModifiedByType_STATUS(temp)
 		data.LastModifiedByType = &lastModifiedByType
 	}
 
@@ -17666,7 +17888,9 @@ func (vaultKms *AzureKeyVaultKms) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "KeyVaultNetworkAccess":
 	if vaultKms.KeyVaultNetworkAccess != nil {
-		keyVaultNetworkAccess := *vaultKms.KeyVaultNetworkAccess
+		var temp string
+		temp = string(*vaultKms.KeyVaultNetworkAccess)
+		keyVaultNetworkAccess := AzureKeyVaultKms_KeyVaultNetworkAccess_ARM(temp)
 		result.KeyVaultNetworkAccess = &keyVaultNetworkAccess
 	}
 
@@ -17708,7 +17932,9 @@ func (vaultKms *AzureKeyVaultKms) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property "KeyVaultNetworkAccess":
 	if typedInput.KeyVaultNetworkAccess != nil {
-		keyVaultNetworkAccess := *typedInput.KeyVaultNetworkAccess
+		var temp string
+		temp = string(*typedInput.KeyVaultNetworkAccess)
+		keyVaultNetworkAccess := AzureKeyVaultKms_KeyVaultNetworkAccess(temp)
 		vaultKms.KeyVaultNetworkAccess = &keyVaultNetworkAccess
 	}
 
@@ -17845,7 +18071,9 @@ func (vaultKms *AzureKeyVaultKms_STATUS) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "KeyVaultNetworkAccess":
 	if typedInput.KeyVaultNetworkAccess != nil {
-		keyVaultNetworkAccess := *typedInput.KeyVaultNetworkAccess
+		var temp string
+		temp = string(*typedInput.KeyVaultNetworkAccess)
+		keyVaultNetworkAccess := AzureKeyVaultKms_KeyVaultNetworkAccess_STATUS(temp)
 		vaultKms.KeyVaultNetworkAccess = &keyVaultNetworkAccess
 	}
 
@@ -17966,7 +18194,9 @@ func (config *ContainerServiceNetworkProfile_KubeProxyConfig) ConvertToARM(resol
 
 	// Set property "Mode":
 	if config.Mode != nil {
-		mode := *config.Mode
+		var temp string
+		temp = string(*config.Mode)
+		mode := ContainerServiceNetworkProfile_KubeProxyConfig_Mode_ARM(temp)
 		result.Mode = &mode
 	}
 	return result, nil
@@ -18003,7 +18233,9 @@ func (config *ContainerServiceNetworkProfile_KubeProxyConfig) PopulateFromARM(ow
 
 	// Set property "Mode":
 	if typedInput.Mode != nil {
-		mode := *typedInput.Mode
+		var temp string
+		temp = string(*typedInput.Mode)
+		mode := ContainerServiceNetworkProfile_KubeProxyConfig_Mode(temp)
 		config.Mode = &mode
 	}
 
@@ -18136,7 +18368,9 @@ func (config *ContainerServiceNetworkProfile_KubeProxyConfig_STATUS) PopulateFro
 
 	// Set property "Mode":
 	if typedInput.Mode != nil {
-		mode := *typedInput.Mode
+		var temp string
+		temp = string(*typedInput.Mode)
+		mode := ContainerServiceNetworkProfile_KubeProxyConfig_Mode_STATUS(temp)
 		config.Mode = &mode
 	}
 
@@ -18765,6 +18999,27 @@ var expander_STATUS_Values = map[string]Expander_STATUS{
 	"most-pods":   Expander_STATUS_MostPods,
 	"priority":    Expander_STATUS_Priority,
 	"random":      Expander_STATUS_Random,
+}
+
+// The type of extendedLocation.
+// +kubebuilder:validation:Enum={"EdgeZone"}
+type ExtendedLocationType string
+
+const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
+
+// Mapping from string to ExtendedLocationType
+var extendedLocationType_Values = map[string]ExtendedLocationType{
+	"edgezone": ExtendedLocationType_EdgeZone,
+}
+
+// The type of extendedLocation.
+type ExtendedLocationType_STATUS string
+
+const ExtendedLocationType_STATUS_EdgeZone = ExtendedLocationType_STATUS("EdgeZone")
+
+// Mapping from string to ExtendedLocationType_STATUS
+var extendedLocationType_STATUS_Values = map[string]ExtendedLocationType_STATUS{
+	"edgezone": ExtendedLocationType_STATUS_EdgeZone,
 }
 
 // To determine if address belongs IPv4 or IPv6 family.
@@ -19994,6 +20249,37 @@ func (analysis *ManagedClusterCostAnalysis_STATUS) AssignProperties_To_ManagedCl
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"None","SystemAssigned","UserAssigned"}
+type ManagedClusterIdentity_Type string
+
+const (
+	ManagedClusterIdentity_Type_None           = ManagedClusterIdentity_Type("None")
+	ManagedClusterIdentity_Type_SystemAssigned = ManagedClusterIdentity_Type("SystemAssigned")
+	ManagedClusterIdentity_Type_UserAssigned   = ManagedClusterIdentity_Type("UserAssigned")
+)
+
+// Mapping from string to ManagedClusterIdentity_Type
+var managedClusterIdentity_Type_Values = map[string]ManagedClusterIdentity_Type{
+	"none":           ManagedClusterIdentity_Type_None,
+	"systemassigned": ManagedClusterIdentity_Type_SystemAssigned,
+	"userassigned":   ManagedClusterIdentity_Type_UserAssigned,
+}
+
+type ManagedClusterIdentity_Type_STATUS string
+
+const (
+	ManagedClusterIdentity_Type_STATUS_None           = ManagedClusterIdentity_Type_STATUS("None")
+	ManagedClusterIdentity_Type_STATUS_SystemAssigned = ManagedClusterIdentity_Type_STATUS("SystemAssigned")
+	ManagedClusterIdentity_Type_STATUS_UserAssigned   = ManagedClusterIdentity_Type_STATUS("UserAssigned")
+)
+
+// Mapping from string to ManagedClusterIdentity_Type_STATUS
+var managedClusterIdentity_Type_STATUS_Values = map[string]ManagedClusterIdentity_Type_STATUS{
+	"none":           ManagedClusterIdentity_Type_STATUS_None,
+	"systemassigned": ManagedClusterIdentity_Type_STATUS_SystemAssigned,
+	"userassigned":   ManagedClusterIdentity_Type_STATUS_UserAssigned,
+}
+
 type ManagedClusterIdentity_UserAssignedIdentities_STATUS struct {
 	// ClientId: The client id of user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
@@ -20369,7 +20655,9 @@ func (profile *ManagedClusterLoadBalancerProfile) ConvertToARM(resolved genrunti
 
 	// Set property "BackendPoolType":
 	if profile.BackendPoolType != nil {
-		backendPoolType := *profile.BackendPoolType
+		var temp string
+		temp = string(*profile.BackendPoolType)
+		backendPoolType := ManagedClusterLoadBalancerProfile_BackendPoolType_ARM(temp)
 		result.BackendPoolType = &backendPoolType
 	}
 
@@ -20446,7 +20734,9 @@ func (profile *ManagedClusterLoadBalancerProfile) PopulateFromARM(owner genrunti
 
 	// Set property "BackendPoolType":
 	if typedInput.BackendPoolType != nil {
-		backendPoolType := *typedInput.BackendPoolType
+		var temp string
+		temp = string(*typedInput.BackendPoolType)
+		backendPoolType := ManagedClusterLoadBalancerProfile_BackendPoolType(temp)
 		profile.BackendPoolType = &backendPoolType
 	}
 
@@ -20756,7 +21046,9 @@ func (profile *ManagedClusterLoadBalancerProfile_STATUS) PopulateFromARM(owner g
 
 	// Set property "BackendPoolType":
 	if typedInput.BackendPoolType != nil {
-		backendPoolType := *typedInput.BackendPoolType
+		var temp string
+		temp = string(*typedInput.BackendPoolType)
+		backendPoolType := ManagedClusterLoadBalancerProfile_BackendPoolType_STATUS(temp)
 		profile.BackendPoolType = &backendPoolType
 	}
 
@@ -21741,7 +22033,9 @@ func (identity *ManagedClusterPodIdentity_STATUS) PopulateFromARM(owner genrunti
 
 	// Set property "ProvisioningState":
 	if typedInput.ProvisioningState != nil {
-		provisioningState := *typedInput.ProvisioningState
+		var temp string
+		temp = string(*typedInput.ProvisioningState)
+		provisioningState := ManagedClusterPodIdentity_ProvisioningState_STATUS(temp)
 		identity.ProvisioningState = &provisioningState
 	}
 
@@ -22958,6 +23252,56 @@ func (identity *ManagedClusterSecurityProfileWorkloadIdentity_STATUS) AssignProp
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"Base"}
+type ManagedClusterSKU_Name string
+
+const ManagedClusterSKU_Name_Base = ManagedClusterSKU_Name("Base")
+
+// Mapping from string to ManagedClusterSKU_Name
+var managedClusterSKU_Name_Values = map[string]ManagedClusterSKU_Name{
+	"base": ManagedClusterSKU_Name_Base,
+}
+
+type ManagedClusterSKU_Name_STATUS string
+
+const ManagedClusterSKU_Name_STATUS_Base = ManagedClusterSKU_Name_STATUS("Base")
+
+// Mapping from string to ManagedClusterSKU_Name_STATUS
+var managedClusterSKU_Name_STATUS_Values = map[string]ManagedClusterSKU_Name_STATUS{
+	"base": ManagedClusterSKU_Name_STATUS_Base,
+}
+
+// +kubebuilder:validation:Enum={"Free","Premium","Standard"}
+type ManagedClusterSKU_Tier string
+
+const (
+	ManagedClusterSKU_Tier_Free     = ManagedClusterSKU_Tier("Free")
+	ManagedClusterSKU_Tier_Premium  = ManagedClusterSKU_Tier("Premium")
+	ManagedClusterSKU_Tier_Standard = ManagedClusterSKU_Tier("Standard")
+)
+
+// Mapping from string to ManagedClusterSKU_Tier
+var managedClusterSKU_Tier_Values = map[string]ManagedClusterSKU_Tier{
+	"free":     ManagedClusterSKU_Tier_Free,
+	"premium":  ManagedClusterSKU_Tier_Premium,
+	"standard": ManagedClusterSKU_Tier_Standard,
+}
+
+type ManagedClusterSKU_Tier_STATUS string
+
+const (
+	ManagedClusterSKU_Tier_STATUS_Free     = ManagedClusterSKU_Tier_STATUS("Free")
+	ManagedClusterSKU_Tier_STATUS_Premium  = ManagedClusterSKU_Tier_STATUS("Premium")
+	ManagedClusterSKU_Tier_STATUS_Standard = ManagedClusterSKU_Tier_STATUS("Standard")
+)
+
+// Mapping from string to ManagedClusterSKU_Tier_STATUS
+var managedClusterSKU_Tier_STATUS_Values = map[string]ManagedClusterSKU_Tier_STATUS{
+	"free":     ManagedClusterSKU_Tier_STATUS_Free,
+	"premium":  ManagedClusterSKU_Tier_STATUS_Premium,
+	"standard": ManagedClusterSKU_Tier_STATUS_Standard,
+}
+
 // AzureBlob CSI Driver settings for the storage profile.
 type ManagedClusterStorageProfileBlobCSIDriver struct {
 	// Enabled: Whether to enable AzureBlob CSI Driver. The default value is false.
@@ -23807,7 +24151,9 @@ func (autoscaler *ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler) 
 
 	// Set property "AddonAutoscaling":
 	if autoscaler.AddonAutoscaling != nil {
-		addonAutoscaling := *autoscaler.AddonAutoscaling
+		var temp string
+		temp = string(*autoscaler.AddonAutoscaling)
+		addonAutoscaling := ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling_ARM(temp)
 		result.AddonAutoscaling = &addonAutoscaling
 	}
 
@@ -23833,7 +24179,9 @@ func (autoscaler *ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler) 
 
 	// Set property "AddonAutoscaling":
 	if typedInput.AddonAutoscaling != nil {
-		addonAutoscaling := *typedInput.AddonAutoscaling
+		var temp string
+		temp = string(*typedInput.AddonAutoscaling)
+		addonAutoscaling := ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling(temp)
 		autoscaler.AddonAutoscaling = &addonAutoscaling
 	}
 
@@ -23927,7 +24275,9 @@ func (autoscaler *ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_S
 
 	// Set property "AddonAutoscaling":
 	if typedInput.AddonAutoscaling != nil {
-		addonAutoscaling := *typedInput.AddonAutoscaling
+		var temp string
+		temp = string(*typedInput.AddonAutoscaling)
+		addonAutoscaling := ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling_STATUS(temp)
 		autoscaler.AddonAutoscaling = &addonAutoscaling
 	}
 
@@ -24368,6 +24718,40 @@ const (
 var serviceMeshProfile_Mode_STATUS_Values = map[string]ServiceMeshProfile_Mode_STATUS{
 	"disabled": ServiceMeshProfile_Mode_STATUS_Disabled,
 	"istio":    ServiceMeshProfile_Mode_STATUS_Istio,
+}
+
+type SystemData_CreatedByType_STATUS string
+
+const (
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
+}
+
+type SystemData_LastModifiedByType_STATUS string
+
+const (
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
 }
 
 // Settings for overrides when upgrading a cluster.
@@ -24881,7 +25265,9 @@ func (config *ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig) Convert
 
 	// Set property "Scheduler":
 	if config.Scheduler != nil {
-		scheduler := *config.Scheduler
+		var temp string
+		temp = string(*config.Scheduler)
+		scheduler := ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler_ARM(temp)
 		result.Scheduler = &scheduler
 	}
 
@@ -24919,7 +25305,9 @@ func (config *ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig) Populat
 
 	// Set property "Scheduler":
 	if typedInput.Scheduler != nil {
-		scheduler := *typedInput.Scheduler
+		var temp string
+		temp = string(*typedInput.Scheduler)
+		scheduler := ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler(temp)
 		config.Scheduler = &scheduler
 	}
 
@@ -25034,7 +25422,9 @@ func (config *ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS) 
 
 	// Set property "Scheduler":
 	if typedInput.Scheduler != nil {
-		scheduler := *typedInput.Scheduler
+		var temp string
+		temp = string(*typedInput.Scheduler)
+		scheduler := ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler_STATUS(temp)
 		config.Scheduler = &scheduler
 	}
 
@@ -28005,7 +28395,9 @@ func (gateway *IstioIngressGateway) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "Mode":
 	if gateway.Mode != nil {
-		mode := *gateway.Mode
+		var temp string
+		temp = string(*gateway.Mode)
+		mode := IstioIngressGateway_Mode_ARM(temp)
 		result.Mode = &mode
 	}
 	return result, nil
@@ -28031,7 +28423,9 @@ func (gateway *IstioIngressGateway) PopulateFromARM(owner genruntime.ArbitraryOw
 
 	// Set property "Mode":
 	if typedInput.Mode != nil {
-		mode := *typedInput.Mode
+		var temp string
+		temp = string(*typedInput.Mode)
+		mode := IstioIngressGateway_Mode(temp)
 		gateway.Mode = &mode
 	}
 
@@ -28127,7 +28521,9 @@ func (gateway *IstioIngressGateway_STATUS) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property "Mode":
 	if typedInput.Mode != nil {
-		mode := *typedInput.Mode
+		var temp string
+		temp = string(*typedInput.Mode)
+		mode := IstioIngressGateway_Mode_STATUS(temp)
 		gateway.Mode = &mode
 	}
 

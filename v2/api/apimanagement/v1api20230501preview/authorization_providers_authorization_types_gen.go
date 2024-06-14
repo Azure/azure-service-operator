@@ -372,11 +372,15 @@ func (authorization *Service_AuthorizationProviders_Authorization_Spec) ConvertT
 		result.Properties = &AuthorizationContractProperties_ARM{}
 	}
 	if authorization.AuthorizationType != nil {
-		authorizationType := *authorization.AuthorizationType
+		var temp string
+		temp = string(*authorization.AuthorizationType)
+		authorizationType := AuthorizationContractProperties_AuthorizationType_ARM(temp)
 		result.Properties.AuthorizationType = &authorizationType
 	}
 	if authorization.Oauth2GrantType != nil {
-		oauth2GrantType := *authorization.Oauth2GrantType
+		var temp string
+		temp = string(*authorization.Oauth2GrantType)
+		oauth2GrantType := AuthorizationContractProperties_Oauth2GrantType_ARM(temp)
 		result.Properties.Oauth2GrantType = &oauth2GrantType
 	}
 	if authorization.Parameters != nil {
@@ -407,7 +411,9 @@ func (authorization *Service_AuthorizationProviders_Authorization_Spec) Populate
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AuthorizationType != nil {
-			authorizationType := *typedInput.Properties.AuthorizationType
+			var temp string
+			temp = string(*typedInput.Properties.AuthorizationType)
+			authorizationType := AuthorizationContractProperties_AuthorizationType(temp)
 			authorization.AuthorizationType = &authorizationType
 		}
 	}
@@ -419,7 +425,9 @@ func (authorization *Service_AuthorizationProviders_Authorization_Spec) Populate
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Oauth2GrantType != nil {
-			oauth2GrantType := *typedInput.Properties.Oauth2GrantType
+			var temp string
+			temp = string(*typedInput.Properties.Oauth2GrantType)
+			oauth2GrantType := AuthorizationContractProperties_Oauth2GrantType(temp)
 			authorization.Oauth2GrantType = &oauth2GrantType
 		}
 	}
@@ -692,7 +700,9 @@ func (authorization *Service_AuthorizationProviders_Authorization_STATUS) Popula
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AuthorizationType != nil {
-			authorizationType := *typedInput.Properties.AuthorizationType
+			var temp string
+			temp = string(*typedInput.Properties.AuthorizationType)
+			authorizationType := AuthorizationContractProperties_AuthorizationType_STATUS(temp)
 			authorization.AuthorizationType = &authorizationType
 		}
 	}
@@ -729,7 +739,9 @@ func (authorization *Service_AuthorizationProviders_Authorization_STATUS) Popula
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Oauth2GrantType != nil {
-			oauth2GrantType := *typedInput.Properties.Oauth2GrantType
+			var temp string
+			temp = string(*typedInput.Properties.Oauth2GrantType)
+			oauth2GrantType := AuthorizationContractProperties_Oauth2GrantType_STATUS(temp)
 			authorization.Oauth2GrantType = &oauth2GrantType
 		}
 	}

@@ -378,7 +378,9 @@ func (fragment *Service_PolicyFragment_Spec) ConvertToARM(resolved genruntime.Co
 		result.Properties.Description = &description
 	}
 	if fragment.Format != nil {
-		format := *fragment.Format
+		var temp string
+		temp = string(*fragment.Format)
+		format := PolicyFragmentContractProperties_Format_ARM(temp)
 		result.Properties.Format = &format
 	}
 	if fragment.Value != nil {
@@ -416,7 +418,9 @@ func (fragment *Service_PolicyFragment_Spec) PopulateFromARM(owner genruntime.Ar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Format != nil {
-			format := *typedInput.Properties.Format
+			var temp string
+			temp = string(*typedInput.Properties.Format)
+			format := PolicyFragmentContractProperties_Format(temp)
 			fragment.Format = &format
 		}
 	}
@@ -693,7 +697,9 @@ func (fragment *Service_PolicyFragment_STATUS) PopulateFromARM(owner genruntime.
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Format != nil {
-			format := *typedInput.Properties.Format
+			var temp string
+			temp = string(*typedInput.Properties.Format)
+			format := PolicyFragmentContractProperties_Format_STATUS(temp)
 			fragment.Format = &format
 		}
 	}

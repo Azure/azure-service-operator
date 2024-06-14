@@ -75,7 +75,7 @@ func ServerConnectionPolicyProperties_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForServerConnectionPolicyProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForServerConnectionPolicyProperties_ARM(gens map[string]gopter.Gen) {
-	gens["ConnectionType"] = gen.PtrOf(gen.OneConstOf(ServerConnectionPolicyProperties_ConnectionType_Default, ServerConnectionPolicyProperties_ConnectionType_Proxy, ServerConnectionPolicyProperties_ConnectionType_Redirect))
+	gens["ConnectionType"] = gen.PtrOf(gen.OneConstOf(ServerConnectionPolicyProperties_ConnectionType_ARM_Default, ServerConnectionPolicyProperties_ConnectionType_ARM_Proxy, ServerConnectionPolicyProperties_ConnectionType_ARM_Redirect))
 }
 
 func Test_Servers_ConnectionPolicy_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -392,8 +392,8 @@ func NetworkInterfaceIPConfigurationPropertiesFormat_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForNetworkInterfaceIPConfigurationPropertiesFormat_ARM(gens map[string]gopter.Gen) {
 	gens["Primary"] = gen.PtrOf(gen.Bool())
 	gens["PrivateIPAddress"] = gen.PtrOf(gen.AlphaString())
-	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(IPVersion_IPv4, IPVersion_IPv6))
-	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_Dynamic, IPAllocationMethod_Static))
+	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(IPVersion_ARM_IPv4, IPVersion_ARM_IPv6))
+	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_ARM_Dynamic, IPAllocationMethod_ARM_Static))
 }
 
 // AddRelatedPropertyGeneratorsForNetworkInterfaceIPConfigurationPropertiesFormat_ARM is a factory method for creating gopter generators
@@ -551,7 +551,7 @@ func NetworkInterfacePropertiesFormat_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForNetworkInterfacePropertiesFormat_ARM(gens map[string]gopter.Gen) {
 	gens["EnableAcceleratedNetworking"] = gen.PtrOf(gen.Bool())
 	gens["EnableIPForwarding"] = gen.PtrOf(gen.Bool())
-	gens["NicType"] = gen.PtrOf(gen.OneConstOf(NetworkInterfacePropertiesFormat_NicType_Elastic, NetworkInterfacePropertiesFormat_NicType_Standard))
+	gens["NicType"] = gen.PtrOf(gen.OneConstOf(NetworkInterfacePropertiesFormat_NicType_ARM_Elastic, NetworkInterfacePropertiesFormat_NicType_ARM_Standard))
 }
 
 // AddRelatedPropertyGeneratorsForNetworkInterfacePropertiesFormat_ARM is a factory method for creating gopter generators

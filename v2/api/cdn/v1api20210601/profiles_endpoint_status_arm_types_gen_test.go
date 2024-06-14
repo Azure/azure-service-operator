@@ -75,15 +75,15 @@ func CacheConfiguration_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCacheConfiguration_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCacheConfiguration_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["CacheBehavior"] = gen.PtrOf(gen.OneConstOf(CacheConfiguration_CacheBehavior_STATUS_HonorOrigin, CacheConfiguration_CacheBehavior_STATUS_OverrideAlways, CacheConfiguration_CacheBehavior_STATUS_OverrideIfOriginMissing))
+	gens["CacheBehavior"] = gen.PtrOf(gen.OneConstOf(CacheConfiguration_CacheBehavior_STATUS_ARM_HonorOrigin, CacheConfiguration_CacheBehavior_STATUS_ARM_OverrideAlways, CacheConfiguration_CacheBehavior_STATUS_ARM_OverrideIfOriginMissing))
 	gens["CacheDuration"] = gen.PtrOf(gen.AlphaString())
-	gens["IsCompressionEnabled"] = gen.PtrOf(gen.OneConstOf(CacheConfiguration_IsCompressionEnabled_STATUS_Disabled, CacheConfiguration_IsCompressionEnabled_STATUS_Enabled))
+	gens["IsCompressionEnabled"] = gen.PtrOf(gen.OneConstOf(CacheConfiguration_IsCompressionEnabled_STATUS_ARM_Disabled, CacheConfiguration_IsCompressionEnabled_STATUS_ARM_Enabled))
 	gens["QueryParameters"] = gen.PtrOf(gen.AlphaString())
 	gens["QueryStringCachingBehavior"] = gen.PtrOf(gen.OneConstOf(
-		CacheConfiguration_QueryStringCachingBehavior_STATUS_IgnoreQueryString,
-		CacheConfiguration_QueryStringCachingBehavior_STATUS_IgnoreSpecifiedQueryStrings,
-		CacheConfiguration_QueryStringCachingBehavior_STATUS_IncludeSpecifiedQueryStrings,
-		CacheConfiguration_QueryStringCachingBehavior_STATUS_UseQueryString))
+		CacheConfiguration_QueryStringCachingBehavior_STATUS_ARM_IgnoreQueryString,
+		CacheConfiguration_QueryStringCachingBehavior_STATUS_ARM_IgnoreSpecifiedQueryStrings,
+		CacheConfiguration_QueryStringCachingBehavior_STATUS_ARM_IncludeSpecifiedQueryStrings,
+		CacheConfiguration_QueryStringCachingBehavior_STATUS_ARM_UseQueryString))
 }
 
 func Test_CacheExpirationActionParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -144,10 +144,10 @@ func CacheExpirationActionParameters_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCacheExpirationActionParameters_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCacheExpirationActionParameters_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["CacheBehavior"] = gen.PtrOf(gen.OneConstOf(CacheExpirationActionParameters_CacheBehavior_STATUS_BypassCache, CacheExpirationActionParameters_CacheBehavior_STATUS_Override, CacheExpirationActionParameters_CacheBehavior_STATUS_SetIfMissing))
+	gens["CacheBehavior"] = gen.PtrOf(gen.OneConstOf(CacheExpirationActionParameters_CacheBehavior_STATUS_ARM_BypassCache, CacheExpirationActionParameters_CacheBehavior_STATUS_ARM_Override, CacheExpirationActionParameters_CacheBehavior_STATUS_ARM_SetIfMissing))
 	gens["CacheDuration"] = gen.PtrOf(gen.AlphaString())
-	gens["CacheType"] = gen.PtrOf(gen.OneConstOf(CacheExpirationActionParameters_CacheType_STATUS_All))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(CacheExpirationActionParameters_TypeName_STATUS_DeliveryRuleCacheExpirationActionParameters))
+	gens["CacheType"] = gen.PtrOf(gen.OneConstOf(CacheExpirationActionParameters_CacheType_STATUS_ARM_All))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(CacheExpirationActionParameters_TypeName_STATUS_ARM_DeliveryRuleCacheExpirationActionParameters))
 }
 
 func Test_CacheKeyQueryStringActionParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -210,11 +210,11 @@ func CacheKeyQueryStringActionParameters_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForCacheKeyQueryStringActionParameters_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["QueryParameters"] = gen.PtrOf(gen.AlphaString())
 	gens["QueryStringBehavior"] = gen.PtrOf(gen.OneConstOf(
-		CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS_Exclude,
-		CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS_ExcludeAll,
-		CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS_Include,
-		CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS_IncludeAll))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(CacheKeyQueryStringActionParameters_TypeName_STATUS_DeliveryRuleCacheKeyQueryStringBehaviorActionParameters))
+		CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS_ARM_Exclude,
+		CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS_ARM_ExcludeAll,
+		CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS_ARM_Include,
+		CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS_ARM_IncludeAll))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(CacheKeyQueryStringActionParameters_TypeName_STATUS_ARM_DeliveryRuleCacheKeyQueryStringBehaviorActionParameters))
 }
 
 func Test_ClientPortMatchConditionParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -278,24 +278,24 @@ func AddIndependentPropertyGeneratorsForClientPortMatchConditionParameters_STATU
 	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
 	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		ClientPortMatchConditionParameters_Operator_STATUS_Any,
-		ClientPortMatchConditionParameters_Operator_STATUS_BeginsWith,
-		ClientPortMatchConditionParameters_Operator_STATUS_Contains,
-		ClientPortMatchConditionParameters_Operator_STATUS_EndsWith,
-		ClientPortMatchConditionParameters_Operator_STATUS_Equal,
-		ClientPortMatchConditionParameters_Operator_STATUS_GreaterThan,
-		ClientPortMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
-		ClientPortMatchConditionParameters_Operator_STATUS_LessThan,
-		ClientPortMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
-		ClientPortMatchConditionParameters_Operator_STATUS_RegEx))
+		ClientPortMatchConditionParameters_Operator_STATUS_ARM_Any,
+		ClientPortMatchConditionParameters_Operator_STATUS_ARM_BeginsWith,
+		ClientPortMatchConditionParameters_Operator_STATUS_ARM_Contains,
+		ClientPortMatchConditionParameters_Operator_STATUS_ARM_EndsWith,
+		ClientPortMatchConditionParameters_Operator_STATUS_ARM_Equal,
+		ClientPortMatchConditionParameters_Operator_STATUS_ARM_GreaterThan,
+		ClientPortMatchConditionParameters_Operator_STATUS_ARM_GreaterThanOrEqual,
+		ClientPortMatchConditionParameters_Operator_STATUS_ARM_LessThan,
+		ClientPortMatchConditionParameters_Operator_STATUS_ARM_LessThanOrEqual,
+		ClientPortMatchConditionParameters_Operator_STATUS_ARM_RegEx))
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		Transform_STATUS_Lowercase,
-		Transform_STATUS_RemoveNulls,
-		Transform_STATUS_Trim,
-		Transform_STATUS_Uppercase,
-		Transform_STATUS_UrlDecode,
-		Transform_STATUS_UrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(ClientPortMatchConditionParameters_TypeName_STATUS_DeliveryRuleClientPortConditionParameters))
+		Transform_STATUS_ARM_Lowercase,
+		Transform_STATUS_ARM_RemoveNulls,
+		Transform_STATUS_ARM_Trim,
+		Transform_STATUS_ARM_Uppercase,
+		Transform_STATUS_ARM_UrlDecode,
+		Transform_STATUS_ARM_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(ClientPortMatchConditionParameters_TypeName_STATUS_ARM_DeliveryRuleClientPortConditionParameters))
 }
 
 func Test_CookiesMatchConditionParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -359,25 +359,25 @@ func AddIndependentPropertyGeneratorsForCookiesMatchConditionParameters_STATUS_A
 	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
 	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		CookiesMatchConditionParameters_Operator_STATUS_Any,
-		CookiesMatchConditionParameters_Operator_STATUS_BeginsWith,
-		CookiesMatchConditionParameters_Operator_STATUS_Contains,
-		CookiesMatchConditionParameters_Operator_STATUS_EndsWith,
-		CookiesMatchConditionParameters_Operator_STATUS_Equal,
-		CookiesMatchConditionParameters_Operator_STATUS_GreaterThan,
-		CookiesMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
-		CookiesMatchConditionParameters_Operator_STATUS_LessThan,
-		CookiesMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
-		CookiesMatchConditionParameters_Operator_STATUS_RegEx))
+		CookiesMatchConditionParameters_Operator_STATUS_ARM_Any,
+		CookiesMatchConditionParameters_Operator_STATUS_ARM_BeginsWith,
+		CookiesMatchConditionParameters_Operator_STATUS_ARM_Contains,
+		CookiesMatchConditionParameters_Operator_STATUS_ARM_EndsWith,
+		CookiesMatchConditionParameters_Operator_STATUS_ARM_Equal,
+		CookiesMatchConditionParameters_Operator_STATUS_ARM_GreaterThan,
+		CookiesMatchConditionParameters_Operator_STATUS_ARM_GreaterThanOrEqual,
+		CookiesMatchConditionParameters_Operator_STATUS_ARM_LessThan,
+		CookiesMatchConditionParameters_Operator_STATUS_ARM_LessThanOrEqual,
+		CookiesMatchConditionParameters_Operator_STATUS_ARM_RegEx))
 	gens["Selector"] = gen.PtrOf(gen.AlphaString())
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		Transform_STATUS_Lowercase,
-		Transform_STATUS_RemoveNulls,
-		Transform_STATUS_Trim,
-		Transform_STATUS_Uppercase,
-		Transform_STATUS_UrlDecode,
-		Transform_STATUS_UrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(CookiesMatchConditionParameters_TypeName_STATUS_DeliveryRuleCookiesConditionParameters))
+		Transform_STATUS_ARM_Lowercase,
+		Transform_STATUS_ARM_RemoveNulls,
+		Transform_STATUS_ARM_Trim,
+		Transform_STATUS_ARM_Uppercase,
+		Transform_STATUS_ARM_UrlDecode,
+		Transform_STATUS_ARM_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(CookiesMatchConditionParameters_TypeName_STATUS_ARM_DeliveryRuleCookiesConditionParameters))
 }
 
 func Test_DeepCreatedCustomDomainProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -734,11 +734,11 @@ func AddIndependentPropertyGeneratorsForDeepCreatedOriginProperties_STATUS_ARM(g
 	gens["OriginHostHeader"] = gen.PtrOf(gen.AlphaString())
 	gens["Priority"] = gen.PtrOf(gen.Int())
 	gens["PrivateEndpointStatus"] = gen.PtrOf(gen.OneConstOf(
-		PrivateEndpointStatus_STATUS_Approved,
-		PrivateEndpointStatus_STATUS_Disconnected,
-		PrivateEndpointStatus_STATUS_Pending,
-		PrivateEndpointStatus_STATUS_Rejected,
-		PrivateEndpointStatus_STATUS_Timeout))
+		PrivateEndpointStatus_STATUS_ARM_Approved,
+		PrivateEndpointStatus_STATUS_ARM_Disconnected,
+		PrivateEndpointStatus_STATUS_ARM_Pending,
+		PrivateEndpointStatus_STATUS_ARM_Rejected,
+		PrivateEndpointStatus_STATUS_ARM_Timeout))
 	gens["PrivateLinkAlias"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateLinkApprovalMessage"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateLinkLocation"] = gen.PtrOf(gen.AlphaString())
@@ -981,7 +981,7 @@ func DeliveryRuleCacheExpirationAction_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleCacheExpirationAction_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleCacheExpirationAction_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleCacheExpirationAction_Name_STATUS_CacheExpiration)
+	gens["Name"] = gen.OneConstOf(DeliveryRuleCacheExpirationAction_Name_STATUS_ARM_CacheExpiration)
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleCacheExpirationAction_STATUS_ARM is a factory method for creating gopter generators
@@ -1056,7 +1056,7 @@ func DeliveryRuleCacheKeyQueryStringAction_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleCacheKeyQueryStringAction_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleCacheKeyQueryStringAction_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleCacheKeyQueryStringAction_Name_STATUS_CacheKeyQueryString)
+	gens["Name"] = gen.OneConstOf(DeliveryRuleCacheKeyQueryStringAction_Name_STATUS_ARM_CacheKeyQueryString)
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleCacheKeyQueryStringAction_STATUS_ARM is a factory method for creating gopter generators
@@ -1131,7 +1131,7 @@ func DeliveryRuleClientPortCondition_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleClientPortCondition_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleClientPortCondition_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleClientPortCondition_Name_STATUS_ClientPort)
+	gens["Name"] = gen.OneConstOf(DeliveryRuleClientPortCondition_Name_STATUS_ARM_ClientPort)
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleClientPortCondition_STATUS_ARM is a factory method for creating gopter generators
@@ -1329,7 +1329,7 @@ func DeliveryRuleCookiesCondition_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleCookiesCondition_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleCookiesCondition_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleCookiesCondition_Name_STATUS_Cookies)
+	gens["Name"] = gen.OneConstOf(DeliveryRuleCookiesCondition_Name_STATUS_ARM_Cookies)
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleCookiesCondition_STATUS_ARM is a factory method for creating gopter generators
@@ -1404,7 +1404,7 @@ func DeliveryRuleHostNameCondition_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleHostNameCondition_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleHostNameCondition_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleHostNameCondition_Name_STATUS_HostName)
+	gens["Name"] = gen.OneConstOf(DeliveryRuleHostNameCondition_Name_STATUS_ARM_HostName)
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleHostNameCondition_STATUS_ARM is a factory method for creating gopter generators
@@ -1479,7 +1479,7 @@ func DeliveryRuleHttpVersionCondition_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleHttpVersionCondition_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleHttpVersionCondition_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleHttpVersionCondition_Name_STATUS_HttpVersion)
+	gens["Name"] = gen.OneConstOf(DeliveryRuleHttpVersionCondition_Name_STATUS_ARM_HttpVersion)
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleHttpVersionCondition_STATUS_ARM is a factory method for creating gopter generators
@@ -1554,7 +1554,7 @@ func DeliveryRuleIsDeviceCondition_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleIsDeviceCondition_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleIsDeviceCondition_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleIsDeviceCondition_Name_STATUS_IsDevice)
+	gens["Name"] = gen.OneConstOf(DeliveryRuleIsDeviceCondition_Name_STATUS_ARM_IsDevice)
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleIsDeviceCondition_STATUS_ARM is a factory method for creating gopter generators
@@ -1629,7 +1629,7 @@ func DeliveryRulePostArgsCondition_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRulePostArgsCondition_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRulePostArgsCondition_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRulePostArgsCondition_Name_STATUS_PostArgs)
+	gens["Name"] = gen.OneConstOf(DeliveryRulePostArgsCondition_Name_STATUS_ARM_PostArgs)
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRulePostArgsCondition_STATUS_ARM is a factory method for creating gopter generators
@@ -1704,7 +1704,7 @@ func DeliveryRuleQueryStringCondition_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleQueryStringCondition_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleQueryStringCondition_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleQueryStringCondition_Name_STATUS_QueryString)
+	gens["Name"] = gen.OneConstOf(DeliveryRuleQueryStringCondition_Name_STATUS_ARM_QueryString)
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleQueryStringCondition_STATUS_ARM is a factory method for creating gopter generators
@@ -1779,7 +1779,7 @@ func DeliveryRuleRemoteAddressCondition_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleRemoteAddressCondition_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleRemoteAddressCondition_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleRemoteAddressCondition_Name_STATUS_RemoteAddress)
+	gens["Name"] = gen.OneConstOf(DeliveryRuleRemoteAddressCondition_Name_STATUS_ARM_RemoteAddress)
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleRemoteAddressCondition_STATUS_ARM is a factory method for creating gopter generators
@@ -1854,7 +1854,7 @@ func DeliveryRuleRequestBodyCondition_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleRequestBodyCondition_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleRequestBodyCondition_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleRequestBodyCondition_Name_STATUS_RequestBody)
+	gens["Name"] = gen.OneConstOf(DeliveryRuleRequestBodyCondition_Name_STATUS_ARM_RequestBody)
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleRequestBodyCondition_STATUS_ARM is a factory method for creating gopter generators
@@ -1929,7 +1929,7 @@ func DeliveryRuleRequestHeaderAction_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleRequestHeaderAction_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleRequestHeaderAction_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleRequestHeaderAction_Name_STATUS_ModifyRequestHeader)
+	gens["Name"] = gen.OneConstOf(DeliveryRuleRequestHeaderAction_Name_STATUS_ARM_ModifyRequestHeader)
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleRequestHeaderAction_STATUS_ARM is a factory method for creating gopter generators
@@ -2004,7 +2004,7 @@ func DeliveryRuleRequestHeaderCondition_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleRequestHeaderCondition_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleRequestHeaderCondition_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleRequestHeaderCondition_Name_STATUS_RequestHeader)
+	gens["Name"] = gen.OneConstOf(DeliveryRuleRequestHeaderCondition_Name_STATUS_ARM_RequestHeader)
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleRequestHeaderCondition_STATUS_ARM is a factory method for creating gopter generators
@@ -2079,7 +2079,7 @@ func DeliveryRuleRequestMethodCondition_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleRequestMethodCondition_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleRequestMethodCondition_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleRequestMethodCondition_Name_STATUS_RequestMethod)
+	gens["Name"] = gen.OneConstOf(DeliveryRuleRequestMethodCondition_Name_STATUS_ARM_RequestMethod)
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleRequestMethodCondition_STATUS_ARM is a factory method for creating gopter generators
@@ -2154,7 +2154,7 @@ func DeliveryRuleRequestSchemeCondition_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleRequestSchemeCondition_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleRequestSchemeCondition_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleRequestSchemeCondition_Name_STATUS_RequestScheme)
+	gens["Name"] = gen.OneConstOf(DeliveryRuleRequestSchemeCondition_Name_STATUS_ARM_RequestScheme)
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleRequestSchemeCondition_STATUS_ARM is a factory method for creating gopter generators
@@ -2229,7 +2229,7 @@ func DeliveryRuleRequestUriCondition_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleRequestUriCondition_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleRequestUriCondition_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleRequestUriCondition_Name_STATUS_RequestUri)
+	gens["Name"] = gen.OneConstOf(DeliveryRuleRequestUriCondition_Name_STATUS_ARM_RequestUri)
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleRequestUriCondition_STATUS_ARM is a factory method for creating gopter generators
@@ -2304,7 +2304,7 @@ func DeliveryRuleResponseHeaderAction_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleResponseHeaderAction_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleResponseHeaderAction_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleResponseHeaderAction_Name_STATUS_ModifyResponseHeader)
+	gens["Name"] = gen.OneConstOf(DeliveryRuleResponseHeaderAction_Name_STATUS_ARM_ModifyResponseHeader)
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleResponseHeaderAction_STATUS_ARM is a factory method for creating gopter generators
@@ -2379,7 +2379,7 @@ func DeliveryRuleRouteConfigurationOverrideAction_STATUS_ARMGenerator() gopter.G
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleRouteConfigurationOverrideAction_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleRouteConfigurationOverrideAction_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS_RouteConfigurationOverride)
+	gens["Name"] = gen.OneConstOf(DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS_ARM_RouteConfigurationOverride)
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleRouteConfigurationOverrideAction_STATUS_ARM is a factory method for creating gopter generators
@@ -2454,7 +2454,7 @@ func DeliveryRuleServerPortCondition_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleServerPortCondition_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleServerPortCondition_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleServerPortCondition_Name_STATUS_ServerPort)
+	gens["Name"] = gen.OneConstOf(DeliveryRuleServerPortCondition_Name_STATUS_ARM_ServerPort)
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleServerPortCondition_STATUS_ARM is a factory method for creating gopter generators
@@ -2529,7 +2529,7 @@ func DeliveryRuleSocketAddrCondition_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleSocketAddrCondition_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleSocketAddrCondition_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleSocketAddrCondition_Name_STATUS_SocketAddr)
+	gens["Name"] = gen.OneConstOf(DeliveryRuleSocketAddrCondition_Name_STATUS_ARM_SocketAddr)
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleSocketAddrCondition_STATUS_ARM is a factory method for creating gopter generators
@@ -2604,7 +2604,7 @@ func DeliveryRuleSslProtocolCondition_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleSslProtocolCondition_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleSslProtocolCondition_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleSslProtocolCondition_Name_STATUS_SslProtocol)
+	gens["Name"] = gen.OneConstOf(DeliveryRuleSslProtocolCondition_Name_STATUS_ARM_SslProtocol)
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleSslProtocolCondition_STATUS_ARM is a factory method for creating gopter generators
@@ -2679,7 +2679,7 @@ func DeliveryRuleUrlFileExtensionCondition_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleUrlFileExtensionCondition_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleUrlFileExtensionCondition_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleUrlFileExtensionCondition_Name_STATUS_UrlFileExtension)
+	gens["Name"] = gen.OneConstOf(DeliveryRuleUrlFileExtensionCondition_Name_STATUS_ARM_UrlFileExtension)
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleUrlFileExtensionCondition_STATUS_ARM is a factory method for creating gopter generators
@@ -2754,7 +2754,7 @@ func DeliveryRuleUrlFileNameCondition_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleUrlFileNameCondition_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleUrlFileNameCondition_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleUrlFileNameCondition_Name_STATUS_UrlFileName)
+	gens["Name"] = gen.OneConstOf(DeliveryRuleUrlFileNameCondition_Name_STATUS_ARM_UrlFileName)
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleUrlFileNameCondition_STATUS_ARM is a factory method for creating gopter generators
@@ -2829,7 +2829,7 @@ func DeliveryRuleUrlPathCondition_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleUrlPathCondition_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleUrlPathCondition_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleUrlPathCondition_Name_STATUS_UrlPath)
+	gens["Name"] = gen.OneConstOf(DeliveryRuleUrlPathCondition_Name_STATUS_ARM_UrlPath)
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleUrlPathCondition_STATUS_ARM is a factory method for creating gopter generators
@@ -3062,32 +3062,32 @@ func AddIndependentPropertyGeneratorsForEndpointProperties_STATUS_ARM(gens map[s
 	gens["IsHttpAllowed"] = gen.PtrOf(gen.Bool())
 	gens["IsHttpsAllowed"] = gen.PtrOf(gen.Bool())
 	gens["OptimizationType"] = gen.PtrOf(gen.OneConstOf(
-		OptimizationType_STATUS_DynamicSiteAcceleration,
-		OptimizationType_STATUS_GeneralMediaStreaming,
-		OptimizationType_STATUS_GeneralWebDelivery,
-		OptimizationType_STATUS_LargeFileDownload,
-		OptimizationType_STATUS_VideoOnDemandMediaStreaming))
+		OptimizationType_STATUS_ARM_DynamicSiteAcceleration,
+		OptimizationType_STATUS_ARM_GeneralMediaStreaming,
+		OptimizationType_STATUS_ARM_GeneralWebDelivery,
+		OptimizationType_STATUS_ARM_LargeFileDownload,
+		OptimizationType_STATUS_ARM_VideoOnDemandMediaStreaming))
 	gens["OriginHostHeader"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginPath"] = gen.PtrOf(gen.AlphaString())
 	gens["ProbePath"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		EndpointProperties_ProvisioningState_STATUS_Creating,
-		EndpointProperties_ProvisioningState_STATUS_Deleting,
-		EndpointProperties_ProvisioningState_STATUS_Failed,
-		EndpointProperties_ProvisioningState_STATUS_Succeeded,
-		EndpointProperties_ProvisioningState_STATUS_Updating))
+		EndpointProperties_ProvisioningState_STATUS_ARM_Creating,
+		EndpointProperties_ProvisioningState_STATUS_ARM_Deleting,
+		EndpointProperties_ProvisioningState_STATUS_ARM_Failed,
+		EndpointProperties_ProvisioningState_STATUS_ARM_Succeeded,
+		EndpointProperties_ProvisioningState_STATUS_ARM_Updating))
 	gens["QueryStringCachingBehavior"] = gen.PtrOf(gen.OneConstOf(
-		QueryStringCachingBehavior_STATUS_BypassCaching,
-		QueryStringCachingBehavior_STATUS_IgnoreQueryString,
-		QueryStringCachingBehavior_STATUS_NotSet,
-		QueryStringCachingBehavior_STATUS_UseQueryString))
+		QueryStringCachingBehavior_STATUS_ARM_BypassCaching,
+		QueryStringCachingBehavior_STATUS_ARM_IgnoreQueryString,
+		QueryStringCachingBehavior_STATUS_ARM_NotSet,
+		QueryStringCachingBehavior_STATUS_ARM_UseQueryString))
 	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
-		EndpointProperties_ResourceState_STATUS_Creating,
-		EndpointProperties_ResourceState_STATUS_Deleting,
-		EndpointProperties_ResourceState_STATUS_Running,
-		EndpointProperties_ResourceState_STATUS_Starting,
-		EndpointProperties_ResourceState_STATUS_Stopped,
-		EndpointProperties_ResourceState_STATUS_Stopping))
+		EndpointProperties_ResourceState_STATUS_ARM_Creating,
+		EndpointProperties_ResourceState_STATUS_ARM_Deleting,
+		EndpointProperties_ResourceState_STATUS_ARM_Running,
+		EndpointProperties_ResourceState_STATUS_ARM_Starting,
+		EndpointProperties_ResourceState_STATUS_ARM_Stopped,
+		EndpointProperties_ResourceState_STATUS_ARM_Stopping))
 }
 
 // AddRelatedPropertyGeneratorsForEndpointProperties_STATUS_ARM is a factory method for creating gopter generators
@@ -3221,7 +3221,7 @@ func GeoFilter_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForGeoFilter_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForGeoFilter_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Action"] = gen.PtrOf(gen.OneConstOf(GeoFilter_Action_STATUS_Allow, GeoFilter_Action_STATUS_Block))
+	gens["Action"] = gen.PtrOf(gen.OneConstOf(GeoFilter_Action_STATUS_ARM_Allow, GeoFilter_Action_STATUS_ARM_Block))
 	gens["CountryCodes"] = gen.SliceOf(gen.AlphaString())
 	gens["RelativePath"] = gen.PtrOf(gen.AlphaString())
 }
@@ -3284,9 +3284,9 @@ func HeaderActionParameters_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForHeaderActionParameters_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForHeaderActionParameters_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["HeaderAction"] = gen.PtrOf(gen.OneConstOf(HeaderActionParameters_HeaderAction_STATUS_Append, HeaderActionParameters_HeaderAction_STATUS_Delete, HeaderActionParameters_HeaderAction_STATUS_Overwrite))
+	gens["HeaderAction"] = gen.PtrOf(gen.OneConstOf(HeaderActionParameters_HeaderAction_STATUS_ARM_Append, HeaderActionParameters_HeaderAction_STATUS_ARM_Delete, HeaderActionParameters_HeaderAction_STATUS_ARM_Overwrite))
 	gens["HeaderName"] = gen.PtrOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(HeaderActionParameters_TypeName_STATUS_DeliveryRuleHeaderActionParameters))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(HeaderActionParameters_TypeName_STATUS_ARM_DeliveryRuleHeaderActionParameters))
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -3350,8 +3350,8 @@ func HealthProbeParameters_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForHealthProbeParameters_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ProbeIntervalInSeconds"] = gen.PtrOf(gen.Int())
 	gens["ProbePath"] = gen.PtrOf(gen.AlphaString())
-	gens["ProbeProtocol"] = gen.PtrOf(gen.OneConstOf(HealthProbeParameters_ProbeProtocol_STATUS_Http, HealthProbeParameters_ProbeProtocol_STATUS_Https, HealthProbeParameters_ProbeProtocol_STATUS_NotSet))
-	gens["ProbeRequestType"] = gen.PtrOf(gen.OneConstOf(HealthProbeParameters_ProbeRequestType_STATUS_GET, HealthProbeParameters_ProbeRequestType_STATUS_HEAD, HealthProbeParameters_ProbeRequestType_STATUS_NotSet))
+	gens["ProbeProtocol"] = gen.PtrOf(gen.OneConstOf(HealthProbeParameters_ProbeProtocol_STATUS_ARM_Http, HealthProbeParameters_ProbeProtocol_STATUS_ARM_Https, HealthProbeParameters_ProbeProtocol_STATUS_ARM_NotSet))
+	gens["ProbeRequestType"] = gen.PtrOf(gen.OneConstOf(HealthProbeParameters_ProbeRequestType_STATUS_ARM_GET, HealthProbeParameters_ProbeRequestType_STATUS_ARM_HEAD, HealthProbeParameters_ProbeRequestType_STATUS_ARM_NotSet))
 }
 
 func Test_HostNameMatchConditionParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3415,24 +3415,24 @@ func AddIndependentPropertyGeneratorsForHostNameMatchConditionParameters_STATUS_
 	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
 	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		HostNameMatchConditionParameters_Operator_STATUS_Any,
-		HostNameMatchConditionParameters_Operator_STATUS_BeginsWith,
-		HostNameMatchConditionParameters_Operator_STATUS_Contains,
-		HostNameMatchConditionParameters_Operator_STATUS_EndsWith,
-		HostNameMatchConditionParameters_Operator_STATUS_Equal,
-		HostNameMatchConditionParameters_Operator_STATUS_GreaterThan,
-		HostNameMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
-		HostNameMatchConditionParameters_Operator_STATUS_LessThan,
-		HostNameMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
-		HostNameMatchConditionParameters_Operator_STATUS_RegEx))
+		HostNameMatchConditionParameters_Operator_STATUS_ARM_Any,
+		HostNameMatchConditionParameters_Operator_STATUS_ARM_BeginsWith,
+		HostNameMatchConditionParameters_Operator_STATUS_ARM_Contains,
+		HostNameMatchConditionParameters_Operator_STATUS_ARM_EndsWith,
+		HostNameMatchConditionParameters_Operator_STATUS_ARM_Equal,
+		HostNameMatchConditionParameters_Operator_STATUS_ARM_GreaterThan,
+		HostNameMatchConditionParameters_Operator_STATUS_ARM_GreaterThanOrEqual,
+		HostNameMatchConditionParameters_Operator_STATUS_ARM_LessThan,
+		HostNameMatchConditionParameters_Operator_STATUS_ARM_LessThanOrEqual,
+		HostNameMatchConditionParameters_Operator_STATUS_ARM_RegEx))
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		Transform_STATUS_Lowercase,
-		Transform_STATUS_RemoveNulls,
-		Transform_STATUS_Trim,
-		Transform_STATUS_Uppercase,
-		Transform_STATUS_UrlDecode,
-		Transform_STATUS_UrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(HostNameMatchConditionParameters_TypeName_STATUS_DeliveryRuleHostNameConditionParameters))
+		Transform_STATUS_ARM_Lowercase,
+		Transform_STATUS_ARM_RemoveNulls,
+		Transform_STATUS_ARM_Trim,
+		Transform_STATUS_ARM_Uppercase,
+		Transform_STATUS_ARM_UrlDecode,
+		Transform_STATUS_ARM_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(HostNameMatchConditionParameters_TypeName_STATUS_ARM_DeliveryRuleHostNameConditionParameters))
 }
 
 func Test_HttpErrorRangeParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3557,15 +3557,15 @@ func HttpVersionMatchConditionParameters_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForHttpVersionMatchConditionParameters_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.OneConstOf(HttpVersionMatchConditionParameters_Operator_STATUS_Equal))
+	gens["Operator"] = gen.PtrOf(gen.OneConstOf(HttpVersionMatchConditionParameters_Operator_STATUS_ARM_Equal))
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		Transform_STATUS_Lowercase,
-		Transform_STATUS_RemoveNulls,
-		Transform_STATUS_Trim,
-		Transform_STATUS_Uppercase,
-		Transform_STATUS_UrlDecode,
-		Transform_STATUS_UrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(HttpVersionMatchConditionParameters_TypeName_STATUS_DeliveryRuleHttpVersionConditionParameters))
+		Transform_STATUS_ARM_Lowercase,
+		Transform_STATUS_ARM_RemoveNulls,
+		Transform_STATUS_ARM_Trim,
+		Transform_STATUS_ARM_Uppercase,
+		Transform_STATUS_ARM_UrlDecode,
+		Transform_STATUS_ARM_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(HttpVersionMatchConditionParameters_TypeName_STATUS_ARM_DeliveryRuleHttpVersionConditionParameters))
 }
 
 func Test_IsDeviceMatchConditionParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3626,17 +3626,17 @@ func IsDeviceMatchConditionParameters_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForIsDeviceMatchConditionParameters_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIsDeviceMatchConditionParameters_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.OneConstOf(IsDeviceMatchConditionParameters_MatchValues_STATUS_Desktop, IsDeviceMatchConditionParameters_MatchValues_STATUS_Mobile))
+	gens["MatchValues"] = gen.SliceOf(gen.OneConstOf(IsDeviceMatchConditionParameters_MatchValues_STATUS_ARM_Desktop, IsDeviceMatchConditionParameters_MatchValues_STATUS_ARM_Mobile))
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.OneConstOf(IsDeviceMatchConditionParameters_Operator_STATUS_Equal))
+	gens["Operator"] = gen.PtrOf(gen.OneConstOf(IsDeviceMatchConditionParameters_Operator_STATUS_ARM_Equal))
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		Transform_STATUS_Lowercase,
-		Transform_STATUS_RemoveNulls,
-		Transform_STATUS_Trim,
-		Transform_STATUS_Uppercase,
-		Transform_STATUS_UrlDecode,
-		Transform_STATUS_UrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(IsDeviceMatchConditionParameters_TypeName_STATUS_DeliveryRuleIsDeviceConditionParameters))
+		Transform_STATUS_ARM_Lowercase,
+		Transform_STATUS_ARM_RemoveNulls,
+		Transform_STATUS_ARM_Trim,
+		Transform_STATUS_ARM_Uppercase,
+		Transform_STATUS_ARM_UrlDecode,
+		Transform_STATUS_ARM_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(IsDeviceMatchConditionParameters_TypeName_STATUS_ARM_DeliveryRuleIsDeviceConditionParameters))
 }
 
 func Test_KeyVaultSigningKeyParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3701,7 +3701,7 @@ func AddIndependentPropertyGeneratorsForKeyVaultSigningKeyParameters_STATUS_ARM(
 	gens["SecretName"] = gen.PtrOf(gen.AlphaString())
 	gens["SecretVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["SubscriptionId"] = gen.PtrOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(KeyVaultSigningKeyParameters_TypeName_STATUS_KeyVaultSigningKeyParameters))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(KeyVaultSigningKeyParameters_TypeName_STATUS_ARM_KeyVaultSigningKeyParameters))
 	gens["VaultName"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -3772,7 +3772,7 @@ func OriginGroupOverrideActionParameters_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForOriginGroupOverrideActionParameters_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForOriginGroupOverrideActionParameters_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(OriginGroupOverrideActionParameters_TypeName_STATUS_DeliveryRuleOriginGroupOverrideActionParameters))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(OriginGroupOverrideActionParameters_TypeName_STATUS_ARM_DeliveryRuleOriginGroupOverrideActionParameters))
 }
 
 // AddRelatedPropertyGeneratorsForOriginGroupOverrideActionParameters_STATUS_ARM is a factory method for creating gopter generators
@@ -3847,7 +3847,7 @@ func OriginGroupOverrideAction_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForOriginGroupOverrideAction_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForOriginGroupOverrideAction_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(OriginGroupOverrideAction_Name_STATUS_OriginGroupOverride)
+	gens["Name"] = gen.OneConstOf(OriginGroupOverrideAction_Name_STATUS_ARM_OriginGroupOverride)
 }
 
 // AddRelatedPropertyGeneratorsForOriginGroupOverrideAction_STATUS_ARM is a factory method for creating gopter generators
@@ -3922,7 +3922,7 @@ func OriginGroupOverride_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForOriginGroupOverride_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForOriginGroupOverride_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ForwardingProtocol"] = gen.PtrOf(gen.OneConstOf(OriginGroupOverride_ForwardingProtocol_STATUS_HttpOnly, OriginGroupOverride_ForwardingProtocol_STATUS_HttpsOnly, OriginGroupOverride_ForwardingProtocol_STATUS_MatchRequest))
+	gens["ForwardingProtocol"] = gen.PtrOf(gen.OneConstOf(OriginGroupOverride_ForwardingProtocol_STATUS_ARM_HttpOnly, OriginGroupOverride_ForwardingProtocol_STATUS_ARM_HttpsOnly, OriginGroupOverride_ForwardingProtocol_STATUS_ARM_MatchRequest))
 }
 
 // AddRelatedPropertyGeneratorsForOriginGroupOverride_STATUS_ARM is a factory method for creating gopter generators
@@ -3991,25 +3991,25 @@ func AddIndependentPropertyGeneratorsForPostArgsMatchConditionParameters_STATUS_
 	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
 	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		PostArgsMatchConditionParameters_Operator_STATUS_Any,
-		PostArgsMatchConditionParameters_Operator_STATUS_BeginsWith,
-		PostArgsMatchConditionParameters_Operator_STATUS_Contains,
-		PostArgsMatchConditionParameters_Operator_STATUS_EndsWith,
-		PostArgsMatchConditionParameters_Operator_STATUS_Equal,
-		PostArgsMatchConditionParameters_Operator_STATUS_GreaterThan,
-		PostArgsMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
-		PostArgsMatchConditionParameters_Operator_STATUS_LessThan,
-		PostArgsMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
-		PostArgsMatchConditionParameters_Operator_STATUS_RegEx))
+		PostArgsMatchConditionParameters_Operator_STATUS_ARM_Any,
+		PostArgsMatchConditionParameters_Operator_STATUS_ARM_BeginsWith,
+		PostArgsMatchConditionParameters_Operator_STATUS_ARM_Contains,
+		PostArgsMatchConditionParameters_Operator_STATUS_ARM_EndsWith,
+		PostArgsMatchConditionParameters_Operator_STATUS_ARM_Equal,
+		PostArgsMatchConditionParameters_Operator_STATUS_ARM_GreaterThan,
+		PostArgsMatchConditionParameters_Operator_STATUS_ARM_GreaterThanOrEqual,
+		PostArgsMatchConditionParameters_Operator_STATUS_ARM_LessThan,
+		PostArgsMatchConditionParameters_Operator_STATUS_ARM_LessThanOrEqual,
+		PostArgsMatchConditionParameters_Operator_STATUS_ARM_RegEx))
 	gens["Selector"] = gen.PtrOf(gen.AlphaString())
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		Transform_STATUS_Lowercase,
-		Transform_STATUS_RemoveNulls,
-		Transform_STATUS_Trim,
-		Transform_STATUS_Uppercase,
-		Transform_STATUS_UrlDecode,
-		Transform_STATUS_UrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(PostArgsMatchConditionParameters_TypeName_STATUS_DeliveryRulePostArgsConditionParameters))
+		Transform_STATUS_ARM_Lowercase,
+		Transform_STATUS_ARM_RemoveNulls,
+		Transform_STATUS_ARM_Trim,
+		Transform_STATUS_ARM_Uppercase,
+		Transform_STATUS_ARM_UrlDecode,
+		Transform_STATUS_ARM_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(PostArgsMatchConditionParameters_TypeName_STATUS_ARM_DeliveryRulePostArgsConditionParameters))
 }
 
 func Test_Profiles_Endpoint_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -4155,24 +4155,24 @@ func AddIndependentPropertyGeneratorsForQueryStringMatchConditionParameters_STAT
 	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
 	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		QueryStringMatchConditionParameters_Operator_STATUS_Any,
-		QueryStringMatchConditionParameters_Operator_STATUS_BeginsWith,
-		QueryStringMatchConditionParameters_Operator_STATUS_Contains,
-		QueryStringMatchConditionParameters_Operator_STATUS_EndsWith,
-		QueryStringMatchConditionParameters_Operator_STATUS_Equal,
-		QueryStringMatchConditionParameters_Operator_STATUS_GreaterThan,
-		QueryStringMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
-		QueryStringMatchConditionParameters_Operator_STATUS_LessThan,
-		QueryStringMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
-		QueryStringMatchConditionParameters_Operator_STATUS_RegEx))
+		QueryStringMatchConditionParameters_Operator_STATUS_ARM_Any,
+		QueryStringMatchConditionParameters_Operator_STATUS_ARM_BeginsWith,
+		QueryStringMatchConditionParameters_Operator_STATUS_ARM_Contains,
+		QueryStringMatchConditionParameters_Operator_STATUS_ARM_EndsWith,
+		QueryStringMatchConditionParameters_Operator_STATUS_ARM_Equal,
+		QueryStringMatchConditionParameters_Operator_STATUS_ARM_GreaterThan,
+		QueryStringMatchConditionParameters_Operator_STATUS_ARM_GreaterThanOrEqual,
+		QueryStringMatchConditionParameters_Operator_STATUS_ARM_LessThan,
+		QueryStringMatchConditionParameters_Operator_STATUS_ARM_LessThanOrEqual,
+		QueryStringMatchConditionParameters_Operator_STATUS_ARM_RegEx))
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		Transform_STATUS_Lowercase,
-		Transform_STATUS_RemoveNulls,
-		Transform_STATUS_Trim,
-		Transform_STATUS_Uppercase,
-		Transform_STATUS_UrlDecode,
-		Transform_STATUS_UrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(QueryStringMatchConditionParameters_TypeName_STATUS_DeliveryRuleQueryStringConditionParameters))
+		Transform_STATUS_ARM_Lowercase,
+		Transform_STATUS_ARM_RemoveNulls,
+		Transform_STATUS_ARM_Trim,
+		Transform_STATUS_ARM_Uppercase,
+		Transform_STATUS_ARM_UrlDecode,
+		Transform_STATUS_ARM_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(QueryStringMatchConditionParameters_TypeName_STATUS_ARM_DeliveryRuleQueryStringConditionParameters))
 }
 
 func Test_RemoteAddressMatchConditionParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -4235,15 +4235,15 @@ func RemoteAddressMatchConditionParameters_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForRemoteAddressMatchConditionParameters_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.OneConstOf(RemoteAddressMatchConditionParameters_Operator_STATUS_Any, RemoteAddressMatchConditionParameters_Operator_STATUS_GeoMatch, RemoteAddressMatchConditionParameters_Operator_STATUS_IPMatch))
+	gens["Operator"] = gen.PtrOf(gen.OneConstOf(RemoteAddressMatchConditionParameters_Operator_STATUS_ARM_Any, RemoteAddressMatchConditionParameters_Operator_STATUS_ARM_GeoMatch, RemoteAddressMatchConditionParameters_Operator_STATUS_ARM_IPMatch))
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		Transform_STATUS_Lowercase,
-		Transform_STATUS_RemoveNulls,
-		Transform_STATUS_Trim,
-		Transform_STATUS_Uppercase,
-		Transform_STATUS_UrlDecode,
-		Transform_STATUS_UrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(RemoteAddressMatchConditionParameters_TypeName_STATUS_DeliveryRuleRemoteAddressConditionParameters))
+		Transform_STATUS_ARM_Lowercase,
+		Transform_STATUS_ARM_RemoveNulls,
+		Transform_STATUS_ARM_Trim,
+		Transform_STATUS_ARM_Uppercase,
+		Transform_STATUS_ARM_UrlDecode,
+		Transform_STATUS_ARM_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(RemoteAddressMatchConditionParameters_TypeName_STATUS_ARM_DeliveryRuleRemoteAddressConditionParameters))
 }
 
 func Test_RequestBodyMatchConditionParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -4307,24 +4307,24 @@ func AddIndependentPropertyGeneratorsForRequestBodyMatchConditionParameters_STAT
 	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
 	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		RequestBodyMatchConditionParameters_Operator_STATUS_Any,
-		RequestBodyMatchConditionParameters_Operator_STATUS_BeginsWith,
-		RequestBodyMatchConditionParameters_Operator_STATUS_Contains,
-		RequestBodyMatchConditionParameters_Operator_STATUS_EndsWith,
-		RequestBodyMatchConditionParameters_Operator_STATUS_Equal,
-		RequestBodyMatchConditionParameters_Operator_STATUS_GreaterThan,
-		RequestBodyMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
-		RequestBodyMatchConditionParameters_Operator_STATUS_LessThan,
-		RequestBodyMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
-		RequestBodyMatchConditionParameters_Operator_STATUS_RegEx))
+		RequestBodyMatchConditionParameters_Operator_STATUS_ARM_Any,
+		RequestBodyMatchConditionParameters_Operator_STATUS_ARM_BeginsWith,
+		RequestBodyMatchConditionParameters_Operator_STATUS_ARM_Contains,
+		RequestBodyMatchConditionParameters_Operator_STATUS_ARM_EndsWith,
+		RequestBodyMatchConditionParameters_Operator_STATUS_ARM_Equal,
+		RequestBodyMatchConditionParameters_Operator_STATUS_ARM_GreaterThan,
+		RequestBodyMatchConditionParameters_Operator_STATUS_ARM_GreaterThanOrEqual,
+		RequestBodyMatchConditionParameters_Operator_STATUS_ARM_LessThan,
+		RequestBodyMatchConditionParameters_Operator_STATUS_ARM_LessThanOrEqual,
+		RequestBodyMatchConditionParameters_Operator_STATUS_ARM_RegEx))
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		Transform_STATUS_Lowercase,
-		Transform_STATUS_RemoveNulls,
-		Transform_STATUS_Trim,
-		Transform_STATUS_Uppercase,
-		Transform_STATUS_UrlDecode,
-		Transform_STATUS_UrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(RequestBodyMatchConditionParameters_TypeName_STATUS_DeliveryRuleRequestBodyConditionParameters))
+		Transform_STATUS_ARM_Lowercase,
+		Transform_STATUS_ARM_RemoveNulls,
+		Transform_STATUS_ARM_Trim,
+		Transform_STATUS_ARM_Uppercase,
+		Transform_STATUS_ARM_UrlDecode,
+		Transform_STATUS_ARM_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(RequestBodyMatchConditionParameters_TypeName_STATUS_ARM_DeliveryRuleRequestBodyConditionParameters))
 }
 
 func Test_RequestHeaderMatchConditionParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -4388,25 +4388,25 @@ func AddIndependentPropertyGeneratorsForRequestHeaderMatchConditionParameters_ST
 	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
 	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		RequestHeaderMatchConditionParameters_Operator_STATUS_Any,
-		RequestHeaderMatchConditionParameters_Operator_STATUS_BeginsWith,
-		RequestHeaderMatchConditionParameters_Operator_STATUS_Contains,
-		RequestHeaderMatchConditionParameters_Operator_STATUS_EndsWith,
-		RequestHeaderMatchConditionParameters_Operator_STATUS_Equal,
-		RequestHeaderMatchConditionParameters_Operator_STATUS_GreaterThan,
-		RequestHeaderMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
-		RequestHeaderMatchConditionParameters_Operator_STATUS_LessThan,
-		RequestHeaderMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
-		RequestHeaderMatchConditionParameters_Operator_STATUS_RegEx))
+		RequestHeaderMatchConditionParameters_Operator_STATUS_ARM_Any,
+		RequestHeaderMatchConditionParameters_Operator_STATUS_ARM_BeginsWith,
+		RequestHeaderMatchConditionParameters_Operator_STATUS_ARM_Contains,
+		RequestHeaderMatchConditionParameters_Operator_STATUS_ARM_EndsWith,
+		RequestHeaderMatchConditionParameters_Operator_STATUS_ARM_Equal,
+		RequestHeaderMatchConditionParameters_Operator_STATUS_ARM_GreaterThan,
+		RequestHeaderMatchConditionParameters_Operator_STATUS_ARM_GreaterThanOrEqual,
+		RequestHeaderMatchConditionParameters_Operator_STATUS_ARM_LessThan,
+		RequestHeaderMatchConditionParameters_Operator_STATUS_ARM_LessThanOrEqual,
+		RequestHeaderMatchConditionParameters_Operator_STATUS_ARM_RegEx))
 	gens["Selector"] = gen.PtrOf(gen.AlphaString())
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		Transform_STATUS_Lowercase,
-		Transform_STATUS_RemoveNulls,
-		Transform_STATUS_Trim,
-		Transform_STATUS_Uppercase,
-		Transform_STATUS_UrlDecode,
-		Transform_STATUS_UrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(RequestHeaderMatchConditionParameters_TypeName_STATUS_DeliveryRuleRequestHeaderConditionParameters))
+		Transform_STATUS_ARM_Lowercase,
+		Transform_STATUS_ARM_RemoveNulls,
+		Transform_STATUS_ARM_Trim,
+		Transform_STATUS_ARM_Uppercase,
+		Transform_STATUS_ARM_UrlDecode,
+		Transform_STATUS_ARM_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(RequestHeaderMatchConditionParameters_TypeName_STATUS_ARM_DeliveryRuleRequestHeaderConditionParameters))
 }
 
 func Test_RequestMethodMatchConditionParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -4468,23 +4468,23 @@ func RequestMethodMatchConditionParameters_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForRequestMethodMatchConditionParameters_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRequestMethodMatchConditionParameters_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["MatchValues"] = gen.SliceOf(gen.OneConstOf(
-		RequestMethodMatchConditionParameters_MatchValues_STATUS_DELETE,
-		RequestMethodMatchConditionParameters_MatchValues_STATUS_GET,
-		RequestMethodMatchConditionParameters_MatchValues_STATUS_HEAD,
-		RequestMethodMatchConditionParameters_MatchValues_STATUS_OPTIONS,
-		RequestMethodMatchConditionParameters_MatchValues_STATUS_POST,
-		RequestMethodMatchConditionParameters_MatchValues_STATUS_PUT,
-		RequestMethodMatchConditionParameters_MatchValues_STATUS_TRACE))
+		RequestMethodMatchConditionParameters_MatchValues_STATUS_ARM_DELETE,
+		RequestMethodMatchConditionParameters_MatchValues_STATUS_ARM_GET,
+		RequestMethodMatchConditionParameters_MatchValues_STATUS_ARM_HEAD,
+		RequestMethodMatchConditionParameters_MatchValues_STATUS_ARM_OPTIONS,
+		RequestMethodMatchConditionParameters_MatchValues_STATUS_ARM_POST,
+		RequestMethodMatchConditionParameters_MatchValues_STATUS_ARM_PUT,
+		RequestMethodMatchConditionParameters_MatchValues_STATUS_ARM_TRACE))
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.OneConstOf(RequestMethodMatchConditionParameters_Operator_STATUS_Equal))
+	gens["Operator"] = gen.PtrOf(gen.OneConstOf(RequestMethodMatchConditionParameters_Operator_STATUS_ARM_Equal))
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		Transform_STATUS_Lowercase,
-		Transform_STATUS_RemoveNulls,
-		Transform_STATUS_Trim,
-		Transform_STATUS_Uppercase,
-		Transform_STATUS_UrlDecode,
-		Transform_STATUS_UrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(RequestMethodMatchConditionParameters_TypeName_STATUS_DeliveryRuleRequestMethodConditionParameters))
+		Transform_STATUS_ARM_Lowercase,
+		Transform_STATUS_ARM_RemoveNulls,
+		Transform_STATUS_ARM_Trim,
+		Transform_STATUS_ARM_Uppercase,
+		Transform_STATUS_ARM_UrlDecode,
+		Transform_STATUS_ARM_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(RequestMethodMatchConditionParameters_TypeName_STATUS_ARM_DeliveryRuleRequestMethodConditionParameters))
 }
 
 func Test_RequestSchemeMatchConditionParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -4545,17 +4545,17 @@ func RequestSchemeMatchConditionParameters_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRequestSchemeMatchConditionParameters_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRequestSchemeMatchConditionParameters_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.OneConstOf(RequestSchemeMatchConditionParameters_MatchValues_STATUS_HTTP, RequestSchemeMatchConditionParameters_MatchValues_STATUS_HTTPS))
+	gens["MatchValues"] = gen.SliceOf(gen.OneConstOf(RequestSchemeMatchConditionParameters_MatchValues_STATUS_ARM_HTTP, RequestSchemeMatchConditionParameters_MatchValues_STATUS_ARM_HTTPS))
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.OneConstOf(RequestSchemeMatchConditionParameters_Operator_STATUS_Equal))
+	gens["Operator"] = gen.PtrOf(gen.OneConstOf(RequestSchemeMatchConditionParameters_Operator_STATUS_ARM_Equal))
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		Transform_STATUS_Lowercase,
-		Transform_STATUS_RemoveNulls,
-		Transform_STATUS_Trim,
-		Transform_STATUS_Uppercase,
-		Transform_STATUS_UrlDecode,
-		Transform_STATUS_UrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(RequestSchemeMatchConditionParameters_TypeName_STATUS_DeliveryRuleRequestSchemeConditionParameters))
+		Transform_STATUS_ARM_Lowercase,
+		Transform_STATUS_ARM_RemoveNulls,
+		Transform_STATUS_ARM_Trim,
+		Transform_STATUS_ARM_Uppercase,
+		Transform_STATUS_ARM_UrlDecode,
+		Transform_STATUS_ARM_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(RequestSchemeMatchConditionParameters_TypeName_STATUS_ARM_DeliveryRuleRequestSchemeConditionParameters))
 }
 
 func Test_RequestUriMatchConditionParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -4619,24 +4619,24 @@ func AddIndependentPropertyGeneratorsForRequestUriMatchConditionParameters_STATU
 	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
 	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		RequestUriMatchConditionParameters_Operator_STATUS_Any,
-		RequestUriMatchConditionParameters_Operator_STATUS_BeginsWith,
-		RequestUriMatchConditionParameters_Operator_STATUS_Contains,
-		RequestUriMatchConditionParameters_Operator_STATUS_EndsWith,
-		RequestUriMatchConditionParameters_Operator_STATUS_Equal,
-		RequestUriMatchConditionParameters_Operator_STATUS_GreaterThan,
-		RequestUriMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
-		RequestUriMatchConditionParameters_Operator_STATUS_LessThan,
-		RequestUriMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
-		RequestUriMatchConditionParameters_Operator_STATUS_RegEx))
+		RequestUriMatchConditionParameters_Operator_STATUS_ARM_Any,
+		RequestUriMatchConditionParameters_Operator_STATUS_ARM_BeginsWith,
+		RequestUriMatchConditionParameters_Operator_STATUS_ARM_Contains,
+		RequestUriMatchConditionParameters_Operator_STATUS_ARM_EndsWith,
+		RequestUriMatchConditionParameters_Operator_STATUS_ARM_Equal,
+		RequestUriMatchConditionParameters_Operator_STATUS_ARM_GreaterThan,
+		RequestUriMatchConditionParameters_Operator_STATUS_ARM_GreaterThanOrEqual,
+		RequestUriMatchConditionParameters_Operator_STATUS_ARM_LessThan,
+		RequestUriMatchConditionParameters_Operator_STATUS_ARM_LessThanOrEqual,
+		RequestUriMatchConditionParameters_Operator_STATUS_ARM_RegEx))
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		Transform_STATUS_Lowercase,
-		Transform_STATUS_RemoveNulls,
-		Transform_STATUS_Trim,
-		Transform_STATUS_Uppercase,
-		Transform_STATUS_UrlDecode,
-		Transform_STATUS_UrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(RequestUriMatchConditionParameters_TypeName_STATUS_DeliveryRuleRequestUriConditionParameters))
+		Transform_STATUS_ARM_Lowercase,
+		Transform_STATUS_ARM_RemoveNulls,
+		Transform_STATUS_ARM_Trim,
+		Transform_STATUS_ARM_Uppercase,
+		Transform_STATUS_ARM_UrlDecode,
+		Transform_STATUS_ARM_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(RequestUriMatchConditionParameters_TypeName_STATUS_ARM_DeliveryRuleRequestUriConditionParameters))
 }
 
 func Test_ResourceReference_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -4767,7 +4767,7 @@ func ResponseBasedOriginErrorDetectionParameters_STATUS_ARMGenerator() gopter.Ge
 
 // AddIndependentPropertyGeneratorsForResponseBasedOriginErrorDetectionParameters_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForResponseBasedOriginErrorDetectionParameters_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ResponseBasedDetectedErrorTypes"] = gen.PtrOf(gen.OneConstOf(ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS_None, ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS_TcpAndHttpErrors, ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS_TcpErrorsOnly))
+	gens["ResponseBasedDetectedErrorTypes"] = gen.PtrOf(gen.OneConstOf(ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS_ARM_None, ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS_ARM_TcpAndHttpErrors, ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS_ARM_TcpErrorsOnly))
 	gens["ResponseBasedFailoverThresholdPercentage"] = gen.PtrOf(gen.Int())
 }
 
@@ -4843,7 +4843,7 @@ func RouteConfigurationOverrideActionParameters_STATUS_ARMGenerator() gopter.Gen
 
 // AddIndependentPropertyGeneratorsForRouteConfigurationOverrideActionParameters_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRouteConfigurationOverrideActionParameters_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(RouteConfigurationOverrideActionParameters_TypeName_STATUS_DeliveryRuleRouteConfigurationOverrideActionParameters))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(RouteConfigurationOverrideActionParameters_TypeName_STATUS_ARM_DeliveryRuleRouteConfigurationOverrideActionParameters))
 }
 
 // AddRelatedPropertyGeneratorsForRouteConfigurationOverrideActionParameters_STATUS_ARM is a factory method for creating gopter generators
@@ -4913,24 +4913,24 @@ func AddIndependentPropertyGeneratorsForServerPortMatchConditionParameters_STATU
 	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
 	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		ServerPortMatchConditionParameters_Operator_STATUS_Any,
-		ServerPortMatchConditionParameters_Operator_STATUS_BeginsWith,
-		ServerPortMatchConditionParameters_Operator_STATUS_Contains,
-		ServerPortMatchConditionParameters_Operator_STATUS_EndsWith,
-		ServerPortMatchConditionParameters_Operator_STATUS_Equal,
-		ServerPortMatchConditionParameters_Operator_STATUS_GreaterThan,
-		ServerPortMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
-		ServerPortMatchConditionParameters_Operator_STATUS_LessThan,
-		ServerPortMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
-		ServerPortMatchConditionParameters_Operator_STATUS_RegEx))
+		ServerPortMatchConditionParameters_Operator_STATUS_ARM_Any,
+		ServerPortMatchConditionParameters_Operator_STATUS_ARM_BeginsWith,
+		ServerPortMatchConditionParameters_Operator_STATUS_ARM_Contains,
+		ServerPortMatchConditionParameters_Operator_STATUS_ARM_EndsWith,
+		ServerPortMatchConditionParameters_Operator_STATUS_ARM_Equal,
+		ServerPortMatchConditionParameters_Operator_STATUS_ARM_GreaterThan,
+		ServerPortMatchConditionParameters_Operator_STATUS_ARM_GreaterThanOrEqual,
+		ServerPortMatchConditionParameters_Operator_STATUS_ARM_LessThan,
+		ServerPortMatchConditionParameters_Operator_STATUS_ARM_LessThanOrEqual,
+		ServerPortMatchConditionParameters_Operator_STATUS_ARM_RegEx))
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		Transform_STATUS_Lowercase,
-		Transform_STATUS_RemoveNulls,
-		Transform_STATUS_Trim,
-		Transform_STATUS_Uppercase,
-		Transform_STATUS_UrlDecode,
-		Transform_STATUS_UrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(ServerPortMatchConditionParameters_TypeName_STATUS_DeliveryRuleServerPortConditionParameters))
+		Transform_STATUS_ARM_Lowercase,
+		Transform_STATUS_ARM_RemoveNulls,
+		Transform_STATUS_ARM_Trim,
+		Transform_STATUS_ARM_Uppercase,
+		Transform_STATUS_ARM_UrlDecode,
+		Transform_STATUS_ARM_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(ServerPortMatchConditionParameters_TypeName_STATUS_ARM_DeliveryRuleServerPortConditionParameters))
 }
 
 func Test_SocketAddrMatchConditionParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -4993,15 +4993,15 @@ func SocketAddrMatchConditionParameters_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSocketAddrMatchConditionParameters_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.OneConstOf(SocketAddrMatchConditionParameters_Operator_STATUS_Any, SocketAddrMatchConditionParameters_Operator_STATUS_IPMatch))
+	gens["Operator"] = gen.PtrOf(gen.OneConstOf(SocketAddrMatchConditionParameters_Operator_STATUS_ARM_Any, SocketAddrMatchConditionParameters_Operator_STATUS_ARM_IPMatch))
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		Transform_STATUS_Lowercase,
-		Transform_STATUS_RemoveNulls,
-		Transform_STATUS_Trim,
-		Transform_STATUS_Uppercase,
-		Transform_STATUS_UrlDecode,
-		Transform_STATUS_UrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(SocketAddrMatchConditionParameters_TypeName_STATUS_DeliveryRuleSocketAddrConditionParameters))
+		Transform_STATUS_ARM_Lowercase,
+		Transform_STATUS_ARM_RemoveNulls,
+		Transform_STATUS_ARM_Trim,
+		Transform_STATUS_ARM_Uppercase,
+		Transform_STATUS_ARM_UrlDecode,
+		Transform_STATUS_ARM_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(SocketAddrMatchConditionParameters_TypeName_STATUS_ARM_DeliveryRuleSocketAddrConditionParameters))
 }
 
 func Test_SslProtocolMatchConditionParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -5062,17 +5062,17 @@ func SslProtocolMatchConditionParameters_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSslProtocolMatchConditionParameters_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSslProtocolMatchConditionParameters_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.OneConstOf(SslProtocol_STATUS_TLSv1, SslProtocol_STATUS_TLSv11, SslProtocol_STATUS_TLSv12))
+	gens["MatchValues"] = gen.SliceOf(gen.OneConstOf(SslProtocol_STATUS_ARM_TLSv1, SslProtocol_STATUS_ARM_TLSv11, SslProtocol_STATUS_ARM_TLSv12))
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.OneConstOf(SslProtocolMatchConditionParameters_Operator_STATUS_Equal))
+	gens["Operator"] = gen.PtrOf(gen.OneConstOf(SslProtocolMatchConditionParameters_Operator_STATUS_ARM_Equal))
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		Transform_STATUS_Lowercase,
-		Transform_STATUS_RemoveNulls,
-		Transform_STATUS_Trim,
-		Transform_STATUS_Uppercase,
-		Transform_STATUS_UrlDecode,
-		Transform_STATUS_UrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(SslProtocolMatchConditionParameters_TypeName_STATUS_DeliveryRuleSslProtocolConditionParameters))
+		Transform_STATUS_ARM_Lowercase,
+		Transform_STATUS_ARM_RemoveNulls,
+		Transform_STATUS_ARM_Trim,
+		Transform_STATUS_ARM_Uppercase,
+		Transform_STATUS_ARM_UrlDecode,
+		Transform_STATUS_ARM_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(SslProtocolMatchConditionParameters_TypeName_STATUS_ARM_DeliveryRuleSslProtocolConditionParameters))
 }
 
 func Test_UrlFileExtensionMatchConditionParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -5136,24 +5136,24 @@ func AddIndependentPropertyGeneratorsForUrlFileExtensionMatchConditionParameters
 	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
 	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		UrlFileExtensionMatchConditionParameters_Operator_STATUS_Any,
-		UrlFileExtensionMatchConditionParameters_Operator_STATUS_BeginsWith,
-		UrlFileExtensionMatchConditionParameters_Operator_STATUS_Contains,
-		UrlFileExtensionMatchConditionParameters_Operator_STATUS_EndsWith,
-		UrlFileExtensionMatchConditionParameters_Operator_STATUS_Equal,
-		UrlFileExtensionMatchConditionParameters_Operator_STATUS_GreaterThan,
-		UrlFileExtensionMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
-		UrlFileExtensionMatchConditionParameters_Operator_STATUS_LessThan,
-		UrlFileExtensionMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
-		UrlFileExtensionMatchConditionParameters_Operator_STATUS_RegEx))
+		UrlFileExtensionMatchConditionParameters_Operator_STATUS_ARM_Any,
+		UrlFileExtensionMatchConditionParameters_Operator_STATUS_ARM_BeginsWith,
+		UrlFileExtensionMatchConditionParameters_Operator_STATUS_ARM_Contains,
+		UrlFileExtensionMatchConditionParameters_Operator_STATUS_ARM_EndsWith,
+		UrlFileExtensionMatchConditionParameters_Operator_STATUS_ARM_Equal,
+		UrlFileExtensionMatchConditionParameters_Operator_STATUS_ARM_GreaterThan,
+		UrlFileExtensionMatchConditionParameters_Operator_STATUS_ARM_GreaterThanOrEqual,
+		UrlFileExtensionMatchConditionParameters_Operator_STATUS_ARM_LessThan,
+		UrlFileExtensionMatchConditionParameters_Operator_STATUS_ARM_LessThanOrEqual,
+		UrlFileExtensionMatchConditionParameters_Operator_STATUS_ARM_RegEx))
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		Transform_STATUS_Lowercase,
-		Transform_STATUS_RemoveNulls,
-		Transform_STATUS_Trim,
-		Transform_STATUS_Uppercase,
-		Transform_STATUS_UrlDecode,
-		Transform_STATUS_UrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(UrlFileExtensionMatchConditionParameters_TypeName_STATUS_DeliveryRuleUrlFileExtensionMatchConditionParameters))
+		Transform_STATUS_ARM_Lowercase,
+		Transform_STATUS_ARM_RemoveNulls,
+		Transform_STATUS_ARM_Trim,
+		Transform_STATUS_ARM_Uppercase,
+		Transform_STATUS_ARM_UrlDecode,
+		Transform_STATUS_ARM_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(UrlFileExtensionMatchConditionParameters_TypeName_STATUS_ARM_DeliveryRuleUrlFileExtensionMatchConditionParameters))
 }
 
 func Test_UrlFileNameMatchConditionParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -5217,24 +5217,24 @@ func AddIndependentPropertyGeneratorsForUrlFileNameMatchConditionParameters_STAT
 	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
 	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		UrlFileNameMatchConditionParameters_Operator_STATUS_Any,
-		UrlFileNameMatchConditionParameters_Operator_STATUS_BeginsWith,
-		UrlFileNameMatchConditionParameters_Operator_STATUS_Contains,
-		UrlFileNameMatchConditionParameters_Operator_STATUS_EndsWith,
-		UrlFileNameMatchConditionParameters_Operator_STATUS_Equal,
-		UrlFileNameMatchConditionParameters_Operator_STATUS_GreaterThan,
-		UrlFileNameMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
-		UrlFileNameMatchConditionParameters_Operator_STATUS_LessThan,
-		UrlFileNameMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
-		UrlFileNameMatchConditionParameters_Operator_STATUS_RegEx))
+		UrlFileNameMatchConditionParameters_Operator_STATUS_ARM_Any,
+		UrlFileNameMatchConditionParameters_Operator_STATUS_ARM_BeginsWith,
+		UrlFileNameMatchConditionParameters_Operator_STATUS_ARM_Contains,
+		UrlFileNameMatchConditionParameters_Operator_STATUS_ARM_EndsWith,
+		UrlFileNameMatchConditionParameters_Operator_STATUS_ARM_Equal,
+		UrlFileNameMatchConditionParameters_Operator_STATUS_ARM_GreaterThan,
+		UrlFileNameMatchConditionParameters_Operator_STATUS_ARM_GreaterThanOrEqual,
+		UrlFileNameMatchConditionParameters_Operator_STATUS_ARM_LessThan,
+		UrlFileNameMatchConditionParameters_Operator_STATUS_ARM_LessThanOrEqual,
+		UrlFileNameMatchConditionParameters_Operator_STATUS_ARM_RegEx))
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		Transform_STATUS_Lowercase,
-		Transform_STATUS_RemoveNulls,
-		Transform_STATUS_Trim,
-		Transform_STATUS_Uppercase,
-		Transform_STATUS_UrlDecode,
-		Transform_STATUS_UrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(UrlFileNameMatchConditionParameters_TypeName_STATUS_DeliveryRuleUrlFilenameConditionParameters))
+		Transform_STATUS_ARM_Lowercase,
+		Transform_STATUS_ARM_RemoveNulls,
+		Transform_STATUS_ARM_Trim,
+		Transform_STATUS_ARM_Uppercase,
+		Transform_STATUS_ARM_UrlDecode,
+		Transform_STATUS_ARM_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(UrlFileNameMatchConditionParameters_TypeName_STATUS_ARM_DeliveryRuleUrlFilenameConditionParameters))
 }
 
 func Test_UrlPathMatchConditionParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -5298,25 +5298,25 @@ func AddIndependentPropertyGeneratorsForUrlPathMatchConditionParameters_STATUS_A
 	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
 	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		UrlPathMatchConditionParameters_Operator_STATUS_Any,
-		UrlPathMatchConditionParameters_Operator_STATUS_BeginsWith,
-		UrlPathMatchConditionParameters_Operator_STATUS_Contains,
-		UrlPathMatchConditionParameters_Operator_STATUS_EndsWith,
-		UrlPathMatchConditionParameters_Operator_STATUS_Equal,
-		UrlPathMatchConditionParameters_Operator_STATUS_GreaterThan,
-		UrlPathMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
-		UrlPathMatchConditionParameters_Operator_STATUS_LessThan,
-		UrlPathMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
-		UrlPathMatchConditionParameters_Operator_STATUS_RegEx,
-		UrlPathMatchConditionParameters_Operator_STATUS_Wildcard))
+		UrlPathMatchConditionParameters_Operator_STATUS_ARM_Any,
+		UrlPathMatchConditionParameters_Operator_STATUS_ARM_BeginsWith,
+		UrlPathMatchConditionParameters_Operator_STATUS_ARM_Contains,
+		UrlPathMatchConditionParameters_Operator_STATUS_ARM_EndsWith,
+		UrlPathMatchConditionParameters_Operator_STATUS_ARM_Equal,
+		UrlPathMatchConditionParameters_Operator_STATUS_ARM_GreaterThan,
+		UrlPathMatchConditionParameters_Operator_STATUS_ARM_GreaterThanOrEqual,
+		UrlPathMatchConditionParameters_Operator_STATUS_ARM_LessThan,
+		UrlPathMatchConditionParameters_Operator_STATUS_ARM_LessThanOrEqual,
+		UrlPathMatchConditionParameters_Operator_STATUS_ARM_RegEx,
+		UrlPathMatchConditionParameters_Operator_STATUS_ARM_Wildcard))
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		Transform_STATUS_Lowercase,
-		Transform_STATUS_RemoveNulls,
-		Transform_STATUS_Trim,
-		Transform_STATUS_Uppercase,
-		Transform_STATUS_UrlDecode,
-		Transform_STATUS_UrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(UrlPathMatchConditionParameters_TypeName_STATUS_DeliveryRuleUrlPathMatchConditionParameters))
+		Transform_STATUS_ARM_Lowercase,
+		Transform_STATUS_ARM_RemoveNulls,
+		Transform_STATUS_ARM_Trim,
+		Transform_STATUS_ARM_Uppercase,
+		Transform_STATUS_ARM_UrlDecode,
+		Transform_STATUS_ARM_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(UrlPathMatchConditionParameters_TypeName_STATUS_ARM_DeliveryRuleUrlPathMatchConditionParameters))
 }
 
 func Test_UrlRedirectActionParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -5381,13 +5381,13 @@ func AddIndependentPropertyGeneratorsForUrlRedirectActionParameters_STATUS_ARM(g
 	gens["CustomHostname"] = gen.PtrOf(gen.AlphaString())
 	gens["CustomPath"] = gen.PtrOf(gen.AlphaString())
 	gens["CustomQueryString"] = gen.PtrOf(gen.AlphaString())
-	gens["DestinationProtocol"] = gen.PtrOf(gen.OneConstOf(UrlRedirectActionParameters_DestinationProtocol_STATUS_Http, UrlRedirectActionParameters_DestinationProtocol_STATUS_Https, UrlRedirectActionParameters_DestinationProtocol_STATUS_MatchRequest))
+	gens["DestinationProtocol"] = gen.PtrOf(gen.OneConstOf(UrlRedirectActionParameters_DestinationProtocol_STATUS_ARM_Http, UrlRedirectActionParameters_DestinationProtocol_STATUS_ARM_Https, UrlRedirectActionParameters_DestinationProtocol_STATUS_ARM_MatchRequest))
 	gens["RedirectType"] = gen.PtrOf(gen.OneConstOf(
-		UrlRedirectActionParameters_RedirectType_STATUS_Found,
-		UrlRedirectActionParameters_RedirectType_STATUS_Moved,
-		UrlRedirectActionParameters_RedirectType_STATUS_PermanentRedirect,
-		UrlRedirectActionParameters_RedirectType_STATUS_TemporaryRedirect))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(UrlRedirectActionParameters_TypeName_STATUS_DeliveryRuleUrlRedirectActionParameters))
+		UrlRedirectActionParameters_RedirectType_STATUS_ARM_Found,
+		UrlRedirectActionParameters_RedirectType_STATUS_ARM_Moved,
+		UrlRedirectActionParameters_RedirectType_STATUS_ARM_PermanentRedirect,
+		UrlRedirectActionParameters_RedirectType_STATUS_ARM_TemporaryRedirect))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(UrlRedirectActionParameters_TypeName_STATUS_ARM_DeliveryRuleUrlRedirectActionParameters))
 }
 
 func Test_UrlRedirectAction_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -5457,7 +5457,7 @@ func UrlRedirectAction_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForUrlRedirectAction_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForUrlRedirectAction_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(UrlRedirectAction_Name_STATUS_UrlRedirect)
+	gens["Name"] = gen.OneConstOf(UrlRedirectAction_Name_STATUS_ARM_UrlRedirect)
 }
 
 // AddRelatedPropertyGeneratorsForUrlRedirectAction_STATUS_ARM is a factory method for creating gopter generators
@@ -5526,7 +5526,7 @@ func AddIndependentPropertyGeneratorsForUrlRewriteActionParameters_STATUS_ARM(ge
 	gens["Destination"] = gen.PtrOf(gen.AlphaString())
 	gens["PreserveUnmatchedPath"] = gen.PtrOf(gen.Bool())
 	gens["SourcePattern"] = gen.PtrOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(UrlRewriteActionParameters_TypeName_STATUS_DeliveryRuleUrlRewriteActionParameters))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(UrlRewriteActionParameters_TypeName_STATUS_ARM_DeliveryRuleUrlRewriteActionParameters))
 }
 
 func Test_UrlRewriteAction_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -5596,7 +5596,7 @@ func UrlRewriteAction_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForUrlRewriteAction_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForUrlRewriteAction_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(UrlRewriteAction_Name_STATUS_UrlRewrite)
+	gens["Name"] = gen.OneConstOf(UrlRewriteAction_Name_STATUS_ARM_UrlRewrite)
 }
 
 // AddRelatedPropertyGeneratorsForUrlRewriteAction_STATUS_ARM is a factory method for creating gopter generators
@@ -5671,8 +5671,8 @@ func UrlSigningActionParameters_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForUrlSigningActionParameters_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForUrlSigningActionParameters_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Algorithm"] = gen.PtrOf(gen.OneConstOf(UrlSigningActionParameters_Algorithm_STATUS_SHA256))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(UrlSigningActionParameters_TypeName_STATUS_DeliveryRuleUrlSigningActionParameters))
+	gens["Algorithm"] = gen.PtrOf(gen.OneConstOf(UrlSigningActionParameters_Algorithm_STATUS_ARM_SHA256))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(UrlSigningActionParameters_TypeName_STATUS_ARM_DeliveryRuleUrlSigningActionParameters))
 }
 
 // AddRelatedPropertyGeneratorsForUrlSigningActionParameters_STATUS_ARM is a factory method for creating gopter generators
@@ -5747,7 +5747,7 @@ func UrlSigningAction_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForUrlSigningAction_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForUrlSigningAction_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(UrlSigningAction_Name_STATUS_UrlSigning)
+	gens["Name"] = gen.OneConstOf(UrlSigningAction_Name_STATUS_ARM_UrlSigning)
 }
 
 // AddRelatedPropertyGeneratorsForUrlSigningAction_STATUS_ARM is a factory method for creating gopter generators
@@ -5888,6 +5888,6 @@ func UrlSigningParamIdentifier_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForUrlSigningParamIdentifier_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForUrlSigningParamIdentifier_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ParamIndicator"] = gen.PtrOf(gen.OneConstOf(UrlSigningParamIdentifier_ParamIndicator_STATUS_Expires, UrlSigningParamIdentifier_ParamIndicator_STATUS_KeyId, UrlSigningParamIdentifier_ParamIndicator_STATUS_Signature))
+	gens["ParamIndicator"] = gen.PtrOf(gen.OneConstOf(UrlSigningParamIdentifier_ParamIndicator_STATUS_ARM_Expires, UrlSigningParamIdentifier_ParamIndicator_STATUS_ARM_KeyId, UrlSigningParamIdentifier_ParamIndicator_STATUS_ARM_Signature))
 	gens["ParamName"] = gen.PtrOf(gen.AlphaString())
 }

@@ -396,7 +396,9 @@ func (domain *Domain_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		result.Properties.InboundIpRules = append(result.Properties.InboundIpRules, *item_ARM.(*InboundIpRule_ARM))
 	}
 	if domain.InputSchema != nil {
-		inputSchema := *domain.InputSchema
+		var temp string
+		temp = string(*domain.InputSchema)
+		inputSchema := DomainProperties_InputSchema_ARM(temp)
 		result.Properties.InputSchema = &inputSchema
 	}
 	if domain.InputSchemaMapping != nil {
@@ -408,7 +410,9 @@ func (domain *Domain_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		result.Properties.InputSchemaMapping = &inputSchemaMapping
 	}
 	if domain.PublicNetworkAccess != nil {
-		publicNetworkAccess := *domain.PublicNetworkAccess
+		var temp string
+		temp = string(*domain.PublicNetworkAccess)
+		publicNetworkAccess := DomainProperties_PublicNetworkAccess_ARM(temp)
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 
@@ -454,7 +458,9 @@ func (domain *Domain_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.InputSchema != nil {
-			inputSchema := *typedInput.Properties.InputSchema
+			var temp string
+			temp = string(*typedInput.Properties.InputSchema)
+			inputSchema := DomainProperties_InputSchema(temp)
 			domain.InputSchema = &inputSchema
 		}
 	}
@@ -489,7 +495,9 @@ func (domain *Domain_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
-			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccess)
+			publicNetworkAccess := DomainProperties_PublicNetworkAccess(temp)
 			domain.PublicNetworkAccess = &publicNetworkAccess
 		}
 	}
@@ -926,7 +934,9 @@ func (domain *Domain_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.InputSchema != nil {
-			inputSchema := *typedInput.Properties.InputSchema
+			var temp string
+			temp = string(*typedInput.Properties.InputSchema)
+			inputSchema := DomainProperties_InputSchema_STATUS(temp)
 			domain.InputSchema = &inputSchema
 		}
 	}
@@ -983,7 +993,9 @@ func (domain *Domain_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := DomainProperties_ProvisioningState_STATUS(temp)
 			domain.ProvisioningState = &provisioningState
 		}
 	}
@@ -992,7 +1004,9 @@ func (domain *Domain_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
-			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccess)
+			publicNetworkAccess := DomainProperties_PublicNetworkAccess_STATUS(temp)
 			domain.PublicNetworkAccess = &publicNetworkAccess
 		}
 	}
@@ -1366,7 +1380,9 @@ func (rule *InboundIpRule) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 	// Set property "Action":
 	if rule.Action != nil {
-		action := *rule.Action
+		var temp string
+		temp = string(*rule.Action)
+		action := InboundIpRule_Action_ARM(temp)
 		result.Action = &action
 	}
 
@@ -1392,7 +1408,9 @@ func (rule *InboundIpRule) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 
 	// Set property "Action":
 	if typedInput.Action != nil {
-		action := *typedInput.Action
+		var temp string
+		temp = string(*typedInput.Action)
+		action := InboundIpRule_Action(temp)
 		rule.Action = &action
 	}
 
@@ -1494,7 +1512,9 @@ func (rule *InboundIpRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property "Action":
 	if typedInput.Action != nil {
-		action := *typedInput.Action
+		var temp string
+		temp = string(*typedInput.Action)
+		action := InboundIpRule_Action_STATUS(temp)
 		rule.Action = &action
 	}
 
@@ -1861,7 +1881,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "CreatedByType":
 	if typedInput.CreatedByType != nil {
-		createdByType := *typedInput.CreatedByType
+		var temp string
+		temp = string(*typedInput.CreatedByType)
+		createdByType := SystemData_CreatedByType_STATUS(temp)
 		data.CreatedByType = &createdByType
 	}
 
@@ -1879,7 +1901,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "LastModifiedByType":
 	if typedInput.LastModifiedByType != nil {
-		lastModifiedByType := *typedInput.LastModifiedByType
+		var temp string
+		temp = string(*typedInput.LastModifiedByType)
+		lastModifiedByType := SystemData_LastModifiedByType_STATUS(temp)
 		data.LastModifiedByType = &lastModifiedByType
 	}
 
@@ -2022,7 +2046,11 @@ func (mapping *JsonInputSchemaMapping) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property "InputSchemaMappingType":
 	if mapping.InputSchemaMappingType != nil {
-		result.InputSchemaMappingType = *mapping.InputSchemaMappingType
+		var temp JsonInputSchemaMapping_InputSchemaMappingType_ARM
+		var temp1 string
+		temp1 = string(*mapping.InputSchemaMappingType)
+		temp = JsonInputSchemaMapping_InputSchemaMappingType_ARM(temp1)
+		result.InputSchemaMappingType = temp
 	}
 
 	// Set property "Properties":
@@ -2154,7 +2182,11 @@ func (mapping *JsonInputSchemaMapping) PopulateFromARM(owner genruntime.Arbitrar
 	}
 
 	// Set property "InputSchemaMappingType":
-	mapping.InputSchemaMappingType = &typedInput.InputSchemaMappingType
+	var temp JsonInputSchemaMapping_InputSchemaMappingType
+	var temp1 string
+	temp1 = string(typedInput.InputSchemaMappingType)
+	temp = JsonInputSchemaMapping_InputSchemaMappingType(temp1)
+	mapping.InputSchemaMappingType = &temp
 
 	// Set property "Subject":
 	// copying flattened property:
@@ -2553,7 +2585,11 @@ func (mapping *JsonInputSchemaMapping_STATUS) PopulateFromARM(owner genruntime.A
 	}
 
 	// Set property "InputSchemaMappingType":
-	mapping.InputSchemaMappingType = &typedInput.InputSchemaMappingType
+	var temp JsonInputSchemaMapping_InputSchemaMappingType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.InputSchemaMappingType)
+	temp = JsonInputSchemaMapping_InputSchemaMappingType_STATUS(temp1)
+	mapping.InputSchemaMappingType = &temp
 
 	// Set property "Subject":
 	// copying flattened property:
@@ -2769,6 +2805,40 @@ func (mapping *JsonInputSchemaMapping_STATUS) AssignProperties_To_JsonInputSchem
 
 	// No error
 	return nil
+}
+
+type SystemData_CreatedByType_STATUS string
+
+const (
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
+}
+
+type SystemData_LastModifiedByType_STATUS string
+
+const (
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
 }
 
 // This is used to express the source of an input schema mapping for a single target field in the Event Grid Event schema.

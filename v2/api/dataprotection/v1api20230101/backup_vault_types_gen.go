@@ -1085,7 +1085,9 @@ func (vault *BackupVault_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property "ProvisioningState":
 	if typedInput.ProvisioningState != nil {
-		provisioningState := *typedInput.ProvisioningState
+		var temp string
+		temp = string(*typedInput.ProvisioningState)
+		provisioningState := BackupVault_ProvisioningState_STATUS(temp)
 		vault.ProvisioningState = &provisioningState
 	}
 
@@ -1102,7 +1104,9 @@ func (vault *BackupVault_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property "ResourceMoveState":
 	if typedInput.ResourceMoveState != nil {
-		resourceMoveState := *typedInput.ResourceMoveState
+		var temp string
+		temp = string(*typedInput.ResourceMoveState)
+		resourceMoveState := BackupVault_ResourceMoveState_STATUS(temp)
 		vault.ResourceMoveState = &resourceMoveState
 	}
 
@@ -1858,7 +1862,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "CreatedByType":
 	if typedInput.CreatedByType != nil {
-		createdByType := *typedInput.CreatedByType
+		var temp string
+		temp = string(*typedInput.CreatedByType)
+		createdByType := SystemData_CreatedByType_STATUS(temp)
 		data.CreatedByType = &createdByType
 	}
 
@@ -1876,7 +1882,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "LastModifiedByType":
 	if typedInput.LastModifiedByType != nil {
-		lastModifiedByType := *typedInput.LastModifiedByType
+		var temp string
+		temp = string(*typedInput.LastModifiedByType)
+		lastModifiedByType := SystemData_LastModifiedByType_STATUS(temp)
 		data.LastModifiedByType = &lastModifiedByType
 	}
 
@@ -1963,6 +1971,54 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 
 	// No error
 	return nil
+}
+
+type BackupVault_ProvisioningState_STATUS string
+
+const (
+	BackupVault_ProvisioningState_STATUS_Failed       = BackupVault_ProvisioningState_STATUS("Failed")
+	BackupVault_ProvisioningState_STATUS_Provisioning = BackupVault_ProvisioningState_STATUS("Provisioning")
+	BackupVault_ProvisioningState_STATUS_Succeeded    = BackupVault_ProvisioningState_STATUS("Succeeded")
+	BackupVault_ProvisioningState_STATUS_Unknown      = BackupVault_ProvisioningState_STATUS("Unknown")
+	BackupVault_ProvisioningState_STATUS_Updating     = BackupVault_ProvisioningState_STATUS("Updating")
+)
+
+// Mapping from string to BackupVault_ProvisioningState_STATUS
+var backupVault_ProvisioningState_STATUS_Values = map[string]BackupVault_ProvisioningState_STATUS{
+	"failed":       BackupVault_ProvisioningState_STATUS_Failed,
+	"provisioning": BackupVault_ProvisioningState_STATUS_Provisioning,
+	"succeeded":    BackupVault_ProvisioningState_STATUS_Succeeded,
+	"unknown":      BackupVault_ProvisioningState_STATUS_Unknown,
+	"updating":     BackupVault_ProvisioningState_STATUS_Updating,
+}
+
+type BackupVault_ResourceMoveState_STATUS string
+
+const (
+	BackupVault_ResourceMoveState_STATUS_CommitFailed    = BackupVault_ResourceMoveState_STATUS("CommitFailed")
+	BackupVault_ResourceMoveState_STATUS_CommitTimedout  = BackupVault_ResourceMoveState_STATUS("CommitTimedout")
+	BackupVault_ResourceMoveState_STATUS_CriticalFailure = BackupVault_ResourceMoveState_STATUS("CriticalFailure")
+	BackupVault_ResourceMoveState_STATUS_Failed          = BackupVault_ResourceMoveState_STATUS("Failed")
+	BackupVault_ResourceMoveState_STATUS_InProgress      = BackupVault_ResourceMoveState_STATUS("InProgress")
+	BackupVault_ResourceMoveState_STATUS_MoveSucceeded   = BackupVault_ResourceMoveState_STATUS("MoveSucceeded")
+	BackupVault_ResourceMoveState_STATUS_PartialSuccess  = BackupVault_ResourceMoveState_STATUS("PartialSuccess")
+	BackupVault_ResourceMoveState_STATUS_PrepareFailed   = BackupVault_ResourceMoveState_STATUS("PrepareFailed")
+	BackupVault_ResourceMoveState_STATUS_PrepareTimedout = BackupVault_ResourceMoveState_STATUS("PrepareTimedout")
+	BackupVault_ResourceMoveState_STATUS_Unknown         = BackupVault_ResourceMoveState_STATUS("Unknown")
+)
+
+// Mapping from string to BackupVault_ResourceMoveState_STATUS
+var backupVault_ResourceMoveState_STATUS_Values = map[string]BackupVault_ResourceMoveState_STATUS{
+	"commitfailed":    BackupVault_ResourceMoveState_STATUS_CommitFailed,
+	"committimedout":  BackupVault_ResourceMoveState_STATUS_CommitTimedout,
+	"criticalfailure": BackupVault_ResourceMoveState_STATUS_CriticalFailure,
+	"failed":          BackupVault_ResourceMoveState_STATUS_Failed,
+	"inprogress":      BackupVault_ResourceMoveState_STATUS_InProgress,
+	"movesucceeded":   BackupVault_ResourceMoveState_STATUS_MoveSucceeded,
+	"partialsuccess":  BackupVault_ResourceMoveState_STATUS_PartialSuccess,
+	"preparefailed":   BackupVault_ResourceMoveState_STATUS_PrepareFailed,
+	"preparetimedout": BackupVault_ResourceMoveState_STATUS_PrepareTimedout,
+	"unknown":         BackupVault_ResourceMoveState_STATUS_Unknown,
 }
 
 type BackupVaultOperatorConfigMaps struct {
@@ -2783,13 +2839,17 @@ func (setting *StorageSetting) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "DatastoreType":
 	if setting.DatastoreType != nil {
-		datastoreType := *setting.DatastoreType
+		var temp string
+		temp = string(*setting.DatastoreType)
+		datastoreType := StorageSetting_DatastoreType_ARM(temp)
 		result.DatastoreType = &datastoreType
 	}
 
 	// Set property "Type":
 	if setting.Type != nil {
-		typeVar := *setting.Type
+		var temp string
+		temp = string(*setting.Type)
+		typeVar := StorageSetting_Type_ARM(temp)
 		result.Type = &typeVar
 	}
 	return result, nil
@@ -2809,13 +2869,17 @@ func (setting *StorageSetting) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "DatastoreType":
 	if typedInput.DatastoreType != nil {
-		datastoreType := *typedInput.DatastoreType
+		var temp string
+		temp = string(*typedInput.DatastoreType)
+		datastoreType := StorageSetting_DatastoreType(temp)
 		setting.DatastoreType = &datastoreType
 	}
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := StorageSetting_Type(temp)
 		setting.Type = &typeVar
 	}
 
@@ -2905,13 +2969,17 @@ func (setting *StorageSetting_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property "DatastoreType":
 	if typedInput.DatastoreType != nil {
-		datastoreType := *typedInput.DatastoreType
+		var temp string
+		temp = string(*typedInput.DatastoreType)
+		datastoreType := StorageSetting_DatastoreType_STATUS(temp)
 		setting.DatastoreType = &datastoreType
 	}
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := StorageSetting_Type_STATUS(temp)
 		setting.Type = &typeVar
 	}
 
@@ -2976,6 +3044,40 @@ func (setting *StorageSetting_STATUS) AssignProperties_To_StorageSetting_STATUS(
 	return nil
 }
 
+type SystemData_CreatedByType_STATUS string
+
+const (
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
+}
+
+type SystemData_LastModifiedByType_STATUS string
+
+const (
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
+}
+
 // Settings for Azure Monitor based alerts
 type AzureMonitorAlertSettings struct {
 	AlertsForAllJobFailures *AzureMonitorAlertSettings_AlertsForAllJobFailures `json:"alertsForAllJobFailures,omitempty"`
@@ -2992,7 +3094,9 @@ func (settings *AzureMonitorAlertSettings) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "AlertsForAllJobFailures":
 	if settings.AlertsForAllJobFailures != nil {
-		alertsForAllJobFailures := *settings.AlertsForAllJobFailures
+		var temp string
+		temp = string(*settings.AlertsForAllJobFailures)
+		alertsForAllJobFailures := AzureMonitorAlertSettings_AlertsForAllJobFailures_ARM(temp)
 		result.AlertsForAllJobFailures = &alertsForAllJobFailures
 	}
 	return result, nil
@@ -3012,7 +3116,9 @@ func (settings *AzureMonitorAlertSettings) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property "AlertsForAllJobFailures":
 	if typedInput.AlertsForAllJobFailures != nil {
-		alertsForAllJobFailures := *typedInput.AlertsForAllJobFailures
+		var temp string
+		temp = string(*typedInput.AlertsForAllJobFailures)
+		alertsForAllJobFailures := AzureMonitorAlertSettings_AlertsForAllJobFailures(temp)
 		settings.AlertsForAllJobFailures = &alertsForAllJobFailures
 	}
 
@@ -3081,7 +3187,9 @@ func (settings *AzureMonitorAlertSettings_STATUS) PopulateFromARM(owner genrunti
 
 	// Set property "AlertsForAllJobFailures":
 	if typedInput.AlertsForAllJobFailures != nil {
-		alertsForAllJobFailures := *typedInput.AlertsForAllJobFailures
+		var temp string
+		temp = string(*typedInput.AlertsForAllJobFailures)
+		alertsForAllJobFailures := AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS(temp)
 		settings.AlertsForAllJobFailures = &alertsForAllJobFailures
 	}
 
@@ -3146,7 +3254,9 @@ func (settings *CrossSubscriptionRestoreSettings) ConvertToARM(resolved genrunti
 
 	// Set property "State":
 	if settings.State != nil {
-		state := *settings.State
+		var temp string
+		temp = string(*settings.State)
+		state := CrossSubscriptionRestoreSettings_State_ARM(temp)
 		result.State = &state
 	}
 	return result, nil
@@ -3166,7 +3276,9 @@ func (settings *CrossSubscriptionRestoreSettings) PopulateFromARM(owner genrunti
 
 	// Set property "State":
 	if typedInput.State != nil {
-		state := *typedInput.State
+		var temp string
+		temp = string(*typedInput.State)
+		state := CrossSubscriptionRestoreSettings_State(temp)
 		settings.State = &state
 	}
 
@@ -3236,7 +3348,9 @@ func (settings *CrossSubscriptionRestoreSettings_STATUS) PopulateFromARM(owner g
 
 	// Set property "State":
 	if typedInput.State != nil {
-		state := *typedInput.State
+		var temp string
+		temp = string(*typedInput.State)
+		state := CrossSubscriptionRestoreSettings_State_STATUS(temp)
 		settings.State = &state
 	}
 
@@ -3301,7 +3415,9 @@ func (settings *ImmutabilitySettings) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "State":
 	if settings.State != nil {
-		state := *settings.State
+		var temp string
+		temp = string(*settings.State)
+		state := ImmutabilitySettings_State_ARM(temp)
 		result.State = &state
 	}
 	return result, nil
@@ -3321,7 +3437,9 @@ func (settings *ImmutabilitySettings) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property "State":
 	if typedInput.State != nil {
-		state := *typedInput.State
+		var temp string
+		temp = string(*typedInput.State)
+		state := ImmutabilitySettings_State(temp)
 		settings.State = &state
 	}
 
@@ -3391,7 +3509,9 @@ func (settings *ImmutabilitySettings_STATUS) PopulateFromARM(owner genruntime.Ar
 
 	// Set property "State":
 	if typedInput.State != nil {
-		state := *typedInput.State
+		var temp string
+		temp = string(*typedInput.State)
+		state := ImmutabilitySettings_State_STATUS(temp)
 		settings.State = &state
 	}
 
@@ -3465,7 +3585,9 @@ func (settings *SoftDeleteSettings) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "State":
 	if settings.State != nil {
-		state := *settings.State
+		var temp string
+		temp = string(*settings.State)
+		state := SoftDeleteSettings_State_ARM(temp)
 		result.State = &state
 	}
 	return result, nil
@@ -3491,7 +3613,9 @@ func (settings *SoftDeleteSettings) PopulateFromARM(owner genruntime.ArbitraryOw
 
 	// Set property "State":
 	if typedInput.State != nil {
-		state := *typedInput.State
+		var temp string
+		temp = string(*typedInput.State)
+		state := SoftDeleteSettings_State(temp)
 		settings.State = &state
 	}
 
@@ -3586,7 +3710,9 @@ func (settings *SoftDeleteSettings_STATUS) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property "State":
 	if typedInput.State != nil {
-		state := *typedInput.State
+		var temp string
+		temp = string(*typedInput.State)
+		state := SoftDeleteSettings_State_STATUS(temp)
 		settings.State = &state
 	}
 
@@ -3648,6 +3774,188 @@ func (settings *SoftDeleteSettings_STATUS) AssignProperties_To_SoftDeleteSetting
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"ArchiveStore","OperationalStore","VaultStore"}
+type StorageSetting_DatastoreType string
+
+const (
+	StorageSetting_DatastoreType_ArchiveStore     = StorageSetting_DatastoreType("ArchiveStore")
+	StorageSetting_DatastoreType_OperationalStore = StorageSetting_DatastoreType("OperationalStore")
+	StorageSetting_DatastoreType_VaultStore       = StorageSetting_DatastoreType("VaultStore")
+)
+
+// Mapping from string to StorageSetting_DatastoreType
+var storageSetting_DatastoreType_Values = map[string]StorageSetting_DatastoreType{
+	"archivestore":     StorageSetting_DatastoreType_ArchiveStore,
+	"operationalstore": StorageSetting_DatastoreType_OperationalStore,
+	"vaultstore":       StorageSetting_DatastoreType_VaultStore,
+}
+
+type StorageSetting_DatastoreType_STATUS string
+
+const (
+	StorageSetting_DatastoreType_STATUS_ArchiveStore     = StorageSetting_DatastoreType_STATUS("ArchiveStore")
+	StorageSetting_DatastoreType_STATUS_OperationalStore = StorageSetting_DatastoreType_STATUS("OperationalStore")
+	StorageSetting_DatastoreType_STATUS_VaultStore       = StorageSetting_DatastoreType_STATUS("VaultStore")
+)
+
+// Mapping from string to StorageSetting_DatastoreType_STATUS
+var storageSetting_DatastoreType_STATUS_Values = map[string]StorageSetting_DatastoreType_STATUS{
+	"archivestore":     StorageSetting_DatastoreType_STATUS_ArchiveStore,
+	"operationalstore": StorageSetting_DatastoreType_STATUS_OperationalStore,
+	"vaultstore":       StorageSetting_DatastoreType_STATUS_VaultStore,
+}
+
+// +kubebuilder:validation:Enum={"GeoRedundant","LocallyRedundant","ZoneRedundant"}
+type StorageSetting_Type string
+
+const (
+	StorageSetting_Type_GeoRedundant     = StorageSetting_Type("GeoRedundant")
+	StorageSetting_Type_LocallyRedundant = StorageSetting_Type("LocallyRedundant")
+	StorageSetting_Type_ZoneRedundant    = StorageSetting_Type("ZoneRedundant")
+)
+
+// Mapping from string to StorageSetting_Type
+var storageSetting_Type_Values = map[string]StorageSetting_Type{
+	"georedundant":     StorageSetting_Type_GeoRedundant,
+	"locallyredundant": StorageSetting_Type_LocallyRedundant,
+	"zoneredundant":    StorageSetting_Type_ZoneRedundant,
+}
+
+type StorageSetting_Type_STATUS string
+
+const (
+	StorageSetting_Type_STATUS_GeoRedundant     = StorageSetting_Type_STATUS("GeoRedundant")
+	StorageSetting_Type_STATUS_LocallyRedundant = StorageSetting_Type_STATUS("LocallyRedundant")
+	StorageSetting_Type_STATUS_ZoneRedundant    = StorageSetting_Type_STATUS("ZoneRedundant")
+)
+
+// Mapping from string to StorageSetting_Type_STATUS
+var storageSetting_Type_STATUS_Values = map[string]StorageSetting_Type_STATUS{
+	"georedundant":     StorageSetting_Type_STATUS_GeoRedundant,
+	"locallyredundant": StorageSetting_Type_STATUS_LocallyRedundant,
+	"zoneredundant":    StorageSetting_Type_STATUS_ZoneRedundant,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type AzureMonitorAlertSettings_AlertsForAllJobFailures string
+
+const (
+	AzureMonitorAlertSettings_AlertsForAllJobFailures_Disabled = AzureMonitorAlertSettings_AlertsForAllJobFailures("Disabled")
+	AzureMonitorAlertSettings_AlertsForAllJobFailures_Enabled  = AzureMonitorAlertSettings_AlertsForAllJobFailures("Enabled")
+)
+
+// Mapping from string to AzureMonitorAlertSettings_AlertsForAllJobFailures
+var azureMonitorAlertSettings_AlertsForAllJobFailures_Values = map[string]AzureMonitorAlertSettings_AlertsForAllJobFailures{
+	"disabled": AzureMonitorAlertSettings_AlertsForAllJobFailures_Disabled,
+	"enabled":  AzureMonitorAlertSettings_AlertsForAllJobFailures_Enabled,
+}
+
+type AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS string
+
+const (
+	AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_Disabled = AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS("Disabled")
+	AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_Enabled  = AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS("Enabled")
+)
+
+// Mapping from string to AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS
+var azureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_Values = map[string]AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS{
+	"disabled": AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_Disabled,
+	"enabled":  AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_Enabled,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled","PermanentlyDisabled"}
+type CrossSubscriptionRestoreSettings_State string
+
+const (
+	CrossSubscriptionRestoreSettings_State_Disabled            = CrossSubscriptionRestoreSettings_State("Disabled")
+	CrossSubscriptionRestoreSettings_State_Enabled             = CrossSubscriptionRestoreSettings_State("Enabled")
+	CrossSubscriptionRestoreSettings_State_PermanentlyDisabled = CrossSubscriptionRestoreSettings_State("PermanentlyDisabled")
+)
+
+// Mapping from string to CrossSubscriptionRestoreSettings_State
+var crossSubscriptionRestoreSettings_State_Values = map[string]CrossSubscriptionRestoreSettings_State{
+	"disabled":            CrossSubscriptionRestoreSettings_State_Disabled,
+	"enabled":             CrossSubscriptionRestoreSettings_State_Enabled,
+	"permanentlydisabled": CrossSubscriptionRestoreSettings_State_PermanentlyDisabled,
+}
+
+type CrossSubscriptionRestoreSettings_State_STATUS string
+
+const (
+	CrossSubscriptionRestoreSettings_State_STATUS_Disabled            = CrossSubscriptionRestoreSettings_State_STATUS("Disabled")
+	CrossSubscriptionRestoreSettings_State_STATUS_Enabled             = CrossSubscriptionRestoreSettings_State_STATUS("Enabled")
+	CrossSubscriptionRestoreSettings_State_STATUS_PermanentlyDisabled = CrossSubscriptionRestoreSettings_State_STATUS("PermanentlyDisabled")
+)
+
+// Mapping from string to CrossSubscriptionRestoreSettings_State_STATUS
+var crossSubscriptionRestoreSettings_State_STATUS_Values = map[string]CrossSubscriptionRestoreSettings_State_STATUS{
+	"disabled":            CrossSubscriptionRestoreSettings_State_STATUS_Disabled,
+	"enabled":             CrossSubscriptionRestoreSettings_State_STATUS_Enabled,
+	"permanentlydisabled": CrossSubscriptionRestoreSettings_State_STATUS_PermanentlyDisabled,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Locked","Unlocked"}
+type ImmutabilitySettings_State string
+
+const (
+	ImmutabilitySettings_State_Disabled = ImmutabilitySettings_State("Disabled")
+	ImmutabilitySettings_State_Locked   = ImmutabilitySettings_State("Locked")
+	ImmutabilitySettings_State_Unlocked = ImmutabilitySettings_State("Unlocked")
+)
+
+// Mapping from string to ImmutabilitySettings_State
+var immutabilitySettings_State_Values = map[string]ImmutabilitySettings_State{
+	"disabled": ImmutabilitySettings_State_Disabled,
+	"locked":   ImmutabilitySettings_State_Locked,
+	"unlocked": ImmutabilitySettings_State_Unlocked,
+}
+
+type ImmutabilitySettings_State_STATUS string
+
+const (
+	ImmutabilitySettings_State_STATUS_Disabled = ImmutabilitySettings_State_STATUS("Disabled")
+	ImmutabilitySettings_State_STATUS_Locked   = ImmutabilitySettings_State_STATUS("Locked")
+	ImmutabilitySettings_State_STATUS_Unlocked = ImmutabilitySettings_State_STATUS("Unlocked")
+)
+
+// Mapping from string to ImmutabilitySettings_State_STATUS
+var immutabilitySettings_State_STATUS_Values = map[string]ImmutabilitySettings_State_STATUS{
+	"disabled": ImmutabilitySettings_State_STATUS_Disabled,
+	"locked":   ImmutabilitySettings_State_STATUS_Locked,
+	"unlocked": ImmutabilitySettings_State_STATUS_Unlocked,
+}
+
+// +kubebuilder:validation:Enum={"AlwaysOn","Off","On"}
+type SoftDeleteSettings_State string
+
+const (
+	SoftDeleteSettings_State_AlwaysOn = SoftDeleteSettings_State("AlwaysOn")
+	SoftDeleteSettings_State_Off      = SoftDeleteSettings_State("Off")
+	SoftDeleteSettings_State_On       = SoftDeleteSettings_State("On")
+)
+
+// Mapping from string to SoftDeleteSettings_State
+var softDeleteSettings_State_Values = map[string]SoftDeleteSettings_State{
+	"alwayson": SoftDeleteSettings_State_AlwaysOn,
+	"off":      SoftDeleteSettings_State_Off,
+	"on":       SoftDeleteSettings_State_On,
+}
+
+type SoftDeleteSettings_State_STATUS string
+
+const (
+	SoftDeleteSettings_State_STATUS_AlwaysOn = SoftDeleteSettings_State_STATUS("AlwaysOn")
+	SoftDeleteSettings_State_STATUS_Off      = SoftDeleteSettings_State_STATUS("Off")
+	SoftDeleteSettings_State_STATUS_On       = SoftDeleteSettings_State_STATUS("On")
+)
+
+// Mapping from string to SoftDeleteSettings_State_STATUS
+var softDeleteSettings_State_STATUS_Values = map[string]SoftDeleteSettings_State_STATUS{
+	"alwayson": SoftDeleteSettings_State_STATUS_AlwaysOn,
+	"off":      SoftDeleteSettings_State_STATUS_Off,
+	"on":       SoftDeleteSettings_State_STATUS_On,
 }
 
 func init() {

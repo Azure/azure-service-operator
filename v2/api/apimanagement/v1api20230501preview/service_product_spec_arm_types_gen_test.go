@@ -78,7 +78,7 @@ func AddIndependentPropertyGeneratorsForProductContractProperties_ARM(gens map[s
 	gens["ApprovalRequired"] = gen.PtrOf(gen.Bool())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
-	gens["State"] = gen.PtrOf(gen.OneConstOf(ProductContractProperties_State_NotPublished, ProductContractProperties_State_Published))
+	gens["State"] = gen.PtrOf(gen.OneConstOf(ProductContractProperties_State_ARM_NotPublished, ProductContractProperties_State_ARM_Published))
 	gens["SubscriptionRequired"] = gen.PtrOf(gen.Bool())
 	gens["SubscriptionsLimit"] = gen.PtrOf(gen.Int())
 	gens["Terms"] = gen.PtrOf(gen.AlphaString())

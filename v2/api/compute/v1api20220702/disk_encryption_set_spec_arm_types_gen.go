@@ -42,7 +42,7 @@ type EncryptionSetIdentity_ARM struct {
 	// Type: The type of Managed Identity used by the DiskEncryptionSet. Only SystemAssigned is supported for new creations.
 	// Disk Encryption Sets can be updated with Identity type None during migration of subscription to a new Azure Active
 	// Directory tenant; it will cause the encrypted resources to lose access to the keys.
-	Type                   *EncryptionSetIdentity_Type                `json:"type,omitempty"`
+	Type                   *EncryptionSetIdentity_Type_ARM            `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -51,7 +51,7 @@ type EncryptionSetProperties_ARM struct {
 	ActiveKey *KeyForDiskEncryptionSet_ARM `json:"activeKey,omitempty"`
 
 	// EncryptionType: The type of key used to encrypt the data of the disk.
-	EncryptionType *DiskEncryptionSetType `json:"encryptionType,omitempty"`
+	EncryptionType *DiskEncryptionSetType_ARM `json:"encryptionType,omitempty"`
 
 	// FederatedClientId: Multi-tenant application client id to access key vault in a different tenant. Setting the value to
 	// 'None' will clear the property.
@@ -62,22 +62,39 @@ type EncryptionSetProperties_ARM struct {
 	RotationToLatestKeyVersionEnabled *bool `json:"rotationToLatestKeyVersionEnabled,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
-type EncryptionSetIdentity_Type string
+// The type of key used to encrypt the data of the disk.
+// +kubebuilder:validation:Enum={"ConfidentialVmEncryptedWithCustomerKey","EncryptionAtRestWithCustomerKey","EncryptionAtRestWithPlatformAndCustomerKeys"}
+type DiskEncryptionSetType_ARM string
 
 const (
-	EncryptionSetIdentity_Type_None                       = EncryptionSetIdentity_Type("None")
-	EncryptionSetIdentity_Type_SystemAssigned             = EncryptionSetIdentity_Type("SystemAssigned")
-	EncryptionSetIdentity_Type_SystemAssignedUserAssigned = EncryptionSetIdentity_Type("SystemAssigned, UserAssigned")
-	EncryptionSetIdentity_Type_UserAssigned               = EncryptionSetIdentity_Type("UserAssigned")
+	DiskEncryptionSetType_ARM_ConfidentialVmEncryptedWithCustomerKey      = DiskEncryptionSetType_ARM("ConfidentialVmEncryptedWithCustomerKey")
+	DiskEncryptionSetType_ARM_EncryptionAtRestWithCustomerKey             = DiskEncryptionSetType_ARM("EncryptionAtRestWithCustomerKey")
+	DiskEncryptionSetType_ARM_EncryptionAtRestWithPlatformAndCustomerKeys = DiskEncryptionSetType_ARM("EncryptionAtRestWithPlatformAndCustomerKeys")
 )
 
-// Mapping from string to EncryptionSetIdentity_Type
-var encryptionSetIdentity_Type_Values = map[string]EncryptionSetIdentity_Type{
-	"none":                         EncryptionSetIdentity_Type_None,
-	"systemassigned":               EncryptionSetIdentity_Type_SystemAssigned,
-	"systemassigned, userassigned": EncryptionSetIdentity_Type_SystemAssignedUserAssigned,
-	"userassigned":                 EncryptionSetIdentity_Type_UserAssigned,
+// Mapping from string to DiskEncryptionSetType_ARM
+var diskEncryptionSetType_ARM_Values = map[string]DiskEncryptionSetType_ARM{
+	"confidentialvmencryptedwithcustomerkey":      DiskEncryptionSetType_ARM_ConfidentialVmEncryptedWithCustomerKey,
+	"encryptionatrestwithcustomerkey":             DiskEncryptionSetType_ARM_EncryptionAtRestWithCustomerKey,
+	"encryptionatrestwithplatformandcustomerkeys": DiskEncryptionSetType_ARM_EncryptionAtRestWithPlatformAndCustomerKeys,
+}
+
+// +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
+type EncryptionSetIdentity_Type_ARM string
+
+const (
+	EncryptionSetIdentity_Type_ARM_None                       = EncryptionSetIdentity_Type_ARM("None")
+	EncryptionSetIdentity_Type_ARM_SystemAssigned             = EncryptionSetIdentity_Type_ARM("SystemAssigned")
+	EncryptionSetIdentity_Type_ARM_SystemAssignedUserAssigned = EncryptionSetIdentity_Type_ARM("SystemAssigned, UserAssigned")
+	EncryptionSetIdentity_Type_ARM_UserAssigned               = EncryptionSetIdentity_Type_ARM("UserAssigned")
+)
+
+// Mapping from string to EncryptionSetIdentity_Type_ARM
+var encryptionSetIdentity_Type_ARM_Values = map[string]EncryptionSetIdentity_Type_ARM{
+	"none":                         EncryptionSetIdentity_Type_ARM_None,
+	"systemassigned":               EncryptionSetIdentity_Type_ARM_SystemAssigned,
+	"systemassigned, userassigned": EncryptionSetIdentity_Type_ARM_SystemAssignedUserAssigned,
+	"userassigned":                 EncryptionSetIdentity_Type_ARM_UserAssigned,
 }
 
 // Key Vault Key Url to be used for server side encryption of Managed Disks and Snapshots

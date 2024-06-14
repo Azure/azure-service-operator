@@ -146,17 +146,17 @@ func EndpointProperties_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEndpointProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEndpointProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["AlwaysServe"] = gen.PtrOf(gen.OneConstOf(EndpointProperties_AlwaysServe_STATUS_Disabled, EndpointProperties_AlwaysServe_STATUS_Enabled))
+	gens["AlwaysServe"] = gen.PtrOf(gen.OneConstOf(EndpointProperties_AlwaysServe_STATUS_ARM_Disabled, EndpointProperties_AlwaysServe_STATUS_ARM_Enabled))
 	gens["EndpointLocation"] = gen.PtrOf(gen.AlphaString())
 	gens["EndpointMonitorStatus"] = gen.PtrOf(gen.OneConstOf(
-		EndpointProperties_EndpointMonitorStatus_STATUS_CheckingEndpoint,
-		EndpointProperties_EndpointMonitorStatus_STATUS_Degraded,
-		EndpointProperties_EndpointMonitorStatus_STATUS_Disabled,
-		EndpointProperties_EndpointMonitorStatus_STATUS_Inactive,
-		EndpointProperties_EndpointMonitorStatus_STATUS_Online,
-		EndpointProperties_EndpointMonitorStatus_STATUS_Stopped,
-		EndpointProperties_EndpointMonitorStatus_STATUS_Unmonitored))
-	gens["EndpointStatus"] = gen.PtrOf(gen.OneConstOf(EndpointProperties_EndpointStatus_STATUS_Disabled, EndpointProperties_EndpointStatus_STATUS_Enabled))
+		EndpointProperties_EndpointMonitorStatus_STATUS_ARM_CheckingEndpoint,
+		EndpointProperties_EndpointMonitorStatus_STATUS_ARM_Degraded,
+		EndpointProperties_EndpointMonitorStatus_STATUS_ARM_Disabled,
+		EndpointProperties_EndpointMonitorStatus_STATUS_ARM_Inactive,
+		EndpointProperties_EndpointMonitorStatus_STATUS_ARM_Online,
+		EndpointProperties_EndpointMonitorStatus_STATUS_ARM_Stopped,
+		EndpointProperties_EndpointMonitorStatus_STATUS_ARM_Unmonitored))
+	gens["EndpointStatus"] = gen.PtrOf(gen.OneConstOf(EndpointProperties_EndpointStatus_STATUS_ARM_Disabled, EndpointProperties_EndpointStatus_STATUS_ARM_Enabled))
 	gens["GeoMapping"] = gen.SliceOf(gen.AlphaString())
 	gens["MinChildEndpoints"] = gen.PtrOf(gen.Int())
 	gens["MinChildEndpointsIPv4"] = gen.PtrOf(gen.Int())

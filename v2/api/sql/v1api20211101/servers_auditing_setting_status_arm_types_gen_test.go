@@ -82,7 +82,7 @@ func AddIndependentPropertyGeneratorsForServerBlobAuditingPolicyProperties_STATU
 	gens["IsStorageSecondaryKeyInUse"] = gen.PtrOf(gen.Bool())
 	gens["QueueDelayMs"] = gen.PtrOf(gen.Int())
 	gens["RetentionDays"] = gen.PtrOf(gen.Int())
-	gens["State"] = gen.PtrOf(gen.OneConstOf(ServerBlobAuditingPolicyProperties_State_STATUS_Disabled, ServerBlobAuditingPolicyProperties_State_STATUS_Enabled))
+	gens["State"] = gen.PtrOf(gen.OneConstOf(ServerBlobAuditingPolicyProperties_State_STATUS_ARM_Disabled, ServerBlobAuditingPolicyProperties_State_STATUS_ARM_Enabled))
 	gens["StorageAccountSubscriptionId"] = gen.PtrOf(gen.AlphaString())
 	gens["StorageEndpoint"] = gen.PtrOf(gen.AlphaString())
 }

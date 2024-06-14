@@ -62,14 +62,14 @@ type ManagedClusterAgentPoolProfileProperties_ARM struct {
 	EnableUltraSSD *bool `json:"enableUltraSSD,omitempty"`
 
 	// GpuInstanceProfile: GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
-	GpuInstanceProfile *GPUInstanceProfile `json:"gpuInstanceProfile,omitempty"`
+	GpuInstanceProfile *GPUInstanceProfile_ARM `json:"gpuInstanceProfile,omitempty"`
 
 	// KubeletConfig: The Kubelet configuration on the agent pool nodes.
 	KubeletConfig *KubeletConfig_ARM `json:"kubeletConfig,omitempty"`
 
 	// KubeletDiskType: Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral
 	// storage.
-	KubeletDiskType *KubeletDiskType `json:"kubeletDiskType,omitempty"`
+	KubeletDiskType *KubeletDiskType_ARM `json:"kubeletDiskType,omitempty"`
 
 	// LinuxOSConfig: The OS configuration of Linux agent nodes.
 	LinuxOSConfig *LinuxOSConfig_ARM `json:"linuxOSConfig,omitempty"`
@@ -85,7 +85,7 @@ type ManagedClusterAgentPoolProfileProperties_ARM struct {
 
 	// Mode: A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool
 	// restrictions  and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools
-	Mode *AgentPoolMode `json:"mode,omitempty"`
+	Mode *AgentPoolMode_ARM `json:"mode,omitempty"`
 
 	// NodeLabels: The node labels to be persisted across all nodes in agent pool.
 	NodeLabels           map[string]string `json:"nodeLabels"`
@@ -99,30 +99,30 @@ type ManagedClusterAgentPoolProfileProperties_ARM struct {
 	// be within two minor versions of the control plane version. The node pool version cannot be greater than the control
 	// plane version. For more information see [upgrading a node
 	// pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool).
-	OrchestratorVersion *string                 `json:"orchestratorVersion,omitempty"`
-	OsDiskSizeGB        *ContainerServiceOSDisk `json:"osDiskSizeGB,omitempty"`
+	OrchestratorVersion *string                     `json:"orchestratorVersion,omitempty"`
+	OsDiskSizeGB        *ContainerServiceOSDisk_ARM `json:"osDiskSizeGB,omitempty"`
 
 	// OsDiskType: The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested
 	// OSDiskSizeGB. Otherwise,  defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral
 	// OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).
-	OsDiskType *OSDiskType `json:"osDiskType,omitempty"`
+	OsDiskType *OSDiskType_ARM `json:"osDiskType,omitempty"`
 
 	// OsSKU: Specifies an OS SKU. This value must not be specified if OSType is Windows.
-	OsSKU *OSSKU `json:"osSKU,omitempty"`
+	OsSKU *OSSKU_ARM `json:"osSKU,omitempty"`
 
 	// OsType: The operating system type. The default is Linux.
-	OsType      *OSType `json:"osType,omitempty"`
-	PodSubnetID *string `json:"podSubnetID,omitempty"`
+	OsType      *OSType_ARM `json:"osType,omitempty"`
+	PodSubnetID *string     `json:"podSubnetID,omitempty"`
 
 	// ProximityPlacementGroupID: The ID for Proximity Placement Group.
 	ProximityPlacementGroupID *string `json:"proximityPlacementGroupID,omitempty"`
 
 	// ScaleSetEvictionPolicy: This cannot be specified unless the scaleSetPriority is 'Spot'. If not specified, the default is
 	// 'Delete'.
-	ScaleSetEvictionPolicy *ScaleSetEvictionPolicy `json:"scaleSetEvictionPolicy,omitempty"`
+	ScaleSetEvictionPolicy *ScaleSetEvictionPolicy_ARM `json:"scaleSetEvictionPolicy,omitempty"`
 
 	// ScaleSetPriority: The Virtual Machine Scale Set priority. If not specified, the default is 'Regular'.
-	ScaleSetPriority *ScaleSetPriority `json:"scaleSetPriority,omitempty"`
+	ScaleSetPriority *ScaleSetPriority_ARM `json:"scaleSetPriority,omitempty"`
 
 	// SpotMaxPrice: Possible values are any decimal value greater than zero or -1 which indicates the willingness to pay any
 	// on-demand price. For more details on spot pricing, see [spot VMs
@@ -133,7 +133,7 @@ type ManagedClusterAgentPoolProfileProperties_ARM struct {
 	Tags map[string]string `json:"tags"`
 
 	// Type: The type of Agent Pool.
-	Type *AgentPoolType `json:"type,omitempty"`
+	Type *AgentPoolType_ARM `json:"type,omitempty"`
 
 	// UpgradeSettings: Settings for upgrading the agentpool
 	UpgradeSettings *AgentPoolUpgradeSettings_ARM `json:"upgradeSettings,omitempty"`
@@ -145,6 +145,37 @@ type ManagedClusterAgentPoolProfileProperties_ARM struct {
 	VnetSubnetID *string `json:"vnetSubnetID,omitempty"`
 }
 
+// A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions
+// and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools
+// +kubebuilder:validation:Enum={"System","User"}
+type AgentPoolMode_ARM string
+
+const (
+	AgentPoolMode_ARM_System = AgentPoolMode_ARM("System")
+	AgentPoolMode_ARM_User   = AgentPoolMode_ARM("User")
+)
+
+// Mapping from string to AgentPoolMode_ARM
+var agentPoolMode_ARM_Values = map[string]AgentPoolMode_ARM{
+	"system": AgentPoolMode_ARM_System,
+	"user":   AgentPoolMode_ARM_User,
+}
+
+// The type of Agent Pool.
+// +kubebuilder:validation:Enum={"AvailabilitySet","VirtualMachineScaleSets"}
+type AgentPoolType_ARM string
+
+const (
+	AgentPoolType_ARM_AvailabilitySet         = AgentPoolType_ARM("AvailabilitySet")
+	AgentPoolType_ARM_VirtualMachineScaleSets = AgentPoolType_ARM("VirtualMachineScaleSets")
+)
+
+// Mapping from string to AgentPoolType_ARM
+var agentPoolType_ARM_Values = map[string]AgentPoolType_ARM{
+	"availabilityset":         AgentPoolType_ARM_AvailabilitySet,
+	"virtualmachinescalesets": AgentPoolType_ARM_VirtualMachineScaleSets,
+}
+
 // Settings for upgrading an agentpool
 type AgentPoolUpgradeSettings_ARM struct {
 	// MaxSurge: This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it
@@ -152,6 +183,27 @@ type AgentPoolUpgradeSettings_ARM struct {
 	// up. If not specified, the default is 1. For more information, including best practices, see:
 	// https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade
 	MaxSurge *string `json:"maxSurge,omitempty"`
+}
+
+// GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
+// +kubebuilder:validation:Enum={"MIG1g","MIG2g","MIG3g","MIG4g","MIG7g"}
+type GPUInstanceProfile_ARM string
+
+const (
+	GPUInstanceProfile_ARM_MIG1G = GPUInstanceProfile_ARM("MIG1g")
+	GPUInstanceProfile_ARM_MIG2G = GPUInstanceProfile_ARM("MIG2g")
+	GPUInstanceProfile_ARM_MIG3G = GPUInstanceProfile_ARM("MIG3g")
+	GPUInstanceProfile_ARM_MIG4G = GPUInstanceProfile_ARM("MIG4g")
+	GPUInstanceProfile_ARM_MIG7G = GPUInstanceProfile_ARM("MIG7g")
+)
+
+// Mapping from string to GPUInstanceProfile_ARM
+var gPUInstanceProfile_ARM_Values = map[string]GPUInstanceProfile_ARM{
+	"mig1g": GPUInstanceProfile_ARM_MIG1G,
+	"mig2g": GPUInstanceProfile_ARM_MIG2G,
+	"mig3g": GPUInstanceProfile_ARM_MIG3G,
+	"mig4g": GPUInstanceProfile_ARM_MIG4G,
+	"mig7g": GPUInstanceProfile_ARM_MIG7G,
 }
 
 // See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
@@ -196,6 +248,21 @@ type KubeletConfig_ARM struct {
 	TopologyManagerPolicy *string `json:"topologyManagerPolicy,omitempty"`
 }
 
+// Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage.
+// +kubebuilder:validation:Enum={"OS","Temporary"}
+type KubeletDiskType_ARM string
+
+const (
+	KubeletDiskType_ARM_OS        = KubeletDiskType_ARM("OS")
+	KubeletDiskType_ARM_Temporary = KubeletDiskType_ARM("Temporary")
+)
+
+// Mapping from string to KubeletDiskType_ARM
+var kubeletDiskType_ARM_Values = map[string]KubeletDiskType_ARM{
+	"os":        KubeletDiskType_ARM_OS,
+	"temporary": KubeletDiskType_ARM_Temporary,
+}
+
 // See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type LinuxOSConfig_ARM struct {
 	// SwapFileSizeMB: The size in MB of a swap file that will be created on each node.
@@ -213,6 +280,84 @@ type LinuxOSConfig_ARM struct {
 	// information see [Transparent
 	// Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
 	TransparentHugePageEnabled *string `json:"transparentHugePageEnabled,omitempty"`
+}
+
+// The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise,
+// defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral
+// OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).
+// +kubebuilder:validation:Enum={"Ephemeral","Managed"}
+type OSDiskType_ARM string
+
+const (
+	OSDiskType_ARM_Ephemeral = OSDiskType_ARM("Ephemeral")
+	OSDiskType_ARM_Managed   = OSDiskType_ARM("Managed")
+)
+
+// Mapping from string to OSDiskType_ARM
+var oSDiskType_ARM_Values = map[string]OSDiskType_ARM{
+	"ephemeral": OSDiskType_ARM_Ephemeral,
+	"managed":   OSDiskType_ARM_Managed,
+}
+
+// Specifies an OS SKU. This value must not be specified if OSType is Windows.
+// +kubebuilder:validation:Enum={"CBLMariner","Ubuntu"}
+type OSSKU_ARM string
+
+const (
+	OSSKU_ARM_CBLMariner = OSSKU_ARM("CBLMariner")
+	OSSKU_ARM_Ubuntu     = OSSKU_ARM("Ubuntu")
+)
+
+// Mapping from string to OSSKU_ARM
+var oSSKU_ARM_Values = map[string]OSSKU_ARM{
+	"cblmariner": OSSKU_ARM_CBLMariner,
+	"ubuntu":     OSSKU_ARM_Ubuntu,
+}
+
+// The operating system type. The default is Linux.
+// +kubebuilder:validation:Enum={"Linux","Windows"}
+type OSType_ARM string
+
+const (
+	OSType_ARM_Linux   = OSType_ARM("Linux")
+	OSType_ARM_Windows = OSType_ARM("Windows")
+)
+
+// Mapping from string to OSType_ARM
+var oSType_ARM_Values = map[string]OSType_ARM{
+	"linux":   OSType_ARM_Linux,
+	"windows": OSType_ARM_Windows,
+}
+
+// The eviction policy specifies what to do with the VM when it is evicted. The default is Delete. For more information
+// about eviction see [spot VMs](https://docs.microsoft.com/azure/virtual-machines/spot-vms)
+// +kubebuilder:validation:Enum={"Deallocate","Delete"}
+type ScaleSetEvictionPolicy_ARM string
+
+const (
+	ScaleSetEvictionPolicy_ARM_Deallocate = ScaleSetEvictionPolicy_ARM("Deallocate")
+	ScaleSetEvictionPolicy_ARM_Delete     = ScaleSetEvictionPolicy_ARM("Delete")
+)
+
+// Mapping from string to ScaleSetEvictionPolicy_ARM
+var scaleSetEvictionPolicy_ARM_Values = map[string]ScaleSetEvictionPolicy_ARM{
+	"deallocate": ScaleSetEvictionPolicy_ARM_Deallocate,
+	"delete":     ScaleSetEvictionPolicy_ARM_Delete,
+}
+
+// The Virtual Machine Scale Set priority.
+// +kubebuilder:validation:Enum={"Regular","Spot"}
+type ScaleSetPriority_ARM string
+
+const (
+	ScaleSetPriority_ARM_Regular = ScaleSetPriority_ARM("Regular")
+	ScaleSetPriority_ARM_Spot    = ScaleSetPriority_ARM("Spot")
+)
+
+// Mapping from string to ScaleSetPriority_ARM
+var scaleSetPriority_ARM_Values = map[string]ScaleSetPriority_ARM{
+	"regular": ScaleSetPriority_ARM_Regular,
+	"spot":    ScaleSetPriority_ARM_Spot,
 }
 
 // Sysctl settings for Linux agent nodes.

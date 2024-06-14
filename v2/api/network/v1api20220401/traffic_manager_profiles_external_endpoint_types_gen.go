@@ -425,7 +425,9 @@ func (endpoint *Trafficmanagerprofiles_ExternalEndpoint_Spec) ConvertToARM(resol
 		result.Properties = &EndpointProperties_ARM{}
 	}
 	if endpoint.AlwaysServe != nil {
-		alwaysServe := *endpoint.AlwaysServe
+		var temp string
+		temp = string(*endpoint.AlwaysServe)
+		alwaysServe := EndpointProperties_AlwaysServe_ARM(temp)
 		result.Properties.AlwaysServe = &alwaysServe
 	}
 	for _, item := range endpoint.CustomHeaders {
@@ -440,11 +442,15 @@ func (endpoint *Trafficmanagerprofiles_ExternalEndpoint_Spec) ConvertToARM(resol
 		result.Properties.EndpointLocation = &endpointLocation
 	}
 	if endpoint.EndpointMonitorStatus != nil {
-		endpointMonitorStatus := *endpoint.EndpointMonitorStatus
+		var temp string
+		temp = string(*endpoint.EndpointMonitorStatus)
+		endpointMonitorStatus := EndpointProperties_EndpointMonitorStatus_ARM(temp)
 		result.Properties.EndpointMonitorStatus = &endpointMonitorStatus
 	}
 	if endpoint.EndpointStatus != nil {
-		endpointStatus := *endpoint.EndpointStatus
+		var temp string
+		temp = string(*endpoint.EndpointStatus)
+		endpointStatus := EndpointProperties_EndpointStatus_ARM(temp)
 		result.Properties.EndpointStatus = &endpointStatus
 	}
 	for _, item := range endpoint.GeoMapping {
@@ -514,7 +520,9 @@ func (endpoint *Trafficmanagerprofiles_ExternalEndpoint_Spec) PopulateFromARM(ow
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AlwaysServe != nil {
-			alwaysServe := *typedInput.Properties.AlwaysServe
+			var temp string
+			temp = string(*typedInput.Properties.AlwaysServe)
+			alwaysServe := EndpointProperties_AlwaysServe(temp)
 			endpoint.AlwaysServe = &alwaysServe
 		}
 	}
@@ -548,7 +556,9 @@ func (endpoint *Trafficmanagerprofiles_ExternalEndpoint_Spec) PopulateFromARM(ow
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EndpointMonitorStatus != nil {
-			endpointMonitorStatus := *typedInput.Properties.EndpointMonitorStatus
+			var temp string
+			temp = string(*typedInput.Properties.EndpointMonitorStatus)
+			endpointMonitorStatus := EndpointProperties_EndpointMonitorStatus(temp)
 			endpoint.EndpointMonitorStatus = &endpointMonitorStatus
 		}
 	}
@@ -557,7 +567,9 @@ func (endpoint *Trafficmanagerprofiles_ExternalEndpoint_Spec) PopulateFromARM(ow
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EndpointStatus != nil {
-			endpointStatus := *typedInput.Properties.EndpointStatus
+			var temp string
+			temp = string(*typedInput.Properties.EndpointStatus)
+			endpointStatus := EndpointProperties_EndpointStatus(temp)
 			endpoint.EndpointStatus = &endpointStatus
 		}
 	}
@@ -1196,7 +1208,9 @@ func (endpoint *Trafficmanagerprofiles_ExternalEndpoint_STATUS) PopulateFromARM(
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AlwaysServe != nil {
-			alwaysServe := *typedInput.Properties.AlwaysServe
+			var temp string
+			temp = string(*typedInput.Properties.AlwaysServe)
+			alwaysServe := EndpointProperties_AlwaysServe_STATUS(temp)
 			endpoint.AlwaysServe = &alwaysServe
 		}
 	}
@@ -1229,7 +1243,9 @@ func (endpoint *Trafficmanagerprofiles_ExternalEndpoint_STATUS) PopulateFromARM(
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EndpointMonitorStatus != nil {
-			endpointMonitorStatus := *typedInput.Properties.EndpointMonitorStatus
+			var temp string
+			temp = string(*typedInput.Properties.EndpointMonitorStatus)
+			endpointMonitorStatus := EndpointProperties_EndpointMonitorStatus_STATUS(temp)
 			endpoint.EndpointMonitorStatus = &endpointMonitorStatus
 		}
 	}
@@ -1238,7 +1254,9 @@ func (endpoint *Trafficmanagerprofiles_ExternalEndpoint_STATUS) PopulateFromARM(
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EndpointStatus != nil {
-			endpointStatus := *typedInput.Properties.EndpointStatus
+			var temp string
+			temp = string(*typedInput.Properties.EndpointStatus)
+			endpointStatus := EndpointProperties_EndpointStatus_STATUS(temp)
 			endpoint.EndpointStatus = &endpointStatus
 		}
 	}

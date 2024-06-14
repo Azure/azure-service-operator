@@ -34,7 +34,7 @@ type ProductContractProperties_STATUS_ARM struct {
 
 	// State: whether product is published or not. Published products are discoverable by users of developer portal. Non
 	// published products are visible only to administrators. Default state of Product is notPublished.
-	State *ProductContractProperties_State_STATUS `json:"state,omitempty"`
+	State *ProductContractProperties_State_STATUS_ARM `json:"state,omitempty"`
 
 	// SubscriptionRequired: Whether a product subscription is required for accessing APIs included in this product. If true,
 	// the product is referred to as "protected" and a valid subscription key is required for a request to an API included in
@@ -51,4 +51,17 @@ type ProductContractProperties_STATUS_ARM struct {
 	// Terms: Product terms of use. Developers trying to subscribe to the product will be presented and required to accept
 	// these terms before they can complete the subscription process.
 	Terms *string `json:"terms,omitempty"`
+}
+
+type ProductContractProperties_State_STATUS_ARM string
+
+const (
+	ProductContractProperties_State_STATUS_ARM_NotPublished = ProductContractProperties_State_STATUS_ARM("notPublished")
+	ProductContractProperties_State_STATUS_ARM_Published    = ProductContractProperties_State_STATUS_ARM("published")
+)
+
+// Mapping from string to ProductContractProperties_State_STATUS_ARM
+var productContractProperties_State_STATUS_ARM_Values = map[string]ProductContractProperties_State_STATUS_ARM{
+	"notpublished": ProductContractProperties_State_STATUS_ARM_NotPublished,
+	"published":    ProductContractProperties_State_STATUS_ARM_Published,
 }

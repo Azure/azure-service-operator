@@ -490,7 +490,9 @@ func (serviceApi *Service_Api_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.ApiRevisionDescription = &apiRevisionDescription
 	}
 	if serviceApi.ApiType != nil {
-		apiType := *serviceApi.ApiType
+		var temp string
+		temp = string(*serviceApi.ApiType)
+		apiType := ApiCreateOrUpdateProperties_ApiType_ARM(temp)
 		result.Properties.ApiType = &apiType
 	}
 	if serviceApi.ApiVersionDescription != nil {
@@ -538,7 +540,9 @@ func (serviceApi *Service_Api_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.DisplayName = &displayName
 	}
 	if serviceApi.Format != nil {
-		format := *serviceApi.Format
+		var temp string
+		temp = string(*serviceApi.Format)
+		format := ApiCreateOrUpdateProperties_Format_ARM(temp)
 		result.Properties.Format = &format
 	}
 	if serviceApi.IsCurrent != nil {
@@ -558,7 +562,9 @@ func (serviceApi *Service_Api_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.Path = &path
 	}
 	for _, item := range serviceApi.Protocols {
-		result.Properties.Protocols = append(result.Properties.Protocols, item)
+		var temp string
+		temp = string(item)
+		result.Properties.Protocols = append(result.Properties.Protocols, ApiCreateOrUpdateProperties_Protocols_ARM(temp))
 	}
 	if serviceApi.ServiceUrl != nil {
 		serviceUrl := *serviceApi.ServiceUrl
@@ -589,11 +595,15 @@ func (serviceApi *Service_Api_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.TermsOfServiceUrl = &termsOfServiceUrl
 	}
 	if serviceApi.TranslateRequiredQueryParameters != nil {
-		translateRequiredQueryParameters := *serviceApi.TranslateRequiredQueryParameters
+		var temp string
+		temp = string(*serviceApi.TranslateRequiredQueryParameters)
+		translateRequiredQueryParameters := ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters_ARM(temp)
 		result.Properties.TranslateRequiredQueryParameters = &translateRequiredQueryParameters
 	}
 	if serviceApi.Type != nil {
-		typeVar := *serviceApi.Type
+		var temp string
+		temp = string(*serviceApi.Type)
+		typeVar := ApiCreateOrUpdateProperties_Type_ARM(temp)
 		result.Properties.Type = &typeVar
 	}
 	if serviceApi.Value != nil {
@@ -654,7 +664,9 @@ func (serviceApi *Service_Api_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ApiType != nil {
-			apiType := *typedInput.Properties.ApiType
+			var temp string
+			temp = string(*typedInput.Properties.ApiType)
+			apiType := ApiCreateOrUpdateProperties_ApiType(temp)
 			serviceApi.ApiType = &apiType
 		}
 	}
@@ -737,7 +749,9 @@ func (serviceApi *Service_Api_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Format != nil {
-			format := *typedInput.Properties.Format
+			var temp string
+			temp = string(*typedInput.Properties.Format)
+			format := ApiCreateOrUpdateProperties_Format(temp)
 			serviceApi.Format = &format
 		}
 	}
@@ -784,7 +798,9 @@ func (serviceApi *Service_Api_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Protocols {
-			serviceApi.Protocols = append(serviceApi.Protocols, item)
+			var temp string
+			temp = string(item)
+			serviceApi.Protocols = append(serviceApi.Protocols, ApiCreateOrUpdateProperties_Protocols(temp))
 		}
 	}
 
@@ -835,7 +851,9 @@ func (serviceApi *Service_Api_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TranslateRequiredQueryParameters != nil {
-			translateRequiredQueryParameters := *typedInput.Properties.TranslateRequiredQueryParameters
+			var temp string
+			temp = string(*typedInput.Properties.TranslateRequiredQueryParameters)
+			translateRequiredQueryParameters := ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters(temp)
 			serviceApi.TranslateRequiredQueryParameters = &translateRequiredQueryParameters
 		}
 	}
@@ -844,7 +862,9 @@ func (serviceApi *Service_Api_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Type != nil {
-			typeVar := *typedInput.Properties.Type
+			var temp string
+			temp = string(*typedInput.Properties.Type)
+			typeVar := ApiCreateOrUpdateProperties_Type(temp)
 			serviceApi.Type = &typeVar
 		}
 	}
@@ -1905,7 +1925,9 @@ func (serviceApi *Service_Api_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Type != nil {
-			propertiesType := *typedInput.Properties.Type
+			var temp string
+			temp = string(*typedInput.Properties.Type)
+			propertiesType := ApiContractProperties_Type_STATUS(temp)
 			serviceApi.PropertiesType = &propertiesType
 		}
 	}
@@ -1914,7 +1936,9 @@ func (serviceApi *Service_Api_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Protocols {
-			serviceApi.Protocols = append(serviceApi.Protocols, item)
+			var temp string
+			temp = string(item)
+			serviceApi.Protocols = append(serviceApi.Protocols, ApiContractProperties_Protocols_STATUS(temp))
 		}
 	}
 
@@ -2999,7 +3023,9 @@ func (details *ApiVersionSetContractDetails) ConvertToARM(resolved genruntime.Co
 
 	// Set property "VersioningScheme":
 	if details.VersioningScheme != nil {
-		versioningScheme := *details.VersioningScheme
+		var temp string
+		temp = string(*details.VersioningScheme)
+		versioningScheme := ApiVersionSetContractDetails_VersioningScheme_ARM(temp)
 		result.VersioningScheme = &versioningScheme
 	}
 	return result, nil
@@ -3045,7 +3071,9 @@ func (details *ApiVersionSetContractDetails) PopulateFromARM(owner genruntime.Ar
 
 	// Set property "VersioningScheme":
 	if typedInput.VersioningScheme != nil {
-		versioningScheme := *typedInput.VersioningScheme
+		var temp string
+		temp = string(*typedInput.VersioningScheme)
+		versioningScheme := ApiVersionSetContractDetails_VersioningScheme(temp)
 		details.VersioningScheme = &versioningScheme
 	}
 
@@ -3235,7 +3263,9 @@ func (details *ApiVersionSetContractDetails_STATUS) PopulateFromARM(owner genrun
 
 	// Set property "VersioningScheme":
 	if typedInput.VersioningScheme != nil {
-		versioningScheme := *typedInput.VersioningScheme
+		var temp string
+		temp = string(*typedInput.VersioningScheme)
+		versioningScheme := ApiVersionSetContractDetails_VersioningScheme_STATUS(temp)
 		details.VersioningScheme = &versioningScheme
 	}
 
@@ -4278,7 +4308,9 @@ func (contract *OpenIdAuthenticationSettingsContract) ConvertToARM(resolved genr
 
 	// Set property "BearerTokenSendingMethods":
 	for _, item := range contract.BearerTokenSendingMethods {
-		result.BearerTokenSendingMethods = append(result.BearerTokenSendingMethods, item)
+		var temp string
+		temp = string(item)
+		result.BearerTokenSendingMethods = append(result.BearerTokenSendingMethods, BearerTokenSendingMethodsContract_ARM(temp))
 	}
 
 	// Set property "OpenidProviderId":
@@ -4303,7 +4335,9 @@ func (contract *OpenIdAuthenticationSettingsContract) PopulateFromARM(owner genr
 
 	// Set property "BearerTokenSendingMethods":
 	for _, item := range typedInput.BearerTokenSendingMethods {
-		contract.BearerTokenSendingMethods = append(contract.BearerTokenSendingMethods, item)
+		var temp string
+		temp = string(item)
+		contract.BearerTokenSendingMethods = append(contract.BearerTokenSendingMethods, BearerTokenSendingMethodsContract(temp))
 	}
 
 	// Set property "OpenidProviderId":
@@ -4420,7 +4454,9 @@ func (contract *OpenIdAuthenticationSettingsContract_STATUS) PopulateFromARM(own
 
 	// Set property "BearerTokenSendingMethods":
 	for _, item := range typedInput.BearerTokenSendingMethods {
-		contract.BearerTokenSendingMethods = append(contract.BearerTokenSendingMethods, item)
+		var temp string
+		temp = string(item)
+		contract.BearerTokenSendingMethods = append(contract.BearerTokenSendingMethods, BearerTokenSendingMethodsContract_STATUS(temp))
 	}
 
 	// Set property "OpenidProviderId":

@@ -438,7 +438,9 @@ func (webtest *Webtest_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Properties.Frequency = &frequency
 	}
 	if webtest.Kind != nil {
-		kind := *webtest.Kind
+		var temp string
+		temp = string(*webtest.Kind)
+		kind := WebTestProperties_Kind_ARM(temp)
 		result.Properties.Kind = &kind
 	}
 	for _, item := range webtest.Locations {
@@ -551,7 +553,9 @@ func (webtest *Webtest_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Kind != nil {
-			kind := *typedInput.Properties.Kind
+			var temp string
+			temp = string(*typedInput.Properties.Kind)
+			kind := WebTestProperties_Kind(temp)
 			webtest.Kind = &kind
 		}
 	}
@@ -1247,7 +1251,9 @@ func (webtest *Webtest_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Kind != nil {
-			kind := *typedInput.Properties.Kind
+			var temp string
+			temp = string(*typedInput.Properties.Kind)
+			kind := WebTestProperties_Kind_STATUS(temp)
 			webtest.Kind = &kind
 		}
 	}

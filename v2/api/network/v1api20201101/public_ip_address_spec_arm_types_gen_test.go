@@ -84,7 +84,7 @@ func DdosSettings_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDdosSettings_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDdosSettings_ARM(gens map[string]gopter.Gen) {
 	gens["ProtectedIP"] = gen.PtrOf(gen.Bool())
-	gens["ProtectionCoverage"] = gen.PtrOf(gen.OneConstOf(DdosSettings_ProtectionCoverage_Basic, DdosSettings_ProtectionCoverage_Standard))
+	gens["ProtectionCoverage"] = gen.PtrOf(gen.OneConstOf(DdosSettings_ProtectionCoverage_ARM_Basic, DdosSettings_ProtectionCoverage_ARM_Standard))
 }
 
 // AddRelatedPropertyGeneratorsForDdosSettings_ARM is a factory method for creating gopter generators
@@ -346,8 +346,8 @@ func PublicIPAddressPropertiesFormat_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForPublicIPAddressPropertiesFormat_ARM(gens map[string]gopter.Gen) {
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
 	gens["IpAddress"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(IPVersion_IPv4, IPVersion_IPv6))
-	gens["PublicIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_Dynamic, IPAllocationMethod_Static))
+	gens["PublicIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(IPVersion_ARM_IPv4, IPVersion_ARM_IPv6))
+	gens["PublicIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_ARM_Dynamic, IPAllocationMethod_ARM_Static))
 }
 
 // AddRelatedPropertyGeneratorsForPublicIPAddressPropertiesFormat_ARM is a factory method for creating gopter generators
@@ -419,8 +419,8 @@ func PublicIPAddressSku_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForPublicIPAddressSku_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPublicIPAddressSku_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(PublicIPAddressSku_Name_Basic, PublicIPAddressSku_Name_Standard))
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(PublicIPAddressSku_Tier_Global, PublicIPAddressSku_Tier_Regional))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(PublicIPAddressSku_Name_ARM_Basic, PublicIPAddressSku_Name_ARM_Standard))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(PublicIPAddressSku_Tier_ARM_Global, PublicIPAddressSku_Tier_ARM_Regional))
 }
 
 func Test_PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

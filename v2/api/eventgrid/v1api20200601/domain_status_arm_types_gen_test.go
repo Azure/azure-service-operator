@@ -85,16 +85,16 @@ func DomainProperties_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDomainProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDomainProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Endpoint"] = gen.PtrOf(gen.AlphaString())
-	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(DomainProperties_InputSchema_STATUS_CloudEventSchemaV1_0, DomainProperties_InputSchema_STATUS_CustomEventSchema, DomainProperties_InputSchema_STATUS_EventGridSchema))
+	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(DomainProperties_InputSchema_STATUS_ARM_CloudEventSchemaV1_0, DomainProperties_InputSchema_STATUS_ARM_CustomEventSchema, DomainProperties_InputSchema_STATUS_ARM_EventGridSchema))
 	gens["MetricResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		DomainProperties_ProvisioningState_STATUS_Canceled,
-		DomainProperties_ProvisioningState_STATUS_Creating,
-		DomainProperties_ProvisioningState_STATUS_Deleting,
-		DomainProperties_ProvisioningState_STATUS_Failed,
-		DomainProperties_ProvisioningState_STATUS_Succeeded,
-		DomainProperties_ProvisioningState_STATUS_Updating))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(DomainProperties_PublicNetworkAccess_STATUS_Disabled, DomainProperties_PublicNetworkAccess_STATUS_Enabled))
+		DomainProperties_ProvisioningState_STATUS_ARM_Canceled,
+		DomainProperties_ProvisioningState_STATUS_ARM_Creating,
+		DomainProperties_ProvisioningState_STATUS_ARM_Deleting,
+		DomainProperties_ProvisioningState_STATUS_ARM_Failed,
+		DomainProperties_ProvisioningState_STATUS_ARM_Succeeded,
+		DomainProperties_ProvisioningState_STATUS_ARM_Updating))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(DomainProperties_PublicNetworkAccess_STATUS_ARM_Disabled, DomainProperties_PublicNetworkAccess_STATUS_ARM_Enabled))
 }
 
 // AddRelatedPropertyGeneratorsForDomainProperties_STATUS_ARM is a factory method for creating gopter generators
@@ -243,7 +243,7 @@ func InboundIpRule_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForInboundIpRule_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInboundIpRule_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Action"] = gen.PtrOf(gen.OneConstOf(InboundIpRule_Action_STATUS_Allow))
+	gens["Action"] = gen.PtrOf(gen.OneConstOf(InboundIpRule_Action_STATUS_ARM_Allow))
 	gens["IpMask"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -572,7 +572,7 @@ func JsonInputSchemaMapping_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForJsonInputSchemaMapping_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForJsonInputSchemaMapping_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["InputSchemaMappingType"] = gen.OneConstOf(JsonInputSchemaMapping_InputSchemaMappingType_STATUS_Json)
+	gens["InputSchemaMappingType"] = gen.OneConstOf(JsonInputSchemaMapping_InputSchemaMappingType_STATUS_ARM_Json)
 }
 
 // AddRelatedPropertyGeneratorsForJsonInputSchemaMapping_STATUS_ARM is a factory method for creating gopter generators
@@ -702,15 +702,15 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS_ARM(gens map[string]go
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_STATUS_Application,
-		SystemData_CreatedByType_STATUS_Key,
-		SystemData_CreatedByType_STATUS_ManagedIdentity,
-		SystemData_CreatedByType_STATUS_User))
+		SystemData_CreatedByType_STATUS_ARM_Application,
+		SystemData_CreatedByType_STATUS_ARM_Key,
+		SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
+		SystemData_CreatedByType_STATUS_ARM_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_STATUS_Application,
-		SystemData_LastModifiedByType_STATUS_Key,
-		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-		SystemData_LastModifiedByType_STATUS_User))
+		SystemData_LastModifiedByType_STATUS_ARM_Application,
+		SystemData_LastModifiedByType_STATUS_ARM_Key,
+		SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
+		SystemData_LastModifiedByType_STATUS_ARM_User))
 }

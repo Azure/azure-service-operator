@@ -275,7 +275,7 @@ func AgentPoolSecurityProfile_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForAgentPoolSecurityProfile_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["EnableSecureBoot"] = gen.PtrOf(gen.Bool())
 	gens["EnableVTPM"] = gen.PtrOf(gen.Bool())
-	gens["SshAccess"] = gen.PtrOf(gen.OneConstOf(AgentPoolSSHAccess_STATUS_Disabled, AgentPoolSSHAccess_STATUS_LocalUser))
+	gens["SshAccess"] = gen.PtrOf(gen.OneConstOf(AgentPoolSSHAccess_STATUS_ARM_Disabled, AgentPoolSSHAccess_STATUS_ARM_LocalUser))
 }
 
 func Test_AgentPoolUpgradeSettings_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -882,7 +882,7 @@ func PortRange_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForPortRange_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["PortEnd"] = gen.PtrOf(gen.Int())
 	gens["PortStart"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(PortRange_Protocol_STATUS_TCP, PortRange_Protocol_STATUS_UDP))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(PortRange_Protocol_STATUS_ARM_TCP, PortRange_Protocol_STATUS_ARM_UDP))
 }
 
 func Test_ScaleProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

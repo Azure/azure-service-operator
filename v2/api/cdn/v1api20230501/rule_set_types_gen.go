@@ -582,7 +582,9 @@ func (ruleSet *Profiles_RuleSet_STATUS) PopulateFromARM(owner genruntime.Arbitra
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DeploymentStatus != nil {
-			deploymentStatus := *typedInput.Properties.DeploymentStatus
+			var temp string
+			temp = string(*typedInput.Properties.DeploymentStatus)
+			deploymentStatus := RuleSetProperties_DeploymentStatus_STATUS(temp)
 			ruleSet.DeploymentStatus = &deploymentStatus
 		}
 	}
@@ -612,7 +614,9 @@ func (ruleSet *Profiles_RuleSet_STATUS) PopulateFromARM(owner genruntime.Arbitra
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := RuleSetProperties_ProvisioningState_STATUS(temp)
 			ruleSet.ProvisioningState = &provisioningState
 		}
 	}
@@ -747,6 +751,42 @@ func (ruleSet *Profiles_RuleSet_STATUS) AssignProperties_To_Profiles_RuleSet_STA
 
 	// No error
 	return nil
+}
+
+type RuleSetProperties_DeploymentStatus_STATUS string
+
+const (
+	RuleSetProperties_DeploymentStatus_STATUS_Failed     = RuleSetProperties_DeploymentStatus_STATUS("Failed")
+	RuleSetProperties_DeploymentStatus_STATUS_InProgress = RuleSetProperties_DeploymentStatus_STATUS("InProgress")
+	RuleSetProperties_DeploymentStatus_STATUS_NotStarted = RuleSetProperties_DeploymentStatus_STATUS("NotStarted")
+	RuleSetProperties_DeploymentStatus_STATUS_Succeeded  = RuleSetProperties_DeploymentStatus_STATUS("Succeeded")
+)
+
+// Mapping from string to RuleSetProperties_DeploymentStatus_STATUS
+var ruleSetProperties_DeploymentStatus_STATUS_Values = map[string]RuleSetProperties_DeploymentStatus_STATUS{
+	"failed":     RuleSetProperties_DeploymentStatus_STATUS_Failed,
+	"inprogress": RuleSetProperties_DeploymentStatus_STATUS_InProgress,
+	"notstarted": RuleSetProperties_DeploymentStatus_STATUS_NotStarted,
+	"succeeded":  RuleSetProperties_DeploymentStatus_STATUS_Succeeded,
+}
+
+type RuleSetProperties_ProvisioningState_STATUS string
+
+const (
+	RuleSetProperties_ProvisioningState_STATUS_Creating  = RuleSetProperties_ProvisioningState_STATUS("Creating")
+	RuleSetProperties_ProvisioningState_STATUS_Deleting  = RuleSetProperties_ProvisioningState_STATUS("Deleting")
+	RuleSetProperties_ProvisioningState_STATUS_Failed    = RuleSetProperties_ProvisioningState_STATUS("Failed")
+	RuleSetProperties_ProvisioningState_STATUS_Succeeded = RuleSetProperties_ProvisioningState_STATUS("Succeeded")
+	RuleSetProperties_ProvisioningState_STATUS_Updating  = RuleSetProperties_ProvisioningState_STATUS("Updating")
+)
+
+// Mapping from string to RuleSetProperties_ProvisioningState_STATUS
+var ruleSetProperties_ProvisioningState_STATUS_Values = map[string]RuleSetProperties_ProvisioningState_STATUS{
+	"creating":  RuleSetProperties_ProvisioningState_STATUS_Creating,
+	"deleting":  RuleSetProperties_ProvisioningState_STATUS_Deleting,
+	"failed":    RuleSetProperties_ProvisioningState_STATUS_Failed,
+	"succeeded": RuleSetProperties_ProvisioningState_STATUS_Succeeded,
+	"updating":  RuleSetProperties_ProvisioningState_STATUS_Updating,
 }
 
 func init() {

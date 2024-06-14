@@ -222,21 +222,21 @@ func SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResource
 
 // AddIndependentPropertyGeneratorsForSecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM(gens map[string]gopter.Gen) {
-	gens["Access"] = gen.PtrOf(gen.OneConstOf(SecurityRuleAccess_Allow, SecurityRuleAccess_Deny))
+	gens["Access"] = gen.PtrOf(gen.OneConstOf(SecurityRuleAccess_ARM_Allow, SecurityRuleAccess_ARM_Deny))
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DestinationAddressPrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["DestinationAddressPrefixes"] = gen.SliceOf(gen.AlphaString())
 	gens["DestinationPortRange"] = gen.PtrOf(gen.AlphaString())
 	gens["DestinationPortRanges"] = gen.SliceOf(gen.AlphaString())
-	gens["Direction"] = gen.PtrOf(gen.OneConstOf(SecurityRuleDirection_Inbound, SecurityRuleDirection_Outbound))
+	gens["Direction"] = gen.PtrOf(gen.OneConstOf(SecurityRuleDirection_ARM_Inbound, SecurityRuleDirection_ARM_Outbound))
 	gens["Priority"] = gen.PtrOf(gen.Int())
 	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(
-		SecurityRulePropertiesFormat_Protocol_Ah,
-		SecurityRulePropertiesFormat_Protocol_Esp,
-		SecurityRulePropertiesFormat_Protocol_Icmp,
-		SecurityRulePropertiesFormat_Protocol_Star,
-		SecurityRulePropertiesFormat_Protocol_Tcp,
-		SecurityRulePropertiesFormat_Protocol_Udp))
+		SecurityRulePropertiesFormat_Protocol_ARM_Ah,
+		SecurityRulePropertiesFormat_Protocol_ARM_Esp,
+		SecurityRulePropertiesFormat_Protocol_ARM_Icmp,
+		SecurityRulePropertiesFormat_Protocol_ARM_Star,
+		SecurityRulePropertiesFormat_Protocol_ARM_Tcp,
+		SecurityRulePropertiesFormat_Protocol_ARM_Udp))
 	gens["SourceAddressPrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceAddressPrefixes"] = gen.SliceOf(gen.AlphaString())
 	gens["SourcePortRange"] = gen.PtrOf(gen.AlphaString())

@@ -42,7 +42,7 @@ type VaultProperties_ARM struct {
 	AccessPolicies []AccessPolicyEntry_ARM `json:"accessPolicies,omitempty"`
 
 	// CreateMode: The vault's create mode to indicate whether the vault need to be recovered or not.
-	CreateMode *VaultProperties_CreateMode `json:"createMode,omitempty"`
+	CreateMode *VaultProperties_CreateMode_ARM `json:"createMode,omitempty"`
 
 	// EnablePurgeProtection: Property specifying whether protection against purge is enabled for this vault. Setting this
 	// property to true activates protection against purge for this vault and its content - only the Key Vault service may
@@ -78,7 +78,7 @@ type VaultProperties_ARM struct {
 	NetworkAcls *NetworkRuleSet_ARM `json:"networkAcls,omitempty"`
 
 	// ProvisioningState: Provisioning state of the vault.
-	ProvisioningState *VaultProperties_ProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *VaultProperties_ProvisioningState_ARM `json:"provisioningState,omitempty"`
 
 	// Sku: SKU details
 	Sku *Sku_ARM `json:"sku,omitempty"`
@@ -114,11 +114,11 @@ type AccessPolicyEntry_ARM struct {
 type NetworkRuleSet_ARM struct {
 	// Bypass: Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'.  If not specified the
 	// default is 'AzureServices'.
-	Bypass *NetworkRuleSet_Bypass `json:"bypass,omitempty"`
+	Bypass *NetworkRuleSet_Bypass_ARM `json:"bypass,omitempty"`
 
 	// DefaultAction: The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after
 	// the bypass property has been evaluated.
-	DefaultAction *NetworkRuleSet_DefaultAction `json:"defaultAction,omitempty"`
+	DefaultAction *NetworkRuleSet_DefaultAction_ARM `json:"defaultAction,omitempty"`
 
 	// IpRules: The list of IP address rules.
 	IpRules []IPRule_ARM `json:"ipRules,omitempty"`
@@ -130,42 +130,42 @@ type NetworkRuleSet_ARM struct {
 // SKU details
 type Sku_ARM struct {
 	// Family: SKU family name
-	Family *Sku_Family `json:"family,omitempty"`
+	Family *Sku_Family_ARM `json:"family,omitempty"`
 
 	// Name: SKU name to specify whether the key vault is a standard vault or a premium vault.
-	Name *Sku_Name `json:"name,omitempty"`
+	Name *Sku_Name_ARM `json:"name,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"createOrRecover","default","purgeThenCreate","recover"}
-type VaultProperties_CreateMode string
+type VaultProperties_CreateMode_ARM string
 
 const (
-	VaultProperties_CreateMode_CreateOrRecover = VaultProperties_CreateMode("createOrRecover")
-	VaultProperties_CreateMode_Default         = VaultProperties_CreateMode("default")
-	VaultProperties_CreateMode_PurgeThenCreate = VaultProperties_CreateMode("purgeThenCreate")
-	VaultProperties_CreateMode_Recover         = VaultProperties_CreateMode("recover")
+	VaultProperties_CreateMode_ARM_CreateOrRecover = VaultProperties_CreateMode_ARM("createOrRecover")
+	VaultProperties_CreateMode_ARM_Default         = VaultProperties_CreateMode_ARM("default")
+	VaultProperties_CreateMode_ARM_PurgeThenCreate = VaultProperties_CreateMode_ARM("purgeThenCreate")
+	VaultProperties_CreateMode_ARM_Recover         = VaultProperties_CreateMode_ARM("recover")
 )
 
-// Mapping from string to VaultProperties_CreateMode
-var vaultProperties_CreateMode_Values = map[string]VaultProperties_CreateMode{
-	"createorrecover": VaultProperties_CreateMode_CreateOrRecover,
-	"default":         VaultProperties_CreateMode_Default,
-	"purgethencreate": VaultProperties_CreateMode_PurgeThenCreate,
-	"recover":         VaultProperties_CreateMode_Recover,
+// Mapping from string to VaultProperties_CreateMode_ARM
+var vaultProperties_CreateMode_ARM_Values = map[string]VaultProperties_CreateMode_ARM{
+	"createorrecover": VaultProperties_CreateMode_ARM_CreateOrRecover,
+	"default":         VaultProperties_CreateMode_ARM_Default,
+	"purgethencreate": VaultProperties_CreateMode_ARM_PurgeThenCreate,
+	"recover":         VaultProperties_CreateMode_ARM_Recover,
 }
 
 // +kubebuilder:validation:Enum={"RegisteringDns","Succeeded"}
-type VaultProperties_ProvisioningState string
+type VaultProperties_ProvisioningState_ARM string
 
 const (
-	VaultProperties_ProvisioningState_RegisteringDns = VaultProperties_ProvisioningState("RegisteringDns")
-	VaultProperties_ProvisioningState_Succeeded      = VaultProperties_ProvisioningState("Succeeded")
+	VaultProperties_ProvisioningState_ARM_RegisteringDns = VaultProperties_ProvisioningState_ARM("RegisteringDns")
+	VaultProperties_ProvisioningState_ARM_Succeeded      = VaultProperties_ProvisioningState_ARM("Succeeded")
 )
 
-// Mapping from string to VaultProperties_ProvisioningState
-var vaultProperties_ProvisioningState_Values = map[string]VaultProperties_ProvisioningState{
-	"registeringdns": VaultProperties_ProvisioningState_RegisteringDns,
-	"succeeded":      VaultProperties_ProvisioningState_Succeeded,
+// Mapping from string to VaultProperties_ProvisioningState_ARM
+var vaultProperties_ProvisioningState_ARM_Values = map[string]VaultProperties_ProvisioningState_ARM{
+	"registeringdns": VaultProperties_ProvisioningState_ARM_RegisteringDns,
+	"succeeded":      VaultProperties_ProvisioningState_ARM_Succeeded,
 }
 
 // A rule governing the accessibility of a vault from a specific ip address or ip range.
@@ -176,70 +176,70 @@ type IPRule_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"AzureServices","None"}
-type NetworkRuleSet_Bypass string
+type NetworkRuleSet_Bypass_ARM string
 
 const (
-	NetworkRuleSet_Bypass_AzureServices = NetworkRuleSet_Bypass("AzureServices")
-	NetworkRuleSet_Bypass_None          = NetworkRuleSet_Bypass("None")
+	NetworkRuleSet_Bypass_ARM_AzureServices = NetworkRuleSet_Bypass_ARM("AzureServices")
+	NetworkRuleSet_Bypass_ARM_None          = NetworkRuleSet_Bypass_ARM("None")
 )
 
-// Mapping from string to NetworkRuleSet_Bypass
-var networkRuleSet_Bypass_Values = map[string]NetworkRuleSet_Bypass{
-	"azureservices": NetworkRuleSet_Bypass_AzureServices,
-	"none":          NetworkRuleSet_Bypass_None,
+// Mapping from string to NetworkRuleSet_Bypass_ARM
+var networkRuleSet_Bypass_ARM_Values = map[string]NetworkRuleSet_Bypass_ARM{
+	"azureservices": NetworkRuleSet_Bypass_ARM_AzureServices,
+	"none":          NetworkRuleSet_Bypass_ARM_None,
 }
 
 // +kubebuilder:validation:Enum={"Allow","Deny"}
-type NetworkRuleSet_DefaultAction string
+type NetworkRuleSet_DefaultAction_ARM string
 
 const (
-	NetworkRuleSet_DefaultAction_Allow = NetworkRuleSet_DefaultAction("Allow")
-	NetworkRuleSet_DefaultAction_Deny  = NetworkRuleSet_DefaultAction("Deny")
+	NetworkRuleSet_DefaultAction_ARM_Allow = NetworkRuleSet_DefaultAction_ARM("Allow")
+	NetworkRuleSet_DefaultAction_ARM_Deny  = NetworkRuleSet_DefaultAction_ARM("Deny")
 )
 
-// Mapping from string to NetworkRuleSet_DefaultAction
-var networkRuleSet_DefaultAction_Values = map[string]NetworkRuleSet_DefaultAction{
-	"allow": NetworkRuleSet_DefaultAction_Allow,
-	"deny":  NetworkRuleSet_DefaultAction_Deny,
+// Mapping from string to NetworkRuleSet_DefaultAction_ARM
+var networkRuleSet_DefaultAction_ARM_Values = map[string]NetworkRuleSet_DefaultAction_ARM{
+	"allow": NetworkRuleSet_DefaultAction_ARM_Allow,
+	"deny":  NetworkRuleSet_DefaultAction_ARM_Deny,
 }
 
 // Permissions the identity has for keys, secrets, certificates and storage.
 type Permissions_ARM struct {
 	// Certificates: Permissions to certificates
-	Certificates []Permissions_Certificates `json:"certificates,omitempty"`
+	Certificates []Permissions_Certificates_ARM `json:"certificates,omitempty"`
 
 	// Keys: Permissions to keys
-	Keys []Permissions_Keys `json:"keys,omitempty"`
+	Keys []Permissions_Keys_ARM `json:"keys,omitempty"`
 
 	// Secrets: Permissions to secrets
-	Secrets []Permissions_Secrets `json:"secrets,omitempty"`
+	Secrets []Permissions_Secrets_ARM `json:"secrets,omitempty"`
 
 	// Storage: Permissions to storage accounts
-	Storage []Permissions_Storage `json:"storage,omitempty"`
+	Storage []Permissions_Storage_ARM `json:"storage,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"A"}
-type Sku_Family string
+type Sku_Family_ARM string
 
-const Sku_Family_A = Sku_Family("A")
+const Sku_Family_ARM_A = Sku_Family_ARM("A")
 
-// Mapping from string to Sku_Family
-var sku_Family_Values = map[string]Sku_Family{
-	"a": Sku_Family_A,
+// Mapping from string to Sku_Family_ARM
+var sku_Family_ARM_Values = map[string]Sku_Family_ARM{
+	"a": Sku_Family_ARM_A,
 }
 
 // +kubebuilder:validation:Enum={"premium","standard"}
-type Sku_Name string
+type Sku_Name_ARM string
 
 const (
-	Sku_Name_Premium  = Sku_Name("premium")
-	Sku_Name_Standard = Sku_Name("standard")
+	Sku_Name_ARM_Premium  = Sku_Name_ARM("premium")
+	Sku_Name_ARM_Standard = Sku_Name_ARM("standard")
 )
 
-// Mapping from string to Sku_Name
-var sku_Name_Values = map[string]Sku_Name{
-	"premium":  Sku_Name_Premium,
-	"standard": Sku_Name_Standard,
+// Mapping from string to Sku_Name_ARM
+var sku_Name_ARM_Values = map[string]Sku_Name_ARM{
+	"premium":  Sku_Name_ARM_Premium,
+	"standard": Sku_Name_ARM_Standard,
 }
 
 // A rule governing the accessibility of a vault from a specific virtual network.
@@ -252,151 +252,151 @@ type VirtualNetworkRule_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"backup","create","delete","deleteissuers","get","getissuers","import","list","listissuers","managecontacts","manageissuers","purge","recover","restore","setissuers","update"}
-type Permissions_Certificates string
+type Permissions_Certificates_ARM string
 
 const (
-	Permissions_Certificates_Backup         = Permissions_Certificates("backup")
-	Permissions_Certificates_Create         = Permissions_Certificates("create")
-	Permissions_Certificates_Delete         = Permissions_Certificates("delete")
-	Permissions_Certificates_Deleteissuers  = Permissions_Certificates("deleteissuers")
-	Permissions_Certificates_Get            = Permissions_Certificates("get")
-	Permissions_Certificates_Getissuers     = Permissions_Certificates("getissuers")
-	Permissions_Certificates_Import         = Permissions_Certificates("import")
-	Permissions_Certificates_List           = Permissions_Certificates("list")
-	Permissions_Certificates_Listissuers    = Permissions_Certificates("listissuers")
-	Permissions_Certificates_Managecontacts = Permissions_Certificates("managecontacts")
-	Permissions_Certificates_Manageissuers  = Permissions_Certificates("manageissuers")
-	Permissions_Certificates_Purge          = Permissions_Certificates("purge")
-	Permissions_Certificates_Recover        = Permissions_Certificates("recover")
-	Permissions_Certificates_Restore        = Permissions_Certificates("restore")
-	Permissions_Certificates_Setissuers     = Permissions_Certificates("setissuers")
-	Permissions_Certificates_Update         = Permissions_Certificates("update")
+	Permissions_Certificates_ARM_Backup         = Permissions_Certificates_ARM("backup")
+	Permissions_Certificates_ARM_Create         = Permissions_Certificates_ARM("create")
+	Permissions_Certificates_ARM_Delete         = Permissions_Certificates_ARM("delete")
+	Permissions_Certificates_ARM_Deleteissuers  = Permissions_Certificates_ARM("deleteissuers")
+	Permissions_Certificates_ARM_Get            = Permissions_Certificates_ARM("get")
+	Permissions_Certificates_ARM_Getissuers     = Permissions_Certificates_ARM("getissuers")
+	Permissions_Certificates_ARM_Import         = Permissions_Certificates_ARM("import")
+	Permissions_Certificates_ARM_List           = Permissions_Certificates_ARM("list")
+	Permissions_Certificates_ARM_Listissuers    = Permissions_Certificates_ARM("listissuers")
+	Permissions_Certificates_ARM_Managecontacts = Permissions_Certificates_ARM("managecontacts")
+	Permissions_Certificates_ARM_Manageissuers  = Permissions_Certificates_ARM("manageissuers")
+	Permissions_Certificates_ARM_Purge          = Permissions_Certificates_ARM("purge")
+	Permissions_Certificates_ARM_Recover        = Permissions_Certificates_ARM("recover")
+	Permissions_Certificates_ARM_Restore        = Permissions_Certificates_ARM("restore")
+	Permissions_Certificates_ARM_Setissuers     = Permissions_Certificates_ARM("setissuers")
+	Permissions_Certificates_ARM_Update         = Permissions_Certificates_ARM("update")
 )
 
-// Mapping from string to Permissions_Certificates
-var permissions_Certificates_Values = map[string]Permissions_Certificates{
-	"backup":         Permissions_Certificates_Backup,
-	"create":         Permissions_Certificates_Create,
-	"delete":         Permissions_Certificates_Delete,
-	"deleteissuers":  Permissions_Certificates_Deleteissuers,
-	"get":            Permissions_Certificates_Get,
-	"getissuers":     Permissions_Certificates_Getissuers,
-	"import":         Permissions_Certificates_Import,
-	"list":           Permissions_Certificates_List,
-	"listissuers":    Permissions_Certificates_Listissuers,
-	"managecontacts": Permissions_Certificates_Managecontacts,
-	"manageissuers":  Permissions_Certificates_Manageissuers,
-	"purge":          Permissions_Certificates_Purge,
-	"recover":        Permissions_Certificates_Recover,
-	"restore":        Permissions_Certificates_Restore,
-	"setissuers":     Permissions_Certificates_Setissuers,
-	"update":         Permissions_Certificates_Update,
+// Mapping from string to Permissions_Certificates_ARM
+var permissions_Certificates_ARM_Values = map[string]Permissions_Certificates_ARM{
+	"backup":         Permissions_Certificates_ARM_Backup,
+	"create":         Permissions_Certificates_ARM_Create,
+	"delete":         Permissions_Certificates_ARM_Delete,
+	"deleteissuers":  Permissions_Certificates_ARM_Deleteissuers,
+	"get":            Permissions_Certificates_ARM_Get,
+	"getissuers":     Permissions_Certificates_ARM_Getissuers,
+	"import":         Permissions_Certificates_ARM_Import,
+	"list":           Permissions_Certificates_ARM_List,
+	"listissuers":    Permissions_Certificates_ARM_Listissuers,
+	"managecontacts": Permissions_Certificates_ARM_Managecontacts,
+	"manageissuers":  Permissions_Certificates_ARM_Manageissuers,
+	"purge":          Permissions_Certificates_ARM_Purge,
+	"recover":        Permissions_Certificates_ARM_Recover,
+	"restore":        Permissions_Certificates_ARM_Restore,
+	"setissuers":     Permissions_Certificates_ARM_Setissuers,
+	"update":         Permissions_Certificates_ARM_Update,
 }
 
 // +kubebuilder:validation:Enum={"backup","create","decrypt","delete","encrypt","get","import","list","purge","recover","release","restore","sign","unwrapKey","update","verify","wrapKey"}
-type Permissions_Keys string
+type Permissions_Keys_ARM string
 
 const (
-	Permissions_Keys_Backup    = Permissions_Keys("backup")
-	Permissions_Keys_Create    = Permissions_Keys("create")
-	Permissions_Keys_Decrypt   = Permissions_Keys("decrypt")
-	Permissions_Keys_Delete    = Permissions_Keys("delete")
-	Permissions_Keys_Encrypt   = Permissions_Keys("encrypt")
-	Permissions_Keys_Get       = Permissions_Keys("get")
-	Permissions_Keys_Import    = Permissions_Keys("import")
-	Permissions_Keys_List      = Permissions_Keys("list")
-	Permissions_Keys_Purge     = Permissions_Keys("purge")
-	Permissions_Keys_Recover   = Permissions_Keys("recover")
-	Permissions_Keys_Release   = Permissions_Keys("release")
-	Permissions_Keys_Restore   = Permissions_Keys("restore")
-	Permissions_Keys_Sign      = Permissions_Keys("sign")
-	Permissions_Keys_UnwrapKey = Permissions_Keys("unwrapKey")
-	Permissions_Keys_Update    = Permissions_Keys("update")
-	Permissions_Keys_Verify    = Permissions_Keys("verify")
-	Permissions_Keys_WrapKey   = Permissions_Keys("wrapKey")
+	Permissions_Keys_ARM_Backup    = Permissions_Keys_ARM("backup")
+	Permissions_Keys_ARM_Create    = Permissions_Keys_ARM("create")
+	Permissions_Keys_ARM_Decrypt   = Permissions_Keys_ARM("decrypt")
+	Permissions_Keys_ARM_Delete    = Permissions_Keys_ARM("delete")
+	Permissions_Keys_ARM_Encrypt   = Permissions_Keys_ARM("encrypt")
+	Permissions_Keys_ARM_Get       = Permissions_Keys_ARM("get")
+	Permissions_Keys_ARM_Import    = Permissions_Keys_ARM("import")
+	Permissions_Keys_ARM_List      = Permissions_Keys_ARM("list")
+	Permissions_Keys_ARM_Purge     = Permissions_Keys_ARM("purge")
+	Permissions_Keys_ARM_Recover   = Permissions_Keys_ARM("recover")
+	Permissions_Keys_ARM_Release   = Permissions_Keys_ARM("release")
+	Permissions_Keys_ARM_Restore   = Permissions_Keys_ARM("restore")
+	Permissions_Keys_ARM_Sign      = Permissions_Keys_ARM("sign")
+	Permissions_Keys_ARM_UnwrapKey = Permissions_Keys_ARM("unwrapKey")
+	Permissions_Keys_ARM_Update    = Permissions_Keys_ARM("update")
+	Permissions_Keys_ARM_Verify    = Permissions_Keys_ARM("verify")
+	Permissions_Keys_ARM_WrapKey   = Permissions_Keys_ARM("wrapKey")
 )
 
-// Mapping from string to Permissions_Keys
-var permissions_Keys_Values = map[string]Permissions_Keys{
-	"backup":    Permissions_Keys_Backup,
-	"create":    Permissions_Keys_Create,
-	"decrypt":   Permissions_Keys_Decrypt,
-	"delete":    Permissions_Keys_Delete,
-	"encrypt":   Permissions_Keys_Encrypt,
-	"get":       Permissions_Keys_Get,
-	"import":    Permissions_Keys_Import,
-	"list":      Permissions_Keys_List,
-	"purge":     Permissions_Keys_Purge,
-	"recover":   Permissions_Keys_Recover,
-	"release":   Permissions_Keys_Release,
-	"restore":   Permissions_Keys_Restore,
-	"sign":      Permissions_Keys_Sign,
-	"unwrapkey": Permissions_Keys_UnwrapKey,
-	"update":    Permissions_Keys_Update,
-	"verify":    Permissions_Keys_Verify,
-	"wrapkey":   Permissions_Keys_WrapKey,
+// Mapping from string to Permissions_Keys_ARM
+var permissions_Keys_ARM_Values = map[string]Permissions_Keys_ARM{
+	"backup":    Permissions_Keys_ARM_Backup,
+	"create":    Permissions_Keys_ARM_Create,
+	"decrypt":   Permissions_Keys_ARM_Decrypt,
+	"delete":    Permissions_Keys_ARM_Delete,
+	"encrypt":   Permissions_Keys_ARM_Encrypt,
+	"get":       Permissions_Keys_ARM_Get,
+	"import":    Permissions_Keys_ARM_Import,
+	"list":      Permissions_Keys_ARM_List,
+	"purge":     Permissions_Keys_ARM_Purge,
+	"recover":   Permissions_Keys_ARM_Recover,
+	"release":   Permissions_Keys_ARM_Release,
+	"restore":   Permissions_Keys_ARM_Restore,
+	"sign":      Permissions_Keys_ARM_Sign,
+	"unwrapkey": Permissions_Keys_ARM_UnwrapKey,
+	"update":    Permissions_Keys_ARM_Update,
+	"verify":    Permissions_Keys_ARM_Verify,
+	"wrapkey":   Permissions_Keys_ARM_WrapKey,
 }
 
 // +kubebuilder:validation:Enum={"backup","delete","get","list","purge","recover","restore","set"}
-type Permissions_Secrets string
+type Permissions_Secrets_ARM string
 
 const (
-	Permissions_Secrets_Backup  = Permissions_Secrets("backup")
-	Permissions_Secrets_Delete  = Permissions_Secrets("delete")
-	Permissions_Secrets_Get     = Permissions_Secrets("get")
-	Permissions_Secrets_List    = Permissions_Secrets("list")
-	Permissions_Secrets_Purge   = Permissions_Secrets("purge")
-	Permissions_Secrets_Recover = Permissions_Secrets("recover")
-	Permissions_Secrets_Restore = Permissions_Secrets("restore")
-	Permissions_Secrets_Set     = Permissions_Secrets("set")
+	Permissions_Secrets_ARM_Backup  = Permissions_Secrets_ARM("backup")
+	Permissions_Secrets_ARM_Delete  = Permissions_Secrets_ARM("delete")
+	Permissions_Secrets_ARM_Get     = Permissions_Secrets_ARM("get")
+	Permissions_Secrets_ARM_List    = Permissions_Secrets_ARM("list")
+	Permissions_Secrets_ARM_Purge   = Permissions_Secrets_ARM("purge")
+	Permissions_Secrets_ARM_Recover = Permissions_Secrets_ARM("recover")
+	Permissions_Secrets_ARM_Restore = Permissions_Secrets_ARM("restore")
+	Permissions_Secrets_ARM_Set     = Permissions_Secrets_ARM("set")
 )
 
-// Mapping from string to Permissions_Secrets
-var permissions_Secrets_Values = map[string]Permissions_Secrets{
-	"backup":  Permissions_Secrets_Backup,
-	"delete":  Permissions_Secrets_Delete,
-	"get":     Permissions_Secrets_Get,
-	"list":    Permissions_Secrets_List,
-	"purge":   Permissions_Secrets_Purge,
-	"recover": Permissions_Secrets_Recover,
-	"restore": Permissions_Secrets_Restore,
-	"set":     Permissions_Secrets_Set,
+// Mapping from string to Permissions_Secrets_ARM
+var permissions_Secrets_ARM_Values = map[string]Permissions_Secrets_ARM{
+	"backup":  Permissions_Secrets_ARM_Backup,
+	"delete":  Permissions_Secrets_ARM_Delete,
+	"get":     Permissions_Secrets_ARM_Get,
+	"list":    Permissions_Secrets_ARM_List,
+	"purge":   Permissions_Secrets_ARM_Purge,
+	"recover": Permissions_Secrets_ARM_Recover,
+	"restore": Permissions_Secrets_ARM_Restore,
+	"set":     Permissions_Secrets_ARM_Set,
 }
 
 // +kubebuilder:validation:Enum={"backup","delete","deletesas","get","getsas","list","listsas","purge","recover","regeneratekey","restore","set","setsas","update"}
-type Permissions_Storage string
+type Permissions_Storage_ARM string
 
 const (
-	Permissions_Storage_Backup        = Permissions_Storage("backup")
-	Permissions_Storage_Delete        = Permissions_Storage("delete")
-	Permissions_Storage_Deletesas     = Permissions_Storage("deletesas")
-	Permissions_Storage_Get           = Permissions_Storage("get")
-	Permissions_Storage_Getsas        = Permissions_Storage("getsas")
-	Permissions_Storage_List          = Permissions_Storage("list")
-	Permissions_Storage_Listsas       = Permissions_Storage("listsas")
-	Permissions_Storage_Purge         = Permissions_Storage("purge")
-	Permissions_Storage_Recover       = Permissions_Storage("recover")
-	Permissions_Storage_Regeneratekey = Permissions_Storage("regeneratekey")
-	Permissions_Storage_Restore       = Permissions_Storage("restore")
-	Permissions_Storage_Set           = Permissions_Storage("set")
-	Permissions_Storage_Setsas        = Permissions_Storage("setsas")
-	Permissions_Storage_Update        = Permissions_Storage("update")
+	Permissions_Storage_ARM_Backup        = Permissions_Storage_ARM("backup")
+	Permissions_Storage_ARM_Delete        = Permissions_Storage_ARM("delete")
+	Permissions_Storage_ARM_Deletesas     = Permissions_Storage_ARM("deletesas")
+	Permissions_Storage_ARM_Get           = Permissions_Storage_ARM("get")
+	Permissions_Storage_ARM_Getsas        = Permissions_Storage_ARM("getsas")
+	Permissions_Storage_ARM_List          = Permissions_Storage_ARM("list")
+	Permissions_Storage_ARM_Listsas       = Permissions_Storage_ARM("listsas")
+	Permissions_Storage_ARM_Purge         = Permissions_Storage_ARM("purge")
+	Permissions_Storage_ARM_Recover       = Permissions_Storage_ARM("recover")
+	Permissions_Storage_ARM_Regeneratekey = Permissions_Storage_ARM("regeneratekey")
+	Permissions_Storage_ARM_Restore       = Permissions_Storage_ARM("restore")
+	Permissions_Storage_ARM_Set           = Permissions_Storage_ARM("set")
+	Permissions_Storage_ARM_Setsas        = Permissions_Storage_ARM("setsas")
+	Permissions_Storage_ARM_Update        = Permissions_Storage_ARM("update")
 )
 
-// Mapping from string to Permissions_Storage
-var permissions_Storage_Values = map[string]Permissions_Storage{
-	"backup":        Permissions_Storage_Backup,
-	"delete":        Permissions_Storage_Delete,
-	"deletesas":     Permissions_Storage_Deletesas,
-	"get":           Permissions_Storage_Get,
-	"getsas":        Permissions_Storage_Getsas,
-	"list":          Permissions_Storage_List,
-	"listsas":       Permissions_Storage_Listsas,
-	"purge":         Permissions_Storage_Purge,
-	"recover":       Permissions_Storage_Recover,
-	"regeneratekey": Permissions_Storage_Regeneratekey,
-	"restore":       Permissions_Storage_Restore,
-	"set":           Permissions_Storage_Set,
-	"setsas":        Permissions_Storage_Setsas,
-	"update":        Permissions_Storage_Update,
+// Mapping from string to Permissions_Storage_ARM
+var permissions_Storage_ARM_Values = map[string]Permissions_Storage_ARM{
+	"backup":        Permissions_Storage_ARM_Backup,
+	"delete":        Permissions_Storage_ARM_Delete,
+	"deletesas":     Permissions_Storage_ARM_Deletesas,
+	"get":           Permissions_Storage_ARM_Get,
+	"getsas":        Permissions_Storage_ARM_Getsas,
+	"list":          Permissions_Storage_ARM_List,
+	"listsas":       Permissions_Storage_ARM_Listsas,
+	"purge":         Permissions_Storage_ARM_Purge,
+	"recover":       Permissions_Storage_ARM_Recover,
+	"regeneratekey": Permissions_Storage_ARM_Regeneratekey,
+	"restore":       Permissions_Storage_ARM_Restore,
+	"set":           Permissions_Storage_ARM_Set,
+	"setsas":        Permissions_Storage_ARM_Setsas,
+	"update":        Permissions_Storage_ARM_Update,
 }

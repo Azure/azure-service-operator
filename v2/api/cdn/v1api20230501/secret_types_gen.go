@@ -651,7 +651,9 @@ func (secret *Profiles_Secret_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DeploymentStatus != nil {
-			deploymentStatus := *typedInput.Properties.DeploymentStatus
+			var temp string
+			temp = string(*typedInput.Properties.DeploymentStatus)
+			deploymentStatus := SecretProperties_DeploymentStatus_STATUS(temp)
 			secret.DeploymentStatus = &deploymentStatus
 		}
 	}
@@ -695,7 +697,9 @@ func (secret *Profiles_Secret_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := SecretProperties_ProvisioningState_STATUS(temp)
 			secret.ProvisioningState = &provisioningState
 		}
 	}
@@ -1350,6 +1354,42 @@ func (parameters *SecretParameters_STATUS) AssignProperties_To_SecretParameters_
 	return nil
 }
 
+type SecretProperties_DeploymentStatus_STATUS string
+
+const (
+	SecretProperties_DeploymentStatus_STATUS_Failed     = SecretProperties_DeploymentStatus_STATUS("Failed")
+	SecretProperties_DeploymentStatus_STATUS_InProgress = SecretProperties_DeploymentStatus_STATUS("InProgress")
+	SecretProperties_DeploymentStatus_STATUS_NotStarted = SecretProperties_DeploymentStatus_STATUS("NotStarted")
+	SecretProperties_DeploymentStatus_STATUS_Succeeded  = SecretProperties_DeploymentStatus_STATUS("Succeeded")
+)
+
+// Mapping from string to SecretProperties_DeploymentStatus_STATUS
+var secretProperties_DeploymentStatus_STATUS_Values = map[string]SecretProperties_DeploymentStatus_STATUS{
+	"failed":     SecretProperties_DeploymentStatus_STATUS_Failed,
+	"inprogress": SecretProperties_DeploymentStatus_STATUS_InProgress,
+	"notstarted": SecretProperties_DeploymentStatus_STATUS_NotStarted,
+	"succeeded":  SecretProperties_DeploymentStatus_STATUS_Succeeded,
+}
+
+type SecretProperties_ProvisioningState_STATUS string
+
+const (
+	SecretProperties_ProvisioningState_STATUS_Creating  = SecretProperties_ProvisioningState_STATUS("Creating")
+	SecretProperties_ProvisioningState_STATUS_Deleting  = SecretProperties_ProvisioningState_STATUS("Deleting")
+	SecretProperties_ProvisioningState_STATUS_Failed    = SecretProperties_ProvisioningState_STATUS("Failed")
+	SecretProperties_ProvisioningState_STATUS_Succeeded = SecretProperties_ProvisioningState_STATUS("Succeeded")
+	SecretProperties_ProvisioningState_STATUS_Updating  = SecretProperties_ProvisioningState_STATUS("Updating")
+)
+
+// Mapping from string to SecretProperties_ProvisioningState_STATUS
+var secretProperties_ProvisioningState_STATUS_Values = map[string]SecretProperties_ProvisioningState_STATUS{
+	"creating":  SecretProperties_ProvisioningState_STATUS_Creating,
+	"deleting":  SecretProperties_ProvisioningState_STATUS_Deleting,
+	"failed":    SecretProperties_ProvisioningState_STATUS_Failed,
+	"succeeded": SecretProperties_ProvisioningState_STATUS_Succeeded,
+	"updating":  SecretProperties_ProvisioningState_STATUS_Updating,
+}
+
 type AzureFirstPartyManagedCertificateParameters struct {
 	// SubjectAlternativeNames: The list of SANs.
 	SubjectAlternativeNames []string `json:"subjectAlternativeNames,omitempty"`
@@ -1374,7 +1414,11 @@ func (parameters *AzureFirstPartyManagedCertificateParameters) ConvertToARM(reso
 
 	// Set property "Type":
 	if parameters.Type != nil {
-		result.Type = *parameters.Type
+		var temp AzureFirstPartyManagedCertificateParameters_Type_ARM
+		var temp1 string
+		temp1 = string(*parameters.Type)
+		temp = AzureFirstPartyManagedCertificateParameters_Type_ARM(temp1)
+		result.Type = temp
 	}
 	return result, nil
 }
@@ -1397,7 +1441,11 @@ func (parameters *AzureFirstPartyManagedCertificateParameters) PopulateFromARM(o
 	}
 
 	// Set property "Type":
-	parameters.Type = &typedInput.Type
+	var temp AzureFirstPartyManagedCertificateParameters_Type
+	var temp1 string
+	temp1 = string(typedInput.Type)
+	temp = AzureFirstPartyManagedCertificateParameters_Type(temp1)
+	parameters.Type = &temp
 
 	// No error
 	return nil
@@ -1544,7 +1592,11 @@ func (parameters *AzureFirstPartyManagedCertificateParameters_STATUS) PopulateFr
 	}
 
 	// Set property "Type":
-	parameters.Type = &typedInput.Type
+	var temp AzureFirstPartyManagedCertificateParameters_Type_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Type)
+	temp = AzureFirstPartyManagedCertificateParameters_Type_STATUS(temp1)
+	parameters.Type = &temp
 
 	// No error
 	return nil
@@ -1695,7 +1747,11 @@ func (parameters *CustomerCertificateParameters) ConvertToARM(resolved genruntim
 
 	// Set property "Type":
 	if parameters.Type != nil {
-		result.Type = *parameters.Type
+		var temp CustomerCertificateParameters_Type_ARM
+		var temp1 string
+		temp1 = string(*parameters.Type)
+		temp = CustomerCertificateParameters_Type_ARM(temp1)
+		result.Type = temp
 	}
 
 	// Set property "UseLatestVersion":
@@ -1741,7 +1797,11 @@ func (parameters *CustomerCertificateParameters) PopulateFromARM(owner genruntim
 	}
 
 	// Set property "Type":
-	parameters.Type = &typedInput.Type
+	var temp CustomerCertificateParameters_Type
+	var temp1 string
+	temp1 = string(typedInput.Type)
+	temp = CustomerCertificateParameters_Type(temp1)
+	parameters.Type = &temp
 
 	// Set property "UseLatestVersion":
 	if typedInput.UseLatestVersion != nil {
@@ -1975,7 +2035,11 @@ func (parameters *CustomerCertificateParameters_STATUS) PopulateFromARM(owner ge
 	}
 
 	// Set property "Type":
-	parameters.Type = &typedInput.Type
+	var temp CustomerCertificateParameters_Type_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Type)
+	temp = CustomerCertificateParameters_Type_STATUS(temp1)
+	parameters.Type = &temp
 
 	// Set property "UseLatestVersion":
 	if typedInput.UseLatestVersion != nil {
@@ -2119,7 +2183,11 @@ func (parameters *ManagedCertificateParameters) ConvertToARM(resolved genruntime
 
 	// Set property "Type":
 	if parameters.Type != nil {
-		result.Type = *parameters.Type
+		var temp ManagedCertificateParameters_Type_ARM
+		var temp1 string
+		temp1 = string(*parameters.Type)
+		temp = ManagedCertificateParameters_Type_ARM(temp1)
+		result.Type = temp
 	}
 	return result, nil
 }
@@ -2137,7 +2205,11 @@ func (parameters *ManagedCertificateParameters) PopulateFromARM(owner genruntime
 	}
 
 	// Set property "Type":
-	parameters.Type = &typedInput.Type
+	var temp ManagedCertificateParameters_Type
+	var temp1 string
+	temp1 = string(typedInput.Type)
+	temp = ManagedCertificateParameters_Type(temp1)
+	parameters.Type = &temp
 
 	// No error
 	return nil
@@ -2234,7 +2306,11 @@ func (parameters *ManagedCertificateParameters_STATUS) PopulateFromARM(owner gen
 	}
 
 	// Set property "Type":
-	parameters.Type = &typedInput.Type
+	var temp ManagedCertificateParameters_Type_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Type)
+	temp = ManagedCertificateParameters_Type_STATUS(temp1)
+	parameters.Type = &temp
 
 	// No error
 	return nil
@@ -2343,7 +2419,11 @@ func (parameters *UrlSigningKeyParameters) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "Type":
 	if parameters.Type != nil {
-		result.Type = *parameters.Type
+		var temp UrlSigningKeyParameters_Type_ARM
+		var temp1 string
+		temp1 = string(*parameters.Type)
+		temp = UrlSigningKeyParameters_Type_ARM(temp1)
+		result.Type = temp
 	}
 	return result, nil
 }
@@ -2384,7 +2464,11 @@ func (parameters *UrlSigningKeyParameters) PopulateFromARM(owner genruntime.Arbi
 	}
 
 	// Set property "Type":
-	parameters.Type = &typedInput.Type
+	var temp UrlSigningKeyParameters_Type
+	var temp1 string
+	temp1 = string(typedInput.Type)
+	temp = UrlSigningKeyParameters_Type(temp1)
+	parameters.Type = &temp
 
 	// No error
 	return nil
@@ -2551,7 +2635,11 @@ func (parameters *UrlSigningKeyParameters_STATUS) PopulateFromARM(owner genrunti
 	}
 
 	// Set property "Type":
-	parameters.Type = &typedInput.Type
+	var temp UrlSigningKeyParameters_Type_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Type)
+	temp = UrlSigningKeyParameters_Type_STATUS(temp1)
+	parameters.Type = &temp
 
 	// No error
 	return nil
@@ -2631,6 +2719,82 @@ func (parameters *UrlSigningKeyParameters_STATUS) AssignProperties_To_UrlSigning
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"AzureFirstPartyManagedCertificate"}
+type AzureFirstPartyManagedCertificateParameters_Type string
+
+const AzureFirstPartyManagedCertificateParameters_Type_AzureFirstPartyManagedCertificate = AzureFirstPartyManagedCertificateParameters_Type("AzureFirstPartyManagedCertificate")
+
+// Mapping from string to AzureFirstPartyManagedCertificateParameters_Type
+var azureFirstPartyManagedCertificateParameters_Type_Values = map[string]AzureFirstPartyManagedCertificateParameters_Type{
+	"azurefirstpartymanagedcertificate": AzureFirstPartyManagedCertificateParameters_Type_AzureFirstPartyManagedCertificate,
+}
+
+type AzureFirstPartyManagedCertificateParameters_Type_STATUS string
+
+const AzureFirstPartyManagedCertificateParameters_Type_STATUS_AzureFirstPartyManagedCertificate = AzureFirstPartyManagedCertificateParameters_Type_STATUS("AzureFirstPartyManagedCertificate")
+
+// Mapping from string to AzureFirstPartyManagedCertificateParameters_Type_STATUS
+var azureFirstPartyManagedCertificateParameters_Type_STATUS_Values = map[string]AzureFirstPartyManagedCertificateParameters_Type_STATUS{
+	"azurefirstpartymanagedcertificate": AzureFirstPartyManagedCertificateParameters_Type_STATUS_AzureFirstPartyManagedCertificate,
+}
+
+// +kubebuilder:validation:Enum={"CustomerCertificate"}
+type CustomerCertificateParameters_Type string
+
+const CustomerCertificateParameters_Type_CustomerCertificate = CustomerCertificateParameters_Type("CustomerCertificate")
+
+// Mapping from string to CustomerCertificateParameters_Type
+var customerCertificateParameters_Type_Values = map[string]CustomerCertificateParameters_Type{
+	"customercertificate": CustomerCertificateParameters_Type_CustomerCertificate,
+}
+
+type CustomerCertificateParameters_Type_STATUS string
+
+const CustomerCertificateParameters_Type_STATUS_CustomerCertificate = CustomerCertificateParameters_Type_STATUS("CustomerCertificate")
+
+// Mapping from string to CustomerCertificateParameters_Type_STATUS
+var customerCertificateParameters_Type_STATUS_Values = map[string]CustomerCertificateParameters_Type_STATUS{
+	"customercertificate": CustomerCertificateParameters_Type_STATUS_CustomerCertificate,
+}
+
+// +kubebuilder:validation:Enum={"ManagedCertificate"}
+type ManagedCertificateParameters_Type string
+
+const ManagedCertificateParameters_Type_ManagedCertificate = ManagedCertificateParameters_Type("ManagedCertificate")
+
+// Mapping from string to ManagedCertificateParameters_Type
+var managedCertificateParameters_Type_Values = map[string]ManagedCertificateParameters_Type{
+	"managedcertificate": ManagedCertificateParameters_Type_ManagedCertificate,
+}
+
+type ManagedCertificateParameters_Type_STATUS string
+
+const ManagedCertificateParameters_Type_STATUS_ManagedCertificate = ManagedCertificateParameters_Type_STATUS("ManagedCertificate")
+
+// Mapping from string to ManagedCertificateParameters_Type_STATUS
+var managedCertificateParameters_Type_STATUS_Values = map[string]ManagedCertificateParameters_Type_STATUS{
+	"managedcertificate": ManagedCertificateParameters_Type_STATUS_ManagedCertificate,
+}
+
+// +kubebuilder:validation:Enum={"UrlSigningKey"}
+type UrlSigningKeyParameters_Type string
+
+const UrlSigningKeyParameters_Type_UrlSigningKey = UrlSigningKeyParameters_Type("UrlSigningKey")
+
+// Mapping from string to UrlSigningKeyParameters_Type
+var urlSigningKeyParameters_Type_Values = map[string]UrlSigningKeyParameters_Type{
+	"urlsigningkey": UrlSigningKeyParameters_Type_UrlSigningKey,
+}
+
+type UrlSigningKeyParameters_Type_STATUS string
+
+const UrlSigningKeyParameters_Type_STATUS_UrlSigningKey = UrlSigningKeyParameters_Type_STATUS("UrlSigningKey")
+
+// Mapping from string to UrlSigningKeyParameters_Type_STATUS
+var urlSigningKeyParameters_Type_STATUS_Values = map[string]UrlSigningKeyParameters_Type_STATUS{
+	"urlsigningkey": UrlSigningKeyParameters_Type_STATUS_UrlSigningKey,
 }
 
 func init() {

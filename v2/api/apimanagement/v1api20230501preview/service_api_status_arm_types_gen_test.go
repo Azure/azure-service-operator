@@ -158,22 +158,22 @@ func AddIndependentPropertyGeneratorsForApiContractProperties_STATUS_ARM(gens ma
 	gens["IsOnline"] = gen.PtrOf(gen.Bool())
 	gens["Path"] = gen.PtrOf(gen.AlphaString())
 	gens["Protocols"] = gen.SliceOf(gen.OneConstOf(
-		ApiContractProperties_Protocols_STATUS_Http,
-		ApiContractProperties_Protocols_STATUS_Https,
-		ApiContractProperties_Protocols_STATUS_Ws,
-		ApiContractProperties_Protocols_STATUS_Wss))
+		ApiContractProperties_Protocols_STATUS_ARM_Http,
+		ApiContractProperties_Protocols_STATUS_ARM_Https,
+		ApiContractProperties_Protocols_STATUS_ARM_Ws,
+		ApiContractProperties_Protocols_STATUS_ARM_Wss))
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["ServiceUrl"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceApiId"] = gen.PtrOf(gen.AlphaString())
 	gens["SubscriptionRequired"] = gen.PtrOf(gen.Bool())
 	gens["TermsOfServiceUrl"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ApiContractProperties_Type_STATUS_Graphql,
-		ApiContractProperties_Type_STATUS_Grpc,
-		ApiContractProperties_Type_STATUS_Http,
-		ApiContractProperties_Type_STATUS_Odata,
-		ApiContractProperties_Type_STATUS_Soap,
-		ApiContractProperties_Type_STATUS_Websocket))
+		ApiContractProperties_Type_STATUS_ARM_Graphql,
+		ApiContractProperties_Type_STATUS_ARM_Grpc,
+		ApiContractProperties_Type_STATUS_ARM_Http,
+		ApiContractProperties_Type_STATUS_ARM_Odata,
+		ApiContractProperties_Type_STATUS_ARM_Soap,
+		ApiContractProperties_Type_STATUS_ARM_Websocket))
 }
 
 // AddRelatedPropertyGeneratorsForApiContractProperties_STATUS_ARM is a factory method for creating gopter generators
@@ -310,7 +310,7 @@ func AddIndependentPropertyGeneratorsForApiVersionSetContractDetails_STATUS_ARM(
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["VersionHeaderName"] = gen.PtrOf(gen.AlphaString())
 	gens["VersionQueryName"] = gen.PtrOf(gen.AlphaString())
-	gens["VersioningScheme"] = gen.PtrOf(gen.OneConstOf(ApiVersionSetContractDetails_VersioningScheme_STATUS_Header, ApiVersionSetContractDetails_VersioningScheme_STATUS_Query, ApiVersionSetContractDetails_VersioningScheme_STATUS_Segment))
+	gens["VersioningScheme"] = gen.PtrOf(gen.OneConstOf(ApiVersionSetContractDetails_VersioningScheme_STATUS_ARM_Header, ApiVersionSetContractDetails_VersioningScheme_STATUS_ARM_Query, ApiVersionSetContractDetails_VersioningScheme_STATUS_ARM_Segment))
 }
 
 func Test_AuthenticationSettingsContract_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -497,7 +497,7 @@ func OpenIdAuthenticationSettingsContract_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForOpenIdAuthenticationSettingsContract_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForOpenIdAuthenticationSettingsContract_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["BearerTokenSendingMethods"] = gen.SliceOf(gen.OneConstOf(BearerTokenSendingMethodsContract_STATUS_AuthorizationHeader, BearerTokenSendingMethodsContract_STATUS_Query))
+	gens["BearerTokenSendingMethods"] = gen.SliceOf(gen.OneConstOf(BearerTokenSendingMethodsContract_STATUS_ARM_AuthorizationHeader, BearerTokenSendingMethodsContract_STATUS_ARM_Query))
 	gens["OpenidProviderId"] = gen.PtrOf(gen.AlphaString())
 }
 

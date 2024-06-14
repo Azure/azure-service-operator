@@ -43,7 +43,7 @@ type ExtendedLocation_ARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: The type of the extended location.
-	Type *ExtendedLocationType `json:"type,omitempty"`
+	Type *ExtendedLocationType_ARM `json:"type,omitempty"`
 }
 
 // Properties of the private endpoint.
@@ -76,13 +76,13 @@ type ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded_ARM struct
 
 // The supported ExtendedLocation types. Currently only EdgeZone is supported in Microsoft.Network resources.
 // +kubebuilder:validation:Enum={"EdgeZone"}
-type ExtendedLocationType string
+type ExtendedLocationType_ARM string
 
-const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
+const ExtendedLocationType_ARM_EdgeZone = ExtendedLocationType_ARM("EdgeZone")
 
-// Mapping from string to ExtendedLocationType
-var extendedLocationType_Values = map[string]ExtendedLocationType{
-	"edgezone": ExtendedLocationType_EdgeZone,
+// Mapping from string to ExtendedLocationType_ARM
+var extendedLocationType_ARM_Values = map[string]ExtendedLocationType_ARM{
+	"edgezone": ExtendedLocationType_ARM_EdgeZone,
 }
 
 // An IP Configuration of the private endpoint.

@@ -52,11 +52,41 @@ type AFDDomainProperties_ARM struct {
 // The JSON object that contains the properties to secure a domain.
 type AFDDomainHttpsParameters_ARM struct {
 	// CertificateType: Defines the source of the SSL certificate.
-	CertificateType *AFDDomainHttpsParameters_CertificateType `json:"certificateType,omitempty"`
+	CertificateType *AFDDomainHttpsParameters_CertificateType_ARM `json:"certificateType,omitempty"`
 
 	// MinimumTlsVersion: TLS protocol version that will be used for Https
-	MinimumTlsVersion *AFDDomainHttpsParameters_MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *AFDDomainHttpsParameters_MinimumTlsVersion_ARM `json:"minimumTlsVersion,omitempty"`
 
 	// Secret: Resource reference to the secret. ie. subs/rg/profile/secret
 	Secret *ResourceReference_ARM `json:"secret,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"AzureFirstPartyManagedCertificate","CustomerCertificate","ManagedCertificate"}
+type AFDDomainHttpsParameters_CertificateType_ARM string
+
+const (
+	AFDDomainHttpsParameters_CertificateType_ARM_AzureFirstPartyManagedCertificate = AFDDomainHttpsParameters_CertificateType_ARM("AzureFirstPartyManagedCertificate")
+	AFDDomainHttpsParameters_CertificateType_ARM_CustomerCertificate               = AFDDomainHttpsParameters_CertificateType_ARM("CustomerCertificate")
+	AFDDomainHttpsParameters_CertificateType_ARM_ManagedCertificate                = AFDDomainHttpsParameters_CertificateType_ARM("ManagedCertificate")
+)
+
+// Mapping from string to AFDDomainHttpsParameters_CertificateType_ARM
+var aFDDomainHttpsParameters_CertificateType_ARM_Values = map[string]AFDDomainHttpsParameters_CertificateType_ARM{
+	"azurefirstpartymanagedcertificate": AFDDomainHttpsParameters_CertificateType_ARM_AzureFirstPartyManagedCertificate,
+	"customercertificate":               AFDDomainHttpsParameters_CertificateType_ARM_CustomerCertificate,
+	"managedcertificate":                AFDDomainHttpsParameters_CertificateType_ARM_ManagedCertificate,
+}
+
+// +kubebuilder:validation:Enum={"TLS10","TLS12"}
+type AFDDomainHttpsParameters_MinimumTlsVersion_ARM string
+
+const (
+	AFDDomainHttpsParameters_MinimumTlsVersion_ARM_TLS10 = AFDDomainHttpsParameters_MinimumTlsVersion_ARM("TLS10")
+	AFDDomainHttpsParameters_MinimumTlsVersion_ARM_TLS12 = AFDDomainHttpsParameters_MinimumTlsVersion_ARM("TLS12")
+)
+
+// Mapping from string to AFDDomainHttpsParameters_MinimumTlsVersion_ARM
+var aFDDomainHttpsParameters_MinimumTlsVersion_ARM_Values = map[string]AFDDomainHttpsParameters_MinimumTlsVersion_ARM{
+	"tls10": AFDDomainHttpsParameters_MinimumTlsVersion_ARM_TLS10,
+	"tls12": AFDDomainHttpsParameters_MinimumTlsVersion_ARM_TLS12,
 }

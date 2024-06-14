@@ -81,10 +81,10 @@ func AddIndependentPropertyGeneratorsForConfigurationProperties_STATUS_ARM(gens 
 	gens["DefaultValue"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DocumentationLink"] = gen.PtrOf(gen.AlphaString())
-	gens["IsConfigPendingRestart"] = gen.PtrOf(gen.OneConstOf(ConfigurationProperties_IsConfigPendingRestart_STATUS_False, ConfigurationProperties_IsConfigPendingRestart_STATUS_True))
-	gens["IsDynamicConfig"] = gen.PtrOf(gen.OneConstOf(ConfigurationProperties_IsDynamicConfig_STATUS_False, ConfigurationProperties_IsDynamicConfig_STATUS_True))
-	gens["IsReadOnly"] = gen.PtrOf(gen.OneConstOf(ConfigurationProperties_IsReadOnly_STATUS_False, ConfigurationProperties_IsReadOnly_STATUS_True))
-	gens["Source"] = gen.PtrOf(gen.OneConstOf(ConfigurationProperties_Source_STATUS_SystemDefault, ConfigurationProperties_Source_STATUS_UserOverride))
+	gens["IsConfigPendingRestart"] = gen.PtrOf(gen.OneConstOf(ConfigurationProperties_IsConfigPendingRestart_STATUS_ARM_False, ConfigurationProperties_IsConfigPendingRestart_STATUS_ARM_True))
+	gens["IsDynamicConfig"] = gen.PtrOf(gen.OneConstOf(ConfigurationProperties_IsDynamicConfig_STATUS_ARM_False, ConfigurationProperties_IsDynamicConfig_STATUS_ARM_True))
+	gens["IsReadOnly"] = gen.PtrOf(gen.OneConstOf(ConfigurationProperties_IsReadOnly_STATUS_ARM_False, ConfigurationProperties_IsReadOnly_STATUS_ARM_True))
+	gens["Source"] = gen.PtrOf(gen.OneConstOf(ConfigurationProperties_Source_STATUS_ARM_SystemDefault, ConfigurationProperties_Source_STATUS_ARM_UserOverride))
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 

@@ -228,14 +228,14 @@ func VirtualNetworkLinkProperties_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForVirtualNetworkLinkProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworkLinkProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		VirtualNetworkLinkProperties_ProvisioningState_STATUS_Canceled,
-		VirtualNetworkLinkProperties_ProvisioningState_STATUS_Creating,
-		VirtualNetworkLinkProperties_ProvisioningState_STATUS_Deleting,
-		VirtualNetworkLinkProperties_ProvisioningState_STATUS_Failed,
-		VirtualNetworkLinkProperties_ProvisioningState_STATUS_Succeeded,
-		VirtualNetworkLinkProperties_ProvisioningState_STATUS_Updating))
+		VirtualNetworkLinkProperties_ProvisioningState_STATUS_ARM_Canceled,
+		VirtualNetworkLinkProperties_ProvisioningState_STATUS_ARM_Creating,
+		VirtualNetworkLinkProperties_ProvisioningState_STATUS_ARM_Deleting,
+		VirtualNetworkLinkProperties_ProvisioningState_STATUS_ARM_Failed,
+		VirtualNetworkLinkProperties_ProvisioningState_STATUS_ARM_Succeeded,
+		VirtualNetworkLinkProperties_ProvisioningState_STATUS_ARM_Updating))
 	gens["RegistrationEnabled"] = gen.PtrOf(gen.Bool())
-	gens["VirtualNetworkLinkState"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkLinkProperties_VirtualNetworkLinkState_STATUS_Completed, VirtualNetworkLinkProperties_VirtualNetworkLinkState_STATUS_InProgress))
+	gens["VirtualNetworkLinkState"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkLinkProperties_VirtualNetworkLinkState_STATUS_ARM_Completed, VirtualNetworkLinkProperties_VirtualNetworkLinkState_STATUS_ARM_InProgress))
 }
 
 // AddRelatedPropertyGeneratorsForVirtualNetworkLinkProperties_STATUS_ARM is a factory method for creating gopter generators

@@ -569,7 +569,9 @@ func (machine *VirtualMachine_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.DiagnosticsProfile = &diagnosticsProfile
 	}
 	if machine.EvictionPolicy != nil {
-		evictionPolicy := *machine.EvictionPolicy
+		var temp string
+		temp = string(*machine.EvictionPolicy)
+		evictionPolicy := EvictionPolicy_ARM(temp)
 		result.Properties.EvictionPolicy = &evictionPolicy
 	}
 	if machine.ExtensionsTimeBudget != nil {
@@ -625,7 +627,9 @@ func (machine *VirtualMachine_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.PlatformFaultDomain = &platformFaultDomain
 	}
 	if machine.Priority != nil {
-		priority := *machine.Priority
+		var temp string
+		temp = string(*machine.Priority)
+		priority := Priority_ARM(temp)
 		result.Properties.Priority = &priority
 	}
 	if machine.ProximityPlacementGroup != nil {
@@ -751,7 +755,9 @@ func (machine *VirtualMachine_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EvictionPolicy != nil {
-			evictionPolicy := *typedInput.Properties.EvictionPolicy
+			var temp string
+			temp = string(*typedInput.Properties.EvictionPolicy)
+			evictionPolicy := EvictionPolicy(temp)
 			machine.EvictionPolicy = &evictionPolicy
 		}
 	}
@@ -902,7 +908,9 @@ func (machine *VirtualMachine_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Priority != nil {
-			priority := *typedInput.Properties.Priority
+			var temp string
+			temp = string(*typedInput.Properties.Priority)
+			priority := Priority(temp)
 			machine.Priority = &priority
 		}
 	}
@@ -1815,7 +1823,9 @@ func (machine *VirtualMachine_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EvictionPolicy != nil {
-			evictionPolicy := *typedInput.Properties.EvictionPolicy
+			var temp string
+			temp = string(*typedInput.Properties.EvictionPolicy)
+			evictionPolicy := EvictionPolicy_STATUS(temp)
 			machine.EvictionPolicy = &evictionPolicy
 		}
 	}
@@ -1986,7 +1996,9 @@ func (machine *VirtualMachine_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Priority != nil {
-			priority := *typedInput.Properties.Priority
+			var temp string
+			temp = string(*typedInput.Properties.Priority)
+			priority := Priority_STATUS(temp)
 			machine.Priority = &priority
 		}
 	}
@@ -3251,7 +3263,9 @@ func (location *ExtendedLocation) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "Type":
 	if location.Type != nil {
-		typeVar := *location.Type
+		var temp string
+		temp = string(*location.Type)
+		typeVar := ExtendedLocationType_ARM(temp)
 		result.Type = &typeVar
 	}
 	return result, nil
@@ -3277,7 +3291,9 @@ func (location *ExtendedLocation) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ExtendedLocationType(temp)
 		location.Type = &typeVar
 	}
 
@@ -3362,7 +3378,9 @@ func (location *ExtendedLocation_STATUS) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ExtendedLocationType_STATUS(temp)
 		location.Type = &typeVar
 	}
 
@@ -3532,7 +3550,9 @@ func (profile *HardwareProfile_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property "VmSize":
 	if typedInput.VmSize != nil {
-		vmSize := *typedInput.VmSize
+		var temp string
+		temp = string(*typedInput.VmSize)
+		vmSize := HardwareProfile_VmSize_STATUS(temp)
 		profile.VmSize = &vmSize
 	}
 
@@ -4810,7 +4830,9 @@ func (profile *SecurityProfile) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "SecurityType":
 	if profile.SecurityType != nil {
-		securityType := *profile.SecurityType
+		var temp string
+		temp = string(*profile.SecurityType)
+		securityType := SecurityProfile_SecurityType_ARM(temp)
 		result.SecurityType = &securityType
 	}
 
@@ -4846,7 +4868,9 @@ func (profile *SecurityProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 
 	// Set property "SecurityType":
 	if typedInput.SecurityType != nil {
-		securityType := *typedInput.SecurityType
+		var temp string
+		temp = string(*typedInput.SecurityType)
+		securityType := SecurityProfile_SecurityType(temp)
 		profile.SecurityType = &securityType
 	}
 
@@ -4984,7 +5008,9 @@ func (profile *SecurityProfile_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property "SecurityType":
 	if typedInput.SecurityType != nil {
-		securityType := *typedInput.SecurityType
+		var temp string
+		temp = string(*typedInput.SecurityType)
+		securityType := SecurityProfile_SecurityType_STATUS(temp)
 		profile.SecurityType = &securityType
 	}
 
@@ -5987,7 +6013,9 @@ func (identity *VirtualMachineIdentity) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "Type":
 	if identity.Type != nil {
-		typeVar := *identity.Type
+		var temp string
+		temp = string(*identity.Type)
+		typeVar := VirtualMachineIdentity_Type_ARM(temp)
 		result.Type = &typeVar
 	}
 
@@ -6018,7 +6046,9 @@ func (identity *VirtualMachineIdentity) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := VirtualMachineIdentity_Type(temp)
 		identity.Type = &typeVar
 	}
 
@@ -6153,7 +6183,9 @@ func (identity *VirtualMachineIdentity_STATUS) PopulateFromARM(owner genruntime.
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := VirtualMachineIdentity_Type_STATUS(temp)
 		identity.Type = &typeVar
 	}
 
@@ -6377,7 +6409,9 @@ func (view *VirtualMachineInstanceView_STATUS) PopulateFromARM(owner genruntime.
 
 	// Set property "HyperVGeneration":
 	if typedInput.HyperVGeneration != nil {
-		hyperVGeneration := *typedInput.HyperVGeneration
+		var temp string
+		temp = string(*typedInput.HyperVGeneration)
+		hyperVGeneration := VirtualMachineInstanceView_HyperVGeneration_STATUS(temp)
 		view.HyperVGeneration = &hyperVGeneration
 	}
 
@@ -7161,19 +7195,25 @@ func (disk *DataDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 
 	// Set property "Caching":
 	if disk.Caching != nil {
-		caching := *disk.Caching
+		var temp string
+		temp = string(*disk.Caching)
+		caching := Caching_ARM(temp)
 		result.Caching = &caching
 	}
 
 	// Set property "CreateOption":
 	if disk.CreateOption != nil {
-		createOption := *disk.CreateOption
+		var temp string
+		temp = string(*disk.CreateOption)
+		createOption := CreateOption_ARM(temp)
 		result.CreateOption = &createOption
 	}
 
 	// Set property "DetachOption":
 	if disk.DetachOption != nil {
-		detachOption := *disk.DetachOption
+		var temp string
+		temp = string(*disk.DetachOption)
+		detachOption := DetachOption_ARM(temp)
 		result.DetachOption = &detachOption
 	}
 
@@ -7253,19 +7293,25 @@ func (disk *DataDisk) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, 
 
 	// Set property "Caching":
 	if typedInput.Caching != nil {
-		caching := *typedInput.Caching
+		var temp string
+		temp = string(*typedInput.Caching)
+		caching := Caching(temp)
 		disk.Caching = &caching
 	}
 
 	// Set property "CreateOption":
 	if typedInput.CreateOption != nil {
-		createOption := *typedInput.CreateOption
+		var temp string
+		temp = string(*typedInput.CreateOption)
+		createOption := CreateOption(temp)
 		disk.CreateOption = &createOption
 	}
 
 	// Set property "DetachOption":
 	if typedInput.DetachOption != nil {
-		detachOption := *typedInput.DetachOption
+		var temp string
+		temp = string(*typedInput.DetachOption)
+		detachOption := DetachOption(temp)
 		disk.DetachOption = &detachOption
 	}
 
@@ -7614,19 +7660,25 @@ func (disk *DataDisk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 
 	// Set property "Caching":
 	if typedInput.Caching != nil {
-		caching := *typedInput.Caching
+		var temp string
+		temp = string(*typedInput.Caching)
+		caching := Caching_STATUS(temp)
 		disk.Caching = &caching
 	}
 
 	// Set property "CreateOption":
 	if typedInput.CreateOption != nil {
-		createOption := *typedInput.CreateOption
+		var temp string
+		temp = string(*typedInput.CreateOption)
+		createOption := CreateOption_STATUS(temp)
 		disk.CreateOption = &createOption
 	}
 
 	// Set property "DetachOption":
 	if typedInput.DetachOption != nil {
-		detachOption := *typedInput.DetachOption
+		var temp string
+		temp = string(*typedInput.DetachOption)
+		detachOption := DetachOption_STATUS(temp)
 		disk.DetachOption = &detachOption
 	}
 
@@ -8073,6 +8125,27 @@ func (view *DiskInstanceView_STATUS) AssignProperties_To_DiskInstanceView_STATUS
 
 	// No error
 	return nil
+}
+
+// The type of extendedLocation.
+// +kubebuilder:validation:Enum={"EdgeZone"}
+type ExtendedLocationType string
+
+const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
+
+// Mapping from string to ExtendedLocationType
+var extendedLocationType_Values = map[string]ExtendedLocationType{
+	"edgezone": ExtendedLocationType_EdgeZone,
+}
+
+// The type of extendedLocation.
+type ExtendedLocationType_STATUS string
+
+const ExtendedLocationType_STATUS_EdgeZone = ExtendedLocationType_STATUS("EdgeZone")
+
+// Mapping from string to ExtendedLocationType_STATUS
+var extendedLocationType_STATUS_Values = map[string]ExtendedLocationType_STATUS{
+	"edgezone": ExtendedLocationType_STATUS_EdgeZone,
 }
 
 type HardwareProfile_VmSize_STATUS string
@@ -8777,7 +8850,9 @@ func (status *InstanceViewStatus_STATUS) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "Level":
 	if typedInput.Level != nil {
-		level := *typedInput.Level
+		var temp string
+		temp = string(*typedInput.Level)
+		level := InstanceViewStatus_Level_STATUS(temp)
 		status.Level = &level
 	}
 
@@ -9308,7 +9383,9 @@ func (status *MaintenanceRedeployStatus_STATUS) PopulateFromARM(owner genruntime
 
 	// Set property "LastOperationResultCode":
 	if typedInput.LastOperationResultCode != nil {
-		lastOperationResultCode := *typedInput.LastOperationResultCode
+		var temp string
+		temp = string(*typedInput.LastOperationResultCode)
+		lastOperationResultCode := MaintenanceRedeployStatus_LastOperationResultCode_STATUS(temp)
 		status.LastOperationResultCode = &lastOperationResultCode
 	}
 
@@ -9703,13 +9780,17 @@ func (disk *OSDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 
 	// Set property "Caching":
 	if disk.Caching != nil {
-		caching := *disk.Caching
+		var temp string
+		temp = string(*disk.Caching)
+		caching := Caching_ARM(temp)
 		result.Caching = &caching
 	}
 
 	// Set property "CreateOption":
 	if disk.CreateOption != nil {
-		createOption := *disk.CreateOption
+		var temp string
+		temp = string(*disk.CreateOption)
+		createOption := CreateOption_ARM(temp)
 		result.CreateOption = &createOption
 	}
 
@@ -9767,7 +9848,9 @@ func (disk *OSDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 
 	// Set property "OsType":
 	if disk.OsType != nil {
-		osType := *disk.OsType
+		var temp string
+		temp = string(*disk.OsType)
+		osType := OSDisk_OsType_ARM(temp)
 		result.OsType = &osType
 	}
 
@@ -9803,13 +9886,17 @@ func (disk *OSDisk) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, ar
 
 	// Set property "Caching":
 	if typedInput.Caching != nil {
-		caching := *typedInput.Caching
+		var temp string
+		temp = string(*typedInput.Caching)
+		caching := Caching(temp)
 		disk.Caching = &caching
 	}
 
 	// Set property "CreateOption":
 	if typedInput.CreateOption != nil {
-		createOption := *typedInput.CreateOption
+		var temp string
+		temp = string(*typedInput.CreateOption)
+		createOption := CreateOption(temp)
 		disk.CreateOption = &createOption
 	}
 
@@ -9871,7 +9958,9 @@ func (disk *OSDisk) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, ar
 
 	// Set property "OsType":
 	if typedInput.OsType != nil {
-		osType := *typedInput.OsType
+		var temp string
+		temp = string(*typedInput.OsType)
+		osType := OSDisk_OsType(temp)
 		disk.OsType = &osType
 	}
 
@@ -10191,13 +10280,17 @@ func (disk *OSDisk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 
 	// Set property "Caching":
 	if typedInput.Caching != nil {
-		caching := *typedInput.Caching
+		var temp string
+		temp = string(*typedInput.Caching)
+		caching := Caching_STATUS(temp)
 		disk.Caching = &caching
 	}
 
 	// Set property "CreateOption":
 	if typedInput.CreateOption != nil {
-		createOption := *typedInput.CreateOption
+		var temp string
+		temp = string(*typedInput.CreateOption)
+		createOption := CreateOption_STATUS(temp)
 		disk.CreateOption = &createOption
 	}
 
@@ -10259,7 +10352,9 @@ func (disk *OSDisk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 
 	// Set property "OsType":
 	if typedInput.OsType != nil {
-		osType := *typedInput.OsType
+		var temp string
+		temp = string(*typedInput.OsType)
+		osType := OSDisk_OsType_STATUS(temp)
 		disk.OsType = &osType
 	}
 
@@ -11305,6 +11400,41 @@ func (status *VirtualMachineHealthStatus_STATUS) AssignProperties_To_VirtualMach
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
+type VirtualMachineIdentity_Type string
+
+const (
+	VirtualMachineIdentity_Type_None                       = VirtualMachineIdentity_Type("None")
+	VirtualMachineIdentity_Type_SystemAssigned             = VirtualMachineIdentity_Type("SystemAssigned")
+	VirtualMachineIdentity_Type_SystemAssignedUserAssigned = VirtualMachineIdentity_Type("SystemAssigned, UserAssigned")
+	VirtualMachineIdentity_Type_UserAssigned               = VirtualMachineIdentity_Type("UserAssigned")
+)
+
+// Mapping from string to VirtualMachineIdentity_Type
+var virtualMachineIdentity_Type_Values = map[string]VirtualMachineIdentity_Type{
+	"none":                         VirtualMachineIdentity_Type_None,
+	"systemassigned":               VirtualMachineIdentity_Type_SystemAssigned,
+	"systemassigned, userassigned": VirtualMachineIdentity_Type_SystemAssignedUserAssigned,
+	"userassigned":                 VirtualMachineIdentity_Type_UserAssigned,
+}
+
+type VirtualMachineIdentity_Type_STATUS string
+
+const (
+	VirtualMachineIdentity_Type_STATUS_None                       = VirtualMachineIdentity_Type_STATUS("None")
+	VirtualMachineIdentity_Type_STATUS_SystemAssigned             = VirtualMachineIdentity_Type_STATUS("SystemAssigned")
+	VirtualMachineIdentity_Type_STATUS_SystemAssignedUserAssigned = VirtualMachineIdentity_Type_STATUS("SystemAssigned, UserAssigned")
+	VirtualMachineIdentity_Type_STATUS_UserAssigned               = VirtualMachineIdentity_Type_STATUS("UserAssigned")
+)
+
+// Mapping from string to VirtualMachineIdentity_Type_STATUS
+var virtualMachineIdentity_Type_STATUS_Values = map[string]VirtualMachineIdentity_Type_STATUS{
+	"none":                         VirtualMachineIdentity_Type_STATUS_None,
+	"systemassigned":               VirtualMachineIdentity_Type_STATUS_SystemAssigned,
+	"systemassigned, userassigned": VirtualMachineIdentity_Type_STATUS_SystemAssignedUserAssigned,
+	"userassigned":                 VirtualMachineIdentity_Type_STATUS_UserAssigned,
+}
+
 type VirtualMachineIdentity_UserAssignedIdentities_STATUS struct {
 	// ClientId: The client id of user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
@@ -12132,7 +12262,9 @@ func (content *AdditionalUnattendContent) ConvertToARM(resolved genruntime.Conve
 
 	// Set property "ComponentName":
 	if content.ComponentName != nil {
-		componentName := *content.ComponentName
+		var temp string
+		temp = string(*content.ComponentName)
+		componentName := AdditionalUnattendContent_ComponentName_ARM(temp)
 		result.ComponentName = &componentName
 	}
 
@@ -12144,13 +12276,17 @@ func (content *AdditionalUnattendContent) ConvertToARM(resolved genruntime.Conve
 
 	// Set property "PassName":
 	if content.PassName != nil {
-		passName := *content.PassName
+		var temp string
+		temp = string(*content.PassName)
+		passName := AdditionalUnattendContent_PassName_ARM(temp)
 		result.PassName = &passName
 	}
 
 	// Set property "SettingName":
 	if content.SettingName != nil {
-		settingName := *content.SettingName
+		var temp string
+		temp = string(*content.SettingName)
+		settingName := AdditionalUnattendContent_SettingName_ARM(temp)
 		result.SettingName = &settingName
 	}
 	return result, nil
@@ -12170,7 +12306,9 @@ func (content *AdditionalUnattendContent) PopulateFromARM(owner genruntime.Arbit
 
 	// Set property "ComponentName":
 	if typedInput.ComponentName != nil {
-		componentName := *typedInput.ComponentName
+		var temp string
+		temp = string(*typedInput.ComponentName)
+		componentName := AdditionalUnattendContent_ComponentName(temp)
 		content.ComponentName = &componentName
 	}
 
@@ -12182,13 +12320,17 @@ func (content *AdditionalUnattendContent) PopulateFromARM(owner genruntime.Arbit
 
 	// Set property "PassName":
 	if typedInput.PassName != nil {
-		passName := *typedInput.PassName
+		var temp string
+		temp = string(*typedInput.PassName)
+		passName := AdditionalUnattendContent_PassName(temp)
 		content.PassName = &passName
 	}
 
 	// Set property "SettingName":
 	if typedInput.SettingName != nil {
-		settingName := *typedInput.SettingName
+		var temp string
+		temp = string(*typedInput.SettingName)
+		settingName := AdditionalUnattendContent_SettingName(temp)
 		content.SettingName = &settingName
 	}
 
@@ -12311,7 +12453,9 @@ func (content *AdditionalUnattendContent_STATUS) PopulateFromARM(owner genruntim
 
 	// Set property "ComponentName":
 	if typedInput.ComponentName != nil {
-		componentName := *typedInput.ComponentName
+		var temp string
+		temp = string(*typedInput.ComponentName)
+		componentName := AdditionalUnattendContent_ComponentName_STATUS(temp)
 		content.ComponentName = &componentName
 	}
 
@@ -12323,13 +12467,17 @@ func (content *AdditionalUnattendContent_STATUS) PopulateFromARM(owner genruntim
 
 	// Set property "PassName":
 	if typedInput.PassName != nil {
-		passName := *typedInput.PassName
+		var temp string
+		temp = string(*typedInput.PassName)
+		passName := AdditionalUnattendContent_PassName_STATUS(temp)
 		content.PassName = &passName
 	}
 
 	// Set property "SettingName":
 	if typedInput.SettingName != nil {
-		settingName := *typedInput.SettingName
+		var temp string
+		temp = string(*typedInput.SettingName)
+		settingName := AdditionalUnattendContent_SettingName_STATUS(temp)
 		content.SettingName = &settingName
 	}
 
@@ -12511,7 +12659,9 @@ func (summary *AvailablePatchSummary_STATUS) PopulateFromARM(owner genruntime.Ar
 
 	// Set property "Status":
 	if typedInput.Status != nil {
-		status := *typedInput.Status
+		var temp string
+		temp = string(*typedInput.Status)
+		status := AvailablePatchSummary_Status_STATUS(temp)
 		summary.Status = &status
 	}
 
@@ -12785,13 +12935,17 @@ func (settings *DiffDiskSettings) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "Option":
 	if settings.Option != nil {
-		option := *settings.Option
+		var temp string
+		temp = string(*settings.Option)
+		option := DiffDiskOption_ARM(temp)
 		result.Option = &option
 	}
 
 	// Set property "Placement":
 	if settings.Placement != nil {
-		placement := *settings.Placement
+		var temp string
+		temp = string(*settings.Placement)
+		placement := DiffDiskPlacement_ARM(temp)
 		result.Placement = &placement
 	}
 	return result, nil
@@ -12811,13 +12965,17 @@ func (settings *DiffDiskSettings) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property "Option":
 	if typedInput.Option != nil {
-		option := *typedInput.Option
+		var temp string
+		temp = string(*typedInput.Option)
+		option := DiffDiskOption(temp)
 		settings.Option = &option
 	}
 
 	// Set property "Placement":
 	if typedInput.Placement != nil {
-		placement := *typedInput.Placement
+		var temp string
+		temp = string(*typedInput.Placement)
+		placement := DiffDiskPlacement(temp)
 		settings.Placement = &placement
 	}
 
@@ -12916,13 +13074,17 @@ func (settings *DiffDiskSettings_STATUS) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "Option":
 	if typedInput.Option != nil {
-		option := *typedInput.Option
+		var temp string
+		temp = string(*typedInput.Option)
+		option := DiffDiskOption_STATUS(temp)
 		settings.Option = &option
 	}
 
 	// Set property "Placement":
 	if typedInput.Placement != nil {
-		placement := *typedInput.Placement
+		var temp string
+		temp = string(*typedInput.Placement)
+		placement := DiffDiskPlacement_STATUS(temp)
 		settings.Placement = &placement
 	}
 
@@ -13449,7 +13611,9 @@ func (summary *LastPatchInstallationSummary_STATUS) PopulateFromARM(owner genrun
 
 	// Set property "Status":
 	if typedInput.Status != nil {
-		status := *typedInput.Status
+		var temp string
+		temp = string(*typedInput.Status)
+		status := LastPatchInstallationSummary_Status_STATUS(temp)
 		summary.Status = &status
 	}
 
@@ -13606,7 +13770,9 @@ func (settings *LinuxPatchSettings) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "PatchMode":
 	if settings.PatchMode != nil {
-		patchMode := *settings.PatchMode
+		var temp string
+		temp = string(*settings.PatchMode)
+		patchMode := LinuxPatchSettings_PatchMode_ARM(temp)
 		result.PatchMode = &patchMode
 	}
 	return result, nil
@@ -13626,7 +13792,9 @@ func (settings *LinuxPatchSettings) PopulateFromARM(owner genruntime.ArbitraryOw
 
 	// Set property "PatchMode":
 	if typedInput.PatchMode != nil {
-		patchMode := *typedInput.PatchMode
+		var temp string
+		temp = string(*typedInput.PatchMode)
+		patchMode := LinuxPatchSettings_PatchMode(temp)
 		settings.PatchMode = &patchMode
 	}
 
@@ -13700,7 +13868,9 @@ func (settings *LinuxPatchSettings_STATUS) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property "PatchMode":
 	if typedInput.PatchMode != nil {
-		patchMode := *typedInput.PatchMode
+		var temp string
+		temp = string(*typedInput.PatchMode)
+		patchMode := LinuxPatchSettings_PatchMode_STATUS(temp)
 		settings.PatchMode = &patchMode
 	}
 
@@ -13810,7 +13980,9 @@ func (parameters *ManagedDiskParameters) ConvertToARM(resolved genruntime.Conver
 
 	// Set property "StorageAccountType":
 	if parameters.StorageAccountType != nil {
-		storageAccountType := *parameters.StorageAccountType
+		var temp string
+		temp = string(*parameters.StorageAccountType)
+		storageAccountType := StorageAccountType_ARM(temp)
 		result.StorageAccountType = &storageAccountType
 	}
 	return result, nil
@@ -13843,7 +14015,9 @@ func (parameters *ManagedDiskParameters) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "StorageAccountType":
 	if typedInput.StorageAccountType != nil {
-		storageAccountType := *typedInput.StorageAccountType
+		var temp string
+		temp = string(*typedInput.StorageAccountType)
+		storageAccountType := StorageAccountType(temp)
 		parameters.StorageAccountType = &storageAccountType
 	}
 
@@ -13978,7 +14152,9 @@ func (parameters *ManagedDiskParameters_STATUS) PopulateFromARM(owner genruntime
 
 	// Set property "StorageAccountType":
 	if typedInput.StorageAccountType != nil {
-		storageAccountType := *typedInput.StorageAccountType
+		var temp string
+		temp = string(*typedInput.StorageAccountType)
+		storageAccountType := StorageAccountType_STATUS(temp)
 		parameters.StorageAccountType = &storageAccountType
 	}
 
@@ -14118,7 +14294,9 @@ func (settings *PatchSettings) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "PatchMode":
 	if settings.PatchMode != nil {
-		patchMode := *settings.PatchMode
+		var temp string
+		temp = string(*settings.PatchMode)
+		patchMode := PatchSettings_PatchMode_ARM(temp)
 		result.PatchMode = &patchMode
 	}
 	return result, nil
@@ -14144,7 +14322,9 @@ func (settings *PatchSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "PatchMode":
 	if typedInput.PatchMode != nil {
-		patchMode := *typedInput.PatchMode
+		var temp string
+		temp = string(*typedInput.PatchMode)
+		patchMode := PatchSettings_PatchMode(temp)
 		settings.PatchMode = &patchMode
 	}
 
@@ -14248,7 +14428,9 @@ func (settings *PatchSettings_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property "PatchMode":
 	if typedInput.PatchMode != nil {
-		patchMode := *typedInput.PatchMode
+		var temp string
+		temp = string(*typedInput.PatchMode)
+		patchMode := PatchSettings_PatchMode_STATUS(temp)
 		settings.PatchMode = &patchMode
 	}
 
@@ -16264,7 +16446,9 @@ func (listener *WinRMListener) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "Protocol":
 	if listener.Protocol != nil {
-		protocol := *listener.Protocol
+		var temp string
+		temp = string(*listener.Protocol)
+		protocol := WinRMListener_Protocol_ARM(temp)
 		result.Protocol = &protocol
 	}
 	return result, nil
@@ -16290,7 +16474,9 @@ func (listener *WinRMListener) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "Protocol":
 	if typedInput.Protocol != nil {
-		protocol := *typedInput.Protocol
+		var temp string
+		temp = string(*typedInput.Protocol)
+		protocol := WinRMListener_Protocol(temp)
 		listener.Protocol = &protocol
 	}
 
@@ -16386,7 +16572,9 @@ func (listener *WinRMListener_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property "Protocol":
 	if typedInput.Protocol != nil {
-		protocol := *typedInput.Protocol
+		var temp string
+		temp = string(*typedInput.Protocol)
+		protocol := WinRMListener_Protocol_STATUS(temp)
 		listener.Protocol = &protocol
 	}
 

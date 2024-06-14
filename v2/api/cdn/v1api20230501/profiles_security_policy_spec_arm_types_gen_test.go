@@ -364,7 +364,7 @@ func SecurityPolicyWebApplicationFirewallParameters_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters_ARM(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.OneConstOf(SecurityPolicyWebApplicationFirewallParameters_Type_WebApplicationFirewall)
+	gens["Type"] = gen.OneConstOf(SecurityPolicyWebApplicationFirewallParameters_Type_ARM_WebApplicationFirewall)
 }
 
 // AddRelatedPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters_ARM is a factory method for creating gopter generators

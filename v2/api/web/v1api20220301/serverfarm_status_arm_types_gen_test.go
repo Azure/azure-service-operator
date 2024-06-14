@@ -347,15 +347,15 @@ func AddIndependentPropertyGeneratorsForServerfarm_Properties_STATUS_ARM(gens ma
 	gens["NumberOfWorkers"] = gen.PtrOf(gen.Int())
 	gens["PerSiteScaling"] = gen.PtrOf(gen.Bool())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		Serverfarm_Properties_ProvisioningState_STATUS_Canceled,
-		Serverfarm_Properties_ProvisioningState_STATUS_Deleting,
-		Serverfarm_Properties_ProvisioningState_STATUS_Failed,
-		Serverfarm_Properties_ProvisioningState_STATUS_InProgress,
-		Serverfarm_Properties_ProvisioningState_STATUS_Succeeded))
+		Serverfarm_Properties_ProvisioningState_STATUS_ARM_Canceled,
+		Serverfarm_Properties_ProvisioningState_STATUS_ARM_Deleting,
+		Serverfarm_Properties_ProvisioningState_STATUS_ARM_Failed,
+		Serverfarm_Properties_ProvisioningState_STATUS_ARM_InProgress,
+		Serverfarm_Properties_ProvisioningState_STATUS_ARM_Succeeded))
 	gens["Reserved"] = gen.PtrOf(gen.Bool())
 	gens["ResourceGroup"] = gen.PtrOf(gen.AlphaString())
 	gens["SpotExpirationTime"] = gen.PtrOf(gen.AlphaString())
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(Serverfarm_Properties_Status_STATUS_Creating, Serverfarm_Properties_Status_STATUS_Pending, Serverfarm_Properties_Status_STATUS_Ready))
+	gens["Status"] = gen.PtrOf(gen.OneConstOf(Serverfarm_Properties_Status_STATUS_ARM_Creating, Serverfarm_Properties_Status_STATUS_ARM_Pending, Serverfarm_Properties_Status_STATUS_ARM_Ready))
 	gens["Subscription"] = gen.PtrOf(gen.AlphaString())
 	gens["TargetWorkerCount"] = gen.PtrOf(gen.Int())
 	gens["TargetWorkerSizeId"] = gen.PtrOf(gen.Int())

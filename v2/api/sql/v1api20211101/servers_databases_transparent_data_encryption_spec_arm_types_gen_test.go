@@ -150,5 +150,5 @@ func TransparentDataEncryptionProperties_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForTransparentDataEncryptionProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForTransparentDataEncryptionProperties_ARM(gens map[string]gopter.Gen) {
-	gens["State"] = gen.PtrOf(gen.OneConstOf(TransparentDataEncryptionProperties_State_Disabled, TransparentDataEncryptionProperties_State_Enabled))
+	gens["State"] = gen.PtrOf(gen.OneConstOf(TransparentDataEncryptionProperties_State_ARM_Disabled, TransparentDataEncryptionProperties_State_ARM_Enabled))
 }

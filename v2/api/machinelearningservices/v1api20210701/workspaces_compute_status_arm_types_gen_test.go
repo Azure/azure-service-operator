@@ -87,9 +87,9 @@ func AddIndependentPropertyGeneratorsForAKS_Properties_STATUS_ARM(gens map[strin
 	gens["AgentCount"] = gen.PtrOf(gen.Int())
 	gens["AgentVmSize"] = gen.PtrOf(gen.AlphaString())
 	gens["ClusterFqdn"] = gen.PtrOf(gen.AlphaString())
-	gens["ClusterPurpose"] = gen.PtrOf(gen.OneConstOf(AKS_Properties_ClusterPurpose_STATUS_DenseProd, AKS_Properties_ClusterPurpose_STATUS_DevTest, AKS_Properties_ClusterPurpose_STATUS_FastProd))
+	gens["ClusterPurpose"] = gen.PtrOf(gen.OneConstOf(AKS_Properties_ClusterPurpose_STATUS_ARM_DenseProd, AKS_Properties_ClusterPurpose_STATUS_ARM_DevTest, AKS_Properties_ClusterPurpose_STATUS_ARM_FastProd))
 	gens["LoadBalancerSubnet"] = gen.PtrOf(gen.AlphaString())
-	gens["LoadBalancerType"] = gen.PtrOf(gen.OneConstOf(AKS_Properties_LoadBalancerType_STATUS_InternalLoadBalancer, AKS_Properties_LoadBalancerType_STATUS_PublicIp))
+	gens["LoadBalancerType"] = gen.PtrOf(gen.OneConstOf(AKS_Properties_LoadBalancerType_STATUS_ARM_InternalLoadBalancer, AKS_Properties_LoadBalancerType_STATUS_ARM_PublicIp))
 }
 
 // AddRelatedPropertyGeneratorsForAKS_Properties_STATUS_ARM is a factory method for creating gopter generators
@@ -166,20 +166,20 @@ func AKS_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAKS_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAKS_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ComputeLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["ComputeType"] = gen.OneConstOf(AKS_ComputeType_STATUS_AKS)
+	gens["ComputeType"] = gen.OneConstOf(AKS_ComputeType_STATUS_ARM_AKS)
 	gens["CreatedOn"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["IsAttachedCompute"] = gen.PtrOf(gen.Bool())
 	gens["ModifiedOn"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		AKS_ProvisioningState_STATUS_Canceled,
-		AKS_ProvisioningState_STATUS_Creating,
-		AKS_ProvisioningState_STATUS_Deleting,
-		AKS_ProvisioningState_STATUS_Failed,
-		AKS_ProvisioningState_STATUS_Succeeded,
-		AKS_ProvisioningState_STATUS_Unknown,
-		AKS_ProvisioningState_STATUS_Updating))
+		AKS_ProvisioningState_STATUS_ARM_Canceled,
+		AKS_ProvisioningState_STATUS_ARM_Creating,
+		AKS_ProvisioningState_STATUS_ARM_Deleting,
+		AKS_ProvisioningState_STATUS_ARM_Failed,
+		AKS_ProvisioningState_STATUS_ARM_Succeeded,
+		AKS_ProvisioningState_STATUS_ARM_Unknown,
+		AKS_ProvisioningState_STATUS_ARM_Updating))
 	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -320,15 +320,15 @@ func AmlComputeProperties_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAmlComputeProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAmlComputeProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["AllocationState"] = gen.PtrOf(gen.OneConstOf(AmlComputeProperties_AllocationState_STATUS_Resizing, AmlComputeProperties_AllocationState_STATUS_Steady))
+	gens["AllocationState"] = gen.PtrOf(gen.OneConstOf(AmlComputeProperties_AllocationState_STATUS_ARM_Resizing, AmlComputeProperties_AllocationState_STATUS_ARM_Steady))
 	gens["AllocationStateTransitionTime"] = gen.PtrOf(gen.AlphaString())
 	gens["CurrentNodeCount"] = gen.PtrOf(gen.Int())
 	gens["EnableNodePublicIp"] = gen.PtrOf(gen.Bool())
 	gens["IsolatedNetwork"] = gen.PtrOf(gen.Bool())
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(AmlComputeProperties_OsType_STATUS_Linux, AmlComputeProperties_OsType_STATUS_Windows))
-	gens["RemoteLoginPortPublicAccess"] = gen.PtrOf(gen.OneConstOf(AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS_Disabled, AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS_Enabled, AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS_NotSpecified))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(AmlComputeProperties_OsType_STATUS_ARM_Linux, AmlComputeProperties_OsType_STATUS_ARM_Windows))
+	gens["RemoteLoginPortPublicAccess"] = gen.PtrOf(gen.OneConstOf(AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS_ARM_Disabled, AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS_ARM_Enabled, AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS_ARM_NotSpecified))
 	gens["TargetNodeCount"] = gen.PtrOf(gen.Int())
-	gens["VmPriority"] = gen.PtrOf(gen.OneConstOf(AmlComputeProperties_VmPriority_STATUS_Dedicated, AmlComputeProperties_VmPriority_STATUS_LowPriority))
+	gens["VmPriority"] = gen.PtrOf(gen.OneConstOf(AmlComputeProperties_VmPriority_STATUS_ARM_Dedicated, AmlComputeProperties_VmPriority_STATUS_ARM_LowPriority))
 	gens["VmSize"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -410,20 +410,20 @@ func AmlCompute_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAmlCompute_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAmlCompute_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ComputeLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["ComputeType"] = gen.OneConstOf(AmlCompute_ComputeType_STATUS_AmlCompute)
+	gens["ComputeType"] = gen.OneConstOf(AmlCompute_ComputeType_STATUS_ARM_AmlCompute)
 	gens["CreatedOn"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["IsAttachedCompute"] = gen.PtrOf(gen.Bool())
 	gens["ModifiedOn"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		AmlCompute_ProvisioningState_STATUS_Canceled,
-		AmlCompute_ProvisioningState_STATUS_Creating,
-		AmlCompute_ProvisioningState_STATUS_Deleting,
-		AmlCompute_ProvisioningState_STATUS_Failed,
-		AmlCompute_ProvisioningState_STATUS_Succeeded,
-		AmlCompute_ProvisioningState_STATUS_Unknown,
-		AmlCompute_ProvisioningState_STATUS_Updating))
+		AmlCompute_ProvisioningState_STATUS_ARM_Canceled,
+		AmlCompute_ProvisioningState_STATUS_ARM_Creating,
+		AmlCompute_ProvisioningState_STATUS_ARM_Deleting,
+		AmlCompute_ProvisioningState_STATUS_ARM_Failed,
+		AmlCompute_ProvisioningState_STATUS_ARM_Succeeded,
+		AmlCompute_ProvisioningState_STATUS_ARM_Unknown,
+		AmlCompute_ProvisioningState_STATUS_ARM_Updating))
 	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -866,21 +866,21 @@ func ComputeInstanceLastOperation_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForComputeInstanceLastOperation_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForComputeInstanceLastOperation_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["OperationName"] = gen.PtrOf(gen.OneConstOf(
-		ComputeInstanceLastOperation_OperationName_STATUS_Create,
-		ComputeInstanceLastOperation_OperationName_STATUS_Delete,
-		ComputeInstanceLastOperation_OperationName_STATUS_Reimage,
-		ComputeInstanceLastOperation_OperationName_STATUS_Restart,
-		ComputeInstanceLastOperation_OperationName_STATUS_Start,
-		ComputeInstanceLastOperation_OperationName_STATUS_Stop))
+		ComputeInstanceLastOperation_OperationName_STATUS_ARM_Create,
+		ComputeInstanceLastOperation_OperationName_STATUS_ARM_Delete,
+		ComputeInstanceLastOperation_OperationName_STATUS_ARM_Reimage,
+		ComputeInstanceLastOperation_OperationName_STATUS_ARM_Restart,
+		ComputeInstanceLastOperation_OperationName_STATUS_ARM_Start,
+		ComputeInstanceLastOperation_OperationName_STATUS_ARM_Stop))
 	gens["OperationStatus"] = gen.PtrOf(gen.OneConstOf(
-		ComputeInstanceLastOperation_OperationStatus_STATUS_CreateFailed,
-		ComputeInstanceLastOperation_OperationStatus_STATUS_DeleteFailed,
-		ComputeInstanceLastOperation_OperationStatus_STATUS_InProgress,
-		ComputeInstanceLastOperation_OperationStatus_STATUS_ReimageFailed,
-		ComputeInstanceLastOperation_OperationStatus_STATUS_RestartFailed,
-		ComputeInstanceLastOperation_OperationStatus_STATUS_StartFailed,
-		ComputeInstanceLastOperation_OperationStatus_STATUS_StopFailed,
-		ComputeInstanceLastOperation_OperationStatus_STATUS_Succeeded))
+		ComputeInstanceLastOperation_OperationStatus_STATUS_ARM_CreateFailed,
+		ComputeInstanceLastOperation_OperationStatus_STATUS_ARM_DeleteFailed,
+		ComputeInstanceLastOperation_OperationStatus_STATUS_ARM_InProgress,
+		ComputeInstanceLastOperation_OperationStatus_STATUS_ARM_ReimageFailed,
+		ComputeInstanceLastOperation_OperationStatus_STATUS_ARM_RestartFailed,
+		ComputeInstanceLastOperation_OperationStatus_STATUS_ARM_StartFailed,
+		ComputeInstanceLastOperation_OperationStatus_STATUS_ARM_StopFailed,
+		ComputeInstanceLastOperation_OperationStatus_STATUS_ARM_Succeeded))
 	gens["OperationTime"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -951,24 +951,24 @@ func ComputeInstanceProperties_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForComputeInstanceProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForComputeInstanceProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ApplicationSharingPolicy"] = gen.PtrOf(gen.OneConstOf(ComputeInstanceProperties_ApplicationSharingPolicy_STATUS_Personal, ComputeInstanceProperties_ApplicationSharingPolicy_STATUS_Shared))
-	gens["ComputeInstanceAuthorizationType"] = gen.PtrOf(gen.OneConstOf(ComputeInstanceProperties_ComputeInstanceAuthorizationType_STATUS_Personal))
+	gens["ApplicationSharingPolicy"] = gen.PtrOf(gen.OneConstOf(ComputeInstanceProperties_ApplicationSharingPolicy_STATUS_ARM_Personal, ComputeInstanceProperties_ApplicationSharingPolicy_STATUS_ARM_Shared))
+	gens["ComputeInstanceAuthorizationType"] = gen.PtrOf(gen.OneConstOf(ComputeInstanceProperties_ComputeInstanceAuthorizationType_STATUS_ARM_Personal))
 	gens["State"] = gen.PtrOf(gen.OneConstOf(
-		ComputeInstanceState_STATUS_CreateFailed,
-		ComputeInstanceState_STATUS_Creating,
-		ComputeInstanceState_STATUS_Deleting,
-		ComputeInstanceState_STATUS_JobRunning,
-		ComputeInstanceState_STATUS_Restarting,
-		ComputeInstanceState_STATUS_Running,
-		ComputeInstanceState_STATUS_SettingUp,
-		ComputeInstanceState_STATUS_SetupFailed,
-		ComputeInstanceState_STATUS_Starting,
-		ComputeInstanceState_STATUS_Stopped,
-		ComputeInstanceState_STATUS_Stopping,
-		ComputeInstanceState_STATUS_Unknown,
-		ComputeInstanceState_STATUS_Unusable,
-		ComputeInstanceState_STATUS_UserSettingUp,
-		ComputeInstanceState_STATUS_UserSetupFailed))
+		ComputeInstanceState_STATUS_ARM_CreateFailed,
+		ComputeInstanceState_STATUS_ARM_Creating,
+		ComputeInstanceState_STATUS_ARM_Deleting,
+		ComputeInstanceState_STATUS_ARM_JobRunning,
+		ComputeInstanceState_STATUS_ARM_Restarting,
+		ComputeInstanceState_STATUS_ARM_Running,
+		ComputeInstanceState_STATUS_ARM_SettingUp,
+		ComputeInstanceState_STATUS_ARM_SetupFailed,
+		ComputeInstanceState_STATUS_ARM_Starting,
+		ComputeInstanceState_STATUS_ARM_Stopped,
+		ComputeInstanceState_STATUS_ARM_Stopping,
+		ComputeInstanceState_STATUS_ARM_Unknown,
+		ComputeInstanceState_STATUS_ARM_Unusable,
+		ComputeInstanceState_STATUS_ARM_UserSettingUp,
+		ComputeInstanceState_STATUS_ARM_UserSetupFailed))
 	gens["VmSize"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1046,7 +1046,7 @@ func AddIndependentPropertyGeneratorsForComputeInstanceSshSettings_STATUS_ARM(ge
 	gens["AdminPublicKey"] = gen.PtrOf(gen.AlphaString())
 	gens["AdminUserName"] = gen.PtrOf(gen.AlphaString())
 	gens["SshPort"] = gen.PtrOf(gen.Int())
-	gens["SshPublicAccess"] = gen.PtrOf(gen.OneConstOf(ComputeInstanceSshSettings_SshPublicAccess_STATUS_Disabled, ComputeInstanceSshSettings_SshPublicAccess_STATUS_Enabled))
+	gens["SshPublicAccess"] = gen.PtrOf(gen.OneConstOf(ComputeInstanceSshSettings_SshPublicAccess_STATUS_ARM_Disabled, ComputeInstanceSshSettings_SshPublicAccess_STATUS_ARM_Enabled))
 }
 
 func Test_ComputeInstance_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1117,20 +1117,20 @@ func ComputeInstance_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForComputeInstance_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForComputeInstance_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ComputeLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["ComputeType"] = gen.OneConstOf(ComputeInstance_ComputeType_STATUS_ComputeInstance)
+	gens["ComputeType"] = gen.OneConstOf(ComputeInstance_ComputeType_STATUS_ARM_ComputeInstance)
 	gens["CreatedOn"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["IsAttachedCompute"] = gen.PtrOf(gen.Bool())
 	gens["ModifiedOn"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ComputeInstance_ProvisioningState_STATUS_Canceled,
-		ComputeInstance_ProvisioningState_STATUS_Creating,
-		ComputeInstance_ProvisioningState_STATUS_Deleting,
-		ComputeInstance_ProvisioningState_STATUS_Failed,
-		ComputeInstance_ProvisioningState_STATUS_Succeeded,
-		ComputeInstance_ProvisioningState_STATUS_Unknown,
-		ComputeInstance_ProvisioningState_STATUS_Updating))
+		ComputeInstance_ProvisioningState_STATUS_ARM_Canceled,
+		ComputeInstance_ProvisioningState_STATUS_ARM_Creating,
+		ComputeInstance_ProvisioningState_STATUS_ARM_Deleting,
+		ComputeInstance_ProvisioningState_STATUS_ARM_Failed,
+		ComputeInstance_ProvisioningState_STATUS_ARM_Succeeded,
+		ComputeInstance_ProvisioningState_STATUS_ARM_Unknown,
+		ComputeInstance_ProvisioningState_STATUS_ARM_Updating))
 	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1303,20 +1303,20 @@ func DataFactory_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDataFactory_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDataFactory_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ComputeLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["ComputeType"] = gen.OneConstOf(DataFactory_ComputeType_STATUS_DataFactory)
+	gens["ComputeType"] = gen.OneConstOf(DataFactory_ComputeType_STATUS_ARM_DataFactory)
 	gens["CreatedOn"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["IsAttachedCompute"] = gen.PtrOf(gen.Bool())
 	gens["ModifiedOn"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		DataFactory_ProvisioningState_STATUS_Canceled,
-		DataFactory_ProvisioningState_STATUS_Creating,
-		DataFactory_ProvisioningState_STATUS_Deleting,
-		DataFactory_ProvisioningState_STATUS_Failed,
-		DataFactory_ProvisioningState_STATUS_Succeeded,
-		DataFactory_ProvisioningState_STATUS_Unknown,
-		DataFactory_ProvisioningState_STATUS_Updating))
+		DataFactory_ProvisioningState_STATUS_ARM_Canceled,
+		DataFactory_ProvisioningState_STATUS_ARM_Creating,
+		DataFactory_ProvisioningState_STATUS_ARM_Deleting,
+		DataFactory_ProvisioningState_STATUS_ARM_Failed,
+		DataFactory_ProvisioningState_STATUS_ARM_Succeeded,
+		DataFactory_ProvisioningState_STATUS_ARM_Unknown,
+		DataFactory_ProvisioningState_STATUS_ARM_Updating))
 	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1454,20 +1454,20 @@ func DataLakeAnalytics_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDataLakeAnalytics_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDataLakeAnalytics_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ComputeLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["ComputeType"] = gen.OneConstOf(DataLakeAnalytics_ComputeType_STATUS_DataLakeAnalytics)
+	gens["ComputeType"] = gen.OneConstOf(DataLakeAnalytics_ComputeType_STATUS_ARM_DataLakeAnalytics)
 	gens["CreatedOn"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["IsAttachedCompute"] = gen.PtrOf(gen.Bool())
 	gens["ModifiedOn"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		DataLakeAnalytics_ProvisioningState_STATUS_Canceled,
-		DataLakeAnalytics_ProvisioningState_STATUS_Creating,
-		DataLakeAnalytics_ProvisioningState_STATUS_Deleting,
-		DataLakeAnalytics_ProvisioningState_STATUS_Failed,
-		DataLakeAnalytics_ProvisioningState_STATUS_Succeeded,
-		DataLakeAnalytics_ProvisioningState_STATUS_Unknown,
-		DataLakeAnalytics_ProvisioningState_STATUS_Updating))
+		DataLakeAnalytics_ProvisioningState_STATUS_ARM_Canceled,
+		DataLakeAnalytics_ProvisioningState_STATUS_ARM_Creating,
+		DataLakeAnalytics_ProvisioningState_STATUS_ARM_Deleting,
+		DataLakeAnalytics_ProvisioningState_STATUS_ARM_Failed,
+		DataLakeAnalytics_ProvisioningState_STATUS_ARM_Succeeded,
+		DataLakeAnalytics_ProvisioningState_STATUS_ARM_Unknown,
+		DataLakeAnalytics_ProvisioningState_STATUS_ARM_Updating))
 	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1607,20 +1607,20 @@ func Databricks_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDatabricks_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabricks_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ComputeLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["ComputeType"] = gen.OneConstOf(Databricks_ComputeType_STATUS_Databricks)
+	gens["ComputeType"] = gen.OneConstOf(Databricks_ComputeType_STATUS_ARM_Databricks)
 	gens["CreatedOn"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["IsAttachedCompute"] = gen.PtrOf(gen.Bool())
 	gens["ModifiedOn"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		Databricks_ProvisioningState_STATUS_Canceled,
-		Databricks_ProvisioningState_STATUS_Creating,
-		Databricks_ProvisioningState_STATUS_Deleting,
-		Databricks_ProvisioningState_STATUS_Failed,
-		Databricks_ProvisioningState_STATUS_Succeeded,
-		Databricks_ProvisioningState_STATUS_Unknown,
-		Databricks_ProvisioningState_STATUS_Updating))
+		Databricks_ProvisioningState_STATUS_ARM_Canceled,
+		Databricks_ProvisioningState_STATUS_ARM_Creating,
+		Databricks_ProvisioningState_STATUS_ARM_Deleting,
+		Databricks_ProvisioningState_STATUS_ARM_Failed,
+		Databricks_ProvisioningState_STATUS_ARM_Succeeded,
+		Databricks_ProvisioningState_STATUS_ARM_Unknown,
+		Databricks_ProvisioningState_STATUS_ARM_Updating))
 	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -2051,20 +2051,20 @@ func HDInsight_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForHDInsight_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForHDInsight_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ComputeLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["ComputeType"] = gen.OneConstOf(HDInsight_ComputeType_STATUS_HDInsight)
+	gens["ComputeType"] = gen.OneConstOf(HDInsight_ComputeType_STATUS_ARM_HDInsight)
 	gens["CreatedOn"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["IsAttachedCompute"] = gen.PtrOf(gen.Bool())
 	gens["ModifiedOn"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		HDInsight_ProvisioningState_STATUS_Canceled,
-		HDInsight_ProvisioningState_STATUS_Creating,
-		HDInsight_ProvisioningState_STATUS_Deleting,
-		HDInsight_ProvisioningState_STATUS_Failed,
-		HDInsight_ProvisioningState_STATUS_Succeeded,
-		HDInsight_ProvisioningState_STATUS_Unknown,
-		HDInsight_ProvisioningState_STATUS_Updating))
+		HDInsight_ProvisioningState_STATUS_ARM_Canceled,
+		HDInsight_ProvisioningState_STATUS_ARM_Creating,
+		HDInsight_ProvisioningState_STATUS_ARM_Deleting,
+		HDInsight_ProvisioningState_STATUS_ARM_Failed,
+		HDInsight_ProvisioningState_STATUS_ARM_Succeeded,
+		HDInsight_ProvisioningState_STATUS_ARM_Unknown,
+		HDInsight_ProvisioningState_STATUS_ARM_Updating))
 	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -2366,20 +2366,20 @@ func Kubernetes_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForKubernetes_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForKubernetes_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ComputeLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["ComputeType"] = gen.OneConstOf(Kubernetes_ComputeType_STATUS_Kubernetes)
+	gens["ComputeType"] = gen.OneConstOf(Kubernetes_ComputeType_STATUS_ARM_Kubernetes)
 	gens["CreatedOn"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["IsAttachedCompute"] = gen.PtrOf(gen.Bool())
 	gens["ModifiedOn"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		Kubernetes_ProvisioningState_STATUS_Canceled,
-		Kubernetes_ProvisioningState_STATUS_Creating,
-		Kubernetes_ProvisioningState_STATUS_Deleting,
-		Kubernetes_ProvisioningState_STATUS_Failed,
-		Kubernetes_ProvisioningState_STATUS_Succeeded,
-		Kubernetes_ProvisioningState_STATUS_Unknown,
-		Kubernetes_ProvisioningState_STATUS_Updating))
+		Kubernetes_ProvisioningState_STATUS_ARM_Canceled,
+		Kubernetes_ProvisioningState_STATUS_ARM_Creating,
+		Kubernetes_ProvisioningState_STATUS_ARM_Deleting,
+		Kubernetes_ProvisioningState_STATUS_ARM_Failed,
+		Kubernetes_ProvisioningState_STATUS_ARM_Succeeded,
+		Kubernetes_ProvisioningState_STATUS_ARM_Unknown,
+		Kubernetes_ProvisioningState_STATUS_ARM_Updating))
 	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -2890,7 +2890,7 @@ func AddIndependentPropertyGeneratorsForSslConfiguration_STATUS_ARM(gens map[str
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
 	gens["LeafDomainLabel"] = gen.PtrOf(gen.AlphaString())
 	gens["OverwriteExistingDomain"] = gen.PtrOf(gen.Bool())
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(SslConfiguration_Status_STATUS_Auto, SslConfiguration_Status_STATUS_Disabled, SslConfiguration_Status_STATUS_Enabled))
+	gens["Status"] = gen.PtrOf(gen.OneConstOf(SslConfiguration_Status_STATUS_ARM_Auto, SslConfiguration_Status_STATUS_ARM_Disabled, SslConfiguration_Status_STATUS_ARM_Enabled))
 }
 
 func Test_SynapseSpark_Properties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3044,20 +3044,20 @@ func SynapseSpark_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSynapseSpark_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSynapseSpark_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ComputeLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["ComputeType"] = gen.OneConstOf(SynapseSpark_ComputeType_STATUS_SynapseSpark)
+	gens["ComputeType"] = gen.OneConstOf(SynapseSpark_ComputeType_STATUS_ARM_SynapseSpark)
 	gens["CreatedOn"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["IsAttachedCompute"] = gen.PtrOf(gen.Bool())
 	gens["ModifiedOn"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		SynapseSpark_ProvisioningState_STATUS_Canceled,
-		SynapseSpark_ProvisioningState_STATUS_Creating,
-		SynapseSpark_ProvisioningState_STATUS_Deleting,
-		SynapseSpark_ProvisioningState_STATUS_Failed,
-		SynapseSpark_ProvisioningState_STATUS_Succeeded,
-		SynapseSpark_ProvisioningState_STATUS_Unknown,
-		SynapseSpark_ProvisioningState_STATUS_Updating))
+		SynapseSpark_ProvisioningState_STATUS_ARM_Canceled,
+		SynapseSpark_ProvisioningState_STATUS_ARM_Creating,
+		SynapseSpark_ProvisioningState_STATUS_ARM_Deleting,
+		SynapseSpark_ProvisioningState_STATUS_ARM_Failed,
+		SynapseSpark_ProvisioningState_STATUS_ARM_Succeeded,
+		SynapseSpark_ProvisioningState_STATUS_ARM_Unknown,
+		SynapseSpark_ProvisioningState_STATUS_ARM_Updating))
 	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -3461,20 +3461,20 @@ func VirtualMachine_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForVirtualMachine_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachine_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ComputeLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["ComputeType"] = gen.OneConstOf(VirtualMachine_ComputeType_STATUS_VirtualMachine)
+	gens["ComputeType"] = gen.OneConstOf(VirtualMachine_ComputeType_STATUS_ARM_VirtualMachine)
 	gens["CreatedOn"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["IsAttachedCompute"] = gen.PtrOf(gen.Bool())
 	gens["ModifiedOn"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		VirtualMachine_ProvisioningState_STATUS_Canceled,
-		VirtualMachine_ProvisioningState_STATUS_Creating,
-		VirtualMachine_ProvisioningState_STATUS_Deleting,
-		VirtualMachine_ProvisioningState_STATUS_Failed,
-		VirtualMachine_ProvisioningState_STATUS_Succeeded,
-		VirtualMachine_ProvisioningState_STATUS_Unknown,
-		VirtualMachine_ProvisioningState_STATUS_Updating))
+		VirtualMachine_ProvisioningState_STATUS_ARM_Canceled,
+		VirtualMachine_ProvisioningState_STATUS_ARM_Creating,
+		VirtualMachine_ProvisioningState_STATUS_ARM_Deleting,
+		VirtualMachine_ProvisioningState_STATUS_ARM_Failed,
+		VirtualMachine_ProvisioningState_STATUS_ARM_Succeeded,
+		VirtualMachine_ProvisioningState_STATUS_ARM_Unknown,
+		VirtualMachine_ProvisioningState_STATUS_ARM_Updating))
 	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 

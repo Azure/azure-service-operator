@@ -225,7 +225,7 @@ func IpConfiguration_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForIpConfiguration_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIpConfiguration_ARM(gens map[string]gopter.Gen) {
 	gens["PrivateIpAddress"] = gen.PtrOf(gen.AlphaString())
-	gens["PrivateIpAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IpConfiguration_PrivateIpAllocationMethod_Dynamic, IpConfiguration_PrivateIpAllocationMethod_Static))
+	gens["PrivateIpAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IpConfiguration_PrivateIpAllocationMethod_ARM_Dynamic, IpConfiguration_PrivateIpAllocationMethod_ARM_Static))
 }
 
 // AddRelatedPropertyGeneratorsForIpConfiguration_ARM is a factory method for creating gopter generators

@@ -76,7 +76,7 @@ type VirtualMachineIdentity_STATUS_ARM struct {
 	// Type: The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an
 	// implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
 	// virtual machine.
-	Type *VirtualMachineIdentity_Type_STATUS `json:"type,omitempty"`
+	Type *VirtualMachineIdentity_Type_STATUS_ARM `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The list of user identities associated with the Virtual Machine. The user identity dictionary
 	// key references will be ARM resource ids in the form:
@@ -120,7 +120,7 @@ type VirtualMachineProperties_STATUS_ARM struct {
 	// For Azure Spot virtual machines, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2019-03-01.
 	// For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is
 	// 2017-10-30-preview.
-	EvictionPolicy *EvictionPolicy_STATUS `json:"evictionPolicy,omitempty"`
+	EvictionPolicy *EvictionPolicy_STATUS_ARM `json:"evictionPolicy,omitempty"`
 
 	// ExtensionsTimeBudget: Specifies the time alloted for all extensions to start. The time duration should be between 15
 	// minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default value is 90 minutes
@@ -175,7 +175,7 @@ type VirtualMachineProperties_STATUS_ARM struct {
 
 	// Priority: Specifies the priority for the virtual machine.
 	// Minimum api-version: 2019-03-01
-	Priority *Priority_STATUS `json:"priority,omitempty"`
+	Priority *Priority_STATUS_ARM `json:"priority,omitempty"`
 
 	// ProvisioningState: The provisioning state, which only appears in the response.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
@@ -259,6 +259,20 @@ type DiagnosticsProfile_STATUS_ARM struct {
 	BootDiagnostics *BootDiagnostics_STATUS_ARM `json:"bootDiagnostics,omitempty"`
 }
 
+// Specifies the eviction policy for the Azure Spot VM/VMSS
+type EvictionPolicy_STATUS_ARM string
+
+const (
+	EvictionPolicy_STATUS_ARM_Deallocate = EvictionPolicy_STATUS_ARM("Deallocate")
+	EvictionPolicy_STATUS_ARM_Delete     = EvictionPolicy_STATUS_ARM("Delete")
+)
+
+// Mapping from string to EvictionPolicy_STATUS_ARM
+var evictionPolicy_STATUS_ARM_Values = map[string]EvictionPolicy_STATUS_ARM{
+	"deallocate": EvictionPolicy_STATUS_ARM_Deallocate,
+	"delete":     EvictionPolicy_STATUS_ARM_Delete,
+}
+
 // Specifies the hardware settings for the virtual machine.
 type HardwareProfile_STATUS_ARM struct {
 	// VmSize: Specifies the size of the virtual machine.
@@ -271,7 +285,7 @@ type HardwareProfile_STATUS_ARM struct {
 	// resizing](https://docs.microsoft.com/rest/api/compute/virtualmachines/listavailablesizes). For more information about
 	// virtual machine sizes, see [Sizes for virtual machines](https://docs.microsoft.com/azure/virtual-machines/sizes).
 	// The available VM sizes depend on region and availability set.
-	VmSize *HardwareProfile_VmSize_STATUS `json:"vmSize,omitempty"`
+	VmSize *HardwareProfile_VmSize_STATUS_ARM `json:"vmSize,omitempty"`
 
 	// VmSizeProperties: Specifies the properties for customizing the size of the virtual machine. Minimum api-version:
 	// 2021-07-01.
@@ -284,7 +298,7 @@ type HardwareProfile_STATUS_ARM struct {
 type NetworkProfile_STATUS_ARM struct {
 	// NetworkApiVersion: specifies the Microsoft.Network API version used when creating networking resources in the Network
 	// Interface Configurations
-	NetworkApiVersion *NetworkProfile_NetworkApiVersion_STATUS `json:"networkApiVersion,omitempty"`
+	NetworkApiVersion *NetworkProfile_NetworkApiVersion_STATUS_ARM `json:"networkApiVersion,omitempty"`
 
 	// NetworkInterfaceConfigurations: Specifies the networking configurations that will be used to create the virtual machine
 	// networking resources.
@@ -348,6 +362,24 @@ type OSProfile_STATUS_ARM struct {
 	WindowsConfiguration *WindowsConfiguration_STATUS_ARM `json:"windowsConfiguration,omitempty"`
 }
 
+// Specifies the priority for a standalone virtual machine or the virtual machines in the scale set.
+// 'Low' enum
+// will be deprecated in the future, please use 'Spot' as the enum to deploy Azure Spot VM/VMSS.
+type Priority_STATUS_ARM string
+
+const (
+	Priority_STATUS_ARM_Low     = Priority_STATUS_ARM("Low")
+	Priority_STATUS_ARM_Regular = Priority_STATUS_ARM("Regular")
+	Priority_STATUS_ARM_Spot    = Priority_STATUS_ARM("Spot")
+)
+
+// Mapping from string to Priority_STATUS_ARM
+var priority_STATUS_ARM_Values = map[string]Priority_STATUS_ARM{
+	"low":     Priority_STATUS_ARM_Low,
+	"regular": Priority_STATUS_ARM_Regular,
+	"spot":    Priority_STATUS_ARM_Spot,
+}
+
 type ScheduledEventsProfile_STATUS_ARM struct {
 	// TerminateNotificationProfile: Specifies Terminate Scheduled Event related configurations.
 	TerminateNotificationProfile *TerminateNotificationProfile_STATUS_ARM `json:"terminateNotificationProfile,omitempty"`
@@ -364,7 +396,7 @@ type SecurityProfile_STATUS_ARM struct {
 	// SecurityType: Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable
 	// UefiSettings.
 	// Default: UefiSettings will not be enabled unless this property is set.
-	SecurityType *SecurityProfile_SecurityType_STATUS `json:"securityType,omitempty"`
+	SecurityType *SecurityProfile_SecurityType_STATUS_ARM `json:"securityType,omitempty"`
 
 	// UefiSettings: Specifies the security settings like secure boot and vTPM used while creating the virtual machine.
 	// Minimum api-version: 2020-12-01
@@ -389,21 +421,21 @@ type StorageProfile_STATUS_ARM struct {
 	OsDisk *OSDisk_STATUS_ARM `json:"osDisk,omitempty"`
 }
 
-type VirtualMachineIdentity_Type_STATUS string
+type VirtualMachineIdentity_Type_STATUS_ARM string
 
 const (
-	VirtualMachineIdentity_Type_STATUS_None                       = VirtualMachineIdentity_Type_STATUS("None")
-	VirtualMachineIdentity_Type_STATUS_SystemAssigned             = VirtualMachineIdentity_Type_STATUS("SystemAssigned")
-	VirtualMachineIdentity_Type_STATUS_SystemAssignedUserAssigned = VirtualMachineIdentity_Type_STATUS("SystemAssigned, UserAssigned")
-	VirtualMachineIdentity_Type_STATUS_UserAssigned               = VirtualMachineIdentity_Type_STATUS("UserAssigned")
+	VirtualMachineIdentity_Type_STATUS_ARM_None                       = VirtualMachineIdentity_Type_STATUS_ARM("None")
+	VirtualMachineIdentity_Type_STATUS_ARM_SystemAssigned             = VirtualMachineIdentity_Type_STATUS_ARM("SystemAssigned")
+	VirtualMachineIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned = VirtualMachineIdentity_Type_STATUS_ARM("SystemAssigned, UserAssigned")
+	VirtualMachineIdentity_Type_STATUS_ARM_UserAssigned               = VirtualMachineIdentity_Type_STATUS_ARM("UserAssigned")
 )
 
-// Mapping from string to VirtualMachineIdentity_Type_STATUS
-var virtualMachineIdentity_Type_STATUS_Values = map[string]VirtualMachineIdentity_Type_STATUS{
-	"none":                         VirtualMachineIdentity_Type_STATUS_None,
-	"systemassigned":               VirtualMachineIdentity_Type_STATUS_SystemAssigned,
-	"systemassigned, userassigned": VirtualMachineIdentity_Type_STATUS_SystemAssignedUserAssigned,
-	"userassigned":                 VirtualMachineIdentity_Type_STATUS_UserAssigned,
+// Mapping from string to VirtualMachineIdentity_Type_STATUS_ARM
+var virtualMachineIdentity_Type_STATUS_ARM_Values = map[string]VirtualMachineIdentity_Type_STATUS_ARM{
+	"none":                         VirtualMachineIdentity_Type_STATUS_ARM_None,
+	"systemassigned":               VirtualMachineIdentity_Type_STATUS_ARM_SystemAssigned,
+	"systemassigned, userassigned": VirtualMachineIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned,
+	"userassigned":                 VirtualMachineIdentity_Type_STATUS_ARM_UserAssigned,
 }
 
 type VirtualMachineIdentity_UserAssignedIdentities_STATUS_ARM struct {
@@ -437,7 +469,7 @@ type VirtualMachineInstanceView_STATUS_ARM struct {
 	Extensions []VirtualMachineExtensionInstanceView_STATUS_ARM `json:"extensions,omitempty"`
 
 	// HyperVGeneration: Specifies the HyperVGeneration Type associated with a resource
-	HyperVGeneration *VirtualMachineInstanceView_HyperVGeneration_STATUS `json:"hyperVGeneration,omitempty"`
+	HyperVGeneration *VirtualMachineInstanceView_HyperVGeneration_STATUS_ARM `json:"hyperVGeneration,omitempty"`
 
 	// MaintenanceRedeployStatus: The Maintenance Operation status on the virtual machine.
 	MaintenanceRedeployStatus *MaintenanceRedeployStatus_STATUS_ARM `json:"maintenanceRedeployStatus,omitempty"`
@@ -506,7 +538,7 @@ type DataDisk_STATUS_ARM struct {
 	// ReadOnly
 	// ReadWrite
 	// Default: None for Standard storage. ReadOnly for Premium storage
-	Caching *Caching_STATUS `json:"caching,omitempty"`
+	Caching *Caching_STATUS_ARM `json:"caching,omitempty"`
 
 	// CreateOption: Specifies how the virtual machine should be created.
 	// Possible values are:
@@ -514,14 +546,14 @@ type DataDisk_STATUS_ARM struct {
 	// FromImage \u2013 This value is used when you are using an image to create the virtual machine. If you are using a
 	// platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also
 	// use the plan element previously described.
-	CreateOption *CreateOption_STATUS `json:"createOption,omitempty"`
+	CreateOption *CreateOption_STATUS_ARM `json:"createOption,omitempty"`
 
 	// DeleteOption: Specifies whether data disk should be deleted or detached upon VM deletion.
 	// Possible values:
 	// Delete If this value is used, the data disk is deleted when VM is deleted.
 	// Detach If this value is used, the data disk is retained after VM is deleted.
 	// The default value is set to detach
-	DeleteOption *DeleteOption_STATUS `json:"deleteOption,omitempty"`
+	DeleteOption *DeleteOption_STATUS_ARM `json:"deleteOption,omitempty"`
 
 	// DetachOption: Specifies the detach behavior to be used while detaching a disk or which is already in the process of
 	// detachment from the virtual machine. Supported values: ForceDetach.
@@ -531,7 +563,7 @@ type DataDisk_STATUS_ARM struct {
 	// when using this detach behavior.
 	// This feature is still in preview mode and is not supported for VirtualMachineScaleSet. To force-detach a data disk
 	// update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'.
-	DetachOption *DetachOption_STATUS `json:"detachOption,omitempty"`
+	DetachOption *DetachOption_STATUS_ARM `json:"detachOption,omitempty"`
 
 	// DiskIOPSReadWrite: Specifies the Read-Write IOPS for the managed disk when StorageAccountType is UltraSSD_LRS. Returned
 	// only for VirtualMachine ScaleSet VM disks. Can be updated only via updates to the VirtualMachine Scale Set.
@@ -584,6 +616,347 @@ type DiskInstanceView_STATUS_ARM struct {
 	Statuses []InstanceViewStatus_STATUS_ARM `json:"statuses,omitempty"`
 }
 
+type HardwareProfile_VmSize_STATUS_ARM string
+
+const (
+	HardwareProfile_VmSize_STATUS_ARM_Basic_A0           = HardwareProfile_VmSize_STATUS_ARM("Basic_A0")
+	HardwareProfile_VmSize_STATUS_ARM_Basic_A1           = HardwareProfile_VmSize_STATUS_ARM("Basic_A1")
+	HardwareProfile_VmSize_STATUS_ARM_Basic_A2           = HardwareProfile_VmSize_STATUS_ARM("Basic_A2")
+	HardwareProfile_VmSize_STATUS_ARM_Basic_A3           = HardwareProfile_VmSize_STATUS_ARM("Basic_A3")
+	HardwareProfile_VmSize_STATUS_ARM_Basic_A4           = HardwareProfile_VmSize_STATUS_ARM("Basic_A4")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_A0        = HardwareProfile_VmSize_STATUS_ARM("Standard_A0")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_A1        = HardwareProfile_VmSize_STATUS_ARM("Standard_A1")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_A10       = HardwareProfile_VmSize_STATUS_ARM("Standard_A10")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_A11       = HardwareProfile_VmSize_STATUS_ARM("Standard_A11")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_A1_V2     = HardwareProfile_VmSize_STATUS_ARM("Standard_A1_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_A2        = HardwareProfile_VmSize_STATUS_ARM("Standard_A2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_A2M_V2    = HardwareProfile_VmSize_STATUS_ARM("Standard_A2m_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_A2_V2     = HardwareProfile_VmSize_STATUS_ARM("Standard_A2_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_A3        = HardwareProfile_VmSize_STATUS_ARM("Standard_A3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_A4        = HardwareProfile_VmSize_STATUS_ARM("Standard_A4")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_A4M_V2    = HardwareProfile_VmSize_STATUS_ARM("Standard_A4m_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_A4_V2     = HardwareProfile_VmSize_STATUS_ARM("Standard_A4_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_A5        = HardwareProfile_VmSize_STATUS_ARM("Standard_A5")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_A6        = HardwareProfile_VmSize_STATUS_ARM("Standard_A6")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_A7        = HardwareProfile_VmSize_STATUS_ARM("Standard_A7")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_A8        = HardwareProfile_VmSize_STATUS_ARM("Standard_A8")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_A8M_V2    = HardwareProfile_VmSize_STATUS_ARM("Standard_A8m_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_A8_V2     = HardwareProfile_VmSize_STATUS_ARM("Standard_A8_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_A9        = HardwareProfile_VmSize_STATUS_ARM("Standard_A9")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_B1Ms      = HardwareProfile_VmSize_STATUS_ARM("Standard_B1ms")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_B1S       = HardwareProfile_VmSize_STATUS_ARM("Standard_B1s")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_B2Ms      = HardwareProfile_VmSize_STATUS_ARM("Standard_B2ms")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_B2S       = HardwareProfile_VmSize_STATUS_ARM("Standard_B2s")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_B4Ms      = HardwareProfile_VmSize_STATUS_ARM("Standard_B4ms")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_B8Ms      = HardwareProfile_VmSize_STATUS_ARM("Standard_B8ms")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_D1        = HardwareProfile_VmSize_STATUS_ARM("Standard_D1")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_D11       = HardwareProfile_VmSize_STATUS_ARM("Standard_D11")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_D11_V2    = HardwareProfile_VmSize_STATUS_ARM("Standard_D11_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_D12       = HardwareProfile_VmSize_STATUS_ARM("Standard_D12")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_D12_V2    = HardwareProfile_VmSize_STATUS_ARM("Standard_D12_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_D13       = HardwareProfile_VmSize_STATUS_ARM("Standard_D13")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_D13_V2    = HardwareProfile_VmSize_STATUS_ARM("Standard_D13_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_D14       = HardwareProfile_VmSize_STATUS_ARM("Standard_D14")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_D14_V2    = HardwareProfile_VmSize_STATUS_ARM("Standard_D14_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_D15_V2    = HardwareProfile_VmSize_STATUS_ARM("Standard_D15_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_D16S_V3   = HardwareProfile_VmSize_STATUS_ARM("Standard_D16s_v3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_D16_V3    = HardwareProfile_VmSize_STATUS_ARM("Standard_D16_v3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_D1_V2     = HardwareProfile_VmSize_STATUS_ARM("Standard_D1_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_D2        = HardwareProfile_VmSize_STATUS_ARM("Standard_D2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_D2S_V3    = HardwareProfile_VmSize_STATUS_ARM("Standard_D2s_v3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_D2_V2     = HardwareProfile_VmSize_STATUS_ARM("Standard_D2_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_D2_V3     = HardwareProfile_VmSize_STATUS_ARM("Standard_D2_v3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_D3        = HardwareProfile_VmSize_STATUS_ARM("Standard_D3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_D32S_V3   = HardwareProfile_VmSize_STATUS_ARM("Standard_D32s_v3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_D32_V3    = HardwareProfile_VmSize_STATUS_ARM("Standard_D32_v3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_D3_V2     = HardwareProfile_VmSize_STATUS_ARM("Standard_D3_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_D4        = HardwareProfile_VmSize_STATUS_ARM("Standard_D4")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_D4S_V3    = HardwareProfile_VmSize_STATUS_ARM("Standard_D4s_v3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_D4_V2     = HardwareProfile_VmSize_STATUS_ARM("Standard_D4_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_D4_V3     = HardwareProfile_VmSize_STATUS_ARM("Standard_D4_v3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_D5_V2     = HardwareProfile_VmSize_STATUS_ARM("Standard_D5_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_D64S_V3   = HardwareProfile_VmSize_STATUS_ARM("Standard_D64s_v3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_D64_V3    = HardwareProfile_VmSize_STATUS_ARM("Standard_D64_v3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_D8S_V3    = HardwareProfile_VmSize_STATUS_ARM("Standard_D8s_v3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_D8_V3     = HardwareProfile_VmSize_STATUS_ARM("Standard_D8_v3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_DS1       = HardwareProfile_VmSize_STATUS_ARM("Standard_DS1")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_DS11      = HardwareProfile_VmSize_STATUS_ARM("Standard_DS11")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_DS11_V2   = HardwareProfile_VmSize_STATUS_ARM("Standard_DS11_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_DS12      = HardwareProfile_VmSize_STATUS_ARM("Standard_DS12")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_DS12_V2   = HardwareProfile_VmSize_STATUS_ARM("Standard_DS12_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_DS13      = HardwareProfile_VmSize_STATUS_ARM("Standard_DS13")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_DS132_V2  = HardwareProfile_VmSize_STATUS_ARM("Standard_DS13-2_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_DS134_V2  = HardwareProfile_VmSize_STATUS_ARM("Standard_DS13-4_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_DS13_V2   = HardwareProfile_VmSize_STATUS_ARM("Standard_DS13_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_DS14      = HardwareProfile_VmSize_STATUS_ARM("Standard_DS14")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_DS144_V2  = HardwareProfile_VmSize_STATUS_ARM("Standard_DS14-4_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_DS148_V2  = HardwareProfile_VmSize_STATUS_ARM("Standard_DS14-8_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_DS14_V2   = HardwareProfile_VmSize_STATUS_ARM("Standard_DS14_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_DS15_V2   = HardwareProfile_VmSize_STATUS_ARM("Standard_DS15_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_DS1_V2    = HardwareProfile_VmSize_STATUS_ARM("Standard_DS1_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_DS2       = HardwareProfile_VmSize_STATUS_ARM("Standard_DS2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_DS2_V2    = HardwareProfile_VmSize_STATUS_ARM("Standard_DS2_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_DS3       = HardwareProfile_VmSize_STATUS_ARM("Standard_DS3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_DS3_V2    = HardwareProfile_VmSize_STATUS_ARM("Standard_DS3_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_DS4       = HardwareProfile_VmSize_STATUS_ARM("Standard_DS4")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_DS4_V2    = HardwareProfile_VmSize_STATUS_ARM("Standard_DS4_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_DS5_V2    = HardwareProfile_VmSize_STATUS_ARM("Standard_DS5_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_E16S_V3   = HardwareProfile_VmSize_STATUS_ARM("Standard_E16s_v3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_E16_V3    = HardwareProfile_VmSize_STATUS_ARM("Standard_E16_v3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_E2S_V3    = HardwareProfile_VmSize_STATUS_ARM("Standard_E2s_v3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_E2_V3     = HardwareProfile_VmSize_STATUS_ARM("Standard_E2_v3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_E3216_V3  = HardwareProfile_VmSize_STATUS_ARM("Standard_E32-16_v3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_E328S_V3  = HardwareProfile_VmSize_STATUS_ARM("Standard_E32-8s_v3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_E32S_V3   = HardwareProfile_VmSize_STATUS_ARM("Standard_E32s_v3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_E32_V3    = HardwareProfile_VmSize_STATUS_ARM("Standard_E32_v3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_E4S_V3    = HardwareProfile_VmSize_STATUS_ARM("Standard_E4s_v3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_E4_V3     = HardwareProfile_VmSize_STATUS_ARM("Standard_E4_v3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_E6416S_V3 = HardwareProfile_VmSize_STATUS_ARM("Standard_E64-16s_v3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_E6432S_V3 = HardwareProfile_VmSize_STATUS_ARM("Standard_E64-32s_v3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_E64S_V3   = HardwareProfile_VmSize_STATUS_ARM("Standard_E64s_v3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_E64_V3    = HardwareProfile_VmSize_STATUS_ARM("Standard_E64_v3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_E8S_V3    = HardwareProfile_VmSize_STATUS_ARM("Standard_E8s_v3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_E8_V3     = HardwareProfile_VmSize_STATUS_ARM("Standard_E8_v3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_F1        = HardwareProfile_VmSize_STATUS_ARM("Standard_F1")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_F16       = HardwareProfile_VmSize_STATUS_ARM("Standard_F16")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_F16S      = HardwareProfile_VmSize_STATUS_ARM("Standard_F16s")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_F16S_V2   = HardwareProfile_VmSize_STATUS_ARM("Standard_F16s_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_F1S       = HardwareProfile_VmSize_STATUS_ARM("Standard_F1s")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_F2        = HardwareProfile_VmSize_STATUS_ARM("Standard_F2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_F2S       = HardwareProfile_VmSize_STATUS_ARM("Standard_F2s")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_F2S_V2    = HardwareProfile_VmSize_STATUS_ARM("Standard_F2s_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_F32S_V2   = HardwareProfile_VmSize_STATUS_ARM("Standard_F32s_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_F4        = HardwareProfile_VmSize_STATUS_ARM("Standard_F4")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_F4S       = HardwareProfile_VmSize_STATUS_ARM("Standard_F4s")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_F4S_V2    = HardwareProfile_VmSize_STATUS_ARM("Standard_F4s_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_F64S_V2   = HardwareProfile_VmSize_STATUS_ARM("Standard_F64s_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_F72S_V2   = HardwareProfile_VmSize_STATUS_ARM("Standard_F72s_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_F8        = HardwareProfile_VmSize_STATUS_ARM("Standard_F8")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_F8S       = HardwareProfile_VmSize_STATUS_ARM("Standard_F8s")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_F8S_V2    = HardwareProfile_VmSize_STATUS_ARM("Standard_F8s_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_G1        = HardwareProfile_VmSize_STATUS_ARM("Standard_G1")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_G2        = HardwareProfile_VmSize_STATUS_ARM("Standard_G2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_G3        = HardwareProfile_VmSize_STATUS_ARM("Standard_G3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_G4        = HardwareProfile_VmSize_STATUS_ARM("Standard_G4")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_G5        = HardwareProfile_VmSize_STATUS_ARM("Standard_G5")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_GS1       = HardwareProfile_VmSize_STATUS_ARM("Standard_GS1")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_GS2       = HardwareProfile_VmSize_STATUS_ARM("Standard_GS2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_GS3       = HardwareProfile_VmSize_STATUS_ARM("Standard_GS3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_GS4       = HardwareProfile_VmSize_STATUS_ARM("Standard_GS4")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_GS44      = HardwareProfile_VmSize_STATUS_ARM("Standard_GS4-4")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_GS48      = HardwareProfile_VmSize_STATUS_ARM("Standard_GS4-8")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_GS5       = HardwareProfile_VmSize_STATUS_ARM("Standard_GS5")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_GS516     = HardwareProfile_VmSize_STATUS_ARM("Standard_GS5-16")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_GS58      = HardwareProfile_VmSize_STATUS_ARM("Standard_GS5-8")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_H16       = HardwareProfile_VmSize_STATUS_ARM("Standard_H16")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_H16M      = HardwareProfile_VmSize_STATUS_ARM("Standard_H16m")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_H16Mr     = HardwareProfile_VmSize_STATUS_ARM("Standard_H16mr")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_H16R      = HardwareProfile_VmSize_STATUS_ARM("Standard_H16r")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_H8        = HardwareProfile_VmSize_STATUS_ARM("Standard_H8")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_H8M       = HardwareProfile_VmSize_STATUS_ARM("Standard_H8m")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_L16S      = HardwareProfile_VmSize_STATUS_ARM("Standard_L16s")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_L32S      = HardwareProfile_VmSize_STATUS_ARM("Standard_L32s")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_L4S       = HardwareProfile_VmSize_STATUS_ARM("Standard_L4s")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_L8S       = HardwareProfile_VmSize_STATUS_ARM("Standard_L8s")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_M12832Ms  = HardwareProfile_VmSize_STATUS_ARM("Standard_M128-32ms")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_M12864Ms  = HardwareProfile_VmSize_STATUS_ARM("Standard_M128-64ms")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_M128Ms    = HardwareProfile_VmSize_STATUS_ARM("Standard_M128ms")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_M128S     = HardwareProfile_VmSize_STATUS_ARM("Standard_M128s")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_M6416Ms   = HardwareProfile_VmSize_STATUS_ARM("Standard_M64-16ms")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_M6432Ms   = HardwareProfile_VmSize_STATUS_ARM("Standard_M64-32ms")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_M64Ms     = HardwareProfile_VmSize_STATUS_ARM("Standard_M64ms")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_M64S      = HardwareProfile_VmSize_STATUS_ARM("Standard_M64s")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_NC12      = HardwareProfile_VmSize_STATUS_ARM("Standard_NC12")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_NC12S_V2  = HardwareProfile_VmSize_STATUS_ARM("Standard_NC12s_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_NC12S_V3  = HardwareProfile_VmSize_STATUS_ARM("Standard_NC12s_v3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_NC24      = HardwareProfile_VmSize_STATUS_ARM("Standard_NC24")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_NC24R     = HardwareProfile_VmSize_STATUS_ARM("Standard_NC24r")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_NC24Rs_V2 = HardwareProfile_VmSize_STATUS_ARM("Standard_NC24rs_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_NC24Rs_V3 = HardwareProfile_VmSize_STATUS_ARM("Standard_NC24rs_v3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_NC24S_V2  = HardwareProfile_VmSize_STATUS_ARM("Standard_NC24s_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_NC24S_V3  = HardwareProfile_VmSize_STATUS_ARM("Standard_NC24s_v3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_NC6       = HardwareProfile_VmSize_STATUS_ARM("Standard_NC6")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_NC6S_V2   = HardwareProfile_VmSize_STATUS_ARM("Standard_NC6s_v2")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_NC6S_V3   = HardwareProfile_VmSize_STATUS_ARM("Standard_NC6s_v3")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_ND12S     = HardwareProfile_VmSize_STATUS_ARM("Standard_ND12s")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_ND24Rs    = HardwareProfile_VmSize_STATUS_ARM("Standard_ND24rs")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_ND24S     = HardwareProfile_VmSize_STATUS_ARM("Standard_ND24s")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_ND6S      = HardwareProfile_VmSize_STATUS_ARM("Standard_ND6s")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_NV12      = HardwareProfile_VmSize_STATUS_ARM("Standard_NV12")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_NV24      = HardwareProfile_VmSize_STATUS_ARM("Standard_NV24")
+	HardwareProfile_VmSize_STATUS_ARM_Standard_NV6       = HardwareProfile_VmSize_STATUS_ARM("Standard_NV6")
+)
+
+// Mapping from string to HardwareProfile_VmSize_STATUS_ARM
+var hardwareProfile_VmSize_STATUS_ARM_Values = map[string]HardwareProfile_VmSize_STATUS_ARM{
+	"basic_a0":            HardwareProfile_VmSize_STATUS_ARM_Basic_A0,
+	"basic_a1":            HardwareProfile_VmSize_STATUS_ARM_Basic_A1,
+	"basic_a2":            HardwareProfile_VmSize_STATUS_ARM_Basic_A2,
+	"basic_a3":            HardwareProfile_VmSize_STATUS_ARM_Basic_A3,
+	"basic_a4":            HardwareProfile_VmSize_STATUS_ARM_Basic_A4,
+	"standard_a0":         HardwareProfile_VmSize_STATUS_ARM_Standard_A0,
+	"standard_a1":         HardwareProfile_VmSize_STATUS_ARM_Standard_A1,
+	"standard_a10":        HardwareProfile_VmSize_STATUS_ARM_Standard_A10,
+	"standard_a11":        HardwareProfile_VmSize_STATUS_ARM_Standard_A11,
+	"standard_a1_v2":      HardwareProfile_VmSize_STATUS_ARM_Standard_A1_V2,
+	"standard_a2":         HardwareProfile_VmSize_STATUS_ARM_Standard_A2,
+	"standard_a2m_v2":     HardwareProfile_VmSize_STATUS_ARM_Standard_A2M_V2,
+	"standard_a2_v2":      HardwareProfile_VmSize_STATUS_ARM_Standard_A2_V2,
+	"standard_a3":         HardwareProfile_VmSize_STATUS_ARM_Standard_A3,
+	"standard_a4":         HardwareProfile_VmSize_STATUS_ARM_Standard_A4,
+	"standard_a4m_v2":     HardwareProfile_VmSize_STATUS_ARM_Standard_A4M_V2,
+	"standard_a4_v2":      HardwareProfile_VmSize_STATUS_ARM_Standard_A4_V2,
+	"standard_a5":         HardwareProfile_VmSize_STATUS_ARM_Standard_A5,
+	"standard_a6":         HardwareProfile_VmSize_STATUS_ARM_Standard_A6,
+	"standard_a7":         HardwareProfile_VmSize_STATUS_ARM_Standard_A7,
+	"standard_a8":         HardwareProfile_VmSize_STATUS_ARM_Standard_A8,
+	"standard_a8m_v2":     HardwareProfile_VmSize_STATUS_ARM_Standard_A8M_V2,
+	"standard_a8_v2":      HardwareProfile_VmSize_STATUS_ARM_Standard_A8_V2,
+	"standard_a9":         HardwareProfile_VmSize_STATUS_ARM_Standard_A9,
+	"standard_b1ms":       HardwareProfile_VmSize_STATUS_ARM_Standard_B1Ms,
+	"standard_b1s":        HardwareProfile_VmSize_STATUS_ARM_Standard_B1S,
+	"standard_b2ms":       HardwareProfile_VmSize_STATUS_ARM_Standard_B2Ms,
+	"standard_b2s":        HardwareProfile_VmSize_STATUS_ARM_Standard_B2S,
+	"standard_b4ms":       HardwareProfile_VmSize_STATUS_ARM_Standard_B4Ms,
+	"standard_b8ms":       HardwareProfile_VmSize_STATUS_ARM_Standard_B8Ms,
+	"standard_d1":         HardwareProfile_VmSize_STATUS_ARM_Standard_D1,
+	"standard_d11":        HardwareProfile_VmSize_STATUS_ARM_Standard_D11,
+	"standard_d11_v2":     HardwareProfile_VmSize_STATUS_ARM_Standard_D11_V2,
+	"standard_d12":        HardwareProfile_VmSize_STATUS_ARM_Standard_D12,
+	"standard_d12_v2":     HardwareProfile_VmSize_STATUS_ARM_Standard_D12_V2,
+	"standard_d13":        HardwareProfile_VmSize_STATUS_ARM_Standard_D13,
+	"standard_d13_v2":     HardwareProfile_VmSize_STATUS_ARM_Standard_D13_V2,
+	"standard_d14":        HardwareProfile_VmSize_STATUS_ARM_Standard_D14,
+	"standard_d14_v2":     HardwareProfile_VmSize_STATUS_ARM_Standard_D14_V2,
+	"standard_d15_v2":     HardwareProfile_VmSize_STATUS_ARM_Standard_D15_V2,
+	"standard_d16s_v3":    HardwareProfile_VmSize_STATUS_ARM_Standard_D16S_V3,
+	"standard_d16_v3":     HardwareProfile_VmSize_STATUS_ARM_Standard_D16_V3,
+	"standard_d1_v2":      HardwareProfile_VmSize_STATUS_ARM_Standard_D1_V2,
+	"standard_d2":         HardwareProfile_VmSize_STATUS_ARM_Standard_D2,
+	"standard_d2s_v3":     HardwareProfile_VmSize_STATUS_ARM_Standard_D2S_V3,
+	"standard_d2_v2":      HardwareProfile_VmSize_STATUS_ARM_Standard_D2_V2,
+	"standard_d2_v3":      HardwareProfile_VmSize_STATUS_ARM_Standard_D2_V3,
+	"standard_d3":         HardwareProfile_VmSize_STATUS_ARM_Standard_D3,
+	"standard_d32s_v3":    HardwareProfile_VmSize_STATUS_ARM_Standard_D32S_V3,
+	"standard_d32_v3":     HardwareProfile_VmSize_STATUS_ARM_Standard_D32_V3,
+	"standard_d3_v2":      HardwareProfile_VmSize_STATUS_ARM_Standard_D3_V2,
+	"standard_d4":         HardwareProfile_VmSize_STATUS_ARM_Standard_D4,
+	"standard_d4s_v3":     HardwareProfile_VmSize_STATUS_ARM_Standard_D4S_V3,
+	"standard_d4_v2":      HardwareProfile_VmSize_STATUS_ARM_Standard_D4_V2,
+	"standard_d4_v3":      HardwareProfile_VmSize_STATUS_ARM_Standard_D4_V3,
+	"standard_d5_v2":      HardwareProfile_VmSize_STATUS_ARM_Standard_D5_V2,
+	"standard_d64s_v3":    HardwareProfile_VmSize_STATUS_ARM_Standard_D64S_V3,
+	"standard_d64_v3":     HardwareProfile_VmSize_STATUS_ARM_Standard_D64_V3,
+	"standard_d8s_v3":     HardwareProfile_VmSize_STATUS_ARM_Standard_D8S_V3,
+	"standard_d8_v3":      HardwareProfile_VmSize_STATUS_ARM_Standard_D8_V3,
+	"standard_ds1":        HardwareProfile_VmSize_STATUS_ARM_Standard_DS1,
+	"standard_ds11":       HardwareProfile_VmSize_STATUS_ARM_Standard_DS11,
+	"standard_ds11_v2":    HardwareProfile_VmSize_STATUS_ARM_Standard_DS11_V2,
+	"standard_ds12":       HardwareProfile_VmSize_STATUS_ARM_Standard_DS12,
+	"standard_ds12_v2":    HardwareProfile_VmSize_STATUS_ARM_Standard_DS12_V2,
+	"standard_ds13":       HardwareProfile_VmSize_STATUS_ARM_Standard_DS13,
+	"standard_ds13-2_v2":  HardwareProfile_VmSize_STATUS_ARM_Standard_DS132_V2,
+	"standard_ds13-4_v2":  HardwareProfile_VmSize_STATUS_ARM_Standard_DS134_V2,
+	"standard_ds13_v2":    HardwareProfile_VmSize_STATUS_ARM_Standard_DS13_V2,
+	"standard_ds14":       HardwareProfile_VmSize_STATUS_ARM_Standard_DS14,
+	"standard_ds14-4_v2":  HardwareProfile_VmSize_STATUS_ARM_Standard_DS144_V2,
+	"standard_ds14-8_v2":  HardwareProfile_VmSize_STATUS_ARM_Standard_DS148_V2,
+	"standard_ds14_v2":    HardwareProfile_VmSize_STATUS_ARM_Standard_DS14_V2,
+	"standard_ds15_v2":    HardwareProfile_VmSize_STATUS_ARM_Standard_DS15_V2,
+	"standard_ds1_v2":     HardwareProfile_VmSize_STATUS_ARM_Standard_DS1_V2,
+	"standard_ds2":        HardwareProfile_VmSize_STATUS_ARM_Standard_DS2,
+	"standard_ds2_v2":     HardwareProfile_VmSize_STATUS_ARM_Standard_DS2_V2,
+	"standard_ds3":        HardwareProfile_VmSize_STATUS_ARM_Standard_DS3,
+	"standard_ds3_v2":     HardwareProfile_VmSize_STATUS_ARM_Standard_DS3_V2,
+	"standard_ds4":        HardwareProfile_VmSize_STATUS_ARM_Standard_DS4,
+	"standard_ds4_v2":     HardwareProfile_VmSize_STATUS_ARM_Standard_DS4_V2,
+	"standard_ds5_v2":     HardwareProfile_VmSize_STATUS_ARM_Standard_DS5_V2,
+	"standard_e16s_v3":    HardwareProfile_VmSize_STATUS_ARM_Standard_E16S_V3,
+	"standard_e16_v3":     HardwareProfile_VmSize_STATUS_ARM_Standard_E16_V3,
+	"standard_e2s_v3":     HardwareProfile_VmSize_STATUS_ARM_Standard_E2S_V3,
+	"standard_e2_v3":      HardwareProfile_VmSize_STATUS_ARM_Standard_E2_V3,
+	"standard_e32-16_v3":  HardwareProfile_VmSize_STATUS_ARM_Standard_E3216_V3,
+	"standard_e32-8s_v3":  HardwareProfile_VmSize_STATUS_ARM_Standard_E328S_V3,
+	"standard_e32s_v3":    HardwareProfile_VmSize_STATUS_ARM_Standard_E32S_V3,
+	"standard_e32_v3":     HardwareProfile_VmSize_STATUS_ARM_Standard_E32_V3,
+	"standard_e4s_v3":     HardwareProfile_VmSize_STATUS_ARM_Standard_E4S_V3,
+	"standard_e4_v3":      HardwareProfile_VmSize_STATUS_ARM_Standard_E4_V3,
+	"standard_e64-16s_v3": HardwareProfile_VmSize_STATUS_ARM_Standard_E6416S_V3,
+	"standard_e64-32s_v3": HardwareProfile_VmSize_STATUS_ARM_Standard_E6432S_V3,
+	"standard_e64s_v3":    HardwareProfile_VmSize_STATUS_ARM_Standard_E64S_V3,
+	"standard_e64_v3":     HardwareProfile_VmSize_STATUS_ARM_Standard_E64_V3,
+	"standard_e8s_v3":     HardwareProfile_VmSize_STATUS_ARM_Standard_E8S_V3,
+	"standard_e8_v3":      HardwareProfile_VmSize_STATUS_ARM_Standard_E8_V3,
+	"standard_f1":         HardwareProfile_VmSize_STATUS_ARM_Standard_F1,
+	"standard_f16":        HardwareProfile_VmSize_STATUS_ARM_Standard_F16,
+	"standard_f16s":       HardwareProfile_VmSize_STATUS_ARM_Standard_F16S,
+	"standard_f16s_v2":    HardwareProfile_VmSize_STATUS_ARM_Standard_F16S_V2,
+	"standard_f1s":        HardwareProfile_VmSize_STATUS_ARM_Standard_F1S,
+	"standard_f2":         HardwareProfile_VmSize_STATUS_ARM_Standard_F2,
+	"standard_f2s":        HardwareProfile_VmSize_STATUS_ARM_Standard_F2S,
+	"standard_f2s_v2":     HardwareProfile_VmSize_STATUS_ARM_Standard_F2S_V2,
+	"standard_f32s_v2":    HardwareProfile_VmSize_STATUS_ARM_Standard_F32S_V2,
+	"standard_f4":         HardwareProfile_VmSize_STATUS_ARM_Standard_F4,
+	"standard_f4s":        HardwareProfile_VmSize_STATUS_ARM_Standard_F4S,
+	"standard_f4s_v2":     HardwareProfile_VmSize_STATUS_ARM_Standard_F4S_V2,
+	"standard_f64s_v2":    HardwareProfile_VmSize_STATUS_ARM_Standard_F64S_V2,
+	"standard_f72s_v2":    HardwareProfile_VmSize_STATUS_ARM_Standard_F72S_V2,
+	"standard_f8":         HardwareProfile_VmSize_STATUS_ARM_Standard_F8,
+	"standard_f8s":        HardwareProfile_VmSize_STATUS_ARM_Standard_F8S,
+	"standard_f8s_v2":     HardwareProfile_VmSize_STATUS_ARM_Standard_F8S_V2,
+	"standard_g1":         HardwareProfile_VmSize_STATUS_ARM_Standard_G1,
+	"standard_g2":         HardwareProfile_VmSize_STATUS_ARM_Standard_G2,
+	"standard_g3":         HardwareProfile_VmSize_STATUS_ARM_Standard_G3,
+	"standard_g4":         HardwareProfile_VmSize_STATUS_ARM_Standard_G4,
+	"standard_g5":         HardwareProfile_VmSize_STATUS_ARM_Standard_G5,
+	"standard_gs1":        HardwareProfile_VmSize_STATUS_ARM_Standard_GS1,
+	"standard_gs2":        HardwareProfile_VmSize_STATUS_ARM_Standard_GS2,
+	"standard_gs3":        HardwareProfile_VmSize_STATUS_ARM_Standard_GS3,
+	"standard_gs4":        HardwareProfile_VmSize_STATUS_ARM_Standard_GS4,
+	"standard_gs4-4":      HardwareProfile_VmSize_STATUS_ARM_Standard_GS44,
+	"standard_gs4-8":      HardwareProfile_VmSize_STATUS_ARM_Standard_GS48,
+	"standard_gs5":        HardwareProfile_VmSize_STATUS_ARM_Standard_GS5,
+	"standard_gs5-16":     HardwareProfile_VmSize_STATUS_ARM_Standard_GS516,
+	"standard_gs5-8":      HardwareProfile_VmSize_STATUS_ARM_Standard_GS58,
+	"standard_h16":        HardwareProfile_VmSize_STATUS_ARM_Standard_H16,
+	"standard_h16m":       HardwareProfile_VmSize_STATUS_ARM_Standard_H16M,
+	"standard_h16mr":      HardwareProfile_VmSize_STATUS_ARM_Standard_H16Mr,
+	"standard_h16r":       HardwareProfile_VmSize_STATUS_ARM_Standard_H16R,
+	"standard_h8":         HardwareProfile_VmSize_STATUS_ARM_Standard_H8,
+	"standard_h8m":        HardwareProfile_VmSize_STATUS_ARM_Standard_H8M,
+	"standard_l16s":       HardwareProfile_VmSize_STATUS_ARM_Standard_L16S,
+	"standard_l32s":       HardwareProfile_VmSize_STATUS_ARM_Standard_L32S,
+	"standard_l4s":        HardwareProfile_VmSize_STATUS_ARM_Standard_L4S,
+	"standard_l8s":        HardwareProfile_VmSize_STATUS_ARM_Standard_L8S,
+	"standard_m128-32ms":  HardwareProfile_VmSize_STATUS_ARM_Standard_M12832Ms,
+	"standard_m128-64ms":  HardwareProfile_VmSize_STATUS_ARM_Standard_M12864Ms,
+	"standard_m128ms":     HardwareProfile_VmSize_STATUS_ARM_Standard_M128Ms,
+	"standard_m128s":      HardwareProfile_VmSize_STATUS_ARM_Standard_M128S,
+	"standard_m64-16ms":   HardwareProfile_VmSize_STATUS_ARM_Standard_M6416Ms,
+	"standard_m64-32ms":   HardwareProfile_VmSize_STATUS_ARM_Standard_M6432Ms,
+	"standard_m64ms":      HardwareProfile_VmSize_STATUS_ARM_Standard_M64Ms,
+	"standard_m64s":       HardwareProfile_VmSize_STATUS_ARM_Standard_M64S,
+	"standard_nc12":       HardwareProfile_VmSize_STATUS_ARM_Standard_NC12,
+	"standard_nc12s_v2":   HardwareProfile_VmSize_STATUS_ARM_Standard_NC12S_V2,
+	"standard_nc12s_v3":   HardwareProfile_VmSize_STATUS_ARM_Standard_NC12S_V3,
+	"standard_nc24":       HardwareProfile_VmSize_STATUS_ARM_Standard_NC24,
+	"standard_nc24r":      HardwareProfile_VmSize_STATUS_ARM_Standard_NC24R,
+	"standard_nc24rs_v2":  HardwareProfile_VmSize_STATUS_ARM_Standard_NC24Rs_V2,
+	"standard_nc24rs_v3":  HardwareProfile_VmSize_STATUS_ARM_Standard_NC24Rs_V3,
+	"standard_nc24s_v2":   HardwareProfile_VmSize_STATUS_ARM_Standard_NC24S_V2,
+	"standard_nc24s_v3":   HardwareProfile_VmSize_STATUS_ARM_Standard_NC24S_V3,
+	"standard_nc6":        HardwareProfile_VmSize_STATUS_ARM_Standard_NC6,
+	"standard_nc6s_v2":    HardwareProfile_VmSize_STATUS_ARM_Standard_NC6S_V2,
+	"standard_nc6s_v3":    HardwareProfile_VmSize_STATUS_ARM_Standard_NC6S_V3,
+	"standard_nd12s":      HardwareProfile_VmSize_STATUS_ARM_Standard_ND12S,
+	"standard_nd24rs":     HardwareProfile_VmSize_STATUS_ARM_Standard_ND24Rs,
+	"standard_nd24s":      HardwareProfile_VmSize_STATUS_ARM_Standard_ND24S,
+	"standard_nd6s":       HardwareProfile_VmSize_STATUS_ARM_Standard_ND6S,
+	"standard_nv12":       HardwareProfile_VmSize_STATUS_ARM_Standard_NV12,
+	"standard_nv24":       HardwareProfile_VmSize_STATUS_ARM_Standard_NV24,
+	"standard_nv6":        HardwareProfile_VmSize_STATUS_ARM_Standard_NV6,
+}
+
 // Specifies information about the image to use. You can specify information about platform images, marketplace images, or
 // virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual
 // machine image, but is not used in other creation operations. NOTE: Image reference publisher and offer can only be set
@@ -633,7 +1006,7 @@ type InstanceViewStatus_STATUS_ARM struct {
 	DisplayStatus *string `json:"displayStatus,omitempty"`
 
 	// Level: The level code.
-	Level *InstanceViewStatus_Level_STATUS `json:"level,omitempty"`
+	Level *InstanceViewStatus_Level_STATUS_ARM `json:"level,omitempty"`
 
 	// Message: The detailed status message, including for alerts and error messages.
 	Message *string `json:"message,omitempty"`
@@ -671,7 +1044,7 @@ type MaintenanceRedeployStatus_STATUS_ARM struct {
 	LastOperationMessage *string `json:"lastOperationMessage,omitempty"`
 
 	// LastOperationResultCode: The Last Maintenance Operation Result Code.
-	LastOperationResultCode *MaintenanceRedeployStatus_LastOperationResultCode_STATUS `json:"lastOperationResultCode,omitempty"`
+	LastOperationResultCode *MaintenanceRedeployStatus_LastOperationResultCode_STATUS_ARM `json:"lastOperationResultCode,omitempty"`
 
 	// MaintenanceWindowEndTime: End Time for the Maintenance Window.
 	MaintenanceWindowEndTime *string `json:"maintenanceWindowEndTime,omitempty"`
@@ -695,6 +1068,15 @@ type NetworkInterfaceReference_STATUS_ARM struct {
 	Properties *NetworkInterfaceReferenceProperties_STATUS_ARM `json:"properties,omitempty"`
 }
 
+type NetworkProfile_NetworkApiVersion_STATUS_ARM string
+
+const NetworkProfile_NetworkApiVersion_STATUS_ARM_20201101 = NetworkProfile_NetworkApiVersion_STATUS_ARM("2020-11-01")
+
+// Mapping from string to NetworkProfile_NetworkApiVersion_STATUS_ARM
+var networkProfile_NetworkApiVersion_STATUS_ARM_Values = map[string]NetworkProfile_NetworkApiVersion_STATUS_ARM{
+	"2020-11-01": NetworkProfile_NetworkApiVersion_STATUS_ARM_20201101,
+}
+
 // Specifies information about the operating system disk used by the virtual machine.
 // For more information about
 // disks, see [About disks and VHDs for Azure virtual
@@ -706,7 +1088,7 @@ type OSDisk_STATUS_ARM struct {
 	// ReadOnly
 	// ReadWrite
 	// Default: None for Standard storage. ReadOnly for Premium storage.
-	Caching *Caching_STATUS `json:"caching,omitempty"`
+	Caching *Caching_STATUS_ARM `json:"caching,omitempty"`
 
 	// CreateOption: Specifies how the virtual machine should be created.
 	// Possible values are:
@@ -714,7 +1096,7 @@ type OSDisk_STATUS_ARM struct {
 	// FromImage \u2013 This value is used when you are using an image to create the virtual machine. If you are using a
 	// platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also
 	// use the plan element previously described.
-	CreateOption *CreateOption_STATUS `json:"createOption,omitempty"`
+	CreateOption *CreateOption_STATUS_ARM `json:"createOption,omitempty"`
 
 	// DeleteOption: Specifies whether OS Disk should be deleted or detached upon VM deletion.
 	// Possible values:
@@ -722,7 +1104,7 @@ type OSDisk_STATUS_ARM struct {
 	// Detach If this value is used, the os disk is retained after VM is deleted.
 	// The default value is set to detach. For an ephemeral OS Disk, the default value is set to Delete. User cannot change the
 	// delete option for ephemeral OS Disk.
-	DeleteOption *DeleteOption_STATUS `json:"deleteOption,omitempty"`
+	DeleteOption *DeleteOption_STATUS_ARM `json:"deleteOption,omitempty"`
 
 	// DiffDiskSettings: Specifies the ephemeral Disk Settings for the operating system disk used by the virtual machine.
 	DiffDiskSettings *DiffDiskSettings_STATUS_ARM `json:"diffDiskSettings,omitempty"`
@@ -751,13 +1133,26 @@ type OSDisk_STATUS_ARM struct {
 	// Possible values are:
 	// Windows
 	// Linux
-	OsType *OSDisk_OsType_STATUS `json:"osType,omitempty"`
+	OsType *OSDisk_OsType_STATUS_ARM `json:"osType,omitempty"`
 
 	// Vhd: The virtual hard disk.
 	Vhd *VirtualHardDisk_STATUS_ARM `json:"vhd,omitempty"`
 
 	// WriteAcceleratorEnabled: Specifies whether writeAccelerator should be enabled or disabled on the disk.
 	WriteAcceleratorEnabled *bool `json:"writeAcceleratorEnabled,omitempty"`
+}
+
+type SecurityProfile_SecurityType_STATUS_ARM string
+
+const (
+	SecurityProfile_SecurityType_STATUS_ARM_ConfidentialVM = SecurityProfile_SecurityType_STATUS_ARM("ConfidentialVM")
+	SecurityProfile_SecurityType_STATUS_ARM_TrustedLaunch  = SecurityProfile_SecurityType_STATUS_ARM("TrustedLaunch")
+)
+
+// Mapping from string to SecurityProfile_SecurityType_STATUS_ARM
+var securityProfile_SecurityType_STATUS_ARM_Values = map[string]SecurityProfile_SecurityType_STATUS_ARM{
+	"confidentialvm": SecurityProfile_SecurityType_STATUS_ARM_ConfidentialVM,
+	"trustedlaunch":  SecurityProfile_SecurityType_STATUS_ARM_TrustedLaunch,
 }
 
 type TerminateNotificationProfile_STATUS_ARM struct {
@@ -808,6 +1203,19 @@ type VirtualMachineAgentInstanceView_STATUS_ARM struct {
 type VirtualMachineHealthStatus_STATUS_ARM struct {
 	// Status: The health status information for the VM.
 	Status *InstanceViewStatus_STATUS_ARM `json:"status,omitempty"`
+}
+
+type VirtualMachineInstanceView_HyperVGeneration_STATUS_ARM string
+
+const (
+	VirtualMachineInstanceView_HyperVGeneration_STATUS_ARM_V1 = VirtualMachineInstanceView_HyperVGeneration_STATUS_ARM("V1")
+	VirtualMachineInstanceView_HyperVGeneration_STATUS_ARM_V2 = VirtualMachineInstanceView_HyperVGeneration_STATUS_ARM("V2")
+)
+
+// Mapping from string to VirtualMachineInstanceView_HyperVGeneration_STATUS_ARM
+var virtualMachineInstanceView_HyperVGeneration_STATUS_ARM_Values = map[string]VirtualMachineInstanceView_HyperVGeneration_STATUS_ARM{
+	"v1": VirtualMachineInstanceView_HyperVGeneration_STATUS_ARM_V1,
+	"v2": VirtualMachineInstanceView_HyperVGeneration_STATUS_ARM_V2,
 }
 
 // Describes a virtual machine network interface configurations.
@@ -906,7 +1314,7 @@ type WindowsConfiguration_STATUS_ARM struct {
 // Setup. Contents are defined by setting name, component name, and the pass in which the content is applied.
 type AdditionalUnattendContent_STATUS_ARM struct {
 	// ComponentName: The component name. Currently, the only allowable value is Microsoft-Windows-Shell-Setup.
-	ComponentName *AdditionalUnattendContent_ComponentName_STATUS `json:"componentName,omitempty"`
+	ComponentName *AdditionalUnattendContent_ComponentName_STATUS_ARM `json:"componentName,omitempty"`
 
 	// Content: Specifies the XML formatted content that is added to the unattend.xml file for the specified path and
 	// component. The XML must be less than 4KB and must include the root element for the setting or feature that is being
@@ -914,11 +1322,11 @@ type AdditionalUnattendContent_STATUS_ARM struct {
 	Content *string `json:"content,omitempty"`
 
 	// PassName: The pass name. Currently, the only allowable value is OobeSystem.
-	PassName *AdditionalUnattendContent_PassName_STATUS `json:"passName,omitempty"`
+	PassName *AdditionalUnattendContent_PassName_STATUS_ARM `json:"passName,omitempty"`
 
 	// SettingName: Specifies the name of the setting to which the content applies. Possible values are: FirstLogonCommands and
 	// AutoLogon.
-	SettingName *AdditionalUnattendContent_SettingName_STATUS `json:"settingName,omitempty"`
+	SettingName *AdditionalUnattendContent_SettingName_STATUS_ARM `json:"settingName,omitempty"`
 }
 
 // Describes the properties of an virtual machine instance view for available patch summary.
@@ -949,7 +1357,88 @@ type AvailablePatchSummary_STATUS_ARM struct {
 
 	// Status: The overall success or failure status of the operation. It remains "InProgress" until the operation completes.
 	// At that point it will become "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings."
-	Status *AvailablePatchSummary_Status_STATUS `json:"status,omitempty"`
+	Status *AvailablePatchSummary_Status_STATUS_ARM `json:"status,omitempty"`
+}
+
+// Specifies the caching requirements.
+// Possible values are:
+// None
+// ReadOnly
+// ReadWrite
+// Default: None for Standard storage. ReadOnly for Premium storage
+type Caching_STATUS_ARM string
+
+const (
+	Caching_STATUS_ARM_None      = Caching_STATUS_ARM("None")
+	Caching_STATUS_ARM_ReadOnly  = Caching_STATUS_ARM("ReadOnly")
+	Caching_STATUS_ARM_ReadWrite = Caching_STATUS_ARM("ReadWrite")
+)
+
+// Mapping from string to Caching_STATUS_ARM
+var caching_STATUS_ARM_Values = map[string]Caching_STATUS_ARM{
+	"none":      Caching_STATUS_ARM_None,
+	"readonly":  Caching_STATUS_ARM_ReadOnly,
+	"readwrite": Caching_STATUS_ARM_ReadWrite,
+}
+
+// Specifies how the virtual machine should be created.
+// Possible values are:
+// Attach \u2013 This value
+// is used when you are using a specialized disk to create the virtual machine.
+// FromImage \u2013 This value is
+// used when you are using an image to create the virtual machine. If you are using a platform image, you also use the
+// imageReference element described above. If you are using a marketplace image, you  also use the plan element previously
+// described.
+type CreateOption_STATUS_ARM string
+
+const (
+	CreateOption_STATUS_ARM_Attach    = CreateOption_STATUS_ARM("Attach")
+	CreateOption_STATUS_ARM_Empty     = CreateOption_STATUS_ARM("Empty")
+	CreateOption_STATUS_ARM_FromImage = CreateOption_STATUS_ARM("FromImage")
+)
+
+// Mapping from string to CreateOption_STATUS_ARM
+var createOption_STATUS_ARM_Values = map[string]CreateOption_STATUS_ARM{
+	"attach":    CreateOption_STATUS_ARM_Attach,
+	"empty":     CreateOption_STATUS_ARM_Empty,
+	"fromimage": CreateOption_STATUS_ARM_FromImage,
+}
+
+// Specifies the behavior of the managed disk when the VM gets deleted i.e whether the managed disk is deleted or detached.
+// Supported values:
+// Delete If this value is used, the managed disk is deleted when VM gets deleted.
+// Detach If this value is used, the managed disk is retained after VM gets deleted.
+// Minimum api-version:
+// 2021-03-01
+type DeleteOption_STATUS_ARM string
+
+const (
+	DeleteOption_STATUS_ARM_Delete = DeleteOption_STATUS_ARM("Delete")
+	DeleteOption_STATUS_ARM_Detach = DeleteOption_STATUS_ARM("Detach")
+)
+
+// Mapping from string to DeleteOption_STATUS_ARM
+var deleteOption_STATUS_ARM_Values = map[string]DeleteOption_STATUS_ARM{
+	"delete": DeleteOption_STATUS_ARM_Delete,
+	"detach": DeleteOption_STATUS_ARM_Detach,
+}
+
+// Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from
+// the virtual machine. Supported values: ForceDetach.
+// detachOption: ForceDetach is applicable only for
+// managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from
+// the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk
+// forcibly from the VM. All writes might not have been flushed when using this detach behavior.
+// This feature is
+// still in preview mode and is not supported for VirtualMachineScaleSet. To force-detach a data disk update toBeDetached
+// to 'true' along with setting detachOption: 'ForceDetach'.
+type DetachOption_STATUS_ARM string
+
+const DetachOption_STATUS_ARM_ForceDetach = DetachOption_STATUS_ARM("ForceDetach")
+
+// Mapping from string to DetachOption_STATUS_ARM
+var detachOption_STATUS_ARM_Values = map[string]DetachOption_STATUS_ARM{
+	"forcedetach": DetachOption_STATUS_ARM_ForceDetach,
 }
 
 // Describes the parameters of ephemeral disk settings that can be specified for operating system disk.
@@ -957,7 +1446,7 @@ type AvailablePatchSummary_STATUS_ARM struct {
 // ephemeral disk settings can only be specified for managed disk.
 type DiffDiskSettings_STATUS_ARM struct {
 	// Option: Specifies the ephemeral disk settings for operating system disk.
-	Option *DiffDiskOption_STATUS `json:"option,omitempty"`
+	Option *DiffDiskOption_STATUS_ARM `json:"option,omitempty"`
 
 	// Placement: Specifies the ephemeral disk placement for operating system disk.
 	// Possible values are:
@@ -966,7 +1455,7 @@ type DiffDiskSettings_STATUS_ARM struct {
 	// Default: CacheDisk if one is configured for the VM size otherwise ResourceDisk is used.
 	// Refer to VM size documentation for Windows VM at https://docs.microsoft.com/azure/virtual-machines/windows/sizes and
 	// Linux VM at https://docs.microsoft.com/azure/virtual-machines/linux/sizes to check which VM sizes exposes a cache disk.
-	Placement *DiffDiskPlacement_STATUS `json:"placement,omitempty"`
+	Placement *DiffDiskPlacement_STATUS_ARM `json:"placement,omitempty"`
 }
 
 // Describes a Encryption Settings for a Disk
@@ -979,6 +1468,21 @@ type DiskEncryptionSettings_STATUS_ARM struct {
 
 	// KeyEncryptionKey: Specifies the location of the key encryption key in Key Vault.
 	KeyEncryptionKey *KeyVaultKeyReference_STATUS_ARM `json:"keyEncryptionKey,omitempty"`
+}
+
+type InstanceViewStatus_Level_STATUS_ARM string
+
+const (
+	InstanceViewStatus_Level_STATUS_ARM_Error   = InstanceViewStatus_Level_STATUS_ARM("Error")
+	InstanceViewStatus_Level_STATUS_ARM_Info    = InstanceViewStatus_Level_STATUS_ARM("Info")
+	InstanceViewStatus_Level_STATUS_ARM_Warning = InstanceViewStatus_Level_STATUS_ARM("Warning")
+)
+
+// Mapping from string to InstanceViewStatus_Level_STATUS_ARM
+var instanceViewStatus_Level_STATUS_ARM_Values = map[string]InstanceViewStatus_Level_STATUS_ARM{
+	"error":   InstanceViewStatus_Level_STATUS_ARM_Error,
+	"info":    InstanceViewStatus_Level_STATUS_ARM_Info,
+	"warning": InstanceViewStatus_Level_STATUS_ARM_Warning,
 }
 
 // Describes the properties of the last installed patch summary.
@@ -1019,7 +1523,7 @@ type LastPatchInstallationSummary_STATUS_ARM struct {
 
 	// Status: The overall success or failure status of the operation. It remains "InProgress" until the operation completes.
 	// At that point it will become "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings."
-	Status *LastPatchInstallationSummary_Status_STATUS `json:"status,omitempty"`
+	Status *LastPatchInstallationSummary_Status_STATUS_ARM `json:"status,omitempty"`
 }
 
 // Specifies settings related to VM Guest Patching on Linux.
@@ -1028,7 +1532,7 @@ type LinuxPatchSettings_STATUS_ARM struct {
 	// Possible values are:
 	// ImageDefault - You control the timing of patch assessments on a virtual machine.
 	// AutomaticByPlatform - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true.
-	AssessmentMode *LinuxPatchSettings_AssessmentMode_STATUS `json:"assessmentMode,omitempty"`
+	AssessmentMode *LinuxPatchSettings_AssessmentMode_STATUS_ARM `json:"assessmentMode,omitempty"`
 
 	// AutomaticByPlatformSettings: Specifies additional settings for patch mode AutomaticByPlatform in VM Guest Patching on
 	// Linux.
@@ -1040,7 +1544,24 @@ type LinuxPatchSettings_STATUS_ARM struct {
 	// ImageDefault - The virtual machine's default patching configuration is used.
 	// AutomaticByPlatform - The virtual machine will be automatically updated by the platform. The property provisionVMAgent
 	// must be true
-	PatchMode *LinuxPatchSettings_PatchMode_STATUS `json:"patchMode,omitempty"`
+	PatchMode *LinuxPatchSettings_PatchMode_STATUS_ARM `json:"patchMode,omitempty"`
+}
+
+type MaintenanceRedeployStatus_LastOperationResultCode_STATUS_ARM string
+
+const (
+	MaintenanceRedeployStatus_LastOperationResultCode_STATUS_ARM_MaintenanceAborted   = MaintenanceRedeployStatus_LastOperationResultCode_STATUS_ARM("MaintenanceAborted")
+	MaintenanceRedeployStatus_LastOperationResultCode_STATUS_ARM_MaintenanceCompleted = MaintenanceRedeployStatus_LastOperationResultCode_STATUS_ARM("MaintenanceCompleted")
+	MaintenanceRedeployStatus_LastOperationResultCode_STATUS_ARM_None                 = MaintenanceRedeployStatus_LastOperationResultCode_STATUS_ARM("None")
+	MaintenanceRedeployStatus_LastOperationResultCode_STATUS_ARM_RetryLater           = MaintenanceRedeployStatus_LastOperationResultCode_STATUS_ARM("RetryLater")
+)
+
+// Mapping from string to MaintenanceRedeployStatus_LastOperationResultCode_STATUS_ARM
+var maintenanceRedeployStatus_LastOperationResultCode_STATUS_ARM_Values = map[string]MaintenanceRedeployStatus_LastOperationResultCode_STATUS_ARM{
+	"maintenanceaborted":   MaintenanceRedeployStatus_LastOperationResultCode_STATUS_ARM_MaintenanceAborted,
+	"maintenancecompleted": MaintenanceRedeployStatus_LastOperationResultCode_STATUS_ARM_MaintenanceCompleted,
+	"none":                 MaintenanceRedeployStatus_LastOperationResultCode_STATUS_ARM_None,
+	"retrylater":           MaintenanceRedeployStatus_LastOperationResultCode_STATUS_ARM_RetryLater,
 }
 
 // The parameters of a managed disk.
@@ -1056,16 +1577,29 @@ type ManagedDiskParameters_STATUS_ARM struct {
 
 	// StorageAccountType: Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with
 	// data disks, it cannot be used with OS Disk.
-	StorageAccountType *StorageAccountType_STATUS `json:"storageAccountType,omitempty"`
+	StorageAccountType *StorageAccountType_STATUS_ARM `json:"storageAccountType,omitempty"`
 }
 
 // Describes a network interface reference properties.
 type NetworkInterfaceReferenceProperties_STATUS_ARM struct {
 	// DeleteOption: Specify what happens to the network interface when the VM is deleted
-	DeleteOption *NetworkInterfaceReferenceProperties_DeleteOption_STATUS `json:"deleteOption,omitempty"`
+	DeleteOption *NetworkInterfaceReferenceProperties_DeleteOption_STATUS_ARM `json:"deleteOption,omitempty"`
 
 	// Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
 	Primary *bool `json:"primary,omitempty"`
+}
+
+type OSDisk_OsType_STATUS_ARM string
+
+const (
+	OSDisk_OsType_STATUS_ARM_Linux   = OSDisk_OsType_STATUS_ARM("Linux")
+	OSDisk_OsType_STATUS_ARM_Windows = OSDisk_OsType_STATUS_ARM("Windows")
+)
+
+// Mapping from string to OSDisk_OsType_STATUS_ARM
+var oSDisk_OsType_STATUS_ARM_Values = map[string]OSDisk_OsType_STATUS_ARM{
+	"linux":   OSDisk_OsType_STATUS_ARM_Linux,
+	"windows": OSDisk_OsType_STATUS_ARM_Windows,
 }
 
 // Specifies settings related to VM Guest Patching on Windows.
@@ -1074,7 +1608,7 @@ type PatchSettings_STATUS_ARM struct {
 	// Possible values are:
 	// ImageDefault - You control the timing of patch assessments on a virtual machine.
 	// AutomaticByPlatform - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true.
-	AssessmentMode *PatchSettings_AssessmentMode_STATUS `json:"assessmentMode,omitempty"`
+	AssessmentMode *PatchSettings_AssessmentMode_STATUS_ARM `json:"assessmentMode,omitempty"`
 
 	// AutomaticByPlatformSettings: Specifies additional settings for patch mode AutomaticByPlatform in VM Guest Patching on
 	// Windows.
@@ -1094,7 +1628,7 @@ type PatchSettings_STATUS_ARM struct {
 	// WindowsConfiguration.enableAutomaticUpdates must be true.
 	// AutomaticByPlatform - the virtual machine will automatically updated by the platform. The properties provisionVMAgent
 	// and WindowsConfiguration.enableAutomaticUpdates must be true
-	PatchMode *PatchSettings_PatchMode_STATUS `json:"patchMode,omitempty"`
+	PatchMode *PatchSettings_PatchMode_STATUS_ARM `json:"patchMode,omitempty"`
 }
 
 // SSH configuration for Linux based VMs running on Azure
@@ -1148,7 +1682,7 @@ type VirtualMachineExtensionHandlerInstanceView_STATUS_ARM struct {
 // Describes a virtual machine network profile's IP configuration.
 type VirtualMachineNetworkInterfaceConfigurationProperties_STATUS_ARM struct {
 	// DeleteOption: Specify what happens to the network interface when the VM is deleted
-	DeleteOption *VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_STATUS `json:"deleteOption,omitempty"`
+	DeleteOption *VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_STATUS_ARM `json:"deleteOption,omitempty"`
 
 	// DnsSettings: The dns settings to be applied on the network interfaces.
 	DnsSettings       *VirtualMachineNetworkInterfaceDnsSettingsConfiguration_STATUS_ARM `json:"dnsSettings,omitempty"`
@@ -1179,6 +1713,37 @@ type WinRMConfiguration_STATUS_ARM struct {
 	Listeners []WinRMListener_STATUS_ARM `json:"listeners,omitempty"`
 }
 
+type AdditionalUnattendContent_ComponentName_STATUS_ARM string
+
+const AdditionalUnattendContent_ComponentName_STATUS_ARM_MicrosoftWindowsShellSetup = AdditionalUnattendContent_ComponentName_STATUS_ARM("Microsoft-Windows-Shell-Setup")
+
+// Mapping from string to AdditionalUnattendContent_ComponentName_STATUS_ARM
+var additionalUnattendContent_ComponentName_STATUS_ARM_Values = map[string]AdditionalUnattendContent_ComponentName_STATUS_ARM{
+	"microsoft-windows-shell-setup": AdditionalUnattendContent_ComponentName_STATUS_ARM_MicrosoftWindowsShellSetup,
+}
+
+type AdditionalUnattendContent_PassName_STATUS_ARM string
+
+const AdditionalUnattendContent_PassName_STATUS_ARM_OobeSystem = AdditionalUnattendContent_PassName_STATUS_ARM("OobeSystem")
+
+// Mapping from string to AdditionalUnattendContent_PassName_STATUS_ARM
+var additionalUnattendContent_PassName_STATUS_ARM_Values = map[string]AdditionalUnattendContent_PassName_STATUS_ARM{
+	"oobesystem": AdditionalUnattendContent_PassName_STATUS_ARM_OobeSystem,
+}
+
+type AdditionalUnattendContent_SettingName_STATUS_ARM string
+
+const (
+	AdditionalUnattendContent_SettingName_STATUS_ARM_AutoLogon          = AdditionalUnattendContent_SettingName_STATUS_ARM("AutoLogon")
+	AdditionalUnattendContent_SettingName_STATUS_ARM_FirstLogonCommands = AdditionalUnattendContent_SettingName_STATUS_ARM("FirstLogonCommands")
+)
+
+// Mapping from string to AdditionalUnattendContent_SettingName_STATUS_ARM
+var additionalUnattendContent_SettingName_STATUS_ARM_Values = map[string]AdditionalUnattendContent_SettingName_STATUS_ARM{
+	"autologon":          AdditionalUnattendContent_SettingName_STATUS_ARM_AutoLogon,
+	"firstlogoncommands": AdditionalUnattendContent_SettingName_STATUS_ARM_FirstLogonCommands,
+}
+
 // Api error.
 type ApiError_STATUS_ARM struct {
 	// Code: The error code.
@@ -1197,6 +1762,53 @@ type ApiError_STATUS_ARM struct {
 	Target *string `json:"target,omitempty"`
 }
 
+type AvailablePatchSummary_Status_STATUS_ARM string
+
+const (
+	AvailablePatchSummary_Status_STATUS_ARM_CompletedWithWarnings = AvailablePatchSummary_Status_STATUS_ARM("CompletedWithWarnings")
+	AvailablePatchSummary_Status_STATUS_ARM_Failed                = AvailablePatchSummary_Status_STATUS_ARM("Failed")
+	AvailablePatchSummary_Status_STATUS_ARM_InProgress            = AvailablePatchSummary_Status_STATUS_ARM("InProgress")
+	AvailablePatchSummary_Status_STATUS_ARM_Succeeded             = AvailablePatchSummary_Status_STATUS_ARM("Succeeded")
+	AvailablePatchSummary_Status_STATUS_ARM_Unknown               = AvailablePatchSummary_Status_STATUS_ARM("Unknown")
+)
+
+// Mapping from string to AvailablePatchSummary_Status_STATUS_ARM
+var availablePatchSummary_Status_STATUS_ARM_Values = map[string]AvailablePatchSummary_Status_STATUS_ARM{
+	"completedwithwarnings": AvailablePatchSummary_Status_STATUS_ARM_CompletedWithWarnings,
+	"failed":                AvailablePatchSummary_Status_STATUS_ARM_Failed,
+	"inprogress":            AvailablePatchSummary_Status_STATUS_ARM_InProgress,
+	"succeeded":             AvailablePatchSummary_Status_STATUS_ARM_Succeeded,
+	"unknown":               AvailablePatchSummary_Status_STATUS_ARM_Unknown,
+}
+
+// Specifies the ephemeral disk option for operating system disk.
+type DiffDiskOption_STATUS_ARM string
+
+const DiffDiskOption_STATUS_ARM_Local = DiffDiskOption_STATUS_ARM("Local")
+
+// Mapping from string to DiffDiskOption_STATUS_ARM
+var diffDiskOption_STATUS_ARM_Values = map[string]DiffDiskOption_STATUS_ARM{
+	"local": DiffDiskOption_STATUS_ARM_Local,
+}
+
+// Specifies the ephemeral disk placement for operating system disk. This property can be used by user in the request to
+// choose the location i.e, cache disk or resource disk space for Ephemeral OS disk provisioning. For more information on
+// Ephemeral OS disk size requirements, please refer Ephemeral OS disk size requirements for Windows VM at
+// https://docs.microsoft.com/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements and Linux VM at
+// https://docs.microsoft.com/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements
+type DiffDiskPlacement_STATUS_ARM string
+
+const (
+	DiffDiskPlacement_STATUS_ARM_CacheDisk    = DiffDiskPlacement_STATUS_ARM("CacheDisk")
+	DiffDiskPlacement_STATUS_ARM_ResourceDisk = DiffDiskPlacement_STATUS_ARM("ResourceDisk")
+)
+
+// Mapping from string to DiffDiskPlacement_STATUS_ARM
+var diffDiskPlacement_STATUS_ARM_Values = map[string]DiffDiskPlacement_STATUS_ARM{
+	"cachedisk":    DiffDiskPlacement_STATUS_ARM_CacheDisk,
+	"resourcedisk": DiffDiskPlacement_STATUS_ARM_ResourceDisk,
+}
+
 // Describes a reference to Key Vault Key
 type KeyVaultKeyReference_STATUS_ARM struct {
 	// KeyUrl: The URL referencing a key encryption key in Key Vault.
@@ -1206,10 +1818,96 @@ type KeyVaultKeyReference_STATUS_ARM struct {
 	SourceVault *SubResource_STATUS_ARM `json:"sourceVault,omitempty"`
 }
 
+type LastPatchInstallationSummary_Status_STATUS_ARM string
+
+const (
+	LastPatchInstallationSummary_Status_STATUS_ARM_CompletedWithWarnings = LastPatchInstallationSummary_Status_STATUS_ARM("CompletedWithWarnings")
+	LastPatchInstallationSummary_Status_STATUS_ARM_Failed                = LastPatchInstallationSummary_Status_STATUS_ARM("Failed")
+	LastPatchInstallationSummary_Status_STATUS_ARM_InProgress            = LastPatchInstallationSummary_Status_STATUS_ARM("InProgress")
+	LastPatchInstallationSummary_Status_STATUS_ARM_Succeeded             = LastPatchInstallationSummary_Status_STATUS_ARM("Succeeded")
+	LastPatchInstallationSummary_Status_STATUS_ARM_Unknown               = LastPatchInstallationSummary_Status_STATUS_ARM("Unknown")
+)
+
+// Mapping from string to LastPatchInstallationSummary_Status_STATUS_ARM
+var lastPatchInstallationSummary_Status_STATUS_ARM_Values = map[string]LastPatchInstallationSummary_Status_STATUS_ARM{
+	"completedwithwarnings": LastPatchInstallationSummary_Status_STATUS_ARM_CompletedWithWarnings,
+	"failed":                LastPatchInstallationSummary_Status_STATUS_ARM_Failed,
+	"inprogress":            LastPatchInstallationSummary_Status_STATUS_ARM_InProgress,
+	"succeeded":             LastPatchInstallationSummary_Status_STATUS_ARM_Succeeded,
+	"unknown":               LastPatchInstallationSummary_Status_STATUS_ARM_Unknown,
+}
+
+type LinuxPatchSettings_AssessmentMode_STATUS_ARM string
+
+const (
+	LinuxPatchSettings_AssessmentMode_STATUS_ARM_AutomaticByPlatform = LinuxPatchSettings_AssessmentMode_STATUS_ARM("AutomaticByPlatform")
+	LinuxPatchSettings_AssessmentMode_STATUS_ARM_ImageDefault        = LinuxPatchSettings_AssessmentMode_STATUS_ARM("ImageDefault")
+)
+
+// Mapping from string to LinuxPatchSettings_AssessmentMode_STATUS_ARM
+var linuxPatchSettings_AssessmentMode_STATUS_ARM_Values = map[string]LinuxPatchSettings_AssessmentMode_STATUS_ARM{
+	"automaticbyplatform": LinuxPatchSettings_AssessmentMode_STATUS_ARM_AutomaticByPlatform,
+	"imagedefault":        LinuxPatchSettings_AssessmentMode_STATUS_ARM_ImageDefault,
+}
+
+type LinuxPatchSettings_PatchMode_STATUS_ARM string
+
+const (
+	LinuxPatchSettings_PatchMode_STATUS_ARM_AutomaticByPlatform = LinuxPatchSettings_PatchMode_STATUS_ARM("AutomaticByPlatform")
+	LinuxPatchSettings_PatchMode_STATUS_ARM_ImageDefault        = LinuxPatchSettings_PatchMode_STATUS_ARM("ImageDefault")
+)
+
+// Mapping from string to LinuxPatchSettings_PatchMode_STATUS_ARM
+var linuxPatchSettings_PatchMode_STATUS_ARM_Values = map[string]LinuxPatchSettings_PatchMode_STATUS_ARM{
+	"automaticbyplatform": LinuxPatchSettings_PatchMode_STATUS_ARM_AutomaticByPlatform,
+	"imagedefault":        LinuxPatchSettings_PatchMode_STATUS_ARM_ImageDefault,
+}
+
 // Specifies additional settings to be applied when patch mode AutomaticByPlatform is selected in Linux patch settings.
 type LinuxVMGuestPatchAutomaticByPlatformSettings_STATUS_ARM struct {
 	// RebootSetting: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
-	RebootSetting *LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS `json:"rebootSetting,omitempty"`
+	RebootSetting *LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_ARM `json:"rebootSetting,omitempty"`
+}
+
+type NetworkInterfaceReferenceProperties_DeleteOption_STATUS_ARM string
+
+const (
+	NetworkInterfaceReferenceProperties_DeleteOption_STATUS_ARM_Delete = NetworkInterfaceReferenceProperties_DeleteOption_STATUS_ARM("Delete")
+	NetworkInterfaceReferenceProperties_DeleteOption_STATUS_ARM_Detach = NetworkInterfaceReferenceProperties_DeleteOption_STATUS_ARM("Detach")
+)
+
+// Mapping from string to NetworkInterfaceReferenceProperties_DeleteOption_STATUS_ARM
+var networkInterfaceReferenceProperties_DeleteOption_STATUS_ARM_Values = map[string]NetworkInterfaceReferenceProperties_DeleteOption_STATUS_ARM{
+	"delete": NetworkInterfaceReferenceProperties_DeleteOption_STATUS_ARM_Delete,
+	"detach": NetworkInterfaceReferenceProperties_DeleteOption_STATUS_ARM_Detach,
+}
+
+type PatchSettings_AssessmentMode_STATUS_ARM string
+
+const (
+	PatchSettings_AssessmentMode_STATUS_ARM_AutomaticByPlatform = PatchSettings_AssessmentMode_STATUS_ARM("AutomaticByPlatform")
+	PatchSettings_AssessmentMode_STATUS_ARM_ImageDefault        = PatchSettings_AssessmentMode_STATUS_ARM("ImageDefault")
+)
+
+// Mapping from string to PatchSettings_AssessmentMode_STATUS_ARM
+var patchSettings_AssessmentMode_STATUS_ARM_Values = map[string]PatchSettings_AssessmentMode_STATUS_ARM{
+	"automaticbyplatform": PatchSettings_AssessmentMode_STATUS_ARM_AutomaticByPlatform,
+	"imagedefault":        PatchSettings_AssessmentMode_STATUS_ARM_ImageDefault,
+}
+
+type PatchSettings_PatchMode_STATUS_ARM string
+
+const (
+	PatchSettings_PatchMode_STATUS_ARM_AutomaticByOS       = PatchSettings_PatchMode_STATUS_ARM("AutomaticByOS")
+	PatchSettings_PatchMode_STATUS_ARM_AutomaticByPlatform = PatchSettings_PatchMode_STATUS_ARM("AutomaticByPlatform")
+	PatchSettings_PatchMode_STATUS_ARM_Manual              = PatchSettings_PatchMode_STATUS_ARM("Manual")
+)
+
+// Mapping from string to PatchSettings_PatchMode_STATUS_ARM
+var patchSettings_PatchMode_STATUS_ARM_Values = map[string]PatchSettings_PatchMode_STATUS_ARM{
+	"automaticbyos":       PatchSettings_PatchMode_STATUS_ARM_AutomaticByOS,
+	"automaticbyplatform": PatchSettings_PatchMode_STATUS_ARM_AutomaticByPlatform,
+	"manual":              PatchSettings_PatchMode_STATUS_ARM_Manual,
 }
 
 // Contains information about SSH certificate public key and the path on the Linux VM where the public key is placed.
@@ -1223,6 +1921,19 @@ type SshPublicKey_STATUS_ARM struct {
 	// Path: Specifies the full path on the created VM where ssh public key is stored. If the file already exists, the
 	// specified key is appended to the file. Example: /home/user/.ssh/authorized_keys
 	Path *string `json:"path,omitempty"`
+}
+
+type VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_STATUS_ARM string
+
+const (
+	VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_STATUS_ARM_Delete = VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_STATUS_ARM("Delete")
+	VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_STATUS_ARM_Detach = VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_STATUS_ARM("Detach")
+)
+
+// Mapping from string to VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_STATUS_ARM
+var virtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_STATUS_ARM_Values = map[string]VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_STATUS_ARM{
+	"delete": VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_STATUS_ARM_Delete,
+	"detach": VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_STATUS_ARM_Detach,
 }
 
 // Describes a virtual machines network configuration's DNS settings.
@@ -1251,13 +1962,13 @@ type VMDiskSecurityProfile_STATUS_ARM struct {
 	// It is set to DiskWithVMGuestState for encryption of the managed disk along with VMGuestState blob, and VMGuestStateOnly
 	// for encryption of just the VMGuestState blob.
 	// NOTE: It can be set for only Confidential VMs.
-	SecurityEncryptionType *VMDiskSecurityProfile_SecurityEncryptionType_STATUS `json:"securityEncryptionType,omitempty"`
+	SecurityEncryptionType *VMDiskSecurityProfile_SecurityEncryptionType_STATUS_ARM `json:"securityEncryptionType,omitempty"`
 }
 
 // Specifies additional settings to be applied when patch mode AutomaticByPlatform is selected in Windows patch settings.
 type WindowsVMGuestPatchAutomaticByPlatformSettings_STATUS_ARM struct {
 	// RebootSetting: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
-	RebootSetting *WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS `json:"rebootSetting,omitempty"`
+	RebootSetting *WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_ARM `json:"rebootSetting,omitempty"`
 }
 
 // Describes Protocol and thumbprint of Windows Remote Management listener
@@ -1280,7 +1991,7 @@ type WinRMListener_STATUS_ARM struct {
 	// Possible values are:
 	// http
 	// https
-	Protocol *WinRMListener_Protocol_STATUS `json:"protocol,omitempty"`
+	Protocol *WinRMListener_Protocol_STATUS_ARM `json:"protocol,omitempty"`
 }
 
 // Api error base.
@@ -1304,6 +2015,23 @@ type InnerError_STATUS_ARM struct {
 	Exceptiontype *string `json:"exceptiontype,omitempty"`
 }
 
+type LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_ARM string
+
+const (
+	LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_ARM_Always     = LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_ARM("Always")
+	LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_ARM_IfRequired = LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_ARM("IfRequired")
+	LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_ARM_Never      = LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_ARM("Never")
+	LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_ARM_Unknown    = LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_ARM("Unknown")
+)
+
+// Mapping from string to LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_ARM
+var linuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_ARM_Values = map[string]LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_ARM{
+	"always":     LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_ARM_Always,
+	"ifrequired": LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_ARM_IfRequired,
+	"never":      LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_ARM_Never,
+	"unknown":    LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_ARM_Unknown,
+}
+
 // Describes a virtual machine network interface IP configuration properties.
 type VirtualMachineNetworkInterfaceIPConfigurationProperties_STATUS_ARM struct {
 	// ApplicationGatewayBackendAddressPools: Specifies an array of references to backend address pools of application
@@ -1324,13 +2052,69 @@ type VirtualMachineNetworkInterfaceIPConfigurationProperties_STATUS_ARM struct {
 
 	// PrivateIPAddressVersion: Available from Api-Version 2017-03-30 onwards, it represents whether the specific
 	// ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'.
-	PrivateIPAddressVersion *VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_STATUS `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAddressVersion *VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_STATUS_ARM `json:"privateIPAddressVersion,omitempty"`
 
 	// PublicIPAddressConfiguration: The publicIPAddressConfiguration.
 	PublicIPAddressConfiguration *VirtualMachinePublicIPAddressConfiguration_STATUS_ARM `json:"publicIPAddressConfiguration,omitempty"`
 
 	// Subnet: Specifies the identifier of the subnet.
 	Subnet *SubResource_STATUS_ARM `json:"subnet,omitempty"`
+}
+
+type VMDiskSecurityProfile_SecurityEncryptionType_STATUS_ARM string
+
+const (
+	VMDiskSecurityProfile_SecurityEncryptionType_STATUS_ARM_DiskWithVMGuestState = VMDiskSecurityProfile_SecurityEncryptionType_STATUS_ARM("DiskWithVMGuestState")
+	VMDiskSecurityProfile_SecurityEncryptionType_STATUS_ARM_VMGuestStateOnly     = VMDiskSecurityProfile_SecurityEncryptionType_STATUS_ARM("VMGuestStateOnly")
+)
+
+// Mapping from string to VMDiskSecurityProfile_SecurityEncryptionType_STATUS_ARM
+var vMDiskSecurityProfile_SecurityEncryptionType_STATUS_ARM_Values = map[string]VMDiskSecurityProfile_SecurityEncryptionType_STATUS_ARM{
+	"diskwithvmgueststate": VMDiskSecurityProfile_SecurityEncryptionType_STATUS_ARM_DiskWithVMGuestState,
+	"vmgueststateonly":     VMDiskSecurityProfile_SecurityEncryptionType_STATUS_ARM_VMGuestStateOnly,
+}
+
+type WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_ARM string
+
+const (
+	WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_ARM_Always     = WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_ARM("Always")
+	WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_ARM_IfRequired = WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_ARM("IfRequired")
+	WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_ARM_Never      = WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_ARM("Never")
+	WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_ARM_Unknown    = WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_ARM("Unknown")
+)
+
+// Mapping from string to WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_ARM
+var windowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_ARM_Values = map[string]WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_ARM{
+	"always":     WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_ARM_Always,
+	"ifrequired": WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_ARM_IfRequired,
+	"never":      WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_ARM_Never,
+	"unknown":    WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_ARM_Unknown,
+}
+
+type WinRMListener_Protocol_STATUS_ARM string
+
+const (
+	WinRMListener_Protocol_STATUS_ARM_Http  = WinRMListener_Protocol_STATUS_ARM("Http")
+	WinRMListener_Protocol_STATUS_ARM_Https = WinRMListener_Protocol_STATUS_ARM("Https")
+)
+
+// Mapping from string to WinRMListener_Protocol_STATUS_ARM
+var winRMListener_Protocol_STATUS_ARM_Values = map[string]WinRMListener_Protocol_STATUS_ARM{
+	"http":  WinRMListener_Protocol_STATUS_ARM_Http,
+	"https": WinRMListener_Protocol_STATUS_ARM_Https,
+}
+
+type VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_STATUS_ARM string
+
+const (
+	VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_STATUS_ARM_IPv4 = VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_STATUS_ARM("IPv4")
+	VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_STATUS_ARM_IPv6 = VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_STATUS_ARM("IPv6")
+)
+
+// Mapping from string to VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_STATUS_ARM
+var virtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_STATUS_ARM_Values = map[string]VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_STATUS_ARM{
+	"ipv4": VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_STATUS_ARM_IPv4,
+	"ipv6": VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_STATUS_ARM_IPv6,
 }
 
 // Describes a virtual machines IP Configuration's PublicIPAddress configuration
@@ -1348,16 +2132,16 @@ type VirtualMachinePublicIPAddressConfiguration_STATUS_ARM struct {
 // Describes the public IP Sku. It can only be set with OrchestrationMode as Flexible.
 type PublicIPAddressSku_STATUS_ARM struct {
 	// Name: Specify public IP sku name
-	Name *PublicIPAddressSku_Name_STATUS `json:"name,omitempty"`
+	Name *PublicIPAddressSku_Name_STATUS_ARM `json:"name,omitempty"`
 
 	// Tier: Specify public IP sku tier
-	Tier *PublicIPAddressSku_Tier_STATUS `json:"tier,omitempty"`
+	Tier *PublicIPAddressSku_Tier_STATUS_ARM `json:"tier,omitempty"`
 }
 
 // Describes a virtual machines IP Configuration's PublicIPAddress configuration
 type VirtualMachinePublicIPAddressConfigurationProperties_STATUS_ARM struct {
 	// DeleteOption: Specify what happens to the public IP address when the VM is deleted
-	DeleteOption *VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_STATUS `json:"deleteOption,omitempty"`
+	DeleteOption *VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_STATUS_ARM `json:"deleteOption,omitempty"`
 
 	// DnsSettings: The dns settings to be applied on the publicIP addresses .
 	DnsSettings *VirtualMachinePublicIPAddressDnsSettingsConfiguration_STATUS_ARM `json:"dnsSettings,omitempty"`
@@ -1370,13 +2154,39 @@ type VirtualMachinePublicIPAddressConfigurationProperties_STATUS_ARM struct {
 
 	// PublicIPAddressVersion: Available from Api-Version 2019-07-01 onwards, it represents whether the specific
 	// ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'.
-	PublicIPAddressVersion *VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS `json:"publicIPAddressVersion,omitempty"`
+	PublicIPAddressVersion *VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS_ARM `json:"publicIPAddressVersion,omitempty"`
 
 	// PublicIPAllocationMethod: Specify the public IP allocation type
-	PublicIPAllocationMethod *VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_STATUS `json:"publicIPAllocationMethod,omitempty"`
+	PublicIPAllocationMethod *VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_STATUS_ARM `json:"publicIPAllocationMethod,omitempty"`
 
 	// PublicIPPrefix: The PublicIPPrefix from which to allocate publicIP addresses.
 	PublicIPPrefix *SubResource_STATUS_ARM `json:"publicIPPrefix,omitempty"`
+}
+
+type PublicIPAddressSku_Name_STATUS_ARM string
+
+const (
+	PublicIPAddressSku_Name_STATUS_ARM_Basic    = PublicIPAddressSku_Name_STATUS_ARM("Basic")
+	PublicIPAddressSku_Name_STATUS_ARM_Standard = PublicIPAddressSku_Name_STATUS_ARM("Standard")
+)
+
+// Mapping from string to PublicIPAddressSku_Name_STATUS_ARM
+var publicIPAddressSku_Name_STATUS_ARM_Values = map[string]PublicIPAddressSku_Name_STATUS_ARM{
+	"basic":    PublicIPAddressSku_Name_STATUS_ARM_Basic,
+	"standard": PublicIPAddressSku_Name_STATUS_ARM_Standard,
+}
+
+type PublicIPAddressSku_Tier_STATUS_ARM string
+
+const (
+	PublicIPAddressSku_Tier_STATUS_ARM_Global   = PublicIPAddressSku_Tier_STATUS_ARM("Global")
+	PublicIPAddressSku_Tier_STATUS_ARM_Regional = PublicIPAddressSku_Tier_STATUS_ARM("Regional")
+)
+
+// Mapping from string to PublicIPAddressSku_Tier_STATUS_ARM
+var publicIPAddressSku_Tier_STATUS_ARM_Values = map[string]PublicIPAddressSku_Tier_STATUS_ARM{
+	"global":   PublicIPAddressSku_Tier_STATUS_ARM_Global,
+	"regional": PublicIPAddressSku_Tier_STATUS_ARM_Regional,
 }
 
 // Contains the IP tag associated with the public IP address.
@@ -1386,6 +2196,45 @@ type VirtualMachineIpTag_STATUS_ARM struct {
 
 	// Tag: IP tag associated with the public IP. Example: SQL, Storage etc.
 	Tag *string `json:"tag,omitempty"`
+}
+
+type VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_STATUS_ARM string
+
+const (
+	VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_STATUS_ARM_Delete = VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_STATUS_ARM("Delete")
+	VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_STATUS_ARM_Detach = VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_STATUS_ARM("Detach")
+)
+
+// Mapping from string to VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_STATUS_ARM
+var virtualMachinePublicIPAddressConfigurationProperties_DeleteOption_STATUS_ARM_Values = map[string]VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_STATUS_ARM{
+	"delete": VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_STATUS_ARM_Delete,
+	"detach": VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_STATUS_ARM_Detach,
+}
+
+type VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS_ARM string
+
+const (
+	VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS_ARM_IPv4 = VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS_ARM("IPv4")
+	VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS_ARM_IPv6 = VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS_ARM("IPv6")
+)
+
+// Mapping from string to VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS_ARM
+var virtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS_ARM_Values = map[string]VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS_ARM{
+	"ipv4": VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS_ARM_IPv4,
+	"ipv6": VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS_ARM_IPv6,
+}
+
+type VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_STATUS_ARM string
+
+const (
+	VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_STATUS_ARM_Dynamic = VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_STATUS_ARM("Dynamic")
+	VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_STATUS_ARM_Static  = VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_STATUS_ARM("Static")
+)
+
+// Mapping from string to VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_STATUS_ARM
+var virtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_STATUS_ARM_Values = map[string]VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_STATUS_ARM{
+	"dynamic": VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_STATUS_ARM_Dynamic,
+	"static":  VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_STATUS_ARM_Static,
 }
 
 // Describes a virtual machines network configuration's DNS settings.

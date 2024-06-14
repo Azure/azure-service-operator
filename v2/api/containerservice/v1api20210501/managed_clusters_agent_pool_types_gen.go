@@ -539,7 +539,9 @@ func (pool *ManagedClusters_AgentPool_Spec) ConvertToARM(resolved genruntime.Con
 		result.Properties.EnableUltraSSD = &enableUltraSSD
 	}
 	if pool.GpuInstanceProfile != nil {
-		gpuInstanceProfile := *pool.GpuInstanceProfile
+		var temp string
+		temp = string(*pool.GpuInstanceProfile)
+		gpuInstanceProfile := GPUInstanceProfile_ARM(temp)
 		result.Properties.GpuInstanceProfile = &gpuInstanceProfile
 	}
 	if pool.KubeletConfig != nil {
@@ -551,7 +553,9 @@ func (pool *ManagedClusters_AgentPool_Spec) ConvertToARM(resolved genruntime.Con
 		result.Properties.KubeletConfig = &kubeletConfig
 	}
 	if pool.KubeletDiskType != nil {
-		kubeletDiskType := *pool.KubeletDiskType
+		var temp string
+		temp = string(*pool.KubeletDiskType)
+		kubeletDiskType := KubeletDiskType_ARM(temp)
 		result.Properties.KubeletDiskType = &kubeletDiskType
 	}
 	if pool.LinuxOSConfig != nil {
@@ -575,7 +579,9 @@ func (pool *ManagedClusters_AgentPool_Spec) ConvertToARM(resolved genruntime.Con
 		result.Properties.MinCount = &minCount
 	}
 	if pool.Mode != nil {
-		mode := *pool.Mode
+		var temp string
+		temp = string(*pool.Mode)
+		mode := AgentPoolMode_ARM(temp)
 		result.Properties.Mode = &mode
 	}
 	if pool.NodeLabels != nil {
@@ -607,19 +613,29 @@ func (pool *ManagedClusters_AgentPool_Spec) ConvertToARM(resolved genruntime.Con
 		result.Properties.OrchestratorVersion = &orchestratorVersion
 	}
 	if pool.OsDiskSizeGB != nil {
-		osDiskSizeGB := *pool.OsDiskSizeGB
+		osDiskSizeGB_ARM, err := (*pool.OsDiskSizeGB).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		osDiskSizeGB := *osDiskSizeGB_ARM.(*ContainerServiceOSDisk_ARM)
 		result.Properties.OsDiskSizeGB = &osDiskSizeGB
 	}
 	if pool.OsDiskType != nil {
-		osDiskType := *pool.OsDiskType
+		var temp string
+		temp = string(*pool.OsDiskType)
+		osDiskType := OSDiskType_ARM(temp)
 		result.Properties.OsDiskType = &osDiskType
 	}
 	if pool.OsSKU != nil {
-		osSKU := *pool.OsSKU
+		var temp string
+		temp = string(*pool.OsSKU)
+		osSKU := OSSKU_ARM(temp)
 		result.Properties.OsSKU = &osSKU
 	}
 	if pool.OsType != nil {
-		osType := *pool.OsType
+		var temp string
+		temp = string(*pool.OsType)
+		osType := OSType_ARM(temp)
 		result.Properties.OsType = &osType
 	}
 	if pool.PodSubnetIDReference != nil {
@@ -635,11 +651,15 @@ func (pool *ManagedClusters_AgentPool_Spec) ConvertToARM(resolved genruntime.Con
 		result.Properties.ProximityPlacementGroupID = &proximityPlacementGroupID
 	}
 	if pool.ScaleSetEvictionPolicy != nil {
-		scaleSetEvictionPolicy := *pool.ScaleSetEvictionPolicy
+		var temp string
+		temp = string(*pool.ScaleSetEvictionPolicy)
+		scaleSetEvictionPolicy := ScaleSetEvictionPolicy_ARM(temp)
 		result.Properties.ScaleSetEvictionPolicy = &scaleSetEvictionPolicy
 	}
 	if pool.ScaleSetPriority != nil {
-		scaleSetPriority := *pool.ScaleSetPriority
+		var temp string
+		temp = string(*pool.ScaleSetPriority)
+		scaleSetPriority := ScaleSetPriority_ARM(temp)
 		result.Properties.ScaleSetPriority = &scaleSetPriority
 	}
 	if pool.SpotMaxPrice != nil {
@@ -656,7 +676,9 @@ func (pool *ManagedClusters_AgentPool_Spec) ConvertToARM(resolved genruntime.Con
 		result.Properties.Tags = make(map[string]string)
 	}
 	if pool.Type != nil {
-		typeVar := *pool.Type
+		var temp string
+		temp = string(*pool.Type)
+		typeVar := AgentPoolType_ARM(temp)
 		result.Properties.Type = &typeVar
 	}
 	if pool.UpgradeSettings != nil {
@@ -763,7 +785,9 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.GpuInstanceProfile != nil {
-			gpuInstanceProfile := *typedInput.Properties.GpuInstanceProfile
+			var temp string
+			temp = string(*typedInput.Properties.GpuInstanceProfile)
+			gpuInstanceProfile := GPUInstanceProfile(temp)
 			pool.GpuInstanceProfile = &gpuInstanceProfile
 		}
 	}
@@ -786,7 +810,9 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.KubeletDiskType != nil {
-			kubeletDiskType := *typedInput.Properties.KubeletDiskType
+			var temp string
+			temp = string(*typedInput.Properties.KubeletDiskType)
+			kubeletDiskType := KubeletDiskType(temp)
 			pool.KubeletDiskType = &kubeletDiskType
 		}
 	}
@@ -836,7 +862,9 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Mode != nil {
-			mode := *typedInput.Properties.Mode
+			var temp string
+			temp = string(*typedInput.Properties.Mode)
+			mode := AgentPoolMode(temp)
 			pool.Mode = &mode
 		}
 	}
@@ -875,7 +903,12 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OsDiskSizeGB != nil {
-			osDiskSizeGB := *typedInput.Properties.OsDiskSizeGB
+			var osDiskSizeGB1 ContainerServiceOSDisk
+			err := osDiskSizeGB1.PopulateFromARM(owner, *typedInput.Properties.OsDiskSizeGB)
+			if err != nil {
+				return err
+			}
+			osDiskSizeGB := osDiskSizeGB1
 			pool.OsDiskSizeGB = &osDiskSizeGB
 		}
 	}
@@ -884,7 +917,9 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OsDiskType != nil {
-			osDiskType := *typedInput.Properties.OsDiskType
+			var temp string
+			temp = string(*typedInput.Properties.OsDiskType)
+			osDiskType := OSDiskType(temp)
 			pool.OsDiskType = &osDiskType
 		}
 	}
@@ -893,7 +928,9 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OsSKU != nil {
-			osSKU := *typedInput.Properties.OsSKU
+			var temp string
+			temp = string(*typedInput.Properties.OsSKU)
+			osSKU := OSSKU(temp)
 			pool.OsSKU = &osSKU
 		}
 	}
@@ -902,7 +939,9 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OsType != nil {
-			osType := *typedInput.Properties.OsType
+			var temp string
+			temp = string(*typedInput.Properties.OsType)
+			osType := OSType(temp)
 			pool.OsType = &osType
 		}
 	}
@@ -928,7 +967,9 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ScaleSetEvictionPolicy != nil {
-			scaleSetEvictionPolicy := *typedInput.Properties.ScaleSetEvictionPolicy
+			var temp string
+			temp = string(*typedInput.Properties.ScaleSetEvictionPolicy)
+			scaleSetEvictionPolicy := ScaleSetEvictionPolicy(temp)
 			pool.ScaleSetEvictionPolicy = &scaleSetEvictionPolicy
 		}
 	}
@@ -937,7 +978,9 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ScaleSetPriority != nil {
-			scaleSetPriority := *typedInput.Properties.ScaleSetPriority
+			var temp string
+			temp = string(*typedInput.Properties.ScaleSetPriority)
+			scaleSetPriority := ScaleSetPriority(temp)
 			pool.ScaleSetPriority = &scaleSetPriority
 		}
 	}
@@ -966,7 +1009,9 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Type != nil {
-			typeVar := *typedInput.Properties.Type
+			var temp string
+			temp = string(*typedInput.Properties.Type)
+			typeVar := AgentPoolType(temp)
 			pool.Type = &typeVar
 		}
 	}
@@ -1838,7 +1883,9 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.GpuInstanceProfile != nil {
-			gpuInstanceProfile := *typedInput.Properties.GpuInstanceProfile
+			var temp string
+			temp = string(*typedInput.Properties.GpuInstanceProfile)
+			gpuInstanceProfile := GPUInstanceProfile_STATUS(temp)
 			pool.GpuInstanceProfile = &gpuInstanceProfile
 		}
 	}
@@ -1867,7 +1914,9 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.KubeletDiskType != nil {
-			kubeletDiskType := *typedInput.Properties.KubeletDiskType
+			var temp string
+			temp = string(*typedInput.Properties.KubeletDiskType)
+			kubeletDiskType := KubeletDiskType_STATUS(temp)
 			pool.KubeletDiskType = &kubeletDiskType
 		}
 	}
@@ -1917,7 +1966,9 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Mode != nil {
-			mode := *typedInput.Properties.Mode
+			var temp string
+			temp = string(*typedInput.Properties.Mode)
+			mode := AgentPoolMode_STATUS(temp)
 			pool.Mode = &mode
 		}
 	}
@@ -1987,7 +2038,9 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OsDiskType != nil {
-			osDiskType := *typedInput.Properties.OsDiskType
+			var temp string
+			temp = string(*typedInput.Properties.OsDiskType)
+			osDiskType := OSDiskType_STATUS(temp)
 			pool.OsDiskType = &osDiskType
 		}
 	}
@@ -1996,7 +2049,9 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OsSKU != nil {
-			osSKU := *typedInput.Properties.OsSKU
+			var temp string
+			temp = string(*typedInput.Properties.OsSKU)
+			osSKU := OSSKU_STATUS(temp)
 			pool.OsSKU = &osSKU
 		}
 	}
@@ -2005,7 +2060,9 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OsType != nil {
-			osType := *typedInput.Properties.OsType
+			var temp string
+			temp = string(*typedInput.Properties.OsType)
+			osType := OSType_STATUS(temp)
 			pool.OsType = &osType
 		}
 	}
@@ -2037,7 +2094,9 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Type != nil {
-			propertiesType := *typedInput.Properties.Type
+			var temp string
+			temp = string(*typedInput.Properties.Type)
+			propertiesType := AgentPoolType_STATUS(temp)
 			pool.PropertiesType = &propertiesType
 		}
 	}
@@ -2064,7 +2123,9 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ScaleSetEvictionPolicy != nil {
-			scaleSetEvictionPolicy := *typedInput.Properties.ScaleSetEvictionPolicy
+			var temp string
+			temp = string(*typedInput.Properties.ScaleSetEvictionPolicy)
+			scaleSetEvictionPolicy := ScaleSetEvictionPolicy_STATUS(temp)
 			pool.ScaleSetEvictionPolicy = &scaleSetEvictionPolicy
 		}
 	}
@@ -2073,7 +2134,9 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ScaleSetPriority != nil {
-			scaleSetPriority := *typedInput.Properties.ScaleSetPriority
+			var temp string
+			temp = string(*typedInput.Properties.ScaleSetPriority)
+			scaleSetPriority := ScaleSetPriority_STATUS(temp)
 			pool.ScaleSetPriority = &scaleSetPriority
 		}
 	}

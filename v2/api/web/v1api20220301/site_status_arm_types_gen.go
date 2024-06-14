@@ -42,7 +42,7 @@ type ManagedServiceIdentity_STATUS_ARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: Type of managed service identity.
-	Type *ManagedServiceIdentity_Type_STATUS `json:"type,omitempty"`
+	Type *ManagedServiceIdentity_Type_STATUS_ARM `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The list of user assigned identities associated with the resource. The user identity dictionary
 	// key references will be ARM resource ids in the form:
@@ -52,7 +52,7 @@ type ManagedServiceIdentity_STATUS_ARM struct {
 
 type Site_Properties_STATUS_ARM struct {
 	// AvailabilityState: Management information availability state for the app.
-	AvailabilityState *Site_Properties_AvailabilityState_STATUS `json:"availabilityState,omitempty"`
+	AvailabilityState *Site_Properties_AvailabilityState_STATUS_ARM `json:"availabilityState,omitempty"`
 
 	// ClientAffinityEnabled: <code>true</code> to enable client affinity; <code>false</code> to stop sending session affinity
 	// cookies, which route client requests in the same session to the same instance. Default is <code>true</code>.
@@ -69,7 +69,7 @@ type Site_Properties_STATUS_ARM struct {
 	// - ClientCertEnabled: false means ClientCert is ignored.
 	// - ClientCertEnabled: true and ClientCertMode: Required means ClientCert is required.
 	// - ClientCertEnabled: true and ClientCertMode: Optional means ClientCert is optional or accepted.
-	ClientCertMode *Site_Properties_ClientCertMode_STATUS `json:"clientCertMode,omitempty"`
+	ClientCertMode *Site_Properties_ClientCertMode_STATUS_ARM `json:"clientCertMode,omitempty"`
 
 	// CloningInfo: If specified during app creation, the app is cloned from a source app.
 	CloningInfo *CloningInfo_STATUS_ARM `json:"cloningInfo,omitempty"`
@@ -147,7 +147,7 @@ type Site_Properties_STATUS_ARM struct {
 	PublicNetworkAccess *string `json:"publicNetworkAccess,omitempty"`
 
 	// RedundancyMode: Site redundancy mode
-	RedundancyMode *Site_Properties_RedundancyMode_STATUS `json:"redundancyMode,omitempty"`
+	RedundancyMode *Site_Properties_RedundancyMode_STATUS_ARM `json:"redundancyMode,omitempty"`
 
 	// RepositorySiteName: Name of the repository site.
 	RepositorySiteName *string `json:"repositorySiteName,omitempty"`
@@ -188,7 +188,7 @@ type Site_Properties_STATUS_ARM struct {
 	TrafficManagerHostNames []string `json:"trafficManagerHostNames,omitempty"`
 
 	// UsageState: State indicating whether the app has exceeded its quota usage. Read-only.
-	UsageState *Site_Properties_UsageState_STATUS `json:"usageState,omitempty"`
+	UsageState *Site_Properties_UsageState_STATUS_ARM `json:"usageState,omitempty"`
 
 	// VirtualNetworkSubnetId: Azure Resource Manager ID of the Virtual network and subnet to be joined by Regional VNET
 	// Integration.
@@ -256,13 +256,13 @@ type CloningInfo_STATUS_ARM struct {
 // SSL-enabled hostname.
 type HostNameSslState_STATUS_ARM struct {
 	// HostType: Indicates whether the hostname is a standard or repository hostname.
-	HostType *HostNameSslState_HostType_STATUS `json:"hostType,omitempty"`
+	HostType *HostNameSslState_HostType_STATUS_ARM `json:"hostType,omitempty"`
 
 	// Name: Hostname.
 	Name *string `json:"name,omitempty"`
 
 	// SslState: SSL type.
-	SslState *HostNameSslState_SslState_STATUS `json:"sslState,omitempty"`
+	SslState *HostNameSslState_SslState_STATUS_ARM `json:"sslState,omitempty"`
 
 	// Thumbprint: SSL certificate thumbprint.
 	Thumbprint *string `json:"thumbprint,omitempty"`
@@ -274,21 +274,83 @@ type HostNameSslState_STATUS_ARM struct {
 	VirtualIP *string `json:"virtualIP,omitempty"`
 }
 
-type ManagedServiceIdentity_Type_STATUS string
+type ManagedServiceIdentity_Type_STATUS_ARM string
 
 const (
-	ManagedServiceIdentity_Type_STATUS_None                       = ManagedServiceIdentity_Type_STATUS("None")
-	ManagedServiceIdentity_Type_STATUS_SystemAssigned             = ManagedServiceIdentity_Type_STATUS("SystemAssigned")
-	ManagedServiceIdentity_Type_STATUS_SystemAssignedUserAssigned = ManagedServiceIdentity_Type_STATUS("SystemAssigned, UserAssigned")
-	ManagedServiceIdentity_Type_STATUS_UserAssigned               = ManagedServiceIdentity_Type_STATUS("UserAssigned")
+	ManagedServiceIdentity_Type_STATUS_ARM_None                       = ManagedServiceIdentity_Type_STATUS_ARM("None")
+	ManagedServiceIdentity_Type_STATUS_ARM_SystemAssigned             = ManagedServiceIdentity_Type_STATUS_ARM("SystemAssigned")
+	ManagedServiceIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned = ManagedServiceIdentity_Type_STATUS_ARM("SystemAssigned, UserAssigned")
+	ManagedServiceIdentity_Type_STATUS_ARM_UserAssigned               = ManagedServiceIdentity_Type_STATUS_ARM("UserAssigned")
 )
 
-// Mapping from string to ManagedServiceIdentity_Type_STATUS
-var managedServiceIdentity_Type_STATUS_Values = map[string]ManagedServiceIdentity_Type_STATUS{
-	"none":                         ManagedServiceIdentity_Type_STATUS_None,
-	"systemassigned":               ManagedServiceIdentity_Type_STATUS_SystemAssigned,
-	"systemassigned, userassigned": ManagedServiceIdentity_Type_STATUS_SystemAssignedUserAssigned,
-	"userassigned":                 ManagedServiceIdentity_Type_STATUS_UserAssigned,
+// Mapping from string to ManagedServiceIdentity_Type_STATUS_ARM
+var managedServiceIdentity_Type_STATUS_ARM_Values = map[string]ManagedServiceIdentity_Type_STATUS_ARM{
+	"none":                         ManagedServiceIdentity_Type_STATUS_ARM_None,
+	"systemassigned":               ManagedServiceIdentity_Type_STATUS_ARM_SystemAssigned,
+	"systemassigned, userassigned": ManagedServiceIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned,
+	"userassigned":                 ManagedServiceIdentity_Type_STATUS_ARM_UserAssigned,
+}
+
+type Site_Properties_AvailabilityState_STATUS_ARM string
+
+const (
+	Site_Properties_AvailabilityState_STATUS_ARM_DisasterRecoveryMode = Site_Properties_AvailabilityState_STATUS_ARM("DisasterRecoveryMode")
+	Site_Properties_AvailabilityState_STATUS_ARM_Limited              = Site_Properties_AvailabilityState_STATUS_ARM("Limited")
+	Site_Properties_AvailabilityState_STATUS_ARM_Normal               = Site_Properties_AvailabilityState_STATUS_ARM("Normal")
+)
+
+// Mapping from string to Site_Properties_AvailabilityState_STATUS_ARM
+var site_Properties_AvailabilityState_STATUS_ARM_Values = map[string]Site_Properties_AvailabilityState_STATUS_ARM{
+	"disasterrecoverymode": Site_Properties_AvailabilityState_STATUS_ARM_DisasterRecoveryMode,
+	"limited":              Site_Properties_AvailabilityState_STATUS_ARM_Limited,
+	"normal":               Site_Properties_AvailabilityState_STATUS_ARM_Normal,
+}
+
+type Site_Properties_ClientCertMode_STATUS_ARM string
+
+const (
+	Site_Properties_ClientCertMode_STATUS_ARM_Optional                = Site_Properties_ClientCertMode_STATUS_ARM("Optional")
+	Site_Properties_ClientCertMode_STATUS_ARM_OptionalInteractiveUser = Site_Properties_ClientCertMode_STATUS_ARM("OptionalInteractiveUser")
+	Site_Properties_ClientCertMode_STATUS_ARM_Required                = Site_Properties_ClientCertMode_STATUS_ARM("Required")
+)
+
+// Mapping from string to Site_Properties_ClientCertMode_STATUS_ARM
+var site_Properties_ClientCertMode_STATUS_ARM_Values = map[string]Site_Properties_ClientCertMode_STATUS_ARM{
+	"optional":                Site_Properties_ClientCertMode_STATUS_ARM_Optional,
+	"optionalinteractiveuser": Site_Properties_ClientCertMode_STATUS_ARM_OptionalInteractiveUser,
+	"required":                Site_Properties_ClientCertMode_STATUS_ARM_Required,
+}
+
+type Site_Properties_RedundancyMode_STATUS_ARM string
+
+const (
+	Site_Properties_RedundancyMode_STATUS_ARM_ActiveActive = Site_Properties_RedundancyMode_STATUS_ARM("ActiveActive")
+	Site_Properties_RedundancyMode_STATUS_ARM_Failover     = Site_Properties_RedundancyMode_STATUS_ARM("Failover")
+	Site_Properties_RedundancyMode_STATUS_ARM_GeoRedundant = Site_Properties_RedundancyMode_STATUS_ARM("GeoRedundant")
+	Site_Properties_RedundancyMode_STATUS_ARM_Manual       = Site_Properties_RedundancyMode_STATUS_ARM("Manual")
+	Site_Properties_RedundancyMode_STATUS_ARM_None         = Site_Properties_RedundancyMode_STATUS_ARM("None")
+)
+
+// Mapping from string to Site_Properties_RedundancyMode_STATUS_ARM
+var site_Properties_RedundancyMode_STATUS_ARM_Values = map[string]Site_Properties_RedundancyMode_STATUS_ARM{
+	"activeactive": Site_Properties_RedundancyMode_STATUS_ARM_ActiveActive,
+	"failover":     Site_Properties_RedundancyMode_STATUS_ARM_Failover,
+	"georedundant": Site_Properties_RedundancyMode_STATUS_ARM_GeoRedundant,
+	"manual":       Site_Properties_RedundancyMode_STATUS_ARM_Manual,
+	"none":         Site_Properties_RedundancyMode_STATUS_ARM_None,
+}
+
+type Site_Properties_UsageState_STATUS_ARM string
+
+const (
+	Site_Properties_UsageState_STATUS_ARM_Exceeded = Site_Properties_UsageState_STATUS_ARM("Exceeded")
+	Site_Properties_UsageState_STATUS_ARM_Normal   = Site_Properties_UsageState_STATUS_ARM("Normal")
+)
+
+// Mapping from string to Site_Properties_UsageState_STATUS_ARM
+var site_Properties_UsageState_STATUS_ARM_Values = map[string]Site_Properties_UsageState_STATUS_ARM{
+	"exceeded": Site_Properties_UsageState_STATUS_ARM_Exceeded,
+	"normal":   Site_Properties_UsageState_STATUS_ARM_Normal,
 }
 
 // Configuration of an App Service app.
@@ -345,7 +407,7 @@ type SiteConfig_STATUS_ARM struct {
 	Experiments *Experiments_STATUS_ARM `json:"experiments,omitempty"`
 
 	// FtpsState: State of FTP / FTPS service
-	FtpsState *SiteConfig_FtpsState_STATUS `json:"ftpsState,omitempty"`
+	FtpsState *SiteConfig_FtpsState_STATUS_ARM `json:"ftpsState,omitempty"`
 
 	// FunctionAppScaleLimit: Maximum number of workers that a site can scale out to.
 	// This setting only applies to the Consumption and Elastic Premium Plans
@@ -391,7 +453,7 @@ type SiteConfig_STATUS_ARM struct {
 	LinuxFxVersion *string `json:"linuxFxVersion,omitempty"`
 
 	// LoadBalancing: Site load balancing.
-	LoadBalancing *SiteConfig_LoadBalancing_STATUS `json:"loadBalancing,omitempty"`
+	LoadBalancing *SiteConfig_LoadBalancing_STATUS_ARM `json:"loadBalancing,omitempty"`
 
 	// LocalMySqlEnabled: <code>true</code> to enable local MySQL; otherwise, <code>false</code>.
 	LocalMySqlEnabled *bool `json:"localMySqlEnabled,omitempty"`
@@ -403,13 +465,13 @@ type SiteConfig_STATUS_ARM struct {
 	MachineKey *SiteMachineKey_STATUS_ARM `json:"machineKey,omitempty"`
 
 	// ManagedPipelineMode: Managed pipeline mode.
-	ManagedPipelineMode *SiteConfig_ManagedPipelineMode_STATUS `json:"managedPipelineMode,omitempty"`
+	ManagedPipelineMode *SiteConfig_ManagedPipelineMode_STATUS_ARM `json:"managedPipelineMode,omitempty"`
 
 	// ManagedServiceIdentityId: Managed Service Identity Id
 	ManagedServiceIdentityId *int `json:"managedServiceIdentityId,omitempty"`
 
 	// MinTlsVersion: MinTlsVersion: configures the minimum version of TLS required for SSL requests
-	MinTlsVersion *SiteConfig_MinTlsVersion_STATUS `json:"minTlsVersion,omitempty"`
+	MinTlsVersion *SiteConfig_MinTlsVersion_STATUS_ARM `json:"minTlsVersion,omitempty"`
 
 	// MinimumElasticInstanceCount: Number of minimum instance count for a site
 	// This setting only applies to the Elastic Plans
@@ -465,10 +527,10 @@ type SiteConfig_STATUS_ARM struct {
 	ScmIpSecurityRestrictionsUseMain *bool `json:"scmIpSecurityRestrictionsUseMain,omitempty"`
 
 	// ScmMinTlsVersion: ScmMinTlsVersion: configures the minimum version of TLS required for SSL requests for SCM site
-	ScmMinTlsVersion *SiteConfig_ScmMinTlsVersion_STATUS `json:"scmMinTlsVersion,omitempty"`
+	ScmMinTlsVersion *SiteConfig_ScmMinTlsVersion_STATUS_ARM `json:"scmMinTlsVersion,omitempty"`
 
 	// ScmType: SCM type.
-	ScmType *SiteConfig_ScmType_STATUS `json:"scmType,omitempty"`
+	ScmType *SiteConfig_ScmType_STATUS_ARM `json:"scmType,omitempty"`
 
 	// TracingOptions: Tracing options.
 	TracingOptions *string `json:"tracingOptions,omitempty"`
@@ -560,10 +622,10 @@ type AzureStorageInfoValue_STATUS_ARM struct {
 	ShareName *string `json:"shareName,omitempty"`
 
 	// State: State of the storage account.
-	State *AzureStorageInfoValue_State_STATUS `json:"state,omitempty"`
+	State *AzureStorageInfoValue_State_STATUS_ARM `json:"state,omitempty"`
 
 	// Type: Type of storage.
-	Type *AzureStorageInfoValue_Type_STATUS `json:"type,omitempty"`
+	Type *AzureStorageInfoValue_Type_STATUS_ARM `json:"type,omitempty"`
 }
 
 // Database connection string information.
@@ -575,7 +637,7 @@ type ConnStringInfo_STATUS_ARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: Type of database.
-	Type *ConnStringInfo_Type_STATUS `json:"type,omitempty"`
+	Type *ConnStringInfo_Type_STATUS_ARM `json:"type,omitempty"`
 }
 
 // Cross-Origin Resource Sharing (CORS) settings for the app.
@@ -608,6 +670,34 @@ type HandlerMapping_STATUS_ARM struct {
 
 	// ScriptProcessor: The absolute path to the FastCGI application.
 	ScriptProcessor *string `json:"scriptProcessor,omitempty"`
+}
+
+type HostNameSslState_HostType_STATUS_ARM string
+
+const (
+	HostNameSslState_HostType_STATUS_ARM_Repository = HostNameSslState_HostType_STATUS_ARM("Repository")
+	HostNameSslState_HostType_STATUS_ARM_Standard   = HostNameSslState_HostType_STATUS_ARM("Standard")
+)
+
+// Mapping from string to HostNameSslState_HostType_STATUS_ARM
+var hostNameSslState_HostType_STATUS_ARM_Values = map[string]HostNameSslState_HostType_STATUS_ARM{
+	"repository": HostNameSslState_HostType_STATUS_ARM_Repository,
+	"standard":   HostNameSslState_HostType_STATUS_ARM_Standard,
+}
+
+type HostNameSslState_SslState_STATUS_ARM string
+
+const (
+	HostNameSslState_SslState_STATUS_ARM_Disabled       = HostNameSslState_SslState_STATUS_ARM("Disabled")
+	HostNameSslState_SslState_STATUS_ARM_IpBasedEnabled = HostNameSslState_SslState_STATUS_ARM("IpBasedEnabled")
+	HostNameSslState_SslState_STATUS_ARM_SniEnabled     = HostNameSslState_SslState_STATUS_ARM("SniEnabled")
+)
+
+// Mapping from string to HostNameSslState_SslState_STATUS_ARM
+var hostNameSslState_SslState_STATUS_ARM_Values = map[string]HostNameSslState_SslState_STATUS_ARM{
+	"disabled":       HostNameSslState_SslState_STATUS_ARM_Disabled,
+	"ipbasedenabled": HostNameSslState_SslState_STATUS_ARM_IpBasedEnabled,
+	"snienabled":     HostNameSslState_SslState_STATUS_ARM_SniEnabled,
 }
 
 // IP security restriction on an app.
@@ -654,7 +744,7 @@ type IpSecurityRestriction_STATUS_ARM struct {
 	SubnetTrafficTag *int `json:"subnetTrafficTag,omitempty"`
 
 	// Tag: Defines what this IP filter will be used for. This is to support IP filtering on proxies.
-	Tag *IpSecurityRestriction_Tag_STATUS `json:"tag,omitempty"`
+	Tag *IpSecurityRestriction_Tag_STATUS_ARM `json:"tag,omitempty"`
 
 	// VnetSubnetResourceId: Virtual network resource id
 	VnetSubnetResourceId *string `json:"vnetSubnetResourceId,omitempty"`
@@ -688,6 +778,122 @@ type PushSettings_STATUS_ARM struct {
 
 	// Type: Resource type.
 	Type *string `json:"type,omitempty"`
+}
+
+type SiteConfig_FtpsState_STATUS_ARM string
+
+const (
+	SiteConfig_FtpsState_STATUS_ARM_AllAllowed = SiteConfig_FtpsState_STATUS_ARM("AllAllowed")
+	SiteConfig_FtpsState_STATUS_ARM_Disabled   = SiteConfig_FtpsState_STATUS_ARM("Disabled")
+	SiteConfig_FtpsState_STATUS_ARM_FtpsOnly   = SiteConfig_FtpsState_STATUS_ARM("FtpsOnly")
+)
+
+// Mapping from string to SiteConfig_FtpsState_STATUS_ARM
+var siteConfig_FtpsState_STATUS_ARM_Values = map[string]SiteConfig_FtpsState_STATUS_ARM{
+	"allallowed": SiteConfig_FtpsState_STATUS_ARM_AllAllowed,
+	"disabled":   SiteConfig_FtpsState_STATUS_ARM_Disabled,
+	"ftpsonly":   SiteConfig_FtpsState_STATUS_ARM_FtpsOnly,
+}
+
+type SiteConfig_LoadBalancing_STATUS_ARM string
+
+const (
+	SiteConfig_LoadBalancing_STATUS_ARM_LeastRequests        = SiteConfig_LoadBalancing_STATUS_ARM("LeastRequests")
+	SiteConfig_LoadBalancing_STATUS_ARM_LeastResponseTime    = SiteConfig_LoadBalancing_STATUS_ARM("LeastResponseTime")
+	SiteConfig_LoadBalancing_STATUS_ARM_PerSiteRoundRobin    = SiteConfig_LoadBalancing_STATUS_ARM("PerSiteRoundRobin")
+	SiteConfig_LoadBalancing_STATUS_ARM_RequestHash          = SiteConfig_LoadBalancing_STATUS_ARM("RequestHash")
+	SiteConfig_LoadBalancing_STATUS_ARM_WeightedRoundRobin   = SiteConfig_LoadBalancing_STATUS_ARM("WeightedRoundRobin")
+	SiteConfig_LoadBalancing_STATUS_ARM_WeightedTotalTraffic = SiteConfig_LoadBalancing_STATUS_ARM("WeightedTotalTraffic")
+)
+
+// Mapping from string to SiteConfig_LoadBalancing_STATUS_ARM
+var siteConfig_LoadBalancing_STATUS_ARM_Values = map[string]SiteConfig_LoadBalancing_STATUS_ARM{
+	"leastrequests":        SiteConfig_LoadBalancing_STATUS_ARM_LeastRequests,
+	"leastresponsetime":    SiteConfig_LoadBalancing_STATUS_ARM_LeastResponseTime,
+	"persiteroundrobin":    SiteConfig_LoadBalancing_STATUS_ARM_PerSiteRoundRobin,
+	"requesthash":          SiteConfig_LoadBalancing_STATUS_ARM_RequestHash,
+	"weightedroundrobin":   SiteConfig_LoadBalancing_STATUS_ARM_WeightedRoundRobin,
+	"weightedtotaltraffic": SiteConfig_LoadBalancing_STATUS_ARM_WeightedTotalTraffic,
+}
+
+type SiteConfig_ManagedPipelineMode_STATUS_ARM string
+
+const (
+	SiteConfig_ManagedPipelineMode_STATUS_ARM_Classic    = SiteConfig_ManagedPipelineMode_STATUS_ARM("Classic")
+	SiteConfig_ManagedPipelineMode_STATUS_ARM_Integrated = SiteConfig_ManagedPipelineMode_STATUS_ARM("Integrated")
+)
+
+// Mapping from string to SiteConfig_ManagedPipelineMode_STATUS_ARM
+var siteConfig_ManagedPipelineMode_STATUS_ARM_Values = map[string]SiteConfig_ManagedPipelineMode_STATUS_ARM{
+	"classic":    SiteConfig_ManagedPipelineMode_STATUS_ARM_Classic,
+	"integrated": SiteConfig_ManagedPipelineMode_STATUS_ARM_Integrated,
+}
+
+type SiteConfig_MinTlsVersion_STATUS_ARM string
+
+const (
+	SiteConfig_MinTlsVersion_STATUS_ARM_10 = SiteConfig_MinTlsVersion_STATUS_ARM("1.0")
+	SiteConfig_MinTlsVersion_STATUS_ARM_11 = SiteConfig_MinTlsVersion_STATUS_ARM("1.1")
+	SiteConfig_MinTlsVersion_STATUS_ARM_12 = SiteConfig_MinTlsVersion_STATUS_ARM("1.2")
+)
+
+// Mapping from string to SiteConfig_MinTlsVersion_STATUS_ARM
+var siteConfig_MinTlsVersion_STATUS_ARM_Values = map[string]SiteConfig_MinTlsVersion_STATUS_ARM{
+	"1.0": SiteConfig_MinTlsVersion_STATUS_ARM_10,
+	"1.1": SiteConfig_MinTlsVersion_STATUS_ARM_11,
+	"1.2": SiteConfig_MinTlsVersion_STATUS_ARM_12,
+}
+
+type SiteConfig_ScmMinTlsVersion_STATUS_ARM string
+
+const (
+	SiteConfig_ScmMinTlsVersion_STATUS_ARM_10 = SiteConfig_ScmMinTlsVersion_STATUS_ARM("1.0")
+	SiteConfig_ScmMinTlsVersion_STATUS_ARM_11 = SiteConfig_ScmMinTlsVersion_STATUS_ARM("1.1")
+	SiteConfig_ScmMinTlsVersion_STATUS_ARM_12 = SiteConfig_ScmMinTlsVersion_STATUS_ARM("1.2")
+)
+
+// Mapping from string to SiteConfig_ScmMinTlsVersion_STATUS_ARM
+var siteConfig_ScmMinTlsVersion_STATUS_ARM_Values = map[string]SiteConfig_ScmMinTlsVersion_STATUS_ARM{
+	"1.0": SiteConfig_ScmMinTlsVersion_STATUS_ARM_10,
+	"1.1": SiteConfig_ScmMinTlsVersion_STATUS_ARM_11,
+	"1.2": SiteConfig_ScmMinTlsVersion_STATUS_ARM_12,
+}
+
+type SiteConfig_ScmType_STATUS_ARM string
+
+const (
+	SiteConfig_ScmType_STATUS_ARM_BitbucketGit = SiteConfig_ScmType_STATUS_ARM("BitbucketGit")
+	SiteConfig_ScmType_STATUS_ARM_BitbucketHg  = SiteConfig_ScmType_STATUS_ARM("BitbucketHg")
+	SiteConfig_ScmType_STATUS_ARM_CodePlexGit  = SiteConfig_ScmType_STATUS_ARM("CodePlexGit")
+	SiteConfig_ScmType_STATUS_ARM_CodePlexHg   = SiteConfig_ScmType_STATUS_ARM("CodePlexHg")
+	SiteConfig_ScmType_STATUS_ARM_Dropbox      = SiteConfig_ScmType_STATUS_ARM("Dropbox")
+	SiteConfig_ScmType_STATUS_ARM_ExternalGit  = SiteConfig_ScmType_STATUS_ARM("ExternalGit")
+	SiteConfig_ScmType_STATUS_ARM_ExternalHg   = SiteConfig_ScmType_STATUS_ARM("ExternalHg")
+	SiteConfig_ScmType_STATUS_ARM_GitHub       = SiteConfig_ScmType_STATUS_ARM("GitHub")
+	SiteConfig_ScmType_STATUS_ARM_LocalGit     = SiteConfig_ScmType_STATUS_ARM("LocalGit")
+	SiteConfig_ScmType_STATUS_ARM_None         = SiteConfig_ScmType_STATUS_ARM("None")
+	SiteConfig_ScmType_STATUS_ARM_OneDrive     = SiteConfig_ScmType_STATUS_ARM("OneDrive")
+	SiteConfig_ScmType_STATUS_ARM_Tfs          = SiteConfig_ScmType_STATUS_ARM("Tfs")
+	SiteConfig_ScmType_STATUS_ARM_VSO          = SiteConfig_ScmType_STATUS_ARM("VSO")
+	SiteConfig_ScmType_STATUS_ARM_VSTSRM       = SiteConfig_ScmType_STATUS_ARM("VSTSRM")
+)
+
+// Mapping from string to SiteConfig_ScmType_STATUS_ARM
+var siteConfig_ScmType_STATUS_ARM_Values = map[string]SiteConfig_ScmType_STATUS_ARM{
+	"bitbucketgit": SiteConfig_ScmType_STATUS_ARM_BitbucketGit,
+	"bitbuckethg":  SiteConfig_ScmType_STATUS_ARM_BitbucketHg,
+	"codeplexgit":  SiteConfig_ScmType_STATUS_ARM_CodePlexGit,
+	"codeplexhg":   SiteConfig_ScmType_STATUS_ARM_CodePlexHg,
+	"dropbox":      SiteConfig_ScmType_STATUS_ARM_Dropbox,
+	"externalgit":  SiteConfig_ScmType_STATUS_ARM_ExternalGit,
+	"externalhg":   SiteConfig_ScmType_STATUS_ARM_ExternalHg,
+	"github":       SiteConfig_ScmType_STATUS_ARM_GitHub,
+	"localgit":     SiteConfig_ScmType_STATUS_ARM_LocalGit,
+	"none":         SiteConfig_ScmType_STATUS_ARM_None,
+	"onedrive":     SiteConfig_ScmType_STATUS_ARM_OneDrive,
+	"tfs":          SiteConfig_ScmType_STATUS_ARM_Tfs,
+	"vso":          SiteConfig_ScmType_STATUS_ARM_VSO,
+	"vstsrm":       SiteConfig_ScmType_STATUS_ARM_VSTSRM,
 }
 
 // Metric limits set on an app.
@@ -735,7 +941,7 @@ type VirtualApplication_STATUS_ARM struct {
 // Actions which to take by the auto-heal module when a rule is triggered.
 type AutoHealActions_STATUS_ARM struct {
 	// ActionType: Predefined action to be taken.
-	ActionType *AutoHealActions_ActionType_STATUS `json:"actionType,omitempty"`
+	ActionType *AutoHealActions_ActionType_STATUS_ARM `json:"actionType,omitempty"`
 
 	// CustomAction: Custom action to be taken.
 	CustomAction *AutoHealCustomAction_STATUS_ARM `json:"customAction,omitempty"`
@@ -764,6 +970,82 @@ type AutoHealTriggers_STATUS_ARM struct {
 
 	// StatusCodesRange: A rule based on status codes ranges.
 	StatusCodesRange []StatusCodesRangeBasedTrigger_STATUS_ARM `json:"statusCodesRange,omitempty"`
+}
+
+type AzureStorageInfoValue_State_STATUS_ARM string
+
+const (
+	AzureStorageInfoValue_State_STATUS_ARM_InvalidCredentials = AzureStorageInfoValue_State_STATUS_ARM("InvalidCredentials")
+	AzureStorageInfoValue_State_STATUS_ARM_InvalidShare       = AzureStorageInfoValue_State_STATUS_ARM("InvalidShare")
+	AzureStorageInfoValue_State_STATUS_ARM_NotValidated       = AzureStorageInfoValue_State_STATUS_ARM("NotValidated")
+	AzureStorageInfoValue_State_STATUS_ARM_Ok                 = AzureStorageInfoValue_State_STATUS_ARM("Ok")
+)
+
+// Mapping from string to AzureStorageInfoValue_State_STATUS_ARM
+var azureStorageInfoValue_State_STATUS_ARM_Values = map[string]AzureStorageInfoValue_State_STATUS_ARM{
+	"invalidcredentials": AzureStorageInfoValue_State_STATUS_ARM_InvalidCredentials,
+	"invalidshare":       AzureStorageInfoValue_State_STATUS_ARM_InvalidShare,
+	"notvalidated":       AzureStorageInfoValue_State_STATUS_ARM_NotValidated,
+	"ok":                 AzureStorageInfoValue_State_STATUS_ARM_Ok,
+}
+
+type AzureStorageInfoValue_Type_STATUS_ARM string
+
+const (
+	AzureStorageInfoValue_Type_STATUS_ARM_AzureBlob  = AzureStorageInfoValue_Type_STATUS_ARM("AzureBlob")
+	AzureStorageInfoValue_Type_STATUS_ARM_AzureFiles = AzureStorageInfoValue_Type_STATUS_ARM("AzureFiles")
+)
+
+// Mapping from string to AzureStorageInfoValue_Type_STATUS_ARM
+var azureStorageInfoValue_Type_STATUS_ARM_Values = map[string]AzureStorageInfoValue_Type_STATUS_ARM{
+	"azureblob":  AzureStorageInfoValue_Type_STATUS_ARM_AzureBlob,
+	"azurefiles": AzureStorageInfoValue_Type_STATUS_ARM_AzureFiles,
+}
+
+type ConnStringInfo_Type_STATUS_ARM string
+
+const (
+	ConnStringInfo_Type_STATUS_ARM_ApiHub          = ConnStringInfo_Type_STATUS_ARM("ApiHub")
+	ConnStringInfo_Type_STATUS_ARM_Custom          = ConnStringInfo_Type_STATUS_ARM("Custom")
+	ConnStringInfo_Type_STATUS_ARM_DocDb           = ConnStringInfo_Type_STATUS_ARM("DocDb")
+	ConnStringInfo_Type_STATUS_ARM_EventHub        = ConnStringInfo_Type_STATUS_ARM("EventHub")
+	ConnStringInfo_Type_STATUS_ARM_MySql           = ConnStringInfo_Type_STATUS_ARM("MySql")
+	ConnStringInfo_Type_STATUS_ARM_NotificationHub = ConnStringInfo_Type_STATUS_ARM("NotificationHub")
+	ConnStringInfo_Type_STATUS_ARM_PostgreSQL      = ConnStringInfo_Type_STATUS_ARM("PostgreSQL")
+	ConnStringInfo_Type_STATUS_ARM_RedisCache      = ConnStringInfo_Type_STATUS_ARM("RedisCache")
+	ConnStringInfo_Type_STATUS_ARM_SQLAzure        = ConnStringInfo_Type_STATUS_ARM("SQLAzure")
+	ConnStringInfo_Type_STATUS_ARM_SQLServer       = ConnStringInfo_Type_STATUS_ARM("SQLServer")
+	ConnStringInfo_Type_STATUS_ARM_ServiceBus      = ConnStringInfo_Type_STATUS_ARM("ServiceBus")
+)
+
+// Mapping from string to ConnStringInfo_Type_STATUS_ARM
+var connStringInfo_Type_STATUS_ARM_Values = map[string]ConnStringInfo_Type_STATUS_ARM{
+	"apihub":          ConnStringInfo_Type_STATUS_ARM_ApiHub,
+	"custom":          ConnStringInfo_Type_STATUS_ARM_Custom,
+	"docdb":           ConnStringInfo_Type_STATUS_ARM_DocDb,
+	"eventhub":        ConnStringInfo_Type_STATUS_ARM_EventHub,
+	"mysql":           ConnStringInfo_Type_STATUS_ARM_MySql,
+	"notificationhub": ConnStringInfo_Type_STATUS_ARM_NotificationHub,
+	"postgresql":      ConnStringInfo_Type_STATUS_ARM_PostgreSQL,
+	"rediscache":      ConnStringInfo_Type_STATUS_ARM_RedisCache,
+	"sqlazure":        ConnStringInfo_Type_STATUS_ARM_SQLAzure,
+	"sqlserver":       ConnStringInfo_Type_STATUS_ARM_SQLServer,
+	"servicebus":      ConnStringInfo_Type_STATUS_ARM_ServiceBus,
+}
+
+type IpSecurityRestriction_Tag_STATUS_ARM string
+
+const (
+	IpSecurityRestriction_Tag_STATUS_ARM_Default    = IpSecurityRestriction_Tag_STATUS_ARM("Default")
+	IpSecurityRestriction_Tag_STATUS_ARM_ServiceTag = IpSecurityRestriction_Tag_STATUS_ARM("ServiceTag")
+	IpSecurityRestriction_Tag_STATUS_ARM_XffProxy   = IpSecurityRestriction_Tag_STATUS_ARM("XffProxy")
+)
+
+// Mapping from string to IpSecurityRestriction_Tag_STATUS_ARM
+var ipSecurityRestriction_Tag_STATUS_ARM_Values = map[string]IpSecurityRestriction_Tag_STATUS_ARM{
+	"default":    IpSecurityRestriction_Tag_STATUS_ARM_Default,
+	"servicetag": IpSecurityRestriction_Tag_STATUS_ARM_ServiceTag,
+	"xffproxy":   IpSecurityRestriction_Tag_STATUS_ARM_XffProxy,
 }
 
 type PushSettings_Properties_STATUS_ARM struct {
@@ -829,6 +1111,21 @@ type VirtualDirectory_STATUS_ARM struct {
 
 	// VirtualPath: Path to virtual application.
 	VirtualPath *string `json:"virtualPath,omitempty"`
+}
+
+type AutoHealActions_ActionType_STATUS_ARM string
+
+const (
+	AutoHealActions_ActionType_STATUS_ARM_CustomAction = AutoHealActions_ActionType_STATUS_ARM("CustomAction")
+	AutoHealActions_ActionType_STATUS_ARM_LogEvent     = AutoHealActions_ActionType_STATUS_ARM("LogEvent")
+	AutoHealActions_ActionType_STATUS_ARM_Recycle      = AutoHealActions_ActionType_STATUS_ARM("Recycle")
+)
+
+// Mapping from string to AutoHealActions_ActionType_STATUS_ARM
+var autoHealActions_ActionType_STATUS_ARM_Values = map[string]AutoHealActions_ActionType_STATUS_ARM{
+	"customaction": AutoHealActions_ActionType_STATUS_ARM_CustomAction,
+	"logevent":     AutoHealActions_ActionType_STATUS_ARM_LogEvent,
+	"recycle":      AutoHealActions_ActionType_STATUS_ARM_Recycle,
 }
 
 // Custom action to be executed

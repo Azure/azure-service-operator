@@ -336,12 +336,12 @@ func AddIndependentPropertyGeneratorsForMonitorConfig_STATUS_ARM(gens map[string
 	gens["Path"] = gen.PtrOf(gen.AlphaString())
 	gens["Port"] = gen.PtrOf(gen.Int())
 	gens["ProfileMonitorStatus"] = gen.PtrOf(gen.OneConstOf(
-		MonitorConfig_ProfileMonitorStatus_STATUS_CheckingEndpoints,
-		MonitorConfig_ProfileMonitorStatus_STATUS_Degraded,
-		MonitorConfig_ProfileMonitorStatus_STATUS_Disabled,
-		MonitorConfig_ProfileMonitorStatus_STATUS_Inactive,
-		MonitorConfig_ProfileMonitorStatus_STATUS_Online))
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(MonitorConfig_Protocol_STATUS_HTTP, MonitorConfig_Protocol_STATUS_HTTPS, MonitorConfig_Protocol_STATUS_TCP))
+		MonitorConfig_ProfileMonitorStatus_STATUS_ARM_CheckingEndpoints,
+		MonitorConfig_ProfileMonitorStatus_STATUS_ARM_Degraded,
+		MonitorConfig_ProfileMonitorStatus_STATUS_ARM_Disabled,
+		MonitorConfig_ProfileMonitorStatus_STATUS_ARM_Inactive,
+		MonitorConfig_ProfileMonitorStatus_STATUS_ARM_Online))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(MonitorConfig_Protocol_STATUS_ARM_HTTP, MonitorConfig_Protocol_STATUS_ARM_HTTPS, MonitorConfig_Protocol_STATUS_ARM_TCP))
 	gens["TimeoutInSeconds"] = gen.PtrOf(gen.Int())
 	gens["ToleratedNumberOfFailures"] = gen.PtrOf(gen.Int())
 }
@@ -420,20 +420,20 @@ func ProfileProperties_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForProfileProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForProfileProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["AllowedEndpointRecordTypes"] = gen.SliceOf(gen.OneConstOf(
-		AllowedEndpointRecordType_STATUS_Any,
-		AllowedEndpointRecordType_STATUS_DomainName,
-		AllowedEndpointRecordType_STATUS_IPv4Address,
-		AllowedEndpointRecordType_STATUS_IPv6Address))
+		AllowedEndpointRecordType_STATUS_ARM_Any,
+		AllowedEndpointRecordType_STATUS_ARM_DomainName,
+		AllowedEndpointRecordType_STATUS_ARM_IPv4Address,
+		AllowedEndpointRecordType_STATUS_ARM_IPv6Address))
 	gens["MaxReturn"] = gen.PtrOf(gen.Int())
-	gens["ProfileStatus"] = gen.PtrOf(gen.OneConstOf(ProfileProperties_ProfileStatus_STATUS_Disabled, ProfileProperties_ProfileStatus_STATUS_Enabled))
+	gens["ProfileStatus"] = gen.PtrOf(gen.OneConstOf(ProfileProperties_ProfileStatus_STATUS_ARM_Disabled, ProfileProperties_ProfileStatus_STATUS_ARM_Enabled))
 	gens["TrafficRoutingMethod"] = gen.PtrOf(gen.OneConstOf(
-		ProfileProperties_TrafficRoutingMethod_STATUS_Geographic,
-		ProfileProperties_TrafficRoutingMethod_STATUS_MultiValue,
-		ProfileProperties_TrafficRoutingMethod_STATUS_Performance,
-		ProfileProperties_TrafficRoutingMethod_STATUS_Priority,
-		ProfileProperties_TrafficRoutingMethod_STATUS_Subnet,
-		ProfileProperties_TrafficRoutingMethod_STATUS_Weighted))
-	gens["TrafficViewEnrollmentStatus"] = gen.PtrOf(gen.OneConstOf(ProfileProperties_TrafficViewEnrollmentStatus_STATUS_Disabled, ProfileProperties_TrafficViewEnrollmentStatus_STATUS_Enabled))
+		ProfileProperties_TrafficRoutingMethod_STATUS_ARM_Geographic,
+		ProfileProperties_TrafficRoutingMethod_STATUS_ARM_MultiValue,
+		ProfileProperties_TrafficRoutingMethod_STATUS_ARM_Performance,
+		ProfileProperties_TrafficRoutingMethod_STATUS_ARM_Priority,
+		ProfileProperties_TrafficRoutingMethod_STATUS_ARM_Subnet,
+		ProfileProperties_TrafficRoutingMethod_STATUS_ARM_Weighted))
+	gens["TrafficViewEnrollmentStatus"] = gen.PtrOf(gen.OneConstOf(ProfileProperties_TrafficViewEnrollmentStatus_STATUS_ARM_Disabled, ProfileProperties_TrafficViewEnrollmentStatus_STATUS_ARM_Enabled))
 }
 
 // AddRelatedPropertyGeneratorsForProfileProperties_STATUS_ARM is a factory method for creating gopter generators

@@ -79,7 +79,7 @@ func AddIndependentPropertyGeneratorsForServerSecurityAlertPoliciesSecurityAlert
 	gens["EmailAccountAdmins"] = gen.PtrOf(gen.Bool())
 	gens["EmailAddresses"] = gen.SliceOf(gen.AlphaString())
 	gens["RetentionDays"] = gen.PtrOf(gen.Int())
-	gens["State"] = gen.PtrOf(gen.OneConstOf(ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_Disabled, ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_Enabled))
+	gens["State"] = gen.PtrOf(gen.OneConstOf(ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_ARM_Disabled, ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_ARM_Enabled))
 	gens["StorageAccountAccessKey"] = gen.PtrOf(gen.AlphaString())
 	gens["StorageEndpoint"] = gen.PtrOf(gen.AlphaString())
 }

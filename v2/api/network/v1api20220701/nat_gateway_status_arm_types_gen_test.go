@@ -86,10 +86,10 @@ func NatGatewayPropertiesFormat_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForNatGatewayPropertiesFormat_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ApplicationGatewayProvisioningState_STATUS_Deleting,
-		ApplicationGatewayProvisioningState_STATUS_Failed,
-		ApplicationGatewayProvisioningState_STATUS_Succeeded,
-		ApplicationGatewayProvisioningState_STATUS_Updating))
+		ApplicationGatewayProvisioningState_STATUS_ARM_Deleting,
+		ApplicationGatewayProvisioningState_STATUS_ARM_Failed,
+		ApplicationGatewayProvisioningState_STATUS_ARM_Succeeded,
+		ApplicationGatewayProvisioningState_STATUS_ARM_Updating))
 	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -158,7 +158,7 @@ func NatGatewaySku_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNatGatewaySku_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNatGatewaySku_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(NatGatewaySku_Name_STATUS_Standard))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(NatGatewaySku_Name_STATUS_ARM_Standard))
 }
 
 func Test_NatGateway_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

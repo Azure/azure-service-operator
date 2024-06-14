@@ -450,7 +450,9 @@ func (subscription *Service_Subscription_Spec) ConvertToARM(resolved genruntime.
 		result.Properties.SecondaryKey = &secondaryKey
 	}
 	if subscription.State != nil {
-		state := *subscription.State
+		var temp string
+		temp = string(*subscription.State)
+		state := SubscriptionCreateParameterProperties_State_ARM(temp)
 		result.Properties.State = &state
 	}
 	return result, nil
@@ -516,7 +518,9 @@ func (subscription *Service_Subscription_Spec) PopulateFromARM(owner genruntime.
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.State != nil {
-			state := *typedInput.Properties.State
+			var temp string
+			temp = string(*typedInput.Properties.State)
+			state := SubscriptionCreateParameterProperties_State(temp)
 			subscription.State = &state
 		}
 	}
@@ -1026,7 +1030,9 @@ func (subscription *Service_Subscription_STATUS) PopulateFromARM(owner genruntim
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.State != nil {
-			state := *typedInput.Properties.State
+			var temp string
+			temp = string(*typedInput.Properties.State)
+			state := SubscriptionContractProperties_State_STATUS(temp)
 			subscription.State = &state
 		}
 	}
@@ -1182,6 +1188,49 @@ func (subscription *Service_Subscription_STATUS) AssignProperties_To_Service_Sub
 
 	// No error
 	return nil
+}
+
+type SubscriptionContractProperties_State_STATUS string
+
+const (
+	SubscriptionContractProperties_State_STATUS_Active    = SubscriptionContractProperties_State_STATUS("active")
+	SubscriptionContractProperties_State_STATUS_Cancelled = SubscriptionContractProperties_State_STATUS("cancelled")
+	SubscriptionContractProperties_State_STATUS_Expired   = SubscriptionContractProperties_State_STATUS("expired")
+	SubscriptionContractProperties_State_STATUS_Rejected  = SubscriptionContractProperties_State_STATUS("rejected")
+	SubscriptionContractProperties_State_STATUS_Submitted = SubscriptionContractProperties_State_STATUS("submitted")
+	SubscriptionContractProperties_State_STATUS_Suspended = SubscriptionContractProperties_State_STATUS("suspended")
+)
+
+// Mapping from string to SubscriptionContractProperties_State_STATUS
+var subscriptionContractProperties_State_STATUS_Values = map[string]SubscriptionContractProperties_State_STATUS{
+	"active":    SubscriptionContractProperties_State_STATUS_Active,
+	"cancelled": SubscriptionContractProperties_State_STATUS_Cancelled,
+	"expired":   SubscriptionContractProperties_State_STATUS_Expired,
+	"rejected":  SubscriptionContractProperties_State_STATUS_Rejected,
+	"submitted": SubscriptionContractProperties_State_STATUS_Submitted,
+	"suspended": SubscriptionContractProperties_State_STATUS_Suspended,
+}
+
+// +kubebuilder:validation:Enum={"active","cancelled","expired","rejected","submitted","suspended"}
+type SubscriptionCreateParameterProperties_State string
+
+const (
+	SubscriptionCreateParameterProperties_State_Active    = SubscriptionCreateParameterProperties_State("active")
+	SubscriptionCreateParameterProperties_State_Cancelled = SubscriptionCreateParameterProperties_State("cancelled")
+	SubscriptionCreateParameterProperties_State_Expired   = SubscriptionCreateParameterProperties_State("expired")
+	SubscriptionCreateParameterProperties_State_Rejected  = SubscriptionCreateParameterProperties_State("rejected")
+	SubscriptionCreateParameterProperties_State_Submitted = SubscriptionCreateParameterProperties_State("submitted")
+	SubscriptionCreateParameterProperties_State_Suspended = SubscriptionCreateParameterProperties_State("suspended")
+)
+
+// Mapping from string to SubscriptionCreateParameterProperties_State
+var subscriptionCreateParameterProperties_State_Values = map[string]SubscriptionCreateParameterProperties_State{
+	"active":    SubscriptionCreateParameterProperties_State_Active,
+	"cancelled": SubscriptionCreateParameterProperties_State_Cancelled,
+	"expired":   SubscriptionCreateParameterProperties_State_Expired,
+	"rejected":  SubscriptionCreateParameterProperties_State_Rejected,
+	"submitted": SubscriptionCreateParameterProperties_State_Submitted,
+	"suspended": SubscriptionCreateParameterProperties_State_Suspended,
 }
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure

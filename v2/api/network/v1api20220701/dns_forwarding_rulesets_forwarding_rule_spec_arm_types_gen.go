@@ -35,13 +35,27 @@ type ForwardingRuleProperties_ARM struct {
 	DomainName *string `json:"domainName,omitempty"`
 
 	// ForwardingRuleState: The state of forwarding rule.
-	ForwardingRuleState *ForwardingRuleProperties_ForwardingRuleState `json:"forwardingRuleState,omitempty"`
+	ForwardingRuleState *ForwardingRuleProperties_ForwardingRuleState_ARM `json:"forwardingRuleState,omitempty"`
 
 	// Metadata: Metadata attached to the forwarding rule.
 	Metadata map[string]string `json:"metadata,omitempty"`
 
 	// TargetDnsServers: DNS servers to forward the DNS query to.
 	TargetDnsServers []TargetDnsServer_ARM `json:"targetDnsServers,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type ForwardingRuleProperties_ForwardingRuleState_ARM string
+
+const (
+	ForwardingRuleProperties_ForwardingRuleState_ARM_Disabled = ForwardingRuleProperties_ForwardingRuleState_ARM("Disabled")
+	ForwardingRuleProperties_ForwardingRuleState_ARM_Enabled  = ForwardingRuleProperties_ForwardingRuleState_ARM("Enabled")
+)
+
+// Mapping from string to ForwardingRuleProperties_ForwardingRuleState_ARM
+var forwardingRuleProperties_ForwardingRuleState_ARM_Values = map[string]ForwardingRuleProperties_ForwardingRuleState_ARM{
+	"disabled": ForwardingRuleProperties_ForwardingRuleState_ARM_Disabled,
+	"enabled":  ForwardingRuleProperties_ForwardingRuleState_ARM_Enabled,
 }
 
 // Describes a server to forward the DNS queries to.

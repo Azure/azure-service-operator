@@ -77,14 +77,14 @@ type ConflictResolutionPolicy_ARM struct {
 	ConflictResolutionProcedure *string `json:"conflictResolutionProcedure,omitempty"`
 
 	// Mode: Indicates the conflict resolution mode.
-	Mode *ConflictResolutionPolicy_Mode `json:"mode,omitempty"`
+	Mode *ConflictResolutionPolicy_Mode_ARM `json:"mode,omitempty"`
 }
 
 // The configuration of the partition key to be used for partitioning data into multiple partitions
 type ContainerPartitionKey_ARM struct {
 	// Kind: Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum)
 	// are supported for container create
-	Kind *ContainerPartitionKey_Kind `json:"kind,omitempty"`
+	Kind *ContainerPartitionKey_Kind_ARM `json:"kind,omitempty"`
 
 	// Paths: List of paths using which data within the container can be partitioned
 	Paths []string `json:"paths,omitempty"`
@@ -108,7 +108,7 @@ type IndexingPolicy_ARM struct {
 	IncludedPaths []IncludedPath_ARM `json:"includedPaths,omitempty"`
 
 	// IndexingMode: Indicates the indexing mode.
-	IndexingMode *IndexingPolicy_IndexingMode `json:"indexingMode,omitempty"`
+	IndexingMode *IndexingPolicy_IndexingMode_ARM `json:"indexingMode,omitempty"`
 
 	// SpatialIndexes: List of spatial specifics
 	SpatialIndexes []SpatialSpec_ARM `json:"spatialIndexes,omitempty"`
@@ -124,7 +124,7 @@ type UniqueKeyPolicy_ARM struct {
 
 type CompositePath_ARM struct {
 	// Order: Sort order for composite paths.
-	Order *CompositePath_Order `json:"order,omitempty"`
+	Order *CompositePath_Order_ARM `json:"order,omitempty"`
 
 	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
 	// (/path/*)
@@ -132,33 +132,33 @@ type CompositePath_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"Custom","LastWriterWins"}
-type ConflictResolutionPolicy_Mode string
+type ConflictResolutionPolicy_Mode_ARM string
 
 const (
-	ConflictResolutionPolicy_Mode_Custom         = ConflictResolutionPolicy_Mode("Custom")
-	ConflictResolutionPolicy_Mode_LastWriterWins = ConflictResolutionPolicy_Mode("LastWriterWins")
+	ConflictResolutionPolicy_Mode_ARM_Custom         = ConflictResolutionPolicy_Mode_ARM("Custom")
+	ConflictResolutionPolicy_Mode_ARM_LastWriterWins = ConflictResolutionPolicy_Mode_ARM("LastWriterWins")
 )
 
-// Mapping from string to ConflictResolutionPolicy_Mode
-var conflictResolutionPolicy_Mode_Values = map[string]ConflictResolutionPolicy_Mode{
-	"custom":         ConflictResolutionPolicy_Mode_Custom,
-	"lastwriterwins": ConflictResolutionPolicy_Mode_LastWriterWins,
+// Mapping from string to ConflictResolutionPolicy_Mode_ARM
+var conflictResolutionPolicy_Mode_ARM_Values = map[string]ConflictResolutionPolicy_Mode_ARM{
+	"custom":         ConflictResolutionPolicy_Mode_ARM_Custom,
+	"lastwriterwins": ConflictResolutionPolicy_Mode_ARM_LastWriterWins,
 }
 
 // +kubebuilder:validation:Enum={"Hash","MultiHash","Range"}
-type ContainerPartitionKey_Kind string
+type ContainerPartitionKey_Kind_ARM string
 
 const (
-	ContainerPartitionKey_Kind_Hash      = ContainerPartitionKey_Kind("Hash")
-	ContainerPartitionKey_Kind_MultiHash = ContainerPartitionKey_Kind("MultiHash")
-	ContainerPartitionKey_Kind_Range     = ContainerPartitionKey_Kind("Range")
+	ContainerPartitionKey_Kind_ARM_Hash      = ContainerPartitionKey_Kind_ARM("Hash")
+	ContainerPartitionKey_Kind_ARM_MultiHash = ContainerPartitionKey_Kind_ARM("MultiHash")
+	ContainerPartitionKey_Kind_ARM_Range     = ContainerPartitionKey_Kind_ARM("Range")
 )
 
-// Mapping from string to ContainerPartitionKey_Kind
-var containerPartitionKey_Kind_Values = map[string]ContainerPartitionKey_Kind{
-	"hash":      ContainerPartitionKey_Kind_Hash,
-	"multihash": ContainerPartitionKey_Kind_MultiHash,
-	"range":     ContainerPartitionKey_Kind_Range,
+// Mapping from string to ContainerPartitionKey_Kind_ARM
+var containerPartitionKey_Kind_ARM_Values = map[string]ContainerPartitionKey_Kind_ARM{
+	"hash":      ContainerPartitionKey_Kind_ARM_Hash,
+	"multihash": ContainerPartitionKey_Kind_ARM_MultiHash,
+	"range":     ContainerPartitionKey_Kind_ARM_Range,
 }
 
 type ExcludedPath_ARM struct {
@@ -178,19 +178,19 @@ type IncludedPath_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"consistent","lazy","none"}
-type IndexingPolicy_IndexingMode string
+type IndexingPolicy_IndexingMode_ARM string
 
 const (
-	IndexingPolicy_IndexingMode_Consistent = IndexingPolicy_IndexingMode("consistent")
-	IndexingPolicy_IndexingMode_Lazy       = IndexingPolicy_IndexingMode("lazy")
-	IndexingPolicy_IndexingMode_None       = IndexingPolicy_IndexingMode("none")
+	IndexingPolicy_IndexingMode_ARM_Consistent = IndexingPolicy_IndexingMode_ARM("consistent")
+	IndexingPolicy_IndexingMode_ARM_Lazy       = IndexingPolicy_IndexingMode_ARM("lazy")
+	IndexingPolicy_IndexingMode_ARM_None       = IndexingPolicy_IndexingMode_ARM("none")
 )
 
-// Mapping from string to IndexingPolicy_IndexingMode
-var indexingPolicy_IndexingMode_Values = map[string]IndexingPolicy_IndexingMode{
-	"consistent": IndexingPolicy_IndexingMode_Consistent,
-	"lazy":       IndexingPolicy_IndexingMode_Lazy,
-	"none":       IndexingPolicy_IndexingMode_None,
+// Mapping from string to IndexingPolicy_IndexingMode_ARM
+var indexingPolicy_IndexingMode_ARM_Values = map[string]IndexingPolicy_IndexingMode_ARM{
+	"consistent": IndexingPolicy_IndexingMode_ARM_Consistent,
+	"lazy":       IndexingPolicy_IndexingMode_ARM_Lazy,
+	"none":       IndexingPolicy_IndexingMode_ARM_None,
 }
 
 type SpatialSpec_ARM struct {
@@ -199,7 +199,7 @@ type SpatialSpec_ARM struct {
 	Path *string `json:"path,omitempty"`
 
 	// Types: List of path's spatial type
-	Types []SpatialType `json:"types,omitempty"`
+	Types []SpatialType_ARM `json:"types,omitempty"`
 }
 
 // The unique key on that enforces uniqueness constraint on documents in the collection in the Azure Cosmos DB service.
@@ -209,26 +209,26 @@ type UniqueKey_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"ascending","descending"}
-type CompositePath_Order string
+type CompositePath_Order_ARM string
 
 const (
-	CompositePath_Order_Ascending  = CompositePath_Order("ascending")
-	CompositePath_Order_Descending = CompositePath_Order("descending")
+	CompositePath_Order_ARM_Ascending  = CompositePath_Order_ARM("ascending")
+	CompositePath_Order_ARM_Descending = CompositePath_Order_ARM("descending")
 )
 
-// Mapping from string to CompositePath_Order
-var compositePath_Order_Values = map[string]CompositePath_Order{
-	"ascending":  CompositePath_Order_Ascending,
-	"descending": CompositePath_Order_Descending,
+// Mapping from string to CompositePath_Order_ARM
+var compositePath_Order_ARM_Values = map[string]CompositePath_Order_ARM{
+	"ascending":  CompositePath_Order_ARM_Ascending,
+	"descending": CompositePath_Order_ARM_Descending,
 }
 
 // The indexes for the path.
 type Indexes_ARM struct {
 	// DataType: The datatype for which the indexing behavior is applied to.
-	DataType *Indexes_DataType `json:"dataType,omitempty"`
+	DataType *Indexes_DataType_ARM `json:"dataType,omitempty"`
 
 	// Kind: Indicates the type of index.
-	Kind *Indexes_Kind `json:"kind,omitempty"`
+	Kind *Indexes_Kind_ARM `json:"kind,omitempty"`
 
 	// Precision: The precision of the index. -1 is maximum precision.
 	Precision *int `json:"precision,omitempty"`
@@ -236,57 +236,57 @@ type Indexes_ARM struct {
 
 // Indicates the spatial type of index.
 // +kubebuilder:validation:Enum={"LineString","MultiPolygon","Point","Polygon"}
-type SpatialType string
+type SpatialType_ARM string
 
 const (
-	SpatialType_LineString   = SpatialType("LineString")
-	SpatialType_MultiPolygon = SpatialType("MultiPolygon")
-	SpatialType_Point        = SpatialType("Point")
-	SpatialType_Polygon      = SpatialType("Polygon")
+	SpatialType_ARM_LineString   = SpatialType_ARM("LineString")
+	SpatialType_ARM_MultiPolygon = SpatialType_ARM("MultiPolygon")
+	SpatialType_ARM_Point        = SpatialType_ARM("Point")
+	SpatialType_ARM_Polygon      = SpatialType_ARM("Polygon")
 )
 
-// Mapping from string to SpatialType
-var spatialType_Values = map[string]SpatialType{
-	"linestring":   SpatialType_LineString,
-	"multipolygon": SpatialType_MultiPolygon,
-	"point":        SpatialType_Point,
-	"polygon":      SpatialType_Polygon,
+// Mapping from string to SpatialType_ARM
+var spatialType_ARM_Values = map[string]SpatialType_ARM{
+	"linestring":   SpatialType_ARM_LineString,
+	"multipolygon": SpatialType_ARM_MultiPolygon,
+	"point":        SpatialType_ARM_Point,
+	"polygon":      SpatialType_ARM_Polygon,
 }
 
 // +kubebuilder:validation:Enum={"LineString","MultiPolygon","Number","Point","Polygon","String"}
-type Indexes_DataType string
+type Indexes_DataType_ARM string
 
 const (
-	Indexes_DataType_LineString   = Indexes_DataType("LineString")
-	Indexes_DataType_MultiPolygon = Indexes_DataType("MultiPolygon")
-	Indexes_DataType_Number       = Indexes_DataType("Number")
-	Indexes_DataType_Point        = Indexes_DataType("Point")
-	Indexes_DataType_Polygon      = Indexes_DataType("Polygon")
-	Indexes_DataType_String       = Indexes_DataType("String")
+	Indexes_DataType_ARM_LineString   = Indexes_DataType_ARM("LineString")
+	Indexes_DataType_ARM_MultiPolygon = Indexes_DataType_ARM("MultiPolygon")
+	Indexes_DataType_ARM_Number       = Indexes_DataType_ARM("Number")
+	Indexes_DataType_ARM_Point        = Indexes_DataType_ARM("Point")
+	Indexes_DataType_ARM_Polygon      = Indexes_DataType_ARM("Polygon")
+	Indexes_DataType_ARM_String       = Indexes_DataType_ARM("String")
 )
 
-// Mapping from string to Indexes_DataType
-var indexes_DataType_Values = map[string]Indexes_DataType{
-	"linestring":   Indexes_DataType_LineString,
-	"multipolygon": Indexes_DataType_MultiPolygon,
-	"number":       Indexes_DataType_Number,
-	"point":        Indexes_DataType_Point,
-	"polygon":      Indexes_DataType_Polygon,
-	"string":       Indexes_DataType_String,
+// Mapping from string to Indexes_DataType_ARM
+var indexes_DataType_ARM_Values = map[string]Indexes_DataType_ARM{
+	"linestring":   Indexes_DataType_ARM_LineString,
+	"multipolygon": Indexes_DataType_ARM_MultiPolygon,
+	"number":       Indexes_DataType_ARM_Number,
+	"point":        Indexes_DataType_ARM_Point,
+	"polygon":      Indexes_DataType_ARM_Polygon,
+	"string":       Indexes_DataType_ARM_String,
 }
 
 // +kubebuilder:validation:Enum={"Hash","Range","Spatial"}
-type Indexes_Kind string
+type Indexes_Kind_ARM string
 
 const (
-	Indexes_Kind_Hash    = Indexes_Kind("Hash")
-	Indexes_Kind_Range   = Indexes_Kind("Range")
-	Indexes_Kind_Spatial = Indexes_Kind("Spatial")
+	Indexes_Kind_ARM_Hash    = Indexes_Kind_ARM("Hash")
+	Indexes_Kind_ARM_Range   = Indexes_Kind_ARM("Range")
+	Indexes_Kind_ARM_Spatial = Indexes_Kind_ARM("Spatial")
 )
 
-// Mapping from string to Indexes_Kind
-var indexes_Kind_Values = map[string]Indexes_Kind{
-	"hash":    Indexes_Kind_Hash,
-	"range":   Indexes_Kind_Range,
-	"spatial": Indexes_Kind_Spatial,
+// Mapping from string to Indexes_Kind_ARM
+var indexes_Kind_ARM_Values = map[string]Indexes_Kind_ARM{
+	"hash":    Indexes_Kind_ARM_Hash,
+	"range":   Indexes_Kind_ARM_Range,
+	"spatial": Indexes_Kind_ARM_Spatial,
 }

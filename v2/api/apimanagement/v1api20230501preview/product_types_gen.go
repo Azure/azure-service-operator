@@ -414,7 +414,9 @@ func (product *Service_Product_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		result.Properties.DisplayName = &displayName
 	}
 	if product.State != nil {
-		state := *product.State
+		var temp string
+		temp = string(*product.State)
+		state := ProductContractProperties_State_ARM(temp)
 		result.Properties.State = &state
 	}
 	if product.SubscriptionRequired != nil {
@@ -484,7 +486,9 @@ func (product *Service_Product_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.State != nil {
-			state := *typedInput.Properties.State
+			var temp string
+			temp = string(*typedInput.Properties.State)
+			state := ProductContractProperties_State(temp)
 			product.State = &state
 		}
 	}
@@ -875,7 +879,9 @@ func (product *Service_Product_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.State != nil {
-			state := *typedInput.Properties.State
+			var temp string
+			temp = string(*typedInput.Properties.State)
+			state := ProductContractProperties_State_STATUS(temp)
 			product.State = &state
 		}
 	}

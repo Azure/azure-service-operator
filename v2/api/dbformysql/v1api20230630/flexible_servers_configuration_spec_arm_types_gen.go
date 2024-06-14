@@ -35,8 +35,22 @@ type ConfigurationProperties_ARM struct {
 	CurrentValue *string `json:"currentValue,omitempty"`
 
 	// Source: Source of the configuration.
-	Source *ConfigurationProperties_Source `json:"source,omitempty"`
+	Source *ConfigurationProperties_Source_ARM `json:"source,omitempty"`
 
 	// Value: Value of the configuration.
 	Value *string `json:"value,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"system-default","user-override"}
+type ConfigurationProperties_Source_ARM string
+
+const (
+	ConfigurationProperties_Source_ARM_SystemDefault = ConfigurationProperties_Source_ARM("system-default")
+	ConfigurationProperties_Source_ARM_UserOverride  = ConfigurationProperties_Source_ARM("user-override")
+)
+
+// Mapping from string to ConfigurationProperties_Source_ARM
+var configurationProperties_Source_ARM_Values = map[string]ConfigurationProperties_Source_ARM{
+	"system-default": ConfigurationProperties_Source_ARM_SystemDefault,
+	"user-override":  ConfigurationProperties_Source_ARM_UserOverride,
 }

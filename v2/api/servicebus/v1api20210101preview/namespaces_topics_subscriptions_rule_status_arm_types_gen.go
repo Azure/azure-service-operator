@@ -30,7 +30,7 @@ type Ruleproperties_STATUS_ARM struct {
 	CorrelationFilter *CorrelationFilter_STATUS_ARM `json:"correlationFilter,omitempty"`
 
 	// FilterType: Filter type that is evaluated against a BrokeredMessage.
-	FilterType *FilterType_STATUS `json:"filterType,omitempty"`
+	FilterType *FilterType_STATUS_ARM `json:"filterType,omitempty"`
 
 	// SqlFilter: Properties of sqlFilter
 	SqlFilter *SqlFilter_STATUS_ARM `json:"sqlFilter,omitempty"`
@@ -81,6 +81,20 @@ type CorrelationFilter_STATUS_ARM struct {
 
 	// To: Address to send to.
 	To *string `json:"to,omitempty"`
+}
+
+// Rule filter types
+type FilterType_STATUS_ARM string
+
+const (
+	FilterType_STATUS_ARM_CorrelationFilter = FilterType_STATUS_ARM("CorrelationFilter")
+	FilterType_STATUS_ARM_SqlFilter         = FilterType_STATUS_ARM("SqlFilter")
+)
+
+// Mapping from string to FilterType_STATUS_ARM
+var filterType_STATUS_ARM_Values = map[string]FilterType_STATUS_ARM{
+	"correlationfilter": FilterType_STATUS_ARM_CorrelationFilter,
+	"sqlfilter":         FilterType_STATUS_ARM_SqlFilter,
 }
 
 // Represents a filter which is a composition of an expression and an action that is executed in the pub/sub pipeline.

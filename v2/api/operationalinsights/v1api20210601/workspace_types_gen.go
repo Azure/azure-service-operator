@@ -427,15 +427,21 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.ForceCmkForQuery = &forceCmkForQuery
 	}
 	if workspace.ProvisioningState != nil {
-		provisioningState := *workspace.ProvisioningState
+		var temp string
+		temp = string(*workspace.ProvisioningState)
+		provisioningState := WorkspaceProperties_ProvisioningState_ARM(temp)
 		result.Properties.ProvisioningState = &provisioningState
 	}
 	if workspace.PublicNetworkAccessForIngestion != nil {
-		publicNetworkAccessForIngestion := *workspace.PublicNetworkAccessForIngestion
+		var temp string
+		temp = string(*workspace.PublicNetworkAccessForIngestion)
+		publicNetworkAccessForIngestion := PublicNetworkAccessType_ARM(temp)
 		result.Properties.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
 	}
 	if workspace.PublicNetworkAccessForQuery != nil {
-		publicNetworkAccessForQuery := *workspace.PublicNetworkAccessForQuery
+		var temp string
+		temp = string(*workspace.PublicNetworkAccessForQuery)
+		publicNetworkAccessForQuery := PublicNetworkAccessType_ARM(temp)
 		result.Properties.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
 	}
 	if workspace.RetentionInDays != nil {
@@ -529,7 +535,9 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := WorkspaceProperties_ProvisioningState(temp)
 			workspace.ProvisioningState = &provisioningState
 		}
 	}
@@ -538,7 +546,9 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccessForIngestion != nil {
-			publicNetworkAccessForIngestion := *typedInput.Properties.PublicNetworkAccessForIngestion
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccessForIngestion)
+			publicNetworkAccessForIngestion := PublicNetworkAccessType(temp)
 			workspace.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
 		}
 	}
@@ -547,7 +557,9 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccessForQuery != nil {
-			publicNetworkAccessForQuery := *typedInput.Properties.PublicNetworkAccessForQuery
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccessForQuery)
+			publicNetworkAccessForQuery := PublicNetworkAccessType(temp)
 			workspace.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
 		}
 	}
@@ -1176,7 +1188,9 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := WorkspaceProperties_ProvisioningState_STATUS(temp)
 			workspace.ProvisioningState = &provisioningState
 		}
 	}
@@ -1185,7 +1199,9 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccessForIngestion != nil {
-			publicNetworkAccessForIngestion := *typedInput.Properties.PublicNetworkAccessForIngestion
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccessForIngestion)
+			publicNetworkAccessForIngestion := PublicNetworkAccessType_STATUS(temp)
 			workspace.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
 		}
 	}
@@ -1194,7 +1210,9 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccessForQuery != nil {
-			publicNetworkAccessForQuery := *typedInput.Properties.PublicNetworkAccessForQuery
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccessForQuery)
+			publicNetworkAccessForQuery := PublicNetworkAccessType_STATUS(temp)
 			workspace.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
 		}
 	}
@@ -1754,7 +1772,9 @@ func (capping *WorkspaceCapping_STATUS) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property "DataIngestionStatus":
 	if typedInput.DataIngestionStatus != nil {
-		dataIngestionStatus := *typedInput.DataIngestionStatus
+		var temp string
+		temp = string(*typedInput.DataIngestionStatus)
+		dataIngestionStatus := WorkspaceCapping_DataIngestionStatus_STATUS(temp)
 		capping.DataIngestionStatus = &dataIngestionStatus
 	}
 
@@ -2313,13 +2333,17 @@ func (workspaceSku *WorkspaceSku) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "CapacityReservationLevel":
 	if workspaceSku.CapacityReservationLevel != nil {
-		capacityReservationLevel := *workspaceSku.CapacityReservationLevel
+		var temp int
+		temp = int(*workspaceSku.CapacityReservationLevel)
+		capacityReservationLevel := WorkspaceSku_CapacityReservationLevel_ARM(temp)
 		result.CapacityReservationLevel = &capacityReservationLevel
 	}
 
 	// Set property "Name":
 	if workspaceSku.Name != nil {
-		name := *workspaceSku.Name
+		var temp string
+		temp = string(*workspaceSku.Name)
+		name := WorkspaceSku_Name_ARM(temp)
 		result.Name = &name
 	}
 	return result, nil
@@ -2339,13 +2363,17 @@ func (workspaceSku *WorkspaceSku) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property "CapacityReservationLevel":
 	if typedInput.CapacityReservationLevel != nil {
-		capacityReservationLevel := *typedInput.CapacityReservationLevel
+		var temp int
+		temp = int(*typedInput.CapacityReservationLevel)
+		capacityReservationLevel := WorkspaceSku_CapacityReservationLevel(temp)
 		workspaceSku.CapacityReservationLevel = &capacityReservationLevel
 	}
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := WorkspaceSku_Name(temp)
 		workspaceSku.Name = &name
 	}
 
@@ -2461,7 +2489,9 @@ func (workspaceSku *WorkspaceSku_STATUS) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "CapacityReservationLevel":
 	if typedInput.CapacityReservationLevel != nil {
-		capacityReservationLevel := *typedInput.CapacityReservationLevel
+		var temp int
+		temp = int(*typedInput.CapacityReservationLevel)
+		capacityReservationLevel := WorkspaceSku_CapacityReservationLevel_STATUS(temp)
 		workspaceSku.CapacityReservationLevel = &capacityReservationLevel
 	}
 
@@ -2473,7 +2503,9 @@ func (workspaceSku *WorkspaceSku_STATUS) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := WorkspaceSku_Name_STATUS(temp)
 		workspaceSku.Name = &name
 	}
 

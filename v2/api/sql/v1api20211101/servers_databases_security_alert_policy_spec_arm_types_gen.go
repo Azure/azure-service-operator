@@ -46,7 +46,7 @@ type DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_ARM struct {
 
 	// State: Specifies the state of the policy, whether it is enabled or disabled or a policy has not been applied yet on the
 	// specific database.
-	State *DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State `json:"state,omitempty"`
+	State *DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_ARM `json:"state,omitempty"`
 
 	// StorageAccountAccessKey: Specifies the identifier key of the Threat Detection audit storage account.
 	StorageAccountAccessKey *string `json:"storageAccountAccessKey,omitempty"`
@@ -54,4 +54,18 @@ type DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_ARM struct {
 	// StorageEndpoint: Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage
 	// will hold all Threat Detection audit logs.
 	StorageEndpoint *string `json:"storageEndpoint,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_ARM string
+
+const (
+	DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_ARM_Disabled = DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_ARM("Disabled")
+	DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_ARM_Enabled  = DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_ARM("Enabled")
+)
+
+// Mapping from string to DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_ARM
+var databaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_ARM_Values = map[string]DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_ARM{
+	"disabled": DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_ARM_Disabled,
+	"enabled":  DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_ARM_Enabled,
 }

@@ -87,10 +87,10 @@ func AddIndependentPropertyGeneratorsForManagedServiceIdentity_STATUS_ARM(gens m
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ManagedServiceIdentityType_STATUS_None,
-		ManagedServiceIdentityType_STATUS_SystemAssigned,
-		ManagedServiceIdentityType_STATUS_SystemAssignedUserAssigned,
-		ManagedServiceIdentityType_STATUS_UserAssigned))
+		ManagedServiceIdentityType_STATUS_ARM_None,
+		ManagedServiceIdentityType_STATUS_ARM_SystemAssigned,
+		ManagedServiceIdentityType_STATUS_ARM_SystemAssignedUserAssigned,
+		ManagedServiceIdentityType_STATUS_ARM_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForManagedServiceIdentity_STATUS_ARM is a factory method for creating gopter generators
@@ -434,22 +434,22 @@ func RedisProperties_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForRedisProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["EnableNonSslPort"] = gen.PtrOf(gen.Bool())
 	gens["HostName"] = gen.PtrOf(gen.AlphaString())
-	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(RedisProperties_MinimumTlsVersion_STATUS_10, RedisProperties_MinimumTlsVersion_STATUS_11, RedisProperties_MinimumTlsVersion_STATUS_12))
+	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(RedisProperties_MinimumTlsVersion_STATUS_ARM_10, RedisProperties_MinimumTlsVersion_STATUS_ARM_11, RedisProperties_MinimumTlsVersion_STATUS_ARM_12))
 	gens["Port"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		RedisProperties_ProvisioningState_STATUS_Creating,
-		RedisProperties_ProvisioningState_STATUS_Deleting,
-		RedisProperties_ProvisioningState_STATUS_Disabled,
-		RedisProperties_ProvisioningState_STATUS_Failed,
-		RedisProperties_ProvisioningState_STATUS_Linking,
-		RedisProperties_ProvisioningState_STATUS_Provisioning,
-		RedisProperties_ProvisioningState_STATUS_RecoveringScaleFailure,
-		RedisProperties_ProvisioningState_STATUS_Scaling,
-		RedisProperties_ProvisioningState_STATUS_Succeeded,
-		RedisProperties_ProvisioningState_STATUS_Unlinking,
-		RedisProperties_ProvisioningState_STATUS_Unprovisioning,
-		RedisProperties_ProvisioningState_STATUS_Updating))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(RedisProperties_PublicNetworkAccess_STATUS_Disabled, RedisProperties_PublicNetworkAccess_STATUS_Enabled))
+		RedisProperties_ProvisioningState_STATUS_ARM_Creating,
+		RedisProperties_ProvisioningState_STATUS_ARM_Deleting,
+		RedisProperties_ProvisioningState_STATUS_ARM_Disabled,
+		RedisProperties_ProvisioningState_STATUS_ARM_Failed,
+		RedisProperties_ProvisioningState_STATUS_ARM_Linking,
+		RedisProperties_ProvisioningState_STATUS_ARM_Provisioning,
+		RedisProperties_ProvisioningState_STATUS_ARM_RecoveringScaleFailure,
+		RedisProperties_ProvisioningState_STATUS_ARM_Scaling,
+		RedisProperties_ProvisioningState_STATUS_ARM_Succeeded,
+		RedisProperties_ProvisioningState_STATUS_ARM_Unlinking,
+		RedisProperties_ProvisioningState_STATUS_ARM_Unprovisioning,
+		RedisProperties_ProvisioningState_STATUS_ARM_Updating))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(RedisProperties_PublicNetworkAccess_STATUS_ARM_Disabled, RedisProperties_PublicNetworkAccess_STATUS_ARM_Enabled))
 	gens["RedisVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["ReplicasPerMaster"] = gen.PtrOf(gen.Int())
 	gens["ReplicasPerPrimary"] = gen.PtrOf(gen.Int())
@@ -611,8 +611,8 @@ func Sku_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSku_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSku_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
-	gens["Family"] = gen.PtrOf(gen.OneConstOf(Sku_Family_STATUS_C, Sku_Family_STATUS_P))
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(Sku_Name_STATUS_Basic, Sku_Name_STATUS_Premium, Sku_Name_STATUS_Standard))
+	gens["Family"] = gen.PtrOf(gen.OneConstOf(Sku_Family_STATUS_ARM_C, Sku_Family_STATUS_ARM_P))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(Sku_Name_STATUS_ARM_Basic, Sku_Name_STATUS_ARM_Premium, Sku_Name_STATUS_ARM_Standard))
 }
 
 func Test_UserAssignedIdentity_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

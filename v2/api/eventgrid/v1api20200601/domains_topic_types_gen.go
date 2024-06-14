@@ -590,7 +590,9 @@ func (topic *Domains_Topic_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := DomainTopicProperties_ProvisioningState_STATUS(temp)
 			topic.ProvisioningState = &provisioningState
 		}
 	}

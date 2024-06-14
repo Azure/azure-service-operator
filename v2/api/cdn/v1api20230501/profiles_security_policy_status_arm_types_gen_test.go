@@ -294,17 +294,17 @@ func SecurityPolicyProperties_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSecurityPolicyProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSecurityPolicyProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["DeploymentStatus"] = gen.PtrOf(gen.OneConstOf(
-		SecurityPolicyProperties_DeploymentStatus_STATUS_Failed,
-		SecurityPolicyProperties_DeploymentStatus_STATUS_InProgress,
-		SecurityPolicyProperties_DeploymentStatus_STATUS_NotStarted,
-		SecurityPolicyProperties_DeploymentStatus_STATUS_Succeeded))
+		SecurityPolicyProperties_DeploymentStatus_STATUS_ARM_Failed,
+		SecurityPolicyProperties_DeploymentStatus_STATUS_ARM_InProgress,
+		SecurityPolicyProperties_DeploymentStatus_STATUS_ARM_NotStarted,
+		SecurityPolicyProperties_DeploymentStatus_STATUS_ARM_Succeeded))
 	gens["ProfileName"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		SecurityPolicyProperties_ProvisioningState_STATUS_Creating,
-		SecurityPolicyProperties_ProvisioningState_STATUS_Deleting,
-		SecurityPolicyProperties_ProvisioningState_STATUS_Failed,
-		SecurityPolicyProperties_ProvisioningState_STATUS_Succeeded,
-		SecurityPolicyProperties_ProvisioningState_STATUS_Updating))
+		SecurityPolicyProperties_ProvisioningState_STATUS_ARM_Creating,
+		SecurityPolicyProperties_ProvisioningState_STATUS_ARM_Deleting,
+		SecurityPolicyProperties_ProvisioningState_STATUS_ARM_Failed,
+		SecurityPolicyProperties_ProvisioningState_STATUS_ARM_Succeeded,
+		SecurityPolicyProperties_ProvisioningState_STATUS_ARM_Updating))
 }
 
 // AddRelatedPropertyGeneratorsForSecurityPolicyProperties_STATUS_ARM is a factory method for creating gopter generators
@@ -454,7 +454,7 @@ func SecurityPolicyWebApplicationFirewallParameters_STATUS_ARMGenerator() gopter
 
 // AddIndependentPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.OneConstOf(SecurityPolicyWebApplicationFirewallParameters_Type_STATUS_WebApplicationFirewall)
+	gens["Type"] = gen.OneConstOf(SecurityPolicyWebApplicationFirewallParameters_Type_STATUS_ARM_WebApplicationFirewall)
 }
 
 // AddRelatedPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters_STATUS_ARM is a factory method for creating gopter generators

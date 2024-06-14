@@ -65,7 +65,7 @@ type AutoscaleNotification_ARM struct {
 	Email *EmailNotification_ARM `json:"email,omitempty"`
 
 	// Operation: the operation associated with the notification and its value must be "scale"
-	Operation *AutoscaleNotification_Operation `json:"operation,omitempty"`
+	Operation *AutoscaleNotification_Operation_ARM `json:"operation,omitempty"`
 
 	// Webhooks: the collection of webhook notifications.
 	Webhooks []WebhookNotification_ARM `json:"webhooks,omitempty"`
@@ -97,7 +97,17 @@ type PredictiveAutoscalePolicy_ARM struct {
 	ScaleLookAheadTime *string `json:"scaleLookAheadTime,omitempty"`
 
 	// ScaleMode: the predictive autoscale mode
-	ScaleMode *PredictiveAutoscalePolicy_ScaleMode `json:"scaleMode,omitempty"`
+	ScaleMode *PredictiveAutoscalePolicy_ScaleMode_ARM `json:"scaleMode,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Scale"}
+type AutoscaleNotification_Operation_ARM string
+
+const AutoscaleNotification_Operation_ARM_Scale = AutoscaleNotification_Operation_ARM("Scale")
+
+// Mapping from string to AutoscaleNotification_Operation_ARM
+var autoscaleNotification_Operation_ARM_Values = map[string]AutoscaleNotification_Operation_ARM{
+	"scale": AutoscaleNotification_Operation_ARM_Scale,
 }
 
 // Email notification of an autoscale event.
@@ -112,12 +122,28 @@ type EmailNotification_ARM struct {
 	SendToSubscriptionCoAdministrators *bool `json:"sendToSubscriptionCoAdministrators,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"Disabled","Enabled","ForecastOnly"}
+type PredictiveAutoscalePolicy_ScaleMode_ARM string
+
+const (
+	PredictiveAutoscalePolicy_ScaleMode_ARM_Disabled     = PredictiveAutoscalePolicy_ScaleMode_ARM("Disabled")
+	PredictiveAutoscalePolicy_ScaleMode_ARM_Enabled      = PredictiveAutoscalePolicy_ScaleMode_ARM("Enabled")
+	PredictiveAutoscalePolicy_ScaleMode_ARM_ForecastOnly = PredictiveAutoscalePolicy_ScaleMode_ARM("ForecastOnly")
+)
+
+// Mapping from string to PredictiveAutoscalePolicy_ScaleMode_ARM
+var predictiveAutoscalePolicy_ScaleMode_ARM_Values = map[string]PredictiveAutoscalePolicy_ScaleMode_ARM{
+	"disabled":     PredictiveAutoscalePolicy_ScaleMode_ARM_Disabled,
+	"enabled":      PredictiveAutoscalePolicy_ScaleMode_ARM_Enabled,
+	"forecastonly": PredictiveAutoscalePolicy_ScaleMode_ARM_ForecastOnly,
+}
+
 // The repeating times at which this profile begins. This element is not used if the FixedDate element is used.
 type Recurrence_ARM struct {
 	// Frequency: the recurrence frequency. How often the schedule profile should take effect. This value must be Week, meaning
 	// each week will have the same set of profiles. For example, to set a daily schedule, set schedule to every day of the
 	// week. The frequency property specifies that the schedule is repeated weekly.
-	Frequency *Recurrence_Frequency `json:"frequency,omitempty"`
+	Frequency *Recurrence_Frequency_ARM `json:"frequency,omitempty"`
 
 	// Schedule: the scheduling constraints for when the profile begins.
 	Schedule *RecurrentSchedule_ARM `json:"schedule,omitempty"`
@@ -209,17 +235,17 @@ type MetricTrigger_ARM struct {
 	MetricResourceUri      *string `json:"metricResourceUri,omitempty"`
 
 	// Operator: the operator that is used to compare the metric data and the threshold.
-	Operator *MetricTrigger_Operator `json:"operator,omitempty"`
+	Operator *MetricTrigger_Operator_ARM `json:"operator,omitempty"`
 
 	// Statistic: the metric statistic type. How the metrics from multiple instances are combined.
-	Statistic *MetricTrigger_Statistic `json:"statistic,omitempty"`
+	Statistic *MetricTrigger_Statistic_ARM `json:"statistic,omitempty"`
 
 	// Threshold: the threshold of the metric that triggers the scale action.
 	Threshold *float64 `json:"threshold,omitempty"`
 
 	// TimeAggregation: time aggregation type. How the data that is collected should be combined over time. The default value
 	// is Average.
-	TimeAggregation *MetricTrigger_TimeAggregation `json:"timeAggregation,omitempty"`
+	TimeAggregation *MetricTrigger_TimeAggregation_ARM `json:"timeAggregation,omitempty"`
 
 	// TimeGrain: the granularity of metrics the rule monitors. Must be one of the predefined values returned from metric
 	// definitions for the metric. Must be between 12 hours and 1 minute.
@@ -228,6 +254,32 @@ type MetricTrigger_ARM struct {
 	// TimeWindow: the range of time in which instance data is collected. This value must be greater than the delay in metric
 	// collection, which can vary from resource-to-resource. Must be between 12 hours and 5 minutes.
 	TimeWindow *string `json:"timeWindow,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Day","Hour","Minute","Month","None","Second","Week","Year"}
+type Recurrence_Frequency_ARM string
+
+const (
+	Recurrence_Frequency_ARM_Day    = Recurrence_Frequency_ARM("Day")
+	Recurrence_Frequency_ARM_Hour   = Recurrence_Frequency_ARM("Hour")
+	Recurrence_Frequency_ARM_Minute = Recurrence_Frequency_ARM("Minute")
+	Recurrence_Frequency_ARM_Month  = Recurrence_Frequency_ARM("Month")
+	Recurrence_Frequency_ARM_None   = Recurrence_Frequency_ARM("None")
+	Recurrence_Frequency_ARM_Second = Recurrence_Frequency_ARM("Second")
+	Recurrence_Frequency_ARM_Week   = Recurrence_Frequency_ARM("Week")
+	Recurrence_Frequency_ARM_Year   = Recurrence_Frequency_ARM("Year")
+)
+
+// Mapping from string to Recurrence_Frequency_ARM
+var recurrence_Frequency_ARM_Values = map[string]Recurrence_Frequency_ARM{
+	"day":    Recurrence_Frequency_ARM_Day,
+	"hour":   Recurrence_Frequency_ARM_Hour,
+	"minute": Recurrence_Frequency_ARM_Minute,
+	"month":  Recurrence_Frequency_ARM_Month,
+	"none":   Recurrence_Frequency_ARM_None,
+	"second": Recurrence_Frequency_ARM_Second,
+	"week":   Recurrence_Frequency_ARM_Week,
+	"year":   Recurrence_Frequency_ARM_Year,
 }
 
 // The scheduling constraints for when the profile begins.
@@ -275,14 +327,112 @@ type ScaleAction_ARM struct {
 	Cooldown *string `json:"cooldown,omitempty"`
 
 	// Direction: the scale direction. Whether the scaling action increases or decreases the number of instances.
-	Direction *ScaleAction_Direction `json:"direction,omitempty"`
+	Direction *ScaleAction_Direction_ARM `json:"direction,omitempty"`
 
 	// Type: the type of action that should occur when the scale rule fires.
-	Type *ScaleAction_Type `json:"type,omitempty"`
+	Type *ScaleAction_Type_ARM `json:"type,omitempty"`
 
 	// Value: the number of instances that are involved in the scaling action. This value must be 1 or greater. The default
 	// value is 1.
 	Value *string `json:"value,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Equals","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","NotEquals"}
+type MetricTrigger_Operator_ARM string
+
+const (
+	MetricTrigger_Operator_ARM_Equals             = MetricTrigger_Operator_ARM("Equals")
+	MetricTrigger_Operator_ARM_GreaterThan        = MetricTrigger_Operator_ARM("GreaterThan")
+	MetricTrigger_Operator_ARM_GreaterThanOrEqual = MetricTrigger_Operator_ARM("GreaterThanOrEqual")
+	MetricTrigger_Operator_ARM_LessThan           = MetricTrigger_Operator_ARM("LessThan")
+	MetricTrigger_Operator_ARM_LessThanOrEqual    = MetricTrigger_Operator_ARM("LessThanOrEqual")
+	MetricTrigger_Operator_ARM_NotEquals          = MetricTrigger_Operator_ARM("NotEquals")
+)
+
+// Mapping from string to MetricTrigger_Operator_ARM
+var metricTrigger_Operator_ARM_Values = map[string]MetricTrigger_Operator_ARM{
+	"equals":             MetricTrigger_Operator_ARM_Equals,
+	"greaterthan":        MetricTrigger_Operator_ARM_GreaterThan,
+	"greaterthanorequal": MetricTrigger_Operator_ARM_GreaterThanOrEqual,
+	"lessthan":           MetricTrigger_Operator_ARM_LessThan,
+	"lessthanorequal":    MetricTrigger_Operator_ARM_LessThanOrEqual,
+	"notequals":          MetricTrigger_Operator_ARM_NotEquals,
+}
+
+// +kubebuilder:validation:Enum={"Average","Count","Max","Min","Sum"}
+type MetricTrigger_Statistic_ARM string
+
+const (
+	MetricTrigger_Statistic_ARM_Average = MetricTrigger_Statistic_ARM("Average")
+	MetricTrigger_Statistic_ARM_Count   = MetricTrigger_Statistic_ARM("Count")
+	MetricTrigger_Statistic_ARM_Max     = MetricTrigger_Statistic_ARM("Max")
+	MetricTrigger_Statistic_ARM_Min     = MetricTrigger_Statistic_ARM("Min")
+	MetricTrigger_Statistic_ARM_Sum     = MetricTrigger_Statistic_ARM("Sum")
+)
+
+// Mapping from string to MetricTrigger_Statistic_ARM
+var metricTrigger_Statistic_ARM_Values = map[string]MetricTrigger_Statistic_ARM{
+	"average": MetricTrigger_Statistic_ARM_Average,
+	"count":   MetricTrigger_Statistic_ARM_Count,
+	"max":     MetricTrigger_Statistic_ARM_Max,
+	"min":     MetricTrigger_Statistic_ARM_Min,
+	"sum":     MetricTrigger_Statistic_ARM_Sum,
+}
+
+// +kubebuilder:validation:Enum={"Average","Count","Last","Maximum","Minimum","Total"}
+type MetricTrigger_TimeAggregation_ARM string
+
+const (
+	MetricTrigger_TimeAggregation_ARM_Average = MetricTrigger_TimeAggregation_ARM("Average")
+	MetricTrigger_TimeAggregation_ARM_Count   = MetricTrigger_TimeAggregation_ARM("Count")
+	MetricTrigger_TimeAggregation_ARM_Last    = MetricTrigger_TimeAggregation_ARM("Last")
+	MetricTrigger_TimeAggregation_ARM_Maximum = MetricTrigger_TimeAggregation_ARM("Maximum")
+	MetricTrigger_TimeAggregation_ARM_Minimum = MetricTrigger_TimeAggregation_ARM("Minimum")
+	MetricTrigger_TimeAggregation_ARM_Total   = MetricTrigger_TimeAggregation_ARM("Total")
+)
+
+// Mapping from string to MetricTrigger_TimeAggregation_ARM
+var metricTrigger_TimeAggregation_ARM_Values = map[string]MetricTrigger_TimeAggregation_ARM{
+	"average": MetricTrigger_TimeAggregation_ARM_Average,
+	"count":   MetricTrigger_TimeAggregation_ARM_Count,
+	"last":    MetricTrigger_TimeAggregation_ARM_Last,
+	"maximum": MetricTrigger_TimeAggregation_ARM_Maximum,
+	"minimum": MetricTrigger_TimeAggregation_ARM_Minimum,
+	"total":   MetricTrigger_TimeAggregation_ARM_Total,
+}
+
+// +kubebuilder:validation:Enum={"Decrease","Increase","None"}
+type ScaleAction_Direction_ARM string
+
+const (
+	ScaleAction_Direction_ARM_Decrease = ScaleAction_Direction_ARM("Decrease")
+	ScaleAction_Direction_ARM_Increase = ScaleAction_Direction_ARM("Increase")
+	ScaleAction_Direction_ARM_None     = ScaleAction_Direction_ARM("None")
+)
+
+// Mapping from string to ScaleAction_Direction_ARM
+var scaleAction_Direction_ARM_Values = map[string]ScaleAction_Direction_ARM{
+	"decrease": ScaleAction_Direction_ARM_Decrease,
+	"increase": ScaleAction_Direction_ARM_Increase,
+	"none":     ScaleAction_Direction_ARM_None,
+}
+
+// +kubebuilder:validation:Enum={"ChangeCount","ExactCount","PercentChangeCount","ServiceAllowedNextValue"}
+type ScaleAction_Type_ARM string
+
+const (
+	ScaleAction_Type_ARM_ChangeCount             = ScaleAction_Type_ARM("ChangeCount")
+	ScaleAction_Type_ARM_ExactCount              = ScaleAction_Type_ARM("ExactCount")
+	ScaleAction_Type_ARM_PercentChangeCount      = ScaleAction_Type_ARM("PercentChangeCount")
+	ScaleAction_Type_ARM_ServiceAllowedNextValue = ScaleAction_Type_ARM("ServiceAllowedNextValue")
+)
+
+// Mapping from string to ScaleAction_Type_ARM
+var scaleAction_Type_ARM_Values = map[string]ScaleAction_Type_ARM{
+	"changecount":             ScaleAction_Type_ARM_ChangeCount,
+	"exactcount":              ScaleAction_Type_ARM_ExactCount,
+	"percentchangecount":      ScaleAction_Type_ARM_PercentChangeCount,
+	"serviceallowednextvalue": ScaleAction_Type_ARM_ServiceAllowedNextValue,
 }
 
 // Specifies an auto scale rule metric dimension.
@@ -292,8 +442,22 @@ type ScaleRuleMetricDimension_ARM struct {
 
 	// Operator: the dimension operator. Only 'Equals' and 'NotEquals' are supported. 'Equals' being equal to any of the
 	// values. 'NotEquals' being not equal to all of the values
-	Operator *ScaleRuleMetricDimension_Operator `json:"Operator,omitempty"`
+	Operator *ScaleRuleMetricDimension_Operator_ARM `json:"Operator,omitempty"`
 
 	// Values: list of dimension values. For example: ["App1","App2"].
 	Values []string `json:"Values,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Equals","NotEquals"}
+type ScaleRuleMetricDimension_Operator_ARM string
+
+const (
+	ScaleRuleMetricDimension_Operator_ARM_Equals    = ScaleRuleMetricDimension_Operator_ARM("Equals")
+	ScaleRuleMetricDimension_Operator_ARM_NotEquals = ScaleRuleMetricDimension_Operator_ARM("NotEquals")
+)
+
+// Mapping from string to ScaleRuleMetricDimension_Operator_ARM
+var scaleRuleMetricDimension_Operator_ARM_Values = map[string]ScaleRuleMetricDimension_Operator_ARM{
+	"equals":    ScaleRuleMetricDimension_Operator_ARM_Equals,
+	"notequals": ScaleRuleMetricDimension_Operator_ARM_NotEquals,
 }

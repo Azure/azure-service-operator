@@ -34,7 +34,7 @@ type DnsResolvers_OutboundEndpoint_STATUS_ARM struct {
 type OutboundEndpointProperties_STATUS_ARM struct {
 	// ProvisioningState: The current provisioning state of the outbound endpoint. This is a read-only property and any attempt
 	// to set this value will be ignored.
-	ProvisioningState *DnsresolverProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *DnsresolverProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// ResourceGuid: The resourceGuid property of the outbound endpoint resource.
 	ResourceGuid *string `json:"resourceGuid,omitempty"`

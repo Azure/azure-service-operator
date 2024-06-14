@@ -39,7 +39,7 @@ type DnsForwardingRulesetProperties_STATUS_ARM struct {
 
 	// ProvisioningState: The current provisioning state of the DNS forwarding ruleset. This is a read-only property and any
 	// attempt to set this value will be ignored.
-	ProvisioningState *DnsresolverProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *DnsresolverProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// ResourceGuid: The resourceGuid for the DNS forwarding ruleset.
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
@@ -54,7 +54,7 @@ type SystemData_STATUS_ARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_CreatedByType_STATUS_ARM `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -63,7 +63,29 @@ type SystemData_STATUS_ARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS_ARM `json:"lastModifiedByType,omitempty"`
+}
+
+// The current provisioning state of the resource.
+type DnsresolverProvisioningState_STATUS_ARM string
+
+const (
+	DnsresolverProvisioningState_STATUS_ARM_Canceled  = DnsresolverProvisioningState_STATUS_ARM("Canceled")
+	DnsresolverProvisioningState_STATUS_ARM_Creating  = DnsresolverProvisioningState_STATUS_ARM("Creating")
+	DnsresolverProvisioningState_STATUS_ARM_Deleting  = DnsresolverProvisioningState_STATUS_ARM("Deleting")
+	DnsresolverProvisioningState_STATUS_ARM_Failed    = DnsresolverProvisioningState_STATUS_ARM("Failed")
+	DnsresolverProvisioningState_STATUS_ARM_Succeeded = DnsresolverProvisioningState_STATUS_ARM("Succeeded")
+	DnsresolverProvisioningState_STATUS_ARM_Updating  = DnsresolverProvisioningState_STATUS_ARM("Updating")
+)
+
+// Mapping from string to DnsresolverProvisioningState_STATUS_ARM
+var dnsresolverProvisioningState_STATUS_ARM_Values = map[string]DnsresolverProvisioningState_STATUS_ARM{
+	"canceled":  DnsresolverProvisioningState_STATUS_ARM_Canceled,
+	"creating":  DnsresolverProvisioningState_STATUS_ARM_Creating,
+	"deleting":  DnsresolverProvisioningState_STATUS_ARM_Deleting,
+	"failed":    DnsresolverProvisioningState_STATUS_ARM_Failed,
+	"succeeded": DnsresolverProvisioningState_STATUS_ARM_Succeeded,
+	"updating":  DnsresolverProvisioningState_STATUS_ARM_Updating,
 }
 
 // Reference to another ARM resource.
@@ -72,36 +94,36 @@ type DnsresolverSubResource_STATUS_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-type SystemData_CreatedByType_STATUS string
+type SystemData_CreatedByType_STATUS_ARM string
 
 const (
-	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+	SystemData_CreatedByType_STATUS_ARM_Application     = SystemData_CreatedByType_STATUS_ARM("Application")
+	SystemData_CreatedByType_STATUS_ARM_Key             = SystemData_CreatedByType_STATUS_ARM("Key")
+	SystemData_CreatedByType_STATUS_ARM_ManagedIdentity = SystemData_CreatedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_ARM_User            = SystemData_CreatedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_CreatedByType_STATUS
-var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
-	"application":     SystemData_CreatedByType_STATUS_Application,
-	"key":             SystemData_CreatedByType_STATUS_Key,
-	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_CreatedByType_STATUS_User,
+// Mapping from string to SystemData_CreatedByType_STATUS_ARM
+var systemData_CreatedByType_STATUS_ARM_Values = map[string]SystemData_CreatedByType_STATUS_ARM{
+	"application":     SystemData_CreatedByType_STATUS_ARM_Application,
+	"key":             SystemData_CreatedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_ARM_User,
 }
 
-type SystemData_LastModifiedByType_STATUS string
+type SystemData_LastModifiedByType_STATUS_ARM string
 
 const (
-	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+	SystemData_LastModifiedByType_STATUS_ARM_Application     = SystemData_LastModifiedByType_STATUS_ARM("Application")
+	SystemData_LastModifiedByType_STATUS_ARM_Key             = SystemData_LastModifiedByType_STATUS_ARM("Key")
+	SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity = SystemData_LastModifiedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_ARM_User            = SystemData_LastModifiedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_LastModifiedByType_STATUS
-var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
-	"application":     SystemData_LastModifiedByType_STATUS_Application,
-	"key":             SystemData_LastModifiedByType_STATUS_Key,
-	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_LastModifiedByType_STATUS_User,
+// Mapping from string to SystemData_LastModifiedByType_STATUS_ARM
+var systemData_LastModifiedByType_STATUS_ARM_Values = map[string]SystemData_LastModifiedByType_STATUS_ARM{
+	"application":     SystemData_LastModifiedByType_STATUS_ARM_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_ARM_User,
 }

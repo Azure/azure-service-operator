@@ -146,11 +146,11 @@ func ServerPrivateEndpointConnectionProperties_STATUS_ARMGenerator() gopter.Gen 
 // AddIndependentPropertyGeneratorsForServerPrivateEndpointConnectionProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForServerPrivateEndpointConnectionProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_Approving,
-		ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_Dropping,
-		ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_Failed,
-		ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_Ready,
-		ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_Rejecting))
+		ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM_Approving,
+		ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM_Dropping,
+		ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM_Failed,
+		ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM_Ready,
+		ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM_Rejecting))
 }
 
 // AddRelatedPropertyGeneratorsForServerPrivateEndpointConnectionProperties_STATUS_ARM is a factory method for creating gopter generators
@@ -292,13 +292,13 @@ func ServerPrivateLinkServiceConnectionStateProperty_STATUS_ARMGenerator() gopte
 
 // AddIndependentPropertyGeneratorsForServerPrivateLinkServiceConnectionStateProperty_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForServerPrivateLinkServiceConnectionStateProperty_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ActionsRequired"] = gen.PtrOf(gen.OneConstOf(ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_None))
+	gens["ActionsRequired"] = gen.PtrOf(gen.OneConstOf(ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_ARM_None))
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_Approved,
-		ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_Disconnected,
-		ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_Pending,
-		ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_Rejected))
+		ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM_Approved,
+		ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM_Disconnected,
+		ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM_Pending,
+		ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM_Rejected))
 }
 
 func Test_ServerProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -373,16 +373,16 @@ func AddIndependentPropertyGeneratorsForServerProperties_STATUS_ARM(gens map[str
 	gens["FullyQualifiedDomainName"] = gen.PtrOf(gen.AlphaString())
 	gens["MasterServerId"] = gen.PtrOf(gen.AlphaString())
 	gens["MinimalTlsVersion"] = gen.PtrOf(gen.OneConstOf(
-		MinimalTlsVersion_STATUS_TLS1_0,
-		MinimalTlsVersion_STATUS_TLS1_1,
-		MinimalTlsVersion_STATUS_TLS1_2,
-		MinimalTlsVersion_STATUS_TLSEnforcementDisabled))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_STATUS_Disabled, PublicNetworkAccess_STATUS_Enabled))
+		MinimalTlsVersion_STATUS_ARM_TLS1_0,
+		MinimalTlsVersion_STATUS_ARM_TLS1_1,
+		MinimalTlsVersion_STATUS_ARM_TLS1_2,
+		MinimalTlsVersion_STATUS_ARM_TLSEnforcementDisabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_STATUS_ARM_Disabled, PublicNetworkAccess_STATUS_ARM_Enabled))
 	gens["ReplicaCapacity"] = gen.PtrOf(gen.Int())
 	gens["ReplicationRole"] = gen.PtrOf(gen.AlphaString())
-	gens["SslEnforcement"] = gen.PtrOf(gen.OneConstOf(SslEnforcement_STATUS_Disabled, SslEnforcement_STATUS_Enabled))
-	gens["UserVisibleState"] = gen.PtrOf(gen.OneConstOf(ServerProperties_UserVisibleState_STATUS_Disabled, ServerProperties_UserVisibleState_STATUS_Dropping, ServerProperties_UserVisibleState_STATUS_Ready))
-	gens["Version"] = gen.PtrOf(gen.OneConstOf(ServerVersion_STATUS_102, ServerVersion_STATUS_103))
+	gens["SslEnforcement"] = gen.PtrOf(gen.OneConstOf(SslEnforcement_STATUS_ARM_Disabled, SslEnforcement_STATUS_ARM_Enabled))
+	gens["UserVisibleState"] = gen.PtrOf(gen.OneConstOf(ServerProperties_UserVisibleState_STATUS_ARM_Disabled, ServerProperties_UserVisibleState_STATUS_ARM_Dropping, ServerProperties_UserVisibleState_STATUS_ARM_Ready))
+	gens["Version"] = gen.PtrOf(gen.OneConstOf(ServerVersion_STATUS_ARM_102, ServerVersion_STATUS_ARM_103))
 }
 
 // AddRelatedPropertyGeneratorsForServerProperties_STATUS_ARM is a factory method for creating gopter generators
@@ -533,7 +533,7 @@ func AddIndependentPropertyGeneratorsForSku_STATUS_ARM(gens map[string]gopter.Ge
 	gens["Family"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Size"] = gen.PtrOf(gen.AlphaString())
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(Sku_Tier_STATUS_Basic, Sku_Tier_STATUS_GeneralPurpose, Sku_Tier_STATUS_MemoryOptimized))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(Sku_Tier_STATUS_ARM_Basic, Sku_Tier_STATUS_ARM_GeneralPurpose, Sku_Tier_STATUS_ARM_MemoryOptimized))
 }
 
 func Test_StorageProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -595,7 +595,7 @@ func StorageProfile_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForStorageProfile_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageProfile_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["BackupRetentionDays"] = gen.PtrOf(gen.Int())
-	gens["GeoRedundantBackup"] = gen.PtrOf(gen.OneConstOf(StorageProfile_GeoRedundantBackup_STATUS_Disabled, StorageProfile_GeoRedundantBackup_STATUS_Enabled))
-	gens["StorageAutogrow"] = gen.PtrOf(gen.OneConstOf(StorageProfile_StorageAutogrow_STATUS_Disabled, StorageProfile_StorageAutogrow_STATUS_Enabled))
+	gens["GeoRedundantBackup"] = gen.PtrOf(gen.OneConstOf(StorageProfile_GeoRedundantBackup_STATUS_ARM_Disabled, StorageProfile_GeoRedundantBackup_STATUS_ARM_Enabled))
+	gens["StorageAutogrow"] = gen.PtrOf(gen.OneConstOf(StorageProfile_StorageAutogrow_STATUS_ARM_Disabled, StorageProfile_StorageAutogrow_STATUS_ARM_Enabled))
 	gens["StorageMB"] = gen.PtrOf(gen.Int())
 }

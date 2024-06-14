@@ -221,7 +221,7 @@ func ZoneProperties_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForZoneProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForZoneProperties_ARM(gens map[string]gopter.Gen) {
-	gens["ZoneType"] = gen.PtrOf(gen.OneConstOf(ZoneProperties_ZoneType_Private, ZoneProperties_ZoneType_Public))
+	gens["ZoneType"] = gen.PtrOf(gen.OneConstOf(ZoneProperties_ZoneType_ARM_Private, ZoneProperties_ZoneType_ARM_Public))
 }
 
 // AddRelatedPropertyGeneratorsForZoneProperties_ARM is a factory method for creating gopter generators

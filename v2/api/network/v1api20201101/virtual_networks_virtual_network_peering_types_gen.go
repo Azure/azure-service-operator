@@ -411,7 +411,9 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) ConvertToARM(resolved
 		result.Properties.DoNotVerifyRemoteGateways = &doNotVerifyRemoteGateways
 	}
 	if peering.PeeringState != nil {
-		peeringState := *peering.PeeringState
+		var temp string
+		temp = string(*peering.PeeringState)
+		peeringState := VirtualNetworkPeeringPropertiesFormat_PeeringState_ARM(temp)
 		result.Properties.PeeringState = &peeringState
 	}
 	if peering.RemoteAddressSpace != nil {
@@ -506,7 +508,9 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) PopulateFromARM(owner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PeeringState != nil {
-			peeringState := *typedInput.Properties.PeeringState
+			var temp string
+			temp = string(*typedInput.Properties.PeeringState)
+			peeringState := VirtualNetworkPeeringPropertiesFormat_PeeringState(temp)
 			peering.PeeringState = &peeringState
 		}
 	}
@@ -1115,7 +1119,9 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_STATUS) PopulateFromARM(own
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PeeringState != nil {
-			peeringState := *typedInput.Properties.PeeringState
+			var temp string
+			temp = string(*typedInput.Properties.PeeringState)
+			peeringState := VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS(temp)
 			peering.PeeringState = &peeringState
 		}
 	}
@@ -1124,7 +1130,9 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_STATUS) PopulateFromARM(own
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := ProvisioningState_STATUS(temp)
 			peering.ProvisioningState = &provisioningState
 		}
 	}

@@ -32,7 +32,7 @@ type FrontDoorWebApplicationFirewallPolicy_STATUS_ARM struct {
 // The pricing tier of the web application firewall policy.
 type Sku_STATUS_ARM struct {
 	// Name: Name of the pricing tier.
-	Name *Sku_Name_STATUS `json:"name,omitempty"`
+	Name *Sku_Name_STATUS_ARM `json:"name,omitempty"`
 }
 
 // Defines web application firewall policy properties.
@@ -50,8 +50,8 @@ type WebApplicationFirewallPolicyProperties_STATUS_ARM struct {
 	PolicySettings *PolicySettings_STATUS_ARM `json:"policySettings,omitempty"`
 
 	// ProvisioningState: Provisioning state of the policy.
-	ProvisioningState *string                                                      `json:"provisioningState,omitempty"`
-	ResourceState     *WebApplicationFirewallPolicyProperties_ResourceState_STATUS `json:"resourceState,omitempty"`
+	ProvisioningState *string                                                          `json:"provisioningState,omitempty"`
+	ResourceState     *WebApplicationFirewallPolicyProperties_ResourceState_STATUS_ARM `json:"resourceState,omitempty"`
 
 	// RoutingRuleLinks: Describes Routing Rules associated with this Web Application Firewall policy.
 	RoutingRuleLinks []RoutingRuleLink_STATUS_ARM `json:"routingRuleLinks,omitempty"`
@@ -88,16 +88,16 @@ type PolicySettings_STATUS_ARM struct {
 	CustomBlockResponseStatusCode *int `json:"customBlockResponseStatusCode,omitempty"`
 
 	// EnabledState: Describes if the policy is in enabled or disabled state. Defaults to Enabled if not specified.
-	EnabledState *PolicySettings_EnabledState_STATUS `json:"enabledState,omitempty"`
+	EnabledState *PolicySettings_EnabledState_STATUS_ARM `json:"enabledState,omitempty"`
 
 	// Mode: Describes if it is in detection mode or prevention mode at policy level.
-	Mode *PolicySettings_Mode_STATUS `json:"mode,omitempty"`
+	Mode *PolicySettings_Mode_STATUS_ARM `json:"mode,omitempty"`
 
 	// RedirectUrl: If action type is redirect, this field represents redirect URL for the client.
 	RedirectUrl *string `json:"redirectUrl,omitempty"`
 
 	// RequestBodyCheck: Describes if policy managed rules will inspect the request body content.
-	RequestBodyCheck *PolicySettings_RequestBodyCheck_STATUS `json:"requestBodyCheck,omitempty"`
+	RequestBodyCheck *PolicySettings_RequestBodyCheck_STATUS_ARM `json:"requestBodyCheck,omitempty"`
 }
 
 // Defines the Resource ID for a Routing Rule.
@@ -112,49 +112,49 @@ type SecurityPolicyLink_STATUS_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-type Sku_Name_STATUS string
+type Sku_Name_STATUS_ARM string
 
 const (
-	Sku_Name_STATUS_Classic_AzureFrontDoor  = Sku_Name_STATUS("Classic_AzureFrontDoor")
-	Sku_Name_STATUS_Premium_AzureFrontDoor  = Sku_Name_STATUS("Premium_AzureFrontDoor")
-	Sku_Name_STATUS_Standard_AzureFrontDoor = Sku_Name_STATUS("Standard_AzureFrontDoor")
+	Sku_Name_STATUS_ARM_Classic_AzureFrontDoor  = Sku_Name_STATUS_ARM("Classic_AzureFrontDoor")
+	Sku_Name_STATUS_ARM_Premium_AzureFrontDoor  = Sku_Name_STATUS_ARM("Premium_AzureFrontDoor")
+	Sku_Name_STATUS_ARM_Standard_AzureFrontDoor = Sku_Name_STATUS_ARM("Standard_AzureFrontDoor")
 )
 
-// Mapping from string to Sku_Name_STATUS
-var sku_Name_STATUS_Values = map[string]Sku_Name_STATUS{
-	"classic_azurefrontdoor":  Sku_Name_STATUS_Classic_AzureFrontDoor,
-	"premium_azurefrontdoor":  Sku_Name_STATUS_Premium_AzureFrontDoor,
-	"standard_azurefrontdoor": Sku_Name_STATUS_Standard_AzureFrontDoor,
+// Mapping from string to Sku_Name_STATUS_ARM
+var sku_Name_STATUS_ARM_Values = map[string]Sku_Name_STATUS_ARM{
+	"classic_azurefrontdoor":  Sku_Name_STATUS_ARM_Classic_AzureFrontDoor,
+	"premium_azurefrontdoor":  Sku_Name_STATUS_ARM_Premium_AzureFrontDoor,
+	"standard_azurefrontdoor": Sku_Name_STATUS_ARM_Standard_AzureFrontDoor,
 }
 
-type WebApplicationFirewallPolicyProperties_ResourceState_STATUS string
+type WebApplicationFirewallPolicyProperties_ResourceState_STATUS_ARM string
 
 const (
-	WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Creating  = WebApplicationFirewallPolicyProperties_ResourceState_STATUS("Creating")
-	WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Deleting  = WebApplicationFirewallPolicyProperties_ResourceState_STATUS("Deleting")
-	WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Disabled  = WebApplicationFirewallPolicyProperties_ResourceState_STATUS("Disabled")
-	WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Disabling = WebApplicationFirewallPolicyProperties_ResourceState_STATUS("Disabling")
-	WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Enabled   = WebApplicationFirewallPolicyProperties_ResourceState_STATUS("Enabled")
-	WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Enabling  = WebApplicationFirewallPolicyProperties_ResourceState_STATUS("Enabling")
+	WebApplicationFirewallPolicyProperties_ResourceState_STATUS_ARM_Creating  = WebApplicationFirewallPolicyProperties_ResourceState_STATUS_ARM("Creating")
+	WebApplicationFirewallPolicyProperties_ResourceState_STATUS_ARM_Deleting  = WebApplicationFirewallPolicyProperties_ResourceState_STATUS_ARM("Deleting")
+	WebApplicationFirewallPolicyProperties_ResourceState_STATUS_ARM_Disabled  = WebApplicationFirewallPolicyProperties_ResourceState_STATUS_ARM("Disabled")
+	WebApplicationFirewallPolicyProperties_ResourceState_STATUS_ARM_Disabling = WebApplicationFirewallPolicyProperties_ResourceState_STATUS_ARM("Disabling")
+	WebApplicationFirewallPolicyProperties_ResourceState_STATUS_ARM_Enabled   = WebApplicationFirewallPolicyProperties_ResourceState_STATUS_ARM("Enabled")
+	WebApplicationFirewallPolicyProperties_ResourceState_STATUS_ARM_Enabling  = WebApplicationFirewallPolicyProperties_ResourceState_STATUS_ARM("Enabling")
 )
 
-// Mapping from string to WebApplicationFirewallPolicyProperties_ResourceState_STATUS
-var webApplicationFirewallPolicyProperties_ResourceState_STATUS_Values = map[string]WebApplicationFirewallPolicyProperties_ResourceState_STATUS{
-	"creating":  WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Creating,
-	"deleting":  WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Deleting,
-	"disabled":  WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Disabled,
-	"disabling": WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Disabling,
-	"enabled":   WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Enabled,
-	"enabling":  WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Enabling,
+// Mapping from string to WebApplicationFirewallPolicyProperties_ResourceState_STATUS_ARM
+var webApplicationFirewallPolicyProperties_ResourceState_STATUS_ARM_Values = map[string]WebApplicationFirewallPolicyProperties_ResourceState_STATUS_ARM{
+	"creating":  WebApplicationFirewallPolicyProperties_ResourceState_STATUS_ARM_Creating,
+	"deleting":  WebApplicationFirewallPolicyProperties_ResourceState_STATUS_ARM_Deleting,
+	"disabled":  WebApplicationFirewallPolicyProperties_ResourceState_STATUS_ARM_Disabled,
+	"disabling": WebApplicationFirewallPolicyProperties_ResourceState_STATUS_ARM_Disabling,
+	"enabled":   WebApplicationFirewallPolicyProperties_ResourceState_STATUS_ARM_Enabled,
+	"enabling":  WebApplicationFirewallPolicyProperties_ResourceState_STATUS_ARM_Enabling,
 }
 
 // Defines contents of a web application rule
 type CustomRule_STATUS_ARM struct {
 	// Action: Describes what action to be applied when rule matches.
-	Action *ActionType_STATUS `json:"action,omitempty"`
+	Action *ActionType_STATUS_ARM `json:"action,omitempty"`
 
 	// EnabledState: Describes if the custom rule is in enabled or disabled state. Defaults to Enabled if not specified.
-	EnabledState *CustomRule_EnabledState_STATUS `json:"enabledState,omitempty"`
+	EnabledState *CustomRule_EnabledState_STATUS_ARM `json:"enabledState,omitempty"`
 
 	// MatchConditions: List of match conditions.
 	MatchConditions []MatchCondition_STATUS_ARM `json:"matchConditions,omitempty"`
@@ -172,7 +172,7 @@ type CustomRule_STATUS_ARM struct {
 	RateLimitThreshold *int `json:"rateLimitThreshold,omitempty"`
 
 	// RuleType: Describes type of rule.
-	RuleType *CustomRule_RuleType_STATUS `json:"ruleType,omitempty"`
+	RuleType *CustomRule_RuleType_STATUS_ARM `json:"ruleType,omitempty"`
 }
 
 // Defines a managed rule set.
@@ -184,7 +184,7 @@ type ManagedRuleSet_STATUS_ARM struct {
 	RuleGroupOverrides []ManagedRuleGroupOverride_STATUS_ARM `json:"ruleGroupOverrides,omitempty"`
 
 	// RuleSetAction: Defines the rule set action.
-	RuleSetAction *ManagedRuleSetActionType_STATUS `json:"ruleSetAction,omitempty"`
+	RuleSetAction *ManagedRuleSetActionType_STATUS_ARM `json:"ruleSetAction,omitempty"`
 
 	// RuleSetType: Defines the rule set type to use.
 	RuleSetType *string `json:"ruleSetType,omitempty"`
@@ -193,102 +193,102 @@ type ManagedRuleSet_STATUS_ARM struct {
 	RuleSetVersion *string `json:"ruleSetVersion,omitempty"`
 }
 
-type PolicySettings_EnabledState_STATUS string
+type PolicySettings_EnabledState_STATUS_ARM string
 
 const (
-	PolicySettings_EnabledState_STATUS_Disabled = PolicySettings_EnabledState_STATUS("Disabled")
-	PolicySettings_EnabledState_STATUS_Enabled  = PolicySettings_EnabledState_STATUS("Enabled")
+	PolicySettings_EnabledState_STATUS_ARM_Disabled = PolicySettings_EnabledState_STATUS_ARM("Disabled")
+	PolicySettings_EnabledState_STATUS_ARM_Enabled  = PolicySettings_EnabledState_STATUS_ARM("Enabled")
 )
 
-// Mapping from string to PolicySettings_EnabledState_STATUS
-var policySettings_EnabledState_STATUS_Values = map[string]PolicySettings_EnabledState_STATUS{
-	"disabled": PolicySettings_EnabledState_STATUS_Disabled,
-	"enabled":  PolicySettings_EnabledState_STATUS_Enabled,
+// Mapping from string to PolicySettings_EnabledState_STATUS_ARM
+var policySettings_EnabledState_STATUS_ARM_Values = map[string]PolicySettings_EnabledState_STATUS_ARM{
+	"disabled": PolicySettings_EnabledState_STATUS_ARM_Disabled,
+	"enabled":  PolicySettings_EnabledState_STATUS_ARM_Enabled,
 }
 
-type PolicySettings_Mode_STATUS string
+type PolicySettings_Mode_STATUS_ARM string
 
 const (
-	PolicySettings_Mode_STATUS_Detection  = PolicySettings_Mode_STATUS("Detection")
-	PolicySettings_Mode_STATUS_Prevention = PolicySettings_Mode_STATUS("Prevention")
+	PolicySettings_Mode_STATUS_ARM_Detection  = PolicySettings_Mode_STATUS_ARM("Detection")
+	PolicySettings_Mode_STATUS_ARM_Prevention = PolicySettings_Mode_STATUS_ARM("Prevention")
 )
 
-// Mapping from string to PolicySettings_Mode_STATUS
-var policySettings_Mode_STATUS_Values = map[string]PolicySettings_Mode_STATUS{
-	"detection":  PolicySettings_Mode_STATUS_Detection,
-	"prevention": PolicySettings_Mode_STATUS_Prevention,
+// Mapping from string to PolicySettings_Mode_STATUS_ARM
+var policySettings_Mode_STATUS_ARM_Values = map[string]PolicySettings_Mode_STATUS_ARM{
+	"detection":  PolicySettings_Mode_STATUS_ARM_Detection,
+	"prevention": PolicySettings_Mode_STATUS_ARM_Prevention,
 }
 
-type PolicySettings_RequestBodyCheck_STATUS string
+type PolicySettings_RequestBodyCheck_STATUS_ARM string
 
 const (
-	PolicySettings_RequestBodyCheck_STATUS_Disabled = PolicySettings_RequestBodyCheck_STATUS("Disabled")
-	PolicySettings_RequestBodyCheck_STATUS_Enabled  = PolicySettings_RequestBodyCheck_STATUS("Enabled")
+	PolicySettings_RequestBodyCheck_STATUS_ARM_Disabled = PolicySettings_RequestBodyCheck_STATUS_ARM("Disabled")
+	PolicySettings_RequestBodyCheck_STATUS_ARM_Enabled  = PolicySettings_RequestBodyCheck_STATUS_ARM("Enabled")
 )
 
-// Mapping from string to PolicySettings_RequestBodyCheck_STATUS
-var policySettings_RequestBodyCheck_STATUS_Values = map[string]PolicySettings_RequestBodyCheck_STATUS{
-	"disabled": PolicySettings_RequestBodyCheck_STATUS_Disabled,
-	"enabled":  PolicySettings_RequestBodyCheck_STATUS_Enabled,
+// Mapping from string to PolicySettings_RequestBodyCheck_STATUS_ARM
+var policySettings_RequestBodyCheck_STATUS_ARM_Values = map[string]PolicySettings_RequestBodyCheck_STATUS_ARM{
+	"disabled": PolicySettings_RequestBodyCheck_STATUS_ARM_Disabled,
+	"enabled":  PolicySettings_RequestBodyCheck_STATUS_ARM_Enabled,
 }
 
 // Defines the action to take on rule match.
-type ActionType_STATUS string
+type ActionType_STATUS_ARM string
 
 const (
-	ActionType_STATUS_Allow          = ActionType_STATUS("Allow")
-	ActionType_STATUS_AnomalyScoring = ActionType_STATUS("AnomalyScoring")
-	ActionType_STATUS_Block          = ActionType_STATUS("Block")
-	ActionType_STATUS_Log            = ActionType_STATUS("Log")
-	ActionType_STATUS_Redirect       = ActionType_STATUS("Redirect")
+	ActionType_STATUS_ARM_Allow          = ActionType_STATUS_ARM("Allow")
+	ActionType_STATUS_ARM_AnomalyScoring = ActionType_STATUS_ARM("AnomalyScoring")
+	ActionType_STATUS_ARM_Block          = ActionType_STATUS_ARM("Block")
+	ActionType_STATUS_ARM_Log            = ActionType_STATUS_ARM("Log")
+	ActionType_STATUS_ARM_Redirect       = ActionType_STATUS_ARM("Redirect")
 )
 
-// Mapping from string to ActionType_STATUS
-var actionType_STATUS_Values = map[string]ActionType_STATUS{
-	"allow":          ActionType_STATUS_Allow,
-	"anomalyscoring": ActionType_STATUS_AnomalyScoring,
-	"block":          ActionType_STATUS_Block,
-	"log":            ActionType_STATUS_Log,
-	"redirect":       ActionType_STATUS_Redirect,
+// Mapping from string to ActionType_STATUS_ARM
+var actionType_STATUS_ARM_Values = map[string]ActionType_STATUS_ARM{
+	"allow":          ActionType_STATUS_ARM_Allow,
+	"anomalyscoring": ActionType_STATUS_ARM_AnomalyScoring,
+	"block":          ActionType_STATUS_ARM_Block,
+	"log":            ActionType_STATUS_ARM_Log,
+	"redirect":       ActionType_STATUS_ARM_Redirect,
 }
 
-type CustomRule_EnabledState_STATUS string
+type CustomRule_EnabledState_STATUS_ARM string
 
 const (
-	CustomRule_EnabledState_STATUS_Disabled = CustomRule_EnabledState_STATUS("Disabled")
-	CustomRule_EnabledState_STATUS_Enabled  = CustomRule_EnabledState_STATUS("Enabled")
+	CustomRule_EnabledState_STATUS_ARM_Disabled = CustomRule_EnabledState_STATUS_ARM("Disabled")
+	CustomRule_EnabledState_STATUS_ARM_Enabled  = CustomRule_EnabledState_STATUS_ARM("Enabled")
 )
 
-// Mapping from string to CustomRule_EnabledState_STATUS
-var customRule_EnabledState_STATUS_Values = map[string]CustomRule_EnabledState_STATUS{
-	"disabled": CustomRule_EnabledState_STATUS_Disabled,
-	"enabled":  CustomRule_EnabledState_STATUS_Enabled,
+// Mapping from string to CustomRule_EnabledState_STATUS_ARM
+var customRule_EnabledState_STATUS_ARM_Values = map[string]CustomRule_EnabledState_STATUS_ARM{
+	"disabled": CustomRule_EnabledState_STATUS_ARM_Disabled,
+	"enabled":  CustomRule_EnabledState_STATUS_ARM_Enabled,
 }
 
-type CustomRule_RuleType_STATUS string
+type CustomRule_RuleType_STATUS_ARM string
 
 const (
-	CustomRule_RuleType_STATUS_MatchRule     = CustomRule_RuleType_STATUS("MatchRule")
-	CustomRule_RuleType_STATUS_RateLimitRule = CustomRule_RuleType_STATUS("RateLimitRule")
+	CustomRule_RuleType_STATUS_ARM_MatchRule     = CustomRule_RuleType_STATUS_ARM("MatchRule")
+	CustomRule_RuleType_STATUS_ARM_RateLimitRule = CustomRule_RuleType_STATUS_ARM("RateLimitRule")
 )
 
-// Mapping from string to CustomRule_RuleType_STATUS
-var customRule_RuleType_STATUS_Values = map[string]CustomRule_RuleType_STATUS{
-	"matchrule":     CustomRule_RuleType_STATUS_MatchRule,
-	"ratelimitrule": CustomRule_RuleType_STATUS_RateLimitRule,
+// Mapping from string to CustomRule_RuleType_STATUS_ARM
+var customRule_RuleType_STATUS_ARM_Values = map[string]CustomRule_RuleType_STATUS_ARM{
+	"matchrule":     CustomRule_RuleType_STATUS_ARM_MatchRule,
+	"ratelimitrule": CustomRule_RuleType_STATUS_ARM_RateLimitRule,
 }
 
 // Exclude variables from managed rule evaluation.
 type ManagedRuleExclusion_STATUS_ARM struct {
 	// MatchVariable: The variable type to be excluded.
-	MatchVariable *ManagedRuleExclusion_MatchVariable_STATUS `json:"matchVariable,omitempty"`
+	MatchVariable *ManagedRuleExclusion_MatchVariable_STATUS_ARM `json:"matchVariable,omitempty"`
 
 	// Selector: Selector value for which elements in the collection this exclusion applies to.
 	Selector *string `json:"selector,omitempty"`
 
 	// SelectorMatchOperator: Comparison operator to apply to the selector when specifying which elements in the collection
 	// this exclusion applies to.
-	SelectorMatchOperator *ManagedRuleExclusion_SelectorMatchOperator_STATUS `json:"selectorMatchOperator,omitempty"`
+	SelectorMatchOperator *ManagedRuleExclusion_SelectorMatchOperator_STATUS_ARM `json:"selectorMatchOperator,omitempty"`
 }
 
 // Defines a managed rule group override setting.
@@ -304,19 +304,19 @@ type ManagedRuleGroupOverride_STATUS_ARM struct {
 }
 
 // Defines the action to take when a managed rule set score threshold is met.
-type ManagedRuleSetActionType_STATUS string
+type ManagedRuleSetActionType_STATUS_ARM string
 
 const (
-	ManagedRuleSetActionType_STATUS_Block    = ManagedRuleSetActionType_STATUS("Block")
-	ManagedRuleSetActionType_STATUS_Log      = ManagedRuleSetActionType_STATUS("Log")
-	ManagedRuleSetActionType_STATUS_Redirect = ManagedRuleSetActionType_STATUS("Redirect")
+	ManagedRuleSetActionType_STATUS_ARM_Block    = ManagedRuleSetActionType_STATUS_ARM("Block")
+	ManagedRuleSetActionType_STATUS_ARM_Log      = ManagedRuleSetActionType_STATUS_ARM("Log")
+	ManagedRuleSetActionType_STATUS_ARM_Redirect = ManagedRuleSetActionType_STATUS_ARM("Redirect")
 )
 
-// Mapping from string to ManagedRuleSetActionType_STATUS
-var managedRuleSetActionType_STATUS_Values = map[string]ManagedRuleSetActionType_STATUS{
-	"block":    ManagedRuleSetActionType_STATUS_Block,
-	"log":      ManagedRuleSetActionType_STATUS_Log,
-	"redirect": ManagedRuleSetActionType_STATUS_Redirect,
+// Mapping from string to ManagedRuleSetActionType_STATUS_ARM
+var managedRuleSetActionType_STATUS_ARM_Values = map[string]ManagedRuleSetActionType_STATUS_ARM{
+	"block":    ManagedRuleSetActionType_STATUS_ARM_Block,
+	"log":      ManagedRuleSetActionType_STATUS_ARM_Log,
+	"redirect": ManagedRuleSetActionType_STATUS_ARM_Redirect,
 }
 
 // Define a match condition.
@@ -325,67 +325,67 @@ type MatchCondition_STATUS_ARM struct {
 	MatchValue []string `json:"matchValue,omitempty"`
 
 	// MatchVariable: Request variable to compare with.
-	MatchVariable *MatchCondition_MatchVariable_STATUS `json:"matchVariable,omitempty"`
+	MatchVariable *MatchCondition_MatchVariable_STATUS_ARM `json:"matchVariable,omitempty"`
 
 	// NegateCondition: Describes if the result of this condition should be negated.
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
 	// Operator: Comparison type to use for matching with the variable value.
-	Operator *MatchCondition_Operator_STATUS `json:"operator,omitempty"`
+	Operator *MatchCondition_Operator_STATUS_ARM `json:"operator,omitempty"`
 
 	// Selector: Match against a specific key from the QueryString, PostArgs, RequestHeader or Cookies variables. Default is
 	// null.
 	Selector *string `json:"selector,omitempty"`
 
 	// Transforms: List of transforms.
-	Transforms []TransformType_STATUS `json:"transforms,omitempty"`
+	Transforms []TransformType_STATUS_ARM `json:"transforms,omitempty"`
 }
 
-type ManagedRuleExclusion_MatchVariable_STATUS string
+type ManagedRuleExclusion_MatchVariable_STATUS_ARM string
 
 const (
-	ManagedRuleExclusion_MatchVariable_STATUS_QueryStringArgNames     = ManagedRuleExclusion_MatchVariable_STATUS("QueryStringArgNames")
-	ManagedRuleExclusion_MatchVariable_STATUS_RequestBodyJsonArgNames = ManagedRuleExclusion_MatchVariable_STATUS("RequestBodyJsonArgNames")
-	ManagedRuleExclusion_MatchVariable_STATUS_RequestBodyPostArgNames = ManagedRuleExclusion_MatchVariable_STATUS("RequestBodyPostArgNames")
-	ManagedRuleExclusion_MatchVariable_STATUS_RequestCookieNames      = ManagedRuleExclusion_MatchVariable_STATUS("RequestCookieNames")
-	ManagedRuleExclusion_MatchVariable_STATUS_RequestHeaderNames      = ManagedRuleExclusion_MatchVariable_STATUS("RequestHeaderNames")
+	ManagedRuleExclusion_MatchVariable_STATUS_ARM_QueryStringArgNames     = ManagedRuleExclusion_MatchVariable_STATUS_ARM("QueryStringArgNames")
+	ManagedRuleExclusion_MatchVariable_STATUS_ARM_RequestBodyJsonArgNames = ManagedRuleExclusion_MatchVariable_STATUS_ARM("RequestBodyJsonArgNames")
+	ManagedRuleExclusion_MatchVariable_STATUS_ARM_RequestBodyPostArgNames = ManagedRuleExclusion_MatchVariable_STATUS_ARM("RequestBodyPostArgNames")
+	ManagedRuleExclusion_MatchVariable_STATUS_ARM_RequestCookieNames      = ManagedRuleExclusion_MatchVariable_STATUS_ARM("RequestCookieNames")
+	ManagedRuleExclusion_MatchVariable_STATUS_ARM_RequestHeaderNames      = ManagedRuleExclusion_MatchVariable_STATUS_ARM("RequestHeaderNames")
 )
 
-// Mapping from string to ManagedRuleExclusion_MatchVariable_STATUS
-var managedRuleExclusion_MatchVariable_STATUS_Values = map[string]ManagedRuleExclusion_MatchVariable_STATUS{
-	"querystringargnames":     ManagedRuleExclusion_MatchVariable_STATUS_QueryStringArgNames,
-	"requestbodyjsonargnames": ManagedRuleExclusion_MatchVariable_STATUS_RequestBodyJsonArgNames,
-	"requestbodypostargnames": ManagedRuleExclusion_MatchVariable_STATUS_RequestBodyPostArgNames,
-	"requestcookienames":      ManagedRuleExclusion_MatchVariable_STATUS_RequestCookieNames,
-	"requestheadernames":      ManagedRuleExclusion_MatchVariable_STATUS_RequestHeaderNames,
+// Mapping from string to ManagedRuleExclusion_MatchVariable_STATUS_ARM
+var managedRuleExclusion_MatchVariable_STATUS_ARM_Values = map[string]ManagedRuleExclusion_MatchVariable_STATUS_ARM{
+	"querystringargnames":     ManagedRuleExclusion_MatchVariable_STATUS_ARM_QueryStringArgNames,
+	"requestbodyjsonargnames": ManagedRuleExclusion_MatchVariable_STATUS_ARM_RequestBodyJsonArgNames,
+	"requestbodypostargnames": ManagedRuleExclusion_MatchVariable_STATUS_ARM_RequestBodyPostArgNames,
+	"requestcookienames":      ManagedRuleExclusion_MatchVariable_STATUS_ARM_RequestCookieNames,
+	"requestheadernames":      ManagedRuleExclusion_MatchVariable_STATUS_ARM_RequestHeaderNames,
 }
 
-type ManagedRuleExclusion_SelectorMatchOperator_STATUS string
+type ManagedRuleExclusion_SelectorMatchOperator_STATUS_ARM string
 
 const (
-	ManagedRuleExclusion_SelectorMatchOperator_STATUS_Contains   = ManagedRuleExclusion_SelectorMatchOperator_STATUS("Contains")
-	ManagedRuleExclusion_SelectorMatchOperator_STATUS_EndsWith   = ManagedRuleExclusion_SelectorMatchOperator_STATUS("EndsWith")
-	ManagedRuleExclusion_SelectorMatchOperator_STATUS_Equals     = ManagedRuleExclusion_SelectorMatchOperator_STATUS("Equals")
-	ManagedRuleExclusion_SelectorMatchOperator_STATUS_EqualsAny  = ManagedRuleExclusion_SelectorMatchOperator_STATUS("EqualsAny")
-	ManagedRuleExclusion_SelectorMatchOperator_STATUS_StartsWith = ManagedRuleExclusion_SelectorMatchOperator_STATUS("StartsWith")
+	ManagedRuleExclusion_SelectorMatchOperator_STATUS_ARM_Contains   = ManagedRuleExclusion_SelectorMatchOperator_STATUS_ARM("Contains")
+	ManagedRuleExclusion_SelectorMatchOperator_STATUS_ARM_EndsWith   = ManagedRuleExclusion_SelectorMatchOperator_STATUS_ARM("EndsWith")
+	ManagedRuleExclusion_SelectorMatchOperator_STATUS_ARM_Equals     = ManagedRuleExclusion_SelectorMatchOperator_STATUS_ARM("Equals")
+	ManagedRuleExclusion_SelectorMatchOperator_STATUS_ARM_EqualsAny  = ManagedRuleExclusion_SelectorMatchOperator_STATUS_ARM("EqualsAny")
+	ManagedRuleExclusion_SelectorMatchOperator_STATUS_ARM_StartsWith = ManagedRuleExclusion_SelectorMatchOperator_STATUS_ARM("StartsWith")
 )
 
-// Mapping from string to ManagedRuleExclusion_SelectorMatchOperator_STATUS
-var managedRuleExclusion_SelectorMatchOperator_STATUS_Values = map[string]ManagedRuleExclusion_SelectorMatchOperator_STATUS{
-	"contains":   ManagedRuleExclusion_SelectorMatchOperator_STATUS_Contains,
-	"endswith":   ManagedRuleExclusion_SelectorMatchOperator_STATUS_EndsWith,
-	"equals":     ManagedRuleExclusion_SelectorMatchOperator_STATUS_Equals,
-	"equalsany":  ManagedRuleExclusion_SelectorMatchOperator_STATUS_EqualsAny,
-	"startswith": ManagedRuleExclusion_SelectorMatchOperator_STATUS_StartsWith,
+// Mapping from string to ManagedRuleExclusion_SelectorMatchOperator_STATUS_ARM
+var managedRuleExclusion_SelectorMatchOperator_STATUS_ARM_Values = map[string]ManagedRuleExclusion_SelectorMatchOperator_STATUS_ARM{
+	"contains":   ManagedRuleExclusion_SelectorMatchOperator_STATUS_ARM_Contains,
+	"endswith":   ManagedRuleExclusion_SelectorMatchOperator_STATUS_ARM_EndsWith,
+	"equals":     ManagedRuleExclusion_SelectorMatchOperator_STATUS_ARM_Equals,
+	"equalsany":  ManagedRuleExclusion_SelectorMatchOperator_STATUS_ARM_EqualsAny,
+	"startswith": ManagedRuleExclusion_SelectorMatchOperator_STATUS_ARM_StartsWith,
 }
 
 // Defines a managed rule group override setting.
 type ManagedRuleOverride_STATUS_ARM struct {
 	// Action: Describes the override action to be applied when rule matches.
-	Action *ActionType_STATUS `json:"action,omitempty"`
+	Action *ActionType_STATUS_ARM `json:"action,omitempty"`
 
 	// EnabledState: Describes if the managed rule is in enabled or disabled state. Defaults to Disabled if not specified.
-	EnabledState *ManagedRuleEnabledState_STATUS `json:"enabledState,omitempty"`
+	EnabledState *ManagedRuleEnabledState_STATUS_ARM `json:"enabledState,omitempty"`
 
 	// Exclusions: Describes the exclusions that are applied to this specific rule.
 	Exclusions []ManagedRuleExclusion_STATUS_ARM `json:"exclusions,omitempty"`
@@ -394,98 +394,98 @@ type ManagedRuleOverride_STATUS_ARM struct {
 	RuleId *string `json:"ruleId,omitempty"`
 }
 
-type MatchCondition_MatchVariable_STATUS string
+type MatchCondition_MatchVariable_STATUS_ARM string
 
 const (
-	MatchCondition_MatchVariable_STATUS_Cookies       = MatchCondition_MatchVariable_STATUS("Cookies")
-	MatchCondition_MatchVariable_STATUS_PostArgs      = MatchCondition_MatchVariable_STATUS("PostArgs")
-	MatchCondition_MatchVariable_STATUS_QueryString   = MatchCondition_MatchVariable_STATUS("QueryString")
-	MatchCondition_MatchVariable_STATUS_RemoteAddr    = MatchCondition_MatchVariable_STATUS("RemoteAddr")
-	MatchCondition_MatchVariable_STATUS_RequestBody   = MatchCondition_MatchVariable_STATUS("RequestBody")
-	MatchCondition_MatchVariable_STATUS_RequestHeader = MatchCondition_MatchVariable_STATUS("RequestHeader")
-	MatchCondition_MatchVariable_STATUS_RequestMethod = MatchCondition_MatchVariable_STATUS("RequestMethod")
-	MatchCondition_MatchVariable_STATUS_RequestUri    = MatchCondition_MatchVariable_STATUS("RequestUri")
-	MatchCondition_MatchVariable_STATUS_SocketAddr    = MatchCondition_MatchVariable_STATUS("SocketAddr")
+	MatchCondition_MatchVariable_STATUS_ARM_Cookies       = MatchCondition_MatchVariable_STATUS_ARM("Cookies")
+	MatchCondition_MatchVariable_STATUS_ARM_PostArgs      = MatchCondition_MatchVariable_STATUS_ARM("PostArgs")
+	MatchCondition_MatchVariable_STATUS_ARM_QueryString   = MatchCondition_MatchVariable_STATUS_ARM("QueryString")
+	MatchCondition_MatchVariable_STATUS_ARM_RemoteAddr    = MatchCondition_MatchVariable_STATUS_ARM("RemoteAddr")
+	MatchCondition_MatchVariable_STATUS_ARM_RequestBody   = MatchCondition_MatchVariable_STATUS_ARM("RequestBody")
+	MatchCondition_MatchVariable_STATUS_ARM_RequestHeader = MatchCondition_MatchVariable_STATUS_ARM("RequestHeader")
+	MatchCondition_MatchVariable_STATUS_ARM_RequestMethod = MatchCondition_MatchVariable_STATUS_ARM("RequestMethod")
+	MatchCondition_MatchVariable_STATUS_ARM_RequestUri    = MatchCondition_MatchVariable_STATUS_ARM("RequestUri")
+	MatchCondition_MatchVariable_STATUS_ARM_SocketAddr    = MatchCondition_MatchVariable_STATUS_ARM("SocketAddr")
 )
 
-// Mapping from string to MatchCondition_MatchVariable_STATUS
-var matchCondition_MatchVariable_STATUS_Values = map[string]MatchCondition_MatchVariable_STATUS{
-	"cookies":       MatchCondition_MatchVariable_STATUS_Cookies,
-	"postargs":      MatchCondition_MatchVariable_STATUS_PostArgs,
-	"querystring":   MatchCondition_MatchVariable_STATUS_QueryString,
-	"remoteaddr":    MatchCondition_MatchVariable_STATUS_RemoteAddr,
-	"requestbody":   MatchCondition_MatchVariable_STATUS_RequestBody,
-	"requestheader": MatchCondition_MatchVariable_STATUS_RequestHeader,
-	"requestmethod": MatchCondition_MatchVariable_STATUS_RequestMethod,
-	"requesturi":    MatchCondition_MatchVariable_STATUS_RequestUri,
-	"socketaddr":    MatchCondition_MatchVariable_STATUS_SocketAddr,
+// Mapping from string to MatchCondition_MatchVariable_STATUS_ARM
+var matchCondition_MatchVariable_STATUS_ARM_Values = map[string]MatchCondition_MatchVariable_STATUS_ARM{
+	"cookies":       MatchCondition_MatchVariable_STATUS_ARM_Cookies,
+	"postargs":      MatchCondition_MatchVariable_STATUS_ARM_PostArgs,
+	"querystring":   MatchCondition_MatchVariable_STATUS_ARM_QueryString,
+	"remoteaddr":    MatchCondition_MatchVariable_STATUS_ARM_RemoteAddr,
+	"requestbody":   MatchCondition_MatchVariable_STATUS_ARM_RequestBody,
+	"requestheader": MatchCondition_MatchVariable_STATUS_ARM_RequestHeader,
+	"requestmethod": MatchCondition_MatchVariable_STATUS_ARM_RequestMethod,
+	"requesturi":    MatchCondition_MatchVariable_STATUS_ARM_RequestUri,
+	"socketaddr":    MatchCondition_MatchVariable_STATUS_ARM_SocketAddr,
 }
 
-type MatchCondition_Operator_STATUS string
+type MatchCondition_Operator_STATUS_ARM string
 
 const (
-	MatchCondition_Operator_STATUS_Any                = MatchCondition_Operator_STATUS("Any")
-	MatchCondition_Operator_STATUS_BeginsWith         = MatchCondition_Operator_STATUS("BeginsWith")
-	MatchCondition_Operator_STATUS_Contains           = MatchCondition_Operator_STATUS("Contains")
-	MatchCondition_Operator_STATUS_EndsWith           = MatchCondition_Operator_STATUS("EndsWith")
-	MatchCondition_Operator_STATUS_Equal              = MatchCondition_Operator_STATUS("Equal")
-	MatchCondition_Operator_STATUS_GeoMatch           = MatchCondition_Operator_STATUS("GeoMatch")
-	MatchCondition_Operator_STATUS_GreaterThan        = MatchCondition_Operator_STATUS("GreaterThan")
-	MatchCondition_Operator_STATUS_GreaterThanOrEqual = MatchCondition_Operator_STATUS("GreaterThanOrEqual")
-	MatchCondition_Operator_STATUS_IPMatch            = MatchCondition_Operator_STATUS("IPMatch")
-	MatchCondition_Operator_STATUS_LessThan           = MatchCondition_Operator_STATUS("LessThan")
-	MatchCondition_Operator_STATUS_LessThanOrEqual    = MatchCondition_Operator_STATUS("LessThanOrEqual")
-	MatchCondition_Operator_STATUS_RegEx              = MatchCondition_Operator_STATUS("RegEx")
+	MatchCondition_Operator_STATUS_ARM_Any                = MatchCondition_Operator_STATUS_ARM("Any")
+	MatchCondition_Operator_STATUS_ARM_BeginsWith         = MatchCondition_Operator_STATUS_ARM("BeginsWith")
+	MatchCondition_Operator_STATUS_ARM_Contains           = MatchCondition_Operator_STATUS_ARM("Contains")
+	MatchCondition_Operator_STATUS_ARM_EndsWith           = MatchCondition_Operator_STATUS_ARM("EndsWith")
+	MatchCondition_Operator_STATUS_ARM_Equal              = MatchCondition_Operator_STATUS_ARM("Equal")
+	MatchCondition_Operator_STATUS_ARM_GeoMatch           = MatchCondition_Operator_STATUS_ARM("GeoMatch")
+	MatchCondition_Operator_STATUS_ARM_GreaterThan        = MatchCondition_Operator_STATUS_ARM("GreaterThan")
+	MatchCondition_Operator_STATUS_ARM_GreaterThanOrEqual = MatchCondition_Operator_STATUS_ARM("GreaterThanOrEqual")
+	MatchCondition_Operator_STATUS_ARM_IPMatch            = MatchCondition_Operator_STATUS_ARM("IPMatch")
+	MatchCondition_Operator_STATUS_ARM_LessThan           = MatchCondition_Operator_STATUS_ARM("LessThan")
+	MatchCondition_Operator_STATUS_ARM_LessThanOrEqual    = MatchCondition_Operator_STATUS_ARM("LessThanOrEqual")
+	MatchCondition_Operator_STATUS_ARM_RegEx              = MatchCondition_Operator_STATUS_ARM("RegEx")
 )
 
-// Mapping from string to MatchCondition_Operator_STATUS
-var matchCondition_Operator_STATUS_Values = map[string]MatchCondition_Operator_STATUS{
-	"any":                MatchCondition_Operator_STATUS_Any,
-	"beginswith":         MatchCondition_Operator_STATUS_BeginsWith,
-	"contains":           MatchCondition_Operator_STATUS_Contains,
-	"endswith":           MatchCondition_Operator_STATUS_EndsWith,
-	"equal":              MatchCondition_Operator_STATUS_Equal,
-	"geomatch":           MatchCondition_Operator_STATUS_GeoMatch,
-	"greaterthan":        MatchCondition_Operator_STATUS_GreaterThan,
-	"greaterthanorequal": MatchCondition_Operator_STATUS_GreaterThanOrEqual,
-	"ipmatch":            MatchCondition_Operator_STATUS_IPMatch,
-	"lessthan":           MatchCondition_Operator_STATUS_LessThan,
-	"lessthanorequal":    MatchCondition_Operator_STATUS_LessThanOrEqual,
-	"regex":              MatchCondition_Operator_STATUS_RegEx,
+// Mapping from string to MatchCondition_Operator_STATUS_ARM
+var matchCondition_Operator_STATUS_ARM_Values = map[string]MatchCondition_Operator_STATUS_ARM{
+	"any":                MatchCondition_Operator_STATUS_ARM_Any,
+	"beginswith":         MatchCondition_Operator_STATUS_ARM_BeginsWith,
+	"contains":           MatchCondition_Operator_STATUS_ARM_Contains,
+	"endswith":           MatchCondition_Operator_STATUS_ARM_EndsWith,
+	"equal":              MatchCondition_Operator_STATUS_ARM_Equal,
+	"geomatch":           MatchCondition_Operator_STATUS_ARM_GeoMatch,
+	"greaterthan":        MatchCondition_Operator_STATUS_ARM_GreaterThan,
+	"greaterthanorequal": MatchCondition_Operator_STATUS_ARM_GreaterThanOrEqual,
+	"ipmatch":            MatchCondition_Operator_STATUS_ARM_IPMatch,
+	"lessthan":           MatchCondition_Operator_STATUS_ARM_LessThan,
+	"lessthanorequal":    MatchCondition_Operator_STATUS_ARM_LessThanOrEqual,
+	"regex":              MatchCondition_Operator_STATUS_ARM_RegEx,
 }
 
 // Describes what transforms applied before matching.
-type TransformType_STATUS string
+type TransformType_STATUS_ARM string
 
 const (
-	TransformType_STATUS_Lowercase   = TransformType_STATUS("Lowercase")
-	TransformType_STATUS_RemoveNulls = TransformType_STATUS("RemoveNulls")
-	TransformType_STATUS_Trim        = TransformType_STATUS("Trim")
-	TransformType_STATUS_Uppercase   = TransformType_STATUS("Uppercase")
-	TransformType_STATUS_UrlDecode   = TransformType_STATUS("UrlDecode")
-	TransformType_STATUS_UrlEncode   = TransformType_STATUS("UrlEncode")
+	TransformType_STATUS_ARM_Lowercase   = TransformType_STATUS_ARM("Lowercase")
+	TransformType_STATUS_ARM_RemoveNulls = TransformType_STATUS_ARM("RemoveNulls")
+	TransformType_STATUS_ARM_Trim        = TransformType_STATUS_ARM("Trim")
+	TransformType_STATUS_ARM_Uppercase   = TransformType_STATUS_ARM("Uppercase")
+	TransformType_STATUS_ARM_UrlDecode   = TransformType_STATUS_ARM("UrlDecode")
+	TransformType_STATUS_ARM_UrlEncode   = TransformType_STATUS_ARM("UrlEncode")
 )
 
-// Mapping from string to TransformType_STATUS
-var transformType_STATUS_Values = map[string]TransformType_STATUS{
-	"lowercase":   TransformType_STATUS_Lowercase,
-	"removenulls": TransformType_STATUS_RemoveNulls,
-	"trim":        TransformType_STATUS_Trim,
-	"uppercase":   TransformType_STATUS_Uppercase,
-	"urldecode":   TransformType_STATUS_UrlDecode,
-	"urlencode":   TransformType_STATUS_UrlEncode,
+// Mapping from string to TransformType_STATUS_ARM
+var transformType_STATUS_ARM_Values = map[string]TransformType_STATUS_ARM{
+	"lowercase":   TransformType_STATUS_ARM_Lowercase,
+	"removenulls": TransformType_STATUS_ARM_RemoveNulls,
+	"trim":        TransformType_STATUS_ARM_Trim,
+	"uppercase":   TransformType_STATUS_ARM_Uppercase,
+	"urldecode":   TransformType_STATUS_ARM_UrlDecode,
+	"urlencode":   TransformType_STATUS_ARM_UrlEncode,
 }
 
 // Describes if the managed rule is in enabled or disabled state.
-type ManagedRuleEnabledState_STATUS string
+type ManagedRuleEnabledState_STATUS_ARM string
 
 const (
-	ManagedRuleEnabledState_STATUS_Disabled = ManagedRuleEnabledState_STATUS("Disabled")
-	ManagedRuleEnabledState_STATUS_Enabled  = ManagedRuleEnabledState_STATUS("Enabled")
+	ManagedRuleEnabledState_STATUS_ARM_Disabled = ManagedRuleEnabledState_STATUS_ARM("Disabled")
+	ManagedRuleEnabledState_STATUS_ARM_Enabled  = ManagedRuleEnabledState_STATUS_ARM("Enabled")
 )
 
-// Mapping from string to ManagedRuleEnabledState_STATUS
-var managedRuleEnabledState_STATUS_Values = map[string]ManagedRuleEnabledState_STATUS{
-	"disabled": ManagedRuleEnabledState_STATUS_Disabled,
-	"enabled":  ManagedRuleEnabledState_STATUS_Enabled,
+// Mapping from string to ManagedRuleEnabledState_STATUS_ARM
+var managedRuleEnabledState_STATUS_ARM_Values = map[string]ManagedRuleEnabledState_STATUS_ARM{
+	"disabled": ManagedRuleEnabledState_STATUS_ARM_Disabled,
+	"enabled":  ManagedRuleEnabledState_STATUS_ARM_Enabled,
 }

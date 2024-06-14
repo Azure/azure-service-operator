@@ -49,6 +49,26 @@ type RoleAssignmentProperties_ARM struct {
 	PrincipalId *string `json:"principalId,omitempty" optionalConfigMapPair:"PrincipalId"`
 
 	// PrincipalType: The principal type of the assigned principal ID.
-	PrincipalType    *RoleAssignmentProperties_PrincipalType `json:"principalType,omitempty"`
-	RoleDefinitionId *string                                 `json:"roleDefinitionId,omitempty"`
+	PrincipalType    *RoleAssignmentProperties_PrincipalType_ARM `json:"principalType,omitempty"`
+	RoleDefinitionId *string                                     `json:"roleDefinitionId,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Device","ForeignGroup","Group","ServicePrincipal","User"}
+type RoleAssignmentProperties_PrincipalType_ARM string
+
+const (
+	RoleAssignmentProperties_PrincipalType_ARM_Device           = RoleAssignmentProperties_PrincipalType_ARM("Device")
+	RoleAssignmentProperties_PrincipalType_ARM_ForeignGroup     = RoleAssignmentProperties_PrincipalType_ARM("ForeignGroup")
+	RoleAssignmentProperties_PrincipalType_ARM_Group            = RoleAssignmentProperties_PrincipalType_ARM("Group")
+	RoleAssignmentProperties_PrincipalType_ARM_ServicePrincipal = RoleAssignmentProperties_PrincipalType_ARM("ServicePrincipal")
+	RoleAssignmentProperties_PrincipalType_ARM_User             = RoleAssignmentProperties_PrincipalType_ARM("User")
+)
+
+// Mapping from string to RoleAssignmentProperties_PrincipalType_ARM
+var roleAssignmentProperties_PrincipalType_ARM_Values = map[string]RoleAssignmentProperties_PrincipalType_ARM{
+	"device":           RoleAssignmentProperties_PrincipalType_ARM_Device,
+	"foreigngroup":     RoleAssignmentProperties_PrincipalType_ARM_ForeignGroup,
+	"group":            RoleAssignmentProperties_PrincipalType_ARM_Group,
+	"serviceprincipal": RoleAssignmentProperties_PrincipalType_ARM_ServicePrincipal,
+	"user":             RoleAssignmentProperties_PrincipalType_ARM_User,
 }

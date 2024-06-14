@@ -75,7 +75,7 @@ func BackupShortTermRetentionPolicyProperties_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForBackupShortTermRetentionPolicyProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBackupShortTermRetentionPolicyProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["DiffBackupIntervalInHours"] = gen.PtrOf(gen.OneConstOf(BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours_STATUS_12, BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours_STATUS_24))
+	gens["DiffBackupIntervalInHours"] = gen.PtrOf(gen.OneConstOf(BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours_STATUS_ARM_12, BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours_STATUS_ARM_24))
 	gens["RetentionDays"] = gen.PtrOf(gen.Int())
 }
 

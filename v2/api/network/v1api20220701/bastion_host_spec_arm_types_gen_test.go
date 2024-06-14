@@ -84,7 +84,7 @@ func BastionHostIPConfigurationPropertiesFormat_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForBastionHostIPConfigurationPropertiesFormat_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBastionHostIPConfigurationPropertiesFormat_ARM(gens map[string]gopter.Gen) {
-	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_Dynamic, IPAllocationMethod_Static))
+	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_ARM_Dynamic, IPAllocationMethod_ARM_Static))
 }
 
 // AddRelatedPropertyGeneratorsForBastionHostIPConfigurationPropertiesFormat_ARM is a factory method for creating gopter generators
@@ -447,5 +447,5 @@ func Sku_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSku_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSku_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(Sku_Name_Basic, Sku_Name_Standard))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(Sku_Name_ARM_Basic, Sku_Name_ARM_Standard))
 }

@@ -74,8 +74,8 @@ func AuthConfig_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAuthConfig_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAuthConfig_ARM(gens map[string]gopter.Gen) {
-	gens["ActiveDirectoryAuth"] = gen.PtrOf(gen.OneConstOf(AuthConfig_ActiveDirectoryAuth_Disabled, AuthConfig_ActiveDirectoryAuth_Enabled))
-	gens["PasswordAuth"] = gen.PtrOf(gen.OneConstOf(AuthConfig_PasswordAuth_Disabled, AuthConfig_PasswordAuth_Enabled))
+	gens["ActiveDirectoryAuth"] = gen.PtrOf(gen.OneConstOf(AuthConfig_ActiveDirectoryAuth_ARM_Disabled, AuthConfig_ActiveDirectoryAuth_ARM_Enabled))
+	gens["PasswordAuth"] = gen.PtrOf(gen.OneConstOf(AuthConfig_PasswordAuth_ARM_Disabled, AuthConfig_PasswordAuth_ARM_Enabled))
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -137,7 +137,7 @@ func Backup_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForBackup_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBackup_ARM(gens map[string]gopter.Gen) {
 	gens["BackupRetentionDays"] = gen.PtrOf(gen.Int())
-	gens["GeoRedundantBackup"] = gen.PtrOf(gen.OneConstOf(Backup_GeoRedundantBackup_Disabled, Backup_GeoRedundantBackup_Enabled))
+	gens["GeoRedundantBackup"] = gen.PtrOf(gen.OneConstOf(Backup_GeoRedundantBackup_ARM_Disabled, Backup_GeoRedundantBackup_ARM_Enabled))
 }
 
 func Test_DataEncryption_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -199,7 +199,7 @@ func DataEncryption_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForDataEncryption_ARM(gens map[string]gopter.Gen) {
 	gens["PrimaryKeyURI"] = gen.PtrOf(gen.AlphaString())
 	gens["PrimaryUserAssignedIdentityId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(DataEncryption_Type_AzureKeyVault, DataEncryption_Type_SystemManaged))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(DataEncryption_Type_ARM_AzureKeyVault, DataEncryption_Type_ARM_SystemManaged))
 }
 
 func Test_FlexibleServer_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -341,7 +341,7 @@ func HighAvailability_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForHighAvailability_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForHighAvailability_ARM(gens map[string]gopter.Gen) {
-	gens["Mode"] = gen.PtrOf(gen.OneConstOf(HighAvailability_Mode_Disabled, HighAvailability_Mode_SameZone, HighAvailability_Mode_ZoneRedundant))
+	gens["Mode"] = gen.PtrOf(gen.OneConstOf(HighAvailability_Mode_ARM_Disabled, HighAvailability_Mode_ARM_SameZone, HighAvailability_Mode_ARM_ZoneRedundant))
 	gens["StandbyAvailabilityZone"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -541,24 +541,24 @@ func AddIndependentPropertyGeneratorsForServerProperties_ARM(gens map[string]gop
 	gens["AdministratorLoginPassword"] = gen.PtrOf(gen.AlphaString())
 	gens["AvailabilityZone"] = gen.PtrOf(gen.AlphaString())
 	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(
-		ServerProperties_CreateMode_Create,
-		ServerProperties_CreateMode_Default,
-		ServerProperties_CreateMode_GeoRestore,
-		ServerProperties_CreateMode_PointInTimeRestore,
-		ServerProperties_CreateMode_Replica,
-		ServerProperties_CreateMode_Update))
+		ServerProperties_CreateMode_ARM_Create,
+		ServerProperties_CreateMode_ARM_Default,
+		ServerProperties_CreateMode_ARM_GeoRestore,
+		ServerProperties_CreateMode_ARM_PointInTimeRestore,
+		ServerProperties_CreateMode_ARM_Replica,
+		ServerProperties_CreateMode_ARM_Update))
 	gens["PointInTimeUTC"] = gen.PtrOf(gen.AlphaString())
 	gens["ReplicationRole"] = gen.PtrOf(gen.OneConstOf(
-		ReplicationRole_AsyncReplica,
-		ReplicationRole_GeoAsyncReplica,
-		ReplicationRole_None,
-		ReplicationRole_Primary))
+		ReplicationRole_ARM_AsyncReplica,
+		ReplicationRole_ARM_GeoAsyncReplica,
+		ReplicationRole_ARM_None,
+		ReplicationRole_ARM_Primary))
 	gens["SourceServerResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["Version"] = gen.PtrOf(gen.OneConstOf(
-		ServerVersion_11,
-		ServerVersion_12,
-		ServerVersion_13,
-		ServerVersion_14))
+		ServerVersion_ARM_11,
+		ServerVersion_ARM_12,
+		ServerVersion_ARM_13,
+		ServerVersion_ARM_14))
 }
 
 // AddRelatedPropertyGeneratorsForServerProperties_ARM is a factory method for creating gopter generators
@@ -630,7 +630,7 @@ func Sku_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSku_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSku_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(Sku_Tier_Burstable, Sku_Tier_GeneralPurpose, Sku_Tier_MemoryOptimized))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(Sku_Tier_ARM_Burstable, Sku_Tier_ARM_GeneralPurpose, Sku_Tier_ARM_MemoryOptimized))
 }
 
 func Test_Storage_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -815,7 +815,7 @@ func UserAssignedIdentity_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForUserAssignedIdentity_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForUserAssignedIdentity_ARM(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(UserAssignedIdentity_Type_None, UserAssignedIdentity_Type_UserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(UserAssignedIdentity_Type_ARM_None, UserAssignedIdentity_Type_ARM_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForUserAssignedIdentity_ARM is a factory method for creating gopter generators

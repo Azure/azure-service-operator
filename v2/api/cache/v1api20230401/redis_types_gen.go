@@ -475,11 +475,15 @@ func (redis *Redis_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		result.Properties.EnableNonSslPort = &enableNonSslPort
 	}
 	if redis.MinimumTlsVersion != nil {
-		minimumTlsVersion := *redis.MinimumTlsVersion
+		var temp string
+		temp = string(*redis.MinimumTlsVersion)
+		minimumTlsVersion := RedisCreateProperties_MinimumTlsVersion_ARM(temp)
 		result.Properties.MinimumTlsVersion = &minimumTlsVersion
 	}
 	if redis.PublicNetworkAccess != nil {
-		publicNetworkAccess := *redis.PublicNetworkAccess
+		var temp string
+		temp = string(*redis.PublicNetworkAccess)
+		publicNetworkAccess := RedisCreateProperties_PublicNetworkAccess_ARM(temp)
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 	if redis.RedisConfiguration != nil {
@@ -593,7 +597,9 @@ func (redis *Redis_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MinimumTlsVersion != nil {
-			minimumTlsVersion := *typedInput.Properties.MinimumTlsVersion
+			var temp string
+			temp = string(*typedInput.Properties.MinimumTlsVersion)
+			minimumTlsVersion := RedisCreateProperties_MinimumTlsVersion(temp)
 			redis.MinimumTlsVersion = &minimumTlsVersion
 		}
 	}
@@ -610,7 +616,9 @@ func (redis *Redis_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
-			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccess)
+			publicNetworkAccess := RedisCreateProperties_PublicNetworkAccess(temp)
 			redis.PublicNetworkAccess = &publicNetworkAccess
 		}
 	}
@@ -1388,7 +1396,9 @@ func (redis *Redis_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MinimumTlsVersion != nil {
-			minimumTlsVersion := *typedInput.Properties.MinimumTlsVersion
+			var temp string
+			temp = string(*typedInput.Properties.MinimumTlsVersion)
+			minimumTlsVersion := RedisProperties_MinimumTlsVersion_STATUS(temp)
 			redis.MinimumTlsVersion = &minimumTlsVersion
 		}
 	}
@@ -1425,7 +1435,9 @@ func (redis *Redis_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := RedisProperties_ProvisioningState_STATUS(temp)
 			redis.ProvisioningState = &provisioningState
 		}
 	}
@@ -1434,7 +1446,9 @@ func (redis *Redis_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
-			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccess)
+			publicNetworkAccess := RedisProperties_PublicNetworkAccess_STATUS(temp)
 			redis.PublicNetworkAccess = &publicNetworkAccess
 		}
 	}
@@ -1955,7 +1969,9 @@ func (identity *ManagedServiceIdentity) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "Type":
 	if identity.Type != nil {
-		typeVar := *identity.Type
+		var temp string
+		temp = string(*identity.Type)
+		typeVar := ManagedServiceIdentityType_ARM(temp)
 		result.Type = &typeVar
 	}
 
@@ -1986,7 +2002,9 @@ func (identity *ManagedServiceIdentity) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ManagedServiceIdentityType(temp)
 		identity.Type = &typeVar
 	}
 
@@ -2142,7 +2160,9 @@ func (identity *ManagedServiceIdentity_STATUS) PopulateFromARM(owner genruntime.
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ManagedServiceIdentityType_STATUS(temp)
 		identity.Type = &typeVar
 	}
 
@@ -3401,13 +3421,17 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 
 	// Set property "Family":
 	if sku.Family != nil {
-		family := *sku.Family
+		var temp string
+		temp = string(*sku.Family)
+		family := Sku_Family_ARM(temp)
 		result.Family = &family
 	}
 
 	// Set property "Name":
 	if sku.Name != nil {
-		name := *sku.Name
+		var temp string
+		temp = string(*sku.Name)
+		name := Sku_Name_ARM(temp)
 		result.Name = &name
 	}
 	return result, nil
@@ -3433,13 +3457,17 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 
 	// Set property "Family":
 	if typedInput.Family != nil {
-		family := *typedInput.Family
+		var temp string
+		temp = string(*typedInput.Family)
+		family := Sku_Family(temp)
 		sku.Family = &family
 	}
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := Sku_Name(temp)
 		sku.Name = &name
 	}
 
@@ -3571,13 +3599,17 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 
 	// Set property "Family":
 	if typedInput.Family != nil {
-		family := *typedInput.Family
+		var temp string
+		temp = string(*typedInput.Family)
+		family := Sku_Family_STATUS(temp)
 		sku.Family = &family
 	}
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := Sku_Name_STATUS(temp)
 		sku.Name = &name
 	}
 
@@ -3646,6 +3678,43 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *storage.Sku_S
 
 	// No error
 	return nil
+}
+
+// Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
+// +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
+type ManagedServiceIdentityType string
+
+const (
+	ManagedServiceIdentityType_None                       = ManagedServiceIdentityType("None")
+	ManagedServiceIdentityType_SystemAssigned             = ManagedServiceIdentityType("SystemAssigned")
+	ManagedServiceIdentityType_SystemAssignedUserAssigned = ManagedServiceIdentityType("SystemAssigned, UserAssigned")
+	ManagedServiceIdentityType_UserAssigned               = ManagedServiceIdentityType("UserAssigned")
+)
+
+// Mapping from string to ManagedServiceIdentityType
+var managedServiceIdentityType_Values = map[string]ManagedServiceIdentityType{
+	"none":                         ManagedServiceIdentityType_None,
+	"systemassigned":               ManagedServiceIdentityType_SystemAssigned,
+	"systemassigned, userassigned": ManagedServiceIdentityType_SystemAssignedUserAssigned,
+	"userassigned":                 ManagedServiceIdentityType_UserAssigned,
+}
+
+// Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
+type ManagedServiceIdentityType_STATUS string
+
+const (
+	ManagedServiceIdentityType_STATUS_None                       = ManagedServiceIdentityType_STATUS("None")
+	ManagedServiceIdentityType_STATUS_SystemAssigned             = ManagedServiceIdentityType_STATUS("SystemAssigned")
+	ManagedServiceIdentityType_STATUS_SystemAssignedUserAssigned = ManagedServiceIdentityType_STATUS("SystemAssigned, UserAssigned")
+	ManagedServiceIdentityType_STATUS_UserAssigned               = ManagedServiceIdentityType_STATUS("UserAssigned")
+)
+
+// Mapping from string to ManagedServiceIdentityType_STATUS
+var managedServiceIdentityType_STATUS_Values = map[string]ManagedServiceIdentityType_STATUS{
+	"none":                         ManagedServiceIdentityType_STATUS_None,
+	"systemassigned":               ManagedServiceIdentityType_STATUS_SystemAssigned,
+	"systemassigned, userassigned": ManagedServiceIdentityType_STATUS_SystemAssignedUserAssigned,
+	"userassigned":                 ManagedServiceIdentityType_STATUS_UserAssigned,
 }
 
 type RedisOperatorSecrets struct {

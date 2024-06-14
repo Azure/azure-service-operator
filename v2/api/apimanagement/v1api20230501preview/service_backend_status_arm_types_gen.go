@@ -36,7 +36,7 @@ type BackendContractProperties_STATUS_ARM struct {
 	Properties *BackendProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Protocol: Backend communication protocol.
-	Protocol *BackendContractProperties_Protocol_STATUS `json:"protocol,omitempty"`
+	Protocol *BackendContractProperties_Protocol_STATUS_ARM `json:"protocol,omitempty"`
 
 	// Proxy: Backend gateway Contract Properties
 	Proxy *BackendProxyContract_STATUS_ARM `json:"proxy,omitempty"`
@@ -52,7 +52,7 @@ type BackendContractProperties_STATUS_ARM struct {
 	Tls *BackendTlsProperties_STATUS_ARM `json:"tls,omitempty"`
 
 	// Type: Type of the backend. A backend can be either Single or Pool.
-	Type *BackendContractProperties_Type_STATUS `json:"type,omitempty"`
+	Type *BackendContractProperties_Type_STATUS_ARM `json:"type,omitempty"`
 
 	// Url: Runtime Url of the Backend.
 	Url *string `json:"url,omitempty"`
@@ -62,6 +62,32 @@ type BackendContractProperties_STATUS_ARM struct {
 type BackendCircuitBreaker_STATUS_ARM struct {
 	// Rules: The rules for tripping the backend.
 	Rules []CircuitBreakerRule_STATUS_ARM `json:"rules,omitempty"`
+}
+
+type BackendContractProperties_Protocol_STATUS_ARM string
+
+const (
+	BackendContractProperties_Protocol_STATUS_ARM_Http = BackendContractProperties_Protocol_STATUS_ARM("http")
+	BackendContractProperties_Protocol_STATUS_ARM_Soap = BackendContractProperties_Protocol_STATUS_ARM("soap")
+)
+
+// Mapping from string to BackendContractProperties_Protocol_STATUS_ARM
+var backendContractProperties_Protocol_STATUS_ARM_Values = map[string]BackendContractProperties_Protocol_STATUS_ARM{
+	"http": BackendContractProperties_Protocol_STATUS_ARM_Http,
+	"soap": BackendContractProperties_Protocol_STATUS_ARM_Soap,
+}
+
+type BackendContractProperties_Type_STATUS_ARM string
+
+const (
+	BackendContractProperties_Type_STATUS_ARM_Pool   = BackendContractProperties_Type_STATUS_ARM("Pool")
+	BackendContractProperties_Type_STATUS_ARM_Single = BackendContractProperties_Type_STATUS_ARM("Single")
+)
+
+// Mapping from string to BackendContractProperties_Type_STATUS_ARM
+var backendContractProperties_Type_STATUS_ARM_Values = map[string]BackendContractProperties_Type_STATUS_ARM{
+	"pool":   BackendContractProperties_Type_STATUS_ARM_Pool,
+	"single": BackendContractProperties_Type_STATUS_ARM_Single,
 }
 
 // Details of the Credentials used to connect to Backend.
@@ -170,7 +196,7 @@ type CircuitBreakerFailureCondition_STATUS_ARM struct {
 	Count *int `json:"count,omitempty"`
 
 	// ErrorReasons: The error reasons which are considered as failure.
-	ErrorReasons []CircuitBreakerFailureCondition_ErrorReasons_STATUS `json:"errorReasons,omitempty"`
+	ErrorReasons []CircuitBreakerFailureCondition_ErrorReasons_STATUS_ARM `json:"errorReasons,omitempty"`
 
 	// Interval: The interval during which the failures are counted.
 	Interval *string `json:"interval,omitempty"`

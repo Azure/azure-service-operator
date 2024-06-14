@@ -1028,7 +1028,9 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) PopulateFromARM(owne
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceState != nil {
-			resourceState := *typedInput.Properties.ResourceState
+			var temp string
+			temp = string(*typedInput.Properties.ResourceState)
+			resourceState := WebApplicationFirewallPolicyProperties_ResourceState_STATUS(temp)
 			policy.ResourceState = &resourceState
 		}
 	}
@@ -1943,13 +1945,17 @@ func (settings *PolicySettings) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "EnabledState":
 	if settings.EnabledState != nil {
-		enabledState := *settings.EnabledState
+		var temp string
+		temp = string(*settings.EnabledState)
+		enabledState := PolicySettings_EnabledState_ARM(temp)
 		result.EnabledState = &enabledState
 	}
 
 	// Set property "Mode":
 	if settings.Mode != nil {
-		mode := *settings.Mode
+		var temp string
+		temp = string(*settings.Mode)
+		mode := PolicySettings_Mode_ARM(temp)
 		result.Mode = &mode
 	}
 
@@ -1961,7 +1967,9 @@ func (settings *PolicySettings) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "RequestBodyCheck":
 	if settings.RequestBodyCheck != nil {
-		requestBodyCheck := *settings.RequestBodyCheck
+		var temp string
+		temp = string(*settings.RequestBodyCheck)
+		requestBodyCheck := PolicySettings_RequestBodyCheck_ARM(temp)
 		result.RequestBodyCheck = &requestBodyCheck
 	}
 	return result, nil
@@ -1993,13 +2001,17 @@ func (settings *PolicySettings) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 
 	// Set property "EnabledState":
 	if typedInput.EnabledState != nil {
-		enabledState := *typedInput.EnabledState
+		var temp string
+		temp = string(*typedInput.EnabledState)
+		enabledState := PolicySettings_EnabledState(temp)
 		settings.EnabledState = &enabledState
 	}
 
 	// Set property "Mode":
 	if typedInput.Mode != nil {
-		mode := *typedInput.Mode
+		var temp string
+		temp = string(*typedInput.Mode)
+		mode := PolicySettings_Mode(temp)
 		settings.Mode = &mode
 	}
 
@@ -2011,7 +2023,9 @@ func (settings *PolicySettings) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 
 	// Set property "RequestBodyCheck":
 	if typedInput.RequestBodyCheck != nil {
-		requestBodyCheck := *typedInput.RequestBodyCheck
+		var temp string
+		temp = string(*typedInput.RequestBodyCheck)
+		requestBodyCheck := PolicySettings_RequestBodyCheck(temp)
 		settings.RequestBodyCheck = &requestBodyCheck
 	}
 
@@ -2216,13 +2230,17 @@ func (settings *PolicySettings_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property "EnabledState":
 	if typedInput.EnabledState != nil {
-		enabledState := *typedInput.EnabledState
+		var temp string
+		temp = string(*typedInput.EnabledState)
+		enabledState := PolicySettings_EnabledState_STATUS(temp)
 		settings.EnabledState = &enabledState
 	}
 
 	// Set property "Mode":
 	if typedInput.Mode != nil {
-		mode := *typedInput.Mode
+		var temp string
+		temp = string(*typedInput.Mode)
+		mode := PolicySettings_Mode_STATUS(temp)
 		settings.Mode = &mode
 	}
 
@@ -2234,7 +2252,9 @@ func (settings *PolicySettings_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property "RequestBodyCheck":
 	if typedInput.RequestBodyCheck != nil {
-		requestBodyCheck := *typedInput.RequestBodyCheck
+		var temp string
+		temp = string(*typedInput.RequestBodyCheck)
+		requestBodyCheck := PolicySettings_RequestBodyCheck_STATUS(temp)
 		settings.RequestBodyCheck = &requestBodyCheck
 	}
 
@@ -2469,7 +2489,9 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 
 	// Set property "Name":
 	if sku.Name != nil {
-		name := *sku.Name
+		var temp string
+		temp = string(*sku.Name)
+		name := Sku_Name_ARM(temp)
 		result.Name = &name
 	}
 	return result, nil
@@ -2489,7 +2511,9 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := Sku_Name(temp)
 		sku.Name = &name
 	}
 
@@ -2574,7 +2598,9 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := Sku_Name_STATUS(temp)
 		sku.Name = &name
 	}
 
@@ -2620,6 +2646,27 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *storage.Sku_S
 
 	// No error
 	return nil
+}
+
+type WebApplicationFirewallPolicyProperties_ResourceState_STATUS string
+
+const (
+	WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Creating  = WebApplicationFirewallPolicyProperties_ResourceState_STATUS("Creating")
+	WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Deleting  = WebApplicationFirewallPolicyProperties_ResourceState_STATUS("Deleting")
+	WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Disabled  = WebApplicationFirewallPolicyProperties_ResourceState_STATUS("Disabled")
+	WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Disabling = WebApplicationFirewallPolicyProperties_ResourceState_STATUS("Disabling")
+	WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Enabled   = WebApplicationFirewallPolicyProperties_ResourceState_STATUS("Enabled")
+	WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Enabling  = WebApplicationFirewallPolicyProperties_ResourceState_STATUS("Enabling")
+)
+
+// Mapping from string to WebApplicationFirewallPolicyProperties_ResourceState_STATUS
+var webApplicationFirewallPolicyProperties_ResourceState_STATUS_Values = map[string]WebApplicationFirewallPolicyProperties_ResourceState_STATUS{
+	"creating":  WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Creating,
+	"deleting":  WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Deleting,
+	"disabled":  WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Disabled,
+	"disabling": WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Disabling,
+	"enabled":   WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Enabled,
+	"enabling":  WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Enabling,
 }
 
 // Defines contents of a web application rule
@@ -2668,13 +2715,17 @@ func (rule *CustomRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 
 	// Set property "Action":
 	if rule.Action != nil {
-		action := *rule.Action
+		var temp string
+		temp = string(*rule.Action)
+		action := ActionType_ARM(temp)
 		result.Action = &action
 	}
 
 	// Set property "EnabledState":
 	if rule.EnabledState != nil {
-		enabledState := *rule.EnabledState
+		var temp string
+		temp = string(*rule.EnabledState)
+		enabledState := CustomRule_EnabledState_ARM(temp)
 		result.EnabledState = &enabledState
 	}
 
@@ -2713,7 +2764,9 @@ func (rule *CustomRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 
 	// Set property "RuleType":
 	if rule.RuleType != nil {
-		ruleType := *rule.RuleType
+		var temp string
+		temp = string(*rule.RuleType)
+		ruleType := CustomRule_RuleType_ARM(temp)
 		result.RuleType = &ruleType
 	}
 	return result, nil
@@ -2733,13 +2786,17 @@ func (rule *CustomRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 
 	// Set property "Action":
 	if typedInput.Action != nil {
-		action := *typedInput.Action
+		var temp string
+		temp = string(*typedInput.Action)
+		action := ActionType(temp)
 		rule.Action = &action
 	}
 
 	// Set property "EnabledState":
 	if typedInput.EnabledState != nil {
-		enabledState := *typedInput.EnabledState
+		var temp string
+		temp = string(*typedInput.EnabledState)
+		enabledState := CustomRule_EnabledState(temp)
 		rule.EnabledState = &enabledState
 	}
 
@@ -2779,7 +2836,9 @@ func (rule *CustomRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 
 	// Set property "RuleType":
 	if typedInput.RuleType != nil {
-		ruleType := *typedInput.RuleType
+		var temp string
+		temp = string(*typedInput.RuleType)
+		ruleType := CustomRule_RuleType(temp)
 		rule.RuleType = &ruleType
 	}
 
@@ -3070,13 +3129,17 @@ func (rule *CustomRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "Action":
 	if typedInput.Action != nil {
-		action := *typedInput.Action
+		var temp string
+		temp = string(*typedInput.Action)
+		action := ActionType_STATUS(temp)
 		rule.Action = &action
 	}
 
 	// Set property "EnabledState":
 	if typedInput.EnabledState != nil {
-		enabledState := *typedInput.EnabledState
+		var temp string
+		temp = string(*typedInput.EnabledState)
+		enabledState := CustomRule_EnabledState_STATUS(temp)
 		rule.EnabledState = &enabledState
 	}
 
@@ -3116,7 +3179,9 @@ func (rule *CustomRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "RuleType":
 	if typedInput.RuleType != nil {
-		ruleType := *typedInput.RuleType
+		var temp string
+		temp = string(*typedInput.RuleType)
+		ruleType := CustomRule_RuleType_STATUS(temp)
 		rule.RuleType = &ruleType
 	}
 
@@ -3307,7 +3372,9 @@ func (ruleSet *ManagedRuleSet) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "RuleSetAction":
 	if ruleSet.RuleSetAction != nil {
-		ruleSetAction := *ruleSet.RuleSetAction
+		var temp string
+		temp = string(*ruleSet.RuleSetAction)
+		ruleSetAction := ManagedRuleSetActionType_ARM(temp)
 		result.RuleSetAction = &ruleSetAction
 	}
 
@@ -3359,7 +3426,9 @@ func (ruleSet *ManagedRuleSet) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "RuleSetAction":
 	if typedInput.RuleSetAction != nil {
-		ruleSetAction := *typedInput.RuleSetAction
+		var temp string
+		temp = string(*typedInput.RuleSetAction)
+		ruleSetAction := ManagedRuleSetActionType(temp)
 		ruleSet.RuleSetAction = &ruleSetAction
 	}
 
@@ -3614,7 +3683,9 @@ func (ruleSet *ManagedRuleSet_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property "RuleSetAction":
 	if typedInput.RuleSetAction != nil {
-		ruleSetAction := *typedInput.RuleSetAction
+		var temp string
+		temp = string(*typedInput.RuleSetAction)
+		ruleSetAction := ManagedRuleSetActionType_STATUS(temp)
 		ruleSet.RuleSetAction = &ruleSetAction
 	}
 
@@ -3758,6 +3829,213 @@ func (ruleSet *ManagedRuleSet_STATUS) AssignProperties_To_ManagedRuleSet_STATUS(
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type PolicySettings_EnabledState string
+
+const (
+	PolicySettings_EnabledState_Disabled = PolicySettings_EnabledState("Disabled")
+	PolicySettings_EnabledState_Enabled  = PolicySettings_EnabledState("Enabled")
+)
+
+// Mapping from string to PolicySettings_EnabledState
+var policySettings_EnabledState_Values = map[string]PolicySettings_EnabledState{
+	"disabled": PolicySettings_EnabledState_Disabled,
+	"enabled":  PolicySettings_EnabledState_Enabled,
+}
+
+type PolicySettings_EnabledState_STATUS string
+
+const (
+	PolicySettings_EnabledState_STATUS_Disabled = PolicySettings_EnabledState_STATUS("Disabled")
+	PolicySettings_EnabledState_STATUS_Enabled  = PolicySettings_EnabledState_STATUS("Enabled")
+)
+
+// Mapping from string to PolicySettings_EnabledState_STATUS
+var policySettings_EnabledState_STATUS_Values = map[string]PolicySettings_EnabledState_STATUS{
+	"disabled": PolicySettings_EnabledState_STATUS_Disabled,
+	"enabled":  PolicySettings_EnabledState_STATUS_Enabled,
+}
+
+// +kubebuilder:validation:Enum={"Detection","Prevention"}
+type PolicySettings_Mode string
+
+const (
+	PolicySettings_Mode_Detection  = PolicySettings_Mode("Detection")
+	PolicySettings_Mode_Prevention = PolicySettings_Mode("Prevention")
+)
+
+// Mapping from string to PolicySettings_Mode
+var policySettings_Mode_Values = map[string]PolicySettings_Mode{
+	"detection":  PolicySettings_Mode_Detection,
+	"prevention": PolicySettings_Mode_Prevention,
+}
+
+type PolicySettings_Mode_STATUS string
+
+const (
+	PolicySettings_Mode_STATUS_Detection  = PolicySettings_Mode_STATUS("Detection")
+	PolicySettings_Mode_STATUS_Prevention = PolicySettings_Mode_STATUS("Prevention")
+)
+
+// Mapping from string to PolicySettings_Mode_STATUS
+var policySettings_Mode_STATUS_Values = map[string]PolicySettings_Mode_STATUS{
+	"detection":  PolicySettings_Mode_STATUS_Detection,
+	"prevention": PolicySettings_Mode_STATUS_Prevention,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type PolicySettings_RequestBodyCheck string
+
+const (
+	PolicySettings_RequestBodyCheck_Disabled = PolicySettings_RequestBodyCheck("Disabled")
+	PolicySettings_RequestBodyCheck_Enabled  = PolicySettings_RequestBodyCheck("Enabled")
+)
+
+// Mapping from string to PolicySettings_RequestBodyCheck
+var policySettings_RequestBodyCheck_Values = map[string]PolicySettings_RequestBodyCheck{
+	"disabled": PolicySettings_RequestBodyCheck_Disabled,
+	"enabled":  PolicySettings_RequestBodyCheck_Enabled,
+}
+
+type PolicySettings_RequestBodyCheck_STATUS string
+
+const (
+	PolicySettings_RequestBodyCheck_STATUS_Disabled = PolicySettings_RequestBodyCheck_STATUS("Disabled")
+	PolicySettings_RequestBodyCheck_STATUS_Enabled  = PolicySettings_RequestBodyCheck_STATUS("Enabled")
+)
+
+// Mapping from string to PolicySettings_RequestBodyCheck_STATUS
+var policySettings_RequestBodyCheck_STATUS_Values = map[string]PolicySettings_RequestBodyCheck_STATUS{
+	"disabled": PolicySettings_RequestBodyCheck_STATUS_Disabled,
+	"enabled":  PolicySettings_RequestBodyCheck_STATUS_Enabled,
+}
+
+// +kubebuilder:validation:Enum={"Classic_AzureFrontDoor","Premium_AzureFrontDoor","Standard_AzureFrontDoor"}
+type Sku_Name string
+
+const (
+	Sku_Name_Classic_AzureFrontDoor  = Sku_Name("Classic_AzureFrontDoor")
+	Sku_Name_Premium_AzureFrontDoor  = Sku_Name("Premium_AzureFrontDoor")
+	Sku_Name_Standard_AzureFrontDoor = Sku_Name("Standard_AzureFrontDoor")
+)
+
+// Mapping from string to Sku_Name
+var sku_Name_Values = map[string]Sku_Name{
+	"classic_azurefrontdoor":  Sku_Name_Classic_AzureFrontDoor,
+	"premium_azurefrontdoor":  Sku_Name_Premium_AzureFrontDoor,
+	"standard_azurefrontdoor": Sku_Name_Standard_AzureFrontDoor,
+}
+
+type Sku_Name_STATUS string
+
+const (
+	Sku_Name_STATUS_Classic_AzureFrontDoor  = Sku_Name_STATUS("Classic_AzureFrontDoor")
+	Sku_Name_STATUS_Premium_AzureFrontDoor  = Sku_Name_STATUS("Premium_AzureFrontDoor")
+	Sku_Name_STATUS_Standard_AzureFrontDoor = Sku_Name_STATUS("Standard_AzureFrontDoor")
+)
+
+// Mapping from string to Sku_Name_STATUS
+var sku_Name_STATUS_Values = map[string]Sku_Name_STATUS{
+	"classic_azurefrontdoor":  Sku_Name_STATUS_Classic_AzureFrontDoor,
+	"premium_azurefrontdoor":  Sku_Name_STATUS_Premium_AzureFrontDoor,
+	"standard_azurefrontdoor": Sku_Name_STATUS_Standard_AzureFrontDoor,
+}
+
+// Defines the action to take on rule match.
+// +kubebuilder:validation:Enum={"Allow","AnomalyScoring","Block","Log","Redirect"}
+type ActionType string
+
+const (
+	ActionType_Allow          = ActionType("Allow")
+	ActionType_AnomalyScoring = ActionType("AnomalyScoring")
+	ActionType_Block          = ActionType("Block")
+	ActionType_Log            = ActionType("Log")
+	ActionType_Redirect       = ActionType("Redirect")
+)
+
+// Mapping from string to ActionType
+var actionType_Values = map[string]ActionType{
+	"allow":          ActionType_Allow,
+	"anomalyscoring": ActionType_AnomalyScoring,
+	"block":          ActionType_Block,
+	"log":            ActionType_Log,
+	"redirect":       ActionType_Redirect,
+}
+
+// Defines the action to take on rule match.
+type ActionType_STATUS string
+
+const (
+	ActionType_STATUS_Allow          = ActionType_STATUS("Allow")
+	ActionType_STATUS_AnomalyScoring = ActionType_STATUS("AnomalyScoring")
+	ActionType_STATUS_Block          = ActionType_STATUS("Block")
+	ActionType_STATUS_Log            = ActionType_STATUS("Log")
+	ActionType_STATUS_Redirect       = ActionType_STATUS("Redirect")
+)
+
+// Mapping from string to ActionType_STATUS
+var actionType_STATUS_Values = map[string]ActionType_STATUS{
+	"allow":          ActionType_STATUS_Allow,
+	"anomalyscoring": ActionType_STATUS_AnomalyScoring,
+	"block":          ActionType_STATUS_Block,
+	"log":            ActionType_STATUS_Log,
+	"redirect":       ActionType_STATUS_Redirect,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type CustomRule_EnabledState string
+
+const (
+	CustomRule_EnabledState_Disabled = CustomRule_EnabledState("Disabled")
+	CustomRule_EnabledState_Enabled  = CustomRule_EnabledState("Enabled")
+)
+
+// Mapping from string to CustomRule_EnabledState
+var customRule_EnabledState_Values = map[string]CustomRule_EnabledState{
+	"disabled": CustomRule_EnabledState_Disabled,
+	"enabled":  CustomRule_EnabledState_Enabled,
+}
+
+type CustomRule_EnabledState_STATUS string
+
+const (
+	CustomRule_EnabledState_STATUS_Disabled = CustomRule_EnabledState_STATUS("Disabled")
+	CustomRule_EnabledState_STATUS_Enabled  = CustomRule_EnabledState_STATUS("Enabled")
+)
+
+// Mapping from string to CustomRule_EnabledState_STATUS
+var customRule_EnabledState_STATUS_Values = map[string]CustomRule_EnabledState_STATUS{
+	"disabled": CustomRule_EnabledState_STATUS_Disabled,
+	"enabled":  CustomRule_EnabledState_STATUS_Enabled,
+}
+
+// +kubebuilder:validation:Enum={"MatchRule","RateLimitRule"}
+type CustomRule_RuleType string
+
+const (
+	CustomRule_RuleType_MatchRule     = CustomRule_RuleType("MatchRule")
+	CustomRule_RuleType_RateLimitRule = CustomRule_RuleType("RateLimitRule")
+)
+
+// Mapping from string to CustomRule_RuleType
+var customRule_RuleType_Values = map[string]CustomRule_RuleType{
+	"matchrule":     CustomRule_RuleType_MatchRule,
+	"ratelimitrule": CustomRule_RuleType_RateLimitRule,
+}
+
+type CustomRule_RuleType_STATUS string
+
+const (
+	CustomRule_RuleType_STATUS_MatchRule     = CustomRule_RuleType_STATUS("MatchRule")
+	CustomRule_RuleType_STATUS_RateLimitRule = CustomRule_RuleType_STATUS("RateLimitRule")
+)
+
+// Mapping from string to CustomRule_RuleType_STATUS
+var customRule_RuleType_STATUS_Values = map[string]CustomRule_RuleType_STATUS{
+	"matchrule":     CustomRule_RuleType_STATUS_MatchRule,
+	"ratelimitrule": CustomRule_RuleType_STATUS_RateLimitRule,
+}
+
 // Exclude variables from managed rule evaluation.
 type ManagedRuleExclusion struct {
 	// +kubebuilder:validation:Required
@@ -3785,7 +4063,9 @@ func (exclusion *ManagedRuleExclusion) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property "MatchVariable":
 	if exclusion.MatchVariable != nil {
-		matchVariable := *exclusion.MatchVariable
+		var temp string
+		temp = string(*exclusion.MatchVariable)
+		matchVariable := ManagedRuleExclusion_MatchVariable_ARM(temp)
 		result.MatchVariable = &matchVariable
 	}
 
@@ -3797,7 +4077,9 @@ func (exclusion *ManagedRuleExclusion) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property "SelectorMatchOperator":
 	if exclusion.SelectorMatchOperator != nil {
-		selectorMatchOperator := *exclusion.SelectorMatchOperator
+		var temp string
+		temp = string(*exclusion.SelectorMatchOperator)
+		selectorMatchOperator := ManagedRuleExclusion_SelectorMatchOperator_ARM(temp)
 		result.SelectorMatchOperator = &selectorMatchOperator
 	}
 	return result, nil
@@ -3817,7 +4099,9 @@ func (exclusion *ManagedRuleExclusion) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property "MatchVariable":
 	if typedInput.MatchVariable != nil {
-		matchVariable := *typedInput.MatchVariable
+		var temp string
+		temp = string(*typedInput.MatchVariable)
+		matchVariable := ManagedRuleExclusion_MatchVariable(temp)
 		exclusion.MatchVariable = &matchVariable
 	}
 
@@ -3829,7 +4113,9 @@ func (exclusion *ManagedRuleExclusion) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property "SelectorMatchOperator":
 	if typedInput.SelectorMatchOperator != nil {
-		selectorMatchOperator := *typedInput.SelectorMatchOperator
+		var temp string
+		temp = string(*typedInput.SelectorMatchOperator)
+		selectorMatchOperator := ManagedRuleExclusion_SelectorMatchOperator(temp)
 		exclusion.SelectorMatchOperator = &selectorMatchOperator
 	}
 
@@ -3955,7 +4241,9 @@ func (exclusion *ManagedRuleExclusion_STATUS) PopulateFromARM(owner genruntime.A
 
 	// Set property "MatchVariable":
 	if typedInput.MatchVariable != nil {
-		matchVariable := *typedInput.MatchVariable
+		var temp string
+		temp = string(*typedInput.MatchVariable)
+		matchVariable := ManagedRuleExclusion_MatchVariable_STATUS(temp)
 		exclusion.MatchVariable = &matchVariable
 	}
 
@@ -3967,7 +4255,9 @@ func (exclusion *ManagedRuleExclusion_STATUS) PopulateFromARM(owner genruntime.A
 
 	// Set property "SelectorMatchOperator":
 	if typedInput.SelectorMatchOperator != nil {
-		selectorMatchOperator := *typedInput.SelectorMatchOperator
+		var temp string
+		temp = string(*typedInput.SelectorMatchOperator)
+		selectorMatchOperator := ManagedRuleExclusion_SelectorMatchOperator_STATUS(temp)
 		exclusion.SelectorMatchOperator = &selectorMatchOperator
 	}
 
@@ -4432,6 +4722,39 @@ func (override *ManagedRuleGroupOverride_STATUS) AssignProperties_To_ManagedRule
 	return nil
 }
 
+// Defines the action to take when a managed rule set score threshold is met.
+// +kubebuilder:validation:Enum={"Block","Log","Redirect"}
+type ManagedRuleSetActionType string
+
+const (
+	ManagedRuleSetActionType_Block    = ManagedRuleSetActionType("Block")
+	ManagedRuleSetActionType_Log      = ManagedRuleSetActionType("Log")
+	ManagedRuleSetActionType_Redirect = ManagedRuleSetActionType("Redirect")
+)
+
+// Mapping from string to ManagedRuleSetActionType
+var managedRuleSetActionType_Values = map[string]ManagedRuleSetActionType{
+	"block":    ManagedRuleSetActionType_Block,
+	"log":      ManagedRuleSetActionType_Log,
+	"redirect": ManagedRuleSetActionType_Redirect,
+}
+
+// Defines the action to take when a managed rule set score threshold is met.
+type ManagedRuleSetActionType_STATUS string
+
+const (
+	ManagedRuleSetActionType_STATUS_Block    = ManagedRuleSetActionType_STATUS("Block")
+	ManagedRuleSetActionType_STATUS_Log      = ManagedRuleSetActionType_STATUS("Log")
+	ManagedRuleSetActionType_STATUS_Redirect = ManagedRuleSetActionType_STATUS("Redirect")
+)
+
+// Mapping from string to ManagedRuleSetActionType_STATUS
+var managedRuleSetActionType_STATUS_Values = map[string]ManagedRuleSetActionType_STATUS{
+	"block":    ManagedRuleSetActionType_STATUS_Block,
+	"log":      ManagedRuleSetActionType_STATUS_Log,
+	"redirect": ManagedRuleSetActionType_STATUS_Redirect,
+}
+
 // Define a match condition.
 type MatchCondition struct {
 	// +kubebuilder:validation:Required
@@ -4473,7 +4796,9 @@ func (condition *MatchCondition) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "MatchVariable":
 	if condition.MatchVariable != nil {
-		matchVariable := *condition.MatchVariable
+		var temp string
+		temp = string(*condition.MatchVariable)
+		matchVariable := MatchCondition_MatchVariable_ARM(temp)
 		result.MatchVariable = &matchVariable
 	}
 
@@ -4485,7 +4810,9 @@ func (condition *MatchCondition) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "Operator":
 	if condition.Operator != nil {
-		operator := *condition.Operator
+		var temp string
+		temp = string(*condition.Operator)
+		operator := MatchCondition_Operator_ARM(temp)
 		result.Operator = &operator
 	}
 
@@ -4497,7 +4824,9 @@ func (condition *MatchCondition) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "Transforms":
 	for _, item := range condition.Transforms {
-		result.Transforms = append(result.Transforms, item)
+		var temp string
+		temp = string(item)
+		result.Transforms = append(result.Transforms, TransformType_ARM(temp))
 	}
 	return result, nil
 }
@@ -4521,7 +4850,9 @@ func (condition *MatchCondition) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property "MatchVariable":
 	if typedInput.MatchVariable != nil {
-		matchVariable := *typedInput.MatchVariable
+		var temp string
+		temp = string(*typedInput.MatchVariable)
+		matchVariable := MatchCondition_MatchVariable(temp)
 		condition.MatchVariable = &matchVariable
 	}
 
@@ -4533,7 +4864,9 @@ func (condition *MatchCondition) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := MatchCondition_Operator(temp)
 		condition.Operator = &operator
 	}
 
@@ -4545,7 +4878,9 @@ func (condition *MatchCondition) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		condition.Transforms = append(condition.Transforms, item)
+		var temp string
+		temp = string(item)
+		condition.Transforms = append(condition.Transforms, TransformType(temp))
 	}
 
 	// No error
@@ -4757,7 +5092,9 @@ func (condition *MatchCondition_STATUS) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property "MatchVariable":
 	if typedInput.MatchVariable != nil {
-		matchVariable := *typedInput.MatchVariable
+		var temp string
+		temp = string(*typedInput.MatchVariable)
+		matchVariable := MatchCondition_MatchVariable_STATUS(temp)
 		condition.MatchVariable = &matchVariable
 	}
 
@@ -4769,7 +5106,9 @@ func (condition *MatchCondition_STATUS) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := MatchCondition_Operator_STATUS(temp)
 		condition.Operator = &operator
 	}
 
@@ -4781,7 +5120,9 @@ func (condition *MatchCondition_STATUS) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		condition.Transforms = append(condition.Transforms, item)
+		var temp string
+		temp = string(item)
+		condition.Transforms = append(condition.Transforms, TransformType_STATUS(temp))
 	}
 
 	// No error
@@ -4899,6 +5240,84 @@ func (condition *MatchCondition_STATUS) AssignProperties_To_MatchCondition_STATU
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"QueryStringArgNames","RequestBodyJsonArgNames","RequestBodyPostArgNames","RequestCookieNames","RequestHeaderNames"}
+type ManagedRuleExclusion_MatchVariable string
+
+const (
+	ManagedRuleExclusion_MatchVariable_QueryStringArgNames     = ManagedRuleExclusion_MatchVariable("QueryStringArgNames")
+	ManagedRuleExclusion_MatchVariable_RequestBodyJsonArgNames = ManagedRuleExclusion_MatchVariable("RequestBodyJsonArgNames")
+	ManagedRuleExclusion_MatchVariable_RequestBodyPostArgNames = ManagedRuleExclusion_MatchVariable("RequestBodyPostArgNames")
+	ManagedRuleExclusion_MatchVariable_RequestCookieNames      = ManagedRuleExclusion_MatchVariable("RequestCookieNames")
+	ManagedRuleExclusion_MatchVariable_RequestHeaderNames      = ManagedRuleExclusion_MatchVariable("RequestHeaderNames")
+)
+
+// Mapping from string to ManagedRuleExclusion_MatchVariable
+var managedRuleExclusion_MatchVariable_Values = map[string]ManagedRuleExclusion_MatchVariable{
+	"querystringargnames":     ManagedRuleExclusion_MatchVariable_QueryStringArgNames,
+	"requestbodyjsonargnames": ManagedRuleExclusion_MatchVariable_RequestBodyJsonArgNames,
+	"requestbodypostargnames": ManagedRuleExclusion_MatchVariable_RequestBodyPostArgNames,
+	"requestcookienames":      ManagedRuleExclusion_MatchVariable_RequestCookieNames,
+	"requestheadernames":      ManagedRuleExclusion_MatchVariable_RequestHeaderNames,
+}
+
+type ManagedRuleExclusion_MatchVariable_STATUS string
+
+const (
+	ManagedRuleExclusion_MatchVariable_STATUS_QueryStringArgNames     = ManagedRuleExclusion_MatchVariable_STATUS("QueryStringArgNames")
+	ManagedRuleExclusion_MatchVariable_STATUS_RequestBodyJsonArgNames = ManagedRuleExclusion_MatchVariable_STATUS("RequestBodyJsonArgNames")
+	ManagedRuleExclusion_MatchVariable_STATUS_RequestBodyPostArgNames = ManagedRuleExclusion_MatchVariable_STATUS("RequestBodyPostArgNames")
+	ManagedRuleExclusion_MatchVariable_STATUS_RequestCookieNames      = ManagedRuleExclusion_MatchVariable_STATUS("RequestCookieNames")
+	ManagedRuleExclusion_MatchVariable_STATUS_RequestHeaderNames      = ManagedRuleExclusion_MatchVariable_STATUS("RequestHeaderNames")
+)
+
+// Mapping from string to ManagedRuleExclusion_MatchVariable_STATUS
+var managedRuleExclusion_MatchVariable_STATUS_Values = map[string]ManagedRuleExclusion_MatchVariable_STATUS{
+	"querystringargnames":     ManagedRuleExclusion_MatchVariable_STATUS_QueryStringArgNames,
+	"requestbodyjsonargnames": ManagedRuleExclusion_MatchVariable_STATUS_RequestBodyJsonArgNames,
+	"requestbodypostargnames": ManagedRuleExclusion_MatchVariable_STATUS_RequestBodyPostArgNames,
+	"requestcookienames":      ManagedRuleExclusion_MatchVariable_STATUS_RequestCookieNames,
+	"requestheadernames":      ManagedRuleExclusion_MatchVariable_STATUS_RequestHeaderNames,
+}
+
+// +kubebuilder:validation:Enum={"Contains","EndsWith","Equals","EqualsAny","StartsWith"}
+type ManagedRuleExclusion_SelectorMatchOperator string
+
+const (
+	ManagedRuleExclusion_SelectorMatchOperator_Contains   = ManagedRuleExclusion_SelectorMatchOperator("Contains")
+	ManagedRuleExclusion_SelectorMatchOperator_EndsWith   = ManagedRuleExclusion_SelectorMatchOperator("EndsWith")
+	ManagedRuleExclusion_SelectorMatchOperator_Equals     = ManagedRuleExclusion_SelectorMatchOperator("Equals")
+	ManagedRuleExclusion_SelectorMatchOperator_EqualsAny  = ManagedRuleExclusion_SelectorMatchOperator("EqualsAny")
+	ManagedRuleExclusion_SelectorMatchOperator_StartsWith = ManagedRuleExclusion_SelectorMatchOperator("StartsWith")
+)
+
+// Mapping from string to ManagedRuleExclusion_SelectorMatchOperator
+var managedRuleExclusion_SelectorMatchOperator_Values = map[string]ManagedRuleExclusion_SelectorMatchOperator{
+	"contains":   ManagedRuleExclusion_SelectorMatchOperator_Contains,
+	"endswith":   ManagedRuleExclusion_SelectorMatchOperator_EndsWith,
+	"equals":     ManagedRuleExclusion_SelectorMatchOperator_Equals,
+	"equalsany":  ManagedRuleExclusion_SelectorMatchOperator_EqualsAny,
+	"startswith": ManagedRuleExclusion_SelectorMatchOperator_StartsWith,
+}
+
+type ManagedRuleExclusion_SelectorMatchOperator_STATUS string
+
+const (
+	ManagedRuleExclusion_SelectorMatchOperator_STATUS_Contains   = ManagedRuleExclusion_SelectorMatchOperator_STATUS("Contains")
+	ManagedRuleExclusion_SelectorMatchOperator_STATUS_EndsWith   = ManagedRuleExclusion_SelectorMatchOperator_STATUS("EndsWith")
+	ManagedRuleExclusion_SelectorMatchOperator_STATUS_Equals     = ManagedRuleExclusion_SelectorMatchOperator_STATUS("Equals")
+	ManagedRuleExclusion_SelectorMatchOperator_STATUS_EqualsAny  = ManagedRuleExclusion_SelectorMatchOperator_STATUS("EqualsAny")
+	ManagedRuleExclusion_SelectorMatchOperator_STATUS_StartsWith = ManagedRuleExclusion_SelectorMatchOperator_STATUS("StartsWith")
+)
+
+// Mapping from string to ManagedRuleExclusion_SelectorMatchOperator_STATUS
+var managedRuleExclusion_SelectorMatchOperator_STATUS_Values = map[string]ManagedRuleExclusion_SelectorMatchOperator_STATUS{
+	"contains":   ManagedRuleExclusion_SelectorMatchOperator_STATUS_Contains,
+	"endswith":   ManagedRuleExclusion_SelectorMatchOperator_STATUS_EndsWith,
+	"equals":     ManagedRuleExclusion_SelectorMatchOperator_STATUS_Equals,
+	"equalsany":  ManagedRuleExclusion_SelectorMatchOperator_STATUS_EqualsAny,
+	"startswith": ManagedRuleExclusion_SelectorMatchOperator_STATUS_StartsWith,
+}
+
 // Defines a managed rule group override setting.
 type ManagedRuleOverride struct {
 	// Action: Describes the override action to be applied when rule matches.
@@ -4926,13 +5345,17 @@ func (override *ManagedRuleOverride) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property "Action":
 	if override.Action != nil {
-		action := *override.Action
+		var temp string
+		temp = string(*override.Action)
+		action := ActionType_ARM(temp)
 		result.Action = &action
 	}
 
 	// Set property "EnabledState":
 	if override.EnabledState != nil {
-		enabledState := *override.EnabledState
+		var temp string
+		temp = string(*override.EnabledState)
+		enabledState := ManagedRuleEnabledState_ARM(temp)
 		result.EnabledState = &enabledState
 	}
 
@@ -4967,13 +5390,17 @@ func (override *ManagedRuleOverride) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property "Action":
 	if typedInput.Action != nil {
-		action := *typedInput.Action
+		var temp string
+		temp = string(*typedInput.Action)
+		action := ActionType(temp)
 		override.Action = &action
 	}
 
 	// Set property "EnabledState":
 	if typedInput.EnabledState != nil {
-		enabledState := *typedInput.EnabledState
+		var temp string
+		temp = string(*typedInput.EnabledState)
+		enabledState := ManagedRuleEnabledState(temp)
 		override.EnabledState = &enabledState
 	}
 
@@ -5171,13 +5598,17 @@ func (override *ManagedRuleOverride_STATUS) PopulateFromARM(owner genruntime.Arb
 
 	// Set property "Action":
 	if typedInput.Action != nil {
-		action := *typedInput.Action
+		var temp string
+		temp = string(*typedInput.Action)
+		action := ActionType_STATUS(temp)
 		override.Action = &action
 	}
 
 	// Set property "EnabledState":
 	if typedInput.EnabledState != nil {
-		enabledState := *typedInput.EnabledState
+		var temp string
+		temp = string(*typedInput.EnabledState)
+		enabledState := ManagedRuleEnabledState_STATUS(temp)
 		override.EnabledState = &enabledState
 	}
 
@@ -5298,6 +5729,202 @@ func (override *ManagedRuleOverride_STATUS) AssignProperties_To_ManagedRuleOverr
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"Cookies","PostArgs","QueryString","RemoteAddr","RequestBody","RequestHeader","RequestMethod","RequestUri","SocketAddr"}
+type MatchCondition_MatchVariable string
+
+const (
+	MatchCondition_MatchVariable_Cookies       = MatchCondition_MatchVariable("Cookies")
+	MatchCondition_MatchVariable_PostArgs      = MatchCondition_MatchVariable("PostArgs")
+	MatchCondition_MatchVariable_QueryString   = MatchCondition_MatchVariable("QueryString")
+	MatchCondition_MatchVariable_RemoteAddr    = MatchCondition_MatchVariable("RemoteAddr")
+	MatchCondition_MatchVariable_RequestBody   = MatchCondition_MatchVariable("RequestBody")
+	MatchCondition_MatchVariable_RequestHeader = MatchCondition_MatchVariable("RequestHeader")
+	MatchCondition_MatchVariable_RequestMethod = MatchCondition_MatchVariable("RequestMethod")
+	MatchCondition_MatchVariable_RequestUri    = MatchCondition_MatchVariable("RequestUri")
+	MatchCondition_MatchVariable_SocketAddr    = MatchCondition_MatchVariable("SocketAddr")
+)
+
+// Mapping from string to MatchCondition_MatchVariable
+var matchCondition_MatchVariable_Values = map[string]MatchCondition_MatchVariable{
+	"cookies":       MatchCondition_MatchVariable_Cookies,
+	"postargs":      MatchCondition_MatchVariable_PostArgs,
+	"querystring":   MatchCondition_MatchVariable_QueryString,
+	"remoteaddr":    MatchCondition_MatchVariable_RemoteAddr,
+	"requestbody":   MatchCondition_MatchVariable_RequestBody,
+	"requestheader": MatchCondition_MatchVariable_RequestHeader,
+	"requestmethod": MatchCondition_MatchVariable_RequestMethod,
+	"requesturi":    MatchCondition_MatchVariable_RequestUri,
+	"socketaddr":    MatchCondition_MatchVariable_SocketAddr,
+}
+
+type MatchCondition_MatchVariable_STATUS string
+
+const (
+	MatchCondition_MatchVariable_STATUS_Cookies       = MatchCondition_MatchVariable_STATUS("Cookies")
+	MatchCondition_MatchVariable_STATUS_PostArgs      = MatchCondition_MatchVariable_STATUS("PostArgs")
+	MatchCondition_MatchVariable_STATUS_QueryString   = MatchCondition_MatchVariable_STATUS("QueryString")
+	MatchCondition_MatchVariable_STATUS_RemoteAddr    = MatchCondition_MatchVariable_STATUS("RemoteAddr")
+	MatchCondition_MatchVariable_STATUS_RequestBody   = MatchCondition_MatchVariable_STATUS("RequestBody")
+	MatchCondition_MatchVariable_STATUS_RequestHeader = MatchCondition_MatchVariable_STATUS("RequestHeader")
+	MatchCondition_MatchVariable_STATUS_RequestMethod = MatchCondition_MatchVariable_STATUS("RequestMethod")
+	MatchCondition_MatchVariable_STATUS_RequestUri    = MatchCondition_MatchVariable_STATUS("RequestUri")
+	MatchCondition_MatchVariable_STATUS_SocketAddr    = MatchCondition_MatchVariable_STATUS("SocketAddr")
+)
+
+// Mapping from string to MatchCondition_MatchVariable_STATUS
+var matchCondition_MatchVariable_STATUS_Values = map[string]MatchCondition_MatchVariable_STATUS{
+	"cookies":       MatchCondition_MatchVariable_STATUS_Cookies,
+	"postargs":      MatchCondition_MatchVariable_STATUS_PostArgs,
+	"querystring":   MatchCondition_MatchVariable_STATUS_QueryString,
+	"remoteaddr":    MatchCondition_MatchVariable_STATUS_RemoteAddr,
+	"requestbody":   MatchCondition_MatchVariable_STATUS_RequestBody,
+	"requestheader": MatchCondition_MatchVariable_STATUS_RequestHeader,
+	"requestmethod": MatchCondition_MatchVariable_STATUS_RequestMethod,
+	"requesturi":    MatchCondition_MatchVariable_STATUS_RequestUri,
+	"socketaddr":    MatchCondition_MatchVariable_STATUS_SocketAddr,
+}
+
+// +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GeoMatch","GreaterThan","GreaterThanOrEqual","IPMatch","LessThan","LessThanOrEqual","RegEx"}
+type MatchCondition_Operator string
+
+const (
+	MatchCondition_Operator_Any                = MatchCondition_Operator("Any")
+	MatchCondition_Operator_BeginsWith         = MatchCondition_Operator("BeginsWith")
+	MatchCondition_Operator_Contains           = MatchCondition_Operator("Contains")
+	MatchCondition_Operator_EndsWith           = MatchCondition_Operator("EndsWith")
+	MatchCondition_Operator_Equal              = MatchCondition_Operator("Equal")
+	MatchCondition_Operator_GeoMatch           = MatchCondition_Operator("GeoMatch")
+	MatchCondition_Operator_GreaterThan        = MatchCondition_Operator("GreaterThan")
+	MatchCondition_Operator_GreaterThanOrEqual = MatchCondition_Operator("GreaterThanOrEqual")
+	MatchCondition_Operator_IPMatch            = MatchCondition_Operator("IPMatch")
+	MatchCondition_Operator_LessThan           = MatchCondition_Operator("LessThan")
+	MatchCondition_Operator_LessThanOrEqual    = MatchCondition_Operator("LessThanOrEqual")
+	MatchCondition_Operator_RegEx              = MatchCondition_Operator("RegEx")
+)
+
+// Mapping from string to MatchCondition_Operator
+var matchCondition_Operator_Values = map[string]MatchCondition_Operator{
+	"any":                MatchCondition_Operator_Any,
+	"beginswith":         MatchCondition_Operator_BeginsWith,
+	"contains":           MatchCondition_Operator_Contains,
+	"endswith":           MatchCondition_Operator_EndsWith,
+	"equal":              MatchCondition_Operator_Equal,
+	"geomatch":           MatchCondition_Operator_GeoMatch,
+	"greaterthan":        MatchCondition_Operator_GreaterThan,
+	"greaterthanorequal": MatchCondition_Operator_GreaterThanOrEqual,
+	"ipmatch":            MatchCondition_Operator_IPMatch,
+	"lessthan":           MatchCondition_Operator_LessThan,
+	"lessthanorequal":    MatchCondition_Operator_LessThanOrEqual,
+	"regex":              MatchCondition_Operator_RegEx,
+}
+
+type MatchCondition_Operator_STATUS string
+
+const (
+	MatchCondition_Operator_STATUS_Any                = MatchCondition_Operator_STATUS("Any")
+	MatchCondition_Operator_STATUS_BeginsWith         = MatchCondition_Operator_STATUS("BeginsWith")
+	MatchCondition_Operator_STATUS_Contains           = MatchCondition_Operator_STATUS("Contains")
+	MatchCondition_Operator_STATUS_EndsWith           = MatchCondition_Operator_STATUS("EndsWith")
+	MatchCondition_Operator_STATUS_Equal              = MatchCondition_Operator_STATUS("Equal")
+	MatchCondition_Operator_STATUS_GeoMatch           = MatchCondition_Operator_STATUS("GeoMatch")
+	MatchCondition_Operator_STATUS_GreaterThan        = MatchCondition_Operator_STATUS("GreaterThan")
+	MatchCondition_Operator_STATUS_GreaterThanOrEqual = MatchCondition_Operator_STATUS("GreaterThanOrEqual")
+	MatchCondition_Operator_STATUS_IPMatch            = MatchCondition_Operator_STATUS("IPMatch")
+	MatchCondition_Operator_STATUS_LessThan           = MatchCondition_Operator_STATUS("LessThan")
+	MatchCondition_Operator_STATUS_LessThanOrEqual    = MatchCondition_Operator_STATUS("LessThanOrEqual")
+	MatchCondition_Operator_STATUS_RegEx              = MatchCondition_Operator_STATUS("RegEx")
+)
+
+// Mapping from string to MatchCondition_Operator_STATUS
+var matchCondition_Operator_STATUS_Values = map[string]MatchCondition_Operator_STATUS{
+	"any":                MatchCondition_Operator_STATUS_Any,
+	"beginswith":         MatchCondition_Operator_STATUS_BeginsWith,
+	"contains":           MatchCondition_Operator_STATUS_Contains,
+	"endswith":           MatchCondition_Operator_STATUS_EndsWith,
+	"equal":              MatchCondition_Operator_STATUS_Equal,
+	"geomatch":           MatchCondition_Operator_STATUS_GeoMatch,
+	"greaterthan":        MatchCondition_Operator_STATUS_GreaterThan,
+	"greaterthanorequal": MatchCondition_Operator_STATUS_GreaterThanOrEqual,
+	"ipmatch":            MatchCondition_Operator_STATUS_IPMatch,
+	"lessthan":           MatchCondition_Operator_STATUS_LessThan,
+	"lessthanorequal":    MatchCondition_Operator_STATUS_LessThanOrEqual,
+	"regex":              MatchCondition_Operator_STATUS_RegEx,
+}
+
+// Describes what transforms applied before matching.
+// +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
+type TransformType string
+
+const (
+	TransformType_Lowercase   = TransformType("Lowercase")
+	TransformType_RemoveNulls = TransformType("RemoveNulls")
+	TransformType_Trim        = TransformType("Trim")
+	TransformType_Uppercase   = TransformType("Uppercase")
+	TransformType_UrlDecode   = TransformType("UrlDecode")
+	TransformType_UrlEncode   = TransformType("UrlEncode")
+)
+
+// Mapping from string to TransformType
+var transformType_Values = map[string]TransformType{
+	"lowercase":   TransformType_Lowercase,
+	"removenulls": TransformType_RemoveNulls,
+	"trim":        TransformType_Trim,
+	"uppercase":   TransformType_Uppercase,
+	"urldecode":   TransformType_UrlDecode,
+	"urlencode":   TransformType_UrlEncode,
+}
+
+// Describes what transforms applied before matching.
+type TransformType_STATUS string
+
+const (
+	TransformType_STATUS_Lowercase   = TransformType_STATUS("Lowercase")
+	TransformType_STATUS_RemoveNulls = TransformType_STATUS("RemoveNulls")
+	TransformType_STATUS_Trim        = TransformType_STATUS("Trim")
+	TransformType_STATUS_Uppercase   = TransformType_STATUS("Uppercase")
+	TransformType_STATUS_UrlDecode   = TransformType_STATUS("UrlDecode")
+	TransformType_STATUS_UrlEncode   = TransformType_STATUS("UrlEncode")
+)
+
+// Mapping from string to TransformType_STATUS
+var transformType_STATUS_Values = map[string]TransformType_STATUS{
+	"lowercase":   TransformType_STATUS_Lowercase,
+	"removenulls": TransformType_STATUS_RemoveNulls,
+	"trim":        TransformType_STATUS_Trim,
+	"uppercase":   TransformType_STATUS_Uppercase,
+	"urldecode":   TransformType_STATUS_UrlDecode,
+	"urlencode":   TransformType_STATUS_UrlEncode,
+}
+
+// Describes if the managed rule is in enabled or disabled state.
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type ManagedRuleEnabledState string
+
+const (
+	ManagedRuleEnabledState_Disabled = ManagedRuleEnabledState("Disabled")
+	ManagedRuleEnabledState_Enabled  = ManagedRuleEnabledState("Enabled")
+)
+
+// Mapping from string to ManagedRuleEnabledState
+var managedRuleEnabledState_Values = map[string]ManagedRuleEnabledState{
+	"disabled": ManagedRuleEnabledState_Disabled,
+	"enabled":  ManagedRuleEnabledState_Enabled,
+}
+
+// Describes if the managed rule is in enabled or disabled state.
+type ManagedRuleEnabledState_STATUS string
+
+const (
+	ManagedRuleEnabledState_STATUS_Disabled = ManagedRuleEnabledState_STATUS("Disabled")
+	ManagedRuleEnabledState_STATUS_Enabled  = ManagedRuleEnabledState_STATUS("Enabled")
+)
+
+// Mapping from string to ManagedRuleEnabledState_STATUS
+var managedRuleEnabledState_STATUS_Values = map[string]ManagedRuleEnabledState_STATUS{
+	"disabled": ManagedRuleEnabledState_STATUS_Disabled,
+	"enabled":  ManagedRuleEnabledState_STATUS_Enabled,
 }
 
 func init() {

@@ -47,7 +47,7 @@ type BackendContractProperties_ARM struct {
 	Properties *BackendProperties_ARM `json:"properties,omitempty"`
 
 	// Protocol: Backend communication protocol.
-	Protocol *BackendContractProperties_Protocol `json:"protocol,omitempty"`
+	Protocol *BackendContractProperties_Protocol_ARM `json:"protocol,omitempty"`
 
 	// Proxy: Backend gateway Contract Properties
 	Proxy      *BackendProxyContract_ARM `json:"proxy,omitempty"`
@@ -60,7 +60,7 @@ type BackendContractProperties_ARM struct {
 	Tls *BackendTlsProperties_ARM `json:"tls,omitempty"`
 
 	// Type: Type of the backend. A backend can be either Single or Pool.
-	Type *BackendContractProperties_Type `json:"type,omitempty"`
+	Type *BackendContractProperties_Type_ARM `json:"type,omitempty"`
 
 	// Url: Runtime Url of the Backend.
 	Url *string `json:"url,omitempty"`
@@ -70,6 +70,34 @@ type BackendContractProperties_ARM struct {
 type BackendCircuitBreaker_ARM struct {
 	// Rules: The rules for tripping the backend.
 	Rules []CircuitBreakerRule_ARM `json:"rules,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"http","soap"}
+type BackendContractProperties_Protocol_ARM string
+
+const (
+	BackendContractProperties_Protocol_ARM_Http = BackendContractProperties_Protocol_ARM("http")
+	BackendContractProperties_Protocol_ARM_Soap = BackendContractProperties_Protocol_ARM("soap")
+)
+
+// Mapping from string to BackendContractProperties_Protocol_ARM
+var backendContractProperties_Protocol_ARM_Values = map[string]BackendContractProperties_Protocol_ARM{
+	"http": BackendContractProperties_Protocol_ARM_Http,
+	"soap": BackendContractProperties_Protocol_ARM_Soap,
+}
+
+// +kubebuilder:validation:Enum={"Pool","Single"}
+type BackendContractProperties_Type_ARM string
+
+const (
+	BackendContractProperties_Type_ARM_Pool   = BackendContractProperties_Type_ARM("Pool")
+	BackendContractProperties_Type_ARM_Single = BackendContractProperties_Type_ARM("Single")
+)
+
+// Mapping from string to BackendContractProperties_Type_ARM
+var backendContractProperties_Type_ARM_Values = map[string]BackendContractProperties_Type_ARM{
+	"pool":   BackendContractProperties_Type_ARM_Pool,
+	"single": BackendContractProperties_Type_ARM_Single,
 }
 
 // Details of the Credentials used to connect to Backend.
@@ -180,7 +208,7 @@ type CircuitBreakerFailureCondition_ARM struct {
 	Count *int `json:"count,omitempty"`
 
 	// ErrorReasons: The error reasons which are considered as failure.
-	ErrorReasons []CircuitBreakerFailureCondition_ErrorReasons `json:"errorReasons,omitempty"`
+	ErrorReasons []CircuitBreakerFailureCondition_ErrorReasons_ARM `json:"errorReasons,omitempty"`
 
 	// Interval: The interval during which the failures are counted.
 	Interval *string `json:"interval,omitempty"`

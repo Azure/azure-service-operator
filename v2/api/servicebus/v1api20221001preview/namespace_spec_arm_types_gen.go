@@ -43,7 +43,7 @@ func (namespace *Namespace_Spec_ARM) GetType() string {
 // Properties to configure User Assigned Identities for Bring your Own Keys
 type Identity_ARM struct {
 	// Type: Type of managed service identity.
-	Type                   *Identity_Type                             `json:"type,omitempty"`
+	Type                   *Identity_Type_ARM                         `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -59,14 +59,14 @@ type SBNamespaceProperties_ARM struct {
 	Encryption *Encryption_ARM `json:"encryption,omitempty"`
 
 	// MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. '1.2'
-	MinimumTlsVersion *SBNamespaceProperties_MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *SBNamespaceProperties_MinimumTlsVersion_ARM `json:"minimumTlsVersion,omitempty"`
 
 	// PremiumMessagingPartitions: The number of partitions of a Service Bus namespace. This property is only applicable to
 	// Premium SKU namespaces. The default value is 1 and possible values are 1, 2 and 4
 	PremiumMessagingPartitions *int `json:"premiumMessagingPartitions,omitempty"`
 
 	// PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
-	PublicNetworkAccess *SBNamespaceProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *SBNamespaceProperties_PublicNetworkAccess_ARM `json:"publicNetworkAccess,omitempty"`
 
 	// ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
@@ -81,16 +81,16 @@ type SBSku_ARM struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	// Name: Name of this SKU.
-	Name *SBSku_Name `json:"name,omitempty"`
+	Name *SBSku_Name_ARM `json:"name,omitempty"`
 
 	// Tier: The billing tier of this particular SKU.
-	Tier *SBSku_Tier `json:"tier,omitempty"`
+	Tier *SBSku_Tier_ARM `json:"tier,omitempty"`
 }
 
 // Properties to configure Encryption
 type Encryption_ARM struct {
 	// KeySource: Enumerates the possible value of keySource for Encryption
-	KeySource *Encryption_KeySource `json:"keySource,omitempty"`
+	KeySource *Encryption_KeySource_ARM `json:"keySource,omitempty"`
 
 	// KeyVaultProperties: Properties of KeyVault
 	KeyVaultProperties []KeyVaultProperties_ARM `json:"keyVaultProperties,omitempty"`
@@ -100,57 +100,99 @@ type Encryption_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
-type Identity_Type string
+type Identity_Type_ARM string
 
 const (
-	Identity_Type_None                       = Identity_Type("None")
-	Identity_Type_SystemAssigned             = Identity_Type("SystemAssigned")
-	Identity_Type_SystemAssignedUserAssigned = Identity_Type("SystemAssigned, UserAssigned")
-	Identity_Type_UserAssigned               = Identity_Type("UserAssigned")
+	Identity_Type_ARM_None                       = Identity_Type_ARM("None")
+	Identity_Type_ARM_SystemAssigned             = Identity_Type_ARM("SystemAssigned")
+	Identity_Type_ARM_SystemAssignedUserAssigned = Identity_Type_ARM("SystemAssigned, UserAssigned")
+	Identity_Type_ARM_UserAssigned               = Identity_Type_ARM("UserAssigned")
 )
 
-// Mapping from string to Identity_Type
-var identity_Type_Values = map[string]Identity_Type{
-	"none":                         Identity_Type_None,
-	"systemassigned":               Identity_Type_SystemAssigned,
-	"systemassigned, userassigned": Identity_Type_SystemAssignedUserAssigned,
-	"userassigned":                 Identity_Type_UserAssigned,
+// Mapping from string to Identity_Type_ARM
+var identity_Type_ARM_Values = map[string]Identity_Type_ARM{
+	"none":                         Identity_Type_ARM_None,
+	"systemassigned":               Identity_Type_ARM_SystemAssigned,
+	"systemassigned, userassigned": Identity_Type_ARM_SystemAssignedUserAssigned,
+	"userassigned":                 Identity_Type_ARM_UserAssigned,
+}
+
+// +kubebuilder:validation:Enum={"1.0","1.1","1.2"}
+type SBNamespaceProperties_MinimumTlsVersion_ARM string
+
+const (
+	SBNamespaceProperties_MinimumTlsVersion_ARM_10 = SBNamespaceProperties_MinimumTlsVersion_ARM("1.0")
+	SBNamespaceProperties_MinimumTlsVersion_ARM_11 = SBNamespaceProperties_MinimumTlsVersion_ARM("1.1")
+	SBNamespaceProperties_MinimumTlsVersion_ARM_12 = SBNamespaceProperties_MinimumTlsVersion_ARM("1.2")
+)
+
+// Mapping from string to SBNamespaceProperties_MinimumTlsVersion_ARM
+var sBNamespaceProperties_MinimumTlsVersion_ARM_Values = map[string]SBNamespaceProperties_MinimumTlsVersion_ARM{
+	"1.0": SBNamespaceProperties_MinimumTlsVersion_ARM_10,
+	"1.1": SBNamespaceProperties_MinimumTlsVersion_ARM_11,
+	"1.2": SBNamespaceProperties_MinimumTlsVersion_ARM_12,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled","SecuredByPerimeter"}
+type SBNamespaceProperties_PublicNetworkAccess_ARM string
+
+const (
+	SBNamespaceProperties_PublicNetworkAccess_ARM_Disabled           = SBNamespaceProperties_PublicNetworkAccess_ARM("Disabled")
+	SBNamespaceProperties_PublicNetworkAccess_ARM_Enabled            = SBNamespaceProperties_PublicNetworkAccess_ARM("Enabled")
+	SBNamespaceProperties_PublicNetworkAccess_ARM_SecuredByPerimeter = SBNamespaceProperties_PublicNetworkAccess_ARM("SecuredByPerimeter")
+)
+
+// Mapping from string to SBNamespaceProperties_PublicNetworkAccess_ARM
+var sBNamespaceProperties_PublicNetworkAccess_ARM_Values = map[string]SBNamespaceProperties_PublicNetworkAccess_ARM{
+	"disabled":           SBNamespaceProperties_PublicNetworkAccess_ARM_Disabled,
+	"enabled":            SBNamespaceProperties_PublicNetworkAccess_ARM_Enabled,
+	"securedbyperimeter": SBNamespaceProperties_PublicNetworkAccess_ARM_SecuredByPerimeter,
 }
 
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
-type SBSku_Name string
+type SBSku_Name_ARM string
 
 const (
-	SBSku_Name_Basic    = SBSku_Name("Basic")
-	SBSku_Name_Premium  = SBSku_Name("Premium")
-	SBSku_Name_Standard = SBSku_Name("Standard")
+	SBSku_Name_ARM_Basic    = SBSku_Name_ARM("Basic")
+	SBSku_Name_ARM_Premium  = SBSku_Name_ARM("Premium")
+	SBSku_Name_ARM_Standard = SBSku_Name_ARM("Standard")
 )
 
-// Mapping from string to SBSku_Name
-var sBSku_Name_Values = map[string]SBSku_Name{
-	"basic":    SBSku_Name_Basic,
-	"premium":  SBSku_Name_Premium,
-	"standard": SBSku_Name_Standard,
+// Mapping from string to SBSku_Name_ARM
+var sBSku_Name_ARM_Values = map[string]SBSku_Name_ARM{
+	"basic":    SBSku_Name_ARM_Basic,
+	"premium":  SBSku_Name_ARM_Premium,
+	"standard": SBSku_Name_ARM_Standard,
 }
 
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
-type SBSku_Tier string
+type SBSku_Tier_ARM string
 
 const (
-	SBSku_Tier_Basic    = SBSku_Tier("Basic")
-	SBSku_Tier_Premium  = SBSku_Tier("Premium")
-	SBSku_Tier_Standard = SBSku_Tier("Standard")
+	SBSku_Tier_ARM_Basic    = SBSku_Tier_ARM("Basic")
+	SBSku_Tier_ARM_Premium  = SBSku_Tier_ARM("Premium")
+	SBSku_Tier_ARM_Standard = SBSku_Tier_ARM("Standard")
 )
 
-// Mapping from string to SBSku_Tier
-var sBSku_Tier_Values = map[string]SBSku_Tier{
-	"basic":    SBSku_Tier_Basic,
-	"premium":  SBSku_Tier_Premium,
-	"standard": SBSku_Tier_Standard,
+// Mapping from string to SBSku_Tier_ARM
+var sBSku_Tier_ARM_Values = map[string]SBSku_Tier_ARM{
+	"basic":    SBSku_Tier_ARM_Basic,
+	"premium":  SBSku_Tier_ARM_Premium,
+	"standard": SBSku_Tier_ARM_Standard,
 }
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails_ARM struct {
+}
+
+// +kubebuilder:validation:Enum={"Microsoft.KeyVault"}
+type Encryption_KeySource_ARM string
+
+const Encryption_KeySource_ARM_MicrosoftKeyVault = Encryption_KeySource_ARM("Microsoft.KeyVault")
+
+// Mapping from string to Encryption_KeySource_ARM
+var encryption_KeySource_ARM_Values = map[string]Encryption_KeySource_ARM{
+	"microsoft.keyvault": Encryption_KeySource_ARM_MicrosoftKeyVault,
 }
 
 // Properties to configure keyVault Properties

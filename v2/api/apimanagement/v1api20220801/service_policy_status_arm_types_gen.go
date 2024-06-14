@@ -21,8 +21,25 @@ type Service_Policy_STATUS_ARM struct {
 // Policy contract Properties.
 type PolicyContractProperties_STATUS_ARM struct {
 	// Format: Format of the policyContent.
-	Format *PolicyContractProperties_Format_STATUS `json:"format,omitempty"`
+	Format *PolicyContractProperties_Format_STATUS_ARM `json:"format,omitempty"`
 
 	// Value: Contents of the Policy as defined by the format.
 	Value *string `json:"value,omitempty"`
+}
+
+type PolicyContractProperties_Format_STATUS_ARM string
+
+const (
+	PolicyContractProperties_Format_STATUS_ARM_Rawxml     = PolicyContractProperties_Format_STATUS_ARM("rawxml")
+	PolicyContractProperties_Format_STATUS_ARM_RawxmlLink = PolicyContractProperties_Format_STATUS_ARM("rawxml-link")
+	PolicyContractProperties_Format_STATUS_ARM_Xml        = PolicyContractProperties_Format_STATUS_ARM("xml")
+	PolicyContractProperties_Format_STATUS_ARM_XmlLink    = PolicyContractProperties_Format_STATUS_ARM("xml-link")
+)
+
+// Mapping from string to PolicyContractProperties_Format_STATUS_ARM
+var policyContractProperties_Format_STATUS_ARM_Values = map[string]PolicyContractProperties_Format_STATUS_ARM{
+	"rawxml":      PolicyContractProperties_Format_STATUS_ARM_Rawxml,
+	"rawxml-link": PolicyContractProperties_Format_STATUS_ARM_RawxmlLink,
+	"xml":         PolicyContractProperties_Format_STATUS_ARM_Xml,
+	"xml-link":    PolicyContractProperties_Format_STATUS_ARM_XmlLink,
 }

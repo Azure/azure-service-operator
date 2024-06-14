@@ -39,7 +39,7 @@ type NatGatewayPropertiesFormat_STATUS_ARM struct {
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	// ProvisioningState: The provisioning state of the NAT gateway resource.
-	ProvisioningState *ApplicationGatewayProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ApplicationGatewayProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// PublicIpAddresses: An array of public ip addresses associated with the nat gateway resource.
 	PublicIpAddresses []ApplicationGatewaySubResource_STATUS_ARM `json:"publicIpAddresses,omitempty"`
@@ -57,14 +57,14 @@ type NatGatewayPropertiesFormat_STATUS_ARM struct {
 // SKU of nat gateway.
 type NatGatewaySku_STATUS_ARM struct {
 	// Name: Name of Nat Gateway SKU.
-	Name *NatGatewaySku_Name_STATUS `json:"name,omitempty"`
+	Name *NatGatewaySku_Name_STATUS_ARM `json:"name,omitempty"`
 }
 
-type NatGatewaySku_Name_STATUS string
+type NatGatewaySku_Name_STATUS_ARM string
 
-const NatGatewaySku_Name_STATUS_Standard = NatGatewaySku_Name_STATUS("Standard")
+const NatGatewaySku_Name_STATUS_ARM_Standard = NatGatewaySku_Name_STATUS_ARM("Standard")
 
-// Mapping from string to NatGatewaySku_Name_STATUS
-var natGatewaySku_Name_STATUS_Values = map[string]NatGatewaySku_Name_STATUS{
-	"standard": NatGatewaySku_Name_STATUS_Standard,
+// Mapping from string to NatGatewaySku_Name_STATUS_ARM
+var natGatewaySku_Name_STATUS_ARM_Values = map[string]NatGatewaySku_Name_STATUS_ARM{
+	"standard": NatGatewaySku_Name_STATUS_ARM_Standard,
 }

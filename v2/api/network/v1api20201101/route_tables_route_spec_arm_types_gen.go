@@ -43,5 +43,26 @@ type RoutePropertiesFormat_ARM struct {
 	NextHopIpAddress *string `json:"nextHopIpAddress,omitempty"`
 
 	// NextHopType: The type of Azure hop the packet should be sent to.
-	NextHopType *RouteNextHopType `json:"nextHopType,omitempty"`
+	NextHopType *RouteNextHopType_ARM `json:"nextHopType,omitempty"`
+}
+
+// The type of Azure hop the packet should be sent to.
+// +kubebuilder:validation:Enum={"Internet","None","VirtualAppliance","VirtualNetworkGateway","VnetLocal"}
+type RouteNextHopType_ARM string
+
+const (
+	RouteNextHopType_ARM_Internet              = RouteNextHopType_ARM("Internet")
+	RouteNextHopType_ARM_None                  = RouteNextHopType_ARM("None")
+	RouteNextHopType_ARM_VirtualAppliance      = RouteNextHopType_ARM("VirtualAppliance")
+	RouteNextHopType_ARM_VirtualNetworkGateway = RouteNextHopType_ARM("VirtualNetworkGateway")
+	RouteNextHopType_ARM_VnetLocal             = RouteNextHopType_ARM("VnetLocal")
+)
+
+// Mapping from string to RouteNextHopType_ARM
+var routeNextHopType_ARM_Values = map[string]RouteNextHopType_ARM{
+	"internet":              RouteNextHopType_ARM_Internet,
+	"none":                  RouteNextHopType_ARM_None,
+	"virtualappliance":      RouteNextHopType_ARM_VirtualAppliance,
+	"virtualnetworkgateway": RouteNextHopType_ARM_VirtualNetworkGateway,
+	"vnetlocal":             RouteNextHopType_ARM_VnetLocal,
 }

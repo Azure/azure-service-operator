@@ -1597,7 +1597,9 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := Serverfarm_Properties_ProvisioningState_STATUS(temp)
 			serverfarm.ProvisioningState = &provisioningState
 		}
 	}
@@ -1644,7 +1646,9 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Status != nil {
-			status := *typedInput.Properties.Status
+			var temp string
+			temp = string(*typedInput.Properties.Status)
+			status := Serverfarm_Properties_Status_STATUS(temp)
 			serverfarm.Status = &status
 		}
 	}

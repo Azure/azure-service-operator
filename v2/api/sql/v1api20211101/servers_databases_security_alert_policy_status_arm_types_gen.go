@@ -40,9 +40,22 @@ type DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_STATUS_ARM stru
 
 	// State: Specifies the state of the policy, whether it is enabled or disabled or a policy has not been applied yet on the
 	// specific database.
-	State *DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS `json:"state,omitempty"`
+	State *DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS_ARM `json:"state,omitempty"`
 
 	// StorageEndpoint: Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage
 	// will hold all Threat Detection audit logs.
 	StorageEndpoint *string `json:"storageEndpoint,omitempty"`
+}
+
+type DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS_ARM string
+
+const (
+	DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS_ARM_Disabled = DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS_ARM("Disabled")
+	DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS_ARM_Enabled  = DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS_ARM
+var databaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS_ARM_Values = map[string]DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS_ARM{
+	"disabled": DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS_ARM_Disabled,
+	"enabled":  DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS_ARM_Enabled,
 }

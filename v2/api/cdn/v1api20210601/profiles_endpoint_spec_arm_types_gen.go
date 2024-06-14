@@ -67,7 +67,7 @@ type EndpointProperties_ARM struct {
 
 	// OptimizationType: Specifies what scenario the customer wants this CDN endpoint to optimize for, e.g. Download, Media
 	// services. With this information, CDN can apply scenario driven optimization.
-	OptimizationType *OptimizationType `json:"optimizationType,omitempty"`
+	OptimizationType *OptimizationType_ARM `json:"optimizationType,omitempty"`
 
 	// OriginGroups: The origin groups comprising of origins that are used for load balancing the traffic based on availability.
 	OriginGroups []DeepCreatedOriginGroup_ARM `json:"originGroups,omitempty"`
@@ -93,7 +93,7 @@ type EndpointProperties_ARM struct {
 	// QueryStringCachingBehavior: Defines how CDN caches requests that include query strings. You can ignore any query strings
 	// when caching, bypass caching to prevent requests that contain query strings from being cached, or cache every request
 	// with a unique URL.
-	QueryStringCachingBehavior *QueryStringCachingBehavior `json:"queryStringCachingBehavior,omitempty"`
+	QueryStringCachingBehavior *QueryStringCachingBehavior_ARM `json:"queryStringCachingBehavior,omitempty"`
 
 	// UrlSigningKeys: List of keys used to validate the signed URL hashes.
 	UrlSigningKeys []UrlSigningKey_ARM `json:"urlSigningKeys,omitempty"`
@@ -136,13 +136,55 @@ type EndpointProperties_WebApplicationFirewallPolicyLink_ARM struct {
 // Rules defining user's geo access within a CDN endpoint.
 type GeoFilter_ARM struct {
 	// Action: Action of the geo filter, i.e. allow or block access.
-	Action *GeoFilter_Action `json:"action,omitempty"`
+	Action *GeoFilter_Action_ARM `json:"action,omitempty"`
 
 	// CountryCodes: Two letter country or region codes defining user country or region access in a geo filter, e.g. AU, MX, US.
 	CountryCodes []string `json:"countryCodes,omitempty"`
 
 	// RelativePath: Relative path applicable to geo filter. (e.g. '/mypictures', '/mypicture/kitty.jpg', and etc.)
 	RelativePath *string `json:"relativePath,omitempty"`
+}
+
+// Specifies what scenario the customer wants this CDN endpoint to optimize, e.g. Download, Media services. With this
+// information we can apply scenario driven optimization.
+// +kubebuilder:validation:Enum={"DynamicSiteAcceleration","GeneralMediaStreaming","GeneralWebDelivery","LargeFileDownload","VideoOnDemandMediaStreaming"}
+type OptimizationType_ARM string
+
+const (
+	OptimizationType_ARM_DynamicSiteAcceleration     = OptimizationType_ARM("DynamicSiteAcceleration")
+	OptimizationType_ARM_GeneralMediaStreaming       = OptimizationType_ARM("GeneralMediaStreaming")
+	OptimizationType_ARM_GeneralWebDelivery          = OptimizationType_ARM("GeneralWebDelivery")
+	OptimizationType_ARM_LargeFileDownload           = OptimizationType_ARM("LargeFileDownload")
+	OptimizationType_ARM_VideoOnDemandMediaStreaming = OptimizationType_ARM("VideoOnDemandMediaStreaming")
+)
+
+// Mapping from string to OptimizationType_ARM
+var optimizationType_ARM_Values = map[string]OptimizationType_ARM{
+	"dynamicsiteacceleration":     OptimizationType_ARM_DynamicSiteAcceleration,
+	"generalmediastreaming":       OptimizationType_ARM_GeneralMediaStreaming,
+	"generalwebdelivery":          OptimizationType_ARM_GeneralWebDelivery,
+	"largefiledownload":           OptimizationType_ARM_LargeFileDownload,
+	"videoondemandmediastreaming": OptimizationType_ARM_VideoOnDemandMediaStreaming,
+}
+
+// Defines how CDN caches requests that include query strings. You can ignore any query strings when caching, bypass
+// caching to prevent requests that contain query strings from being cached, or cache every request with a unique URL.
+// +kubebuilder:validation:Enum={"BypassCaching","IgnoreQueryString","NotSet","UseQueryString"}
+type QueryStringCachingBehavior_ARM string
+
+const (
+	QueryStringCachingBehavior_ARM_BypassCaching     = QueryStringCachingBehavior_ARM("BypassCaching")
+	QueryStringCachingBehavior_ARM_IgnoreQueryString = QueryStringCachingBehavior_ARM("IgnoreQueryString")
+	QueryStringCachingBehavior_ARM_NotSet            = QueryStringCachingBehavior_ARM("NotSet")
+	QueryStringCachingBehavior_ARM_UseQueryString    = QueryStringCachingBehavior_ARM("UseQueryString")
+)
+
+// Mapping from string to QueryStringCachingBehavior_ARM
+var queryStringCachingBehavior_ARM_Values = map[string]QueryStringCachingBehavior_ARM{
+	"bypasscaching":     QueryStringCachingBehavior_ARM_BypassCaching,
+	"ignorequerystring": QueryStringCachingBehavior_ARM_IgnoreQueryString,
+	"notset":            QueryStringCachingBehavior_ARM_NotSet,
+	"usequerystring":    QueryStringCachingBehavior_ARM_UseQueryString,
 }
 
 // Reference to another resource.
@@ -232,6 +274,20 @@ type DeliveryRule_ARM struct {
 	Order *int `json:"order,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"Allow","Block"}
+type GeoFilter_Action_ARM string
+
+const (
+	GeoFilter_Action_ARM_Allow = GeoFilter_Action_ARM("Allow")
+	GeoFilter_Action_ARM_Block = GeoFilter_Action_ARM("Block")
+)
+
+// Mapping from string to GeoFilter_Action_ARM
+var geoFilter_Action_ARM_Values = map[string]GeoFilter_Action_ARM{
+	"allow": GeoFilter_Action_ARM_Allow,
+	"block": GeoFilter_Action_ARM_Block,
+}
+
 // Describes the parameters for using a user's KeyVault for URL Signing Key.
 type KeyVaultSigningKeyParameters_ARM struct {
 	// ResourceGroupName: Resource group of the user's Key Vault containing the secret
@@ -244,8 +300,8 @@ type KeyVaultSigningKeyParameters_ARM struct {
 	SecretVersion *string `json:"secretVersion,omitempty"`
 
 	// SubscriptionId: Subscription Id of the user's Key Vault containing the secret
-	SubscriptionId *string                                `json:"subscriptionId,omitempty"`
-	TypeName       *KeyVaultSigningKeyParameters_TypeName `json:"typeName,omitempty"`
+	SubscriptionId *string                                    `json:"subscriptionId,omitempty"`
+	TypeName       *KeyVaultSigningKeyParameters_TypeName_ARM `json:"typeName,omitempty"`
 
 	// VaultName: The name of the user's Key Vault containing the secret
 	VaultName *string `json:"vaultName,omitempty"`
@@ -582,10 +638,20 @@ type HealthProbeParameters_ARM struct {
 	ProbePath *string `json:"probePath,omitempty"`
 
 	// ProbeProtocol: Protocol to use for health probe.
-	ProbeProtocol *HealthProbeParameters_ProbeProtocol `json:"probeProtocol,omitempty"`
+	ProbeProtocol *HealthProbeParameters_ProbeProtocol_ARM `json:"probeProtocol,omitempty"`
 
 	// ProbeRequestType: The type of health probe request that is made.
-	ProbeRequestType *HealthProbeParameters_ProbeRequestType `json:"probeRequestType,omitempty"`
+	ProbeRequestType *HealthProbeParameters_ProbeRequestType_ARM `json:"probeRequestType,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"KeyVaultSigningKeyParameters"}
+type KeyVaultSigningKeyParameters_TypeName_ARM string
+
+const KeyVaultSigningKeyParameters_TypeName_ARM_KeyVaultSigningKeyParameters = KeyVaultSigningKeyParameters_TypeName_ARM("KeyVaultSigningKeyParameters")
+
+// Mapping from string to KeyVaultSigningKeyParameters_TypeName_ARM
+var keyVaultSigningKeyParameters_TypeName_ARM_Values = map[string]KeyVaultSigningKeyParameters_TypeName_ARM{
+	"keyvaultsigningkeyparameters": KeyVaultSigningKeyParameters_TypeName_ARM_KeyVaultSigningKeyParameters,
 }
 
 // The JSON object that contains the properties to determine origin health using real requests/responses.
@@ -595,7 +661,7 @@ type ResponseBasedOriginErrorDetectionParameters_ARM struct {
 	HttpErrorRanges []HttpErrorRangeParameters_ARM `json:"httpErrorRanges,omitempty"`
 
 	// ResponseBasedDetectedErrorTypes: Type of response errors for real user requests for which origin will be deemed unhealthy
-	ResponseBasedDetectedErrorTypes *ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes `json:"responseBasedDetectedErrorTypes,omitempty"`
+	ResponseBasedDetectedErrorTypes *ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_ARM `json:"responseBasedDetectedErrorTypes,omitempty"`
 
 	// ResponseBasedFailoverThresholdPercentage: The percentage of failed requests in the sample where failover should trigger.
 	ResponseBasedFailoverThresholdPercentage *int `json:"responseBasedFailoverThresholdPercentage,omitempty"`
@@ -603,7 +669,7 @@ type ResponseBasedOriginErrorDetectionParameters_ARM struct {
 
 type DeliveryRuleCacheExpirationAction_ARM struct {
 	// Name: The name of the action for the delivery rule.
-	Name DeliveryRuleCacheExpirationAction_Name `json:"name,omitempty"`
+	Name DeliveryRuleCacheExpirationAction_Name_ARM `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the action.
 	Parameters *CacheExpirationActionParameters_ARM `json:"parameters,omitempty"`
@@ -611,7 +677,7 @@ type DeliveryRuleCacheExpirationAction_ARM struct {
 
 type DeliveryRuleCacheKeyQueryStringAction_ARM struct {
 	// Name: The name of the action for the delivery rule.
-	Name DeliveryRuleCacheKeyQueryStringAction_Name `json:"name,omitempty"`
+	Name DeliveryRuleCacheKeyQueryStringAction_Name_ARM `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the action.
 	Parameters *CacheKeyQueryStringActionParameters_ARM `json:"parameters,omitempty"`
@@ -619,7 +685,7 @@ type DeliveryRuleCacheKeyQueryStringAction_ARM struct {
 
 type DeliveryRuleClientPortCondition_ARM struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleClientPortCondition_Name `json:"name,omitempty"`
+	Name DeliveryRuleClientPortCondition_Name_ARM `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *ClientPortMatchConditionParameters_ARM `json:"parameters,omitempty"`
@@ -627,7 +693,7 @@ type DeliveryRuleClientPortCondition_ARM struct {
 
 type DeliveryRuleCookiesCondition_ARM struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleCookiesCondition_Name `json:"name,omitempty"`
+	Name DeliveryRuleCookiesCondition_Name_ARM `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *CookiesMatchConditionParameters_ARM `json:"parameters,omitempty"`
@@ -635,7 +701,7 @@ type DeliveryRuleCookiesCondition_ARM struct {
 
 type DeliveryRuleHostNameCondition_ARM struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleHostNameCondition_Name `json:"name,omitempty"`
+	Name DeliveryRuleHostNameCondition_Name_ARM `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *HostNameMatchConditionParameters_ARM `json:"parameters,omitempty"`
@@ -643,7 +709,7 @@ type DeliveryRuleHostNameCondition_ARM struct {
 
 type DeliveryRuleHttpVersionCondition_ARM struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleHttpVersionCondition_Name `json:"name,omitempty"`
+	Name DeliveryRuleHttpVersionCondition_Name_ARM `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *HttpVersionMatchConditionParameters_ARM `json:"parameters,omitempty"`
@@ -651,7 +717,7 @@ type DeliveryRuleHttpVersionCondition_ARM struct {
 
 type DeliveryRuleIsDeviceCondition_ARM struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleIsDeviceCondition_Name `json:"name,omitempty"`
+	Name DeliveryRuleIsDeviceCondition_Name_ARM `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *IsDeviceMatchConditionParameters_ARM `json:"parameters,omitempty"`
@@ -659,7 +725,7 @@ type DeliveryRuleIsDeviceCondition_ARM struct {
 
 type DeliveryRulePostArgsCondition_ARM struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRulePostArgsCondition_Name `json:"name,omitempty"`
+	Name DeliveryRulePostArgsCondition_Name_ARM `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *PostArgsMatchConditionParameters_ARM `json:"parameters,omitempty"`
@@ -667,7 +733,7 @@ type DeliveryRulePostArgsCondition_ARM struct {
 
 type DeliveryRuleQueryStringCondition_ARM struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleQueryStringCondition_Name `json:"name,omitempty"`
+	Name DeliveryRuleQueryStringCondition_Name_ARM `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *QueryStringMatchConditionParameters_ARM `json:"parameters,omitempty"`
@@ -675,7 +741,7 @@ type DeliveryRuleQueryStringCondition_ARM struct {
 
 type DeliveryRuleRemoteAddressCondition_ARM struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleRemoteAddressCondition_Name `json:"name,omitempty"`
+	Name DeliveryRuleRemoteAddressCondition_Name_ARM `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *RemoteAddressMatchConditionParameters_ARM `json:"parameters,omitempty"`
@@ -683,7 +749,7 @@ type DeliveryRuleRemoteAddressCondition_ARM struct {
 
 type DeliveryRuleRequestBodyCondition_ARM struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleRequestBodyCondition_Name `json:"name,omitempty"`
+	Name DeliveryRuleRequestBodyCondition_Name_ARM `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *RequestBodyMatchConditionParameters_ARM `json:"parameters,omitempty"`
@@ -691,7 +757,7 @@ type DeliveryRuleRequestBodyCondition_ARM struct {
 
 type DeliveryRuleRequestHeaderAction_ARM struct {
 	// Name: The name of the action for the delivery rule.
-	Name DeliveryRuleRequestHeaderAction_Name `json:"name,omitempty"`
+	Name DeliveryRuleRequestHeaderAction_Name_ARM `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the action.
 	Parameters *HeaderActionParameters_ARM `json:"parameters,omitempty"`
@@ -699,7 +765,7 @@ type DeliveryRuleRequestHeaderAction_ARM struct {
 
 type DeliveryRuleRequestHeaderCondition_ARM struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleRequestHeaderCondition_Name `json:"name,omitempty"`
+	Name DeliveryRuleRequestHeaderCondition_Name_ARM `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *RequestHeaderMatchConditionParameters_ARM `json:"parameters,omitempty"`
@@ -707,7 +773,7 @@ type DeliveryRuleRequestHeaderCondition_ARM struct {
 
 type DeliveryRuleRequestMethodCondition_ARM struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleRequestMethodCondition_Name `json:"name,omitempty"`
+	Name DeliveryRuleRequestMethodCondition_Name_ARM `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *RequestMethodMatchConditionParameters_ARM `json:"parameters,omitempty"`
@@ -715,7 +781,7 @@ type DeliveryRuleRequestMethodCondition_ARM struct {
 
 type DeliveryRuleRequestSchemeCondition_ARM struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleRequestSchemeCondition_Name `json:"name,omitempty"`
+	Name DeliveryRuleRequestSchemeCondition_Name_ARM `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *RequestSchemeMatchConditionParameters_ARM `json:"parameters,omitempty"`
@@ -723,7 +789,7 @@ type DeliveryRuleRequestSchemeCondition_ARM struct {
 
 type DeliveryRuleRequestUriCondition_ARM struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleRequestUriCondition_Name `json:"name,omitempty"`
+	Name DeliveryRuleRequestUriCondition_Name_ARM `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *RequestUriMatchConditionParameters_ARM `json:"parameters,omitempty"`
@@ -731,7 +797,7 @@ type DeliveryRuleRequestUriCondition_ARM struct {
 
 type DeliveryRuleResponseHeaderAction_ARM struct {
 	// Name: The name of the action for the delivery rule.
-	Name DeliveryRuleResponseHeaderAction_Name `json:"name,omitempty"`
+	Name DeliveryRuleResponseHeaderAction_Name_ARM `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the action.
 	Parameters *HeaderActionParameters_ARM `json:"parameters,omitempty"`
@@ -739,7 +805,7 @@ type DeliveryRuleResponseHeaderAction_ARM struct {
 
 type DeliveryRuleRouteConfigurationOverrideAction_ARM struct {
 	// Name: The name of the action for the delivery rule.
-	Name DeliveryRuleRouteConfigurationOverrideAction_Name `json:"name,omitempty"`
+	Name DeliveryRuleRouteConfigurationOverrideAction_Name_ARM `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the action.
 	Parameters *RouteConfigurationOverrideActionParameters_ARM `json:"parameters,omitempty"`
@@ -747,7 +813,7 @@ type DeliveryRuleRouteConfigurationOverrideAction_ARM struct {
 
 type DeliveryRuleServerPortCondition_ARM struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleServerPortCondition_Name `json:"name,omitempty"`
+	Name DeliveryRuleServerPortCondition_Name_ARM `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *ServerPortMatchConditionParameters_ARM `json:"parameters,omitempty"`
@@ -755,7 +821,7 @@ type DeliveryRuleServerPortCondition_ARM struct {
 
 type DeliveryRuleSocketAddrCondition_ARM struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleSocketAddrCondition_Name `json:"name,omitempty"`
+	Name DeliveryRuleSocketAddrCondition_Name_ARM `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *SocketAddrMatchConditionParameters_ARM `json:"parameters,omitempty"`
@@ -763,7 +829,7 @@ type DeliveryRuleSocketAddrCondition_ARM struct {
 
 type DeliveryRuleSslProtocolCondition_ARM struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleSslProtocolCondition_Name `json:"name,omitempty"`
+	Name DeliveryRuleSslProtocolCondition_Name_ARM `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *SslProtocolMatchConditionParameters_ARM `json:"parameters,omitempty"`
@@ -771,7 +837,7 @@ type DeliveryRuleSslProtocolCondition_ARM struct {
 
 type DeliveryRuleUrlFileExtensionCondition_ARM struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleUrlFileExtensionCondition_Name `json:"name,omitempty"`
+	Name DeliveryRuleUrlFileExtensionCondition_Name_ARM `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *UrlFileExtensionMatchConditionParameters_ARM `json:"parameters,omitempty"`
@@ -779,7 +845,7 @@ type DeliveryRuleUrlFileExtensionCondition_ARM struct {
 
 type DeliveryRuleUrlFileNameCondition_ARM struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleUrlFileNameCondition_Name `json:"name,omitempty"`
+	Name DeliveryRuleUrlFileNameCondition_Name_ARM `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *UrlFileNameMatchConditionParameters_ARM `json:"parameters,omitempty"`
@@ -787,10 +853,42 @@ type DeliveryRuleUrlFileNameCondition_ARM struct {
 
 type DeliveryRuleUrlPathCondition_ARM struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleUrlPathCondition_Name `json:"name,omitempty"`
+	Name DeliveryRuleUrlPathCondition_Name_ARM `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *UrlPathMatchConditionParameters_ARM `json:"parameters,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Http","Https","NotSet"}
+type HealthProbeParameters_ProbeProtocol_ARM string
+
+const (
+	HealthProbeParameters_ProbeProtocol_ARM_Http   = HealthProbeParameters_ProbeProtocol_ARM("Http")
+	HealthProbeParameters_ProbeProtocol_ARM_Https  = HealthProbeParameters_ProbeProtocol_ARM("Https")
+	HealthProbeParameters_ProbeProtocol_ARM_NotSet = HealthProbeParameters_ProbeProtocol_ARM("NotSet")
+)
+
+// Mapping from string to HealthProbeParameters_ProbeProtocol_ARM
+var healthProbeParameters_ProbeProtocol_ARM_Values = map[string]HealthProbeParameters_ProbeProtocol_ARM{
+	"http":   HealthProbeParameters_ProbeProtocol_ARM_Http,
+	"https":  HealthProbeParameters_ProbeProtocol_ARM_Https,
+	"notset": HealthProbeParameters_ProbeProtocol_ARM_NotSet,
+}
+
+// +kubebuilder:validation:Enum={"GET","HEAD","NotSet"}
+type HealthProbeParameters_ProbeRequestType_ARM string
+
+const (
+	HealthProbeParameters_ProbeRequestType_ARM_GET    = HealthProbeParameters_ProbeRequestType_ARM("GET")
+	HealthProbeParameters_ProbeRequestType_ARM_HEAD   = HealthProbeParameters_ProbeRequestType_ARM("HEAD")
+	HealthProbeParameters_ProbeRequestType_ARM_NotSet = HealthProbeParameters_ProbeRequestType_ARM("NotSet")
+)
+
+// Mapping from string to HealthProbeParameters_ProbeRequestType_ARM
+var healthProbeParameters_ProbeRequestType_ARM_Values = map[string]HealthProbeParameters_ProbeRequestType_ARM{
+	"get":    HealthProbeParameters_ProbeRequestType_ARM_GET,
+	"head":   HealthProbeParameters_ProbeRequestType_ARM_HEAD,
+	"notset": HealthProbeParameters_ProbeRequestType_ARM_NotSet,
 }
 
 // The JSON object that represents the range for http status codes
@@ -804,15 +902,31 @@ type HttpErrorRangeParameters_ARM struct {
 
 type OriginGroupOverrideAction_ARM struct {
 	// Name: The name of the action for the delivery rule.
-	Name OriginGroupOverrideAction_Name `json:"name,omitempty"`
+	Name OriginGroupOverrideAction_Name_ARM `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the action.
 	Parameters *OriginGroupOverrideActionParameters_ARM `json:"parameters,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"None","TcpAndHttpErrors","TcpErrorsOnly"}
+type ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_ARM string
+
+const (
+	ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_ARM_None             = ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_ARM("None")
+	ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_ARM_TcpAndHttpErrors = ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_ARM("TcpAndHttpErrors")
+	ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_ARM_TcpErrorsOnly    = ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_ARM("TcpErrorsOnly")
+)
+
+// Mapping from string to ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_ARM
+var responseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_ARM_Values = map[string]ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_ARM{
+	"none":             ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_ARM_None,
+	"tcpandhttperrors": ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_ARM_TcpAndHttpErrors,
+	"tcperrorsonly":    ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_ARM_TcpErrorsOnly,
+}
+
 type UrlRedirectAction_ARM struct {
 	// Name: The name of the action for the delivery rule.
-	Name UrlRedirectAction_Name `json:"name,omitempty"`
+	Name UrlRedirectAction_Name_ARM `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the action.
 	Parameters *UrlRedirectActionParameters_ARM `json:"parameters,omitempty"`
@@ -820,7 +934,7 @@ type UrlRedirectAction_ARM struct {
 
 type UrlRewriteAction_ARM struct {
 	// Name: The name of the action for the delivery rule.
-	Name UrlRewriteAction_Name `json:"name,omitempty"`
+	Name UrlRewriteAction_Name_ARM `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the action.
 	Parameters *UrlRewriteActionParameters_ARM `json:"parameters,omitempty"`
@@ -828,7 +942,7 @@ type UrlRewriteAction_ARM struct {
 
 type UrlSigningAction_ARM struct {
 	// Name: The name of the action for the delivery rule.
-	Name UrlSigningAction_Name `json:"name,omitempty"`
+	Name UrlSigningAction_Name_ARM `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the action.
 	Parameters *UrlSigningActionParameters_ARM `json:"parameters,omitempty"`
@@ -837,14 +951,14 @@ type UrlSigningAction_ARM struct {
 // Defines the parameters for the cache expiration action.
 type CacheExpirationActionParameters_ARM struct {
 	// CacheBehavior: Caching behavior for the requests
-	CacheBehavior *CacheExpirationActionParameters_CacheBehavior `json:"cacheBehavior,omitempty"`
+	CacheBehavior *CacheExpirationActionParameters_CacheBehavior_ARM `json:"cacheBehavior,omitempty"`
 
 	// CacheDuration: The duration for which the content needs to be cached. Allowed format is [d.]hh:mm:ss
 	CacheDuration *string `json:"cacheDuration,omitempty"`
 
 	// CacheType: The level at which the content needs to be cached.
-	CacheType *CacheExpirationActionParameters_CacheType `json:"cacheType,omitempty"`
-	TypeName  *CacheExpirationActionParameters_TypeName  `json:"typeName,omitempty"`
+	CacheType *CacheExpirationActionParameters_CacheType_ARM `json:"cacheType,omitempty"`
+	TypeName  *CacheExpirationActionParameters_TypeName_ARM  `json:"typeName,omitempty"`
 }
 
 // Defines the parameters for the cache-key query string action.
@@ -853,8 +967,8 @@ type CacheKeyQueryStringActionParameters_ARM struct {
 	QueryParameters *string `json:"queryParameters,omitempty"`
 
 	// QueryStringBehavior: Caching behavior for the requests
-	QueryStringBehavior *CacheKeyQueryStringActionParameters_QueryStringBehavior `json:"queryStringBehavior,omitempty"`
-	TypeName            *CacheKeyQueryStringActionParameters_TypeName            `json:"typeName,omitempty"`
+	QueryStringBehavior *CacheKeyQueryStringActionParameters_QueryStringBehavior_ARM `json:"queryStringBehavior,omitempty"`
+	TypeName            *CacheKeyQueryStringActionParameters_TypeName_ARM            `json:"typeName,omitempty"`
 }
 
 // Defines the parameters for ClientPort match conditions
@@ -866,11 +980,11 @@ type ClientPortMatchConditionParameters_ARM struct {
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
 	// Operator: Describes operator to be matched
-	Operator *ClientPortMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Operator *ClientPortMatchConditionParameters_Operator_ARM `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []Transform                                  `json:"transforms,omitempty"`
-	TypeName   *ClientPortMatchConditionParameters_TypeName `json:"typeName,omitempty"`
+	Transforms []Transform_ARM                                  `json:"transforms,omitempty"`
+	TypeName   *ClientPortMatchConditionParameters_TypeName_ARM `json:"typeName,omitempty"`
 }
 
 // Defines the parameters for Cookies match conditions
@@ -882,24 +996,264 @@ type CookiesMatchConditionParameters_ARM struct {
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
 	// Operator: Describes operator to be matched
-	Operator *CookiesMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Operator *CookiesMatchConditionParameters_Operator_ARM `json:"operator,omitempty"`
 
 	// Selector: Name of Cookies to be matched
 	Selector *string `json:"selector,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []Transform                               `json:"transforms,omitempty"`
-	TypeName   *CookiesMatchConditionParameters_TypeName `json:"typeName,omitempty"`
+	Transforms []Transform_ARM                               `json:"transforms,omitempty"`
+	TypeName   *CookiesMatchConditionParameters_TypeName_ARM `json:"typeName,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"CacheExpiration"}
+type DeliveryRuleCacheExpirationAction_Name_ARM string
+
+const DeliveryRuleCacheExpirationAction_Name_ARM_CacheExpiration = DeliveryRuleCacheExpirationAction_Name_ARM("CacheExpiration")
+
+// Mapping from string to DeliveryRuleCacheExpirationAction_Name_ARM
+var deliveryRuleCacheExpirationAction_Name_ARM_Values = map[string]DeliveryRuleCacheExpirationAction_Name_ARM{
+	"cacheexpiration": DeliveryRuleCacheExpirationAction_Name_ARM_CacheExpiration,
+}
+
+// +kubebuilder:validation:Enum={"CacheKeyQueryString"}
+type DeliveryRuleCacheKeyQueryStringAction_Name_ARM string
+
+const DeliveryRuleCacheKeyQueryStringAction_Name_ARM_CacheKeyQueryString = DeliveryRuleCacheKeyQueryStringAction_Name_ARM("CacheKeyQueryString")
+
+// Mapping from string to DeliveryRuleCacheKeyQueryStringAction_Name_ARM
+var deliveryRuleCacheKeyQueryStringAction_Name_ARM_Values = map[string]DeliveryRuleCacheKeyQueryStringAction_Name_ARM{
+	"cachekeyquerystring": DeliveryRuleCacheKeyQueryStringAction_Name_ARM_CacheKeyQueryString,
+}
+
+// +kubebuilder:validation:Enum={"ClientPort"}
+type DeliveryRuleClientPortCondition_Name_ARM string
+
+const DeliveryRuleClientPortCondition_Name_ARM_ClientPort = DeliveryRuleClientPortCondition_Name_ARM("ClientPort")
+
+// Mapping from string to DeliveryRuleClientPortCondition_Name_ARM
+var deliveryRuleClientPortCondition_Name_ARM_Values = map[string]DeliveryRuleClientPortCondition_Name_ARM{
+	"clientport": DeliveryRuleClientPortCondition_Name_ARM_ClientPort,
+}
+
+// +kubebuilder:validation:Enum={"Cookies"}
+type DeliveryRuleCookiesCondition_Name_ARM string
+
+const DeliveryRuleCookiesCondition_Name_ARM_Cookies = DeliveryRuleCookiesCondition_Name_ARM("Cookies")
+
+// Mapping from string to DeliveryRuleCookiesCondition_Name_ARM
+var deliveryRuleCookiesCondition_Name_ARM_Values = map[string]DeliveryRuleCookiesCondition_Name_ARM{
+	"cookies": DeliveryRuleCookiesCondition_Name_ARM_Cookies,
+}
+
+// +kubebuilder:validation:Enum={"HostName"}
+type DeliveryRuleHostNameCondition_Name_ARM string
+
+const DeliveryRuleHostNameCondition_Name_ARM_HostName = DeliveryRuleHostNameCondition_Name_ARM("HostName")
+
+// Mapping from string to DeliveryRuleHostNameCondition_Name_ARM
+var deliveryRuleHostNameCondition_Name_ARM_Values = map[string]DeliveryRuleHostNameCondition_Name_ARM{
+	"hostname": DeliveryRuleHostNameCondition_Name_ARM_HostName,
+}
+
+// +kubebuilder:validation:Enum={"HttpVersion"}
+type DeliveryRuleHttpVersionCondition_Name_ARM string
+
+const DeliveryRuleHttpVersionCondition_Name_ARM_HttpVersion = DeliveryRuleHttpVersionCondition_Name_ARM("HttpVersion")
+
+// Mapping from string to DeliveryRuleHttpVersionCondition_Name_ARM
+var deliveryRuleHttpVersionCondition_Name_ARM_Values = map[string]DeliveryRuleHttpVersionCondition_Name_ARM{
+	"httpversion": DeliveryRuleHttpVersionCondition_Name_ARM_HttpVersion,
+}
+
+// +kubebuilder:validation:Enum={"IsDevice"}
+type DeliveryRuleIsDeviceCondition_Name_ARM string
+
+const DeliveryRuleIsDeviceCondition_Name_ARM_IsDevice = DeliveryRuleIsDeviceCondition_Name_ARM("IsDevice")
+
+// Mapping from string to DeliveryRuleIsDeviceCondition_Name_ARM
+var deliveryRuleIsDeviceCondition_Name_ARM_Values = map[string]DeliveryRuleIsDeviceCondition_Name_ARM{
+	"isdevice": DeliveryRuleIsDeviceCondition_Name_ARM_IsDevice,
+}
+
+// +kubebuilder:validation:Enum={"PostArgs"}
+type DeliveryRulePostArgsCondition_Name_ARM string
+
+const DeliveryRulePostArgsCondition_Name_ARM_PostArgs = DeliveryRulePostArgsCondition_Name_ARM("PostArgs")
+
+// Mapping from string to DeliveryRulePostArgsCondition_Name_ARM
+var deliveryRulePostArgsCondition_Name_ARM_Values = map[string]DeliveryRulePostArgsCondition_Name_ARM{
+	"postargs": DeliveryRulePostArgsCondition_Name_ARM_PostArgs,
+}
+
+// +kubebuilder:validation:Enum={"QueryString"}
+type DeliveryRuleQueryStringCondition_Name_ARM string
+
+const DeliveryRuleQueryStringCondition_Name_ARM_QueryString = DeliveryRuleQueryStringCondition_Name_ARM("QueryString")
+
+// Mapping from string to DeliveryRuleQueryStringCondition_Name_ARM
+var deliveryRuleQueryStringCondition_Name_ARM_Values = map[string]DeliveryRuleQueryStringCondition_Name_ARM{
+	"querystring": DeliveryRuleQueryStringCondition_Name_ARM_QueryString,
+}
+
+// +kubebuilder:validation:Enum={"RemoteAddress"}
+type DeliveryRuleRemoteAddressCondition_Name_ARM string
+
+const DeliveryRuleRemoteAddressCondition_Name_ARM_RemoteAddress = DeliveryRuleRemoteAddressCondition_Name_ARM("RemoteAddress")
+
+// Mapping from string to DeliveryRuleRemoteAddressCondition_Name_ARM
+var deliveryRuleRemoteAddressCondition_Name_ARM_Values = map[string]DeliveryRuleRemoteAddressCondition_Name_ARM{
+	"remoteaddress": DeliveryRuleRemoteAddressCondition_Name_ARM_RemoteAddress,
+}
+
+// +kubebuilder:validation:Enum={"RequestBody"}
+type DeliveryRuleRequestBodyCondition_Name_ARM string
+
+const DeliveryRuleRequestBodyCondition_Name_ARM_RequestBody = DeliveryRuleRequestBodyCondition_Name_ARM("RequestBody")
+
+// Mapping from string to DeliveryRuleRequestBodyCondition_Name_ARM
+var deliveryRuleRequestBodyCondition_Name_ARM_Values = map[string]DeliveryRuleRequestBodyCondition_Name_ARM{
+	"requestbody": DeliveryRuleRequestBodyCondition_Name_ARM_RequestBody,
+}
+
+// +kubebuilder:validation:Enum={"ModifyRequestHeader"}
+type DeliveryRuleRequestHeaderAction_Name_ARM string
+
+const DeliveryRuleRequestHeaderAction_Name_ARM_ModifyRequestHeader = DeliveryRuleRequestHeaderAction_Name_ARM("ModifyRequestHeader")
+
+// Mapping from string to DeliveryRuleRequestHeaderAction_Name_ARM
+var deliveryRuleRequestHeaderAction_Name_ARM_Values = map[string]DeliveryRuleRequestHeaderAction_Name_ARM{
+	"modifyrequestheader": DeliveryRuleRequestHeaderAction_Name_ARM_ModifyRequestHeader,
+}
+
+// +kubebuilder:validation:Enum={"RequestHeader"}
+type DeliveryRuleRequestHeaderCondition_Name_ARM string
+
+const DeliveryRuleRequestHeaderCondition_Name_ARM_RequestHeader = DeliveryRuleRequestHeaderCondition_Name_ARM("RequestHeader")
+
+// Mapping from string to DeliveryRuleRequestHeaderCondition_Name_ARM
+var deliveryRuleRequestHeaderCondition_Name_ARM_Values = map[string]DeliveryRuleRequestHeaderCondition_Name_ARM{
+	"requestheader": DeliveryRuleRequestHeaderCondition_Name_ARM_RequestHeader,
+}
+
+// +kubebuilder:validation:Enum={"RequestMethod"}
+type DeliveryRuleRequestMethodCondition_Name_ARM string
+
+const DeliveryRuleRequestMethodCondition_Name_ARM_RequestMethod = DeliveryRuleRequestMethodCondition_Name_ARM("RequestMethod")
+
+// Mapping from string to DeliveryRuleRequestMethodCondition_Name_ARM
+var deliveryRuleRequestMethodCondition_Name_ARM_Values = map[string]DeliveryRuleRequestMethodCondition_Name_ARM{
+	"requestmethod": DeliveryRuleRequestMethodCondition_Name_ARM_RequestMethod,
+}
+
+// +kubebuilder:validation:Enum={"RequestScheme"}
+type DeliveryRuleRequestSchemeCondition_Name_ARM string
+
+const DeliveryRuleRequestSchemeCondition_Name_ARM_RequestScheme = DeliveryRuleRequestSchemeCondition_Name_ARM("RequestScheme")
+
+// Mapping from string to DeliveryRuleRequestSchemeCondition_Name_ARM
+var deliveryRuleRequestSchemeCondition_Name_ARM_Values = map[string]DeliveryRuleRequestSchemeCondition_Name_ARM{
+	"requestscheme": DeliveryRuleRequestSchemeCondition_Name_ARM_RequestScheme,
+}
+
+// +kubebuilder:validation:Enum={"RequestUri"}
+type DeliveryRuleRequestUriCondition_Name_ARM string
+
+const DeliveryRuleRequestUriCondition_Name_ARM_RequestUri = DeliveryRuleRequestUriCondition_Name_ARM("RequestUri")
+
+// Mapping from string to DeliveryRuleRequestUriCondition_Name_ARM
+var deliveryRuleRequestUriCondition_Name_ARM_Values = map[string]DeliveryRuleRequestUriCondition_Name_ARM{
+	"requesturi": DeliveryRuleRequestUriCondition_Name_ARM_RequestUri,
+}
+
+// +kubebuilder:validation:Enum={"ModifyResponseHeader"}
+type DeliveryRuleResponseHeaderAction_Name_ARM string
+
+const DeliveryRuleResponseHeaderAction_Name_ARM_ModifyResponseHeader = DeliveryRuleResponseHeaderAction_Name_ARM("ModifyResponseHeader")
+
+// Mapping from string to DeliveryRuleResponseHeaderAction_Name_ARM
+var deliveryRuleResponseHeaderAction_Name_ARM_Values = map[string]DeliveryRuleResponseHeaderAction_Name_ARM{
+	"modifyresponseheader": DeliveryRuleResponseHeaderAction_Name_ARM_ModifyResponseHeader,
+}
+
+// +kubebuilder:validation:Enum={"RouteConfigurationOverride"}
+type DeliveryRuleRouteConfigurationOverrideAction_Name_ARM string
+
+const DeliveryRuleRouteConfigurationOverrideAction_Name_ARM_RouteConfigurationOverride = DeliveryRuleRouteConfigurationOverrideAction_Name_ARM("RouteConfigurationOverride")
+
+// Mapping from string to DeliveryRuleRouteConfigurationOverrideAction_Name_ARM
+var deliveryRuleRouteConfigurationOverrideAction_Name_ARM_Values = map[string]DeliveryRuleRouteConfigurationOverrideAction_Name_ARM{
+	"routeconfigurationoverride": DeliveryRuleRouteConfigurationOverrideAction_Name_ARM_RouteConfigurationOverride,
+}
+
+// +kubebuilder:validation:Enum={"ServerPort"}
+type DeliveryRuleServerPortCondition_Name_ARM string
+
+const DeliveryRuleServerPortCondition_Name_ARM_ServerPort = DeliveryRuleServerPortCondition_Name_ARM("ServerPort")
+
+// Mapping from string to DeliveryRuleServerPortCondition_Name_ARM
+var deliveryRuleServerPortCondition_Name_ARM_Values = map[string]DeliveryRuleServerPortCondition_Name_ARM{
+	"serverport": DeliveryRuleServerPortCondition_Name_ARM_ServerPort,
+}
+
+// +kubebuilder:validation:Enum={"SocketAddr"}
+type DeliveryRuleSocketAddrCondition_Name_ARM string
+
+const DeliveryRuleSocketAddrCondition_Name_ARM_SocketAddr = DeliveryRuleSocketAddrCondition_Name_ARM("SocketAddr")
+
+// Mapping from string to DeliveryRuleSocketAddrCondition_Name_ARM
+var deliveryRuleSocketAddrCondition_Name_ARM_Values = map[string]DeliveryRuleSocketAddrCondition_Name_ARM{
+	"socketaddr": DeliveryRuleSocketAddrCondition_Name_ARM_SocketAddr,
+}
+
+// +kubebuilder:validation:Enum={"SslProtocol"}
+type DeliveryRuleSslProtocolCondition_Name_ARM string
+
+const DeliveryRuleSslProtocolCondition_Name_ARM_SslProtocol = DeliveryRuleSslProtocolCondition_Name_ARM("SslProtocol")
+
+// Mapping from string to DeliveryRuleSslProtocolCondition_Name_ARM
+var deliveryRuleSslProtocolCondition_Name_ARM_Values = map[string]DeliveryRuleSslProtocolCondition_Name_ARM{
+	"sslprotocol": DeliveryRuleSslProtocolCondition_Name_ARM_SslProtocol,
+}
+
+// +kubebuilder:validation:Enum={"UrlFileExtension"}
+type DeliveryRuleUrlFileExtensionCondition_Name_ARM string
+
+const DeliveryRuleUrlFileExtensionCondition_Name_ARM_UrlFileExtension = DeliveryRuleUrlFileExtensionCondition_Name_ARM("UrlFileExtension")
+
+// Mapping from string to DeliveryRuleUrlFileExtensionCondition_Name_ARM
+var deliveryRuleUrlFileExtensionCondition_Name_ARM_Values = map[string]DeliveryRuleUrlFileExtensionCondition_Name_ARM{
+	"urlfileextension": DeliveryRuleUrlFileExtensionCondition_Name_ARM_UrlFileExtension,
+}
+
+// +kubebuilder:validation:Enum={"UrlFileName"}
+type DeliveryRuleUrlFileNameCondition_Name_ARM string
+
+const DeliveryRuleUrlFileNameCondition_Name_ARM_UrlFileName = DeliveryRuleUrlFileNameCondition_Name_ARM("UrlFileName")
+
+// Mapping from string to DeliveryRuleUrlFileNameCondition_Name_ARM
+var deliveryRuleUrlFileNameCondition_Name_ARM_Values = map[string]DeliveryRuleUrlFileNameCondition_Name_ARM{
+	"urlfilename": DeliveryRuleUrlFileNameCondition_Name_ARM_UrlFileName,
+}
+
+// +kubebuilder:validation:Enum={"UrlPath"}
+type DeliveryRuleUrlPathCondition_Name_ARM string
+
+const DeliveryRuleUrlPathCondition_Name_ARM_UrlPath = DeliveryRuleUrlPathCondition_Name_ARM("UrlPath")
+
+// Mapping from string to DeliveryRuleUrlPathCondition_Name_ARM
+var deliveryRuleUrlPathCondition_Name_ARM_Values = map[string]DeliveryRuleUrlPathCondition_Name_ARM{
+	"urlpath": DeliveryRuleUrlPathCondition_Name_ARM_UrlPath,
 }
 
 // Defines the parameters for the request header action.
 type HeaderActionParameters_ARM struct {
 	// HeaderAction: Action to perform
-	HeaderAction *HeaderActionParameters_HeaderAction `json:"headerAction,omitempty"`
+	HeaderAction *HeaderActionParameters_HeaderAction_ARM `json:"headerAction,omitempty"`
 
 	// HeaderName: Name of the header to modify
-	HeaderName *string                          `json:"headerName,omitempty"`
-	TypeName   *HeaderActionParameters_TypeName `json:"typeName,omitempty"`
+	HeaderName *string                              `json:"headerName,omitempty"`
+	TypeName   *HeaderActionParameters_TypeName_ARM `json:"typeName,omitempty"`
 
 	// Value: Value for the specified action
 	Value *string `json:"value,omitempty"`
@@ -914,11 +1268,11 @@ type HostNameMatchConditionParameters_ARM struct {
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
 	// Operator: Describes operator to be matched
-	Operator *HostNameMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Operator *HostNameMatchConditionParameters_Operator_ARM `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []Transform                                `json:"transforms,omitempty"`
-	TypeName   *HostNameMatchConditionParameters_TypeName `json:"typeName,omitempty"`
+	Transforms []Transform_ARM                                `json:"transforms,omitempty"`
+	TypeName   *HostNameMatchConditionParameters_TypeName_ARM `json:"typeName,omitempty"`
 }
 
 // Defines the parameters for HttpVersion match conditions
@@ -930,34 +1284,44 @@ type HttpVersionMatchConditionParameters_ARM struct {
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
 	// Operator: Describes operator to be matched
-	Operator *HttpVersionMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Operator *HttpVersionMatchConditionParameters_Operator_ARM `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []Transform                                   `json:"transforms,omitempty"`
-	TypeName   *HttpVersionMatchConditionParameters_TypeName `json:"typeName,omitempty"`
+	Transforms []Transform_ARM                                   `json:"transforms,omitempty"`
+	TypeName   *HttpVersionMatchConditionParameters_TypeName_ARM `json:"typeName,omitempty"`
 }
 
 // Defines the parameters for IsDevice match conditions
 type IsDeviceMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []IsDeviceMatchConditionParameters_MatchValues `json:"matchValues,omitempty"`
+	MatchValues []IsDeviceMatchConditionParameters_MatchValues_ARM `json:"matchValues,omitempty"`
 
 	// NegateCondition: Describes if this is negate condition or not
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
 	// Operator: Describes operator to be matched
-	Operator *IsDeviceMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Operator *IsDeviceMatchConditionParameters_Operator_ARM `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []Transform                                `json:"transforms,omitempty"`
-	TypeName   *IsDeviceMatchConditionParameters_TypeName `json:"typeName,omitempty"`
+	Transforms []Transform_ARM                                `json:"transforms,omitempty"`
+	TypeName   *IsDeviceMatchConditionParameters_TypeName_ARM `json:"typeName,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"OriginGroupOverride"}
+type OriginGroupOverrideAction_Name_ARM string
+
+const OriginGroupOverrideAction_Name_ARM_OriginGroupOverride = OriginGroupOverrideAction_Name_ARM("OriginGroupOverride")
+
+// Mapping from string to OriginGroupOverrideAction_Name_ARM
+var originGroupOverrideAction_Name_ARM_Values = map[string]OriginGroupOverrideAction_Name_ARM{
+	"origingroupoverride": OriginGroupOverrideAction_Name_ARM_OriginGroupOverride,
 }
 
 // Defines the parameters for the origin group override action.
 type OriginGroupOverrideActionParameters_ARM struct {
 	// OriginGroup: defines the OriginGroup that would override the DefaultOriginGroup.
-	OriginGroup *ResourceReference_ARM                        `json:"originGroup,omitempty"`
-	TypeName    *OriginGroupOverrideActionParameters_TypeName `json:"typeName,omitempty"`
+	OriginGroup *ResourceReference_ARM                            `json:"originGroup,omitempty"`
+	TypeName    *OriginGroupOverrideActionParameters_TypeName_ARM `json:"typeName,omitempty"`
 }
 
 // Defines the parameters for PostArgs match conditions
@@ -969,14 +1333,14 @@ type PostArgsMatchConditionParameters_ARM struct {
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
 	// Operator: Describes operator to be matched
-	Operator *PostArgsMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Operator *PostArgsMatchConditionParameters_Operator_ARM `json:"operator,omitempty"`
 
 	// Selector: Name of PostArg to be matched
 	Selector *string `json:"selector,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []Transform                                `json:"transforms,omitempty"`
-	TypeName   *PostArgsMatchConditionParameters_TypeName `json:"typeName,omitempty"`
+	Transforms []Transform_ARM                                `json:"transforms,omitempty"`
+	TypeName   *PostArgsMatchConditionParameters_TypeName_ARM `json:"typeName,omitempty"`
 }
 
 // Defines the parameters for QueryString match conditions
@@ -988,11 +1352,11 @@ type QueryStringMatchConditionParameters_ARM struct {
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
 	// Operator: Describes operator to be matched
-	Operator *QueryStringMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Operator *QueryStringMatchConditionParameters_Operator_ARM `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []Transform                                   `json:"transforms,omitempty"`
-	TypeName   *QueryStringMatchConditionParameters_TypeName `json:"typeName,omitempty"`
+	Transforms []Transform_ARM                                   `json:"transforms,omitempty"`
+	TypeName   *QueryStringMatchConditionParameters_TypeName_ARM `json:"typeName,omitempty"`
 }
 
 // Defines the parameters for RemoteAddress match conditions
@@ -1005,11 +1369,11 @@ type RemoteAddressMatchConditionParameters_ARM struct {
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
 	// Operator: Describes operator to be matched
-	Operator *RemoteAddressMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Operator *RemoteAddressMatchConditionParameters_Operator_ARM `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []Transform                                     `json:"transforms,omitempty"`
-	TypeName   *RemoteAddressMatchConditionParameters_TypeName `json:"typeName,omitempty"`
+	Transforms []Transform_ARM                                     `json:"transforms,omitempty"`
+	TypeName   *RemoteAddressMatchConditionParameters_TypeName_ARM `json:"typeName,omitempty"`
 }
 
 // Defines the parameters for RequestBody match conditions
@@ -1021,11 +1385,11 @@ type RequestBodyMatchConditionParameters_ARM struct {
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
 	// Operator: Describes operator to be matched
-	Operator *RequestBodyMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Operator *RequestBodyMatchConditionParameters_Operator_ARM `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []Transform                                   `json:"transforms,omitempty"`
-	TypeName   *RequestBodyMatchConditionParameters_TypeName `json:"typeName,omitempty"`
+	Transforms []Transform_ARM                                   `json:"transforms,omitempty"`
+	TypeName   *RequestBodyMatchConditionParameters_TypeName_ARM `json:"typeName,omitempty"`
 }
 
 // Defines the parameters for RequestHeader match conditions
@@ -1037,46 +1401,46 @@ type RequestHeaderMatchConditionParameters_ARM struct {
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
 	// Operator: Describes operator to be matched
-	Operator *RequestHeaderMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Operator *RequestHeaderMatchConditionParameters_Operator_ARM `json:"operator,omitempty"`
 
 	// Selector: Name of Header to be matched
 	Selector *string `json:"selector,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []Transform                                     `json:"transforms,omitempty"`
-	TypeName   *RequestHeaderMatchConditionParameters_TypeName `json:"typeName,omitempty"`
+	Transforms []Transform_ARM                                     `json:"transforms,omitempty"`
+	TypeName   *RequestHeaderMatchConditionParameters_TypeName_ARM `json:"typeName,omitempty"`
 }
 
 // Defines the parameters for RequestMethod match conditions
 type RequestMethodMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []RequestMethodMatchConditionParameters_MatchValues `json:"matchValues,omitempty"`
+	MatchValues []RequestMethodMatchConditionParameters_MatchValues_ARM `json:"matchValues,omitempty"`
 
 	// NegateCondition: Describes if this is negate condition or not
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
 	// Operator: Describes operator to be matched
-	Operator *RequestMethodMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Operator *RequestMethodMatchConditionParameters_Operator_ARM `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []Transform                                     `json:"transforms,omitempty"`
-	TypeName   *RequestMethodMatchConditionParameters_TypeName `json:"typeName,omitempty"`
+	Transforms []Transform_ARM                                     `json:"transforms,omitempty"`
+	TypeName   *RequestMethodMatchConditionParameters_TypeName_ARM `json:"typeName,omitempty"`
 }
 
 // Defines the parameters for RequestScheme match conditions
 type RequestSchemeMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []RequestSchemeMatchConditionParameters_MatchValues `json:"matchValues,omitempty"`
+	MatchValues []RequestSchemeMatchConditionParameters_MatchValues_ARM `json:"matchValues,omitempty"`
 
 	// NegateCondition: Describes if this is negate condition or not
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
 	// Operator: Describes operator to be matched
-	Operator *RequestSchemeMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Operator *RequestSchemeMatchConditionParameters_Operator_ARM `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []Transform                                     `json:"transforms,omitempty"`
-	TypeName   *RequestSchemeMatchConditionParameters_TypeName `json:"typeName,omitempty"`
+	Transforms []Transform_ARM                                     `json:"transforms,omitempty"`
+	TypeName   *RequestSchemeMatchConditionParameters_TypeName_ARM `json:"typeName,omitempty"`
 }
 
 // Defines the parameters for RequestUri match conditions
@@ -1088,11 +1452,11 @@ type RequestUriMatchConditionParameters_ARM struct {
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
 	// Operator: Describes operator to be matched
-	Operator *RequestUriMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Operator *RequestUriMatchConditionParameters_Operator_ARM `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []Transform                                  `json:"transforms,omitempty"`
-	TypeName   *RequestUriMatchConditionParameters_TypeName `json:"typeName,omitempty"`
+	Transforms []Transform_ARM                                  `json:"transforms,omitempty"`
+	TypeName   *RequestUriMatchConditionParameters_TypeName_ARM `json:"typeName,omitempty"`
 }
 
 // Defines the parameters for the route configuration override action.
@@ -1103,8 +1467,8 @@ type RouteConfigurationOverrideActionParameters_ARM struct {
 
 	// OriginGroupOverride: A reference to the origin group override configuration. Leave empty to use the default origin group
 	// on route.
-	OriginGroupOverride *OriginGroupOverride_ARM                             `json:"originGroupOverride,omitempty"`
-	TypeName            *RouteConfigurationOverrideActionParameters_TypeName `json:"typeName,omitempty"`
+	OriginGroupOverride *OriginGroupOverride_ARM                                 `json:"originGroupOverride,omitempty"`
+	TypeName            *RouteConfigurationOverrideActionParameters_TypeName_ARM `json:"typeName,omitempty"`
 }
 
 // Defines the parameters for ServerPort match conditions
@@ -1116,11 +1480,11 @@ type ServerPortMatchConditionParameters_ARM struct {
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
 	// Operator: Describes operator to be matched
-	Operator *ServerPortMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Operator *ServerPortMatchConditionParameters_Operator_ARM `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []Transform                                  `json:"transforms,omitempty"`
-	TypeName   *ServerPortMatchConditionParameters_TypeName `json:"typeName,omitempty"`
+	Transforms []Transform_ARM                                  `json:"transforms,omitempty"`
+	TypeName   *ServerPortMatchConditionParameters_TypeName_ARM `json:"typeName,omitempty"`
 }
 
 // Defines the parameters for SocketAddress match conditions
@@ -1132,27 +1496,27 @@ type SocketAddrMatchConditionParameters_ARM struct {
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
 	// Operator: Describes operator to be matched
-	Operator *SocketAddrMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Operator *SocketAddrMatchConditionParameters_Operator_ARM `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []Transform                                  `json:"transforms,omitempty"`
-	TypeName   *SocketAddrMatchConditionParameters_TypeName `json:"typeName,omitempty"`
+	Transforms []Transform_ARM                                  `json:"transforms,omitempty"`
+	TypeName   *SocketAddrMatchConditionParameters_TypeName_ARM `json:"typeName,omitempty"`
 }
 
 // Defines the parameters for SslProtocol match conditions
 type SslProtocolMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []SslProtocol `json:"matchValues,omitempty"`
+	MatchValues []SslProtocol_ARM `json:"matchValues,omitempty"`
 
 	// NegateCondition: Describes if this is negate condition or not
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
 	// Operator: Describes operator to be matched
-	Operator *SslProtocolMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Operator *SslProtocolMatchConditionParameters_Operator_ARM `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []Transform                                   `json:"transforms,omitempty"`
-	TypeName   *SslProtocolMatchConditionParameters_TypeName `json:"typeName,omitempty"`
+	Transforms []Transform_ARM                                   `json:"transforms,omitempty"`
+	TypeName   *SslProtocolMatchConditionParameters_TypeName_ARM `json:"typeName,omitempty"`
 }
 
 // Defines the parameters for UrlFileExtension match conditions
@@ -1164,11 +1528,11 @@ type UrlFileExtensionMatchConditionParameters_ARM struct {
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
 	// Operator: Describes operator to be matched
-	Operator *UrlFileExtensionMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Operator *UrlFileExtensionMatchConditionParameters_Operator_ARM `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []Transform                                        `json:"transforms,omitempty"`
-	TypeName   *UrlFileExtensionMatchConditionParameters_TypeName `json:"typeName,omitempty"`
+	Transforms []Transform_ARM                                        `json:"transforms,omitempty"`
+	TypeName   *UrlFileExtensionMatchConditionParameters_TypeName_ARM `json:"typeName,omitempty"`
 }
 
 // Defines the parameters for UrlFilename match conditions
@@ -1180,11 +1544,11 @@ type UrlFileNameMatchConditionParameters_ARM struct {
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
 	// Operator: Describes operator to be matched
-	Operator *UrlFileNameMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Operator *UrlFileNameMatchConditionParameters_Operator_ARM `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []Transform                                   `json:"transforms,omitempty"`
-	TypeName   *UrlFileNameMatchConditionParameters_TypeName `json:"typeName,omitempty"`
+	Transforms []Transform_ARM                                   `json:"transforms,omitempty"`
+	TypeName   *UrlFileNameMatchConditionParameters_TypeName_ARM `json:"typeName,omitempty"`
 }
 
 // Defines the parameters for UrlPath match conditions
@@ -1196,11 +1560,21 @@ type UrlPathMatchConditionParameters_ARM struct {
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
 	// Operator: Describes operator to be matched
-	Operator *UrlPathMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Operator *UrlPathMatchConditionParameters_Operator_ARM `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []Transform                               `json:"transforms,omitempty"`
-	TypeName   *UrlPathMatchConditionParameters_TypeName `json:"typeName,omitempty"`
+	Transforms []Transform_ARM                               `json:"transforms,omitempty"`
+	TypeName   *UrlPathMatchConditionParameters_TypeName_ARM `json:"typeName,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"UrlRedirect"}
+type UrlRedirectAction_Name_ARM string
+
+const UrlRedirectAction_Name_ARM_UrlRedirect = UrlRedirectAction_Name_ARM("UrlRedirect")
+
+// Mapping from string to UrlRedirectAction_Name_ARM
+var urlRedirectAction_Name_ARM_Values = map[string]UrlRedirectAction_Name_ARM{
+	"urlredirect": UrlRedirectAction_Name_ARM_UrlRedirect,
 }
 
 // Defines the parameters for the url redirect action.
@@ -1222,11 +1596,21 @@ type UrlRedirectActionParameters_ARM struct {
 	CustomQueryString *string `json:"customQueryString,omitempty"`
 
 	// DestinationProtocol: Protocol to use for the redirect. The default value is MatchRequest
-	DestinationProtocol *UrlRedirectActionParameters_DestinationProtocol `json:"destinationProtocol,omitempty"`
+	DestinationProtocol *UrlRedirectActionParameters_DestinationProtocol_ARM `json:"destinationProtocol,omitempty"`
 
 	// RedirectType: The redirect type the rule will use when redirecting traffic.
-	RedirectType *UrlRedirectActionParameters_RedirectType `json:"redirectType,omitempty"`
-	TypeName     *UrlRedirectActionParameters_TypeName     `json:"typeName,omitempty"`
+	RedirectType *UrlRedirectActionParameters_RedirectType_ARM `json:"redirectType,omitempty"`
+	TypeName     *UrlRedirectActionParameters_TypeName_ARM     `json:"typeName,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"UrlRewrite"}
+type UrlRewriteAction_Name_ARM string
+
+const UrlRewriteAction_Name_ARM_UrlRewrite = UrlRewriteAction_Name_ARM("UrlRewrite")
+
+// Mapping from string to UrlRewriteAction_Name_ARM
+var urlRewriteAction_Name_ARM_Values = map[string]UrlRewriteAction_Name_ARM{
+	"urlrewrite": UrlRewriteAction_Name_ARM_UrlRewrite,
 }
 
 // Defines the parameters for the url rewrite action.
@@ -1239,24 +1623,34 @@ type UrlRewriteActionParameters_ARM struct {
 
 	// SourcePattern: define a request URI pattern that identifies the type of requests that may be rewritten. If value is
 	// blank, all strings are matched.
-	SourcePattern *string                              `json:"sourcePattern,omitempty"`
-	TypeName      *UrlRewriteActionParameters_TypeName `json:"typeName,omitempty"`
+	SourcePattern *string                                  `json:"sourcePattern,omitempty"`
+	TypeName      *UrlRewriteActionParameters_TypeName_ARM `json:"typeName,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"UrlSigning"}
+type UrlSigningAction_Name_ARM string
+
+const UrlSigningAction_Name_ARM_UrlSigning = UrlSigningAction_Name_ARM("UrlSigning")
+
+// Mapping from string to UrlSigningAction_Name_ARM
+var urlSigningAction_Name_ARM_Values = map[string]UrlSigningAction_Name_ARM{
+	"urlsigning": UrlSigningAction_Name_ARM_UrlSigning,
 }
 
 // Defines the parameters for the Url Signing action.
 type UrlSigningActionParameters_ARM struct {
 	// Algorithm: Algorithm to use for URL signing
-	Algorithm *UrlSigningActionParameters_Algorithm `json:"algorithm,omitempty"`
+	Algorithm *UrlSigningActionParameters_Algorithm_ARM `json:"algorithm,omitempty"`
 
 	// ParameterNameOverride: Defines which query string parameters in the url to be considered for expires, key id etc.
-	ParameterNameOverride []UrlSigningParamIdentifier_ARM      `json:"parameterNameOverride,omitempty"`
-	TypeName              *UrlSigningActionParameters_TypeName `json:"typeName,omitempty"`
+	ParameterNameOverride []UrlSigningParamIdentifier_ARM          `json:"parameterNameOverride,omitempty"`
+	TypeName              *UrlSigningActionParameters_TypeName_ARM `json:"typeName,omitempty"`
 }
 
 // Caching settings for a caching-type route. To disable caching, do not provide a cacheConfiguration object.
 type CacheConfiguration_ARM struct {
 	// CacheBehavior: Caching behavior for the requests
-	CacheBehavior *CacheConfiguration_CacheBehavior `json:"cacheBehavior,omitempty"`
+	CacheBehavior *CacheConfiguration_CacheBehavior_ARM `json:"cacheBehavior,omitempty"`
 
 	// CacheDuration: The duration for which the content needs to be cached. Allowed format is [d.]hh:mm:ss
 	CacheDuration *string `json:"cacheDuration,omitempty"`
@@ -1264,7 +1658,7 @@ type CacheConfiguration_ARM struct {
 	// IsCompressionEnabled: Indicates whether content compression is enabled. If compression is enabled, content will be
 	// served as compressed if user requests for a compressed version. Content won't be compressed on AzureFrontDoor when
 	// requested content is smaller than 1 byte or larger than 1 MB.
-	IsCompressionEnabled *CacheConfiguration_IsCompressionEnabled `json:"isCompressionEnabled,omitempty"`
+	IsCompressionEnabled *CacheConfiguration_IsCompressionEnabled_ARM `json:"isCompressionEnabled,omitempty"`
 
 	// QueryParameters: query parameters to include or exclude (comma separated).
 	QueryParameters *string `json:"queryParameters,omitempty"`
@@ -1272,23 +1666,1011 @@ type CacheConfiguration_ARM struct {
 	// QueryStringCachingBehavior: Defines how Frontdoor caches requests that include query strings. You can ignore any query
 	// strings when caching, ignore specific query strings, cache every request with a unique URL, or cache specific query
 	// strings.
-	QueryStringCachingBehavior *CacheConfiguration_QueryStringCachingBehavior `json:"queryStringCachingBehavior,omitempty"`
+	QueryStringCachingBehavior *CacheConfiguration_QueryStringCachingBehavior_ARM `json:"queryStringCachingBehavior,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"BypassCache","Override","SetIfMissing"}
+type CacheExpirationActionParameters_CacheBehavior_ARM string
+
+const (
+	CacheExpirationActionParameters_CacheBehavior_ARM_BypassCache  = CacheExpirationActionParameters_CacheBehavior_ARM("BypassCache")
+	CacheExpirationActionParameters_CacheBehavior_ARM_Override     = CacheExpirationActionParameters_CacheBehavior_ARM("Override")
+	CacheExpirationActionParameters_CacheBehavior_ARM_SetIfMissing = CacheExpirationActionParameters_CacheBehavior_ARM("SetIfMissing")
+)
+
+// Mapping from string to CacheExpirationActionParameters_CacheBehavior_ARM
+var cacheExpirationActionParameters_CacheBehavior_ARM_Values = map[string]CacheExpirationActionParameters_CacheBehavior_ARM{
+	"bypasscache":  CacheExpirationActionParameters_CacheBehavior_ARM_BypassCache,
+	"override":     CacheExpirationActionParameters_CacheBehavior_ARM_Override,
+	"setifmissing": CacheExpirationActionParameters_CacheBehavior_ARM_SetIfMissing,
+}
+
+// +kubebuilder:validation:Enum={"All"}
+type CacheExpirationActionParameters_CacheType_ARM string
+
+const CacheExpirationActionParameters_CacheType_ARM_All = CacheExpirationActionParameters_CacheType_ARM("All")
+
+// Mapping from string to CacheExpirationActionParameters_CacheType_ARM
+var cacheExpirationActionParameters_CacheType_ARM_Values = map[string]CacheExpirationActionParameters_CacheType_ARM{
+	"all": CacheExpirationActionParameters_CacheType_ARM_All,
+}
+
+// +kubebuilder:validation:Enum={"DeliveryRuleCacheExpirationActionParameters"}
+type CacheExpirationActionParameters_TypeName_ARM string
+
+const CacheExpirationActionParameters_TypeName_ARM_DeliveryRuleCacheExpirationActionParameters = CacheExpirationActionParameters_TypeName_ARM("DeliveryRuleCacheExpirationActionParameters")
+
+// Mapping from string to CacheExpirationActionParameters_TypeName_ARM
+var cacheExpirationActionParameters_TypeName_ARM_Values = map[string]CacheExpirationActionParameters_TypeName_ARM{
+	"deliveryrulecacheexpirationactionparameters": CacheExpirationActionParameters_TypeName_ARM_DeliveryRuleCacheExpirationActionParameters,
+}
+
+// +kubebuilder:validation:Enum={"Exclude","ExcludeAll","Include","IncludeAll"}
+type CacheKeyQueryStringActionParameters_QueryStringBehavior_ARM string
+
+const (
+	CacheKeyQueryStringActionParameters_QueryStringBehavior_ARM_Exclude    = CacheKeyQueryStringActionParameters_QueryStringBehavior_ARM("Exclude")
+	CacheKeyQueryStringActionParameters_QueryStringBehavior_ARM_ExcludeAll = CacheKeyQueryStringActionParameters_QueryStringBehavior_ARM("ExcludeAll")
+	CacheKeyQueryStringActionParameters_QueryStringBehavior_ARM_Include    = CacheKeyQueryStringActionParameters_QueryStringBehavior_ARM("Include")
+	CacheKeyQueryStringActionParameters_QueryStringBehavior_ARM_IncludeAll = CacheKeyQueryStringActionParameters_QueryStringBehavior_ARM("IncludeAll")
+)
+
+// Mapping from string to CacheKeyQueryStringActionParameters_QueryStringBehavior_ARM
+var cacheKeyQueryStringActionParameters_QueryStringBehavior_ARM_Values = map[string]CacheKeyQueryStringActionParameters_QueryStringBehavior_ARM{
+	"exclude":    CacheKeyQueryStringActionParameters_QueryStringBehavior_ARM_Exclude,
+	"excludeall": CacheKeyQueryStringActionParameters_QueryStringBehavior_ARM_ExcludeAll,
+	"include":    CacheKeyQueryStringActionParameters_QueryStringBehavior_ARM_Include,
+	"includeall": CacheKeyQueryStringActionParameters_QueryStringBehavior_ARM_IncludeAll,
+}
+
+// +kubebuilder:validation:Enum={"DeliveryRuleCacheKeyQueryStringBehaviorActionParameters"}
+type CacheKeyQueryStringActionParameters_TypeName_ARM string
+
+const CacheKeyQueryStringActionParameters_TypeName_ARM_DeliveryRuleCacheKeyQueryStringBehaviorActionParameters = CacheKeyQueryStringActionParameters_TypeName_ARM("DeliveryRuleCacheKeyQueryStringBehaviorActionParameters")
+
+// Mapping from string to CacheKeyQueryStringActionParameters_TypeName_ARM
+var cacheKeyQueryStringActionParameters_TypeName_ARM_Values = map[string]CacheKeyQueryStringActionParameters_TypeName_ARM{
+	"deliveryrulecachekeyquerystringbehavioractionparameters": CacheKeyQueryStringActionParameters_TypeName_ARM_DeliveryRuleCacheKeyQueryStringBehaviorActionParameters,
+}
+
+// +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
+type ClientPortMatchConditionParameters_Operator_ARM string
+
+const (
+	ClientPortMatchConditionParameters_Operator_ARM_Any                = ClientPortMatchConditionParameters_Operator_ARM("Any")
+	ClientPortMatchConditionParameters_Operator_ARM_BeginsWith         = ClientPortMatchConditionParameters_Operator_ARM("BeginsWith")
+	ClientPortMatchConditionParameters_Operator_ARM_Contains           = ClientPortMatchConditionParameters_Operator_ARM("Contains")
+	ClientPortMatchConditionParameters_Operator_ARM_EndsWith           = ClientPortMatchConditionParameters_Operator_ARM("EndsWith")
+	ClientPortMatchConditionParameters_Operator_ARM_Equal              = ClientPortMatchConditionParameters_Operator_ARM("Equal")
+	ClientPortMatchConditionParameters_Operator_ARM_GreaterThan        = ClientPortMatchConditionParameters_Operator_ARM("GreaterThan")
+	ClientPortMatchConditionParameters_Operator_ARM_GreaterThanOrEqual = ClientPortMatchConditionParameters_Operator_ARM("GreaterThanOrEqual")
+	ClientPortMatchConditionParameters_Operator_ARM_LessThan           = ClientPortMatchConditionParameters_Operator_ARM("LessThan")
+	ClientPortMatchConditionParameters_Operator_ARM_LessThanOrEqual    = ClientPortMatchConditionParameters_Operator_ARM("LessThanOrEqual")
+	ClientPortMatchConditionParameters_Operator_ARM_RegEx              = ClientPortMatchConditionParameters_Operator_ARM("RegEx")
+)
+
+// Mapping from string to ClientPortMatchConditionParameters_Operator_ARM
+var clientPortMatchConditionParameters_Operator_ARM_Values = map[string]ClientPortMatchConditionParameters_Operator_ARM{
+	"any":                ClientPortMatchConditionParameters_Operator_ARM_Any,
+	"beginswith":         ClientPortMatchConditionParameters_Operator_ARM_BeginsWith,
+	"contains":           ClientPortMatchConditionParameters_Operator_ARM_Contains,
+	"endswith":           ClientPortMatchConditionParameters_Operator_ARM_EndsWith,
+	"equal":              ClientPortMatchConditionParameters_Operator_ARM_Equal,
+	"greaterthan":        ClientPortMatchConditionParameters_Operator_ARM_GreaterThan,
+	"greaterthanorequal": ClientPortMatchConditionParameters_Operator_ARM_GreaterThanOrEqual,
+	"lessthan":           ClientPortMatchConditionParameters_Operator_ARM_LessThan,
+	"lessthanorequal":    ClientPortMatchConditionParameters_Operator_ARM_LessThanOrEqual,
+	"regex":              ClientPortMatchConditionParameters_Operator_ARM_RegEx,
+}
+
+// +kubebuilder:validation:Enum={"DeliveryRuleClientPortConditionParameters"}
+type ClientPortMatchConditionParameters_TypeName_ARM string
+
+const ClientPortMatchConditionParameters_TypeName_ARM_DeliveryRuleClientPortConditionParameters = ClientPortMatchConditionParameters_TypeName_ARM("DeliveryRuleClientPortConditionParameters")
+
+// Mapping from string to ClientPortMatchConditionParameters_TypeName_ARM
+var clientPortMatchConditionParameters_TypeName_ARM_Values = map[string]ClientPortMatchConditionParameters_TypeName_ARM{
+	"deliveryruleclientportconditionparameters": ClientPortMatchConditionParameters_TypeName_ARM_DeliveryRuleClientPortConditionParameters,
+}
+
+// +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
+type CookiesMatchConditionParameters_Operator_ARM string
+
+const (
+	CookiesMatchConditionParameters_Operator_ARM_Any                = CookiesMatchConditionParameters_Operator_ARM("Any")
+	CookiesMatchConditionParameters_Operator_ARM_BeginsWith         = CookiesMatchConditionParameters_Operator_ARM("BeginsWith")
+	CookiesMatchConditionParameters_Operator_ARM_Contains           = CookiesMatchConditionParameters_Operator_ARM("Contains")
+	CookiesMatchConditionParameters_Operator_ARM_EndsWith           = CookiesMatchConditionParameters_Operator_ARM("EndsWith")
+	CookiesMatchConditionParameters_Operator_ARM_Equal              = CookiesMatchConditionParameters_Operator_ARM("Equal")
+	CookiesMatchConditionParameters_Operator_ARM_GreaterThan        = CookiesMatchConditionParameters_Operator_ARM("GreaterThan")
+	CookiesMatchConditionParameters_Operator_ARM_GreaterThanOrEqual = CookiesMatchConditionParameters_Operator_ARM("GreaterThanOrEqual")
+	CookiesMatchConditionParameters_Operator_ARM_LessThan           = CookiesMatchConditionParameters_Operator_ARM("LessThan")
+	CookiesMatchConditionParameters_Operator_ARM_LessThanOrEqual    = CookiesMatchConditionParameters_Operator_ARM("LessThanOrEqual")
+	CookiesMatchConditionParameters_Operator_ARM_RegEx              = CookiesMatchConditionParameters_Operator_ARM("RegEx")
+)
+
+// Mapping from string to CookiesMatchConditionParameters_Operator_ARM
+var cookiesMatchConditionParameters_Operator_ARM_Values = map[string]CookiesMatchConditionParameters_Operator_ARM{
+	"any":                CookiesMatchConditionParameters_Operator_ARM_Any,
+	"beginswith":         CookiesMatchConditionParameters_Operator_ARM_BeginsWith,
+	"contains":           CookiesMatchConditionParameters_Operator_ARM_Contains,
+	"endswith":           CookiesMatchConditionParameters_Operator_ARM_EndsWith,
+	"equal":              CookiesMatchConditionParameters_Operator_ARM_Equal,
+	"greaterthan":        CookiesMatchConditionParameters_Operator_ARM_GreaterThan,
+	"greaterthanorequal": CookiesMatchConditionParameters_Operator_ARM_GreaterThanOrEqual,
+	"lessthan":           CookiesMatchConditionParameters_Operator_ARM_LessThan,
+	"lessthanorequal":    CookiesMatchConditionParameters_Operator_ARM_LessThanOrEqual,
+	"regex":              CookiesMatchConditionParameters_Operator_ARM_RegEx,
+}
+
+// +kubebuilder:validation:Enum={"DeliveryRuleCookiesConditionParameters"}
+type CookiesMatchConditionParameters_TypeName_ARM string
+
+const CookiesMatchConditionParameters_TypeName_ARM_DeliveryRuleCookiesConditionParameters = CookiesMatchConditionParameters_TypeName_ARM("DeliveryRuleCookiesConditionParameters")
+
+// Mapping from string to CookiesMatchConditionParameters_TypeName_ARM
+var cookiesMatchConditionParameters_TypeName_ARM_Values = map[string]CookiesMatchConditionParameters_TypeName_ARM{
+	"deliveryrulecookiesconditionparameters": CookiesMatchConditionParameters_TypeName_ARM_DeliveryRuleCookiesConditionParameters,
+}
+
+// +kubebuilder:validation:Enum={"Append","Delete","Overwrite"}
+type HeaderActionParameters_HeaderAction_ARM string
+
+const (
+	HeaderActionParameters_HeaderAction_ARM_Append    = HeaderActionParameters_HeaderAction_ARM("Append")
+	HeaderActionParameters_HeaderAction_ARM_Delete    = HeaderActionParameters_HeaderAction_ARM("Delete")
+	HeaderActionParameters_HeaderAction_ARM_Overwrite = HeaderActionParameters_HeaderAction_ARM("Overwrite")
+)
+
+// Mapping from string to HeaderActionParameters_HeaderAction_ARM
+var headerActionParameters_HeaderAction_ARM_Values = map[string]HeaderActionParameters_HeaderAction_ARM{
+	"append":    HeaderActionParameters_HeaderAction_ARM_Append,
+	"delete":    HeaderActionParameters_HeaderAction_ARM_Delete,
+	"overwrite": HeaderActionParameters_HeaderAction_ARM_Overwrite,
+}
+
+// +kubebuilder:validation:Enum={"DeliveryRuleHeaderActionParameters"}
+type HeaderActionParameters_TypeName_ARM string
+
+const HeaderActionParameters_TypeName_ARM_DeliveryRuleHeaderActionParameters = HeaderActionParameters_TypeName_ARM("DeliveryRuleHeaderActionParameters")
+
+// Mapping from string to HeaderActionParameters_TypeName_ARM
+var headerActionParameters_TypeName_ARM_Values = map[string]HeaderActionParameters_TypeName_ARM{
+	"deliveryruleheaderactionparameters": HeaderActionParameters_TypeName_ARM_DeliveryRuleHeaderActionParameters,
+}
+
+// +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
+type HostNameMatchConditionParameters_Operator_ARM string
+
+const (
+	HostNameMatchConditionParameters_Operator_ARM_Any                = HostNameMatchConditionParameters_Operator_ARM("Any")
+	HostNameMatchConditionParameters_Operator_ARM_BeginsWith         = HostNameMatchConditionParameters_Operator_ARM("BeginsWith")
+	HostNameMatchConditionParameters_Operator_ARM_Contains           = HostNameMatchConditionParameters_Operator_ARM("Contains")
+	HostNameMatchConditionParameters_Operator_ARM_EndsWith           = HostNameMatchConditionParameters_Operator_ARM("EndsWith")
+	HostNameMatchConditionParameters_Operator_ARM_Equal              = HostNameMatchConditionParameters_Operator_ARM("Equal")
+	HostNameMatchConditionParameters_Operator_ARM_GreaterThan        = HostNameMatchConditionParameters_Operator_ARM("GreaterThan")
+	HostNameMatchConditionParameters_Operator_ARM_GreaterThanOrEqual = HostNameMatchConditionParameters_Operator_ARM("GreaterThanOrEqual")
+	HostNameMatchConditionParameters_Operator_ARM_LessThan           = HostNameMatchConditionParameters_Operator_ARM("LessThan")
+	HostNameMatchConditionParameters_Operator_ARM_LessThanOrEqual    = HostNameMatchConditionParameters_Operator_ARM("LessThanOrEqual")
+	HostNameMatchConditionParameters_Operator_ARM_RegEx              = HostNameMatchConditionParameters_Operator_ARM("RegEx")
+)
+
+// Mapping from string to HostNameMatchConditionParameters_Operator_ARM
+var hostNameMatchConditionParameters_Operator_ARM_Values = map[string]HostNameMatchConditionParameters_Operator_ARM{
+	"any":                HostNameMatchConditionParameters_Operator_ARM_Any,
+	"beginswith":         HostNameMatchConditionParameters_Operator_ARM_BeginsWith,
+	"contains":           HostNameMatchConditionParameters_Operator_ARM_Contains,
+	"endswith":           HostNameMatchConditionParameters_Operator_ARM_EndsWith,
+	"equal":              HostNameMatchConditionParameters_Operator_ARM_Equal,
+	"greaterthan":        HostNameMatchConditionParameters_Operator_ARM_GreaterThan,
+	"greaterthanorequal": HostNameMatchConditionParameters_Operator_ARM_GreaterThanOrEqual,
+	"lessthan":           HostNameMatchConditionParameters_Operator_ARM_LessThan,
+	"lessthanorequal":    HostNameMatchConditionParameters_Operator_ARM_LessThanOrEqual,
+	"regex":              HostNameMatchConditionParameters_Operator_ARM_RegEx,
+}
+
+// +kubebuilder:validation:Enum={"DeliveryRuleHostNameConditionParameters"}
+type HostNameMatchConditionParameters_TypeName_ARM string
+
+const HostNameMatchConditionParameters_TypeName_ARM_DeliveryRuleHostNameConditionParameters = HostNameMatchConditionParameters_TypeName_ARM("DeliveryRuleHostNameConditionParameters")
+
+// Mapping from string to HostNameMatchConditionParameters_TypeName_ARM
+var hostNameMatchConditionParameters_TypeName_ARM_Values = map[string]HostNameMatchConditionParameters_TypeName_ARM{
+	"deliveryrulehostnameconditionparameters": HostNameMatchConditionParameters_TypeName_ARM_DeliveryRuleHostNameConditionParameters,
+}
+
+// +kubebuilder:validation:Enum={"Equal"}
+type HttpVersionMatchConditionParameters_Operator_ARM string
+
+const HttpVersionMatchConditionParameters_Operator_ARM_Equal = HttpVersionMatchConditionParameters_Operator_ARM("Equal")
+
+// Mapping from string to HttpVersionMatchConditionParameters_Operator_ARM
+var httpVersionMatchConditionParameters_Operator_ARM_Values = map[string]HttpVersionMatchConditionParameters_Operator_ARM{
+	"equal": HttpVersionMatchConditionParameters_Operator_ARM_Equal,
+}
+
+// +kubebuilder:validation:Enum={"DeliveryRuleHttpVersionConditionParameters"}
+type HttpVersionMatchConditionParameters_TypeName_ARM string
+
+const HttpVersionMatchConditionParameters_TypeName_ARM_DeliveryRuleHttpVersionConditionParameters = HttpVersionMatchConditionParameters_TypeName_ARM("DeliveryRuleHttpVersionConditionParameters")
+
+// Mapping from string to HttpVersionMatchConditionParameters_TypeName_ARM
+var httpVersionMatchConditionParameters_TypeName_ARM_Values = map[string]HttpVersionMatchConditionParameters_TypeName_ARM{
+	"deliveryrulehttpversionconditionparameters": HttpVersionMatchConditionParameters_TypeName_ARM_DeliveryRuleHttpVersionConditionParameters,
+}
+
+// +kubebuilder:validation:Enum={"Desktop","Mobile"}
+type IsDeviceMatchConditionParameters_MatchValues_ARM string
+
+const (
+	IsDeviceMatchConditionParameters_MatchValues_ARM_Desktop = IsDeviceMatchConditionParameters_MatchValues_ARM("Desktop")
+	IsDeviceMatchConditionParameters_MatchValues_ARM_Mobile  = IsDeviceMatchConditionParameters_MatchValues_ARM("Mobile")
+)
+
+// Mapping from string to IsDeviceMatchConditionParameters_MatchValues_ARM
+var isDeviceMatchConditionParameters_MatchValues_ARM_Values = map[string]IsDeviceMatchConditionParameters_MatchValues_ARM{
+	"desktop": IsDeviceMatchConditionParameters_MatchValues_ARM_Desktop,
+	"mobile":  IsDeviceMatchConditionParameters_MatchValues_ARM_Mobile,
+}
+
+// +kubebuilder:validation:Enum={"Equal"}
+type IsDeviceMatchConditionParameters_Operator_ARM string
+
+const IsDeviceMatchConditionParameters_Operator_ARM_Equal = IsDeviceMatchConditionParameters_Operator_ARM("Equal")
+
+// Mapping from string to IsDeviceMatchConditionParameters_Operator_ARM
+var isDeviceMatchConditionParameters_Operator_ARM_Values = map[string]IsDeviceMatchConditionParameters_Operator_ARM{
+	"equal": IsDeviceMatchConditionParameters_Operator_ARM_Equal,
+}
+
+// +kubebuilder:validation:Enum={"DeliveryRuleIsDeviceConditionParameters"}
+type IsDeviceMatchConditionParameters_TypeName_ARM string
+
+const IsDeviceMatchConditionParameters_TypeName_ARM_DeliveryRuleIsDeviceConditionParameters = IsDeviceMatchConditionParameters_TypeName_ARM("DeliveryRuleIsDeviceConditionParameters")
+
+// Mapping from string to IsDeviceMatchConditionParameters_TypeName_ARM
+var isDeviceMatchConditionParameters_TypeName_ARM_Values = map[string]IsDeviceMatchConditionParameters_TypeName_ARM{
+	"deliveryruleisdeviceconditionparameters": IsDeviceMatchConditionParameters_TypeName_ARM_DeliveryRuleIsDeviceConditionParameters,
 }
 
 // Defines the parameters for the origin group override configuration.
 type OriginGroupOverride_ARM struct {
 	// ForwardingProtocol: Protocol this rule will use when forwarding traffic to backends.
-	ForwardingProtocol *OriginGroupOverride_ForwardingProtocol `json:"forwardingProtocol,omitempty"`
+	ForwardingProtocol *OriginGroupOverride_ForwardingProtocol_ARM `json:"forwardingProtocol,omitempty"`
 
 	// OriginGroup: defines the OriginGroup that would override the DefaultOriginGroup on route.
 	OriginGroup *ResourceReference_ARM `json:"originGroup,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"DeliveryRuleOriginGroupOverrideActionParameters"}
+type OriginGroupOverrideActionParameters_TypeName_ARM string
+
+const OriginGroupOverrideActionParameters_TypeName_ARM_DeliveryRuleOriginGroupOverrideActionParameters = OriginGroupOverrideActionParameters_TypeName_ARM("DeliveryRuleOriginGroupOverrideActionParameters")
+
+// Mapping from string to OriginGroupOverrideActionParameters_TypeName_ARM
+var originGroupOverrideActionParameters_TypeName_ARM_Values = map[string]OriginGroupOverrideActionParameters_TypeName_ARM{
+	"deliveryruleorigingroupoverrideactionparameters": OriginGroupOverrideActionParameters_TypeName_ARM_DeliveryRuleOriginGroupOverrideActionParameters,
+}
+
+// +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
+type PostArgsMatchConditionParameters_Operator_ARM string
+
+const (
+	PostArgsMatchConditionParameters_Operator_ARM_Any                = PostArgsMatchConditionParameters_Operator_ARM("Any")
+	PostArgsMatchConditionParameters_Operator_ARM_BeginsWith         = PostArgsMatchConditionParameters_Operator_ARM("BeginsWith")
+	PostArgsMatchConditionParameters_Operator_ARM_Contains           = PostArgsMatchConditionParameters_Operator_ARM("Contains")
+	PostArgsMatchConditionParameters_Operator_ARM_EndsWith           = PostArgsMatchConditionParameters_Operator_ARM("EndsWith")
+	PostArgsMatchConditionParameters_Operator_ARM_Equal              = PostArgsMatchConditionParameters_Operator_ARM("Equal")
+	PostArgsMatchConditionParameters_Operator_ARM_GreaterThan        = PostArgsMatchConditionParameters_Operator_ARM("GreaterThan")
+	PostArgsMatchConditionParameters_Operator_ARM_GreaterThanOrEqual = PostArgsMatchConditionParameters_Operator_ARM("GreaterThanOrEqual")
+	PostArgsMatchConditionParameters_Operator_ARM_LessThan           = PostArgsMatchConditionParameters_Operator_ARM("LessThan")
+	PostArgsMatchConditionParameters_Operator_ARM_LessThanOrEqual    = PostArgsMatchConditionParameters_Operator_ARM("LessThanOrEqual")
+	PostArgsMatchConditionParameters_Operator_ARM_RegEx              = PostArgsMatchConditionParameters_Operator_ARM("RegEx")
+)
+
+// Mapping from string to PostArgsMatchConditionParameters_Operator_ARM
+var postArgsMatchConditionParameters_Operator_ARM_Values = map[string]PostArgsMatchConditionParameters_Operator_ARM{
+	"any":                PostArgsMatchConditionParameters_Operator_ARM_Any,
+	"beginswith":         PostArgsMatchConditionParameters_Operator_ARM_BeginsWith,
+	"contains":           PostArgsMatchConditionParameters_Operator_ARM_Contains,
+	"endswith":           PostArgsMatchConditionParameters_Operator_ARM_EndsWith,
+	"equal":              PostArgsMatchConditionParameters_Operator_ARM_Equal,
+	"greaterthan":        PostArgsMatchConditionParameters_Operator_ARM_GreaterThan,
+	"greaterthanorequal": PostArgsMatchConditionParameters_Operator_ARM_GreaterThanOrEqual,
+	"lessthan":           PostArgsMatchConditionParameters_Operator_ARM_LessThan,
+	"lessthanorequal":    PostArgsMatchConditionParameters_Operator_ARM_LessThanOrEqual,
+	"regex":              PostArgsMatchConditionParameters_Operator_ARM_RegEx,
+}
+
+// +kubebuilder:validation:Enum={"DeliveryRulePostArgsConditionParameters"}
+type PostArgsMatchConditionParameters_TypeName_ARM string
+
+const PostArgsMatchConditionParameters_TypeName_ARM_DeliveryRulePostArgsConditionParameters = PostArgsMatchConditionParameters_TypeName_ARM("DeliveryRulePostArgsConditionParameters")
+
+// Mapping from string to PostArgsMatchConditionParameters_TypeName_ARM
+var postArgsMatchConditionParameters_TypeName_ARM_Values = map[string]PostArgsMatchConditionParameters_TypeName_ARM{
+	"deliveryrulepostargsconditionparameters": PostArgsMatchConditionParameters_TypeName_ARM_DeliveryRulePostArgsConditionParameters,
+}
+
+// +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
+type QueryStringMatchConditionParameters_Operator_ARM string
+
+const (
+	QueryStringMatchConditionParameters_Operator_ARM_Any                = QueryStringMatchConditionParameters_Operator_ARM("Any")
+	QueryStringMatchConditionParameters_Operator_ARM_BeginsWith         = QueryStringMatchConditionParameters_Operator_ARM("BeginsWith")
+	QueryStringMatchConditionParameters_Operator_ARM_Contains           = QueryStringMatchConditionParameters_Operator_ARM("Contains")
+	QueryStringMatchConditionParameters_Operator_ARM_EndsWith           = QueryStringMatchConditionParameters_Operator_ARM("EndsWith")
+	QueryStringMatchConditionParameters_Operator_ARM_Equal              = QueryStringMatchConditionParameters_Operator_ARM("Equal")
+	QueryStringMatchConditionParameters_Operator_ARM_GreaterThan        = QueryStringMatchConditionParameters_Operator_ARM("GreaterThan")
+	QueryStringMatchConditionParameters_Operator_ARM_GreaterThanOrEqual = QueryStringMatchConditionParameters_Operator_ARM("GreaterThanOrEqual")
+	QueryStringMatchConditionParameters_Operator_ARM_LessThan           = QueryStringMatchConditionParameters_Operator_ARM("LessThan")
+	QueryStringMatchConditionParameters_Operator_ARM_LessThanOrEqual    = QueryStringMatchConditionParameters_Operator_ARM("LessThanOrEqual")
+	QueryStringMatchConditionParameters_Operator_ARM_RegEx              = QueryStringMatchConditionParameters_Operator_ARM("RegEx")
+)
+
+// Mapping from string to QueryStringMatchConditionParameters_Operator_ARM
+var queryStringMatchConditionParameters_Operator_ARM_Values = map[string]QueryStringMatchConditionParameters_Operator_ARM{
+	"any":                QueryStringMatchConditionParameters_Operator_ARM_Any,
+	"beginswith":         QueryStringMatchConditionParameters_Operator_ARM_BeginsWith,
+	"contains":           QueryStringMatchConditionParameters_Operator_ARM_Contains,
+	"endswith":           QueryStringMatchConditionParameters_Operator_ARM_EndsWith,
+	"equal":              QueryStringMatchConditionParameters_Operator_ARM_Equal,
+	"greaterthan":        QueryStringMatchConditionParameters_Operator_ARM_GreaterThan,
+	"greaterthanorequal": QueryStringMatchConditionParameters_Operator_ARM_GreaterThanOrEqual,
+	"lessthan":           QueryStringMatchConditionParameters_Operator_ARM_LessThan,
+	"lessthanorequal":    QueryStringMatchConditionParameters_Operator_ARM_LessThanOrEqual,
+	"regex":              QueryStringMatchConditionParameters_Operator_ARM_RegEx,
+}
+
+// +kubebuilder:validation:Enum={"DeliveryRuleQueryStringConditionParameters"}
+type QueryStringMatchConditionParameters_TypeName_ARM string
+
+const QueryStringMatchConditionParameters_TypeName_ARM_DeliveryRuleQueryStringConditionParameters = QueryStringMatchConditionParameters_TypeName_ARM("DeliveryRuleQueryStringConditionParameters")
+
+// Mapping from string to QueryStringMatchConditionParameters_TypeName_ARM
+var queryStringMatchConditionParameters_TypeName_ARM_Values = map[string]QueryStringMatchConditionParameters_TypeName_ARM{
+	"deliveryrulequerystringconditionparameters": QueryStringMatchConditionParameters_TypeName_ARM_DeliveryRuleQueryStringConditionParameters,
+}
+
+// +kubebuilder:validation:Enum={"Any","GeoMatch","IPMatch"}
+type RemoteAddressMatchConditionParameters_Operator_ARM string
+
+const (
+	RemoteAddressMatchConditionParameters_Operator_ARM_Any      = RemoteAddressMatchConditionParameters_Operator_ARM("Any")
+	RemoteAddressMatchConditionParameters_Operator_ARM_GeoMatch = RemoteAddressMatchConditionParameters_Operator_ARM("GeoMatch")
+	RemoteAddressMatchConditionParameters_Operator_ARM_IPMatch  = RemoteAddressMatchConditionParameters_Operator_ARM("IPMatch")
+)
+
+// Mapping from string to RemoteAddressMatchConditionParameters_Operator_ARM
+var remoteAddressMatchConditionParameters_Operator_ARM_Values = map[string]RemoteAddressMatchConditionParameters_Operator_ARM{
+	"any":      RemoteAddressMatchConditionParameters_Operator_ARM_Any,
+	"geomatch": RemoteAddressMatchConditionParameters_Operator_ARM_GeoMatch,
+	"ipmatch":  RemoteAddressMatchConditionParameters_Operator_ARM_IPMatch,
+}
+
+// +kubebuilder:validation:Enum={"DeliveryRuleRemoteAddressConditionParameters"}
+type RemoteAddressMatchConditionParameters_TypeName_ARM string
+
+const RemoteAddressMatchConditionParameters_TypeName_ARM_DeliveryRuleRemoteAddressConditionParameters = RemoteAddressMatchConditionParameters_TypeName_ARM("DeliveryRuleRemoteAddressConditionParameters")
+
+// Mapping from string to RemoteAddressMatchConditionParameters_TypeName_ARM
+var remoteAddressMatchConditionParameters_TypeName_ARM_Values = map[string]RemoteAddressMatchConditionParameters_TypeName_ARM{
+	"deliveryruleremoteaddressconditionparameters": RemoteAddressMatchConditionParameters_TypeName_ARM_DeliveryRuleRemoteAddressConditionParameters,
+}
+
+// +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
+type RequestBodyMatchConditionParameters_Operator_ARM string
+
+const (
+	RequestBodyMatchConditionParameters_Operator_ARM_Any                = RequestBodyMatchConditionParameters_Operator_ARM("Any")
+	RequestBodyMatchConditionParameters_Operator_ARM_BeginsWith         = RequestBodyMatchConditionParameters_Operator_ARM("BeginsWith")
+	RequestBodyMatchConditionParameters_Operator_ARM_Contains           = RequestBodyMatchConditionParameters_Operator_ARM("Contains")
+	RequestBodyMatchConditionParameters_Operator_ARM_EndsWith           = RequestBodyMatchConditionParameters_Operator_ARM("EndsWith")
+	RequestBodyMatchConditionParameters_Operator_ARM_Equal              = RequestBodyMatchConditionParameters_Operator_ARM("Equal")
+	RequestBodyMatchConditionParameters_Operator_ARM_GreaterThan        = RequestBodyMatchConditionParameters_Operator_ARM("GreaterThan")
+	RequestBodyMatchConditionParameters_Operator_ARM_GreaterThanOrEqual = RequestBodyMatchConditionParameters_Operator_ARM("GreaterThanOrEqual")
+	RequestBodyMatchConditionParameters_Operator_ARM_LessThan           = RequestBodyMatchConditionParameters_Operator_ARM("LessThan")
+	RequestBodyMatchConditionParameters_Operator_ARM_LessThanOrEqual    = RequestBodyMatchConditionParameters_Operator_ARM("LessThanOrEqual")
+	RequestBodyMatchConditionParameters_Operator_ARM_RegEx              = RequestBodyMatchConditionParameters_Operator_ARM("RegEx")
+)
+
+// Mapping from string to RequestBodyMatchConditionParameters_Operator_ARM
+var requestBodyMatchConditionParameters_Operator_ARM_Values = map[string]RequestBodyMatchConditionParameters_Operator_ARM{
+	"any":                RequestBodyMatchConditionParameters_Operator_ARM_Any,
+	"beginswith":         RequestBodyMatchConditionParameters_Operator_ARM_BeginsWith,
+	"contains":           RequestBodyMatchConditionParameters_Operator_ARM_Contains,
+	"endswith":           RequestBodyMatchConditionParameters_Operator_ARM_EndsWith,
+	"equal":              RequestBodyMatchConditionParameters_Operator_ARM_Equal,
+	"greaterthan":        RequestBodyMatchConditionParameters_Operator_ARM_GreaterThan,
+	"greaterthanorequal": RequestBodyMatchConditionParameters_Operator_ARM_GreaterThanOrEqual,
+	"lessthan":           RequestBodyMatchConditionParameters_Operator_ARM_LessThan,
+	"lessthanorequal":    RequestBodyMatchConditionParameters_Operator_ARM_LessThanOrEqual,
+	"regex":              RequestBodyMatchConditionParameters_Operator_ARM_RegEx,
+}
+
+// +kubebuilder:validation:Enum={"DeliveryRuleRequestBodyConditionParameters"}
+type RequestBodyMatchConditionParameters_TypeName_ARM string
+
+const RequestBodyMatchConditionParameters_TypeName_ARM_DeliveryRuleRequestBodyConditionParameters = RequestBodyMatchConditionParameters_TypeName_ARM("DeliveryRuleRequestBodyConditionParameters")
+
+// Mapping from string to RequestBodyMatchConditionParameters_TypeName_ARM
+var requestBodyMatchConditionParameters_TypeName_ARM_Values = map[string]RequestBodyMatchConditionParameters_TypeName_ARM{
+	"deliveryrulerequestbodyconditionparameters": RequestBodyMatchConditionParameters_TypeName_ARM_DeliveryRuleRequestBodyConditionParameters,
+}
+
+// +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
+type RequestHeaderMatchConditionParameters_Operator_ARM string
+
+const (
+	RequestHeaderMatchConditionParameters_Operator_ARM_Any                = RequestHeaderMatchConditionParameters_Operator_ARM("Any")
+	RequestHeaderMatchConditionParameters_Operator_ARM_BeginsWith         = RequestHeaderMatchConditionParameters_Operator_ARM("BeginsWith")
+	RequestHeaderMatchConditionParameters_Operator_ARM_Contains           = RequestHeaderMatchConditionParameters_Operator_ARM("Contains")
+	RequestHeaderMatchConditionParameters_Operator_ARM_EndsWith           = RequestHeaderMatchConditionParameters_Operator_ARM("EndsWith")
+	RequestHeaderMatchConditionParameters_Operator_ARM_Equal              = RequestHeaderMatchConditionParameters_Operator_ARM("Equal")
+	RequestHeaderMatchConditionParameters_Operator_ARM_GreaterThan        = RequestHeaderMatchConditionParameters_Operator_ARM("GreaterThan")
+	RequestHeaderMatchConditionParameters_Operator_ARM_GreaterThanOrEqual = RequestHeaderMatchConditionParameters_Operator_ARM("GreaterThanOrEqual")
+	RequestHeaderMatchConditionParameters_Operator_ARM_LessThan           = RequestHeaderMatchConditionParameters_Operator_ARM("LessThan")
+	RequestHeaderMatchConditionParameters_Operator_ARM_LessThanOrEqual    = RequestHeaderMatchConditionParameters_Operator_ARM("LessThanOrEqual")
+	RequestHeaderMatchConditionParameters_Operator_ARM_RegEx              = RequestHeaderMatchConditionParameters_Operator_ARM("RegEx")
+)
+
+// Mapping from string to RequestHeaderMatchConditionParameters_Operator_ARM
+var requestHeaderMatchConditionParameters_Operator_ARM_Values = map[string]RequestHeaderMatchConditionParameters_Operator_ARM{
+	"any":                RequestHeaderMatchConditionParameters_Operator_ARM_Any,
+	"beginswith":         RequestHeaderMatchConditionParameters_Operator_ARM_BeginsWith,
+	"contains":           RequestHeaderMatchConditionParameters_Operator_ARM_Contains,
+	"endswith":           RequestHeaderMatchConditionParameters_Operator_ARM_EndsWith,
+	"equal":              RequestHeaderMatchConditionParameters_Operator_ARM_Equal,
+	"greaterthan":        RequestHeaderMatchConditionParameters_Operator_ARM_GreaterThan,
+	"greaterthanorequal": RequestHeaderMatchConditionParameters_Operator_ARM_GreaterThanOrEqual,
+	"lessthan":           RequestHeaderMatchConditionParameters_Operator_ARM_LessThan,
+	"lessthanorequal":    RequestHeaderMatchConditionParameters_Operator_ARM_LessThanOrEqual,
+	"regex":              RequestHeaderMatchConditionParameters_Operator_ARM_RegEx,
+}
+
+// +kubebuilder:validation:Enum={"DeliveryRuleRequestHeaderConditionParameters"}
+type RequestHeaderMatchConditionParameters_TypeName_ARM string
+
+const RequestHeaderMatchConditionParameters_TypeName_ARM_DeliveryRuleRequestHeaderConditionParameters = RequestHeaderMatchConditionParameters_TypeName_ARM("DeliveryRuleRequestHeaderConditionParameters")
+
+// Mapping from string to RequestHeaderMatchConditionParameters_TypeName_ARM
+var requestHeaderMatchConditionParameters_TypeName_ARM_Values = map[string]RequestHeaderMatchConditionParameters_TypeName_ARM{
+	"deliveryrulerequestheaderconditionparameters": RequestHeaderMatchConditionParameters_TypeName_ARM_DeliveryRuleRequestHeaderConditionParameters,
+}
+
+// +kubebuilder:validation:Enum={"DELETE","GET","HEAD","OPTIONS","POST","PUT","TRACE"}
+type RequestMethodMatchConditionParameters_MatchValues_ARM string
+
+const (
+	RequestMethodMatchConditionParameters_MatchValues_ARM_DELETE  = RequestMethodMatchConditionParameters_MatchValues_ARM("DELETE")
+	RequestMethodMatchConditionParameters_MatchValues_ARM_GET     = RequestMethodMatchConditionParameters_MatchValues_ARM("GET")
+	RequestMethodMatchConditionParameters_MatchValues_ARM_HEAD    = RequestMethodMatchConditionParameters_MatchValues_ARM("HEAD")
+	RequestMethodMatchConditionParameters_MatchValues_ARM_OPTIONS = RequestMethodMatchConditionParameters_MatchValues_ARM("OPTIONS")
+	RequestMethodMatchConditionParameters_MatchValues_ARM_POST    = RequestMethodMatchConditionParameters_MatchValues_ARM("POST")
+	RequestMethodMatchConditionParameters_MatchValues_ARM_PUT     = RequestMethodMatchConditionParameters_MatchValues_ARM("PUT")
+	RequestMethodMatchConditionParameters_MatchValues_ARM_TRACE   = RequestMethodMatchConditionParameters_MatchValues_ARM("TRACE")
+)
+
+// Mapping from string to RequestMethodMatchConditionParameters_MatchValues_ARM
+var requestMethodMatchConditionParameters_MatchValues_ARM_Values = map[string]RequestMethodMatchConditionParameters_MatchValues_ARM{
+	"delete":  RequestMethodMatchConditionParameters_MatchValues_ARM_DELETE,
+	"get":     RequestMethodMatchConditionParameters_MatchValues_ARM_GET,
+	"head":    RequestMethodMatchConditionParameters_MatchValues_ARM_HEAD,
+	"options": RequestMethodMatchConditionParameters_MatchValues_ARM_OPTIONS,
+	"post":    RequestMethodMatchConditionParameters_MatchValues_ARM_POST,
+	"put":     RequestMethodMatchConditionParameters_MatchValues_ARM_PUT,
+	"trace":   RequestMethodMatchConditionParameters_MatchValues_ARM_TRACE,
+}
+
+// +kubebuilder:validation:Enum={"Equal"}
+type RequestMethodMatchConditionParameters_Operator_ARM string
+
+const RequestMethodMatchConditionParameters_Operator_ARM_Equal = RequestMethodMatchConditionParameters_Operator_ARM("Equal")
+
+// Mapping from string to RequestMethodMatchConditionParameters_Operator_ARM
+var requestMethodMatchConditionParameters_Operator_ARM_Values = map[string]RequestMethodMatchConditionParameters_Operator_ARM{
+	"equal": RequestMethodMatchConditionParameters_Operator_ARM_Equal,
+}
+
+// +kubebuilder:validation:Enum={"DeliveryRuleRequestMethodConditionParameters"}
+type RequestMethodMatchConditionParameters_TypeName_ARM string
+
+const RequestMethodMatchConditionParameters_TypeName_ARM_DeliveryRuleRequestMethodConditionParameters = RequestMethodMatchConditionParameters_TypeName_ARM("DeliveryRuleRequestMethodConditionParameters")
+
+// Mapping from string to RequestMethodMatchConditionParameters_TypeName_ARM
+var requestMethodMatchConditionParameters_TypeName_ARM_Values = map[string]RequestMethodMatchConditionParameters_TypeName_ARM{
+	"deliveryrulerequestmethodconditionparameters": RequestMethodMatchConditionParameters_TypeName_ARM_DeliveryRuleRequestMethodConditionParameters,
+}
+
+// +kubebuilder:validation:Enum={"HTTP","HTTPS"}
+type RequestSchemeMatchConditionParameters_MatchValues_ARM string
+
+const (
+	RequestSchemeMatchConditionParameters_MatchValues_ARM_HTTP  = RequestSchemeMatchConditionParameters_MatchValues_ARM("HTTP")
+	RequestSchemeMatchConditionParameters_MatchValues_ARM_HTTPS = RequestSchemeMatchConditionParameters_MatchValues_ARM("HTTPS")
+)
+
+// Mapping from string to RequestSchemeMatchConditionParameters_MatchValues_ARM
+var requestSchemeMatchConditionParameters_MatchValues_ARM_Values = map[string]RequestSchemeMatchConditionParameters_MatchValues_ARM{
+	"http":  RequestSchemeMatchConditionParameters_MatchValues_ARM_HTTP,
+	"https": RequestSchemeMatchConditionParameters_MatchValues_ARM_HTTPS,
+}
+
+// +kubebuilder:validation:Enum={"Equal"}
+type RequestSchemeMatchConditionParameters_Operator_ARM string
+
+const RequestSchemeMatchConditionParameters_Operator_ARM_Equal = RequestSchemeMatchConditionParameters_Operator_ARM("Equal")
+
+// Mapping from string to RequestSchemeMatchConditionParameters_Operator_ARM
+var requestSchemeMatchConditionParameters_Operator_ARM_Values = map[string]RequestSchemeMatchConditionParameters_Operator_ARM{
+	"equal": RequestSchemeMatchConditionParameters_Operator_ARM_Equal,
+}
+
+// +kubebuilder:validation:Enum={"DeliveryRuleRequestSchemeConditionParameters"}
+type RequestSchemeMatchConditionParameters_TypeName_ARM string
+
+const RequestSchemeMatchConditionParameters_TypeName_ARM_DeliveryRuleRequestSchemeConditionParameters = RequestSchemeMatchConditionParameters_TypeName_ARM("DeliveryRuleRequestSchemeConditionParameters")
+
+// Mapping from string to RequestSchemeMatchConditionParameters_TypeName_ARM
+var requestSchemeMatchConditionParameters_TypeName_ARM_Values = map[string]RequestSchemeMatchConditionParameters_TypeName_ARM{
+	"deliveryrulerequestschemeconditionparameters": RequestSchemeMatchConditionParameters_TypeName_ARM_DeliveryRuleRequestSchemeConditionParameters,
+}
+
+// +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
+type RequestUriMatchConditionParameters_Operator_ARM string
+
+const (
+	RequestUriMatchConditionParameters_Operator_ARM_Any                = RequestUriMatchConditionParameters_Operator_ARM("Any")
+	RequestUriMatchConditionParameters_Operator_ARM_BeginsWith         = RequestUriMatchConditionParameters_Operator_ARM("BeginsWith")
+	RequestUriMatchConditionParameters_Operator_ARM_Contains           = RequestUriMatchConditionParameters_Operator_ARM("Contains")
+	RequestUriMatchConditionParameters_Operator_ARM_EndsWith           = RequestUriMatchConditionParameters_Operator_ARM("EndsWith")
+	RequestUriMatchConditionParameters_Operator_ARM_Equal              = RequestUriMatchConditionParameters_Operator_ARM("Equal")
+	RequestUriMatchConditionParameters_Operator_ARM_GreaterThan        = RequestUriMatchConditionParameters_Operator_ARM("GreaterThan")
+	RequestUriMatchConditionParameters_Operator_ARM_GreaterThanOrEqual = RequestUriMatchConditionParameters_Operator_ARM("GreaterThanOrEqual")
+	RequestUriMatchConditionParameters_Operator_ARM_LessThan           = RequestUriMatchConditionParameters_Operator_ARM("LessThan")
+	RequestUriMatchConditionParameters_Operator_ARM_LessThanOrEqual    = RequestUriMatchConditionParameters_Operator_ARM("LessThanOrEqual")
+	RequestUriMatchConditionParameters_Operator_ARM_RegEx              = RequestUriMatchConditionParameters_Operator_ARM("RegEx")
+)
+
+// Mapping from string to RequestUriMatchConditionParameters_Operator_ARM
+var requestUriMatchConditionParameters_Operator_ARM_Values = map[string]RequestUriMatchConditionParameters_Operator_ARM{
+	"any":                RequestUriMatchConditionParameters_Operator_ARM_Any,
+	"beginswith":         RequestUriMatchConditionParameters_Operator_ARM_BeginsWith,
+	"contains":           RequestUriMatchConditionParameters_Operator_ARM_Contains,
+	"endswith":           RequestUriMatchConditionParameters_Operator_ARM_EndsWith,
+	"equal":              RequestUriMatchConditionParameters_Operator_ARM_Equal,
+	"greaterthan":        RequestUriMatchConditionParameters_Operator_ARM_GreaterThan,
+	"greaterthanorequal": RequestUriMatchConditionParameters_Operator_ARM_GreaterThanOrEqual,
+	"lessthan":           RequestUriMatchConditionParameters_Operator_ARM_LessThan,
+	"lessthanorequal":    RequestUriMatchConditionParameters_Operator_ARM_LessThanOrEqual,
+	"regex":              RequestUriMatchConditionParameters_Operator_ARM_RegEx,
+}
+
+// +kubebuilder:validation:Enum={"DeliveryRuleRequestUriConditionParameters"}
+type RequestUriMatchConditionParameters_TypeName_ARM string
+
+const RequestUriMatchConditionParameters_TypeName_ARM_DeliveryRuleRequestUriConditionParameters = RequestUriMatchConditionParameters_TypeName_ARM("DeliveryRuleRequestUriConditionParameters")
+
+// Mapping from string to RequestUriMatchConditionParameters_TypeName_ARM
+var requestUriMatchConditionParameters_TypeName_ARM_Values = map[string]RequestUriMatchConditionParameters_TypeName_ARM{
+	"deliveryrulerequesturiconditionparameters": RequestUriMatchConditionParameters_TypeName_ARM_DeliveryRuleRequestUriConditionParameters,
+}
+
+// +kubebuilder:validation:Enum={"DeliveryRuleRouteConfigurationOverrideActionParameters"}
+type RouteConfigurationOverrideActionParameters_TypeName_ARM string
+
+const RouteConfigurationOverrideActionParameters_TypeName_ARM_DeliveryRuleRouteConfigurationOverrideActionParameters = RouteConfigurationOverrideActionParameters_TypeName_ARM("DeliveryRuleRouteConfigurationOverrideActionParameters")
+
+// Mapping from string to RouteConfigurationOverrideActionParameters_TypeName_ARM
+var routeConfigurationOverrideActionParameters_TypeName_ARM_Values = map[string]RouteConfigurationOverrideActionParameters_TypeName_ARM{
+	"deliveryrulerouteconfigurationoverrideactionparameters": RouteConfigurationOverrideActionParameters_TypeName_ARM_DeliveryRuleRouteConfigurationOverrideActionParameters,
+}
+
+// +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
+type ServerPortMatchConditionParameters_Operator_ARM string
+
+const (
+	ServerPortMatchConditionParameters_Operator_ARM_Any                = ServerPortMatchConditionParameters_Operator_ARM("Any")
+	ServerPortMatchConditionParameters_Operator_ARM_BeginsWith         = ServerPortMatchConditionParameters_Operator_ARM("BeginsWith")
+	ServerPortMatchConditionParameters_Operator_ARM_Contains           = ServerPortMatchConditionParameters_Operator_ARM("Contains")
+	ServerPortMatchConditionParameters_Operator_ARM_EndsWith           = ServerPortMatchConditionParameters_Operator_ARM("EndsWith")
+	ServerPortMatchConditionParameters_Operator_ARM_Equal              = ServerPortMatchConditionParameters_Operator_ARM("Equal")
+	ServerPortMatchConditionParameters_Operator_ARM_GreaterThan        = ServerPortMatchConditionParameters_Operator_ARM("GreaterThan")
+	ServerPortMatchConditionParameters_Operator_ARM_GreaterThanOrEqual = ServerPortMatchConditionParameters_Operator_ARM("GreaterThanOrEqual")
+	ServerPortMatchConditionParameters_Operator_ARM_LessThan           = ServerPortMatchConditionParameters_Operator_ARM("LessThan")
+	ServerPortMatchConditionParameters_Operator_ARM_LessThanOrEqual    = ServerPortMatchConditionParameters_Operator_ARM("LessThanOrEqual")
+	ServerPortMatchConditionParameters_Operator_ARM_RegEx              = ServerPortMatchConditionParameters_Operator_ARM("RegEx")
+)
+
+// Mapping from string to ServerPortMatchConditionParameters_Operator_ARM
+var serverPortMatchConditionParameters_Operator_ARM_Values = map[string]ServerPortMatchConditionParameters_Operator_ARM{
+	"any":                ServerPortMatchConditionParameters_Operator_ARM_Any,
+	"beginswith":         ServerPortMatchConditionParameters_Operator_ARM_BeginsWith,
+	"contains":           ServerPortMatchConditionParameters_Operator_ARM_Contains,
+	"endswith":           ServerPortMatchConditionParameters_Operator_ARM_EndsWith,
+	"equal":              ServerPortMatchConditionParameters_Operator_ARM_Equal,
+	"greaterthan":        ServerPortMatchConditionParameters_Operator_ARM_GreaterThan,
+	"greaterthanorequal": ServerPortMatchConditionParameters_Operator_ARM_GreaterThanOrEqual,
+	"lessthan":           ServerPortMatchConditionParameters_Operator_ARM_LessThan,
+	"lessthanorequal":    ServerPortMatchConditionParameters_Operator_ARM_LessThanOrEqual,
+	"regex":              ServerPortMatchConditionParameters_Operator_ARM_RegEx,
+}
+
+// +kubebuilder:validation:Enum={"DeliveryRuleServerPortConditionParameters"}
+type ServerPortMatchConditionParameters_TypeName_ARM string
+
+const ServerPortMatchConditionParameters_TypeName_ARM_DeliveryRuleServerPortConditionParameters = ServerPortMatchConditionParameters_TypeName_ARM("DeliveryRuleServerPortConditionParameters")
+
+// Mapping from string to ServerPortMatchConditionParameters_TypeName_ARM
+var serverPortMatchConditionParameters_TypeName_ARM_Values = map[string]ServerPortMatchConditionParameters_TypeName_ARM{
+	"deliveryruleserverportconditionparameters": ServerPortMatchConditionParameters_TypeName_ARM_DeliveryRuleServerPortConditionParameters,
+}
+
+// +kubebuilder:validation:Enum={"Any","IPMatch"}
+type SocketAddrMatchConditionParameters_Operator_ARM string
+
+const (
+	SocketAddrMatchConditionParameters_Operator_ARM_Any     = SocketAddrMatchConditionParameters_Operator_ARM("Any")
+	SocketAddrMatchConditionParameters_Operator_ARM_IPMatch = SocketAddrMatchConditionParameters_Operator_ARM("IPMatch")
+)
+
+// Mapping from string to SocketAddrMatchConditionParameters_Operator_ARM
+var socketAddrMatchConditionParameters_Operator_ARM_Values = map[string]SocketAddrMatchConditionParameters_Operator_ARM{
+	"any":     SocketAddrMatchConditionParameters_Operator_ARM_Any,
+	"ipmatch": SocketAddrMatchConditionParameters_Operator_ARM_IPMatch,
+}
+
+// +kubebuilder:validation:Enum={"DeliveryRuleSocketAddrConditionParameters"}
+type SocketAddrMatchConditionParameters_TypeName_ARM string
+
+const SocketAddrMatchConditionParameters_TypeName_ARM_DeliveryRuleSocketAddrConditionParameters = SocketAddrMatchConditionParameters_TypeName_ARM("DeliveryRuleSocketAddrConditionParameters")
+
+// Mapping from string to SocketAddrMatchConditionParameters_TypeName_ARM
+var socketAddrMatchConditionParameters_TypeName_ARM_Values = map[string]SocketAddrMatchConditionParameters_TypeName_ARM{
+	"deliveryrulesocketaddrconditionparameters": SocketAddrMatchConditionParameters_TypeName_ARM_DeliveryRuleSocketAddrConditionParameters,
+}
+
+// The protocol of an established TLS connection.
+// +kubebuilder:validation:Enum={"TLSv1","TLSv1.1","TLSv1.2"}
+type SslProtocol_ARM string
+
+const (
+	SslProtocol_ARM_TLSv1  = SslProtocol_ARM("TLSv1")
+	SslProtocol_ARM_TLSv11 = SslProtocol_ARM("TLSv1.1")
+	SslProtocol_ARM_TLSv12 = SslProtocol_ARM("TLSv1.2")
+)
+
+// Mapping from string to SslProtocol_ARM
+var sslProtocol_ARM_Values = map[string]SslProtocol_ARM{
+	"tlsv1":   SslProtocol_ARM_TLSv1,
+	"tlsv1.1": SslProtocol_ARM_TLSv11,
+	"tlsv1.2": SslProtocol_ARM_TLSv12,
+}
+
+// +kubebuilder:validation:Enum={"Equal"}
+type SslProtocolMatchConditionParameters_Operator_ARM string
+
+const SslProtocolMatchConditionParameters_Operator_ARM_Equal = SslProtocolMatchConditionParameters_Operator_ARM("Equal")
+
+// Mapping from string to SslProtocolMatchConditionParameters_Operator_ARM
+var sslProtocolMatchConditionParameters_Operator_ARM_Values = map[string]SslProtocolMatchConditionParameters_Operator_ARM{
+	"equal": SslProtocolMatchConditionParameters_Operator_ARM_Equal,
+}
+
+// +kubebuilder:validation:Enum={"DeliveryRuleSslProtocolConditionParameters"}
+type SslProtocolMatchConditionParameters_TypeName_ARM string
+
+const SslProtocolMatchConditionParameters_TypeName_ARM_DeliveryRuleSslProtocolConditionParameters = SslProtocolMatchConditionParameters_TypeName_ARM("DeliveryRuleSslProtocolConditionParameters")
+
+// Mapping from string to SslProtocolMatchConditionParameters_TypeName_ARM
+var sslProtocolMatchConditionParameters_TypeName_ARM_Values = map[string]SslProtocolMatchConditionParameters_TypeName_ARM{
+	"deliveryrulesslprotocolconditionparameters": SslProtocolMatchConditionParameters_TypeName_ARM_DeliveryRuleSslProtocolConditionParameters,
+}
+
+// Describes what transforms are applied before matching
+// +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
+type Transform_ARM string
+
+const (
+	Transform_ARM_Lowercase   = Transform_ARM("Lowercase")
+	Transform_ARM_RemoveNulls = Transform_ARM("RemoveNulls")
+	Transform_ARM_Trim        = Transform_ARM("Trim")
+	Transform_ARM_Uppercase   = Transform_ARM("Uppercase")
+	Transform_ARM_UrlDecode   = Transform_ARM("UrlDecode")
+	Transform_ARM_UrlEncode   = Transform_ARM("UrlEncode")
+)
+
+// Mapping from string to Transform_ARM
+var transform_ARM_Values = map[string]Transform_ARM{
+	"lowercase":   Transform_ARM_Lowercase,
+	"removenulls": Transform_ARM_RemoveNulls,
+	"trim":        Transform_ARM_Trim,
+	"uppercase":   Transform_ARM_Uppercase,
+	"urldecode":   Transform_ARM_UrlDecode,
+	"urlencode":   Transform_ARM_UrlEncode,
+}
+
+// +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
+type UrlFileExtensionMatchConditionParameters_Operator_ARM string
+
+const (
+	UrlFileExtensionMatchConditionParameters_Operator_ARM_Any                = UrlFileExtensionMatchConditionParameters_Operator_ARM("Any")
+	UrlFileExtensionMatchConditionParameters_Operator_ARM_BeginsWith         = UrlFileExtensionMatchConditionParameters_Operator_ARM("BeginsWith")
+	UrlFileExtensionMatchConditionParameters_Operator_ARM_Contains           = UrlFileExtensionMatchConditionParameters_Operator_ARM("Contains")
+	UrlFileExtensionMatchConditionParameters_Operator_ARM_EndsWith           = UrlFileExtensionMatchConditionParameters_Operator_ARM("EndsWith")
+	UrlFileExtensionMatchConditionParameters_Operator_ARM_Equal              = UrlFileExtensionMatchConditionParameters_Operator_ARM("Equal")
+	UrlFileExtensionMatchConditionParameters_Operator_ARM_GreaterThan        = UrlFileExtensionMatchConditionParameters_Operator_ARM("GreaterThan")
+	UrlFileExtensionMatchConditionParameters_Operator_ARM_GreaterThanOrEqual = UrlFileExtensionMatchConditionParameters_Operator_ARM("GreaterThanOrEqual")
+	UrlFileExtensionMatchConditionParameters_Operator_ARM_LessThan           = UrlFileExtensionMatchConditionParameters_Operator_ARM("LessThan")
+	UrlFileExtensionMatchConditionParameters_Operator_ARM_LessThanOrEqual    = UrlFileExtensionMatchConditionParameters_Operator_ARM("LessThanOrEqual")
+	UrlFileExtensionMatchConditionParameters_Operator_ARM_RegEx              = UrlFileExtensionMatchConditionParameters_Operator_ARM("RegEx")
+)
+
+// Mapping from string to UrlFileExtensionMatchConditionParameters_Operator_ARM
+var urlFileExtensionMatchConditionParameters_Operator_ARM_Values = map[string]UrlFileExtensionMatchConditionParameters_Operator_ARM{
+	"any":                UrlFileExtensionMatchConditionParameters_Operator_ARM_Any,
+	"beginswith":         UrlFileExtensionMatchConditionParameters_Operator_ARM_BeginsWith,
+	"contains":           UrlFileExtensionMatchConditionParameters_Operator_ARM_Contains,
+	"endswith":           UrlFileExtensionMatchConditionParameters_Operator_ARM_EndsWith,
+	"equal":              UrlFileExtensionMatchConditionParameters_Operator_ARM_Equal,
+	"greaterthan":        UrlFileExtensionMatchConditionParameters_Operator_ARM_GreaterThan,
+	"greaterthanorequal": UrlFileExtensionMatchConditionParameters_Operator_ARM_GreaterThanOrEqual,
+	"lessthan":           UrlFileExtensionMatchConditionParameters_Operator_ARM_LessThan,
+	"lessthanorequal":    UrlFileExtensionMatchConditionParameters_Operator_ARM_LessThanOrEqual,
+	"regex":              UrlFileExtensionMatchConditionParameters_Operator_ARM_RegEx,
+}
+
+// +kubebuilder:validation:Enum={"DeliveryRuleUrlFileExtensionMatchConditionParameters"}
+type UrlFileExtensionMatchConditionParameters_TypeName_ARM string
+
+const UrlFileExtensionMatchConditionParameters_TypeName_ARM_DeliveryRuleUrlFileExtensionMatchConditionParameters = UrlFileExtensionMatchConditionParameters_TypeName_ARM("DeliveryRuleUrlFileExtensionMatchConditionParameters")
+
+// Mapping from string to UrlFileExtensionMatchConditionParameters_TypeName_ARM
+var urlFileExtensionMatchConditionParameters_TypeName_ARM_Values = map[string]UrlFileExtensionMatchConditionParameters_TypeName_ARM{
+	"deliveryruleurlfileextensionmatchconditionparameters": UrlFileExtensionMatchConditionParameters_TypeName_ARM_DeliveryRuleUrlFileExtensionMatchConditionParameters,
+}
+
+// +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
+type UrlFileNameMatchConditionParameters_Operator_ARM string
+
+const (
+	UrlFileNameMatchConditionParameters_Operator_ARM_Any                = UrlFileNameMatchConditionParameters_Operator_ARM("Any")
+	UrlFileNameMatchConditionParameters_Operator_ARM_BeginsWith         = UrlFileNameMatchConditionParameters_Operator_ARM("BeginsWith")
+	UrlFileNameMatchConditionParameters_Operator_ARM_Contains           = UrlFileNameMatchConditionParameters_Operator_ARM("Contains")
+	UrlFileNameMatchConditionParameters_Operator_ARM_EndsWith           = UrlFileNameMatchConditionParameters_Operator_ARM("EndsWith")
+	UrlFileNameMatchConditionParameters_Operator_ARM_Equal              = UrlFileNameMatchConditionParameters_Operator_ARM("Equal")
+	UrlFileNameMatchConditionParameters_Operator_ARM_GreaterThan        = UrlFileNameMatchConditionParameters_Operator_ARM("GreaterThan")
+	UrlFileNameMatchConditionParameters_Operator_ARM_GreaterThanOrEqual = UrlFileNameMatchConditionParameters_Operator_ARM("GreaterThanOrEqual")
+	UrlFileNameMatchConditionParameters_Operator_ARM_LessThan           = UrlFileNameMatchConditionParameters_Operator_ARM("LessThan")
+	UrlFileNameMatchConditionParameters_Operator_ARM_LessThanOrEqual    = UrlFileNameMatchConditionParameters_Operator_ARM("LessThanOrEqual")
+	UrlFileNameMatchConditionParameters_Operator_ARM_RegEx              = UrlFileNameMatchConditionParameters_Operator_ARM("RegEx")
+)
+
+// Mapping from string to UrlFileNameMatchConditionParameters_Operator_ARM
+var urlFileNameMatchConditionParameters_Operator_ARM_Values = map[string]UrlFileNameMatchConditionParameters_Operator_ARM{
+	"any":                UrlFileNameMatchConditionParameters_Operator_ARM_Any,
+	"beginswith":         UrlFileNameMatchConditionParameters_Operator_ARM_BeginsWith,
+	"contains":           UrlFileNameMatchConditionParameters_Operator_ARM_Contains,
+	"endswith":           UrlFileNameMatchConditionParameters_Operator_ARM_EndsWith,
+	"equal":              UrlFileNameMatchConditionParameters_Operator_ARM_Equal,
+	"greaterthan":        UrlFileNameMatchConditionParameters_Operator_ARM_GreaterThan,
+	"greaterthanorequal": UrlFileNameMatchConditionParameters_Operator_ARM_GreaterThanOrEqual,
+	"lessthan":           UrlFileNameMatchConditionParameters_Operator_ARM_LessThan,
+	"lessthanorequal":    UrlFileNameMatchConditionParameters_Operator_ARM_LessThanOrEqual,
+	"regex":              UrlFileNameMatchConditionParameters_Operator_ARM_RegEx,
+}
+
+// +kubebuilder:validation:Enum={"DeliveryRuleUrlFilenameConditionParameters"}
+type UrlFileNameMatchConditionParameters_TypeName_ARM string
+
+const UrlFileNameMatchConditionParameters_TypeName_ARM_DeliveryRuleUrlFilenameConditionParameters = UrlFileNameMatchConditionParameters_TypeName_ARM("DeliveryRuleUrlFilenameConditionParameters")
+
+// Mapping from string to UrlFileNameMatchConditionParameters_TypeName_ARM
+var urlFileNameMatchConditionParameters_TypeName_ARM_Values = map[string]UrlFileNameMatchConditionParameters_TypeName_ARM{
+	"deliveryruleurlfilenameconditionparameters": UrlFileNameMatchConditionParameters_TypeName_ARM_DeliveryRuleUrlFilenameConditionParameters,
+}
+
+// +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx","Wildcard"}
+type UrlPathMatchConditionParameters_Operator_ARM string
+
+const (
+	UrlPathMatchConditionParameters_Operator_ARM_Any                = UrlPathMatchConditionParameters_Operator_ARM("Any")
+	UrlPathMatchConditionParameters_Operator_ARM_BeginsWith         = UrlPathMatchConditionParameters_Operator_ARM("BeginsWith")
+	UrlPathMatchConditionParameters_Operator_ARM_Contains           = UrlPathMatchConditionParameters_Operator_ARM("Contains")
+	UrlPathMatchConditionParameters_Operator_ARM_EndsWith           = UrlPathMatchConditionParameters_Operator_ARM("EndsWith")
+	UrlPathMatchConditionParameters_Operator_ARM_Equal              = UrlPathMatchConditionParameters_Operator_ARM("Equal")
+	UrlPathMatchConditionParameters_Operator_ARM_GreaterThan        = UrlPathMatchConditionParameters_Operator_ARM("GreaterThan")
+	UrlPathMatchConditionParameters_Operator_ARM_GreaterThanOrEqual = UrlPathMatchConditionParameters_Operator_ARM("GreaterThanOrEqual")
+	UrlPathMatchConditionParameters_Operator_ARM_LessThan           = UrlPathMatchConditionParameters_Operator_ARM("LessThan")
+	UrlPathMatchConditionParameters_Operator_ARM_LessThanOrEqual    = UrlPathMatchConditionParameters_Operator_ARM("LessThanOrEqual")
+	UrlPathMatchConditionParameters_Operator_ARM_RegEx              = UrlPathMatchConditionParameters_Operator_ARM("RegEx")
+	UrlPathMatchConditionParameters_Operator_ARM_Wildcard           = UrlPathMatchConditionParameters_Operator_ARM("Wildcard")
+)
+
+// Mapping from string to UrlPathMatchConditionParameters_Operator_ARM
+var urlPathMatchConditionParameters_Operator_ARM_Values = map[string]UrlPathMatchConditionParameters_Operator_ARM{
+	"any":                UrlPathMatchConditionParameters_Operator_ARM_Any,
+	"beginswith":         UrlPathMatchConditionParameters_Operator_ARM_BeginsWith,
+	"contains":           UrlPathMatchConditionParameters_Operator_ARM_Contains,
+	"endswith":           UrlPathMatchConditionParameters_Operator_ARM_EndsWith,
+	"equal":              UrlPathMatchConditionParameters_Operator_ARM_Equal,
+	"greaterthan":        UrlPathMatchConditionParameters_Operator_ARM_GreaterThan,
+	"greaterthanorequal": UrlPathMatchConditionParameters_Operator_ARM_GreaterThanOrEqual,
+	"lessthan":           UrlPathMatchConditionParameters_Operator_ARM_LessThan,
+	"lessthanorequal":    UrlPathMatchConditionParameters_Operator_ARM_LessThanOrEqual,
+	"regex":              UrlPathMatchConditionParameters_Operator_ARM_RegEx,
+	"wildcard":           UrlPathMatchConditionParameters_Operator_ARM_Wildcard,
+}
+
+// +kubebuilder:validation:Enum={"DeliveryRuleUrlPathMatchConditionParameters"}
+type UrlPathMatchConditionParameters_TypeName_ARM string
+
+const UrlPathMatchConditionParameters_TypeName_ARM_DeliveryRuleUrlPathMatchConditionParameters = UrlPathMatchConditionParameters_TypeName_ARM("DeliveryRuleUrlPathMatchConditionParameters")
+
+// Mapping from string to UrlPathMatchConditionParameters_TypeName_ARM
+var urlPathMatchConditionParameters_TypeName_ARM_Values = map[string]UrlPathMatchConditionParameters_TypeName_ARM{
+	"deliveryruleurlpathmatchconditionparameters": UrlPathMatchConditionParameters_TypeName_ARM_DeliveryRuleUrlPathMatchConditionParameters,
+}
+
+// +kubebuilder:validation:Enum={"Http","Https","MatchRequest"}
+type UrlRedirectActionParameters_DestinationProtocol_ARM string
+
+const (
+	UrlRedirectActionParameters_DestinationProtocol_ARM_Http         = UrlRedirectActionParameters_DestinationProtocol_ARM("Http")
+	UrlRedirectActionParameters_DestinationProtocol_ARM_Https        = UrlRedirectActionParameters_DestinationProtocol_ARM("Https")
+	UrlRedirectActionParameters_DestinationProtocol_ARM_MatchRequest = UrlRedirectActionParameters_DestinationProtocol_ARM("MatchRequest")
+)
+
+// Mapping from string to UrlRedirectActionParameters_DestinationProtocol_ARM
+var urlRedirectActionParameters_DestinationProtocol_ARM_Values = map[string]UrlRedirectActionParameters_DestinationProtocol_ARM{
+	"http":         UrlRedirectActionParameters_DestinationProtocol_ARM_Http,
+	"https":        UrlRedirectActionParameters_DestinationProtocol_ARM_Https,
+	"matchrequest": UrlRedirectActionParameters_DestinationProtocol_ARM_MatchRequest,
+}
+
+// +kubebuilder:validation:Enum={"Found","Moved","PermanentRedirect","TemporaryRedirect"}
+type UrlRedirectActionParameters_RedirectType_ARM string
+
+const (
+	UrlRedirectActionParameters_RedirectType_ARM_Found             = UrlRedirectActionParameters_RedirectType_ARM("Found")
+	UrlRedirectActionParameters_RedirectType_ARM_Moved             = UrlRedirectActionParameters_RedirectType_ARM("Moved")
+	UrlRedirectActionParameters_RedirectType_ARM_PermanentRedirect = UrlRedirectActionParameters_RedirectType_ARM("PermanentRedirect")
+	UrlRedirectActionParameters_RedirectType_ARM_TemporaryRedirect = UrlRedirectActionParameters_RedirectType_ARM("TemporaryRedirect")
+)
+
+// Mapping from string to UrlRedirectActionParameters_RedirectType_ARM
+var urlRedirectActionParameters_RedirectType_ARM_Values = map[string]UrlRedirectActionParameters_RedirectType_ARM{
+	"found":             UrlRedirectActionParameters_RedirectType_ARM_Found,
+	"moved":             UrlRedirectActionParameters_RedirectType_ARM_Moved,
+	"permanentredirect": UrlRedirectActionParameters_RedirectType_ARM_PermanentRedirect,
+	"temporaryredirect": UrlRedirectActionParameters_RedirectType_ARM_TemporaryRedirect,
+}
+
+// +kubebuilder:validation:Enum={"DeliveryRuleUrlRedirectActionParameters"}
+type UrlRedirectActionParameters_TypeName_ARM string
+
+const UrlRedirectActionParameters_TypeName_ARM_DeliveryRuleUrlRedirectActionParameters = UrlRedirectActionParameters_TypeName_ARM("DeliveryRuleUrlRedirectActionParameters")
+
+// Mapping from string to UrlRedirectActionParameters_TypeName_ARM
+var urlRedirectActionParameters_TypeName_ARM_Values = map[string]UrlRedirectActionParameters_TypeName_ARM{
+	"deliveryruleurlredirectactionparameters": UrlRedirectActionParameters_TypeName_ARM_DeliveryRuleUrlRedirectActionParameters,
+}
+
+// +kubebuilder:validation:Enum={"DeliveryRuleUrlRewriteActionParameters"}
+type UrlRewriteActionParameters_TypeName_ARM string
+
+const UrlRewriteActionParameters_TypeName_ARM_DeliveryRuleUrlRewriteActionParameters = UrlRewriteActionParameters_TypeName_ARM("DeliveryRuleUrlRewriteActionParameters")
+
+// Mapping from string to UrlRewriteActionParameters_TypeName_ARM
+var urlRewriteActionParameters_TypeName_ARM_Values = map[string]UrlRewriteActionParameters_TypeName_ARM{
+	"deliveryruleurlrewriteactionparameters": UrlRewriteActionParameters_TypeName_ARM_DeliveryRuleUrlRewriteActionParameters,
+}
+
+// +kubebuilder:validation:Enum={"SHA256"}
+type UrlSigningActionParameters_Algorithm_ARM string
+
+const UrlSigningActionParameters_Algorithm_ARM_SHA256 = UrlSigningActionParameters_Algorithm_ARM("SHA256")
+
+// Mapping from string to UrlSigningActionParameters_Algorithm_ARM
+var urlSigningActionParameters_Algorithm_ARM_Values = map[string]UrlSigningActionParameters_Algorithm_ARM{
+	"sha256": UrlSigningActionParameters_Algorithm_ARM_SHA256,
+}
+
+// +kubebuilder:validation:Enum={"DeliveryRuleUrlSigningActionParameters"}
+type UrlSigningActionParameters_TypeName_ARM string
+
+const UrlSigningActionParameters_TypeName_ARM_DeliveryRuleUrlSigningActionParameters = UrlSigningActionParameters_TypeName_ARM("DeliveryRuleUrlSigningActionParameters")
+
+// Mapping from string to UrlSigningActionParameters_TypeName_ARM
+var urlSigningActionParameters_TypeName_ARM_Values = map[string]UrlSigningActionParameters_TypeName_ARM{
+	"deliveryruleurlsigningactionparameters": UrlSigningActionParameters_TypeName_ARM_DeliveryRuleUrlSigningActionParameters,
+}
+
 // Defines how to identify a parameter for a specific purpose e.g. expires
 type UrlSigningParamIdentifier_ARM struct {
 	// ParamIndicator: Indicates the purpose of the parameter
-	ParamIndicator *UrlSigningParamIdentifier_ParamIndicator `json:"paramIndicator,omitempty"`
+	ParamIndicator *UrlSigningParamIdentifier_ParamIndicator_ARM `json:"paramIndicator,omitempty"`
 
 	// ParamName: Parameter name
 	ParamName *string `json:"paramName,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"HonorOrigin","OverrideAlways","OverrideIfOriginMissing"}
+type CacheConfiguration_CacheBehavior_ARM string
+
+const (
+	CacheConfiguration_CacheBehavior_ARM_HonorOrigin             = CacheConfiguration_CacheBehavior_ARM("HonorOrigin")
+	CacheConfiguration_CacheBehavior_ARM_OverrideAlways          = CacheConfiguration_CacheBehavior_ARM("OverrideAlways")
+	CacheConfiguration_CacheBehavior_ARM_OverrideIfOriginMissing = CacheConfiguration_CacheBehavior_ARM("OverrideIfOriginMissing")
+)
+
+// Mapping from string to CacheConfiguration_CacheBehavior_ARM
+var cacheConfiguration_CacheBehavior_ARM_Values = map[string]CacheConfiguration_CacheBehavior_ARM{
+	"honororigin":             CacheConfiguration_CacheBehavior_ARM_HonorOrigin,
+	"overridealways":          CacheConfiguration_CacheBehavior_ARM_OverrideAlways,
+	"overrideiforiginmissing": CacheConfiguration_CacheBehavior_ARM_OverrideIfOriginMissing,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type CacheConfiguration_IsCompressionEnabled_ARM string
+
+const (
+	CacheConfiguration_IsCompressionEnabled_ARM_Disabled = CacheConfiguration_IsCompressionEnabled_ARM("Disabled")
+	CacheConfiguration_IsCompressionEnabled_ARM_Enabled  = CacheConfiguration_IsCompressionEnabled_ARM("Enabled")
+)
+
+// Mapping from string to CacheConfiguration_IsCompressionEnabled_ARM
+var cacheConfiguration_IsCompressionEnabled_ARM_Values = map[string]CacheConfiguration_IsCompressionEnabled_ARM{
+	"disabled": CacheConfiguration_IsCompressionEnabled_ARM_Disabled,
+	"enabled":  CacheConfiguration_IsCompressionEnabled_ARM_Enabled,
+}
+
+// +kubebuilder:validation:Enum={"IgnoreQueryString","IgnoreSpecifiedQueryStrings","IncludeSpecifiedQueryStrings","UseQueryString"}
+type CacheConfiguration_QueryStringCachingBehavior_ARM string
+
+const (
+	CacheConfiguration_QueryStringCachingBehavior_ARM_IgnoreQueryString            = CacheConfiguration_QueryStringCachingBehavior_ARM("IgnoreQueryString")
+	CacheConfiguration_QueryStringCachingBehavior_ARM_IgnoreSpecifiedQueryStrings  = CacheConfiguration_QueryStringCachingBehavior_ARM("IgnoreSpecifiedQueryStrings")
+	CacheConfiguration_QueryStringCachingBehavior_ARM_IncludeSpecifiedQueryStrings = CacheConfiguration_QueryStringCachingBehavior_ARM("IncludeSpecifiedQueryStrings")
+	CacheConfiguration_QueryStringCachingBehavior_ARM_UseQueryString               = CacheConfiguration_QueryStringCachingBehavior_ARM("UseQueryString")
+)
+
+// Mapping from string to CacheConfiguration_QueryStringCachingBehavior_ARM
+var cacheConfiguration_QueryStringCachingBehavior_ARM_Values = map[string]CacheConfiguration_QueryStringCachingBehavior_ARM{
+	"ignorequerystring":            CacheConfiguration_QueryStringCachingBehavior_ARM_IgnoreQueryString,
+	"ignorespecifiedquerystrings":  CacheConfiguration_QueryStringCachingBehavior_ARM_IgnoreSpecifiedQueryStrings,
+	"includespecifiedquerystrings": CacheConfiguration_QueryStringCachingBehavior_ARM_IncludeSpecifiedQueryStrings,
+	"usequerystring":               CacheConfiguration_QueryStringCachingBehavior_ARM_UseQueryString,
+}
+
+// +kubebuilder:validation:Enum={"HttpOnly","HttpsOnly","MatchRequest"}
+type OriginGroupOverride_ForwardingProtocol_ARM string
+
+const (
+	OriginGroupOverride_ForwardingProtocol_ARM_HttpOnly     = OriginGroupOverride_ForwardingProtocol_ARM("HttpOnly")
+	OriginGroupOverride_ForwardingProtocol_ARM_HttpsOnly    = OriginGroupOverride_ForwardingProtocol_ARM("HttpsOnly")
+	OriginGroupOverride_ForwardingProtocol_ARM_MatchRequest = OriginGroupOverride_ForwardingProtocol_ARM("MatchRequest")
+)
+
+// Mapping from string to OriginGroupOverride_ForwardingProtocol_ARM
+var originGroupOverride_ForwardingProtocol_ARM_Values = map[string]OriginGroupOverride_ForwardingProtocol_ARM{
+	"httponly":     OriginGroupOverride_ForwardingProtocol_ARM_HttpOnly,
+	"httpsonly":    OriginGroupOverride_ForwardingProtocol_ARM_HttpsOnly,
+	"matchrequest": OriginGroupOverride_ForwardingProtocol_ARM_MatchRequest,
+}
+
+// +kubebuilder:validation:Enum={"Expires","KeyId","Signature"}
+type UrlSigningParamIdentifier_ParamIndicator_ARM string
+
+const (
+	UrlSigningParamIdentifier_ParamIndicator_ARM_Expires   = UrlSigningParamIdentifier_ParamIndicator_ARM("Expires")
+	UrlSigningParamIdentifier_ParamIndicator_ARM_KeyId     = UrlSigningParamIdentifier_ParamIndicator_ARM("KeyId")
+	UrlSigningParamIdentifier_ParamIndicator_ARM_Signature = UrlSigningParamIdentifier_ParamIndicator_ARM("Signature")
+)
+
+// Mapping from string to UrlSigningParamIdentifier_ParamIndicator_ARM
+var urlSigningParamIdentifier_ParamIndicator_ARM_Values = map[string]UrlSigningParamIdentifier_ParamIndicator_ARM{
+	"expires":   UrlSigningParamIdentifier_ParamIndicator_ARM_Expires,
+	"keyid":     UrlSigningParamIdentifier_ParamIndicator_ARM_KeyId,
+	"signature": UrlSigningParamIdentifier_ParamIndicator_ARM_Signature,
 }

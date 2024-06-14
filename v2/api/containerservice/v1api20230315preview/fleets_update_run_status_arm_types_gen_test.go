@@ -432,7 +432,7 @@ func ManagedClusterUpgradeSpec_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForManagedClusterUpgradeSpec_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterUpgradeSpec_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["KubernetesVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedClusterUpgradeType_STATUS_Full, ManagedClusterUpgradeType_STATUS_NodeImageOnly))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedClusterUpgradeType_STATUS_ARM_Full, ManagedClusterUpgradeType_STATUS_ARM_NodeImageOnly))
 }
 
 func Test_MemberUpdateStatus_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -716,7 +716,7 @@ func UpdateRunProperties_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForUpdateRunProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForUpdateRunProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(UpdateRunProvisioningState_STATUS_Canceled, UpdateRunProvisioningState_STATUS_Failed, UpdateRunProvisioningState_STATUS_Succeeded))
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(UpdateRunProvisioningState_STATUS_ARM_Canceled, UpdateRunProvisioningState_STATUS_ARM_Failed, UpdateRunProvisioningState_STATUS_ARM_Succeeded))
 }
 
 // AddRelatedPropertyGeneratorsForUpdateRunProperties_STATUS_ARM is a factory method for creating gopter generators
@@ -1072,12 +1072,12 @@ func AddIndependentPropertyGeneratorsForUpdateStatus_STATUS_ARM(gens map[string]
 	gens["CompletedTime"] = gen.PtrOf(gen.AlphaString())
 	gens["StartTime"] = gen.PtrOf(gen.AlphaString())
 	gens["State"] = gen.PtrOf(gen.OneConstOf(
-		UpdateState_STATUS_Completed,
-		UpdateState_STATUS_Failed,
-		UpdateState_STATUS_NotStarted,
-		UpdateState_STATUS_Running,
-		UpdateState_STATUS_Stopped,
-		UpdateState_STATUS_Stopping))
+		UpdateState_STATUS_ARM_Completed,
+		UpdateState_STATUS_ARM_Failed,
+		UpdateState_STATUS_ARM_NotStarted,
+		UpdateState_STATUS_ARM_Running,
+		UpdateState_STATUS_ARM_Stopped,
+		UpdateState_STATUS_ARM_Stopping))
 }
 
 // AddRelatedPropertyGeneratorsForUpdateStatus_STATUS_ARM is a factory method for creating gopter generators

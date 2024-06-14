@@ -1989,7 +1989,9 @@ func (status *InstanceViewStatus) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "Level":
 	if status.Level != nil {
-		level := *status.Level
+		var temp string
+		temp = string(*status.Level)
+		level := InstanceViewStatus_Level_ARM(temp)
 		result.Level = &level
 	}
 
@@ -2033,7 +2035,9 @@ func (status *InstanceViewStatus) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property "Level":
 	if typedInput.Level != nil {
-		level := *typedInput.Level
+		var temp string
+		temp = string(*typedInput.Level)
+		level := InstanceViewStatus_Level(temp)
 		status.Level = &level
 	}
 

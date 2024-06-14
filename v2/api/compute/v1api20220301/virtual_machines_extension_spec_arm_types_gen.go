@@ -106,11 +106,27 @@ type InstanceViewStatus_ARM struct {
 	DisplayStatus *string `json:"displayStatus,omitempty"`
 
 	// Level: The level code.
-	Level *InstanceViewStatus_Level `json:"level,omitempty"`
+	Level *InstanceViewStatus_Level_ARM `json:"level,omitempty"`
 
 	// Message: The detailed status message, including for alerts and error messages.
 	Message *string `json:"message,omitempty"`
 
 	// Time: The time of the status.
 	Time *string `json:"time,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Error","Info","Warning"}
+type InstanceViewStatus_Level_ARM string
+
+const (
+	InstanceViewStatus_Level_ARM_Error   = InstanceViewStatus_Level_ARM("Error")
+	InstanceViewStatus_Level_ARM_Info    = InstanceViewStatus_Level_ARM("Info")
+	InstanceViewStatus_Level_ARM_Warning = InstanceViewStatus_Level_ARM("Warning")
+)
+
+// Mapping from string to InstanceViewStatus_Level_ARM
+var instanceViewStatus_Level_ARM_Values = map[string]InstanceViewStatus_Level_ARM{
+	"error":   InstanceViewStatus_Level_ARM_Error,
+	"info":    InstanceViewStatus_Level_ARM_Info,
+	"warning": InstanceViewStatus_Level_ARM_Warning,
 }

@@ -42,7 +42,7 @@ type IdentityProperties_STATUS_ARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: The identity type.
-	Type *IdentityProperties_Type_STATUS `json:"type,omitempty"`
+	Type *IdentityProperties_Type_STATUS_ARM `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The list of user identities associated with the resource. The user identity
 	// dictionary key references will be ARM resource ids in the form:
@@ -72,7 +72,7 @@ type RegistryProperties_STATUS_ARM struct {
 	LoginServer *string `json:"loginServer,omitempty"`
 
 	// NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a network restricted registry.
-	NetworkRuleBypassOptions *RegistryProperties_NetworkRuleBypassOptions_STATUS `json:"networkRuleBypassOptions,omitempty"`
+	NetworkRuleBypassOptions *RegistryProperties_NetworkRuleBypassOptions_STATUS_ARM `json:"networkRuleBypassOptions,omitempty"`
 
 	// NetworkRuleSet: The network rule set for a container registry.
 	NetworkRuleSet *NetworkRuleSet_STATUS_ARM `json:"networkRuleSet,omitempty"`
@@ -84,25 +84,25 @@ type RegistryProperties_STATUS_ARM struct {
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_ARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: The provisioning state of the container registry at the time the operation was called.
-	ProvisioningState *RegistryProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *RegistryProperties_ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public network access is allowed for the container registry.
-	PublicNetworkAccess *RegistryProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *RegistryProperties_PublicNetworkAccess_STATUS_ARM `json:"publicNetworkAccess,omitempty"`
 
 	// Status: The status of the container registry at the time the operation was called.
 	Status *Status_STATUS_ARM `json:"status,omitempty"`
 
 	// ZoneRedundancy: Whether or not zone redundancy is enabled for this container registry
-	ZoneRedundancy *RegistryProperties_ZoneRedundancy_STATUS `json:"zoneRedundancy,omitempty"`
+	ZoneRedundancy *RegistryProperties_ZoneRedundancy_STATUS_ARM `json:"zoneRedundancy,omitempty"`
 }
 
 // The SKU of a container registry.
 type Sku_STATUS_ARM struct {
 	// Name: The SKU name of the container registry. Required for registry creation.
-	Name *Sku_Name_STATUS `json:"name,omitempty"`
+	Name *Sku_Name_STATUS_ARM `json:"name,omitempty"`
 
 	// Tier: The SKU tier based on the SKU name.
-	Tier *Sku_Tier_STATUS `json:"tier,omitempty"`
+	Tier *Sku_Tier_STATUS_ARM `json:"tier,omitempty"`
 }
 
 // Metadata pertaining to creation and last modification of the resource.
@@ -114,7 +114,7 @@ type SystemData_STATUS_ARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_CreatedByType_STATUS_ARM `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource modification (UTC).
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -123,7 +123,7 @@ type SystemData_STATUS_ARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS_ARM `json:"lastModifiedByType,omitempty"`
 }
 
 type EncryptionProperty_STATUS_ARM struct {
@@ -131,30 +131,30 @@ type EncryptionProperty_STATUS_ARM struct {
 	KeyVaultProperties *KeyVaultProperties_STATUS_ARM `json:"keyVaultProperties,omitempty"`
 
 	// Status: Indicates whether or not the encryption is enabled for container registry.
-	Status *EncryptionProperty_Status_STATUS `json:"status,omitempty"`
+	Status *EncryptionProperty_Status_STATUS_ARM `json:"status,omitempty"`
 }
 
-type IdentityProperties_Type_STATUS string
+type IdentityProperties_Type_STATUS_ARM string
 
 const (
-	IdentityProperties_Type_STATUS_None                       = IdentityProperties_Type_STATUS("None")
-	IdentityProperties_Type_STATUS_SystemAssigned             = IdentityProperties_Type_STATUS("SystemAssigned")
-	IdentityProperties_Type_STATUS_SystemAssignedUserAssigned = IdentityProperties_Type_STATUS("SystemAssigned, UserAssigned")
-	IdentityProperties_Type_STATUS_UserAssigned               = IdentityProperties_Type_STATUS("UserAssigned")
+	IdentityProperties_Type_STATUS_ARM_None                       = IdentityProperties_Type_STATUS_ARM("None")
+	IdentityProperties_Type_STATUS_ARM_SystemAssigned             = IdentityProperties_Type_STATUS_ARM("SystemAssigned")
+	IdentityProperties_Type_STATUS_ARM_SystemAssignedUserAssigned = IdentityProperties_Type_STATUS_ARM("SystemAssigned, UserAssigned")
+	IdentityProperties_Type_STATUS_ARM_UserAssigned               = IdentityProperties_Type_STATUS_ARM("UserAssigned")
 )
 
-// Mapping from string to IdentityProperties_Type_STATUS
-var identityProperties_Type_STATUS_Values = map[string]IdentityProperties_Type_STATUS{
-	"none":                         IdentityProperties_Type_STATUS_None,
-	"systemassigned":               IdentityProperties_Type_STATUS_SystemAssigned,
-	"systemassigned, userassigned": IdentityProperties_Type_STATUS_SystemAssignedUserAssigned,
-	"userassigned":                 IdentityProperties_Type_STATUS_UserAssigned,
+// Mapping from string to IdentityProperties_Type_STATUS_ARM
+var identityProperties_Type_STATUS_ARM_Values = map[string]IdentityProperties_Type_STATUS_ARM{
+	"none":                         IdentityProperties_Type_STATUS_ARM_None,
+	"systemassigned":               IdentityProperties_Type_STATUS_ARM_SystemAssigned,
+	"systemassigned, userassigned": IdentityProperties_Type_STATUS_ARM_SystemAssignedUserAssigned,
+	"userassigned":                 IdentityProperties_Type_STATUS_ARM_UserAssigned,
 }
 
 // The network rule set for a container registry.
 type NetworkRuleSet_STATUS_ARM struct {
 	// DefaultAction: The default action of allow or deny when no other rules match.
-	DefaultAction *NetworkRuleSet_DefaultAction_STATUS `json:"defaultAction,omitempty"`
+	DefaultAction *NetworkRuleSet_DefaultAction_STATUS_ARM `json:"defaultAction,omitempty"`
 
 	// IpRules: The IP ACL rules.
 	IpRules []IPRule_STATUS_ARM `json:"ipRules,omitempty"`
@@ -181,38 +181,98 @@ type PrivateEndpointConnection_STATUS_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-type Sku_Name_STATUS string
+type RegistryProperties_NetworkRuleBypassOptions_STATUS_ARM string
 
 const (
-	Sku_Name_STATUS_Basic    = Sku_Name_STATUS("Basic")
-	Sku_Name_STATUS_Classic  = Sku_Name_STATUS("Classic")
-	Sku_Name_STATUS_Premium  = Sku_Name_STATUS("Premium")
-	Sku_Name_STATUS_Standard = Sku_Name_STATUS("Standard")
+	RegistryProperties_NetworkRuleBypassOptions_STATUS_ARM_AzureServices = RegistryProperties_NetworkRuleBypassOptions_STATUS_ARM("AzureServices")
+	RegistryProperties_NetworkRuleBypassOptions_STATUS_ARM_None          = RegistryProperties_NetworkRuleBypassOptions_STATUS_ARM("None")
 )
 
-// Mapping from string to Sku_Name_STATUS
-var sku_Name_STATUS_Values = map[string]Sku_Name_STATUS{
-	"basic":    Sku_Name_STATUS_Basic,
-	"classic":  Sku_Name_STATUS_Classic,
-	"premium":  Sku_Name_STATUS_Premium,
-	"standard": Sku_Name_STATUS_Standard,
+// Mapping from string to RegistryProperties_NetworkRuleBypassOptions_STATUS_ARM
+var registryProperties_NetworkRuleBypassOptions_STATUS_ARM_Values = map[string]RegistryProperties_NetworkRuleBypassOptions_STATUS_ARM{
+	"azureservices": RegistryProperties_NetworkRuleBypassOptions_STATUS_ARM_AzureServices,
+	"none":          RegistryProperties_NetworkRuleBypassOptions_STATUS_ARM_None,
 }
 
-type Sku_Tier_STATUS string
+type RegistryProperties_ProvisioningState_STATUS_ARM string
 
 const (
-	Sku_Tier_STATUS_Basic    = Sku_Tier_STATUS("Basic")
-	Sku_Tier_STATUS_Classic  = Sku_Tier_STATUS("Classic")
-	Sku_Tier_STATUS_Premium  = Sku_Tier_STATUS("Premium")
-	Sku_Tier_STATUS_Standard = Sku_Tier_STATUS("Standard")
+	RegistryProperties_ProvisioningState_STATUS_ARM_Canceled  = RegistryProperties_ProvisioningState_STATUS_ARM("Canceled")
+	RegistryProperties_ProvisioningState_STATUS_ARM_Creating  = RegistryProperties_ProvisioningState_STATUS_ARM("Creating")
+	RegistryProperties_ProvisioningState_STATUS_ARM_Deleting  = RegistryProperties_ProvisioningState_STATUS_ARM("Deleting")
+	RegistryProperties_ProvisioningState_STATUS_ARM_Failed    = RegistryProperties_ProvisioningState_STATUS_ARM("Failed")
+	RegistryProperties_ProvisioningState_STATUS_ARM_Succeeded = RegistryProperties_ProvisioningState_STATUS_ARM("Succeeded")
+	RegistryProperties_ProvisioningState_STATUS_ARM_Updating  = RegistryProperties_ProvisioningState_STATUS_ARM("Updating")
 )
 
-// Mapping from string to Sku_Tier_STATUS
-var sku_Tier_STATUS_Values = map[string]Sku_Tier_STATUS{
-	"basic":    Sku_Tier_STATUS_Basic,
-	"classic":  Sku_Tier_STATUS_Classic,
-	"premium":  Sku_Tier_STATUS_Premium,
-	"standard": Sku_Tier_STATUS_Standard,
+// Mapping from string to RegistryProperties_ProvisioningState_STATUS_ARM
+var registryProperties_ProvisioningState_STATUS_ARM_Values = map[string]RegistryProperties_ProvisioningState_STATUS_ARM{
+	"canceled":  RegistryProperties_ProvisioningState_STATUS_ARM_Canceled,
+	"creating":  RegistryProperties_ProvisioningState_STATUS_ARM_Creating,
+	"deleting":  RegistryProperties_ProvisioningState_STATUS_ARM_Deleting,
+	"failed":    RegistryProperties_ProvisioningState_STATUS_ARM_Failed,
+	"succeeded": RegistryProperties_ProvisioningState_STATUS_ARM_Succeeded,
+	"updating":  RegistryProperties_ProvisioningState_STATUS_ARM_Updating,
+}
+
+type RegistryProperties_PublicNetworkAccess_STATUS_ARM string
+
+const (
+	RegistryProperties_PublicNetworkAccess_STATUS_ARM_Disabled = RegistryProperties_PublicNetworkAccess_STATUS_ARM("Disabled")
+	RegistryProperties_PublicNetworkAccess_STATUS_ARM_Enabled  = RegistryProperties_PublicNetworkAccess_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to RegistryProperties_PublicNetworkAccess_STATUS_ARM
+var registryProperties_PublicNetworkAccess_STATUS_ARM_Values = map[string]RegistryProperties_PublicNetworkAccess_STATUS_ARM{
+	"disabled": RegistryProperties_PublicNetworkAccess_STATUS_ARM_Disabled,
+	"enabled":  RegistryProperties_PublicNetworkAccess_STATUS_ARM_Enabled,
+}
+
+type RegistryProperties_ZoneRedundancy_STATUS_ARM string
+
+const (
+	RegistryProperties_ZoneRedundancy_STATUS_ARM_Disabled = RegistryProperties_ZoneRedundancy_STATUS_ARM("Disabled")
+	RegistryProperties_ZoneRedundancy_STATUS_ARM_Enabled  = RegistryProperties_ZoneRedundancy_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to RegistryProperties_ZoneRedundancy_STATUS_ARM
+var registryProperties_ZoneRedundancy_STATUS_ARM_Values = map[string]RegistryProperties_ZoneRedundancy_STATUS_ARM{
+	"disabled": RegistryProperties_ZoneRedundancy_STATUS_ARM_Disabled,
+	"enabled":  RegistryProperties_ZoneRedundancy_STATUS_ARM_Enabled,
+}
+
+type Sku_Name_STATUS_ARM string
+
+const (
+	Sku_Name_STATUS_ARM_Basic    = Sku_Name_STATUS_ARM("Basic")
+	Sku_Name_STATUS_ARM_Classic  = Sku_Name_STATUS_ARM("Classic")
+	Sku_Name_STATUS_ARM_Premium  = Sku_Name_STATUS_ARM("Premium")
+	Sku_Name_STATUS_ARM_Standard = Sku_Name_STATUS_ARM("Standard")
+)
+
+// Mapping from string to Sku_Name_STATUS_ARM
+var sku_Name_STATUS_ARM_Values = map[string]Sku_Name_STATUS_ARM{
+	"basic":    Sku_Name_STATUS_ARM_Basic,
+	"classic":  Sku_Name_STATUS_ARM_Classic,
+	"premium":  Sku_Name_STATUS_ARM_Premium,
+	"standard": Sku_Name_STATUS_ARM_Standard,
+}
+
+type Sku_Tier_STATUS_ARM string
+
+const (
+	Sku_Tier_STATUS_ARM_Basic    = Sku_Tier_STATUS_ARM("Basic")
+	Sku_Tier_STATUS_ARM_Classic  = Sku_Tier_STATUS_ARM("Classic")
+	Sku_Tier_STATUS_ARM_Premium  = Sku_Tier_STATUS_ARM("Premium")
+	Sku_Tier_STATUS_ARM_Standard = Sku_Tier_STATUS_ARM("Standard")
+)
+
+// Mapping from string to Sku_Tier_STATUS_ARM
+var sku_Tier_STATUS_ARM_Values = map[string]Sku_Tier_STATUS_ARM{
+	"basic":    Sku_Tier_STATUS_ARM_Basic,
+	"classic":  Sku_Tier_STATUS_ARM_Classic,
+	"premium":  Sku_Tier_STATUS_ARM_Premium,
+	"standard": Sku_Tier_STATUS_ARM_Standard,
 }
 
 // The status of an Azure resource at the time the operation was called.
@@ -227,38 +287,38 @@ type Status_STATUS_ARM struct {
 	Timestamp *string `json:"timestamp,omitempty"`
 }
 
-type SystemData_CreatedByType_STATUS string
+type SystemData_CreatedByType_STATUS_ARM string
 
 const (
-	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+	SystemData_CreatedByType_STATUS_ARM_Application     = SystemData_CreatedByType_STATUS_ARM("Application")
+	SystemData_CreatedByType_STATUS_ARM_Key             = SystemData_CreatedByType_STATUS_ARM("Key")
+	SystemData_CreatedByType_STATUS_ARM_ManagedIdentity = SystemData_CreatedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_ARM_User            = SystemData_CreatedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_CreatedByType_STATUS
-var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
-	"application":     SystemData_CreatedByType_STATUS_Application,
-	"key":             SystemData_CreatedByType_STATUS_Key,
-	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_CreatedByType_STATUS_User,
+// Mapping from string to SystemData_CreatedByType_STATUS_ARM
+var systemData_CreatedByType_STATUS_ARM_Values = map[string]SystemData_CreatedByType_STATUS_ARM{
+	"application":     SystemData_CreatedByType_STATUS_ARM_Application,
+	"key":             SystemData_CreatedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_ARM_User,
 }
 
-type SystemData_LastModifiedByType_STATUS string
+type SystemData_LastModifiedByType_STATUS_ARM string
 
 const (
-	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+	SystemData_LastModifiedByType_STATUS_ARM_Application     = SystemData_LastModifiedByType_STATUS_ARM("Application")
+	SystemData_LastModifiedByType_STATUS_ARM_Key             = SystemData_LastModifiedByType_STATUS_ARM("Key")
+	SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity = SystemData_LastModifiedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_ARM_User            = SystemData_LastModifiedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_LastModifiedByType_STATUS
-var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
-	"application":     SystemData_LastModifiedByType_STATUS_Application,
-	"key":             SystemData_LastModifiedByType_STATUS_Key,
-	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_LastModifiedByType_STATUS_User,
+// Mapping from string to SystemData_LastModifiedByType_STATUS_ARM
+var systemData_LastModifiedByType_STATUS_ARM_Values = map[string]SystemData_LastModifiedByType_STATUS_ARM{
+	"application":     SystemData_LastModifiedByType_STATUS_ARM_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_ARM_User,
 }
 
 type UserIdentityProperties_STATUS_ARM struct {
@@ -269,16 +329,29 @@ type UserIdentityProperties_STATUS_ARM struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
+type EncryptionProperty_Status_STATUS_ARM string
+
+const (
+	EncryptionProperty_Status_STATUS_ARM_Disabled = EncryptionProperty_Status_STATUS_ARM("disabled")
+	EncryptionProperty_Status_STATUS_ARM_Enabled  = EncryptionProperty_Status_STATUS_ARM("enabled")
+)
+
+// Mapping from string to EncryptionProperty_Status_STATUS_ARM
+var encryptionProperty_Status_STATUS_ARM_Values = map[string]EncryptionProperty_Status_STATUS_ARM{
+	"disabled": EncryptionProperty_Status_STATUS_ARM_Disabled,
+	"enabled":  EncryptionProperty_Status_STATUS_ARM_Enabled,
+}
+
 // The export policy for a container registry.
 type ExportPolicy_STATUS_ARM struct {
 	// Status: The value that indicates whether the policy is enabled or not.
-	Status *ExportPolicy_Status_STATUS `json:"status,omitempty"`
+	Status *ExportPolicy_Status_STATUS_ARM `json:"status,omitempty"`
 }
 
 // IP rule with specific IP or IP range in CIDR format.
 type IPRule_STATUS_ARM struct {
 	// Action: The action of IP ACL rule.
-	Action *IPRule_Action_STATUS `json:"action,omitempty"`
+	Action *IPRule_Action_STATUS_ARM `json:"action,omitempty"`
 
 	// Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
 	Value *string `json:"value,omitempty"`
@@ -302,10 +375,23 @@ type KeyVaultProperties_STATUS_ARM struct {
 	VersionedKeyIdentifier *string `json:"versionedKeyIdentifier,omitempty"`
 }
 
+type NetworkRuleSet_DefaultAction_STATUS_ARM string
+
+const (
+	NetworkRuleSet_DefaultAction_STATUS_ARM_Allow = NetworkRuleSet_DefaultAction_STATUS_ARM("Allow")
+	NetworkRuleSet_DefaultAction_STATUS_ARM_Deny  = NetworkRuleSet_DefaultAction_STATUS_ARM("Deny")
+)
+
+// Mapping from string to NetworkRuleSet_DefaultAction_STATUS_ARM
+var networkRuleSet_DefaultAction_STATUS_ARM_Values = map[string]NetworkRuleSet_DefaultAction_STATUS_ARM{
+	"allow": NetworkRuleSet_DefaultAction_STATUS_ARM_Allow,
+	"deny":  NetworkRuleSet_DefaultAction_STATUS_ARM_Deny,
+}
+
 // The quarantine policy for a container registry.
 type QuarantinePolicy_STATUS_ARM struct {
 	// Status: The value that indicates whether the policy is enabled or not.
-	Status *QuarantinePolicy_Status_STATUS `json:"status,omitempty"`
+	Status *QuarantinePolicy_Status_STATUS_ARM `json:"status,omitempty"`
 }
 
 // The retention policy for a container registry.
@@ -317,14 +403,84 @@ type RetentionPolicy_STATUS_ARM struct {
 	LastUpdatedTime *string `json:"lastUpdatedTime,omitempty"`
 
 	// Status: The value that indicates whether the policy is enabled or not.
-	Status *RetentionPolicy_Status_STATUS `json:"status,omitempty"`
+	Status *RetentionPolicy_Status_STATUS_ARM `json:"status,omitempty"`
 }
 
 // The content trust policy for a container registry.
 type TrustPolicy_STATUS_ARM struct {
 	// Status: The value that indicates whether the policy is enabled or not.
-	Status *TrustPolicy_Status_STATUS `json:"status,omitempty"`
+	Status *TrustPolicy_Status_STATUS_ARM `json:"status,omitempty"`
 
 	// Type: The type of trust policy.
-	Type *TrustPolicy_Type_STATUS `json:"type,omitempty"`
+	Type *TrustPolicy_Type_STATUS_ARM `json:"type,omitempty"`
+}
+
+type ExportPolicy_Status_STATUS_ARM string
+
+const (
+	ExportPolicy_Status_STATUS_ARM_Disabled = ExportPolicy_Status_STATUS_ARM("disabled")
+	ExportPolicy_Status_STATUS_ARM_Enabled  = ExportPolicy_Status_STATUS_ARM("enabled")
+)
+
+// Mapping from string to ExportPolicy_Status_STATUS_ARM
+var exportPolicy_Status_STATUS_ARM_Values = map[string]ExportPolicy_Status_STATUS_ARM{
+	"disabled": ExportPolicy_Status_STATUS_ARM_Disabled,
+	"enabled":  ExportPolicy_Status_STATUS_ARM_Enabled,
+}
+
+type IPRule_Action_STATUS_ARM string
+
+const IPRule_Action_STATUS_ARM_Allow = IPRule_Action_STATUS_ARM("Allow")
+
+// Mapping from string to IPRule_Action_STATUS_ARM
+var iPRule_Action_STATUS_ARM_Values = map[string]IPRule_Action_STATUS_ARM{
+	"allow": IPRule_Action_STATUS_ARM_Allow,
+}
+
+type QuarantinePolicy_Status_STATUS_ARM string
+
+const (
+	QuarantinePolicy_Status_STATUS_ARM_Disabled = QuarantinePolicy_Status_STATUS_ARM("disabled")
+	QuarantinePolicy_Status_STATUS_ARM_Enabled  = QuarantinePolicy_Status_STATUS_ARM("enabled")
+)
+
+// Mapping from string to QuarantinePolicy_Status_STATUS_ARM
+var quarantinePolicy_Status_STATUS_ARM_Values = map[string]QuarantinePolicy_Status_STATUS_ARM{
+	"disabled": QuarantinePolicy_Status_STATUS_ARM_Disabled,
+	"enabled":  QuarantinePolicy_Status_STATUS_ARM_Enabled,
+}
+
+type RetentionPolicy_Status_STATUS_ARM string
+
+const (
+	RetentionPolicy_Status_STATUS_ARM_Disabled = RetentionPolicy_Status_STATUS_ARM("disabled")
+	RetentionPolicy_Status_STATUS_ARM_Enabled  = RetentionPolicy_Status_STATUS_ARM("enabled")
+)
+
+// Mapping from string to RetentionPolicy_Status_STATUS_ARM
+var retentionPolicy_Status_STATUS_ARM_Values = map[string]RetentionPolicy_Status_STATUS_ARM{
+	"disabled": RetentionPolicy_Status_STATUS_ARM_Disabled,
+	"enabled":  RetentionPolicy_Status_STATUS_ARM_Enabled,
+}
+
+type TrustPolicy_Status_STATUS_ARM string
+
+const (
+	TrustPolicy_Status_STATUS_ARM_Disabled = TrustPolicy_Status_STATUS_ARM("disabled")
+	TrustPolicy_Status_STATUS_ARM_Enabled  = TrustPolicy_Status_STATUS_ARM("enabled")
+)
+
+// Mapping from string to TrustPolicy_Status_STATUS_ARM
+var trustPolicy_Status_STATUS_ARM_Values = map[string]TrustPolicy_Status_STATUS_ARM{
+	"disabled": TrustPolicy_Status_STATUS_ARM_Disabled,
+	"enabled":  TrustPolicy_Status_STATUS_ARM_Enabled,
+}
+
+type TrustPolicy_Type_STATUS_ARM string
+
+const TrustPolicy_Type_STATUS_ARM_Notary = TrustPolicy_Type_STATUS_ARM("Notary")
+
+// Mapping from string to TrustPolicy_Type_STATUS_ARM
+var trustPolicy_Type_STATUS_ARM_Values = map[string]TrustPolicy_Type_STATUS_ARM{
+	"notary": TrustPolicy_Type_STATUS_ARM_Notary,
 }

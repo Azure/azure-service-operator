@@ -49,7 +49,7 @@ type IdentityProperties_ARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: The identity type.
-	Type                   *IdentityProperties_Type                   `json:"type,omitempty"`
+	Type                   *IdentityProperties_Type_ARM               `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -65,7 +65,7 @@ type RegistryProperties_ARM struct {
 	Encryption *EncryptionProperty_ARM `json:"encryption,omitempty"`
 
 	// NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a network restricted registry.
-	NetworkRuleBypassOptions *RegistryProperties_NetworkRuleBypassOptions `json:"networkRuleBypassOptions,omitempty"`
+	NetworkRuleBypassOptions *RegistryProperties_NetworkRuleBypassOptions_ARM `json:"networkRuleBypassOptions,omitempty"`
 
 	// NetworkRuleSet: The network rule set for a container registry.
 	NetworkRuleSet *NetworkRuleSet_ARM `json:"networkRuleSet,omitempty"`
@@ -74,16 +74,16 @@ type RegistryProperties_ARM struct {
 	Policies *Policies_ARM `json:"policies,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public network access is allowed for the container registry.
-	PublicNetworkAccess *RegistryProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *RegistryProperties_PublicNetworkAccess_ARM `json:"publicNetworkAccess,omitempty"`
 
 	// ZoneRedundancy: Whether or not zone redundancy is enabled for this container registry
-	ZoneRedundancy *RegistryProperties_ZoneRedundancy `json:"zoneRedundancy,omitempty"`
+	ZoneRedundancy *RegistryProperties_ZoneRedundancy_ARM `json:"zoneRedundancy,omitempty"`
 }
 
 // The SKU of a container registry.
 type Sku_ARM struct {
 	// Name: The SKU name of the container registry. Required for registry creation.
-	Name *Sku_Name `json:"name,omitempty"`
+	Name *Sku_Name_ARM `json:"name,omitempty"`
 }
 
 type EncryptionProperty_ARM struct {
@@ -91,31 +91,31 @@ type EncryptionProperty_ARM struct {
 	KeyVaultProperties *KeyVaultProperties_ARM `json:"keyVaultProperties,omitempty"`
 
 	// Status: Indicates whether or not the encryption is enabled for container registry.
-	Status *EncryptionProperty_Status `json:"status,omitempty"`
+	Status *EncryptionProperty_Status_ARM `json:"status,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
-type IdentityProperties_Type string
+type IdentityProperties_Type_ARM string
 
 const (
-	IdentityProperties_Type_None                       = IdentityProperties_Type("None")
-	IdentityProperties_Type_SystemAssigned             = IdentityProperties_Type("SystemAssigned")
-	IdentityProperties_Type_SystemAssignedUserAssigned = IdentityProperties_Type("SystemAssigned, UserAssigned")
-	IdentityProperties_Type_UserAssigned               = IdentityProperties_Type("UserAssigned")
+	IdentityProperties_Type_ARM_None                       = IdentityProperties_Type_ARM("None")
+	IdentityProperties_Type_ARM_SystemAssigned             = IdentityProperties_Type_ARM("SystemAssigned")
+	IdentityProperties_Type_ARM_SystemAssignedUserAssigned = IdentityProperties_Type_ARM("SystemAssigned, UserAssigned")
+	IdentityProperties_Type_ARM_UserAssigned               = IdentityProperties_Type_ARM("UserAssigned")
 )
 
-// Mapping from string to IdentityProperties_Type
-var identityProperties_Type_Values = map[string]IdentityProperties_Type{
-	"none":                         IdentityProperties_Type_None,
-	"systemassigned":               IdentityProperties_Type_SystemAssigned,
-	"systemassigned, userassigned": IdentityProperties_Type_SystemAssignedUserAssigned,
-	"userassigned":                 IdentityProperties_Type_UserAssigned,
+// Mapping from string to IdentityProperties_Type_ARM
+var identityProperties_Type_ARM_Values = map[string]IdentityProperties_Type_ARM{
+	"none":                         IdentityProperties_Type_ARM_None,
+	"systemassigned":               IdentityProperties_Type_ARM_SystemAssigned,
+	"systemassigned, userassigned": IdentityProperties_Type_ARM_SystemAssignedUserAssigned,
+	"userassigned":                 IdentityProperties_Type_ARM_UserAssigned,
 }
 
 // The network rule set for a container registry.
 type NetworkRuleSet_ARM struct {
 	// DefaultAction: The default action of allow or deny when no other rules match.
-	DefaultAction *NetworkRuleSet_DefaultAction `json:"defaultAction,omitempty"`
+	DefaultAction *NetworkRuleSet_DefaultAction_ARM `json:"defaultAction,omitempty"`
 
 	// IpRules: The IP ACL rules.
 	IpRules []IPRule_ARM `json:"ipRules,omitempty"`
@@ -136,38 +136,94 @@ type Policies_ARM struct {
 	TrustPolicy *TrustPolicy_ARM `json:"trustPolicy,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"Basic","Classic","Premium","Standard"}
-type Sku_Name string
+// +kubebuilder:validation:Enum={"AzureServices","None"}
+type RegistryProperties_NetworkRuleBypassOptions_ARM string
 
 const (
-	Sku_Name_Basic    = Sku_Name("Basic")
-	Sku_Name_Classic  = Sku_Name("Classic")
-	Sku_Name_Premium  = Sku_Name("Premium")
-	Sku_Name_Standard = Sku_Name("Standard")
+	RegistryProperties_NetworkRuleBypassOptions_ARM_AzureServices = RegistryProperties_NetworkRuleBypassOptions_ARM("AzureServices")
+	RegistryProperties_NetworkRuleBypassOptions_ARM_None          = RegistryProperties_NetworkRuleBypassOptions_ARM("None")
 )
 
-// Mapping from string to Sku_Name
-var sku_Name_Values = map[string]Sku_Name{
-	"basic":    Sku_Name_Basic,
-	"classic":  Sku_Name_Classic,
-	"premium":  Sku_Name_Premium,
-	"standard": Sku_Name_Standard,
+// Mapping from string to RegistryProperties_NetworkRuleBypassOptions_ARM
+var registryProperties_NetworkRuleBypassOptions_ARM_Values = map[string]RegistryProperties_NetworkRuleBypassOptions_ARM{
+	"azureservices": RegistryProperties_NetworkRuleBypassOptions_ARM_AzureServices,
+	"none":          RegistryProperties_NetworkRuleBypassOptions_ARM_None,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type RegistryProperties_PublicNetworkAccess_ARM string
+
+const (
+	RegistryProperties_PublicNetworkAccess_ARM_Disabled = RegistryProperties_PublicNetworkAccess_ARM("Disabled")
+	RegistryProperties_PublicNetworkAccess_ARM_Enabled  = RegistryProperties_PublicNetworkAccess_ARM("Enabled")
+)
+
+// Mapping from string to RegistryProperties_PublicNetworkAccess_ARM
+var registryProperties_PublicNetworkAccess_ARM_Values = map[string]RegistryProperties_PublicNetworkAccess_ARM{
+	"disabled": RegistryProperties_PublicNetworkAccess_ARM_Disabled,
+	"enabled":  RegistryProperties_PublicNetworkAccess_ARM_Enabled,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type RegistryProperties_ZoneRedundancy_ARM string
+
+const (
+	RegistryProperties_ZoneRedundancy_ARM_Disabled = RegistryProperties_ZoneRedundancy_ARM("Disabled")
+	RegistryProperties_ZoneRedundancy_ARM_Enabled  = RegistryProperties_ZoneRedundancy_ARM("Enabled")
+)
+
+// Mapping from string to RegistryProperties_ZoneRedundancy_ARM
+var registryProperties_ZoneRedundancy_ARM_Values = map[string]RegistryProperties_ZoneRedundancy_ARM{
+	"disabled": RegistryProperties_ZoneRedundancy_ARM_Disabled,
+	"enabled":  RegistryProperties_ZoneRedundancy_ARM_Enabled,
+}
+
+// +kubebuilder:validation:Enum={"Basic","Classic","Premium","Standard"}
+type Sku_Name_ARM string
+
+const (
+	Sku_Name_ARM_Basic    = Sku_Name_ARM("Basic")
+	Sku_Name_ARM_Classic  = Sku_Name_ARM("Classic")
+	Sku_Name_ARM_Premium  = Sku_Name_ARM("Premium")
+	Sku_Name_ARM_Standard = Sku_Name_ARM("Standard")
+)
+
+// Mapping from string to Sku_Name_ARM
+var sku_Name_ARM_Values = map[string]Sku_Name_ARM{
+	"basic":    Sku_Name_ARM_Basic,
+	"classic":  Sku_Name_ARM_Classic,
+	"premium":  Sku_Name_ARM_Premium,
+	"standard": Sku_Name_ARM_Standard,
 }
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails_ARM struct {
 }
 
+// +kubebuilder:validation:Enum={"disabled","enabled"}
+type EncryptionProperty_Status_ARM string
+
+const (
+	EncryptionProperty_Status_ARM_Disabled = EncryptionProperty_Status_ARM("disabled")
+	EncryptionProperty_Status_ARM_Enabled  = EncryptionProperty_Status_ARM("enabled")
+)
+
+// Mapping from string to EncryptionProperty_Status_ARM
+var encryptionProperty_Status_ARM_Values = map[string]EncryptionProperty_Status_ARM{
+	"disabled": EncryptionProperty_Status_ARM_Disabled,
+	"enabled":  EncryptionProperty_Status_ARM_Enabled,
+}
+
 // The export policy for a container registry.
 type ExportPolicy_ARM struct {
 	// Status: The value that indicates whether the policy is enabled or not.
-	Status *ExportPolicy_Status `json:"status,omitempty"`
+	Status *ExportPolicy_Status_ARM `json:"status,omitempty"`
 }
 
 // IP rule with specific IP or IP range in CIDR format.
 type IPRule_ARM struct {
 	// Action: The action of IP ACL rule.
-	Action *IPRule_Action `json:"action,omitempty"`
+	Action *IPRule_Action_ARM `json:"action,omitempty"`
 
 	// Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
 	Value *string `json:"value,omitempty"`
@@ -181,10 +237,24 @@ type KeyVaultProperties_ARM struct {
 	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"Allow","Deny"}
+type NetworkRuleSet_DefaultAction_ARM string
+
+const (
+	NetworkRuleSet_DefaultAction_ARM_Allow = NetworkRuleSet_DefaultAction_ARM("Allow")
+	NetworkRuleSet_DefaultAction_ARM_Deny  = NetworkRuleSet_DefaultAction_ARM("Deny")
+)
+
+// Mapping from string to NetworkRuleSet_DefaultAction_ARM
+var networkRuleSet_DefaultAction_ARM_Values = map[string]NetworkRuleSet_DefaultAction_ARM{
+	"allow": NetworkRuleSet_DefaultAction_ARM_Allow,
+	"deny":  NetworkRuleSet_DefaultAction_ARM_Deny,
+}
+
 // The quarantine policy for a container registry.
 type QuarantinePolicy_ARM struct {
 	// Status: The value that indicates whether the policy is enabled or not.
-	Status *QuarantinePolicy_Status `json:"status,omitempty"`
+	Status *QuarantinePolicy_Status_ARM `json:"status,omitempty"`
 }
 
 // The retention policy for a container registry.
@@ -193,14 +263,90 @@ type RetentionPolicy_ARM struct {
 	Days *int `json:"days,omitempty"`
 
 	// Status: The value that indicates whether the policy is enabled or not.
-	Status *RetentionPolicy_Status `json:"status,omitempty"`
+	Status *RetentionPolicy_Status_ARM `json:"status,omitempty"`
 }
 
 // The content trust policy for a container registry.
 type TrustPolicy_ARM struct {
 	// Status: The value that indicates whether the policy is enabled or not.
-	Status *TrustPolicy_Status `json:"status,omitempty"`
+	Status *TrustPolicy_Status_ARM `json:"status,omitempty"`
 
 	// Type: The type of trust policy.
-	Type *TrustPolicy_Type `json:"type,omitempty"`
+	Type *TrustPolicy_Type_ARM `json:"type,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"disabled","enabled"}
+type ExportPolicy_Status_ARM string
+
+const (
+	ExportPolicy_Status_ARM_Disabled = ExportPolicy_Status_ARM("disabled")
+	ExportPolicy_Status_ARM_Enabled  = ExportPolicy_Status_ARM("enabled")
+)
+
+// Mapping from string to ExportPolicy_Status_ARM
+var exportPolicy_Status_ARM_Values = map[string]ExportPolicy_Status_ARM{
+	"disabled": ExportPolicy_Status_ARM_Disabled,
+	"enabled":  ExportPolicy_Status_ARM_Enabled,
+}
+
+// +kubebuilder:validation:Enum={"Allow"}
+type IPRule_Action_ARM string
+
+const IPRule_Action_ARM_Allow = IPRule_Action_ARM("Allow")
+
+// Mapping from string to IPRule_Action_ARM
+var iPRule_Action_ARM_Values = map[string]IPRule_Action_ARM{
+	"allow": IPRule_Action_ARM_Allow,
+}
+
+// +kubebuilder:validation:Enum={"disabled","enabled"}
+type QuarantinePolicy_Status_ARM string
+
+const (
+	QuarantinePolicy_Status_ARM_Disabled = QuarantinePolicy_Status_ARM("disabled")
+	QuarantinePolicy_Status_ARM_Enabled  = QuarantinePolicy_Status_ARM("enabled")
+)
+
+// Mapping from string to QuarantinePolicy_Status_ARM
+var quarantinePolicy_Status_ARM_Values = map[string]QuarantinePolicy_Status_ARM{
+	"disabled": QuarantinePolicy_Status_ARM_Disabled,
+	"enabled":  QuarantinePolicy_Status_ARM_Enabled,
+}
+
+// +kubebuilder:validation:Enum={"disabled","enabled"}
+type RetentionPolicy_Status_ARM string
+
+const (
+	RetentionPolicy_Status_ARM_Disabled = RetentionPolicy_Status_ARM("disabled")
+	RetentionPolicy_Status_ARM_Enabled  = RetentionPolicy_Status_ARM("enabled")
+)
+
+// Mapping from string to RetentionPolicy_Status_ARM
+var retentionPolicy_Status_ARM_Values = map[string]RetentionPolicy_Status_ARM{
+	"disabled": RetentionPolicy_Status_ARM_Disabled,
+	"enabled":  RetentionPolicy_Status_ARM_Enabled,
+}
+
+// +kubebuilder:validation:Enum={"disabled","enabled"}
+type TrustPolicy_Status_ARM string
+
+const (
+	TrustPolicy_Status_ARM_Disabled = TrustPolicy_Status_ARM("disabled")
+	TrustPolicy_Status_ARM_Enabled  = TrustPolicy_Status_ARM("enabled")
+)
+
+// Mapping from string to TrustPolicy_Status_ARM
+var trustPolicy_Status_ARM_Values = map[string]TrustPolicy_Status_ARM{
+	"disabled": TrustPolicy_Status_ARM_Disabled,
+	"enabled":  TrustPolicy_Status_ARM_Enabled,
+}
+
+// +kubebuilder:validation:Enum={"Notary"}
+type TrustPolicy_Type_ARM string
+
+const TrustPolicy_Type_ARM_Notary = TrustPolicy_Type_ARM("Notary")
+
+// Mapping from string to TrustPolicy_Type_ARM
+var trustPolicy_Type_ARM_Values = map[string]TrustPolicy_Type_ARM{
+	"notary": TrustPolicy_Type_ARM_Notary,
 }

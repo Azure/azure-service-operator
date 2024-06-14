@@ -168,12 +168,12 @@ func InboundEndpointProperties_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForInboundEndpointProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInboundEndpointProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		DnsresolverProvisioningState_STATUS_Canceled,
-		DnsresolverProvisioningState_STATUS_Creating,
-		DnsresolverProvisioningState_STATUS_Deleting,
-		DnsresolverProvisioningState_STATUS_Failed,
-		DnsresolverProvisioningState_STATUS_Succeeded,
-		DnsresolverProvisioningState_STATUS_Updating))
+		DnsresolverProvisioningState_STATUS_ARM_Canceled,
+		DnsresolverProvisioningState_STATUS_ARM_Creating,
+		DnsresolverProvisioningState_STATUS_ARM_Deleting,
+		DnsresolverProvisioningState_STATUS_ARM_Failed,
+		DnsresolverProvisioningState_STATUS_ARM_Succeeded,
+		DnsresolverProvisioningState_STATUS_ARM_Updating))
 	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -250,7 +250,7 @@ func IpConfiguration_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForIpConfiguration_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIpConfiguration_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["PrivateIpAddress"] = gen.PtrOf(gen.AlphaString())
-	gens["PrivateIpAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IpConfiguration_PrivateIpAllocationMethod_STATUS_Dynamic, IpConfiguration_PrivateIpAllocationMethod_STATUS_Static))
+	gens["PrivateIpAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IpConfiguration_PrivateIpAllocationMethod_STATUS_ARM_Dynamic, IpConfiguration_PrivateIpAllocationMethod_STATUS_ARM_Static))
 }
 
 // AddRelatedPropertyGeneratorsForIpConfiguration_STATUS_ARM is a factory method for creating gopter generators

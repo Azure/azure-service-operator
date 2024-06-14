@@ -53,7 +53,7 @@ type SnapshotProperties_ARM struct {
 	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
 
 	// DiskState: The state of the snapshot.
-	DiskState *DiskState `json:"diskState,omitempty"`
+	DiskState *DiskState_ARM `json:"diskState,omitempty"`
 
 	// Encryption: Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.
 	Encryption *Encryption_ARM `json:"encryption,omitempty"`
@@ -63,17 +63,17 @@ type SnapshotProperties_ARM struct {
 	EncryptionSettingsCollection *EncryptionSettingsCollection_ARM `json:"encryptionSettingsCollection,omitempty"`
 
 	// HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
-	HyperVGeneration *SnapshotProperties_HyperVGeneration `json:"hyperVGeneration,omitempty"`
+	HyperVGeneration *SnapshotProperties_HyperVGeneration_ARM `json:"hyperVGeneration,omitempty"`
 
 	// Incremental: Whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full
 	// snapshots and can be diffed.
 	Incremental *bool `json:"incremental,omitempty"`
 
 	// NetworkAccessPolicy: Policy for accessing the disk via network.
-	NetworkAccessPolicy *NetworkAccessPolicy `json:"networkAccessPolicy,omitempty"`
+	NetworkAccessPolicy *NetworkAccessPolicy_ARM `json:"networkAccessPolicy,omitempty"`
 
 	// OsType: The Operating System type.
-	OsType *SnapshotProperties_OsType `json:"osType,omitempty"`
+	OsType *SnapshotProperties_OsType_ARM `json:"osType,omitempty"`
 
 	// PurchasePlan: Purchase plan information for the image from which the source disk for the snapshot was originally created.
 	PurchasePlan *PurchasePlan_ARM `json:"purchasePlan,omitempty"`
@@ -83,21 +83,72 @@ type SnapshotProperties_ARM struct {
 // snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
 type SnapshotSku_ARM struct {
 	// Name: The sku name.
-	Name *SnapshotSku_Name `json:"name,omitempty"`
+	Name *SnapshotSku_Name_ARM `json:"name,omitempty"`
+}
+
+// This enumerates the possible state of the disk.
+// +kubebuilder:validation:Enum={"ActiveSAS","ActiveUpload","Attached","ReadyToUpload","Reserved","Unattached"}
+type DiskState_ARM string
+
+const (
+	DiskState_ARM_ActiveSAS     = DiskState_ARM("ActiveSAS")
+	DiskState_ARM_ActiveUpload  = DiskState_ARM("ActiveUpload")
+	DiskState_ARM_Attached      = DiskState_ARM("Attached")
+	DiskState_ARM_ReadyToUpload = DiskState_ARM("ReadyToUpload")
+	DiskState_ARM_Reserved      = DiskState_ARM("Reserved")
+	DiskState_ARM_Unattached    = DiskState_ARM("Unattached")
+)
+
+// Mapping from string to DiskState_ARM
+var diskState_ARM_Values = map[string]DiskState_ARM{
+	"activesas":     DiskState_ARM_ActiveSAS,
+	"activeupload":  DiskState_ARM_ActiveUpload,
+	"attached":      DiskState_ARM_Attached,
+	"readytoupload": DiskState_ARM_ReadyToUpload,
+	"reserved":      DiskState_ARM_Reserved,
+	"unattached":    DiskState_ARM_Unattached,
+}
+
+// +kubebuilder:validation:Enum={"V1","V2"}
+type SnapshotProperties_HyperVGeneration_ARM string
+
+const (
+	SnapshotProperties_HyperVGeneration_ARM_V1 = SnapshotProperties_HyperVGeneration_ARM("V1")
+	SnapshotProperties_HyperVGeneration_ARM_V2 = SnapshotProperties_HyperVGeneration_ARM("V2")
+)
+
+// Mapping from string to SnapshotProperties_HyperVGeneration_ARM
+var snapshotProperties_HyperVGeneration_ARM_Values = map[string]SnapshotProperties_HyperVGeneration_ARM{
+	"v1": SnapshotProperties_HyperVGeneration_ARM_V1,
+	"v2": SnapshotProperties_HyperVGeneration_ARM_V2,
+}
+
+// +kubebuilder:validation:Enum={"Linux","Windows"}
+type SnapshotProperties_OsType_ARM string
+
+const (
+	SnapshotProperties_OsType_ARM_Linux   = SnapshotProperties_OsType_ARM("Linux")
+	SnapshotProperties_OsType_ARM_Windows = SnapshotProperties_OsType_ARM("Windows")
+)
+
+// Mapping from string to SnapshotProperties_OsType_ARM
+var snapshotProperties_OsType_ARM_Values = map[string]SnapshotProperties_OsType_ARM{
+	"linux":   SnapshotProperties_OsType_ARM_Linux,
+	"windows": SnapshotProperties_OsType_ARM_Windows,
 }
 
 // +kubebuilder:validation:Enum={"Premium_LRS","Standard_LRS","Standard_ZRS"}
-type SnapshotSku_Name string
+type SnapshotSku_Name_ARM string
 
 const (
-	SnapshotSku_Name_Premium_LRS  = SnapshotSku_Name("Premium_LRS")
-	SnapshotSku_Name_Standard_LRS = SnapshotSku_Name("Standard_LRS")
-	SnapshotSku_Name_Standard_ZRS = SnapshotSku_Name("Standard_ZRS")
+	SnapshotSku_Name_ARM_Premium_LRS  = SnapshotSku_Name_ARM("Premium_LRS")
+	SnapshotSku_Name_ARM_Standard_LRS = SnapshotSku_Name_ARM("Standard_LRS")
+	SnapshotSku_Name_ARM_Standard_ZRS = SnapshotSku_Name_ARM("Standard_ZRS")
 )
 
-// Mapping from string to SnapshotSku_Name
-var snapshotSku_Name_Values = map[string]SnapshotSku_Name{
-	"premium_lrs":  SnapshotSku_Name_Premium_LRS,
-	"standard_lrs": SnapshotSku_Name_Standard_LRS,
-	"standard_zrs": SnapshotSku_Name_Standard_ZRS,
+// Mapping from string to SnapshotSku_Name_ARM
+var snapshotSku_Name_ARM_Values = map[string]SnapshotSku_Name_ARM{
+	"premium_lrs":  SnapshotSku_Name_ARM_Premium_LRS,
+	"standard_lrs": SnapshotSku_Name_ARM_Standard_LRS,
+	"standard_zrs": SnapshotSku_Name_ARM_Standard_ZRS,
 }

@@ -49,7 +49,7 @@ type ManagementPolicyRule_STATUS_ARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: The valid value is Lifecycle
-	Type *ManagementPolicyRule_Type_STATUS `json:"type,omitempty"`
+	Type *ManagementPolicyRule_Type_STATUS_ARM `json:"type,omitempty"`
 }
 
 // An object that defines the Lifecycle rule. Each definition is made up with a filters set and an actions set.
@@ -59,6 +59,15 @@ type ManagementPolicyDefinition_STATUS_ARM struct {
 
 	// Filters: An object that defines the filter set.
 	Filters *ManagementPolicyFilter_STATUS_ARM `json:"filters,omitempty"`
+}
+
+type ManagementPolicyRule_Type_STATUS_ARM string
+
+const ManagementPolicyRule_Type_STATUS_ARM_Lifecycle = ManagementPolicyRule_Type_STATUS_ARM("Lifecycle")
+
+// Mapping from string to ManagementPolicyRule_Type_STATUS_ARM
+var managementPolicyRule_Type_STATUS_ARM_Values = map[string]ManagementPolicyRule_Type_STATUS_ARM{
+	"lifecycle": ManagementPolicyRule_Type_STATUS_ARM_Lifecycle,
 }
 
 // Actions are applied to the filtered blobs when the execution condition is met.

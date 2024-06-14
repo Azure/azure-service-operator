@@ -75,7 +75,7 @@ func AnalyticalStorageConfiguration_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAnalyticalStorageConfiguration_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAnalyticalStorageConfiguration_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["SchemaType"] = gen.PtrOf(gen.OneConstOf(AnalyticalStorageSchemaType_STATUS_FullFidelity, AnalyticalStorageSchemaType_STATUS_WellDefined))
+	gens["SchemaType"] = gen.PtrOf(gen.OneConstOf(AnalyticalStorageSchemaType_STATUS_ARM_FullFidelity, AnalyticalStorageSchemaType_STATUS_ARM_WellDefined))
 }
 
 func Test_ApiProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -136,7 +136,7 @@ func ApiProperties_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForApiProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApiProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ServerVersion"] = gen.PtrOf(gen.OneConstOf(ApiProperties_ServerVersion_STATUS_32, ApiProperties_ServerVersion_STATUS_36, ApiProperties_ServerVersion_STATUS_40))
+	gens["ServerVersion"] = gen.PtrOf(gen.OneConstOf(ApiProperties_ServerVersion_STATUS_ARM_32, ApiProperties_ServerVersion_STATUS_ARM_36, ApiProperties_ServerVersion_STATUS_ARM_40))
 }
 
 func Test_BackupPolicy_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -331,11 +331,11 @@ func ConsistencyPolicy_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForConsistencyPolicy_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForConsistencyPolicy_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["DefaultConsistencyLevel"] = gen.PtrOf(gen.OneConstOf(
-		ConsistencyPolicy_DefaultConsistencyLevel_STATUS_BoundedStaleness,
-		ConsistencyPolicy_DefaultConsistencyLevel_STATUS_ConsistentPrefix,
-		ConsistencyPolicy_DefaultConsistencyLevel_STATUS_Eventual,
-		ConsistencyPolicy_DefaultConsistencyLevel_STATUS_Session,
-		ConsistencyPolicy_DefaultConsistencyLevel_STATUS_Strong))
+		ConsistencyPolicy_DefaultConsistencyLevel_STATUS_ARM_BoundedStaleness,
+		ConsistencyPolicy_DefaultConsistencyLevel_STATUS_ARM_ConsistentPrefix,
+		ConsistencyPolicy_DefaultConsistencyLevel_STATUS_ARM_Eventual,
+		ConsistencyPolicy_DefaultConsistencyLevel_STATUS_ARM_Session,
+		ConsistencyPolicy_DefaultConsistencyLevel_STATUS_ARM_Strong))
 	gens["MaxIntervalInSeconds"] = gen.PtrOf(gen.Int())
 	gens["MaxStalenessPrefix"] = gen.PtrOf(gen.Int())
 }
@@ -398,7 +398,7 @@ func ContinuousModeBackupPolicy_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForContinuousModeBackupPolicy_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForContinuousModeBackupPolicy_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.OneConstOf(ContinuousModeBackupPolicy_Type_STATUS_Continuous)
+	gens["Type"] = gen.OneConstOf(ContinuousModeBackupPolicy_Type_STATUS_ARM_Continuous)
 }
 
 func Test_CorsPolicy_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -533,8 +533,8 @@ func DatabaseAccountGetProperties_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDatabaseAccountGetProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabaseAccountGetProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ConnectorOffer"] = gen.PtrOf(gen.OneConstOf(ConnectorOffer_STATUS_Small))
-	gens["DatabaseAccountOfferType"] = gen.PtrOf(gen.OneConstOf(DatabaseAccountOfferType_STATUS_Standard))
+	gens["ConnectorOffer"] = gen.PtrOf(gen.OneConstOf(ConnectorOffer_STATUS_ARM_Small))
+	gens["DatabaseAccountOfferType"] = gen.PtrOf(gen.OneConstOf(DatabaseAccountOfferType_STATUS_ARM_Standard))
 	gens["DefaultIdentity"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableKeyBasedMetadataWriteAccess"] = gen.PtrOf(gen.Bool())
 	gens["DocumentEndpoint"] = gen.PtrOf(gen.AlphaString())
@@ -545,10 +545,10 @@ func AddIndependentPropertyGeneratorsForDatabaseAccountGetProperties_STATUS_ARM(
 	gens["EnableMultipleWriteLocations"] = gen.PtrOf(gen.Bool())
 	gens["IsVirtualNetworkFilterEnabled"] = gen.PtrOf(gen.Bool())
 	gens["KeyVaultKeyUri"] = gen.PtrOf(gen.AlphaString())
-	gens["NetworkAclBypass"] = gen.PtrOf(gen.OneConstOf(NetworkAclBypass_STATUS_AzureServices, NetworkAclBypass_STATUS_None))
+	gens["NetworkAclBypass"] = gen.PtrOf(gen.OneConstOf(NetworkAclBypass_STATUS_ARM_AzureServices, NetworkAclBypass_STATUS_ARM_None))
 	gens["NetworkAclBypassResourceIds"] = gen.SliceOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_STATUS_Disabled, PublicNetworkAccess_STATUS_Enabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_STATUS_ARM_Disabled, PublicNetworkAccess_STATUS_ARM_Enabled))
 }
 
 // AddRelatedPropertyGeneratorsForDatabaseAccountGetProperties_STATUS_ARM is a factory method for creating gopter generators
@@ -636,7 +636,7 @@ func DatabaseAccount_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDatabaseAccount_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabaseAccount_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(DatabaseAccount_Kind_STATUS_GlobalDocumentDB, DatabaseAccount_Kind_STATUS_MongoDB, DatabaseAccount_Kind_STATUS_Parse))
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(DatabaseAccount_Kind_STATUS_ARM_GlobalDocumentDB, DatabaseAccount_Kind_STATUS_ARM_MongoDB, DatabaseAccount_Kind_STATUS_ARM_Parse))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(
@@ -911,10 +911,10 @@ func AddIndependentPropertyGeneratorsForManagedServiceIdentity_STATUS_ARM(gens m
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ManagedServiceIdentity_Type_STATUS_None,
-		ManagedServiceIdentity_Type_STATUS_SystemAssigned,
-		ManagedServiceIdentity_Type_STATUS_SystemAssignedUserAssigned,
-		ManagedServiceIdentity_Type_STATUS_UserAssigned))
+		ManagedServiceIdentity_Type_STATUS_ARM_None,
+		ManagedServiceIdentity_Type_STATUS_ARM_SystemAssigned,
+		ManagedServiceIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned,
+		ManagedServiceIdentity_Type_STATUS_ARM_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForManagedServiceIdentity_STATUS_ARM is a factory method for creating gopter generators
@@ -1053,7 +1053,7 @@ func PeriodicModeBackupPolicy_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForPeriodicModeBackupPolicy_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPeriodicModeBackupPolicy_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.OneConstOf(PeriodicModeBackupPolicy_Type_STATUS_Periodic)
+	gens["Type"] = gen.OneConstOf(PeriodicModeBackupPolicy_Type_STATUS_ARM_Periodic)
 }
 
 // AddRelatedPropertyGeneratorsForPeriodicModeBackupPolicy_STATUS_ARM is a factory method for creating gopter generators

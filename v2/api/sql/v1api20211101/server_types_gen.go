@@ -509,11 +509,15 @@ func (server *Server_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		result.Properties.PrimaryUserAssignedIdentityId = &primaryUserAssignedIdentityId
 	}
 	if server.PublicNetworkAccess != nil {
-		publicNetworkAccess := *server.PublicNetworkAccess
+		var temp string
+		temp = string(*server.PublicNetworkAccess)
+		publicNetworkAccess := ServerProperties_PublicNetworkAccess_ARM(temp)
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 	if server.RestrictOutboundNetworkAccess != nil {
-		restrictOutboundNetworkAccess := *server.RestrictOutboundNetworkAccess
+		var temp string
+		temp = string(*server.RestrictOutboundNetworkAccess)
+		restrictOutboundNetworkAccess := ServerProperties_RestrictOutboundNetworkAccess_ARM(temp)
 		result.Properties.RestrictOutboundNetworkAccess = &restrictOutboundNetworkAccess
 	}
 	if server.Version != nil {
@@ -629,7 +633,9 @@ func (server *Server_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
-			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccess)
+			publicNetworkAccess := ServerProperties_PublicNetworkAccess(temp)
 			server.PublicNetworkAccess = &publicNetworkAccess
 		}
 	}
@@ -638,7 +644,9 @@ func (server *Server_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RestrictOutboundNetworkAccess != nil {
-			restrictOutboundNetworkAccess := *typedInput.Properties.RestrictOutboundNetworkAccess
+			var temp string
+			temp = string(*typedInput.Properties.RestrictOutboundNetworkAccess)
+			restrictOutboundNetworkAccess := ServerProperties_RestrictOutboundNetworkAccess(temp)
 			server.RestrictOutboundNetworkAccess = &restrictOutboundNetworkAccess
 		}
 	}
@@ -1295,7 +1303,9 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
-			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccess)
+			publicNetworkAccess := ServerProperties_PublicNetworkAccess_STATUS(temp)
 			server.PublicNetworkAccess = &publicNetworkAccess
 		}
 	}
@@ -1304,7 +1314,9 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RestrictOutboundNetworkAccess != nil {
-			restrictOutboundNetworkAccess := *typedInput.Properties.RestrictOutboundNetworkAccess
+			var temp string
+			temp = string(*typedInput.Properties.RestrictOutboundNetworkAccess)
+			restrictOutboundNetworkAccess := ServerProperties_RestrictOutboundNetworkAccess_STATUS(temp)
 			server.RestrictOutboundNetworkAccess = &restrictOutboundNetworkAccess
 		}
 	}
@@ -1345,7 +1357,9 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.WorkspaceFeature != nil {
-			workspaceFeature := *typedInput.Properties.WorkspaceFeature
+			var temp string
+			temp = string(*typedInput.Properties.WorkspaceFeature)
+			workspaceFeature := ServerProperties_WorkspaceFeature_STATUS(temp)
 			server.WorkspaceFeature = &workspaceFeature
 		}
 	}
@@ -1623,7 +1637,9 @@ func (identity *ResourceIdentity) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "Type":
 	if identity.Type != nil {
-		typeVar := *identity.Type
+		var temp string
+		temp = string(*identity.Type)
+		typeVar := ResourceIdentity_Type_ARM(temp)
 		result.Type = &typeVar
 	}
 
@@ -1654,7 +1670,9 @@ func (identity *ResourceIdentity) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ResourceIdentity_Type(temp)
 		identity.Type = &typeVar
 	}
 
@@ -1811,7 +1829,9 @@ func (identity *ResourceIdentity_STATUS) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ResourceIdentity_Type_STATUS(temp)
 		identity.Type = &typeVar
 	}
 
@@ -1954,7 +1974,9 @@ func (administrator *ServerExternalAdministrator) ConvertToARM(resolved genrunti
 
 	// Set property "AdministratorType":
 	if administrator.AdministratorType != nil {
-		administratorType := *administrator.AdministratorType
+		var temp string
+		temp = string(*administrator.AdministratorType)
+		administratorType := ServerExternalAdministrator_AdministratorType_ARM(temp)
 		result.AdministratorType = &administratorType
 	}
 
@@ -1972,7 +1994,9 @@ func (administrator *ServerExternalAdministrator) ConvertToARM(resolved genrunti
 
 	// Set property "PrincipalType":
 	if administrator.PrincipalType != nil {
-		principalType := *administrator.PrincipalType
+		var temp string
+		temp = string(*administrator.PrincipalType)
+		principalType := ServerExternalAdministrator_PrincipalType_ARM(temp)
 		result.PrincipalType = &principalType
 	}
 
@@ -2004,7 +2028,9 @@ func (administrator *ServerExternalAdministrator) PopulateFromARM(owner genrunti
 
 	// Set property "AdministratorType":
 	if typedInput.AdministratorType != nil {
-		administratorType := *typedInput.AdministratorType
+		var temp string
+		temp = string(*typedInput.AdministratorType)
+		administratorType := ServerExternalAdministrator_AdministratorType(temp)
 		administrator.AdministratorType = &administratorType
 	}
 
@@ -2022,7 +2048,9 @@ func (administrator *ServerExternalAdministrator) PopulateFromARM(owner genrunti
 
 	// Set property "PrincipalType":
 	if typedInput.PrincipalType != nil {
-		principalType := *typedInput.PrincipalType
+		var temp string
+		temp = string(*typedInput.PrincipalType)
+		principalType := ServerExternalAdministrator_PrincipalType(temp)
 		administrator.PrincipalType = &principalType
 	}
 
@@ -2240,7 +2268,9 @@ func (administrator *ServerExternalAdministrator_STATUS) PopulateFromARM(owner g
 
 	// Set property "AdministratorType":
 	if typedInput.AdministratorType != nil {
-		administratorType := *typedInput.AdministratorType
+		var temp string
+		temp = string(*typedInput.AdministratorType)
+		administratorType := ServerExternalAdministrator_AdministratorType_STATUS(temp)
 		administrator.AdministratorType = &administratorType
 	}
 
@@ -2258,7 +2288,9 @@ func (administrator *ServerExternalAdministrator_STATUS) PopulateFromARM(owner g
 
 	// Set property "PrincipalType":
 	if typedInput.PrincipalType != nil {
-		principalType := *typedInput.PrincipalType
+		var temp string
+		temp = string(*typedInput.PrincipalType)
+		principalType := ServerExternalAdministrator_PrincipalType_STATUS(temp)
 		administrator.PrincipalType = &principalType
 	}
 
@@ -2644,7 +2676,9 @@ func (properties *PrivateEndpointConnectionProperties_STATUS) PopulateFromARM(ow
 
 	// Set property "ProvisioningState":
 	if typedInput.ProvisioningState != nil {
-		provisioningState := *typedInput.ProvisioningState
+		var temp string
+		temp = string(*typedInput.ProvisioningState)
+		provisioningState := PrivateEndpointConnectionProperties_ProvisioningState_STATUS(temp)
 		properties.ProvisioningState = &provisioningState
 	}
 
@@ -2744,6 +2778,41 @@ func (properties *PrivateEndpointConnectionProperties_STATUS) AssignProperties_T
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned,UserAssigned","UserAssigned"}
+type ResourceIdentity_Type string
+
+const (
+	ResourceIdentity_Type_None                       = ResourceIdentity_Type("None")
+	ResourceIdentity_Type_SystemAssigned             = ResourceIdentity_Type("SystemAssigned")
+	ResourceIdentity_Type_SystemAssignedUserAssigned = ResourceIdentity_Type("SystemAssigned,UserAssigned")
+	ResourceIdentity_Type_UserAssigned               = ResourceIdentity_Type("UserAssigned")
+)
+
+// Mapping from string to ResourceIdentity_Type
+var resourceIdentity_Type_Values = map[string]ResourceIdentity_Type{
+	"none":                        ResourceIdentity_Type_None,
+	"systemassigned":              ResourceIdentity_Type_SystemAssigned,
+	"systemassigned,userassigned": ResourceIdentity_Type_SystemAssignedUserAssigned,
+	"userassigned":                ResourceIdentity_Type_UserAssigned,
+}
+
+type ResourceIdentity_Type_STATUS string
+
+const (
+	ResourceIdentity_Type_STATUS_None                       = ResourceIdentity_Type_STATUS("None")
+	ResourceIdentity_Type_STATUS_SystemAssigned             = ResourceIdentity_Type_STATUS("SystemAssigned")
+	ResourceIdentity_Type_STATUS_SystemAssignedUserAssigned = ResourceIdentity_Type_STATUS("SystemAssigned,UserAssigned")
+	ResourceIdentity_Type_STATUS_UserAssigned               = ResourceIdentity_Type_STATUS("UserAssigned")
+)
+
+// Mapping from string to ResourceIdentity_Type_STATUS
+var resourceIdentity_Type_STATUS_Values = map[string]ResourceIdentity_Type_STATUS{
+	"none":                        ResourceIdentity_Type_STATUS_None,
+	"systemassigned":              ResourceIdentity_Type_STATUS_SystemAssigned,
+	"systemassigned,userassigned": ResourceIdentity_Type_STATUS_SystemAssignedUserAssigned,
+	"userassigned":                ResourceIdentity_Type_STATUS_UserAssigned,
 }
 
 // +kubebuilder:validation:Enum={"ActiveDirectory"}
@@ -3053,7 +3122,9 @@ func (property *PrivateLinkServiceConnectionStateProperty_STATUS) PopulateFromAR
 
 	// Set property "ActionsRequired":
 	if typedInput.ActionsRequired != nil {
-		actionsRequired := *typedInput.ActionsRequired
+		var temp string
+		temp = string(*typedInput.ActionsRequired)
+		actionsRequired := PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS(temp)
 		property.ActionsRequired = &actionsRequired
 	}
 
@@ -3065,7 +3136,9 @@ func (property *PrivateLinkServiceConnectionStateProperty_STATUS) PopulateFromAR
 
 	// Set property "Status":
 	if typedInput.Status != nil {
-		status := *typedInput.Status
+		var temp string
+		temp = string(*typedInput.Status)
+		status := PrivateLinkServiceConnectionStateProperty_Status_STATUS(temp)
 		property.Status = &status
 	}
 

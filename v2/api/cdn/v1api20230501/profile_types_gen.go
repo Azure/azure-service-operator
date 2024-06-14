@@ -894,7 +894,9 @@ func (profile *Profile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := ProfileProperties_ProvisioningState_STATUS(temp)
 			profile.ProvisioningState = &provisioningState
 		}
 	}
@@ -903,7 +905,9 @@ func (profile *Profile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceState != nil {
-			resourceState := *typedInput.Properties.ResourceState
+			var temp string
+			temp = string(*typedInput.Properties.ResourceState)
+			resourceState := ProfileProperties_ResourceState_STATUS(temp)
 			profile.ResourceState = &resourceState
 		}
 	}
@@ -1156,7 +1160,9 @@ func (identity *ManagedServiceIdentity) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "Type":
 	if identity.Type != nil {
-		typeVar := *identity.Type
+		var temp string
+		temp = string(*identity.Type)
+		typeVar := ManagedServiceIdentityType_ARM(temp)
 		result.Type = &typeVar
 	}
 
@@ -1187,7 +1193,9 @@ func (identity *ManagedServiceIdentity) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ManagedServiceIdentityType(temp)
 		identity.Type = &typeVar
 	}
 
@@ -1343,7 +1351,9 @@ func (identity *ManagedServiceIdentity_STATUS) PopulateFromARM(owner genruntime.
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ManagedServiceIdentityType_STATUS(temp)
 		identity.Type = &typeVar
 	}
 
@@ -1538,7 +1548,9 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 
 	// Set property "Name":
 	if sku.Name != nil {
-		name := *sku.Name
+		var temp string
+		temp = string(*sku.Name)
+		name := Sku_Name_ARM(temp)
 		result.Name = &name
 	}
 	return result, nil
@@ -1558,7 +1570,9 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := Sku_Name(temp)
 		sku.Name = &name
 	}
 
@@ -1666,7 +1680,9 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := Sku_Name_STATUS(temp)
 		sku.Name = &name
 	}
 
@@ -1712,6 +1728,114 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *storage.Sku_S
 
 	// No error
 	return nil
+}
+
+// Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
+// +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
+type ManagedServiceIdentityType string
+
+const (
+	ManagedServiceIdentityType_None                       = ManagedServiceIdentityType("None")
+	ManagedServiceIdentityType_SystemAssigned             = ManagedServiceIdentityType("SystemAssigned")
+	ManagedServiceIdentityType_SystemAssignedUserAssigned = ManagedServiceIdentityType("SystemAssigned, UserAssigned")
+	ManagedServiceIdentityType_UserAssigned               = ManagedServiceIdentityType("UserAssigned")
+)
+
+// Mapping from string to ManagedServiceIdentityType
+var managedServiceIdentityType_Values = map[string]ManagedServiceIdentityType{
+	"none":                         ManagedServiceIdentityType_None,
+	"systemassigned":               ManagedServiceIdentityType_SystemAssigned,
+	"systemassigned, userassigned": ManagedServiceIdentityType_SystemAssignedUserAssigned,
+	"userassigned":                 ManagedServiceIdentityType_UserAssigned,
+}
+
+// Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
+type ManagedServiceIdentityType_STATUS string
+
+const (
+	ManagedServiceIdentityType_STATUS_None                       = ManagedServiceIdentityType_STATUS("None")
+	ManagedServiceIdentityType_STATUS_SystemAssigned             = ManagedServiceIdentityType_STATUS("SystemAssigned")
+	ManagedServiceIdentityType_STATUS_SystemAssignedUserAssigned = ManagedServiceIdentityType_STATUS("SystemAssigned, UserAssigned")
+	ManagedServiceIdentityType_STATUS_UserAssigned               = ManagedServiceIdentityType_STATUS("UserAssigned")
+)
+
+// Mapping from string to ManagedServiceIdentityType_STATUS
+var managedServiceIdentityType_STATUS_Values = map[string]ManagedServiceIdentityType_STATUS{
+	"none":                         ManagedServiceIdentityType_STATUS_None,
+	"systemassigned":               ManagedServiceIdentityType_STATUS_SystemAssigned,
+	"systemassigned, userassigned": ManagedServiceIdentityType_STATUS_SystemAssignedUserAssigned,
+	"userassigned":                 ManagedServiceIdentityType_STATUS_UserAssigned,
+}
+
+// +kubebuilder:validation:Enum={"Custom_Verizon","Premium_AzureFrontDoor","Premium_Verizon","StandardPlus_955BandWidth_ChinaCdn","StandardPlus_AvgBandWidth_ChinaCdn","StandardPlus_ChinaCdn","Standard_955BandWidth_ChinaCdn","Standard_Akamai","Standard_AvgBandWidth_ChinaCdn","Standard_AzureFrontDoor","Standard_ChinaCdn","Standard_Microsoft","Standard_Verizon"}
+type Sku_Name string
+
+const (
+	Sku_Name_Custom_Verizon                     = Sku_Name("Custom_Verizon")
+	Sku_Name_Premium_AzureFrontDoor             = Sku_Name("Premium_AzureFrontDoor")
+	Sku_Name_Premium_Verizon                    = Sku_Name("Premium_Verizon")
+	Sku_Name_StandardPlus_955BandWidth_ChinaCdn = Sku_Name("StandardPlus_955BandWidth_ChinaCdn")
+	Sku_Name_StandardPlus_AvgBandWidth_ChinaCdn = Sku_Name("StandardPlus_AvgBandWidth_ChinaCdn")
+	Sku_Name_StandardPlus_ChinaCdn              = Sku_Name("StandardPlus_ChinaCdn")
+	Sku_Name_Standard_955BandWidth_ChinaCdn     = Sku_Name("Standard_955BandWidth_ChinaCdn")
+	Sku_Name_Standard_Akamai                    = Sku_Name("Standard_Akamai")
+	Sku_Name_Standard_AvgBandWidth_ChinaCdn     = Sku_Name("Standard_AvgBandWidth_ChinaCdn")
+	Sku_Name_Standard_AzureFrontDoor            = Sku_Name("Standard_AzureFrontDoor")
+	Sku_Name_Standard_ChinaCdn                  = Sku_Name("Standard_ChinaCdn")
+	Sku_Name_Standard_Microsoft                 = Sku_Name("Standard_Microsoft")
+	Sku_Name_Standard_Verizon                   = Sku_Name("Standard_Verizon")
+)
+
+// Mapping from string to Sku_Name
+var sku_Name_Values = map[string]Sku_Name{
+	"custom_verizon":                     Sku_Name_Custom_Verizon,
+	"premium_azurefrontdoor":             Sku_Name_Premium_AzureFrontDoor,
+	"premium_verizon":                    Sku_Name_Premium_Verizon,
+	"standardplus_955bandwidth_chinacdn": Sku_Name_StandardPlus_955BandWidth_ChinaCdn,
+	"standardplus_avgbandwidth_chinacdn": Sku_Name_StandardPlus_AvgBandWidth_ChinaCdn,
+	"standardplus_chinacdn":              Sku_Name_StandardPlus_ChinaCdn,
+	"standard_955bandwidth_chinacdn":     Sku_Name_Standard_955BandWidth_ChinaCdn,
+	"standard_akamai":                    Sku_Name_Standard_Akamai,
+	"standard_avgbandwidth_chinacdn":     Sku_Name_Standard_AvgBandWidth_ChinaCdn,
+	"standard_azurefrontdoor":            Sku_Name_Standard_AzureFrontDoor,
+	"standard_chinacdn":                  Sku_Name_Standard_ChinaCdn,
+	"standard_microsoft":                 Sku_Name_Standard_Microsoft,
+	"standard_verizon":                   Sku_Name_Standard_Verizon,
+}
+
+type Sku_Name_STATUS string
+
+const (
+	Sku_Name_STATUS_Custom_Verizon                     = Sku_Name_STATUS("Custom_Verizon")
+	Sku_Name_STATUS_Premium_AzureFrontDoor             = Sku_Name_STATUS("Premium_AzureFrontDoor")
+	Sku_Name_STATUS_Premium_Verizon                    = Sku_Name_STATUS("Premium_Verizon")
+	Sku_Name_STATUS_StandardPlus_955BandWidth_ChinaCdn = Sku_Name_STATUS("StandardPlus_955BandWidth_ChinaCdn")
+	Sku_Name_STATUS_StandardPlus_AvgBandWidth_ChinaCdn = Sku_Name_STATUS("StandardPlus_AvgBandWidth_ChinaCdn")
+	Sku_Name_STATUS_StandardPlus_ChinaCdn              = Sku_Name_STATUS("StandardPlus_ChinaCdn")
+	Sku_Name_STATUS_Standard_955BandWidth_ChinaCdn     = Sku_Name_STATUS("Standard_955BandWidth_ChinaCdn")
+	Sku_Name_STATUS_Standard_Akamai                    = Sku_Name_STATUS("Standard_Akamai")
+	Sku_Name_STATUS_Standard_AvgBandWidth_ChinaCdn     = Sku_Name_STATUS("Standard_AvgBandWidth_ChinaCdn")
+	Sku_Name_STATUS_Standard_AzureFrontDoor            = Sku_Name_STATUS("Standard_AzureFrontDoor")
+	Sku_Name_STATUS_Standard_ChinaCdn                  = Sku_Name_STATUS("Standard_ChinaCdn")
+	Sku_Name_STATUS_Standard_Microsoft                 = Sku_Name_STATUS("Standard_Microsoft")
+	Sku_Name_STATUS_Standard_Verizon                   = Sku_Name_STATUS("Standard_Verizon")
+)
+
+// Mapping from string to Sku_Name_STATUS
+var sku_Name_STATUS_Values = map[string]Sku_Name_STATUS{
+	"custom_verizon":                     Sku_Name_STATUS_Custom_Verizon,
+	"premium_azurefrontdoor":             Sku_Name_STATUS_Premium_AzureFrontDoor,
+	"premium_verizon":                    Sku_Name_STATUS_Premium_Verizon,
+	"standardplus_955bandwidth_chinacdn": Sku_Name_STATUS_StandardPlus_955BandWidth_ChinaCdn,
+	"standardplus_avgbandwidth_chinacdn": Sku_Name_STATUS_StandardPlus_AvgBandWidth_ChinaCdn,
+	"standardplus_chinacdn":              Sku_Name_STATUS_StandardPlus_ChinaCdn,
+	"standard_955bandwidth_chinacdn":     Sku_Name_STATUS_Standard_955BandWidth_ChinaCdn,
+	"standard_akamai":                    Sku_Name_STATUS_Standard_Akamai,
+	"standard_avgbandwidth_chinacdn":     Sku_Name_STATUS_Standard_AvgBandWidth_ChinaCdn,
+	"standard_azurefrontdoor":            Sku_Name_STATUS_Standard_AzureFrontDoor,
+	"standard_chinacdn":                  Sku_Name_STATUS_Standard_ChinaCdn,
+	"standard_microsoft":                 Sku_Name_STATUS_Standard_Microsoft,
+	"standard_verizon":                   Sku_Name_STATUS_Standard_Verizon,
 }
 
 // User assigned identity properties

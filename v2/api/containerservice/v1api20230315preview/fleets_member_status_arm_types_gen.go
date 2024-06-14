@@ -37,5 +37,27 @@ type FleetMemberProperties_STATUS_ARM struct {
 	Group *string `json:"group,omitempty"`
 
 	// ProvisioningState: The status of the last operation.
-	ProvisioningState *FleetMemberProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *FleetMemberProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
+}
+
+// The provisioning state of the last accepted operation.
+type FleetMemberProvisioningState_STATUS_ARM string
+
+const (
+	FleetMemberProvisioningState_STATUS_ARM_Canceled  = FleetMemberProvisioningState_STATUS_ARM("Canceled")
+	FleetMemberProvisioningState_STATUS_ARM_Failed    = FleetMemberProvisioningState_STATUS_ARM("Failed")
+	FleetMemberProvisioningState_STATUS_ARM_Joining   = FleetMemberProvisioningState_STATUS_ARM("Joining")
+	FleetMemberProvisioningState_STATUS_ARM_Leaving   = FleetMemberProvisioningState_STATUS_ARM("Leaving")
+	FleetMemberProvisioningState_STATUS_ARM_Succeeded = FleetMemberProvisioningState_STATUS_ARM("Succeeded")
+	FleetMemberProvisioningState_STATUS_ARM_Updating  = FleetMemberProvisioningState_STATUS_ARM("Updating")
+)
+
+// Mapping from string to FleetMemberProvisioningState_STATUS_ARM
+var fleetMemberProvisioningState_STATUS_ARM_Values = map[string]FleetMemberProvisioningState_STATUS_ARM{
+	"canceled":  FleetMemberProvisioningState_STATUS_ARM_Canceled,
+	"failed":    FleetMemberProvisioningState_STATUS_ARM_Failed,
+	"joining":   FleetMemberProvisioningState_STATUS_ARM_Joining,
+	"leaving":   FleetMemberProvisioningState_STATUS_ARM_Leaving,
+	"succeeded": FleetMemberProvisioningState_STATUS_ARM_Succeeded,
+	"updating":  FleetMemberProvisioningState_STATUS_ARM_Updating,
 }

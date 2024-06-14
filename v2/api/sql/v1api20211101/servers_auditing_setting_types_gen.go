@@ -499,7 +499,9 @@ func (setting *Servers_AuditingSetting_Spec) ConvertToARM(resolved genruntime.Co
 		result.Properties.RetentionDays = &retentionDays
 	}
 	if setting.State != nil {
-		state := *setting.State
+		var temp string
+		temp = string(*setting.State)
+		state := ServerBlobAuditingPolicyProperties_State_ARM(temp)
 		result.Properties.State = &state
 	}
 	if setting.StorageAccountAccessKey != nil {
@@ -605,7 +607,9 @@ func (setting *Servers_AuditingSetting_Spec) PopulateFromARM(owner genruntime.Ar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.State != nil {
-			state := *typedInput.Properties.State
+			var temp string
+			temp = string(*typedInput.Properties.State)
+			state := ServerBlobAuditingPolicyProperties_State(temp)
 			setting.State = &state
 		}
 	}
@@ -1201,7 +1205,9 @@ func (setting *Servers_AuditingSetting_STATUS) PopulateFromARM(owner genruntime.
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.State != nil {
-			state := *typedInput.Properties.State
+			var temp string
+			temp = string(*typedInput.Properties.State)
+			state := ServerBlobAuditingPolicyProperties_State_STATUS(temp)
 			setting.State = &state
 		}
 	}

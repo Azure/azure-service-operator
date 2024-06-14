@@ -881,7 +881,9 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MinimalTlsVersion != nil {
-			minimalTlsVersion := *typedInput.Properties.MinimalTlsVersion
+			var temp string
+			temp = string(*typedInput.Properties.MinimalTlsVersion)
+			minimalTlsVersion := MinimalTlsVersion_STATUS(temp)
 			server.MinimalTlsVersion = &minimalTlsVersion
 		}
 	}
@@ -909,7 +911,9 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
-			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccess)
+			publicNetworkAccess := PublicNetworkAccess_STATUS(temp)
 			server.PublicNetworkAccess = &publicNetworkAccess
 		}
 	}
@@ -947,7 +951,9 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SslEnforcement != nil {
-			sslEnforcement := *typedInput.Properties.SslEnforcement
+			var temp string
+			temp = string(*typedInput.Properties.SslEnforcement)
+			sslEnforcement := SslEnforcement_STATUS(temp)
 			server.SslEnforcement = &sslEnforcement
 		}
 	}
@@ -984,7 +990,9 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.UserVisibleState != nil {
-			userVisibleState := *typedInput.Properties.UserVisibleState
+			var temp string
+			temp = string(*typedInput.Properties.UserVisibleState)
+			userVisibleState := ServerProperties_UserVisibleState_STATUS(temp)
 			server.UserVisibleState = &userVisibleState
 		}
 	}
@@ -993,7 +1001,9 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Version != nil {
-			version := *typedInput.Properties.Version
+			var temp string
+			temp = string(*typedInput.Properties.Version)
+			version := ServerVersion_STATUS(temp)
 			server.Version = &version
 		}
 	}
@@ -1777,7 +1787,9 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 
 	// Set property "Tier":
 	if sku.Tier != nil {
-		tier := *sku.Tier
+		var temp string
+		temp = string(*sku.Tier)
+		tier := Sku_Tier_ARM(temp)
 		result.Tier = &tier
 	}
 	return result, nil
@@ -1821,7 +1833,9 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 
 	// Set property "Tier":
 	if typedInput.Tier != nil {
-		tier := *typedInput.Tier
+		var temp string
+		temp = string(*typedInput.Tier)
+		tier := Sku_Tier(temp)
 		sku.Tier = &tier
 	}
 
@@ -1993,7 +2007,9 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 
 	// Set property "Tier":
 	if typedInput.Tier != nil {
-		tier := *typedInput.Tier
+		var temp string
+		temp = string(*typedInput.Tier)
+		tier := Sku_Tier_STATUS(temp)
 		sku.Tier = &tier
 	}
 
@@ -2116,13 +2132,17 @@ func (profile *StorageProfile_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property "GeoRedundantBackup":
 	if typedInput.GeoRedundantBackup != nil {
-		geoRedundantBackup := *typedInput.GeoRedundantBackup
+		var temp string
+		temp = string(*typedInput.GeoRedundantBackup)
+		geoRedundantBackup := StorageProfile_GeoRedundantBackup_STATUS(temp)
 		profile.GeoRedundantBackup = &geoRedundantBackup
 	}
 
 	// Set property "StorageAutogrow":
 	if typedInput.StorageAutogrow != nil {
-		storageAutogrow := *typedInput.StorageAutogrow
+		var temp string
+		temp = string(*typedInput.StorageAutogrow)
+		storageAutogrow := StorageProfile_StorageAutogrow_STATUS(temp)
 		profile.StorageAutogrow = &storageAutogrow
 	}
 
@@ -2300,7 +2320,9 @@ func (properties *ServerPrivateEndpointConnectionProperties_STATUS) PopulateFrom
 
 	// Set property "ProvisioningState":
 	if typedInput.ProvisioningState != nil {
-		provisioningState := *typedInput.ProvisioningState
+		var temp string
+		temp = string(*typedInput.ProvisioningState)
+		provisioningState := ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS(temp)
 		properties.ProvisioningState = &provisioningState
 	}
 
@@ -2454,24 +2476,34 @@ func (create *ServerPropertiesForDefaultCreate) ConvertToARM(resolved genruntime
 
 	// Set property "CreateMode":
 	if create.CreateMode != nil {
-		result.CreateMode = *create.CreateMode
+		var temp ServerPropertiesForDefaultCreate_CreateMode_ARM
+		var temp1 string
+		temp1 = string(*create.CreateMode)
+		temp = ServerPropertiesForDefaultCreate_CreateMode_ARM(temp1)
+		result.CreateMode = temp
 	}
 
 	// Set property "MinimalTlsVersion":
 	if create.MinimalTlsVersion != nil {
-		minimalTlsVersion := *create.MinimalTlsVersion
+		var temp string
+		temp = string(*create.MinimalTlsVersion)
+		minimalTlsVersion := MinimalTlsVersion_ARM(temp)
 		result.MinimalTlsVersion = &minimalTlsVersion
 	}
 
 	// Set property "PublicNetworkAccess":
 	if create.PublicNetworkAccess != nil {
-		publicNetworkAccess := *create.PublicNetworkAccess
+		var temp string
+		temp = string(*create.PublicNetworkAccess)
+		publicNetworkAccess := PublicNetworkAccess_ARM(temp)
 		result.PublicNetworkAccess = &publicNetworkAccess
 	}
 
 	// Set property "SslEnforcement":
 	if create.SslEnforcement != nil {
-		sslEnforcement := *create.SslEnforcement
+		var temp string
+		temp = string(*create.SslEnforcement)
+		sslEnforcement := SslEnforcement_ARM(temp)
 		result.SslEnforcement = &sslEnforcement
 	}
 
@@ -2487,7 +2519,9 @@ func (create *ServerPropertiesForDefaultCreate) ConvertToARM(resolved genruntime
 
 	// Set property "Version":
 	if create.Version != nil {
-		version := *create.Version
+		var temp string
+		temp = string(*create.Version)
+		version := ServerVersion_ARM(temp)
 		result.Version = &version
 	}
 	return result, nil
@@ -2514,23 +2548,33 @@ func (create *ServerPropertiesForDefaultCreate) PopulateFromARM(owner genruntime
 	// no assignment for property "AdministratorLoginPassword"
 
 	// Set property "CreateMode":
-	create.CreateMode = &typedInput.CreateMode
+	var temp ServerPropertiesForDefaultCreate_CreateMode
+	var temp1 string
+	temp1 = string(typedInput.CreateMode)
+	temp = ServerPropertiesForDefaultCreate_CreateMode(temp1)
+	create.CreateMode = &temp
 
 	// Set property "MinimalTlsVersion":
 	if typedInput.MinimalTlsVersion != nil {
-		minimalTlsVersion := *typedInput.MinimalTlsVersion
+		var minimalTlsVersionTemp string
+		minimalTlsVersionTemp = string(*typedInput.MinimalTlsVersion)
+		minimalTlsVersion := MinimalTlsVersion(minimalTlsVersionTemp)
 		create.MinimalTlsVersion = &minimalTlsVersion
 	}
 
 	// Set property "PublicNetworkAccess":
 	if typedInput.PublicNetworkAccess != nil {
-		publicNetworkAccess := *typedInput.PublicNetworkAccess
+		var publicNetworkAccessTemp string
+		publicNetworkAccessTemp = string(*typedInput.PublicNetworkAccess)
+		publicNetworkAccess := PublicNetworkAccess(publicNetworkAccessTemp)
 		create.PublicNetworkAccess = &publicNetworkAccess
 	}
 
 	// Set property "SslEnforcement":
 	if typedInput.SslEnforcement != nil {
-		sslEnforcement := *typedInput.SslEnforcement
+		var sslEnforcementTemp string
+		sslEnforcementTemp = string(*typedInput.SslEnforcement)
+		sslEnforcement := SslEnforcement(sslEnforcementTemp)
 		create.SslEnforcement = &sslEnforcement
 	}
 
@@ -2547,7 +2591,9 @@ func (create *ServerPropertiesForDefaultCreate) PopulateFromARM(owner genruntime
 
 	// Set property "Version":
 	if typedInput.Version != nil {
-		version := *typedInput.Version
+		var versionTemp string
+		versionTemp = string(*typedInput.Version)
+		version := ServerVersion(versionTemp)
 		create.Version = &version
 	}
 
@@ -2746,18 +2792,26 @@ func (restore *ServerPropertiesForGeoRestore) ConvertToARM(resolved genruntime.C
 
 	// Set property "CreateMode":
 	if restore.CreateMode != nil {
-		result.CreateMode = *restore.CreateMode
+		var temp ServerPropertiesForGeoRestore_CreateMode_ARM
+		var temp1 string
+		temp1 = string(*restore.CreateMode)
+		temp = ServerPropertiesForGeoRestore_CreateMode_ARM(temp1)
+		result.CreateMode = temp
 	}
 
 	// Set property "MinimalTlsVersion":
 	if restore.MinimalTlsVersion != nil {
-		minimalTlsVersion := *restore.MinimalTlsVersion
+		var temp string
+		temp = string(*restore.MinimalTlsVersion)
+		minimalTlsVersion := MinimalTlsVersion_ARM(temp)
 		result.MinimalTlsVersion = &minimalTlsVersion
 	}
 
 	// Set property "PublicNetworkAccess":
 	if restore.PublicNetworkAccess != nil {
-		publicNetworkAccess := *restore.PublicNetworkAccess
+		var temp string
+		temp = string(*restore.PublicNetworkAccess)
+		publicNetworkAccess := PublicNetworkAccess_ARM(temp)
 		result.PublicNetworkAccess = &publicNetworkAccess
 	}
 
@@ -2769,7 +2823,9 @@ func (restore *ServerPropertiesForGeoRestore) ConvertToARM(resolved genruntime.C
 
 	// Set property "SslEnforcement":
 	if restore.SslEnforcement != nil {
-		sslEnforcement := *restore.SslEnforcement
+		var temp string
+		temp = string(*restore.SslEnforcement)
+		sslEnforcement := SslEnforcement_ARM(temp)
 		result.SslEnforcement = &sslEnforcement
 	}
 
@@ -2785,7 +2841,9 @@ func (restore *ServerPropertiesForGeoRestore) ConvertToARM(resolved genruntime.C
 
 	// Set property "Version":
 	if restore.Version != nil {
-		version := *restore.Version
+		var temp string
+		temp = string(*restore.Version)
+		version := ServerVersion_ARM(temp)
 		result.Version = &version
 	}
 	return result, nil
@@ -2804,17 +2862,25 @@ func (restore *ServerPropertiesForGeoRestore) PopulateFromARM(owner genruntime.A
 	}
 
 	// Set property "CreateMode":
-	restore.CreateMode = &typedInput.CreateMode
+	var temp ServerPropertiesForGeoRestore_CreateMode
+	var temp1 string
+	temp1 = string(typedInput.CreateMode)
+	temp = ServerPropertiesForGeoRestore_CreateMode(temp1)
+	restore.CreateMode = &temp
 
 	// Set property "MinimalTlsVersion":
 	if typedInput.MinimalTlsVersion != nil {
-		minimalTlsVersion := *typedInput.MinimalTlsVersion
+		var minimalTlsVersionTemp string
+		minimalTlsVersionTemp = string(*typedInput.MinimalTlsVersion)
+		minimalTlsVersion := MinimalTlsVersion(minimalTlsVersionTemp)
 		restore.MinimalTlsVersion = &minimalTlsVersion
 	}
 
 	// Set property "PublicNetworkAccess":
 	if typedInput.PublicNetworkAccess != nil {
-		publicNetworkAccess := *typedInput.PublicNetworkAccess
+		var publicNetworkAccessTemp string
+		publicNetworkAccessTemp = string(*typedInput.PublicNetworkAccess)
+		publicNetworkAccess := PublicNetworkAccess(publicNetworkAccessTemp)
 		restore.PublicNetworkAccess = &publicNetworkAccess
 	}
 
@@ -2826,7 +2892,9 @@ func (restore *ServerPropertiesForGeoRestore) PopulateFromARM(owner genruntime.A
 
 	// Set property "SslEnforcement":
 	if typedInput.SslEnforcement != nil {
-		sslEnforcement := *typedInput.SslEnforcement
+		var sslEnforcementTemp string
+		sslEnforcementTemp = string(*typedInput.SslEnforcement)
+		sslEnforcement := SslEnforcement(sslEnforcementTemp)
 		restore.SslEnforcement = &sslEnforcement
 	}
 
@@ -2843,7 +2911,9 @@ func (restore *ServerPropertiesForGeoRestore) PopulateFromARM(owner genruntime.A
 
 	// Set property "Version":
 	if typedInput.Version != nil {
-		version := *typedInput.Version
+		var versionTemp string
+		versionTemp = string(*typedInput.Version)
+		version := ServerVersion(versionTemp)
 		restore.Version = &version
 	}
 
@@ -3026,18 +3096,26 @@ func (replica *ServerPropertiesForReplica) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "CreateMode":
 	if replica.CreateMode != nil {
-		result.CreateMode = *replica.CreateMode
+		var temp ServerPropertiesForReplica_CreateMode_ARM
+		var temp1 string
+		temp1 = string(*replica.CreateMode)
+		temp = ServerPropertiesForReplica_CreateMode_ARM(temp1)
+		result.CreateMode = temp
 	}
 
 	// Set property "MinimalTlsVersion":
 	if replica.MinimalTlsVersion != nil {
-		minimalTlsVersion := *replica.MinimalTlsVersion
+		var temp string
+		temp = string(*replica.MinimalTlsVersion)
+		minimalTlsVersion := MinimalTlsVersion_ARM(temp)
 		result.MinimalTlsVersion = &minimalTlsVersion
 	}
 
 	// Set property "PublicNetworkAccess":
 	if replica.PublicNetworkAccess != nil {
-		publicNetworkAccess := *replica.PublicNetworkAccess
+		var temp string
+		temp = string(*replica.PublicNetworkAccess)
+		publicNetworkAccess := PublicNetworkAccess_ARM(temp)
 		result.PublicNetworkAccess = &publicNetworkAccess
 	}
 
@@ -3049,7 +3127,9 @@ func (replica *ServerPropertiesForReplica) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "SslEnforcement":
 	if replica.SslEnforcement != nil {
-		sslEnforcement := *replica.SslEnforcement
+		var temp string
+		temp = string(*replica.SslEnforcement)
+		sslEnforcement := SslEnforcement_ARM(temp)
 		result.SslEnforcement = &sslEnforcement
 	}
 
@@ -3065,7 +3145,9 @@ func (replica *ServerPropertiesForReplica) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "Version":
 	if replica.Version != nil {
-		version := *replica.Version
+		var temp string
+		temp = string(*replica.Version)
+		version := ServerVersion_ARM(temp)
 		result.Version = &version
 	}
 	return result, nil
@@ -3084,17 +3166,25 @@ func (replica *ServerPropertiesForReplica) PopulateFromARM(owner genruntime.Arbi
 	}
 
 	// Set property "CreateMode":
-	replica.CreateMode = &typedInput.CreateMode
+	var temp ServerPropertiesForReplica_CreateMode
+	var temp1 string
+	temp1 = string(typedInput.CreateMode)
+	temp = ServerPropertiesForReplica_CreateMode(temp1)
+	replica.CreateMode = &temp
 
 	// Set property "MinimalTlsVersion":
 	if typedInput.MinimalTlsVersion != nil {
-		minimalTlsVersion := *typedInput.MinimalTlsVersion
+		var minimalTlsVersionTemp string
+		minimalTlsVersionTemp = string(*typedInput.MinimalTlsVersion)
+		minimalTlsVersion := MinimalTlsVersion(minimalTlsVersionTemp)
 		replica.MinimalTlsVersion = &minimalTlsVersion
 	}
 
 	// Set property "PublicNetworkAccess":
 	if typedInput.PublicNetworkAccess != nil {
-		publicNetworkAccess := *typedInput.PublicNetworkAccess
+		var publicNetworkAccessTemp string
+		publicNetworkAccessTemp = string(*typedInput.PublicNetworkAccess)
+		publicNetworkAccess := PublicNetworkAccess(publicNetworkAccessTemp)
 		replica.PublicNetworkAccess = &publicNetworkAccess
 	}
 
@@ -3106,7 +3196,9 @@ func (replica *ServerPropertiesForReplica) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property "SslEnforcement":
 	if typedInput.SslEnforcement != nil {
-		sslEnforcement := *typedInput.SslEnforcement
+		var sslEnforcementTemp string
+		sslEnforcementTemp = string(*typedInput.SslEnforcement)
+		sslEnforcement := SslEnforcement(sslEnforcementTemp)
 		replica.SslEnforcement = &sslEnforcement
 	}
 
@@ -3123,7 +3215,9 @@ func (replica *ServerPropertiesForReplica) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property "Version":
 	if typedInput.Version != nil {
-		version := *typedInput.Version
+		var versionTemp string
+		versionTemp = string(*typedInput.Version)
+		version := ServerVersion(versionTemp)
 		replica.Version = &version
 	}
 
@@ -3310,18 +3404,26 @@ func (restore *ServerPropertiesForRestore) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "CreateMode":
 	if restore.CreateMode != nil {
-		result.CreateMode = *restore.CreateMode
+		var temp ServerPropertiesForRestore_CreateMode_ARM
+		var temp1 string
+		temp1 = string(*restore.CreateMode)
+		temp = ServerPropertiesForRestore_CreateMode_ARM(temp1)
+		result.CreateMode = temp
 	}
 
 	// Set property "MinimalTlsVersion":
 	if restore.MinimalTlsVersion != nil {
-		minimalTlsVersion := *restore.MinimalTlsVersion
+		var temp string
+		temp = string(*restore.MinimalTlsVersion)
+		minimalTlsVersion := MinimalTlsVersion_ARM(temp)
 		result.MinimalTlsVersion = &minimalTlsVersion
 	}
 
 	// Set property "PublicNetworkAccess":
 	if restore.PublicNetworkAccess != nil {
-		publicNetworkAccess := *restore.PublicNetworkAccess
+		var temp string
+		temp = string(*restore.PublicNetworkAccess)
+		publicNetworkAccess := PublicNetworkAccess_ARM(temp)
 		result.PublicNetworkAccess = &publicNetworkAccess
 	}
 
@@ -3339,7 +3441,9 @@ func (restore *ServerPropertiesForRestore) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "SslEnforcement":
 	if restore.SslEnforcement != nil {
-		sslEnforcement := *restore.SslEnforcement
+		var temp string
+		temp = string(*restore.SslEnforcement)
+		sslEnforcement := SslEnforcement_ARM(temp)
 		result.SslEnforcement = &sslEnforcement
 	}
 
@@ -3355,7 +3459,9 @@ func (restore *ServerPropertiesForRestore) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "Version":
 	if restore.Version != nil {
-		version := *restore.Version
+		var temp string
+		temp = string(*restore.Version)
+		version := ServerVersion_ARM(temp)
 		result.Version = &version
 	}
 	return result, nil
@@ -3374,17 +3480,25 @@ func (restore *ServerPropertiesForRestore) PopulateFromARM(owner genruntime.Arbi
 	}
 
 	// Set property "CreateMode":
-	restore.CreateMode = &typedInput.CreateMode
+	var temp ServerPropertiesForRestore_CreateMode
+	var temp1 string
+	temp1 = string(typedInput.CreateMode)
+	temp = ServerPropertiesForRestore_CreateMode(temp1)
+	restore.CreateMode = &temp
 
 	// Set property "MinimalTlsVersion":
 	if typedInput.MinimalTlsVersion != nil {
-		minimalTlsVersion := *typedInput.MinimalTlsVersion
+		var minimalTlsVersionTemp string
+		minimalTlsVersionTemp = string(*typedInput.MinimalTlsVersion)
+		minimalTlsVersion := MinimalTlsVersion(minimalTlsVersionTemp)
 		restore.MinimalTlsVersion = &minimalTlsVersion
 	}
 
 	// Set property "PublicNetworkAccess":
 	if typedInput.PublicNetworkAccess != nil {
-		publicNetworkAccess := *typedInput.PublicNetworkAccess
+		var publicNetworkAccessTemp string
+		publicNetworkAccessTemp = string(*typedInput.PublicNetworkAccess)
+		publicNetworkAccess := PublicNetworkAccess(publicNetworkAccessTemp)
 		restore.PublicNetworkAccess = &publicNetworkAccess
 	}
 
@@ -3402,7 +3516,9 @@ func (restore *ServerPropertiesForRestore) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property "SslEnforcement":
 	if typedInput.SslEnforcement != nil {
-		sslEnforcement := *typedInput.SslEnforcement
+		var sslEnforcementTemp string
+		sslEnforcementTemp = string(*typedInput.SslEnforcement)
+		sslEnforcement := SslEnforcement(sslEnforcementTemp)
 		restore.SslEnforcement = &sslEnforcement
 	}
 
@@ -3419,7 +3535,9 @@ func (restore *ServerPropertiesForRestore) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property "Version":
 	if typedInput.Version != nil {
-		version := *typedInput.Version
+		var versionTemp string
+		versionTemp = string(*typedInput.Version)
+		version := ServerVersion(versionTemp)
 		restore.Version = &version
 	}
 
@@ -3571,6 +3689,37 @@ func (restore *ServerPropertiesForRestore) AssignProperties_To_ServerPropertiesF
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"Basic","GeneralPurpose","MemoryOptimized"}
+type Sku_Tier string
+
+const (
+	Sku_Tier_Basic           = Sku_Tier("Basic")
+	Sku_Tier_GeneralPurpose  = Sku_Tier("GeneralPurpose")
+	Sku_Tier_MemoryOptimized = Sku_Tier("MemoryOptimized")
+)
+
+// Mapping from string to Sku_Tier
+var sku_Tier_Values = map[string]Sku_Tier{
+	"basic":           Sku_Tier_Basic,
+	"generalpurpose":  Sku_Tier_GeneralPurpose,
+	"memoryoptimized": Sku_Tier_MemoryOptimized,
+}
+
+type Sku_Tier_STATUS string
+
+const (
+	Sku_Tier_STATUS_Basic           = Sku_Tier_STATUS("Basic")
+	Sku_Tier_STATUS_GeneralPurpose  = Sku_Tier_STATUS("GeneralPurpose")
+	Sku_Tier_STATUS_MemoryOptimized = Sku_Tier_STATUS("MemoryOptimized")
+)
+
+// Mapping from string to Sku_Tier_STATUS
+var sku_Tier_STATUS_Values = map[string]Sku_Tier_STATUS{
+	"basic":           Sku_Tier_STATUS_Basic,
+	"generalpurpose":  Sku_Tier_STATUS_GeneralPurpose,
+	"memoryoptimized": Sku_Tier_STATUS_MemoryOptimized,
+}
+
 type StorageProfile_GeoRedundantBackup_STATUS string
 
 const (
@@ -3595,6 +3744,25 @@ const (
 var storageProfile_StorageAutogrow_STATUS_Values = map[string]StorageProfile_StorageAutogrow_STATUS{
 	"disabled": StorageProfile_StorageAutogrow_STATUS_Disabled,
 	"enabled":  StorageProfile_StorageAutogrow_STATUS_Enabled,
+}
+
+// Enforce a minimal Tls version for the server.
+// +kubebuilder:validation:Enum={"TLS1_0","TLS1_1","TLS1_2","TLSEnforcementDisabled"}
+type MinimalTlsVersion string
+
+const (
+	MinimalTlsVersion_TLS1_0                 = MinimalTlsVersion("TLS1_0")
+	MinimalTlsVersion_TLS1_1                 = MinimalTlsVersion("TLS1_1")
+	MinimalTlsVersion_TLS1_2                 = MinimalTlsVersion("TLS1_2")
+	MinimalTlsVersion_TLSEnforcementDisabled = MinimalTlsVersion("TLSEnforcementDisabled")
+)
+
+// Mapping from string to MinimalTlsVersion
+var minimalTlsVersion_Values = map[string]MinimalTlsVersion{
+	"tls1_0":                 MinimalTlsVersion_TLS1_0,
+	"tls1_1":                 MinimalTlsVersion_TLS1_1,
+	"tls1_2":                 MinimalTlsVersion_TLS1_2,
+	"tlsenforcementdisabled": MinimalTlsVersion_TLSEnforcementDisabled,
 }
 
 type PrivateEndpointProperty_STATUS struct {
@@ -3655,6 +3823,22 @@ func (property *PrivateEndpointProperty_STATUS) AssignProperties_To_PrivateEndpo
 	return nil
 }
 
+// Whether or not public network access is allowed for this server. Value is optional but if passed in, must be 'Enabled'
+// or 'Disabled'
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type PublicNetworkAccess string
+
+const (
+	PublicNetworkAccess_Disabled = PublicNetworkAccess("Disabled")
+	PublicNetworkAccess_Enabled  = PublicNetworkAccess("Enabled")
+)
+
+// Mapping from string to PublicNetworkAccess
+var publicNetworkAccess_Values = map[string]PublicNetworkAccess{
+	"disabled": PublicNetworkAccess_Disabled,
+	"enabled":  PublicNetworkAccess_Enabled,
+}
+
 type ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS string
 
 const (
@@ -3701,7 +3885,9 @@ func (property *ServerPrivateLinkServiceConnectionStateProperty_STATUS) Populate
 
 	// Set property "ActionsRequired":
 	if typedInput.ActionsRequired != nil {
-		actionsRequired := *typedInput.ActionsRequired
+		var temp string
+		temp = string(*typedInput.ActionsRequired)
+		actionsRequired := ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS(temp)
 		property.ActionsRequired = &actionsRequired
 	}
 
@@ -3713,7 +3899,9 @@ func (property *ServerPrivateLinkServiceConnectionStateProperty_STATUS) Populate
 
 	// Set property "Status":
 	if typedInput.Status != nil {
-		status := *typedInput.Status
+		var temp string
+		temp = string(*typedInput.Status)
+		status := ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS(temp)
 		property.Status = &status
 	}
 
@@ -3784,6 +3972,76 @@ func (property *ServerPrivateLinkServiceConnectionStateProperty_STATUS) AssignPr
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"Default"}
+type ServerPropertiesForDefaultCreate_CreateMode string
+
+const ServerPropertiesForDefaultCreate_CreateMode_Default = ServerPropertiesForDefaultCreate_CreateMode("Default")
+
+// Mapping from string to ServerPropertiesForDefaultCreate_CreateMode
+var serverPropertiesForDefaultCreate_CreateMode_Values = map[string]ServerPropertiesForDefaultCreate_CreateMode{
+	"default": ServerPropertiesForDefaultCreate_CreateMode_Default,
+}
+
+// +kubebuilder:validation:Enum={"GeoRestore"}
+type ServerPropertiesForGeoRestore_CreateMode string
+
+const ServerPropertiesForGeoRestore_CreateMode_GeoRestore = ServerPropertiesForGeoRestore_CreateMode("GeoRestore")
+
+// Mapping from string to ServerPropertiesForGeoRestore_CreateMode
+var serverPropertiesForGeoRestore_CreateMode_Values = map[string]ServerPropertiesForGeoRestore_CreateMode{
+	"georestore": ServerPropertiesForGeoRestore_CreateMode_GeoRestore,
+}
+
+// +kubebuilder:validation:Enum={"Replica"}
+type ServerPropertiesForReplica_CreateMode string
+
+const ServerPropertiesForReplica_CreateMode_Replica = ServerPropertiesForReplica_CreateMode("Replica")
+
+// Mapping from string to ServerPropertiesForReplica_CreateMode
+var serverPropertiesForReplica_CreateMode_Values = map[string]ServerPropertiesForReplica_CreateMode{
+	"replica": ServerPropertiesForReplica_CreateMode_Replica,
+}
+
+// +kubebuilder:validation:Enum={"PointInTimeRestore"}
+type ServerPropertiesForRestore_CreateMode string
+
+const ServerPropertiesForRestore_CreateMode_PointInTimeRestore = ServerPropertiesForRestore_CreateMode("PointInTimeRestore")
+
+// Mapping from string to ServerPropertiesForRestore_CreateMode
+var serverPropertiesForRestore_CreateMode_Values = map[string]ServerPropertiesForRestore_CreateMode{
+	"pointintimerestore": ServerPropertiesForRestore_CreateMode_PointInTimeRestore,
+}
+
+// The version of a server.
+// +kubebuilder:validation:Enum={"10.2","10.3"}
+type ServerVersion string
+
+const (
+	ServerVersion_102 = ServerVersion("10.2")
+	ServerVersion_103 = ServerVersion("10.3")
+)
+
+// Mapping from string to ServerVersion
+var serverVersion_Values = map[string]ServerVersion{
+	"10.2": ServerVersion_102,
+	"10.3": ServerVersion_103,
+}
+
+// Enable ssl enforcement or not when connect to server.
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type SslEnforcement string
+
+const (
+	SslEnforcement_Disabled = SslEnforcement("Disabled")
+	SslEnforcement_Enabled  = SslEnforcement("Enabled")
+)
+
+// Mapping from string to SslEnforcement
+var sslEnforcement_Values = map[string]SslEnforcement{
+	"disabled": SslEnforcement_Disabled,
+	"enabled":  SslEnforcement_Enabled,
+}
+
 // Storage Profile properties of a server
 type StorageProfile struct {
 	// BackupRetentionDays: Backup retention days for the server.
@@ -3816,13 +4074,17 @@ func (profile *StorageProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "GeoRedundantBackup":
 	if profile.GeoRedundantBackup != nil {
-		geoRedundantBackup := *profile.GeoRedundantBackup
+		var temp string
+		temp = string(*profile.GeoRedundantBackup)
+		geoRedundantBackup := StorageProfile_GeoRedundantBackup_ARM(temp)
 		result.GeoRedundantBackup = &geoRedundantBackup
 	}
 
 	// Set property "StorageAutogrow":
 	if profile.StorageAutogrow != nil {
-		storageAutogrow := *profile.StorageAutogrow
+		var temp string
+		temp = string(*profile.StorageAutogrow)
+		storageAutogrow := StorageProfile_StorageAutogrow_ARM(temp)
 		result.StorageAutogrow = &storageAutogrow
 	}
 
@@ -3854,13 +4116,17 @@ func (profile *StorageProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "GeoRedundantBackup":
 	if typedInput.GeoRedundantBackup != nil {
-		geoRedundantBackup := *typedInput.GeoRedundantBackup
+		var temp string
+		temp = string(*typedInput.GeoRedundantBackup)
+		geoRedundantBackup := StorageProfile_GeoRedundantBackup(temp)
 		profile.GeoRedundantBackup = &geoRedundantBackup
 	}
 
 	// Set property "StorageAutogrow":
 	if typedInput.StorageAutogrow != nil {
-		storageAutogrow := *typedInput.StorageAutogrow
+		var temp string
+		temp = string(*typedInput.StorageAutogrow)
+		storageAutogrow := StorageProfile_StorageAutogrow(temp)
 		profile.StorageAutogrow = &storageAutogrow
 	}
 
@@ -3967,6 +4233,34 @@ var serverPrivateLinkServiceConnectionStateProperty_Status_STATUS_Values = map[s
 	"disconnected": ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_Disconnected,
 	"pending":      ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_Pending,
 	"rejected":     ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_Rejected,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type StorageProfile_GeoRedundantBackup string
+
+const (
+	StorageProfile_GeoRedundantBackup_Disabled = StorageProfile_GeoRedundantBackup("Disabled")
+	StorageProfile_GeoRedundantBackup_Enabled  = StorageProfile_GeoRedundantBackup("Enabled")
+)
+
+// Mapping from string to StorageProfile_GeoRedundantBackup
+var storageProfile_GeoRedundantBackup_Values = map[string]StorageProfile_GeoRedundantBackup{
+	"disabled": StorageProfile_GeoRedundantBackup_Disabled,
+	"enabled":  StorageProfile_GeoRedundantBackup_Enabled,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type StorageProfile_StorageAutogrow string
+
+const (
+	StorageProfile_StorageAutogrow_Disabled = StorageProfile_StorageAutogrow("Disabled")
+	StorageProfile_StorageAutogrow_Enabled  = StorageProfile_StorageAutogrow("Enabled")
+)
+
+// Mapping from string to StorageProfile_StorageAutogrow
+var storageProfile_StorageAutogrow_Values = map[string]StorageProfile_StorageAutogrow{
+	"disabled": StorageProfile_StorageAutogrow_Disabled,
+	"enabled":  StorageProfile_StorageAutogrow_Enabled,
 }
 
 func init() {

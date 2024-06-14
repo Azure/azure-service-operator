@@ -166,7 +166,7 @@ func SqlDatabaseGetProperties_Resource_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSqlDatabaseGetProperties_Resource_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSqlDatabaseGetProperties_Resource_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Colls"] = gen.PtrOf(gen.AlphaString())
-	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(CreateMode_STATUS_Default, CreateMode_STATUS_Restore))
+	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(CreateMode_STATUS_ARM_Default, CreateMode_STATUS_ARM_Restore))
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Rid"] = gen.PtrOf(gen.AlphaString())

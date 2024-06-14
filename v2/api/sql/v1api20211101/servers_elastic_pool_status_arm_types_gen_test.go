@@ -148,11 +148,11 @@ func ElasticPoolProperties_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForElasticPoolProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["CreationDate"] = gen.PtrOf(gen.AlphaString())
 	gens["HighAvailabilityReplicaCount"] = gen.PtrOf(gen.Int())
-	gens["LicenseType"] = gen.PtrOf(gen.OneConstOf(ElasticPoolProperties_LicenseType_STATUS_BasePrice, ElasticPoolProperties_LicenseType_STATUS_LicenseIncluded))
+	gens["LicenseType"] = gen.PtrOf(gen.OneConstOf(ElasticPoolProperties_LicenseType_STATUS_ARM_BasePrice, ElasticPoolProperties_LicenseType_STATUS_ARM_LicenseIncluded))
 	gens["MaintenanceConfigurationId"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxSizeBytes"] = gen.PtrOf(gen.Int())
 	gens["MinCapacity"] = gen.PtrOf(gen.Float64())
-	gens["State"] = gen.PtrOf(gen.OneConstOf(ElasticPoolProperties_State_STATUS_Creating, ElasticPoolProperties_State_STATUS_Disabled, ElasticPoolProperties_State_STATUS_Ready))
+	gens["State"] = gen.PtrOf(gen.OneConstOf(ElasticPoolProperties_State_STATUS_ARM_Creating, ElasticPoolProperties_State_STATUS_ARM_Disabled, ElasticPoolProperties_State_STATUS_ARM_Ready))
 	gens["ZoneRedundant"] = gen.PtrOf(gen.Bool())
 }
 

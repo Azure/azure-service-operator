@@ -502,7 +502,9 @@ func (account *DatabaseAccount_Spec) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property "Kind":
 	if account.Kind != nil {
-		kind := *account.Kind
+		var temp string
+		temp = string(*account.Kind)
+		kind := DatabaseAccount_Kind_Spec_ARM(temp)
 		result.Kind = &kind
 	}
 
@@ -589,7 +591,9 @@ func (account *DatabaseAccount_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		result.Properties.Capacity = &capacity
 	}
 	if account.ConnectorOffer != nil {
-		connectorOffer := *account.ConnectorOffer
+		var temp string
+		temp = string(*account.ConnectorOffer)
+		connectorOffer := ConnectorOffer_ARM(temp)
 		result.Properties.ConnectorOffer = &connectorOffer
 	}
 	if account.ConsistencyPolicy != nil {
@@ -608,7 +612,9 @@ func (account *DatabaseAccount_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		result.Properties.Cors = append(result.Properties.Cors, *item_ARM.(*CorsPolicy_ARM))
 	}
 	if account.CreateMode != nil {
-		createMode := *account.CreateMode
+		var temp string
+		temp = string(*account.CreateMode)
+		createMode := CreateMode_ARM(temp)
 		result.Properties.CreateMode = &createMode
 	}
 	if account.CustomerManagedKeyStatus != nil {
@@ -616,7 +622,9 @@ func (account *DatabaseAccount_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		result.Properties.CustomerManagedKeyStatus = &customerManagedKeyStatus
 	}
 	if account.DatabaseAccountOfferType != nil {
-		databaseAccountOfferType := *account.DatabaseAccountOfferType
+		var temp string
+		temp = string(*account.DatabaseAccountOfferType)
+		databaseAccountOfferType := DatabaseAccountOfferType_ARM(temp)
 		result.Properties.DatabaseAccountOfferType = &databaseAccountOfferType
 	}
 	if account.DefaultIdentity != nil {
@@ -682,11 +690,15 @@ func (account *DatabaseAccount_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		result.Properties.Locations = append(result.Properties.Locations, *item_ARM.(*Location_ARM))
 	}
 	if account.MinimalTlsVersion != nil {
-		minimalTlsVersion := *account.MinimalTlsVersion
+		var temp string
+		temp = string(*account.MinimalTlsVersion)
+		minimalTlsVersion := MinimalTlsVersion_ARM(temp)
 		result.Properties.MinimalTlsVersion = &minimalTlsVersion
 	}
 	if account.NetworkAclBypass != nil {
-		networkAclBypass := *account.NetworkAclBypass
+		var temp string
+		temp = string(*account.NetworkAclBypass)
+		networkAclBypass := NetworkAclBypass_ARM(temp)
 		result.Properties.NetworkAclBypass = &networkAclBypass
 	}
 	for _, item := range account.NetworkAclBypassResourceReferences {
@@ -697,7 +709,9 @@ func (account *DatabaseAccount_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		result.Properties.NetworkAclBypassResourceIds = append(result.Properties.NetworkAclBypassResourceIds, itemARMID)
 	}
 	if account.PublicNetworkAccess != nil {
-		publicNetworkAccess := *account.PublicNetworkAccess
+		var temp string
+		temp = string(*account.PublicNetworkAccess)
+		publicNetworkAccess := PublicNetworkAccess_ARM(temp)
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 	if account.RestoreParameters != nil {
@@ -814,7 +828,9 @@ func (account *DatabaseAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ConnectorOffer != nil {
-			connectorOffer := *typedInput.Properties.ConnectorOffer
+			var temp string
+			temp = string(*typedInput.Properties.ConnectorOffer)
+			connectorOffer := ConnectorOffer(temp)
 			account.ConnectorOffer = &connectorOffer
 		}
 	}
@@ -850,7 +866,9 @@ func (account *DatabaseAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CreateMode != nil {
-			createMode := *typedInput.Properties.CreateMode
+			var temp string
+			temp = string(*typedInput.Properties.CreateMode)
+			createMode := CreateMode(temp)
 			account.CreateMode = &createMode
 		}
 	}
@@ -868,7 +886,9 @@ func (account *DatabaseAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DatabaseAccountOfferType != nil {
-			databaseAccountOfferType := *typedInput.Properties.DatabaseAccountOfferType
+			var temp string
+			temp = string(*typedInput.Properties.DatabaseAccountOfferType)
+			databaseAccountOfferType := DatabaseAccountOfferType(temp)
 			account.DatabaseAccountOfferType = &databaseAccountOfferType
 		}
 	}
@@ -1007,7 +1027,9 @@ func (account *DatabaseAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property "Kind":
 	if typedInput.Kind != nil {
-		kind := *typedInput.Kind
+		var temp string
+		temp = string(*typedInput.Kind)
+		kind := DatabaseAccount_Kind_Spec(temp)
 		account.Kind = &kind
 	}
 
@@ -1034,7 +1056,9 @@ func (account *DatabaseAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MinimalTlsVersion != nil {
-			minimalTlsVersion := *typedInput.Properties.MinimalTlsVersion
+			var temp string
+			temp = string(*typedInput.Properties.MinimalTlsVersion)
+			minimalTlsVersion := MinimalTlsVersion(temp)
 			account.MinimalTlsVersion = &minimalTlsVersion
 		}
 	}
@@ -1043,7 +1067,9 @@ func (account *DatabaseAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NetworkAclBypass != nil {
-			networkAclBypass := *typedInput.Properties.NetworkAclBypass
+			var temp string
+			temp = string(*typedInput.Properties.NetworkAclBypass)
+			networkAclBypass := NetworkAclBypass(temp)
 			account.NetworkAclBypass = &networkAclBypass
 		}
 	}
@@ -1062,7 +1088,9 @@ func (account *DatabaseAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
-			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccess)
+			publicNetworkAccess := PublicNetworkAccess(temp)
 			account.PublicNetworkAccess = &publicNetworkAccess
 		}
 	}
@@ -2538,7 +2566,9 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ConnectorOffer != nil {
-			connectorOffer := *typedInput.Properties.ConnectorOffer
+			var temp string
+			temp = string(*typedInput.Properties.ConnectorOffer)
+			connectorOffer := ConnectorOffer_STATUS(temp)
 			account.ConnectorOffer = &connectorOffer
 		}
 	}
@@ -2574,7 +2604,9 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CreateMode != nil {
-			createMode := *typedInput.Properties.CreateMode
+			var temp string
+			temp = string(*typedInput.Properties.CreateMode)
+			createMode := CreateMode_STATUS(temp)
 			account.CreateMode = &createMode
 		}
 	}
@@ -2592,7 +2624,9 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DatabaseAccountOfferType != nil {
-			databaseAccountOfferType := *typedInput.Properties.DatabaseAccountOfferType
+			var temp string
+			temp = string(*typedInput.Properties.DatabaseAccountOfferType)
+			databaseAccountOfferType := DatabaseAccountOfferType_STATUS(temp)
 			account.DatabaseAccountOfferType = &databaseAccountOfferType
 		}
 	}
@@ -2782,7 +2816,9 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property "Kind":
 	if typedInput.Kind != nil {
-		kind := *typedInput.Kind
+		var temp string
+		temp = string(*typedInput.Kind)
+		kind := DatabaseAccount_Kind_STATUS(temp)
 		account.Kind = &kind
 	}
 
@@ -2809,7 +2845,9 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MinimalTlsVersion != nil {
-			minimalTlsVersion := *typedInput.Properties.MinimalTlsVersion
+			var temp string
+			temp = string(*typedInput.Properties.MinimalTlsVersion)
+			minimalTlsVersion := MinimalTlsVersion_STATUS(temp)
 			account.MinimalTlsVersion = &minimalTlsVersion
 		}
 	}
@@ -2824,7 +2862,9 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NetworkAclBypass != nil {
-			networkAclBypass := *typedInput.Properties.NetworkAclBypass
+			var temp string
+			temp = string(*typedInput.Properties.NetworkAclBypass)
+			networkAclBypass := NetworkAclBypass_STATUS(temp)
 			account.NetworkAclBypass = &networkAclBypass
 		}
 	}
@@ -2863,7 +2903,9 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
-			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccess)
+			publicNetworkAccess := PublicNetworkAccess_STATUS(temp)
 			account.PublicNetworkAccess = &publicNetworkAccess
 		}
 	}
@@ -3887,7 +3929,9 @@ func (configuration *AnalyticalStorageConfiguration) ConvertToARM(resolved genru
 
 	// Set property "SchemaType":
 	if configuration.SchemaType != nil {
-		schemaType := *configuration.SchemaType
+		var temp string
+		temp = string(*configuration.SchemaType)
+		schemaType := AnalyticalStorageSchemaType_ARM(temp)
 		result.SchemaType = &schemaType
 	}
 	return result, nil
@@ -3907,7 +3951,9 @@ func (configuration *AnalyticalStorageConfiguration) PopulateFromARM(owner genru
 
 	// Set property "SchemaType":
 	if typedInput.SchemaType != nil {
-		schemaType := *typedInput.SchemaType
+		var temp string
+		temp = string(*typedInput.SchemaType)
+		schemaType := AnalyticalStorageSchemaType(temp)
 		configuration.SchemaType = &schemaType
 	}
 
@@ -3992,7 +4038,9 @@ func (configuration *AnalyticalStorageConfiguration_STATUS) PopulateFromARM(owne
 
 	// Set property "SchemaType":
 	if typedInput.SchemaType != nil {
-		schemaType := *typedInput.SchemaType
+		var temp string
+		temp = string(*typedInput.SchemaType)
+		schemaType := AnalyticalStorageSchemaType_STATUS(temp)
 		configuration.SchemaType = &schemaType
 	}
 
@@ -4056,7 +4104,9 @@ func (properties *ApiProperties) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "ServerVersion":
 	if properties.ServerVersion != nil {
-		serverVersion := *properties.ServerVersion
+		var temp string
+		temp = string(*properties.ServerVersion)
+		serverVersion := ApiProperties_ServerVersion_ARM(temp)
 		result.ServerVersion = &serverVersion
 	}
 	return result, nil
@@ -4076,7 +4126,9 @@ func (properties *ApiProperties) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property "ServerVersion":
 	if typedInput.ServerVersion != nil {
-		serverVersion := *typedInput.ServerVersion
+		var temp string
+		temp = string(*typedInput.ServerVersion)
+		serverVersion := ApiProperties_ServerVersion(temp)
 		properties.ServerVersion = &serverVersion
 	}
 
@@ -4160,7 +4212,9 @@ func (properties *ApiProperties_STATUS) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property "ServerVersion":
 	if typedInput.ServerVersion != nil {
-		serverVersion := *typedInput.ServerVersion
+		var temp string
+		temp = string(*typedInput.ServerVersion)
+		serverVersion := ApiProperties_ServerVersion_STATUS(temp)
 		properties.ServerVersion = &serverVersion
 	}
 
@@ -4867,7 +4921,9 @@ func (policy *ConsistencyPolicy) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "DefaultConsistencyLevel":
 	if policy.DefaultConsistencyLevel != nil {
-		defaultConsistencyLevel := *policy.DefaultConsistencyLevel
+		var temp string
+		temp = string(*policy.DefaultConsistencyLevel)
+		defaultConsistencyLevel := ConsistencyPolicy_DefaultConsistencyLevel_ARM(temp)
 		result.DefaultConsistencyLevel = &defaultConsistencyLevel
 	}
 
@@ -4899,7 +4955,9 @@ func (policy *ConsistencyPolicy) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property "DefaultConsistencyLevel":
 	if typedInput.DefaultConsistencyLevel != nil {
-		defaultConsistencyLevel := *typedInput.DefaultConsistencyLevel
+		var temp string
+		temp = string(*typedInput.DefaultConsistencyLevel)
+		defaultConsistencyLevel := ConsistencyPolicy_DefaultConsistencyLevel(temp)
 		policy.DefaultConsistencyLevel = &defaultConsistencyLevel
 	}
 
@@ -5054,7 +5112,9 @@ func (policy *ConsistencyPolicy_STATUS) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property "DefaultConsistencyLevel":
 	if typedInput.DefaultConsistencyLevel != nil {
-		defaultConsistencyLevel := *typedInput.DefaultConsistencyLevel
+		var temp string
+		temp = string(*typedInput.DefaultConsistencyLevel)
+		defaultConsistencyLevel := ConsistencyPolicy_DefaultConsistencyLevel_STATUS(temp)
 		policy.DefaultConsistencyLevel = &defaultConsistencyLevel
 	}
 
@@ -5472,6 +5532,37 @@ const (
 var createMode_STATUS_Values = map[string]CreateMode_STATUS{
 	"default": CreateMode_STATUS_Default,
 	"restore": CreateMode_STATUS_Restore,
+}
+
+// +kubebuilder:validation:Enum={"GlobalDocumentDB","MongoDB","Parse"}
+type DatabaseAccount_Kind_Spec string
+
+const (
+	DatabaseAccount_Kind_Spec_GlobalDocumentDB = DatabaseAccount_Kind_Spec("GlobalDocumentDB")
+	DatabaseAccount_Kind_Spec_MongoDB          = DatabaseAccount_Kind_Spec("MongoDB")
+	DatabaseAccount_Kind_Spec_Parse            = DatabaseAccount_Kind_Spec("Parse")
+)
+
+// Mapping from string to DatabaseAccount_Kind_Spec
+var databaseAccount_Kind_Spec_Values = map[string]DatabaseAccount_Kind_Spec{
+	"globaldocumentdb": DatabaseAccount_Kind_Spec_GlobalDocumentDB,
+	"mongodb":          DatabaseAccount_Kind_Spec_MongoDB,
+	"parse":            DatabaseAccount_Kind_Spec_Parse,
+}
+
+type DatabaseAccount_Kind_STATUS string
+
+const (
+	DatabaseAccount_Kind_STATUS_GlobalDocumentDB = DatabaseAccount_Kind_STATUS("GlobalDocumentDB")
+	DatabaseAccount_Kind_STATUS_MongoDB          = DatabaseAccount_Kind_STATUS("MongoDB")
+	DatabaseAccount_Kind_STATUS_Parse            = DatabaseAccount_Kind_STATUS("Parse")
+)
+
+// Mapping from string to DatabaseAccount_Kind_STATUS
+var databaseAccount_Kind_STATUS_Values = map[string]DatabaseAccount_Kind_STATUS{
+	"globaldocumentdb": DatabaseAccount_Kind_STATUS_GlobalDocumentDB,
+	"mongodb":          DatabaseAccount_Kind_STATUS_MongoDB,
+	"parse":            DatabaseAccount_Kind_STATUS_Parse,
 }
 
 // The metadata related to each access key for the given Cosmos DB database account.
@@ -6318,7 +6409,9 @@ func (identity *ManagedServiceIdentity) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "Type":
 	if identity.Type != nil {
-		typeVar := *identity.Type
+		var temp string
+		temp = string(*identity.Type)
+		typeVar := ManagedServiceIdentity_Type_ARM(temp)
 		result.Type = &typeVar
 	}
 
@@ -6349,7 +6442,9 @@ func (identity *ManagedServiceIdentity) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ManagedServiceIdentity_Type(temp)
 		identity.Type = &typeVar
 	}
 
@@ -6510,7 +6605,9 @@ func (identity *ManagedServiceIdentity_STATUS) PopulateFromARM(owner genruntime.
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ManagedServiceIdentity_Type_STATUS(temp)
 		identity.Type = &typeVar
 	}
 
@@ -6825,7 +6922,9 @@ func (parameters *RestoreParameters) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property "RestoreMode":
 	if parameters.RestoreMode != nil {
-		restoreMode := *parameters.RestoreMode
+		var temp string
+		temp = string(*parameters.RestoreMode)
+		restoreMode := RestoreParameters_RestoreMode_ARM(temp)
 		result.RestoreMode = &restoreMode
 	}
 
@@ -6882,7 +6981,9 @@ func (parameters *RestoreParameters) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property "RestoreMode":
 	if typedInput.RestoreMode != nil {
-		restoreMode := *typedInput.RestoreMode
+		var temp string
+		temp = string(*typedInput.RestoreMode)
+		restoreMode := RestoreParameters_RestoreMode(temp)
 		parameters.RestoreMode = &restoreMode
 	}
 
@@ -7155,7 +7256,9 @@ func (parameters *RestoreParameters_STATUS) PopulateFromARM(owner genruntime.Arb
 
 	// Set property "RestoreMode":
 	if typedInput.RestoreMode != nil {
-		restoreMode := *typedInput.RestoreMode
+		var temp string
+		temp = string(*typedInput.RestoreMode)
+		restoreMode := RestoreParameters_RestoreMode_STATUS(temp)
 		parameters.RestoreMode = &restoreMode
 	}
 
@@ -7359,7 +7462,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "CreatedByType":
 	if typedInput.CreatedByType != nil {
-		createdByType := *typedInput.CreatedByType
+		var temp string
+		temp = string(*typedInput.CreatedByType)
+		createdByType := SystemData_CreatedByType_STATUS(temp)
 		data.CreatedByType = &createdByType
 	}
 
@@ -7377,7 +7482,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "LastModifiedByType":
 	if typedInput.LastModifiedByType != nil {
-		lastModifiedByType := *typedInput.LastModifiedByType
+		var temp string
+		temp = string(*typedInput.LastModifiedByType)
+		lastModifiedByType := SystemData_LastModifiedByType_STATUS(temp)
 		data.LastModifiedByType = &lastModifiedByType
 	}
 
@@ -7896,7 +8003,11 @@ func (policy *ContinuousModeBackupPolicy) ConvertToARM(resolved genruntime.Conve
 
 	// Set property "Type":
 	if policy.Type != nil {
-		result.Type = *policy.Type
+		var temp ContinuousModeBackupPolicy_Type_ARM
+		var temp1 string
+		temp1 = string(*policy.Type)
+		temp = ContinuousModeBackupPolicy_Type_ARM(temp1)
+		result.Type = temp
 	}
 	return result, nil
 }
@@ -7936,7 +8047,11 @@ func (policy *ContinuousModeBackupPolicy) PopulateFromARM(owner genruntime.Arbit
 	}
 
 	// Set property "Type":
-	policy.Type = &typedInput.Type
+	var temp ContinuousModeBackupPolicy_Type
+	var temp1 string
+	temp1 = string(typedInput.Type)
+	temp = ContinuousModeBackupPolicy_Type(temp1)
+	policy.Type = &temp
 
 	// No error
 	return nil
@@ -8117,7 +8232,11 @@ func (policy *ContinuousModeBackupPolicy_STATUS) PopulateFromARM(owner genruntim
 	}
 
 	// Set property "Type":
-	policy.Type = &typedInput.Type
+	var temp ContinuousModeBackupPolicy_Type_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Type)
+	temp = ContinuousModeBackupPolicy_Type_STATUS(temp1)
+	policy.Type = &temp
 
 	// No error
 	return nil
@@ -8694,6 +8813,41 @@ func (resource *GremlinDatabaseRestoreResource_STATUS) AssignProperties_To_Greml
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned,UserAssigned","UserAssigned"}
+type ManagedServiceIdentity_Type string
+
+const (
+	ManagedServiceIdentity_Type_None                       = ManagedServiceIdentity_Type("None")
+	ManagedServiceIdentity_Type_SystemAssigned             = ManagedServiceIdentity_Type("SystemAssigned")
+	ManagedServiceIdentity_Type_SystemAssignedUserAssigned = ManagedServiceIdentity_Type("SystemAssigned,UserAssigned")
+	ManagedServiceIdentity_Type_UserAssigned               = ManagedServiceIdentity_Type("UserAssigned")
+)
+
+// Mapping from string to ManagedServiceIdentity_Type
+var managedServiceIdentity_Type_Values = map[string]ManagedServiceIdentity_Type{
+	"none":                        ManagedServiceIdentity_Type_None,
+	"systemassigned":              ManagedServiceIdentity_Type_SystemAssigned,
+	"systemassigned,userassigned": ManagedServiceIdentity_Type_SystemAssignedUserAssigned,
+	"userassigned":                ManagedServiceIdentity_Type_UserAssigned,
+}
+
+type ManagedServiceIdentity_Type_STATUS string
+
+const (
+	ManagedServiceIdentity_Type_STATUS_None                       = ManagedServiceIdentity_Type_STATUS("None")
+	ManagedServiceIdentity_Type_STATUS_SystemAssigned             = ManagedServiceIdentity_Type_STATUS("SystemAssigned")
+	ManagedServiceIdentity_Type_STATUS_SystemAssignedUserAssigned = ManagedServiceIdentity_Type_STATUS("SystemAssigned,UserAssigned")
+	ManagedServiceIdentity_Type_STATUS_UserAssigned               = ManagedServiceIdentity_Type_STATUS("UserAssigned")
+)
+
+// Mapping from string to ManagedServiceIdentity_Type_STATUS
+var managedServiceIdentity_Type_STATUS_Values = map[string]ManagedServiceIdentity_Type_STATUS{
+	"none":                        ManagedServiceIdentity_Type_STATUS_None,
+	"systemassigned":              ManagedServiceIdentity_Type_STATUS_SystemAssigned,
+	"systemassigned,userassigned": ManagedServiceIdentity_Type_STATUS_SystemAssignedUserAssigned,
+	"userassigned":                ManagedServiceIdentity_Type_STATUS_UserAssigned,
+}
+
 type ManagedServiceIdentity_UserAssignedIdentities_STATUS struct {
 	// ClientId: The client id of user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
@@ -8810,7 +8964,11 @@ func (policy *PeriodicModeBackupPolicy) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "Type":
 	if policy.Type != nil {
-		result.Type = *policy.Type
+		var temp PeriodicModeBackupPolicy_Type_ARM
+		var temp1 string
+		temp1 = string(*policy.Type)
+		temp = PeriodicModeBackupPolicy_Type_ARM(temp1)
+		result.Type = temp
 	}
 	return result, nil
 }
@@ -8850,7 +9008,11 @@ func (policy *PeriodicModeBackupPolicy) PopulateFromARM(owner genruntime.Arbitra
 	}
 
 	// Set property "Type":
-	policy.Type = &typedInput.Type
+	var temp PeriodicModeBackupPolicy_Type
+	var temp1 string
+	temp1 = string(typedInput.Type)
+	temp = PeriodicModeBackupPolicy_Type(temp1)
+	policy.Type = &temp
 
 	// No error
 	return nil
@@ -9031,7 +9193,11 @@ func (policy *PeriodicModeBackupPolicy_STATUS) PopulateFromARM(owner genruntime.
 	}
 
 	// Set property "Type":
-	policy.Type = &typedInput.Type
+	var temp PeriodicModeBackupPolicy_Type_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Type)
+	temp = PeriodicModeBackupPolicy_Type_STATUS(temp1)
+	policy.Type = &temp
 
 	// No error
 	return nil
@@ -9144,6 +9310,40 @@ var restoreParameters_RestoreMode_STATUS_Values = map[string]RestoreParameters_R
 	"pointintime": RestoreParameters_RestoreMode_STATUS_PointInTime,
 }
 
+type SystemData_CreatedByType_STATUS string
+
+const (
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
+}
+
+type SystemData_LastModifiedByType_STATUS string
+
+const (
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
+}
+
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails struct {
 	Reference genruntime.ResourceReference `armReference:"Reference" json:"reference,omitempty"`
@@ -9207,13 +9407,17 @@ func (state *BackupPolicyMigrationState) ConvertToARM(resolved genruntime.Conver
 
 	// Set property "Status":
 	if state.Status != nil {
-		status := *state.Status
+		var temp string
+		temp = string(*state.Status)
+		status := BackupPolicyMigrationStatus_ARM(temp)
 		result.Status = &status
 	}
 
 	// Set property "TargetType":
 	if state.TargetType != nil {
-		targetType := *state.TargetType
+		var temp string
+		temp = string(*state.TargetType)
+		targetType := BackupPolicyType_ARM(temp)
 		result.TargetType = &targetType
 	}
 	return result, nil
@@ -9239,13 +9443,17 @@ func (state *BackupPolicyMigrationState) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "Status":
 	if typedInput.Status != nil {
-		status := *typedInput.Status
+		var temp string
+		temp = string(*typedInput.Status)
+		status := BackupPolicyMigrationStatus(temp)
 		state.Status = &status
 	}
 
 	// Set property "TargetType":
 	if typedInput.TargetType != nil {
-		targetType := *typedInput.TargetType
+		var temp string
+		temp = string(*typedInput.TargetType)
+		targetType := BackupPolicyType(temp)
 		state.TargetType = &targetType
 	}
 
@@ -9376,13 +9584,17 @@ func (state *BackupPolicyMigrationState_STATUS) PopulateFromARM(owner genruntime
 
 	// Set property "Status":
 	if typedInput.Status != nil {
-		status := *typedInput.Status
+		var temp string
+		temp = string(*typedInput.Status)
+		status := BackupPolicyMigrationStatus_STATUS(temp)
 		state.Status = &status
 	}
 
 	// Set property "TargetType":
 	if typedInput.TargetType != nil {
-		targetType := *typedInput.TargetType
+		var temp string
+		temp = string(*typedInput.TargetType)
+		targetType := BackupPolicyType_STATUS(temp)
 		state.TargetType = &targetType
 	}
 
@@ -9489,7 +9701,9 @@ func (properties *ContinuousModeProperties) ConvertToARM(resolved genruntime.Con
 
 	// Set property "Tier":
 	if properties.Tier != nil {
-		tier := *properties.Tier
+		var temp string
+		temp = string(*properties.Tier)
+		tier := ContinuousTier_ARM(temp)
 		result.Tier = &tier
 	}
 	return result, nil
@@ -9509,7 +9723,9 @@ func (properties *ContinuousModeProperties) PopulateFromARM(owner genruntime.Arb
 
 	// Set property "Tier":
 	if typedInput.Tier != nil {
-		tier := *typedInput.Tier
+		var temp string
+		temp = string(*typedInput.Tier)
+		tier := ContinuousTier(temp)
 		properties.Tier = &tier
 	}
 
@@ -9594,7 +9810,9 @@ func (properties *ContinuousModeProperties_STATUS) PopulateFromARM(owner genrunt
 
 	// Set property "Tier":
 	if typedInput.Tier != nil {
-		tier := *typedInput.Tier
+		var temp string
+		temp = string(*typedInput.Tier)
+		tier := ContinuousTier_STATUS(temp)
 		properties.Tier = &tier
 	}
 
@@ -9698,7 +9916,9 @@ func (properties *PeriodicModeProperties) ConvertToARM(resolved genruntime.Conve
 
 	// Set property "BackupStorageRedundancy":
 	if properties.BackupStorageRedundancy != nil {
-		backupStorageRedundancy := *properties.BackupStorageRedundancy
+		var temp string
+		temp = string(*properties.BackupStorageRedundancy)
+		backupStorageRedundancy := BackupStorageRedundancy_ARM(temp)
 		result.BackupStorageRedundancy = &backupStorageRedundancy
 	}
 	return result, nil
@@ -9730,7 +9950,9 @@ func (properties *PeriodicModeProperties) PopulateFromARM(owner genruntime.Arbit
 
 	// Set property "BackupStorageRedundancy":
 	if typedInput.BackupStorageRedundancy != nil {
-		backupStorageRedundancy := *typedInput.BackupStorageRedundancy
+		var temp string
+		temp = string(*typedInput.BackupStorageRedundancy)
+		backupStorageRedundancy := BackupStorageRedundancy(temp)
 		properties.BackupStorageRedundancy = &backupStorageRedundancy
 	}
 
@@ -9881,7 +10103,9 @@ func (properties *PeriodicModeProperties_STATUS) PopulateFromARM(owner genruntim
 
 	// Set property "BackupStorageRedundancy":
 	if typedInput.BackupStorageRedundancy != nil {
-		backupStorageRedundancy := *typedInput.BackupStorageRedundancy
+		var temp string
+		temp = string(*typedInput.BackupStorageRedundancy)
+		backupStorageRedundancy := BackupStorageRedundancy_STATUS(temp)
 		properties.BackupStorageRedundancy = &backupStorageRedundancy
 	}
 

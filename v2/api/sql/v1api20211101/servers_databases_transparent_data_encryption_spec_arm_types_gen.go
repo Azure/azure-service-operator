@@ -32,5 +32,19 @@ func (encryption *Servers_Databases_TransparentDataEncryption_Spec_ARM) GetType(
 // Properties of a transparent data encryption.
 type TransparentDataEncryptionProperties_ARM struct {
 	// State: Specifies the state of the transparent data encryption.
-	State *TransparentDataEncryptionProperties_State `json:"state,omitempty"`
+	State *TransparentDataEncryptionProperties_State_ARM `json:"state,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type TransparentDataEncryptionProperties_State_ARM string
+
+const (
+	TransparentDataEncryptionProperties_State_ARM_Disabled = TransparentDataEncryptionProperties_State_ARM("Disabled")
+	TransparentDataEncryptionProperties_State_ARM_Enabled  = TransparentDataEncryptionProperties_State_ARM("Enabled")
+)
+
+// Mapping from string to TransparentDataEncryptionProperties_State_ARM
+var transparentDataEncryptionProperties_State_ARM_Values = map[string]TransparentDataEncryptionProperties_State_ARM{
+	"disabled": TransparentDataEncryptionProperties_State_ARM_Disabled,
+	"enabled":  TransparentDataEncryptionProperties_State_ARM_Enabled,
 }

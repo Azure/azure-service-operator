@@ -10,7 +10,7 @@ type SignalR_Spec_ARM struct {
 	Identity *ManagedIdentity_ARM `json:"identity,omitempty"`
 
 	// Kind: The kind of the service, it can be SignalR or RawWebSockets
-	Kind *ServiceKind `json:"kind,omitempty"`
+	Kind *ServiceKind_ARM `json:"kind,omitempty"`
 
 	// Location: The GEO location of the resource. e.g. West US | East US | North Central US | South Central US.
 	Location *string `json:"location,omitempty"`
@@ -46,7 +46,7 @@ func (signalR *SignalR_Spec_ARM) GetType() string {
 // A class represent managed identities used for request and response
 type ManagedIdentity_ARM struct {
 	// Type: Represents the identity type: systemAssigned, userAssigned, None
-	Type                   *ManagedIdentityType                       `json:"type,omitempty"`
+	Type                   *ManagedIdentityType_ARM                   `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -64,22 +64,22 @@ type ResourceSku_ARM struct {
 
 	// Tier: Optional tier of this particular SKU. 'Standard' or 'Free'.
 	// `Basic` is deprecated, use `Standard` instead.
-	Tier *SignalRSkuTier `json:"tier,omitempty"`
+	Tier *SignalRSkuTier_ARM `json:"tier,omitempty"`
 }
 
 // The kind of the service, it can be SignalR or RawWebSockets
 // +kubebuilder:validation:Enum={"RawWebSockets","SignalR"}
-type ServiceKind string
+type ServiceKind_ARM string
 
 const (
-	ServiceKind_RawWebSockets = ServiceKind("RawWebSockets")
-	ServiceKind_SignalR       = ServiceKind("SignalR")
+	ServiceKind_ARM_RawWebSockets = ServiceKind_ARM("RawWebSockets")
+	ServiceKind_ARM_SignalR       = ServiceKind_ARM("SignalR")
 )
 
-// Mapping from string to ServiceKind
-var serviceKind_Values = map[string]ServiceKind{
-	"rawwebsockets": ServiceKind_RawWebSockets,
-	"signalr":       ServiceKind_SignalR,
+// Mapping from string to ServiceKind_ARM
+var serviceKind_ARM_Values = map[string]ServiceKind_ARM{
+	"rawwebsockets": ServiceKind_ARM_RawWebSockets,
+	"signalr":       ServiceKind_ARM_SignalR,
 }
 
 // A class that describes the properties of the resource
@@ -124,19 +124,19 @@ type SignalRProperties_ARM struct {
 
 // Represents the identity type: systemAssigned, userAssigned, None
 // +kubebuilder:validation:Enum={"None","SystemAssigned","UserAssigned"}
-type ManagedIdentityType string
+type ManagedIdentityType_ARM string
 
 const (
-	ManagedIdentityType_None           = ManagedIdentityType("None")
-	ManagedIdentityType_SystemAssigned = ManagedIdentityType("SystemAssigned")
-	ManagedIdentityType_UserAssigned   = ManagedIdentityType("UserAssigned")
+	ManagedIdentityType_ARM_None           = ManagedIdentityType_ARM("None")
+	ManagedIdentityType_ARM_SystemAssigned = ManagedIdentityType_ARM("SystemAssigned")
+	ManagedIdentityType_ARM_UserAssigned   = ManagedIdentityType_ARM("UserAssigned")
 )
 
-// Mapping from string to ManagedIdentityType
-var managedIdentityType_Values = map[string]ManagedIdentityType{
-	"none":           ManagedIdentityType_None,
-	"systemassigned": ManagedIdentityType_SystemAssigned,
-	"userassigned":   ManagedIdentityType_UserAssigned,
+// Mapping from string to ManagedIdentityType_ARM
+var managedIdentityType_ARM_Values = map[string]ManagedIdentityType_ARM{
+	"none":           ManagedIdentityType_ARM_None,
+	"systemassigned": ManagedIdentityType_ARM_SystemAssigned,
+	"userassigned":   ManagedIdentityType_ARM_UserAssigned,
 }
 
 // Resource log configuration of a Microsoft.SignalRService resource.
@@ -170,7 +170,7 @@ type SignalRFeature_ARM struct {
 	// traces in real time, it will be helpful when you developing your own Azure SignalR based web application  or
 	// self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged.
 	// Values allowed: "true"/"false", to enable/disable live trace feature.
-	Flag *FeatureFlags `json:"flag,omitempty"`
+	Flag *FeatureFlags_ARM `json:"flag,omitempty"`
 
 	// Properties: Optional properties related to this feature.
 	Properties map[string]string `json:"properties,omitempty"`
@@ -183,7 +183,7 @@ type SignalRFeature_ARM struct {
 // Network ACLs for the resource
 type SignalRNetworkACLs_ARM struct {
 	// DefaultAction: Azure Networking ACL Action.
-	DefaultAction *ACLAction `json:"defaultAction,omitempty"`
+	DefaultAction *ACLAction_ARM `json:"defaultAction,omitempty"`
 
 	// PrivateEndpoints: ACLs for requests from private endpoints
 	PrivateEndpoints []PrivateEndpointACL_ARM `json:"privateEndpoints,omitempty"`
@@ -195,21 +195,21 @@ type SignalRNetworkACLs_ARM struct {
 // Optional tier of this particular SKU. 'Standard' or 'Free'.
 // `Basic` is deprecated, use `Standard` instead.
 // +kubebuilder:validation:Enum={"Basic","Free","Premium","Standard"}
-type SignalRSkuTier string
+type SignalRSkuTier_ARM string
 
 const (
-	SignalRSkuTier_Basic    = SignalRSkuTier("Basic")
-	SignalRSkuTier_Free     = SignalRSkuTier("Free")
-	SignalRSkuTier_Premium  = SignalRSkuTier("Premium")
-	SignalRSkuTier_Standard = SignalRSkuTier("Standard")
+	SignalRSkuTier_ARM_Basic    = SignalRSkuTier_ARM("Basic")
+	SignalRSkuTier_ARM_Free     = SignalRSkuTier_ARM("Free")
+	SignalRSkuTier_ARM_Premium  = SignalRSkuTier_ARM("Premium")
+	SignalRSkuTier_ARM_Standard = SignalRSkuTier_ARM("Standard")
 )
 
-// Mapping from string to SignalRSkuTier
-var signalRSkuTier_Values = map[string]SignalRSkuTier{
-	"basic":    SignalRSkuTier_Basic,
-	"free":     SignalRSkuTier_Free,
-	"premium":  SignalRSkuTier_Premium,
-	"standard": SignalRSkuTier_Standard,
+// Mapping from string to SignalRSkuTier_ARM
+var signalRSkuTier_ARM_Values = map[string]SignalRSkuTier_ARM{
+	"basic":    SignalRSkuTier_ARM_Basic,
+	"free":     SignalRSkuTier_ARM_Free,
+	"premium":  SignalRSkuTier_ARM_Premium,
+	"standard": SignalRSkuTier_ARM_Standard,
 }
 
 // TLS settings for the resource
@@ -222,22 +222,68 @@ type SignalRTlsSettings_ARM struct {
 type UserAssignedIdentityDetails_ARM struct {
 }
 
+// Azure Networking ACL Action.
+// +kubebuilder:validation:Enum={"Allow","Deny"}
+type ACLAction_ARM string
+
+const (
+	ACLAction_ARM_Allow = ACLAction_ARM("Allow")
+	ACLAction_ARM_Deny  = ACLAction_ARM("Deny")
+)
+
+// Mapping from string to ACLAction_ARM
+var aCLAction_ARM_Values = map[string]ACLAction_ARM{
+	"allow": ACLAction_ARM_Allow,
+	"deny":  ACLAction_ARM_Deny,
+}
+
+// FeatureFlags is the supported features of Azure SignalR service.
+// - ServiceMode: Flag for backend server for SignalR
+// service. Values allowed: "Default": have your own backend server; "Serverless": your application doesn't have a backend
+// server; "Classic": for backward compatibility. Support both Default and Serverless mode but not recommended;
+// "PredefinedOnly": for future use.
+// - EnableConnectivityLogs: "true"/"false", to enable/disable the connectivity log
+// category respectively.
+// - EnableMessagingLogs: "true"/"false", to enable/disable the connectivity log category
+// respectively.
+// - EnableLiveTrace: Live Trace allows you to know what's happening inside Azure SignalR service, it will
+// give you live traces in real time, it will be helpful when you developing your own Azure SignalR based web application
+// or self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged.
+// Values allowed: "true"/"false", to enable/disable live trace feature.
+// +kubebuilder:validation:Enum={"EnableConnectivityLogs","EnableLiveTrace","EnableMessagingLogs","ServiceMode"}
+type FeatureFlags_ARM string
+
+const (
+	FeatureFlags_ARM_EnableConnectivityLogs = FeatureFlags_ARM("EnableConnectivityLogs")
+	FeatureFlags_ARM_EnableLiveTrace        = FeatureFlags_ARM("EnableLiveTrace")
+	FeatureFlags_ARM_EnableMessagingLogs    = FeatureFlags_ARM("EnableMessagingLogs")
+	FeatureFlags_ARM_ServiceMode            = FeatureFlags_ARM("ServiceMode")
+)
+
+// Mapping from string to FeatureFlags_ARM
+var featureFlags_ARM_Values = map[string]FeatureFlags_ARM{
+	"enableconnectivitylogs": FeatureFlags_ARM_EnableConnectivityLogs,
+	"enablelivetrace":        FeatureFlags_ARM_EnableLiveTrace,
+	"enablemessaginglogs":    FeatureFlags_ARM_EnableMessagingLogs,
+	"servicemode":            FeatureFlags_ARM_ServiceMode,
+}
+
 // Network ACL
 type NetworkACL_ARM struct {
 	// Allow: Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
-	Allow []SignalRRequestType `json:"allow,omitempty"`
+	Allow []SignalRRequestType_ARM `json:"allow,omitempty"`
 
 	// Deny: Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
-	Deny []SignalRRequestType `json:"deny,omitempty"`
+	Deny []SignalRRequestType_ARM `json:"deny,omitempty"`
 }
 
 // ACL for a private endpoint
 type PrivateEndpointACL_ARM struct {
 	// Allow: Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
-	Allow []SignalRRequestType `json:"allow,omitempty"`
+	Allow []SignalRRequestType_ARM `json:"allow,omitempty"`
 
 	// Deny: Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
-	Deny []SignalRRequestType `json:"deny,omitempty"`
+	Deny []SignalRRequestType_ARM `json:"deny,omitempty"`
 
 	// Name: Name of the private endpoint connection
 	Name *string `json:"name,omitempty"`
@@ -292,13 +338,32 @@ type UpstreamTemplate_ARM struct {
 	UrlTemplate *string `json:"urlTemplate,omitempty"`
 }
 
+// The incoming request type to the service
+// +kubebuilder:validation:Enum={"ClientConnection","RESTAPI","ServerConnection","Trace"}
+type SignalRRequestType_ARM string
+
+const (
+	SignalRRequestType_ARM_ClientConnection = SignalRRequestType_ARM("ClientConnection")
+	SignalRRequestType_ARM_RESTAPI          = SignalRRequestType_ARM("RESTAPI")
+	SignalRRequestType_ARM_ServerConnection = SignalRRequestType_ARM("ServerConnection")
+	SignalRRequestType_ARM_Trace            = SignalRRequestType_ARM("Trace")
+)
+
+// Mapping from string to SignalRRequestType_ARM
+var signalRRequestType_ARM_Values = map[string]SignalRRequestType_ARM{
+	"clientconnection": SignalRRequestType_ARM_ClientConnection,
+	"restapi":          SignalRRequestType_ARM_RESTAPI,
+	"serverconnection": SignalRRequestType_ARM_ServerConnection,
+	"trace":            SignalRRequestType_ARM_Trace,
+}
+
 // Upstream auth settings. If not set, no auth is used for upstream messages.
 type UpstreamAuthSettings_ARM struct {
 	// ManagedIdentity: Managed identity settings for upstream.
 	ManagedIdentity *ManagedIdentitySettings_ARM `json:"managedIdentity,omitempty"`
 
 	// Type: Upstream auth type enum.
-	Type *UpstreamAuthType `json:"type,omitempty"`
+	Type *UpstreamAuthType_ARM `json:"type,omitempty"`
 }
 
 // Managed identity settings for upstream.
@@ -306,4 +371,19 @@ type ManagedIdentitySettings_ARM struct {
 	// Resource: The Resource indicating the App ID URI of the target resource.
 	// It also appears in the aud (audience) claim of the issued token.
 	Resource *string `json:"resource,omitempty"`
+}
+
+// Upstream auth type enum.
+// +kubebuilder:validation:Enum={"ManagedIdentity","None"}
+type UpstreamAuthType_ARM string
+
+const (
+	UpstreamAuthType_ARM_ManagedIdentity = UpstreamAuthType_ARM("ManagedIdentity")
+	UpstreamAuthType_ARM_None            = UpstreamAuthType_ARM("None")
+)
+
+// Mapping from string to UpstreamAuthType_ARM
+var upstreamAuthType_ARM_Values = map[string]UpstreamAuthType_ARM{
+	"managedidentity": UpstreamAuthType_ARM_ManagedIdentity,
+	"none":            UpstreamAuthType_ARM_None,
 }

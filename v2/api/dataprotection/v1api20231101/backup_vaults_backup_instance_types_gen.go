@@ -924,7 +924,9 @@ func (instance *BackupInstance) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "ValidationType":
 	if instance.ValidationType != nil {
-		validationType := *instance.ValidationType
+		var temp string
+		temp = string(*instance.ValidationType)
+		validationType := BackupInstance_ValidationType_ARM(temp)
 		result.ValidationType = &validationType
 	}
 	return result, nil
@@ -1011,7 +1013,9 @@ func (instance *BackupInstance) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 
 	// Set property "ValidationType":
 	if typedInput.ValidationType != nil {
-		validationType := *typedInput.ValidationType
+		var temp string
+		temp = string(*typedInput.ValidationType)
+		validationType := BackupInstance_ValidationType(temp)
 		instance.ValidationType = &validationType
 	}
 
@@ -1327,7 +1331,9 @@ func (instance *BackupInstance_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property "CurrentProtectionState":
 	if typedInput.CurrentProtectionState != nil {
-		currentProtectionState := *typedInput.CurrentProtectionState
+		var temp string
+		temp = string(*typedInput.CurrentProtectionState)
+		currentProtectionState := BackupInstance_CurrentProtectionState_STATUS(temp)
 		instance.CurrentProtectionState = &currentProtectionState
 	}
 
@@ -1428,7 +1434,9 @@ func (instance *BackupInstance_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property "ValidationType":
 	if typedInput.ValidationType != nil {
-		validationType := *typedInput.ValidationType
+		var temp string
+		temp = string(*typedInput.ValidationType)
+		validationType := BackupInstance_ValidationType_STATUS(temp)
 		instance.ValidationType = &validationType
 	}
 
@@ -1877,6 +1885,66 @@ func (credentials *AuthCredentials_STATUS) AssignProperties_To_AuthCredentials_S
 
 	// No error
 	return nil
+}
+
+type BackupInstance_CurrentProtectionState_STATUS string
+
+const (
+	BackupInstance_CurrentProtectionState_STATUS_BackupSchedulesSuspended    = BackupInstance_CurrentProtectionState_STATUS("BackupSchedulesSuspended")
+	BackupInstance_CurrentProtectionState_STATUS_ConfiguringProtection       = BackupInstance_CurrentProtectionState_STATUS("ConfiguringProtection")
+	BackupInstance_CurrentProtectionState_STATUS_ConfiguringProtectionFailed = BackupInstance_CurrentProtectionState_STATUS("ConfiguringProtectionFailed")
+	BackupInstance_CurrentProtectionState_STATUS_Invalid                     = BackupInstance_CurrentProtectionState_STATUS("Invalid")
+	BackupInstance_CurrentProtectionState_STATUS_NotProtected                = BackupInstance_CurrentProtectionState_STATUS("NotProtected")
+	BackupInstance_CurrentProtectionState_STATUS_ProtectionConfigured        = BackupInstance_CurrentProtectionState_STATUS("ProtectionConfigured")
+	BackupInstance_CurrentProtectionState_STATUS_ProtectionError             = BackupInstance_CurrentProtectionState_STATUS("ProtectionError")
+	BackupInstance_CurrentProtectionState_STATUS_ProtectionStopped           = BackupInstance_CurrentProtectionState_STATUS("ProtectionStopped")
+	BackupInstance_CurrentProtectionState_STATUS_RetentionSchedulesSuspended = BackupInstance_CurrentProtectionState_STATUS("RetentionSchedulesSuspended")
+	BackupInstance_CurrentProtectionState_STATUS_SoftDeleted                 = BackupInstance_CurrentProtectionState_STATUS("SoftDeleted")
+	BackupInstance_CurrentProtectionState_STATUS_SoftDeleting                = BackupInstance_CurrentProtectionState_STATUS("SoftDeleting")
+	BackupInstance_CurrentProtectionState_STATUS_UpdatingProtection          = BackupInstance_CurrentProtectionState_STATUS("UpdatingProtection")
+)
+
+// Mapping from string to BackupInstance_CurrentProtectionState_STATUS
+var backupInstance_CurrentProtectionState_STATUS_Values = map[string]BackupInstance_CurrentProtectionState_STATUS{
+	"backupschedulessuspended":    BackupInstance_CurrentProtectionState_STATUS_BackupSchedulesSuspended,
+	"configuringprotection":       BackupInstance_CurrentProtectionState_STATUS_ConfiguringProtection,
+	"configuringprotectionfailed": BackupInstance_CurrentProtectionState_STATUS_ConfiguringProtectionFailed,
+	"invalid":                     BackupInstance_CurrentProtectionState_STATUS_Invalid,
+	"notprotected":                BackupInstance_CurrentProtectionState_STATUS_NotProtected,
+	"protectionconfigured":        BackupInstance_CurrentProtectionState_STATUS_ProtectionConfigured,
+	"protectionerror":             BackupInstance_CurrentProtectionState_STATUS_ProtectionError,
+	"protectionstopped":           BackupInstance_CurrentProtectionState_STATUS_ProtectionStopped,
+	"retentionschedulessuspended": BackupInstance_CurrentProtectionState_STATUS_RetentionSchedulesSuspended,
+	"softdeleted":                 BackupInstance_CurrentProtectionState_STATUS_SoftDeleted,
+	"softdeleting":                BackupInstance_CurrentProtectionState_STATUS_SoftDeleting,
+	"updatingprotection":          BackupInstance_CurrentProtectionState_STATUS_UpdatingProtection,
+}
+
+// +kubebuilder:validation:Enum={"DeepValidation","ShallowValidation"}
+type BackupInstance_ValidationType string
+
+const (
+	BackupInstance_ValidationType_DeepValidation    = BackupInstance_ValidationType("DeepValidation")
+	BackupInstance_ValidationType_ShallowValidation = BackupInstance_ValidationType("ShallowValidation")
+)
+
+// Mapping from string to BackupInstance_ValidationType
+var backupInstance_ValidationType_Values = map[string]BackupInstance_ValidationType{
+	"deepvalidation":    BackupInstance_ValidationType_DeepValidation,
+	"shallowvalidation": BackupInstance_ValidationType_ShallowValidation,
+}
+
+type BackupInstance_ValidationType_STATUS string
+
+const (
+	BackupInstance_ValidationType_STATUS_DeepValidation    = BackupInstance_ValidationType_STATUS("DeepValidation")
+	BackupInstance_ValidationType_STATUS_ShallowValidation = BackupInstance_ValidationType_STATUS("ShallowValidation")
+)
+
+// Mapping from string to BackupInstance_ValidationType_STATUS
+var backupInstance_ValidationType_STATUS_Values = map[string]BackupInstance_ValidationType_STATUS{
+	"deepvalidation":    BackupInstance_ValidationType_STATUS_DeepValidation,
+	"shallowvalidation": BackupInstance_ValidationType_STATUS_ShallowValidation,
 }
 
 // Datasource to be backed up
@@ -3358,7 +3426,9 @@ func (details *ProtectionStatusDetails_STATUS) PopulateFromARM(owner genruntime.
 
 	// Set property "Status":
 	if typedInput.Status != nil {
-		status := *typedInput.Status
+		var temp string
+		temp = string(*typedInput.Status)
+		status := ProtectionStatusDetails_Status_STATUS(temp)
 		details.Status = &status
 	}
 
@@ -4353,6 +4423,27 @@ func (parameters *PolicyParameters_STATUS) AssignProperties_To_PolicyParameters_
 	return nil
 }
 
+type ProtectionStatusDetails_Status_STATUS string
+
+const (
+	ProtectionStatusDetails_Status_STATUS_ConfiguringProtection       = ProtectionStatusDetails_Status_STATUS("ConfiguringProtection")
+	ProtectionStatusDetails_Status_STATUS_ConfiguringProtectionFailed = ProtectionStatusDetails_Status_STATUS("ConfiguringProtectionFailed")
+	ProtectionStatusDetails_Status_STATUS_ProtectionConfigured        = ProtectionStatusDetails_Status_STATUS("ProtectionConfigured")
+	ProtectionStatusDetails_Status_STATUS_ProtectionStopped           = ProtectionStatusDetails_Status_STATUS("ProtectionStopped")
+	ProtectionStatusDetails_Status_STATUS_SoftDeleted                 = ProtectionStatusDetails_Status_STATUS("SoftDeleted")
+	ProtectionStatusDetails_Status_STATUS_SoftDeleting                = ProtectionStatusDetails_Status_STATUS("SoftDeleting")
+)
+
+// Mapping from string to ProtectionStatusDetails_Status_STATUS
+var protectionStatusDetails_Status_STATUS_Values = map[string]ProtectionStatusDetails_Status_STATUS{
+	"configuringprotection":       ProtectionStatusDetails_Status_STATUS_ConfiguringProtection,
+	"configuringprotectionfailed": ProtectionStatusDetails_Status_STATUS_ConfiguringProtectionFailed,
+	"protectionconfigured":        ProtectionStatusDetails_Status_STATUS_ProtectionConfigured,
+	"protectionstopped":           ProtectionStatusDetails_Status_STATUS_ProtectionStopped,
+	"softdeleted":                 ProtectionStatusDetails_Status_STATUS_SoftDeleted,
+	"softdeleting":                ProtectionStatusDetails_Status_STATUS_SoftDeleting,
+}
+
 type SecretStoreBasedAuthCredentials struct {
 	// +kubebuilder:validation:Required
 	// ObjectType: Type of the specific object - used for deserializing
@@ -4373,7 +4464,11 @@ func (credentials *SecretStoreBasedAuthCredentials) ConvertToARM(resolved genrun
 
 	// Set property "ObjectType":
 	if credentials.ObjectType != nil {
-		result.ObjectType = *credentials.ObjectType
+		var temp SecretStoreBasedAuthCredentials_ObjectType_ARM
+		var temp1 string
+		temp1 = string(*credentials.ObjectType)
+		temp = SecretStoreBasedAuthCredentials_ObjectType_ARM(temp1)
+		result.ObjectType = temp
 	}
 
 	// Set property "SecretStoreResource":
@@ -4401,7 +4496,11 @@ func (credentials *SecretStoreBasedAuthCredentials) PopulateFromARM(owner genrun
 	}
 
 	// Set property "ObjectType":
-	credentials.ObjectType = &typedInput.ObjectType
+	var temp SecretStoreBasedAuthCredentials_ObjectType
+	var temp1 string
+	temp1 = string(typedInput.ObjectType)
+	temp = SecretStoreBasedAuthCredentials_ObjectType(temp1)
+	credentials.ObjectType = &temp
 
 	// Set property "SecretStoreResource":
 	if typedInput.SecretStoreResource != nil {
@@ -4532,7 +4631,11 @@ func (credentials *SecretStoreBasedAuthCredentials_STATUS) PopulateFromARM(owner
 	}
 
 	// Set property "ObjectType":
-	credentials.ObjectType = &typedInput.ObjectType
+	var temp SecretStoreBasedAuthCredentials_ObjectType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.ObjectType)
+	temp = SecretStoreBasedAuthCredentials_ObjectType_STATUS(temp1)
+	credentials.ObjectType = &temp
 
 	// Set property "SecretStoreResource":
 	if typedInput.SecretStoreResource != nil {
@@ -5333,7 +5436,11 @@ func (properties *DefaultResourceProperties) ConvertToARM(resolved genruntime.Co
 
 	// Set property "ObjectType":
 	if properties.ObjectType != nil {
-		result.ObjectType = *properties.ObjectType
+		var temp DefaultResourceProperties_ObjectType_ARM
+		var temp1 string
+		temp1 = string(*properties.ObjectType)
+		temp = DefaultResourceProperties_ObjectType_ARM(temp1)
+		result.ObjectType = temp
 	}
 	return result, nil
 }
@@ -5351,7 +5458,11 @@ func (properties *DefaultResourceProperties) PopulateFromARM(owner genruntime.Ar
 	}
 
 	// Set property "ObjectType":
-	properties.ObjectType = &typedInput.ObjectType
+	var temp DefaultResourceProperties_ObjectType
+	var temp1 string
+	temp1 = string(typedInput.ObjectType)
+	temp = DefaultResourceProperties_ObjectType(temp1)
+	properties.ObjectType = &temp
 
 	// No error
 	return nil
@@ -5432,7 +5543,11 @@ func (properties *DefaultResourceProperties_STATUS) PopulateFromARM(owner genrun
 	}
 
 	// Set property "ObjectType":
-	properties.ObjectType = &typedInput.ObjectType
+	var temp DefaultResourceProperties_ObjectType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.ObjectType)
+	temp = DefaultResourceProperties_ObjectType_STATUS(temp1)
+	properties.ObjectType = &temp
 
 	// No error
 	return nil
@@ -5553,6 +5668,25 @@ func (unrolled *InnerError_STATUS_Unrolled) AssignProperties_To_InnerError_STATU
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"SecretStoreBasedAuthCredentials"}
+type SecretStoreBasedAuthCredentials_ObjectType string
+
+const SecretStoreBasedAuthCredentials_ObjectType_SecretStoreBasedAuthCredentials = SecretStoreBasedAuthCredentials_ObjectType("SecretStoreBasedAuthCredentials")
+
+// Mapping from string to SecretStoreBasedAuthCredentials_ObjectType
+var secretStoreBasedAuthCredentials_ObjectType_Values = map[string]SecretStoreBasedAuthCredentials_ObjectType{
+	"secretstorebasedauthcredentials": SecretStoreBasedAuthCredentials_ObjectType_SecretStoreBasedAuthCredentials,
+}
+
+type SecretStoreBasedAuthCredentials_ObjectType_STATUS string
+
+const SecretStoreBasedAuthCredentials_ObjectType_STATUS_SecretStoreBasedAuthCredentials = SecretStoreBasedAuthCredentials_ObjectType_STATUS("SecretStoreBasedAuthCredentials")
+
+// Mapping from string to SecretStoreBasedAuthCredentials_ObjectType_STATUS
+var secretStoreBasedAuthCredentials_ObjectType_STATUS_Values = map[string]SecretStoreBasedAuthCredentials_ObjectType_STATUS{
+	"secretstorebasedauthcredentials": SecretStoreBasedAuthCredentials_ObjectType_STATUS_SecretStoreBasedAuthCredentials,
+}
+
 // Class representing a secret store resource.
 type SecretStoreResource struct {
 	// +kubebuilder:validation:Required
@@ -5577,7 +5711,9 @@ func (resource *SecretStoreResource) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property "SecretStoreType":
 	if resource.SecretStoreType != nil {
-		secretStoreType := *resource.SecretStoreType
+		var temp string
+		temp = string(*resource.SecretStoreType)
+		secretStoreType := SecretStoreResource_SecretStoreType_ARM(temp)
 		result.SecretStoreType = &secretStoreType
 	}
 
@@ -5609,7 +5745,9 @@ func (resource *SecretStoreResource) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property "SecretStoreType":
 	if typedInput.SecretStoreType != nil {
-		secretStoreType := *typedInput.SecretStoreType
+		var temp string
+		temp = string(*typedInput.SecretStoreType)
+		secretStoreType := SecretStoreResource_SecretStoreType(temp)
 		resource.SecretStoreType = &secretStoreType
 	}
 
@@ -5730,7 +5868,9 @@ func (resource *SecretStoreResource_STATUS) PopulateFromARM(owner genruntime.Arb
 
 	// Set property "SecretStoreType":
 	if typedInput.SecretStoreType != nil {
-		secretStoreType := *typedInput.SecretStoreType
+		var temp string
+		temp = string(*typedInput.SecretStoreType)
+		secretStoreType := SecretStoreResource_SecretStoreType_STATUS(temp)
 		resource.SecretStoreType = &secretStoreType
 	}
 
@@ -5826,13 +5966,19 @@ func (parameters *AzureOperationalStoreParameters) ConvertToARM(resolved genrunt
 
 	// Set property "DataStoreType":
 	if parameters.DataStoreType != nil {
-		dataStoreType := *parameters.DataStoreType
+		var temp string
+		temp = string(*parameters.DataStoreType)
+		dataStoreType := AzureOperationalStoreParameters_DataStoreType_ARM(temp)
 		result.DataStoreType = &dataStoreType
 	}
 
 	// Set property "ObjectType":
 	if parameters.ObjectType != nil {
-		result.ObjectType = *parameters.ObjectType
+		var temp AzureOperationalStoreParameters_ObjectType_ARM
+		var temp1 string
+		temp1 = string(*parameters.ObjectType)
+		temp = AzureOperationalStoreParameters_ObjectType_ARM(temp1)
+		result.ObjectType = temp
 	}
 
 	// Set property "ResourceGroupId":
@@ -5861,12 +6007,18 @@ func (parameters *AzureOperationalStoreParameters) PopulateFromARM(owner genrunt
 
 	// Set property "DataStoreType":
 	if typedInput.DataStoreType != nil {
-		dataStoreType := *typedInput.DataStoreType
+		var temp string
+		temp = string(*typedInput.DataStoreType)
+		dataStoreType := AzureOperationalStoreParameters_DataStoreType(temp)
 		parameters.DataStoreType = &dataStoreType
 	}
 
 	// Set property "ObjectType":
-	parameters.ObjectType = &typedInput.ObjectType
+	var temp AzureOperationalStoreParameters_ObjectType
+	var temp1 string
+	temp1 = string(typedInput.ObjectType)
+	temp = AzureOperationalStoreParameters_ObjectType(temp1)
+	parameters.ObjectType = &temp
 
 	// no assignment for property "ResourceGroupReference"
 
@@ -6005,12 +6157,18 @@ func (parameters *AzureOperationalStoreParameters_STATUS) PopulateFromARM(owner 
 
 	// Set property "DataStoreType":
 	if typedInput.DataStoreType != nil {
-		dataStoreType := *typedInput.DataStoreType
+		var temp string
+		temp = string(*typedInput.DataStoreType)
+		dataStoreType := AzureOperationalStoreParameters_DataStoreType_STATUS(temp)
 		parameters.DataStoreType = &dataStoreType
 	}
 
 	// Set property "ObjectType":
-	parameters.ObjectType = &typedInput.ObjectType
+	var temp AzureOperationalStoreParameters_ObjectType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.ObjectType)
+	temp = AzureOperationalStoreParameters_ObjectType_STATUS(temp1)
+	parameters.ObjectType = &temp
 
 	// Set property "ResourceGroupId":
 	if typedInput.ResourceGroupId != nil {
@@ -6111,7 +6269,11 @@ func (parameters *BlobBackupDatasourceParameters) ConvertToARM(resolved genrunti
 
 	// Set property "ObjectType":
 	if parameters.ObjectType != nil {
-		result.ObjectType = *parameters.ObjectType
+		var temp BlobBackupDatasourceParameters_ObjectType_ARM
+		var temp1 string
+		temp1 = string(*parameters.ObjectType)
+		temp = BlobBackupDatasourceParameters_ObjectType_ARM(temp1)
+		result.ObjectType = temp
 	}
 	return result, nil
 }
@@ -6134,7 +6296,11 @@ func (parameters *BlobBackupDatasourceParameters) PopulateFromARM(owner genrunti
 	}
 
 	// Set property "ObjectType":
-	parameters.ObjectType = &typedInput.ObjectType
+	var temp BlobBackupDatasourceParameters_ObjectType
+	var temp1 string
+	temp1 = string(typedInput.ObjectType)
+	temp = BlobBackupDatasourceParameters_ObjectType(temp1)
+	parameters.ObjectType = &temp
 
 	// No error
 	return nil
@@ -6232,7 +6398,11 @@ func (parameters *BlobBackupDatasourceParameters_STATUS) PopulateFromARM(owner g
 	}
 
 	// Set property "ObjectType":
-	parameters.ObjectType = &typedInput.ObjectType
+	var temp BlobBackupDatasourceParameters_ObjectType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.ObjectType)
+	temp = BlobBackupDatasourceParameters_ObjectType_STATUS(temp1)
+	parameters.ObjectType = &temp
 
 	// No error
 	return nil
@@ -6282,6 +6452,25 @@ func (parameters *BlobBackupDatasourceParameters_STATUS) AssignProperties_To_Blo
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"DefaultResourceProperties"}
+type DefaultResourceProperties_ObjectType string
+
+const DefaultResourceProperties_ObjectType_DefaultResourceProperties = DefaultResourceProperties_ObjectType("DefaultResourceProperties")
+
+// Mapping from string to DefaultResourceProperties_ObjectType
+var defaultResourceProperties_ObjectType_Values = map[string]DefaultResourceProperties_ObjectType{
+	"defaultresourceproperties": DefaultResourceProperties_ObjectType_DefaultResourceProperties,
+}
+
+type DefaultResourceProperties_ObjectType_STATUS string
+
+const DefaultResourceProperties_ObjectType_STATUS_DefaultResourceProperties = DefaultResourceProperties_ObjectType_STATUS("DefaultResourceProperties")
+
+// Mapping from string to DefaultResourceProperties_ObjectType_STATUS
+var defaultResourceProperties_ObjectType_STATUS_Values = map[string]DefaultResourceProperties_ObjectType_STATUS{
+	"defaultresourceproperties": DefaultResourceProperties_ObjectType_STATUS_DefaultResourceProperties,
 }
 
 type KubernetesClusterBackupDatasourceParameters struct {
@@ -6375,7 +6564,11 @@ func (parameters *KubernetesClusterBackupDatasourceParameters) ConvertToARM(reso
 
 	// Set property "ObjectType":
 	if parameters.ObjectType != nil {
-		result.ObjectType = *parameters.ObjectType
+		var temp KubernetesClusterBackupDatasourceParameters_ObjectType_ARM
+		var temp1 string
+		temp1 = string(*parameters.ObjectType)
+		temp = KubernetesClusterBackupDatasourceParameters_ObjectType_ARM(temp1)
+		result.ObjectType = temp
 	}
 
 	// Set property "SnapshotVolumes":
@@ -6440,7 +6633,11 @@ func (parameters *KubernetesClusterBackupDatasourceParameters) PopulateFromARM(o
 	}
 
 	// Set property "ObjectType":
-	parameters.ObjectType = &typedInput.ObjectType
+	var temp KubernetesClusterBackupDatasourceParameters_ObjectType
+	var temp1 string
+	temp1 = string(typedInput.ObjectType)
+	temp = KubernetesClusterBackupDatasourceParameters_ObjectType(temp1)
+	parameters.ObjectType = &temp
 
 	// Set property "SnapshotVolumes":
 	if typedInput.SnapshotVolumes != nil {
@@ -6747,7 +6944,11 @@ func (parameters *KubernetesClusterBackupDatasourceParameters_STATUS) PopulateFr
 	}
 
 	// Set property "ObjectType":
-	parameters.ObjectType = &typedInput.ObjectType
+	var temp KubernetesClusterBackupDatasourceParameters_ObjectType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.ObjectType)
+	temp = KubernetesClusterBackupDatasourceParameters_ObjectType_STATUS(temp1)
+	parameters.ObjectType = &temp
 
 	// Set property "SnapshotVolumes":
 	if typedInput.SnapshotVolumes != nil {
@@ -6895,6 +7096,121 @@ func (parameters *KubernetesClusterBackupDatasourceParameters_STATUS) AssignProp
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"AzureKeyVault","Invalid"}
+type SecretStoreResource_SecretStoreType string
+
+const (
+	SecretStoreResource_SecretStoreType_AzureKeyVault = SecretStoreResource_SecretStoreType("AzureKeyVault")
+	SecretStoreResource_SecretStoreType_Invalid       = SecretStoreResource_SecretStoreType("Invalid")
+)
+
+// Mapping from string to SecretStoreResource_SecretStoreType
+var secretStoreResource_SecretStoreType_Values = map[string]SecretStoreResource_SecretStoreType{
+	"azurekeyvault": SecretStoreResource_SecretStoreType_AzureKeyVault,
+	"invalid":       SecretStoreResource_SecretStoreType_Invalid,
+}
+
+type SecretStoreResource_SecretStoreType_STATUS string
+
+const (
+	SecretStoreResource_SecretStoreType_STATUS_AzureKeyVault = SecretStoreResource_SecretStoreType_STATUS("AzureKeyVault")
+	SecretStoreResource_SecretStoreType_STATUS_Invalid       = SecretStoreResource_SecretStoreType_STATUS("Invalid")
+)
+
+// Mapping from string to SecretStoreResource_SecretStoreType_STATUS
+var secretStoreResource_SecretStoreType_STATUS_Values = map[string]SecretStoreResource_SecretStoreType_STATUS{
+	"azurekeyvault": SecretStoreResource_SecretStoreType_STATUS_AzureKeyVault,
+	"invalid":       SecretStoreResource_SecretStoreType_STATUS_Invalid,
+}
+
+// +kubebuilder:validation:Enum={"ArchiveStore","OperationalStore","VaultStore"}
+type AzureOperationalStoreParameters_DataStoreType string
+
+const (
+	AzureOperationalStoreParameters_DataStoreType_ArchiveStore     = AzureOperationalStoreParameters_DataStoreType("ArchiveStore")
+	AzureOperationalStoreParameters_DataStoreType_OperationalStore = AzureOperationalStoreParameters_DataStoreType("OperationalStore")
+	AzureOperationalStoreParameters_DataStoreType_VaultStore       = AzureOperationalStoreParameters_DataStoreType("VaultStore")
+)
+
+// Mapping from string to AzureOperationalStoreParameters_DataStoreType
+var azureOperationalStoreParameters_DataStoreType_Values = map[string]AzureOperationalStoreParameters_DataStoreType{
+	"archivestore":     AzureOperationalStoreParameters_DataStoreType_ArchiveStore,
+	"operationalstore": AzureOperationalStoreParameters_DataStoreType_OperationalStore,
+	"vaultstore":       AzureOperationalStoreParameters_DataStoreType_VaultStore,
+}
+
+type AzureOperationalStoreParameters_DataStoreType_STATUS string
+
+const (
+	AzureOperationalStoreParameters_DataStoreType_STATUS_ArchiveStore     = AzureOperationalStoreParameters_DataStoreType_STATUS("ArchiveStore")
+	AzureOperationalStoreParameters_DataStoreType_STATUS_OperationalStore = AzureOperationalStoreParameters_DataStoreType_STATUS("OperationalStore")
+	AzureOperationalStoreParameters_DataStoreType_STATUS_VaultStore       = AzureOperationalStoreParameters_DataStoreType_STATUS("VaultStore")
+)
+
+// Mapping from string to AzureOperationalStoreParameters_DataStoreType_STATUS
+var azureOperationalStoreParameters_DataStoreType_STATUS_Values = map[string]AzureOperationalStoreParameters_DataStoreType_STATUS{
+	"archivestore":     AzureOperationalStoreParameters_DataStoreType_STATUS_ArchiveStore,
+	"operationalstore": AzureOperationalStoreParameters_DataStoreType_STATUS_OperationalStore,
+	"vaultstore":       AzureOperationalStoreParameters_DataStoreType_STATUS_VaultStore,
+}
+
+// +kubebuilder:validation:Enum={"AzureOperationalStoreParameters"}
+type AzureOperationalStoreParameters_ObjectType string
+
+const AzureOperationalStoreParameters_ObjectType_AzureOperationalStoreParameters = AzureOperationalStoreParameters_ObjectType("AzureOperationalStoreParameters")
+
+// Mapping from string to AzureOperationalStoreParameters_ObjectType
+var azureOperationalStoreParameters_ObjectType_Values = map[string]AzureOperationalStoreParameters_ObjectType{
+	"azureoperationalstoreparameters": AzureOperationalStoreParameters_ObjectType_AzureOperationalStoreParameters,
+}
+
+type AzureOperationalStoreParameters_ObjectType_STATUS string
+
+const AzureOperationalStoreParameters_ObjectType_STATUS_AzureOperationalStoreParameters = AzureOperationalStoreParameters_ObjectType_STATUS("AzureOperationalStoreParameters")
+
+// Mapping from string to AzureOperationalStoreParameters_ObjectType_STATUS
+var azureOperationalStoreParameters_ObjectType_STATUS_Values = map[string]AzureOperationalStoreParameters_ObjectType_STATUS{
+	"azureoperationalstoreparameters": AzureOperationalStoreParameters_ObjectType_STATUS_AzureOperationalStoreParameters,
+}
+
+// +kubebuilder:validation:Enum={"BlobBackupDatasourceParameters"}
+type BlobBackupDatasourceParameters_ObjectType string
+
+const BlobBackupDatasourceParameters_ObjectType_BlobBackupDatasourceParameters = BlobBackupDatasourceParameters_ObjectType("BlobBackupDatasourceParameters")
+
+// Mapping from string to BlobBackupDatasourceParameters_ObjectType
+var blobBackupDatasourceParameters_ObjectType_Values = map[string]BlobBackupDatasourceParameters_ObjectType{
+	"blobbackupdatasourceparameters": BlobBackupDatasourceParameters_ObjectType_BlobBackupDatasourceParameters,
+}
+
+type BlobBackupDatasourceParameters_ObjectType_STATUS string
+
+const BlobBackupDatasourceParameters_ObjectType_STATUS_BlobBackupDatasourceParameters = BlobBackupDatasourceParameters_ObjectType_STATUS("BlobBackupDatasourceParameters")
+
+// Mapping from string to BlobBackupDatasourceParameters_ObjectType_STATUS
+var blobBackupDatasourceParameters_ObjectType_STATUS_Values = map[string]BlobBackupDatasourceParameters_ObjectType_STATUS{
+	"blobbackupdatasourceparameters": BlobBackupDatasourceParameters_ObjectType_STATUS_BlobBackupDatasourceParameters,
+}
+
+// +kubebuilder:validation:Enum={"KubernetesClusterBackupDatasourceParameters"}
+type KubernetesClusterBackupDatasourceParameters_ObjectType string
+
+const KubernetesClusterBackupDatasourceParameters_ObjectType_KubernetesClusterBackupDatasourceParameters = KubernetesClusterBackupDatasourceParameters_ObjectType("KubernetesClusterBackupDatasourceParameters")
+
+// Mapping from string to KubernetesClusterBackupDatasourceParameters_ObjectType
+var kubernetesClusterBackupDatasourceParameters_ObjectType_Values = map[string]KubernetesClusterBackupDatasourceParameters_ObjectType{
+	"kubernetesclusterbackupdatasourceparameters": KubernetesClusterBackupDatasourceParameters_ObjectType_KubernetesClusterBackupDatasourceParameters,
+}
+
+type KubernetesClusterBackupDatasourceParameters_ObjectType_STATUS string
+
+const KubernetesClusterBackupDatasourceParameters_ObjectType_STATUS_KubernetesClusterBackupDatasourceParameters = KubernetesClusterBackupDatasourceParameters_ObjectType_STATUS("KubernetesClusterBackupDatasourceParameters")
+
+// Mapping from string to KubernetesClusterBackupDatasourceParameters_ObjectType_STATUS
+var kubernetesClusterBackupDatasourceParameters_ObjectType_STATUS_Values = map[string]KubernetesClusterBackupDatasourceParameters_ObjectType_STATUS{
+	"kubernetesclusterbackupdatasourceparameters": KubernetesClusterBackupDatasourceParameters_ObjectType_STATUS_KubernetesClusterBackupDatasourceParameters,
 }
 
 // Class to refer resources which contains namespace and name

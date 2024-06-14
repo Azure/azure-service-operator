@@ -37,7 +37,7 @@ type InboundEndpointProperties_STATUS_ARM struct {
 
 	// ProvisioningState: The current provisioning state of the inbound endpoint. This is a read-only property and any attempt
 	// to set this value will be ignored.
-	ProvisioningState *DnsresolverProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *DnsresolverProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// ResourceGuid: The resourceGuid property of the inbound endpoint resource.
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
@@ -49,8 +49,21 @@ type IpConfiguration_STATUS_ARM struct {
 	PrivateIpAddress *string `json:"privateIpAddress,omitempty"`
 
 	// PrivateIpAllocationMethod: Private IP address allocation method.
-	PrivateIpAllocationMethod *IpConfiguration_PrivateIpAllocationMethod_STATUS `json:"privateIpAllocationMethod,omitempty"`
+	PrivateIpAllocationMethod *IpConfiguration_PrivateIpAllocationMethod_STATUS_ARM `json:"privateIpAllocationMethod,omitempty"`
 
 	// Subnet: The reference to the subnet bound to the IP configuration.
 	Subnet *DnsresolverSubResource_STATUS_ARM `json:"subnet,omitempty"`
+}
+
+type IpConfiguration_PrivateIpAllocationMethod_STATUS_ARM string
+
+const (
+	IpConfiguration_PrivateIpAllocationMethod_STATUS_ARM_Dynamic = IpConfiguration_PrivateIpAllocationMethod_STATUS_ARM("Dynamic")
+	IpConfiguration_PrivateIpAllocationMethod_STATUS_ARM_Static  = IpConfiguration_PrivateIpAllocationMethod_STATUS_ARM("Static")
+)
+
+// Mapping from string to IpConfiguration_PrivateIpAllocationMethod_STATUS_ARM
+var ipConfiguration_PrivateIpAllocationMethod_STATUS_ARM_Values = map[string]IpConfiguration_PrivateIpAllocationMethod_STATUS_ARM{
+	"dynamic": IpConfiguration_PrivateIpAllocationMethod_STATUS_ARM_Dynamic,
+	"static":  IpConfiguration_PrivateIpAllocationMethod_STATUS_ARM_Static,
 }

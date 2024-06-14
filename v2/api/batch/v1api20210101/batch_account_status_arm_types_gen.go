@@ -38,7 +38,7 @@ type BatchAccountIdentity_STATUS_ARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: The type of identity used for the Batch account.
-	Type *BatchAccountIdentity_Type_STATUS `json:"type,omitempty"`
+	Type *BatchAccountIdentity_Type_STATUS_ARM `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The list of user identities associated with the Batch account. The user identity dictionary key
 	// references will be ARM resource ids in the form:
@@ -83,17 +83,17 @@ type BatchAccountProperties_STATUS_ARM struct {
 	LowPriorityCoreQuota *int `json:"lowPriorityCoreQuota,omitempty"`
 
 	// PoolAllocationMode: The allocation mode for creating pools in the Batch account.
-	PoolAllocationMode *PoolAllocationMode_STATUS `json:"poolAllocationMode,omitempty"`
-	PoolQuota          *int                       `json:"poolQuota,omitempty"`
+	PoolAllocationMode *PoolAllocationMode_STATUS_ARM `json:"poolAllocationMode,omitempty"`
+	PoolQuota          *int                           `json:"poolQuota,omitempty"`
 
 	// PrivateEndpointConnections: List of private endpoint connections associated with the Batch account
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_ARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: The provisioned state of the resource
-	ProvisioningState *BatchAccountProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *BatchAccountProperties_ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccess: If not specified, the default value is 'enabled'.
-	PublicNetworkAccess *PublicNetworkAccessType_STATUS `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *PublicNetworkAccessType_STATUS_ARM `json:"publicNetworkAccess,omitempty"`
 }
 
 // Contains information about the auto-storage account associated with a Batch account.
@@ -105,19 +105,19 @@ type AutoStorageProperties_STATUS_ARM struct {
 	StorageAccountId *string `json:"storageAccountId,omitempty"`
 }
 
-type BatchAccountIdentity_Type_STATUS string
+type BatchAccountIdentity_Type_STATUS_ARM string
 
 const (
-	BatchAccountIdentity_Type_STATUS_None           = BatchAccountIdentity_Type_STATUS("None")
-	BatchAccountIdentity_Type_STATUS_SystemAssigned = BatchAccountIdentity_Type_STATUS("SystemAssigned")
-	BatchAccountIdentity_Type_STATUS_UserAssigned   = BatchAccountIdentity_Type_STATUS("UserAssigned")
+	BatchAccountIdentity_Type_STATUS_ARM_None           = BatchAccountIdentity_Type_STATUS_ARM("None")
+	BatchAccountIdentity_Type_STATUS_ARM_SystemAssigned = BatchAccountIdentity_Type_STATUS_ARM("SystemAssigned")
+	BatchAccountIdentity_Type_STATUS_ARM_UserAssigned   = BatchAccountIdentity_Type_STATUS_ARM("UserAssigned")
 )
 
-// Mapping from string to BatchAccountIdentity_Type_STATUS
-var batchAccountIdentity_Type_STATUS_Values = map[string]BatchAccountIdentity_Type_STATUS{
-	"none":           BatchAccountIdentity_Type_STATUS_None,
-	"systemassigned": BatchAccountIdentity_Type_STATUS_SystemAssigned,
-	"userassigned":   BatchAccountIdentity_Type_STATUS_UserAssigned,
+// Mapping from string to BatchAccountIdentity_Type_STATUS_ARM
+var batchAccountIdentity_Type_STATUS_ARM_Values = map[string]BatchAccountIdentity_Type_STATUS_ARM{
+	"none":           BatchAccountIdentity_Type_STATUS_ARM_None,
+	"systemassigned": BatchAccountIdentity_Type_STATUS_ARM_SystemAssigned,
+	"userassigned":   BatchAccountIdentity_Type_STATUS_ARM_UserAssigned,
 }
 
 type BatchAccountIdentity_UserAssignedIdentities_STATUS_ARM struct {
@@ -128,11 +128,32 @@ type BatchAccountIdentity_UserAssignedIdentities_STATUS_ARM struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
+type BatchAccountProperties_ProvisioningState_STATUS_ARM string
+
+const (
+	BatchAccountProperties_ProvisioningState_STATUS_ARM_Cancelled = BatchAccountProperties_ProvisioningState_STATUS_ARM("Cancelled")
+	BatchAccountProperties_ProvisioningState_STATUS_ARM_Creating  = BatchAccountProperties_ProvisioningState_STATUS_ARM("Creating")
+	BatchAccountProperties_ProvisioningState_STATUS_ARM_Deleting  = BatchAccountProperties_ProvisioningState_STATUS_ARM("Deleting")
+	BatchAccountProperties_ProvisioningState_STATUS_ARM_Failed    = BatchAccountProperties_ProvisioningState_STATUS_ARM("Failed")
+	BatchAccountProperties_ProvisioningState_STATUS_ARM_Invalid   = BatchAccountProperties_ProvisioningState_STATUS_ARM("Invalid")
+	BatchAccountProperties_ProvisioningState_STATUS_ARM_Succeeded = BatchAccountProperties_ProvisioningState_STATUS_ARM("Succeeded")
+)
+
+// Mapping from string to BatchAccountProperties_ProvisioningState_STATUS_ARM
+var batchAccountProperties_ProvisioningState_STATUS_ARM_Values = map[string]BatchAccountProperties_ProvisioningState_STATUS_ARM{
+	"cancelled": BatchAccountProperties_ProvisioningState_STATUS_ARM_Cancelled,
+	"creating":  BatchAccountProperties_ProvisioningState_STATUS_ARM_Creating,
+	"deleting":  BatchAccountProperties_ProvisioningState_STATUS_ARM_Deleting,
+	"failed":    BatchAccountProperties_ProvisioningState_STATUS_ARM_Failed,
+	"invalid":   BatchAccountProperties_ProvisioningState_STATUS_ARM_Invalid,
+	"succeeded": BatchAccountProperties_ProvisioningState_STATUS_ARM_Succeeded,
+}
+
 // Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft
 // managed key. For additional control, a customer-managed key can be used instead.
 type EncryptionProperties_STATUS_ARM struct {
 	// KeySource: Type of the key source.
-	KeySource *EncryptionProperties_KeySource_STATUS `json:"keySource,omitempty"`
+	KeySource *EncryptionProperties_KeySource_STATUS_ARM `json:"keySource,omitempty"`
 
 	// KeyVaultProperties: Additional details when using Microsoft.KeyVault
 	KeyVaultProperties *KeyVaultProperties_STATUS_ARM `json:"keyVaultProperties,omitempty"`
@@ -147,10 +168,38 @@ type KeyVaultReference_STATUS_ARM struct {
 	Url *string `json:"url,omitempty"`
 }
 
+// The allocation mode for creating pools in the Batch account.
+type PoolAllocationMode_STATUS_ARM string
+
+const (
+	PoolAllocationMode_STATUS_ARM_BatchService     = PoolAllocationMode_STATUS_ARM("BatchService")
+	PoolAllocationMode_STATUS_ARM_UserSubscription = PoolAllocationMode_STATUS_ARM("UserSubscription")
+)
+
+// Mapping from string to PoolAllocationMode_STATUS_ARM
+var poolAllocationMode_STATUS_ARM_Values = map[string]PoolAllocationMode_STATUS_ARM{
+	"batchservice":     PoolAllocationMode_STATUS_ARM_BatchService,
+	"usersubscription": PoolAllocationMode_STATUS_ARM_UserSubscription,
+}
+
 // Contains information about a private link resource.
 type PrivateEndpointConnection_STATUS_ARM struct {
 	// Id: The ID of the resource.
 	Id *string `json:"id,omitempty"`
+}
+
+// The network access type for operating on the resources in the Batch account.
+type PublicNetworkAccessType_STATUS_ARM string
+
+const (
+	PublicNetworkAccessType_STATUS_ARM_Disabled = PublicNetworkAccessType_STATUS_ARM("Disabled")
+	PublicNetworkAccessType_STATUS_ARM_Enabled  = PublicNetworkAccessType_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to PublicNetworkAccessType_STATUS_ARM
+var publicNetworkAccessType_STATUS_ARM_Values = map[string]PublicNetworkAccessType_STATUS_ARM{
+	"disabled": PublicNetworkAccessType_STATUS_ARM_Disabled,
+	"enabled":  PublicNetworkAccessType_STATUS_ARM_Enabled,
 }
 
 // A VM Family and its associated core quota for the Batch account.
@@ -160,6 +209,19 @@ type VirtualMachineFamilyCoreQuota_STATUS_ARM struct {
 
 	// Name: The Virtual Machine family name.
 	Name *string `json:"name,omitempty"`
+}
+
+type EncryptionProperties_KeySource_STATUS_ARM string
+
+const (
+	EncryptionProperties_KeySource_STATUS_ARM_MicrosoftBatch    = EncryptionProperties_KeySource_STATUS_ARM("Microsoft.Batch")
+	EncryptionProperties_KeySource_STATUS_ARM_MicrosoftKeyVault = EncryptionProperties_KeySource_STATUS_ARM("Microsoft.KeyVault")
+)
+
+// Mapping from string to EncryptionProperties_KeySource_STATUS_ARM
+var encryptionProperties_KeySource_STATUS_ARM_Values = map[string]EncryptionProperties_KeySource_STATUS_ARM{
+	"microsoft.batch":    EncryptionProperties_KeySource_STATUS_ARM_MicrosoftBatch,
+	"microsoft.keyvault": EncryptionProperties_KeySource_STATUS_ARM_MicrosoftKeyVault,
 }
 
 // KeyVault configuration when using an encryption KeySource of Microsoft.KeyVault.

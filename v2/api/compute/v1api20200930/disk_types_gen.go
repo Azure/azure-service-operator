@@ -521,7 +521,9 @@ func (disk *Disk_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 		result.Properties.EncryptionSettingsCollection = &encryptionSettingsCollection
 	}
 	if disk.HyperVGeneration != nil {
-		hyperVGeneration := *disk.HyperVGeneration
+		var temp string
+		temp = string(*disk.HyperVGeneration)
+		hyperVGeneration := DiskProperties_HyperVGeneration_ARM(temp)
 		result.Properties.HyperVGeneration = &hyperVGeneration
 	}
 	if disk.MaxShares != nil {
@@ -529,11 +531,15 @@ func (disk *Disk_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 		result.Properties.MaxShares = &maxShares
 	}
 	if disk.NetworkAccessPolicy != nil {
-		networkAccessPolicy := *disk.NetworkAccessPolicy
+		var temp string
+		temp = string(*disk.NetworkAccessPolicy)
+		networkAccessPolicy := NetworkAccessPolicy_ARM(temp)
 		result.Properties.NetworkAccessPolicy = &networkAccessPolicy
 	}
 	if disk.OsType != nil {
-		osType := *disk.OsType
+		var temp string
+		temp = string(*disk.OsType)
+		osType := DiskProperties_OsType_ARM(temp)
 		result.Properties.OsType = &osType
 	}
 	if disk.PurchasePlan != nil {
@@ -702,7 +708,9 @@ func (disk *Disk_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HyperVGeneration != nil {
-			hyperVGeneration := *typedInput.Properties.HyperVGeneration
+			var temp string
+			temp = string(*typedInput.Properties.HyperVGeneration)
+			hyperVGeneration := DiskProperties_HyperVGeneration(temp)
 			disk.HyperVGeneration = &hyperVGeneration
 		}
 	}
@@ -726,7 +734,9 @@ func (disk *Disk_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NetworkAccessPolicy != nil {
-			networkAccessPolicy := *typedInput.Properties.NetworkAccessPolicy
+			var temp string
+			temp = string(*typedInput.Properties.NetworkAccessPolicy)
+			networkAccessPolicy := NetworkAccessPolicy(temp)
 			disk.NetworkAccessPolicy = &networkAccessPolicy
 		}
 	}
@@ -735,7 +745,9 @@ func (disk *Disk_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OsType != nil {
-			osType := *typedInput.Properties.OsType
+			var temp string
+			temp = string(*typedInput.Properties.OsType)
+			osType := DiskProperties_OsType(temp)
 			disk.OsType = &osType
 		}
 	}
@@ -1610,7 +1622,9 @@ func (disk *Disk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DiskState != nil {
-			diskState := *typedInput.Properties.DiskState
+			var temp string
+			temp = string(*typedInput.Properties.DiskState)
+			diskState := DiskState_STATUS(temp)
 			disk.DiskState = &diskState
 		}
 	}
@@ -1658,7 +1672,9 @@ func (disk *Disk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HyperVGeneration != nil {
-			hyperVGeneration := *typedInput.Properties.HyperVGeneration
+			var temp string
+			temp = string(*typedInput.Properties.HyperVGeneration)
+			hyperVGeneration := DiskProperties_HyperVGeneration_STATUS(temp)
 			disk.HyperVGeneration = &hyperVGeneration
 		}
 	}
@@ -1705,7 +1721,9 @@ func (disk *Disk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NetworkAccessPolicy != nil {
-			networkAccessPolicy := *typedInput.Properties.NetworkAccessPolicy
+			var temp string
+			temp = string(*typedInput.Properties.NetworkAccessPolicy)
+			networkAccessPolicy := NetworkAccessPolicy_STATUS(temp)
 			disk.NetworkAccessPolicy = &networkAccessPolicy
 		}
 	}
@@ -1714,7 +1732,9 @@ func (disk *Disk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OsType != nil {
-			osType := *typedInput.Properties.OsType
+			var temp string
+			temp = string(*typedInput.Properties.OsType)
+			osType := DiskProperties_OsType_STATUS(temp)
 			disk.OsType = &osType
 		}
 	}
@@ -2272,7 +2292,9 @@ func (data *CreationData) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "CreateOption":
 	if data.CreateOption != nil {
-		createOption := *data.CreateOption
+		var temp string
+		temp = string(*data.CreateOption)
+		createOption := CreationData_CreateOption_ARM(temp)
 		result.CreateOption = &createOption
 	}
 
@@ -2346,7 +2368,9 @@ func (data *CreationData) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 
 	// Set property "CreateOption":
 	if typedInput.CreateOption != nil {
-		createOption := *typedInput.CreateOption
+		var temp string
+		temp = string(*typedInput.CreateOption)
+		createOption := CreationData_CreateOption(temp)
 		data.CreateOption = &createOption
 	}
 
@@ -2639,7 +2663,9 @@ func (data *CreationData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property "CreateOption":
 	if typedInput.CreateOption != nil {
-		createOption := *typedInput.CreateOption
+		var temp string
+		temp = string(*typedInput.CreateOption)
+		createOption := CreationData_CreateOption_STATUS(temp)
 		data.CreateOption = &createOption
 	}
 
@@ -2900,7 +2926,9 @@ func (diskSku *DiskSku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 
 	// Set property "Name":
 	if diskSku.Name != nil {
-		name := *diskSku.Name
+		var temp string
+		temp = string(*diskSku.Name)
+		name := DiskSku_Name_ARM(temp)
 		result.Name = &name
 	}
 	return result, nil
@@ -2920,7 +2948,9 @@ func (diskSku *DiskSku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := DiskSku_Name(temp)
 		diskSku.Name = &name
 	}
 
@@ -3008,7 +3038,9 @@ func (diskSku *DiskSku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := DiskSku_Name_STATUS(temp)
 		diskSku.Name = &name
 	}
 
@@ -3120,7 +3152,9 @@ func (encryption *Encryption) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "Type":
 	if encryption.Type != nil {
-		typeVar := *encryption.Type
+		var temp string
+		temp = string(*encryption.Type)
+		typeVar := EncryptionType_ARM(temp)
 		result.Type = &typeVar
 	}
 	return result, nil
@@ -3142,7 +3176,9 @@ func (encryption *Encryption) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := EncryptionType(temp)
 		encryption.Type = &typeVar
 	}
 
@@ -3260,7 +3296,9 @@ func (encryption *Encryption_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := EncryptionType_STATUS(temp)
 		encryption.Type = &typeVar
 	}
 
@@ -3679,7 +3717,9 @@ func (location *ExtendedLocation) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "Type":
 	if location.Type != nil {
-		typeVar := *location.Type
+		var temp string
+		temp = string(*location.Type)
+		typeVar := ExtendedLocationType_ARM(temp)
 		result.Type = &typeVar
 	}
 	return result, nil
@@ -3705,7 +3745,9 @@ func (location *ExtendedLocation) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ExtendedLocationType(temp)
 		location.Type = &typeVar
 	}
 
@@ -3808,7 +3850,9 @@ func (location *ExtendedLocation_STATUS) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ExtendedLocationType_STATUS(temp)
 		location.Type = &typeVar
 	}
 
@@ -4265,6 +4309,41 @@ var creationData_CreateOption_STATUS_Values = map[string]CreationData_CreateOpti
 	"upload":    CreationData_CreateOption_STATUS_Upload,
 }
 
+// +kubebuilder:validation:Enum={"Premium_LRS","StandardSSD_LRS","Standard_LRS","UltraSSD_LRS"}
+type DiskSku_Name string
+
+const (
+	DiskSku_Name_Premium_LRS     = DiskSku_Name("Premium_LRS")
+	DiskSku_Name_StandardSSD_LRS = DiskSku_Name("StandardSSD_LRS")
+	DiskSku_Name_Standard_LRS    = DiskSku_Name("Standard_LRS")
+	DiskSku_Name_UltraSSD_LRS    = DiskSku_Name("UltraSSD_LRS")
+)
+
+// Mapping from string to DiskSku_Name
+var diskSku_Name_Values = map[string]DiskSku_Name{
+	"premium_lrs":     DiskSku_Name_Premium_LRS,
+	"standardssd_lrs": DiskSku_Name_StandardSSD_LRS,
+	"standard_lrs":    DiskSku_Name_Standard_LRS,
+	"ultrassd_lrs":    DiskSku_Name_UltraSSD_LRS,
+}
+
+type DiskSku_Name_STATUS string
+
+const (
+	DiskSku_Name_STATUS_Premium_LRS     = DiskSku_Name_STATUS("Premium_LRS")
+	DiskSku_Name_STATUS_StandardSSD_LRS = DiskSku_Name_STATUS("StandardSSD_LRS")
+	DiskSku_Name_STATUS_Standard_LRS    = DiskSku_Name_STATUS("Standard_LRS")
+	DiskSku_Name_STATUS_UltraSSD_LRS    = DiskSku_Name_STATUS("UltraSSD_LRS")
+)
+
+// Mapping from string to DiskSku_Name_STATUS
+var diskSku_Name_STATUS_Values = map[string]DiskSku_Name_STATUS{
+	"premium_lrs":     DiskSku_Name_STATUS_Premium_LRS,
+	"standardssd_lrs": DiskSku_Name_STATUS_StandardSSD_LRS,
+	"standard_lrs":    DiskSku_Name_STATUS_Standard_LRS,
+	"ultrassd_lrs":    DiskSku_Name_STATUS_UltraSSD_LRS,
+}
+
 // Encryption settings for one disk volume.
 type EncryptionSettingsElement struct {
 	// DiskEncryptionKey: Key Vault Secret Url and vault id of the disk encryption key
@@ -4598,6 +4677,27 @@ var encryptionType_STATUS_Values = map[string]EncryptionType_STATUS{
 	"encryptionatrestwithcustomerkey":             EncryptionType_STATUS_EncryptionAtRestWithCustomerKey,
 	"encryptionatrestwithplatformandcustomerkeys": EncryptionType_STATUS_EncryptionAtRestWithPlatformAndCustomerKeys,
 	"encryptionatrestwithplatformkey":             EncryptionType_STATUS_EncryptionAtRestWithPlatformKey,
+}
+
+// The type of extendedLocation.
+// +kubebuilder:validation:Enum={"EdgeZone"}
+type ExtendedLocationType string
+
+const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
+
+// Mapping from string to ExtendedLocationType
+var extendedLocationType_Values = map[string]ExtendedLocationType{
+	"edgezone": ExtendedLocationType_EdgeZone,
+}
+
+// The type of extendedLocation.
+type ExtendedLocationType_STATUS string
+
+const ExtendedLocationType_STATUS_EdgeZone = ExtendedLocationType_STATUS("EdgeZone")
+
+// Mapping from string to ExtendedLocationType_STATUS
+var extendedLocationType_STATUS_Values = map[string]ExtendedLocationType_STATUS{
+	"edgezone": ExtendedLocationType_STATUS_EdgeZone,
 }
 
 // The source image used for creating the disk.

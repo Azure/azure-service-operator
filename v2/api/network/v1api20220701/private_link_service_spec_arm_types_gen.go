@@ -87,10 +87,10 @@ type PrivateLinkServiceIpConfigurationProperties_ARM struct {
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
 
 	// PrivateIPAddressVersion: Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4.
-	PrivateIPAddressVersion *IPVersion `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAddressVersion *IPVersion_ARM `json:"privateIPAddressVersion,omitempty"`
 
 	// PrivateIPAllocationMethod: The private IP address allocation method.
-	PrivateIPAllocationMethod *IPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
+	PrivateIPAllocationMethod *IPAllocationMethod_ARM `json:"privateIPAllocationMethod,omitempty"`
 
 	// Subnet: The reference to the subnet resource.
 	Subnet *Subnet_PrivateLinkService_SubResourceEmbedded_ARM `json:"subnet,omitempty"`

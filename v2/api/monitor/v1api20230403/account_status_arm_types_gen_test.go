@@ -168,12 +168,12 @@ func AzureMonitorWorkspace_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForAzureMonitorWorkspace_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["AccountId"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		AzureMonitorWorkspace_ProvisioningState_STATUS_Canceled,
-		AzureMonitorWorkspace_ProvisioningState_STATUS_Creating,
-		AzureMonitorWorkspace_ProvisioningState_STATUS_Deleting,
-		AzureMonitorWorkspace_ProvisioningState_STATUS_Failed,
-		AzureMonitorWorkspace_ProvisioningState_STATUS_Succeeded))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(AzureMonitorWorkspace_PublicNetworkAccess_STATUS_Disabled, AzureMonitorWorkspace_PublicNetworkAccess_STATUS_Enabled))
+		AzureMonitorWorkspace_ProvisioningState_STATUS_ARM_Canceled,
+		AzureMonitorWorkspace_ProvisioningState_STATUS_ARM_Creating,
+		AzureMonitorWorkspace_ProvisioningState_STATUS_ARM_Deleting,
+		AzureMonitorWorkspace_ProvisioningState_STATUS_ARM_Failed,
+		AzureMonitorWorkspace_ProvisioningState_STATUS_ARM_Succeeded))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(AzureMonitorWorkspace_PublicNetworkAccess_STATUS_ARM_Disabled, AzureMonitorWorkspace_PublicNetworkAccess_STATUS_ARM_Enabled))
 }
 
 // AddRelatedPropertyGeneratorsForAzureMonitorWorkspace_STATUS_ARM is a factory method for creating gopter generators
@@ -428,15 +428,15 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS_ARM(gens map[string]go
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_STATUS_Application,
-		SystemData_CreatedByType_STATUS_Key,
-		SystemData_CreatedByType_STATUS_ManagedIdentity,
-		SystemData_CreatedByType_STATUS_User))
+		SystemData_CreatedByType_STATUS_ARM_Application,
+		SystemData_CreatedByType_STATUS_ARM_Key,
+		SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
+		SystemData_CreatedByType_STATUS_ARM_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_STATUS_Application,
-		SystemData_LastModifiedByType_STATUS_Key,
-		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-		SystemData_LastModifiedByType_STATUS_User))
+		SystemData_LastModifiedByType_STATUS_ARM_Application,
+		SystemData_LastModifiedByType_STATUS_ARM_Key,
+		SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
+		SystemData_LastModifiedByType_STATUS_ARM_User))
 }

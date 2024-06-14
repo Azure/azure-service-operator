@@ -36,7 +36,7 @@ type ExtendedLocation_STATUS_ARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: The type of the extended location.
-	Type *ExtendedLocationType_STATUS `json:"type,omitempty"`
+	Type *ExtendedLocationType_STATUS_ARM `json:"type,omitempty"`
 }
 
 // Properties of the private endpoint.
@@ -65,7 +65,7 @@ type PrivateEndpointProperties_STATUS_ARM struct {
 	PrivateLinkServiceConnections []PrivateLinkServiceConnection_STATUS_ARM `json:"privateLinkServiceConnections,omitempty"`
 
 	// ProvisioningState: The provisioning state of the private endpoint resource.
-	ProvisioningState *ApplicationGatewayProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ApplicationGatewayProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// Subnet: The ID of the subnet from which the private IP will be allocated.
 	Subnet *Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded_ARM `json:"subnet,omitempty"`
@@ -87,13 +87,13 @@ type CustomDnsConfigPropertiesFormat_STATUS_ARM struct {
 }
 
 // The supported ExtendedLocation types. Currently only EdgeZone is supported in Microsoft.Network resources.
-type ExtendedLocationType_STATUS string
+type ExtendedLocationType_STATUS_ARM string
 
-const ExtendedLocationType_STATUS_EdgeZone = ExtendedLocationType_STATUS("EdgeZone")
+const ExtendedLocationType_STATUS_ARM_EdgeZone = ExtendedLocationType_STATUS_ARM("EdgeZone")
 
-// Mapping from string to ExtendedLocationType_STATUS
-var extendedLocationType_STATUS_Values = map[string]ExtendedLocationType_STATUS{
-	"edgezone": ExtendedLocationType_STATUS_EdgeZone,
+// Mapping from string to ExtendedLocationType_STATUS_ARM
+var extendedLocationType_STATUS_ARM_Values = map[string]ExtendedLocationType_STATUS_ARM{
+	"edgezone": ExtendedLocationType_STATUS_ARM_EdgeZone,
 }
 
 // A network interface in a resource group.
@@ -166,7 +166,7 @@ type PrivateLinkServiceConnectionProperties_STATUS_ARM struct {
 	PrivateLinkServiceId *string `json:"privateLinkServiceId,omitempty"`
 
 	// ProvisioningState: The provisioning state of the private link service connection resource.
-	ProvisioningState *ApplicationGatewayProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ApplicationGatewayProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// RequestMessage: A message passed to the owner of the remote resource with this connection request. Restricted to 140
 	// chars.

@@ -22,13 +22,13 @@ type RedisEnterprise_Database_STATUS_ARM struct {
 type DatabaseProperties_STATUS_ARM struct {
 	// ClientProtocol: Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is
 	// TLS-encrypted.
-	ClientProtocol *DatabaseProperties_ClientProtocol_STATUS `json:"clientProtocol,omitempty"`
+	ClientProtocol *DatabaseProperties_ClientProtocol_STATUS_ARM `json:"clientProtocol,omitempty"`
 
 	// ClusteringPolicy: Clustering policy - default is OSSCluster. Specified at create time.
-	ClusteringPolicy *DatabaseProperties_ClusteringPolicy_STATUS `json:"clusteringPolicy,omitempty"`
+	ClusteringPolicy *DatabaseProperties_ClusteringPolicy_STATUS_ARM `json:"clusteringPolicy,omitempty"`
 
 	// EvictionPolicy: Redis eviction policy - default is VolatileLRU
-	EvictionPolicy *DatabaseProperties_EvictionPolicy_STATUS `json:"evictionPolicy,omitempty"`
+	EvictionPolicy *DatabaseProperties_EvictionPolicy_STATUS_ARM `json:"evictionPolicy,omitempty"`
 
 	// Modules: Optional set of redis modules to enable in this database - modules can only be added at creation time.
 	Modules []Module_STATUS_ARM `json:"modules,omitempty"`
@@ -40,10 +40,61 @@ type DatabaseProperties_STATUS_ARM struct {
 	Port *int `json:"port,omitempty"`
 
 	// ProvisioningState: Current provisioning status of the database
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// ResourceState: Current resource status of the database
-	ResourceState *ResourceState_STATUS `json:"resourceState,omitempty"`
+	ResourceState *ResourceState_STATUS_ARM `json:"resourceState,omitempty"`
+}
+
+type DatabaseProperties_ClientProtocol_STATUS_ARM string
+
+const (
+	DatabaseProperties_ClientProtocol_STATUS_ARM_Encrypted = DatabaseProperties_ClientProtocol_STATUS_ARM("Encrypted")
+	DatabaseProperties_ClientProtocol_STATUS_ARM_Plaintext = DatabaseProperties_ClientProtocol_STATUS_ARM("Plaintext")
+)
+
+// Mapping from string to DatabaseProperties_ClientProtocol_STATUS_ARM
+var databaseProperties_ClientProtocol_STATUS_ARM_Values = map[string]DatabaseProperties_ClientProtocol_STATUS_ARM{
+	"encrypted": DatabaseProperties_ClientProtocol_STATUS_ARM_Encrypted,
+	"plaintext": DatabaseProperties_ClientProtocol_STATUS_ARM_Plaintext,
+}
+
+type DatabaseProperties_ClusteringPolicy_STATUS_ARM string
+
+const (
+	DatabaseProperties_ClusteringPolicy_STATUS_ARM_EnterpriseCluster = DatabaseProperties_ClusteringPolicy_STATUS_ARM("EnterpriseCluster")
+	DatabaseProperties_ClusteringPolicy_STATUS_ARM_OSSCluster        = DatabaseProperties_ClusteringPolicy_STATUS_ARM("OSSCluster")
+)
+
+// Mapping from string to DatabaseProperties_ClusteringPolicy_STATUS_ARM
+var databaseProperties_ClusteringPolicy_STATUS_ARM_Values = map[string]DatabaseProperties_ClusteringPolicy_STATUS_ARM{
+	"enterprisecluster": DatabaseProperties_ClusteringPolicy_STATUS_ARM_EnterpriseCluster,
+	"osscluster":        DatabaseProperties_ClusteringPolicy_STATUS_ARM_OSSCluster,
+}
+
+type DatabaseProperties_EvictionPolicy_STATUS_ARM string
+
+const (
+	DatabaseProperties_EvictionPolicy_STATUS_ARM_AllKeysLFU     = DatabaseProperties_EvictionPolicy_STATUS_ARM("AllKeysLFU")
+	DatabaseProperties_EvictionPolicy_STATUS_ARM_AllKeysLRU     = DatabaseProperties_EvictionPolicy_STATUS_ARM("AllKeysLRU")
+	DatabaseProperties_EvictionPolicy_STATUS_ARM_AllKeysRandom  = DatabaseProperties_EvictionPolicy_STATUS_ARM("AllKeysRandom")
+	DatabaseProperties_EvictionPolicy_STATUS_ARM_NoEviction     = DatabaseProperties_EvictionPolicy_STATUS_ARM("NoEviction")
+	DatabaseProperties_EvictionPolicy_STATUS_ARM_VolatileLFU    = DatabaseProperties_EvictionPolicy_STATUS_ARM("VolatileLFU")
+	DatabaseProperties_EvictionPolicy_STATUS_ARM_VolatileLRU    = DatabaseProperties_EvictionPolicy_STATUS_ARM("VolatileLRU")
+	DatabaseProperties_EvictionPolicy_STATUS_ARM_VolatileRandom = DatabaseProperties_EvictionPolicy_STATUS_ARM("VolatileRandom")
+	DatabaseProperties_EvictionPolicy_STATUS_ARM_VolatileTTL    = DatabaseProperties_EvictionPolicy_STATUS_ARM("VolatileTTL")
+)
+
+// Mapping from string to DatabaseProperties_EvictionPolicy_STATUS_ARM
+var databaseProperties_EvictionPolicy_STATUS_ARM_Values = map[string]DatabaseProperties_EvictionPolicy_STATUS_ARM{
+	"allkeyslfu":     DatabaseProperties_EvictionPolicy_STATUS_ARM_AllKeysLFU,
+	"allkeyslru":     DatabaseProperties_EvictionPolicy_STATUS_ARM_AllKeysLRU,
+	"allkeysrandom":  DatabaseProperties_EvictionPolicy_STATUS_ARM_AllKeysRandom,
+	"noeviction":     DatabaseProperties_EvictionPolicy_STATUS_ARM_NoEviction,
+	"volatilelfu":    DatabaseProperties_EvictionPolicy_STATUS_ARM_VolatileLFU,
+	"volatilelru":    DatabaseProperties_EvictionPolicy_STATUS_ARM_VolatileLRU,
+	"volatilerandom": DatabaseProperties_EvictionPolicy_STATUS_ARM_VolatileRandom,
+	"volatilettl":    DatabaseProperties_EvictionPolicy_STATUS_ARM_VolatileTTL,
 }
 
 // Specifies configuration of a redis module
@@ -64,11 +115,95 @@ type Persistence_STATUS_ARM struct {
 	AofEnabled *bool `json:"aofEnabled,omitempty"`
 
 	// AofFrequency: Sets the frequency at which data is written to disk.
-	AofFrequency *Persistence_AofFrequency_STATUS `json:"aofFrequency,omitempty"`
+	AofFrequency *Persistence_AofFrequency_STATUS_ARM `json:"aofFrequency,omitempty"`
 
 	// RdbEnabled: Sets whether RDB is enabled.
 	RdbEnabled *bool `json:"rdbEnabled,omitempty"`
 
 	// RdbFrequency: Sets the frequency at which a snapshot of the database is created.
-	RdbFrequency *Persistence_RdbFrequency_STATUS `json:"rdbFrequency,omitempty"`
+	RdbFrequency *Persistence_RdbFrequency_STATUS_ARM `json:"rdbFrequency,omitempty"`
+}
+
+// Current provisioning status
+type ProvisioningState_STATUS_ARM string
+
+const (
+	ProvisioningState_STATUS_ARM_Canceled  = ProvisioningState_STATUS_ARM("Canceled")
+	ProvisioningState_STATUS_ARM_Creating  = ProvisioningState_STATUS_ARM("Creating")
+	ProvisioningState_STATUS_ARM_Deleting  = ProvisioningState_STATUS_ARM("Deleting")
+	ProvisioningState_STATUS_ARM_Failed    = ProvisioningState_STATUS_ARM("Failed")
+	ProvisioningState_STATUS_ARM_Succeeded = ProvisioningState_STATUS_ARM("Succeeded")
+	ProvisioningState_STATUS_ARM_Updating  = ProvisioningState_STATUS_ARM("Updating")
+)
+
+// Mapping from string to ProvisioningState_STATUS_ARM
+var provisioningState_STATUS_ARM_Values = map[string]ProvisioningState_STATUS_ARM{
+	"canceled":  ProvisioningState_STATUS_ARM_Canceled,
+	"creating":  ProvisioningState_STATUS_ARM_Creating,
+	"deleting":  ProvisioningState_STATUS_ARM_Deleting,
+	"failed":    ProvisioningState_STATUS_ARM_Failed,
+	"succeeded": ProvisioningState_STATUS_ARM_Succeeded,
+	"updating":  ProvisioningState_STATUS_ARM_Updating,
+}
+
+// Current resource status
+type ResourceState_STATUS_ARM string
+
+const (
+	ResourceState_STATUS_ARM_CreateFailed  = ResourceState_STATUS_ARM("CreateFailed")
+	ResourceState_STATUS_ARM_Creating      = ResourceState_STATUS_ARM("Creating")
+	ResourceState_STATUS_ARM_DeleteFailed  = ResourceState_STATUS_ARM("DeleteFailed")
+	ResourceState_STATUS_ARM_Deleting      = ResourceState_STATUS_ARM("Deleting")
+	ResourceState_STATUS_ARM_DisableFailed = ResourceState_STATUS_ARM("DisableFailed")
+	ResourceState_STATUS_ARM_Disabled      = ResourceState_STATUS_ARM("Disabled")
+	ResourceState_STATUS_ARM_Disabling     = ResourceState_STATUS_ARM("Disabling")
+	ResourceState_STATUS_ARM_EnableFailed  = ResourceState_STATUS_ARM("EnableFailed")
+	ResourceState_STATUS_ARM_Enabling      = ResourceState_STATUS_ARM("Enabling")
+	ResourceState_STATUS_ARM_Running       = ResourceState_STATUS_ARM("Running")
+	ResourceState_STATUS_ARM_UpdateFailed  = ResourceState_STATUS_ARM("UpdateFailed")
+	ResourceState_STATUS_ARM_Updating      = ResourceState_STATUS_ARM("Updating")
+)
+
+// Mapping from string to ResourceState_STATUS_ARM
+var resourceState_STATUS_ARM_Values = map[string]ResourceState_STATUS_ARM{
+	"createfailed":  ResourceState_STATUS_ARM_CreateFailed,
+	"creating":      ResourceState_STATUS_ARM_Creating,
+	"deletefailed":  ResourceState_STATUS_ARM_DeleteFailed,
+	"deleting":      ResourceState_STATUS_ARM_Deleting,
+	"disablefailed": ResourceState_STATUS_ARM_DisableFailed,
+	"disabled":      ResourceState_STATUS_ARM_Disabled,
+	"disabling":     ResourceState_STATUS_ARM_Disabling,
+	"enablefailed":  ResourceState_STATUS_ARM_EnableFailed,
+	"enabling":      ResourceState_STATUS_ARM_Enabling,
+	"running":       ResourceState_STATUS_ARM_Running,
+	"updatefailed":  ResourceState_STATUS_ARM_UpdateFailed,
+	"updating":      ResourceState_STATUS_ARM_Updating,
+}
+
+type Persistence_AofFrequency_STATUS_ARM string
+
+const (
+	Persistence_AofFrequency_STATUS_ARM_1S     = Persistence_AofFrequency_STATUS_ARM("1s")
+	Persistence_AofFrequency_STATUS_ARM_Always = Persistence_AofFrequency_STATUS_ARM("always")
+)
+
+// Mapping from string to Persistence_AofFrequency_STATUS_ARM
+var persistence_AofFrequency_STATUS_ARM_Values = map[string]Persistence_AofFrequency_STATUS_ARM{
+	"1s":     Persistence_AofFrequency_STATUS_ARM_1S,
+	"always": Persistence_AofFrequency_STATUS_ARM_Always,
+}
+
+type Persistence_RdbFrequency_STATUS_ARM string
+
+const (
+	Persistence_RdbFrequency_STATUS_ARM_12H = Persistence_RdbFrequency_STATUS_ARM("12h")
+	Persistence_RdbFrequency_STATUS_ARM_1H  = Persistence_RdbFrequency_STATUS_ARM("1h")
+	Persistence_RdbFrequency_STATUS_ARM_6H  = Persistence_RdbFrequency_STATUS_ARM("6h")
+)
+
+// Mapping from string to Persistence_RdbFrequency_STATUS_ARM
+var persistence_RdbFrequency_STATUS_ARM_Values = map[string]Persistence_RdbFrequency_STATUS_ARM{
+	"12h": Persistence_RdbFrequency_STATUS_ARM_12H,
+	"1h":  Persistence_RdbFrequency_STATUS_ARM_1H,
+	"6h":  Persistence_RdbFrequency_STATUS_ARM_6H,
 }

@@ -498,47 +498,44 @@ func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfileProperties
 	gens["EnableNodePublicIP"] = gen.PtrOf(gen.Bool())
 	gens["EnableUltraSSD"] = gen.PtrOf(gen.Bool())
 	gens["GpuInstanceProfile"] = gen.PtrOf(gen.OneConstOf(
-		GPUInstanceProfile_MIG1G,
-		GPUInstanceProfile_MIG2G,
-		GPUInstanceProfile_MIG3G,
-		GPUInstanceProfile_MIG4G,
-		GPUInstanceProfile_MIG7G))
+		GPUInstanceProfile_ARM_MIG1G,
+		GPUInstanceProfile_ARM_MIG2G,
+		GPUInstanceProfile_ARM_MIG3G,
+		GPUInstanceProfile_ARM_MIG4G,
+		GPUInstanceProfile_ARM_MIG7G))
 	gens["HostGroupID"] = gen.PtrOf(gen.AlphaString())
-	gens["KubeletDiskType"] = gen.PtrOf(gen.OneConstOf(KubeletDiskType_OS, KubeletDiskType_Temporary))
+	gens["KubeletDiskType"] = gen.PtrOf(gen.OneConstOf(KubeletDiskType_ARM_OS, KubeletDiskType_ARM_Temporary))
 	gens["MaxCount"] = gen.PtrOf(gen.Int())
 	gens["MaxPods"] = gen.PtrOf(gen.Int())
 	gens["MinCount"] = gen.PtrOf(gen.Int())
-	gens["Mode"] = gen.PtrOf(gen.OneConstOf(AgentPoolMode_System, AgentPoolMode_User))
+	gens["Mode"] = gen.PtrOf(gen.OneConstOf(AgentPoolMode_ARM_System, AgentPoolMode_ARM_User))
 	gens["NodeLabels"] = gen.MapOf(
 		gen.AlphaString(),
 		gen.AlphaString())
 	gens["NodePublicIPPrefixID"] = gen.PtrOf(gen.AlphaString())
 	gens["NodeTaints"] = gen.SliceOf(gen.AlphaString())
 	gens["OrchestratorVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["OsDiskSizeGB"] = gen.PtrOf(gen.Int().Map(func(it int) ContainerServiceOSDisk {
-		return ContainerServiceOSDisk(it)
-	}))
-	gens["OsDiskType"] = gen.PtrOf(gen.OneConstOf(OSDiskType_Ephemeral, OSDiskType_Managed))
+	gens["OsDiskType"] = gen.PtrOf(gen.OneConstOf(OSDiskType_ARM_Ephemeral, OSDiskType_ARM_Managed))
 	gens["OsSKU"] = gen.PtrOf(gen.OneConstOf(
-		OSSKU_AzureLinux,
-		OSSKU_CBLMariner,
-		OSSKU_Ubuntu,
-		OSSKU_Windows2019,
-		OSSKU_Windows2022))
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(OSType_Linux, OSType_Windows))
+		OSSKU_ARM_AzureLinux,
+		OSSKU_ARM_CBLMariner,
+		OSSKU_ARM_Ubuntu,
+		OSSKU_ARM_Windows2019,
+		OSSKU_ARM_Windows2022))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(OSType_ARM_Linux, OSType_ARM_Windows))
 	gens["PodSubnetID"] = gen.PtrOf(gen.AlphaString())
 	gens["ProximityPlacementGroupID"] = gen.PtrOf(gen.AlphaString())
-	gens["ScaleDownMode"] = gen.PtrOf(gen.OneConstOf(ScaleDownMode_Deallocate, ScaleDownMode_Delete))
-	gens["ScaleSetEvictionPolicy"] = gen.PtrOf(gen.OneConstOf(ScaleSetEvictionPolicy_Deallocate, ScaleSetEvictionPolicy_Delete))
-	gens["ScaleSetPriority"] = gen.PtrOf(gen.OneConstOf(ScaleSetPriority_Regular, ScaleSetPriority_Spot))
+	gens["ScaleDownMode"] = gen.PtrOf(gen.OneConstOf(ScaleDownMode_ARM_Deallocate, ScaleDownMode_ARM_Delete))
+	gens["ScaleSetEvictionPolicy"] = gen.PtrOf(gen.OneConstOf(ScaleSetEvictionPolicy_ARM_Deallocate, ScaleSetEvictionPolicy_ARM_Delete))
+	gens["ScaleSetPriority"] = gen.PtrOf(gen.OneConstOf(ScaleSetPriority_ARM_Regular, ScaleSetPriority_ARM_Spot))
 	gens["SpotMaxPrice"] = gen.PtrOf(gen.Float64())
 	gens["Tags"] = gen.MapOf(
 		gen.AlphaString(),
 		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(AgentPoolType_AvailabilitySet, AgentPoolType_VirtualMachineScaleSets))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(AgentPoolType_ARM_AvailabilitySet, AgentPoolType_ARM_VirtualMachineScaleSets))
 	gens["VmSize"] = gen.PtrOf(gen.AlphaString())
 	gens["VnetSubnetID"] = gen.PtrOf(gen.AlphaString())
-	gens["WorkloadRuntime"] = gen.PtrOf(gen.OneConstOf(WorkloadRuntime_OCIContainer, WorkloadRuntime_WasmWasi))
+	gens["WorkloadRuntime"] = gen.PtrOf(gen.OneConstOf(WorkloadRuntime_ARM_OCIContainer, WorkloadRuntime_ARM_WasmWasi))
 }
 
 // AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfileProperties_ARM is a factory method for creating gopter generators
@@ -547,6 +544,7 @@ func AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfileProperties_ARM
 	gens["KubeletConfig"] = gen.PtrOf(KubeletConfig_ARMGenerator())
 	gens["LinuxOSConfig"] = gen.PtrOf(LinuxOSConfig_ARMGenerator())
 	gens["NetworkProfile"] = gen.PtrOf(AgentPoolNetworkProfile_ARMGenerator())
+	gens["OsDiskSizeGB"] = gen.PtrOf(ContainerServiceOSDisk_ARMGenerator())
 	gens["PowerState"] = gen.PtrOf(PowerState_ARMGenerator())
 	gens["UpgradeSettings"] = gen.PtrOf(AgentPoolUpgradeSettings_ARMGenerator())
 }
@@ -685,7 +683,7 @@ func PortRange_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForPortRange_ARM(gens map[string]gopter.Gen) {
 	gens["PortEnd"] = gen.PtrOf(gen.Int())
 	gens["PortStart"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(PortRange_Protocol_TCP, PortRange_Protocol_UDP))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(PortRange_Protocol_ARM_TCP, PortRange_Protocol_ARM_UDP))
 }
 
 func Test_PowerState_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -745,7 +743,7 @@ func PowerState_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForPowerState_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPowerState_ARM(gens map[string]gopter.Gen) {
-	gens["Code"] = gen.PtrOf(gen.OneConstOf(PowerState_Code_Running, PowerState_Code_Stopped))
+	gens["Code"] = gen.PtrOf(gen.OneConstOf(PowerState_Code_ARM_Running, PowerState_Code_ARM_Stopped))
 }
 
 func Test_SysctlConfig_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

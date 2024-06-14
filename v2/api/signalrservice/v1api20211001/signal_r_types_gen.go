@@ -438,7 +438,9 @@ func (signalR *SignalR_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "Kind":
 	if signalR.Kind != nil {
-		kind := *signalR.Kind
+		var temp string
+		temp = string(*signalR.Kind)
+		kind := ServiceKind_ARM(temp)
 		result.Kind = &kind
 	}
 
@@ -616,7 +618,9 @@ func (signalR *SignalR_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 
 	// Set property "Kind":
 	if typedInput.Kind != nil {
-		kind := *typedInput.Kind
+		var temp string
+		temp = string(*typedInput.Kind)
+		kind := ServiceKind(temp)
 		signalR.Kind = &kind
 	}
 
@@ -1518,7 +1522,9 @@ func (signalR *SignalR_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "Kind":
 	if typedInput.Kind != nil {
-		kind := *typedInput.Kind
+		var temp string
+		temp = string(*typedInput.Kind)
+		kind := ServiceKind_STATUS(temp)
 		signalR.Kind = &kind
 	}
 
@@ -1565,7 +1571,9 @@ func (signalR *SignalR_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := ProvisioningState_STATUS(temp)
 			signalR.ProvisioningState = &provisioningState
 		}
 	}
@@ -2188,7 +2196,9 @@ func (identity *ManagedIdentity) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "Type":
 	if identity.Type != nil {
-		typeVar := *identity.Type
+		var temp string
+		temp = string(*identity.Type)
+		typeVar := ManagedIdentityType_ARM(temp)
 		result.Type = &typeVar
 	}
 
@@ -2219,7 +2229,9 @@ func (identity *ManagedIdentity) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ManagedIdentityType(temp)
 		identity.Type = &typeVar
 	}
 
@@ -2377,7 +2389,9 @@ func (identity *ManagedIdentity_STATUS) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ManagedIdentityType_STATUS(temp)
 		identity.Type = &typeVar
 	}
 
@@ -2843,7 +2857,9 @@ func (resourceSku *ResourceSku) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "Tier":
 	if resourceSku.Tier != nil {
-		tier := *resourceSku.Tier
+		var temp string
+		temp = string(*resourceSku.Tier)
+		tier := SignalRSkuTier_ARM(temp)
 		result.Tier = &tier
 	}
 	return result, nil
@@ -2875,7 +2891,9 @@ func (resourceSku *ResourceSku) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 
 	// Set property "Tier":
 	if typedInput.Tier != nil {
-		tier := *typedInput.Tier
+		var temp string
+		temp = string(*typedInput.Tier)
+		tier := SignalRSkuTier(temp)
 		resourceSku.Tier = &tier
 	}
 
@@ -3019,7 +3037,9 @@ func (resourceSku *ResourceSku_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property "Tier":
 	if typedInput.Tier != nil {
-		tier := *typedInput.Tier
+		var temp string
+		temp = string(*typedInput.Tier)
+		tier := SignalRSkuTier_STATUS(temp)
 		resourceSku.Tier = &tier
 	}
 
@@ -3320,6 +3340,35 @@ func (settings *ServerlessUpstreamSettings_STATUS) AssignProperties_To_Serverles
 	return nil
 }
 
+// The kind of the service, it can be SignalR or RawWebSockets
+// +kubebuilder:validation:Enum={"RawWebSockets","SignalR"}
+type ServiceKind string
+
+const (
+	ServiceKind_RawWebSockets = ServiceKind("RawWebSockets")
+	ServiceKind_SignalR       = ServiceKind("SignalR")
+)
+
+// Mapping from string to ServiceKind
+var serviceKind_Values = map[string]ServiceKind{
+	"rawwebsockets": ServiceKind_RawWebSockets,
+	"signalr":       ServiceKind_SignalR,
+}
+
+// The kind of the service, it can be SignalR or RawWebSockets
+type ServiceKind_STATUS string
+
+const (
+	ServiceKind_STATUS_RawWebSockets = ServiceKind_STATUS("RawWebSockets")
+	ServiceKind_STATUS_SignalR       = ServiceKind_STATUS("SignalR")
+)
+
+// Mapping from string to ServiceKind_STATUS
+var serviceKind_STATUS_Values = map[string]ServiceKind_STATUS{
+	"rawwebsockets": ServiceKind_STATUS_RawWebSockets,
+	"signalr":       ServiceKind_STATUS_SignalR,
+}
+
 // Describes a Shared Private Link Resource
 type SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded struct {
 	// Id: Fully qualified resource Id for the resource.
@@ -3558,7 +3607,9 @@ func (feature *SignalRFeature) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "Flag":
 	if feature.Flag != nil {
-		flag := *feature.Flag
+		var temp string
+		temp = string(*feature.Flag)
+		flag := FeatureFlags_ARM(temp)
 		result.Flag = &flag
 	}
 
@@ -3592,7 +3643,9 @@ func (feature *SignalRFeature) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "Flag":
 	if typedInput.Flag != nil {
-		flag := *typedInput.Flag
+		var temp string
+		temp = string(*typedInput.Flag)
+		flag := FeatureFlags(temp)
 		feature.Flag = &flag
 	}
 
@@ -3740,7 +3793,9 @@ func (feature *SignalRFeature_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property "Flag":
 	if typedInput.Flag != nil {
-		flag := *typedInput.Flag
+		var temp string
+		temp = string(*typedInput.Flag)
+		flag := FeatureFlags_STATUS(temp)
 		feature.Flag = &flag
 	}
 
@@ -3837,7 +3892,9 @@ func (acLs *SignalRNetworkACLs) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "DefaultAction":
 	if acLs.DefaultAction != nil {
-		defaultAction := *acLs.DefaultAction
+		var temp string
+		temp = string(*acLs.DefaultAction)
+		defaultAction := ACLAction_ARM(temp)
 		result.DefaultAction = &defaultAction
 	}
 
@@ -3876,7 +3933,9 @@ func (acLs *SignalRNetworkACLs) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 
 	// Set property "DefaultAction":
 	if typedInput.DefaultAction != nil {
-		defaultAction := *typedInput.DefaultAction
+		var temp string
+		temp = string(*typedInput.DefaultAction)
+		defaultAction := ACLAction(temp)
 		acLs.DefaultAction = &defaultAction
 	}
 
@@ -4078,7 +4137,9 @@ func (acLs *SignalRNetworkACLs_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property "DefaultAction":
 	if typedInput.DefaultAction != nil {
-		defaultAction := *typedInput.DefaultAction
+		var temp string
+		temp = string(*typedInput.DefaultAction)
+		defaultAction := ACLAction_STATUS(temp)
 		acLs.DefaultAction = &defaultAction
 	}
 
@@ -4477,7 +4538,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "CreatedByType":
 	if typedInput.CreatedByType != nil {
-		createdByType := *typedInput.CreatedByType
+		var temp string
+		temp = string(*typedInput.CreatedByType)
+		createdByType := SystemData_CreatedByType_STATUS(temp)
 		data.CreatedByType = &createdByType
 	}
 
@@ -4495,7 +4558,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "LastModifiedByType":
 	if typedInput.LastModifiedByType != nil {
-		lastModifiedByType := *typedInput.LastModifiedByType
+		var temp string
+		temp = string(*typedInput.LastModifiedByType)
+		lastModifiedByType := SystemData_LastModifiedByType_STATUS(temp)
 		data.LastModifiedByType = &lastModifiedByType
 	}
 
@@ -4674,6 +4739,39 @@ var featureFlags_STATUS_Values = map[string]FeatureFlags_STATUS{
 	"servicemode":            FeatureFlags_STATUS_ServiceMode,
 }
 
+// Represents the identity type: systemAssigned, userAssigned, None
+// +kubebuilder:validation:Enum={"None","SystemAssigned","UserAssigned"}
+type ManagedIdentityType string
+
+const (
+	ManagedIdentityType_None           = ManagedIdentityType("None")
+	ManagedIdentityType_SystemAssigned = ManagedIdentityType("SystemAssigned")
+	ManagedIdentityType_UserAssigned   = ManagedIdentityType("UserAssigned")
+)
+
+// Mapping from string to ManagedIdentityType
+var managedIdentityType_Values = map[string]ManagedIdentityType{
+	"none":           ManagedIdentityType_None,
+	"systemassigned": ManagedIdentityType_SystemAssigned,
+	"userassigned":   ManagedIdentityType_UserAssigned,
+}
+
+// Represents the identity type: systemAssigned, userAssigned, None
+type ManagedIdentityType_STATUS string
+
+const (
+	ManagedIdentityType_STATUS_None           = ManagedIdentityType_STATUS("None")
+	ManagedIdentityType_STATUS_SystemAssigned = ManagedIdentityType_STATUS("SystemAssigned")
+	ManagedIdentityType_STATUS_UserAssigned   = ManagedIdentityType_STATUS("UserAssigned")
+)
+
+// Mapping from string to ManagedIdentityType_STATUS
+var managedIdentityType_STATUS_Values = map[string]ManagedIdentityType_STATUS{
+	"none":           ManagedIdentityType_STATUS_None,
+	"systemassigned": ManagedIdentityType_STATUS_SystemAssigned,
+	"userassigned":   ManagedIdentityType_STATUS_UserAssigned,
+}
+
 // Network ACL
 type NetworkACL struct {
 	// Allow: Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
@@ -4694,12 +4792,16 @@ func (networkACL *NetworkACL) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "Allow":
 	for _, item := range networkACL.Allow {
-		result.Allow = append(result.Allow, item)
+		var temp string
+		temp = string(item)
+		result.Allow = append(result.Allow, SignalRRequestType_ARM(temp))
 	}
 
 	// Set property "Deny":
 	for _, item := range networkACL.Deny {
-		result.Deny = append(result.Deny, item)
+		var temp string
+		temp = string(item)
+		result.Deny = append(result.Deny, SignalRRequestType_ARM(temp))
 	}
 	return result, nil
 }
@@ -4718,12 +4820,16 @@ func (networkACL *NetworkACL) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 
 	// Set property "Allow":
 	for _, item := range typedInput.Allow {
-		networkACL.Allow = append(networkACL.Allow, item)
+		var temp string
+		temp = string(item)
+		networkACL.Allow = append(networkACL.Allow, SignalRRequestType(temp))
 	}
 
 	// Set property "Deny":
 	for _, item := range typedInput.Deny {
-		networkACL.Deny = append(networkACL.Deny, item)
+		var temp string
+		temp = string(item)
+		networkACL.Deny = append(networkACL.Deny, SignalRRequestType(temp))
 	}
 
 	// No error
@@ -4865,12 +4971,16 @@ func (networkACL *NetworkACL_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property "Allow":
 	for _, item := range typedInput.Allow {
-		networkACL.Allow = append(networkACL.Allow, item)
+		var temp string
+		temp = string(item)
+		networkACL.Allow = append(networkACL.Allow, SignalRRequestType_STATUS(temp))
 	}
 
 	// Set property "Deny":
 	for _, item := range typedInput.Deny {
-		networkACL.Deny = append(networkACL.Deny, item)
+		var temp string
+		temp = string(item)
+		networkACL.Deny = append(networkACL.Deny, SignalRRequestType_STATUS(temp))
 	}
 
 	// No error
@@ -4976,12 +5086,16 @@ func (endpointACL *PrivateEndpointACL) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property "Allow":
 	for _, item := range endpointACL.Allow {
-		result.Allow = append(result.Allow, item)
+		var temp string
+		temp = string(item)
+		result.Allow = append(result.Allow, SignalRRequestType_ARM(temp))
 	}
 
 	// Set property "Deny":
 	for _, item := range endpointACL.Deny {
-		result.Deny = append(result.Deny, item)
+		var temp string
+		temp = string(item)
+		result.Deny = append(result.Deny, SignalRRequestType_ARM(temp))
 	}
 
 	// Set property "Name":
@@ -5006,12 +5120,16 @@ func (endpointACL *PrivateEndpointACL) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property "Allow":
 	for _, item := range typedInput.Allow {
-		endpointACL.Allow = append(endpointACL.Allow, item)
+		var temp string
+		temp = string(item)
+		endpointACL.Allow = append(endpointACL.Allow, SignalRRequestType(temp))
 	}
 
 	// Set property "Deny":
 	for _, item := range typedInput.Deny {
-		endpointACL.Deny = append(endpointACL.Deny, item)
+		var temp string
+		temp = string(item)
+		endpointACL.Deny = append(endpointACL.Deny, SignalRRequestType(temp))
 	}
 
 	// Set property "Name":
@@ -5171,12 +5289,16 @@ func (endpointACL *PrivateEndpointACL_STATUS) PopulateFromARM(owner genruntime.A
 
 	// Set property "Allow":
 	for _, item := range typedInput.Allow {
-		endpointACL.Allow = append(endpointACL.Allow, item)
+		var temp string
+		temp = string(item)
+		endpointACL.Allow = append(endpointACL.Allow, SignalRRequestType_STATUS(temp))
 	}
 
 	// Set property "Deny":
 	for _, item := range typedInput.Deny {
-		endpointACL.Deny = append(endpointACL.Deny, item)
+		var temp string
+		temp = string(item)
+		endpointACL.Deny = append(endpointACL.Deny, SignalRRequestType_STATUS(temp))
 	}
 
 	// Set property "Name":
@@ -5563,6 +5685,79 @@ func (secrets *SignalROperatorSecrets) AssignProperties_To_SignalROperatorSecret
 
 	// No error
 	return nil
+}
+
+// Optional tier of this particular SKU. 'Standard' or 'Free'.
+// `Basic` is deprecated, use `Standard` instead.
+// +kubebuilder:validation:Enum={"Basic","Free","Premium","Standard"}
+type SignalRSkuTier string
+
+const (
+	SignalRSkuTier_Basic    = SignalRSkuTier("Basic")
+	SignalRSkuTier_Free     = SignalRSkuTier("Free")
+	SignalRSkuTier_Premium  = SignalRSkuTier("Premium")
+	SignalRSkuTier_Standard = SignalRSkuTier("Standard")
+)
+
+// Mapping from string to SignalRSkuTier
+var signalRSkuTier_Values = map[string]SignalRSkuTier{
+	"basic":    SignalRSkuTier_Basic,
+	"free":     SignalRSkuTier_Free,
+	"premium":  SignalRSkuTier_Premium,
+	"standard": SignalRSkuTier_Standard,
+}
+
+// Optional tier of this particular SKU. 'Standard' or 'Free'.
+// `Basic` is deprecated, use `Standard` instead.
+type SignalRSkuTier_STATUS string
+
+const (
+	SignalRSkuTier_STATUS_Basic    = SignalRSkuTier_STATUS("Basic")
+	SignalRSkuTier_STATUS_Free     = SignalRSkuTier_STATUS("Free")
+	SignalRSkuTier_STATUS_Premium  = SignalRSkuTier_STATUS("Premium")
+	SignalRSkuTier_STATUS_Standard = SignalRSkuTier_STATUS("Standard")
+)
+
+// Mapping from string to SignalRSkuTier_STATUS
+var signalRSkuTier_STATUS_Values = map[string]SignalRSkuTier_STATUS{
+	"basic":    SignalRSkuTier_STATUS_Basic,
+	"free":     SignalRSkuTier_STATUS_Free,
+	"premium":  SignalRSkuTier_STATUS_Premium,
+	"standard": SignalRSkuTier_STATUS_Standard,
+}
+
+type SystemData_CreatedByType_STATUS string
+
+const (
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
+}
+
+type SystemData_LastModifiedByType_STATUS string
+
+const (
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
 }
 
 // Upstream template item settings. It defines the Upstream URL of the incoming requests.
@@ -6135,7 +6330,9 @@ func (settings *UpstreamAuthSettings) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "Type":
 	if settings.Type != nil {
-		typeVar := *settings.Type
+		var temp string
+		temp = string(*settings.Type)
+		typeVar := UpstreamAuthType_ARM(temp)
 		result.Type = &typeVar
 	}
 	return result, nil
@@ -6166,7 +6363,9 @@ func (settings *UpstreamAuthSettings) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := UpstreamAuthType(temp)
 		settings.Type = &typeVar
 	}
 
@@ -6301,7 +6500,9 @@ func (settings *UpstreamAuthSettings_STATUS) PopulateFromARM(owner genruntime.Ar
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := UpstreamAuthType_STATUS(temp)
 		settings.Type = &typeVar
 	}
 

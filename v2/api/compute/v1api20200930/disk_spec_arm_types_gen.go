@@ -82,17 +82,17 @@ type DiskProperties_ARM struct {
 	EncryptionSettingsCollection *EncryptionSettingsCollection_ARM `json:"encryptionSettingsCollection,omitempty"`
 
 	// HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
-	HyperVGeneration *DiskProperties_HyperVGeneration `json:"hyperVGeneration,omitempty"`
+	HyperVGeneration *DiskProperties_HyperVGeneration_ARM `json:"hyperVGeneration,omitempty"`
 
 	// MaxShares: The maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a
 	// disk that can be mounted on multiple VMs at the same time.
 	MaxShares *int `json:"maxShares,omitempty"`
 
 	// NetworkAccessPolicy: Policy for accessing the disk via network.
-	NetworkAccessPolicy *NetworkAccessPolicy `json:"networkAccessPolicy,omitempty"`
+	NetworkAccessPolicy *NetworkAccessPolicy_ARM `json:"networkAccessPolicy,omitempty"`
 
 	// OsType: The Operating System type.
-	OsType *DiskProperties_OsType `json:"osType,omitempty"`
+	OsType *DiskProperties_OsType_ARM `json:"osType,omitempty"`
 
 	// PurchasePlan: Purchase plan information for the the image from which the OS disk was created. E.g. - {name:
 	// 2019-Datacenter, publisher: MicrosoftWindowsServer, product: WindowsServer}
@@ -106,7 +106,7 @@ type DiskProperties_ARM struct {
 // The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, or UltraSSD_LRS.
 type DiskSku_ARM struct {
 	// Name: The sku name.
-	Name *DiskSku_Name `json:"name,omitempty"`
+	Name *DiskSku_Name_ARM `json:"name,omitempty"`
 }
 
 // The complex type of the extended location.
@@ -115,13 +115,13 @@ type ExtendedLocation_ARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: The type of the extended location.
-	Type *ExtendedLocationType `json:"type,omitempty"`
+	Type *ExtendedLocationType_ARM `json:"type,omitempty"`
 }
 
 // Data used when creating a disk.
 type CreationData_ARM struct {
 	// CreateOption: This enumerates the possible sources of a disk's creation.
-	CreateOption *CreationData_CreateOption `json:"createOption,omitempty"`
+	CreateOption *CreationData_CreateOption_ARM `json:"createOption,omitempty"`
 
 	// GalleryImageReference: Required if creating from a Gallery Image. The id of the ImageDiskReference will be the ARM id of
 	// the shared galley image version from which to create a disk.
@@ -147,22 +147,50 @@ type CreationData_ARM struct {
 	UploadSizeBytes *int `json:"uploadSizeBytes,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"Premium_LRS","StandardSSD_LRS","Standard_LRS","UltraSSD_LRS"}
-type DiskSku_Name string
+// +kubebuilder:validation:Enum={"V1","V2"}
+type DiskProperties_HyperVGeneration_ARM string
 
 const (
-	DiskSku_Name_Premium_LRS     = DiskSku_Name("Premium_LRS")
-	DiskSku_Name_StandardSSD_LRS = DiskSku_Name("StandardSSD_LRS")
-	DiskSku_Name_Standard_LRS    = DiskSku_Name("Standard_LRS")
-	DiskSku_Name_UltraSSD_LRS    = DiskSku_Name("UltraSSD_LRS")
+	DiskProperties_HyperVGeneration_ARM_V1 = DiskProperties_HyperVGeneration_ARM("V1")
+	DiskProperties_HyperVGeneration_ARM_V2 = DiskProperties_HyperVGeneration_ARM("V2")
 )
 
-// Mapping from string to DiskSku_Name
-var diskSku_Name_Values = map[string]DiskSku_Name{
-	"premium_lrs":     DiskSku_Name_Premium_LRS,
-	"standardssd_lrs": DiskSku_Name_StandardSSD_LRS,
-	"standard_lrs":    DiskSku_Name_Standard_LRS,
-	"ultrassd_lrs":    DiskSku_Name_UltraSSD_LRS,
+// Mapping from string to DiskProperties_HyperVGeneration_ARM
+var diskProperties_HyperVGeneration_ARM_Values = map[string]DiskProperties_HyperVGeneration_ARM{
+	"v1": DiskProperties_HyperVGeneration_ARM_V1,
+	"v2": DiskProperties_HyperVGeneration_ARM_V2,
+}
+
+// +kubebuilder:validation:Enum={"Linux","Windows"}
+type DiskProperties_OsType_ARM string
+
+const (
+	DiskProperties_OsType_ARM_Linux   = DiskProperties_OsType_ARM("Linux")
+	DiskProperties_OsType_ARM_Windows = DiskProperties_OsType_ARM("Windows")
+)
+
+// Mapping from string to DiskProperties_OsType_ARM
+var diskProperties_OsType_ARM_Values = map[string]DiskProperties_OsType_ARM{
+	"linux":   DiskProperties_OsType_ARM_Linux,
+	"windows": DiskProperties_OsType_ARM_Windows,
+}
+
+// +kubebuilder:validation:Enum={"Premium_LRS","StandardSSD_LRS","Standard_LRS","UltraSSD_LRS"}
+type DiskSku_Name_ARM string
+
+const (
+	DiskSku_Name_ARM_Premium_LRS     = DiskSku_Name_ARM("Premium_LRS")
+	DiskSku_Name_ARM_StandardSSD_LRS = DiskSku_Name_ARM("StandardSSD_LRS")
+	DiskSku_Name_ARM_Standard_LRS    = DiskSku_Name_ARM("Standard_LRS")
+	DiskSku_Name_ARM_UltraSSD_LRS    = DiskSku_Name_ARM("UltraSSD_LRS")
+)
+
+// Mapping from string to DiskSku_Name_ARM
+var diskSku_Name_ARM_Values = map[string]DiskSku_Name_ARM{
+	"premium_lrs":     DiskSku_Name_ARM_Premium_LRS,
+	"standardssd_lrs": DiskSku_Name_ARM_StandardSSD_LRS,
+	"standard_lrs":    DiskSku_Name_ARM_Standard_LRS,
+	"ultrassd_lrs":    DiskSku_Name_ARM_UltraSSD_LRS,
 }
 
 // Encryption at rest settings for disk or snapshot
@@ -170,7 +198,7 @@ type Encryption_ARM struct {
 	DiskEncryptionSetId *string `json:"diskEncryptionSetId,omitempty"`
 
 	// Type: The type of key used to encrypt the data of the disk.
-	Type *EncryptionType `json:"type,omitempty"`
+	Type *EncryptionType_ARM `json:"type,omitempty"`
 }
 
 // Encryption settings for disk or snapshot
@@ -190,13 +218,30 @@ type EncryptionSettingsCollection_ARM struct {
 
 // The type of extendedLocation.
 // +kubebuilder:validation:Enum={"EdgeZone"}
-type ExtendedLocationType string
+type ExtendedLocationType_ARM string
 
-const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
+const ExtendedLocationType_ARM_EdgeZone = ExtendedLocationType_ARM("EdgeZone")
 
-// Mapping from string to ExtendedLocationType
-var extendedLocationType_Values = map[string]ExtendedLocationType{
-	"edgezone": ExtendedLocationType_EdgeZone,
+// Mapping from string to ExtendedLocationType_ARM
+var extendedLocationType_ARM_Values = map[string]ExtendedLocationType_ARM{
+	"edgezone": ExtendedLocationType_ARM_EdgeZone,
+}
+
+// Policy for accessing the disk via network.
+// +kubebuilder:validation:Enum={"AllowAll","AllowPrivate","DenyAll"}
+type NetworkAccessPolicy_ARM string
+
+const (
+	NetworkAccessPolicy_ARM_AllowAll     = NetworkAccessPolicy_ARM("AllowAll")
+	NetworkAccessPolicy_ARM_AllowPrivate = NetworkAccessPolicy_ARM("AllowPrivate")
+	NetworkAccessPolicy_ARM_DenyAll      = NetworkAccessPolicy_ARM("DenyAll")
+)
+
+// Mapping from string to NetworkAccessPolicy_ARM
+var networkAccessPolicy_ARM_Values = map[string]NetworkAccessPolicy_ARM{
+	"allowall":     NetworkAccessPolicy_ARM_AllowAll,
+	"allowprivate": NetworkAccessPolicy_ARM_AllowPrivate,
+	"denyall":      NetworkAccessPolicy_ARM_DenyAll,
 }
 
 // Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
@@ -215,6 +260,30 @@ type PurchasePlan_ARM struct {
 	Publisher *string `json:"publisher,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"Attach","Copy","Empty","FromImage","Import","Restore","Upload"}
+type CreationData_CreateOption_ARM string
+
+const (
+	CreationData_CreateOption_ARM_Attach    = CreationData_CreateOption_ARM("Attach")
+	CreationData_CreateOption_ARM_Copy      = CreationData_CreateOption_ARM("Copy")
+	CreationData_CreateOption_ARM_Empty     = CreationData_CreateOption_ARM("Empty")
+	CreationData_CreateOption_ARM_FromImage = CreationData_CreateOption_ARM("FromImage")
+	CreationData_CreateOption_ARM_Import    = CreationData_CreateOption_ARM("Import")
+	CreationData_CreateOption_ARM_Restore   = CreationData_CreateOption_ARM("Restore")
+	CreationData_CreateOption_ARM_Upload    = CreationData_CreateOption_ARM("Upload")
+)
+
+// Mapping from string to CreationData_CreateOption_ARM
+var creationData_CreateOption_ARM_Values = map[string]CreationData_CreateOption_ARM{
+	"attach":    CreationData_CreateOption_ARM_Attach,
+	"copy":      CreationData_CreateOption_ARM_Copy,
+	"empty":     CreationData_CreateOption_ARM_Empty,
+	"fromimage": CreationData_CreateOption_ARM_FromImage,
+	"import":    CreationData_CreateOption_ARM_Import,
+	"restore":   CreationData_CreateOption_ARM_Restore,
+	"upload":    CreationData_CreateOption_ARM_Upload,
+}
+
 // Encryption settings for one disk volume.
 type EncryptionSettingsElement_ARM struct {
 	// DiskEncryptionKey: Key Vault Secret Url and vault id of the disk encryption key
@@ -223,6 +292,23 @@ type EncryptionSettingsElement_ARM struct {
 	// KeyEncryptionKey: Key Vault Key Url and vault id of the key encryption key. KeyEncryptionKey is optional and when
 	// provided is used to unwrap the disk encryption key.
 	KeyEncryptionKey *KeyVaultAndKeyReference_ARM `json:"keyEncryptionKey,omitempty"`
+}
+
+// The type of key used to encrypt the data of the disk.
+// +kubebuilder:validation:Enum={"EncryptionAtRestWithCustomerKey","EncryptionAtRestWithPlatformAndCustomerKeys","EncryptionAtRestWithPlatformKey"}
+type EncryptionType_ARM string
+
+const (
+	EncryptionType_ARM_EncryptionAtRestWithCustomerKey             = EncryptionType_ARM("EncryptionAtRestWithCustomerKey")
+	EncryptionType_ARM_EncryptionAtRestWithPlatformAndCustomerKeys = EncryptionType_ARM("EncryptionAtRestWithPlatformAndCustomerKeys")
+	EncryptionType_ARM_EncryptionAtRestWithPlatformKey             = EncryptionType_ARM("EncryptionAtRestWithPlatformKey")
+)
+
+// Mapping from string to EncryptionType_ARM
+var encryptionType_ARM_Values = map[string]EncryptionType_ARM{
+	"encryptionatrestwithcustomerkey":             EncryptionType_ARM_EncryptionAtRestWithCustomerKey,
+	"encryptionatrestwithplatformandcustomerkeys": EncryptionType_ARM_EncryptionAtRestWithPlatformAndCustomerKeys,
+	"encryptionatrestwithplatformkey":             EncryptionType_ARM_EncryptionAtRestWithPlatformKey,
 }
 
 // The source image used for creating the disk.

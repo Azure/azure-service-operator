@@ -27,7 +27,7 @@ type Trafficmanagerprofile_STATUS_ARM struct {
 // Class representing the Traffic Manager profile properties.
 type ProfileProperties_STATUS_ARM struct {
 	// AllowedEndpointRecordTypes: The list of allowed endpoint record types.
-	AllowedEndpointRecordTypes []AllowedEndpointRecordType_STATUS `json:"allowedEndpointRecordTypes,omitempty"`
+	AllowedEndpointRecordTypes []AllowedEndpointRecordType_STATUS_ARM `json:"allowedEndpointRecordTypes,omitempty"`
 
 	// DnsConfig: The DNS settings of the Traffic Manager profile.
 	DnsConfig *DnsConfig_STATUS_ARM `json:"dnsConfig,omitempty"`
@@ -42,14 +42,32 @@ type ProfileProperties_STATUS_ARM struct {
 	MonitorConfig *MonitorConfig_STATUS_ARM `json:"monitorConfig,omitempty"`
 
 	// ProfileStatus: The status of the Traffic Manager profile.
-	ProfileStatus *ProfileProperties_ProfileStatus_STATUS `json:"profileStatus,omitempty"`
+	ProfileStatus *ProfileProperties_ProfileStatus_STATUS_ARM `json:"profileStatus,omitempty"`
 
 	// TrafficRoutingMethod: The traffic routing method of the Traffic Manager profile.
-	TrafficRoutingMethod *ProfileProperties_TrafficRoutingMethod_STATUS `json:"trafficRoutingMethod,omitempty"`
+	TrafficRoutingMethod *ProfileProperties_TrafficRoutingMethod_STATUS_ARM `json:"trafficRoutingMethod,omitempty"`
 
 	// TrafficViewEnrollmentStatus: Indicates whether Traffic View is 'Enabled' or 'Disabled' for the Traffic Manager profile.
 	// Null, indicates 'Disabled'. Enabling this feature will increase the cost of the Traffic Manage profile.
-	TrafficViewEnrollmentStatus *ProfileProperties_TrafficViewEnrollmentStatus_STATUS `json:"trafficViewEnrollmentStatus,omitempty"`
+	TrafficViewEnrollmentStatus *ProfileProperties_TrafficViewEnrollmentStatus_STATUS_ARM `json:"trafficViewEnrollmentStatus,omitempty"`
+}
+
+// The allowed type DNS record types for this profile.
+type AllowedEndpointRecordType_STATUS_ARM string
+
+const (
+	AllowedEndpointRecordType_STATUS_ARM_Any         = AllowedEndpointRecordType_STATUS_ARM("Any")
+	AllowedEndpointRecordType_STATUS_ARM_DomainName  = AllowedEndpointRecordType_STATUS_ARM("DomainName")
+	AllowedEndpointRecordType_STATUS_ARM_IPv4Address = AllowedEndpointRecordType_STATUS_ARM("IPv4Address")
+	AllowedEndpointRecordType_STATUS_ARM_IPv6Address = AllowedEndpointRecordType_STATUS_ARM("IPv6Address")
+)
+
+// Mapping from string to AllowedEndpointRecordType_STATUS_ARM
+var allowedEndpointRecordType_STATUS_ARM_Values = map[string]AllowedEndpointRecordType_STATUS_ARM{
+	"any":         AllowedEndpointRecordType_STATUS_ARM_Any,
+	"domainname":  AllowedEndpointRecordType_STATUS_ARM_DomainName,
+	"ipv4address": AllowedEndpointRecordType_STATUS_ARM_IPv4Address,
+	"ipv6address": AllowedEndpointRecordType_STATUS_ARM_IPv6Address,
 }
 
 // Class containing DNS settings in a Traffic Manager profile.
@@ -93,10 +111,10 @@ type MonitorConfig_STATUS_ARM struct {
 	Port *int `json:"port,omitempty"`
 
 	// ProfileMonitorStatus: The profile-level monitoring status of the Traffic Manager profile.
-	ProfileMonitorStatus *MonitorConfig_ProfileMonitorStatus_STATUS `json:"profileMonitorStatus,omitempty"`
+	ProfileMonitorStatus *MonitorConfig_ProfileMonitorStatus_STATUS_ARM `json:"profileMonitorStatus,omitempty"`
 
 	// Protocol: The protocol (HTTP, HTTPS or TCP) used to probe for endpoint health.
-	Protocol *MonitorConfig_Protocol_STATUS `json:"protocol,omitempty"`
+	Protocol *MonitorConfig_Protocol_STATUS_ARM `json:"protocol,omitempty"`
 
 	// TimeoutInSeconds: The monitor timeout for endpoints in this profile. This is the time that Traffic Manager allows
 	// endpoints in this profile to response to the health check.
@@ -105,6 +123,53 @@ type MonitorConfig_STATUS_ARM struct {
 	// ToleratedNumberOfFailures: The number of consecutive failed health check that Traffic Manager tolerates before declaring
 	// an endpoint in this profile Degraded after the next failed health check.
 	ToleratedNumberOfFailures *int `json:"toleratedNumberOfFailures,omitempty"`
+}
+
+type ProfileProperties_ProfileStatus_STATUS_ARM string
+
+const (
+	ProfileProperties_ProfileStatus_STATUS_ARM_Disabled = ProfileProperties_ProfileStatus_STATUS_ARM("Disabled")
+	ProfileProperties_ProfileStatus_STATUS_ARM_Enabled  = ProfileProperties_ProfileStatus_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to ProfileProperties_ProfileStatus_STATUS_ARM
+var profileProperties_ProfileStatus_STATUS_ARM_Values = map[string]ProfileProperties_ProfileStatus_STATUS_ARM{
+	"disabled": ProfileProperties_ProfileStatus_STATUS_ARM_Disabled,
+	"enabled":  ProfileProperties_ProfileStatus_STATUS_ARM_Enabled,
+}
+
+type ProfileProperties_TrafficRoutingMethod_STATUS_ARM string
+
+const (
+	ProfileProperties_TrafficRoutingMethod_STATUS_ARM_Geographic  = ProfileProperties_TrafficRoutingMethod_STATUS_ARM("Geographic")
+	ProfileProperties_TrafficRoutingMethod_STATUS_ARM_MultiValue  = ProfileProperties_TrafficRoutingMethod_STATUS_ARM("MultiValue")
+	ProfileProperties_TrafficRoutingMethod_STATUS_ARM_Performance = ProfileProperties_TrafficRoutingMethod_STATUS_ARM("Performance")
+	ProfileProperties_TrafficRoutingMethod_STATUS_ARM_Priority    = ProfileProperties_TrafficRoutingMethod_STATUS_ARM("Priority")
+	ProfileProperties_TrafficRoutingMethod_STATUS_ARM_Subnet      = ProfileProperties_TrafficRoutingMethod_STATUS_ARM("Subnet")
+	ProfileProperties_TrafficRoutingMethod_STATUS_ARM_Weighted    = ProfileProperties_TrafficRoutingMethod_STATUS_ARM("Weighted")
+)
+
+// Mapping from string to ProfileProperties_TrafficRoutingMethod_STATUS_ARM
+var profileProperties_TrafficRoutingMethod_STATUS_ARM_Values = map[string]ProfileProperties_TrafficRoutingMethod_STATUS_ARM{
+	"geographic":  ProfileProperties_TrafficRoutingMethod_STATUS_ARM_Geographic,
+	"multivalue":  ProfileProperties_TrafficRoutingMethod_STATUS_ARM_MultiValue,
+	"performance": ProfileProperties_TrafficRoutingMethod_STATUS_ARM_Performance,
+	"priority":    ProfileProperties_TrafficRoutingMethod_STATUS_ARM_Priority,
+	"subnet":      ProfileProperties_TrafficRoutingMethod_STATUS_ARM_Subnet,
+	"weighted":    ProfileProperties_TrafficRoutingMethod_STATUS_ARM_Weighted,
+}
+
+type ProfileProperties_TrafficViewEnrollmentStatus_STATUS_ARM string
+
+const (
+	ProfileProperties_TrafficViewEnrollmentStatus_STATUS_ARM_Disabled = ProfileProperties_TrafficViewEnrollmentStatus_STATUS_ARM("Disabled")
+	ProfileProperties_TrafficViewEnrollmentStatus_STATUS_ARM_Enabled  = ProfileProperties_TrafficViewEnrollmentStatus_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to ProfileProperties_TrafficViewEnrollmentStatus_STATUS_ARM
+var profileProperties_TrafficViewEnrollmentStatus_STATUS_ARM_Values = map[string]ProfileProperties_TrafficViewEnrollmentStatus_STATUS_ARM{
+	"disabled": ProfileProperties_TrafficViewEnrollmentStatus_STATUS_ARM_Disabled,
+	"enabled":  ProfileProperties_TrafficViewEnrollmentStatus_STATUS_ARM_Enabled,
 }
 
 type MonitorConfig_CustomHeaders_STATUS_ARM struct {
@@ -121,4 +186,38 @@ type MonitorConfig_ExpectedStatusCodeRanges_STATUS_ARM struct {
 
 	// Min: Min status code.
 	Min *int `json:"min,omitempty"`
+}
+
+type MonitorConfig_ProfileMonitorStatus_STATUS_ARM string
+
+const (
+	MonitorConfig_ProfileMonitorStatus_STATUS_ARM_CheckingEndpoints = MonitorConfig_ProfileMonitorStatus_STATUS_ARM("CheckingEndpoints")
+	MonitorConfig_ProfileMonitorStatus_STATUS_ARM_Degraded          = MonitorConfig_ProfileMonitorStatus_STATUS_ARM("Degraded")
+	MonitorConfig_ProfileMonitorStatus_STATUS_ARM_Disabled          = MonitorConfig_ProfileMonitorStatus_STATUS_ARM("Disabled")
+	MonitorConfig_ProfileMonitorStatus_STATUS_ARM_Inactive          = MonitorConfig_ProfileMonitorStatus_STATUS_ARM("Inactive")
+	MonitorConfig_ProfileMonitorStatus_STATUS_ARM_Online            = MonitorConfig_ProfileMonitorStatus_STATUS_ARM("Online")
+)
+
+// Mapping from string to MonitorConfig_ProfileMonitorStatus_STATUS_ARM
+var monitorConfig_ProfileMonitorStatus_STATUS_ARM_Values = map[string]MonitorConfig_ProfileMonitorStatus_STATUS_ARM{
+	"checkingendpoints": MonitorConfig_ProfileMonitorStatus_STATUS_ARM_CheckingEndpoints,
+	"degraded":          MonitorConfig_ProfileMonitorStatus_STATUS_ARM_Degraded,
+	"disabled":          MonitorConfig_ProfileMonitorStatus_STATUS_ARM_Disabled,
+	"inactive":          MonitorConfig_ProfileMonitorStatus_STATUS_ARM_Inactive,
+	"online":            MonitorConfig_ProfileMonitorStatus_STATUS_ARM_Online,
+}
+
+type MonitorConfig_Protocol_STATUS_ARM string
+
+const (
+	MonitorConfig_Protocol_STATUS_ARM_HTTP  = MonitorConfig_Protocol_STATUS_ARM("HTTP")
+	MonitorConfig_Protocol_STATUS_ARM_HTTPS = MonitorConfig_Protocol_STATUS_ARM("HTTPS")
+	MonitorConfig_Protocol_STATUS_ARM_TCP   = MonitorConfig_Protocol_STATUS_ARM("TCP")
+)
+
+// Mapping from string to MonitorConfig_Protocol_STATUS_ARM
+var monitorConfig_Protocol_STATUS_ARM_Values = map[string]MonitorConfig_Protocol_STATUS_ARM{
+	"http":  MonitorConfig_Protocol_STATUS_ARM_HTTP,
+	"https": MonitorConfig_Protocol_STATUS_ARM_HTTPS,
+	"tcp":   MonitorConfig_Protocol_STATUS_ARM_TCP,
 }

@@ -41,7 +41,7 @@ func (server *Server_Spec_ARM) GetType() string {
 type ResourceIdentity_ARM struct {
 	// Type: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active
 	// Directory principal for the resource.
-	Type                   *ResourceIdentity_Type                     `json:"type,omitempty"`
+	Type                   *ResourceIdentity_Type_ARM                 `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -68,38 +68,38 @@ type ServerProperties_ARM struct {
 
 	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this server.  Value is optional but if passed
 	// in, must be 'Enabled' or 'Disabled'
-	PublicNetworkAccess *ServerProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *ServerProperties_PublicNetworkAccess_ARM `json:"publicNetworkAccess,omitempty"`
 
 	// RestrictOutboundNetworkAccess: Whether or not to restrict outbound network access for this server.  Value is optional
 	// but if passed in, must be 'Enabled' or 'Disabled'
-	RestrictOutboundNetworkAccess *ServerProperties_RestrictOutboundNetworkAccess `json:"restrictOutboundNetworkAccess,omitempty"`
+	RestrictOutboundNetworkAccess *ServerProperties_RestrictOutboundNetworkAccess_ARM `json:"restrictOutboundNetworkAccess,omitempty"`
 
 	// Version: The version of the server.
 	Version *string `json:"version,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned,UserAssigned","UserAssigned"}
-type ResourceIdentity_Type string
+type ResourceIdentity_Type_ARM string
 
 const (
-	ResourceIdentity_Type_None                       = ResourceIdentity_Type("None")
-	ResourceIdentity_Type_SystemAssigned             = ResourceIdentity_Type("SystemAssigned")
-	ResourceIdentity_Type_SystemAssignedUserAssigned = ResourceIdentity_Type("SystemAssigned,UserAssigned")
-	ResourceIdentity_Type_UserAssigned               = ResourceIdentity_Type("UserAssigned")
+	ResourceIdentity_Type_ARM_None                       = ResourceIdentity_Type_ARM("None")
+	ResourceIdentity_Type_ARM_SystemAssigned             = ResourceIdentity_Type_ARM("SystemAssigned")
+	ResourceIdentity_Type_ARM_SystemAssignedUserAssigned = ResourceIdentity_Type_ARM("SystemAssigned,UserAssigned")
+	ResourceIdentity_Type_ARM_UserAssigned               = ResourceIdentity_Type_ARM("UserAssigned")
 )
 
-// Mapping from string to ResourceIdentity_Type
-var resourceIdentity_Type_Values = map[string]ResourceIdentity_Type{
-	"none":                        ResourceIdentity_Type_None,
-	"systemassigned":              ResourceIdentity_Type_SystemAssigned,
-	"systemassigned,userassigned": ResourceIdentity_Type_SystemAssignedUserAssigned,
-	"userassigned":                ResourceIdentity_Type_UserAssigned,
+// Mapping from string to ResourceIdentity_Type_ARM
+var resourceIdentity_Type_ARM_Values = map[string]ResourceIdentity_Type_ARM{
+	"none":                        ResourceIdentity_Type_ARM_None,
+	"systemassigned":              ResourceIdentity_Type_ARM_SystemAssigned,
+	"systemassigned,userassigned": ResourceIdentity_Type_ARM_SystemAssignedUserAssigned,
+	"userassigned":                ResourceIdentity_Type_ARM_UserAssigned,
 }
 
 // Properties of a active directory administrator.
 type ServerExternalAdministrator_ARM struct {
 	// AdministratorType: Type of the sever administrator.
-	AdministratorType *ServerExternalAdministrator_AdministratorType `json:"administratorType,omitempty"`
+	AdministratorType *ServerExternalAdministrator_AdministratorType_ARM `json:"administratorType,omitempty"`
 
 	// AzureADOnlyAuthentication: Azure Active Directory only Authentication enabled.
 	AzureADOnlyAuthentication *bool `json:"azureADOnlyAuthentication,omitempty"`
@@ -108,7 +108,7 @@ type ServerExternalAdministrator_ARM struct {
 	Login *string `json:"login,omitempty"`
 
 	// PrincipalType: Principal Type of the sever administrator.
-	PrincipalType *ServerExternalAdministrator_PrincipalType `json:"principalType,omitempty"`
+	PrincipalType *ServerExternalAdministrator_PrincipalType_ARM `json:"principalType,omitempty"`
 
 	// Sid: SID (object ID) of the server administrator.
 	Sid *string `json:"sid,omitempty"`
@@ -117,6 +117,60 @@ type ServerExternalAdministrator_ARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type ServerProperties_PublicNetworkAccess_ARM string
+
+const (
+	ServerProperties_PublicNetworkAccess_ARM_Disabled = ServerProperties_PublicNetworkAccess_ARM("Disabled")
+	ServerProperties_PublicNetworkAccess_ARM_Enabled  = ServerProperties_PublicNetworkAccess_ARM("Enabled")
+)
+
+// Mapping from string to ServerProperties_PublicNetworkAccess_ARM
+var serverProperties_PublicNetworkAccess_ARM_Values = map[string]ServerProperties_PublicNetworkAccess_ARM{
+	"disabled": ServerProperties_PublicNetworkAccess_ARM_Disabled,
+	"enabled":  ServerProperties_PublicNetworkAccess_ARM_Enabled,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type ServerProperties_RestrictOutboundNetworkAccess_ARM string
+
+const (
+	ServerProperties_RestrictOutboundNetworkAccess_ARM_Disabled = ServerProperties_RestrictOutboundNetworkAccess_ARM("Disabled")
+	ServerProperties_RestrictOutboundNetworkAccess_ARM_Enabled  = ServerProperties_RestrictOutboundNetworkAccess_ARM("Enabled")
+)
+
+// Mapping from string to ServerProperties_RestrictOutboundNetworkAccess_ARM
+var serverProperties_RestrictOutboundNetworkAccess_ARM_Values = map[string]ServerProperties_RestrictOutboundNetworkAccess_ARM{
+	"disabled": ServerProperties_RestrictOutboundNetworkAccess_ARM_Disabled,
+	"enabled":  ServerProperties_RestrictOutboundNetworkAccess_ARM_Enabled,
+}
+
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails_ARM struct {
+}
+
+// +kubebuilder:validation:Enum={"ActiveDirectory"}
+type ServerExternalAdministrator_AdministratorType_ARM string
+
+const ServerExternalAdministrator_AdministratorType_ARM_ActiveDirectory = ServerExternalAdministrator_AdministratorType_ARM("ActiveDirectory")
+
+// Mapping from string to ServerExternalAdministrator_AdministratorType_ARM
+var serverExternalAdministrator_AdministratorType_ARM_Values = map[string]ServerExternalAdministrator_AdministratorType_ARM{
+	"activedirectory": ServerExternalAdministrator_AdministratorType_ARM_ActiveDirectory,
+}
+
+// +kubebuilder:validation:Enum={"Application","Group","User"}
+type ServerExternalAdministrator_PrincipalType_ARM string
+
+const (
+	ServerExternalAdministrator_PrincipalType_ARM_Application = ServerExternalAdministrator_PrincipalType_ARM("Application")
+	ServerExternalAdministrator_PrincipalType_ARM_Group       = ServerExternalAdministrator_PrincipalType_ARM("Group")
+	ServerExternalAdministrator_PrincipalType_ARM_User        = ServerExternalAdministrator_PrincipalType_ARM("User")
+)
+
+// Mapping from string to ServerExternalAdministrator_PrincipalType_ARM
+var serverExternalAdministrator_PrincipalType_ARM_Values = map[string]ServerExternalAdministrator_PrincipalType_ARM{
+	"application": ServerExternalAdministrator_PrincipalType_ARM_Application,
+	"group":       ServerExternalAdministrator_PrincipalType_ARM_Group,
+	"user":        ServerExternalAdministrator_PrincipalType_ARM_User,
 }

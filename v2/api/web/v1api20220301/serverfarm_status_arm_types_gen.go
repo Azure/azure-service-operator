@@ -84,7 +84,7 @@ type Serverfarm_Properties_STATUS_ARM struct {
 	PerSiteScaling *bool `json:"perSiteScaling,omitempty"`
 
 	// ProvisioningState: Provisioning state of the App Service Plan.
-	ProvisioningState *Serverfarm_Properties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *Serverfarm_Properties_ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// Reserved: If Linux app service plan <code>true</code>, <code>false</code> otherwise.
 	Reserved *bool `json:"reserved,omitempty"`
@@ -96,7 +96,7 @@ type Serverfarm_Properties_STATUS_ARM struct {
 	SpotExpirationTime *string `json:"spotExpirationTime,omitempty"`
 
 	// Status: App Service plan status.
-	Status *Serverfarm_Properties_Status_STATUS `json:"status,omitempty"`
+	Status *Serverfarm_Properties_Status_STATUS_ARM `json:"status,omitempty"`
 
 	// Subscription: App Service plan subscription.
 	Subscription *string `json:"subscription,omitempty"`
@@ -176,6 +176,40 @@ type KubeEnvironmentProfile_STATUS_ARM struct {
 
 	// Type: Resource type of the Kubernetes Environment.
 	Type *string `json:"type,omitempty"`
+}
+
+type Serverfarm_Properties_ProvisioningState_STATUS_ARM string
+
+const (
+	Serverfarm_Properties_ProvisioningState_STATUS_ARM_Canceled   = Serverfarm_Properties_ProvisioningState_STATUS_ARM("Canceled")
+	Serverfarm_Properties_ProvisioningState_STATUS_ARM_Deleting   = Serverfarm_Properties_ProvisioningState_STATUS_ARM("Deleting")
+	Serverfarm_Properties_ProvisioningState_STATUS_ARM_Failed     = Serverfarm_Properties_ProvisioningState_STATUS_ARM("Failed")
+	Serverfarm_Properties_ProvisioningState_STATUS_ARM_InProgress = Serverfarm_Properties_ProvisioningState_STATUS_ARM("InProgress")
+	Serverfarm_Properties_ProvisioningState_STATUS_ARM_Succeeded  = Serverfarm_Properties_ProvisioningState_STATUS_ARM("Succeeded")
+)
+
+// Mapping from string to Serverfarm_Properties_ProvisioningState_STATUS_ARM
+var serverfarm_Properties_ProvisioningState_STATUS_ARM_Values = map[string]Serverfarm_Properties_ProvisioningState_STATUS_ARM{
+	"canceled":   Serverfarm_Properties_ProvisioningState_STATUS_ARM_Canceled,
+	"deleting":   Serverfarm_Properties_ProvisioningState_STATUS_ARM_Deleting,
+	"failed":     Serverfarm_Properties_ProvisioningState_STATUS_ARM_Failed,
+	"inprogress": Serverfarm_Properties_ProvisioningState_STATUS_ARM_InProgress,
+	"succeeded":  Serverfarm_Properties_ProvisioningState_STATUS_ARM_Succeeded,
+}
+
+type Serverfarm_Properties_Status_STATUS_ARM string
+
+const (
+	Serverfarm_Properties_Status_STATUS_ARM_Creating = Serverfarm_Properties_Status_STATUS_ARM("Creating")
+	Serverfarm_Properties_Status_STATUS_ARM_Pending  = Serverfarm_Properties_Status_STATUS_ARM("Pending")
+	Serverfarm_Properties_Status_STATUS_ARM_Ready    = Serverfarm_Properties_Status_STATUS_ARM("Ready")
+)
+
+// Mapping from string to Serverfarm_Properties_Status_STATUS_ARM
+var serverfarm_Properties_Status_STATUS_ARM_Values = map[string]Serverfarm_Properties_Status_STATUS_ARM{
+	"creating": Serverfarm_Properties_Status_STATUS_ARM_Creating,
+	"pending":  Serverfarm_Properties_Status_STATUS_ARM_Pending,
+	"ready":    Serverfarm_Properties_Status_STATUS_ARM_Ready,
 }
 
 // Description of the App Service plan scale options.

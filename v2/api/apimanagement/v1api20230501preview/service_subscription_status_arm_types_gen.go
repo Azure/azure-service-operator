@@ -61,29 +61,29 @@ type SubscriptionContractProperties_STATUS_ARM struct {
 	// made by the developer, but has not yet been approved or rejected, * rejected – the subscription request has been
 	// denied by an administrator, * cancelled – the subscription has been cancelled by the developer or administrator, *
 	// expired – the subscription reached its expiration date and was deactivated.
-	State *SubscriptionContractProperties_State_STATUS `json:"state,omitempty"`
+	State *SubscriptionContractProperties_State_STATUS_ARM `json:"state,omitempty"`
 
 	// StateComment: Optional subscription comment added by an administrator when the state is changed to the 'rejected'.
 	StateComment *string `json:"stateComment,omitempty"`
 }
 
-type SubscriptionContractProperties_State_STATUS string
+type SubscriptionContractProperties_State_STATUS_ARM string
 
 const (
-	SubscriptionContractProperties_State_STATUS_Active    = SubscriptionContractProperties_State_STATUS("active")
-	SubscriptionContractProperties_State_STATUS_Cancelled = SubscriptionContractProperties_State_STATUS("cancelled")
-	SubscriptionContractProperties_State_STATUS_Expired   = SubscriptionContractProperties_State_STATUS("expired")
-	SubscriptionContractProperties_State_STATUS_Rejected  = SubscriptionContractProperties_State_STATUS("rejected")
-	SubscriptionContractProperties_State_STATUS_Submitted = SubscriptionContractProperties_State_STATUS("submitted")
-	SubscriptionContractProperties_State_STATUS_Suspended = SubscriptionContractProperties_State_STATUS("suspended")
+	SubscriptionContractProperties_State_STATUS_ARM_Active    = SubscriptionContractProperties_State_STATUS_ARM("active")
+	SubscriptionContractProperties_State_STATUS_ARM_Cancelled = SubscriptionContractProperties_State_STATUS_ARM("cancelled")
+	SubscriptionContractProperties_State_STATUS_ARM_Expired   = SubscriptionContractProperties_State_STATUS_ARM("expired")
+	SubscriptionContractProperties_State_STATUS_ARM_Rejected  = SubscriptionContractProperties_State_STATUS_ARM("rejected")
+	SubscriptionContractProperties_State_STATUS_ARM_Submitted = SubscriptionContractProperties_State_STATUS_ARM("submitted")
+	SubscriptionContractProperties_State_STATUS_ARM_Suspended = SubscriptionContractProperties_State_STATUS_ARM("suspended")
 )
 
-// Mapping from string to SubscriptionContractProperties_State_STATUS
-var subscriptionContractProperties_State_STATUS_Values = map[string]SubscriptionContractProperties_State_STATUS{
-	"active":    SubscriptionContractProperties_State_STATUS_Active,
-	"cancelled": SubscriptionContractProperties_State_STATUS_Cancelled,
-	"expired":   SubscriptionContractProperties_State_STATUS_Expired,
-	"rejected":  SubscriptionContractProperties_State_STATUS_Rejected,
-	"submitted": SubscriptionContractProperties_State_STATUS_Submitted,
-	"suspended": SubscriptionContractProperties_State_STATUS_Suspended,
+// Mapping from string to SubscriptionContractProperties_State_STATUS_ARM
+var subscriptionContractProperties_State_STATUS_ARM_Values = map[string]SubscriptionContractProperties_State_STATUS_ARM{
+	"active":    SubscriptionContractProperties_State_STATUS_ARM_Active,
+	"cancelled": SubscriptionContractProperties_State_STATUS_ARM_Cancelled,
+	"expired":   SubscriptionContractProperties_State_STATUS_ARM_Expired,
+	"rejected":  SubscriptionContractProperties_State_STATUS_ARM_Rejected,
+	"submitted": SubscriptionContractProperties_State_STATUS_ARM_Submitted,
+	"suspended": SubscriptionContractProperties_State_STATUS_ARM_Suspended,
 }

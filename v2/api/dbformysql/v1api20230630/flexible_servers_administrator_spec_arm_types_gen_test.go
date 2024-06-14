@@ -75,7 +75,7 @@ func AdministratorProperties_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAdministratorProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAdministratorProperties_ARM(gens map[string]gopter.Gen) {
-	gens["AdministratorType"] = gen.PtrOf(gen.OneConstOf(AdministratorProperties_AdministratorType_ActiveDirectory))
+	gens["AdministratorType"] = gen.PtrOf(gen.OneConstOf(AdministratorProperties_AdministratorType_ARM_ActiveDirectory))
 	gens["IdentityResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["Login"] = gen.PtrOf(gen.AlphaString())
 	gens["Sid"] = gen.PtrOf(gen.AlphaString())

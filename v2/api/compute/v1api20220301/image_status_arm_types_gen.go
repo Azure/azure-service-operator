@@ -34,7 +34,7 @@ type ExtendedLocation_STATUS_ARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: The type of the extended location.
-	Type *ExtendedLocationType_STATUS `json:"type,omitempty"`
+	Type *ExtendedLocationType_STATUS_ARM `json:"type,omitempty"`
 }
 
 // Describes the properties of an Image.
@@ -43,7 +43,7 @@ type ImageProperties_STATUS_ARM struct {
 	// 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource
 	// like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed
 	// resource.
-	HyperVGeneration *HyperVGenerationType_STATUS `json:"hyperVGeneration,omitempty"`
+	HyperVGeneration *HyperVGenerationType_STATUS_ARM `json:"hyperVGeneration,omitempty"`
 
 	// ProvisioningState: The provisioning state.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
@@ -56,13 +56,27 @@ type ImageProperties_STATUS_ARM struct {
 }
 
 // The type of extendedLocation.
-type ExtendedLocationType_STATUS string
+type ExtendedLocationType_STATUS_ARM string
 
-const ExtendedLocationType_STATUS_EdgeZone = ExtendedLocationType_STATUS("EdgeZone")
+const ExtendedLocationType_STATUS_ARM_EdgeZone = ExtendedLocationType_STATUS_ARM("EdgeZone")
 
-// Mapping from string to ExtendedLocationType_STATUS
-var extendedLocationType_STATUS_Values = map[string]ExtendedLocationType_STATUS{
-	"edgezone": ExtendedLocationType_STATUS_EdgeZone,
+// Mapping from string to ExtendedLocationType_STATUS_ARM
+var extendedLocationType_STATUS_ARM_Values = map[string]ExtendedLocationType_STATUS_ARM{
+	"edgezone": ExtendedLocationType_STATUS_ARM_EdgeZone,
+}
+
+// Specifies the HyperVGeneration Type
+type HyperVGenerationType_STATUS_ARM string
+
+const (
+	HyperVGenerationType_STATUS_ARM_V1 = HyperVGenerationType_STATUS_ARM("V1")
+	HyperVGenerationType_STATUS_ARM_V2 = HyperVGenerationType_STATUS_ARM("V2")
+)
+
+// Mapping from string to HyperVGenerationType_STATUS_ARM
+var hyperVGenerationType_STATUS_ARM_Values = map[string]HyperVGenerationType_STATUS_ARM{
+	"v1": HyperVGenerationType_STATUS_ARM_V1,
+	"v2": HyperVGenerationType_STATUS_ARM_V2,
 }
 
 // Describes a storage profile.
@@ -98,7 +112,7 @@ type ImageDataDisk_STATUS_ARM struct {
 	// ReadOnly
 	// ReadWrite
 	// Default: None for Standard storage. ReadOnly for Premium storage
-	Caching *ImageDataDisk_Caching_STATUS `json:"caching,omitempty"`
+	Caching *ImageDataDisk_Caching_STATUS_ARM `json:"caching,omitempty"`
 
 	// DiskEncryptionSet: Specifies the customer managed disk encryption set resource id for the managed image disk.
 	DiskEncryptionSet *SubResource_STATUS_ARM `json:"diskEncryptionSet,omitempty"`
@@ -120,7 +134,7 @@ type ImageDataDisk_STATUS_ARM struct {
 
 	// StorageAccountType: Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with
 	// data disks, it cannot be used with OS Disk.
-	StorageAccountType *StorageAccountType_STATUS `json:"storageAccountType,omitempty"`
+	StorageAccountType *StorageAccountType_STATUS_ARM `json:"storageAccountType,omitempty"`
 }
 
 // Describes an Operating System disk.
@@ -134,7 +148,7 @@ type ImageOSDisk_STATUS_ARM struct {
 	// ReadOnly
 	// ReadWrite
 	// Default: None for Standard storage. ReadOnly for Premium storage
-	Caching *ImageOSDisk_Caching_STATUS `json:"caching,omitempty"`
+	Caching *ImageOSDisk_Caching_STATUS_ARM `json:"caching,omitempty"`
 
 	// DiskEncryptionSet: Specifies the customer managed disk encryption set resource id for the managed image disk.
 	DiskEncryptionSet *SubResource_STATUS_ARM `json:"diskEncryptionSet,omitempty"`
@@ -148,19 +162,105 @@ type ImageOSDisk_STATUS_ARM struct {
 	ManagedDisk *SubResource_STATUS_ARM `json:"managedDisk,omitempty"`
 
 	// OsState: The OS State. For managed images, use Generalized.
-	OsState *ImageOSDisk_OsState_STATUS `json:"osState,omitempty"`
+	OsState *ImageOSDisk_OsState_STATUS_ARM `json:"osState,omitempty"`
 
 	// OsType: This property allows you to specify the type of the OS that is included in the disk if creating a VM from a
 	// custom image.
 	// Possible values are:
 	// Windows
 	// Linux
-	OsType *ImageOSDisk_OsType_STATUS `json:"osType,omitempty"`
+	OsType *ImageOSDisk_OsType_STATUS_ARM `json:"osType,omitempty"`
 
 	// Snapshot: The snapshot.
 	Snapshot *SubResource_STATUS_ARM `json:"snapshot,omitempty"`
 
 	// StorageAccountType: Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with
 	// data disks, it cannot be used with OS Disk.
-	StorageAccountType *StorageAccountType_STATUS `json:"storageAccountType,omitempty"`
+	StorageAccountType *StorageAccountType_STATUS_ARM `json:"storageAccountType,omitempty"`
+}
+
+type ImageDataDisk_Caching_STATUS_ARM string
+
+const (
+	ImageDataDisk_Caching_STATUS_ARM_None      = ImageDataDisk_Caching_STATUS_ARM("None")
+	ImageDataDisk_Caching_STATUS_ARM_ReadOnly  = ImageDataDisk_Caching_STATUS_ARM("ReadOnly")
+	ImageDataDisk_Caching_STATUS_ARM_ReadWrite = ImageDataDisk_Caching_STATUS_ARM("ReadWrite")
+)
+
+// Mapping from string to ImageDataDisk_Caching_STATUS_ARM
+var imageDataDisk_Caching_STATUS_ARM_Values = map[string]ImageDataDisk_Caching_STATUS_ARM{
+	"none":      ImageDataDisk_Caching_STATUS_ARM_None,
+	"readonly":  ImageDataDisk_Caching_STATUS_ARM_ReadOnly,
+	"readwrite": ImageDataDisk_Caching_STATUS_ARM_ReadWrite,
+}
+
+type ImageOSDisk_Caching_STATUS_ARM string
+
+const (
+	ImageOSDisk_Caching_STATUS_ARM_None      = ImageOSDisk_Caching_STATUS_ARM("None")
+	ImageOSDisk_Caching_STATUS_ARM_ReadOnly  = ImageOSDisk_Caching_STATUS_ARM("ReadOnly")
+	ImageOSDisk_Caching_STATUS_ARM_ReadWrite = ImageOSDisk_Caching_STATUS_ARM("ReadWrite")
+)
+
+// Mapping from string to ImageOSDisk_Caching_STATUS_ARM
+var imageOSDisk_Caching_STATUS_ARM_Values = map[string]ImageOSDisk_Caching_STATUS_ARM{
+	"none":      ImageOSDisk_Caching_STATUS_ARM_None,
+	"readonly":  ImageOSDisk_Caching_STATUS_ARM_ReadOnly,
+	"readwrite": ImageOSDisk_Caching_STATUS_ARM_ReadWrite,
+}
+
+type ImageOSDisk_OsState_STATUS_ARM string
+
+const (
+	ImageOSDisk_OsState_STATUS_ARM_Generalized = ImageOSDisk_OsState_STATUS_ARM("Generalized")
+	ImageOSDisk_OsState_STATUS_ARM_Specialized = ImageOSDisk_OsState_STATUS_ARM("Specialized")
+)
+
+// Mapping from string to ImageOSDisk_OsState_STATUS_ARM
+var imageOSDisk_OsState_STATUS_ARM_Values = map[string]ImageOSDisk_OsState_STATUS_ARM{
+	"generalized": ImageOSDisk_OsState_STATUS_ARM_Generalized,
+	"specialized": ImageOSDisk_OsState_STATUS_ARM_Specialized,
+}
+
+type ImageOSDisk_OsType_STATUS_ARM string
+
+const (
+	ImageOSDisk_OsType_STATUS_ARM_Linux   = ImageOSDisk_OsType_STATUS_ARM("Linux")
+	ImageOSDisk_OsType_STATUS_ARM_Windows = ImageOSDisk_OsType_STATUS_ARM("Windows")
+)
+
+// Mapping from string to ImageOSDisk_OsType_STATUS_ARM
+var imageOSDisk_OsType_STATUS_ARM_Values = map[string]ImageOSDisk_OsType_STATUS_ARM{
+	"linux":   ImageOSDisk_OsType_STATUS_ARM_Linux,
+	"windows": ImageOSDisk_OsType_STATUS_ARM_Windows,
+}
+
+// Specifies the storage account type for the managed disk. Managed OS disk storage account type can only be set when you
+// create the scale set. NOTE: UltraSSD_LRS can only be used with data disks. It cannot be used with OS Disk. Standard_LRS
+// uses Standard HDD. StandardSSD_LRS uses Standard SSD. Premium_LRS uses Premium SSD. UltraSSD_LRS uses Ultra disk.
+// Premium_ZRS uses Premium SSD zone redundant storage. StandardSSD_ZRS uses Standard SSD zone redundant storage. For more
+// information regarding disks supported for Windows Virtual Machines, refer to
+// https://docs.microsoft.com/azure/virtual-machines/windows/disks-types and, for Linux Virtual Machines, refer to
+// https://docs.microsoft.com/azure/virtual-machines/linux/disks-types
+type StorageAccountType_STATUS_ARM string
+
+const (
+	StorageAccountType_STATUS_ARM_PremiumV2_LRS   = StorageAccountType_STATUS_ARM("PremiumV2_LRS")
+	StorageAccountType_STATUS_ARM_Premium_LRS     = StorageAccountType_STATUS_ARM("Premium_LRS")
+	StorageAccountType_STATUS_ARM_Premium_ZRS     = StorageAccountType_STATUS_ARM("Premium_ZRS")
+	StorageAccountType_STATUS_ARM_StandardSSD_LRS = StorageAccountType_STATUS_ARM("StandardSSD_LRS")
+	StorageAccountType_STATUS_ARM_StandardSSD_ZRS = StorageAccountType_STATUS_ARM("StandardSSD_ZRS")
+	StorageAccountType_STATUS_ARM_Standard_LRS    = StorageAccountType_STATUS_ARM("Standard_LRS")
+	StorageAccountType_STATUS_ARM_UltraSSD_LRS    = StorageAccountType_STATUS_ARM("UltraSSD_LRS")
+)
+
+// Mapping from string to StorageAccountType_STATUS_ARM
+var storageAccountType_STATUS_ARM_Values = map[string]StorageAccountType_STATUS_ARM{
+	"premiumv2_lrs":   StorageAccountType_STATUS_ARM_PremiumV2_LRS,
+	"premium_lrs":     StorageAccountType_STATUS_ARM_Premium_LRS,
+	"premium_zrs":     StorageAccountType_STATUS_ARM_Premium_ZRS,
+	"standardssd_lrs": StorageAccountType_STATUS_ARM_StandardSSD_LRS,
+	"standardssd_zrs": StorageAccountType_STATUS_ARM_StandardSSD_ZRS,
+	"standard_lrs":    StorageAccountType_STATUS_ARM_Standard_LRS,
+	"ultrassd_lrs":    StorageAccountType_STATUS_ARM_UltraSSD_LRS,
 }

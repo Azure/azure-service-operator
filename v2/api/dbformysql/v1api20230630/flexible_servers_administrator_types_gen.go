@@ -381,7 +381,9 @@ func (administrator *FlexibleServers_Administrator_Spec) ConvertToARM(resolved g
 		result.Properties = &AdministratorProperties_ARM{}
 	}
 	if administrator.AdministratorType != nil {
-		administratorType := *administrator.AdministratorType
+		var temp string
+		temp = string(*administrator.AdministratorType)
+		administratorType := AdministratorProperties_AdministratorType_ARM(temp)
 		result.Properties.AdministratorType = &administratorType
 	}
 	if administrator.IdentityResourceReference != nil {
@@ -439,7 +441,9 @@ func (administrator *FlexibleServers_Administrator_Spec) PopulateFromARM(owner g
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AdministratorType != nil {
-			administratorType := *typedInput.Properties.AdministratorType
+			var temp string
+			temp = string(*typedInput.Properties.AdministratorType)
+			administratorType := AdministratorProperties_AdministratorType(temp)
 			administrator.AdministratorType = &administratorType
 		}
 	}
@@ -800,7 +804,9 @@ func (administrator *FlexibleServers_Administrator_STATUS) PopulateFromARM(owner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AdministratorType != nil {
-			administratorType := *typedInput.Properties.AdministratorType
+			var temp string
+			temp = string(*typedInput.Properties.AdministratorType)
+			administratorType := AdministratorProperties_AdministratorType_STATUS(temp)
 			administrator.AdministratorType = &administratorType
 		}
 	}

@@ -84,20 +84,20 @@ func DynamicMetricCriteria_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDynamicMetricCriteria_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDynamicMetricCriteria_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["AlertSensitivity"] = gen.PtrOf(gen.OneConstOf(DynamicMetricCriteria_AlertSensitivity_STATUS_High, DynamicMetricCriteria_AlertSensitivity_STATUS_Low, DynamicMetricCriteria_AlertSensitivity_STATUS_Medium))
-	gens["CriterionType"] = gen.OneConstOf(DynamicMetricCriteria_CriterionType_STATUS_DynamicThresholdCriterion)
+	gens["AlertSensitivity"] = gen.PtrOf(gen.OneConstOf(DynamicMetricCriteria_AlertSensitivity_STATUS_ARM_High, DynamicMetricCriteria_AlertSensitivity_STATUS_ARM_Low, DynamicMetricCriteria_AlertSensitivity_STATUS_ARM_Medium))
+	gens["CriterionType"] = gen.OneConstOf(DynamicMetricCriteria_CriterionType_STATUS_ARM_DynamicThresholdCriterion)
 	gens["IgnoreDataBefore"] = gen.PtrOf(gen.AlphaString())
 	gens["MetricName"] = gen.PtrOf(gen.AlphaString())
 	gens["MetricNamespace"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Operator"] = gen.PtrOf(gen.OneConstOf(DynamicMetricCriteria_Operator_STATUS_GreaterOrLessThan, DynamicMetricCriteria_Operator_STATUS_GreaterThan, DynamicMetricCriteria_Operator_STATUS_LessThan))
+	gens["Operator"] = gen.PtrOf(gen.OneConstOf(DynamicMetricCriteria_Operator_STATUS_ARM_GreaterOrLessThan, DynamicMetricCriteria_Operator_STATUS_ARM_GreaterThan, DynamicMetricCriteria_Operator_STATUS_ARM_LessThan))
 	gens["SkipMetricValidation"] = gen.PtrOf(gen.Bool())
 	gens["TimeAggregation"] = gen.PtrOf(gen.OneConstOf(
-		DynamicMetricCriteria_TimeAggregation_STATUS_Average,
-		DynamicMetricCriteria_TimeAggregation_STATUS_Count,
-		DynamicMetricCriteria_TimeAggregation_STATUS_Maximum,
-		DynamicMetricCriteria_TimeAggregation_STATUS_Minimum,
-		DynamicMetricCriteria_TimeAggregation_STATUS_Total))
+		DynamicMetricCriteria_TimeAggregation_STATUS_ARM_Average,
+		DynamicMetricCriteria_TimeAggregation_STATUS_ARM_Count,
+		DynamicMetricCriteria_TimeAggregation_STATUS_ARM_Maximum,
+		DynamicMetricCriteria_TimeAggregation_STATUS_ARM_Minimum,
+		DynamicMetricCriteria_TimeAggregation_STATUS_ARM_Total))
 }
 
 // AddRelatedPropertyGeneratorsForDynamicMetricCriteria_STATUS_ARM is a factory method for creating gopter generators
@@ -374,7 +374,7 @@ func MetricAlertMultipleResourceMultipleMetricCriteria_STATUS_ARMGenerator() gop
 
 // AddIndependentPropertyGeneratorsForMetricAlertMultipleResourceMultipleMetricCriteria_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForMetricAlertMultipleResourceMultipleMetricCriteria_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["OdataType"] = gen.OneConstOf(MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_STATUS_MicrosoftAzureMonitorMultipleResourceMultipleMetricCriteria)
+	gens["OdataType"] = gen.OneConstOf(MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_STATUS_ARM_MicrosoftAzureMonitorMultipleResourceMultipleMetricCriteria)
 }
 
 // AddRelatedPropertyGeneratorsForMetricAlertMultipleResourceMultipleMetricCriteria_STATUS_ARM is a factory method for creating gopter generators
@@ -535,7 +535,7 @@ func MetricAlertSingleResourceMultipleMetricCriteria_STATUS_ARMGenerator() gopte
 
 // AddIndependentPropertyGeneratorsForMetricAlertSingleResourceMultipleMetricCriteria_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForMetricAlertSingleResourceMultipleMetricCriteria_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["OdataType"] = gen.OneConstOf(MetricAlertSingleResourceMultipleMetricCriteria_OdataType_STATUS_MicrosoftAzureMonitorSingleResourceMultipleMetricCriteria)
+	gens["OdataType"] = gen.OneConstOf(MetricAlertSingleResourceMultipleMetricCriteria_OdataType_STATUS_ARM_MicrosoftAzureMonitorSingleResourceMultipleMetricCriteria)
 }
 
 // AddRelatedPropertyGeneratorsForMetricAlertSingleResourceMultipleMetricCriteria_STATUS_ARM is a factory method for creating gopter generators
@@ -691,24 +691,24 @@ func MetricCriteria_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForMetricCriteria_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForMetricCriteria_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["CriterionType"] = gen.OneConstOf(MetricCriteria_CriterionType_STATUS_StaticThresholdCriterion)
+	gens["CriterionType"] = gen.OneConstOf(MetricCriteria_CriterionType_STATUS_ARM_StaticThresholdCriterion)
 	gens["MetricName"] = gen.PtrOf(gen.AlphaString())
 	gens["MetricNamespace"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		MetricCriteria_Operator_STATUS_Equals,
-		MetricCriteria_Operator_STATUS_GreaterThan,
-		MetricCriteria_Operator_STATUS_GreaterThanOrEqual,
-		MetricCriteria_Operator_STATUS_LessThan,
-		MetricCriteria_Operator_STATUS_LessThanOrEqual))
+		MetricCriteria_Operator_STATUS_ARM_Equals,
+		MetricCriteria_Operator_STATUS_ARM_GreaterThan,
+		MetricCriteria_Operator_STATUS_ARM_GreaterThanOrEqual,
+		MetricCriteria_Operator_STATUS_ARM_LessThan,
+		MetricCriteria_Operator_STATUS_ARM_LessThanOrEqual))
 	gens["SkipMetricValidation"] = gen.PtrOf(gen.Bool())
 	gens["Threshold"] = gen.PtrOf(gen.Float64())
 	gens["TimeAggregation"] = gen.PtrOf(gen.OneConstOf(
-		MetricCriteria_TimeAggregation_STATUS_Average,
-		MetricCriteria_TimeAggregation_STATUS_Count,
-		MetricCriteria_TimeAggregation_STATUS_Maximum,
-		MetricCriteria_TimeAggregation_STATUS_Minimum,
-		MetricCriteria_TimeAggregation_STATUS_Total))
+		MetricCriteria_TimeAggregation_STATUS_ARM_Average,
+		MetricCriteria_TimeAggregation_STATUS_ARM_Count,
+		MetricCriteria_TimeAggregation_STATUS_ARM_Maximum,
+		MetricCriteria_TimeAggregation_STATUS_ARM_Minimum,
+		MetricCriteria_TimeAggregation_STATUS_ARM_Total))
 }
 
 // AddRelatedPropertyGeneratorsForMetricCriteria_STATUS_ARM is a factory method for creating gopter generators
@@ -911,6 +911,6 @@ func WebtestLocationAvailabilityCriteria_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForWebtestLocationAvailabilityCriteria_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ComponentId"] = gen.PtrOf(gen.AlphaString())
 	gens["FailedLocationCount"] = gen.PtrOf(gen.Float64())
-	gens["OdataType"] = gen.OneConstOf(WebtestLocationAvailabilityCriteria_OdataType_STATUS_MicrosoftAzureMonitorWebtestLocationAvailabilityCriteria)
+	gens["OdataType"] = gen.OneConstOf(WebtestLocationAvailabilityCriteria_OdataType_STATUS_ARM_MicrosoftAzureMonitorWebtestLocationAvailabilityCriteria)
 	gens["WebTestId"] = gen.PtrOf(gen.AlphaString())
 }

@@ -45,7 +45,7 @@ type PutAliasRequestProperties_ARM struct {
 	SubscriptionId *string `json:"subscriptionId,omitempty"`
 
 	// Workload: The workload type of the subscription. It can be either Production or DevTest.
-	Workload *Workload `json:"workload,omitempty"`
+	Workload *Workload_ARM `json:"workload,omitempty"`
 }
 
 // Put subscription additional properties.
@@ -65,15 +65,15 @@ type PutAliasRequestAdditionalProperties_ARM struct {
 
 // The workload type of the subscription. It can be either Production or DevTest.
 // +kubebuilder:validation:Enum={"DevTest","Production"}
-type Workload string
+type Workload_ARM string
 
 const (
-	Workload_DevTest    = Workload("DevTest")
-	Workload_Production = Workload("Production")
+	Workload_ARM_DevTest    = Workload_ARM("DevTest")
+	Workload_ARM_Production = Workload_ARM("Production")
 )
 
-// Mapping from string to Workload
-var workload_Values = map[string]Workload{
-	"devtest":    Workload_DevTest,
-	"production": Workload_Production,
+// Mapping from string to Workload_ARM
+var workload_ARM_Values = map[string]Workload_ARM{
+	"devtest":    Workload_ARM_DevTest,
+	"production": Workload_ARM_Production,
 }

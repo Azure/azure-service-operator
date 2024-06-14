@@ -45,7 +45,7 @@ type BackupVault_STATUS_ARM struct {
 	MonitoringSettings *MonitoringSettings_STATUS_ARM `json:"monitoringSettings,omitempty"`
 
 	// ProvisioningState: Provisioning state of the BackupVault resource
-	ProvisioningState *BackupVault_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *BackupVault_ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// ReplicatedRegions: List of replicated regions for Backup Vault
 	ReplicatedRegions []string `json:"replicatedRegions,omitempty"`
@@ -54,10 +54,10 @@ type BackupVault_STATUS_ARM struct {
 	ResourceMoveDetails *ResourceMoveDetails_STATUS_ARM `json:"resourceMoveDetails,omitempty"`
 
 	// ResourceMoveState: Resource move state for backup vault
-	ResourceMoveState *BackupVault_ResourceMoveState_STATUS `json:"resourceMoveState,omitempty"`
+	ResourceMoveState *BackupVault_ResourceMoveState_STATUS_ARM `json:"resourceMoveState,omitempty"`
 
 	// SecureScore: Secure Score of Backup Vault
-	SecureScore *BackupVault_SecureScore_STATUS `json:"secureScore,omitempty"`
+	SecureScore *BackupVault_SecureScore_STATUS_ARM `json:"secureScore,omitempty"`
 
 	// SecuritySettings: Security Settings
 	SecuritySettings *SecuritySettings_STATUS_ARM `json:"securitySettings,omitempty"`
@@ -91,7 +91,7 @@ type SystemData_STATUS_ARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_CreatedByType_STATUS_ARM `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -100,74 +100,74 @@ type SystemData_STATUS_ARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS_ARM `json:"lastModifiedByType,omitempty"`
 }
 
-type BackupVault_ProvisioningState_STATUS string
+type BackupVault_ProvisioningState_STATUS_ARM string
 
 const (
-	BackupVault_ProvisioningState_STATUS_Failed       = BackupVault_ProvisioningState_STATUS("Failed")
-	BackupVault_ProvisioningState_STATUS_Provisioning = BackupVault_ProvisioningState_STATUS("Provisioning")
-	BackupVault_ProvisioningState_STATUS_Succeeded    = BackupVault_ProvisioningState_STATUS("Succeeded")
-	BackupVault_ProvisioningState_STATUS_Unknown      = BackupVault_ProvisioningState_STATUS("Unknown")
-	BackupVault_ProvisioningState_STATUS_Updating     = BackupVault_ProvisioningState_STATUS("Updating")
+	BackupVault_ProvisioningState_STATUS_ARM_Failed       = BackupVault_ProvisioningState_STATUS_ARM("Failed")
+	BackupVault_ProvisioningState_STATUS_ARM_Provisioning = BackupVault_ProvisioningState_STATUS_ARM("Provisioning")
+	BackupVault_ProvisioningState_STATUS_ARM_Succeeded    = BackupVault_ProvisioningState_STATUS_ARM("Succeeded")
+	BackupVault_ProvisioningState_STATUS_ARM_Unknown      = BackupVault_ProvisioningState_STATUS_ARM("Unknown")
+	BackupVault_ProvisioningState_STATUS_ARM_Updating     = BackupVault_ProvisioningState_STATUS_ARM("Updating")
 )
 
-// Mapping from string to BackupVault_ProvisioningState_STATUS
-var backupVault_ProvisioningState_STATUS_Values = map[string]BackupVault_ProvisioningState_STATUS{
-	"failed":       BackupVault_ProvisioningState_STATUS_Failed,
-	"provisioning": BackupVault_ProvisioningState_STATUS_Provisioning,
-	"succeeded":    BackupVault_ProvisioningState_STATUS_Succeeded,
-	"unknown":      BackupVault_ProvisioningState_STATUS_Unknown,
-	"updating":     BackupVault_ProvisioningState_STATUS_Updating,
+// Mapping from string to BackupVault_ProvisioningState_STATUS_ARM
+var backupVault_ProvisioningState_STATUS_ARM_Values = map[string]BackupVault_ProvisioningState_STATUS_ARM{
+	"failed":       BackupVault_ProvisioningState_STATUS_ARM_Failed,
+	"provisioning": BackupVault_ProvisioningState_STATUS_ARM_Provisioning,
+	"succeeded":    BackupVault_ProvisioningState_STATUS_ARM_Succeeded,
+	"unknown":      BackupVault_ProvisioningState_STATUS_ARM_Unknown,
+	"updating":     BackupVault_ProvisioningState_STATUS_ARM_Updating,
 }
 
-type BackupVault_ResourceMoveState_STATUS string
+type BackupVault_ResourceMoveState_STATUS_ARM string
 
 const (
-	BackupVault_ResourceMoveState_STATUS_CommitFailed    = BackupVault_ResourceMoveState_STATUS("CommitFailed")
-	BackupVault_ResourceMoveState_STATUS_CommitTimedout  = BackupVault_ResourceMoveState_STATUS("CommitTimedout")
-	BackupVault_ResourceMoveState_STATUS_CriticalFailure = BackupVault_ResourceMoveState_STATUS("CriticalFailure")
-	BackupVault_ResourceMoveState_STATUS_Failed          = BackupVault_ResourceMoveState_STATUS("Failed")
-	BackupVault_ResourceMoveState_STATUS_InProgress      = BackupVault_ResourceMoveState_STATUS("InProgress")
-	BackupVault_ResourceMoveState_STATUS_MoveSucceeded   = BackupVault_ResourceMoveState_STATUS("MoveSucceeded")
-	BackupVault_ResourceMoveState_STATUS_PartialSuccess  = BackupVault_ResourceMoveState_STATUS("PartialSuccess")
-	BackupVault_ResourceMoveState_STATUS_PrepareFailed   = BackupVault_ResourceMoveState_STATUS("PrepareFailed")
-	BackupVault_ResourceMoveState_STATUS_PrepareTimedout = BackupVault_ResourceMoveState_STATUS("PrepareTimedout")
-	BackupVault_ResourceMoveState_STATUS_Unknown         = BackupVault_ResourceMoveState_STATUS("Unknown")
+	BackupVault_ResourceMoveState_STATUS_ARM_CommitFailed    = BackupVault_ResourceMoveState_STATUS_ARM("CommitFailed")
+	BackupVault_ResourceMoveState_STATUS_ARM_CommitTimedout  = BackupVault_ResourceMoveState_STATUS_ARM("CommitTimedout")
+	BackupVault_ResourceMoveState_STATUS_ARM_CriticalFailure = BackupVault_ResourceMoveState_STATUS_ARM("CriticalFailure")
+	BackupVault_ResourceMoveState_STATUS_ARM_Failed          = BackupVault_ResourceMoveState_STATUS_ARM("Failed")
+	BackupVault_ResourceMoveState_STATUS_ARM_InProgress      = BackupVault_ResourceMoveState_STATUS_ARM("InProgress")
+	BackupVault_ResourceMoveState_STATUS_ARM_MoveSucceeded   = BackupVault_ResourceMoveState_STATUS_ARM("MoveSucceeded")
+	BackupVault_ResourceMoveState_STATUS_ARM_PartialSuccess  = BackupVault_ResourceMoveState_STATUS_ARM("PartialSuccess")
+	BackupVault_ResourceMoveState_STATUS_ARM_PrepareFailed   = BackupVault_ResourceMoveState_STATUS_ARM("PrepareFailed")
+	BackupVault_ResourceMoveState_STATUS_ARM_PrepareTimedout = BackupVault_ResourceMoveState_STATUS_ARM("PrepareTimedout")
+	BackupVault_ResourceMoveState_STATUS_ARM_Unknown         = BackupVault_ResourceMoveState_STATUS_ARM("Unknown")
 )
 
-// Mapping from string to BackupVault_ResourceMoveState_STATUS
-var backupVault_ResourceMoveState_STATUS_Values = map[string]BackupVault_ResourceMoveState_STATUS{
-	"commitfailed":    BackupVault_ResourceMoveState_STATUS_CommitFailed,
-	"committimedout":  BackupVault_ResourceMoveState_STATUS_CommitTimedout,
-	"criticalfailure": BackupVault_ResourceMoveState_STATUS_CriticalFailure,
-	"failed":          BackupVault_ResourceMoveState_STATUS_Failed,
-	"inprogress":      BackupVault_ResourceMoveState_STATUS_InProgress,
-	"movesucceeded":   BackupVault_ResourceMoveState_STATUS_MoveSucceeded,
-	"partialsuccess":  BackupVault_ResourceMoveState_STATUS_PartialSuccess,
-	"preparefailed":   BackupVault_ResourceMoveState_STATUS_PrepareFailed,
-	"preparetimedout": BackupVault_ResourceMoveState_STATUS_PrepareTimedout,
-	"unknown":         BackupVault_ResourceMoveState_STATUS_Unknown,
+// Mapping from string to BackupVault_ResourceMoveState_STATUS_ARM
+var backupVault_ResourceMoveState_STATUS_ARM_Values = map[string]BackupVault_ResourceMoveState_STATUS_ARM{
+	"commitfailed":    BackupVault_ResourceMoveState_STATUS_ARM_CommitFailed,
+	"committimedout":  BackupVault_ResourceMoveState_STATUS_ARM_CommitTimedout,
+	"criticalfailure": BackupVault_ResourceMoveState_STATUS_ARM_CriticalFailure,
+	"failed":          BackupVault_ResourceMoveState_STATUS_ARM_Failed,
+	"inprogress":      BackupVault_ResourceMoveState_STATUS_ARM_InProgress,
+	"movesucceeded":   BackupVault_ResourceMoveState_STATUS_ARM_MoveSucceeded,
+	"partialsuccess":  BackupVault_ResourceMoveState_STATUS_ARM_PartialSuccess,
+	"preparefailed":   BackupVault_ResourceMoveState_STATUS_ARM_PrepareFailed,
+	"preparetimedout": BackupVault_ResourceMoveState_STATUS_ARM_PrepareTimedout,
+	"unknown":         BackupVault_ResourceMoveState_STATUS_ARM_Unknown,
 }
 
-type BackupVault_SecureScore_STATUS string
+type BackupVault_SecureScore_STATUS_ARM string
 
 const (
-	BackupVault_SecureScore_STATUS_Adequate     = BackupVault_SecureScore_STATUS("Adequate")
-	BackupVault_SecureScore_STATUS_Maximum      = BackupVault_SecureScore_STATUS("Maximum")
-	BackupVault_SecureScore_STATUS_Minimum      = BackupVault_SecureScore_STATUS("Minimum")
-	BackupVault_SecureScore_STATUS_None         = BackupVault_SecureScore_STATUS("None")
-	BackupVault_SecureScore_STATUS_NotSupported = BackupVault_SecureScore_STATUS("NotSupported")
+	BackupVault_SecureScore_STATUS_ARM_Adequate     = BackupVault_SecureScore_STATUS_ARM("Adequate")
+	BackupVault_SecureScore_STATUS_ARM_Maximum      = BackupVault_SecureScore_STATUS_ARM("Maximum")
+	BackupVault_SecureScore_STATUS_ARM_Minimum      = BackupVault_SecureScore_STATUS_ARM("Minimum")
+	BackupVault_SecureScore_STATUS_ARM_None         = BackupVault_SecureScore_STATUS_ARM("None")
+	BackupVault_SecureScore_STATUS_ARM_NotSupported = BackupVault_SecureScore_STATUS_ARM("NotSupported")
 )
 
-// Mapping from string to BackupVault_SecureScore_STATUS
-var backupVault_SecureScore_STATUS_Values = map[string]BackupVault_SecureScore_STATUS{
-	"adequate":     BackupVault_SecureScore_STATUS_Adequate,
-	"maximum":      BackupVault_SecureScore_STATUS_Maximum,
-	"minimum":      BackupVault_SecureScore_STATUS_Minimum,
-	"none":         BackupVault_SecureScore_STATUS_None,
-	"notsupported": BackupVault_SecureScore_STATUS_NotSupported,
+// Mapping from string to BackupVault_SecureScore_STATUS_ARM
+var backupVault_SecureScore_STATUS_ARM_Values = map[string]BackupVault_SecureScore_STATUS_ARM{
+	"adequate":     BackupVault_SecureScore_STATUS_ARM_Adequate,
+	"maximum":      BackupVault_SecureScore_STATUS_ARM_Maximum,
+	"minimum":      BackupVault_SecureScore_STATUS_ARM_Minimum,
+	"none":         BackupVault_SecureScore_STATUS_ARM_None,
+	"notsupported": BackupVault_SecureScore_STATUS_ARM_NotSupported,
 }
 
 // Class containing feature settings of vault
@@ -214,44 +214,44 @@ type SecuritySettings_STATUS_ARM struct {
 // Storage setting
 type StorageSetting_STATUS_ARM struct {
 	// DatastoreType: Gets or sets the type of the datastore.
-	DatastoreType *StorageSetting_DatastoreType_STATUS `json:"datastoreType,omitempty"`
+	DatastoreType *StorageSetting_DatastoreType_STATUS_ARM `json:"datastoreType,omitempty"`
 
 	// Type: Gets or sets the type.
-	Type *StorageSetting_Type_STATUS `json:"type,omitempty"`
+	Type *StorageSetting_Type_STATUS_ARM `json:"type,omitempty"`
 }
 
-type SystemData_CreatedByType_STATUS string
+type SystemData_CreatedByType_STATUS_ARM string
 
 const (
-	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+	SystemData_CreatedByType_STATUS_ARM_Application     = SystemData_CreatedByType_STATUS_ARM("Application")
+	SystemData_CreatedByType_STATUS_ARM_Key             = SystemData_CreatedByType_STATUS_ARM("Key")
+	SystemData_CreatedByType_STATUS_ARM_ManagedIdentity = SystemData_CreatedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_ARM_User            = SystemData_CreatedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_CreatedByType_STATUS
-var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
-	"application":     SystemData_CreatedByType_STATUS_Application,
-	"key":             SystemData_CreatedByType_STATUS_Key,
-	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_CreatedByType_STATUS_User,
+// Mapping from string to SystemData_CreatedByType_STATUS_ARM
+var systemData_CreatedByType_STATUS_ARM_Values = map[string]SystemData_CreatedByType_STATUS_ARM{
+	"application":     SystemData_CreatedByType_STATUS_ARM_Application,
+	"key":             SystemData_CreatedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_ARM_User,
 }
 
-type SystemData_LastModifiedByType_STATUS string
+type SystemData_LastModifiedByType_STATUS_ARM string
 
 const (
-	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+	SystemData_LastModifiedByType_STATUS_ARM_Application     = SystemData_LastModifiedByType_STATUS_ARM("Application")
+	SystemData_LastModifiedByType_STATUS_ARM_Key             = SystemData_LastModifiedByType_STATUS_ARM("Key")
+	SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity = SystemData_LastModifiedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_ARM_User            = SystemData_LastModifiedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_LastModifiedByType_STATUS
-var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
-	"application":     SystemData_LastModifiedByType_STATUS_Application,
-	"key":             SystemData_LastModifiedByType_STATUS_Key,
-	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_LastModifiedByType_STATUS_User,
+// Mapping from string to SystemData_LastModifiedByType_STATUS_ARM
+var systemData_LastModifiedByType_STATUS_ARM_Values = map[string]SystemData_LastModifiedByType_STATUS_ARM{
+	"application":     SystemData_LastModifiedByType_STATUS_ARM_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_ARM_User,
 }
 
 // User assigned identity properties
@@ -265,24 +265,24 @@ type UserAssignedIdentity_STATUS_ARM struct {
 
 // Settings for Azure Monitor based alerts
 type AzureMonitorAlertSettings_STATUS_ARM struct {
-	AlertsForAllJobFailures *AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS `json:"alertsForAllJobFailures,omitempty"`
+	AlertsForAllJobFailures *AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_ARM `json:"alertsForAllJobFailures,omitempty"`
 }
 
 type CrossRegionRestoreSettings_STATUS_ARM struct {
 	// State: CrossRegionRestore state
-	State *CrossRegionRestoreSettings_State_STATUS `json:"state,omitempty"`
+	State *CrossRegionRestoreSettings_State_STATUS_ARM `json:"state,omitempty"`
 }
 
 // CrossSubscriptionRestore Settings
 type CrossSubscriptionRestoreSettings_STATUS_ARM struct {
 	// State: CrossSubscriptionRestore state
-	State *CrossSubscriptionRestoreSettings_State_STATUS `json:"state,omitempty"`
+	State *CrossSubscriptionRestoreSettings_State_STATUS_ARM `json:"state,omitempty"`
 }
 
 // Immutability Settings at vault level
 type ImmutabilitySettings_STATUS_ARM struct {
 	// State: Immutability state
-	State *ImmutabilitySettings_State_STATUS `json:"state,omitempty"`
+	State *ImmutabilitySettings_State_STATUS_ARM `json:"state,omitempty"`
 }
 
 // Soft delete related settings
@@ -291,106 +291,106 @@ type SoftDeleteSettings_STATUS_ARM struct {
 	RetentionDurationInDays *float64 `json:"retentionDurationInDays,omitempty"`
 
 	// State: State of soft delete
-	State *SoftDeleteSettings_State_STATUS `json:"state,omitempty"`
+	State *SoftDeleteSettings_State_STATUS_ARM `json:"state,omitempty"`
 }
 
-type StorageSetting_DatastoreType_STATUS string
+type StorageSetting_DatastoreType_STATUS_ARM string
 
 const (
-	StorageSetting_DatastoreType_STATUS_ArchiveStore     = StorageSetting_DatastoreType_STATUS("ArchiveStore")
-	StorageSetting_DatastoreType_STATUS_OperationalStore = StorageSetting_DatastoreType_STATUS("OperationalStore")
-	StorageSetting_DatastoreType_STATUS_VaultStore       = StorageSetting_DatastoreType_STATUS("VaultStore")
+	StorageSetting_DatastoreType_STATUS_ARM_ArchiveStore     = StorageSetting_DatastoreType_STATUS_ARM("ArchiveStore")
+	StorageSetting_DatastoreType_STATUS_ARM_OperationalStore = StorageSetting_DatastoreType_STATUS_ARM("OperationalStore")
+	StorageSetting_DatastoreType_STATUS_ARM_VaultStore       = StorageSetting_DatastoreType_STATUS_ARM("VaultStore")
 )
 
-// Mapping from string to StorageSetting_DatastoreType_STATUS
-var storageSetting_DatastoreType_STATUS_Values = map[string]StorageSetting_DatastoreType_STATUS{
-	"archivestore":     StorageSetting_DatastoreType_STATUS_ArchiveStore,
-	"operationalstore": StorageSetting_DatastoreType_STATUS_OperationalStore,
-	"vaultstore":       StorageSetting_DatastoreType_STATUS_VaultStore,
+// Mapping from string to StorageSetting_DatastoreType_STATUS_ARM
+var storageSetting_DatastoreType_STATUS_ARM_Values = map[string]StorageSetting_DatastoreType_STATUS_ARM{
+	"archivestore":     StorageSetting_DatastoreType_STATUS_ARM_ArchiveStore,
+	"operationalstore": StorageSetting_DatastoreType_STATUS_ARM_OperationalStore,
+	"vaultstore":       StorageSetting_DatastoreType_STATUS_ARM_VaultStore,
 }
 
-type StorageSetting_Type_STATUS string
+type StorageSetting_Type_STATUS_ARM string
 
 const (
-	StorageSetting_Type_STATUS_GeoRedundant     = StorageSetting_Type_STATUS("GeoRedundant")
-	StorageSetting_Type_STATUS_LocallyRedundant = StorageSetting_Type_STATUS("LocallyRedundant")
-	StorageSetting_Type_STATUS_ZoneRedundant    = StorageSetting_Type_STATUS("ZoneRedundant")
+	StorageSetting_Type_STATUS_ARM_GeoRedundant     = StorageSetting_Type_STATUS_ARM("GeoRedundant")
+	StorageSetting_Type_STATUS_ARM_LocallyRedundant = StorageSetting_Type_STATUS_ARM("LocallyRedundant")
+	StorageSetting_Type_STATUS_ARM_ZoneRedundant    = StorageSetting_Type_STATUS_ARM("ZoneRedundant")
 )
 
-// Mapping from string to StorageSetting_Type_STATUS
-var storageSetting_Type_STATUS_Values = map[string]StorageSetting_Type_STATUS{
-	"georedundant":     StorageSetting_Type_STATUS_GeoRedundant,
-	"locallyredundant": StorageSetting_Type_STATUS_LocallyRedundant,
-	"zoneredundant":    StorageSetting_Type_STATUS_ZoneRedundant,
+// Mapping from string to StorageSetting_Type_STATUS_ARM
+var storageSetting_Type_STATUS_ARM_Values = map[string]StorageSetting_Type_STATUS_ARM{
+	"georedundant":     StorageSetting_Type_STATUS_ARM_GeoRedundant,
+	"locallyredundant": StorageSetting_Type_STATUS_ARM_LocallyRedundant,
+	"zoneredundant":    StorageSetting_Type_STATUS_ARM_ZoneRedundant,
 }
 
-type AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS string
+type AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_ARM string
 
 const (
-	AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_Disabled = AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS("Disabled")
-	AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_Enabled  = AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS("Enabled")
+	AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_ARM_Disabled = AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_ARM("Disabled")
+	AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_ARM_Enabled  = AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_ARM("Enabled")
 )
 
-// Mapping from string to AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS
-var azureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_Values = map[string]AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS{
-	"disabled": AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_Disabled,
-	"enabled":  AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_Enabled,
+// Mapping from string to AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_ARM
+var azureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_ARM_Values = map[string]AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_ARM{
+	"disabled": AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_ARM_Disabled,
+	"enabled":  AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_ARM_Enabled,
 }
 
-type CrossRegionRestoreSettings_State_STATUS string
+type CrossRegionRestoreSettings_State_STATUS_ARM string
 
 const (
-	CrossRegionRestoreSettings_State_STATUS_Disabled = CrossRegionRestoreSettings_State_STATUS("Disabled")
-	CrossRegionRestoreSettings_State_STATUS_Enabled  = CrossRegionRestoreSettings_State_STATUS("Enabled")
+	CrossRegionRestoreSettings_State_STATUS_ARM_Disabled = CrossRegionRestoreSettings_State_STATUS_ARM("Disabled")
+	CrossRegionRestoreSettings_State_STATUS_ARM_Enabled  = CrossRegionRestoreSettings_State_STATUS_ARM("Enabled")
 )
 
-// Mapping from string to CrossRegionRestoreSettings_State_STATUS
-var crossRegionRestoreSettings_State_STATUS_Values = map[string]CrossRegionRestoreSettings_State_STATUS{
-	"disabled": CrossRegionRestoreSettings_State_STATUS_Disabled,
-	"enabled":  CrossRegionRestoreSettings_State_STATUS_Enabled,
+// Mapping from string to CrossRegionRestoreSettings_State_STATUS_ARM
+var crossRegionRestoreSettings_State_STATUS_ARM_Values = map[string]CrossRegionRestoreSettings_State_STATUS_ARM{
+	"disabled": CrossRegionRestoreSettings_State_STATUS_ARM_Disabled,
+	"enabled":  CrossRegionRestoreSettings_State_STATUS_ARM_Enabled,
 }
 
-type CrossSubscriptionRestoreSettings_State_STATUS string
+type CrossSubscriptionRestoreSettings_State_STATUS_ARM string
 
 const (
-	CrossSubscriptionRestoreSettings_State_STATUS_Disabled            = CrossSubscriptionRestoreSettings_State_STATUS("Disabled")
-	CrossSubscriptionRestoreSettings_State_STATUS_Enabled             = CrossSubscriptionRestoreSettings_State_STATUS("Enabled")
-	CrossSubscriptionRestoreSettings_State_STATUS_PermanentlyDisabled = CrossSubscriptionRestoreSettings_State_STATUS("PermanentlyDisabled")
+	CrossSubscriptionRestoreSettings_State_STATUS_ARM_Disabled            = CrossSubscriptionRestoreSettings_State_STATUS_ARM("Disabled")
+	CrossSubscriptionRestoreSettings_State_STATUS_ARM_Enabled             = CrossSubscriptionRestoreSettings_State_STATUS_ARM("Enabled")
+	CrossSubscriptionRestoreSettings_State_STATUS_ARM_PermanentlyDisabled = CrossSubscriptionRestoreSettings_State_STATUS_ARM("PermanentlyDisabled")
 )
 
-// Mapping from string to CrossSubscriptionRestoreSettings_State_STATUS
-var crossSubscriptionRestoreSettings_State_STATUS_Values = map[string]CrossSubscriptionRestoreSettings_State_STATUS{
-	"disabled":            CrossSubscriptionRestoreSettings_State_STATUS_Disabled,
-	"enabled":             CrossSubscriptionRestoreSettings_State_STATUS_Enabled,
-	"permanentlydisabled": CrossSubscriptionRestoreSettings_State_STATUS_PermanentlyDisabled,
+// Mapping from string to CrossSubscriptionRestoreSettings_State_STATUS_ARM
+var crossSubscriptionRestoreSettings_State_STATUS_ARM_Values = map[string]CrossSubscriptionRestoreSettings_State_STATUS_ARM{
+	"disabled":            CrossSubscriptionRestoreSettings_State_STATUS_ARM_Disabled,
+	"enabled":             CrossSubscriptionRestoreSettings_State_STATUS_ARM_Enabled,
+	"permanentlydisabled": CrossSubscriptionRestoreSettings_State_STATUS_ARM_PermanentlyDisabled,
 }
 
-type ImmutabilitySettings_State_STATUS string
+type ImmutabilitySettings_State_STATUS_ARM string
 
 const (
-	ImmutabilitySettings_State_STATUS_Disabled = ImmutabilitySettings_State_STATUS("Disabled")
-	ImmutabilitySettings_State_STATUS_Locked   = ImmutabilitySettings_State_STATUS("Locked")
-	ImmutabilitySettings_State_STATUS_Unlocked = ImmutabilitySettings_State_STATUS("Unlocked")
+	ImmutabilitySettings_State_STATUS_ARM_Disabled = ImmutabilitySettings_State_STATUS_ARM("Disabled")
+	ImmutabilitySettings_State_STATUS_ARM_Locked   = ImmutabilitySettings_State_STATUS_ARM("Locked")
+	ImmutabilitySettings_State_STATUS_ARM_Unlocked = ImmutabilitySettings_State_STATUS_ARM("Unlocked")
 )
 
-// Mapping from string to ImmutabilitySettings_State_STATUS
-var immutabilitySettings_State_STATUS_Values = map[string]ImmutabilitySettings_State_STATUS{
-	"disabled": ImmutabilitySettings_State_STATUS_Disabled,
-	"locked":   ImmutabilitySettings_State_STATUS_Locked,
-	"unlocked": ImmutabilitySettings_State_STATUS_Unlocked,
+// Mapping from string to ImmutabilitySettings_State_STATUS_ARM
+var immutabilitySettings_State_STATUS_ARM_Values = map[string]ImmutabilitySettings_State_STATUS_ARM{
+	"disabled": ImmutabilitySettings_State_STATUS_ARM_Disabled,
+	"locked":   ImmutabilitySettings_State_STATUS_ARM_Locked,
+	"unlocked": ImmutabilitySettings_State_STATUS_ARM_Unlocked,
 }
 
-type SoftDeleteSettings_State_STATUS string
+type SoftDeleteSettings_State_STATUS_ARM string
 
 const (
-	SoftDeleteSettings_State_STATUS_AlwaysOn = SoftDeleteSettings_State_STATUS("AlwaysOn")
-	SoftDeleteSettings_State_STATUS_Off      = SoftDeleteSettings_State_STATUS("Off")
-	SoftDeleteSettings_State_STATUS_On       = SoftDeleteSettings_State_STATUS("On")
+	SoftDeleteSettings_State_STATUS_ARM_AlwaysOn = SoftDeleteSettings_State_STATUS_ARM("AlwaysOn")
+	SoftDeleteSettings_State_STATUS_ARM_Off      = SoftDeleteSettings_State_STATUS_ARM("Off")
+	SoftDeleteSettings_State_STATUS_ARM_On       = SoftDeleteSettings_State_STATUS_ARM("On")
 )
 
-// Mapping from string to SoftDeleteSettings_State_STATUS
-var softDeleteSettings_State_STATUS_Values = map[string]SoftDeleteSettings_State_STATUS{
-	"alwayson": SoftDeleteSettings_State_STATUS_AlwaysOn,
-	"off":      SoftDeleteSettings_State_STATUS_Off,
-	"on":       SoftDeleteSettings_State_STATUS_On,
+// Mapping from string to SoftDeleteSettings_State_STATUS_ARM
+var softDeleteSettings_State_STATUS_ARM_Values = map[string]SoftDeleteSettings_State_STATUS_ARM{
+	"alwayson": SoftDeleteSettings_State_STATUS_ARM_AlwaysOn,
+	"off":      SoftDeleteSettings_State_STATUS_ARM_Off,
+	"on":       SoftDeleteSettings_State_STATUS_ARM_On,
 }

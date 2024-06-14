@@ -50,7 +50,7 @@ type CaptureDescription_ARM struct {
 
 	// Encoding: Enumerates the possible values for the encoding format of capture description. Note: 'AvroDeflate' will be
 	// deprecated in New API Version
-	Encoding *CaptureDescription_Encoding `json:"encoding,omitempty"`
+	Encoding *CaptureDescription_Encoding_ARM `json:"encoding,omitempty"`
 
 	// IntervalInSeconds: The time window allows you to set the frequency with which the capture to Azure Blobs will happen,
 	// value should between 60 to 900 seconds
@@ -62,6 +62,20 @@ type CaptureDescription_ARM struct {
 
 	// SkipEmptyArchives: A value that indicates whether to Skip Empty Archives
 	SkipEmptyArchives *bool `json:"skipEmptyArchives,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Avro","AvroDeflate"}
+type CaptureDescription_Encoding_ARM string
+
+const (
+	CaptureDescription_Encoding_ARM_Avro        = CaptureDescription_Encoding_ARM("Avro")
+	CaptureDescription_Encoding_ARM_AvroDeflate = CaptureDescription_Encoding_ARM("AvroDeflate")
+)
+
+// Mapping from string to CaptureDescription_Encoding_ARM
+var captureDescription_Encoding_ARM_Values = map[string]CaptureDescription_Encoding_ARM{
+	"avro":        CaptureDescription_Encoding_ARM_Avro,
+	"avrodeflate": CaptureDescription_Encoding_ARM_AvroDeflate,
 }
 
 // Capture storage details for capture description

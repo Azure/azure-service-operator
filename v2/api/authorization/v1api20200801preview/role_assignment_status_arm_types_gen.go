@@ -44,7 +44,7 @@ type RoleAssignmentProperties_STATUS_ARM struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 
 	// PrincipalType: The principal type of the assigned principal ID.
-	PrincipalType *RoleAssignmentProperties_PrincipalType_STATUS `json:"principalType,omitempty"`
+	PrincipalType *RoleAssignmentProperties_PrincipalType_STATUS_ARM `json:"principalType,omitempty"`
 
 	// RoleDefinitionId: The role definition ID.
 	RoleDefinitionId *string `json:"roleDefinitionId,omitempty"`
@@ -57,4 +57,21 @@ type RoleAssignmentProperties_STATUS_ARM struct {
 
 	// UpdatedOn: Time it was updated
 	UpdatedOn *string `json:"updatedOn,omitempty"`
+}
+
+type RoleAssignmentProperties_PrincipalType_STATUS_ARM string
+
+const (
+	RoleAssignmentProperties_PrincipalType_STATUS_ARM_ForeignGroup     = RoleAssignmentProperties_PrincipalType_STATUS_ARM("ForeignGroup")
+	RoleAssignmentProperties_PrincipalType_STATUS_ARM_Group            = RoleAssignmentProperties_PrincipalType_STATUS_ARM("Group")
+	RoleAssignmentProperties_PrincipalType_STATUS_ARM_ServicePrincipal = RoleAssignmentProperties_PrincipalType_STATUS_ARM("ServicePrincipal")
+	RoleAssignmentProperties_PrincipalType_STATUS_ARM_User             = RoleAssignmentProperties_PrincipalType_STATUS_ARM("User")
+)
+
+// Mapping from string to RoleAssignmentProperties_PrincipalType_STATUS_ARM
+var roleAssignmentProperties_PrincipalType_STATUS_ARM_Values = map[string]RoleAssignmentProperties_PrincipalType_STATUS_ARM{
+	"foreigngroup":     RoleAssignmentProperties_PrincipalType_STATUS_ARM_ForeignGroup,
+	"group":            RoleAssignmentProperties_PrincipalType_STATUS_ARM_Group,
+	"serviceprincipal": RoleAssignmentProperties_PrincipalType_STATUS_ARM_ServicePrincipal,
+	"user":             RoleAssignmentProperties_PrincipalType_STATUS_ARM_User,
 }

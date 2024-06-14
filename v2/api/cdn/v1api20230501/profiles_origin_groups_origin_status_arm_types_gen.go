@@ -23,12 +23,12 @@ type Profiles_OriginGroups_Origin_STATUS_ARM struct {
 // The JSON object that contains the properties of the origin.
 type AFDOriginProperties_STATUS_ARM struct {
 	// AzureOrigin: Resource reference to the Azure origin resource.
-	AzureOrigin      *ResourceReference_STATUS_ARM                `json:"azureOrigin,omitempty"`
-	DeploymentStatus *AFDOriginProperties_DeploymentStatus_STATUS `json:"deploymentStatus,omitempty"`
+	AzureOrigin      *ResourceReference_STATUS_ARM                    `json:"azureOrigin,omitempty"`
+	DeploymentStatus *AFDOriginProperties_DeploymentStatus_STATUS_ARM `json:"deploymentStatus,omitempty"`
 
 	// EnabledState: Whether to enable health probes to be made against backends defined under backendPools. Health probes can
 	// only be disabled if there is a single enabled backend in single enabled backend pool.
-	EnabledState *AFDOriginProperties_EnabledState_STATUS `json:"enabledState,omitempty"`
+	EnabledState *AFDOriginProperties_EnabledState_STATUS_ARM `json:"enabledState,omitempty"`
 
 	// EnforceCertificateNameCheck: Whether to enable certificate name check at origin level
 	EnforceCertificateNameCheck *bool `json:"enforceCertificateNameCheck,omitempty"`
@@ -56,13 +56,62 @@ type AFDOriginProperties_STATUS_ARM struct {
 	Priority *int `json:"priority,omitempty"`
 
 	// ProvisioningState: Provisioning status
-	ProvisioningState *AFDOriginProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *AFDOriginProperties_ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// SharedPrivateLinkResource: The properties of the private link resource for private origin.
 	SharedPrivateLinkResource *SharedPrivateLinkResourceProperties_STATUS_ARM `json:"sharedPrivateLinkResource,omitempty"`
 
 	// Weight: Weight of the origin in given origin group for load balancing. Must be between 1 and 1000
 	Weight *int `json:"weight,omitempty"`
+}
+
+type AFDOriginProperties_DeploymentStatus_STATUS_ARM string
+
+const (
+	AFDOriginProperties_DeploymentStatus_STATUS_ARM_Failed     = AFDOriginProperties_DeploymentStatus_STATUS_ARM("Failed")
+	AFDOriginProperties_DeploymentStatus_STATUS_ARM_InProgress = AFDOriginProperties_DeploymentStatus_STATUS_ARM("InProgress")
+	AFDOriginProperties_DeploymentStatus_STATUS_ARM_NotStarted = AFDOriginProperties_DeploymentStatus_STATUS_ARM("NotStarted")
+	AFDOriginProperties_DeploymentStatus_STATUS_ARM_Succeeded  = AFDOriginProperties_DeploymentStatus_STATUS_ARM("Succeeded")
+)
+
+// Mapping from string to AFDOriginProperties_DeploymentStatus_STATUS_ARM
+var aFDOriginProperties_DeploymentStatus_STATUS_ARM_Values = map[string]AFDOriginProperties_DeploymentStatus_STATUS_ARM{
+	"failed":     AFDOriginProperties_DeploymentStatus_STATUS_ARM_Failed,
+	"inprogress": AFDOriginProperties_DeploymentStatus_STATUS_ARM_InProgress,
+	"notstarted": AFDOriginProperties_DeploymentStatus_STATUS_ARM_NotStarted,
+	"succeeded":  AFDOriginProperties_DeploymentStatus_STATUS_ARM_Succeeded,
+}
+
+type AFDOriginProperties_EnabledState_STATUS_ARM string
+
+const (
+	AFDOriginProperties_EnabledState_STATUS_ARM_Disabled = AFDOriginProperties_EnabledState_STATUS_ARM("Disabled")
+	AFDOriginProperties_EnabledState_STATUS_ARM_Enabled  = AFDOriginProperties_EnabledState_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to AFDOriginProperties_EnabledState_STATUS_ARM
+var aFDOriginProperties_EnabledState_STATUS_ARM_Values = map[string]AFDOriginProperties_EnabledState_STATUS_ARM{
+	"disabled": AFDOriginProperties_EnabledState_STATUS_ARM_Disabled,
+	"enabled":  AFDOriginProperties_EnabledState_STATUS_ARM_Enabled,
+}
+
+type AFDOriginProperties_ProvisioningState_STATUS_ARM string
+
+const (
+	AFDOriginProperties_ProvisioningState_STATUS_ARM_Creating  = AFDOriginProperties_ProvisioningState_STATUS_ARM("Creating")
+	AFDOriginProperties_ProvisioningState_STATUS_ARM_Deleting  = AFDOriginProperties_ProvisioningState_STATUS_ARM("Deleting")
+	AFDOriginProperties_ProvisioningState_STATUS_ARM_Failed    = AFDOriginProperties_ProvisioningState_STATUS_ARM("Failed")
+	AFDOriginProperties_ProvisioningState_STATUS_ARM_Succeeded = AFDOriginProperties_ProvisioningState_STATUS_ARM("Succeeded")
+	AFDOriginProperties_ProvisioningState_STATUS_ARM_Updating  = AFDOriginProperties_ProvisioningState_STATUS_ARM("Updating")
+)
+
+// Mapping from string to AFDOriginProperties_ProvisioningState_STATUS_ARM
+var aFDOriginProperties_ProvisioningState_STATUS_ARM_Values = map[string]AFDOriginProperties_ProvisioningState_STATUS_ARM{
+	"creating":  AFDOriginProperties_ProvisioningState_STATUS_ARM_Creating,
+	"deleting":  AFDOriginProperties_ProvisioningState_STATUS_ARM_Deleting,
+	"failed":    AFDOriginProperties_ProvisioningState_STATUS_ARM_Failed,
+	"succeeded": AFDOriginProperties_ProvisioningState_STATUS_ARM_Succeeded,
+	"updating":  AFDOriginProperties_ProvisioningState_STATUS_ARM_Updating,
 }
 
 // Describes the properties of an existing Shared Private Link Resource to use when connecting to a private origin.
@@ -80,5 +129,24 @@ type SharedPrivateLinkResourceProperties_STATUS_ARM struct {
 	RequestMessage *string `json:"requestMessage,omitempty"`
 
 	// Status: Status of the shared private link resource. Can be Pending, Approved, Rejected, Disconnected, or Timeout.
-	Status *SharedPrivateLinkResourceProperties_Status_STATUS `json:"status,omitempty"`
+	Status *SharedPrivateLinkResourceProperties_Status_STATUS_ARM `json:"status,omitempty"`
+}
+
+type SharedPrivateLinkResourceProperties_Status_STATUS_ARM string
+
+const (
+	SharedPrivateLinkResourceProperties_Status_STATUS_ARM_Approved     = SharedPrivateLinkResourceProperties_Status_STATUS_ARM("Approved")
+	SharedPrivateLinkResourceProperties_Status_STATUS_ARM_Disconnected = SharedPrivateLinkResourceProperties_Status_STATUS_ARM("Disconnected")
+	SharedPrivateLinkResourceProperties_Status_STATUS_ARM_Pending      = SharedPrivateLinkResourceProperties_Status_STATUS_ARM("Pending")
+	SharedPrivateLinkResourceProperties_Status_STATUS_ARM_Rejected     = SharedPrivateLinkResourceProperties_Status_STATUS_ARM("Rejected")
+	SharedPrivateLinkResourceProperties_Status_STATUS_ARM_Timeout      = SharedPrivateLinkResourceProperties_Status_STATUS_ARM("Timeout")
+)
+
+// Mapping from string to SharedPrivateLinkResourceProperties_Status_STATUS_ARM
+var sharedPrivateLinkResourceProperties_Status_STATUS_ARM_Values = map[string]SharedPrivateLinkResourceProperties_Status_STATUS_ARM{
+	"approved":     SharedPrivateLinkResourceProperties_Status_STATUS_ARM_Approved,
+	"disconnected": SharedPrivateLinkResourceProperties_Status_STATUS_ARM_Disconnected,
+	"pending":      SharedPrivateLinkResourceProperties_Status_STATUS_ARM_Pending,
+	"rejected":     SharedPrivateLinkResourceProperties_Status_STATUS_ARM_Rejected,
+	"timeout":      SharedPrivateLinkResourceProperties_Status_STATUS_ARM_Timeout,
 }

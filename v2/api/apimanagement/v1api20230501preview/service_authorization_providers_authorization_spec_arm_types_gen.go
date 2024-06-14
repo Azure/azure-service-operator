@@ -32,11 +32,35 @@ func (authorization *Service_AuthorizationProviders_Authorization_Spec_ARM) GetT
 // Authorization details.
 type AuthorizationContractProperties_ARM struct {
 	// AuthorizationType: Authorization type options
-	AuthorizationType *AuthorizationContractProperties_AuthorizationType `json:"authorizationType,omitempty"`
+	AuthorizationType *AuthorizationContractProperties_AuthorizationType_ARM `json:"authorizationType,omitempty"`
 
 	// Oauth2GrantType: OAuth2 grant type options
-	Oauth2GrantType *AuthorizationContractProperties_Oauth2GrantType `json:"oauth2grantType,omitempty"`
+	Oauth2GrantType *AuthorizationContractProperties_Oauth2GrantType_ARM `json:"oauth2grantType,omitempty"`
 
 	// Parameters: Authorization parameters
 	Parameters map[string]string `json:"parameters,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"OAuth2"}
+type AuthorizationContractProperties_AuthorizationType_ARM string
+
+const AuthorizationContractProperties_AuthorizationType_ARM_OAuth2 = AuthorizationContractProperties_AuthorizationType_ARM("OAuth2")
+
+// Mapping from string to AuthorizationContractProperties_AuthorizationType_ARM
+var authorizationContractProperties_AuthorizationType_ARM_Values = map[string]AuthorizationContractProperties_AuthorizationType_ARM{
+	"oauth2": AuthorizationContractProperties_AuthorizationType_ARM_OAuth2,
+}
+
+// +kubebuilder:validation:Enum={"AuthorizationCode","ClientCredentials"}
+type AuthorizationContractProperties_Oauth2GrantType_ARM string
+
+const (
+	AuthorizationContractProperties_Oauth2GrantType_ARM_AuthorizationCode = AuthorizationContractProperties_Oauth2GrantType_ARM("AuthorizationCode")
+	AuthorizationContractProperties_Oauth2GrantType_ARM_ClientCredentials = AuthorizationContractProperties_Oauth2GrantType_ARM("ClientCredentials")
+)
+
+// Mapping from string to AuthorizationContractProperties_Oauth2GrantType_ARM
+var authorizationContractProperties_Oauth2GrantType_ARM_Values = map[string]AuthorizationContractProperties_Oauth2GrantType_ARM{
+	"authorizationcode": AuthorizationContractProperties_Oauth2GrantType_ARM_AuthorizationCode,
+	"clientcredentials": AuthorizationContractProperties_Oauth2GrantType_ARM_ClientCredentials,
 }

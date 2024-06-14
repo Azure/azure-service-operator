@@ -39,17 +39,17 @@ type RouteProperties_ARM struct {
 	CustomDomains []ActivatedResourceReference_ARM `json:"customDomains,omitempty"`
 
 	// EnabledState: Whether to enable use of this rule. Permitted values are 'Enabled' or 'Disabled'
-	EnabledState *RouteProperties_EnabledState `json:"enabledState,omitempty"`
+	EnabledState *RouteProperties_EnabledState_ARM `json:"enabledState,omitempty"`
 
 	// ForwardingProtocol: Protocol this rule will use when forwarding traffic to backends.
-	ForwardingProtocol *RouteProperties_ForwardingProtocol `json:"forwardingProtocol,omitempty"`
+	ForwardingProtocol *RouteProperties_ForwardingProtocol_ARM `json:"forwardingProtocol,omitempty"`
 
 	// HttpsRedirect: Whether to automatically redirect HTTP traffic to HTTPS traffic. Note that this is a easy way to set up
 	// this rule and it will be the first rule that gets executed.
-	HttpsRedirect *RouteProperties_HttpsRedirect `json:"httpsRedirect,omitempty"`
+	HttpsRedirect *RouteProperties_HttpsRedirect_ARM `json:"httpsRedirect,omitempty"`
 
 	// LinkToDefaultDomain: whether this route will be linked to the default endpoint domain.
-	LinkToDefaultDomain *RouteProperties_LinkToDefaultDomain `json:"linkToDefaultDomain,omitempty"`
+	LinkToDefaultDomain *RouteProperties_LinkToDefaultDomain_ARM `json:"linkToDefaultDomain,omitempty"`
 
 	// OriginGroup: A reference to the origin group.
 	OriginGroup *ResourceReference_ARM `json:"originGroup,omitempty"`
@@ -65,7 +65,7 @@ type RouteProperties_ARM struct {
 	RuleSets []ResourceReference_ARM `json:"ruleSets,omitempty"`
 
 	// SupportedProtocols: List of supported protocols for this route.
-	SupportedProtocols []AFDEndpointProtocols `json:"supportedProtocols,omitempty"`
+	SupportedProtocols []AFDEndpointProtocols_ARM `json:"supportedProtocols,omitempty"`
 }
 
 // Reference to another resource along with its state.
@@ -75,17 +75,17 @@ type ActivatedResourceReference_ARM struct {
 
 // Supported protocols for the customer's endpoint.
 // +kubebuilder:validation:Enum={"Http","Https"}
-type AFDEndpointProtocols string
+type AFDEndpointProtocols_ARM string
 
 const (
-	AFDEndpointProtocols_Http  = AFDEndpointProtocols("Http")
-	AFDEndpointProtocols_Https = AFDEndpointProtocols("Https")
+	AFDEndpointProtocols_ARM_Http  = AFDEndpointProtocols_ARM("Http")
+	AFDEndpointProtocols_ARM_Https = AFDEndpointProtocols_ARM("Https")
 )
 
-// Mapping from string to AFDEndpointProtocols
-var aFDEndpointProtocols_Values = map[string]AFDEndpointProtocols{
-	"http":  AFDEndpointProtocols_Http,
-	"https": AFDEndpointProtocols_Https,
+// Mapping from string to AFDEndpointProtocols_ARM
+var aFDEndpointProtocols_ARM_Values = map[string]AFDEndpointProtocols_ARM{
+	"http":  AFDEndpointProtocols_ARM_Http,
+	"https": AFDEndpointProtocols_ARM_Https,
 }
 
 // Caching settings for a caching-type route. To disable caching, do not provide a cacheConfiguration object.
@@ -99,7 +99,7 @@ type AfdRouteCacheConfiguration_ARM struct {
 	// QueryStringCachingBehavior: Defines how Frontdoor caches requests that include query strings. You can ignore any query
 	// strings when caching, ignore specific query strings, cache every request with a unique URL, or cache specific query
 	// strings.
-	QueryStringCachingBehavior *AfdRouteCacheConfiguration_QueryStringCachingBehavior `json:"queryStringCachingBehavior,omitempty"`
+	QueryStringCachingBehavior *AfdRouteCacheConfiguration_QueryStringCachingBehavior_ARM `json:"queryStringCachingBehavior,omitempty"`
 }
 
 // Reference to another resource.
@@ -108,79 +108,79 @@ type ResourceReference_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type RouteProperties_EnabledState string
+type RouteProperties_EnabledState_ARM string
 
 const (
-	RouteProperties_EnabledState_Disabled = RouteProperties_EnabledState("Disabled")
-	RouteProperties_EnabledState_Enabled  = RouteProperties_EnabledState("Enabled")
+	RouteProperties_EnabledState_ARM_Disabled = RouteProperties_EnabledState_ARM("Disabled")
+	RouteProperties_EnabledState_ARM_Enabled  = RouteProperties_EnabledState_ARM("Enabled")
 )
 
-// Mapping from string to RouteProperties_EnabledState
-var routeProperties_EnabledState_Values = map[string]RouteProperties_EnabledState{
-	"disabled": RouteProperties_EnabledState_Disabled,
-	"enabled":  RouteProperties_EnabledState_Enabled,
+// Mapping from string to RouteProperties_EnabledState_ARM
+var routeProperties_EnabledState_ARM_Values = map[string]RouteProperties_EnabledState_ARM{
+	"disabled": RouteProperties_EnabledState_ARM_Disabled,
+	"enabled":  RouteProperties_EnabledState_ARM_Enabled,
 }
 
 // +kubebuilder:validation:Enum={"HttpOnly","HttpsOnly","MatchRequest"}
-type RouteProperties_ForwardingProtocol string
+type RouteProperties_ForwardingProtocol_ARM string
 
 const (
-	RouteProperties_ForwardingProtocol_HttpOnly     = RouteProperties_ForwardingProtocol("HttpOnly")
-	RouteProperties_ForwardingProtocol_HttpsOnly    = RouteProperties_ForwardingProtocol("HttpsOnly")
-	RouteProperties_ForwardingProtocol_MatchRequest = RouteProperties_ForwardingProtocol("MatchRequest")
+	RouteProperties_ForwardingProtocol_ARM_HttpOnly     = RouteProperties_ForwardingProtocol_ARM("HttpOnly")
+	RouteProperties_ForwardingProtocol_ARM_HttpsOnly    = RouteProperties_ForwardingProtocol_ARM("HttpsOnly")
+	RouteProperties_ForwardingProtocol_ARM_MatchRequest = RouteProperties_ForwardingProtocol_ARM("MatchRequest")
 )
 
-// Mapping from string to RouteProperties_ForwardingProtocol
-var routeProperties_ForwardingProtocol_Values = map[string]RouteProperties_ForwardingProtocol{
-	"httponly":     RouteProperties_ForwardingProtocol_HttpOnly,
-	"httpsonly":    RouteProperties_ForwardingProtocol_HttpsOnly,
-	"matchrequest": RouteProperties_ForwardingProtocol_MatchRequest,
+// Mapping from string to RouteProperties_ForwardingProtocol_ARM
+var routeProperties_ForwardingProtocol_ARM_Values = map[string]RouteProperties_ForwardingProtocol_ARM{
+	"httponly":     RouteProperties_ForwardingProtocol_ARM_HttpOnly,
+	"httpsonly":    RouteProperties_ForwardingProtocol_ARM_HttpsOnly,
+	"matchrequest": RouteProperties_ForwardingProtocol_ARM_MatchRequest,
 }
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type RouteProperties_HttpsRedirect string
+type RouteProperties_HttpsRedirect_ARM string
 
 const (
-	RouteProperties_HttpsRedirect_Disabled = RouteProperties_HttpsRedirect("Disabled")
-	RouteProperties_HttpsRedirect_Enabled  = RouteProperties_HttpsRedirect("Enabled")
+	RouteProperties_HttpsRedirect_ARM_Disabled = RouteProperties_HttpsRedirect_ARM("Disabled")
+	RouteProperties_HttpsRedirect_ARM_Enabled  = RouteProperties_HttpsRedirect_ARM("Enabled")
 )
 
-// Mapping from string to RouteProperties_HttpsRedirect
-var routeProperties_HttpsRedirect_Values = map[string]RouteProperties_HttpsRedirect{
-	"disabled": RouteProperties_HttpsRedirect_Disabled,
-	"enabled":  RouteProperties_HttpsRedirect_Enabled,
+// Mapping from string to RouteProperties_HttpsRedirect_ARM
+var routeProperties_HttpsRedirect_ARM_Values = map[string]RouteProperties_HttpsRedirect_ARM{
+	"disabled": RouteProperties_HttpsRedirect_ARM_Disabled,
+	"enabled":  RouteProperties_HttpsRedirect_ARM_Enabled,
 }
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type RouteProperties_LinkToDefaultDomain string
+type RouteProperties_LinkToDefaultDomain_ARM string
 
 const (
-	RouteProperties_LinkToDefaultDomain_Disabled = RouteProperties_LinkToDefaultDomain("Disabled")
-	RouteProperties_LinkToDefaultDomain_Enabled  = RouteProperties_LinkToDefaultDomain("Enabled")
+	RouteProperties_LinkToDefaultDomain_ARM_Disabled = RouteProperties_LinkToDefaultDomain_ARM("Disabled")
+	RouteProperties_LinkToDefaultDomain_ARM_Enabled  = RouteProperties_LinkToDefaultDomain_ARM("Enabled")
 )
 
-// Mapping from string to RouteProperties_LinkToDefaultDomain
-var routeProperties_LinkToDefaultDomain_Values = map[string]RouteProperties_LinkToDefaultDomain{
-	"disabled": RouteProperties_LinkToDefaultDomain_Disabled,
-	"enabled":  RouteProperties_LinkToDefaultDomain_Enabled,
+// Mapping from string to RouteProperties_LinkToDefaultDomain_ARM
+var routeProperties_LinkToDefaultDomain_ARM_Values = map[string]RouteProperties_LinkToDefaultDomain_ARM{
+	"disabled": RouteProperties_LinkToDefaultDomain_ARM_Disabled,
+	"enabled":  RouteProperties_LinkToDefaultDomain_ARM_Enabled,
 }
 
 // +kubebuilder:validation:Enum={"IgnoreQueryString","IgnoreSpecifiedQueryStrings","IncludeSpecifiedQueryStrings","UseQueryString"}
-type AfdRouteCacheConfiguration_QueryStringCachingBehavior string
+type AfdRouteCacheConfiguration_QueryStringCachingBehavior_ARM string
 
 const (
-	AfdRouteCacheConfiguration_QueryStringCachingBehavior_IgnoreQueryString            = AfdRouteCacheConfiguration_QueryStringCachingBehavior("IgnoreQueryString")
-	AfdRouteCacheConfiguration_QueryStringCachingBehavior_IgnoreSpecifiedQueryStrings  = AfdRouteCacheConfiguration_QueryStringCachingBehavior("IgnoreSpecifiedQueryStrings")
-	AfdRouteCacheConfiguration_QueryStringCachingBehavior_IncludeSpecifiedQueryStrings = AfdRouteCacheConfiguration_QueryStringCachingBehavior("IncludeSpecifiedQueryStrings")
-	AfdRouteCacheConfiguration_QueryStringCachingBehavior_UseQueryString               = AfdRouteCacheConfiguration_QueryStringCachingBehavior("UseQueryString")
+	AfdRouteCacheConfiguration_QueryStringCachingBehavior_ARM_IgnoreQueryString            = AfdRouteCacheConfiguration_QueryStringCachingBehavior_ARM("IgnoreQueryString")
+	AfdRouteCacheConfiguration_QueryStringCachingBehavior_ARM_IgnoreSpecifiedQueryStrings  = AfdRouteCacheConfiguration_QueryStringCachingBehavior_ARM("IgnoreSpecifiedQueryStrings")
+	AfdRouteCacheConfiguration_QueryStringCachingBehavior_ARM_IncludeSpecifiedQueryStrings = AfdRouteCacheConfiguration_QueryStringCachingBehavior_ARM("IncludeSpecifiedQueryStrings")
+	AfdRouteCacheConfiguration_QueryStringCachingBehavior_ARM_UseQueryString               = AfdRouteCacheConfiguration_QueryStringCachingBehavior_ARM("UseQueryString")
 )
 
-// Mapping from string to AfdRouteCacheConfiguration_QueryStringCachingBehavior
-var afdRouteCacheConfiguration_QueryStringCachingBehavior_Values = map[string]AfdRouteCacheConfiguration_QueryStringCachingBehavior{
-	"ignorequerystring":            AfdRouteCacheConfiguration_QueryStringCachingBehavior_IgnoreQueryString,
-	"ignorespecifiedquerystrings":  AfdRouteCacheConfiguration_QueryStringCachingBehavior_IgnoreSpecifiedQueryStrings,
-	"includespecifiedquerystrings": AfdRouteCacheConfiguration_QueryStringCachingBehavior_IncludeSpecifiedQueryStrings,
-	"usequerystring":               AfdRouteCacheConfiguration_QueryStringCachingBehavior_UseQueryString,
+// Mapping from string to AfdRouteCacheConfiguration_QueryStringCachingBehavior_ARM
+var afdRouteCacheConfiguration_QueryStringCachingBehavior_ARM_Values = map[string]AfdRouteCacheConfiguration_QueryStringCachingBehavior_ARM{
+	"ignorequerystring":            AfdRouteCacheConfiguration_QueryStringCachingBehavior_ARM_IgnoreQueryString,
+	"ignorespecifiedquerystrings":  AfdRouteCacheConfiguration_QueryStringCachingBehavior_ARM_IgnoreSpecifiedQueryStrings,
+	"includespecifiedquerystrings": AfdRouteCacheConfiguration_QueryStringCachingBehavior_ARM_IncludeSpecifiedQueryStrings,
+	"usequerystring":               AfdRouteCacheConfiguration_QueryStringCachingBehavior_ARM_UseQueryString,
 }
 
 // settings for compression.

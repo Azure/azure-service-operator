@@ -398,7 +398,9 @@ func (image *Image_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		result.Properties = &ImageProperties_ARM{}
 	}
 	if image.HyperVGeneration != nil {
-		hyperVGeneration := *image.HyperVGeneration
+		var temp string
+		temp = string(*image.HyperVGeneration)
+		hyperVGeneration := HyperVGenerationType_ARM(temp)
 		result.Properties.HyperVGeneration = &hyperVGeneration
 	}
 	if image.SourceVirtualMachine != nil {
@@ -458,7 +460,9 @@ func (image *Image_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HyperVGeneration != nil {
-			hyperVGeneration := *typedInput.Properties.HyperVGeneration
+			var temp string
+			temp = string(*typedInput.Properties.HyperVGeneration)
+			hyperVGeneration := HyperVGenerationType(temp)
 			image.HyperVGeneration = &hyperVGeneration
 		}
 	}
@@ -900,7 +904,9 @@ func (image *Image_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HyperVGeneration != nil {
-			hyperVGeneration := *typedInput.Properties.HyperVGeneration
+			var temp string
+			temp = string(*typedInput.Properties.HyperVGeneration)
+			hyperVGeneration := HyperVGenerationType_STATUS(temp)
 			image.HyperVGeneration = &hyperVGeneration
 		}
 	}
@@ -1158,7 +1164,9 @@ func (location *ExtendedLocation) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "Type":
 	if location.Type != nil {
-		typeVar := *location.Type
+		var temp string
+		temp = string(*location.Type)
+		typeVar := ExtendedLocationType_ARM(temp)
 		result.Type = &typeVar
 	}
 	return result, nil
@@ -1184,7 +1192,9 @@ func (location *ExtendedLocation) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ExtendedLocationType(temp)
 		location.Type = &typeVar
 	}
 
@@ -1287,7 +1297,9 @@ func (location *ExtendedLocation_STATUS) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ExtendedLocationType_STATUS(temp)
 		location.Type = &typeVar
 	}
 
@@ -1927,6 +1939,27 @@ func (resource *SubResource_STATUS) AssignProperties_To_SubResource_STATUS(desti
 	return nil
 }
 
+// The type of extendedLocation.
+// +kubebuilder:validation:Enum={"EdgeZone"}
+type ExtendedLocationType string
+
+const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
+
+// Mapping from string to ExtendedLocationType
+var extendedLocationType_Values = map[string]ExtendedLocationType{
+	"edgezone": ExtendedLocationType_EdgeZone,
+}
+
+// The type of extendedLocation.
+type ExtendedLocationType_STATUS string
+
+const ExtendedLocationType_STATUS_EdgeZone = ExtendedLocationType_STATUS("EdgeZone")
+
+// Mapping from string to ExtendedLocationType_STATUS
+var extendedLocationType_STATUS_Values = map[string]ExtendedLocationType_STATUS{
+	"edgezone": ExtendedLocationType_STATUS_EdgeZone,
+}
+
 // Describes a data disk.
 type ImageDataDisk struct {
 	// BlobUri: The Virtual Hard Disk.
@@ -1981,7 +2014,9 @@ func (disk *ImageDataDisk) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 	// Set property "Caching":
 	if disk.Caching != nil {
-		caching := *disk.Caching
+		var temp string
+		temp = string(*disk.Caching)
+		caching := ImageDataDisk_Caching_ARM(temp)
 		result.Caching = &caching
 	}
 
@@ -2029,7 +2064,9 @@ func (disk *ImageDataDisk) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 	// Set property "StorageAccountType":
 	if disk.StorageAccountType != nil {
-		storageAccountType := *disk.StorageAccountType
+		var temp string
+		temp = string(*disk.StorageAccountType)
+		storageAccountType := StorageAccountType_ARM(temp)
 		result.StorageAccountType = &storageAccountType
 	}
 	return result, nil
@@ -2055,7 +2092,9 @@ func (disk *ImageDataDisk) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 
 	// Set property "Caching":
 	if typedInput.Caching != nil {
-		caching := *typedInput.Caching
+		var temp string
+		temp = string(*typedInput.Caching)
+		caching := ImageDataDisk_Caching(temp)
 		disk.Caching = &caching
 	}
 
@@ -2106,7 +2145,9 @@ func (disk *ImageDataDisk) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 
 	// Set property "StorageAccountType":
 	if typedInput.StorageAccountType != nil {
-		storageAccountType := *typedInput.StorageAccountType
+		var temp string
+		temp = string(*typedInput.StorageAccountType)
+		storageAccountType := StorageAccountType(temp)
 		disk.StorageAccountType = &storageAccountType
 	}
 
@@ -2387,7 +2428,9 @@ func (disk *ImageDataDisk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property "Caching":
 	if typedInput.Caching != nil {
-		caching := *typedInput.Caching
+		var temp string
+		temp = string(*typedInput.Caching)
+		caching := ImageDataDisk_Caching_STATUS(temp)
 		disk.Caching = &caching
 	}
 
@@ -2438,7 +2481,9 @@ func (disk *ImageDataDisk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property "StorageAccountType":
 	if typedInput.StorageAccountType != nil {
-		storageAccountType := *typedInput.StorageAccountType
+		var temp string
+		temp = string(*typedInput.StorageAccountType)
+		storageAccountType := StorageAccountType_STATUS(temp)
 		disk.StorageAccountType = &storageAccountType
 	}
 
@@ -2654,7 +2699,9 @@ func (disk *ImageOSDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 	// Set property "Caching":
 	if disk.Caching != nil {
-		caching := *disk.Caching
+		var temp string
+		temp = string(*disk.Caching)
+		caching := ImageOSDisk_Caching_ARM(temp)
 		result.Caching = &caching
 	}
 
@@ -2686,13 +2733,17 @@ func (disk *ImageOSDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 	// Set property "OsState":
 	if disk.OsState != nil {
-		osState := *disk.OsState
+		var temp string
+		temp = string(*disk.OsState)
+		osState := ImageOSDisk_OsState_ARM(temp)
 		result.OsState = &osState
 	}
 
 	// Set property "OsType":
 	if disk.OsType != nil {
-		osType := *disk.OsType
+		var temp string
+		temp = string(*disk.OsType)
+		osType := ImageOSDisk_OsType_ARM(temp)
 		result.OsType = &osType
 	}
 
@@ -2708,7 +2759,9 @@ func (disk *ImageOSDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 	// Set property "StorageAccountType":
 	if disk.StorageAccountType != nil {
-		storageAccountType := *disk.StorageAccountType
+		var temp string
+		temp = string(*disk.StorageAccountType)
+		storageAccountType := StorageAccountType_ARM(temp)
 		result.StorageAccountType = &storageAccountType
 	}
 	return result, nil
@@ -2734,7 +2787,9 @@ func (disk *ImageOSDisk) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 
 	// Set property "Caching":
 	if typedInput.Caching != nil {
-		caching := *typedInput.Caching
+		var temp string
+		temp = string(*typedInput.Caching)
+		caching := ImageOSDisk_Caching(temp)
 		disk.Caching = &caching
 	}
 
@@ -2768,13 +2823,17 @@ func (disk *ImageOSDisk) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 
 	// Set property "OsState":
 	if typedInput.OsState != nil {
-		osState := *typedInput.OsState
+		var temp string
+		temp = string(*typedInput.OsState)
+		osState := ImageOSDisk_OsState(temp)
 		disk.OsState = &osState
 	}
 
 	// Set property "OsType":
 	if typedInput.OsType != nil {
-		osType := *typedInput.OsType
+		var temp string
+		temp = string(*typedInput.OsType)
+		osType := ImageOSDisk_OsType(temp)
 		disk.OsType = &osType
 	}
 
@@ -2791,7 +2850,9 @@ func (disk *ImageOSDisk) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 
 	// Set property "StorageAccountType":
 	if typedInput.StorageAccountType != nil {
-		storageAccountType := *typedInput.StorageAccountType
+		var temp string
+		temp = string(*typedInput.StorageAccountType)
+		storageAccountType := StorageAccountType(temp)
 		disk.StorageAccountType = &storageAccountType
 	}
 
@@ -3119,7 +3180,9 @@ func (disk *ImageOSDisk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 
 	// Set property "Caching":
 	if typedInput.Caching != nil {
-		caching := *typedInput.Caching
+		var temp string
+		temp = string(*typedInput.Caching)
+		caching := ImageOSDisk_Caching_STATUS(temp)
 		disk.Caching = &caching
 	}
 
@@ -3153,13 +3216,17 @@ func (disk *ImageOSDisk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 
 	// Set property "OsState":
 	if typedInput.OsState != nil {
-		osState := *typedInput.OsState
+		var temp string
+		temp = string(*typedInput.OsState)
+		osState := ImageOSDisk_OsState_STATUS(temp)
 		disk.OsState = &osState
 	}
 
 	// Set property "OsType":
 	if typedInput.OsType != nil {
-		osType := *typedInput.OsType
+		var temp string
+		temp = string(*typedInput.OsType)
+		osType := ImageOSDisk_OsType_STATUS(temp)
 		disk.OsType = &osType
 	}
 
@@ -3176,7 +3243,9 @@ func (disk *ImageOSDisk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 
 	// Set property "StorageAccountType":
 	if typedInput.StorageAccountType != nil {
-		storageAccountType := *typedInput.StorageAccountType
+		var temp string
+		temp = string(*typedInput.StorageAccountType)
+		storageAccountType := StorageAccountType_STATUS(temp)
 		disk.StorageAccountType = &storageAccountType
 	}
 

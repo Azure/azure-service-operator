@@ -159,38 +159,38 @@ func DatabaseProperties_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDatabaseProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabaseProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ClientProtocol"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_ClientProtocol_STATUS_Encrypted, DatabaseProperties_ClientProtocol_STATUS_Plaintext))
-	gens["ClusteringPolicy"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_ClusteringPolicy_STATUS_EnterpriseCluster, DatabaseProperties_ClusteringPolicy_STATUS_OSSCluster))
+	gens["ClientProtocol"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_ClientProtocol_STATUS_ARM_Encrypted, DatabaseProperties_ClientProtocol_STATUS_ARM_Plaintext))
+	gens["ClusteringPolicy"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_ClusteringPolicy_STATUS_ARM_EnterpriseCluster, DatabaseProperties_ClusteringPolicy_STATUS_ARM_OSSCluster))
 	gens["EvictionPolicy"] = gen.PtrOf(gen.OneConstOf(
-		DatabaseProperties_EvictionPolicy_STATUS_AllKeysLFU,
-		DatabaseProperties_EvictionPolicy_STATUS_AllKeysLRU,
-		DatabaseProperties_EvictionPolicy_STATUS_AllKeysRandom,
-		DatabaseProperties_EvictionPolicy_STATUS_NoEviction,
-		DatabaseProperties_EvictionPolicy_STATUS_VolatileLFU,
-		DatabaseProperties_EvictionPolicy_STATUS_VolatileLRU,
-		DatabaseProperties_EvictionPolicy_STATUS_VolatileRandom,
-		DatabaseProperties_EvictionPolicy_STATUS_VolatileTTL))
+		DatabaseProperties_EvictionPolicy_STATUS_ARM_AllKeysLFU,
+		DatabaseProperties_EvictionPolicy_STATUS_ARM_AllKeysLRU,
+		DatabaseProperties_EvictionPolicy_STATUS_ARM_AllKeysRandom,
+		DatabaseProperties_EvictionPolicy_STATUS_ARM_NoEviction,
+		DatabaseProperties_EvictionPolicy_STATUS_ARM_VolatileLFU,
+		DatabaseProperties_EvictionPolicy_STATUS_ARM_VolatileLRU,
+		DatabaseProperties_EvictionPolicy_STATUS_ARM_VolatileRandom,
+		DatabaseProperties_EvictionPolicy_STATUS_ARM_VolatileTTL))
 	gens["Port"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_STATUS_Canceled,
-		ProvisioningState_STATUS_Creating,
-		ProvisioningState_STATUS_Deleting,
-		ProvisioningState_STATUS_Failed,
-		ProvisioningState_STATUS_Succeeded,
-		ProvisioningState_STATUS_Updating))
+		ProvisioningState_STATUS_ARM_Canceled,
+		ProvisioningState_STATUS_ARM_Creating,
+		ProvisioningState_STATUS_ARM_Deleting,
+		ProvisioningState_STATUS_ARM_Failed,
+		ProvisioningState_STATUS_ARM_Succeeded,
+		ProvisioningState_STATUS_ARM_Updating))
 	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
-		ResourceState_STATUS_CreateFailed,
-		ResourceState_STATUS_Creating,
-		ResourceState_STATUS_DeleteFailed,
-		ResourceState_STATUS_Deleting,
-		ResourceState_STATUS_DisableFailed,
-		ResourceState_STATUS_Disabled,
-		ResourceState_STATUS_Disabling,
-		ResourceState_STATUS_EnableFailed,
-		ResourceState_STATUS_Enabling,
-		ResourceState_STATUS_Running,
-		ResourceState_STATUS_UpdateFailed,
-		ResourceState_STATUS_Updating))
+		ResourceState_STATUS_ARM_CreateFailed,
+		ResourceState_STATUS_ARM_Creating,
+		ResourceState_STATUS_ARM_DeleteFailed,
+		ResourceState_STATUS_ARM_Deleting,
+		ResourceState_STATUS_ARM_DisableFailed,
+		ResourceState_STATUS_ARM_Disabled,
+		ResourceState_STATUS_ARM_Disabling,
+		ResourceState_STATUS_ARM_EnableFailed,
+		ResourceState_STATUS_ARM_Enabling,
+		ResourceState_STATUS_ARM_Running,
+		ResourceState_STATUS_ARM_UpdateFailed,
+		ResourceState_STATUS_ARM_Updating))
 }
 
 // AddRelatedPropertyGeneratorsForDatabaseProperties_STATUS_ARM is a factory method for creating gopter generators
@@ -260,11 +260,11 @@ func LinkedDatabase_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForLinkedDatabase_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["State"] = gen.PtrOf(gen.OneConstOf(
-		LinkedDatabase_State_STATUS_LinkFailed,
-		LinkedDatabase_State_STATUS_Linked,
-		LinkedDatabase_State_STATUS_Linking,
-		LinkedDatabase_State_STATUS_UnlinkFailed,
-		LinkedDatabase_State_STATUS_Unlinking))
+		LinkedDatabase_State_STATUS_ARM_LinkFailed,
+		LinkedDatabase_State_STATUS_ARM_Linked,
+		LinkedDatabase_State_STATUS_ARM_Linking,
+		LinkedDatabase_State_STATUS_ARM_UnlinkFailed,
+		LinkedDatabase_State_STATUS_ARM_Unlinking))
 }
 
 func Test_Module_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -388,9 +388,9 @@ func Persistence_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForPersistence_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPersistence_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["AofEnabled"] = gen.PtrOf(gen.Bool())
-	gens["AofFrequency"] = gen.PtrOf(gen.OneConstOf(Persistence_AofFrequency_STATUS_1S, Persistence_AofFrequency_STATUS_Always))
+	gens["AofFrequency"] = gen.PtrOf(gen.OneConstOf(Persistence_AofFrequency_STATUS_ARM_1S, Persistence_AofFrequency_STATUS_ARM_Always))
 	gens["RdbEnabled"] = gen.PtrOf(gen.Bool())
-	gens["RdbFrequency"] = gen.PtrOf(gen.OneConstOf(Persistence_RdbFrequency_STATUS_12H, Persistence_RdbFrequency_STATUS_1H, Persistence_RdbFrequency_STATUS_6H))
+	gens["RdbFrequency"] = gen.PtrOf(gen.OneConstOf(Persistence_RdbFrequency_STATUS_ARM_12H, Persistence_RdbFrequency_STATUS_ARM_1H, Persistence_RdbFrequency_STATUS_ARM_6H))
 }
 
 func Test_RedisEnterprise_Database_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

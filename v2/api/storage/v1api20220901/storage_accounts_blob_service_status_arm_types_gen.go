@@ -94,7 +94,7 @@ type LastAccessTimeTrackingPolicy_STATUS_ARM struct {
 	Enable *bool `json:"enable,omitempty"`
 
 	// Name: Name of the policy. The valid value is AccessTimeTracking. This field is currently read only
-	Name *LastAccessTimeTrackingPolicy_Name_STATUS `json:"name,omitempty"`
+	Name *LastAccessTimeTrackingPolicy_Name_STATUS_ARM `json:"name,omitempty"`
 
 	// TrackingGranularityInDays: The field specifies blob object tracking granularity in days, typically how often the blob
 	// object should be tracked.This field is currently read only with value as 1
@@ -124,7 +124,7 @@ type CorsRule_STATUS_ARM struct {
 
 	// AllowedMethods: Required if CorsRule element is present. A list of HTTP methods that are allowed to be executed by the
 	// origin.
-	AllowedMethods []CorsRule_AllowedMethods_STATUS `json:"allowedMethods"`
+	AllowedMethods []CorsRule_AllowedMethods_STATUS_ARM `json:"allowedMethods"`
 
 	// AllowedOrigins: Required if CorsRule element is present. A list of origin domains that will be allowed via CORS, or "*"
 	// to allow all domains
@@ -136,4 +136,38 @@ type CorsRule_STATUS_ARM struct {
 	// MaxAgeInSeconds: Required if CorsRule element is present. The number of seconds that the client/browser should cache a
 	// preflight response.
 	MaxAgeInSeconds *int `json:"maxAgeInSeconds,omitempty"`
+}
+
+type LastAccessTimeTrackingPolicy_Name_STATUS_ARM string
+
+const LastAccessTimeTrackingPolicy_Name_STATUS_ARM_AccessTimeTracking = LastAccessTimeTrackingPolicy_Name_STATUS_ARM("AccessTimeTracking")
+
+// Mapping from string to LastAccessTimeTrackingPolicy_Name_STATUS_ARM
+var lastAccessTimeTrackingPolicy_Name_STATUS_ARM_Values = map[string]LastAccessTimeTrackingPolicy_Name_STATUS_ARM{
+	"accesstimetracking": LastAccessTimeTrackingPolicy_Name_STATUS_ARM_AccessTimeTracking,
+}
+
+type CorsRule_AllowedMethods_STATUS_ARM string
+
+const (
+	CorsRule_AllowedMethods_STATUS_ARM_DELETE  = CorsRule_AllowedMethods_STATUS_ARM("DELETE")
+	CorsRule_AllowedMethods_STATUS_ARM_GET     = CorsRule_AllowedMethods_STATUS_ARM("GET")
+	CorsRule_AllowedMethods_STATUS_ARM_HEAD    = CorsRule_AllowedMethods_STATUS_ARM("HEAD")
+	CorsRule_AllowedMethods_STATUS_ARM_MERGE   = CorsRule_AllowedMethods_STATUS_ARM("MERGE")
+	CorsRule_AllowedMethods_STATUS_ARM_OPTIONS = CorsRule_AllowedMethods_STATUS_ARM("OPTIONS")
+	CorsRule_AllowedMethods_STATUS_ARM_PATCH   = CorsRule_AllowedMethods_STATUS_ARM("PATCH")
+	CorsRule_AllowedMethods_STATUS_ARM_POST    = CorsRule_AllowedMethods_STATUS_ARM("POST")
+	CorsRule_AllowedMethods_STATUS_ARM_PUT     = CorsRule_AllowedMethods_STATUS_ARM("PUT")
+)
+
+// Mapping from string to CorsRule_AllowedMethods_STATUS_ARM
+var corsRule_AllowedMethods_STATUS_ARM_Values = map[string]CorsRule_AllowedMethods_STATUS_ARM{
+	"delete":  CorsRule_AllowedMethods_STATUS_ARM_DELETE,
+	"get":     CorsRule_AllowedMethods_STATUS_ARM_GET,
+	"head":    CorsRule_AllowedMethods_STATUS_ARM_HEAD,
+	"merge":   CorsRule_AllowedMethods_STATUS_ARM_MERGE,
+	"options": CorsRule_AllowedMethods_STATUS_ARM_OPTIONS,
+	"patch":   CorsRule_AllowedMethods_STATUS_ARM_PATCH,
+	"post":    CorsRule_AllowedMethods_STATUS_ARM_POST,
+	"put":     CorsRule_AllowedMethods_STATUS_ARM_PUT,
 }

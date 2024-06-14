@@ -413,7 +413,9 @@ func (origin *Profiles_OriginGroups_Origin_Spec) ConvertToARM(resolved genruntim
 		result.Properties.AzureOrigin = &azureOrigin
 	}
 	if origin.EnabledState != nil {
-		enabledState := *origin.EnabledState
+		var temp string
+		temp = string(*origin.EnabledState)
+		enabledState := AFDOriginProperties_EnabledState_ARM(temp)
 		result.Properties.EnabledState = &enabledState
 	}
 	if origin.EnforceCertificateNameCheck != nil {
@@ -488,7 +490,9 @@ func (origin *Profiles_OriginGroups_Origin_Spec) PopulateFromARM(owner genruntim
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnabledState != nil {
-			enabledState := *typedInput.Properties.EnabledState
+			var temp string
+			temp = string(*typedInput.Properties.EnabledState)
+			enabledState := AFDOriginProperties_EnabledState(temp)
 			origin.EnabledState = &enabledState
 		}
 	}
@@ -1073,7 +1077,9 @@ func (origin *Profiles_OriginGroups_Origin_STATUS) PopulateFromARM(owner genrunt
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DeploymentStatus != nil {
-			deploymentStatus := *typedInput.Properties.DeploymentStatus
+			var temp string
+			temp = string(*typedInput.Properties.DeploymentStatus)
+			deploymentStatus := AFDOriginProperties_DeploymentStatus_STATUS(temp)
 			origin.DeploymentStatus = &deploymentStatus
 		}
 	}
@@ -1082,7 +1088,9 @@ func (origin *Profiles_OriginGroups_Origin_STATUS) PopulateFromARM(owner genrunt
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnabledState != nil {
-			enabledState := *typedInput.Properties.EnabledState
+			var temp string
+			temp = string(*typedInput.Properties.EnabledState)
+			enabledState := AFDOriginProperties_EnabledState_STATUS(temp)
 			origin.EnabledState = &enabledState
 		}
 	}
@@ -1166,7 +1174,9 @@ func (origin *Profiles_OriginGroups_Origin_STATUS) PopulateFromARM(owner genrunt
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := AFDOriginProperties_ProvisioningState_STATUS(temp)
 			origin.ProvisioningState = &provisioningState
 		}
 	}
@@ -1563,7 +1573,9 @@ func (properties *SharedPrivateLinkResourceProperties) ConvertToARM(resolved gen
 
 	// Set property "Status":
 	if properties.Status != nil {
-		status := *properties.Status
+		var temp string
+		temp = string(*properties.Status)
+		status := SharedPrivateLinkResourceProperties_Status_ARM(temp)
 		result.Status = &status
 	}
 	return result, nil
@@ -1612,7 +1624,9 @@ func (properties *SharedPrivateLinkResourceProperties) PopulateFromARM(owner gen
 
 	// Set property "Status":
 	if typedInput.Status != nil {
-		status := *typedInput.Status
+		var temp string
+		temp = string(*typedInput.Status)
+		status := SharedPrivateLinkResourceProperties_Status(temp)
 		properties.Status = &status
 	}
 
@@ -1801,7 +1815,9 @@ func (properties *SharedPrivateLinkResourceProperties_STATUS) PopulateFromARM(ow
 
 	// Set property "Status":
 	if typedInput.Status != nil {
-		status := *typedInput.Status
+		var temp string
+		temp = string(*typedInput.Status)
+		status := SharedPrivateLinkResourceProperties_Status_STATUS(temp)
 		properties.Status = &status
 	}
 

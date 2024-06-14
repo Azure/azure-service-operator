@@ -57,10 +57,27 @@ type InboundNatRulePropertiesFormat_ARM struct {
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	// Protocol: The reference to the transport protocol used by the load balancing rule.
-	Protocol *TransportProtocol `json:"protocol,omitempty"`
+	Protocol *TransportProtocol_ARM `json:"protocol,omitempty"`
 }
 
 // Reference to another subresource.
 type SubResource_ARM struct {
 	Id *string `json:"id,omitempty"`
+}
+
+// The transport protocol for the endpoint.
+// +kubebuilder:validation:Enum={"All","Tcp","Udp"}
+type TransportProtocol_ARM string
+
+const (
+	TransportProtocol_ARM_All = TransportProtocol_ARM("All")
+	TransportProtocol_ARM_Tcp = TransportProtocol_ARM("Tcp")
+	TransportProtocol_ARM_Udp = TransportProtocol_ARM("Udp")
+)
+
+// Mapping from string to TransportProtocol_ARM
+var transportProtocol_ARM_Values = map[string]TransportProtocol_ARM{
+	"all": TransportProtocol_ARM_All,
+	"tcp": TransportProtocol_ARM_Tcp,
+	"udp": TransportProtocol_ARM_Udp,
 }

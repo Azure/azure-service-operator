@@ -53,27 +53,27 @@ type SubscriptionCreateParameterProperties_ARM struct {
 	// not yet been approved or rejected, * rejected – the subscription request has been denied by an administrator, *
 	// cancelled – the subscription has been cancelled by the developer or administrator, * expired – the subscription
 	// reached its expiration date and was deactivated.
-	State *SubscriptionCreateParameterProperties_State `json:"state,omitempty"`
+	State *SubscriptionCreateParameterProperties_State_ARM `json:"state,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"active","cancelled","expired","rejected","submitted","suspended"}
-type SubscriptionCreateParameterProperties_State string
+type SubscriptionCreateParameterProperties_State_ARM string
 
 const (
-	SubscriptionCreateParameterProperties_State_Active    = SubscriptionCreateParameterProperties_State("active")
-	SubscriptionCreateParameterProperties_State_Cancelled = SubscriptionCreateParameterProperties_State("cancelled")
-	SubscriptionCreateParameterProperties_State_Expired   = SubscriptionCreateParameterProperties_State("expired")
-	SubscriptionCreateParameterProperties_State_Rejected  = SubscriptionCreateParameterProperties_State("rejected")
-	SubscriptionCreateParameterProperties_State_Submitted = SubscriptionCreateParameterProperties_State("submitted")
-	SubscriptionCreateParameterProperties_State_Suspended = SubscriptionCreateParameterProperties_State("suspended")
+	SubscriptionCreateParameterProperties_State_ARM_Active    = SubscriptionCreateParameterProperties_State_ARM("active")
+	SubscriptionCreateParameterProperties_State_ARM_Cancelled = SubscriptionCreateParameterProperties_State_ARM("cancelled")
+	SubscriptionCreateParameterProperties_State_ARM_Expired   = SubscriptionCreateParameterProperties_State_ARM("expired")
+	SubscriptionCreateParameterProperties_State_ARM_Rejected  = SubscriptionCreateParameterProperties_State_ARM("rejected")
+	SubscriptionCreateParameterProperties_State_ARM_Submitted = SubscriptionCreateParameterProperties_State_ARM("submitted")
+	SubscriptionCreateParameterProperties_State_ARM_Suspended = SubscriptionCreateParameterProperties_State_ARM("suspended")
 )
 
-// Mapping from string to SubscriptionCreateParameterProperties_State
-var subscriptionCreateParameterProperties_State_Values = map[string]SubscriptionCreateParameterProperties_State{
-	"active":    SubscriptionCreateParameterProperties_State_Active,
-	"cancelled": SubscriptionCreateParameterProperties_State_Cancelled,
-	"expired":   SubscriptionCreateParameterProperties_State_Expired,
-	"rejected":  SubscriptionCreateParameterProperties_State_Rejected,
-	"submitted": SubscriptionCreateParameterProperties_State_Submitted,
-	"suspended": SubscriptionCreateParameterProperties_State_Suspended,
+// Mapping from string to SubscriptionCreateParameterProperties_State_ARM
+var subscriptionCreateParameterProperties_State_ARM_Values = map[string]SubscriptionCreateParameterProperties_State_ARM{
+	"active":    SubscriptionCreateParameterProperties_State_ARM_Active,
+	"cancelled": SubscriptionCreateParameterProperties_State_ARM_Cancelled,
+	"expired":   SubscriptionCreateParameterProperties_State_ARM_Expired,
+	"rejected":  SubscriptionCreateParameterProperties_State_ARM_Rejected,
+	"submitted": SubscriptionCreateParameterProperties_State_ARM_Submitted,
+	"suspended": SubscriptionCreateParameterProperties_State_ARM_Suspended,
 }

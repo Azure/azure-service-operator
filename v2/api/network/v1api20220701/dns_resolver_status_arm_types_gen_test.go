@@ -84,14 +84,14 @@ func DnsResolverProperties_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDnsResolverProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDnsResolverProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["DnsResolverState"] = gen.PtrOf(gen.OneConstOf(DnsResolverProperties_DnsResolverState_STATUS_Connected, DnsResolverProperties_DnsResolverState_STATUS_Disconnected))
+	gens["DnsResolverState"] = gen.PtrOf(gen.OneConstOf(DnsResolverProperties_DnsResolverState_STATUS_ARM_Connected, DnsResolverProperties_DnsResolverState_STATUS_ARM_Disconnected))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		DnsresolverProvisioningState_STATUS_Canceled,
-		DnsresolverProvisioningState_STATUS_Creating,
-		DnsresolverProvisioningState_STATUS_Deleting,
-		DnsresolverProvisioningState_STATUS_Failed,
-		DnsresolverProvisioningState_STATUS_Succeeded,
-		DnsresolverProvisioningState_STATUS_Updating))
+		DnsresolverProvisioningState_STATUS_ARM_Canceled,
+		DnsresolverProvisioningState_STATUS_ARM_Creating,
+		DnsresolverProvisioningState_STATUS_ARM_Deleting,
+		DnsresolverProvisioningState_STATUS_ARM_Failed,
+		DnsresolverProvisioningState_STATUS_ARM_Succeeded,
+		DnsresolverProvisioningState_STATUS_ARM_Updating))
 	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
 }
 

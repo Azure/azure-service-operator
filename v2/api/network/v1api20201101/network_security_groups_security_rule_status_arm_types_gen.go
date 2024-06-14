@@ -23,7 +23,7 @@ type NetworkSecurityGroups_SecurityRule_STATUS_ARM struct {
 // Security rule resource.
 type SecurityRulePropertiesFormat_STATUS_ARM struct {
 	// Access: The network traffic is allowed or denied.
-	Access *SecurityRuleAccess_STATUS `json:"access,omitempty"`
+	Access *SecurityRuleAccess_STATUS_ARM `json:"access,omitempty"`
 
 	// Description: A description for this rule. Restricted to 140 chars.
 	Description *string `json:"description,omitempty"`
@@ -46,17 +46,17 @@ type SecurityRulePropertiesFormat_STATUS_ARM struct {
 	DestinationPortRanges []string `json:"destinationPortRanges,omitempty"`
 
 	// Direction: The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.
-	Direction *SecurityRuleDirection_STATUS `json:"direction,omitempty"`
+	Direction *SecurityRuleDirection_STATUS_ARM `json:"direction,omitempty"`
 
 	// Priority: The priority of the rule. The value can be between 100 and 4096. The priority number must be unique for each
 	// rule in the collection. The lower the priority number, the higher the priority of the rule.
 	Priority *int `json:"priority,omitempty"`
 
 	// Protocol: Network protocol this rule applies to.
-	Protocol *SecurityRulePropertiesFormat_Protocol_STATUS `json:"protocol,omitempty"`
+	Protocol *SecurityRulePropertiesFormat_Protocol_STATUS_ARM `json:"protocol,omitempty"`
 
 	// ProvisioningState: The provisioning state of the security rule resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// SourceAddressPrefix: The CIDR or source IP range. Asterisk '*' can also be used to match all source IPs. Default tags
 	// such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used. If this is an ingress rule, specifies
@@ -81,4 +81,53 @@ type SecurityRulePropertiesFormat_STATUS_ARM struct {
 type ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
+}
+
+// Whether network traffic is allowed or denied.
+type SecurityRuleAccess_STATUS_ARM string
+
+const (
+	SecurityRuleAccess_STATUS_ARM_Allow = SecurityRuleAccess_STATUS_ARM("Allow")
+	SecurityRuleAccess_STATUS_ARM_Deny  = SecurityRuleAccess_STATUS_ARM("Deny")
+)
+
+// Mapping from string to SecurityRuleAccess_STATUS_ARM
+var securityRuleAccess_STATUS_ARM_Values = map[string]SecurityRuleAccess_STATUS_ARM{
+	"allow": SecurityRuleAccess_STATUS_ARM_Allow,
+	"deny":  SecurityRuleAccess_STATUS_ARM_Deny,
+}
+
+// The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.
+type SecurityRuleDirection_STATUS_ARM string
+
+const (
+	SecurityRuleDirection_STATUS_ARM_Inbound  = SecurityRuleDirection_STATUS_ARM("Inbound")
+	SecurityRuleDirection_STATUS_ARM_Outbound = SecurityRuleDirection_STATUS_ARM("Outbound")
+)
+
+// Mapping from string to SecurityRuleDirection_STATUS_ARM
+var securityRuleDirection_STATUS_ARM_Values = map[string]SecurityRuleDirection_STATUS_ARM{
+	"inbound":  SecurityRuleDirection_STATUS_ARM_Inbound,
+	"outbound": SecurityRuleDirection_STATUS_ARM_Outbound,
+}
+
+type SecurityRulePropertiesFormat_Protocol_STATUS_ARM string
+
+const (
+	SecurityRulePropertiesFormat_Protocol_STATUS_ARM_Ah   = SecurityRulePropertiesFormat_Protocol_STATUS_ARM("Ah")
+	SecurityRulePropertiesFormat_Protocol_STATUS_ARM_Esp  = SecurityRulePropertiesFormat_Protocol_STATUS_ARM("Esp")
+	SecurityRulePropertiesFormat_Protocol_STATUS_ARM_Icmp = SecurityRulePropertiesFormat_Protocol_STATUS_ARM("Icmp")
+	SecurityRulePropertiesFormat_Protocol_STATUS_ARM_Star = SecurityRulePropertiesFormat_Protocol_STATUS_ARM("*")
+	SecurityRulePropertiesFormat_Protocol_STATUS_ARM_Tcp  = SecurityRulePropertiesFormat_Protocol_STATUS_ARM("Tcp")
+	SecurityRulePropertiesFormat_Protocol_STATUS_ARM_Udp  = SecurityRulePropertiesFormat_Protocol_STATUS_ARM("Udp")
+)
+
+// Mapping from string to SecurityRulePropertiesFormat_Protocol_STATUS_ARM
+var securityRulePropertiesFormat_Protocol_STATUS_ARM_Values = map[string]SecurityRulePropertiesFormat_Protocol_STATUS_ARM{
+	"ah":   SecurityRulePropertiesFormat_Protocol_STATUS_ARM_Ah,
+	"esp":  SecurityRulePropertiesFormat_Protocol_STATUS_ARM_Esp,
+	"icmp": SecurityRulePropertiesFormat_Protocol_STATUS_ARM_Icmp,
+	"*":    SecurityRulePropertiesFormat_Protocol_STATUS_ARM_Star,
+	"tcp":  SecurityRulePropertiesFormat_Protocol_STATUS_ARM_Tcp,
+	"udp":  SecurityRulePropertiesFormat_Protocol_STATUS_ARM_Udp,
 }

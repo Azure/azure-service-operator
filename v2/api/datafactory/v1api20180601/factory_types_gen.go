@@ -434,7 +434,9 @@ func (factory *Factory_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		}
 	}
 	if factory.PublicNetworkAccess != nil {
-		publicNetworkAccess := *factory.PublicNetworkAccess
+		var temp string
+		temp = string(*factory.PublicNetworkAccess)
+		publicNetworkAccess := FactoryProperties_PublicNetworkAccess_ARM(temp)
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 	if factory.PurviewConfiguration != nil {
@@ -544,7 +546,9 @@ func (factory *Factory_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
-			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccess)
+			publicNetworkAccess := FactoryProperties_PublicNetworkAccess(temp)
 			factory.PublicNetworkAccess = &publicNetworkAccess
 		}
 	}
@@ -1196,7 +1200,9 @@ func (factory *Factory_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
-			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccess)
+			publicNetworkAccess := FactoryProperties_PublicNetworkAccess_STATUS(temp)
 			factory.PublicNetworkAccess = &publicNetworkAccess
 		}
 	}
@@ -1858,7 +1864,9 @@ func (identity *FactoryIdentity) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "Type":
 	if identity.Type != nil {
-		typeVar := *identity.Type
+		var temp string
+		temp = string(*identity.Type)
+		typeVar := FactoryIdentity_Type_ARM(temp)
 		result.Type = &typeVar
 	}
 
@@ -1889,7 +1897,9 @@ func (identity *FactoryIdentity) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := FactoryIdentity_Type(temp)
 		identity.Type = &typeVar
 	}
 
@@ -2045,7 +2055,9 @@ func (identity *FactoryIdentity_STATUS) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := FactoryIdentity_Type_STATUS(temp)
 		identity.Type = &typeVar
 	}
 
@@ -2486,7 +2498,9 @@ func (specification *GlobalParameterSpecification) ConvertToARM(resolved genrunt
 
 	// Set property "Type":
 	if specification.Type != nil {
-		typeVar := *specification.Type
+		var temp string
+		temp = string(*specification.Type)
+		typeVar := GlobalParameterSpecification_Type_ARM(temp)
 		result.Type = &typeVar
 	}
 
@@ -2514,7 +2528,9 @@ func (specification *GlobalParameterSpecification) PopulateFromARM(owner genrunt
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := GlobalParameterSpecification_Type(temp)
 		specification.Type = &typeVar
 	}
 
@@ -2649,7 +2665,9 @@ func (specification *GlobalParameterSpecification_STATUS) PopulateFromARM(owner 
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := GlobalParameterSpecification_Type_STATUS(temp)
 		specification.Type = &typeVar
 	}
 
@@ -3145,7 +3163,11 @@ func (configuration *FactoryGitHubConfiguration) ConvertToARM(resolved genruntim
 
 	// Set property "Type":
 	if configuration.Type != nil {
-		result.Type = *configuration.Type
+		var temp FactoryGitHubConfiguration_Type_ARM
+		var temp1 string
+		temp1 = string(*configuration.Type)
+		temp = FactoryGitHubConfiguration_Type_ARM(temp1)
+		result.Type = temp
 	}
 	return result, nil
 }
@@ -3222,7 +3244,11 @@ func (configuration *FactoryGitHubConfiguration) PopulateFromARM(owner genruntim
 	}
 
 	// Set property "Type":
-	configuration.Type = &typedInput.Type
+	var temp FactoryGitHubConfiguration_Type
+	var temp1 string
+	temp1 = string(typedInput.Type)
+	temp = FactoryGitHubConfiguration_Type(temp1)
+	configuration.Type = &temp
 
 	// No error
 	return nil
@@ -3512,7 +3538,11 @@ func (configuration *FactoryGitHubConfiguration_STATUS) PopulateFromARM(owner ge
 	}
 
 	// Set property "Type":
-	configuration.Type = &typedInput.Type
+	var temp FactoryGitHubConfiguration_Type_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Type)
+	temp = FactoryGitHubConfiguration_Type_STATUS(temp1)
+	configuration.Type = &temp
 
 	// No error
 	return nil
@@ -3640,6 +3670,37 @@ func (configuration *FactoryGitHubConfiguration_STATUS) AssignProperties_To_Fact
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"SystemAssigned","SystemAssigned,UserAssigned","UserAssigned"}
+type FactoryIdentity_Type string
+
+const (
+	FactoryIdentity_Type_SystemAssigned             = FactoryIdentity_Type("SystemAssigned")
+	FactoryIdentity_Type_SystemAssignedUserAssigned = FactoryIdentity_Type("SystemAssigned,UserAssigned")
+	FactoryIdentity_Type_UserAssigned               = FactoryIdentity_Type("UserAssigned")
+)
+
+// Mapping from string to FactoryIdentity_Type
+var factoryIdentity_Type_Values = map[string]FactoryIdentity_Type{
+	"systemassigned":              FactoryIdentity_Type_SystemAssigned,
+	"systemassigned,userassigned": FactoryIdentity_Type_SystemAssignedUserAssigned,
+	"userassigned":                FactoryIdentity_Type_UserAssigned,
+}
+
+type FactoryIdentity_Type_STATUS string
+
+const (
+	FactoryIdentity_Type_STATUS_SystemAssigned             = FactoryIdentity_Type_STATUS("SystemAssigned")
+	FactoryIdentity_Type_STATUS_SystemAssignedUserAssigned = FactoryIdentity_Type_STATUS("SystemAssigned,UserAssigned")
+	FactoryIdentity_Type_STATUS_UserAssigned               = FactoryIdentity_Type_STATUS("UserAssigned")
+)
+
+// Mapping from string to FactoryIdentity_Type_STATUS
+var factoryIdentity_Type_STATUS_Values = map[string]FactoryIdentity_Type_STATUS{
+	"systemassigned":              FactoryIdentity_Type_STATUS_SystemAssigned,
+	"systemassigned,userassigned": FactoryIdentity_Type_STATUS_SystemAssignedUserAssigned,
+	"userassigned":                FactoryIdentity_Type_STATUS_UserAssigned,
+}
+
 type FactoryVSTSConfiguration struct {
 	// +kubebuilder:validation:Required
 	// AccountName: Account name.
@@ -3734,7 +3795,11 @@ func (configuration *FactoryVSTSConfiguration) ConvertToARM(resolved genruntime.
 
 	// Set property "Type":
 	if configuration.Type != nil {
-		result.Type = *configuration.Type
+		var temp FactoryVSTSConfiguration_Type_ARM
+		var temp1 string
+		temp1 = string(*configuration.Type)
+		temp = FactoryVSTSConfiguration_Type_ARM(temp1)
+		result.Type = temp
 	}
 	return result, nil
 }
@@ -3800,7 +3865,11 @@ func (configuration *FactoryVSTSConfiguration) PopulateFromARM(owner genruntime.
 	}
 
 	// Set property "Type":
-	configuration.Type = &typedInput.Type
+	var temp FactoryVSTSConfiguration_Type
+	var temp1 string
+	temp1 = string(typedInput.Type)
+	temp = FactoryVSTSConfiguration_Type(temp1)
+	configuration.Type = &temp
 
 	// No error
 	return nil
@@ -4040,7 +4109,11 @@ func (configuration *FactoryVSTSConfiguration_STATUS) PopulateFromARM(owner genr
 	}
 
 	// Set property "Type":
-	configuration.Type = &typedInput.Type
+	var temp FactoryVSTSConfiguration_Type_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Type)
+	temp = FactoryVSTSConfiguration_Type_STATUS(temp1)
+	configuration.Type = &temp
 
 	// No error
 	return nil

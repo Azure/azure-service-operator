@@ -39,7 +39,7 @@ type Ruleproperties_ARM struct {
 	CorrelationFilter *CorrelationFilter_ARM `json:"correlationFilter,omitempty"`
 
 	// FilterType: Filter type that is evaluated against a BrokeredMessage.
-	FilterType *FilterType `json:"filterType,omitempty"`
+	FilterType *FilterType_ARM `json:"filterType,omitempty"`
 
 	// SqlFilter: Properties of sqlFilter
 	SqlFilter *SqlFilter_ARM `json:"sqlFilter,omitempty"`
@@ -90,6 +90,21 @@ type CorrelationFilter_ARM struct {
 
 	// To: Address to send to.
 	To *string `json:"to,omitempty"`
+}
+
+// Rule filter types
+// +kubebuilder:validation:Enum={"CorrelationFilter","SqlFilter"}
+type FilterType_ARM string
+
+const (
+	FilterType_ARM_CorrelationFilter = FilterType_ARM("CorrelationFilter")
+	FilterType_ARM_SqlFilter         = FilterType_ARM("SqlFilter")
+)
+
+// Mapping from string to FilterType_ARM
+var filterType_ARM_Values = map[string]FilterType_ARM{
+	"correlationfilter": FilterType_ARM_CorrelationFilter,
+	"sqlfilter":         FilterType_ARM_SqlFilter,
 }
 
 // Represents a filter which is a composition of an expression and an action that is executed in the pub/sub pipeline.

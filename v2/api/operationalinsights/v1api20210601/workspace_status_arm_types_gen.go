@@ -49,13 +49,13 @@ type WorkspaceProperties_STATUS_ARM struct {
 	PrivateLinkScopedResources []PrivateLinkScopedResource_STATUS_ARM `json:"privateLinkScopedResources,omitempty"`
 
 	// ProvisioningState: The provisioning state of the workspace.
-	ProvisioningState *WorkspaceProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *WorkspaceProperties_ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccessForIngestion: The network access type for accessing Log Analytics ingestion.
-	PublicNetworkAccessForIngestion *PublicNetworkAccessType_STATUS `json:"publicNetworkAccessForIngestion,omitempty"`
+	PublicNetworkAccessForIngestion *PublicNetworkAccessType_STATUS_ARM `json:"publicNetworkAccessForIngestion,omitempty"`
 
 	// PublicNetworkAccessForQuery: The network access type for accessing Log Analytics query.
-	PublicNetworkAccessForQuery *PublicNetworkAccessType_STATUS `json:"publicNetworkAccessForQuery,omitempty"`
+	PublicNetworkAccessForQuery *PublicNetworkAccessType_STATUS_ARM `json:"publicNetworkAccessForQuery,omitempty"`
 
 	// RetentionInDays: The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers
 	// documentation for details.
@@ -77,13 +77,27 @@ type PrivateLinkScopedResource_STATUS_ARM struct {
 	ScopeId *string `json:"scopeId,omitempty"`
 }
 
+// The network access type for operating on the Log Analytics Workspace. By default it is Enabled
+type PublicNetworkAccessType_STATUS_ARM string
+
+const (
+	PublicNetworkAccessType_STATUS_ARM_Disabled = PublicNetworkAccessType_STATUS_ARM("Disabled")
+	PublicNetworkAccessType_STATUS_ARM_Enabled  = PublicNetworkAccessType_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to PublicNetworkAccessType_STATUS_ARM
+var publicNetworkAccessType_STATUS_ARM_Values = map[string]PublicNetworkAccessType_STATUS_ARM{
+	"disabled": PublicNetworkAccessType_STATUS_ARM_Disabled,
+	"enabled":  PublicNetworkAccessType_STATUS_ARM_Enabled,
+}
+
 // The daily volume cap for ingestion.
 type WorkspaceCapping_STATUS_ARM struct {
 	// DailyQuotaGb: The workspace daily quota for ingestion.
 	DailyQuotaGb *float64 `json:"dailyQuotaGb,omitempty"`
 
 	// DataIngestionStatus: The status of data ingestion for this workspace.
-	DataIngestionStatus *WorkspaceCapping_DataIngestionStatus_STATUS `json:"dataIngestionStatus,omitempty"`
+	DataIngestionStatus *WorkspaceCapping_DataIngestionStatus_STATUS_ARM `json:"dataIngestionStatus,omitempty"`
 
 	// QuotaNextResetTime: The time when the quota will be rest.
 	QuotaNextResetTime *string `json:"quotaNextResetTime,omitempty"`
@@ -107,15 +121,97 @@ type WorkspaceFeatures_STATUS_ARM struct {
 	ImmediatePurgeDataOn30Days *bool `json:"immediatePurgeDataOn30Days,omitempty"`
 }
 
+type WorkspaceProperties_ProvisioningState_STATUS_ARM string
+
+const (
+	WorkspaceProperties_ProvisioningState_STATUS_ARM_Canceled            = WorkspaceProperties_ProvisioningState_STATUS_ARM("Canceled")
+	WorkspaceProperties_ProvisioningState_STATUS_ARM_Creating            = WorkspaceProperties_ProvisioningState_STATUS_ARM("Creating")
+	WorkspaceProperties_ProvisioningState_STATUS_ARM_Deleting            = WorkspaceProperties_ProvisioningState_STATUS_ARM("Deleting")
+	WorkspaceProperties_ProvisioningState_STATUS_ARM_Failed              = WorkspaceProperties_ProvisioningState_STATUS_ARM("Failed")
+	WorkspaceProperties_ProvisioningState_STATUS_ARM_ProvisioningAccount = WorkspaceProperties_ProvisioningState_STATUS_ARM("ProvisioningAccount")
+	WorkspaceProperties_ProvisioningState_STATUS_ARM_Succeeded           = WorkspaceProperties_ProvisioningState_STATUS_ARM("Succeeded")
+	WorkspaceProperties_ProvisioningState_STATUS_ARM_Updating            = WorkspaceProperties_ProvisioningState_STATUS_ARM("Updating")
+)
+
+// Mapping from string to WorkspaceProperties_ProvisioningState_STATUS_ARM
+var workspaceProperties_ProvisioningState_STATUS_ARM_Values = map[string]WorkspaceProperties_ProvisioningState_STATUS_ARM{
+	"canceled":            WorkspaceProperties_ProvisioningState_STATUS_ARM_Canceled,
+	"creating":            WorkspaceProperties_ProvisioningState_STATUS_ARM_Creating,
+	"deleting":            WorkspaceProperties_ProvisioningState_STATUS_ARM_Deleting,
+	"failed":              WorkspaceProperties_ProvisioningState_STATUS_ARM_Failed,
+	"provisioningaccount": WorkspaceProperties_ProvisioningState_STATUS_ARM_ProvisioningAccount,
+	"succeeded":           WorkspaceProperties_ProvisioningState_STATUS_ARM_Succeeded,
+	"updating":            WorkspaceProperties_ProvisioningState_STATUS_ARM_Updating,
+}
+
 // The SKU (tier) of a workspace.
 type WorkspaceSku_STATUS_ARM struct {
 	// CapacityReservationLevel: The capacity reservation level in GB for this workspace, when CapacityReservation sku is
 	// selected.
-	CapacityReservationLevel *WorkspaceSku_CapacityReservationLevel_STATUS `json:"capacityReservationLevel,omitempty"`
+	CapacityReservationLevel *WorkspaceSku_CapacityReservationLevel_STATUS_ARM `json:"capacityReservationLevel,omitempty"`
 
 	// LastSkuUpdate: The last time when the sku was updated.
 	LastSkuUpdate *string `json:"lastSkuUpdate,omitempty"`
 
 	// Name: The name of the SKU.
-	Name *WorkspaceSku_Name_STATUS `json:"name,omitempty"`
+	Name *WorkspaceSku_Name_STATUS_ARM `json:"name,omitempty"`
+}
+
+type WorkspaceCapping_DataIngestionStatus_STATUS_ARM string
+
+const (
+	WorkspaceCapping_DataIngestionStatus_STATUS_ARM_ApproachingQuota      = WorkspaceCapping_DataIngestionStatus_STATUS_ARM("ApproachingQuota")
+	WorkspaceCapping_DataIngestionStatus_STATUS_ARM_ForceOff              = WorkspaceCapping_DataIngestionStatus_STATUS_ARM("ForceOff")
+	WorkspaceCapping_DataIngestionStatus_STATUS_ARM_ForceOn               = WorkspaceCapping_DataIngestionStatus_STATUS_ARM("ForceOn")
+	WorkspaceCapping_DataIngestionStatus_STATUS_ARM_OverQuota             = WorkspaceCapping_DataIngestionStatus_STATUS_ARM("OverQuota")
+	WorkspaceCapping_DataIngestionStatus_STATUS_ARM_RespectQuota          = WorkspaceCapping_DataIngestionStatus_STATUS_ARM("RespectQuota")
+	WorkspaceCapping_DataIngestionStatus_STATUS_ARM_SubscriptionSuspended = WorkspaceCapping_DataIngestionStatus_STATUS_ARM("SubscriptionSuspended")
+)
+
+// Mapping from string to WorkspaceCapping_DataIngestionStatus_STATUS_ARM
+var workspaceCapping_DataIngestionStatus_STATUS_ARM_Values = map[string]WorkspaceCapping_DataIngestionStatus_STATUS_ARM{
+	"approachingquota":      WorkspaceCapping_DataIngestionStatus_STATUS_ARM_ApproachingQuota,
+	"forceoff":              WorkspaceCapping_DataIngestionStatus_STATUS_ARM_ForceOff,
+	"forceon":               WorkspaceCapping_DataIngestionStatus_STATUS_ARM_ForceOn,
+	"overquota":             WorkspaceCapping_DataIngestionStatus_STATUS_ARM_OverQuota,
+	"respectquota":          WorkspaceCapping_DataIngestionStatus_STATUS_ARM_RespectQuota,
+	"subscriptionsuspended": WorkspaceCapping_DataIngestionStatus_STATUS_ARM_SubscriptionSuspended,
+}
+
+type WorkspaceSku_CapacityReservationLevel_STATUS_ARM int
+
+const (
+	WorkspaceSku_CapacityReservationLevel_STATUS_ARM_100  = WorkspaceSku_CapacityReservationLevel_STATUS_ARM(100)
+	WorkspaceSku_CapacityReservationLevel_STATUS_ARM_200  = WorkspaceSku_CapacityReservationLevel_STATUS_ARM(200)
+	WorkspaceSku_CapacityReservationLevel_STATUS_ARM_300  = WorkspaceSku_CapacityReservationLevel_STATUS_ARM(300)
+	WorkspaceSku_CapacityReservationLevel_STATUS_ARM_400  = WorkspaceSku_CapacityReservationLevel_STATUS_ARM(400)
+	WorkspaceSku_CapacityReservationLevel_STATUS_ARM_500  = WorkspaceSku_CapacityReservationLevel_STATUS_ARM(500)
+	WorkspaceSku_CapacityReservationLevel_STATUS_ARM_1000 = WorkspaceSku_CapacityReservationLevel_STATUS_ARM(1000)
+	WorkspaceSku_CapacityReservationLevel_STATUS_ARM_2000 = WorkspaceSku_CapacityReservationLevel_STATUS_ARM(2000)
+	WorkspaceSku_CapacityReservationLevel_STATUS_ARM_5000 = WorkspaceSku_CapacityReservationLevel_STATUS_ARM(5000)
+)
+
+type WorkspaceSku_Name_STATUS_ARM string
+
+const (
+	WorkspaceSku_Name_STATUS_ARM_CapacityReservation = WorkspaceSku_Name_STATUS_ARM("CapacityReservation")
+	WorkspaceSku_Name_STATUS_ARM_Free                = WorkspaceSku_Name_STATUS_ARM("Free")
+	WorkspaceSku_Name_STATUS_ARM_LACluster           = WorkspaceSku_Name_STATUS_ARM("LACluster")
+	WorkspaceSku_Name_STATUS_ARM_PerGB2018           = WorkspaceSku_Name_STATUS_ARM("PerGB2018")
+	WorkspaceSku_Name_STATUS_ARM_PerNode             = WorkspaceSku_Name_STATUS_ARM("PerNode")
+	WorkspaceSku_Name_STATUS_ARM_Premium             = WorkspaceSku_Name_STATUS_ARM("Premium")
+	WorkspaceSku_Name_STATUS_ARM_Standalone          = WorkspaceSku_Name_STATUS_ARM("Standalone")
+	WorkspaceSku_Name_STATUS_ARM_Standard            = WorkspaceSku_Name_STATUS_ARM("Standard")
+)
+
+// Mapping from string to WorkspaceSku_Name_STATUS_ARM
+var workspaceSku_Name_STATUS_ARM_Values = map[string]WorkspaceSku_Name_STATUS_ARM{
+	"capacityreservation": WorkspaceSku_Name_STATUS_ARM_CapacityReservation,
+	"free":                WorkspaceSku_Name_STATUS_ARM_Free,
+	"lacluster":           WorkspaceSku_Name_STATUS_ARM_LACluster,
+	"pergb2018":           WorkspaceSku_Name_STATUS_ARM_PerGB2018,
+	"pernode":             WorkspaceSku_Name_STATUS_ARM_PerNode,
+	"premium":             WorkspaceSku_Name_STATUS_ARM_Premium,
+	"standalone":          WorkspaceSku_Name_STATUS_ARM_Standalone,
+	"standard":            WorkspaceSku_Name_STATUS_ARM_Standard,
 }

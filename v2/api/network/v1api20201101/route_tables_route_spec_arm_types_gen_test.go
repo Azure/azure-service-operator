@@ -79,11 +79,11 @@ func AddIndependentPropertyGeneratorsForRoutePropertiesFormat_ARM(gens map[strin
 	gens["HasBgpOverride"] = gen.PtrOf(gen.Bool())
 	gens["NextHopIpAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["NextHopType"] = gen.PtrOf(gen.OneConstOf(
-		RouteNextHopType_Internet,
-		RouteNextHopType_None,
-		RouteNextHopType_VirtualAppliance,
-		RouteNextHopType_VirtualNetworkGateway,
-		RouteNextHopType_VnetLocal))
+		RouteNextHopType_ARM_Internet,
+		RouteNextHopType_ARM_None,
+		RouteNextHopType_ARM_VirtualAppliance,
+		RouteNextHopType_ARM_VirtualNetworkGateway,
+		RouteNextHopType_ARM_VnetLocal))
 }
 
 func Test_RouteTables_Route_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -433,11 +433,15 @@ func (account *BatchAccount_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 		result.Properties.KeyVaultReference = &keyVaultReference
 	}
 	if account.PoolAllocationMode != nil {
-		poolAllocationMode := *account.PoolAllocationMode
+		var temp string
+		temp = string(*account.PoolAllocationMode)
+		poolAllocationMode := PoolAllocationMode_ARM(temp)
 		result.Properties.PoolAllocationMode = &poolAllocationMode
 	}
 	if account.PublicNetworkAccess != nil {
-		publicNetworkAccess := *account.PublicNetworkAccess
+		var temp string
+		temp = string(*account.PublicNetworkAccess)
+		publicNetworkAccess := PublicNetworkAccessType_ARM(temp)
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 
@@ -535,7 +539,9 @@ func (account *BatchAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PoolAllocationMode != nil {
-			poolAllocationMode := *typedInput.Properties.PoolAllocationMode
+			var temp string
+			temp = string(*typedInput.Properties.PoolAllocationMode)
+			poolAllocationMode := PoolAllocationMode(temp)
 			account.PoolAllocationMode = &poolAllocationMode
 		}
 	}
@@ -544,7 +550,9 @@ func (account *BatchAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
-			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccess)
+			publicNetworkAccess := PublicNetworkAccessType(temp)
 			account.PublicNetworkAccess = &publicNetworkAccess
 		}
 	}
@@ -1156,7 +1164,9 @@ func (account *BatchAccount_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PoolAllocationMode != nil {
-			poolAllocationMode := *typedInput.Properties.PoolAllocationMode
+			var temp string
+			temp = string(*typedInput.Properties.PoolAllocationMode)
+			poolAllocationMode := PoolAllocationMode_STATUS(temp)
 			account.PoolAllocationMode = &poolAllocationMode
 		}
 	}
@@ -1187,7 +1197,9 @@ func (account *BatchAccount_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := BatchAccountProperties_ProvisioningState_STATUS(temp)
 			account.ProvisioningState = &provisioningState
 		}
 	}
@@ -1196,7 +1208,9 @@ func (account *BatchAccount_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
-			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccess)
+			publicNetworkAccess := PublicNetworkAccessType_STATUS(temp)
 			account.PublicNetworkAccess = &publicNetworkAccess
 		}
 	}
@@ -1741,7 +1755,9 @@ func (identity *BatchAccountIdentity) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "Type":
 	if identity.Type != nil {
-		typeVar := *identity.Type
+		var temp string
+		temp = string(*identity.Type)
+		typeVar := BatchAccountIdentity_Type_ARM(temp)
 		result.Type = &typeVar
 	}
 
@@ -1772,7 +1788,9 @@ func (identity *BatchAccountIdentity) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := BatchAccountIdentity_Type(temp)
 		identity.Type = &typeVar
 	}
 
@@ -1932,7 +1950,9 @@ func (identity *BatchAccountIdentity_STATUS) PopulateFromARM(owner genruntime.Ar
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := BatchAccountIdentity_Type_STATUS(temp)
 		identity.Type = &typeVar
 	}
 
@@ -2083,7 +2103,9 @@ func (properties *EncryptionProperties) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "KeySource":
 	if properties.KeySource != nil {
-		keySource := *properties.KeySource
+		var temp string
+		temp = string(*properties.KeySource)
+		keySource := EncryptionProperties_KeySource_ARM(temp)
 		result.KeySource = &keySource
 	}
 
@@ -2113,7 +2135,9 @@ func (properties *EncryptionProperties) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property "KeySource":
 	if typedInput.KeySource != nil {
-		keySource := *typedInput.KeySource
+		var temp string
+		temp = string(*typedInput.KeySource)
+		keySource := EncryptionProperties_KeySource(temp)
 		properties.KeySource = &keySource
 	}
 
@@ -2249,7 +2273,9 @@ func (properties *EncryptionProperties_STATUS) PopulateFromARM(owner genruntime.
 
 	// Set property "KeySource":
 	if typedInput.KeySource != nil {
-		keySource := *typedInput.KeySource
+		var temp string
+		temp = string(*typedInput.KeySource)
+		keySource := EncryptionProperties_KeySource_STATUS(temp)
 		properties.KeySource = &keySource
 	}
 
@@ -2720,6 +2746,37 @@ func (quota *VirtualMachineFamilyCoreQuota_STATUS) AssignProperties_To_VirtualMa
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"None","SystemAssigned","UserAssigned"}
+type BatchAccountIdentity_Type string
+
+const (
+	BatchAccountIdentity_Type_None           = BatchAccountIdentity_Type("None")
+	BatchAccountIdentity_Type_SystemAssigned = BatchAccountIdentity_Type("SystemAssigned")
+	BatchAccountIdentity_Type_UserAssigned   = BatchAccountIdentity_Type("UserAssigned")
+)
+
+// Mapping from string to BatchAccountIdentity_Type
+var batchAccountIdentity_Type_Values = map[string]BatchAccountIdentity_Type{
+	"none":           BatchAccountIdentity_Type_None,
+	"systemassigned": BatchAccountIdentity_Type_SystemAssigned,
+	"userassigned":   BatchAccountIdentity_Type_UserAssigned,
+}
+
+type BatchAccountIdentity_Type_STATUS string
+
+const (
+	BatchAccountIdentity_Type_STATUS_None           = BatchAccountIdentity_Type_STATUS("None")
+	BatchAccountIdentity_Type_STATUS_SystemAssigned = BatchAccountIdentity_Type_STATUS("SystemAssigned")
+	BatchAccountIdentity_Type_STATUS_UserAssigned   = BatchAccountIdentity_Type_STATUS("UserAssigned")
+)
+
+// Mapping from string to BatchAccountIdentity_Type_STATUS
+var batchAccountIdentity_Type_STATUS_Values = map[string]BatchAccountIdentity_Type_STATUS{
+	"none":           BatchAccountIdentity_Type_STATUS_None,
+	"systemassigned": BatchAccountIdentity_Type_STATUS_SystemAssigned,
+	"userassigned":   BatchAccountIdentity_Type_STATUS_UserAssigned,
 }
 
 type BatchAccountIdentity_UserAssignedIdentities_STATUS struct {

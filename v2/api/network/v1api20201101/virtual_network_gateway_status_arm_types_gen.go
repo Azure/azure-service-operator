@@ -56,7 +56,7 @@ type VirtualNetworkGatewayPropertiesFormat_STATUS_ARM struct {
 	GatewayDefaultSite *SubResource_STATUS_ARM `json:"gatewayDefaultSite,omitempty"`
 
 	// GatewayType: The type of this virtual network gateway.
-	GatewayType *VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS `json:"gatewayType,omitempty"`
+	GatewayType *VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS_ARM `json:"gatewayType,omitempty"`
 
 	// InboundDnsForwardingEndpoint: The IP address allocated by the gateway to which dns requests can be sent.
 	InboundDnsForwardingEndpoint *string `json:"inboundDnsForwardingEndpoint,omitempty"`
@@ -65,7 +65,7 @@ type VirtualNetworkGatewayPropertiesFormat_STATUS_ARM struct {
 	IpConfigurations []VirtualNetworkGatewayIPConfiguration_STATUS_ARM `json:"ipConfigurations,omitempty"`
 
 	// ProvisioningState: The provisioning state of the virtual network gateway resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// ResourceGuid: The resource GUID property of the virtual network gateway resource.
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
@@ -83,10 +83,10 @@ type VirtualNetworkGatewayPropertiesFormat_STATUS_ARM struct {
 	VpnClientConfiguration *VpnClientConfiguration_STATUS_ARM `json:"vpnClientConfiguration,omitempty"`
 
 	// VpnGatewayGeneration: The generation for this VirtualNetworkGateway. Must be None if gatewayType is not VPN.
-	VpnGatewayGeneration *VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS `json:"vpnGatewayGeneration,omitempty"`
+	VpnGatewayGeneration *VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS_ARM `json:"vpnGatewayGeneration,omitempty"`
 
 	// VpnType: The type of this virtual network gateway.
-	VpnType *VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS `json:"vpnType,omitempty"`
+	VpnType *VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS_ARM `json:"vpnType,omitempty"`
 }
 
 // AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network.
@@ -125,16 +125,59 @@ type VirtualNetworkGatewayIPConfiguration_STATUS_ARM struct {
 	Properties *VirtualNetworkGatewayIPConfigurationPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 }
 
+type VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS_ARM string
+
+const (
+	VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS_ARM_ExpressRoute = VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS_ARM("ExpressRoute")
+	VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS_ARM_LocalGateway = VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS_ARM("LocalGateway")
+	VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS_ARM_Vpn          = VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS_ARM("Vpn")
+)
+
+// Mapping from string to VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS_ARM
+var virtualNetworkGatewayPropertiesFormat_GatewayType_STATUS_ARM_Values = map[string]VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS_ARM{
+	"expressroute": VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS_ARM_ExpressRoute,
+	"localgateway": VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS_ARM_LocalGateway,
+	"vpn":          VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS_ARM_Vpn,
+}
+
+type VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS_ARM string
+
+const (
+	VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS_ARM_Generation1 = VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS_ARM("Generation1")
+	VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS_ARM_Generation2 = VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS_ARM("Generation2")
+	VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS_ARM_None        = VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS_ARM("None")
+)
+
+// Mapping from string to VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS_ARM
+var virtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS_ARM_Values = map[string]VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS_ARM{
+	"generation1": VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS_ARM_Generation1,
+	"generation2": VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS_ARM_Generation2,
+	"none":        VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS_ARM_None,
+}
+
+type VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS_ARM string
+
+const (
+	VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS_ARM_PolicyBased = VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS_ARM("PolicyBased")
+	VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS_ARM_RouteBased  = VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS_ARM("RouteBased")
+)
+
+// Mapping from string to VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS_ARM
+var virtualNetworkGatewayPropertiesFormat_VpnType_STATUS_ARM_Values = map[string]VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS_ARM{
+	"policybased": VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS_ARM_PolicyBased,
+	"routebased":  VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS_ARM_RouteBased,
+}
+
 // VirtualNetworkGatewaySku details.
 type VirtualNetworkGatewaySku_STATUS_ARM struct {
 	// Capacity: The capacity.
 	Capacity *int `json:"capacity,omitempty"`
 
 	// Name: Gateway SKU name.
-	Name *VirtualNetworkGatewaySku_Name_STATUS `json:"name,omitempty"`
+	Name *VirtualNetworkGatewaySku_Name_STATUS_ARM `json:"name,omitempty"`
 
 	// Tier: Gateway SKU tier.
-	Tier *VirtualNetworkGatewaySku_Tier_STATUS `json:"tier,omitempty"`
+	Tier *VirtualNetworkGatewaySku_Tier_STATUS_ARM `json:"tier,omitempty"`
 }
 
 // VpnClientConfiguration for P2S client.
@@ -161,7 +204,7 @@ type VpnClientConfiguration_STATUS_ARM struct {
 	RadiusServers []RadiusServer_STATUS_ARM `json:"radiusServers,omitempty"`
 
 	// VpnAuthenticationTypes: VPN authentication types for the virtual network gateway..
-	VpnAuthenticationTypes []VpnClientConfiguration_VpnAuthenticationTypes_STATUS `json:"vpnAuthenticationTypes,omitempty"`
+	VpnAuthenticationTypes []VpnClientConfiguration_VpnAuthenticationTypes_STATUS_ARM `json:"vpnAuthenticationTypes,omitempty"`
 
 	// VpnClientAddressPool: The reference to the address space resource which represents Address space for P2S VpnClient.
 	VpnClientAddressPool *AddressSpace_STATUS_ARM `json:"vpnClientAddressPool,omitempty"`
@@ -170,7 +213,7 @@ type VpnClientConfiguration_STATUS_ARM struct {
 	VpnClientIpsecPolicies []IpsecPolicy_STATUS_ARM `json:"vpnClientIpsecPolicies,omitempty"`
 
 	// VpnClientProtocols: VpnClientProtocols for Virtual network gateway.
-	VpnClientProtocols []VpnClientConfiguration_VpnClientProtocols_STATUS `json:"vpnClientProtocols,omitempty"`
+	VpnClientProtocols []VpnClientConfiguration_VpnClientProtocols_STATUS_ARM `json:"vpnClientProtocols,omitempty"`
 
 	// VpnClientRevokedCertificates: VpnClientRevokedCertificate for Virtual network gateway.
 	VpnClientRevokedCertificates []VpnClientRevokedCertificate_STATUS_ARM `json:"vpnClientRevokedCertificates,omitempty"`
@@ -197,22 +240,22 @@ type IPConfigurationBgpPeeringAddress_STATUS_ARM struct {
 // An IPSec Policy configuration for a virtual network gateway connection.
 type IpsecPolicy_STATUS_ARM struct {
 	// DhGroup: The DH Group used in IKE Phase 1 for initial SA.
-	DhGroup *DhGroup_STATUS `json:"dhGroup,omitempty"`
+	DhGroup *DhGroup_STATUS_ARM `json:"dhGroup,omitempty"`
 
 	// IkeEncryption: The IKE encryption algorithm (IKE phase 2).
-	IkeEncryption *IkeEncryption_STATUS `json:"ikeEncryption,omitempty"`
+	IkeEncryption *IkeEncryption_STATUS_ARM `json:"ikeEncryption,omitempty"`
 
 	// IkeIntegrity: The IKE integrity algorithm (IKE phase 2).
-	IkeIntegrity *IkeIntegrity_STATUS `json:"ikeIntegrity,omitempty"`
+	IkeIntegrity *IkeIntegrity_STATUS_ARM `json:"ikeIntegrity,omitempty"`
 
 	// IpsecEncryption: The IPSec encryption algorithm (IKE phase 1).
-	IpsecEncryption *IpsecEncryption_STATUS `json:"ipsecEncryption,omitempty"`
+	IpsecEncryption *IpsecEncryption_STATUS_ARM `json:"ipsecEncryption,omitempty"`
 
 	// IpsecIntegrity: The IPSec integrity algorithm (IKE phase 1).
-	IpsecIntegrity *IpsecIntegrity_STATUS `json:"ipsecIntegrity,omitempty"`
+	IpsecIntegrity *IpsecIntegrity_STATUS_ARM `json:"ipsecIntegrity,omitempty"`
 
 	// PfsGroup: The Pfs Group used in IKE Phase 2 for new child SA.
-	PfsGroup *PfsGroup_STATUS `json:"pfsGroup,omitempty"`
+	PfsGroup *PfsGroup_STATUS_ARM `json:"pfsGroup,omitempty"`
 
 	// SaDataSizeKilobytes: The IPSec Security Association (also called Quick Mode or Phase 2 SA) payload size in KB for a site
 	// to site VPN tunnel.
@@ -241,16 +284,132 @@ type VirtualNetworkGatewayIPConfigurationPropertiesFormat_STATUS_ARM struct {
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
 
 	// PrivateIPAllocationMethod: The private IP address allocation method.
-	PrivateIPAllocationMethod *IPAllocationMethod_STATUS `json:"privateIPAllocationMethod,omitempty"`
+	PrivateIPAllocationMethod *IPAllocationMethod_STATUS_ARM `json:"privateIPAllocationMethod,omitempty"`
 
 	// ProvisioningState: The provisioning state of the virtual network gateway IP configuration resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// PublicIPAddress: The reference to the public IP resource.
 	PublicIPAddress *SubResource_STATUS_ARM `json:"publicIPAddress,omitempty"`
 
 	// Subnet: The reference to the subnet resource.
 	Subnet *SubResource_STATUS_ARM `json:"subnet,omitempty"`
+}
+
+type VirtualNetworkGatewaySku_Name_STATUS_ARM string
+
+const (
+	VirtualNetworkGatewaySku_Name_STATUS_ARM_Basic            = VirtualNetworkGatewaySku_Name_STATUS_ARM("Basic")
+	VirtualNetworkGatewaySku_Name_STATUS_ARM_ErGw1AZ          = VirtualNetworkGatewaySku_Name_STATUS_ARM("ErGw1AZ")
+	VirtualNetworkGatewaySku_Name_STATUS_ARM_ErGw2AZ          = VirtualNetworkGatewaySku_Name_STATUS_ARM("ErGw2AZ")
+	VirtualNetworkGatewaySku_Name_STATUS_ARM_ErGw3AZ          = VirtualNetworkGatewaySku_Name_STATUS_ARM("ErGw3AZ")
+	VirtualNetworkGatewaySku_Name_STATUS_ARM_HighPerformance  = VirtualNetworkGatewaySku_Name_STATUS_ARM("HighPerformance")
+	VirtualNetworkGatewaySku_Name_STATUS_ARM_Standard         = VirtualNetworkGatewaySku_Name_STATUS_ARM("Standard")
+	VirtualNetworkGatewaySku_Name_STATUS_ARM_UltraPerformance = VirtualNetworkGatewaySku_Name_STATUS_ARM("UltraPerformance")
+	VirtualNetworkGatewaySku_Name_STATUS_ARM_VpnGw1           = VirtualNetworkGatewaySku_Name_STATUS_ARM("VpnGw1")
+	VirtualNetworkGatewaySku_Name_STATUS_ARM_VpnGw1AZ         = VirtualNetworkGatewaySku_Name_STATUS_ARM("VpnGw1AZ")
+	VirtualNetworkGatewaySku_Name_STATUS_ARM_VpnGw2           = VirtualNetworkGatewaySku_Name_STATUS_ARM("VpnGw2")
+	VirtualNetworkGatewaySku_Name_STATUS_ARM_VpnGw2AZ         = VirtualNetworkGatewaySku_Name_STATUS_ARM("VpnGw2AZ")
+	VirtualNetworkGatewaySku_Name_STATUS_ARM_VpnGw3           = VirtualNetworkGatewaySku_Name_STATUS_ARM("VpnGw3")
+	VirtualNetworkGatewaySku_Name_STATUS_ARM_VpnGw3AZ         = VirtualNetworkGatewaySku_Name_STATUS_ARM("VpnGw3AZ")
+	VirtualNetworkGatewaySku_Name_STATUS_ARM_VpnGw4           = VirtualNetworkGatewaySku_Name_STATUS_ARM("VpnGw4")
+	VirtualNetworkGatewaySku_Name_STATUS_ARM_VpnGw4AZ         = VirtualNetworkGatewaySku_Name_STATUS_ARM("VpnGw4AZ")
+	VirtualNetworkGatewaySku_Name_STATUS_ARM_VpnGw5           = VirtualNetworkGatewaySku_Name_STATUS_ARM("VpnGw5")
+	VirtualNetworkGatewaySku_Name_STATUS_ARM_VpnGw5AZ         = VirtualNetworkGatewaySku_Name_STATUS_ARM("VpnGw5AZ")
+)
+
+// Mapping from string to VirtualNetworkGatewaySku_Name_STATUS_ARM
+var virtualNetworkGatewaySku_Name_STATUS_ARM_Values = map[string]VirtualNetworkGatewaySku_Name_STATUS_ARM{
+	"basic":            VirtualNetworkGatewaySku_Name_STATUS_ARM_Basic,
+	"ergw1az":          VirtualNetworkGatewaySku_Name_STATUS_ARM_ErGw1AZ,
+	"ergw2az":          VirtualNetworkGatewaySku_Name_STATUS_ARM_ErGw2AZ,
+	"ergw3az":          VirtualNetworkGatewaySku_Name_STATUS_ARM_ErGw3AZ,
+	"highperformance":  VirtualNetworkGatewaySku_Name_STATUS_ARM_HighPerformance,
+	"standard":         VirtualNetworkGatewaySku_Name_STATUS_ARM_Standard,
+	"ultraperformance": VirtualNetworkGatewaySku_Name_STATUS_ARM_UltraPerformance,
+	"vpngw1":           VirtualNetworkGatewaySku_Name_STATUS_ARM_VpnGw1,
+	"vpngw1az":         VirtualNetworkGatewaySku_Name_STATUS_ARM_VpnGw1AZ,
+	"vpngw2":           VirtualNetworkGatewaySku_Name_STATUS_ARM_VpnGw2,
+	"vpngw2az":         VirtualNetworkGatewaySku_Name_STATUS_ARM_VpnGw2AZ,
+	"vpngw3":           VirtualNetworkGatewaySku_Name_STATUS_ARM_VpnGw3,
+	"vpngw3az":         VirtualNetworkGatewaySku_Name_STATUS_ARM_VpnGw3AZ,
+	"vpngw4":           VirtualNetworkGatewaySku_Name_STATUS_ARM_VpnGw4,
+	"vpngw4az":         VirtualNetworkGatewaySku_Name_STATUS_ARM_VpnGw4AZ,
+	"vpngw5":           VirtualNetworkGatewaySku_Name_STATUS_ARM_VpnGw5,
+	"vpngw5az":         VirtualNetworkGatewaySku_Name_STATUS_ARM_VpnGw5AZ,
+}
+
+type VirtualNetworkGatewaySku_Tier_STATUS_ARM string
+
+const (
+	VirtualNetworkGatewaySku_Tier_STATUS_ARM_Basic            = VirtualNetworkGatewaySku_Tier_STATUS_ARM("Basic")
+	VirtualNetworkGatewaySku_Tier_STATUS_ARM_ErGw1AZ          = VirtualNetworkGatewaySku_Tier_STATUS_ARM("ErGw1AZ")
+	VirtualNetworkGatewaySku_Tier_STATUS_ARM_ErGw2AZ          = VirtualNetworkGatewaySku_Tier_STATUS_ARM("ErGw2AZ")
+	VirtualNetworkGatewaySku_Tier_STATUS_ARM_ErGw3AZ          = VirtualNetworkGatewaySku_Tier_STATUS_ARM("ErGw3AZ")
+	VirtualNetworkGatewaySku_Tier_STATUS_ARM_HighPerformance  = VirtualNetworkGatewaySku_Tier_STATUS_ARM("HighPerformance")
+	VirtualNetworkGatewaySku_Tier_STATUS_ARM_Standard         = VirtualNetworkGatewaySku_Tier_STATUS_ARM("Standard")
+	VirtualNetworkGatewaySku_Tier_STATUS_ARM_UltraPerformance = VirtualNetworkGatewaySku_Tier_STATUS_ARM("UltraPerformance")
+	VirtualNetworkGatewaySku_Tier_STATUS_ARM_VpnGw1           = VirtualNetworkGatewaySku_Tier_STATUS_ARM("VpnGw1")
+	VirtualNetworkGatewaySku_Tier_STATUS_ARM_VpnGw1AZ         = VirtualNetworkGatewaySku_Tier_STATUS_ARM("VpnGw1AZ")
+	VirtualNetworkGatewaySku_Tier_STATUS_ARM_VpnGw2           = VirtualNetworkGatewaySku_Tier_STATUS_ARM("VpnGw2")
+	VirtualNetworkGatewaySku_Tier_STATUS_ARM_VpnGw2AZ         = VirtualNetworkGatewaySku_Tier_STATUS_ARM("VpnGw2AZ")
+	VirtualNetworkGatewaySku_Tier_STATUS_ARM_VpnGw3           = VirtualNetworkGatewaySku_Tier_STATUS_ARM("VpnGw3")
+	VirtualNetworkGatewaySku_Tier_STATUS_ARM_VpnGw3AZ         = VirtualNetworkGatewaySku_Tier_STATUS_ARM("VpnGw3AZ")
+	VirtualNetworkGatewaySku_Tier_STATUS_ARM_VpnGw4           = VirtualNetworkGatewaySku_Tier_STATUS_ARM("VpnGw4")
+	VirtualNetworkGatewaySku_Tier_STATUS_ARM_VpnGw4AZ         = VirtualNetworkGatewaySku_Tier_STATUS_ARM("VpnGw4AZ")
+	VirtualNetworkGatewaySku_Tier_STATUS_ARM_VpnGw5           = VirtualNetworkGatewaySku_Tier_STATUS_ARM("VpnGw5")
+	VirtualNetworkGatewaySku_Tier_STATUS_ARM_VpnGw5AZ         = VirtualNetworkGatewaySku_Tier_STATUS_ARM("VpnGw5AZ")
+)
+
+// Mapping from string to VirtualNetworkGatewaySku_Tier_STATUS_ARM
+var virtualNetworkGatewaySku_Tier_STATUS_ARM_Values = map[string]VirtualNetworkGatewaySku_Tier_STATUS_ARM{
+	"basic":            VirtualNetworkGatewaySku_Tier_STATUS_ARM_Basic,
+	"ergw1az":          VirtualNetworkGatewaySku_Tier_STATUS_ARM_ErGw1AZ,
+	"ergw2az":          VirtualNetworkGatewaySku_Tier_STATUS_ARM_ErGw2AZ,
+	"ergw3az":          VirtualNetworkGatewaySku_Tier_STATUS_ARM_ErGw3AZ,
+	"highperformance":  VirtualNetworkGatewaySku_Tier_STATUS_ARM_HighPerformance,
+	"standard":         VirtualNetworkGatewaySku_Tier_STATUS_ARM_Standard,
+	"ultraperformance": VirtualNetworkGatewaySku_Tier_STATUS_ARM_UltraPerformance,
+	"vpngw1":           VirtualNetworkGatewaySku_Tier_STATUS_ARM_VpnGw1,
+	"vpngw1az":         VirtualNetworkGatewaySku_Tier_STATUS_ARM_VpnGw1AZ,
+	"vpngw2":           VirtualNetworkGatewaySku_Tier_STATUS_ARM_VpnGw2,
+	"vpngw2az":         VirtualNetworkGatewaySku_Tier_STATUS_ARM_VpnGw2AZ,
+	"vpngw3":           VirtualNetworkGatewaySku_Tier_STATUS_ARM_VpnGw3,
+	"vpngw3az":         VirtualNetworkGatewaySku_Tier_STATUS_ARM_VpnGw3AZ,
+	"vpngw4":           VirtualNetworkGatewaySku_Tier_STATUS_ARM_VpnGw4,
+	"vpngw4az":         VirtualNetworkGatewaySku_Tier_STATUS_ARM_VpnGw4AZ,
+	"vpngw5":           VirtualNetworkGatewaySku_Tier_STATUS_ARM_VpnGw5,
+	"vpngw5az":         VirtualNetworkGatewaySku_Tier_STATUS_ARM_VpnGw5AZ,
+}
+
+type VpnClientConfiguration_VpnAuthenticationTypes_STATUS_ARM string
+
+const (
+	VpnClientConfiguration_VpnAuthenticationTypes_STATUS_ARM_AAD         = VpnClientConfiguration_VpnAuthenticationTypes_STATUS_ARM("AAD")
+	VpnClientConfiguration_VpnAuthenticationTypes_STATUS_ARM_Certificate = VpnClientConfiguration_VpnAuthenticationTypes_STATUS_ARM("Certificate")
+	VpnClientConfiguration_VpnAuthenticationTypes_STATUS_ARM_Radius      = VpnClientConfiguration_VpnAuthenticationTypes_STATUS_ARM("Radius")
+)
+
+// Mapping from string to VpnClientConfiguration_VpnAuthenticationTypes_STATUS_ARM
+var vpnClientConfiguration_VpnAuthenticationTypes_STATUS_ARM_Values = map[string]VpnClientConfiguration_VpnAuthenticationTypes_STATUS_ARM{
+	"aad":         VpnClientConfiguration_VpnAuthenticationTypes_STATUS_ARM_AAD,
+	"certificate": VpnClientConfiguration_VpnAuthenticationTypes_STATUS_ARM_Certificate,
+	"radius":      VpnClientConfiguration_VpnAuthenticationTypes_STATUS_ARM_Radius,
+}
+
+type VpnClientConfiguration_VpnClientProtocols_STATUS_ARM string
+
+const (
+	VpnClientConfiguration_VpnClientProtocols_STATUS_ARM_IkeV2   = VpnClientConfiguration_VpnClientProtocols_STATUS_ARM("IkeV2")
+	VpnClientConfiguration_VpnClientProtocols_STATUS_ARM_OpenVPN = VpnClientConfiguration_VpnClientProtocols_STATUS_ARM("OpenVPN")
+	VpnClientConfiguration_VpnClientProtocols_STATUS_ARM_SSTP    = VpnClientConfiguration_VpnClientProtocols_STATUS_ARM("SSTP")
+)
+
+// Mapping from string to VpnClientConfiguration_VpnClientProtocols_STATUS_ARM
+var vpnClientConfiguration_VpnClientProtocols_STATUS_ARM_Values = map[string]VpnClientConfiguration_VpnClientProtocols_STATUS_ARM{
+	"ikev2":   VpnClientConfiguration_VpnClientProtocols_STATUS_ARM_IkeV2,
+	"openvpn": VpnClientConfiguration_VpnClientProtocols_STATUS_ARM_OpenVPN,
+	"sstp":    VpnClientConfiguration_VpnClientProtocols_STATUS_ARM_SSTP,
 }
 
 // VPN client revoked certificate of virtual network gateway.
@@ -283,10 +442,160 @@ type VpnClientRootCertificate_STATUS_ARM struct {
 	Properties *VpnClientRootCertificatePropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 }
 
+// The DH Groups used in IKE Phase 1 for initial SA.
+type DhGroup_STATUS_ARM string
+
+const (
+	DhGroup_STATUS_ARM_DHGroup1    = DhGroup_STATUS_ARM("DHGroup1")
+	DhGroup_STATUS_ARM_DHGroup14   = DhGroup_STATUS_ARM("DHGroup14")
+	DhGroup_STATUS_ARM_DHGroup2    = DhGroup_STATUS_ARM("DHGroup2")
+	DhGroup_STATUS_ARM_DHGroup2048 = DhGroup_STATUS_ARM("DHGroup2048")
+	DhGroup_STATUS_ARM_DHGroup24   = DhGroup_STATUS_ARM("DHGroup24")
+	DhGroup_STATUS_ARM_ECP256      = DhGroup_STATUS_ARM("ECP256")
+	DhGroup_STATUS_ARM_ECP384      = DhGroup_STATUS_ARM("ECP384")
+	DhGroup_STATUS_ARM_None        = DhGroup_STATUS_ARM("None")
+)
+
+// Mapping from string to DhGroup_STATUS_ARM
+var dhGroup_STATUS_ARM_Values = map[string]DhGroup_STATUS_ARM{
+	"dhgroup1":    DhGroup_STATUS_ARM_DHGroup1,
+	"dhgroup14":   DhGroup_STATUS_ARM_DHGroup14,
+	"dhgroup2":    DhGroup_STATUS_ARM_DHGroup2,
+	"dhgroup2048": DhGroup_STATUS_ARM_DHGroup2048,
+	"dhgroup24":   DhGroup_STATUS_ARM_DHGroup24,
+	"ecp256":      DhGroup_STATUS_ARM_ECP256,
+	"ecp384":      DhGroup_STATUS_ARM_ECP384,
+	"none":        DhGroup_STATUS_ARM_None,
+}
+
+// The IKE encryption algorithm (IKE phase 2).
+type IkeEncryption_STATUS_ARM string
+
+const (
+	IkeEncryption_STATUS_ARM_AES128    = IkeEncryption_STATUS_ARM("AES128")
+	IkeEncryption_STATUS_ARM_AES192    = IkeEncryption_STATUS_ARM("AES192")
+	IkeEncryption_STATUS_ARM_AES256    = IkeEncryption_STATUS_ARM("AES256")
+	IkeEncryption_STATUS_ARM_DES       = IkeEncryption_STATUS_ARM("DES")
+	IkeEncryption_STATUS_ARM_DES3      = IkeEncryption_STATUS_ARM("DES3")
+	IkeEncryption_STATUS_ARM_GCMAES128 = IkeEncryption_STATUS_ARM("GCMAES128")
+	IkeEncryption_STATUS_ARM_GCMAES256 = IkeEncryption_STATUS_ARM("GCMAES256")
+)
+
+// Mapping from string to IkeEncryption_STATUS_ARM
+var ikeEncryption_STATUS_ARM_Values = map[string]IkeEncryption_STATUS_ARM{
+	"aes128":    IkeEncryption_STATUS_ARM_AES128,
+	"aes192":    IkeEncryption_STATUS_ARM_AES192,
+	"aes256":    IkeEncryption_STATUS_ARM_AES256,
+	"des":       IkeEncryption_STATUS_ARM_DES,
+	"des3":      IkeEncryption_STATUS_ARM_DES3,
+	"gcmaes128": IkeEncryption_STATUS_ARM_GCMAES128,
+	"gcmaes256": IkeEncryption_STATUS_ARM_GCMAES256,
+}
+
+// The IKE integrity algorithm (IKE phase 2).
+type IkeIntegrity_STATUS_ARM string
+
+const (
+	IkeIntegrity_STATUS_ARM_GCMAES128 = IkeIntegrity_STATUS_ARM("GCMAES128")
+	IkeIntegrity_STATUS_ARM_GCMAES256 = IkeIntegrity_STATUS_ARM("GCMAES256")
+	IkeIntegrity_STATUS_ARM_MD5       = IkeIntegrity_STATUS_ARM("MD5")
+	IkeIntegrity_STATUS_ARM_SHA1      = IkeIntegrity_STATUS_ARM("SHA1")
+	IkeIntegrity_STATUS_ARM_SHA256    = IkeIntegrity_STATUS_ARM("SHA256")
+	IkeIntegrity_STATUS_ARM_SHA384    = IkeIntegrity_STATUS_ARM("SHA384")
+)
+
+// Mapping from string to IkeIntegrity_STATUS_ARM
+var ikeIntegrity_STATUS_ARM_Values = map[string]IkeIntegrity_STATUS_ARM{
+	"gcmaes128": IkeIntegrity_STATUS_ARM_GCMAES128,
+	"gcmaes256": IkeIntegrity_STATUS_ARM_GCMAES256,
+	"md5":       IkeIntegrity_STATUS_ARM_MD5,
+	"sha1":      IkeIntegrity_STATUS_ARM_SHA1,
+	"sha256":    IkeIntegrity_STATUS_ARM_SHA256,
+	"sha384":    IkeIntegrity_STATUS_ARM_SHA384,
+}
+
+// The IPSec encryption algorithm (IKE phase 1).
+type IpsecEncryption_STATUS_ARM string
+
+const (
+	IpsecEncryption_STATUS_ARM_AES128    = IpsecEncryption_STATUS_ARM("AES128")
+	IpsecEncryption_STATUS_ARM_AES192    = IpsecEncryption_STATUS_ARM("AES192")
+	IpsecEncryption_STATUS_ARM_AES256    = IpsecEncryption_STATUS_ARM("AES256")
+	IpsecEncryption_STATUS_ARM_DES       = IpsecEncryption_STATUS_ARM("DES")
+	IpsecEncryption_STATUS_ARM_DES3      = IpsecEncryption_STATUS_ARM("DES3")
+	IpsecEncryption_STATUS_ARM_GCMAES128 = IpsecEncryption_STATUS_ARM("GCMAES128")
+	IpsecEncryption_STATUS_ARM_GCMAES192 = IpsecEncryption_STATUS_ARM("GCMAES192")
+	IpsecEncryption_STATUS_ARM_GCMAES256 = IpsecEncryption_STATUS_ARM("GCMAES256")
+	IpsecEncryption_STATUS_ARM_None      = IpsecEncryption_STATUS_ARM("None")
+)
+
+// Mapping from string to IpsecEncryption_STATUS_ARM
+var ipsecEncryption_STATUS_ARM_Values = map[string]IpsecEncryption_STATUS_ARM{
+	"aes128":    IpsecEncryption_STATUS_ARM_AES128,
+	"aes192":    IpsecEncryption_STATUS_ARM_AES192,
+	"aes256":    IpsecEncryption_STATUS_ARM_AES256,
+	"des":       IpsecEncryption_STATUS_ARM_DES,
+	"des3":      IpsecEncryption_STATUS_ARM_DES3,
+	"gcmaes128": IpsecEncryption_STATUS_ARM_GCMAES128,
+	"gcmaes192": IpsecEncryption_STATUS_ARM_GCMAES192,
+	"gcmaes256": IpsecEncryption_STATUS_ARM_GCMAES256,
+	"none":      IpsecEncryption_STATUS_ARM_None,
+}
+
+// The IPSec integrity algorithm (IKE phase 1).
+type IpsecIntegrity_STATUS_ARM string
+
+const (
+	IpsecIntegrity_STATUS_ARM_GCMAES128 = IpsecIntegrity_STATUS_ARM("GCMAES128")
+	IpsecIntegrity_STATUS_ARM_GCMAES192 = IpsecIntegrity_STATUS_ARM("GCMAES192")
+	IpsecIntegrity_STATUS_ARM_GCMAES256 = IpsecIntegrity_STATUS_ARM("GCMAES256")
+	IpsecIntegrity_STATUS_ARM_MD5       = IpsecIntegrity_STATUS_ARM("MD5")
+	IpsecIntegrity_STATUS_ARM_SHA1      = IpsecIntegrity_STATUS_ARM("SHA1")
+	IpsecIntegrity_STATUS_ARM_SHA256    = IpsecIntegrity_STATUS_ARM("SHA256")
+)
+
+// Mapping from string to IpsecIntegrity_STATUS_ARM
+var ipsecIntegrity_STATUS_ARM_Values = map[string]IpsecIntegrity_STATUS_ARM{
+	"gcmaes128": IpsecIntegrity_STATUS_ARM_GCMAES128,
+	"gcmaes192": IpsecIntegrity_STATUS_ARM_GCMAES192,
+	"gcmaes256": IpsecIntegrity_STATUS_ARM_GCMAES256,
+	"md5":       IpsecIntegrity_STATUS_ARM_MD5,
+	"sha1":      IpsecIntegrity_STATUS_ARM_SHA1,
+	"sha256":    IpsecIntegrity_STATUS_ARM_SHA256,
+}
+
+// The Pfs Groups used in IKE Phase 2 for new child SA.
+type PfsGroup_STATUS_ARM string
+
+const (
+	PfsGroup_STATUS_ARM_ECP256  = PfsGroup_STATUS_ARM("ECP256")
+	PfsGroup_STATUS_ARM_ECP384  = PfsGroup_STATUS_ARM("ECP384")
+	PfsGroup_STATUS_ARM_None    = PfsGroup_STATUS_ARM("None")
+	PfsGroup_STATUS_ARM_PFS1    = PfsGroup_STATUS_ARM("PFS1")
+	PfsGroup_STATUS_ARM_PFS14   = PfsGroup_STATUS_ARM("PFS14")
+	PfsGroup_STATUS_ARM_PFS2    = PfsGroup_STATUS_ARM("PFS2")
+	PfsGroup_STATUS_ARM_PFS2048 = PfsGroup_STATUS_ARM("PFS2048")
+	PfsGroup_STATUS_ARM_PFS24   = PfsGroup_STATUS_ARM("PFS24")
+	PfsGroup_STATUS_ARM_PFSMM   = PfsGroup_STATUS_ARM("PFSMM")
+)
+
+// Mapping from string to PfsGroup_STATUS_ARM
+var pfsGroup_STATUS_ARM_Values = map[string]PfsGroup_STATUS_ARM{
+	"ecp256":  PfsGroup_STATUS_ARM_ECP256,
+	"ecp384":  PfsGroup_STATUS_ARM_ECP384,
+	"none":    PfsGroup_STATUS_ARM_None,
+	"pfs1":    PfsGroup_STATUS_ARM_PFS1,
+	"pfs14":   PfsGroup_STATUS_ARM_PFS14,
+	"pfs2":    PfsGroup_STATUS_ARM_PFS2,
+	"pfs2048": PfsGroup_STATUS_ARM_PFS2048,
+	"pfs24":   PfsGroup_STATUS_ARM_PFS24,
+	"pfsmm":   PfsGroup_STATUS_ARM_PFSMM,
+}
+
 // Properties of the revoked VPN client certificate of virtual network gateway.
 type VpnClientRevokedCertificatePropertiesFormat_STATUS_ARM struct {
 	// ProvisioningState: The provisioning state of the VPN client revoked certificate resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// Thumbprint: The revoked VPN client certificate thumbprint.
 	Thumbprint *string `json:"thumbprint,omitempty"`
@@ -295,7 +604,7 @@ type VpnClientRevokedCertificatePropertiesFormat_STATUS_ARM struct {
 // Properties of SSL certificates of application gateway.
 type VpnClientRootCertificatePropertiesFormat_STATUS_ARM struct {
 	// ProvisioningState: The provisioning state of the VPN client root certificate resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// PublicCertData: The certificate public data.
 	PublicCertData *string `json:"publicCertData,omitempty"`

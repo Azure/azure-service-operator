@@ -89,7 +89,7 @@ func AddIndependentPropertyGeneratorsForInboundNatRulePropertiesFormat_ARM(gens 
 	gens["EnableTcpReset"] = gen.PtrOf(gen.Bool())
 	gens["FrontendPort"] = gen.PtrOf(gen.Int())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(TransportProtocol_All, TransportProtocol_Tcp, TransportProtocol_Udp))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(TransportProtocol_ARM_All, TransportProtocol_ARM_Tcp, TransportProtocol_ARM_Udp))
 }
 
 // AddRelatedPropertyGeneratorsForInboundNatRulePropertiesFormat_ARM is a factory method for creating gopter generators

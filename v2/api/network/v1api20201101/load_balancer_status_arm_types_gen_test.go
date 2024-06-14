@@ -86,10 +86,10 @@ func BackendAddressPoolPropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_
 // AddIndependentPropertyGeneratorsForBackendAddressPoolPropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBackendAddressPoolPropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM(gens map[string]gopter.Gen) {
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_STATUS_Deleting,
-		ProvisioningState_STATUS_Failed,
-		ProvisioningState_STATUS_Succeeded,
-		ProvisioningState_STATUS_Updating))
+		ProvisioningState_STATUS_ARM_Deleting,
+		ProvisioningState_STATUS_ARM_Failed,
+		ProvisioningState_STATUS_ARM_Succeeded,
+		ProvisioningState_STATUS_ARM_Updating))
 }
 
 // AddRelatedPropertyGeneratorsForBackendAddressPoolPropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM is a factory method for creating gopter generators
@@ -238,7 +238,7 @@ func ExtendedLocation_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForExtendedLocation_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForExtendedLocation_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_STATUS_EdgeZone))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_STATUS_ARM_EdgeZone))
 }
 
 func Test_FrontendIPConfigurationPropertiesFormat_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -309,13 +309,13 @@ func FrontendIPConfigurationPropertiesFormat_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForFrontendIPConfigurationPropertiesFormat_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFrontendIPConfigurationPropertiesFormat_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["PrivateIPAddress"] = gen.PtrOf(gen.AlphaString())
-	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(IPVersion_STATUS_IPv4, IPVersion_STATUS_IPv6))
-	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_STATUS_Dynamic, IPAllocationMethod_STATUS_Static))
+	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(IPVersion_STATUS_ARM_IPv4, IPVersion_STATUS_ARM_IPv6))
+	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_STATUS_ARM_Dynamic, IPAllocationMethod_STATUS_ARM_Static))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_STATUS_Deleting,
-		ProvisioningState_STATUS_Failed,
-		ProvisioningState_STATUS_Succeeded,
-		ProvisioningState_STATUS_Updating))
+		ProvisioningState_STATUS_ARM_Deleting,
+		ProvisioningState_STATUS_ARM_Failed,
+		ProvisioningState_STATUS_ARM_Succeeded,
+		ProvisioningState_STATUS_ARM_Updating))
 }
 
 // AddRelatedPropertyGeneratorsForFrontendIPConfigurationPropertiesFormat_STATUS_ARM is a factory method for creating gopter generators
@@ -481,12 +481,12 @@ func AddIndependentPropertyGeneratorsForInboundNatPoolPropertiesFormat_STATUS_AR
 	gens["FrontendPortRangeEnd"] = gen.PtrOf(gen.Int())
 	gens["FrontendPortRangeStart"] = gen.PtrOf(gen.Int())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(TransportProtocol_STATUS_All, TransportProtocol_STATUS_Tcp, TransportProtocol_STATUS_Udp))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(TransportProtocol_STATUS_ARM_All, TransportProtocol_STATUS_ARM_Tcp, TransportProtocol_STATUS_ARM_Udp))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_STATUS_Deleting,
-		ProvisioningState_STATUS_Failed,
-		ProvisioningState_STATUS_Succeeded,
-		ProvisioningState_STATUS_Updating))
+		ProvisioningState_STATUS_ARM_Deleting,
+		ProvisioningState_STATUS_ARM_Failed,
+		ProvisioningState_STATUS_ARM_Succeeded,
+		ProvisioningState_STATUS_ARM_Updating))
 }
 
 // AddRelatedPropertyGeneratorsForInboundNatPoolPropertiesFormat_STATUS_ARM is a factory method for creating gopter generators
@@ -644,12 +644,12 @@ func AddIndependentPropertyGeneratorsForInboundNatRulePropertiesFormat_STATUS_Lo
 	gens["EnableTcpReset"] = gen.PtrOf(gen.Bool())
 	gens["FrontendPort"] = gen.PtrOf(gen.Int())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(TransportProtocol_STATUS_All, TransportProtocol_STATUS_Tcp, TransportProtocol_STATUS_Udp))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(TransportProtocol_STATUS_ARM_All, TransportProtocol_STATUS_ARM_Tcp, TransportProtocol_STATUS_ARM_Udp))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_STATUS_Deleting,
-		ProvisioningState_STATUS_Failed,
-		ProvisioningState_STATUS_Succeeded,
-		ProvisioningState_STATUS_Updating))
+		ProvisioningState_STATUS_ARM_Deleting,
+		ProvisioningState_STATUS_ARM_Failed,
+		ProvisioningState_STATUS_ARM_Succeeded,
+		ProvisioningState_STATUS_ARM_Updating))
 }
 
 // AddRelatedPropertyGeneratorsForInboundNatRulePropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM is a factory method for creating gopter generators
@@ -957,10 +957,10 @@ func LoadBalancerPropertiesFormat_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForLoadBalancerPropertiesFormat_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLoadBalancerPropertiesFormat_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_STATUS_Deleting,
-		ProvisioningState_STATUS_Failed,
-		ProvisioningState_STATUS_Succeeded,
-		ProvisioningState_STATUS_Updating))
+		ProvisioningState_STATUS_ARM_Deleting,
+		ProvisioningState_STATUS_ARM_Failed,
+		ProvisioningState_STATUS_ARM_Succeeded,
+		ProvisioningState_STATUS_ARM_Updating))
 	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1033,8 +1033,8 @@ func LoadBalancerSku_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForLoadBalancerSku_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLoadBalancerSku_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(LoadBalancerSku_Name_STATUS_Basic, LoadBalancerSku_Name_STATUS_Standard))
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(LoadBalancerSku_Tier_STATUS_Global, LoadBalancerSku_Tier_STATUS_Regional))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(LoadBalancerSku_Name_STATUS_ARM_Basic, LoadBalancerSku_Name_STATUS_ARM_Standard))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(LoadBalancerSku_Tier_STATUS_ARM_Global, LoadBalancerSku_Tier_STATUS_ARM_Regional))
 }
 
 func Test_LoadBalancer_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1194,13 +1194,13 @@ func AddIndependentPropertyGeneratorsForLoadBalancingRulePropertiesFormat_STATUS
 	gens["EnableTcpReset"] = gen.PtrOf(gen.Bool())
 	gens["FrontendPort"] = gen.PtrOf(gen.Int())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
-	gens["LoadDistribution"] = gen.PtrOf(gen.OneConstOf(LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS_Default, LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS_SourceIP, LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS_SourceIPProtocol))
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(TransportProtocol_STATUS_All, TransportProtocol_STATUS_Tcp, TransportProtocol_STATUS_Udp))
+	gens["LoadDistribution"] = gen.PtrOf(gen.OneConstOf(LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS_ARM_Default, LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS_ARM_SourceIP, LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS_ARM_SourceIPProtocol))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(TransportProtocol_STATUS_ARM_All, TransportProtocol_STATUS_ARM_Tcp, TransportProtocol_STATUS_ARM_Udp))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_STATUS_Deleting,
-		ProvisioningState_STATUS_Failed,
-		ProvisioningState_STATUS_Succeeded,
-		ProvisioningState_STATUS_Updating))
+		ProvisioningState_STATUS_ARM_Deleting,
+		ProvisioningState_STATUS_ARM_Failed,
+		ProvisioningState_STATUS_ARM_Succeeded,
+		ProvisioningState_STATUS_ARM_Updating))
 }
 
 // AddRelatedPropertyGeneratorsForLoadBalancingRulePropertiesFormat_STATUS_ARM is a factory method for creating gopter generators
@@ -1419,12 +1419,12 @@ func AddIndependentPropertyGeneratorsForOutboundRulePropertiesFormat_STATUS_ARM(
 	gens["AllocatedOutboundPorts"] = gen.PtrOf(gen.Int())
 	gens["EnableTcpReset"] = gen.PtrOf(gen.Bool())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(OutboundRulePropertiesFormat_Protocol_STATUS_All, OutboundRulePropertiesFormat_Protocol_STATUS_Tcp, OutboundRulePropertiesFormat_Protocol_STATUS_Udp))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(OutboundRulePropertiesFormat_Protocol_STATUS_ARM_All, OutboundRulePropertiesFormat_Protocol_STATUS_ARM_Tcp, OutboundRulePropertiesFormat_Protocol_STATUS_ARM_Udp))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_STATUS_Deleting,
-		ProvisioningState_STATUS_Failed,
-		ProvisioningState_STATUS_Succeeded,
-		ProvisioningState_STATUS_Updating))
+		ProvisioningState_STATUS_ARM_Deleting,
+		ProvisioningState_STATUS_ARM_Failed,
+		ProvisioningState_STATUS_ARM_Succeeded,
+		ProvisioningState_STATUS_ARM_Updating))
 }
 
 // AddRelatedPropertyGeneratorsForOutboundRulePropertiesFormat_STATUS_ARM is a factory method for creating gopter generators
@@ -1581,12 +1581,12 @@ func AddIndependentPropertyGeneratorsForProbePropertiesFormat_STATUS_ARM(gens ma
 	gens["IntervalInSeconds"] = gen.PtrOf(gen.Int())
 	gens["NumberOfProbes"] = gen.PtrOf(gen.Int())
 	gens["Port"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(ProbePropertiesFormat_Protocol_STATUS_Http, ProbePropertiesFormat_Protocol_STATUS_Https, ProbePropertiesFormat_Protocol_STATUS_Tcp))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(ProbePropertiesFormat_Protocol_STATUS_ARM_Http, ProbePropertiesFormat_Protocol_STATUS_ARM_Https, ProbePropertiesFormat_Protocol_STATUS_ARM_Tcp))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_STATUS_Deleting,
-		ProvisioningState_STATUS_Failed,
-		ProvisioningState_STATUS_Succeeded,
-		ProvisioningState_STATUS_Updating))
+		ProvisioningState_STATUS_ARM_Deleting,
+		ProvisioningState_STATUS_ARM_Failed,
+		ProvisioningState_STATUS_ARM_Succeeded,
+		ProvisioningState_STATUS_ARM_Updating))
 	gens["RequestPath"] = gen.PtrOf(gen.AlphaString())
 }
 

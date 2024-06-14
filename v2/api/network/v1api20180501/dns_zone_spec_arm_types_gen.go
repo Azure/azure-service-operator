@@ -45,10 +45,24 @@ type ZoneProperties_ARM struct {
 	ResolutionVirtualNetworks []SubResource_ARM `json:"resolutionVirtualNetworks,omitempty"`
 
 	// ZoneType: The type of this DNS zone (Public or Private).
-	ZoneType *ZoneProperties_ZoneType `json:"zoneType,omitempty"`
+	ZoneType *ZoneProperties_ZoneType_ARM `json:"zoneType,omitempty"`
 }
 
 // A reference to a another resource
 type SubResource_ARM struct {
 	Id *string `json:"id,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Private","Public"}
+type ZoneProperties_ZoneType_ARM string
+
+const (
+	ZoneProperties_ZoneType_ARM_Private = ZoneProperties_ZoneType_ARM("Private")
+	ZoneProperties_ZoneType_ARM_Public  = ZoneProperties_ZoneType_ARM("Public")
+)
+
+// Mapping from string to ZoneProperties_ZoneType_ARM
+var zoneProperties_ZoneType_ARM_Values = map[string]ZoneProperties_ZoneType_ARM{
+	"private": ZoneProperties_ZoneType_ARM_Private,
+	"public":  ZoneProperties_ZoneType_ARM_Public,
 }

@@ -30,11 +30,38 @@ type ScheduleEntries_STATUS_ARM struct {
 // Patch schedule entry for a Premium Redis Cache.
 type ScheduleEntry_STATUS_ARM struct {
 	// DayOfWeek: Day of the week when a cache can be patched.
-	DayOfWeek *ScheduleEntry_DayOfWeek_STATUS `json:"dayOfWeek,omitempty"`
+	DayOfWeek *ScheduleEntry_DayOfWeek_STATUS_ARM `json:"dayOfWeek,omitempty"`
 
 	// MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can take.
 	MaintenanceWindow *string `json:"maintenanceWindow,omitempty"`
 
 	// StartHourUtc: Start hour after which cache patching can start.
 	StartHourUtc *int `json:"startHourUtc,omitempty"`
+}
+
+type ScheduleEntry_DayOfWeek_STATUS_ARM string
+
+const (
+	ScheduleEntry_DayOfWeek_STATUS_ARM_Everyday  = ScheduleEntry_DayOfWeek_STATUS_ARM("Everyday")
+	ScheduleEntry_DayOfWeek_STATUS_ARM_Friday    = ScheduleEntry_DayOfWeek_STATUS_ARM("Friday")
+	ScheduleEntry_DayOfWeek_STATUS_ARM_Monday    = ScheduleEntry_DayOfWeek_STATUS_ARM("Monday")
+	ScheduleEntry_DayOfWeek_STATUS_ARM_Saturday  = ScheduleEntry_DayOfWeek_STATUS_ARM("Saturday")
+	ScheduleEntry_DayOfWeek_STATUS_ARM_Sunday    = ScheduleEntry_DayOfWeek_STATUS_ARM("Sunday")
+	ScheduleEntry_DayOfWeek_STATUS_ARM_Thursday  = ScheduleEntry_DayOfWeek_STATUS_ARM("Thursday")
+	ScheduleEntry_DayOfWeek_STATUS_ARM_Tuesday   = ScheduleEntry_DayOfWeek_STATUS_ARM("Tuesday")
+	ScheduleEntry_DayOfWeek_STATUS_ARM_Wednesday = ScheduleEntry_DayOfWeek_STATUS_ARM("Wednesday")
+	ScheduleEntry_DayOfWeek_STATUS_ARM_Weekend   = ScheduleEntry_DayOfWeek_STATUS_ARM("Weekend")
+)
+
+// Mapping from string to ScheduleEntry_DayOfWeek_STATUS_ARM
+var scheduleEntry_DayOfWeek_STATUS_ARM_Values = map[string]ScheduleEntry_DayOfWeek_STATUS_ARM{
+	"everyday":  ScheduleEntry_DayOfWeek_STATUS_ARM_Everyday,
+	"friday":    ScheduleEntry_DayOfWeek_STATUS_ARM_Friday,
+	"monday":    ScheduleEntry_DayOfWeek_STATUS_ARM_Monday,
+	"saturday":  ScheduleEntry_DayOfWeek_STATUS_ARM_Saturday,
+	"sunday":    ScheduleEntry_DayOfWeek_STATUS_ARM_Sunday,
+	"thursday":  ScheduleEntry_DayOfWeek_STATUS_ARM_Thursday,
+	"tuesday":   ScheduleEntry_DayOfWeek_STATUS_ARM_Tuesday,
+	"wednesday": ScheduleEntry_DayOfWeek_STATUS_ARM_Wednesday,
+	"weekend":   ScheduleEntry_DayOfWeek_STATUS_ARM_Weekend,
 }

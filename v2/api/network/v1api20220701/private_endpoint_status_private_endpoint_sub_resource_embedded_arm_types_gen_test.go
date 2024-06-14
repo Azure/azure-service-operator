@@ -199,7 +199,7 @@ func ExtendedLocation_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForExtendedLocation_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForExtendedLocation_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_STATUS_EdgeZone))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_STATUS_ARM_EdgeZone))
 }
 
 func Test_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -472,10 +472,10 @@ func PrivateEndpointProperties_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForPrivateEndpointProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["CustomNetworkInterfaceName"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ApplicationGatewayProvisioningState_STATUS_Deleting,
-		ApplicationGatewayProvisioningState_STATUS_Failed,
-		ApplicationGatewayProvisioningState_STATUS_Succeeded,
-		ApplicationGatewayProvisioningState_STATUS_Updating))
+		ApplicationGatewayProvisioningState_STATUS_ARM_Deleting,
+		ApplicationGatewayProvisioningState_STATUS_ARM_Failed,
+		ApplicationGatewayProvisioningState_STATUS_ARM_Succeeded,
+		ApplicationGatewayProvisioningState_STATUS_ARM_Updating))
 }
 
 // AddRelatedPropertyGeneratorsForPrivateEndpointProperties_STATUS_ARM is a factory method for creating gopter generators
@@ -642,10 +642,10 @@ func AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionProperties_S
 	gens["GroupIds"] = gen.SliceOf(gen.AlphaString())
 	gens["PrivateLinkServiceId"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ApplicationGatewayProvisioningState_STATUS_Deleting,
-		ApplicationGatewayProvisioningState_STATUS_Failed,
-		ApplicationGatewayProvisioningState_STATUS_Succeeded,
-		ApplicationGatewayProvisioningState_STATUS_Updating))
+		ApplicationGatewayProvisioningState_STATUS_ARM_Deleting,
+		ApplicationGatewayProvisioningState_STATUS_ARM_Failed,
+		ApplicationGatewayProvisioningState_STATUS_ARM_Succeeded,
+		ApplicationGatewayProvisioningState_STATUS_ARM_Updating))
 	gens["RequestMessage"] = gen.PtrOf(gen.AlphaString())
 }
 

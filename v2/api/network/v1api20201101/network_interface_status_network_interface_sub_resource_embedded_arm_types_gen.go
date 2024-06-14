@@ -54,13 +54,13 @@ type NetworkInterfacePropertiesFormat_STATUS_ARM struct {
 	MacAddress *string `json:"macAddress,omitempty"`
 
 	// MigrationPhase: Migration phase of Network Interface resource.
-	MigrationPhase *NetworkInterfacePropertiesFormat_MigrationPhase_STATUS `json:"migrationPhase,omitempty"`
+	MigrationPhase *NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_ARM `json:"migrationPhase,omitempty"`
 
 	// NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.
 	NetworkSecurityGroup *NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded_ARM `json:"networkSecurityGroup,omitempty"`
 
 	// NicType: Type of Network Interface resource.
-	NicType *NetworkInterfacePropertiesFormat_NicType_STATUS `json:"nicType,omitempty"`
+	NicType *NetworkInterfacePropertiesFormat_NicType_STATUS_ARM `json:"nicType,omitempty"`
 
 	// Primary: Whether this is a primary network interface on a virtual machine.
 	Primary *bool `json:"primary,omitempty"`
@@ -72,7 +72,7 @@ type NetworkInterfacePropertiesFormat_STATUS_ARM struct {
 	PrivateLinkService *PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded_ARM `json:"privateLinkService,omitempty"`
 
 	// ProvisioningState: The provisioning state of the network interface resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// ResourceGuid: The resource GUID property of the network interface resource.
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
@@ -125,6 +125,38 @@ type NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
 	Type *string `json:"type,omitempty"`
 }
 
+type NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_ARM string
+
+const (
+	NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_ARM_Abort     = NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_ARM("Abort")
+	NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_ARM_Commit    = NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_ARM("Commit")
+	NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_ARM_Committed = NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_ARM("Committed")
+	NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_ARM_None      = NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_ARM("None")
+	NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_ARM_Prepare   = NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_ARM("Prepare")
+)
+
+// Mapping from string to NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_ARM
+var networkInterfacePropertiesFormat_MigrationPhase_STATUS_ARM_Values = map[string]NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_ARM{
+	"abort":     NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_ARM_Abort,
+	"commit":    NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_ARM_Commit,
+	"committed": NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_ARM_Committed,
+	"none":      NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_ARM_None,
+	"prepare":   NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_ARM_Prepare,
+}
+
+type NetworkInterfacePropertiesFormat_NicType_STATUS_ARM string
+
+const (
+	NetworkInterfacePropertiesFormat_NicType_STATUS_ARM_Elastic  = NetworkInterfacePropertiesFormat_NicType_STATUS_ARM("Elastic")
+	NetworkInterfacePropertiesFormat_NicType_STATUS_ARM_Standard = NetworkInterfacePropertiesFormat_NicType_STATUS_ARM("Standard")
+)
+
+// Mapping from string to NetworkInterfacePropertiesFormat_NicType_STATUS_ARM
+var networkInterfacePropertiesFormat_NicType_STATUS_ARM_Values = map[string]NetworkInterfacePropertiesFormat_NicType_STATUS_ARM{
+	"elastic":  NetworkInterfacePropertiesFormat_NicType_STATUS_ARM_Elastic,
+	"standard": NetworkInterfacePropertiesFormat_NicType_STATUS_ARM_Standard,
+}
+
 // Tap configuration in a Network Interface.
 type NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded_ARM struct {
 	// Id: Resource ID.
@@ -170,16 +202,16 @@ type NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM struct {
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
 
 	// PrivateIPAddressVersion: Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4.
-	PrivateIPAddressVersion *IPVersion_STATUS `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAddressVersion *IPVersion_STATUS_ARM `json:"privateIPAddressVersion,omitempty"`
 
 	// PrivateIPAllocationMethod: The private IP address allocation method.
-	PrivateIPAllocationMethod *IPAllocationMethod_STATUS `json:"privateIPAllocationMethod,omitempty"`
+	PrivateIPAllocationMethod *IPAllocationMethod_STATUS_ARM `json:"privateIPAllocationMethod,omitempty"`
 
 	// PrivateLinkConnectionProperties: PrivateLinkConnection properties for the network interface.
 	PrivateLinkConnectionProperties *NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS_ARM `json:"privateLinkConnectionProperties,omitempty"`
 
 	// ProvisioningState: The provisioning state of the network interface IP configuration.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// PublicIPAddress: Public IP address bound to the IP configuration.
 	PublicIPAddress *PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded_ARM `json:"publicIPAddress,omitempty"`

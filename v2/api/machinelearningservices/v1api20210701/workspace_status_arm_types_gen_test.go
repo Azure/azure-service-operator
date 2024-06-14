@@ -145,7 +145,7 @@ func EncryptionProperty_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEncryptionProperty_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryptionProperty_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(EncryptionProperty_Status_STATUS_Disabled, EncryptionProperty_Status_STATUS_Enabled))
+	gens["Status"] = gen.PtrOf(gen.OneConstOf(EncryptionProperty_Status_STATUS_ARM_Disabled, EncryptionProperty_Status_STATUS_ARM_Enabled))
 }
 
 // AddRelatedPropertyGeneratorsForEncryptionProperty_STATUS_ARM is a factory method for creating gopter generators
@@ -285,10 +285,10 @@ func AddIndependentPropertyGeneratorsForIdentity_STATUS_ARM(gens map[string]gopt
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		Identity_Type_STATUS_None,
-		Identity_Type_STATUS_SystemAssigned,
-		Identity_Type_STATUS_SystemAssignedUserAssigned,
-		Identity_Type_STATUS_UserAssigned))
+		Identity_Type_STATUS_ARM_None,
+		Identity_Type_STATUS_ARM_SystemAssigned,
+		Identity_Type_STATUS_ARM_SystemAssignedUserAssigned,
+		Identity_Type_STATUS_ARM_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForIdentity_STATUS_ARM is a factory method for creating gopter generators
@@ -683,11 +683,11 @@ func AddIndependentPropertyGeneratorsForSharedPrivateLinkResourceProperty_STATUS
 	gens["PrivateLinkResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["RequestMessage"] = gen.PtrOf(gen.AlphaString())
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		PrivateEndpointServiceConnectionStatus_STATUS_Approved,
-		PrivateEndpointServiceConnectionStatus_STATUS_Disconnected,
-		PrivateEndpointServiceConnectionStatus_STATUS_Pending,
-		PrivateEndpointServiceConnectionStatus_STATUS_Rejected,
-		PrivateEndpointServiceConnectionStatus_STATUS_Timeout))
+		PrivateEndpointServiceConnectionStatus_STATUS_ARM_Approved,
+		PrivateEndpointServiceConnectionStatus_STATUS_ARM_Disconnected,
+		PrivateEndpointServiceConnectionStatus_STATUS_ARM_Pending,
+		PrivateEndpointServiceConnectionStatus_STATUS_ARM_Rejected,
+		PrivateEndpointServiceConnectionStatus_STATUS_ARM_Timeout))
 }
 
 func Test_SharedPrivateLinkResource_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -887,17 +887,17 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS_ARM(gens map[string]go
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_STATUS_Application,
-		SystemData_CreatedByType_STATUS_Key,
-		SystemData_CreatedByType_STATUS_ManagedIdentity,
-		SystemData_CreatedByType_STATUS_User))
+		SystemData_CreatedByType_STATUS_ARM_Application,
+		SystemData_CreatedByType_STATUS_ARM_Key,
+		SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
+		SystemData_CreatedByType_STATUS_ARM_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_STATUS_Application,
-		SystemData_LastModifiedByType_STATUS_Key,
-		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-		SystemData_LastModifiedByType_STATUS_User))
+		SystemData_LastModifiedByType_STATUS_ARM_Application,
+		SystemData_LastModifiedByType_STATUS_ARM_Key,
+		SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
+		SystemData_LastModifiedByType_STATUS_ARM_User))
 }
 
 func Test_UserAssignedIdentity_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1043,14 +1043,14 @@ func AddIndependentPropertyGeneratorsForWorkspaceProperties_STATUS_ARM(gens map[
 	gens["PrimaryUserAssignedIdentity"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateLinkCount"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		WorkspaceProperties_ProvisioningState_STATUS_Canceled,
-		WorkspaceProperties_ProvisioningState_STATUS_Creating,
-		WorkspaceProperties_ProvisioningState_STATUS_Deleting,
-		WorkspaceProperties_ProvisioningState_STATUS_Failed,
-		WorkspaceProperties_ProvisioningState_STATUS_Succeeded,
-		WorkspaceProperties_ProvisioningState_STATUS_Unknown,
-		WorkspaceProperties_ProvisioningState_STATUS_Updating))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(WorkspaceProperties_PublicNetworkAccess_STATUS_Disabled, WorkspaceProperties_PublicNetworkAccess_STATUS_Enabled))
+		WorkspaceProperties_ProvisioningState_STATUS_ARM_Canceled,
+		WorkspaceProperties_ProvisioningState_STATUS_ARM_Creating,
+		WorkspaceProperties_ProvisioningState_STATUS_ARM_Deleting,
+		WorkspaceProperties_ProvisioningState_STATUS_ARM_Failed,
+		WorkspaceProperties_ProvisioningState_STATUS_ARM_Succeeded,
+		WorkspaceProperties_ProvisioningState_STATUS_ARM_Unknown,
+		WorkspaceProperties_ProvisioningState_STATUS_ARM_Updating))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(WorkspaceProperties_PublicNetworkAccess_STATUS_ARM_Disabled, WorkspaceProperties_PublicNetworkAccess_STATUS_ARM_Enabled))
 	gens["ServiceProvisionedResourceGroup"] = gen.PtrOf(gen.AlphaString())
 	gens["StorageAccount"] = gen.PtrOf(gen.AlphaString())
 	gens["StorageHnsEnabled"] = gen.PtrOf(gen.Bool())

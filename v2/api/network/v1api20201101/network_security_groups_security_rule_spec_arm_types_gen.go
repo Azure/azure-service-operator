@@ -33,7 +33,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec_ARM) GetType() string {
 // Security rule resource.
 type SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM struct {
 	// Access: The network traffic is allowed or denied.
-	Access *SecurityRuleAccess `json:"access,omitempty"`
+	Access *SecurityRuleAccess_ARM `json:"access,omitempty"`
 
 	// Description: A description for this rule. Restricted to 140 chars.
 	Description *string `json:"description,omitempty"`
@@ -56,14 +56,14 @@ type SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResource
 	DestinationPortRanges []string `json:"destinationPortRanges,omitempty"`
 
 	// Direction: The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.
-	Direction *SecurityRuleDirection `json:"direction,omitempty"`
+	Direction *SecurityRuleDirection_ARM `json:"direction,omitempty"`
 
 	// Priority: The priority of the rule. The value can be between 100 and 4096. The priority number must be unique for each
 	// rule in the collection. The lower the priority number, the higher the priority of the rule.
 	Priority *int `json:"priority,omitempty"`
 
 	// Protocol: Network protocol this rule applies to.
-	Protocol *SecurityRulePropertiesFormat_Protocol `json:"protocol,omitempty"`
+	Protocol *SecurityRulePropertiesFormat_Protocol_ARM `json:"protocol,omitempty"`
 
 	// SourceAddressPrefix: The CIDR or source IP range. Asterisk '*' can also be used to match all source IPs. Default tags
 	// such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used. If this is an ingress rule, specifies
@@ -87,4 +87,56 @@ type SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResource
 // An application security group in a resource group.
 type ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
+}
+
+// Whether network traffic is allowed or denied.
+// +kubebuilder:validation:Enum={"Allow","Deny"}
+type SecurityRuleAccess_ARM string
+
+const (
+	SecurityRuleAccess_ARM_Allow = SecurityRuleAccess_ARM("Allow")
+	SecurityRuleAccess_ARM_Deny  = SecurityRuleAccess_ARM("Deny")
+)
+
+// Mapping from string to SecurityRuleAccess_ARM
+var securityRuleAccess_ARM_Values = map[string]SecurityRuleAccess_ARM{
+	"allow": SecurityRuleAccess_ARM_Allow,
+	"deny":  SecurityRuleAccess_ARM_Deny,
+}
+
+// The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.
+// +kubebuilder:validation:Enum={"Inbound","Outbound"}
+type SecurityRuleDirection_ARM string
+
+const (
+	SecurityRuleDirection_ARM_Inbound  = SecurityRuleDirection_ARM("Inbound")
+	SecurityRuleDirection_ARM_Outbound = SecurityRuleDirection_ARM("Outbound")
+)
+
+// Mapping from string to SecurityRuleDirection_ARM
+var securityRuleDirection_ARM_Values = map[string]SecurityRuleDirection_ARM{
+	"inbound":  SecurityRuleDirection_ARM_Inbound,
+	"outbound": SecurityRuleDirection_ARM_Outbound,
+}
+
+// +kubebuilder:validation:Enum={"Ah","Esp","Icmp","*","Tcp","Udp"}
+type SecurityRulePropertiesFormat_Protocol_ARM string
+
+const (
+	SecurityRulePropertiesFormat_Protocol_ARM_Ah   = SecurityRulePropertiesFormat_Protocol_ARM("Ah")
+	SecurityRulePropertiesFormat_Protocol_ARM_Esp  = SecurityRulePropertiesFormat_Protocol_ARM("Esp")
+	SecurityRulePropertiesFormat_Protocol_ARM_Icmp = SecurityRulePropertiesFormat_Protocol_ARM("Icmp")
+	SecurityRulePropertiesFormat_Protocol_ARM_Star = SecurityRulePropertiesFormat_Protocol_ARM("*")
+	SecurityRulePropertiesFormat_Protocol_ARM_Tcp  = SecurityRulePropertiesFormat_Protocol_ARM("Tcp")
+	SecurityRulePropertiesFormat_Protocol_ARM_Udp  = SecurityRulePropertiesFormat_Protocol_ARM("Udp")
+)
+
+// Mapping from string to SecurityRulePropertiesFormat_Protocol_ARM
+var securityRulePropertiesFormat_Protocol_ARM_Values = map[string]SecurityRulePropertiesFormat_Protocol_ARM{
+	"ah":   SecurityRulePropertiesFormat_Protocol_ARM_Ah,
+	"esp":  SecurityRulePropertiesFormat_Protocol_ARM_Esp,
+	"icmp": SecurityRulePropertiesFormat_Protocol_ARM_Icmp,
+	"*":    SecurityRulePropertiesFormat_Protocol_ARM_Star,
+	"tcp":  SecurityRulePropertiesFormat_Protocol_ARM_Tcp,
+	"udp":  SecurityRulePropertiesFormat_Protocol_ARM_Udp,
 }

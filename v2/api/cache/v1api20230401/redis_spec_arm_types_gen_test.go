@@ -85,10 +85,10 @@ func ManagedServiceIdentity_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForManagedServiceIdentity_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedServiceIdentity_ARM(gens map[string]gopter.Gen) {
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ManagedServiceIdentityType_None,
-		ManagedServiceIdentityType_SystemAssigned,
-		ManagedServiceIdentityType_SystemAssignedUserAssigned,
-		ManagedServiceIdentityType_UserAssigned))
+		ManagedServiceIdentityType_ARM_None,
+		ManagedServiceIdentityType_ARM_SystemAssigned,
+		ManagedServiceIdentityType_ARM_SystemAssignedUserAssigned,
+		ManagedServiceIdentityType_ARM_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForManagedServiceIdentity_ARM is a factory method for creating gopter generators
@@ -166,8 +166,8 @@ func RedisCreateProperties_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForRedisCreateProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRedisCreateProperties_ARM(gens map[string]gopter.Gen) {
 	gens["EnableNonSslPort"] = gen.PtrOf(gen.Bool())
-	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(RedisCreateProperties_MinimumTlsVersion_10, RedisCreateProperties_MinimumTlsVersion_11, RedisCreateProperties_MinimumTlsVersion_12))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(RedisCreateProperties_PublicNetworkAccess_Disabled, RedisCreateProperties_PublicNetworkAccess_Enabled))
+	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(RedisCreateProperties_MinimumTlsVersion_ARM_10, RedisCreateProperties_MinimumTlsVersion_ARM_11, RedisCreateProperties_MinimumTlsVersion_ARM_12))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(RedisCreateProperties_PublicNetworkAccess_ARM_Disabled, RedisCreateProperties_PublicNetworkAccess_ARM_Enabled))
 	gens["RedisVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["ReplicasPerMaster"] = gen.PtrOf(gen.Int())
 	gens["ReplicasPerPrimary"] = gen.PtrOf(gen.Int())
@@ -397,8 +397,8 @@ func Sku_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSku_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSku_ARM(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
-	gens["Family"] = gen.PtrOf(gen.OneConstOf(Sku_Family_C, Sku_Family_P))
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(Sku_Name_Basic, Sku_Name_Premium, Sku_Name_Standard))
+	gens["Family"] = gen.PtrOf(gen.OneConstOf(Sku_Family_ARM_C, Sku_Family_ARM_P))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(Sku_Name_ARM_Basic, Sku_Name_ARM_Premium, Sku_Name_ARM_Standard))
 }
 
 func Test_UserAssignedIdentityDetails_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

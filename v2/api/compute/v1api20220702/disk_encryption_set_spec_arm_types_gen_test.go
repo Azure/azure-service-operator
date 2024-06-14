@@ -165,10 +165,10 @@ func EncryptionSetIdentity_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForEncryptionSetIdentity_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryptionSetIdentity_ARM(gens map[string]gopter.Gen) {
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		EncryptionSetIdentity_Type_None,
-		EncryptionSetIdentity_Type_SystemAssigned,
-		EncryptionSetIdentity_Type_SystemAssignedUserAssigned,
-		EncryptionSetIdentity_Type_UserAssigned))
+		EncryptionSetIdentity_Type_ARM_None,
+		EncryptionSetIdentity_Type_ARM_SystemAssigned,
+		EncryptionSetIdentity_Type_ARM_SystemAssignedUserAssigned,
+		EncryptionSetIdentity_Type_ARM_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForEncryptionSetIdentity_ARM is a factory method for creating gopter generators
@@ -245,7 +245,7 @@ func EncryptionSetProperties_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEncryptionSetProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryptionSetProperties_ARM(gens map[string]gopter.Gen) {
-	gens["EncryptionType"] = gen.PtrOf(gen.OneConstOf(DiskEncryptionSetType_ConfidentialVmEncryptedWithCustomerKey, DiskEncryptionSetType_EncryptionAtRestWithCustomerKey, DiskEncryptionSetType_EncryptionAtRestWithPlatformAndCustomerKeys))
+	gens["EncryptionType"] = gen.PtrOf(gen.OneConstOf(DiskEncryptionSetType_ARM_ConfidentialVmEncryptedWithCustomerKey, DiskEncryptionSetType_ARM_EncryptionAtRestWithCustomerKey, DiskEncryptionSetType_ARM_EncryptionAtRestWithPlatformAndCustomerKeys))
 	gens["FederatedClientId"] = gen.PtrOf(gen.AlphaString())
 	gens["RotationToLatestKeyVersionEnabled"] = gen.PtrOf(gen.Bool())
 }

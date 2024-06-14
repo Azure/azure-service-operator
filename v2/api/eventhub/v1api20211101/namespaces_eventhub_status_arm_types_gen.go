@@ -41,7 +41,7 @@ type Namespaces_Eventhub_Properties_STATUS_ARM struct {
 	PartitionIds []string `json:"partitionIds,omitempty"`
 
 	// Status: Enumerates the possible values for the status of the Event Hub.
-	Status *Namespaces_Eventhub_Properties_Status_STATUS `json:"status,omitempty"`
+	Status *Namespaces_Eventhub_Properties_Status_STATUS_ARM `json:"status,omitempty"`
 
 	// UpdatedAt: The exact time the message was updated.
 	UpdatedAt *string `json:"updatedAt,omitempty"`
@@ -57,7 +57,7 @@ type CaptureDescription_STATUS_ARM struct {
 
 	// Encoding: Enumerates the possible values for the encoding format of capture description. Note: 'AvroDeflate' will be
 	// deprecated in New API Version
-	Encoding *CaptureDescription_Encoding_STATUS `json:"encoding,omitempty"`
+	Encoding *CaptureDescription_Encoding_STATUS_ARM `json:"encoding,omitempty"`
 
 	// IntervalInSeconds: The time window allows you to set the frequency with which the capture to Azure Blobs will happen,
 	// value should between 60 to 900 seconds
@@ -69,6 +69,46 @@ type CaptureDescription_STATUS_ARM struct {
 
 	// SkipEmptyArchives: A value that indicates whether to Skip Empty Archives
 	SkipEmptyArchives *bool `json:"skipEmptyArchives,omitempty"`
+}
+
+type Namespaces_Eventhub_Properties_Status_STATUS_ARM string
+
+const (
+	Namespaces_Eventhub_Properties_Status_STATUS_ARM_Active          = Namespaces_Eventhub_Properties_Status_STATUS_ARM("Active")
+	Namespaces_Eventhub_Properties_Status_STATUS_ARM_Creating        = Namespaces_Eventhub_Properties_Status_STATUS_ARM("Creating")
+	Namespaces_Eventhub_Properties_Status_STATUS_ARM_Deleting        = Namespaces_Eventhub_Properties_Status_STATUS_ARM("Deleting")
+	Namespaces_Eventhub_Properties_Status_STATUS_ARM_Disabled        = Namespaces_Eventhub_Properties_Status_STATUS_ARM("Disabled")
+	Namespaces_Eventhub_Properties_Status_STATUS_ARM_ReceiveDisabled = Namespaces_Eventhub_Properties_Status_STATUS_ARM("ReceiveDisabled")
+	Namespaces_Eventhub_Properties_Status_STATUS_ARM_Renaming        = Namespaces_Eventhub_Properties_Status_STATUS_ARM("Renaming")
+	Namespaces_Eventhub_Properties_Status_STATUS_ARM_Restoring       = Namespaces_Eventhub_Properties_Status_STATUS_ARM("Restoring")
+	Namespaces_Eventhub_Properties_Status_STATUS_ARM_SendDisabled    = Namespaces_Eventhub_Properties_Status_STATUS_ARM("SendDisabled")
+	Namespaces_Eventhub_Properties_Status_STATUS_ARM_Unknown         = Namespaces_Eventhub_Properties_Status_STATUS_ARM("Unknown")
+)
+
+// Mapping from string to Namespaces_Eventhub_Properties_Status_STATUS_ARM
+var namespaces_Eventhub_Properties_Status_STATUS_ARM_Values = map[string]Namespaces_Eventhub_Properties_Status_STATUS_ARM{
+	"active":          Namespaces_Eventhub_Properties_Status_STATUS_ARM_Active,
+	"creating":        Namespaces_Eventhub_Properties_Status_STATUS_ARM_Creating,
+	"deleting":        Namespaces_Eventhub_Properties_Status_STATUS_ARM_Deleting,
+	"disabled":        Namespaces_Eventhub_Properties_Status_STATUS_ARM_Disabled,
+	"receivedisabled": Namespaces_Eventhub_Properties_Status_STATUS_ARM_ReceiveDisabled,
+	"renaming":        Namespaces_Eventhub_Properties_Status_STATUS_ARM_Renaming,
+	"restoring":       Namespaces_Eventhub_Properties_Status_STATUS_ARM_Restoring,
+	"senddisabled":    Namespaces_Eventhub_Properties_Status_STATUS_ARM_SendDisabled,
+	"unknown":         Namespaces_Eventhub_Properties_Status_STATUS_ARM_Unknown,
+}
+
+type CaptureDescription_Encoding_STATUS_ARM string
+
+const (
+	CaptureDescription_Encoding_STATUS_ARM_Avro        = CaptureDescription_Encoding_STATUS_ARM("Avro")
+	CaptureDescription_Encoding_STATUS_ARM_AvroDeflate = CaptureDescription_Encoding_STATUS_ARM("AvroDeflate")
+)
+
+// Mapping from string to CaptureDescription_Encoding_STATUS_ARM
+var captureDescription_Encoding_STATUS_ARM_Values = map[string]CaptureDescription_Encoding_STATUS_ARM{
+	"avro":        CaptureDescription_Encoding_STATUS_ARM_Avro,
+	"avrodeflate": CaptureDescription_Encoding_STATUS_ARM_AvroDeflate,
 }
 
 // Capture storage details for capture description

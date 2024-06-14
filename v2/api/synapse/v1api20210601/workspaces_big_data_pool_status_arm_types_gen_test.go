@@ -217,18 +217,18 @@ func AddIndependentPropertyGeneratorsForBigDataPoolResourceProperties_STATUS_ARM
 	gens["LastSucceededTimestamp"] = gen.PtrOf(gen.AlphaString())
 	gens["NodeCount"] = gen.PtrOf(gen.Int())
 	gens["NodeSize"] = gen.PtrOf(gen.OneConstOf(
-		BigDataPoolResourceProperties_NodeSize_STATUS_Large,
-		BigDataPoolResourceProperties_NodeSize_STATUS_Medium,
-		BigDataPoolResourceProperties_NodeSize_STATUS_None,
-		BigDataPoolResourceProperties_NodeSize_STATUS_Small,
-		BigDataPoolResourceProperties_NodeSize_STATUS_XLarge,
-		BigDataPoolResourceProperties_NodeSize_STATUS_XXLarge,
-		BigDataPoolResourceProperties_NodeSize_STATUS_XXXLarge))
+		BigDataPoolResourceProperties_NodeSize_STATUS_ARM_Large,
+		BigDataPoolResourceProperties_NodeSize_STATUS_ARM_Medium,
+		BigDataPoolResourceProperties_NodeSize_STATUS_ARM_None,
+		BigDataPoolResourceProperties_NodeSize_STATUS_ARM_Small,
+		BigDataPoolResourceProperties_NodeSize_STATUS_ARM_XLarge,
+		BigDataPoolResourceProperties_NodeSize_STATUS_ARM_XXLarge,
+		BigDataPoolResourceProperties_NodeSize_STATUS_ARM_XXXLarge))
 	gens["NodeSizeFamily"] = gen.PtrOf(gen.OneConstOf(
-		BigDataPoolResourceProperties_NodeSizeFamily_STATUS_HardwareAcceleratedFPGA,
-		BigDataPoolResourceProperties_NodeSizeFamily_STATUS_HardwareAcceleratedGPU,
-		BigDataPoolResourceProperties_NodeSizeFamily_STATUS_MemoryOptimized,
-		BigDataPoolResourceProperties_NodeSizeFamily_STATUS_None))
+		BigDataPoolResourceProperties_NodeSizeFamily_STATUS_ARM_HardwareAcceleratedFPGA,
+		BigDataPoolResourceProperties_NodeSizeFamily_STATUS_ARM_HardwareAcceleratedGPU,
+		BigDataPoolResourceProperties_NodeSizeFamily_STATUS_ARM_MemoryOptimized,
+		BigDataPoolResourceProperties_NodeSizeFamily_STATUS_ARM_None))
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["SessionLevelPackagesEnabled"] = gen.PtrOf(gen.Bool())
 	gens["SparkEventsFolder"] = gen.PtrOf(gen.AlphaString())
@@ -496,7 +496,7 @@ func SparkConfigProperties_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSparkConfigProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSparkConfigProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ConfigurationType"] = gen.PtrOf(gen.OneConstOf(SparkConfigProperties_ConfigurationType_STATUS_Artifact, SparkConfigProperties_ConfigurationType_STATUS_File))
+	gens["ConfigurationType"] = gen.PtrOf(gen.OneConstOf(SparkConfigProperties_ConfigurationType_STATUS_ARM_Artifact, SparkConfigProperties_ConfigurationType_STATUS_ARM_File))
 	gens["Content"] = gen.PtrOf(gen.AlphaString())
 	gens["Filename"] = gen.PtrOf(gen.AlphaString())
 	gens["Time"] = gen.PtrOf(gen.AlphaString())

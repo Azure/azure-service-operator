@@ -420,7 +420,9 @@ func (backend *Service_Backend_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		result.Properties.Properties = &properties
 	}
 	if backend.Protocol != nil {
-		protocol := *backend.Protocol
+		var temp string
+		temp = string(*backend.Protocol)
+		protocol := BackendContractProperties_Protocol_ARM(temp)
 		result.Properties.Protocol = &protocol
 	}
 	if backend.Proxy != nil {
@@ -520,7 +522,9 @@ func (backend *Service_Backend_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
-			protocol := *typedInput.Properties.Protocol
+			var temp string
+			temp = string(*typedInput.Properties.Protocol)
+			protocol := BackendContractProperties_Protocol(temp)
 			backend.Protocol = &protocol
 		}
 	}
@@ -1117,7 +1121,9 @@ func (backend *Service_Backend_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
-			protocol := *typedInput.Properties.Protocol
+			var temp string
+			temp = string(*typedInput.Properties.Protocol)
+			protocol := BackendContractProperties_Protocol_STATUS(temp)
 			backend.Protocol = &protocol
 		}
 	}

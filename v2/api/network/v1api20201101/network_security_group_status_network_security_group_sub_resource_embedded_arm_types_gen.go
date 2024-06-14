@@ -39,7 +39,7 @@ type NetworkSecurityGroupPropertiesFormat_STATUS_ARM struct {
 	NetworkInterfaces []NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM `json:"networkInterfaces,omitempty"`
 
 	// ProvisioningState: The provisioning state of the network security group resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// ResourceGuid: The resource GUID property of the network security group resource.
 	ResourceGuid *string `json:"resourceGuid,omitempty"`

@@ -56,7 +56,7 @@ type CreateUpdateOptions_ARM struct {
 // Cosmos DB MongoDB database resource object
 type MongoDBDatabaseResource_ARM struct {
 	// CreateMode: Enum to indicate the mode of resource creation.
-	CreateMode *CreateMode `json:"createMode,omitempty"`
+	CreateMode *CreateMode_ARM `json:"createMode,omitempty"`
 
 	// Id: Name of the Cosmos DB MongoDB database
 	Id *string `json:"id,omitempty"`

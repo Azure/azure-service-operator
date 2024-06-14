@@ -147,7 +147,7 @@ func ElasticPoolProperties_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForElasticPoolProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForElasticPoolProperties_ARM(gens map[string]gopter.Gen) {
 	gens["HighAvailabilityReplicaCount"] = gen.PtrOf(gen.Int())
-	gens["LicenseType"] = gen.PtrOf(gen.OneConstOf(ElasticPoolProperties_LicenseType_BasePrice, ElasticPoolProperties_LicenseType_LicenseIncluded))
+	gens["LicenseType"] = gen.PtrOf(gen.OneConstOf(ElasticPoolProperties_LicenseType_ARM_BasePrice, ElasticPoolProperties_LicenseType_ARM_LicenseIncluded))
 	gens["MaintenanceConfigurationId"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxSizeBytes"] = gen.PtrOf(gen.Int())
 	gens["MinCapacity"] = gen.PtrOf(gen.Float64())

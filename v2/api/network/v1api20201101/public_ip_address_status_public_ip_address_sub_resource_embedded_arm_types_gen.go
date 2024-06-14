@@ -57,19 +57,19 @@ type PublicIPAddressPropertiesFormat_STATUS_ARM struct {
 	IpTags []IpTag_STATUS_ARM `json:"ipTags,omitempty"`
 
 	// MigrationPhase: Migration phase of Public IP Address.
-	MigrationPhase *PublicIPAddressPropertiesFormat_MigrationPhase_STATUS `json:"migrationPhase,omitempty"`
+	MigrationPhase *PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_ARM `json:"migrationPhase,omitempty"`
 
 	// NatGateway: The NatGateway for the Public IP address.
 	NatGateway *NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded_ARM `json:"natGateway,omitempty"`
 
 	// ProvisioningState: The provisioning state of the public IP address resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// PublicIPAddressVersion: The public IP address version.
-	PublicIPAddressVersion *IPVersion_STATUS `json:"publicIPAddressVersion,omitempty"`
+	PublicIPAddressVersion *IPVersion_STATUS_ARM `json:"publicIPAddressVersion,omitempty"`
 
 	// PublicIPAllocationMethod: The public IP address allocation method.
-	PublicIPAllocationMethod *IPAllocationMethod_STATUS `json:"publicIPAllocationMethod,omitempty"`
+	PublicIPAllocationMethod *IPAllocationMethod_STATUS_ARM `json:"publicIPAllocationMethod,omitempty"`
 
 	// PublicIPPrefix: The Public IP Prefix this Public IP Address should be allocated from.
 	PublicIPPrefix *SubResource_STATUS_ARM `json:"publicIPPrefix,omitempty"`
@@ -81,10 +81,10 @@ type PublicIPAddressPropertiesFormat_STATUS_ARM struct {
 // SKU of a public IP address.
 type PublicIPAddressSku_STATUS_ARM struct {
 	// Name: Name of a public IP address SKU.
-	Name *PublicIPAddressSku_Name_STATUS `json:"name,omitempty"`
+	Name *PublicIPAddressSku_Name_STATUS_ARM `json:"name,omitempty"`
 
 	// Tier: Tier of a public IP address SKU.
-	Tier *PublicIPAddressSku_Tier_STATUS `json:"tier,omitempty"`
+	Tier *PublicIPAddressSku_Tier_STATUS_ARM `json:"tier,omitempty"`
 }
 
 // Contains the DDoS protection settings of the public IP.
@@ -97,7 +97,21 @@ type DdosSettings_STATUS_ARM struct {
 
 	// ProtectionCoverage: The DDoS protection policy customizability of the public IP. Only standard coverage will have the
 	// ability to be customized.
-	ProtectionCoverage *DdosSettings_ProtectionCoverage_STATUS `json:"protectionCoverage,omitempty"`
+	ProtectionCoverage *DdosSettings_ProtectionCoverage_STATUS_ARM `json:"protectionCoverage,omitempty"`
+}
+
+// IP address allocation method.
+type IPAllocationMethod_STATUS_ARM string
+
+const (
+	IPAllocationMethod_STATUS_ARM_Dynamic = IPAllocationMethod_STATUS_ARM("Dynamic")
+	IPAllocationMethod_STATUS_ARM_Static  = IPAllocationMethod_STATUS_ARM("Static")
+)
+
+// Mapping from string to IPAllocationMethod_STATUS_ARM
+var iPAllocationMethod_STATUS_ARM_Values = map[string]IPAllocationMethod_STATUS_ARM{
+	"dynamic": IPAllocationMethod_STATUS_ARM_Dynamic,
+	"static":  IPAllocationMethod_STATUS_ARM_Static,
 }
 
 // IP configuration.
@@ -113,6 +127,20 @@ type IpTag_STATUS_ARM struct {
 
 	// Tag: The value of the IP tag associated with the public IP. Example: SQL.
 	Tag *string `json:"tag,omitempty"`
+}
+
+// IP address version.
+type IPVersion_STATUS_ARM string
+
+const (
+	IPVersion_STATUS_ARM_IPv4 = IPVersion_STATUS_ARM("IPv4")
+	IPVersion_STATUS_ARM_IPv6 = IPVersion_STATUS_ARM("IPv6")
+)
+
+// Mapping from string to IPVersion_STATUS_ARM
+var iPVersion_STATUS_ARM_Values = map[string]IPVersion_STATUS_ARM{
+	"ipv4": IPVersion_STATUS_ARM_IPv4,
+	"ipv6": IPVersion_STATUS_ARM_IPv6,
 }
 
 // Nat Gateway resource.
@@ -138,28 +166,60 @@ type PublicIPAddressDnsSettings_STATUS_ARM struct {
 	ReverseFqdn *string `json:"reverseFqdn,omitempty"`
 }
 
-type PublicIPAddressSku_Name_STATUS string
+type PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_ARM string
 
 const (
-	PublicIPAddressSku_Name_STATUS_Basic    = PublicIPAddressSku_Name_STATUS("Basic")
-	PublicIPAddressSku_Name_STATUS_Standard = PublicIPAddressSku_Name_STATUS("Standard")
+	PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_ARM_Abort     = PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_ARM("Abort")
+	PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_ARM_Commit    = PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_ARM("Commit")
+	PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_ARM_Committed = PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_ARM("Committed")
+	PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_ARM_None      = PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_ARM("None")
+	PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_ARM_Prepare   = PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_ARM("Prepare")
 )
 
-// Mapping from string to PublicIPAddressSku_Name_STATUS
-var publicIPAddressSku_Name_STATUS_Values = map[string]PublicIPAddressSku_Name_STATUS{
-	"basic":    PublicIPAddressSku_Name_STATUS_Basic,
-	"standard": PublicIPAddressSku_Name_STATUS_Standard,
+// Mapping from string to PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_ARM
+var publicIPAddressPropertiesFormat_MigrationPhase_STATUS_ARM_Values = map[string]PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_ARM{
+	"abort":     PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_ARM_Abort,
+	"commit":    PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_ARM_Commit,
+	"committed": PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_ARM_Committed,
+	"none":      PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_ARM_None,
+	"prepare":   PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_ARM_Prepare,
 }
 
-type PublicIPAddressSku_Tier_STATUS string
+type PublicIPAddressSku_Name_STATUS_ARM string
 
 const (
-	PublicIPAddressSku_Tier_STATUS_Global   = PublicIPAddressSku_Tier_STATUS("Global")
-	PublicIPAddressSku_Tier_STATUS_Regional = PublicIPAddressSku_Tier_STATUS("Regional")
+	PublicIPAddressSku_Name_STATUS_ARM_Basic    = PublicIPAddressSku_Name_STATUS_ARM("Basic")
+	PublicIPAddressSku_Name_STATUS_ARM_Standard = PublicIPAddressSku_Name_STATUS_ARM("Standard")
 )
 
-// Mapping from string to PublicIPAddressSku_Tier_STATUS
-var publicIPAddressSku_Tier_STATUS_Values = map[string]PublicIPAddressSku_Tier_STATUS{
-	"global":   PublicIPAddressSku_Tier_STATUS_Global,
-	"regional": PublicIPAddressSku_Tier_STATUS_Regional,
+// Mapping from string to PublicIPAddressSku_Name_STATUS_ARM
+var publicIPAddressSku_Name_STATUS_ARM_Values = map[string]PublicIPAddressSku_Name_STATUS_ARM{
+	"basic":    PublicIPAddressSku_Name_STATUS_ARM_Basic,
+	"standard": PublicIPAddressSku_Name_STATUS_ARM_Standard,
+}
+
+type PublicIPAddressSku_Tier_STATUS_ARM string
+
+const (
+	PublicIPAddressSku_Tier_STATUS_ARM_Global   = PublicIPAddressSku_Tier_STATUS_ARM("Global")
+	PublicIPAddressSku_Tier_STATUS_ARM_Regional = PublicIPAddressSku_Tier_STATUS_ARM("Regional")
+)
+
+// Mapping from string to PublicIPAddressSku_Tier_STATUS_ARM
+var publicIPAddressSku_Tier_STATUS_ARM_Values = map[string]PublicIPAddressSku_Tier_STATUS_ARM{
+	"global":   PublicIPAddressSku_Tier_STATUS_ARM_Global,
+	"regional": PublicIPAddressSku_Tier_STATUS_ARM_Regional,
+}
+
+type DdosSettings_ProtectionCoverage_STATUS_ARM string
+
+const (
+	DdosSettings_ProtectionCoverage_STATUS_ARM_Basic    = DdosSettings_ProtectionCoverage_STATUS_ARM("Basic")
+	DdosSettings_ProtectionCoverage_STATUS_ARM_Standard = DdosSettings_ProtectionCoverage_STATUS_ARM("Standard")
+)
+
+// Mapping from string to DdosSettings_ProtectionCoverage_STATUS_ARM
+var ddosSettings_ProtectionCoverage_STATUS_ARM_Values = map[string]DdosSettings_ProtectionCoverage_STATUS_ARM{
+	"basic":    DdosSettings_ProtectionCoverage_STATUS_ARM_Basic,
+	"standard": DdosSettings_ProtectionCoverage_STATUS_ARM_Standard,
 }

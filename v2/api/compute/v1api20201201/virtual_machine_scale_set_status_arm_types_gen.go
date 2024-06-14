@@ -48,7 +48,7 @@ type ExtendedLocation_STATUS_ARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: The type of the extended location.
-	Type *ExtendedLocationType_STATUS `json:"type,omitempty"`
+	Type *ExtendedLocationType_STATUS_ARM `json:"type,omitempty"`
 }
 
 // Specifies information about the marketplace image used to create the virtual machine. This element is only used for
@@ -99,7 +99,7 @@ type VirtualMachineScaleSetIdentity_STATUS_ARM struct {
 	// Type: The type of identity used for the virtual machine scale set. The type 'SystemAssigned, UserAssigned' includes both
 	// an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from
 	// the virtual machine scale set.
-	Type *VirtualMachineScaleSetIdentity_Type_STATUS `json:"type,omitempty"`
+	Type *VirtualMachineScaleSetIdentity_Type_STATUS_ARM `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The list of user identities associated with the virtual machine scale set. The user identity
 	// dictionary key references will be ARM resource ids in the form:
@@ -127,7 +127,7 @@ type VirtualMachineScaleSetProperties_STATUS_ARM struct {
 	HostGroup *SubResource_STATUS_ARM `json:"hostGroup,omitempty"`
 
 	// OrchestrationMode: Specifies the orchestration mode for the virtual machine scale set.
-	OrchestrationMode *OrchestrationMode_STATUS `json:"orchestrationMode,omitempty"`
+	OrchestrationMode *OrchestrationMode_STATUS_ARM `json:"orchestrationMode,omitempty"`
 
 	// Overprovision: Specifies whether the Virtual Machine Scale Set should be overprovisioned.
 	Overprovision *bool `json:"overprovision,omitempty"`
@@ -187,13 +187,27 @@ type AutomaticRepairsPolicy_STATUS_ARM struct {
 }
 
 // The type of extendedLocation.
-type ExtendedLocationType_STATUS string
+type ExtendedLocationType_STATUS_ARM string
 
-const ExtendedLocationType_STATUS_EdgeZone = ExtendedLocationType_STATUS("EdgeZone")
+const ExtendedLocationType_STATUS_ARM_EdgeZone = ExtendedLocationType_STATUS_ARM("EdgeZone")
 
-// Mapping from string to ExtendedLocationType_STATUS
-var extendedLocationType_STATUS_Values = map[string]ExtendedLocationType_STATUS{
-	"edgezone": ExtendedLocationType_STATUS_EdgeZone,
+// Mapping from string to ExtendedLocationType_STATUS_ARM
+var extendedLocationType_STATUS_ARM_Values = map[string]ExtendedLocationType_STATUS_ARM{
+	"edgezone": ExtendedLocationType_STATUS_ARM_EdgeZone,
+}
+
+// Specifies the orchestration mode for the virtual machine scale set.
+type OrchestrationMode_STATUS_ARM string
+
+const (
+	OrchestrationMode_STATUS_ARM_Flexible = OrchestrationMode_STATUS_ARM("Flexible")
+	OrchestrationMode_STATUS_ARM_Uniform  = OrchestrationMode_STATUS_ARM("Uniform")
+)
+
+// Mapping from string to OrchestrationMode_STATUS_ARM
+var orchestrationMode_STATUS_ARM_Values = map[string]OrchestrationMode_STATUS_ARM{
+	"flexible": OrchestrationMode_STATUS_ARM_Flexible,
+	"uniform":  OrchestrationMode_STATUS_ARM_Uniform,
 }
 
 // Describes a scale-in policy for a virtual machine scale set.
@@ -209,7 +223,7 @@ type ScaleInPolicy_STATUS_ARM struct {
 	// NewestVM When a virtual machine scale set is being scaled-in, the newest virtual machines that are not protected from
 	// scale-in will be chosen for removal. For zonal virtual machine scale sets, the scale set will first be balanced across
 	// zones. Within each zone, the newest virtual machines that are not protected will be chosen for removal.
-	Rules []ScaleInPolicy_Rules_STATUS `json:"rules,omitempty"`
+	Rules []ScaleInPolicy_Rules_STATUS_ARM `json:"rules,omitempty"`
 }
 
 type SubResource_STATUS_ARM struct {
@@ -227,27 +241,27 @@ type UpgradePolicy_STATUS_ARM struct {
 	// Manual - You  control the application of updates to virtual machines in the scale set. You do this by using the
 	// manualUpgrade action.
 	// Automatic - All virtual machines in the scale set are  automatically updated at the same time.
-	Mode *UpgradePolicy_Mode_STATUS `json:"mode,omitempty"`
+	Mode *UpgradePolicy_Mode_STATUS_ARM `json:"mode,omitempty"`
 
 	// RollingUpgradePolicy: The configuration parameters used while performing a rolling upgrade.
 	RollingUpgradePolicy *RollingUpgradePolicy_STATUS_ARM `json:"rollingUpgradePolicy,omitempty"`
 }
 
-type VirtualMachineScaleSetIdentity_Type_STATUS string
+type VirtualMachineScaleSetIdentity_Type_STATUS_ARM string
 
 const (
-	VirtualMachineScaleSetIdentity_Type_STATUS_None                       = VirtualMachineScaleSetIdentity_Type_STATUS("None")
-	VirtualMachineScaleSetIdentity_Type_STATUS_SystemAssigned             = VirtualMachineScaleSetIdentity_Type_STATUS("SystemAssigned")
-	VirtualMachineScaleSetIdentity_Type_STATUS_SystemAssignedUserAssigned = VirtualMachineScaleSetIdentity_Type_STATUS("SystemAssigned, UserAssigned")
-	VirtualMachineScaleSetIdentity_Type_STATUS_UserAssigned               = VirtualMachineScaleSetIdentity_Type_STATUS("UserAssigned")
+	VirtualMachineScaleSetIdentity_Type_STATUS_ARM_None                       = VirtualMachineScaleSetIdentity_Type_STATUS_ARM("None")
+	VirtualMachineScaleSetIdentity_Type_STATUS_ARM_SystemAssigned             = VirtualMachineScaleSetIdentity_Type_STATUS_ARM("SystemAssigned")
+	VirtualMachineScaleSetIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned = VirtualMachineScaleSetIdentity_Type_STATUS_ARM("SystemAssigned, UserAssigned")
+	VirtualMachineScaleSetIdentity_Type_STATUS_ARM_UserAssigned               = VirtualMachineScaleSetIdentity_Type_STATUS_ARM("UserAssigned")
 )
 
-// Mapping from string to VirtualMachineScaleSetIdentity_Type_STATUS
-var virtualMachineScaleSetIdentity_Type_STATUS_Values = map[string]VirtualMachineScaleSetIdentity_Type_STATUS{
-	"none":                         VirtualMachineScaleSetIdentity_Type_STATUS_None,
-	"systemassigned":               VirtualMachineScaleSetIdentity_Type_STATUS_SystemAssigned,
-	"systemassigned, userassigned": VirtualMachineScaleSetIdentity_Type_STATUS_SystemAssignedUserAssigned,
-	"userassigned":                 VirtualMachineScaleSetIdentity_Type_STATUS_UserAssigned,
+// Mapping from string to VirtualMachineScaleSetIdentity_Type_STATUS_ARM
+var virtualMachineScaleSetIdentity_Type_STATUS_ARM_Values = map[string]VirtualMachineScaleSetIdentity_Type_STATUS_ARM{
+	"none":                         VirtualMachineScaleSetIdentity_Type_STATUS_ARM_None,
+	"systemassigned":               VirtualMachineScaleSetIdentity_Type_STATUS_ARM_SystemAssigned,
+	"systemassigned, userassigned": VirtualMachineScaleSetIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned,
+	"userassigned":                 VirtualMachineScaleSetIdentity_Type_STATUS_ARM_UserAssigned,
 }
 
 type VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARM struct {
@@ -272,7 +286,7 @@ type VirtualMachineScaleSetVMProfile_STATUS_ARM struct {
 	// For Azure Spot virtual machines, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2019-03-01.
 	// For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is
 	// 2017-10-30-preview.
-	EvictionPolicy *EvictionPolicy_STATUS `json:"evictionPolicy,omitempty"`
+	EvictionPolicy *EvictionPolicy_STATUS_ARM `json:"evictionPolicy,omitempty"`
 
 	// ExtensionProfile: Specifies a collection of settings for extensions installed on virtual machines in the scale set.
 	ExtensionProfile *VirtualMachineScaleSetExtensionProfile_STATUS_ARM `json:"extensionProfile,omitempty"`
@@ -299,7 +313,7 @@ type VirtualMachineScaleSetVMProfile_STATUS_ARM struct {
 
 	// Priority: Specifies the priority for the virtual machines in the scale set.
 	// Minimum api-version: 2017-10-30-preview
-	Priority *Priority_STATUS `json:"priority,omitempty"`
+	Priority *Priority_STATUS_ARM `json:"priority,omitempty"`
 
 	// ScheduledEventsProfile: Specifies Scheduled Event related configurations.
 	ScheduledEventsProfile *ScheduledEventsProfile_STATUS_ARM `json:"scheduledEventsProfile,omitempty"`
@@ -354,9 +368,39 @@ type RollingUpgradePolicy_STATUS_ARM struct {
 	PrioritizeUnhealthyInstances *bool `json:"prioritizeUnhealthyInstances,omitempty"`
 }
 
+type ScaleInPolicy_Rules_STATUS_ARM string
+
+const (
+	ScaleInPolicy_Rules_STATUS_ARM_Default  = ScaleInPolicy_Rules_STATUS_ARM("Default")
+	ScaleInPolicy_Rules_STATUS_ARM_NewestVM = ScaleInPolicy_Rules_STATUS_ARM("NewestVM")
+	ScaleInPolicy_Rules_STATUS_ARM_OldestVM = ScaleInPolicy_Rules_STATUS_ARM("OldestVM")
+)
+
+// Mapping from string to ScaleInPolicy_Rules_STATUS_ARM
+var scaleInPolicy_Rules_STATUS_ARM_Values = map[string]ScaleInPolicy_Rules_STATUS_ARM{
+	"default":  ScaleInPolicy_Rules_STATUS_ARM_Default,
+	"newestvm": ScaleInPolicy_Rules_STATUS_ARM_NewestVM,
+	"oldestvm": ScaleInPolicy_Rules_STATUS_ARM_OldestVM,
+}
+
 type ScheduledEventsProfile_STATUS_ARM struct {
 	// TerminateNotificationProfile: Specifies Terminate Scheduled Event related configurations.
 	TerminateNotificationProfile *TerminateNotificationProfile_STATUS_ARM `json:"terminateNotificationProfile,omitempty"`
+}
+
+type UpgradePolicy_Mode_STATUS_ARM string
+
+const (
+	UpgradePolicy_Mode_STATUS_ARM_Automatic = UpgradePolicy_Mode_STATUS_ARM("Automatic")
+	UpgradePolicy_Mode_STATUS_ARM_Manual    = UpgradePolicy_Mode_STATUS_ARM("Manual")
+	UpgradePolicy_Mode_STATUS_ARM_Rolling   = UpgradePolicy_Mode_STATUS_ARM("Rolling")
+)
+
+// Mapping from string to UpgradePolicy_Mode_STATUS_ARM
+var upgradePolicy_Mode_STATUS_ARM_Values = map[string]UpgradePolicy_Mode_STATUS_ARM{
+	"automatic": UpgradePolicy_Mode_STATUS_ARM_Automatic,
+	"manual":    UpgradePolicy_Mode_STATUS_ARM_Manual,
+	"rolling":   UpgradePolicy_Mode_STATUS_ARM_Rolling,
 }
 
 // Describes a virtual machine scale set extension profile.
@@ -465,10 +509,10 @@ type VirtualMachineScaleSetDataDisk_STATUS_ARM struct {
 	// ReadOnly
 	// ReadWrite
 	// Default: None for Standard storage. ReadOnly for Premium storage
-	Caching *Caching_STATUS `json:"caching,omitempty"`
+	Caching *Caching_STATUS_ARM `json:"caching,omitempty"`
 
 	// CreateOption: The create option.
-	CreateOption *CreateOption_STATUS `json:"createOption,omitempty"`
+	CreateOption *CreateOption_STATUS_ARM `json:"createOption,omitempty"`
 
 	// DiskIOPSReadWrite: Specifies the Read-Write IOPS for the managed disk. Should be used only when StorageAccountType is
 	// UltraSSD_LRS. If not specified, a default value would be assigned based on diskSizeGB.
@@ -532,13 +576,13 @@ type VirtualMachineScaleSetOSDisk_STATUS_ARM struct {
 	// ReadOnly
 	// ReadWrite
 	// Default: None for Standard storage. ReadOnly for Premium storage
-	Caching *Caching_STATUS `json:"caching,omitempty"`
+	Caching *Caching_STATUS_ARM `json:"caching,omitempty"`
 
 	// CreateOption: Specifies how the virtual machines in the scale set should be created.
 	// The only allowed value is: FromImage \u2013 This value is used when you are using an image to create the virtual
 	// machine. If you are using a platform image, you also use the imageReference element described above. If you are using a
 	// marketplace image, you  also use the plan element previously described.
-	CreateOption *CreateOption_STATUS `json:"createOption,omitempty"`
+	CreateOption *CreateOption_STATUS_ARM `json:"createOption,omitempty"`
 
 	// DiffDiskSettings: Specifies the ephemeral disk Settings for the operating system disk used by the virtual machine scale
 	// set.
@@ -563,7 +607,7 @@ type VirtualMachineScaleSetOSDisk_STATUS_ARM struct {
 	// Possible values are:
 	// Windows
 	// Linux
-	OsType *VirtualMachineScaleSetOSDisk_OsType_STATUS `json:"osType,omitempty"`
+	OsType *VirtualMachineScaleSetOSDisk_OsType_STATUS_ARM `json:"osType,omitempty"`
 
 	// VhdContainers: Specifies the container urls that are used to store operating system disks for the scale set.
 	VhdContainers []string `json:"vhdContainers,omitempty"`
@@ -579,7 +623,7 @@ type VirtualMachineScaleSetManagedDiskParameters_STATUS_ARM struct {
 
 	// StorageAccountType: Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with
 	// data disks, it cannot be used with OS Disk.
-	StorageAccountType *StorageAccountType_STATUS `json:"storageAccountType,omitempty"`
+	StorageAccountType *StorageAccountType_STATUS_ARM `json:"storageAccountType,omitempty"`
 }
 
 // Describes a virtual machine scale set network profile's IP configuration.
@@ -604,6 +648,19 @@ type VirtualMachineScaleSetNetworkConfigurationProperties_STATUS_ARM struct {
 
 	// Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
 	Primary *bool `json:"primary,omitempty"`
+}
+
+type VirtualMachineScaleSetOSDisk_OsType_STATUS_ARM string
+
+const (
+	VirtualMachineScaleSetOSDisk_OsType_STATUS_ARM_Linux   = VirtualMachineScaleSetOSDisk_OsType_STATUS_ARM("Linux")
+	VirtualMachineScaleSetOSDisk_OsType_STATUS_ARM_Windows = VirtualMachineScaleSetOSDisk_OsType_STATUS_ARM("Windows")
+)
+
+// Mapping from string to VirtualMachineScaleSetOSDisk_OsType_STATUS_ARM
+var virtualMachineScaleSetOSDisk_OsType_STATUS_ARM_Values = map[string]VirtualMachineScaleSetOSDisk_OsType_STATUS_ARM{
+	"linux":   VirtualMachineScaleSetOSDisk_OsType_STATUS_ARM_Linux,
+	"windows": VirtualMachineScaleSetOSDisk_OsType_STATUS_ARM_Windows,
 }
 
 // Describes a virtual machine scale set network profile's IP configuration.
@@ -649,13 +706,26 @@ type VirtualMachineScaleSetIPConfigurationProperties_STATUS_ARM struct {
 
 	// PrivateIPAddressVersion: Available from Api-Version 2017-03-30 onwards, it represents whether the specific
 	// ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'.
-	PrivateIPAddressVersion *VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAddressVersion *VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS_ARM `json:"privateIPAddressVersion,omitempty"`
 
 	// PublicIPAddressConfiguration: The publicIPAddressConfiguration.
 	PublicIPAddressConfiguration *VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS_ARM `json:"publicIPAddressConfiguration,omitempty"`
 
 	// Subnet: Specifies the identifier of the subnet.
 	Subnet *ApiEntityReference_STATUS_ARM `json:"subnet,omitempty"`
+}
+
+type VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS_ARM string
+
+const (
+	VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS_ARM_IPv4 = VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS_ARM("IPv4")
+	VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS_ARM_IPv6 = VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS_ARM("IPv6")
+)
+
+// Mapping from string to VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS_ARM
+var virtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS_ARM_Values = map[string]VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS_ARM{
+	"ipv4": VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS_ARM_IPv4,
+	"ipv6": VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS_ARM_IPv6,
 }
 
 // Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration
@@ -680,7 +750,7 @@ type VirtualMachineScaleSetPublicIPAddressConfigurationProperties_STATUS_ARM str
 
 	// PublicIPAddressVersion: Available from Api-Version 2019-07-01 onwards, it represents whether the specific
 	// ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'.
-	PublicIPAddressVersion *VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS `json:"publicIPAddressVersion,omitempty"`
+	PublicIPAddressVersion *VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS_ARM `json:"publicIPAddressVersion,omitempty"`
 
 	// PublicIPPrefix: The PublicIPPrefix from which to allocate publicIP addresses.
 	PublicIPPrefix *SubResource_STATUS_ARM `json:"publicIPPrefix,omitempty"`
@@ -700,4 +770,17 @@ type VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS_ARM st
 	// DomainNameLabel: The Domain name label.The concatenation of the domain name label and vm index will be the domain name
 	// labels of the PublicIPAddress resources that will be created
 	DomainNameLabel *string `json:"domainNameLabel,omitempty"`
+}
+
+type VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS_ARM string
+
+const (
+	VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS_ARM_IPv4 = VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS_ARM("IPv4")
+	VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS_ARM_IPv6 = VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS_ARM("IPv6")
+)
+
+// Mapping from string to VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS_ARM
+var virtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS_ARM_Values = map[string]VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS_ARM{
+	"ipv4": VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS_ARM_IPv4,
+	"ipv6": VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS_ARM_IPv6,
 }

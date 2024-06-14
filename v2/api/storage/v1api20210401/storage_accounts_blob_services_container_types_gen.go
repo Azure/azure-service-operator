@@ -400,7 +400,9 @@ func (container *StorageAccounts_BlobServices_Container_Spec) ConvertToARM(resol
 		}
 	}
 	if container.PublicAccess != nil {
-		publicAccess := *container.PublicAccess
+		var temp string
+		temp = string(*container.PublicAccess)
+		publicAccess := ContainerProperties_PublicAccess_ARM(temp)
 		result.Properties.PublicAccess = &publicAccess
 	}
 	return result, nil
@@ -474,7 +476,9 @@ func (container *StorageAccounts_BlobServices_Container_Spec) PopulateFromARM(ow
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicAccess != nil {
-			publicAccess := *typedInput.Properties.PublicAccess
+			var temp string
+			temp = string(*typedInput.Properties.PublicAccess)
+			publicAccess := ContainerProperties_PublicAccess(temp)
 			container.PublicAccess = &publicAccess
 		}
 	}
@@ -908,7 +912,9 @@ func (container *StorageAccounts_BlobServices_Container_STATUS) PopulateFromARM(
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LeaseDuration != nil {
-			leaseDuration := *typedInput.Properties.LeaseDuration
+			var temp string
+			temp = string(*typedInput.Properties.LeaseDuration)
+			leaseDuration := ContainerProperties_LeaseDuration_STATUS(temp)
 			container.LeaseDuration = &leaseDuration
 		}
 	}
@@ -917,7 +923,9 @@ func (container *StorageAccounts_BlobServices_Container_STATUS) PopulateFromARM(
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LeaseState != nil {
-			leaseState := *typedInput.Properties.LeaseState
+			var temp string
+			temp = string(*typedInput.Properties.LeaseState)
+			leaseState := ContainerProperties_LeaseState_STATUS(temp)
 			container.LeaseState = &leaseState
 		}
 	}
@@ -926,7 +934,9 @@ func (container *StorageAccounts_BlobServices_Container_STATUS) PopulateFromARM(
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LeaseStatus != nil {
-			leaseStatus := *typedInput.Properties.LeaseStatus
+			var temp string
+			temp = string(*typedInput.Properties.LeaseStatus)
+			leaseStatus := ContainerProperties_LeaseStatus_STATUS(temp)
 			container.LeaseStatus = &leaseStatus
 		}
 	}
@@ -966,7 +976,9 @@ func (container *StorageAccounts_BlobServices_Container_STATUS) PopulateFromARM(
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicAccess != nil {
-			publicAccess := *typedInput.Properties.PublicAccess
+			var temp string
+			temp = string(*typedInput.Properties.PublicAccess)
+			publicAccess := ContainerProperties_PublicAccess_STATUS(temp)
 			container.PublicAccess = &publicAccess
 		}
 	}
@@ -1432,7 +1444,9 @@ func (properties *ImmutabilityPolicyProperties_STATUS) PopulateFromARM(owner gen
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.State != nil {
-			state := *typedInput.Properties.State
+			var temp string
+			temp = string(*typedInput.Properties.State)
+			state := ImmutabilityPolicyProperty_State_STATUS(temp)
 			properties.State = &state
 		}
 	}
@@ -1673,7 +1687,9 @@ func (versioning *ImmutableStorageWithVersioning_STATUS) PopulateFromARM(owner g
 
 	// Set property "MigrationState":
 	if typedInput.MigrationState != nil {
-		migrationState := *typedInput.MigrationState
+		var temp string
+		temp = string(*typedInput.MigrationState)
+		migrationState := ImmutableStorageWithVersioning_MigrationState_STATUS(temp)
 		versioning.MigrationState = &migrationState
 	}
 
@@ -2076,7 +2092,9 @@ func (property *UpdateHistoryProperty_STATUS) PopulateFromARM(owner genruntime.A
 
 	// Set property "Update":
 	if typedInput.Update != nil {
-		update := *typedInput.Update
+		var temp string
+		temp = string(*typedInput.Update)
+		update := UpdateHistoryProperty_Update_STATUS(temp)
 		property.Update = &update
 	}
 

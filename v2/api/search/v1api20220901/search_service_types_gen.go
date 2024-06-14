@@ -477,7 +477,9 @@ func (service *SearchService_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties.EncryptionWithCmk = &encryptionWithCmk
 	}
 	if service.HostingMode != nil {
-		hostingMode := *service.HostingMode
+		var temp string
+		temp = string(*service.HostingMode)
+		hostingMode := SearchServiceProperties_HostingMode_ARM(temp)
 		result.Properties.HostingMode = &hostingMode
 	}
 	if service.NetworkRuleSet != nil {
@@ -493,7 +495,9 @@ func (service *SearchService_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties.PartitionCount = &partitionCount
 	}
 	if service.PublicNetworkAccess != nil {
-		publicNetworkAccess := *service.PublicNetworkAccess
+		var temp string
+		temp = string(*service.PublicNetworkAccess)
+		publicNetworkAccess := SearchServiceProperties_PublicNetworkAccess_ARM(temp)
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 	if service.ReplicaCount != nil {
@@ -577,7 +581,9 @@ func (service *SearchService_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HostingMode != nil {
-			hostingMode := *typedInput.Properties.HostingMode
+			var temp string
+			temp = string(*typedInput.Properties.HostingMode)
+			hostingMode := SearchServiceProperties_HostingMode(temp)
 			service.HostingMode = &hostingMode
 		}
 	}
@@ -634,7 +640,9 @@ func (service *SearchService_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
-			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccess)
+			publicNetworkAccess := SearchServiceProperties_PublicNetworkAccess(temp)
 			service.PublicNetworkAccess = &publicNetworkAccess
 		}
 	}
@@ -1325,7 +1333,9 @@ func (service *SearchService_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HostingMode != nil {
-			hostingMode := *typedInput.Properties.HostingMode
+			var temp string
+			temp = string(*typedInput.Properties.HostingMode)
+			hostingMode := SearchServiceProperties_HostingMode_STATUS(temp)
 			service.HostingMode = &hostingMode
 		}
 	}
@@ -1399,7 +1409,9 @@ func (service *SearchService_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := SearchServiceProperties_ProvisioningState_STATUS(temp)
 			service.ProvisioningState = &provisioningState
 		}
 	}
@@ -1408,7 +1420,9 @@ func (service *SearchService_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
-			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccess)
+			publicNetworkAccess := SearchServiceProperties_PublicNetworkAccess_STATUS(temp)
 			service.PublicNetworkAccess = &publicNetworkAccess
 		}
 	}
@@ -1450,7 +1464,9 @@ func (service *SearchService_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Status != nil {
-			status := *typedInput.Properties.Status
+			var temp string
+			temp = string(*typedInput.Properties.Status)
+			status := SearchServiceProperties_Status_STATUS(temp)
 			service.Status = &status
 		}
 	}
@@ -2096,7 +2112,9 @@ func (withCmk *EncryptionWithCmk) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "Enforcement":
 	if withCmk.Enforcement != nil {
-		enforcement := *withCmk.Enforcement
+		var temp string
+		temp = string(*withCmk.Enforcement)
+		enforcement := EncryptionWithCmk_Enforcement_ARM(temp)
 		result.Enforcement = &enforcement
 	}
 	return result, nil
@@ -2116,7 +2134,9 @@ func (withCmk *EncryptionWithCmk) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property "Enforcement":
 	if typedInput.Enforcement != nil {
-		enforcement := *typedInput.Enforcement
+		var temp string
+		temp = string(*typedInput.Enforcement)
+		enforcement := EncryptionWithCmk_Enforcement(temp)
 		withCmk.Enforcement = &enforcement
 	}
 
@@ -2207,13 +2227,17 @@ func (withCmk *EncryptionWithCmk_STATUS) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "EncryptionComplianceStatus":
 	if typedInput.EncryptionComplianceStatus != nil {
-		encryptionComplianceStatus := *typedInput.EncryptionComplianceStatus
+		var temp string
+		temp = string(*typedInput.EncryptionComplianceStatus)
+		encryptionComplianceStatus := EncryptionWithCmk_EncryptionComplianceStatus_STATUS(temp)
 		withCmk.EncryptionComplianceStatus = &encryptionComplianceStatus
 	}
 
 	// Set property "Enforcement":
 	if typedInput.Enforcement != nil {
-		enforcement := *typedInput.Enforcement
+		var temp string
+		temp = string(*typedInput.Enforcement)
+		enforcement := EncryptionWithCmk_Enforcement_STATUS(temp)
 		withCmk.Enforcement = &enforcement
 	}
 
@@ -2296,7 +2320,9 @@ func (identity *Identity) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "Type":
 	if identity.Type != nil {
-		typeVar := *identity.Type
+		var temp string
+		temp = string(*identity.Type)
+		typeVar := Identity_Type_ARM(temp)
 		result.Type = &typeVar
 	}
 	return result, nil
@@ -2316,7 +2342,9 @@ func (identity *Identity) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := Identity_Type(temp)
 		identity.Type = &typeVar
 	}
 
@@ -2419,7 +2447,9 @@ func (identity *Identity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := Identity_Type_STATUS(temp)
 		identity.Type = &typeVar
 	}
 
@@ -2999,7 +3029,9 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 
 	// Set property "Name":
 	if sku.Name != nil {
-		name := *sku.Name
+		var temp string
+		temp = string(*sku.Name)
+		name := Sku_Name_ARM(temp)
 		result.Name = &name
 	}
 	return result, nil
@@ -3019,7 +3051,9 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := Sku_Name(temp)
 		sku.Name = &name
 	}
 
@@ -3109,7 +3143,9 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := Sku_Name_STATUS(temp)
 		sku.Name = &name
 	}
 
@@ -3175,7 +3211,9 @@ func (option *DataPlaneAadOrApiKeyAuthOption) ConvertToARM(resolved genruntime.C
 
 	// Set property "AadAuthFailureMode":
 	if option.AadAuthFailureMode != nil {
-		aadAuthFailureMode := *option.AadAuthFailureMode
+		var temp string
+		temp = string(*option.AadAuthFailureMode)
+		aadAuthFailureMode := DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_ARM(temp)
 		result.AadAuthFailureMode = &aadAuthFailureMode
 	}
 	return result, nil
@@ -3195,7 +3233,9 @@ func (option *DataPlaneAadOrApiKeyAuthOption) PopulateFromARM(owner genruntime.A
 
 	// Set property "AadAuthFailureMode":
 	if typedInput.AadAuthFailureMode != nil {
-		aadAuthFailureMode := *typedInput.AadAuthFailureMode
+		var temp string
+		temp = string(*typedInput.AadAuthFailureMode)
+		aadAuthFailureMode := DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode(temp)
 		option.AadAuthFailureMode = &aadAuthFailureMode
 	}
 
@@ -3281,7 +3321,9 @@ func (option *DataPlaneAadOrApiKeyAuthOption_STATUS) PopulateFromARM(owner genru
 
 	// Set property "AadAuthFailureMode":
 	if typedInput.AadAuthFailureMode != nil {
-		aadAuthFailureMode := *typedInput.AadAuthFailureMode
+		var temp string
+		temp = string(*typedInput.AadAuthFailureMode)
+		aadAuthFailureMode := DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS(temp)
 		option.AadAuthFailureMode = &aadAuthFailureMode
 	}
 
@@ -3371,6 +3413,33 @@ var encryptionWithCmk_Enforcement_STATUS_Values = map[string]EncryptionWithCmk_E
 	"disabled":    EncryptionWithCmk_Enforcement_STATUS_Disabled,
 	"enabled":     EncryptionWithCmk_Enforcement_STATUS_Enabled,
 	"unspecified": EncryptionWithCmk_Enforcement_STATUS_Unspecified,
+}
+
+// +kubebuilder:validation:Enum={"None","SystemAssigned"}
+type Identity_Type string
+
+const (
+	Identity_Type_None           = Identity_Type("None")
+	Identity_Type_SystemAssigned = Identity_Type("SystemAssigned")
+)
+
+// Mapping from string to Identity_Type
+var identity_Type_Values = map[string]Identity_Type{
+	"none":           Identity_Type_None,
+	"systemassigned": Identity_Type_SystemAssigned,
+}
+
+type Identity_Type_STATUS string
+
+const (
+	Identity_Type_STATUS_None           = Identity_Type_STATUS("None")
+	Identity_Type_STATUS_SystemAssigned = Identity_Type_STATUS("SystemAssigned")
+)
+
+// Mapping from string to Identity_Type_STATUS
+var identity_Type_STATUS_Values = map[string]Identity_Type_STATUS{
+	"none":           Identity_Type_STATUS_None,
+	"systemassigned": Identity_Type_STATUS_SystemAssigned,
 }
 
 // The IP restriction rule of the Azure Cognitive Search service.
@@ -3600,6 +3669,53 @@ func (secrets *SearchServiceOperatorSecrets) AssignProperties_To_SearchServiceOp
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"basic","free","standard","standard2","standard3","storage_optimized_l1","storage_optimized_l2"}
+type Sku_Name string
+
+const (
+	Sku_Name_Basic                = Sku_Name("basic")
+	Sku_Name_Free                 = Sku_Name("free")
+	Sku_Name_Standard             = Sku_Name("standard")
+	Sku_Name_Standard2            = Sku_Name("standard2")
+	Sku_Name_Standard3            = Sku_Name("standard3")
+	Sku_Name_Storage_Optimized_L1 = Sku_Name("storage_optimized_l1")
+	Sku_Name_Storage_Optimized_L2 = Sku_Name("storage_optimized_l2")
+)
+
+// Mapping from string to Sku_Name
+var sku_Name_Values = map[string]Sku_Name{
+	"basic":                Sku_Name_Basic,
+	"free":                 Sku_Name_Free,
+	"standard":             Sku_Name_Standard,
+	"standard2":            Sku_Name_Standard2,
+	"standard3":            Sku_Name_Standard3,
+	"storage_optimized_l1": Sku_Name_Storage_Optimized_L1,
+	"storage_optimized_l2": Sku_Name_Storage_Optimized_L2,
+}
+
+type Sku_Name_STATUS string
+
+const (
+	Sku_Name_STATUS_Basic                = Sku_Name_STATUS("basic")
+	Sku_Name_STATUS_Free                 = Sku_Name_STATUS("free")
+	Sku_Name_STATUS_Standard             = Sku_Name_STATUS("standard")
+	Sku_Name_STATUS_Standard2            = Sku_Name_STATUS("standard2")
+	Sku_Name_STATUS_Standard3            = Sku_Name_STATUS("standard3")
+	Sku_Name_STATUS_Storage_Optimized_L1 = Sku_Name_STATUS("storage_optimized_l1")
+	Sku_Name_STATUS_Storage_Optimized_L2 = Sku_Name_STATUS("storage_optimized_l2")
+)
+
+// Mapping from string to Sku_Name_STATUS
+var sku_Name_STATUS_Values = map[string]Sku_Name_STATUS{
+	"basic":                Sku_Name_STATUS_Basic,
+	"free":                 Sku_Name_STATUS_Free,
+	"standard":             Sku_Name_STATUS_Standard,
+	"standard2":            Sku_Name_STATUS_Standard2,
+	"standard3":            Sku_Name_STATUS_Standard3,
+	"storage_optimized_l1": Sku_Name_STATUS_Storage_Optimized_L1,
+	"storage_optimized_l2": Sku_Name_STATUS_Storage_Optimized_L2,
 }
 
 // +kubebuilder:validation:Enum={"http401WithBearerChallenge","http403"}

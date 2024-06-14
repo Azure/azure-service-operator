@@ -67,10 +67,10 @@ type PublicIPAddressPropertiesFormat_ARM struct {
 	NatGateway *NatGatewaySpec_PublicIPAddress_SubResourceEmbedded_ARM `json:"natGateway,omitempty"`
 
 	// PublicIPAddressVersion: The public IP address version.
-	PublicIPAddressVersion *IPVersion `json:"publicIPAddressVersion,omitempty"`
+	PublicIPAddressVersion *IPVersion_ARM `json:"publicIPAddressVersion,omitempty"`
 
 	// PublicIPAllocationMethod: The public IP address allocation method.
-	PublicIPAllocationMethod *IPAllocationMethod `json:"publicIPAllocationMethod,omitempty"`
+	PublicIPAllocationMethod *IPAllocationMethod_ARM `json:"publicIPAllocationMethod,omitempty"`
 
 	// PublicIPPrefix: The Public IP Prefix this Public IP Address should be allocated from.
 	PublicIPPrefix *SubResource_ARM `json:"publicIPPrefix,omitempty"`
@@ -82,10 +82,10 @@ type PublicIPAddressPropertiesFormat_ARM struct {
 // SKU of a public IP address.
 type PublicIPAddressSku_ARM struct {
 	// Name: Name of a public IP address SKU.
-	Name *PublicIPAddressSku_Name `json:"name,omitempty"`
+	Name *PublicIPAddressSku_Name_ARM `json:"name,omitempty"`
 
 	// Tier: Tier of a public IP address SKU.
-	Tier *PublicIPAddressSku_Tier `json:"tier,omitempty"`
+	Tier *PublicIPAddressSku_Tier_ARM `json:"tier,omitempty"`
 }
 
 // Contains the DDoS protection settings of the public IP.
@@ -98,7 +98,22 @@ type DdosSettings_ARM struct {
 
 	// ProtectionCoverage: The DDoS protection policy customizability of the public IP. Only standard coverage will have the
 	// ability to be customized.
-	ProtectionCoverage *DdosSettings_ProtectionCoverage `json:"protectionCoverage,omitempty"`
+	ProtectionCoverage *DdosSettings_ProtectionCoverage_ARM `json:"protectionCoverage,omitempty"`
+}
+
+// IP address allocation method.
+// +kubebuilder:validation:Enum={"Dynamic","Static"}
+type IPAllocationMethod_ARM string
+
+const (
+	IPAllocationMethod_ARM_Dynamic = IPAllocationMethod_ARM("Dynamic")
+	IPAllocationMethod_ARM_Static  = IPAllocationMethod_ARM("Static")
+)
+
+// Mapping from string to IPAllocationMethod_ARM
+var iPAllocationMethod_ARM_Values = map[string]IPAllocationMethod_ARM{
+	"dynamic": IPAllocationMethod_ARM_Dynamic,
+	"static":  IPAllocationMethod_ARM_Static,
 }
 
 // Contains the IpTag associated with the object.
@@ -108,6 +123,21 @@ type IpTag_ARM struct {
 
 	// Tag: The value of the IP tag associated with the public IP. Example: SQL.
 	Tag *string `json:"tag,omitempty"`
+}
+
+// IP address version.
+// +kubebuilder:validation:Enum={"IPv4","IPv6"}
+type IPVersion_ARM string
+
+const (
+	IPVersion_ARM_IPv4 = IPVersion_ARM("IPv4")
+	IPVersion_ARM_IPv6 = IPVersion_ARM("IPv6")
+)
+
+// Mapping from string to IPVersion_ARM
+var iPVersion_ARM_Values = map[string]IPVersion_ARM{
+	"ipv4": IPVersion_ARM_IPv4,
+	"ipv6": IPVersion_ARM_IPv6,
 }
 
 // Nat Gateway resource.
@@ -133,34 +163,48 @@ type PublicIPAddressDnsSettings_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"Basic","Standard"}
-type PublicIPAddressSku_Name string
+type PublicIPAddressSku_Name_ARM string
 
 const (
-	PublicIPAddressSku_Name_Basic    = PublicIPAddressSku_Name("Basic")
-	PublicIPAddressSku_Name_Standard = PublicIPAddressSku_Name("Standard")
+	PublicIPAddressSku_Name_ARM_Basic    = PublicIPAddressSku_Name_ARM("Basic")
+	PublicIPAddressSku_Name_ARM_Standard = PublicIPAddressSku_Name_ARM("Standard")
 )
 
-// Mapping from string to PublicIPAddressSku_Name
-var publicIPAddressSku_Name_Values = map[string]PublicIPAddressSku_Name{
-	"basic":    PublicIPAddressSku_Name_Basic,
-	"standard": PublicIPAddressSku_Name_Standard,
+// Mapping from string to PublicIPAddressSku_Name_ARM
+var publicIPAddressSku_Name_ARM_Values = map[string]PublicIPAddressSku_Name_ARM{
+	"basic":    PublicIPAddressSku_Name_ARM_Basic,
+	"standard": PublicIPAddressSku_Name_ARM_Standard,
 }
 
 // +kubebuilder:validation:Enum={"Global","Regional"}
-type PublicIPAddressSku_Tier string
+type PublicIPAddressSku_Tier_ARM string
 
 const (
-	PublicIPAddressSku_Tier_Global   = PublicIPAddressSku_Tier("Global")
-	PublicIPAddressSku_Tier_Regional = PublicIPAddressSku_Tier("Regional")
+	PublicIPAddressSku_Tier_ARM_Global   = PublicIPAddressSku_Tier_ARM("Global")
+	PublicIPAddressSku_Tier_ARM_Regional = PublicIPAddressSku_Tier_ARM("Regional")
 )
 
-// Mapping from string to PublicIPAddressSku_Tier
-var publicIPAddressSku_Tier_Values = map[string]PublicIPAddressSku_Tier{
-	"global":   PublicIPAddressSku_Tier_Global,
-	"regional": PublicIPAddressSku_Tier_Regional,
+// Mapping from string to PublicIPAddressSku_Tier_ARM
+var publicIPAddressSku_Tier_ARM_Values = map[string]PublicIPAddressSku_Tier_ARM{
+	"global":   PublicIPAddressSku_Tier_ARM_Global,
+	"regional": PublicIPAddressSku_Tier_ARM_Regional,
 }
 
 // Public IP address resource.
 type PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Basic","Standard"}
+type DdosSettings_ProtectionCoverage_ARM string
+
+const (
+	DdosSettings_ProtectionCoverage_ARM_Basic    = DdosSettings_ProtectionCoverage_ARM("Basic")
+	DdosSettings_ProtectionCoverage_ARM_Standard = DdosSettings_ProtectionCoverage_ARM("Standard")
+)
+
+// Mapping from string to DdosSettings_ProtectionCoverage_ARM
+var ddosSettings_ProtectionCoverage_ARM_Values = map[string]DdosSettings_ProtectionCoverage_ARM{
+	"basic":    DdosSettings_ProtectionCoverage_ARM_Basic,
+	"standard": DdosSettings_ProtectionCoverage_ARM_Standard,
 }

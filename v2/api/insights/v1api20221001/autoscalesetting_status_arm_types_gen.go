@@ -62,7 +62,7 @@ type SystemData_STATUS_ARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_CreatedByType_STATUS_ARM `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -71,7 +71,7 @@ type SystemData_STATUS_ARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS_ARM `json:"lastModifiedByType,omitempty"`
 }
 
 // Autoscale notification.
@@ -80,7 +80,7 @@ type AutoscaleNotification_STATUS_ARM struct {
 	Email *EmailNotification_STATUS_ARM `json:"email,omitempty"`
 
 	// Operation: the operation associated with the notification and its value must be "scale"
-	Operation *AutoscaleNotification_Operation_STATUS `json:"operation,omitempty"`
+	Operation *AutoscaleNotification_Operation_STATUS_ARM `json:"operation,omitempty"`
 
 	// Webhooks: the collection of webhook notifications.
 	Webhooks []WebhookNotification_STATUS_ARM `json:"webhooks,omitempty"`
@@ -112,41 +112,50 @@ type PredictiveAutoscalePolicy_STATUS_ARM struct {
 	ScaleLookAheadTime *string `json:"scaleLookAheadTime,omitempty"`
 
 	// ScaleMode: the predictive autoscale mode
-	ScaleMode *PredictiveAutoscalePolicy_ScaleMode_STATUS `json:"scaleMode,omitempty"`
+	ScaleMode *PredictiveAutoscalePolicy_ScaleMode_STATUS_ARM `json:"scaleMode,omitempty"`
 }
 
-type SystemData_CreatedByType_STATUS string
+type SystemData_CreatedByType_STATUS_ARM string
 
 const (
-	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+	SystemData_CreatedByType_STATUS_ARM_Application     = SystemData_CreatedByType_STATUS_ARM("Application")
+	SystemData_CreatedByType_STATUS_ARM_Key             = SystemData_CreatedByType_STATUS_ARM("Key")
+	SystemData_CreatedByType_STATUS_ARM_ManagedIdentity = SystemData_CreatedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_ARM_User            = SystemData_CreatedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_CreatedByType_STATUS
-var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
-	"application":     SystemData_CreatedByType_STATUS_Application,
-	"key":             SystemData_CreatedByType_STATUS_Key,
-	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_CreatedByType_STATUS_User,
+// Mapping from string to SystemData_CreatedByType_STATUS_ARM
+var systemData_CreatedByType_STATUS_ARM_Values = map[string]SystemData_CreatedByType_STATUS_ARM{
+	"application":     SystemData_CreatedByType_STATUS_ARM_Application,
+	"key":             SystemData_CreatedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_ARM_User,
 }
 
-type SystemData_LastModifiedByType_STATUS string
+type SystemData_LastModifiedByType_STATUS_ARM string
 
 const (
-	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+	SystemData_LastModifiedByType_STATUS_ARM_Application     = SystemData_LastModifiedByType_STATUS_ARM("Application")
+	SystemData_LastModifiedByType_STATUS_ARM_Key             = SystemData_LastModifiedByType_STATUS_ARM("Key")
+	SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity = SystemData_LastModifiedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_ARM_User            = SystemData_LastModifiedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_LastModifiedByType_STATUS
-var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
-	"application":     SystemData_LastModifiedByType_STATUS_Application,
-	"key":             SystemData_LastModifiedByType_STATUS_Key,
-	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_LastModifiedByType_STATUS_User,
+// Mapping from string to SystemData_LastModifiedByType_STATUS_ARM
+var systemData_LastModifiedByType_STATUS_ARM_Values = map[string]SystemData_LastModifiedByType_STATUS_ARM{
+	"application":     SystemData_LastModifiedByType_STATUS_ARM_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_ARM_User,
+}
+
+type AutoscaleNotification_Operation_STATUS_ARM string
+
+const AutoscaleNotification_Operation_STATUS_ARM_Scale = AutoscaleNotification_Operation_STATUS_ARM("Scale")
+
+// Mapping from string to AutoscaleNotification_Operation_STATUS_ARM
+var autoscaleNotification_Operation_STATUS_ARM_Values = map[string]AutoscaleNotification_Operation_STATUS_ARM{
+	"scale": AutoscaleNotification_Operation_STATUS_ARM_Scale,
 }
 
 // Email notification of an autoscale event.
@@ -161,12 +170,27 @@ type EmailNotification_STATUS_ARM struct {
 	SendToSubscriptionCoAdministrators *bool `json:"sendToSubscriptionCoAdministrators,omitempty"`
 }
 
+type PredictiveAutoscalePolicy_ScaleMode_STATUS_ARM string
+
+const (
+	PredictiveAutoscalePolicy_ScaleMode_STATUS_ARM_Disabled     = PredictiveAutoscalePolicy_ScaleMode_STATUS_ARM("Disabled")
+	PredictiveAutoscalePolicy_ScaleMode_STATUS_ARM_Enabled      = PredictiveAutoscalePolicy_ScaleMode_STATUS_ARM("Enabled")
+	PredictiveAutoscalePolicy_ScaleMode_STATUS_ARM_ForecastOnly = PredictiveAutoscalePolicy_ScaleMode_STATUS_ARM("ForecastOnly")
+)
+
+// Mapping from string to PredictiveAutoscalePolicy_ScaleMode_STATUS_ARM
+var predictiveAutoscalePolicy_ScaleMode_STATUS_ARM_Values = map[string]PredictiveAutoscalePolicy_ScaleMode_STATUS_ARM{
+	"disabled":     PredictiveAutoscalePolicy_ScaleMode_STATUS_ARM_Disabled,
+	"enabled":      PredictiveAutoscalePolicy_ScaleMode_STATUS_ARM_Enabled,
+	"forecastonly": PredictiveAutoscalePolicy_ScaleMode_STATUS_ARM_ForecastOnly,
+}
+
 // The repeating times at which this profile begins. This element is not used if the FixedDate element is used.
 type Recurrence_STATUS_ARM struct {
 	// Frequency: the recurrence frequency. How often the schedule profile should take effect. This value must be Week, meaning
 	// each week will have the same set of profiles. For example, to set a daily schedule, set schedule to every day of the
 	// week. The frequency property specifies that the schedule is repeated weekly.
-	Frequency *Recurrence_Frequency_STATUS `json:"frequency,omitempty"`
+	Frequency *Recurrence_Frequency_STATUS_ARM `json:"frequency,omitempty"`
 
 	// Schedule: the scheduling constraints for when the profile begins.
 	Schedule *RecurrentSchedule_STATUS_ARM `json:"schedule,omitempty"`
@@ -260,17 +284,17 @@ type MetricTrigger_STATUS_ARM struct {
 	MetricResourceUri *string `json:"metricResourceUri,omitempty"`
 
 	// Operator: the operator that is used to compare the metric data and the threshold.
-	Operator *MetricTrigger_Operator_STATUS `json:"operator,omitempty"`
+	Operator *MetricTrigger_Operator_STATUS_ARM `json:"operator,omitempty"`
 
 	// Statistic: the metric statistic type. How the metrics from multiple instances are combined.
-	Statistic *MetricTrigger_Statistic_STATUS `json:"statistic,omitempty"`
+	Statistic *MetricTrigger_Statistic_STATUS_ARM `json:"statistic,omitempty"`
 
 	// Threshold: the threshold of the metric that triggers the scale action.
 	Threshold *float64 `json:"threshold,omitempty"`
 
 	// TimeAggregation: time aggregation type. How the data that is collected should be combined over time. The default value
 	// is Average.
-	TimeAggregation *MetricTrigger_TimeAggregation_STATUS `json:"timeAggregation,omitempty"`
+	TimeAggregation *MetricTrigger_TimeAggregation_STATUS_ARM `json:"timeAggregation,omitempty"`
 
 	// TimeGrain: the granularity of metrics the rule monitors. Must be one of the predefined values returned from metric
 	// definitions for the metric. Must be between 12 hours and 1 minute.
@@ -279,6 +303,32 @@ type MetricTrigger_STATUS_ARM struct {
 	// TimeWindow: the range of time in which instance data is collected. This value must be greater than the delay in metric
 	// collection, which can vary from resource-to-resource. Must be between 12 hours and 5 minutes.
 	TimeWindow *string `json:"timeWindow,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Day","Hour","Minute","Month","None","Second","Week","Year"}
+type Recurrence_Frequency_STATUS_ARM string
+
+const (
+	Recurrence_Frequency_STATUS_ARM_Day    = Recurrence_Frequency_STATUS_ARM("Day")
+	Recurrence_Frequency_STATUS_ARM_Hour   = Recurrence_Frequency_STATUS_ARM("Hour")
+	Recurrence_Frequency_STATUS_ARM_Minute = Recurrence_Frequency_STATUS_ARM("Minute")
+	Recurrence_Frequency_STATUS_ARM_Month  = Recurrence_Frequency_STATUS_ARM("Month")
+	Recurrence_Frequency_STATUS_ARM_None   = Recurrence_Frequency_STATUS_ARM("None")
+	Recurrence_Frequency_STATUS_ARM_Second = Recurrence_Frequency_STATUS_ARM("Second")
+	Recurrence_Frequency_STATUS_ARM_Week   = Recurrence_Frequency_STATUS_ARM("Week")
+	Recurrence_Frequency_STATUS_ARM_Year   = Recurrence_Frequency_STATUS_ARM("Year")
+)
+
+// Mapping from string to Recurrence_Frequency_STATUS_ARM
+var recurrence_Frequency_STATUS_ARM_Values = map[string]Recurrence_Frequency_STATUS_ARM{
+	"day":    Recurrence_Frequency_STATUS_ARM_Day,
+	"hour":   Recurrence_Frequency_STATUS_ARM_Hour,
+	"minute": Recurrence_Frequency_STATUS_ARM_Minute,
+	"month":  Recurrence_Frequency_STATUS_ARM_Month,
+	"none":   Recurrence_Frequency_STATUS_ARM_None,
+	"second": Recurrence_Frequency_STATUS_ARM_Second,
+	"week":   Recurrence_Frequency_STATUS_ARM_Week,
+	"year":   Recurrence_Frequency_STATUS_ARM_Year,
 }
 
 // The scheduling constraints for when the profile begins.
@@ -326,14 +376,112 @@ type ScaleAction_STATUS_ARM struct {
 	Cooldown *string `json:"cooldown,omitempty"`
 
 	// Direction: the scale direction. Whether the scaling action increases or decreases the number of instances.
-	Direction *ScaleAction_Direction_STATUS `json:"direction,omitempty"`
+	Direction *ScaleAction_Direction_STATUS_ARM `json:"direction,omitempty"`
 
 	// Type: the type of action that should occur when the scale rule fires.
-	Type *ScaleAction_Type_STATUS `json:"type,omitempty"`
+	Type *ScaleAction_Type_STATUS_ARM `json:"type,omitempty"`
 
 	// Value: the number of instances that are involved in the scaling action. This value must be 1 or greater. The default
 	// value is 1.
 	Value *string `json:"value,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Equals","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","NotEquals"}
+type MetricTrigger_Operator_STATUS_ARM string
+
+const (
+	MetricTrigger_Operator_STATUS_ARM_Equals             = MetricTrigger_Operator_STATUS_ARM("Equals")
+	MetricTrigger_Operator_STATUS_ARM_GreaterThan        = MetricTrigger_Operator_STATUS_ARM("GreaterThan")
+	MetricTrigger_Operator_STATUS_ARM_GreaterThanOrEqual = MetricTrigger_Operator_STATUS_ARM("GreaterThanOrEqual")
+	MetricTrigger_Operator_STATUS_ARM_LessThan           = MetricTrigger_Operator_STATUS_ARM("LessThan")
+	MetricTrigger_Operator_STATUS_ARM_LessThanOrEqual    = MetricTrigger_Operator_STATUS_ARM("LessThanOrEqual")
+	MetricTrigger_Operator_STATUS_ARM_NotEquals          = MetricTrigger_Operator_STATUS_ARM("NotEquals")
+)
+
+// Mapping from string to MetricTrigger_Operator_STATUS_ARM
+var metricTrigger_Operator_STATUS_ARM_Values = map[string]MetricTrigger_Operator_STATUS_ARM{
+	"equals":             MetricTrigger_Operator_STATUS_ARM_Equals,
+	"greaterthan":        MetricTrigger_Operator_STATUS_ARM_GreaterThan,
+	"greaterthanorequal": MetricTrigger_Operator_STATUS_ARM_GreaterThanOrEqual,
+	"lessthan":           MetricTrigger_Operator_STATUS_ARM_LessThan,
+	"lessthanorequal":    MetricTrigger_Operator_STATUS_ARM_LessThanOrEqual,
+	"notequals":          MetricTrigger_Operator_STATUS_ARM_NotEquals,
+}
+
+// +kubebuilder:validation:Enum={"Average","Count","Max","Min","Sum"}
+type MetricTrigger_Statistic_STATUS_ARM string
+
+const (
+	MetricTrigger_Statistic_STATUS_ARM_Average = MetricTrigger_Statistic_STATUS_ARM("Average")
+	MetricTrigger_Statistic_STATUS_ARM_Count   = MetricTrigger_Statistic_STATUS_ARM("Count")
+	MetricTrigger_Statistic_STATUS_ARM_Max     = MetricTrigger_Statistic_STATUS_ARM("Max")
+	MetricTrigger_Statistic_STATUS_ARM_Min     = MetricTrigger_Statistic_STATUS_ARM("Min")
+	MetricTrigger_Statistic_STATUS_ARM_Sum     = MetricTrigger_Statistic_STATUS_ARM("Sum")
+)
+
+// Mapping from string to MetricTrigger_Statistic_STATUS_ARM
+var metricTrigger_Statistic_STATUS_ARM_Values = map[string]MetricTrigger_Statistic_STATUS_ARM{
+	"average": MetricTrigger_Statistic_STATUS_ARM_Average,
+	"count":   MetricTrigger_Statistic_STATUS_ARM_Count,
+	"max":     MetricTrigger_Statistic_STATUS_ARM_Max,
+	"min":     MetricTrigger_Statistic_STATUS_ARM_Min,
+	"sum":     MetricTrigger_Statistic_STATUS_ARM_Sum,
+}
+
+// +kubebuilder:validation:Enum={"Average","Count","Last","Maximum","Minimum","Total"}
+type MetricTrigger_TimeAggregation_STATUS_ARM string
+
+const (
+	MetricTrigger_TimeAggregation_STATUS_ARM_Average = MetricTrigger_TimeAggregation_STATUS_ARM("Average")
+	MetricTrigger_TimeAggregation_STATUS_ARM_Count   = MetricTrigger_TimeAggregation_STATUS_ARM("Count")
+	MetricTrigger_TimeAggregation_STATUS_ARM_Last    = MetricTrigger_TimeAggregation_STATUS_ARM("Last")
+	MetricTrigger_TimeAggregation_STATUS_ARM_Maximum = MetricTrigger_TimeAggregation_STATUS_ARM("Maximum")
+	MetricTrigger_TimeAggregation_STATUS_ARM_Minimum = MetricTrigger_TimeAggregation_STATUS_ARM("Minimum")
+	MetricTrigger_TimeAggregation_STATUS_ARM_Total   = MetricTrigger_TimeAggregation_STATUS_ARM("Total")
+)
+
+// Mapping from string to MetricTrigger_TimeAggregation_STATUS_ARM
+var metricTrigger_TimeAggregation_STATUS_ARM_Values = map[string]MetricTrigger_TimeAggregation_STATUS_ARM{
+	"average": MetricTrigger_TimeAggregation_STATUS_ARM_Average,
+	"count":   MetricTrigger_TimeAggregation_STATUS_ARM_Count,
+	"last":    MetricTrigger_TimeAggregation_STATUS_ARM_Last,
+	"maximum": MetricTrigger_TimeAggregation_STATUS_ARM_Maximum,
+	"minimum": MetricTrigger_TimeAggregation_STATUS_ARM_Minimum,
+	"total":   MetricTrigger_TimeAggregation_STATUS_ARM_Total,
+}
+
+// +kubebuilder:validation:Enum={"Decrease","Increase","None"}
+type ScaleAction_Direction_STATUS_ARM string
+
+const (
+	ScaleAction_Direction_STATUS_ARM_Decrease = ScaleAction_Direction_STATUS_ARM("Decrease")
+	ScaleAction_Direction_STATUS_ARM_Increase = ScaleAction_Direction_STATUS_ARM("Increase")
+	ScaleAction_Direction_STATUS_ARM_None     = ScaleAction_Direction_STATUS_ARM("None")
+)
+
+// Mapping from string to ScaleAction_Direction_STATUS_ARM
+var scaleAction_Direction_STATUS_ARM_Values = map[string]ScaleAction_Direction_STATUS_ARM{
+	"decrease": ScaleAction_Direction_STATUS_ARM_Decrease,
+	"increase": ScaleAction_Direction_STATUS_ARM_Increase,
+	"none":     ScaleAction_Direction_STATUS_ARM_None,
+}
+
+// +kubebuilder:validation:Enum={"ChangeCount","ExactCount","PercentChangeCount","ServiceAllowedNextValue"}
+type ScaleAction_Type_STATUS_ARM string
+
+const (
+	ScaleAction_Type_STATUS_ARM_ChangeCount             = ScaleAction_Type_STATUS_ARM("ChangeCount")
+	ScaleAction_Type_STATUS_ARM_ExactCount              = ScaleAction_Type_STATUS_ARM("ExactCount")
+	ScaleAction_Type_STATUS_ARM_PercentChangeCount      = ScaleAction_Type_STATUS_ARM("PercentChangeCount")
+	ScaleAction_Type_STATUS_ARM_ServiceAllowedNextValue = ScaleAction_Type_STATUS_ARM("ServiceAllowedNextValue")
+)
+
+// Mapping from string to ScaleAction_Type_STATUS_ARM
+var scaleAction_Type_STATUS_ARM_Values = map[string]ScaleAction_Type_STATUS_ARM{
+	"changecount":             ScaleAction_Type_STATUS_ARM_ChangeCount,
+	"exactcount":              ScaleAction_Type_STATUS_ARM_ExactCount,
+	"percentchangecount":      ScaleAction_Type_STATUS_ARM_PercentChangeCount,
+	"serviceallowednextvalue": ScaleAction_Type_STATUS_ARM_ServiceAllowedNextValue,
 }
 
 // Specifies an auto scale rule metric dimension.
@@ -343,8 +491,22 @@ type ScaleRuleMetricDimension_STATUS_ARM struct {
 
 	// Operator: the dimension operator. Only 'Equals' and 'NotEquals' are supported. 'Equals' being equal to any of the
 	// values. 'NotEquals' being not equal to all of the values
-	Operator *ScaleRuleMetricDimension_Operator_STATUS `json:"Operator,omitempty"`
+	Operator *ScaleRuleMetricDimension_Operator_STATUS_ARM `json:"Operator,omitempty"`
 
 	// Values: list of dimension values. For example: ["App1","App2"].
 	Values []string `json:"Values,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Equals","NotEquals"}
+type ScaleRuleMetricDimension_Operator_STATUS_ARM string
+
+const (
+	ScaleRuleMetricDimension_Operator_STATUS_ARM_Equals    = ScaleRuleMetricDimension_Operator_STATUS_ARM("Equals")
+	ScaleRuleMetricDimension_Operator_STATUS_ARM_NotEquals = ScaleRuleMetricDimension_Operator_STATUS_ARM("NotEquals")
+)
+
+// Mapping from string to ScaleRuleMetricDimension_Operator_STATUS_ARM
+var scaleRuleMetricDimension_Operator_STATUS_ARM_Values = map[string]ScaleRuleMetricDimension_Operator_STATUS_ARM{
+	"equals":    ScaleRuleMetricDimension_Operator_STATUS_ARM_Equals,
+	"notequals": ScaleRuleMetricDimension_Operator_STATUS_ARM_NotEquals,
 }

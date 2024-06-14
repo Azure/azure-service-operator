@@ -49,7 +49,7 @@ type WebTestProperties_ARM struct {
 	Frequency *int `json:"Frequency,omitempty"`
 
 	// Kind: The kind of web test this is, valid choices are ping, multistep and standard.
-	Kind *WebTestProperties_Kind `json:"Kind,omitempty"`
+	Kind *WebTestProperties_Kind_ARM `json:"Kind,omitempty"`
 
 	// Locations: A list of where to physically run the tests from to give global coverage for accessibility of your
 	// application.
@@ -83,6 +83,22 @@ type WebTestGeolocation_ARM struct {
 type WebTestProperties_Configuration_ARM struct {
 	// WebTest: The XML specification of a WebTest to run against an application.
 	WebTest *string `json:"WebTest,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"multistep","ping","standard"}
+type WebTestProperties_Kind_ARM string
+
+const (
+	WebTestProperties_Kind_ARM_Multistep = WebTestProperties_Kind_ARM("multistep")
+	WebTestProperties_Kind_ARM_Ping      = WebTestProperties_Kind_ARM("ping")
+	WebTestProperties_Kind_ARM_Standard  = WebTestProperties_Kind_ARM("standard")
+)
+
+// Mapping from string to WebTestProperties_Kind_ARM
+var webTestProperties_Kind_ARM_Values = map[string]WebTestProperties_Kind_ARM{
+	"multistep": WebTestProperties_Kind_ARM_Multistep,
+	"ping":      WebTestProperties_Kind_ARM_Ping,
+	"standard":  WebTestProperties_Kind_ARM_Standard,
 }
 
 type WebTestProperties_Request_ARM struct {

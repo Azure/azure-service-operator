@@ -36,7 +36,7 @@ type AFDOriginProperties_ARM struct {
 
 	// EnabledState: Whether to enable health probes to be made against backends defined under backendPools. Health probes can
 	// only be disabled if there is a single enabled backend in single enabled backend pool.
-	EnabledState *AFDOriginProperties_EnabledState `json:"enabledState,omitempty"`
+	EnabledState *AFDOriginProperties_EnabledState_ARM `json:"enabledState,omitempty"`
 
 	// EnforceCertificateNameCheck: Whether to enable certificate name check at origin level
 	EnforceCertificateNameCheck *bool `json:"enforceCertificateNameCheck,omitempty"`
@@ -67,6 +67,20 @@ type AFDOriginProperties_ARM struct {
 	Weight *int `json:"weight,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type AFDOriginProperties_EnabledState_ARM string
+
+const (
+	AFDOriginProperties_EnabledState_ARM_Disabled = AFDOriginProperties_EnabledState_ARM("Disabled")
+	AFDOriginProperties_EnabledState_ARM_Enabled  = AFDOriginProperties_EnabledState_ARM("Enabled")
+)
+
+// Mapping from string to AFDOriginProperties_EnabledState_ARM
+var aFDOriginProperties_EnabledState_ARM_Values = map[string]AFDOriginProperties_EnabledState_ARM{
+	"disabled": AFDOriginProperties_EnabledState_ARM_Disabled,
+	"enabled":  AFDOriginProperties_EnabledState_ARM_Enabled,
+}
+
 // Describes the properties of an existing Shared Private Link Resource to use when connecting to a private origin.
 type SharedPrivateLinkResourceProperties_ARM struct {
 	// GroupId: The group id from the provider of resource the shared private link resource is for.
@@ -82,5 +96,25 @@ type SharedPrivateLinkResourceProperties_ARM struct {
 	RequestMessage *string `json:"requestMessage,omitempty"`
 
 	// Status: Status of the shared private link resource. Can be Pending, Approved, Rejected, Disconnected, or Timeout.
-	Status *SharedPrivateLinkResourceProperties_Status `json:"status,omitempty"`
+	Status *SharedPrivateLinkResourceProperties_Status_ARM `json:"status,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Approved","Disconnected","Pending","Rejected","Timeout"}
+type SharedPrivateLinkResourceProperties_Status_ARM string
+
+const (
+	SharedPrivateLinkResourceProperties_Status_ARM_Approved     = SharedPrivateLinkResourceProperties_Status_ARM("Approved")
+	SharedPrivateLinkResourceProperties_Status_ARM_Disconnected = SharedPrivateLinkResourceProperties_Status_ARM("Disconnected")
+	SharedPrivateLinkResourceProperties_Status_ARM_Pending      = SharedPrivateLinkResourceProperties_Status_ARM("Pending")
+	SharedPrivateLinkResourceProperties_Status_ARM_Rejected     = SharedPrivateLinkResourceProperties_Status_ARM("Rejected")
+	SharedPrivateLinkResourceProperties_Status_ARM_Timeout      = SharedPrivateLinkResourceProperties_Status_ARM("Timeout")
+)
+
+// Mapping from string to SharedPrivateLinkResourceProperties_Status_ARM
+var sharedPrivateLinkResourceProperties_Status_ARM_Values = map[string]SharedPrivateLinkResourceProperties_Status_ARM{
+	"approved":     SharedPrivateLinkResourceProperties_Status_ARM_Approved,
+	"disconnected": SharedPrivateLinkResourceProperties_Status_ARM_Disconnected,
+	"pending":      SharedPrivateLinkResourceProperties_Status_ARM_Pending,
+	"rejected":     SharedPrivateLinkResourceProperties_Status_ARM_Rejected,
+	"timeout":      SharedPrivateLinkResourceProperties_Status_ARM_Timeout,
 }

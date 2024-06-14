@@ -50,7 +50,7 @@ type ElasticPoolProperties_ARM struct {
 	HighAvailabilityReplicaCount *int `json:"highAvailabilityReplicaCount,omitempty"`
 
 	// LicenseType: The license type to apply for this elastic pool.
-	LicenseType *ElasticPoolProperties_LicenseType `json:"licenseType,omitempty"`
+	LicenseType *ElasticPoolProperties_LicenseType_ARM `json:"licenseType,omitempty"`
 
 	// MaintenanceConfigurationId: Maintenance configuration id assigned to the elastic pool. This configuration defines the
 	// period when the maintenance updates will will occur.
@@ -77,4 +77,18 @@ type ElasticPoolPerDatabaseSettings_ARM struct {
 
 	// MinCapacity: The minimum capacity all databases are guaranteed.
 	MinCapacity *float64 `json:"minCapacity,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"BasePrice","LicenseIncluded"}
+type ElasticPoolProperties_LicenseType_ARM string
+
+const (
+	ElasticPoolProperties_LicenseType_ARM_BasePrice       = ElasticPoolProperties_LicenseType_ARM("BasePrice")
+	ElasticPoolProperties_LicenseType_ARM_LicenseIncluded = ElasticPoolProperties_LicenseType_ARM("LicenseIncluded")
+)
+
+// Mapping from string to ElasticPoolProperties_LicenseType_ARM
+var elasticPoolProperties_LicenseType_ARM_Values = map[string]ElasticPoolProperties_LicenseType_ARM{
+	"baseprice":       ElasticPoolProperties_LicenseType_ARM_BasePrice,
+	"licenseincluded": ElasticPoolProperties_LicenseType_ARM_LicenseIncluded,
 }

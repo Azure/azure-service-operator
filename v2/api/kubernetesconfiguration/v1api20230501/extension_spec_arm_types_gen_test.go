@@ -75,7 +75,7 @@ func Extension_Properties_AksAssignedIdentity_Spec_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForExtension_Properties_AksAssignedIdentity_Spec_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForExtension_Properties_AksAssignedIdentity_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(Extension_Properties_AksAssignedIdentity_Type_Spec_SystemAssigned, Extension_Properties_AksAssignedIdentity_Type_Spec_UserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(Extension_Properties_AksAssignedIdentity_Type_Spec_ARM_SystemAssigned, Extension_Properties_AksAssignedIdentity_Type_Spec_ARM_UserAssigned))
 }
 
 func Test_Extension_Properties_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -297,7 +297,7 @@ func Identity_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForIdentity_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIdentity_ARM(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(Identity_Type_SystemAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(Identity_Type_ARM_SystemAssigned))
 }
 
 func Test_Plan_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -605,15 +605,15 @@ func AddIndependentPropertyGeneratorsForSystemData_ARM(gens map[string]gopter.Ge
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_Application,
-		SystemData_CreatedByType_Key,
-		SystemData_CreatedByType_ManagedIdentity,
-		SystemData_CreatedByType_User))
+		SystemData_CreatedByType_ARM_Application,
+		SystemData_CreatedByType_ARM_Key,
+		SystemData_CreatedByType_ARM_ManagedIdentity,
+		SystemData_CreatedByType_ARM_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_Application,
-		SystemData_LastModifiedByType_Key,
-		SystemData_LastModifiedByType_ManagedIdentity,
-		SystemData_LastModifiedByType_User))
+		SystemData_LastModifiedByType_ARM_Application,
+		SystemData_LastModifiedByType_ARM_Key,
+		SystemData_LastModifiedByType_ARM_ManagedIdentity,
+		SystemData_LastModifiedByType_ARM_User))
 }

@@ -536,7 +536,9 @@ func (site *Site_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 		result.Properties.ClientCertExclusionPaths = &clientCertExclusionPaths
 	}
 	if site.ClientCertMode != nil {
-		clientCertMode := *site.ClientCertMode
+		var temp string
+		temp = string(*site.ClientCertMode)
+		clientCertMode := Site_Properties_ClientCertMode_Spec_ARM(temp)
 		result.Properties.ClientCertMode = &clientCertMode
 	}
 	if site.CloningInfo != nil {
@@ -603,7 +605,9 @@ func (site *Site_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 	if site.RedundancyMode != nil {
-		redundancyMode := *site.RedundancyMode
+		var temp string
+		temp = string(*site.RedundancyMode)
+		redundancyMode := Site_Properties_RedundancyMode_Spec_ARM(temp)
 		result.Properties.RedundancyMode = &redundancyMode
 	}
 	if site.Reserved != nil {
@@ -711,7 +715,9 @@ func (site *Site_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ClientCertMode != nil {
-			clientCertMode := *typedInput.Properties.ClientCertMode
+			var temp string
+			temp = string(*typedInput.Properties.ClientCertMode)
+			clientCertMode := Site_Properties_ClientCertMode_Spec(temp)
 			site.ClientCertMode = &clientCertMode
 		}
 	}
@@ -891,7 +897,9 @@ func (site *Site_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RedundancyMode != nil {
-			redundancyMode := *typedInput.Properties.RedundancyMode
+			var temp string
+			temp = string(*typedInput.Properties.RedundancyMode)
+			redundancyMode := Site_Properties_RedundancyMode_Spec(temp)
 			site.RedundancyMode = &redundancyMode
 		}
 	}
@@ -2071,7 +2079,9 @@ func (site *Site_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AvailabilityState != nil {
-			availabilityState := *typedInput.Properties.AvailabilityState
+			var temp string
+			temp = string(*typedInput.Properties.AvailabilityState)
+			availabilityState := Site_Properties_AvailabilityState_STATUS(temp)
 			site.AvailabilityState = &availabilityState
 		}
 	}
@@ -2107,7 +2117,9 @@ func (site *Site_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ClientCertMode != nil {
-			clientCertMode := *typedInput.Properties.ClientCertMode
+			var temp string
+			temp = string(*typedInput.Properties.ClientCertMode)
+			clientCertMode := Site_Properties_ClientCertMode_STATUS(temp)
 			site.ClientCertMode = &clientCertMode
 		}
 	}
@@ -2374,7 +2386,9 @@ func (site *Site_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RedundancyMode != nil {
-			redundancyMode := *typedInput.Properties.RedundancyMode
+			var temp string
+			temp = string(*typedInput.Properties.RedundancyMode)
+			redundancyMode := Site_Properties_RedundancyMode_STATUS(temp)
 			site.RedundancyMode = &redundancyMode
 		}
 	}
@@ -2514,7 +2528,9 @@ func (site *Site_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.UsageState != nil {
-			usageState := *typedInput.Properties.UsageState
+			var temp string
+			temp = string(*typedInput.Properties.UsageState)
+			usageState := Site_Properties_UsageState_STATUS(temp)
 			site.UsageState = &usageState
 		}
 	}
@@ -3966,7 +3982,9 @@ func (state *HostNameSslState) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "HostType":
 	if state.HostType != nil {
-		hostType := *state.HostType
+		var temp string
+		temp = string(*state.HostType)
+		hostType := HostNameSslState_HostType_ARM(temp)
 		result.HostType = &hostType
 	}
 
@@ -3978,7 +3996,9 @@ func (state *HostNameSslState) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "SslState":
 	if state.SslState != nil {
-		sslState := *state.SslState
+		var temp string
+		temp = string(*state.SslState)
+		sslState := HostNameSslState_SslState_ARM(temp)
 		result.SslState = &sslState
 	}
 
@@ -4016,7 +4036,9 @@ func (state *HostNameSslState) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "HostType":
 	if typedInput.HostType != nil {
-		hostType := *typedInput.HostType
+		var temp string
+		temp = string(*typedInput.HostType)
+		hostType := HostNameSslState_HostType(temp)
 		state.HostType = &hostType
 	}
 
@@ -4028,7 +4050,9 @@ func (state *HostNameSslState) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "SslState":
 	if typedInput.SslState != nil {
-		sslState := *typedInput.SslState
+		var temp string
+		temp = string(*typedInput.SslState)
+		sslState := HostNameSslState_SslState(temp)
 		state.SslState = &sslState
 	}
 
@@ -4222,7 +4246,9 @@ func (state *HostNameSslState_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property "HostType":
 	if typedInput.HostType != nil {
-		hostType := *typedInput.HostType
+		var temp string
+		temp = string(*typedInput.HostType)
+		hostType := HostNameSslState_HostType_STATUS(temp)
 		state.HostType = &hostType
 	}
 
@@ -4234,7 +4260,9 @@ func (state *HostNameSslState_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property "SslState":
 	if typedInput.SslState != nil {
-		sslState := *typedInput.SslState
+		var temp string
+		temp = string(*typedInput.SslState)
+		sslState := HostNameSslState_SslState_STATUS(temp)
 		state.SslState = &sslState
 	}
 
@@ -4373,7 +4401,9 @@ func (identity *ManagedServiceIdentity) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "Type":
 	if identity.Type != nil {
-		typeVar := *identity.Type
+		var temp string
+		temp = string(*identity.Type)
+		typeVar := ManagedServiceIdentity_Type_ARM(temp)
 		result.Type = &typeVar
 	}
 
@@ -4404,7 +4434,9 @@ func (identity *ManagedServiceIdentity) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ManagedServiceIdentity_Type(temp)
 		identity.Type = &typeVar
 	}
 
@@ -4562,7 +4594,9 @@ func (identity *ManagedServiceIdentity_STATUS) PopulateFromARM(owner genruntime.
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ManagedServiceIdentity_Type_STATUS(temp)
 		identity.Type = &typeVar
 	}
 
@@ -5130,7 +5164,9 @@ func (config *SiteConfig) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "FtpsState":
 	if config.FtpsState != nil {
-		ftpsState := *config.FtpsState
+		var temp string
+		temp = string(*config.FtpsState)
+		ftpsState := SiteConfig_FtpsState_ARM(temp)
 		result.FtpsState = &ftpsState
 	}
 
@@ -5224,7 +5260,9 @@ func (config *SiteConfig) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "LoadBalancing":
 	if config.LoadBalancing != nil {
-		loadBalancing := *config.LoadBalancing
+		var temp string
+		temp = string(*config.LoadBalancing)
+		loadBalancing := SiteConfig_LoadBalancing_ARM(temp)
 		result.LoadBalancing = &loadBalancing
 	}
 
@@ -5242,7 +5280,9 @@ func (config *SiteConfig) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "ManagedPipelineMode":
 	if config.ManagedPipelineMode != nil {
-		managedPipelineMode := *config.ManagedPipelineMode
+		var temp string
+		temp = string(*config.ManagedPipelineMode)
+		managedPipelineMode := SiteConfig_ManagedPipelineMode_ARM(temp)
 		result.ManagedPipelineMode = &managedPipelineMode
 	}
 
@@ -5254,7 +5294,9 @@ func (config *SiteConfig) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "MinTlsVersion":
 	if config.MinTlsVersion != nil {
-		minTlsVersion := *config.MinTlsVersion
+		var temp string
+		temp = string(*config.MinTlsVersion)
+		minTlsVersion := SiteConfig_MinTlsVersion_ARM(temp)
 		result.MinTlsVersion = &minTlsVersion
 	}
 
@@ -5369,13 +5411,17 @@ func (config *SiteConfig) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "ScmMinTlsVersion":
 	if config.ScmMinTlsVersion != nil {
-		scmMinTlsVersion := *config.ScmMinTlsVersion
+		var temp string
+		temp = string(*config.ScmMinTlsVersion)
+		scmMinTlsVersion := SiteConfig_ScmMinTlsVersion_ARM(temp)
 		result.ScmMinTlsVersion = &scmMinTlsVersion
 	}
 
 	// Set property "ScmType":
 	if config.ScmType != nil {
-		scmType := *config.ScmType
+		var temp string
+		temp = string(*config.ScmType)
+		scmType := SiteConfig_ScmType_ARM(temp)
 		result.ScmType = &scmType
 	}
 
@@ -5599,7 +5645,9 @@ func (config *SiteConfig) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 
 	// Set property "FtpsState":
 	if typedInput.FtpsState != nil {
-		ftpsState := *typedInput.FtpsState
+		var temp string
+		temp = string(*typedInput.FtpsState)
+		ftpsState := SiteConfig_FtpsState(temp)
 		config.FtpsState = &ftpsState
 	}
 
@@ -5696,7 +5744,9 @@ func (config *SiteConfig) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 
 	// Set property "LoadBalancing":
 	if typedInput.LoadBalancing != nil {
-		loadBalancing := *typedInput.LoadBalancing
+		var temp string
+		temp = string(*typedInput.LoadBalancing)
+		loadBalancing := SiteConfig_LoadBalancing(temp)
 		config.LoadBalancing = &loadBalancing
 	}
 
@@ -5714,7 +5764,9 @@ func (config *SiteConfig) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 
 	// Set property "ManagedPipelineMode":
 	if typedInput.ManagedPipelineMode != nil {
-		managedPipelineMode := *typedInput.ManagedPipelineMode
+		var temp string
+		temp = string(*typedInput.ManagedPipelineMode)
+		managedPipelineMode := SiteConfig_ManagedPipelineMode(temp)
 		config.ManagedPipelineMode = &managedPipelineMode
 	}
 
@@ -5726,7 +5778,9 @@ func (config *SiteConfig) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 
 	// Set property "MinTlsVersion":
 	if typedInput.MinTlsVersion != nil {
-		minTlsVersion := *typedInput.MinTlsVersion
+		var temp string
+		temp = string(*typedInput.MinTlsVersion)
+		minTlsVersion := SiteConfig_MinTlsVersion(temp)
 		config.MinTlsVersion = &minTlsVersion
 	}
 
@@ -5843,13 +5897,17 @@ func (config *SiteConfig) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 
 	// Set property "ScmMinTlsVersion":
 	if typedInput.ScmMinTlsVersion != nil {
-		scmMinTlsVersion := *typedInput.ScmMinTlsVersion
+		var temp string
+		temp = string(*typedInput.ScmMinTlsVersion)
+		scmMinTlsVersion := SiteConfig_ScmMinTlsVersion(temp)
 		config.ScmMinTlsVersion = &scmMinTlsVersion
 	}
 
 	// Set property "ScmType":
 	if typedInput.ScmType != nil {
-		scmType := *typedInput.ScmType
+		var temp string
+		temp = string(*typedInput.ScmType)
+		scmType := SiteConfig_ScmType(temp)
 		config.ScmType = &scmType
 	}
 
@@ -7772,7 +7830,9 @@ func (config *SiteConfig_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property "FtpsState":
 	if typedInput.FtpsState != nil {
-		ftpsState := *typedInput.FtpsState
+		var temp string
+		temp = string(*typedInput.FtpsState)
+		ftpsState := SiteConfig_FtpsState_STATUS(temp)
 		config.FtpsState = &ftpsState
 	}
 
@@ -7869,7 +7929,9 @@ func (config *SiteConfig_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property "LoadBalancing":
 	if typedInput.LoadBalancing != nil {
-		loadBalancing := *typedInput.LoadBalancing
+		var temp string
+		temp = string(*typedInput.LoadBalancing)
+		loadBalancing := SiteConfig_LoadBalancing_STATUS(temp)
 		config.LoadBalancing = &loadBalancing
 	}
 
@@ -7898,7 +7960,9 @@ func (config *SiteConfig_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property "ManagedPipelineMode":
 	if typedInput.ManagedPipelineMode != nil {
-		managedPipelineMode := *typedInput.ManagedPipelineMode
+		var temp string
+		temp = string(*typedInput.ManagedPipelineMode)
+		managedPipelineMode := SiteConfig_ManagedPipelineMode_STATUS(temp)
 		config.ManagedPipelineMode = &managedPipelineMode
 	}
 
@@ -7910,7 +7974,9 @@ func (config *SiteConfig_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property "MinTlsVersion":
 	if typedInput.MinTlsVersion != nil {
-		minTlsVersion := *typedInput.MinTlsVersion
+		var temp string
+		temp = string(*typedInput.MinTlsVersion)
+		minTlsVersion := SiteConfig_MinTlsVersion_STATUS(temp)
 		config.MinTlsVersion = &minTlsVersion
 	}
 
@@ -8027,13 +8093,17 @@ func (config *SiteConfig_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property "ScmMinTlsVersion":
 	if typedInput.ScmMinTlsVersion != nil {
-		scmMinTlsVersion := *typedInput.ScmMinTlsVersion
+		var temp string
+		temp = string(*typedInput.ScmMinTlsVersion)
+		scmMinTlsVersion := SiteConfig_ScmMinTlsVersion_STATUS(temp)
 		config.ScmMinTlsVersion = &scmMinTlsVersion
 	}
 
 	// Set property "ScmType":
 	if typedInput.ScmType != nil {
-		scmType := *typedInput.ScmType
+		var temp string
+		temp = string(*typedInput.ScmType)
+		scmType := SiteConfig_ScmType_STATUS(temp)
 		config.ScmType = &scmType
 	}
 
@@ -9837,7 +9907,9 @@ func (value *AzureStorageInfoValue) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "Type":
 	if value.Type != nil {
-		typeVar := *value.Type
+		var temp string
+		temp = string(*value.Type)
+		typeVar := AzureStorageInfoValue_Type_ARM(temp)
 		result.Type = &typeVar
 	}
 	return result, nil
@@ -9877,7 +9949,9 @@ func (value *AzureStorageInfoValue) PopulateFromARM(owner genruntime.ArbitraryOw
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := AzureStorageInfoValue_Type(temp)
 		value.Type = &typeVar
 	}
 
@@ -10035,13 +10109,17 @@ func (value *AzureStorageInfoValue_STATUS) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property "State":
 	if typedInput.State != nil {
-		state := *typedInput.State
+		var temp string
+		temp = string(*typedInput.State)
+		state := AzureStorageInfoValue_State_STATUS(temp)
 		value.State = &state
 	}
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := AzureStorageInfoValue_Type_STATUS(temp)
 		value.Type = &typeVar
 	}
 
@@ -10159,7 +10237,9 @@ func (info *ConnStringInfo) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 	// Set property "Type":
 	if info.Type != nil {
-		typeVar := *info.Type
+		var temp string
+		temp = string(*info.Type)
+		typeVar := ConnStringInfo_Type_ARM(temp)
 		result.Type = &typeVar
 	}
 	return result, nil
@@ -10191,7 +10271,9 @@ func (info *ConnStringInfo) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ConnStringInfo_Type(temp)
 		info.Type = &typeVar
 	}
 
@@ -10312,7 +10394,9 @@ func (info *ConnStringInfo_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ConnStringInfo_Type_STATUS(temp)
 		info.Type = &typeVar
 	}
 
@@ -11212,7 +11296,9 @@ func (restriction *IpSecurityRestriction) ConvertToARM(resolved genruntime.Conve
 
 	// Set property "Tag":
 	if restriction.Tag != nil {
-		tag := *restriction.Tag
+		var temp string
+		temp = string(*restriction.Tag)
+		tag := IpSecurityRestriction_Tag_ARM(temp)
 		result.Tag = &tag
 	}
 
@@ -11302,7 +11388,9 @@ func (restriction *IpSecurityRestriction) PopulateFromARM(owner genruntime.Arbit
 
 	// Set property "Tag":
 	if typedInput.Tag != nil {
-		tag := *typedInput.Tag
+		var temp string
+		temp = string(*typedInput.Tag)
+		tag := IpSecurityRestriction_Tag(temp)
 		restriction.Tag = &tag
 	}
 
@@ -11631,7 +11719,9 @@ func (restriction *IpSecurityRestriction_STATUS) PopulateFromARM(owner genruntim
 
 	// Set property "Tag":
 	if typedInput.Tag != nil {
-		tag := *typedInput.Tag
+		var temp string
+		temp = string(*typedInput.Tag)
+		tag := IpSecurityRestriction_Tag_STATUS(temp)
 		restriction.Tag = &tag
 	}
 
@@ -11769,6 +11859,41 @@ func (restriction *IpSecurityRestriction_STATUS) AssignProperties_To_IpSecurityR
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
+type ManagedServiceIdentity_Type string
+
+const (
+	ManagedServiceIdentity_Type_None                       = ManagedServiceIdentity_Type("None")
+	ManagedServiceIdentity_Type_SystemAssigned             = ManagedServiceIdentity_Type("SystemAssigned")
+	ManagedServiceIdentity_Type_SystemAssignedUserAssigned = ManagedServiceIdentity_Type("SystemAssigned, UserAssigned")
+	ManagedServiceIdentity_Type_UserAssigned               = ManagedServiceIdentity_Type("UserAssigned")
+)
+
+// Mapping from string to ManagedServiceIdentity_Type
+var managedServiceIdentity_Type_Values = map[string]ManagedServiceIdentity_Type{
+	"none":                         ManagedServiceIdentity_Type_None,
+	"systemassigned":               ManagedServiceIdentity_Type_SystemAssigned,
+	"systemassigned, userassigned": ManagedServiceIdentity_Type_SystemAssignedUserAssigned,
+	"userassigned":                 ManagedServiceIdentity_Type_UserAssigned,
+}
+
+type ManagedServiceIdentity_Type_STATUS string
+
+const (
+	ManagedServiceIdentity_Type_STATUS_None                       = ManagedServiceIdentity_Type_STATUS("None")
+	ManagedServiceIdentity_Type_STATUS_SystemAssigned             = ManagedServiceIdentity_Type_STATUS("SystemAssigned")
+	ManagedServiceIdentity_Type_STATUS_SystemAssignedUserAssigned = ManagedServiceIdentity_Type_STATUS("SystemAssigned, UserAssigned")
+	ManagedServiceIdentity_Type_STATUS_UserAssigned               = ManagedServiceIdentity_Type_STATUS("UserAssigned")
+)
+
+// Mapping from string to ManagedServiceIdentity_Type_STATUS
+var managedServiceIdentity_Type_STATUS_Values = map[string]ManagedServiceIdentity_Type_STATUS{
+	"none":                         ManagedServiceIdentity_Type_STATUS_None,
+	"systemassigned":               ManagedServiceIdentity_Type_STATUS_SystemAssigned,
+	"systemassigned, userassigned": ManagedServiceIdentity_Type_STATUS_SystemAssignedUserAssigned,
+	"userassigned":                 ManagedServiceIdentity_Type_STATUS_UserAssigned,
 }
 
 // Name value pair.
@@ -13450,7 +13575,9 @@ func (actions *AutoHealActions) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "ActionType":
 	if actions.ActionType != nil {
-		actionType := *actions.ActionType
+		var temp string
+		temp = string(*actions.ActionType)
+		actionType := AutoHealActions_ActionType_ARM(temp)
 		result.ActionType = &actionType
 	}
 
@@ -13486,7 +13613,9 @@ func (actions *AutoHealActions) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 
 	// Set property "ActionType":
 	if typedInput.ActionType != nil {
-		actionType := *typedInput.ActionType
+		var temp string
+		temp = string(*typedInput.ActionType)
+		actionType := AutoHealActions_ActionType(temp)
 		actions.ActionType = &actionType
 	}
 
@@ -13640,7 +13769,9 @@ func (actions *AutoHealActions_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property "ActionType":
 	if typedInput.ActionType != nil {
-		actionType := *typedInput.ActionType
+		var temp string
+		temp = string(*typedInput.ActionType)
+		actionType := AutoHealActions_ActionType_STATUS(temp)
 		actions.ActionType = &actionType
 	}
 

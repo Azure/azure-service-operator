@@ -459,13 +459,13 @@ func NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARMGenerator() gopte
 func AddIndependentPropertyGeneratorsForNetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Primary"] = gen.PtrOf(gen.Bool())
 	gens["PrivateIPAddress"] = gen.PtrOf(gen.AlphaString())
-	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(IPVersion_STATUS_IPv4, IPVersion_STATUS_IPv6))
-	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_STATUS_Dynamic, IPAllocationMethod_STATUS_Static))
+	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(IPVersion_STATUS_ARM_IPv4, IPVersion_STATUS_ARM_IPv6))
+	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_STATUS_ARM_Dynamic, IPAllocationMethod_STATUS_ARM_Static))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_STATUS_Deleting,
-		ProvisioningState_STATUS_Failed,
-		ProvisioningState_STATUS_Succeeded,
-		ProvisioningState_STATUS_Updating))
+		ProvisioningState_STATUS_ARM_Deleting,
+		ProvisioningState_STATUS_ARM_Failed,
+		ProvisioningState_STATUS_ARM_Succeeded,
+		ProvisioningState_STATUS_ARM_Updating))
 }
 
 // AddRelatedPropertyGeneratorsForNetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM is a factory method for creating gopter generators
@@ -631,18 +631,18 @@ func AddIndependentPropertyGeneratorsForNetworkInterfacePropertiesFormat_STATUS_
 	gens["HostedWorkloads"] = gen.SliceOf(gen.AlphaString())
 	gens["MacAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["MigrationPhase"] = gen.PtrOf(gen.OneConstOf(
-		NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_Abort,
-		NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_Commit,
-		NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_Committed,
-		NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_None,
-		NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_Prepare))
-	gens["NicType"] = gen.PtrOf(gen.OneConstOf(NetworkInterfacePropertiesFormat_NicType_STATUS_Elastic, NetworkInterfacePropertiesFormat_NicType_STATUS_Standard))
+		NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_ARM_Abort,
+		NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_ARM_Commit,
+		NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_ARM_Committed,
+		NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_ARM_None,
+		NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_ARM_Prepare))
+	gens["NicType"] = gen.PtrOf(gen.OneConstOf(NetworkInterfacePropertiesFormat_NicType_STATUS_ARM_Elastic, NetworkInterfacePropertiesFormat_NicType_STATUS_ARM_Standard))
 	gens["Primary"] = gen.PtrOf(gen.Bool())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_STATUS_Deleting,
-		ProvisioningState_STATUS_Failed,
-		ProvisioningState_STATUS_Succeeded,
-		ProvisioningState_STATUS_Updating))
+		ProvisioningState_STATUS_ARM_Deleting,
+		ProvisioningState_STATUS_ARM_Failed,
+		ProvisioningState_STATUS_ARM_Succeeded,
+		ProvisioningState_STATUS_ARM_Updating))
 	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
 }
 

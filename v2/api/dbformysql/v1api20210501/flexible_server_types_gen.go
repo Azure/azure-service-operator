@@ -537,7 +537,9 @@ func (server *FlexibleServer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties.Backup = &backup
 	}
 	if server.CreateMode != nil {
-		createMode := *server.CreateMode
+		var temp string
+		temp = string(*server.CreateMode)
+		createMode := ServerProperties_CreateMode_ARM(temp)
 		result.Properties.CreateMode = &createMode
 	}
 	if server.DataEncryption != nil {
@@ -573,7 +575,9 @@ func (server *FlexibleServer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties.Network = &network
 	}
 	if server.ReplicationRole != nil {
-		replicationRole := *server.ReplicationRole
+		var temp string
+		temp = string(*server.ReplicationRole)
+		replicationRole := ReplicationRole_ARM(temp)
 		result.Properties.ReplicationRole = &replicationRole
 	}
 	if server.RestorePointInTime != nil {
@@ -593,7 +597,9 @@ func (server *FlexibleServer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties.Storage = &storage
 	}
 	if server.Version != nil {
-		version := *server.Version
+		var temp string
+		temp = string(*server.Version)
+		version := ServerVersion_ARM(temp)
 		result.Properties.Version = &version
 	}
 
@@ -670,7 +676,9 @@ func (server *FlexibleServer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CreateMode != nil {
-			createMode := *typedInput.Properties.CreateMode
+			var temp string
+			temp = string(*typedInput.Properties.CreateMode)
+			createMode := ServerProperties_CreateMode(temp)
 			server.CreateMode = &createMode
 		}
 	}
@@ -760,7 +768,9 @@ func (server *FlexibleServer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ReplicationRole != nil {
-			replicationRole := *typedInput.Properties.ReplicationRole
+			var temp string
+			temp = string(*typedInput.Properties.ReplicationRole)
+			replicationRole := ReplicationRole(temp)
 			server.ReplicationRole = &replicationRole
 		}
 	}
@@ -820,7 +830,9 @@ func (server *FlexibleServer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Version != nil {
-			version := *typedInput.Properties.Version
+			var temp string
+			temp = string(*typedInput.Properties.Version)
+			version := ServerVersion(temp)
 			server.Version = &version
 		}
 	}
@@ -1435,7 +1447,9 @@ func (server *FlexibleServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CreateMode != nil {
-			createMode := *typedInput.Properties.CreateMode
+			var temp string
+			temp = string(*typedInput.Properties.CreateMode)
+			createMode := ServerProperties_CreateMode_STATUS(temp)
 			server.CreateMode = &createMode
 		}
 	}
@@ -1547,7 +1561,9 @@ func (server *FlexibleServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ReplicationRole != nil {
-			replicationRole := *typedInput.Properties.ReplicationRole
+			var temp string
+			temp = string(*typedInput.Properties.ReplicationRole)
+			replicationRole := ReplicationRole_STATUS(temp)
 			server.ReplicationRole = &replicationRole
 		}
 	}
@@ -1585,7 +1601,9 @@ func (server *FlexibleServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.State != nil {
-			state := *typedInput.Properties.State
+			var temp string
+			temp = string(*typedInput.Properties.State)
+			state := ServerProperties_State_STATUS(temp)
 			server.State = &state
 		}
 	}
@@ -1633,7 +1651,9 @@ func (server *FlexibleServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Version != nil {
-			version := *typedInput.Properties.Version
+			var temp string
+			temp = string(*typedInput.Properties.Version)
+			version := ServerVersion_STATUS(temp)
 			server.Version = &version
 		}
 	}
@@ -2047,7 +2067,9 @@ func (backup *Backup) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 
 	// Set property "GeoRedundantBackup":
 	if backup.GeoRedundantBackup != nil {
-		geoRedundantBackup := *backup.GeoRedundantBackup
+		var temp string
+		temp = string(*backup.GeoRedundantBackup)
+		geoRedundantBackup := EnableStatusEnum_ARM(temp)
 		result.GeoRedundantBackup = &geoRedundantBackup
 	}
 	return result, nil
@@ -2073,7 +2095,9 @@ func (backup *Backup) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, 
 
 	// Set property "GeoRedundantBackup":
 	if typedInput.GeoRedundantBackup != nil {
-		geoRedundantBackup := *typedInput.GeoRedundantBackup
+		var temp string
+		temp = string(*typedInput.GeoRedundantBackup)
+		geoRedundantBackup := EnableStatusEnum(temp)
 		backup.GeoRedundantBackup = &geoRedundantBackup
 	}
 
@@ -2167,7 +2191,9 @@ func (backup *Backup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 
 	// Set property "GeoRedundantBackup":
 	if typedInput.GeoRedundantBackup != nil {
-		geoRedundantBackup := *typedInput.GeoRedundantBackup
+		var temp string
+		temp = string(*typedInput.GeoRedundantBackup)
+		geoRedundantBackup := EnableStatusEnum_STATUS(temp)
 		backup.GeoRedundantBackup = &geoRedundantBackup
 	}
 
@@ -2289,7 +2315,9 @@ func (encryption *DataEncryption) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "Type":
 	if encryption.Type != nil {
-		typeVar := *encryption.Type
+		var temp string
+		temp = string(*encryption.Type)
+		typeVar := DataEncryption_Type_ARM(temp)
 		result.Type = &typeVar
 	}
 	return result, nil
@@ -2325,7 +2353,9 @@ func (encryption *DataEncryption) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := DataEncryption_Type(temp)
 		encryption.Type = &typeVar
 	}
 
@@ -2476,7 +2506,9 @@ func (encryption *DataEncryption_STATUS) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := DataEncryption_Type_STATUS(temp)
 		encryption.Type = &typeVar
 	}
 
@@ -2648,7 +2680,9 @@ func (availability *HighAvailability) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "Mode":
 	if availability.Mode != nil {
-		mode := *availability.Mode
+		var temp string
+		temp = string(*availability.Mode)
+		mode := HighAvailability_Mode_ARM(temp)
 		result.Mode = &mode
 	}
 
@@ -2674,7 +2708,9 @@ func (availability *HighAvailability) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property "Mode":
 	if typedInput.Mode != nil {
-		mode := *typedInput.Mode
+		var temp string
+		temp = string(*typedInput.Mode)
+		mode := HighAvailability_Mode(temp)
 		availability.Mode = &mode
 	}
 
@@ -2762,7 +2798,9 @@ func (availability *HighAvailability_STATUS) PopulateFromARM(owner genruntime.Ar
 
 	// Set property "Mode":
 	if typedInput.Mode != nil {
-		mode := *typedInput.Mode
+		var temp string
+		temp = string(*typedInput.Mode)
+		mode := HighAvailability_Mode_STATUS(temp)
 		availability.Mode = &mode
 	}
 
@@ -2774,7 +2812,9 @@ func (availability *HighAvailability_STATUS) PopulateFromARM(owner genruntime.Ar
 
 	// Set property "State":
 	if typedInput.State != nil {
-		state := *typedInput.State
+		var temp string
+		temp = string(*typedInput.State)
+		state := HighAvailability_State_STATUS(temp)
 		availability.State = &state
 	}
 
@@ -2865,7 +2905,9 @@ func (identity *Identity) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "Type":
 	if identity.Type != nil {
-		typeVar := *identity.Type
+		var temp string
+		temp = string(*identity.Type)
+		typeVar := Identity_Type_ARM(temp)
 		result.Type = &typeVar
 	}
 
@@ -2896,7 +2938,9 @@ func (identity *Identity) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := Identity_Type(temp)
 		identity.Type = &typeVar
 	}
 
@@ -3025,7 +3069,9 @@ func (identity *Identity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := Identity_Type_STATUS(temp)
 		identity.Type = &typeVar
 	}
 
@@ -3516,7 +3562,9 @@ func (network *Network_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "PublicNetworkAccess":
 	if typedInput.PublicNetworkAccess != nil {
-		publicNetworkAccess := *typedInput.PublicNetworkAccess
+		var temp string
+		temp = string(*typedInput.PublicNetworkAccess)
+		publicNetworkAccess := EnableStatusEnum_STATUS(temp)
 		network.PublicNetworkAccess = &publicNetworkAccess
 	}
 
@@ -3724,7 +3772,9 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 
 	// Set property "Tier":
 	if sku.Tier != nil {
-		tier := *sku.Tier
+		var temp string
+		temp = string(*sku.Tier)
+		tier := Sku_Tier_ARM(temp)
 		result.Tier = &tier
 	}
 	return result, nil
@@ -3750,7 +3800,9 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 
 	// Set property "Tier":
 	if typedInput.Tier != nil {
-		tier := *typedInput.Tier
+		var temp string
+		temp = string(*typedInput.Tier)
+		tier := Sku_Tier(temp)
 		sku.Tier = &tier
 	}
 
@@ -3835,7 +3887,9 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 
 	// Set property "Tier":
 	if typedInput.Tier != nil {
-		tier := *typedInput.Tier
+		var temp string
+		temp = string(*typedInput.Tier)
+		tier := Sku_Tier_STATUS(temp)
 		sku.Tier = &tier
 	}
 
@@ -3912,7 +3966,9 @@ func (storage *Storage) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 
 	// Set property "AutoGrow":
 	if storage.AutoGrow != nil {
-		autoGrow := *storage.AutoGrow
+		var temp string
+		temp = string(*storage.AutoGrow)
+		autoGrow := EnableStatusEnum_ARM(temp)
 		result.AutoGrow = &autoGrow
 	}
 
@@ -3944,7 +4000,9 @@ func (storage *Storage) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 
 	// Set property "AutoGrow":
 	if typedInput.AutoGrow != nil {
-		autoGrow := *typedInput.AutoGrow
+		var temp string
+		temp = string(*typedInput.AutoGrow)
+		autoGrow := EnableStatusEnum(temp)
 		storage.AutoGrow = &autoGrow
 	}
 
@@ -4047,7 +4105,9 @@ func (storage *Storage_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "AutoGrow":
 	if typedInput.AutoGrow != nil {
-		autoGrow := *typedInput.AutoGrow
+		var temp string
+		temp = string(*typedInput.AutoGrow)
+		autoGrow := EnableStatusEnum_STATUS(temp)
 		storage.AutoGrow = &autoGrow
 	}
 
@@ -4180,7 +4240,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "CreatedByType":
 	if typedInput.CreatedByType != nil {
-		createdByType := *typedInput.CreatedByType
+		var temp string
+		temp = string(*typedInput.CreatedByType)
+		createdByType := SystemData_CreatedByType_STATUS(temp)
 		data.CreatedByType = &createdByType
 	}
 
@@ -4198,7 +4260,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "LastModifiedByType":
 	if typedInput.LastModifiedByType != nil {
-		lastModifiedByType := *typedInput.LastModifiedByType
+		var temp string
+		temp = string(*typedInput.LastModifiedByType)
+		lastModifiedByType := SystemData_LastModifiedByType_STATUS(temp)
 		data.LastModifiedByType = &lastModifiedByType
 	}
 
@@ -4501,6 +4565,90 @@ var highAvailability_State_STATUS_Values = map[string]HighAvailability_State_STA
 	"healthy":         HighAvailability_State_STATUS_Healthy,
 	"notenabled":      HighAvailability_State_STATUS_NotEnabled,
 	"removingstandby": HighAvailability_State_STATUS_RemovingStandby,
+}
+
+// +kubebuilder:validation:Enum={"UserAssigned"}
+type Identity_Type string
+
+const Identity_Type_UserAssigned = Identity_Type("UserAssigned")
+
+// Mapping from string to Identity_Type
+var identity_Type_Values = map[string]Identity_Type{
+	"userassigned": Identity_Type_UserAssigned,
+}
+
+type Identity_Type_STATUS string
+
+const Identity_Type_STATUS_UserAssigned = Identity_Type_STATUS("UserAssigned")
+
+// Mapping from string to Identity_Type_STATUS
+var identity_Type_STATUS_Values = map[string]Identity_Type_STATUS{
+	"userassigned": Identity_Type_STATUS_UserAssigned,
+}
+
+// +kubebuilder:validation:Enum={"Burstable","GeneralPurpose","MemoryOptimized"}
+type Sku_Tier string
+
+const (
+	Sku_Tier_Burstable       = Sku_Tier("Burstable")
+	Sku_Tier_GeneralPurpose  = Sku_Tier("GeneralPurpose")
+	Sku_Tier_MemoryOptimized = Sku_Tier("MemoryOptimized")
+)
+
+// Mapping from string to Sku_Tier
+var sku_Tier_Values = map[string]Sku_Tier{
+	"burstable":       Sku_Tier_Burstable,
+	"generalpurpose":  Sku_Tier_GeneralPurpose,
+	"memoryoptimized": Sku_Tier_MemoryOptimized,
+}
+
+type Sku_Tier_STATUS string
+
+const (
+	Sku_Tier_STATUS_Burstable       = Sku_Tier_STATUS("Burstable")
+	Sku_Tier_STATUS_GeneralPurpose  = Sku_Tier_STATUS("GeneralPurpose")
+	Sku_Tier_STATUS_MemoryOptimized = Sku_Tier_STATUS("MemoryOptimized")
+)
+
+// Mapping from string to Sku_Tier_STATUS
+var sku_Tier_STATUS_Values = map[string]Sku_Tier_STATUS{
+	"burstable":       Sku_Tier_STATUS_Burstable,
+	"generalpurpose":  Sku_Tier_STATUS_GeneralPurpose,
+	"memoryoptimized": Sku_Tier_STATUS_MemoryOptimized,
+}
+
+type SystemData_CreatedByType_STATUS string
+
+const (
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
+}
+
+type SystemData_LastModifiedByType_STATUS string
+
+const (
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
 }
 
 // Information about the user assigned identity for the resource

@@ -79,7 +79,7 @@ func AddIndependentPropertyGeneratorsForWorkspaceConnectionProps_ARM(gens map[st
 	gens["Category"] = gen.PtrOf(gen.AlphaString())
 	gens["Target"] = gen.PtrOf(gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
-	gens["ValueFormat"] = gen.PtrOf(gen.OneConstOf(WorkspaceConnectionProps_ValueFormat_JSON))
+	gens["ValueFormat"] = gen.PtrOf(gen.OneConstOf(WorkspaceConnectionProps_ValueFormat_ARM_JSON))
 }
 
 func Test_Workspaces_Connection_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

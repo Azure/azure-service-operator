@@ -1209,7 +1209,9 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Status != nil {
-			status := *typedInput.Properties.Status
+			var temp string
+			temp = string(*typedInput.Properties.Status)
+			status := EntityStatus_STATUS(temp)
 			subscription.Status = &status
 		}
 	}

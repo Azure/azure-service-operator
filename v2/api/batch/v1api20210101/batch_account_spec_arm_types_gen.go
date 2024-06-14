@@ -52,17 +52,17 @@ type BatchAccountCreateProperties_ARM struct {
 	// PoolAllocationMode: The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the
 	// mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is
 	// UserSubscription, clients must use Azure Active Directory. The default is BatchService.
-	PoolAllocationMode *PoolAllocationMode `json:"poolAllocationMode,omitempty"`
+	PoolAllocationMode *PoolAllocationMode_ARM `json:"poolAllocationMode,omitempty"`
 
 	// PublicNetworkAccess: If not specified, the default value is 'enabled'.
-	PublicNetworkAccess *PublicNetworkAccessType `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *PublicNetworkAccessType_ARM `json:"publicNetworkAccess,omitempty"`
 }
 
 // The identity of the Batch account, if configured. This is only used when the user specifies 'Microsoft.KeyVault' as
 // their Batch account encryption configuration.
 type BatchAccountIdentity_ARM struct {
 	// Type: The type of identity used for the Batch account.
-	Type                   *BatchAccountIdentity_Type                 `json:"type,omitempty"`
+	Type                   *BatchAccountIdentity_Type_ARM             `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -72,26 +72,26 @@ type AutoStorageBaseProperties_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","UserAssigned"}
-type BatchAccountIdentity_Type string
+type BatchAccountIdentity_Type_ARM string
 
 const (
-	BatchAccountIdentity_Type_None           = BatchAccountIdentity_Type("None")
-	BatchAccountIdentity_Type_SystemAssigned = BatchAccountIdentity_Type("SystemAssigned")
-	BatchAccountIdentity_Type_UserAssigned   = BatchAccountIdentity_Type("UserAssigned")
+	BatchAccountIdentity_Type_ARM_None           = BatchAccountIdentity_Type_ARM("None")
+	BatchAccountIdentity_Type_ARM_SystemAssigned = BatchAccountIdentity_Type_ARM("SystemAssigned")
+	BatchAccountIdentity_Type_ARM_UserAssigned   = BatchAccountIdentity_Type_ARM("UserAssigned")
 )
 
-// Mapping from string to BatchAccountIdentity_Type
-var batchAccountIdentity_Type_Values = map[string]BatchAccountIdentity_Type{
-	"none":           BatchAccountIdentity_Type_None,
-	"systemassigned": BatchAccountIdentity_Type_SystemAssigned,
-	"userassigned":   BatchAccountIdentity_Type_UserAssigned,
+// Mapping from string to BatchAccountIdentity_Type_ARM
+var batchAccountIdentity_Type_ARM_Values = map[string]BatchAccountIdentity_Type_ARM{
+	"none":           BatchAccountIdentity_Type_ARM_None,
+	"systemassigned": BatchAccountIdentity_Type_ARM_SystemAssigned,
+	"userassigned":   BatchAccountIdentity_Type_ARM_UserAssigned,
 }
 
 // Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft
 // managed key. For additional control, a customer-managed key can be used instead.
 type EncryptionProperties_ARM struct {
 	// KeySource: Type of the key source.
-	KeySource *EncryptionProperties_KeySource `json:"keySource,omitempty"`
+	KeySource *EncryptionProperties_KeySource_ARM `json:"keySource,omitempty"`
 
 	// KeyVaultProperties: Additional details when using Microsoft.KeyVault
 	KeyVaultProperties *KeyVaultProperties_ARM `json:"keyVaultProperties,omitempty"`
@@ -105,8 +105,52 @@ type KeyVaultReference_ARM struct {
 	Url *string `json:"url,omitempty"`
 }
 
+// The allocation mode for creating pools in the Batch account.
+// +kubebuilder:validation:Enum={"BatchService","UserSubscription"}
+type PoolAllocationMode_ARM string
+
+const (
+	PoolAllocationMode_ARM_BatchService     = PoolAllocationMode_ARM("BatchService")
+	PoolAllocationMode_ARM_UserSubscription = PoolAllocationMode_ARM("UserSubscription")
+)
+
+// Mapping from string to PoolAllocationMode_ARM
+var poolAllocationMode_ARM_Values = map[string]PoolAllocationMode_ARM{
+	"batchservice":     PoolAllocationMode_ARM_BatchService,
+	"usersubscription": PoolAllocationMode_ARM_UserSubscription,
+}
+
+// The network access type for operating on the resources in the Batch account.
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type PublicNetworkAccessType_ARM string
+
+const (
+	PublicNetworkAccessType_ARM_Disabled = PublicNetworkAccessType_ARM("Disabled")
+	PublicNetworkAccessType_ARM_Enabled  = PublicNetworkAccessType_ARM("Enabled")
+)
+
+// Mapping from string to PublicNetworkAccessType_ARM
+var publicNetworkAccessType_ARM_Values = map[string]PublicNetworkAccessType_ARM{
+	"disabled": PublicNetworkAccessType_ARM_Disabled,
+	"enabled":  PublicNetworkAccessType_ARM_Enabled,
+}
+
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails_ARM struct {
+}
+
+// +kubebuilder:validation:Enum={"Microsoft.Batch","Microsoft.KeyVault"}
+type EncryptionProperties_KeySource_ARM string
+
+const (
+	EncryptionProperties_KeySource_ARM_MicrosoftBatch    = EncryptionProperties_KeySource_ARM("Microsoft.Batch")
+	EncryptionProperties_KeySource_ARM_MicrosoftKeyVault = EncryptionProperties_KeySource_ARM("Microsoft.KeyVault")
+)
+
+// Mapping from string to EncryptionProperties_KeySource_ARM
+var encryptionProperties_KeySource_ARM_Values = map[string]EncryptionProperties_KeySource_ARM{
+	"microsoft.batch":    EncryptionProperties_KeySource_ARM_MicrosoftBatch,
+	"microsoft.keyvault": EncryptionProperties_KeySource_ARM_MicrosoftKeyVault,
 }
 
 // KeyVault configuration when using an encryption KeySource of Microsoft.KeyVault.

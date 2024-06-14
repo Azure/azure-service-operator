@@ -1381,7 +1381,9 @@ func (notification *AutoscaleNotification) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "Operation":
 	if notification.Operation != nil {
-		operation := *notification.Operation
+		var temp string
+		temp = string(*notification.Operation)
+		operation := AutoscaleNotification_Operation_ARM(temp)
 		result.Operation = &operation
 	}
 
@@ -1421,7 +1423,9 @@ func (notification *AutoscaleNotification) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property "Operation":
 	if typedInput.Operation != nil {
-		operation := *typedInput.Operation
+		var temp string
+		temp = string(*typedInput.Operation)
+		operation := AutoscaleNotification_Operation(temp)
 		notification.Operation = &operation
 	}
 
@@ -1623,7 +1627,9 @@ func (notification *AutoscaleNotification_STATUS) PopulateFromARM(owner genrunti
 
 	// Set property "Operation":
 	if typedInput.Operation != nil {
-		operation := *typedInput.Operation
+		var temp string
+		temp = string(*typedInput.Operation)
+		operation := AutoscaleNotification_Operation_STATUS(temp)
 		notification.Operation = &operation
 	}
 
@@ -2339,7 +2345,9 @@ func (policy *PredictiveAutoscalePolicy) ConvertToARM(resolved genruntime.Conver
 
 	// Set property "ScaleMode":
 	if policy.ScaleMode != nil {
-		scaleMode := *policy.ScaleMode
+		var temp string
+		temp = string(*policy.ScaleMode)
+		scaleMode := PredictiveAutoscalePolicy_ScaleMode_ARM(temp)
 		result.ScaleMode = &scaleMode
 	}
 	return result, nil
@@ -2365,7 +2373,9 @@ func (policy *PredictiveAutoscalePolicy) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "ScaleMode":
 	if typedInput.ScaleMode != nil {
-		scaleMode := *typedInput.ScaleMode
+		var temp string
+		temp = string(*typedInput.ScaleMode)
+		scaleMode := PredictiveAutoscalePolicy_ScaleMode(temp)
 		policy.ScaleMode = &scaleMode
 	}
 
@@ -2469,7 +2479,9 @@ func (policy *PredictiveAutoscalePolicy_STATUS) PopulateFromARM(owner genruntime
 
 	// Set property "ScaleMode":
 	if typedInput.ScaleMode != nil {
-		scaleMode := *typedInput.ScaleMode
+		var temp string
+		temp = string(*typedInput.ScaleMode)
+		scaleMode := PredictiveAutoscalePolicy_ScaleMode_STATUS(temp)
 		policy.ScaleMode = &scaleMode
 	}
 
@@ -2572,7 +2584,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "CreatedByType":
 	if typedInput.CreatedByType != nil {
-		createdByType := *typedInput.CreatedByType
+		var temp string
+		temp = string(*typedInput.CreatedByType)
+		createdByType := SystemData_CreatedByType_STATUS(temp)
 		data.CreatedByType = &createdByType
 	}
 
@@ -2590,7 +2604,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "LastModifiedByType":
 	if typedInput.LastModifiedByType != nil {
-		lastModifiedByType := *typedInput.LastModifiedByType
+		var temp string
+		temp = string(*typedInput.LastModifiedByType)
+		lastModifiedByType := SystemData_LastModifiedByType_STATUS(temp)
 		data.LastModifiedByType = &lastModifiedByType
 	}
 
@@ -3021,7 +3037,9 @@ func (recurrence *Recurrence) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "Frequency":
 	if recurrence.Frequency != nil {
-		frequency := *recurrence.Frequency
+		var temp string
+		temp = string(*recurrence.Frequency)
+		frequency := Recurrence_Frequency_ARM(temp)
 		result.Frequency = &frequency
 	}
 
@@ -3051,7 +3069,9 @@ func (recurrence *Recurrence) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 
 	// Set property "Frequency":
 	if typedInput.Frequency != nil {
-		frequency := *typedInput.Frequency
+		var temp string
+		temp = string(*typedInput.Frequency)
+		frequency := Recurrence_Frequency(temp)
 		recurrence.Frequency = &frequency
 	}
 
@@ -3190,7 +3210,9 @@ func (recurrence *Recurrence_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property "Frequency":
 	if typedInput.Frequency != nil {
-		frequency := *typedInput.Frequency
+		var temp string
+		temp = string(*typedInput.Frequency)
+		frequency := Recurrence_Frequency_STATUS(temp)
 		recurrence.Frequency = &frequency
 	}
 
@@ -3808,6 +3830,40 @@ func (rule *ScaleRule_STATUS) AssignProperties_To_ScaleRule_STATUS(destination *
 	return nil
 }
 
+type SystemData_CreatedByType_STATUS string
+
+const (
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
+}
+
+type SystemData_LastModifiedByType_STATUS string
+
+const (
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
+}
+
 // A specific date-time for the profile.
 type TimeWindow struct {
 	// +kubebuilder:validation:Required
@@ -4370,13 +4426,17 @@ func (trigger *MetricTrigger) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "Operator":
 	if trigger.Operator != nil {
-		operator := *trigger.Operator
+		var temp string
+		temp = string(*trigger.Operator)
+		operator := MetricTrigger_Operator_ARM(temp)
 		result.Operator = &operator
 	}
 
 	// Set property "Statistic":
 	if trigger.Statistic != nil {
-		statistic := *trigger.Statistic
+		var temp string
+		temp = string(*trigger.Statistic)
+		statistic := MetricTrigger_Statistic_ARM(temp)
 		result.Statistic = &statistic
 	}
 
@@ -4388,7 +4448,9 @@ func (trigger *MetricTrigger) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "TimeAggregation":
 	if trigger.TimeAggregation != nil {
-		timeAggregation := *trigger.TimeAggregation
+		var temp string
+		temp = string(*trigger.TimeAggregation)
+		timeAggregation := MetricTrigger_TimeAggregation_ARM(temp)
 		result.TimeAggregation = &timeAggregation
 	}
 
@@ -4456,13 +4518,17 @@ func (trigger *MetricTrigger) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := MetricTrigger_Operator(temp)
 		trigger.Operator = &operator
 	}
 
 	// Set property "Statistic":
 	if typedInput.Statistic != nil {
-		statistic := *typedInput.Statistic
+		var temp string
+		temp = string(*typedInput.Statistic)
+		statistic := MetricTrigger_Statistic(temp)
 		trigger.Statistic = &statistic
 	}
 
@@ -4474,7 +4540,9 @@ func (trigger *MetricTrigger) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 
 	// Set property "TimeAggregation":
 	if typedInput.TimeAggregation != nil {
-		timeAggregation := *typedInput.TimeAggregation
+		var temp string
+		temp = string(*typedInput.TimeAggregation)
+		timeAggregation := MetricTrigger_TimeAggregation(temp)
 		trigger.TimeAggregation = &timeAggregation
 	}
 
@@ -4869,13 +4937,17 @@ func (trigger *MetricTrigger_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := MetricTrigger_Operator_STATUS(temp)
 		trigger.Operator = &operator
 	}
 
 	// Set property "Statistic":
 	if typedInput.Statistic != nil {
-		statistic := *typedInput.Statistic
+		var temp string
+		temp = string(*typedInput.Statistic)
+		statistic := MetricTrigger_Statistic_STATUS(temp)
 		trigger.Statistic = &statistic
 	}
 
@@ -4887,7 +4959,9 @@ func (trigger *MetricTrigger_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property "TimeAggregation":
 	if typedInput.TimeAggregation != nil {
-		timeAggregation := *typedInput.TimeAggregation
+		var temp string
+		temp = string(*typedInput.TimeAggregation)
+		timeAggregation := MetricTrigger_TimeAggregation_STATUS(temp)
 		trigger.TimeAggregation = &timeAggregation
 	}
 
@@ -5579,13 +5653,17 @@ func (action *ScaleAction) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 	// Set property "Direction":
 	if action.Direction != nil {
-		direction := *action.Direction
+		var temp string
+		temp = string(*action.Direction)
+		direction := ScaleAction_Direction_ARM(temp)
 		result.Direction = &direction
 	}
 
 	// Set property "Type":
 	if action.Type != nil {
-		typeVar := *action.Type
+		var temp string
+		temp = string(*action.Type)
+		typeVar := ScaleAction_Type_ARM(temp)
 		result.Type = &typeVar
 	}
 
@@ -5617,13 +5695,17 @@ func (action *ScaleAction) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 
 	// Set property "Direction":
 	if typedInput.Direction != nil {
-		direction := *typedInput.Direction
+		var temp string
+		temp = string(*typedInput.Direction)
+		direction := ScaleAction_Direction(temp)
 		action.Direction = &direction
 	}
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ScaleAction_Type(temp)
 		action.Type = &typeVar
 	}
 
@@ -5777,13 +5859,17 @@ func (action *ScaleAction_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property "Direction":
 	if typedInput.Direction != nil {
-		direction := *typedInput.Direction
+		var temp string
+		temp = string(*typedInput.Direction)
+		direction := ScaleAction_Direction_STATUS(temp)
 		action.Direction = &direction
 	}
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ScaleAction_Type_STATUS(temp)
 		action.Type = &typeVar
 	}
 
@@ -6095,7 +6181,9 @@ func (dimension *ScaleRuleMetricDimension) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "Operator":
 	if dimension.Operator != nil {
-		operator := *dimension.Operator
+		var temp string
+		temp = string(*dimension.Operator)
+		operator := ScaleRuleMetricDimension_Operator_ARM(temp)
 		result.Operator = &operator
 	}
 
@@ -6126,7 +6214,9 @@ func (dimension *ScaleRuleMetricDimension) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := ScaleRuleMetricDimension_Operator(temp)
 		dimension.Operator = &operator
 	}
 
@@ -6250,7 +6340,9 @@ func (dimension *ScaleRuleMetricDimension_STATUS) PopulateFromARM(owner genrunti
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := ScaleRuleMetricDimension_Operator_STATUS(temp)
 		dimension.Operator = &operator
 	}
 

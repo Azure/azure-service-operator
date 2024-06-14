@@ -39,7 +39,7 @@ type DomainProperties_STATUS_ARM struct {
 	InboundIpRules []InboundIpRule_STATUS_ARM `json:"inboundIpRules,omitempty"`
 
 	// InputSchema: This determines the format that Event Grid should expect for incoming events published to the domain.
-	InputSchema *DomainProperties_InputSchema_STATUS `json:"inputSchema,omitempty"`
+	InputSchema *DomainProperties_InputSchema_STATUS_ARM `json:"inputSchema,omitempty"`
 
 	// InputSchemaMapping: Information about the InputSchemaMapping which specified the info about mapping event payload.
 	InputSchemaMapping *InputSchemaMapping_STATUS_ARM `json:"inputSchemaMapping,omitempty"`
@@ -51,12 +51,12 @@ type DomainProperties_STATUS_ARM struct {
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded_ARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: Provisioning state of the domain.
-	ProvisioningState *DomainProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *DomainProperties_ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
 	// You can further restrict to specific IPs by configuring <seealso
 	// cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules" />
-	PublicNetworkAccess *DomainProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *DomainProperties_PublicNetworkAccess_STATUS_ARM `json:"publicNetworkAccess,omitempty"`
 }
 
 // Metadata pertaining to creation and last modification of the resource.
@@ -68,7 +68,7 @@ type SystemData_STATUS_ARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_CreatedByType_STATUS_ARM `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -77,12 +77,61 @@ type SystemData_STATUS_ARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS_ARM `json:"lastModifiedByType,omitempty"`
+}
+
+type DomainProperties_InputSchema_STATUS_ARM string
+
+const (
+	DomainProperties_InputSchema_STATUS_ARM_CloudEventSchemaV1_0 = DomainProperties_InputSchema_STATUS_ARM("CloudEventSchemaV1_0")
+	DomainProperties_InputSchema_STATUS_ARM_CustomEventSchema    = DomainProperties_InputSchema_STATUS_ARM("CustomEventSchema")
+	DomainProperties_InputSchema_STATUS_ARM_EventGridSchema      = DomainProperties_InputSchema_STATUS_ARM("EventGridSchema")
+)
+
+// Mapping from string to DomainProperties_InputSchema_STATUS_ARM
+var domainProperties_InputSchema_STATUS_ARM_Values = map[string]DomainProperties_InputSchema_STATUS_ARM{
+	"cloudeventschemav1_0": DomainProperties_InputSchema_STATUS_ARM_CloudEventSchemaV1_0,
+	"customeventschema":    DomainProperties_InputSchema_STATUS_ARM_CustomEventSchema,
+	"eventgridschema":      DomainProperties_InputSchema_STATUS_ARM_EventGridSchema,
+}
+
+type DomainProperties_ProvisioningState_STATUS_ARM string
+
+const (
+	DomainProperties_ProvisioningState_STATUS_ARM_Canceled  = DomainProperties_ProvisioningState_STATUS_ARM("Canceled")
+	DomainProperties_ProvisioningState_STATUS_ARM_Creating  = DomainProperties_ProvisioningState_STATUS_ARM("Creating")
+	DomainProperties_ProvisioningState_STATUS_ARM_Deleting  = DomainProperties_ProvisioningState_STATUS_ARM("Deleting")
+	DomainProperties_ProvisioningState_STATUS_ARM_Failed    = DomainProperties_ProvisioningState_STATUS_ARM("Failed")
+	DomainProperties_ProvisioningState_STATUS_ARM_Succeeded = DomainProperties_ProvisioningState_STATUS_ARM("Succeeded")
+	DomainProperties_ProvisioningState_STATUS_ARM_Updating  = DomainProperties_ProvisioningState_STATUS_ARM("Updating")
+)
+
+// Mapping from string to DomainProperties_ProvisioningState_STATUS_ARM
+var domainProperties_ProvisioningState_STATUS_ARM_Values = map[string]DomainProperties_ProvisioningState_STATUS_ARM{
+	"canceled":  DomainProperties_ProvisioningState_STATUS_ARM_Canceled,
+	"creating":  DomainProperties_ProvisioningState_STATUS_ARM_Creating,
+	"deleting":  DomainProperties_ProvisioningState_STATUS_ARM_Deleting,
+	"failed":    DomainProperties_ProvisioningState_STATUS_ARM_Failed,
+	"succeeded": DomainProperties_ProvisioningState_STATUS_ARM_Succeeded,
+	"updating":  DomainProperties_ProvisioningState_STATUS_ARM_Updating,
+}
+
+type DomainProperties_PublicNetworkAccess_STATUS_ARM string
+
+const (
+	DomainProperties_PublicNetworkAccess_STATUS_ARM_Disabled = DomainProperties_PublicNetworkAccess_STATUS_ARM("Disabled")
+	DomainProperties_PublicNetworkAccess_STATUS_ARM_Enabled  = DomainProperties_PublicNetworkAccess_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to DomainProperties_PublicNetworkAccess_STATUS_ARM
+var domainProperties_PublicNetworkAccess_STATUS_ARM_Values = map[string]DomainProperties_PublicNetworkAccess_STATUS_ARM{
+	"disabled": DomainProperties_PublicNetworkAccess_STATUS_ARM_Disabled,
+	"enabled":  DomainProperties_PublicNetworkAccess_STATUS_ARM_Enabled,
 }
 
 type InboundIpRule_STATUS_ARM struct {
 	// Action: Action to perform based on the match or no match of the IpMask.
-	Action *InboundIpRule_Action_STATUS `json:"action,omitempty"`
+	Action *InboundIpRule_Action_STATUS_ARM `json:"action,omitempty"`
 
 	// IpMask: IP Address in CIDR notation e.g., 10.0.0.0/8.
 	IpMask *string `json:"ipMask,omitempty"`
@@ -123,46 +172,64 @@ type PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-type SystemData_CreatedByType_STATUS string
+type SystemData_CreatedByType_STATUS_ARM string
 
 const (
-	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+	SystemData_CreatedByType_STATUS_ARM_Application     = SystemData_CreatedByType_STATUS_ARM("Application")
+	SystemData_CreatedByType_STATUS_ARM_Key             = SystemData_CreatedByType_STATUS_ARM("Key")
+	SystemData_CreatedByType_STATUS_ARM_ManagedIdentity = SystemData_CreatedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_ARM_User            = SystemData_CreatedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_CreatedByType_STATUS
-var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
-	"application":     SystemData_CreatedByType_STATUS_Application,
-	"key":             SystemData_CreatedByType_STATUS_Key,
-	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_CreatedByType_STATUS_User,
+// Mapping from string to SystemData_CreatedByType_STATUS_ARM
+var systemData_CreatedByType_STATUS_ARM_Values = map[string]SystemData_CreatedByType_STATUS_ARM{
+	"application":     SystemData_CreatedByType_STATUS_ARM_Application,
+	"key":             SystemData_CreatedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_ARM_User,
 }
 
-type SystemData_LastModifiedByType_STATUS string
+type SystemData_LastModifiedByType_STATUS_ARM string
 
 const (
-	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+	SystemData_LastModifiedByType_STATUS_ARM_Application     = SystemData_LastModifiedByType_STATUS_ARM("Application")
+	SystemData_LastModifiedByType_STATUS_ARM_Key             = SystemData_LastModifiedByType_STATUS_ARM("Key")
+	SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity = SystemData_LastModifiedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_ARM_User            = SystemData_LastModifiedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_LastModifiedByType_STATUS
-var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
-	"application":     SystemData_LastModifiedByType_STATUS_Application,
-	"key":             SystemData_LastModifiedByType_STATUS_Key,
-	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_LastModifiedByType_STATUS_User,
+// Mapping from string to SystemData_LastModifiedByType_STATUS_ARM
+var systemData_LastModifiedByType_STATUS_ARM_Values = map[string]SystemData_LastModifiedByType_STATUS_ARM{
+	"application":     SystemData_LastModifiedByType_STATUS_ARM_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_ARM_User,
+}
+
+type InboundIpRule_Action_STATUS_ARM string
+
+const InboundIpRule_Action_STATUS_ARM_Allow = InboundIpRule_Action_STATUS_ARM("Allow")
+
+// Mapping from string to InboundIpRule_Action_STATUS_ARM
+var inboundIpRule_Action_STATUS_ARM_Values = map[string]InboundIpRule_Action_STATUS_ARM{
+	"allow": InboundIpRule_Action_STATUS_ARM_Allow,
 }
 
 type JsonInputSchemaMapping_STATUS_ARM struct {
 	// InputSchemaMappingType: Type of the custom mapping
-	InputSchemaMappingType JsonInputSchemaMapping_InputSchemaMappingType_STATUS `json:"inputSchemaMappingType,omitempty"`
+	InputSchemaMappingType JsonInputSchemaMapping_InputSchemaMappingType_STATUS_ARM `json:"inputSchemaMappingType,omitempty"`
 
 	// Properties: JSON Properties of the input schema mapping
 	Properties *JsonInputSchemaMappingProperties_STATUS_ARM `json:"properties,omitempty"`
+}
+
+type JsonInputSchemaMapping_InputSchemaMappingType_STATUS_ARM string
+
+const JsonInputSchemaMapping_InputSchemaMappingType_STATUS_ARM_Json = JsonInputSchemaMapping_InputSchemaMappingType_STATUS_ARM("Json")
+
+// Mapping from string to JsonInputSchemaMapping_InputSchemaMappingType_STATUS_ARM
+var jsonInputSchemaMapping_InputSchemaMappingType_STATUS_ARM_Values = map[string]JsonInputSchemaMapping_InputSchemaMappingType_STATUS_ARM{
+	"json": JsonInputSchemaMapping_InputSchemaMappingType_STATUS_ARM_Json,
 }
 
 // This can be used to map properties of a source schema (or default values, for certain supported properties) to

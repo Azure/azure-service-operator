@@ -37,7 +37,7 @@ type TopicProperties_STATUS_ARM struct {
 	InboundIpRules []InboundIpRule_STATUS_ARM `json:"inboundIpRules,omitempty"`
 
 	// InputSchema: This determines the format that Event Grid should expect for incoming events published to the topic.
-	InputSchema *TopicProperties_InputSchema_STATUS `json:"inputSchema,omitempty"`
+	InputSchema *TopicProperties_InputSchema_STATUS_ARM `json:"inputSchema,omitempty"`
 
 	// InputSchemaMapping: This enables publishing using custom event schemas. An InputSchemaMapping can be specified to map
 	// various properties of a source schema to various required properties of the EventGridEvent schema.
@@ -48,15 +48,64 @@ type TopicProperties_STATUS_ARM struct {
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded_ARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: Provisioning state of the topic.
-	ProvisioningState *TopicProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *TopicProperties_ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
 	// You can further restrict to specific IPs by configuring <seealso
 	// cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties.InboundIpRules" />
-	PublicNetworkAccess *TopicProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *TopicProperties_PublicNetworkAccess_STATUS_ARM `json:"publicNetworkAccess,omitempty"`
 }
 
 type PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded_ARM struct {
 	// Id: Fully qualified identifier of the resource.
 	Id *string `json:"id,omitempty"`
+}
+
+type TopicProperties_InputSchema_STATUS_ARM string
+
+const (
+	TopicProperties_InputSchema_STATUS_ARM_CloudEventSchemaV1_0 = TopicProperties_InputSchema_STATUS_ARM("CloudEventSchemaV1_0")
+	TopicProperties_InputSchema_STATUS_ARM_CustomEventSchema    = TopicProperties_InputSchema_STATUS_ARM("CustomEventSchema")
+	TopicProperties_InputSchema_STATUS_ARM_EventGridSchema      = TopicProperties_InputSchema_STATUS_ARM("EventGridSchema")
+)
+
+// Mapping from string to TopicProperties_InputSchema_STATUS_ARM
+var topicProperties_InputSchema_STATUS_ARM_Values = map[string]TopicProperties_InputSchema_STATUS_ARM{
+	"cloudeventschemav1_0": TopicProperties_InputSchema_STATUS_ARM_CloudEventSchemaV1_0,
+	"customeventschema":    TopicProperties_InputSchema_STATUS_ARM_CustomEventSchema,
+	"eventgridschema":      TopicProperties_InputSchema_STATUS_ARM_EventGridSchema,
+}
+
+type TopicProperties_ProvisioningState_STATUS_ARM string
+
+const (
+	TopicProperties_ProvisioningState_STATUS_ARM_Canceled  = TopicProperties_ProvisioningState_STATUS_ARM("Canceled")
+	TopicProperties_ProvisioningState_STATUS_ARM_Creating  = TopicProperties_ProvisioningState_STATUS_ARM("Creating")
+	TopicProperties_ProvisioningState_STATUS_ARM_Deleting  = TopicProperties_ProvisioningState_STATUS_ARM("Deleting")
+	TopicProperties_ProvisioningState_STATUS_ARM_Failed    = TopicProperties_ProvisioningState_STATUS_ARM("Failed")
+	TopicProperties_ProvisioningState_STATUS_ARM_Succeeded = TopicProperties_ProvisioningState_STATUS_ARM("Succeeded")
+	TopicProperties_ProvisioningState_STATUS_ARM_Updating  = TopicProperties_ProvisioningState_STATUS_ARM("Updating")
+)
+
+// Mapping from string to TopicProperties_ProvisioningState_STATUS_ARM
+var topicProperties_ProvisioningState_STATUS_ARM_Values = map[string]TopicProperties_ProvisioningState_STATUS_ARM{
+	"canceled":  TopicProperties_ProvisioningState_STATUS_ARM_Canceled,
+	"creating":  TopicProperties_ProvisioningState_STATUS_ARM_Creating,
+	"deleting":  TopicProperties_ProvisioningState_STATUS_ARM_Deleting,
+	"failed":    TopicProperties_ProvisioningState_STATUS_ARM_Failed,
+	"succeeded": TopicProperties_ProvisioningState_STATUS_ARM_Succeeded,
+	"updating":  TopicProperties_ProvisioningState_STATUS_ARM_Updating,
+}
+
+type TopicProperties_PublicNetworkAccess_STATUS_ARM string
+
+const (
+	TopicProperties_PublicNetworkAccess_STATUS_ARM_Disabled = TopicProperties_PublicNetworkAccess_STATUS_ARM("Disabled")
+	TopicProperties_PublicNetworkAccess_STATUS_ARM_Enabled  = TopicProperties_PublicNetworkAccess_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to TopicProperties_PublicNetworkAccess_STATUS_ARM
+var topicProperties_PublicNetworkAccess_STATUS_ARM_Values = map[string]TopicProperties_PublicNetworkAccess_STATUS_ARM{
+	"disabled": TopicProperties_PublicNetworkAccess_STATUS_ARM_Disabled,
+	"enabled":  TopicProperties_PublicNetworkAccess_STATUS_ARM_Enabled,
 }

@@ -67,10 +67,10 @@ type BigDataPoolResourceProperties_ARM struct {
 	NodeCount *int `json:"nodeCount,omitempty"`
 
 	// NodeSize: The level of compute power that each node in the Big Data pool has.
-	NodeSize *BigDataPoolResourceProperties_NodeSize `json:"nodeSize,omitempty"`
+	NodeSize *BigDataPoolResourceProperties_NodeSize_ARM `json:"nodeSize,omitempty"`
 
 	// NodeSizeFamily: The kind of nodes that the Big Data pool provides.
-	NodeSizeFamily *BigDataPoolResourceProperties_NodeSizeFamily `json:"nodeSizeFamily,omitempty"`
+	NodeSizeFamily *BigDataPoolResourceProperties_NodeSizeFamily_ARM `json:"nodeSizeFamily,omitempty"`
 
 	// ProvisioningState: The state of the Big Data pool.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
@@ -107,6 +107,48 @@ type AutoScaleProperties_ARM struct {
 
 	// MinNodeCount: The minimum number of nodes the Big Data pool can support.
 	MinNodeCount *int `json:"minNodeCount,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Large","Medium","None","Small","XLarge","XXLarge","XXXLarge"}
+type BigDataPoolResourceProperties_NodeSize_ARM string
+
+const (
+	BigDataPoolResourceProperties_NodeSize_ARM_Large    = BigDataPoolResourceProperties_NodeSize_ARM("Large")
+	BigDataPoolResourceProperties_NodeSize_ARM_Medium   = BigDataPoolResourceProperties_NodeSize_ARM("Medium")
+	BigDataPoolResourceProperties_NodeSize_ARM_None     = BigDataPoolResourceProperties_NodeSize_ARM("None")
+	BigDataPoolResourceProperties_NodeSize_ARM_Small    = BigDataPoolResourceProperties_NodeSize_ARM("Small")
+	BigDataPoolResourceProperties_NodeSize_ARM_XLarge   = BigDataPoolResourceProperties_NodeSize_ARM("XLarge")
+	BigDataPoolResourceProperties_NodeSize_ARM_XXLarge  = BigDataPoolResourceProperties_NodeSize_ARM("XXLarge")
+	BigDataPoolResourceProperties_NodeSize_ARM_XXXLarge = BigDataPoolResourceProperties_NodeSize_ARM("XXXLarge")
+)
+
+// Mapping from string to BigDataPoolResourceProperties_NodeSize_ARM
+var bigDataPoolResourceProperties_NodeSize_ARM_Values = map[string]BigDataPoolResourceProperties_NodeSize_ARM{
+	"large":    BigDataPoolResourceProperties_NodeSize_ARM_Large,
+	"medium":   BigDataPoolResourceProperties_NodeSize_ARM_Medium,
+	"none":     BigDataPoolResourceProperties_NodeSize_ARM_None,
+	"small":    BigDataPoolResourceProperties_NodeSize_ARM_Small,
+	"xlarge":   BigDataPoolResourceProperties_NodeSize_ARM_XLarge,
+	"xxlarge":  BigDataPoolResourceProperties_NodeSize_ARM_XXLarge,
+	"xxxlarge": BigDataPoolResourceProperties_NodeSize_ARM_XXXLarge,
+}
+
+// +kubebuilder:validation:Enum={"HardwareAcceleratedFPGA","HardwareAcceleratedGPU","MemoryOptimized","None"}
+type BigDataPoolResourceProperties_NodeSizeFamily_ARM string
+
+const (
+	BigDataPoolResourceProperties_NodeSizeFamily_ARM_HardwareAcceleratedFPGA = BigDataPoolResourceProperties_NodeSizeFamily_ARM("HardwareAcceleratedFPGA")
+	BigDataPoolResourceProperties_NodeSizeFamily_ARM_HardwareAcceleratedGPU  = BigDataPoolResourceProperties_NodeSizeFamily_ARM("HardwareAcceleratedGPU")
+	BigDataPoolResourceProperties_NodeSizeFamily_ARM_MemoryOptimized         = BigDataPoolResourceProperties_NodeSizeFamily_ARM("MemoryOptimized")
+	BigDataPoolResourceProperties_NodeSizeFamily_ARM_None                    = BigDataPoolResourceProperties_NodeSizeFamily_ARM("None")
+)
+
+// Mapping from string to BigDataPoolResourceProperties_NodeSizeFamily_ARM
+var bigDataPoolResourceProperties_NodeSizeFamily_ARM_Values = map[string]BigDataPoolResourceProperties_NodeSizeFamily_ARM{
+	"hardwareacceleratedfpga": BigDataPoolResourceProperties_NodeSizeFamily_ARM_HardwareAcceleratedFPGA,
+	"hardwareacceleratedgpu":  BigDataPoolResourceProperties_NodeSizeFamily_ARM_HardwareAcceleratedGPU,
+	"memoryoptimized":         BigDataPoolResourceProperties_NodeSizeFamily_ARM_MemoryOptimized,
+	"none":                    BigDataPoolResourceProperties_NodeSizeFamily_ARM_None,
 }
 
 // Dynamic Executor Allocation Properties
@@ -148,11 +190,25 @@ type LibraryRequirements_ARM struct {
 // SparkConfig Properties for a Big Data pool powered by Apache Spark
 type SparkConfigProperties_ARM struct {
 	// ConfigurationType: The type of the spark config properties file.
-	ConfigurationType *SparkConfigProperties_ConfigurationType `json:"configurationType,omitempty"`
+	ConfigurationType *SparkConfigProperties_ConfigurationType_ARM `json:"configurationType,omitempty"`
 
 	// Content: The spark config properties.
 	Content *string `json:"content,omitempty"`
 
 	// Filename: The filename of the spark config properties file.
 	Filename *string `json:"filename,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Artifact","File"}
+type SparkConfigProperties_ConfigurationType_ARM string
+
+const (
+	SparkConfigProperties_ConfigurationType_ARM_Artifact = SparkConfigProperties_ConfigurationType_ARM("Artifact")
+	SparkConfigProperties_ConfigurationType_ARM_File     = SparkConfigProperties_ConfigurationType_ARM("File")
+)
+
+// Mapping from string to SparkConfigProperties_ConfigurationType_ARM
+var sparkConfigProperties_ConfigurationType_ARM_Values = map[string]SparkConfigProperties_ConfigurationType_ARM{
+	"artifact": SparkConfigProperties_ConfigurationType_ARM_Artifact,
+	"file":     SparkConfigProperties_ConfigurationType_ARM_File,
 }

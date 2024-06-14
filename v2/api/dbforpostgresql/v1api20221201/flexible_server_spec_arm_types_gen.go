@@ -59,7 +59,7 @@ type ServerProperties_ARM struct {
 	Backup *Backup_ARM `json:"backup,omitempty"`
 
 	// CreateMode: The mode to create a new PostgreSQL server.
-	CreateMode *ServerProperties_CreateMode `json:"createMode,omitempty"`
+	CreateMode *ServerProperties_CreateMode_ARM `json:"createMode,omitempty"`
 
 	// DataEncryption: Data encryption properties of a server.
 	DataEncryption *DataEncryption_ARM `json:"dataEncryption,omitempty"`
@@ -79,14 +79,14 @@ type ServerProperties_ARM struct {
 	PointInTimeUTC *string `json:"pointInTimeUTC,omitempty"`
 
 	// ReplicationRole: Replication role of the server
-	ReplicationRole        *ReplicationRole `json:"replicationRole,omitempty"`
-	SourceServerResourceId *string          `json:"sourceServerResourceId,omitempty"`
+	ReplicationRole        *ReplicationRole_ARM `json:"replicationRole,omitempty"`
+	SourceServerResourceId *string              `json:"sourceServerResourceId,omitempty"`
 
 	// Storage: Storage properties of a server.
 	Storage *Storage_ARM `json:"storage,omitempty"`
 
 	// Version: PostgreSQL Server version.
-	Version *ServerVersion `json:"version,omitempty"`
+	Version *ServerVersion_ARM `json:"version,omitempty"`
 }
 
 // Sku information related properties of a server.
@@ -95,23 +95,23 @@ type Sku_ARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Tier: The tier of the particular SKU, e.g. Burstable.
-	Tier *Sku_Tier `json:"tier,omitempty"`
+	Tier *Sku_Tier_ARM `json:"tier,omitempty"`
 }
 
 // Information describing the identities associated with this application.
 type UserAssignedIdentity_ARM struct {
 	// Type: the types of identities associated with this resource; currently restricted to 'None and UserAssigned'
-	Type                   *UserAssignedIdentity_Type                 `json:"type,omitempty"`
+	Type                   *UserAssignedIdentity_Type_ARM             `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // Authentication configuration properties of a server
 type AuthConfig_ARM struct {
 	// ActiveDirectoryAuth: If Enabled, Azure Active Directory authentication is enabled.
-	ActiveDirectoryAuth *AuthConfig_ActiveDirectoryAuth `json:"activeDirectoryAuth,omitempty"`
+	ActiveDirectoryAuth *AuthConfig_ActiveDirectoryAuth_ARM `json:"activeDirectoryAuth,omitempty"`
 
 	// PasswordAuth: If Enabled, Password authentication is enabled.
-	PasswordAuth *AuthConfig_PasswordAuth `json:"passwordAuth,omitempty"`
+	PasswordAuth *AuthConfig_PasswordAuth_ARM `json:"passwordAuth,omitempty"`
 
 	// TenantId: Tenant id of the server.
 	TenantId *string `json:"tenantId,omitempty"`
@@ -123,7 +123,7 @@ type Backup_ARM struct {
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
 
 	// GeoRedundantBackup: A value indicating whether Geo-Redundant backup is enabled on the server.
-	GeoRedundantBackup *Backup_GeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
+	GeoRedundantBackup *Backup_GeoRedundantBackup_ARM `json:"geoRedundantBackup,omitempty"`
 }
 
 // Data encryption properties of a server
@@ -133,13 +133,13 @@ type DataEncryption_ARM struct {
 	PrimaryUserAssignedIdentityId *string `json:"primaryUserAssignedIdentityId,omitempty"`
 
 	// Type: Data encryption type to depict if it is System Managed vs Azure Key vault.
-	Type *DataEncryption_Type `json:"type,omitempty"`
+	Type *DataEncryption_Type_ARM `json:"type,omitempty"`
 }
 
 // High availability properties of a server
 type HighAvailability_ARM struct {
 	// Mode: The HA mode for the server.
-	Mode *HighAvailability_Mode `json:"mode,omitempty"`
+	Mode *HighAvailability_Mode_ARM `json:"mode,omitempty"`
 
 	// StandbyAvailabilityZone: availability zone information of the standby.
 	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
@@ -166,20 +166,80 @@ type Network_ARM struct {
 	PrivateDnsZoneArmResourceId *string `json:"privateDnsZoneArmResourceId,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"Burstable","GeneralPurpose","MemoryOptimized"}
-type Sku_Tier string
+// Used to indicate role of the server in replication set.
+// +kubebuilder:validation:Enum={"AsyncReplica","GeoAsyncReplica","None","Primary"}
+type ReplicationRole_ARM string
 
 const (
-	Sku_Tier_Burstable       = Sku_Tier("Burstable")
-	Sku_Tier_GeneralPurpose  = Sku_Tier("GeneralPurpose")
-	Sku_Tier_MemoryOptimized = Sku_Tier("MemoryOptimized")
+	ReplicationRole_ARM_AsyncReplica    = ReplicationRole_ARM("AsyncReplica")
+	ReplicationRole_ARM_GeoAsyncReplica = ReplicationRole_ARM("GeoAsyncReplica")
+	ReplicationRole_ARM_None            = ReplicationRole_ARM("None")
+	ReplicationRole_ARM_Primary         = ReplicationRole_ARM("Primary")
 )
 
-// Mapping from string to Sku_Tier
-var sku_Tier_Values = map[string]Sku_Tier{
-	"burstable":       Sku_Tier_Burstable,
-	"generalpurpose":  Sku_Tier_GeneralPurpose,
-	"memoryoptimized": Sku_Tier_MemoryOptimized,
+// Mapping from string to ReplicationRole_ARM
+var replicationRole_ARM_Values = map[string]ReplicationRole_ARM{
+	"asyncreplica":    ReplicationRole_ARM_AsyncReplica,
+	"geoasyncreplica": ReplicationRole_ARM_GeoAsyncReplica,
+	"none":            ReplicationRole_ARM_None,
+	"primary":         ReplicationRole_ARM_Primary,
+}
+
+// +kubebuilder:validation:Enum={"Create","Default","GeoRestore","PointInTimeRestore","Replica","Update"}
+type ServerProperties_CreateMode_ARM string
+
+const (
+	ServerProperties_CreateMode_ARM_Create             = ServerProperties_CreateMode_ARM("Create")
+	ServerProperties_CreateMode_ARM_Default            = ServerProperties_CreateMode_ARM("Default")
+	ServerProperties_CreateMode_ARM_GeoRestore         = ServerProperties_CreateMode_ARM("GeoRestore")
+	ServerProperties_CreateMode_ARM_PointInTimeRestore = ServerProperties_CreateMode_ARM("PointInTimeRestore")
+	ServerProperties_CreateMode_ARM_Replica            = ServerProperties_CreateMode_ARM("Replica")
+	ServerProperties_CreateMode_ARM_Update             = ServerProperties_CreateMode_ARM("Update")
+)
+
+// Mapping from string to ServerProperties_CreateMode_ARM
+var serverProperties_CreateMode_ARM_Values = map[string]ServerProperties_CreateMode_ARM{
+	"create":             ServerProperties_CreateMode_ARM_Create,
+	"default":            ServerProperties_CreateMode_ARM_Default,
+	"georestore":         ServerProperties_CreateMode_ARM_GeoRestore,
+	"pointintimerestore": ServerProperties_CreateMode_ARM_PointInTimeRestore,
+	"replica":            ServerProperties_CreateMode_ARM_Replica,
+	"update":             ServerProperties_CreateMode_ARM_Update,
+}
+
+// The version of a server.
+// +kubebuilder:validation:Enum={"11","12","13","14"}
+type ServerVersion_ARM string
+
+const (
+	ServerVersion_ARM_11 = ServerVersion_ARM("11")
+	ServerVersion_ARM_12 = ServerVersion_ARM("12")
+	ServerVersion_ARM_13 = ServerVersion_ARM("13")
+	ServerVersion_ARM_14 = ServerVersion_ARM("14")
+)
+
+// Mapping from string to ServerVersion_ARM
+var serverVersion_ARM_Values = map[string]ServerVersion_ARM{
+	"11": ServerVersion_ARM_11,
+	"12": ServerVersion_ARM_12,
+	"13": ServerVersion_ARM_13,
+	"14": ServerVersion_ARM_14,
+}
+
+// +kubebuilder:validation:Enum={"Burstable","GeneralPurpose","MemoryOptimized"}
+type Sku_Tier_ARM string
+
+const (
+	Sku_Tier_ARM_Burstable       = Sku_Tier_ARM("Burstable")
+	Sku_Tier_ARM_GeneralPurpose  = Sku_Tier_ARM("GeneralPurpose")
+	Sku_Tier_ARM_MemoryOptimized = Sku_Tier_ARM("MemoryOptimized")
+)
+
+// Mapping from string to Sku_Tier_ARM
+var sku_Tier_ARM_Values = map[string]Sku_Tier_ARM{
+	"burstable":       Sku_Tier_ARM_Burstable,
+	"generalpurpose":  Sku_Tier_ARM_GeneralPurpose,
+	"memoryoptimized": Sku_Tier_ARM_MemoryOptimized,
 }
 
 // Storage properties of a server
@@ -189,19 +249,91 @@ type Storage_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"None","UserAssigned"}
-type UserAssignedIdentity_Type string
+type UserAssignedIdentity_Type_ARM string
 
 const (
-	UserAssignedIdentity_Type_None         = UserAssignedIdentity_Type("None")
-	UserAssignedIdentity_Type_UserAssigned = UserAssignedIdentity_Type("UserAssigned")
+	UserAssignedIdentity_Type_ARM_None         = UserAssignedIdentity_Type_ARM("None")
+	UserAssignedIdentity_Type_ARM_UserAssigned = UserAssignedIdentity_Type_ARM("UserAssigned")
 )
 
-// Mapping from string to UserAssignedIdentity_Type
-var userAssignedIdentity_Type_Values = map[string]UserAssignedIdentity_Type{
-	"none":         UserAssignedIdentity_Type_None,
-	"userassigned": UserAssignedIdentity_Type_UserAssigned,
+// Mapping from string to UserAssignedIdentity_Type_ARM
+var userAssignedIdentity_Type_ARM_Values = map[string]UserAssignedIdentity_Type_ARM{
+	"none":         UserAssignedIdentity_Type_ARM_None,
+	"userassigned": UserAssignedIdentity_Type_ARM_UserAssigned,
 }
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails_ARM struct {
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type AuthConfig_ActiveDirectoryAuth_ARM string
+
+const (
+	AuthConfig_ActiveDirectoryAuth_ARM_Disabled = AuthConfig_ActiveDirectoryAuth_ARM("Disabled")
+	AuthConfig_ActiveDirectoryAuth_ARM_Enabled  = AuthConfig_ActiveDirectoryAuth_ARM("Enabled")
+)
+
+// Mapping from string to AuthConfig_ActiveDirectoryAuth_ARM
+var authConfig_ActiveDirectoryAuth_ARM_Values = map[string]AuthConfig_ActiveDirectoryAuth_ARM{
+	"disabled": AuthConfig_ActiveDirectoryAuth_ARM_Disabled,
+	"enabled":  AuthConfig_ActiveDirectoryAuth_ARM_Enabled,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type AuthConfig_PasswordAuth_ARM string
+
+const (
+	AuthConfig_PasswordAuth_ARM_Disabled = AuthConfig_PasswordAuth_ARM("Disabled")
+	AuthConfig_PasswordAuth_ARM_Enabled  = AuthConfig_PasswordAuth_ARM("Enabled")
+)
+
+// Mapping from string to AuthConfig_PasswordAuth_ARM
+var authConfig_PasswordAuth_ARM_Values = map[string]AuthConfig_PasswordAuth_ARM{
+	"disabled": AuthConfig_PasswordAuth_ARM_Disabled,
+	"enabled":  AuthConfig_PasswordAuth_ARM_Enabled,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type Backup_GeoRedundantBackup_ARM string
+
+const (
+	Backup_GeoRedundantBackup_ARM_Disabled = Backup_GeoRedundantBackup_ARM("Disabled")
+	Backup_GeoRedundantBackup_ARM_Enabled  = Backup_GeoRedundantBackup_ARM("Enabled")
+)
+
+// Mapping from string to Backup_GeoRedundantBackup_ARM
+var backup_GeoRedundantBackup_ARM_Values = map[string]Backup_GeoRedundantBackup_ARM{
+	"disabled": Backup_GeoRedundantBackup_ARM_Disabled,
+	"enabled":  Backup_GeoRedundantBackup_ARM_Enabled,
+}
+
+// +kubebuilder:validation:Enum={"AzureKeyVault","SystemManaged"}
+type DataEncryption_Type_ARM string
+
+const (
+	DataEncryption_Type_ARM_AzureKeyVault = DataEncryption_Type_ARM("AzureKeyVault")
+	DataEncryption_Type_ARM_SystemManaged = DataEncryption_Type_ARM("SystemManaged")
+)
+
+// Mapping from string to DataEncryption_Type_ARM
+var dataEncryption_Type_ARM_Values = map[string]DataEncryption_Type_ARM{
+	"azurekeyvault": DataEncryption_Type_ARM_AzureKeyVault,
+	"systemmanaged": DataEncryption_Type_ARM_SystemManaged,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","SameZone","ZoneRedundant"}
+type HighAvailability_Mode_ARM string
+
+const (
+	HighAvailability_Mode_ARM_Disabled      = HighAvailability_Mode_ARM("Disabled")
+	HighAvailability_Mode_ARM_SameZone      = HighAvailability_Mode_ARM("SameZone")
+	HighAvailability_Mode_ARM_ZoneRedundant = HighAvailability_Mode_ARM("ZoneRedundant")
+)
+
+// Mapping from string to HighAvailability_Mode_ARM
+var highAvailability_Mode_ARM_Values = map[string]HighAvailability_Mode_ARM{
+	"disabled":      HighAvailability_Mode_ARM_Disabled,
+	"samezone":      HighAvailability_Mode_ARM_SameZone,
+	"zoneredundant": HighAvailability_Mode_ARM_ZoneRedundant,
 }

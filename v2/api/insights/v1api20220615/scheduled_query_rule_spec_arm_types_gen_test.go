@@ -149,20 +149,20 @@ func AddIndependentPropertyGeneratorsForCondition_ARM(gens map[string]gopter.Gen
 	gens["MetricMeasureColumn"] = gen.PtrOf(gen.AlphaString())
 	gens["MetricName"] = gen.PtrOf(gen.AlphaString())
 	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		Condition_Operator_Equals,
-		Condition_Operator_GreaterThan,
-		Condition_Operator_GreaterThanOrEqual,
-		Condition_Operator_LessThan,
-		Condition_Operator_LessThanOrEqual))
+		Condition_Operator_ARM_Equals,
+		Condition_Operator_ARM_GreaterThan,
+		Condition_Operator_ARM_GreaterThanOrEqual,
+		Condition_Operator_ARM_LessThan,
+		Condition_Operator_ARM_LessThanOrEqual))
 	gens["Query"] = gen.PtrOf(gen.AlphaString())
 	gens["ResourceIdColumn"] = gen.PtrOf(gen.AlphaString())
 	gens["Threshold"] = gen.PtrOf(gen.Float64())
 	gens["TimeAggregation"] = gen.PtrOf(gen.OneConstOf(
-		Condition_TimeAggregation_Average,
-		Condition_TimeAggregation_Count,
-		Condition_TimeAggregation_Maximum,
-		Condition_TimeAggregation_Minimum,
-		Condition_TimeAggregation_Total))
+		Condition_TimeAggregation_ARM_Average,
+		Condition_TimeAggregation_ARM_Count,
+		Condition_TimeAggregation_ARM_Maximum,
+		Condition_TimeAggregation_ARM_Minimum,
+		Condition_TimeAggregation_ARM_Total))
 }
 
 // AddRelatedPropertyGeneratorsForCondition_ARM is a factory method for creating gopter generators
@@ -291,7 +291,7 @@ func Dimension_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDimension_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDimension_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Operator"] = gen.PtrOf(gen.OneConstOf(Dimension_Operator_Exclude, Dimension_Operator_Include))
+	gens["Operator"] = gen.PtrOf(gen.OneConstOf(Dimension_Operator_ARM_Exclude, Dimension_Operator_ARM_Include))
 	gens["Values"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -433,11 +433,11 @@ func AddIndependentPropertyGeneratorsForScheduledQueryRuleProperties_ARM(gens ma
 	gens["OverrideQueryTimeRange"] = gen.PtrOf(gen.AlphaString())
 	gens["Scopes"] = gen.SliceOf(gen.AlphaString())
 	gens["Severity"] = gen.PtrOf(gen.OneConstOf(
-		ScheduledQueryRuleProperties_Severity_0,
-		ScheduledQueryRuleProperties_Severity_1,
-		ScheduledQueryRuleProperties_Severity_2,
-		ScheduledQueryRuleProperties_Severity_3,
-		ScheduledQueryRuleProperties_Severity_4))
+		ScheduledQueryRuleProperties_Severity_ARM_0,
+		ScheduledQueryRuleProperties_Severity_ARM_1,
+		ScheduledQueryRuleProperties_Severity_ARM_2,
+		ScheduledQueryRuleProperties_Severity_ARM_3,
+		ScheduledQueryRuleProperties_Severity_ARM_4))
 	gens["SkipQueryValidation"] = gen.PtrOf(gen.Bool())
 	gens["TargetResourceTypes"] = gen.SliceOf(gen.AlphaString())
 	gens["WindowSize"] = gen.PtrOf(gen.AlphaString())
@@ -516,7 +516,7 @@ func ScheduledQueryRule_Spec_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForScheduledQueryRule_Spec_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForScheduledQueryRule_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(ScheduledQueryRule_Kind_Spec_LogAlert, ScheduledQueryRule_Kind_Spec_LogToMetric))
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(ScheduledQueryRule_Kind_Spec_ARM_LogAlert, ScheduledQueryRule_Kind_Spec_ARM_LogToMetric))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(

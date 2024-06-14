@@ -89,7 +89,7 @@ func AddIndependentPropertyGeneratorsForContainerProperties_ARM(gens map[string]
 	gens["Metadata"] = gen.MapOf(
 		gen.AlphaString(),
 		gen.AlphaString())
-	gens["PublicAccess"] = gen.PtrOf(gen.OneConstOf(ContainerProperties_PublicAccess_Blob, ContainerProperties_PublicAccess_Container, ContainerProperties_PublicAccess_None))
+	gens["PublicAccess"] = gen.PtrOf(gen.OneConstOf(ContainerProperties_PublicAccess_ARM_Blob, ContainerProperties_PublicAccess_ARM_Container, ContainerProperties_PublicAccess_ARM_None))
 }
 
 // AddRelatedPropertyGeneratorsForContainerProperties_ARM is a factory method for creating gopter generators

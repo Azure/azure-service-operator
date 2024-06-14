@@ -30,7 +30,7 @@ type MongoDBDatabaseGetProperties_STATUS_ARM struct {
 
 type MongoDBDatabaseGetProperties_Resource_STATUS_ARM struct {
 	// CreateMode: Enum to indicate the mode of resource creation.
-	CreateMode *CreateMode_STATUS `json:"createMode,omitempty"`
+	CreateMode *CreateMode_STATUS_ARM `json:"createMode,omitempty"`
 
 	// Etag: A system generated property representing the resource etag required for optimistic concurrency control.
 	Etag *string `json:"_etag,omitempty"`

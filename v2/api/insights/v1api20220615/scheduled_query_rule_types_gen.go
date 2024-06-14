@@ -418,7 +418,9 @@ func (rule *ScheduledQueryRule_Spec) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property "Kind":
 	if rule.Kind != nil {
-		kind := *rule.Kind
+		var temp string
+		temp = string(*rule.Kind)
+		kind := ScheduledQueryRule_Kind_Spec_ARM(temp)
 		result.Kind = &kind
 	}
 
@@ -505,7 +507,9 @@ func (rule *ScheduledQueryRule_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		result.Properties.Scopes = append(result.Properties.Scopes, itemARMID)
 	}
 	if rule.Severity != nil {
-		severity := *rule.Severity
+		var temp int
+		temp = int(*rule.Severity)
+		severity := ScheduledQueryRuleProperties_Severity_ARM(temp)
 		result.Properties.Severity = &severity
 	}
 	if rule.SkipQueryValidation != nil {
@@ -629,7 +633,9 @@ func (rule *ScheduledQueryRule_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property "Kind":
 	if typedInput.Kind != nil {
-		kind := *typedInput.Kind
+		var temp string
+		temp = string(*typedInput.Kind)
+		kind := ScheduledQueryRule_Kind_Spec(temp)
 		rule.Kind = &kind
 	}
 
@@ -669,7 +675,9 @@ func (rule *ScheduledQueryRule_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Severity != nil {
-			severity := *typedInput.Properties.Severity
+			var temp int
+			temp = int(*typedInput.Properties.Severity)
+			severity := ScheduledQueryRuleProperties_Severity(temp)
 			rule.Severity = &severity
 		}
 	}
@@ -1437,7 +1445,9 @@ func (rule *ScheduledQueryRule_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property "Kind":
 	if typedInput.Kind != nil {
-		kind := *typedInput.Kind
+		var temp string
+		temp = string(*typedInput.Kind)
+		kind := ScheduledQueryRule_Kind_STATUS(temp)
 		rule.Kind = &kind
 	}
 
@@ -1483,7 +1493,9 @@ func (rule *ScheduledQueryRule_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Severity != nil {
-			severity := *typedInput.Properties.Severity
+			var temp int
+			temp = int(*typedInput.Properties.Severity)
+			severity := ScheduledQueryRuleProperties_Severity_STATUS(temp)
 			rule.Severity = &severity
 		}
 	}
@@ -2066,6 +2078,33 @@ func (actions *Actions_STATUS) AssignProperties_To_Actions_STATUS(destination *s
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"LogAlert","LogToMetric"}
+type ScheduledQueryRule_Kind_Spec string
+
+const (
+	ScheduledQueryRule_Kind_Spec_LogAlert    = ScheduledQueryRule_Kind_Spec("LogAlert")
+	ScheduledQueryRule_Kind_Spec_LogToMetric = ScheduledQueryRule_Kind_Spec("LogToMetric")
+)
+
+// Mapping from string to ScheduledQueryRule_Kind_Spec
+var scheduledQueryRule_Kind_Spec_Values = map[string]ScheduledQueryRule_Kind_Spec{
+	"logalert":    ScheduledQueryRule_Kind_Spec_LogAlert,
+	"logtometric": ScheduledQueryRule_Kind_Spec_LogToMetric,
+}
+
+type ScheduledQueryRule_Kind_STATUS string
+
+const (
+	ScheduledQueryRule_Kind_STATUS_LogAlert    = ScheduledQueryRule_Kind_STATUS("LogAlert")
+	ScheduledQueryRule_Kind_STATUS_LogToMetric = ScheduledQueryRule_Kind_STATUS("LogToMetric")
+)
+
+// Mapping from string to ScheduledQueryRule_Kind_STATUS
+var scheduledQueryRule_Kind_STATUS_Values = map[string]ScheduledQueryRule_Kind_STATUS{
+	"logalert":    ScheduledQueryRule_Kind_STATUS_LogAlert,
+	"logtometric": ScheduledQueryRule_Kind_STATUS_LogToMetric,
+}
+
 // The rule criteria that defines the conditions of the scheduled query rule.
 type ScheduledQueryRuleCriteria struct {
 	// AllOf: A list of conditions to evaluate against the specified scopes
@@ -2365,7 +2404,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "CreatedByType":
 	if typedInput.CreatedByType != nil {
-		createdByType := *typedInput.CreatedByType
+		var temp string
+		temp = string(*typedInput.CreatedByType)
+		createdByType := SystemData_CreatedByType_STATUS(temp)
 		data.CreatedByType = &createdByType
 	}
 
@@ -2383,7 +2424,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "LastModifiedByType":
 	if typedInput.LastModifiedByType != nil {
-		lastModifiedByType := *typedInput.LastModifiedByType
+		var temp string
+		temp = string(*typedInput.LastModifiedByType)
+		lastModifiedByType := SystemData_LastModifiedByType_STATUS(temp)
 		data.LastModifiedByType = &lastModifiedByType
 	}
 
@@ -2547,7 +2590,9 @@ func (condition *Condition) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 	// Set property "Operator":
 	if condition.Operator != nil {
-		operator := *condition.Operator
+		var temp string
+		temp = string(*condition.Operator)
+		operator := Condition_Operator_ARM(temp)
 		result.Operator = &operator
 	}
 
@@ -2575,7 +2620,9 @@ func (condition *Condition) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 	// Set property "TimeAggregation":
 	if condition.TimeAggregation != nil {
-		timeAggregation := *condition.TimeAggregation
+		var temp string
+		temp = string(*condition.TimeAggregation)
+		timeAggregation := Condition_TimeAggregation_ARM(temp)
 		result.TimeAggregation = &timeAggregation
 	}
 	return result, nil
@@ -2628,7 +2675,9 @@ func (condition *Condition) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := Condition_Operator(temp)
 		condition.Operator = &operator
 	}
 
@@ -2648,7 +2697,9 @@ func (condition *Condition) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 
 	// Set property "TimeAggregation":
 	if typedInput.TimeAggregation != nil {
-		timeAggregation := *typedInput.TimeAggregation
+		var temp string
+		temp = string(*typedInput.TimeAggregation)
+		timeAggregation := Condition_TimeAggregation(temp)
 		condition.TimeAggregation = &timeAggregation
 	}
 
@@ -2975,7 +3026,9 @@ func (condition *Condition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := Condition_Operator_STATUS(temp)
 		condition.Operator = &operator
 	}
 
@@ -2999,7 +3052,9 @@ func (condition *Condition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property "TimeAggregation":
 	if typedInput.TimeAggregation != nil {
-		timeAggregation := *typedInput.TimeAggregation
+		var temp string
+		temp = string(*typedInput.TimeAggregation)
+		timeAggregation := Condition_TimeAggregation_STATUS(temp)
 		condition.TimeAggregation = &timeAggregation
 	}
 
@@ -3162,6 +3217,40 @@ func (condition *Condition_STATUS) AssignProperties_To_Condition_STATUS(destinat
 
 	// No error
 	return nil
+}
+
+type SystemData_CreatedByType_STATUS string
+
+const (
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
+}
+
+type SystemData_LastModifiedByType_STATUS string
+
+const (
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
 }
 
 type Condition_FailingPeriods struct {
@@ -3458,7 +3547,9 @@ func (dimension *Dimension) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 	// Set property "Operator":
 	if dimension.Operator != nil {
-		operator := *dimension.Operator
+		var temp string
+		temp = string(*dimension.Operator)
+		operator := Dimension_Operator_ARM(temp)
 		result.Operator = &operator
 	}
 
@@ -3489,7 +3580,9 @@ func (dimension *Dimension) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := Dimension_Operator(temp)
 		dimension.Operator = &operator
 	}
 
@@ -3609,7 +3702,9 @@ func (dimension *Dimension_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := Dimension_Operator_STATUS(temp)
 		dimension.Operator = &operator
 	}
 

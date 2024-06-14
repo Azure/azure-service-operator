@@ -144,8 +144,8 @@ func AzureOperationalStoreParameters_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAzureOperationalStoreParameters_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAzureOperationalStoreParameters_ARM(gens map[string]gopter.Gen) {
-	gens["DataStoreType"] = gen.PtrOf(gen.OneConstOf(AzureOperationalStoreParameters_DataStoreType_ArchiveStore, AzureOperationalStoreParameters_DataStoreType_OperationalStore, AzureOperationalStoreParameters_DataStoreType_VaultStore))
-	gens["ObjectType"] = gen.OneConstOf(AzureOperationalStoreParameters_ObjectType_AzureOperationalStoreParameters)
+	gens["DataStoreType"] = gen.PtrOf(gen.OneConstOf(AzureOperationalStoreParameters_DataStoreType_ARM_ArchiveStore, AzureOperationalStoreParameters_DataStoreType_ARM_OperationalStore, AzureOperationalStoreParameters_DataStoreType_ARM_VaultStore))
+	gens["ObjectType"] = gen.OneConstOf(AzureOperationalStoreParameters_ObjectType_ARM_AzureOperationalStoreParameters)
 	gens["ResourceGroupId"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -289,7 +289,7 @@ func BackupInstance_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForBackupInstance_ARM(gens map[string]gopter.Gen) {
 	gens["FriendlyName"] = gen.PtrOf(gen.AlphaString())
 	gens["ObjectType"] = gen.PtrOf(gen.AlphaString())
-	gens["ValidationType"] = gen.PtrOf(gen.OneConstOf(BackupInstance_ValidationType_DeepValidation, BackupInstance_ValidationType_ShallowValidation))
+	gens["ValidationType"] = gen.PtrOf(gen.OneConstOf(BackupInstance_ValidationType_ARM_DeepValidation, BackupInstance_ValidationType_ARM_ShallowValidation))
 }
 
 // AddRelatedPropertyGeneratorsForBackupInstance_ARM is a factory method for creating gopter generators
@@ -507,7 +507,7 @@ func BlobBackupDatasourceParameters_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForBlobBackupDatasourceParameters_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBlobBackupDatasourceParameters_ARM(gens map[string]gopter.Gen) {
 	gens["ContainersList"] = gen.SliceOf(gen.AlphaString())
-	gens["ObjectType"] = gen.OneConstOf(BlobBackupDatasourceParameters_ObjectType_BlobBackupDatasourceParameters)
+	gens["ObjectType"] = gen.OneConstOf(BlobBackupDatasourceParameters_ObjectType_ARM_BlobBackupDatasourceParameters)
 }
 
 func Test_DataStoreParameters_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -797,7 +797,7 @@ func DefaultResourceProperties_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDefaultResourceProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDefaultResourceProperties_ARM(gens map[string]gopter.Gen) {
-	gens["ObjectType"] = gen.OneConstOf(DefaultResourceProperties_ObjectType_DefaultResourceProperties)
+	gens["ObjectType"] = gen.OneConstOf(DefaultResourceProperties_ObjectType_ARM_DefaultResourceProperties)
 }
 
 func Test_IdentityDetails_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -935,7 +935,7 @@ func AddIndependentPropertyGeneratorsForKubernetesClusterBackupDatasourceParamet
 	gens["IncludedNamespaces"] = gen.SliceOf(gen.AlphaString())
 	gens["IncludedResourceTypes"] = gen.SliceOf(gen.AlphaString())
 	gens["LabelSelectors"] = gen.SliceOf(gen.AlphaString())
-	gens["ObjectType"] = gen.OneConstOf(KubernetesClusterBackupDatasourceParameters_ObjectType_KubernetesClusterBackupDatasourceParameters)
+	gens["ObjectType"] = gen.OneConstOf(KubernetesClusterBackupDatasourceParameters_ObjectType_ARM_KubernetesClusterBackupDatasourceParameters)
 	gens["SnapshotVolumes"] = gen.PtrOf(gen.Bool())
 }
 
@@ -1209,7 +1209,7 @@ func SecretStoreBasedAuthCredentials_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSecretStoreBasedAuthCredentials_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSecretStoreBasedAuthCredentials_ARM(gens map[string]gopter.Gen) {
-	gens["ObjectType"] = gen.OneConstOf(SecretStoreBasedAuthCredentials_ObjectType_SecretStoreBasedAuthCredentials)
+	gens["ObjectType"] = gen.OneConstOf(SecretStoreBasedAuthCredentials_ObjectType_ARM_SecretStoreBasedAuthCredentials)
 }
 
 // AddRelatedPropertyGeneratorsForSecretStoreBasedAuthCredentials_ARM is a factory method for creating gopter generators
@@ -1275,7 +1275,7 @@ func SecretStoreResource_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSecretStoreResource_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSecretStoreResource_ARM(gens map[string]gopter.Gen) {
-	gens["SecretStoreType"] = gen.PtrOf(gen.OneConstOf(SecretStoreResource_SecretStoreType_AzureKeyVault, SecretStoreResource_SecretStoreType_Invalid))
+	gens["SecretStoreType"] = gen.PtrOf(gen.OneConstOf(SecretStoreResource_SecretStoreType_ARM_AzureKeyVault, SecretStoreResource_SecretStoreType_ARM_Invalid))
 	gens["Uri"] = gen.PtrOf(gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }

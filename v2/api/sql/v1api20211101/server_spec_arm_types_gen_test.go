@@ -85,10 +85,10 @@ func ResourceIdentity_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForResourceIdentity_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForResourceIdentity_ARM(gens map[string]gopter.Gen) {
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ResourceIdentity_Type_None,
-		ResourceIdentity_Type_SystemAssigned,
-		ResourceIdentity_Type_SystemAssignedUserAssigned,
-		ResourceIdentity_Type_UserAssigned))
+		ResourceIdentity_Type_ARM_None,
+		ResourceIdentity_Type_ARM_SystemAssigned,
+		ResourceIdentity_Type_ARM_SystemAssignedUserAssigned,
+		ResourceIdentity_Type_ARM_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForResourceIdentity_ARM is a factory method for creating gopter generators
@@ -156,10 +156,10 @@ func ServerExternalAdministrator_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForServerExternalAdministrator_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForServerExternalAdministrator_ARM(gens map[string]gopter.Gen) {
-	gens["AdministratorType"] = gen.PtrOf(gen.OneConstOf(ServerExternalAdministrator_AdministratorType_ActiveDirectory))
+	gens["AdministratorType"] = gen.PtrOf(gen.OneConstOf(ServerExternalAdministrator_AdministratorType_ARM_ActiveDirectory))
 	gens["AzureADOnlyAuthentication"] = gen.PtrOf(gen.Bool())
 	gens["Login"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalType"] = gen.PtrOf(gen.OneConstOf(ServerExternalAdministrator_PrincipalType_Application, ServerExternalAdministrator_PrincipalType_Group, ServerExternalAdministrator_PrincipalType_User))
+	gens["PrincipalType"] = gen.PtrOf(gen.OneConstOf(ServerExternalAdministrator_PrincipalType_ARM_Application, ServerExternalAdministrator_PrincipalType_ARM_Group, ServerExternalAdministrator_PrincipalType_ARM_User))
 	gens["Sid"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 }
@@ -237,8 +237,8 @@ func AddIndependentPropertyGeneratorsForServerProperties_ARM(gens map[string]gop
 	gens["KeyId"] = gen.PtrOf(gen.AlphaString())
 	gens["MinimalTlsVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["PrimaryUserAssignedIdentityId"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ServerProperties_PublicNetworkAccess_Disabled, ServerProperties_PublicNetworkAccess_Enabled))
-	gens["RestrictOutboundNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ServerProperties_RestrictOutboundNetworkAccess_Disabled, ServerProperties_RestrictOutboundNetworkAccess_Enabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ServerProperties_PublicNetworkAccess_ARM_Disabled, ServerProperties_PublicNetworkAccess_ARM_Enabled))
+	gens["RestrictOutboundNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ServerProperties_RestrictOutboundNetworkAccess_ARM_Disabled, ServerProperties_RestrictOutboundNetworkAccess_ARM_Enabled))
 	gens["Version"] = gen.PtrOf(gen.AlphaString())
 }
 

@@ -15,7 +15,7 @@ type ScheduledQueryRule_STATUS_ARM struct {
 	Id *string `json:"id,omitempty"`
 
 	// Kind: Indicates the type of scheduled query rule. The default is LogAlert.
-	Kind *ScheduledQueryRule_Kind_STATUS `json:"kind,omitempty"`
+	Kind *ScheduledQueryRule_Kind_STATUS_ARM `json:"kind,omitempty"`
 
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
@@ -36,17 +36,17 @@ type ScheduledQueryRule_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type ScheduledQueryRule_Kind_STATUS string
+type ScheduledQueryRule_Kind_STATUS_ARM string
 
 const (
-	ScheduledQueryRule_Kind_STATUS_LogAlert    = ScheduledQueryRule_Kind_STATUS("LogAlert")
-	ScheduledQueryRule_Kind_STATUS_LogToMetric = ScheduledQueryRule_Kind_STATUS("LogToMetric")
+	ScheduledQueryRule_Kind_STATUS_ARM_LogAlert    = ScheduledQueryRule_Kind_STATUS_ARM("LogAlert")
+	ScheduledQueryRule_Kind_STATUS_ARM_LogToMetric = ScheduledQueryRule_Kind_STATUS_ARM("LogToMetric")
 )
 
-// Mapping from string to ScheduledQueryRule_Kind_STATUS
-var scheduledQueryRule_Kind_STATUS_Values = map[string]ScheduledQueryRule_Kind_STATUS{
-	"logalert":    ScheduledQueryRule_Kind_STATUS_LogAlert,
-	"logtometric": ScheduledQueryRule_Kind_STATUS_LogToMetric,
+// Mapping from string to ScheduledQueryRule_Kind_STATUS_ARM
+var scheduledQueryRule_Kind_STATUS_ARM_Values = map[string]ScheduledQueryRule_Kind_STATUS_ARM{
+	"logalert":    ScheduledQueryRule_Kind_STATUS_ARM_LogAlert,
+	"logtometric": ScheduledQueryRule_Kind_STATUS_ARM_LogToMetric,
 }
 
 // scheduled query rule Definition
@@ -101,7 +101,7 @@ type ScheduledQueryRuleProperties_STATUS_ARM struct {
 
 	// Severity: Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only
 	// for rules of the kind LogAlert.
-	Severity *ScheduledQueryRuleProperties_Severity_STATUS `json:"severity,omitempty"`
+	Severity *ScheduledQueryRuleProperties_Severity_STATUS_ARM `json:"severity,omitempty"`
 
 	// SkipQueryValidation: The flag which indicates whether the provided query should be validated or not. The default is
 	// false. Relevant only for rules of the kind LogAlert.
@@ -127,7 +127,7 @@ type SystemData_STATUS_ARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_CreatedByType_STATUS_ARM `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -136,7 +136,7 @@ type SystemData_STATUS_ARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS_ARM `json:"lastModifiedByType,omitempty"`
 }
 
 // Actions to invoke when the alert fires.
@@ -154,38 +154,48 @@ type ScheduledQueryRuleCriteria_STATUS_ARM struct {
 	AllOf []Condition_STATUS_ARM `json:"allOf,omitempty"`
 }
 
-type SystemData_CreatedByType_STATUS string
+type ScheduledQueryRuleProperties_Severity_STATUS_ARM int
 
 const (
-	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+	ScheduledQueryRuleProperties_Severity_STATUS_ARM_0 = ScheduledQueryRuleProperties_Severity_STATUS_ARM(0)
+	ScheduledQueryRuleProperties_Severity_STATUS_ARM_1 = ScheduledQueryRuleProperties_Severity_STATUS_ARM(1)
+	ScheduledQueryRuleProperties_Severity_STATUS_ARM_2 = ScheduledQueryRuleProperties_Severity_STATUS_ARM(2)
+	ScheduledQueryRuleProperties_Severity_STATUS_ARM_3 = ScheduledQueryRuleProperties_Severity_STATUS_ARM(3)
+	ScheduledQueryRuleProperties_Severity_STATUS_ARM_4 = ScheduledQueryRuleProperties_Severity_STATUS_ARM(4)
 )
 
-// Mapping from string to SystemData_CreatedByType_STATUS
-var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
-	"application":     SystemData_CreatedByType_STATUS_Application,
-	"key":             SystemData_CreatedByType_STATUS_Key,
-	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_CreatedByType_STATUS_User,
+type SystemData_CreatedByType_STATUS_ARM string
+
+const (
+	SystemData_CreatedByType_STATUS_ARM_Application     = SystemData_CreatedByType_STATUS_ARM("Application")
+	SystemData_CreatedByType_STATUS_ARM_Key             = SystemData_CreatedByType_STATUS_ARM("Key")
+	SystemData_CreatedByType_STATUS_ARM_ManagedIdentity = SystemData_CreatedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_ARM_User            = SystemData_CreatedByType_STATUS_ARM("User")
+)
+
+// Mapping from string to SystemData_CreatedByType_STATUS_ARM
+var systemData_CreatedByType_STATUS_ARM_Values = map[string]SystemData_CreatedByType_STATUS_ARM{
+	"application":     SystemData_CreatedByType_STATUS_ARM_Application,
+	"key":             SystemData_CreatedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_ARM_User,
 }
 
-type SystemData_LastModifiedByType_STATUS string
+type SystemData_LastModifiedByType_STATUS_ARM string
 
 const (
-	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+	SystemData_LastModifiedByType_STATUS_ARM_Application     = SystemData_LastModifiedByType_STATUS_ARM("Application")
+	SystemData_LastModifiedByType_STATUS_ARM_Key             = SystemData_LastModifiedByType_STATUS_ARM("Key")
+	SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity = SystemData_LastModifiedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_ARM_User            = SystemData_LastModifiedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_LastModifiedByType_STATUS
-var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
-	"application":     SystemData_LastModifiedByType_STATUS_Application,
-	"key":             SystemData_LastModifiedByType_STATUS_Key,
-	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_LastModifiedByType_STATUS_User,
+// Mapping from string to SystemData_LastModifiedByType_STATUS_ARM
+var systemData_LastModifiedByType_STATUS_ARM_Values = map[string]SystemData_LastModifiedByType_STATUS_ARM{
+	"application":     SystemData_LastModifiedByType_STATUS_ARM_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_ARM_User,
 }
 
 // A condition of the scheduled query rule.
@@ -204,7 +214,7 @@ type Condition_STATUS_ARM struct {
 	MetricName *string `json:"metricName,omitempty"`
 
 	// Operator: The criteria operator. Relevant and required only for rules of the kind LogAlert.
-	Operator *Condition_Operator_STATUS `json:"operator,omitempty"`
+	Operator *Condition_Operator_STATUS_ARM `json:"operator,omitempty"`
 
 	// Query: Log query alert
 	Query *string `json:"query,omitempty"`
@@ -218,7 +228,7 @@ type Condition_STATUS_ARM struct {
 	Threshold *float64 `json:"threshold,omitempty"`
 
 	// TimeAggregation: Aggregation type. Relevant and required only for rules of the kind LogAlert.
-	TimeAggregation *Condition_TimeAggregation_STATUS `json:"timeAggregation,omitempty"`
+	TimeAggregation *Condition_TimeAggregation_STATUS_ARM `json:"timeAggregation,omitempty"`
 }
 
 type Condition_FailingPeriods_STATUS_ARM struct {
@@ -231,14 +241,65 @@ type Condition_FailingPeriods_STATUS_ARM struct {
 	NumberOfEvaluationPeriods *int `json:"numberOfEvaluationPeriods,omitempty"`
 }
 
+type Condition_Operator_STATUS_ARM string
+
+const (
+	Condition_Operator_STATUS_ARM_Equals             = Condition_Operator_STATUS_ARM("Equals")
+	Condition_Operator_STATUS_ARM_GreaterThan        = Condition_Operator_STATUS_ARM("GreaterThan")
+	Condition_Operator_STATUS_ARM_GreaterThanOrEqual = Condition_Operator_STATUS_ARM("GreaterThanOrEqual")
+	Condition_Operator_STATUS_ARM_LessThan           = Condition_Operator_STATUS_ARM("LessThan")
+	Condition_Operator_STATUS_ARM_LessThanOrEqual    = Condition_Operator_STATUS_ARM("LessThanOrEqual")
+)
+
+// Mapping from string to Condition_Operator_STATUS_ARM
+var condition_Operator_STATUS_ARM_Values = map[string]Condition_Operator_STATUS_ARM{
+	"equals":             Condition_Operator_STATUS_ARM_Equals,
+	"greaterthan":        Condition_Operator_STATUS_ARM_GreaterThan,
+	"greaterthanorequal": Condition_Operator_STATUS_ARM_GreaterThanOrEqual,
+	"lessthan":           Condition_Operator_STATUS_ARM_LessThan,
+	"lessthanorequal":    Condition_Operator_STATUS_ARM_LessThanOrEqual,
+}
+
+type Condition_TimeAggregation_STATUS_ARM string
+
+const (
+	Condition_TimeAggregation_STATUS_ARM_Average = Condition_TimeAggregation_STATUS_ARM("Average")
+	Condition_TimeAggregation_STATUS_ARM_Count   = Condition_TimeAggregation_STATUS_ARM("Count")
+	Condition_TimeAggregation_STATUS_ARM_Maximum = Condition_TimeAggregation_STATUS_ARM("Maximum")
+	Condition_TimeAggregation_STATUS_ARM_Minimum = Condition_TimeAggregation_STATUS_ARM("Minimum")
+	Condition_TimeAggregation_STATUS_ARM_Total   = Condition_TimeAggregation_STATUS_ARM("Total")
+)
+
+// Mapping from string to Condition_TimeAggregation_STATUS_ARM
+var condition_TimeAggregation_STATUS_ARM_Values = map[string]Condition_TimeAggregation_STATUS_ARM{
+	"average": Condition_TimeAggregation_STATUS_ARM_Average,
+	"count":   Condition_TimeAggregation_STATUS_ARM_Count,
+	"maximum": Condition_TimeAggregation_STATUS_ARM_Maximum,
+	"minimum": Condition_TimeAggregation_STATUS_ARM_Minimum,
+	"total":   Condition_TimeAggregation_STATUS_ARM_Total,
+}
+
 // Dimension splitting and filtering definition
 type Dimension_STATUS_ARM struct {
 	// Name: Name of the dimension
 	Name *string `json:"name,omitempty"`
 
 	// Operator: Operator for dimension values
-	Operator *Dimension_Operator_STATUS `json:"operator,omitempty"`
+	Operator *Dimension_Operator_STATUS_ARM `json:"operator,omitempty"`
 
 	// Values: List of dimension values
 	Values []string `json:"values,omitempty"`
+}
+
+type Dimension_Operator_STATUS_ARM string
+
+const (
+	Dimension_Operator_STATUS_ARM_Exclude = Dimension_Operator_STATUS_ARM("Exclude")
+	Dimension_Operator_STATUS_ARM_Include = Dimension_Operator_STATUS_ARM("Include")
+)
+
+// Mapping from string to Dimension_Operator_STATUS_ARM
+var dimension_Operator_STATUS_ARM_Values = map[string]Dimension_Operator_STATUS_ARM{
+	"exclude": Dimension_Operator_STATUS_ARM_Exclude,
+	"include": Dimension_Operator_STATUS_ARM_Include,
 }

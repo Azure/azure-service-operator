@@ -73,7 +73,7 @@ type SecurityPolicyWebApplicationFirewallParameters_ARM struct {
 	Associations []SecurityPolicyWebApplicationFirewallAssociation_ARM `json:"associations,omitempty"`
 
 	// Type: The type of the Security policy to create.
-	Type SecurityPolicyWebApplicationFirewallParameters_Type `json:"type,omitempty"`
+	Type SecurityPolicyWebApplicationFirewallParameters_Type_ARM `json:"type,omitempty"`
 
 	// WafPolicy: Resource ID.
 	WafPolicy *ResourceReference_ARM `json:"wafPolicy,omitempty"`
@@ -89,11 +89,11 @@ type SecurityPolicyWebApplicationFirewallAssociation_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"WebApplicationFirewall"}
-type SecurityPolicyWebApplicationFirewallParameters_Type string
+type SecurityPolicyWebApplicationFirewallParameters_Type_ARM string
 
-const SecurityPolicyWebApplicationFirewallParameters_Type_WebApplicationFirewall = SecurityPolicyWebApplicationFirewallParameters_Type("WebApplicationFirewall")
+const SecurityPolicyWebApplicationFirewallParameters_Type_ARM_WebApplicationFirewall = SecurityPolicyWebApplicationFirewallParameters_Type_ARM("WebApplicationFirewall")
 
-// Mapping from string to SecurityPolicyWebApplicationFirewallParameters_Type
-var securityPolicyWebApplicationFirewallParameters_Type_Values = map[string]SecurityPolicyWebApplicationFirewallParameters_Type{
-	"webapplicationfirewall": SecurityPolicyWebApplicationFirewallParameters_Type_WebApplicationFirewall,
+// Mapping from string to SecurityPolicyWebApplicationFirewallParameters_Type_ARM
+var securityPolicyWebApplicationFirewallParameters_Type_ARM_Values = map[string]SecurityPolicyWebApplicationFirewallParameters_Type_ARM{
+	"webapplicationfirewall": SecurityPolicyWebApplicationFirewallParameters_Type_ARM_WebApplicationFirewall,
 }

@@ -7,7 +7,7 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type ScheduledQueryRule_Spec_ARM struct {
 	// Kind: Indicates the type of scheduled query rule. The default is LogAlert.
-	Kind *ScheduledQueryRule_Kind_Spec `json:"kind,omitempty"`
+	Kind *ScheduledQueryRule_Kind_Spec_ARM `json:"kind,omitempty"`
 
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
@@ -38,17 +38,17 @@ func (rule *ScheduledQueryRule_Spec_ARM) GetType() string {
 }
 
 // +kubebuilder:validation:Enum={"LogAlert","LogToMetric"}
-type ScheduledQueryRule_Kind_Spec string
+type ScheduledQueryRule_Kind_Spec_ARM string
 
 const (
-	ScheduledQueryRule_Kind_Spec_LogAlert    = ScheduledQueryRule_Kind_Spec("LogAlert")
-	ScheduledQueryRule_Kind_Spec_LogToMetric = ScheduledQueryRule_Kind_Spec("LogToMetric")
+	ScheduledQueryRule_Kind_Spec_ARM_LogAlert    = ScheduledQueryRule_Kind_Spec_ARM("LogAlert")
+	ScheduledQueryRule_Kind_Spec_ARM_LogToMetric = ScheduledQueryRule_Kind_Spec_ARM("LogToMetric")
 )
 
-// Mapping from string to ScheduledQueryRule_Kind_Spec
-var scheduledQueryRule_Kind_Spec_Values = map[string]ScheduledQueryRule_Kind_Spec{
-	"logalert":    ScheduledQueryRule_Kind_Spec_LogAlert,
-	"logtometric": ScheduledQueryRule_Kind_Spec_LogToMetric,
+// Mapping from string to ScheduledQueryRule_Kind_Spec_ARM
+var scheduledQueryRule_Kind_Spec_ARM_Values = map[string]ScheduledQueryRule_Kind_Spec_ARM{
+	"logalert":    ScheduledQueryRule_Kind_Spec_ARM_LogAlert,
+	"logtometric": ScheduledQueryRule_Kind_Spec_ARM_LogToMetric,
 }
 
 // scheduled query rule Definition
@@ -91,7 +91,7 @@ type ScheduledQueryRuleProperties_ARM struct {
 
 	// Severity: Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only
 	// for rules of the kind LogAlert.
-	Severity *ScheduledQueryRuleProperties_Severity `json:"severity,omitempty"`
+	Severity *ScheduledQueryRuleProperties_Severity_ARM `json:"severity,omitempty"`
 
 	// SkipQueryValidation: The flag which indicates whether the provided query should be validated or not. The default is
 	// false. Relevant only for rules of the kind LogAlert.
@@ -122,6 +122,17 @@ type ScheduledQueryRuleCriteria_ARM struct {
 	AllOf []Condition_ARM `json:"allOf,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={0,1,2,3,4}
+type ScheduledQueryRuleProperties_Severity_ARM int
+
+const (
+	ScheduledQueryRuleProperties_Severity_ARM_0 = ScheduledQueryRuleProperties_Severity_ARM(0)
+	ScheduledQueryRuleProperties_Severity_ARM_1 = ScheduledQueryRuleProperties_Severity_ARM(1)
+	ScheduledQueryRuleProperties_Severity_ARM_2 = ScheduledQueryRuleProperties_Severity_ARM(2)
+	ScheduledQueryRuleProperties_Severity_ARM_3 = ScheduledQueryRuleProperties_Severity_ARM(3)
+	ScheduledQueryRuleProperties_Severity_ARM_4 = ScheduledQueryRuleProperties_Severity_ARM(4)
+)
+
 // A condition of the scheduled query rule.
 type Condition_ARM struct {
 	// Dimensions: List of Dimensions conditions
@@ -138,7 +149,7 @@ type Condition_ARM struct {
 	MetricName *string `json:"metricName,omitempty"`
 
 	// Operator: The criteria operator. Relevant and required only for rules of the kind LogAlert.
-	Operator *Condition_Operator `json:"operator,omitempty"`
+	Operator *Condition_Operator_ARM `json:"operator,omitempty"`
 
 	// Query: Log query alert
 	Query            *string `json:"query,omitempty"`
@@ -149,7 +160,7 @@ type Condition_ARM struct {
 	Threshold *float64 `json:"threshold,omitempty"`
 
 	// TimeAggregation: Aggregation type. Relevant and required only for rules of the kind LogAlert.
-	TimeAggregation *Condition_TimeAggregation `json:"timeAggregation,omitempty"`
+	TimeAggregation *Condition_TimeAggregation_ARM `json:"timeAggregation,omitempty"`
 }
 
 type Condition_FailingPeriods_ARM struct {
@@ -162,14 +173,68 @@ type Condition_FailingPeriods_ARM struct {
 	NumberOfEvaluationPeriods *int `json:"numberOfEvaluationPeriods,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"Equals","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual"}
+type Condition_Operator_ARM string
+
+const (
+	Condition_Operator_ARM_Equals             = Condition_Operator_ARM("Equals")
+	Condition_Operator_ARM_GreaterThan        = Condition_Operator_ARM("GreaterThan")
+	Condition_Operator_ARM_GreaterThanOrEqual = Condition_Operator_ARM("GreaterThanOrEqual")
+	Condition_Operator_ARM_LessThan           = Condition_Operator_ARM("LessThan")
+	Condition_Operator_ARM_LessThanOrEqual    = Condition_Operator_ARM("LessThanOrEqual")
+)
+
+// Mapping from string to Condition_Operator_ARM
+var condition_Operator_ARM_Values = map[string]Condition_Operator_ARM{
+	"equals":             Condition_Operator_ARM_Equals,
+	"greaterthan":        Condition_Operator_ARM_GreaterThan,
+	"greaterthanorequal": Condition_Operator_ARM_GreaterThanOrEqual,
+	"lessthan":           Condition_Operator_ARM_LessThan,
+	"lessthanorequal":    Condition_Operator_ARM_LessThanOrEqual,
+}
+
+// +kubebuilder:validation:Enum={"Average","Count","Maximum","Minimum","Total"}
+type Condition_TimeAggregation_ARM string
+
+const (
+	Condition_TimeAggregation_ARM_Average = Condition_TimeAggregation_ARM("Average")
+	Condition_TimeAggregation_ARM_Count   = Condition_TimeAggregation_ARM("Count")
+	Condition_TimeAggregation_ARM_Maximum = Condition_TimeAggregation_ARM("Maximum")
+	Condition_TimeAggregation_ARM_Minimum = Condition_TimeAggregation_ARM("Minimum")
+	Condition_TimeAggregation_ARM_Total   = Condition_TimeAggregation_ARM("Total")
+)
+
+// Mapping from string to Condition_TimeAggregation_ARM
+var condition_TimeAggregation_ARM_Values = map[string]Condition_TimeAggregation_ARM{
+	"average": Condition_TimeAggregation_ARM_Average,
+	"count":   Condition_TimeAggregation_ARM_Count,
+	"maximum": Condition_TimeAggregation_ARM_Maximum,
+	"minimum": Condition_TimeAggregation_ARM_Minimum,
+	"total":   Condition_TimeAggregation_ARM_Total,
+}
+
 // Dimension splitting and filtering definition
 type Dimension_ARM struct {
 	// Name: Name of the dimension
 	Name *string `json:"name,omitempty"`
 
 	// Operator: Operator for dimension values
-	Operator *Dimension_Operator `json:"operator,omitempty"`
+	Operator *Dimension_Operator_ARM `json:"operator,omitempty"`
 
 	// Values: List of dimension values
 	Values []string `json:"values,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Exclude","Include"}
+type Dimension_Operator_ARM string
+
+const (
+	Dimension_Operator_ARM_Exclude = Dimension_Operator_ARM("Exclude")
+	Dimension_Operator_ARM_Include = Dimension_Operator_ARM("Include")
+)
+
+// Mapping from string to Dimension_Operator_ARM
+var dimension_Operator_ARM_Values = map[string]Dimension_Operator_ARM{
+	"exclude": Dimension_Operator_ARM_Exclude,
+	"include": Dimension_Operator_ARM_Include,
 }

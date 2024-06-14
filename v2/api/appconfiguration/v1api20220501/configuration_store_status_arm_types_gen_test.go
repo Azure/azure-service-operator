@@ -84,19 +84,19 @@ func ConfigurationStoreProperties_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForConfigurationStoreProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForConfigurationStoreProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(ConfigurationStoreProperties_CreateMode_STATUS_Default, ConfigurationStoreProperties_CreateMode_STATUS_Recover))
+	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(ConfigurationStoreProperties_CreateMode_STATUS_ARM_Default, ConfigurationStoreProperties_CreateMode_STATUS_ARM_Recover))
 	gens["CreationDate"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["EnablePurgeProtection"] = gen.PtrOf(gen.Bool())
 	gens["Endpoint"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ConfigurationStoreProperties_ProvisioningState_STATUS_Canceled,
-		ConfigurationStoreProperties_ProvisioningState_STATUS_Creating,
-		ConfigurationStoreProperties_ProvisioningState_STATUS_Deleting,
-		ConfigurationStoreProperties_ProvisioningState_STATUS_Failed,
-		ConfigurationStoreProperties_ProvisioningState_STATUS_Succeeded,
-		ConfigurationStoreProperties_ProvisioningState_STATUS_Updating))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ConfigurationStoreProperties_PublicNetworkAccess_STATUS_Disabled, ConfigurationStoreProperties_PublicNetworkAccess_STATUS_Enabled))
+		ConfigurationStoreProperties_ProvisioningState_STATUS_ARM_Canceled,
+		ConfigurationStoreProperties_ProvisioningState_STATUS_ARM_Creating,
+		ConfigurationStoreProperties_ProvisioningState_STATUS_ARM_Deleting,
+		ConfigurationStoreProperties_ProvisioningState_STATUS_ARM_Failed,
+		ConfigurationStoreProperties_ProvisioningState_STATUS_ARM_Succeeded,
+		ConfigurationStoreProperties_ProvisioningState_STATUS_ARM_Updating))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ConfigurationStoreProperties_PublicNetworkAccess_STATUS_ARM_Disabled, ConfigurationStoreProperties_PublicNetworkAccess_STATUS_ARM_Enabled))
 	gens["SoftDeleteRetentionInDays"] = gen.PtrOf(gen.Int())
 }
 
@@ -444,10 +444,10 @@ func AddIndependentPropertyGeneratorsForResourceIdentity_STATUS_ARM(gens map[str
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ResourceIdentity_Type_STATUS_None,
-		ResourceIdentity_Type_STATUS_SystemAssigned,
-		ResourceIdentity_Type_STATUS_SystemAssignedUserAssigned,
-		ResourceIdentity_Type_STATUS_UserAssigned))
+		ResourceIdentity_Type_STATUS_ARM_None,
+		ResourceIdentity_Type_STATUS_ARM_SystemAssigned,
+		ResourceIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned,
+		ResourceIdentity_Type_STATUS_ARM_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForResourceIdentity_STATUS_ARM is a factory method for creating gopter generators
@@ -578,17 +578,17 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS_ARM(gens map[string]go
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_STATUS_Application,
-		SystemData_CreatedByType_STATUS_Key,
-		SystemData_CreatedByType_STATUS_ManagedIdentity,
-		SystemData_CreatedByType_STATUS_User))
+		SystemData_CreatedByType_STATUS_ARM_Application,
+		SystemData_CreatedByType_STATUS_ARM_Key,
+		SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
+		SystemData_CreatedByType_STATUS_ARM_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_STATUS_Application,
-		SystemData_LastModifiedByType_STATUS_Key,
-		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-		SystemData_LastModifiedByType_STATUS_User))
+		SystemData_LastModifiedByType_STATUS_ARM_Application,
+		SystemData_LastModifiedByType_STATUS_ARM_Key,
+		SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
+		SystemData_LastModifiedByType_STATUS_ARM_User))
 }
 
 func Test_UserIdentity_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

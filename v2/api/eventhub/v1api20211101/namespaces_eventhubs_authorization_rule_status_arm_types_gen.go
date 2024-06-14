@@ -26,5 +26,20 @@ type Namespaces_Eventhubs_AuthorizationRule_STATUS_ARM struct {
 
 type Namespaces_Eventhubs_AuthorizationRule_Properties_STATUS_ARM struct {
 	// Rights: The rights associated with the rule.
-	Rights []Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS `json:"rights,omitempty"`
+	Rights []Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS_ARM `json:"rights,omitempty"`
+}
+
+type Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS_ARM string
+
+const (
+	Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS_ARM_Listen = Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS_ARM("Listen")
+	Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS_ARM_Manage = Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS_ARM("Manage")
+	Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS_ARM_Send   = Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS_ARM("Send")
+)
+
+// Mapping from string to Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS_ARM
+var namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS_ARM_Values = map[string]Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS_ARM{
+	"listen": Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS_ARM_Listen,
+	"manage": Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS_ARM_Manage,
+	"send":   Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS_ARM_Send,
 }

@@ -49,14 +49,14 @@ type ExtendedLocation_ARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: The type of the extended location.
-	Type *ExtendedLocationType `json:"type,omitempty"`
+	Type *ExtendedLocationType_ARM `json:"type,omitempty"`
 }
 
 // Identity for the managed cluster.
 type ManagedClusterIdentity_ARM struct {
 	// Type: For more information see [use managed identities in
 	// AKS](https://docs.microsoft.com/azure/aks/use-managed-identity).
-	Type                   *ManagedClusterIdentity_Type               `json:"type,omitempty"`
+	Type                   *ManagedClusterIdentity_Type_ARM           `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -153,7 +153,7 @@ type ManagedClusterProperties_ARM struct {
 	PrivateLinkResources []PrivateLinkResource_ARM `json:"privateLinkResources"`
 
 	// PublicNetworkAccess: Allow or deny public network access for AKS
-	PublicNetworkAccess *ManagedClusterProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *ManagedClusterProperties_PublicNetworkAccess_ARM `json:"publicNetworkAccess,omitempty"`
 
 	// SecurityProfile: Security profile for the managed cluster.
 	SecurityProfile *ManagedClusterSecurityProfile_ARM `json:"securityProfile,omitempty"`
@@ -181,11 +181,11 @@ type ManagedClusterProperties_ARM struct {
 // The SKU of a Managed Cluster.
 type ManagedClusterSKU_ARM struct {
 	// Name: The name of a managed cluster SKU.
-	Name *ManagedClusterSKU_Name `json:"name,omitempty"`
+	Name *ManagedClusterSKU_Name_ARM `json:"name,omitempty"`
 
 	// Tier: If not specified, the default is 'Free'. See [AKS Pricing
 	// Tier](https://learn.microsoft.com/azure/aks/free-standard-pricing-tiers) for more details.
-	Tier *ManagedClusterSKU_Tier `json:"tier,omitempty"`
+	Tier *ManagedClusterSKU_Tier_ARM `json:"tier,omitempty"`
 }
 
 // Settings for upgrading a cluster.
@@ -215,7 +215,7 @@ type ContainerServiceNetworkProfile_ARM struct {
 
 	// IpFamilies: IP families are used to determine single-stack or dual-stack clusters. For single-stack, the expected value
 	// is IPv4. For dual-stack, the expected values are IPv4 and IPv6.
-	IpFamilies []ContainerServiceNetworkProfile_IpFamilies `json:"ipFamilies"`
+	IpFamilies []ContainerServiceNetworkProfile_IpFamilies_ARM `json:"ipFamilies"`
 
 	// KubeProxyConfig: Holds configuration customizations for kube-proxy. Any values not defined will use the kube-proxy
 	// defaulting behavior. See https://v<version>.docs.kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/
@@ -228,29 +228,29 @@ type ContainerServiceNetworkProfile_ARM struct {
 	// LoadBalancerSku: The default is 'standard'. See [Azure Load Balancer
 	// SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information about the differences between load
 	// balancer SKUs.
-	LoadBalancerSku *LoadBalancerSku `json:"loadBalancerSku,omitempty"`
+	LoadBalancerSku *LoadBalancerSku_ARM `json:"loadBalancerSku,omitempty"`
 
 	// NatGatewayProfile: Profile of the cluster NAT gateway.
 	NatGatewayProfile *ManagedClusterNATGatewayProfile_ARM `json:"natGatewayProfile,omitempty"`
 
 	// NetworkDataplane: Network dataplane used in the Kubernetes cluster.
-	NetworkDataplane *NetworkDataplane `json:"networkDataplane,omitempty"`
+	NetworkDataplane *NetworkDataplane_ARM `json:"networkDataplane,omitempty"`
 
 	// NetworkMode: This cannot be specified if networkPlugin is anything other than 'azure'.
-	NetworkMode *NetworkMode `json:"networkMode,omitempty"`
+	NetworkMode *NetworkMode_ARM `json:"networkMode,omitempty"`
 
 	// NetworkPlugin: Network plugin used for building the Kubernetes network.
-	NetworkPlugin *NetworkPlugin `json:"networkPlugin,omitempty"`
+	NetworkPlugin *NetworkPlugin_ARM `json:"networkPlugin,omitempty"`
 
 	// NetworkPluginMode: Network plugin mode used for building the Kubernetes network.
-	NetworkPluginMode *NetworkPluginMode `json:"networkPluginMode,omitempty"`
+	NetworkPluginMode *NetworkPluginMode_ARM `json:"networkPluginMode,omitempty"`
 
 	// NetworkPolicy: Network policy used for building the Kubernetes network.
-	NetworkPolicy *NetworkPolicy `json:"networkPolicy,omitempty"`
+	NetworkPolicy *NetworkPolicy_ARM `json:"networkPolicy,omitempty"`
 
 	// OutboundType: This can only be set at cluster creation time and cannot be changed later. For more information see
 	// [egress outbound type](https://docs.microsoft.com/azure/aks/egress-outboundtype).
-	OutboundType *ContainerServiceNetworkProfile_OutboundType `json:"outboundType,omitempty"`
+	OutboundType *ContainerServiceNetworkProfile_OutboundType_ARM `json:"outboundType,omitempty"`
 
 	// PodCidr: A CIDR notation IP range from which to assign pod IPs when kubenet is used.
 	PodCidr *string `json:"podCidr,omitempty"`
@@ -275,13 +275,13 @@ type CreationData_ARM struct {
 
 // The type of extendedLocation.
 // +kubebuilder:validation:Enum={"EdgeZone"}
-type ExtendedLocationType string
+type ExtendedLocationType_ARM string
 
-const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
+const ExtendedLocationType_ARM_EdgeZone = ExtendedLocationType_ARM("EdgeZone")
 
-// Mapping from string to ExtendedLocationType
-var extendedLocationType_Values = map[string]ExtendedLocationType{
-	"edgezone": ExtendedLocationType_EdgeZone,
+// Mapping from string to ExtendedLocationType_ARM
+var extendedLocationType_ARM_Values = map[string]ExtendedLocationType_ARM{
+	"edgezone": ExtendedLocationType_ARM_EdgeZone,
 }
 
 // The Guardrails profile.
@@ -291,7 +291,7 @@ type GuardrailsProfile_ARM struct {
 
 	// Level: The guardrails level to be used. By default, Guardrails is enabled for all namespaces except those that AKS
 	// excludes via systemExcludedNamespaces
-	Level *GuardrailsProfile_Level `json:"level,omitempty"`
+	Level *GuardrailsProfile_Level_ARM `json:"level,omitempty"`
 
 	// Version: The version of constraints to use
 	Version *string `json:"version,omitempty"`
@@ -376,15 +376,15 @@ type ManagedClusterAgentPoolProfile_ARM struct {
 	EnableUltraSSD *bool `json:"enableUltraSSD,omitempty"`
 
 	// GpuInstanceProfile: GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
-	GpuInstanceProfile *GPUInstanceProfile `json:"gpuInstanceProfile,omitempty"`
-	HostGroupID        *string             `json:"hostGroupID,omitempty"`
+	GpuInstanceProfile *GPUInstanceProfile_ARM `json:"gpuInstanceProfile,omitempty"`
+	HostGroupID        *string                 `json:"hostGroupID,omitempty"`
 
 	// KubeletConfig: The Kubelet configuration on the agent pool nodes.
 	KubeletConfig *KubeletConfig_ARM `json:"kubeletConfig,omitempty"`
 
 	// KubeletDiskType: Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral
 	// storage.
-	KubeletDiskType *KubeletDiskType `json:"kubeletDiskType,omitempty"`
+	KubeletDiskType *KubeletDiskType_ARM `json:"kubeletDiskType,omitempty"`
 
 	// LinuxOSConfig: The OS configuration of Linux agent nodes.
 	LinuxOSConfig *LinuxOSConfig_ARM `json:"linuxOSConfig,omitempty"`
@@ -405,7 +405,7 @@ type ManagedClusterAgentPoolProfile_ARM struct {
 
 	// Mode: A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool
 	// restrictions  and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools
-	Mode *AgentPoolMode `json:"mode,omitempty"`
+	Mode *AgentPoolMode_ARM `json:"mode,omitempty"`
 
 	// Name: Windows agent pool names must be 6 characters or less.
 	Name *string `json:"name,omitempty"`
@@ -427,22 +427,22 @@ type ManagedClusterAgentPoolProfile_ARM struct {
 	// must have the same major version as the control plane. The node pool minor version must be within two minor versions of
 	// the control plane version. The node pool version cannot be greater than the control plane version. For more information
 	// see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool).
-	OrchestratorVersion *string                 `json:"orchestratorVersion,omitempty"`
-	OsDiskSizeGB        *ContainerServiceOSDisk `json:"osDiskSizeGB,omitempty"`
+	OrchestratorVersion *string                     `json:"orchestratorVersion,omitempty"`
+	OsDiskSizeGB        *ContainerServiceOSDisk_ARM `json:"osDiskSizeGB,omitempty"`
 
 	// OsDiskType: The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested
 	// OSDiskSizeGB. Otherwise,  defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral
 	// OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).
-	OsDiskType *OSDiskType `json:"osDiskType,omitempty"`
+	OsDiskType *OSDiskType_ARM `json:"osDiskType,omitempty"`
 
 	// OsSKU: Specifies the OS SKU used by the agent pool. If not specified, the default is Ubuntu if OSType=Linux or
 	// Windows2019 if  OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 after Windows2019 is
 	// deprecated.
-	OsSKU *OSSKU `json:"osSKU,omitempty"`
+	OsSKU *OSSKU_ARM `json:"osSKU,omitempty"`
 
 	// OsType: The operating system type. The default is Linux.
-	OsType      *OSType `json:"osType,omitempty"`
-	PodSubnetID *string `json:"podSubnetID,omitempty"`
+	OsType      *OSType_ARM `json:"osType,omitempty"`
+	PodSubnetID *string     `json:"podSubnetID,omitempty"`
 
 	// PowerState: When an Agent Pool is first created it is initially Running. The Agent Pool can be stopped by setting this
 	// field to Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only
@@ -451,14 +451,14 @@ type ManagedClusterAgentPoolProfile_ARM struct {
 	ProximityPlacementGroupID *string         `json:"proximityPlacementGroupID,omitempty"`
 
 	// ScaleDownMode: This also effects the cluster autoscaler behavior. If not specified, it defaults to Delete.
-	ScaleDownMode *ScaleDownMode `json:"scaleDownMode,omitempty"`
+	ScaleDownMode *ScaleDownMode_ARM `json:"scaleDownMode,omitempty"`
 
 	// ScaleSetEvictionPolicy: This cannot be specified unless the scaleSetPriority is 'Spot'. If not specified, the default is
 	// 'Delete'.
-	ScaleSetEvictionPolicy *ScaleSetEvictionPolicy `json:"scaleSetEvictionPolicy,omitempty"`
+	ScaleSetEvictionPolicy *ScaleSetEvictionPolicy_ARM `json:"scaleSetEvictionPolicy,omitempty"`
 
 	// ScaleSetPriority: The Virtual Machine Scale Set priority. If not specified, the default is 'Regular'.
-	ScaleSetPriority *ScaleSetPriority `json:"scaleSetPriority,omitempty"`
+	ScaleSetPriority *ScaleSetPriority_ARM `json:"scaleSetPriority,omitempty"`
 
 	// SpotMaxPrice: Possible values are any decimal value greater than zero or -1 which indicates the willingness to pay any
 	// on-demand price. For more details on spot pricing, see [spot VMs
@@ -469,7 +469,7 @@ type ManagedClusterAgentPoolProfile_ARM struct {
 	Tags map[string]string `json:"tags"`
 
 	// Type: The type of Agent Pool.
-	Type *AgentPoolType `json:"type,omitempty"`
+	Type *AgentPoolType_ARM `json:"type,omitempty"`
 
 	// UpgradeSettings: Settings for upgrading the agentpool
 	UpgradeSettings *AgentPoolUpgradeSettings_ARM `json:"upgradeSettings,omitempty"`
@@ -484,7 +484,7 @@ type ManagedClusterAgentPoolProfile_ARM struct {
 	WindowsProfile *AgentPoolWindowsProfile_ARM `json:"windowsProfile,omitempty"`
 
 	// WorkloadRuntime: Determines the type of workload a node can run.
-	WorkloadRuntime *WorkloadRuntime `json:"workloadRuntime,omitempty"`
+	WorkloadRuntime *WorkloadRuntime_ARM `json:"workloadRuntime,omitempty"`
 }
 
 // Access profile for managed cluster API server.
@@ -520,11 +520,11 @@ type ManagedClusterAPIServerAccessProfile_ARM struct {
 // Auto upgrade profile for a managed cluster.
 type ManagedClusterAutoUpgradeProfile_ARM struct {
 	// NodeOSUpgradeChannel: The default is Unmanaged, but may change to either NodeImage or SecurityPatch at GA.
-	NodeOSUpgradeChannel *ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel `json:"nodeOSUpgradeChannel,omitempty"`
+	NodeOSUpgradeChannel *ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_ARM `json:"nodeOSUpgradeChannel,omitempty"`
 
 	// UpgradeChannel: For more information see [setting the AKS cluster auto-upgrade
 	// channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel).
-	UpgradeChannel *ManagedClusterAutoUpgradeProfile_UpgradeChannel `json:"upgradeChannel,omitempty"`
+	UpgradeChannel *ManagedClusterAutoUpgradeProfile_UpgradeChannel_ARM `json:"upgradeChannel,omitempty"`
 }
 
 // Prometheus addon profile for the container service cluster
@@ -549,19 +549,19 @@ type ManagedClusterHTTPProxyConfig_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","UserAssigned"}
-type ManagedClusterIdentity_Type string
+type ManagedClusterIdentity_Type_ARM string
 
 const (
-	ManagedClusterIdentity_Type_None           = ManagedClusterIdentity_Type("None")
-	ManagedClusterIdentity_Type_SystemAssigned = ManagedClusterIdentity_Type("SystemAssigned")
-	ManagedClusterIdentity_Type_UserAssigned   = ManagedClusterIdentity_Type("UserAssigned")
+	ManagedClusterIdentity_Type_ARM_None           = ManagedClusterIdentity_Type_ARM("None")
+	ManagedClusterIdentity_Type_ARM_SystemAssigned = ManagedClusterIdentity_Type_ARM("SystemAssigned")
+	ManagedClusterIdentity_Type_ARM_UserAssigned   = ManagedClusterIdentity_Type_ARM("UserAssigned")
 )
 
-// Mapping from string to ManagedClusterIdentity_Type
-var managedClusterIdentity_Type_Values = map[string]ManagedClusterIdentity_Type{
-	"none":           ManagedClusterIdentity_Type_None,
-	"systemassigned": ManagedClusterIdentity_Type_SystemAssigned,
-	"userassigned":   ManagedClusterIdentity_Type_UserAssigned,
+// Mapping from string to ManagedClusterIdentity_Type_ARM
+var managedClusterIdentity_Type_ARM_Values = map[string]ManagedClusterIdentity_Type_ARM{
+	"none":           ManagedClusterIdentity_Type_ARM_None,
+	"systemassigned": ManagedClusterIdentity_Type_ARM_SystemAssigned,
+	"userassigned":   ManagedClusterIdentity_Type_ARM_UserAssigned,
 }
 
 // Ingress profile for the container service cluster.
@@ -573,7 +573,7 @@ type ManagedClusterIngressProfile_ARM struct {
 // Node resource group lockdown profile for a managed cluster.
 type ManagedClusterNodeResourceGroupProfile_ARM struct {
 	// RestrictionLevel: The restriction level applied to the cluster's node resource group
-	RestrictionLevel *ManagedClusterNodeResourceGroupProfile_RestrictionLevel `json:"restrictionLevel,omitempty"`
+	RestrictionLevel *ManagedClusterNodeResourceGroupProfile_RestrictionLevel_ARM `json:"restrictionLevel,omitempty"`
 }
 
 // The OIDC issuer profile of the Managed Cluster.
@@ -608,7 +608,7 @@ type ManagedClusterProperties_AutoScalerProfile_ARM struct {
 	// Expander: If not specified, the default is 'random'. See
 	// [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more
 	// information.
-	Expander *ManagedClusterProperties_AutoScalerProfile_Expander `json:"expander,omitempty"`
+	Expander *ManagedClusterProperties_AutoScalerProfile_Expander_ARM `json:"expander,omitempty"`
 
 	// MaxEmptyBulkDelete: The default is 10.
 	MaxEmptyBulkDelete *string `json:"max-empty-bulk-delete,omitempty"`
@@ -664,6 +664,22 @@ type ManagedClusterProperties_AutoScalerProfile_ARM struct {
 	SkipNodesWithSystemPods *string `json:"skip-nodes-with-system-pods,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"Disabled","Enabled","SecuredByPerimeter"}
+type ManagedClusterProperties_PublicNetworkAccess_ARM string
+
+const (
+	ManagedClusterProperties_PublicNetworkAccess_ARM_Disabled           = ManagedClusterProperties_PublicNetworkAccess_ARM("Disabled")
+	ManagedClusterProperties_PublicNetworkAccess_ARM_Enabled            = ManagedClusterProperties_PublicNetworkAccess_ARM("Enabled")
+	ManagedClusterProperties_PublicNetworkAccess_ARM_SecuredByPerimeter = ManagedClusterProperties_PublicNetworkAccess_ARM("SecuredByPerimeter")
+)
+
+// Mapping from string to ManagedClusterProperties_PublicNetworkAccess_ARM
+var managedClusterProperties_PublicNetworkAccess_ARM_Values = map[string]ManagedClusterProperties_PublicNetworkAccess_ARM{
+	"disabled":           ManagedClusterProperties_PublicNetworkAccess_ARM_Disabled,
+	"enabled":            ManagedClusterProperties_PublicNetworkAccess_ARM_Enabled,
+	"securedbyperimeter": ManagedClusterProperties_PublicNetworkAccess_ARM_SecuredByPerimeter,
+}
+
 // Security profile for the container service cluster.
 type ManagedClusterSecurityProfile_ARM struct {
 	// AzureKeyVaultKms: Azure Key Vault [key management
@@ -673,7 +689,7 @@ type ManagedClusterSecurityProfile_ARM struct {
 	// CustomCATrustCertificates: A list of up to 10 base64 encoded CAs that will be added to the trust store on nodes with the
 	// Custom CA Trust feature enabled. For more information see [Custom CA Trust
 	// Certificates](https://learn.microsoft.com/en-us/azure/aks/custom-certificate-authority)
-	CustomCATrustCertificates ManagedClusterSecurityProfileCustomCATrustCertificates `json:"customCATrustCertificates,omitempty"`
+	CustomCATrustCertificates ManagedClusterSecurityProfileCustomCATrustCertificates_ARM `json:"customCATrustCertificates,omitempty"`
 
 	// Defender: Microsoft Defender settings for the security profile.
 	Defender *ManagedClusterSecurityProfileDefender_ARM `json:"defender,omitempty"`
@@ -701,27 +717,27 @@ type ManagedClusterServicePrincipalProfile_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"Base"}
-type ManagedClusterSKU_Name string
+type ManagedClusterSKU_Name_ARM string
 
-const ManagedClusterSKU_Name_Base = ManagedClusterSKU_Name("Base")
+const ManagedClusterSKU_Name_ARM_Base = ManagedClusterSKU_Name_ARM("Base")
 
-// Mapping from string to ManagedClusterSKU_Name
-var managedClusterSKU_Name_Values = map[string]ManagedClusterSKU_Name{
-	"base": ManagedClusterSKU_Name_Base,
+// Mapping from string to ManagedClusterSKU_Name_ARM
+var managedClusterSKU_Name_ARM_Values = map[string]ManagedClusterSKU_Name_ARM{
+	"base": ManagedClusterSKU_Name_ARM_Base,
 }
 
 // +kubebuilder:validation:Enum={"Free","Standard"}
-type ManagedClusterSKU_Tier string
+type ManagedClusterSKU_Tier_ARM string
 
 const (
-	ManagedClusterSKU_Tier_Free     = ManagedClusterSKU_Tier("Free")
-	ManagedClusterSKU_Tier_Standard = ManagedClusterSKU_Tier("Standard")
+	ManagedClusterSKU_Tier_ARM_Free     = ManagedClusterSKU_Tier_ARM("Free")
+	ManagedClusterSKU_Tier_ARM_Standard = ManagedClusterSKU_Tier_ARM("Standard")
 )
 
-// Mapping from string to ManagedClusterSKU_Tier
-var managedClusterSKU_Tier_Values = map[string]ManagedClusterSKU_Tier{
-	"free":     ManagedClusterSKU_Tier_Free,
-	"standard": ManagedClusterSKU_Tier_Standard,
+// Mapping from string to ManagedClusterSKU_Tier_ARM
+var managedClusterSKU_Tier_ARM_Values = map[string]ManagedClusterSKU_Tier_ARM{
+	"free":     ManagedClusterSKU_Tier_ARM_Free,
+	"standard": ManagedClusterSKU_Tier_ARM_Standard,
 }
 
 // Storage profile for the container service cluster.
@@ -771,7 +787,7 @@ type ManagedClusterWindowsProfile_ARM struct {
 
 	// LicenseType: The license type to use for Windows VMs. See [Azure Hybrid User
 	// Benefits](https://azure.microsoft.com/pricing/hybrid-benefit/faq/) for more details.
-	LicenseType *ManagedClusterWindowsProfile_LicenseType `json:"licenseType,omitempty"`
+	LicenseType *ManagedClusterWindowsProfile_LicenseType_ARM `json:"licenseType,omitempty"`
 }
 
 // Workload Auto-scaler profile for the managed cluster.
@@ -803,7 +819,7 @@ type ServiceMeshProfile_ARM struct {
 	Istio *IstioServiceMesh_ARM `json:"istio,omitempty"`
 
 	// Mode: Mode of the service mesh.
-	Mode *ServiceMeshProfile_Mode `json:"mode,omitempty"`
+	Mode *ServiceMeshProfile_Mode_ARM `json:"mode,omitempty"`
 }
 
 // Details about a user assigned identity.
@@ -834,8 +850,22 @@ type AzureKeyVaultKms_ARM struct {
 	// KeyVaultNetworkAccess: Network access of key vault. The possible values are `Public` and `Private`. `Public` means the
 	// key vault allows public access from all networks. `Private` means the key vault disables public access and enables
 	// private link. The default value is `Public`.
-	KeyVaultNetworkAccess *AzureKeyVaultKms_KeyVaultNetworkAccess `json:"keyVaultNetworkAccess,omitempty"`
-	KeyVaultResourceId    *string                                 `json:"keyVaultResourceId,omitempty"`
+	KeyVaultNetworkAccess *AzureKeyVaultKms_KeyVaultNetworkAccess_ARM `json:"keyVaultNetworkAccess,omitempty"`
+	KeyVaultResourceId    *string                                     `json:"keyVaultResourceId,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"IPv4","IPv6"}
+type ContainerServiceNetworkProfile_IpFamilies_ARM string
+
+const (
+	ContainerServiceNetworkProfile_IpFamilies_ARM_IPv4 = ContainerServiceNetworkProfile_IpFamilies_ARM("IPv4")
+	ContainerServiceNetworkProfile_IpFamilies_ARM_IPv6 = ContainerServiceNetworkProfile_IpFamilies_ARM("IPv6")
+)
+
+// Mapping from string to ContainerServiceNetworkProfile_IpFamilies_ARM
+var containerServiceNetworkProfile_IpFamilies_ARM_Values = map[string]ContainerServiceNetworkProfile_IpFamilies_ARM{
+	"ipv4": ContainerServiceNetworkProfile_IpFamilies_ARM_IPv4,
+	"ipv6": ContainerServiceNetworkProfile_IpFamilies_ARM_IPv6,
 }
 
 type ContainerServiceNetworkProfile_KubeProxyConfig_ARM struct {
@@ -847,7 +877,25 @@ type ContainerServiceNetworkProfile_KubeProxyConfig_ARM struct {
 	IpvsConfig *ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_ARM `json:"ipvsConfig,omitempty"`
 
 	// Mode: Specify which proxy mode to use ('IPTABLES' or 'IPVS')
-	Mode *ContainerServiceNetworkProfile_KubeProxyConfig_Mode `json:"mode,omitempty"`
+	Mode *ContainerServiceNetworkProfile_KubeProxyConfig_Mode_ARM `json:"mode,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"loadBalancer","managedNATGateway","userAssignedNATGateway","userDefinedRouting"}
+type ContainerServiceNetworkProfile_OutboundType_ARM string
+
+const (
+	ContainerServiceNetworkProfile_OutboundType_ARM_LoadBalancer           = ContainerServiceNetworkProfile_OutboundType_ARM("loadBalancer")
+	ContainerServiceNetworkProfile_OutboundType_ARM_ManagedNATGateway      = ContainerServiceNetworkProfile_OutboundType_ARM("managedNATGateway")
+	ContainerServiceNetworkProfile_OutboundType_ARM_UserAssignedNATGateway = ContainerServiceNetworkProfile_OutboundType_ARM("userAssignedNATGateway")
+	ContainerServiceNetworkProfile_OutboundType_ARM_UserDefinedRouting     = ContainerServiceNetworkProfile_OutboundType_ARM("userDefinedRouting")
+)
+
+// Mapping from string to ContainerServiceNetworkProfile_OutboundType_ARM
+var containerServiceNetworkProfile_OutboundType_ARM_Values = map[string]ContainerServiceNetworkProfile_OutboundType_ARM{
+	"loadbalancer":           ContainerServiceNetworkProfile_OutboundType_ARM_LoadBalancer,
+	"managednatgateway":      ContainerServiceNetworkProfile_OutboundType_ARM_ManagedNATGateway,
+	"userassignednatgateway": ContainerServiceNetworkProfile_OutboundType_ARM_UserAssignedNATGateway,
+	"userdefinedrouting":     ContainerServiceNetworkProfile_OutboundType_ARM_UserDefinedRouting,
 }
 
 // SSH configuration for Linux-based VMs running on Azure.
@@ -856,10 +904,80 @@ type ContainerServiceSshConfiguration_ARM struct {
 	PublicKeys []ContainerServiceSshPublicKey_ARM `json:"publicKeys"`
 }
 
+// +kubebuilder:validation:Enum={"Enforcement","Off","Warning"}
+type GuardrailsProfile_Level_ARM string
+
+const (
+	GuardrailsProfile_Level_ARM_Enforcement = GuardrailsProfile_Level_ARM("Enforcement")
+	GuardrailsProfile_Level_ARM_Off         = GuardrailsProfile_Level_ARM("Off")
+	GuardrailsProfile_Level_ARM_Warning     = GuardrailsProfile_Level_ARM("Warning")
+)
+
+// Mapping from string to GuardrailsProfile_Level_ARM
+var guardrailsProfile_Level_ARM_Values = map[string]GuardrailsProfile_Level_ARM{
+	"enforcement": GuardrailsProfile_Level_ARM_Enforcement,
+	"off":         GuardrailsProfile_Level_ARM_Off,
+	"warning":     GuardrailsProfile_Level_ARM_Warning,
+}
+
 // Istio service mesh configuration.
 type IstioServiceMesh_ARM struct {
 	// Components: Istio components configuration.
 	Components *IstioComponents_ARM `json:"components,omitempty"`
+}
+
+// The default is 'standard'. See [Azure Load Balancer SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more
+// information about the differences between load balancer SKUs.
+// +kubebuilder:validation:Enum={"basic","standard"}
+type LoadBalancerSku_ARM string
+
+const (
+	LoadBalancerSku_ARM_Basic    = LoadBalancerSku_ARM("basic")
+	LoadBalancerSku_ARM_Standard = LoadBalancerSku_ARM("standard")
+)
+
+// Mapping from string to LoadBalancerSku_ARM
+var loadBalancerSku_ARM_Values = map[string]LoadBalancerSku_ARM{
+	"basic":    LoadBalancerSku_ARM_Basic,
+	"standard": LoadBalancerSku_ARM_Standard,
+}
+
+// +kubebuilder:validation:Enum={"NodeImage","None","SecurityPatch","Unmanaged"}
+type ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_ARM string
+
+const (
+	ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_ARM_NodeImage     = ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_ARM("NodeImage")
+	ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_ARM_None          = ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_ARM("None")
+	ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_ARM_SecurityPatch = ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_ARM("SecurityPatch")
+	ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_ARM_Unmanaged     = ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_ARM("Unmanaged")
+)
+
+// Mapping from string to ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_ARM
+var managedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_ARM_Values = map[string]ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_ARM{
+	"nodeimage":     ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_ARM_NodeImage,
+	"none":          ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_ARM_None,
+	"securitypatch": ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_ARM_SecurityPatch,
+	"unmanaged":     ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_ARM_Unmanaged,
+}
+
+// +kubebuilder:validation:Enum={"node-image","none","patch","rapid","stable"}
+type ManagedClusterAutoUpgradeProfile_UpgradeChannel_ARM string
+
+const (
+	ManagedClusterAutoUpgradeProfile_UpgradeChannel_ARM_NodeImage = ManagedClusterAutoUpgradeProfile_UpgradeChannel_ARM("node-image")
+	ManagedClusterAutoUpgradeProfile_UpgradeChannel_ARM_None      = ManagedClusterAutoUpgradeProfile_UpgradeChannel_ARM("none")
+	ManagedClusterAutoUpgradeProfile_UpgradeChannel_ARM_Patch     = ManagedClusterAutoUpgradeProfile_UpgradeChannel_ARM("patch")
+	ManagedClusterAutoUpgradeProfile_UpgradeChannel_ARM_Rapid     = ManagedClusterAutoUpgradeProfile_UpgradeChannel_ARM("rapid")
+	ManagedClusterAutoUpgradeProfile_UpgradeChannel_ARM_Stable    = ManagedClusterAutoUpgradeProfile_UpgradeChannel_ARM("stable")
+)
+
+// Mapping from string to ManagedClusterAutoUpgradeProfile_UpgradeChannel_ARM
+var managedClusterAutoUpgradeProfile_UpgradeChannel_ARM_Values = map[string]ManagedClusterAutoUpgradeProfile_UpgradeChannel_ARM{
+	"node-image": ManagedClusterAutoUpgradeProfile_UpgradeChannel_ARM_NodeImage,
+	"none":       ManagedClusterAutoUpgradeProfile_UpgradeChannel_ARM_None,
+	"patch":      ManagedClusterAutoUpgradeProfile_UpgradeChannel_ARM_Patch,
+	"rapid":      ManagedClusterAutoUpgradeProfile_UpgradeChannel_ARM_Rapid,
+	"stable":     ManagedClusterAutoUpgradeProfile_UpgradeChannel_ARM_Stable,
 }
 
 // Metrics profile for the prometheus service addon
@@ -886,7 +1004,7 @@ type ManagedClusterLoadBalancerProfile_ARM struct {
 	AllocatedOutboundPorts *int `json:"allocatedOutboundPorts,omitempty"`
 
 	// BackendPoolType: The type of the managed inbound Load Balancer BackendPool.
-	BackendPoolType *ManagedClusterLoadBalancerProfile_BackendPoolType `json:"backendPoolType,omitempty"`
+	BackendPoolType *ManagedClusterLoadBalancerProfile_BackendPoolType_ARM `json:"backendPoolType,omitempty"`
 
 	// EffectiveOutboundIPs: The effective outbound IP resources of the cluster load balancer.
 	EffectiveOutboundIPs []ResourceReference_ARM `json:"effectiveOutboundIPs"`
@@ -921,6 +1039,20 @@ type ManagedClusterNATGatewayProfile_ARM struct {
 	ManagedOutboundIPProfile *ManagedClusterManagedOutboundIPProfile_ARM `json:"managedOutboundIPProfile,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"ReadOnly","Unrestricted"}
+type ManagedClusterNodeResourceGroupProfile_RestrictionLevel_ARM string
+
+const (
+	ManagedClusterNodeResourceGroupProfile_RestrictionLevel_ARM_ReadOnly     = ManagedClusterNodeResourceGroupProfile_RestrictionLevel_ARM("ReadOnly")
+	ManagedClusterNodeResourceGroupProfile_RestrictionLevel_ARM_Unrestricted = ManagedClusterNodeResourceGroupProfile_RestrictionLevel_ARM("Unrestricted")
+)
+
+// Mapping from string to ManagedClusterNodeResourceGroupProfile_RestrictionLevel_ARM
+var managedClusterNodeResourceGroupProfile_RestrictionLevel_ARM_Values = map[string]ManagedClusterNodeResourceGroupProfile_RestrictionLevel_ARM{
+	"readonly":     ManagedClusterNodeResourceGroupProfile_RestrictionLevel_ARM_ReadOnly,
+	"unrestricted": ManagedClusterNodeResourceGroupProfile_RestrictionLevel_ARM_Unrestricted,
+}
+
 // Details about the pod identity assigned to the Managed Cluster.
 type ManagedClusterPodIdentity_ARM struct {
 	// BindingSelector: The binding selector to use for the AzureIdentityBinding resource.
@@ -947,6 +1079,24 @@ type ManagedClusterPodIdentityException_ARM struct {
 
 	// PodLabels: The pod labels to match.
 	PodLabels map[string]string `json:"podLabels"`
+}
+
+// +kubebuilder:validation:Enum={"least-waste","most-pods","priority","random"}
+type ManagedClusterProperties_AutoScalerProfile_Expander_ARM string
+
+const (
+	ManagedClusterProperties_AutoScalerProfile_Expander_ARM_LeastWaste = ManagedClusterProperties_AutoScalerProfile_Expander_ARM("least-waste")
+	ManagedClusterProperties_AutoScalerProfile_Expander_ARM_MostPods   = ManagedClusterProperties_AutoScalerProfile_Expander_ARM("most-pods")
+	ManagedClusterProperties_AutoScalerProfile_Expander_ARM_Priority   = ManagedClusterProperties_AutoScalerProfile_Expander_ARM("priority")
+	ManagedClusterProperties_AutoScalerProfile_Expander_ARM_Random     = ManagedClusterProperties_AutoScalerProfile_Expander_ARM("random")
+)
+
+// Mapping from string to ManagedClusterProperties_AutoScalerProfile_Expander_ARM
+var managedClusterProperties_AutoScalerProfile_Expander_ARM_Values = map[string]ManagedClusterProperties_AutoScalerProfile_Expander_ARM{
+	"least-waste": ManagedClusterProperties_AutoScalerProfile_Expander_ARM_LeastWaste,
+	"most-pods":   ManagedClusterProperties_AutoScalerProfile_Expander_ARM_MostPods,
+	"priority":    ManagedClusterProperties_AutoScalerProfile_Expander_ARM_Priority,
+	"random":      ManagedClusterProperties_AutoScalerProfile_Expander_ARM_Random,
 }
 
 // Microsoft Defender settings for the security profile.
@@ -1006,6 +1156,20 @@ type ManagedClusterStorageProfileSnapshotController_ARM struct {
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"None","Windows_Server"}
+type ManagedClusterWindowsProfile_LicenseType_ARM string
+
+const (
+	ManagedClusterWindowsProfile_LicenseType_ARM_None           = ManagedClusterWindowsProfile_LicenseType_ARM("None")
+	ManagedClusterWindowsProfile_LicenseType_ARM_Windows_Server = ManagedClusterWindowsProfile_LicenseType_ARM("Windows_Server")
+)
+
+// Mapping from string to ManagedClusterWindowsProfile_LicenseType_ARM
+var managedClusterWindowsProfile_LicenseType_ARM_Values = map[string]ManagedClusterWindowsProfile_LicenseType_ARM{
+	"none":           ManagedClusterWindowsProfile_LicenseType_ARM_None,
+	"windows_server": ManagedClusterWindowsProfile_LicenseType_ARM_Windows_Server,
+}
+
 // KEDA (Kubernetes Event-driven Autoscaling) settings for the workload auto-scaler profile.
 type ManagedClusterWorkloadAutoScalerProfileKeda_ARM struct {
 	// Enabled: Whether to enable KEDA.
@@ -1014,7 +1178,7 @@ type ManagedClusterWorkloadAutoScalerProfileKeda_ARM struct {
 
 type ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_ARM struct {
 	// ControlledValues: Controls which resource value autoscaler will change. Default value is RequestsAndLimits.
-	ControlledValues *ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_ControlledValues `json:"controlledValues,omitempty"`
+	ControlledValues *ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_ControlledValues_ARM `json:"controlledValues,omitempty"`
 
 	// Enabled: Whether to enable VPA. Default value is false.
 	Enabled *bool `json:"enabled,omitempty"`
@@ -1022,13 +1186,102 @@ type ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_ARM struct {
 	// UpdateMode: Each update mode level is a superset of the lower levels. Off<Initial<Recreate<=Auto. For example: if
 	// UpdateMode is Initial, it means VPA sets the recommended resources in the VerticalPodAutoscaler Custom Resource (from
 	// UpdateMode Off) and also assigns resources on pod creation (from Initial). The default value is Off.
-	UpdateMode *ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_UpdateMode `json:"updateMode,omitempty"`
+	UpdateMode *ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_UpdateMode_ARM `json:"updateMode,omitempty"`
+}
+
+// Network dataplane used in the Kubernetes cluster.
+// +kubebuilder:validation:Enum={"azure","cilium"}
+type NetworkDataplane_ARM string
+
+const (
+	NetworkDataplane_ARM_Azure  = NetworkDataplane_ARM("azure")
+	NetworkDataplane_ARM_Cilium = NetworkDataplane_ARM("cilium")
+)
+
+// Mapping from string to NetworkDataplane_ARM
+var networkDataplane_ARM_Values = map[string]NetworkDataplane_ARM{
+	"azure":  NetworkDataplane_ARM_Azure,
+	"cilium": NetworkDataplane_ARM_Cilium,
+}
+
+// This cannot be specified if networkPlugin is anything other than 'azure'.
+// +kubebuilder:validation:Enum={"bridge","transparent"}
+type NetworkMode_ARM string
+
+const (
+	NetworkMode_ARM_Bridge      = NetworkMode_ARM("bridge")
+	NetworkMode_ARM_Transparent = NetworkMode_ARM("transparent")
+)
+
+// Mapping from string to NetworkMode_ARM
+var networkMode_ARM_Values = map[string]NetworkMode_ARM{
+	"bridge":      NetworkMode_ARM_Bridge,
+	"transparent": NetworkMode_ARM_Transparent,
+}
+
+// Network plugin used for building the Kubernetes network.
+// +kubebuilder:validation:Enum={"azure","kubenet","none"}
+type NetworkPlugin_ARM string
+
+const (
+	NetworkPlugin_ARM_Azure   = NetworkPlugin_ARM("azure")
+	NetworkPlugin_ARM_Kubenet = NetworkPlugin_ARM("kubenet")
+	NetworkPlugin_ARM_None    = NetworkPlugin_ARM("none")
+)
+
+// Mapping from string to NetworkPlugin_ARM
+var networkPlugin_ARM_Values = map[string]NetworkPlugin_ARM{
+	"azure":   NetworkPlugin_ARM_Azure,
+	"kubenet": NetworkPlugin_ARM_Kubenet,
+	"none":    NetworkPlugin_ARM_None,
+}
+
+// The mode the network plugin should use.
+// +kubebuilder:validation:Enum={"Overlay"}
+type NetworkPluginMode_ARM string
+
+const NetworkPluginMode_ARM_Overlay = NetworkPluginMode_ARM("Overlay")
+
+// Mapping from string to NetworkPluginMode_ARM
+var networkPluginMode_ARM_Values = map[string]NetworkPluginMode_ARM{
+	"overlay": NetworkPluginMode_ARM_Overlay,
+}
+
+// Network policy used for building the Kubernetes network.
+// +kubebuilder:validation:Enum={"azure","calico","cilium"}
+type NetworkPolicy_ARM string
+
+const (
+	NetworkPolicy_ARM_Azure  = NetworkPolicy_ARM("azure")
+	NetworkPolicy_ARM_Calico = NetworkPolicy_ARM("calico")
+	NetworkPolicy_ARM_Cilium = NetworkPolicy_ARM("cilium")
+)
+
+// Mapping from string to NetworkPolicy_ARM
+var networkPolicy_ARM_Values = map[string]NetworkPolicy_ARM{
+	"azure":  NetworkPolicy_ARM_Azure,
+	"calico": NetworkPolicy_ARM_Calico,
+	"cilium": NetworkPolicy_ARM_Cilium,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Istio"}
+type ServiceMeshProfile_Mode_ARM string
+
+const (
+	ServiceMeshProfile_Mode_ARM_Disabled = ServiceMeshProfile_Mode_ARM("Disabled")
+	ServiceMeshProfile_Mode_ARM_Istio    = ServiceMeshProfile_Mode_ARM("Istio")
+)
+
+// Mapping from string to ServiceMeshProfile_Mode_ARM
+var serviceMeshProfile_Mode_ARM_Values = map[string]ServiceMeshProfile_Mode_ARM{
+	"disabled": ServiceMeshProfile_Mode_ARM_Disabled,
+	"istio":    ServiceMeshProfile_Mode_ARM_Istio,
 }
 
 // Settings for overrides when upgrading a cluster.
 type UpgradeOverrideSettings_ARM struct {
 	// ControlPlaneOverrides: List of upgrade overrides when upgrading a cluster's control plane.
-	ControlPlaneOverrides []ControlPlaneUpgradeOverride `json:"controlPlaneOverrides"`
+	ControlPlaneOverrides []ControlPlaneUpgradeOverride_ARM `json:"controlPlaneOverrides"`
 
 	// Until: Until when the overrides are effective. Note that this only matches the start time of an upgrade, and the
 	// effectiveness won't change once an upgrade starts even if the `until` expires as upgrade proceeds. This field is not set
@@ -1050,9 +1303,23 @@ type WindowsGmsaProfile_ARM struct {
 	RootDomainName *string `json:"rootDomainName,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"Private","Public"}
+type AzureKeyVaultKms_KeyVaultNetworkAccess_ARM string
+
+const (
+	AzureKeyVaultKms_KeyVaultNetworkAccess_ARM_Private = AzureKeyVaultKms_KeyVaultNetworkAccess_ARM("Private")
+	AzureKeyVaultKms_KeyVaultNetworkAccess_ARM_Public  = AzureKeyVaultKms_KeyVaultNetworkAccess_ARM("Public")
+)
+
+// Mapping from string to AzureKeyVaultKms_KeyVaultNetworkAccess_ARM
+var azureKeyVaultKms_KeyVaultNetworkAccess_ARM_Values = map[string]AzureKeyVaultKms_KeyVaultNetworkAccess_ARM{
+	"private": AzureKeyVaultKms_KeyVaultNetworkAccess_ARM_Private,
+	"public":  AzureKeyVaultKms_KeyVaultNetworkAccess_ARM_Public,
+}
+
 type ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_ARM struct {
 	// Scheduler: IPVS scheduler, for more information please see http://www.linuxvirtualserver.org/docs/scheduling.html.
-	Scheduler *ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler `json:"scheduler,omitempty"`
+	Scheduler *ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler_ARM `json:"scheduler,omitempty"`
 
 	// TcpFinTimeoutSeconds: The timeout value used for IPVS TCP sessions after receiving a FIN in seconds. Must be a positive
 	// integer value.
@@ -1065,11 +1332,36 @@ type ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_ARM struct {
 	UdpTimeoutSeconds *int `json:"udpTimeoutSeconds,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"IPTABLES","IPVS"}
+type ContainerServiceNetworkProfile_KubeProxyConfig_Mode_ARM string
+
+const (
+	ContainerServiceNetworkProfile_KubeProxyConfig_Mode_ARM_IPTABLES = ContainerServiceNetworkProfile_KubeProxyConfig_Mode_ARM("IPTABLES")
+	ContainerServiceNetworkProfile_KubeProxyConfig_Mode_ARM_IPVS     = ContainerServiceNetworkProfile_KubeProxyConfig_Mode_ARM("IPVS")
+)
+
+// Mapping from string to ContainerServiceNetworkProfile_KubeProxyConfig_Mode_ARM
+var containerServiceNetworkProfile_KubeProxyConfig_Mode_ARM_Values = map[string]ContainerServiceNetworkProfile_KubeProxyConfig_Mode_ARM{
+	"iptables": ContainerServiceNetworkProfile_KubeProxyConfig_Mode_ARM_IPTABLES,
+	"ipvs":     ContainerServiceNetworkProfile_KubeProxyConfig_Mode_ARM_IPVS,
+}
+
 // Contains information about SSH certificate public key data.
 type ContainerServiceSshPublicKey_ARM struct {
 	// KeyData: Certificate public key used to authenticate with VMs through SSH. The certificate must be in PEM format with or
 	// without headers.
 	KeyData *string `json:"keyData,omitempty"`
+}
+
+// The list of control plane upgrade override settings.
+// +kubebuilder:validation:Enum={"IgnoreKubernetesDeprecations"}
+type ControlPlaneUpgradeOverride_ARM string
+
+const ControlPlaneUpgradeOverride_ARM_IgnoreKubernetesDeprecations = ControlPlaneUpgradeOverride_ARM("IgnoreKubernetesDeprecations")
+
+// Mapping from string to ControlPlaneUpgradeOverride_ARM
+var controlPlaneUpgradeOverride_ARM_Values = map[string]ControlPlaneUpgradeOverride_ARM{
+	"ignorekubernetesdeprecations": ControlPlaneUpgradeOverride_ARM_IgnoreKubernetesDeprecations,
 }
 
 // Istio components configuration.
@@ -1087,6 +1379,20 @@ type ManagedClusterAzureMonitorProfileKubeStateMetrics_ARM struct {
 	// MetricLabelsAllowlist: Comma-separated list of Kubernetes annotations keys that will be used in the resource's labels
 	// metric.
 	MetricLabelsAllowlist *string `json:"metricLabelsAllowlist,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"NodeIP","NodeIPConfiguration"}
+type ManagedClusterLoadBalancerProfile_BackendPoolType_ARM string
+
+const (
+	ManagedClusterLoadBalancerProfile_BackendPoolType_ARM_NodeIP              = ManagedClusterLoadBalancerProfile_BackendPoolType_ARM("NodeIP")
+	ManagedClusterLoadBalancerProfile_BackendPoolType_ARM_NodeIPConfiguration = ManagedClusterLoadBalancerProfile_BackendPoolType_ARM("NodeIPConfiguration")
+)
+
+// Mapping from string to ManagedClusterLoadBalancerProfile_BackendPoolType_ARM
+var managedClusterLoadBalancerProfile_BackendPoolType_ARM_Values = map[string]ManagedClusterLoadBalancerProfile_BackendPoolType_ARM{
+	"nodeip":              ManagedClusterLoadBalancerProfile_BackendPoolType_ARM_NodeIP,
+	"nodeipconfiguration": ManagedClusterLoadBalancerProfile_BackendPoolType_ARM_NodeIPConfiguration,
 }
 
 type ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_ARM struct {
@@ -1122,9 +1428,55 @@ type ManagedClusterSecurityProfileDefenderSecurityMonitoring_ARM struct {
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"RequestsAndLimits","RequestsOnly"}
+type ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_ControlledValues_ARM string
+
+const (
+	ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_ControlledValues_ARM_RequestsAndLimits = ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_ControlledValues_ARM("RequestsAndLimits")
+	ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_ControlledValues_ARM_RequestsOnly      = ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_ControlledValues_ARM("RequestsOnly")
+)
+
+// Mapping from string to ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_ControlledValues_ARM
+var managedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_ControlledValues_ARM_Values = map[string]ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_ControlledValues_ARM{
+	"requestsandlimits": ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_ControlledValues_ARM_RequestsAndLimits,
+	"requestsonly":      ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_ControlledValues_ARM_RequestsOnly,
+}
+
+// +kubebuilder:validation:Enum={"Auto","Initial","Off","Recreate"}
+type ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_UpdateMode_ARM string
+
+const (
+	ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_UpdateMode_ARM_Auto     = ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_UpdateMode_ARM("Auto")
+	ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_UpdateMode_ARM_Initial  = ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_UpdateMode_ARM("Initial")
+	ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_UpdateMode_ARM_Off      = ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_UpdateMode_ARM("Off")
+	ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_UpdateMode_ARM_Recreate = ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_UpdateMode_ARM("Recreate")
+)
+
+// Mapping from string to ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_UpdateMode_ARM
+var managedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_UpdateMode_ARM_Values = map[string]ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_UpdateMode_ARM{
+	"auto":     ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_UpdateMode_ARM_Auto,
+	"initial":  ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_UpdateMode_ARM_Initial,
+	"off":      ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_UpdateMode_ARM_Off,
+	"recreate": ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_UpdateMode_ARM_Recreate,
+}
+
 // A reference to an Azure resource.
 type ResourceReference_ARM struct {
 	Id *string `json:"id,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"LeastConnection","RoundRobin"}
+type ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler_ARM string
+
+const (
+	ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler_ARM_LeastConnection = ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler_ARM("LeastConnection")
+	ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler_ARM_RoundRobin      = ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler_ARM("RoundRobin")
+)
+
+// Mapping from string to ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler_ARM
+var containerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler_ARM_Values = map[string]ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler_ARM{
+	"leastconnection": ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler_ARM_LeastConnection,
+	"roundrobin":      ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler_ARM_RoundRobin,
 }
 
 // Istio ingress gateway configuration. For now, we support up to one external ingress gateway named
@@ -1134,5 +1486,19 @@ type IstioIngressGateway_ARM struct {
 	Enabled *bool `json:"enabled,omitempty"`
 
 	// Mode: Mode of an ingress gateway.
-	Mode *IstioIngressGateway_Mode `json:"mode,omitempty"`
+	Mode *IstioIngressGateway_Mode_ARM `json:"mode,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"External","Internal"}
+type IstioIngressGateway_Mode_ARM string
+
+const (
+	IstioIngressGateway_Mode_ARM_External = IstioIngressGateway_Mode_ARM("External")
+	IstioIngressGateway_Mode_ARM_Internal = IstioIngressGateway_Mode_ARM("Internal")
+)
+
+// Mapping from string to IstioIngressGateway_Mode_ARM
+var istioIngressGateway_Mode_ARM_Values = map[string]IstioIngressGateway_Mode_ARM{
+	"external": IstioIngressGateway_Mode_ARM_External,
+	"internal": IstioIngressGateway_Mode_ARM_Internal,
 }

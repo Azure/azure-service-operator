@@ -1274,7 +1274,9 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Status != nil {
-			status := *typedInput.Properties.Status
+			var temp string
+			temp = string(*typedInput.Properties.Status)
+			status := EntityStatus_STATUS(temp)
 			queue.Status = &status
 		}
 	}

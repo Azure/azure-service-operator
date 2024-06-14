@@ -80,7 +80,7 @@ func AddIndependentPropertyGeneratorsForRedisLinkedServerProperties_STATUS_ARM(g
 	gens["LinkedRedisCacheLocation"] = gen.PtrOf(gen.AlphaString())
 	gens["PrimaryHostName"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["ServerRole"] = gen.PtrOf(gen.OneConstOf(RedisLinkedServerProperties_ServerRole_STATUS_Primary, RedisLinkedServerProperties_ServerRole_STATUS_Secondary))
+	gens["ServerRole"] = gen.PtrOf(gen.OneConstOf(RedisLinkedServerProperties_ServerRole_STATUS_ARM_Primary, RedisLinkedServerProperties_ServerRole_STATUS_ARM_Secondary))
 }
 
 func Test_Redis_LinkedServer_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

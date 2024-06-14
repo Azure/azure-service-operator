@@ -387,7 +387,9 @@ func (subscription *EventSubscription_Spec) ConvertToARM(resolved genruntime.Con
 		result.Properties.Destination = &destination
 	}
 	if subscription.EventDeliverySchema != nil {
-		eventDeliverySchema := *subscription.EventDeliverySchema
+		var temp string
+		temp = string(*subscription.EventDeliverySchema)
+		eventDeliverySchema := EventSubscriptionProperties_EventDeliverySchema_ARM(temp)
 		result.Properties.EventDeliverySchema = &eventDeliverySchema
 	}
 	if subscription.ExpirationTimeUtc != nil {
@@ -463,7 +465,9 @@ func (subscription *EventSubscription_Spec) PopulateFromARM(owner genruntime.Arb
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EventDeliverySchema != nil {
-			eventDeliverySchema := *typedInput.Properties.EventDeliverySchema
+			var temp string
+			temp = string(*typedInput.Properties.EventDeliverySchema)
+			eventDeliverySchema := EventSubscriptionProperties_EventDeliverySchema(temp)
 			subscription.EventDeliverySchema = &eventDeliverySchema
 		}
 	}
@@ -966,7 +970,9 @@ func (subscription *EventSubscription_STATUS) PopulateFromARM(owner genruntime.A
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EventDeliverySchema != nil {
-			eventDeliverySchema := *typedInput.Properties.EventDeliverySchema
+			var temp string
+			temp = string(*typedInput.Properties.EventDeliverySchema)
+			eventDeliverySchema := EventSubscriptionProperties_EventDeliverySchema_STATUS(temp)
 			subscription.EventDeliverySchema = &eventDeliverySchema
 		}
 	}
@@ -1018,7 +1024,9 @@ func (subscription *EventSubscription_STATUS) PopulateFromARM(owner genruntime.A
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := EventSubscriptionProperties_ProvisioningState_STATUS(temp)
 			subscription.ProvisioningState = &provisioningState
 		}
 	}
@@ -4232,7 +4240,11 @@ func (destination *AzureFunctionEventSubscriptionDestination) ConvertToARM(resol
 
 	// Set property "EndpointType":
 	if destination.EndpointType != nil {
-		result.EndpointType = *destination.EndpointType
+		var temp AzureFunctionEventSubscriptionDestination_EndpointType_ARM
+		var temp1 string
+		temp1 = string(*destination.EndpointType)
+		temp = AzureFunctionEventSubscriptionDestination_EndpointType_ARM(temp1)
+		result.EndpointType = temp
 	}
 
 	// Set property "Properties":
@@ -4273,7 +4285,11 @@ func (destination *AzureFunctionEventSubscriptionDestination) PopulateFromARM(ow
 	}
 
 	// Set property "EndpointType":
-	destination.EndpointType = &typedInput.EndpointType
+	var temp AzureFunctionEventSubscriptionDestination_EndpointType
+	var temp1 string
+	temp1 = string(typedInput.EndpointType)
+	temp = AzureFunctionEventSubscriptionDestination_EndpointType(temp1)
+	destination.EndpointType = &temp
 
 	// Set property "MaxEventsPerBatch":
 	// copying flattened property:
@@ -4426,7 +4442,11 @@ func (destination *AzureFunctionEventSubscriptionDestination_STATUS) PopulateFro
 	}
 
 	// Set property "EndpointType":
-	destination.EndpointType = &typedInput.EndpointType
+	var temp AzureFunctionEventSubscriptionDestination_EndpointType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.EndpointType)
+	temp = AzureFunctionEventSubscriptionDestination_EndpointType_STATUS(temp1)
+	destination.EndpointType = &temp
 
 	// Set property "MaxEventsPerBatch":
 	// copying flattened property:
@@ -4538,7 +4558,11 @@ func (destination *EventHubEventSubscriptionDestination) ConvertToARM(resolved g
 
 	// Set property "EndpointType":
 	if destination.EndpointType != nil {
-		result.EndpointType = *destination.EndpointType
+		var temp EventHubEventSubscriptionDestination_EndpointType_ARM
+		var temp1 string
+		temp1 = string(*destination.EndpointType)
+		temp = EventHubEventSubscriptionDestination_EndpointType_ARM(temp1)
+		result.EndpointType = temp
 	}
 
 	// Set property "Properties":
@@ -4569,7 +4593,11 @@ func (destination *EventHubEventSubscriptionDestination) PopulateFromARM(owner g
 	}
 
 	// Set property "EndpointType":
-	destination.EndpointType = &typedInput.EndpointType
+	var temp EventHubEventSubscriptionDestination_EndpointType
+	var temp1 string
+	temp1 = string(typedInput.EndpointType)
+	temp = EventHubEventSubscriptionDestination_EndpointType(temp1)
+	destination.EndpointType = &temp
 
 	// no assignment for property "ResourceReference"
 
@@ -4679,7 +4707,11 @@ func (destination *EventHubEventSubscriptionDestination_STATUS) PopulateFromARM(
 	}
 
 	// Set property "EndpointType":
-	destination.EndpointType = &typedInput.EndpointType
+	var temp EventHubEventSubscriptionDestination_EndpointType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.EndpointType)
+	temp = EventHubEventSubscriptionDestination_EndpointType_STATUS(temp1)
+	destination.EndpointType = &temp
 
 	// Set property "ResourceId":
 	// copying flattened property:
@@ -4760,7 +4792,11 @@ func (destination *HybridConnectionEventSubscriptionDestination) ConvertToARM(re
 
 	// Set property "EndpointType":
 	if destination.EndpointType != nil {
-		result.EndpointType = *destination.EndpointType
+		var temp HybridConnectionEventSubscriptionDestination_EndpointType_ARM
+		var temp1 string
+		temp1 = string(*destination.EndpointType)
+		temp = HybridConnectionEventSubscriptionDestination_EndpointType_ARM(temp1)
+		result.EndpointType = temp
 	}
 
 	// Set property "Properties":
@@ -4791,7 +4827,11 @@ func (destination *HybridConnectionEventSubscriptionDestination) PopulateFromARM
 	}
 
 	// Set property "EndpointType":
-	destination.EndpointType = &typedInput.EndpointType
+	var temp HybridConnectionEventSubscriptionDestination_EndpointType
+	var temp1 string
+	temp1 = string(typedInput.EndpointType)
+	temp = HybridConnectionEventSubscriptionDestination_EndpointType(temp1)
+	destination.EndpointType = &temp
 
 	// no assignment for property "ResourceReference"
 
@@ -4901,7 +4941,11 @@ func (destination *HybridConnectionEventSubscriptionDestination_STATUS) Populate
 	}
 
 	// Set property "EndpointType":
-	destination.EndpointType = &typedInput.EndpointType
+	var temp HybridConnectionEventSubscriptionDestination_EndpointType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.EndpointType)
+	temp = HybridConnectionEventSubscriptionDestination_EndpointType_STATUS(temp1)
+	destination.EndpointType = &temp
 
 	// Set property "ResourceId":
 	// copying flattened property:
@@ -4983,7 +5027,11 @@ func (destination *ServiceBusQueueEventSubscriptionDestination) ConvertToARM(res
 
 	// Set property "EndpointType":
 	if destination.EndpointType != nil {
-		result.EndpointType = *destination.EndpointType
+		var temp ServiceBusQueueEventSubscriptionDestination_EndpointType_ARM
+		var temp1 string
+		temp1 = string(*destination.EndpointType)
+		temp = ServiceBusQueueEventSubscriptionDestination_EndpointType_ARM(temp1)
+		result.EndpointType = temp
 	}
 
 	// Set property "Properties":
@@ -5014,7 +5062,11 @@ func (destination *ServiceBusQueueEventSubscriptionDestination) PopulateFromARM(
 	}
 
 	// Set property "EndpointType":
-	destination.EndpointType = &typedInput.EndpointType
+	var temp ServiceBusQueueEventSubscriptionDestination_EndpointType
+	var temp1 string
+	temp1 = string(typedInput.EndpointType)
+	temp = ServiceBusQueueEventSubscriptionDestination_EndpointType(temp1)
+	destination.EndpointType = &temp
 
 	// no assignment for property "ResourceReference"
 
@@ -5124,7 +5176,11 @@ func (destination *ServiceBusQueueEventSubscriptionDestination_STATUS) PopulateF
 	}
 
 	// Set property "EndpointType":
-	destination.EndpointType = &typedInput.EndpointType
+	var temp ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.EndpointType)
+	temp = ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS(temp1)
+	destination.EndpointType = &temp
 
 	// Set property "ResourceId":
 	// copying flattened property:
@@ -5206,7 +5262,11 @@ func (destination *ServiceBusTopicEventSubscriptionDestination) ConvertToARM(res
 
 	// Set property "EndpointType":
 	if destination.EndpointType != nil {
-		result.EndpointType = *destination.EndpointType
+		var temp ServiceBusTopicEventSubscriptionDestination_EndpointType_ARM
+		var temp1 string
+		temp1 = string(*destination.EndpointType)
+		temp = ServiceBusTopicEventSubscriptionDestination_EndpointType_ARM(temp1)
+		result.EndpointType = temp
 	}
 
 	// Set property "Properties":
@@ -5237,7 +5297,11 @@ func (destination *ServiceBusTopicEventSubscriptionDestination) PopulateFromARM(
 	}
 
 	// Set property "EndpointType":
-	destination.EndpointType = &typedInput.EndpointType
+	var temp ServiceBusTopicEventSubscriptionDestination_EndpointType
+	var temp1 string
+	temp1 = string(typedInput.EndpointType)
+	temp = ServiceBusTopicEventSubscriptionDestination_EndpointType(temp1)
+	destination.EndpointType = &temp
 
 	// no assignment for property "ResourceReference"
 
@@ -5348,7 +5412,11 @@ func (destination *ServiceBusTopicEventSubscriptionDestination_STATUS) PopulateF
 	}
 
 	// Set property "EndpointType":
-	destination.EndpointType = &typedInput.EndpointType
+	var temp ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.EndpointType)
+	temp = ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS(temp1)
+	destination.EndpointType = &temp
 
 	// Set property "ResourceId":
 	// copying flattened property:
@@ -5432,7 +5500,11 @@ func (destination *StorageBlobDeadLetterDestination) ConvertToARM(resolved genru
 
 	// Set property "EndpointType":
 	if destination.EndpointType != nil {
-		result.EndpointType = *destination.EndpointType
+		var temp StorageBlobDeadLetterDestination_EndpointType_ARM
+		var temp1 string
+		temp1 = string(*destination.EndpointType)
+		temp = StorageBlobDeadLetterDestination_EndpointType_ARM(temp1)
+		result.EndpointType = temp
 	}
 
 	// Set property "Properties":
@@ -5476,7 +5548,11 @@ func (destination *StorageBlobDeadLetterDestination) PopulateFromARM(owner genru
 	}
 
 	// Set property "EndpointType":
-	destination.EndpointType = &typedInput.EndpointType
+	var temp StorageBlobDeadLetterDestination_EndpointType
+	var temp1 string
+	temp1 = string(typedInput.EndpointType)
+	temp = StorageBlobDeadLetterDestination_EndpointType(temp1)
+	destination.EndpointType = &temp
 
 	// no assignment for property "ResourceReference"
 
@@ -5607,7 +5683,11 @@ func (destination *StorageBlobDeadLetterDestination_STATUS) PopulateFromARM(owne
 	}
 
 	// Set property "EndpointType":
-	destination.EndpointType = &typedInput.EndpointType
+	var temp StorageBlobDeadLetterDestination_EndpointType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.EndpointType)
+	temp = StorageBlobDeadLetterDestination_EndpointType_STATUS(temp1)
+	destination.EndpointType = &temp
 
 	// Set property "ResourceId":
 	// copying flattened property:
@@ -5698,7 +5778,11 @@ func (destination *StorageQueueEventSubscriptionDestination) ConvertToARM(resolv
 
 	// Set property "EndpointType":
 	if destination.EndpointType != nil {
-		result.EndpointType = *destination.EndpointType
+		var temp StorageQueueEventSubscriptionDestination_EndpointType_ARM
+		var temp1 string
+		temp1 = string(*destination.EndpointType)
+		temp = StorageQueueEventSubscriptionDestination_EndpointType_ARM(temp1)
+		result.EndpointType = temp
 	}
 
 	// Set property "Properties":
@@ -5733,7 +5817,11 @@ func (destination *StorageQueueEventSubscriptionDestination) PopulateFromARM(own
 	}
 
 	// Set property "EndpointType":
-	destination.EndpointType = &typedInput.EndpointType
+	var temp StorageQueueEventSubscriptionDestination_EndpointType
+	var temp1 string
+	temp1 = string(typedInput.EndpointType)
+	temp = StorageQueueEventSubscriptionDestination_EndpointType(temp1)
+	destination.EndpointType = &temp
 
 	// Set property "QueueName":
 	// copying flattened property:
@@ -5865,7 +5953,11 @@ func (destination *StorageQueueEventSubscriptionDestination_STATUS) PopulateFrom
 	}
 
 	// Set property "EndpointType":
-	destination.EndpointType = &typedInput.EndpointType
+	var temp StorageQueueEventSubscriptionDestination_EndpointType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.EndpointType)
+	temp = StorageQueueEventSubscriptionDestination_EndpointType_STATUS(temp1)
+	destination.EndpointType = &temp
 
 	// Set property "QueueName":
 	// copying flattened property:
@@ -5975,7 +6067,11 @@ func (destination *WebHookEventSubscriptionDestination) ConvertToARM(resolved ge
 
 	// Set property "EndpointType":
 	if destination.EndpointType != nil {
-		result.EndpointType = *destination.EndpointType
+		var temp WebHookEventSubscriptionDestination_EndpointType_ARM
+		var temp1 string
+		temp1 = string(*destination.EndpointType)
+		temp = WebHookEventSubscriptionDestination_EndpointType_ARM(temp1)
+		result.EndpointType = temp
 	}
 
 	// Set property "Properties":
@@ -6044,7 +6140,11 @@ func (destination *WebHookEventSubscriptionDestination) PopulateFromARM(owner ge
 	}
 
 	// Set property "EndpointType":
-	destination.EndpointType = &typedInput.EndpointType
+	var temp WebHookEventSubscriptionDestination_EndpointType
+	var temp1 string
+	temp1 = string(typedInput.EndpointType)
+	temp = WebHookEventSubscriptionDestination_EndpointType(temp1)
+	destination.EndpointType = &temp
 
 	// no assignment for property "EndpointUrl"
 
@@ -6241,7 +6341,11 @@ func (destination *WebHookEventSubscriptionDestination_STATUS) PopulateFromARM(o
 	}
 
 	// Set property "EndpointType":
-	destination.EndpointType = &typedInput.EndpointType
+	var temp WebHookEventSubscriptionDestination_EndpointType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.EndpointType)
+	temp = WebHookEventSubscriptionDestination_EndpointType_STATUS(temp1)
+	destination.EndpointType = &temp
 
 	// Set property "MaxEventsPerBatch":
 	// copying flattened property:
@@ -6383,7 +6487,11 @@ func (filter *BoolEqualsAdvancedFilter) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "OperatorType":
 	if filter.OperatorType != nil {
-		result.OperatorType = *filter.OperatorType
+		var temp BoolEqualsAdvancedFilter_OperatorType_ARM
+		var temp1 string
+		temp1 = string(*filter.OperatorType)
+		temp = BoolEqualsAdvancedFilter_OperatorType_ARM(temp1)
+		result.OperatorType = temp
 	}
 
 	// Set property "Value":
@@ -6413,7 +6521,11 @@ func (filter *BoolEqualsAdvancedFilter) PopulateFromARM(owner genruntime.Arbitra
 	}
 
 	// Set property "OperatorType":
-	filter.OperatorType = &typedInput.OperatorType
+	var temp BoolEqualsAdvancedFilter_OperatorType
+	var temp1 string
+	temp1 = string(typedInput.OperatorType)
+	temp = BoolEqualsAdvancedFilter_OperatorType(temp1)
+	filter.OperatorType = &temp
 
 	// Set property "Value":
 	if typedInput.Value != nil {
@@ -6545,7 +6657,11 @@ func (filter *BoolEqualsAdvancedFilter_STATUS) PopulateFromARM(owner genruntime.
 	}
 
 	// Set property "OperatorType":
-	filter.OperatorType = &typedInput.OperatorType
+	var temp BoolEqualsAdvancedFilter_OperatorType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.OperatorType)
+	temp = BoolEqualsAdvancedFilter_OperatorType_STATUS(temp1)
+	filter.OperatorType = &temp
 
 	// Set property "Value":
 	if typedInput.Value != nil {
@@ -6686,7 +6802,11 @@ func (filter *NumberGreaterThanAdvancedFilter) ConvertToARM(resolved genruntime.
 
 	// Set property "OperatorType":
 	if filter.OperatorType != nil {
-		result.OperatorType = *filter.OperatorType
+		var temp NumberGreaterThanAdvancedFilter_OperatorType_ARM
+		var temp1 string
+		temp1 = string(*filter.OperatorType)
+		temp = NumberGreaterThanAdvancedFilter_OperatorType_ARM(temp1)
+		result.OperatorType = temp
 	}
 
 	// Set property "Value":
@@ -6716,7 +6836,11 @@ func (filter *NumberGreaterThanAdvancedFilter) PopulateFromARM(owner genruntime.
 	}
 
 	// Set property "OperatorType":
-	filter.OperatorType = &typedInput.OperatorType
+	var temp NumberGreaterThanAdvancedFilter_OperatorType
+	var temp1 string
+	temp1 = string(typedInput.OperatorType)
+	temp = NumberGreaterThanAdvancedFilter_OperatorType(temp1)
+	filter.OperatorType = &temp
 
 	// Set property "Value":
 	if typedInput.Value != nil {
@@ -6848,7 +6972,11 @@ func (filter *NumberGreaterThanAdvancedFilter_STATUS) PopulateFromARM(owner genr
 	}
 
 	// Set property "OperatorType":
-	filter.OperatorType = &typedInput.OperatorType
+	var temp NumberGreaterThanAdvancedFilter_OperatorType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.OperatorType)
+	temp = NumberGreaterThanAdvancedFilter_OperatorType_STATUS(temp1)
+	filter.OperatorType = &temp
 
 	// Set property "Value":
 	if typedInput.Value != nil {
@@ -6951,7 +7079,11 @@ func (filter *NumberGreaterThanOrEqualsAdvancedFilter) ConvertToARM(resolved gen
 
 	// Set property "OperatorType":
 	if filter.OperatorType != nil {
-		result.OperatorType = *filter.OperatorType
+		var temp NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_ARM
+		var temp1 string
+		temp1 = string(*filter.OperatorType)
+		temp = NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_ARM(temp1)
+		result.OperatorType = temp
 	}
 
 	// Set property "Value":
@@ -6981,7 +7113,11 @@ func (filter *NumberGreaterThanOrEqualsAdvancedFilter) PopulateFromARM(owner gen
 	}
 
 	// Set property "OperatorType":
-	filter.OperatorType = &typedInput.OperatorType
+	var temp NumberGreaterThanOrEqualsAdvancedFilter_OperatorType
+	var temp1 string
+	temp1 = string(typedInput.OperatorType)
+	temp = NumberGreaterThanOrEqualsAdvancedFilter_OperatorType(temp1)
+	filter.OperatorType = &temp
 
 	// Set property "Value":
 	if typedInput.Value != nil {
@@ -7113,7 +7249,11 @@ func (filter *NumberGreaterThanOrEqualsAdvancedFilter_STATUS) PopulateFromARM(ow
 	}
 
 	// Set property "OperatorType":
-	filter.OperatorType = &typedInput.OperatorType
+	var temp NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.OperatorType)
+	temp = NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS(temp1)
+	filter.OperatorType = &temp
 
 	// Set property "Value":
 	if typedInput.Value != nil {
@@ -7216,7 +7356,11 @@ func (filter *NumberInAdvancedFilter) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "OperatorType":
 	if filter.OperatorType != nil {
-		result.OperatorType = *filter.OperatorType
+		var temp NumberInAdvancedFilter_OperatorType_ARM
+		var temp1 string
+		temp1 = string(*filter.OperatorType)
+		temp = NumberInAdvancedFilter_OperatorType_ARM(temp1)
+		result.OperatorType = temp
 	}
 
 	// Set property "Values":
@@ -7245,7 +7389,11 @@ func (filter *NumberInAdvancedFilter) PopulateFromARM(owner genruntime.Arbitrary
 	}
 
 	// Set property "OperatorType":
-	filter.OperatorType = &typedInput.OperatorType
+	var temp NumberInAdvancedFilter_OperatorType
+	var temp1 string
+	temp1 = string(typedInput.OperatorType)
+	temp = NumberInAdvancedFilter_OperatorType(temp1)
+	filter.OperatorType = &temp
 
 	// Set property "Values":
 	for _, item := range typedInput.Values {
@@ -7391,7 +7539,11 @@ func (filter *NumberInAdvancedFilter_STATUS) PopulateFromARM(owner genruntime.Ar
 	}
 
 	// Set property "OperatorType":
-	filter.OperatorType = &typedInput.OperatorType
+	var temp NumberInAdvancedFilter_OperatorType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.OperatorType)
+	temp = NumberInAdvancedFilter_OperatorType_STATUS(temp1)
+	filter.OperatorType = &temp
 
 	// Set property "Values":
 	for _, item := range typedInput.Values {
@@ -7503,7 +7655,11 @@ func (filter *NumberLessThanAdvancedFilter) ConvertToARM(resolved genruntime.Con
 
 	// Set property "OperatorType":
 	if filter.OperatorType != nil {
-		result.OperatorType = *filter.OperatorType
+		var temp NumberLessThanAdvancedFilter_OperatorType_ARM
+		var temp1 string
+		temp1 = string(*filter.OperatorType)
+		temp = NumberLessThanAdvancedFilter_OperatorType_ARM(temp1)
+		result.OperatorType = temp
 	}
 
 	// Set property "Value":
@@ -7533,7 +7689,11 @@ func (filter *NumberLessThanAdvancedFilter) PopulateFromARM(owner genruntime.Arb
 	}
 
 	// Set property "OperatorType":
-	filter.OperatorType = &typedInput.OperatorType
+	var temp NumberLessThanAdvancedFilter_OperatorType
+	var temp1 string
+	temp1 = string(typedInput.OperatorType)
+	temp = NumberLessThanAdvancedFilter_OperatorType(temp1)
+	filter.OperatorType = &temp
 
 	// Set property "Value":
 	if typedInput.Value != nil {
@@ -7665,7 +7825,11 @@ func (filter *NumberLessThanAdvancedFilter_STATUS) PopulateFromARM(owner genrunt
 	}
 
 	// Set property "OperatorType":
-	filter.OperatorType = &typedInput.OperatorType
+	var temp NumberLessThanAdvancedFilter_OperatorType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.OperatorType)
+	temp = NumberLessThanAdvancedFilter_OperatorType_STATUS(temp1)
+	filter.OperatorType = &temp
 
 	// Set property "Value":
 	if typedInput.Value != nil {
@@ -7768,7 +7932,11 @@ func (filter *NumberLessThanOrEqualsAdvancedFilter) ConvertToARM(resolved genrun
 
 	// Set property "OperatorType":
 	if filter.OperatorType != nil {
-		result.OperatorType = *filter.OperatorType
+		var temp NumberLessThanOrEqualsAdvancedFilter_OperatorType_ARM
+		var temp1 string
+		temp1 = string(*filter.OperatorType)
+		temp = NumberLessThanOrEqualsAdvancedFilter_OperatorType_ARM(temp1)
+		result.OperatorType = temp
 	}
 
 	// Set property "Value":
@@ -7798,7 +7966,11 @@ func (filter *NumberLessThanOrEqualsAdvancedFilter) PopulateFromARM(owner genrun
 	}
 
 	// Set property "OperatorType":
-	filter.OperatorType = &typedInput.OperatorType
+	var temp NumberLessThanOrEqualsAdvancedFilter_OperatorType
+	var temp1 string
+	temp1 = string(typedInput.OperatorType)
+	temp = NumberLessThanOrEqualsAdvancedFilter_OperatorType(temp1)
+	filter.OperatorType = &temp
 
 	// Set property "Value":
 	if typedInput.Value != nil {
@@ -7930,7 +8102,11 @@ func (filter *NumberLessThanOrEqualsAdvancedFilter_STATUS) PopulateFromARM(owner
 	}
 
 	// Set property "OperatorType":
-	filter.OperatorType = &typedInput.OperatorType
+	var temp NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.OperatorType)
+	temp = NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS(temp1)
+	filter.OperatorType = &temp
 
 	// Set property "Value":
 	if typedInput.Value != nil {
@@ -8033,7 +8209,11 @@ func (filter *NumberNotInAdvancedFilter) ConvertToARM(resolved genruntime.Conver
 
 	// Set property "OperatorType":
 	if filter.OperatorType != nil {
-		result.OperatorType = *filter.OperatorType
+		var temp NumberNotInAdvancedFilter_OperatorType_ARM
+		var temp1 string
+		temp1 = string(*filter.OperatorType)
+		temp = NumberNotInAdvancedFilter_OperatorType_ARM(temp1)
+		result.OperatorType = temp
 	}
 
 	// Set property "Values":
@@ -8062,7 +8242,11 @@ func (filter *NumberNotInAdvancedFilter) PopulateFromARM(owner genruntime.Arbitr
 	}
 
 	// Set property "OperatorType":
-	filter.OperatorType = &typedInput.OperatorType
+	var temp NumberNotInAdvancedFilter_OperatorType
+	var temp1 string
+	temp1 = string(typedInput.OperatorType)
+	temp = NumberNotInAdvancedFilter_OperatorType(temp1)
+	filter.OperatorType = &temp
 
 	// Set property "Values":
 	for _, item := range typedInput.Values {
@@ -8208,7 +8392,11 @@ func (filter *NumberNotInAdvancedFilter_STATUS) PopulateFromARM(owner genruntime
 	}
 
 	// Set property "OperatorType":
-	filter.OperatorType = &typedInput.OperatorType
+	var temp NumberNotInAdvancedFilter_OperatorType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.OperatorType)
+	temp = NumberNotInAdvancedFilter_OperatorType_STATUS(temp1)
+	filter.OperatorType = &temp
 
 	// Set property "Values":
 	for _, item := range typedInput.Values {
@@ -8396,7 +8584,11 @@ func (filter *StringBeginsWithAdvancedFilter) ConvertToARM(resolved genruntime.C
 
 	// Set property "OperatorType":
 	if filter.OperatorType != nil {
-		result.OperatorType = *filter.OperatorType
+		var temp StringBeginsWithAdvancedFilter_OperatorType_ARM
+		var temp1 string
+		temp1 = string(*filter.OperatorType)
+		temp = StringBeginsWithAdvancedFilter_OperatorType_ARM(temp1)
+		result.OperatorType = temp
 	}
 
 	// Set property "Values":
@@ -8425,7 +8617,11 @@ func (filter *StringBeginsWithAdvancedFilter) PopulateFromARM(owner genruntime.A
 	}
 
 	// Set property "OperatorType":
-	filter.OperatorType = &typedInput.OperatorType
+	var temp StringBeginsWithAdvancedFilter_OperatorType
+	var temp1 string
+	temp1 = string(typedInput.OperatorType)
+	temp = StringBeginsWithAdvancedFilter_OperatorType(temp1)
+	filter.OperatorType = &temp
 
 	// Set property "Values":
 	for _, item := range typedInput.Values {
@@ -8541,7 +8737,11 @@ func (filter *StringBeginsWithAdvancedFilter_STATUS) PopulateFromARM(owner genru
 	}
 
 	// Set property "OperatorType":
-	filter.OperatorType = &typedInput.OperatorType
+	var temp StringBeginsWithAdvancedFilter_OperatorType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.OperatorType)
+	temp = StringBeginsWithAdvancedFilter_OperatorType_STATUS(temp1)
+	filter.OperatorType = &temp
 
 	// Set property "Values":
 	for _, item := range typedInput.Values {
@@ -8633,7 +8833,11 @@ func (filter *StringContainsAdvancedFilter) ConvertToARM(resolved genruntime.Con
 
 	// Set property "OperatorType":
 	if filter.OperatorType != nil {
-		result.OperatorType = *filter.OperatorType
+		var temp StringContainsAdvancedFilter_OperatorType_ARM
+		var temp1 string
+		temp1 = string(*filter.OperatorType)
+		temp = StringContainsAdvancedFilter_OperatorType_ARM(temp1)
+		result.OperatorType = temp
 	}
 
 	// Set property "Values":
@@ -8662,7 +8866,11 @@ func (filter *StringContainsAdvancedFilter) PopulateFromARM(owner genruntime.Arb
 	}
 
 	// Set property "OperatorType":
-	filter.OperatorType = &typedInput.OperatorType
+	var temp StringContainsAdvancedFilter_OperatorType
+	var temp1 string
+	temp1 = string(typedInput.OperatorType)
+	temp = StringContainsAdvancedFilter_OperatorType(temp1)
+	filter.OperatorType = &temp
 
 	// Set property "Values":
 	for _, item := range typedInput.Values {
@@ -8778,7 +8986,11 @@ func (filter *StringContainsAdvancedFilter_STATUS) PopulateFromARM(owner genrunt
 	}
 
 	// Set property "OperatorType":
-	filter.OperatorType = &typedInput.OperatorType
+	var temp StringContainsAdvancedFilter_OperatorType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.OperatorType)
+	temp = StringContainsAdvancedFilter_OperatorType_STATUS(temp1)
+	filter.OperatorType = &temp
 
 	// Set property "Values":
 	for _, item := range typedInput.Values {
@@ -8870,7 +9082,11 @@ func (filter *StringEndsWithAdvancedFilter) ConvertToARM(resolved genruntime.Con
 
 	// Set property "OperatorType":
 	if filter.OperatorType != nil {
-		result.OperatorType = *filter.OperatorType
+		var temp StringEndsWithAdvancedFilter_OperatorType_ARM
+		var temp1 string
+		temp1 = string(*filter.OperatorType)
+		temp = StringEndsWithAdvancedFilter_OperatorType_ARM(temp1)
+		result.OperatorType = temp
 	}
 
 	// Set property "Values":
@@ -8899,7 +9115,11 @@ func (filter *StringEndsWithAdvancedFilter) PopulateFromARM(owner genruntime.Arb
 	}
 
 	// Set property "OperatorType":
-	filter.OperatorType = &typedInput.OperatorType
+	var temp StringEndsWithAdvancedFilter_OperatorType
+	var temp1 string
+	temp1 = string(typedInput.OperatorType)
+	temp = StringEndsWithAdvancedFilter_OperatorType(temp1)
+	filter.OperatorType = &temp
 
 	// Set property "Values":
 	for _, item := range typedInput.Values {
@@ -9015,7 +9235,11 @@ func (filter *StringEndsWithAdvancedFilter_STATUS) PopulateFromARM(owner genrunt
 	}
 
 	// Set property "OperatorType":
-	filter.OperatorType = &typedInput.OperatorType
+	var temp StringEndsWithAdvancedFilter_OperatorType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.OperatorType)
+	temp = StringEndsWithAdvancedFilter_OperatorType_STATUS(temp1)
+	filter.OperatorType = &temp
 
 	// Set property "Values":
 	for _, item := range typedInput.Values {
@@ -9107,7 +9331,11 @@ func (filter *StringInAdvancedFilter) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "OperatorType":
 	if filter.OperatorType != nil {
-		result.OperatorType = *filter.OperatorType
+		var temp StringInAdvancedFilter_OperatorType_ARM
+		var temp1 string
+		temp1 = string(*filter.OperatorType)
+		temp = StringInAdvancedFilter_OperatorType_ARM(temp1)
+		result.OperatorType = temp
 	}
 
 	// Set property "Values":
@@ -9136,7 +9364,11 @@ func (filter *StringInAdvancedFilter) PopulateFromARM(owner genruntime.Arbitrary
 	}
 
 	// Set property "OperatorType":
-	filter.OperatorType = &typedInput.OperatorType
+	var temp StringInAdvancedFilter_OperatorType
+	var temp1 string
+	temp1 = string(typedInput.OperatorType)
+	temp = StringInAdvancedFilter_OperatorType(temp1)
+	filter.OperatorType = &temp
 
 	// Set property "Values":
 	for _, item := range typedInput.Values {
@@ -9252,7 +9484,11 @@ func (filter *StringInAdvancedFilter_STATUS) PopulateFromARM(owner genruntime.Ar
 	}
 
 	// Set property "OperatorType":
-	filter.OperatorType = &typedInput.OperatorType
+	var temp StringInAdvancedFilter_OperatorType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.OperatorType)
+	temp = StringInAdvancedFilter_OperatorType_STATUS(temp1)
+	filter.OperatorType = &temp
 
 	// Set property "Values":
 	for _, item := range typedInput.Values {
@@ -9344,7 +9580,11 @@ func (filter *StringNotInAdvancedFilter) ConvertToARM(resolved genruntime.Conver
 
 	// Set property "OperatorType":
 	if filter.OperatorType != nil {
-		result.OperatorType = *filter.OperatorType
+		var temp StringNotInAdvancedFilter_OperatorType_ARM
+		var temp1 string
+		temp1 = string(*filter.OperatorType)
+		temp = StringNotInAdvancedFilter_OperatorType_ARM(temp1)
+		result.OperatorType = temp
 	}
 
 	// Set property "Values":
@@ -9373,7 +9613,11 @@ func (filter *StringNotInAdvancedFilter) PopulateFromARM(owner genruntime.Arbitr
 	}
 
 	// Set property "OperatorType":
-	filter.OperatorType = &typedInput.OperatorType
+	var temp StringNotInAdvancedFilter_OperatorType
+	var temp1 string
+	temp1 = string(typedInput.OperatorType)
+	temp = StringNotInAdvancedFilter_OperatorType(temp1)
+	filter.OperatorType = &temp
 
 	// Set property "Values":
 	for _, item := range typedInput.Values {
@@ -9489,7 +9733,11 @@ func (filter *StringNotInAdvancedFilter_STATUS) PopulateFromARM(owner genruntime
 	}
 
 	// Set property "OperatorType":
-	filter.OperatorType = &typedInput.OperatorType
+	var temp StringNotInAdvancedFilter_OperatorType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.OperatorType)
+	temp = StringNotInAdvancedFilter_OperatorType_STATUS(temp1)
+	filter.OperatorType = &temp
 
 	// Set property "Values":
 	for _, item := range typedInput.Values {

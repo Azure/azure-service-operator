@@ -36,7 +36,7 @@ type UpdateRunProperties_STATUS_ARM struct {
 	ManagedClusterUpdate *ManagedClusterUpdate_STATUS_ARM `json:"managedClusterUpdate,omitempty"`
 
 	// ProvisioningState: The provisioning state of the UpdateRun resource.
-	ProvisioningState *UpdateRunProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *UpdateRunProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// Status: The status of the UpdateRun.
 	Status *UpdateRunStatus_STATUS_ARM `json:"status,omitempty"`
@@ -52,6 +52,22 @@ type UpdateRunProperties_STATUS_ARM struct {
 type ManagedClusterUpdate_STATUS_ARM struct {
 	// Upgrade: The upgrade to apply to the ManagedClusters.
 	Upgrade *ManagedClusterUpgradeSpec_STATUS_ARM `json:"upgrade,omitempty"`
+}
+
+// The provisioning state of the UpdateRun resource.
+type UpdateRunProvisioningState_STATUS_ARM string
+
+const (
+	UpdateRunProvisioningState_STATUS_ARM_Canceled  = UpdateRunProvisioningState_STATUS_ARM("Canceled")
+	UpdateRunProvisioningState_STATUS_ARM_Failed    = UpdateRunProvisioningState_STATUS_ARM("Failed")
+	UpdateRunProvisioningState_STATUS_ARM_Succeeded = UpdateRunProvisioningState_STATUS_ARM("Succeeded")
+)
+
+// Mapping from string to UpdateRunProvisioningState_STATUS_ARM
+var updateRunProvisioningState_STATUS_ARM_Values = map[string]UpdateRunProvisioningState_STATUS_ARM{
+	"canceled":  UpdateRunProvisioningState_STATUS_ARM_Canceled,
+	"failed":    UpdateRunProvisioningState_STATUS_ARM_Failed,
+	"succeeded": UpdateRunProvisioningState_STATUS_ARM_Succeeded,
 }
 
 // The status of a UpdateRun.
@@ -81,7 +97,7 @@ type ManagedClusterUpgradeSpec_STATUS_ARM struct {
 	KubernetesVersion *string `json:"kubernetesVersion,omitempty"`
 
 	// Type: ManagedClusterUpgradeType is the type of upgrade to be applied.
-	Type *ManagedClusterUpgradeType_STATUS `json:"type,omitempty"`
+	Type *ManagedClusterUpgradeType_STATUS_ARM `json:"type,omitempty"`
 }
 
 // Defines a stage which contains the groups to update and the steps to take (e.g., wait for a time period) before starting
@@ -125,7 +141,7 @@ type UpdateStatus_STATUS_ARM struct {
 	StartTime *string `json:"startTime,omitempty"`
 
 	// State: The State of the operation or group.
-	State *UpdateState_STATUS `json:"state,omitempty"`
+	State *UpdateState_STATUS_ARM `json:"state,omitempty"`
 }
 
 // The error detail.
@@ -146,6 +162,20 @@ type ErrorDetail_STATUS_ARM struct {
 	Target *string `json:"target,omitempty"`
 }
 
+// The type of upgrade to perform when targeting ManagedClusters.
+type ManagedClusterUpgradeType_STATUS_ARM string
+
+const (
+	ManagedClusterUpgradeType_STATUS_ARM_Full          = ManagedClusterUpgradeType_STATUS_ARM("Full")
+	ManagedClusterUpgradeType_STATUS_ARM_NodeImageOnly = ManagedClusterUpgradeType_STATUS_ARM("NodeImageOnly")
+)
+
+// Mapping from string to ManagedClusterUpgradeType_STATUS_ARM
+var managedClusterUpgradeType_STATUS_ARM_Values = map[string]ManagedClusterUpgradeType_STATUS_ARM{
+	"full":          ManagedClusterUpgradeType_STATUS_ARM_Full,
+	"nodeimageonly": ManagedClusterUpgradeType_STATUS_ARM_NodeImageOnly,
+}
+
 // A group to be updated.
 type UpdateGroup_STATUS_ARM struct {
 	// Name: Name of the group.
@@ -163,6 +193,28 @@ type UpdateGroupStatus_STATUS_ARM struct {
 
 	// Status: The status of the UpdateGroup.
 	Status *UpdateStatus_STATUS_ARM `json:"status,omitempty"`
+}
+
+// The state of the UpdateRun, UpdateStage, UpdateGroup, or MemberUpdate.
+type UpdateState_STATUS_ARM string
+
+const (
+	UpdateState_STATUS_ARM_Completed  = UpdateState_STATUS_ARM("Completed")
+	UpdateState_STATUS_ARM_Failed     = UpdateState_STATUS_ARM("Failed")
+	UpdateState_STATUS_ARM_NotStarted = UpdateState_STATUS_ARM("NotStarted")
+	UpdateState_STATUS_ARM_Running    = UpdateState_STATUS_ARM("Running")
+	UpdateState_STATUS_ARM_Stopped    = UpdateState_STATUS_ARM("Stopped")
+	UpdateState_STATUS_ARM_Stopping   = UpdateState_STATUS_ARM("Stopping")
+)
+
+// Mapping from string to UpdateState_STATUS_ARM
+var updateState_STATUS_ARM_Values = map[string]UpdateState_STATUS_ARM{
+	"completed":  UpdateState_STATUS_ARM_Completed,
+	"failed":     UpdateState_STATUS_ARM_Failed,
+	"notstarted": UpdateState_STATUS_ARM_NotStarted,
+	"running":    UpdateState_STATUS_ARM_Running,
+	"stopped":    UpdateState_STATUS_ARM_Stopped,
+	"stopping":   UpdateState_STATUS_ARM_Stopping,
 }
 
 // The status of the wait duration.

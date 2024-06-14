@@ -48,7 +48,7 @@ type ManagedServiceIdentity_STATUS_ARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
-	Type                   *ManagedServiceIdentityType_STATUS         `json:"type,omitempty"`
+	Type                   *ManagedServiceIdentityType_STATUS_ARM     `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -65,10 +65,10 @@ type ProfileProperties_STATUS_ARM struct {
 	OriginResponseTimeoutSeconds *int `json:"originResponseTimeoutSeconds,omitempty"`
 
 	// ProvisioningState: Provisioning status of the profile.
-	ProvisioningState *ProfileProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProfileProperties_ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// ResourceState: Resource status of the profile.
-	ResourceState *ProfileProperties_ResourceState_STATUS `json:"resourceState,omitempty"`
+	ResourceState *ProfileProperties_ResourceState_STATUS_ARM `json:"resourceState,omitempty"`
 }
 
 // Standard_Verizon = The SKU name for a Standard Verizon CDN profile.
@@ -97,7 +97,7 @@ type ProfileProperties_STATUS_ARM struct {
 // peak bandwidth billing model.
 type Sku_STATUS_ARM struct {
 	// Name: Name of the pricing tier.
-	Name *Sku_Name_STATUS `json:"name,omitempty"`
+	Name *Sku_Name_STATUS_ARM `json:"name,omitempty"`
 }
 
 // Read only system data
@@ -109,7 +109,7 @@ type SystemData_STATUS_ARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource
-	CreatedByType *IdentityType_STATUS `json:"createdByType,omitempty"`
+	CreatedByType *IdentityType_STATUS_ARM `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -118,78 +118,124 @@ type SystemData_STATUS_ARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource
-	LastModifiedByType *IdentityType_STATUS `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *IdentityType_STATUS_ARM `json:"lastModifiedByType,omitempty"`
 }
 
 // The type of identity that creates/modifies resources
-type IdentityType_STATUS string
+type IdentityType_STATUS_ARM string
 
 const (
-	IdentityType_STATUS_Application     = IdentityType_STATUS("application")
-	IdentityType_STATUS_Key             = IdentityType_STATUS("key")
-	IdentityType_STATUS_ManagedIdentity = IdentityType_STATUS("managedIdentity")
-	IdentityType_STATUS_User            = IdentityType_STATUS("user")
+	IdentityType_STATUS_ARM_Application     = IdentityType_STATUS_ARM("application")
+	IdentityType_STATUS_ARM_Key             = IdentityType_STATUS_ARM("key")
+	IdentityType_STATUS_ARM_ManagedIdentity = IdentityType_STATUS_ARM("managedIdentity")
+	IdentityType_STATUS_ARM_User            = IdentityType_STATUS_ARM("user")
 )
 
-// Mapping from string to IdentityType_STATUS
-var identityType_STATUS_Values = map[string]IdentityType_STATUS{
-	"application":     IdentityType_STATUS_Application,
-	"key":             IdentityType_STATUS_Key,
-	"managedidentity": IdentityType_STATUS_ManagedIdentity,
-	"user":            IdentityType_STATUS_User,
+// Mapping from string to IdentityType_STATUS_ARM
+var identityType_STATUS_ARM_Values = map[string]IdentityType_STATUS_ARM{
+	"application":     IdentityType_STATUS_ARM_Application,
+	"key":             IdentityType_STATUS_ARM_Key,
+	"managedidentity": IdentityType_STATUS_ARM_ManagedIdentity,
+	"user":            IdentityType_STATUS_ARM_User,
 }
 
 // Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
-type ManagedServiceIdentityType_STATUS string
+type ManagedServiceIdentityType_STATUS_ARM string
 
 const (
-	ManagedServiceIdentityType_STATUS_None                       = ManagedServiceIdentityType_STATUS("None")
-	ManagedServiceIdentityType_STATUS_SystemAssigned             = ManagedServiceIdentityType_STATUS("SystemAssigned")
-	ManagedServiceIdentityType_STATUS_SystemAssignedUserAssigned = ManagedServiceIdentityType_STATUS("SystemAssigned, UserAssigned")
-	ManagedServiceIdentityType_STATUS_UserAssigned               = ManagedServiceIdentityType_STATUS("UserAssigned")
+	ManagedServiceIdentityType_STATUS_ARM_None                       = ManagedServiceIdentityType_STATUS_ARM("None")
+	ManagedServiceIdentityType_STATUS_ARM_SystemAssigned             = ManagedServiceIdentityType_STATUS_ARM("SystemAssigned")
+	ManagedServiceIdentityType_STATUS_ARM_SystemAssignedUserAssigned = ManagedServiceIdentityType_STATUS_ARM("SystemAssigned, UserAssigned")
+	ManagedServiceIdentityType_STATUS_ARM_UserAssigned               = ManagedServiceIdentityType_STATUS_ARM("UserAssigned")
 )
 
-// Mapping from string to ManagedServiceIdentityType_STATUS
-var managedServiceIdentityType_STATUS_Values = map[string]ManagedServiceIdentityType_STATUS{
-	"none":                         ManagedServiceIdentityType_STATUS_None,
-	"systemassigned":               ManagedServiceIdentityType_STATUS_SystemAssigned,
-	"systemassigned, userassigned": ManagedServiceIdentityType_STATUS_SystemAssignedUserAssigned,
-	"userassigned":                 ManagedServiceIdentityType_STATUS_UserAssigned,
+// Mapping from string to ManagedServiceIdentityType_STATUS_ARM
+var managedServiceIdentityType_STATUS_ARM_Values = map[string]ManagedServiceIdentityType_STATUS_ARM{
+	"none":                         ManagedServiceIdentityType_STATUS_ARM_None,
+	"systemassigned":               ManagedServiceIdentityType_STATUS_ARM_SystemAssigned,
+	"systemassigned, userassigned": ManagedServiceIdentityType_STATUS_ARM_SystemAssignedUserAssigned,
+	"userassigned":                 ManagedServiceIdentityType_STATUS_ARM_UserAssigned,
 }
 
-type Sku_Name_STATUS string
+type ProfileProperties_ProvisioningState_STATUS_ARM string
 
 const (
-	Sku_Name_STATUS_Custom_Verizon                     = Sku_Name_STATUS("Custom_Verizon")
-	Sku_Name_STATUS_Premium_AzureFrontDoor             = Sku_Name_STATUS("Premium_AzureFrontDoor")
-	Sku_Name_STATUS_Premium_Verizon                    = Sku_Name_STATUS("Premium_Verizon")
-	Sku_Name_STATUS_StandardPlus_955BandWidth_ChinaCdn = Sku_Name_STATUS("StandardPlus_955BandWidth_ChinaCdn")
-	Sku_Name_STATUS_StandardPlus_AvgBandWidth_ChinaCdn = Sku_Name_STATUS("StandardPlus_AvgBandWidth_ChinaCdn")
-	Sku_Name_STATUS_StandardPlus_ChinaCdn              = Sku_Name_STATUS("StandardPlus_ChinaCdn")
-	Sku_Name_STATUS_Standard_955BandWidth_ChinaCdn     = Sku_Name_STATUS("Standard_955BandWidth_ChinaCdn")
-	Sku_Name_STATUS_Standard_Akamai                    = Sku_Name_STATUS("Standard_Akamai")
-	Sku_Name_STATUS_Standard_AvgBandWidth_ChinaCdn     = Sku_Name_STATUS("Standard_AvgBandWidth_ChinaCdn")
-	Sku_Name_STATUS_Standard_AzureFrontDoor            = Sku_Name_STATUS("Standard_AzureFrontDoor")
-	Sku_Name_STATUS_Standard_ChinaCdn                  = Sku_Name_STATUS("Standard_ChinaCdn")
-	Sku_Name_STATUS_Standard_Microsoft                 = Sku_Name_STATUS("Standard_Microsoft")
-	Sku_Name_STATUS_Standard_Verizon                   = Sku_Name_STATUS("Standard_Verizon")
+	ProfileProperties_ProvisioningState_STATUS_ARM_Creating  = ProfileProperties_ProvisioningState_STATUS_ARM("Creating")
+	ProfileProperties_ProvisioningState_STATUS_ARM_Deleting  = ProfileProperties_ProvisioningState_STATUS_ARM("Deleting")
+	ProfileProperties_ProvisioningState_STATUS_ARM_Failed    = ProfileProperties_ProvisioningState_STATUS_ARM("Failed")
+	ProfileProperties_ProvisioningState_STATUS_ARM_Succeeded = ProfileProperties_ProvisioningState_STATUS_ARM("Succeeded")
+	ProfileProperties_ProvisioningState_STATUS_ARM_Updating  = ProfileProperties_ProvisioningState_STATUS_ARM("Updating")
 )
 
-// Mapping from string to Sku_Name_STATUS
-var sku_Name_STATUS_Values = map[string]Sku_Name_STATUS{
-	"custom_verizon":                     Sku_Name_STATUS_Custom_Verizon,
-	"premium_azurefrontdoor":             Sku_Name_STATUS_Premium_AzureFrontDoor,
-	"premium_verizon":                    Sku_Name_STATUS_Premium_Verizon,
-	"standardplus_955bandwidth_chinacdn": Sku_Name_STATUS_StandardPlus_955BandWidth_ChinaCdn,
-	"standardplus_avgbandwidth_chinacdn": Sku_Name_STATUS_StandardPlus_AvgBandWidth_ChinaCdn,
-	"standardplus_chinacdn":              Sku_Name_STATUS_StandardPlus_ChinaCdn,
-	"standard_955bandwidth_chinacdn":     Sku_Name_STATUS_Standard_955BandWidth_ChinaCdn,
-	"standard_akamai":                    Sku_Name_STATUS_Standard_Akamai,
-	"standard_avgbandwidth_chinacdn":     Sku_Name_STATUS_Standard_AvgBandWidth_ChinaCdn,
-	"standard_azurefrontdoor":            Sku_Name_STATUS_Standard_AzureFrontDoor,
-	"standard_chinacdn":                  Sku_Name_STATUS_Standard_ChinaCdn,
-	"standard_microsoft":                 Sku_Name_STATUS_Standard_Microsoft,
-	"standard_verizon":                   Sku_Name_STATUS_Standard_Verizon,
+// Mapping from string to ProfileProperties_ProvisioningState_STATUS_ARM
+var profileProperties_ProvisioningState_STATUS_ARM_Values = map[string]ProfileProperties_ProvisioningState_STATUS_ARM{
+	"creating":  ProfileProperties_ProvisioningState_STATUS_ARM_Creating,
+	"deleting":  ProfileProperties_ProvisioningState_STATUS_ARM_Deleting,
+	"failed":    ProfileProperties_ProvisioningState_STATUS_ARM_Failed,
+	"succeeded": ProfileProperties_ProvisioningState_STATUS_ARM_Succeeded,
+	"updating":  ProfileProperties_ProvisioningState_STATUS_ARM_Updating,
+}
+
+type ProfileProperties_ResourceState_STATUS_ARM string
+
+const (
+	ProfileProperties_ResourceState_STATUS_ARM_AbortingMigration      = ProfileProperties_ResourceState_STATUS_ARM("AbortingMigration")
+	ProfileProperties_ResourceState_STATUS_ARM_Active                 = ProfileProperties_ResourceState_STATUS_ARM("Active")
+	ProfileProperties_ResourceState_STATUS_ARM_CommittingMigration    = ProfileProperties_ResourceState_STATUS_ARM("CommittingMigration")
+	ProfileProperties_ResourceState_STATUS_ARM_Creating               = ProfileProperties_ResourceState_STATUS_ARM("Creating")
+	ProfileProperties_ResourceState_STATUS_ARM_Deleting               = ProfileProperties_ResourceState_STATUS_ARM("Deleting")
+	ProfileProperties_ResourceState_STATUS_ARM_Disabled               = ProfileProperties_ResourceState_STATUS_ARM("Disabled")
+	ProfileProperties_ResourceState_STATUS_ARM_Migrated               = ProfileProperties_ResourceState_STATUS_ARM("Migrated")
+	ProfileProperties_ResourceState_STATUS_ARM_Migrating              = ProfileProperties_ResourceState_STATUS_ARM("Migrating")
+	ProfileProperties_ResourceState_STATUS_ARM_PendingMigrationCommit = ProfileProperties_ResourceState_STATUS_ARM("PendingMigrationCommit")
+)
+
+// Mapping from string to ProfileProperties_ResourceState_STATUS_ARM
+var profileProperties_ResourceState_STATUS_ARM_Values = map[string]ProfileProperties_ResourceState_STATUS_ARM{
+	"abortingmigration":      ProfileProperties_ResourceState_STATUS_ARM_AbortingMigration,
+	"active":                 ProfileProperties_ResourceState_STATUS_ARM_Active,
+	"committingmigration":    ProfileProperties_ResourceState_STATUS_ARM_CommittingMigration,
+	"creating":               ProfileProperties_ResourceState_STATUS_ARM_Creating,
+	"deleting":               ProfileProperties_ResourceState_STATUS_ARM_Deleting,
+	"disabled":               ProfileProperties_ResourceState_STATUS_ARM_Disabled,
+	"migrated":               ProfileProperties_ResourceState_STATUS_ARM_Migrated,
+	"migrating":              ProfileProperties_ResourceState_STATUS_ARM_Migrating,
+	"pendingmigrationcommit": ProfileProperties_ResourceState_STATUS_ARM_PendingMigrationCommit,
+}
+
+type Sku_Name_STATUS_ARM string
+
+const (
+	Sku_Name_STATUS_ARM_Custom_Verizon                     = Sku_Name_STATUS_ARM("Custom_Verizon")
+	Sku_Name_STATUS_ARM_Premium_AzureFrontDoor             = Sku_Name_STATUS_ARM("Premium_AzureFrontDoor")
+	Sku_Name_STATUS_ARM_Premium_Verizon                    = Sku_Name_STATUS_ARM("Premium_Verizon")
+	Sku_Name_STATUS_ARM_StandardPlus_955BandWidth_ChinaCdn = Sku_Name_STATUS_ARM("StandardPlus_955BandWidth_ChinaCdn")
+	Sku_Name_STATUS_ARM_StandardPlus_AvgBandWidth_ChinaCdn = Sku_Name_STATUS_ARM("StandardPlus_AvgBandWidth_ChinaCdn")
+	Sku_Name_STATUS_ARM_StandardPlus_ChinaCdn              = Sku_Name_STATUS_ARM("StandardPlus_ChinaCdn")
+	Sku_Name_STATUS_ARM_Standard_955BandWidth_ChinaCdn     = Sku_Name_STATUS_ARM("Standard_955BandWidth_ChinaCdn")
+	Sku_Name_STATUS_ARM_Standard_Akamai                    = Sku_Name_STATUS_ARM("Standard_Akamai")
+	Sku_Name_STATUS_ARM_Standard_AvgBandWidth_ChinaCdn     = Sku_Name_STATUS_ARM("Standard_AvgBandWidth_ChinaCdn")
+	Sku_Name_STATUS_ARM_Standard_AzureFrontDoor            = Sku_Name_STATUS_ARM("Standard_AzureFrontDoor")
+	Sku_Name_STATUS_ARM_Standard_ChinaCdn                  = Sku_Name_STATUS_ARM("Standard_ChinaCdn")
+	Sku_Name_STATUS_ARM_Standard_Microsoft                 = Sku_Name_STATUS_ARM("Standard_Microsoft")
+	Sku_Name_STATUS_ARM_Standard_Verizon                   = Sku_Name_STATUS_ARM("Standard_Verizon")
+)
+
+// Mapping from string to Sku_Name_STATUS_ARM
+var sku_Name_STATUS_ARM_Values = map[string]Sku_Name_STATUS_ARM{
+	"custom_verizon":                     Sku_Name_STATUS_ARM_Custom_Verizon,
+	"premium_azurefrontdoor":             Sku_Name_STATUS_ARM_Premium_AzureFrontDoor,
+	"premium_verizon":                    Sku_Name_STATUS_ARM_Premium_Verizon,
+	"standardplus_955bandwidth_chinacdn": Sku_Name_STATUS_ARM_StandardPlus_955BandWidth_ChinaCdn,
+	"standardplus_avgbandwidth_chinacdn": Sku_Name_STATUS_ARM_StandardPlus_AvgBandWidth_ChinaCdn,
+	"standardplus_chinacdn":              Sku_Name_STATUS_ARM_StandardPlus_ChinaCdn,
+	"standard_955bandwidth_chinacdn":     Sku_Name_STATUS_ARM_Standard_955BandWidth_ChinaCdn,
+	"standard_akamai":                    Sku_Name_STATUS_ARM_Standard_Akamai,
+	"standard_avgbandwidth_chinacdn":     Sku_Name_STATUS_ARM_Standard_AvgBandWidth_ChinaCdn,
+	"standard_azurefrontdoor":            Sku_Name_STATUS_ARM_Standard_AzureFrontDoor,
+	"standard_chinacdn":                  Sku_Name_STATUS_ARM_Standard_ChinaCdn,
+	"standard_microsoft":                 Sku_Name_STATUS_ARM_Standard_Microsoft,
+	"standard_verizon":                   Sku_Name_STATUS_ARM_Standard_Verizon,
 }
 
 // User assigned identity properties

@@ -81,7 +81,7 @@ func AddIndependentPropertyGeneratorsForDatabaseBlobAuditingPolicyProperties_ARM
 	gens["IsStorageSecondaryKeyInUse"] = gen.PtrOf(gen.Bool())
 	gens["QueueDelayMs"] = gen.PtrOf(gen.Int())
 	gens["RetentionDays"] = gen.PtrOf(gen.Int())
-	gens["State"] = gen.PtrOf(gen.OneConstOf(DatabaseBlobAuditingPolicyProperties_State_Disabled, DatabaseBlobAuditingPolicyProperties_State_Enabled))
+	gens["State"] = gen.PtrOf(gen.OneConstOf(DatabaseBlobAuditingPolicyProperties_State_ARM_Disabled, DatabaseBlobAuditingPolicyProperties_State_ARM_Enabled))
 	gens["StorageAccountAccessKey"] = gen.PtrOf(gen.AlphaString())
 	gens["StorageAccountSubscriptionId"] = gen.PtrOf(gen.AlphaString())
 	gens["StorageEndpoint"] = gen.PtrOf(gen.AlphaString())

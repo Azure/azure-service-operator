@@ -41,7 +41,7 @@ type TopicProperties_ARM struct {
 	InboundIpRules []InboundIpRule_ARM `json:"inboundIpRules,omitempty"`
 
 	// InputSchema: This determines the format that Event Grid should expect for incoming events published to the topic.
-	InputSchema *TopicProperties_InputSchema `json:"inputSchema,omitempty"`
+	InputSchema *TopicProperties_InputSchema_ARM `json:"inputSchema,omitempty"`
 
 	// InputSchemaMapping: This enables publishing using custom event schemas. An InputSchemaMapping can be specified to map
 	// various properties of a source schema to various required properties of the EventGridEvent schema.
@@ -50,5 +50,35 @@ type TopicProperties_ARM struct {
 	// PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
 	// You can further restrict to specific IPs by configuring <seealso
 	// cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties.InboundIpRules" />
-	PublicNetworkAccess *TopicProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *TopicProperties_PublicNetworkAccess_ARM `json:"publicNetworkAccess,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"CloudEventSchemaV1_0","CustomEventSchema","EventGridSchema"}
+type TopicProperties_InputSchema_ARM string
+
+const (
+	TopicProperties_InputSchema_ARM_CloudEventSchemaV1_0 = TopicProperties_InputSchema_ARM("CloudEventSchemaV1_0")
+	TopicProperties_InputSchema_ARM_CustomEventSchema    = TopicProperties_InputSchema_ARM("CustomEventSchema")
+	TopicProperties_InputSchema_ARM_EventGridSchema      = TopicProperties_InputSchema_ARM("EventGridSchema")
+)
+
+// Mapping from string to TopicProperties_InputSchema_ARM
+var topicProperties_InputSchema_ARM_Values = map[string]TopicProperties_InputSchema_ARM{
+	"cloudeventschemav1_0": TopicProperties_InputSchema_ARM_CloudEventSchemaV1_0,
+	"customeventschema":    TopicProperties_InputSchema_ARM_CustomEventSchema,
+	"eventgridschema":      TopicProperties_InputSchema_ARM_EventGridSchema,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type TopicProperties_PublicNetworkAccess_ARM string
+
+const (
+	TopicProperties_PublicNetworkAccess_ARM_Disabled = TopicProperties_PublicNetworkAccess_ARM("Disabled")
+	TopicProperties_PublicNetworkAccess_ARM_Enabled  = TopicProperties_PublicNetworkAccess_ARM("Enabled")
+)
+
+// Mapping from string to TopicProperties_PublicNetworkAccess_ARM
+var topicProperties_PublicNetworkAccess_ARM_Values = map[string]TopicProperties_PublicNetworkAccess_ARM{
+	"disabled": TopicProperties_PublicNetworkAccess_ARM_Disabled,
+	"enabled":  TopicProperties_PublicNetworkAccess_ARM_Enabled,
 }

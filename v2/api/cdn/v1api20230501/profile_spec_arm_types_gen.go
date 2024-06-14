@@ -44,7 +44,7 @@ func (profile *Profile_Spec_ARM) GetType() string {
 // Managed service identity (system assigned and/or user assigned identities)
 type ManagedServiceIdentity_ARM struct {
 	// Type: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
-	Type                   *ManagedServiceIdentityType                `json:"type,omitempty"`
+	Type                   *ManagedServiceIdentityType_ARM            `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -81,62 +81,62 @@ type ProfileProperties_ARM struct {
 // peak bandwidth billing model.
 type Sku_ARM struct {
 	// Name: Name of the pricing tier.
-	Name *Sku_Name `json:"name,omitempty"`
+	Name *Sku_Name_ARM `json:"name,omitempty"`
 }
 
 // Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
-type ManagedServiceIdentityType string
+type ManagedServiceIdentityType_ARM string
 
 const (
-	ManagedServiceIdentityType_None                       = ManagedServiceIdentityType("None")
-	ManagedServiceIdentityType_SystemAssigned             = ManagedServiceIdentityType("SystemAssigned")
-	ManagedServiceIdentityType_SystemAssignedUserAssigned = ManagedServiceIdentityType("SystemAssigned, UserAssigned")
-	ManagedServiceIdentityType_UserAssigned               = ManagedServiceIdentityType("UserAssigned")
+	ManagedServiceIdentityType_ARM_None                       = ManagedServiceIdentityType_ARM("None")
+	ManagedServiceIdentityType_ARM_SystemAssigned             = ManagedServiceIdentityType_ARM("SystemAssigned")
+	ManagedServiceIdentityType_ARM_SystemAssignedUserAssigned = ManagedServiceIdentityType_ARM("SystemAssigned, UserAssigned")
+	ManagedServiceIdentityType_ARM_UserAssigned               = ManagedServiceIdentityType_ARM("UserAssigned")
 )
 
-// Mapping from string to ManagedServiceIdentityType
-var managedServiceIdentityType_Values = map[string]ManagedServiceIdentityType{
-	"none":                         ManagedServiceIdentityType_None,
-	"systemassigned":               ManagedServiceIdentityType_SystemAssigned,
-	"systemassigned, userassigned": ManagedServiceIdentityType_SystemAssignedUserAssigned,
-	"userassigned":                 ManagedServiceIdentityType_UserAssigned,
+// Mapping from string to ManagedServiceIdentityType_ARM
+var managedServiceIdentityType_ARM_Values = map[string]ManagedServiceIdentityType_ARM{
+	"none":                         ManagedServiceIdentityType_ARM_None,
+	"systemassigned":               ManagedServiceIdentityType_ARM_SystemAssigned,
+	"systemassigned, userassigned": ManagedServiceIdentityType_ARM_SystemAssignedUserAssigned,
+	"userassigned":                 ManagedServiceIdentityType_ARM_UserAssigned,
 }
 
 // +kubebuilder:validation:Enum={"Custom_Verizon","Premium_AzureFrontDoor","Premium_Verizon","StandardPlus_955BandWidth_ChinaCdn","StandardPlus_AvgBandWidth_ChinaCdn","StandardPlus_ChinaCdn","Standard_955BandWidth_ChinaCdn","Standard_Akamai","Standard_AvgBandWidth_ChinaCdn","Standard_AzureFrontDoor","Standard_ChinaCdn","Standard_Microsoft","Standard_Verizon"}
-type Sku_Name string
+type Sku_Name_ARM string
 
 const (
-	Sku_Name_Custom_Verizon                     = Sku_Name("Custom_Verizon")
-	Sku_Name_Premium_AzureFrontDoor             = Sku_Name("Premium_AzureFrontDoor")
-	Sku_Name_Premium_Verizon                    = Sku_Name("Premium_Verizon")
-	Sku_Name_StandardPlus_955BandWidth_ChinaCdn = Sku_Name("StandardPlus_955BandWidth_ChinaCdn")
-	Sku_Name_StandardPlus_AvgBandWidth_ChinaCdn = Sku_Name("StandardPlus_AvgBandWidth_ChinaCdn")
-	Sku_Name_StandardPlus_ChinaCdn              = Sku_Name("StandardPlus_ChinaCdn")
-	Sku_Name_Standard_955BandWidth_ChinaCdn     = Sku_Name("Standard_955BandWidth_ChinaCdn")
-	Sku_Name_Standard_Akamai                    = Sku_Name("Standard_Akamai")
-	Sku_Name_Standard_AvgBandWidth_ChinaCdn     = Sku_Name("Standard_AvgBandWidth_ChinaCdn")
-	Sku_Name_Standard_AzureFrontDoor            = Sku_Name("Standard_AzureFrontDoor")
-	Sku_Name_Standard_ChinaCdn                  = Sku_Name("Standard_ChinaCdn")
-	Sku_Name_Standard_Microsoft                 = Sku_Name("Standard_Microsoft")
-	Sku_Name_Standard_Verizon                   = Sku_Name("Standard_Verizon")
+	Sku_Name_ARM_Custom_Verizon                     = Sku_Name_ARM("Custom_Verizon")
+	Sku_Name_ARM_Premium_AzureFrontDoor             = Sku_Name_ARM("Premium_AzureFrontDoor")
+	Sku_Name_ARM_Premium_Verizon                    = Sku_Name_ARM("Premium_Verizon")
+	Sku_Name_ARM_StandardPlus_955BandWidth_ChinaCdn = Sku_Name_ARM("StandardPlus_955BandWidth_ChinaCdn")
+	Sku_Name_ARM_StandardPlus_AvgBandWidth_ChinaCdn = Sku_Name_ARM("StandardPlus_AvgBandWidth_ChinaCdn")
+	Sku_Name_ARM_StandardPlus_ChinaCdn              = Sku_Name_ARM("StandardPlus_ChinaCdn")
+	Sku_Name_ARM_Standard_955BandWidth_ChinaCdn     = Sku_Name_ARM("Standard_955BandWidth_ChinaCdn")
+	Sku_Name_ARM_Standard_Akamai                    = Sku_Name_ARM("Standard_Akamai")
+	Sku_Name_ARM_Standard_AvgBandWidth_ChinaCdn     = Sku_Name_ARM("Standard_AvgBandWidth_ChinaCdn")
+	Sku_Name_ARM_Standard_AzureFrontDoor            = Sku_Name_ARM("Standard_AzureFrontDoor")
+	Sku_Name_ARM_Standard_ChinaCdn                  = Sku_Name_ARM("Standard_ChinaCdn")
+	Sku_Name_ARM_Standard_Microsoft                 = Sku_Name_ARM("Standard_Microsoft")
+	Sku_Name_ARM_Standard_Verizon                   = Sku_Name_ARM("Standard_Verizon")
 )
 
-// Mapping from string to Sku_Name
-var sku_Name_Values = map[string]Sku_Name{
-	"custom_verizon":                     Sku_Name_Custom_Verizon,
-	"premium_azurefrontdoor":             Sku_Name_Premium_AzureFrontDoor,
-	"premium_verizon":                    Sku_Name_Premium_Verizon,
-	"standardplus_955bandwidth_chinacdn": Sku_Name_StandardPlus_955BandWidth_ChinaCdn,
-	"standardplus_avgbandwidth_chinacdn": Sku_Name_StandardPlus_AvgBandWidth_ChinaCdn,
-	"standardplus_chinacdn":              Sku_Name_StandardPlus_ChinaCdn,
-	"standard_955bandwidth_chinacdn":     Sku_Name_Standard_955BandWidth_ChinaCdn,
-	"standard_akamai":                    Sku_Name_Standard_Akamai,
-	"standard_avgbandwidth_chinacdn":     Sku_Name_Standard_AvgBandWidth_ChinaCdn,
-	"standard_azurefrontdoor":            Sku_Name_Standard_AzureFrontDoor,
-	"standard_chinacdn":                  Sku_Name_Standard_ChinaCdn,
-	"standard_microsoft":                 Sku_Name_Standard_Microsoft,
-	"standard_verizon":                   Sku_Name_Standard_Verizon,
+// Mapping from string to Sku_Name_ARM
+var sku_Name_ARM_Values = map[string]Sku_Name_ARM{
+	"custom_verizon":                     Sku_Name_ARM_Custom_Verizon,
+	"premium_azurefrontdoor":             Sku_Name_ARM_Premium_AzureFrontDoor,
+	"premium_verizon":                    Sku_Name_ARM_Premium_Verizon,
+	"standardplus_955bandwidth_chinacdn": Sku_Name_ARM_StandardPlus_955BandWidth_ChinaCdn,
+	"standardplus_avgbandwidth_chinacdn": Sku_Name_ARM_StandardPlus_AvgBandWidth_ChinaCdn,
+	"standardplus_chinacdn":              Sku_Name_ARM_StandardPlus_ChinaCdn,
+	"standard_955bandwidth_chinacdn":     Sku_Name_ARM_Standard_955BandWidth_ChinaCdn,
+	"standard_akamai":                    Sku_Name_ARM_Standard_Akamai,
+	"standard_avgbandwidth_chinacdn":     Sku_Name_ARM_Standard_AvgBandWidth_ChinaCdn,
+	"standard_azurefrontdoor":            Sku_Name_ARM_Standard_AzureFrontDoor,
+	"standard_chinacdn":                  Sku_Name_ARM_Standard_ChinaCdn,
+	"standard_microsoft":                 Sku_Name_ARM_Standard_Microsoft,
+	"standard_verizon":                   Sku_Name_ARM_Standard_Verizon,
 }
 
 // Information about the user assigned identity for the resource

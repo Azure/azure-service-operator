@@ -423,7 +423,7 @@ func ManagedIdentity_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForManagedIdentity_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedIdentity_Type_STATUS_None, ManagedIdentity_Type_STATUS_SystemAssigned, ManagedIdentity_Type_STATUS_SystemAssignedUserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedIdentity_Type_STATUS_ARM_None, ManagedIdentity_Type_STATUS_ARM_SystemAssigned, ManagedIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForManagedIdentity_STATUS_ARM is a factory method for creating gopter generators
@@ -878,7 +878,7 @@ func AddIndependentPropertyGeneratorsForWorkspaceProperties_STATUS_ARM(gens map[
 	gens["ManagedResourceGroupName"] = gen.PtrOf(gen.AlphaString())
 	gens["ManagedVirtualNetwork"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(WorkspaceProperties_PublicNetworkAccess_STATUS_Disabled, WorkspaceProperties_PublicNetworkAccess_STATUS_Enabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(WorkspaceProperties_PublicNetworkAccess_STATUS_ARM_Disabled, WorkspaceProperties_PublicNetworkAccess_STATUS_ARM_Enabled))
 	gens["SqlAdministratorLogin"] = gen.PtrOf(gen.AlphaString())
 	gens["TrustedServiceBypassEnabled"] = gen.PtrOf(gen.Bool())
 	gens["WorkspaceUID"] = gen.PtrOf(gen.AlphaString())

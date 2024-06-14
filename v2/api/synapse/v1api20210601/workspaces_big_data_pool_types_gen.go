@@ -492,11 +492,15 @@ func (pool *Workspaces_BigDataPool_Spec) ConvertToARM(resolved genruntime.Conver
 		result.Properties.NodeCount = &nodeCount
 	}
 	if pool.NodeSize != nil {
-		nodeSize := *pool.NodeSize
+		var temp string
+		temp = string(*pool.NodeSize)
+		nodeSize := BigDataPoolResourceProperties_NodeSize_ARM(temp)
 		result.Properties.NodeSize = &nodeSize
 	}
 	if pool.NodeSizeFamily != nil {
-		nodeSizeFamily := *pool.NodeSizeFamily
+		var temp string
+		temp = string(*pool.NodeSizeFamily)
+		nodeSizeFamily := BigDataPoolResourceProperties_NodeSizeFamily_ARM(temp)
 		result.Properties.NodeSizeFamily = &nodeSizeFamily
 	}
 	if pool.ProvisioningState != nil {
@@ -673,7 +677,9 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NodeSize != nil {
-			nodeSize := *typedInput.Properties.NodeSize
+			var temp string
+			temp = string(*typedInput.Properties.NodeSize)
+			nodeSize := BigDataPoolResourceProperties_NodeSize(temp)
 			pool.NodeSize = &nodeSize
 		}
 	}
@@ -682,7 +688,9 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NodeSizeFamily != nil {
-			nodeSizeFamily := *typedInput.Properties.NodeSizeFamily
+			var temp string
+			temp = string(*typedInput.Properties.NodeSizeFamily)
+			nodeSizeFamily := BigDataPoolResourceProperties_NodeSizeFamily(temp)
 			pool.NodeSizeFamily = &nodeSizeFamily
 		}
 	}
@@ -1594,7 +1602,9 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NodeSize != nil {
-			nodeSize := *typedInput.Properties.NodeSize
+			var temp string
+			temp = string(*typedInput.Properties.NodeSize)
+			nodeSize := BigDataPoolResourceProperties_NodeSize_STATUS(temp)
 			pool.NodeSize = &nodeSize
 		}
 	}
@@ -1603,7 +1613,9 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NodeSizeFamily != nil {
-			nodeSizeFamily := *typedInput.Properties.NodeSizeFamily
+			var temp string
+			temp = string(*typedInput.Properties.NodeSizeFamily)
+			nodeSizeFamily := BigDataPoolResourceProperties_NodeSizeFamily_STATUS(temp)
 			pool.NodeSizeFamily = &nodeSizeFamily
 		}
 	}
@@ -3327,7 +3339,9 @@ func (properties *SparkConfigProperties) ConvertToARM(resolved genruntime.Conver
 
 	// Set property "ConfigurationType":
 	if properties.ConfigurationType != nil {
-		configurationType := *properties.ConfigurationType
+		var temp string
+		temp = string(*properties.ConfigurationType)
+		configurationType := SparkConfigProperties_ConfigurationType_ARM(temp)
 		result.ConfigurationType = &configurationType
 	}
 
@@ -3359,7 +3373,9 @@ func (properties *SparkConfigProperties) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "ConfigurationType":
 	if typedInput.ConfigurationType != nil {
-		configurationType := *typedInput.ConfigurationType
+		var temp string
+		temp = string(*typedInput.ConfigurationType)
+		configurationType := SparkConfigProperties_ConfigurationType(temp)
 		properties.ConfigurationType = &configurationType
 	}
 
@@ -3483,7 +3499,9 @@ func (properties *SparkConfigProperties_STATUS) PopulateFromARM(owner genruntime
 
 	// Set property "ConfigurationType":
 	if typedInput.ConfigurationType != nil {
-		configurationType := *typedInput.ConfigurationType
+		var temp string
+		temp = string(*typedInput.ConfigurationType)
+		configurationType := SparkConfigProperties_ConfigurationType_STATUS(temp)
 		properties.ConfigurationType = &configurationType
 	}
 

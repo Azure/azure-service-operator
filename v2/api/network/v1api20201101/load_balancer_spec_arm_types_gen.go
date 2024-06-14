@@ -46,7 +46,7 @@ type ExtendedLocation_ARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: The type of the extended location.
-	Type *ExtendedLocationType `json:"type,omitempty"`
+	Type *ExtendedLocationType_ARM `json:"type,omitempty"`
 }
 
 // Properties of the load balancer.
@@ -83,10 +83,10 @@ type LoadBalancerPropertiesFormat_ARM struct {
 // SKU of a load balancer.
 type LoadBalancerSku_ARM struct {
 	// Name: Name of a load balancer SKU.
-	Name *LoadBalancerSku_Name `json:"name,omitempty"`
+	Name *LoadBalancerSku_Name_ARM `json:"name,omitempty"`
 
 	// Tier: Tier of a load balancer SKU.
-	Tier *LoadBalancerSku_Tier `json:"tier,omitempty"`
+	Tier *LoadBalancerSku_Tier_ARM `json:"tier,omitempty"`
 }
 
 // Pool of backend IP addresses.
@@ -101,13 +101,13 @@ type BackendAddressPool_LoadBalancer_SubResourceEmbedded_ARM struct {
 
 // The supported ExtendedLocation types. Currently only EdgeZone is supported in Microsoft.Network resources.
 // +kubebuilder:validation:Enum={"EdgeZone"}
-type ExtendedLocationType string
+type ExtendedLocationType_ARM string
 
-const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
+const ExtendedLocationType_ARM_EdgeZone = ExtendedLocationType_ARM("EdgeZone")
 
-// Mapping from string to ExtendedLocationType
-var extendedLocationType_Values = map[string]ExtendedLocationType{
-	"edgezone": ExtendedLocationType_EdgeZone,
+// Mapping from string to ExtendedLocationType_ARM
+var extendedLocationType_ARM_Values = map[string]ExtendedLocationType_ARM{
+	"edgezone": ExtendedLocationType_ARM_EdgeZone,
 }
 
 // Frontend IP address of the load balancer.
@@ -144,31 +144,31 @@ type InboundNatRule_LoadBalancer_SubResourceEmbedded_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"Basic","Standard"}
-type LoadBalancerSku_Name string
+type LoadBalancerSku_Name_ARM string
 
 const (
-	LoadBalancerSku_Name_Basic    = LoadBalancerSku_Name("Basic")
-	LoadBalancerSku_Name_Standard = LoadBalancerSku_Name("Standard")
+	LoadBalancerSku_Name_ARM_Basic    = LoadBalancerSku_Name_ARM("Basic")
+	LoadBalancerSku_Name_ARM_Standard = LoadBalancerSku_Name_ARM("Standard")
 )
 
-// Mapping from string to LoadBalancerSku_Name
-var loadBalancerSku_Name_Values = map[string]LoadBalancerSku_Name{
-	"basic":    LoadBalancerSku_Name_Basic,
-	"standard": LoadBalancerSku_Name_Standard,
+// Mapping from string to LoadBalancerSku_Name_ARM
+var loadBalancerSku_Name_ARM_Values = map[string]LoadBalancerSku_Name_ARM{
+	"basic":    LoadBalancerSku_Name_ARM_Basic,
+	"standard": LoadBalancerSku_Name_ARM_Standard,
 }
 
 // +kubebuilder:validation:Enum={"Global","Regional"}
-type LoadBalancerSku_Tier string
+type LoadBalancerSku_Tier_ARM string
 
 const (
-	LoadBalancerSku_Tier_Global   = LoadBalancerSku_Tier("Global")
-	LoadBalancerSku_Tier_Regional = LoadBalancerSku_Tier("Regional")
+	LoadBalancerSku_Tier_ARM_Global   = LoadBalancerSku_Tier_ARM("Global")
+	LoadBalancerSku_Tier_ARM_Regional = LoadBalancerSku_Tier_ARM("Regional")
 )
 
-// Mapping from string to LoadBalancerSku_Tier
-var loadBalancerSku_Tier_Values = map[string]LoadBalancerSku_Tier{
-	"global":   LoadBalancerSku_Tier_Global,
-	"regional": LoadBalancerSku_Tier_Regional,
+// Mapping from string to LoadBalancerSku_Tier_ARM
+var loadBalancerSku_Tier_ARM_Values = map[string]LoadBalancerSku_Tier_ARM{
+	"global":   LoadBalancerSku_Tier_ARM_Global,
+	"regional": LoadBalancerSku_Tier_ARM_Regional,
 }
 
 // A load balancing rule for a load balancer.
@@ -213,10 +213,10 @@ type FrontendIPConfigurationPropertiesFormat_ARM struct {
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
 
 	// PrivateIPAddressVersion: Whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.
-	PrivateIPAddressVersion *IPVersion `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAddressVersion *IPVersion_ARM `json:"privateIPAddressVersion,omitempty"`
 
 	// PrivateIPAllocationMethod: The Private IP allocation method.
-	PrivateIPAllocationMethod *IPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
+	PrivateIPAllocationMethod *IPAllocationMethod_ARM `json:"privateIPAllocationMethod,omitempty"`
 
 	// PublicIPAddress: The reference to the Public IP resource.
 	PublicIPAddress *PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded_ARM `json:"publicIPAddress,omitempty"`
@@ -258,7 +258,7 @@ type InboundNatPoolPropertiesFormat_ARM struct {
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	// Protocol: The reference to the transport protocol used by the inbound NAT pool.
-	Protocol *TransportProtocol `json:"protocol,omitempty"`
+	Protocol *TransportProtocol_ARM `json:"protocol,omitempty"`
 }
 
 // Properties of the load balancer.
@@ -296,13 +296,13 @@ type LoadBalancingRulePropertiesFormat_ARM struct {
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	// LoadDistribution: The load distribution policy for this rule.
-	LoadDistribution *LoadBalancingRulePropertiesFormat_LoadDistribution `json:"loadDistribution,omitempty"`
+	LoadDistribution *LoadBalancingRulePropertiesFormat_LoadDistribution_ARM `json:"loadDistribution,omitempty"`
 
 	// Probe: The reference to the load balancer probe used by the load balancing rule.
 	Probe *SubResource_ARM `json:"probe,omitempty"`
 
 	// Protocol: The reference to the transport protocol used by the load balancing rule.
-	Protocol *TransportProtocol `json:"protocol,omitempty"`
+	Protocol *TransportProtocol_ARM `json:"protocol,omitempty"`
 }
 
 // Outbound rule of the load balancer.
@@ -325,7 +325,7 @@ type OutboundRulePropertiesFormat_ARM struct {
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	// Protocol: The protocol for the outbound rule in load balancer.
-	Protocol *OutboundRulePropertiesFormat_Protocol `json:"protocol,omitempty"`
+	Protocol *OutboundRulePropertiesFormat_Protocol_ARM `json:"protocol,omitempty"`
 }
 
 // Load balancer probe resource.
@@ -346,7 +346,7 @@ type ProbePropertiesFormat_ARM struct {
 	// Protocol: The protocol of the end point. If 'Tcp' is specified, a received ACK is required for the probe to be
 	// successful. If 'Http' or 'Https' is specified, a 200 OK response from the specifies URI is required for the probe to be
 	// successful.
-	Protocol *ProbePropertiesFormat_Protocol `json:"protocol,omitempty"`
+	Protocol *ProbePropertiesFormat_Protocol_ARM `json:"protocol,omitempty"`
 
 	// RequestPath: The URI used for requesting health status from the VM. Path is required if a protocol is set to http.
 	// Otherwise, it is not allowed. There is no default value.
@@ -360,6 +360,54 @@ type LoadBalancerBackendAddress_ARM struct {
 
 	// Properties: Properties of load balancer backend address pool.
 	Properties *LoadBalancerBackendAddressPropertiesFormat_ARM `json:"properties,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Default","SourceIP","SourceIPProtocol"}
+type LoadBalancingRulePropertiesFormat_LoadDistribution_ARM string
+
+const (
+	LoadBalancingRulePropertiesFormat_LoadDistribution_ARM_Default          = LoadBalancingRulePropertiesFormat_LoadDistribution_ARM("Default")
+	LoadBalancingRulePropertiesFormat_LoadDistribution_ARM_SourceIP         = LoadBalancingRulePropertiesFormat_LoadDistribution_ARM("SourceIP")
+	LoadBalancingRulePropertiesFormat_LoadDistribution_ARM_SourceIPProtocol = LoadBalancingRulePropertiesFormat_LoadDistribution_ARM("SourceIPProtocol")
+)
+
+// Mapping from string to LoadBalancingRulePropertiesFormat_LoadDistribution_ARM
+var loadBalancingRulePropertiesFormat_LoadDistribution_ARM_Values = map[string]LoadBalancingRulePropertiesFormat_LoadDistribution_ARM{
+	"default":          LoadBalancingRulePropertiesFormat_LoadDistribution_ARM_Default,
+	"sourceip":         LoadBalancingRulePropertiesFormat_LoadDistribution_ARM_SourceIP,
+	"sourceipprotocol": LoadBalancingRulePropertiesFormat_LoadDistribution_ARM_SourceIPProtocol,
+}
+
+// +kubebuilder:validation:Enum={"All","Tcp","Udp"}
+type OutboundRulePropertiesFormat_Protocol_ARM string
+
+const (
+	OutboundRulePropertiesFormat_Protocol_ARM_All = OutboundRulePropertiesFormat_Protocol_ARM("All")
+	OutboundRulePropertiesFormat_Protocol_ARM_Tcp = OutboundRulePropertiesFormat_Protocol_ARM("Tcp")
+	OutboundRulePropertiesFormat_Protocol_ARM_Udp = OutboundRulePropertiesFormat_Protocol_ARM("Udp")
+)
+
+// Mapping from string to OutboundRulePropertiesFormat_Protocol_ARM
+var outboundRulePropertiesFormat_Protocol_ARM_Values = map[string]OutboundRulePropertiesFormat_Protocol_ARM{
+	"all": OutboundRulePropertiesFormat_Protocol_ARM_All,
+	"tcp": OutboundRulePropertiesFormat_Protocol_ARM_Tcp,
+	"udp": OutboundRulePropertiesFormat_Protocol_ARM_Udp,
+}
+
+// +kubebuilder:validation:Enum={"Http","Https","Tcp"}
+type ProbePropertiesFormat_Protocol_ARM string
+
+const (
+	ProbePropertiesFormat_Protocol_ARM_Http  = ProbePropertiesFormat_Protocol_ARM("Http")
+	ProbePropertiesFormat_Protocol_ARM_Https = ProbePropertiesFormat_Protocol_ARM("Https")
+	ProbePropertiesFormat_Protocol_ARM_Tcp   = ProbePropertiesFormat_Protocol_ARM("Tcp")
+)
+
+// Mapping from string to ProbePropertiesFormat_Protocol_ARM
+var probePropertiesFormat_Protocol_ARM_Values = map[string]ProbePropertiesFormat_Protocol_ARM{
+	"http":  ProbePropertiesFormat_Protocol_ARM_Http,
+	"https": ProbePropertiesFormat_Protocol_ARM_Https,
+	"tcp":   ProbePropertiesFormat_Protocol_ARM_Tcp,
 }
 
 // Public IP address resource.

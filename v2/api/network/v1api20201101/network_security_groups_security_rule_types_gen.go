@@ -421,7 +421,9 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) ConvertToARM(resolved genru
 		result.Properties = &SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM{}
 	}
 	if rule.Access != nil {
-		access := *rule.Access
+		var temp string
+		temp = string(*rule.Access)
+		access := SecurityRuleAccess_ARM(temp)
 		result.Properties.Access = &access
 	}
 	if rule.Description != nil {
@@ -450,7 +452,9 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) ConvertToARM(resolved genru
 		result.Properties.DestinationPortRanges = append(result.Properties.DestinationPortRanges, item)
 	}
 	if rule.Direction != nil {
-		direction := *rule.Direction
+		var temp string
+		temp = string(*rule.Direction)
+		direction := SecurityRuleDirection_ARM(temp)
 		result.Properties.Direction = &direction
 	}
 	if rule.Priority != nil {
@@ -458,7 +462,9 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) ConvertToARM(resolved genru
 		result.Properties.Priority = &priority
 	}
 	if rule.Protocol != nil {
-		protocol := *rule.Protocol
+		var temp string
+		temp = string(*rule.Protocol)
+		protocol := SecurityRulePropertiesFormat_Protocol_ARM(temp)
 		result.Properties.Protocol = &protocol
 	}
 	if rule.SourceAddressPrefix != nil {
@@ -501,7 +507,9 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) PopulateFromARM(owner genru
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Access != nil {
-			access := *typedInput.Properties.Access
+			var temp string
+			temp = string(*typedInput.Properties.Access)
+			access := SecurityRuleAccess(temp)
 			rule.Access = &access
 		}
 	}
@@ -569,7 +577,9 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) PopulateFromARM(owner genru
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Direction != nil {
-			direction := *typedInput.Properties.Direction
+			var temp string
+			temp = string(*typedInput.Properties.Direction)
+			direction := SecurityRuleDirection(temp)
 			rule.Direction = &direction
 		}
 	}
@@ -593,7 +603,9 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) PopulateFromARM(owner genru
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
-			protocol := *typedInput.Properties.Protocol
+			var temp string
+			temp = string(*typedInput.Properties.Protocol)
+			protocol := SecurityRulePropertiesFormat_Protocol(temp)
 			rule.Protocol = &protocol
 		}
 	}
@@ -1176,7 +1188,9 @@ func (rule *NetworkSecurityGroups_SecurityRule_STATUS) PopulateFromARM(owner gen
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Access != nil {
-			access := *typedInput.Properties.Access
+			var temp string
+			temp = string(*typedInput.Properties.Access)
+			access := SecurityRuleAccess_STATUS(temp)
 			rule.Access = &access
 		}
 	}
@@ -1243,7 +1257,9 @@ func (rule *NetworkSecurityGroups_SecurityRule_STATUS) PopulateFromARM(owner gen
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Direction != nil {
-			direction := *typedInput.Properties.Direction
+			var temp string
+			temp = string(*typedInput.Properties.Direction)
+			direction := SecurityRuleDirection_STATUS(temp)
 			rule.Direction = &direction
 		}
 	}
@@ -1279,7 +1295,9 @@ func (rule *NetworkSecurityGroups_SecurityRule_STATUS) PopulateFromARM(owner gen
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
-			protocol := *typedInput.Properties.Protocol
+			var temp string
+			temp = string(*typedInput.Properties.Protocol)
+			protocol := SecurityRulePropertiesFormat_Protocol_STATUS(temp)
 			rule.Protocol = &protocol
 		}
 	}
@@ -1288,7 +1306,9 @@ func (rule *NetworkSecurityGroups_SecurityRule_STATUS) PopulateFromARM(owner gen
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := ProvisioningState_STATUS(temp)
 			rule.ProvisioningState = &provisioningState
 		}
 	}

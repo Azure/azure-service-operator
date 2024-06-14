@@ -436,7 +436,9 @@ func (networkInterface *NetworkInterface_Spec) ConvertToARM(resolved genruntime.
 		result.Properties.NetworkSecurityGroup = &networkSecurityGroup
 	}
 	if networkInterface.NicType != nil {
-		nicType := *networkInterface.NicType
+		var temp string
+		temp = string(*networkInterface.NicType)
+		nicType := NetworkInterfacePropertiesFormat_NicType_ARM(temp)
 		result.Properties.NicType = &nicType
 	}
 	if networkInterface.PrivateLinkService != nil {
@@ -553,7 +555,9 @@ func (networkInterface *NetworkInterface_Spec) PopulateFromARM(owner genruntime.
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NicType != nil {
-			nicType := *typedInput.Properties.NicType
+			var temp string
+			temp = string(*typedInput.Properties.NicType)
+			nicType := NetworkInterfacePropertiesFormat_NicType(temp)
 			networkInterface.NicType = &nicType
 		}
 	}
@@ -1247,7 +1251,9 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) Po
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MigrationPhase != nil {
-			migrationPhase := *typedInput.Properties.MigrationPhase
+			var temp string
+			temp = string(*typedInput.Properties.MigrationPhase)
+			migrationPhase := NetworkInterfacePropertiesFormat_MigrationPhase_STATUS(temp)
 			embedded.MigrationPhase = &migrationPhase
 		}
 	}
@@ -1276,7 +1282,9 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) Po
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NicType != nil {
-			nicType := *typedInput.Properties.NicType
+			var temp string
+			temp = string(*typedInput.Properties.NicType)
+			nicType := NetworkInterfacePropertiesFormat_NicType_STATUS(temp)
 			embedded.NicType = &nicType
 		}
 	}
@@ -1322,7 +1330,9 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) Po
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := ProvisioningState_STATUS(temp)
 			embedded.ProvisioningState = &provisioningState
 		}
 	}
@@ -2138,11 +2148,15 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 		result.Properties.PrivateIPAddress = &privateIPAddress
 	}
 	if embedded.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := *embedded.PrivateIPAddressVersion
+		var temp string
+		temp = string(*embedded.PrivateIPAddressVersion)
+		privateIPAddressVersion := IPVersion_ARM(temp)
 		result.Properties.PrivateIPAddressVersion = &privateIPAddressVersion
 	}
 	if embedded.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := *embedded.PrivateIPAllocationMethod
+		var temp string
+		temp = string(*embedded.PrivateIPAllocationMethod)
+		privateIPAllocationMethod := IPAllocationMethod_ARM(temp)
 		result.Properties.PrivateIPAllocationMethod = &privateIPAllocationMethod
 	}
 	if embedded.PublicIPAddress != nil {
@@ -2263,7 +2277,9 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateIPAddressVersion != nil {
-			privateIPAddressVersion := *typedInput.Properties.PrivateIPAddressVersion
+			var temp string
+			temp = string(*typedInput.Properties.PrivateIPAddressVersion)
+			privateIPAddressVersion := IPVersion(temp)
 			embedded.PrivateIPAddressVersion = &privateIPAddressVersion
 		}
 	}
@@ -2272,7 +2288,9 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateIPAllocationMethod != nil {
-			privateIPAllocationMethod := *typedInput.Properties.PrivateIPAllocationMethod
+			var temp string
+			temp = string(*typedInput.Properties.PrivateIPAllocationMethod)
+			privateIPAllocationMethod := IPAllocationMethod(temp)
 			embedded.PrivateIPAllocationMethod = &privateIPAllocationMethod
 		}
 	}
@@ -2946,7 +2964,9 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateIPAddressVersion != nil {
-			privateIPAddressVersion := *typedInput.Properties.PrivateIPAddressVersion
+			var temp string
+			temp = string(*typedInput.Properties.PrivateIPAddressVersion)
+			privateIPAddressVersion := IPVersion_STATUS(temp)
 			embedded.PrivateIPAddressVersion = &privateIPAddressVersion
 		}
 	}
@@ -2955,7 +2975,9 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateIPAllocationMethod != nil {
-			privateIPAllocationMethod := *typedInput.Properties.PrivateIPAllocationMethod
+			var temp string
+			temp = string(*typedInput.Properties.PrivateIPAllocationMethod)
+			privateIPAllocationMethod := IPAllocationMethod_STATUS(temp)
 			embedded.PrivateIPAllocationMethod = &privateIPAllocationMethod
 		}
 	}
@@ -2978,7 +3000,9 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := ProvisioningState_STATUS(temp)
 			embedded.ProvisioningState = &provisioningState
 		}
 	}

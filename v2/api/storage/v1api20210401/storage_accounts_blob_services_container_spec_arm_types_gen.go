@@ -45,7 +45,23 @@ type ContainerProperties_ARM struct {
 	Metadata map[string]string `json:"metadata"`
 
 	// PublicAccess: Specifies whether data in the container may be accessed publicly and the level of access.
-	PublicAccess *ContainerProperties_PublicAccess `json:"publicAccess,omitempty"`
+	PublicAccess *ContainerProperties_PublicAccess_ARM `json:"publicAccess,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Blob","Container","None"}
+type ContainerProperties_PublicAccess_ARM string
+
+const (
+	ContainerProperties_PublicAccess_ARM_Blob      = ContainerProperties_PublicAccess_ARM("Blob")
+	ContainerProperties_PublicAccess_ARM_Container = ContainerProperties_PublicAccess_ARM("Container")
+	ContainerProperties_PublicAccess_ARM_None      = ContainerProperties_PublicAccess_ARM("None")
+)
+
+// Mapping from string to ContainerProperties_PublicAccess_ARM
+var containerProperties_PublicAccess_ARM_Values = map[string]ContainerProperties_PublicAccess_ARM{
+	"blob":      ContainerProperties_PublicAccess_ARM_Blob,
+	"container": ContainerProperties_PublicAccess_ARM_Container,
+	"none":      ContainerProperties_PublicAccess_ARM_None,
 }
 
 // Object level immutability properties of the container.
