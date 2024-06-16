@@ -443,7 +443,7 @@ ManagedCluster: Resource
 │   │       │   └── "IgnoreKubernetesDeprecations"
 │   │       └── Until: *string
 │   ├── WindowsProfile: *Object (5 properties)
-│   │   ├── AdminPassword: *string
+│   │   ├── AdminPassword: *genruntime.SecretReference
 │   │   ├── AdminUsername: *string
 │   │   ├── EnableCSIProxy: *bool
 │   │   ├── GmsaProfile: *Object (3 properties)
@@ -927,8 +927,7 @@ ManagedCluster: Resource
     │       ├── ControlPlaneOverrides: Enum (1 value)[]
     │       │   └── "IgnoreKubernetesDeprecations"
     │       └── Until: *string
-    ├── WindowsProfile: *Object (5 properties)
-    │   ├── AdminPassword: *string
+    ├── WindowsProfile: *Object (4 properties)
     │   ├── AdminUsername: *string
     │   ├── EnableCSIProxy: *bool
     │   ├── GmsaProfile: *Object (3 properties)
@@ -1389,8 +1388,7 @@ ManagedCluster_STATUS_ARM: Object (10 properties)
 │   │       ├── ControlPlaneOverrides: Enum (1 value)[]
 │   │       │   └── "IgnoreKubernetesDeprecations"
 │   │       └── Until: *string
-│   ├── WindowsProfile: *Object (5 properties)
-│   │   ├── AdminPassword: *string
+│   ├── WindowsProfile: *Object (4 properties)
 │   │   ├── AdminUsername: *string
 │   │   ├── EnableCSIProxy: *bool
 │   │   ├── GmsaProfile: *Object (3 properties)
