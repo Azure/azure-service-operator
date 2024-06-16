@@ -126,6 +126,19 @@ reference to a resources.azure.com/ResourceGroup resource&lt;/p&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
+&lt;code&gt;publicNetworkAccess&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#monitor.azure.com/v1api20230403.AzureMonitorWorkspace_PublicNetworkAccess&#34;&gt;
+AzureMonitorWorkspace_PublicNetworkAccess
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;PublicNetworkAccess: Gets or sets allow or disallow public network access to Azure Monitor Workspace&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
 &lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 map[string]string
@@ -500,6 +513,19 @@ reference to a resources.azure.com/ResourceGroup resource&lt;/p&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
+&lt;code&gt;publicNetworkAccess&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#monitor.azure.com/v1api20230403.AzureMonitorWorkspace_PublicNetworkAccess&#34;&gt;
+AzureMonitorWorkspace_PublicNetworkAccess
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;PublicNetworkAccess: Gets or sets allow or disallow public network access to Azure Monitor Workspace&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
 &lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 map[string]string
@@ -546,6 +572,19 @@ string
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
+&lt;code&gt;properties&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#monitor.azure.com/v1api20230403.AzureMonitorWorkspace_ARM&#34;&gt;
+AzureMonitorWorkspace_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Properties: Resource properties&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
 &lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 map[string]string
@@ -553,6 +592,37 @@ map[string]string
 &lt;/td&gt;
 &lt;td&gt;
 &lt;p&gt;Tags: Resource tags.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;monitor.azure.com/v1api20230403.AzureMonitorWorkspace_ARM&#34;&gt;AzureMonitorWorkspace_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#monitor.azure.com/v1api20230403.Account_Spec_ARM&#34;&gt;Account_Spec_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Properties of an Azure Monitor Workspace&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;publicNetworkAccess&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#monitor.azure.com/v1api20230403.AzureMonitorWorkspace_PublicNetworkAccess&#34;&gt;
+AzureMonitorWorkspace_PublicNetworkAccess
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;PublicNetworkAccess: Gets or sets allow or disallow public network access to Azure Monitor Workspace&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -580,6 +650,26 @@ map[string]string
 &lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Failed&amp;#34;&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Succeeded&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;monitor.azure.com/v1api20230403.AzureMonitorWorkspace_PublicNetworkAccess&#34;&gt;AzureMonitorWorkspace_PublicNetworkAccess
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#monitor.azure.com/v1api20230403.Account_Spec&#34;&gt;Account_Spec&lt;/a&gt;, &lt;a href=&#34;#monitor.azure.com/v1api20230403.AzureMonitorWorkspace_ARM&#34;&gt;AzureMonitorWorkspace_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;&lt;/tbody&gt;
 &lt;/table&gt;

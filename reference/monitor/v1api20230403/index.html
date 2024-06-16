@@ -36,7 +36,7 @@
  Resource Types:  APIVersion (string alias)      Value Description   &#34;2023-04-03&#34;
     Account   Generator information: - Generated from: /monitor/resource-manager/Microsoft.Monitor/stable/2023-04-03/monitoringAccounts_API.json - ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Monitor/&#x200b;accounts/&#x200b;{azureMonitorWorkspaceName}     Field Description      metadata  Kubernetes meta/v1.ObjectMeta     Refer to the Kubernetes API documentation for the fields of the metadata field.">
 
-<meta itemprop="wordCount" content="1018">
+<meta itemprop="wordCount" content="1092">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="monitor.azure.com/v1api20230403"/>
 <meta name="twitter:description" content="monitor.azure.com/v1api20230403  Package v1api20230403 contains API Schema definitions for the monitor v1api20230403 API group
@@ -330,6 +330,8 @@
   <a href="/azure-service-operator/reference/containerservice/v1api20231001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20231001"><span class="">containerservice.azure.com/v1api20231001</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20231102preview-li">
   <a href="/azure-service-operator/reference/containerservice/v1api20231102preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20231102preview"><span class="">containerservice.azure.com/v1api20231102preview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20240402preview-li">
+  <a href="/azure-service-operator/reference/containerservice/v1api20240402preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240402preview"><span class="">containerservice.azure.com/v1api20240402preview</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedatafactory-li">
@@ -860,6 +862,19 @@ reference to a resources.azure.com/ResourceGroup resource</p>
 </tr>
 <tr>
 <td>
+<code>publicNetworkAccess</code><br/>
+<em>
+<a href="#monitor.azure.com/v1api20230403.AzureMonitorWorkspace_PublicNetworkAccess">
+AzureMonitorWorkspace_PublicNetworkAccess
+</a>
+</em>
+</td>
+<td>
+<p>PublicNetworkAccess: Gets or sets allow or disallow public network access to Azure Monitor Workspace</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>tags</code><br/>
 <em>
 map[string]string
@@ -1234,6 +1249,19 @@ reference to a resources.azure.com/ResourceGroup resource</p>
 </tr>
 <tr>
 <td>
+<code>publicNetworkAccess</code><br/>
+<em>
+<a href="#monitor.azure.com/v1api20230403.AzureMonitorWorkspace_PublicNetworkAccess">
+AzureMonitorWorkspace_PublicNetworkAccess
+</a>
+</em>
+</td>
+<td>
+<p>PublicNetworkAccess: Gets or sets allow or disallow public network access to Azure Monitor Workspace</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>tags</code><br/>
 <em>
 map[string]string
@@ -1280,6 +1308,19 @@ string
 </tr>
 <tr>
 <td>
+<code>properties</code><br/>
+<em>
+<a href="#monitor.azure.com/v1api20230403.AzureMonitorWorkspace_ARM">
+AzureMonitorWorkspace_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: Resource properties</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>tags</code><br/>
 <em>
 map[string]string
@@ -1287,6 +1328,37 @@ map[string]string
 </td>
 <td>
 <p>Tags: Resource tags.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="monitor.azure.com/v1api20230403.AzureMonitorWorkspace_ARM">AzureMonitorWorkspace_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#monitor.azure.com/v1api20230403.Account_Spec_ARM">Account_Spec_ARM</a>)
+</p>
+<div>
+<p>Properties of an Azure Monitor Workspace</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>publicNetworkAccess</code><br/>
+<em>
+<a href="#monitor.azure.com/v1api20230403.AzureMonitorWorkspace_PublicNetworkAccess">
+AzureMonitorWorkspace_PublicNetworkAccess
+</a>
+</em>
+</td>
+<td>
+<p>PublicNetworkAccess: Gets or sets allow or disallow public network access to Azure Monitor Workspace</p>
 </td>
 </tr>
 </tbody>
@@ -1314,6 +1386,26 @@ map[string]string
 </tr><tr><td><p>&#34;Failed&#34;</p></td>
 <td></td>
 </tr><tr><td><p>&#34;Succeeded&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="monitor.azure.com/v1api20230403.AzureMonitorWorkspace_PublicNetworkAccess">AzureMonitorWorkspace_PublicNetworkAccess
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#monitor.azure.com/v1api20230403.Account_Spec">Account_Spec</a>, <a href="#monitor.azure.com/v1api20230403.AzureMonitorWorkspace_ARM">AzureMonitorWorkspace_ARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
 <td></td>
 </tr></tbody>
 </table>

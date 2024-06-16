@@ -21,13 +21,15 @@
 <title>authorization.azure.com/v1api20220401 | Azure Service Operator</title>
 <meta name="description" content="authorization.azure.com/v1api20220401  Package v1api20220401 contains API Schema definitions for the authorization v1api20220401 API group
  Resource Types:  APIVersion (string alias)      Value Description   &amp;#34;2022-04-01&amp;#34;
-    RoleAssignment   Generator information: - Generated from: /authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01/authorization-RoleAssignmentsCalls.json - ARM URI: /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}
-    Field Description      metadata  Kubernetes meta/v1.ObjectMeta     Refer to the Kubernetes API documentation for the fields of the metadata field.">
+    Permission   (Appears on:RoleDefinition_Spec)  Role definition permissions.
+    Field Description      actions  []string    Actions: Allowed actions.
+    dataActions  []string    DataActions: Allowed Data actions.">
 <meta property="og:title" content="authorization.azure.com/v1api20220401" />
 <meta property="og:description" content="authorization.azure.com/v1api20220401  Package v1api20220401 contains API Schema definitions for the authorization v1api20220401 API group
  Resource Types:  APIVersion (string alias)      Value Description   &#34;2022-04-01&#34;
-    RoleAssignment   Generator information: - Generated from: /authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01/authorization-RoleAssignmentsCalls.json - ARM URI: /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}
-    Field Description      metadata  Kubernetes meta/v1.ObjectMeta     Refer to the Kubernetes API documentation for the fields of the metadata field." />
+    Permission   (Appears on:RoleDefinition_Spec)  Role definition permissions.
+    Field Description      actions  []string    Actions: Allowed actions.
+    dataActions  []string    DataActions: Allowed Data actions." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/authorization/v1api20220401/" /><meta property="article:section" content="reference" />
 
@@ -36,16 +38,18 @@
 <meta itemprop="name" content="authorization.azure.com/v1api20220401">
 <meta itemprop="description" content="authorization.azure.com/v1api20220401  Package v1api20220401 contains API Schema definitions for the authorization v1api20220401 API group
  Resource Types:  APIVersion (string alias)      Value Description   &#34;2022-04-01&#34;
-    RoleAssignment   Generator information: - Generated from: /authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01/authorization-RoleAssignmentsCalls.json - ARM URI: /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}
-    Field Description      metadata  Kubernetes meta/v1.ObjectMeta     Refer to the Kubernetes API documentation for the fields of the metadata field.">
+    Permission   (Appears on:RoleDefinition_Spec)  Role definition permissions.
+    Field Description      actions  []string    Actions: Allowed actions.
+    dataActions  []string    DataActions: Allowed Data actions.">
 
-<meta itemprop="wordCount" content="825">
+<meta itemprop="wordCount" content="1472">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="authorization.azure.com/v1api20220401"/>
 <meta name="twitter:description" content="authorization.azure.com/v1api20220401  Package v1api20220401 contains API Schema definitions for the authorization v1api20220401 API group
  Resource Types:  APIVersion (string alias)      Value Description   &#34;2022-04-01&#34;
-    RoleAssignment   Generator information: - Generated from: /authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01/authorization-RoleAssignmentsCalls.json - ARM URI: /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}
-    Field Description      metadata  Kubernetes meta/v1.ObjectMeta     Refer to the Kubernetes API documentation for the fields of the metadata field."/>
+    Permission   (Appears on:RoleDefinition_Spec)  Role definition permissions.
+    Field Description      actions  []string    Actions: Allowed actions.
+    dataActions  []string    DataActions: Allowed Data actions."/>
 
 
 
@@ -334,6 +338,8 @@
   <a href="/azure-service-operator/reference/containerservice/v1api20231001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20231001"><span class="">containerservice.azure.com/v1api20231001</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20231102preview-li">
   <a href="/azure-service-operator/reference/containerservice/v1api20231102preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20231102preview"><span class="">containerservice.azure.com/v1api20231102preview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20240402preview-li">
+  <a href="/azure-service-operator/reference/containerservice/v1api20240402preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240402preview"><span class="">containerservice.azure.com/v1api20240402preview</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedatafactory-li">
@@ -781,6 +787,254 @@ Resource Types:
 <tbody><tr><td><p>&#34;2022-04-01&#34;</p></td>
 <td></td>
 </tr></tbody>
+</table>
+<h3 id="authorization.azure.com/v1api20220401.Permission">Permission
+</h3>
+<p>
+(<em>Appears on:</em><a href="#authorization.azure.com/v1api20220401.RoleDefinition_Spec">RoleDefinition_Spec</a>)
+</p>
+<div>
+<p>Role definition permissions.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>actions</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>Actions: Allowed actions.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>dataActions</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>DataActions: Allowed Data actions.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>notActions</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>NotActions: Denied actions.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>notDataActions</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>NotDataActions: Denied Data actions.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="authorization.azure.com/v1api20220401.Permission_ARM">Permission_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#authorization.azure.com/v1api20220401.RoleDefinitionProperties_ARM">RoleDefinitionProperties_ARM</a>)
+</p>
+<div>
+<p>Role definition permissions.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>actions</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>Actions: Allowed actions.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>dataActions</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>DataActions: Allowed Data actions.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>notActions</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>NotActions: Denied actions.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>notDataActions</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>NotDataActions: Denied Data actions.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="authorization.azure.com/v1api20220401.Permission_STATUS">Permission_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#authorization.azure.com/v1api20220401.RoleDefinition_STATUS">RoleDefinition_STATUS</a>)
+</p>
+<div>
+<p>Role definition permissions.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>actions</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>Actions: Allowed actions.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>dataActions</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>DataActions: Allowed Data actions.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>notActions</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>NotActions: Denied actions.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>notDataActions</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>NotDataActions: Denied Data actions.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="authorization.azure.com/v1api20220401.Permission_STATUS_ARM">Permission_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#authorization.azure.com/v1api20220401.RoleDefinitionProperties_STATUS_ARM">RoleDefinitionProperties_STATUS_ARM</a>)
+</p>
+<div>
+<p>Role definition permissions.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>actions</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>Actions: Allowed actions.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>dataActions</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>DataActions: Allowed Data actions.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>notActions</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>NotActions: Denied actions.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>notDataActions</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>NotDataActions: Denied Data actions.</p>
+</td>
+</tr>
+</tbody>
 </table>
 <h3 id="authorization.azure.com/v1api20220401.RoleAssignment">RoleAssignment
 </h3>
@@ -1702,6 +1956,710 @@ RoleAssignmentProperties_ARM
 </td>
 <td>
 <p>Properties: Role assignment properties.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="authorization.azure.com/v1api20220401.RoleDefinition">RoleDefinition
+</h3>
+<div>
+<p>Generator information:
+- Generated from: /authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01/authorization-RoleDefinitionsCalls.json
+- ARM URI: /{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code><br/>
+<em>
+<a href="#authorization.azure.com/v1api20220401.RoleDefinition_Spec">
+RoleDefinition_Spec
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>assignableScopesReferences</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+[]genruntime.ResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>AssignableScopesReferences: Role definition assignable scopes.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>description</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Description: The role definition description.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ArbitraryOwnerReference">
+genruntime.ArbitraryOwnerReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
+extension resource, which means that any other Azure resource can be its owner.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>permissions</code><br/>
+<em>
+<a href="#authorization.azure.com/v1api20220401.Permission">
+[]Permission
+</a>
+</em>
+</td>
+<td>
+<p>Permissions: Role definition permissions.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>roleName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>RoleName: The role name.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The role type.</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#authorization.azure.com/v1api20220401.RoleDefinition_STATUS">
+RoleDefinition_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="authorization.azure.com/v1api20220401.RoleDefinitionProperties_ARM">RoleDefinitionProperties_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#authorization.azure.com/v1api20220401.RoleDefinition_Spec_ARM">RoleDefinition_Spec_ARM</a>)
+</p>
+<div>
+<p>Role definition properties.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>assignableScopes</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>description</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Description: The role definition description.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>permissions</code><br/>
+<em>
+<a href="#authorization.azure.com/v1api20220401.Permission_ARM">
+[]Permission_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Permissions: Role definition permissions.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>roleName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>RoleName: The role name.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The role type.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="authorization.azure.com/v1api20220401.RoleDefinitionProperties_STATUS_ARM">RoleDefinitionProperties_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#authorization.azure.com/v1api20220401.RoleDefinition_STATUS_ARM">RoleDefinition_STATUS_ARM</a>)
+</p>
+<div>
+<p>Role definition properties.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>assignableScopes</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>AssignableScopes: Role definition assignable scopes.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>createdBy</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>CreatedBy: Id of the user who created the assignment</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>createdOn</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>CreatedOn: Time it was created</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>description</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Description: The role definition description.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>permissions</code><br/>
+<em>
+<a href="#authorization.azure.com/v1api20220401.Permission_STATUS_ARM">
+[]Permission_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Permissions: Role definition permissions.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>roleName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>RoleName: The role name.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The role type.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>updatedBy</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>UpdatedBy: Id of the user who updated the assignment</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>updatedOn</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>UpdatedOn: Time it was updated</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="authorization.azure.com/v1api20220401.RoleDefinition_STATUS">RoleDefinition_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#authorization.azure.com/v1api20220401.RoleDefinition">RoleDefinition</a>)
+</p>
+<div>
+<p>Role definition.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>assignableScopes</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>AssignableScopes: Role definition assignable scopes.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>conditions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
+</em>
+</td>
+<td>
+<p>Conditions: The observed state of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>createdBy</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>CreatedBy: Id of the user who created the assignment</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>createdOn</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>CreatedOn: Time it was created</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>description</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Description: The role definition description.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: The role definition ID.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The role definition name.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>permissions</code><br/>
+<em>
+<a href="#authorization.azure.com/v1api20220401.Permission_STATUS">
+[]Permission_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Permissions: Role definition permissions.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties_type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>PropertiesType: The role type.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>roleName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>RoleName: The role name.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The role definition type.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>updatedBy</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>UpdatedBy: Id of the user who updated the assignment</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>updatedOn</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>UpdatedOn: Time it was updated</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="authorization.azure.com/v1api20220401.RoleDefinition_STATUS_ARM">RoleDefinition_STATUS_ARM
+</h3>
+<div>
+<p>Role definition.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: The role definition ID.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The role definition name.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#authorization.azure.com/v1api20220401.RoleDefinitionProperties_STATUS_ARM">
+RoleDefinitionProperties_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: Role definition properties.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The role definition type.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="authorization.azure.com/v1api20220401.RoleDefinition_Spec">RoleDefinition_Spec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#authorization.azure.com/v1api20220401.RoleDefinition">RoleDefinition</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>assignableScopesReferences</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+[]genruntime.ResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>AssignableScopesReferences: Role definition assignable scopes.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>description</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Description: The role definition description.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ArbitraryOwnerReference">
+genruntime.ArbitraryOwnerReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
+extension resource, which means that any other Azure resource can be its owner.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>permissions</code><br/>
+<em>
+<a href="#authorization.azure.com/v1api20220401.Permission">
+[]Permission
+</a>
+</em>
+</td>
+<td>
+<p>Permissions: Role definition permissions.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>roleName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>RoleName: The role name.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The role type.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="authorization.azure.com/v1api20220401.RoleDefinition_Spec_ARM">RoleDefinition_Spec_ARM
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#authorization.azure.com/v1api20220401.RoleDefinitionProperties_ARM">
+RoleDefinitionProperties_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: Role definition properties.</p>
 </td>
 </tr>
 </tbody>
