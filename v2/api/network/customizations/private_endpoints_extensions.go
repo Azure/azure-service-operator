@@ -140,7 +140,11 @@ func configMapToWrite(obj *network.PrivateEndpoint, configs map[string]string) (
 	}
 
 	collector := configmaps.NewCollector(obj.Namespace)
-	collector.AddValue(operatorSpecConfigs.PrimaryNicPrivateIPAddress, configs["PrimaryNicPrivateIPAddress"])
+	
+	primaryNicPrivateIPAddress, ok := configs["PrimaryNicPrivateIPAddress"]
+	if ok {
+		collector.AddValue(operatorSpecConfigs.PrimaryNicPrivateIPAddress, primaryNicPrivateIPAddress)
+	}
 
 	return collector.Values()
 }
