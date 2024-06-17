@@ -80,6 +80,7 @@ func NewPropertyAssignmentFunctionBuilder(
 	result.assignmentSelectors = []assignmentSelector{
 		{0, result.selectIdenticallyNamedProperties},
 		{1, result.selectRenamedProperties},
+		{2, result.selectIdenticallyPathedProperties},
 		// High sequence numbers to ensure these are executed last
 		{100, result.readPropertiesFromPropertyBag},
 		{100, result.writePropertiesToPropertyBag},
@@ -258,7 +259,7 @@ func (builder *PropertyAssignmentFunctionBuilder) createConversions(
 		}
 
 		if conv != nil {
-			// A conversion was created, keep it for later
+			// A conversion was created, keep it for later, and make sure we don't reuse these endpoints
 			propertyConversions[destinationEndpoint.Name()] = conv
 			usedSources.Add(sourceEndpoint.Name())
 			usedDestinations.Add(destinationEndpoint.Name())
@@ -369,7 +370,7 @@ func (*PropertyAssignmentFunctionBuilder) selectIdenticallyNamedProperties(
 	sourceProperties conversions.ReadableConversionEndpointSet,
 	destinationProperties conversions.WritableConversionEndpointSet,
 	assign func(reader *conversions.ReadableConversionEndpoint, writer *conversions.WritableConversionEndpoint) error,
-	_ *conversions.PropertyConversionContext,
+	ctx *conversions.PropertyConversionContext,
 ) error {
 	for destinationName, destinationEndpoint := range destinationProperties {
 		if sourceEndpoint, ok := sourceProperties[destinationName]; ok {
@@ -380,6 +381,61 @@ func (*PropertyAssignmentFunctionBuilder) selectIdenticallyNamedProperties(
 				continue
 			}
 
+			err := assign(sourceEndpoint, destinationEndpoint)
+			if err != nil {
+				return errors.Wrapf(err, "assigning %s", destinationName)
+			}
+		}
+	}
+
+	return nil
+}
+
+// selectIdenticallyPathedProperties matches up properties with paths for conversion.
+// This serves to match up properties that were flattened from the original location,
+// even if they've ended up with different names.
+// sourceProperties is a set of endpoints that can be read from.
+// destinationProperties is a set of endpoints that can be written to.
+// assign is a function that will be called for each matching property, with the source and destination endpoints
+// for that property.
+// Returns an error if any of the assignments fail.
+func (*PropertyAssignmentFunctionBuilder) selectIdenticallyPathedProperties(
+	sourceProperties conversions.ReadableConversionEndpointSet,
+	destinationProperties conversions.WritableConversionEndpointSet,
+	assign func(reader *conversions.ReadableConversionEndpoint, writer *conversions.WritableConversionEndpoint) error,
+	ctx *conversions.PropertyConversionContext,
+) error {
+	// Create a map of source properties, by path
+	sourceByPath := make(map[string]*conversions.ReadableConversionEndpoint)
+	for _, source := range sourceProperties {
+		path := source.Endpoint().Path()
+		if path == "" {
+			// No path (so wasn't flattened); skip
+			continue
+		}
+
+		// theunrepentantgeek: My intuition is that this won't work if the property has been set up as a secret or to
+		// be configurable, as we'll have two source properties with the same path but different names and different
+		// types. I couldn't provoke a problem during testing though, so maybe I'm wrong.
+		// Nonetheless, I'm putting this check here to catch if this happens, so that we don't silently do the wrong
+		// thing and cause problems.
+		if _, ok := sourceByPath[path]; ok {
+			return errors.Errorf(
+				"multiple source properties with the same path %s can't be resolved by selectIdenticallyPathedProperties",
+				path)
+		}
+
+		sourceByPath[path] = source
+	}
+
+	for destinationName, destinationEndpoint := range destinationProperties {
+		path := destinationEndpoint.Endpoint().Path()
+		if path == "" {
+			// No path (so wasn't flattened); skip
+			continue
+		}
+
+		if sourceEndpoint, ok := sourceByPath[path]; ok {
 			err := assign(sourceEndpoint, destinationEndpoint)
 			if err != nil {
 				return errors.Wrapf(err, "assigning %s", destinationName)
