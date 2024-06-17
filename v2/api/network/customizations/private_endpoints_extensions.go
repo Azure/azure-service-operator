@@ -140,7 +140,7 @@ func configMapToWrite(obj *network.PrivateEndpoint, configs map[string]string) (
 	}
 
 	collector := configmaps.NewCollector(obj.Namespace)
-	
+
 	primaryNicPrivateIPAddress, ok := configs["PrimaryNicPrivateIPAddress"]
 	if ok {
 		collector.AddValue(operatorSpecConfigs.PrimaryNicPrivateIPAddress, primaryNicPrivateIPAddress)
@@ -150,6 +150,10 @@ func configMapToWrite(obj *network.PrivateEndpoint, configs map[string]string) (
 }
 
 func configMapSpecified(endpoint *network.PrivateEndpoint) bool {
+	if endpoint.Spec.OperatorSpec == nil || endpoint.Spec.OperatorSpec.ConfigMaps == nil {
+		return false
+	}
+
 	hasIpConfiguration := false
 	configMaps := endpoint.Spec.OperatorSpec.ConfigMaps
 
