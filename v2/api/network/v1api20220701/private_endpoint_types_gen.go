@@ -208,7 +208,7 @@ func (endpoint *PrivateEndpoint) ValidateUpdate(old runtime.Object) (admission.W
 
 // createValidations validates the creation of the resource
 func (endpoint *PrivateEndpoint) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){endpoint.validateResourceReferences, endpoint.validateOwnerReference}
+	return []func() (admission.Warnings, error){endpoint.validateResourceReferences, endpoint.validateOwnerReference, endpoint.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -226,7 +226,24 @@ func (endpoint *PrivateEndpoint) updateValidations() []func(old runtime.Object) 
 		func(old runtime.Object) (admission.Warnings, error) {
 			return endpoint.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return endpoint.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (endpoint *PrivateEndpoint) validateConfigMapDestinations() (admission.Warnings, error) {
+	if endpoint.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	if endpoint.Spec.OperatorSpec.ConfigMaps == nil {
+		return nil, nil
+	}
+	toValidate := []*genruntime.ConfigMapDestination{
+		endpoint.Spec.OperatorSpec.ConfigMaps.PrimaryNicPrivateIPAddress,
+	}
+	return genruntime.ValidateConfigMapDestinations(toValidate)
 }
 
 // validateOwnerReference validates the owner field
@@ -348,6 +365,10 @@ type PrivateEndpoint_Spec struct {
 	// ManualPrivateLinkServiceConnections: A grouping of information about the connection to the remote resource. Used when
 	// the network admin does not have access to approve connections to the remote resource.
 	ManualPrivateLinkServiceConnections []PrivateLinkServiceConnection `json:"manualPrivateLinkServiceConnections,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *PrivateEndpointOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -533,6 +554,8 @@ func (endpoint *PrivateEndpoint_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	endpoint.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
@@ -706,6 +729,18 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_From_PrivateEndpoint_Spec
 		endpoint.ManualPrivateLinkServiceConnections = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec PrivateEndpointOperatorSpec
+		err := operatorSpec.AssignProperties_From_PrivateEndpointOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointOperatorSpec() to populate field OperatorSpec")
+		}
+		endpoint.OperatorSpec = &operatorSpec
+	} else {
+		endpoint.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -829,6 +864,18 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_To_PrivateEndpoint_Spec(d
 		destination.ManualPrivateLinkServiceConnections = manualPrivateLinkServiceConnectionList
 	} else {
 		destination.ManualPrivateLinkServiceConnections = nil
+	}
+
+	// OperatorSpec
+	if endpoint.OperatorSpec != nil {
+		var operatorSpec storage.PrivateEndpointOperatorSpec
+		err := endpoint.OperatorSpec.AssignProperties_To_PrivateEndpointOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -2451,6 +2498,59 @@ func (configuration *PrivateEndpointIPConfiguration_STATUS) AssignProperties_To_
 	return nil
 }
 
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type PrivateEndpointOperatorSpec struct {
+	// ConfigMaps: configures where to place operator written ConfigMaps.
+	ConfigMaps *PrivateEndpointOperatorConfigMaps `json:"configMaps,omitempty"`
+}
+
+// AssignProperties_From_PrivateEndpointOperatorSpec populates our PrivateEndpointOperatorSpec from the provided source PrivateEndpointOperatorSpec
+func (operator *PrivateEndpointOperatorSpec) AssignProperties_From_PrivateEndpointOperatorSpec(source *storage.PrivateEndpointOperatorSpec) error {
+
+	// ConfigMaps
+	if source.ConfigMaps != nil {
+		var configMap PrivateEndpointOperatorConfigMaps
+		err := configMap.AssignProperties_From_PrivateEndpointOperatorConfigMaps(source.ConfigMaps)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		operator.ConfigMaps = &configMap
+	} else {
+		operator.ConfigMaps = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_PrivateEndpointOperatorSpec populates the provided destination PrivateEndpointOperatorSpec from our PrivateEndpointOperatorSpec
+func (operator *PrivateEndpointOperatorSpec) AssignProperties_To_PrivateEndpointOperatorSpec(destination *storage.PrivateEndpointOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMaps
+	if operator.ConfigMaps != nil {
+		var configMap storage.PrivateEndpointOperatorConfigMaps
+		err := operator.ConfigMaps.AssignProperties_To_PrivateEndpointOperatorConfigMaps(&configMap)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		destination.ConfigMaps = &configMap
+	} else {
+		destination.ConfigMaps = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // PrivateLinkServiceConnection resource.
 type PrivateLinkServiceConnection struct {
 	// GroupIds: The ID(s) of the group(s) obtained from the remote resource that this private endpoint should connect to.
@@ -3066,6 +3166,51 @@ func (embedded *Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignPropert
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(embedded.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type PrivateEndpointOperatorConfigMaps struct {
+	// PrimaryNicPrivateIPAddress: indicates where the PrimaryNicPrivateIPAddress config map should be placed. If omitted, no
+	// config map will be created.
+	PrimaryNicPrivateIPAddress *genruntime.ConfigMapDestination `json:"primaryNicPrivateIPAddress,omitempty"`
+}
+
+// AssignProperties_From_PrivateEndpointOperatorConfigMaps populates our PrivateEndpointOperatorConfigMaps from the provided source PrivateEndpointOperatorConfigMaps
+func (maps *PrivateEndpointOperatorConfigMaps) AssignProperties_From_PrivateEndpointOperatorConfigMaps(source *storage.PrivateEndpointOperatorConfigMaps) error {
+
+	// PrimaryNicPrivateIPAddress
+	if source.PrimaryNicPrivateIPAddress != nil {
+		primaryNicPrivateIPAddress := source.PrimaryNicPrivateIPAddress.Copy()
+		maps.PrimaryNicPrivateIPAddress = &primaryNicPrivateIPAddress
+	} else {
+		maps.PrimaryNicPrivateIPAddress = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_PrivateEndpointOperatorConfigMaps populates the provided destination PrivateEndpointOperatorConfigMaps from our PrivateEndpointOperatorConfigMaps
+func (maps *PrivateEndpointOperatorConfigMaps) AssignProperties_To_PrivateEndpointOperatorConfigMaps(destination *storage.PrivateEndpointOperatorConfigMaps) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// PrimaryNicPrivateIPAddress
+	if maps.PrimaryNicPrivateIPAddress != nil {
+		primaryNicPrivateIPAddress := maps.PrimaryNicPrivateIPAddress.Copy()
+		destination.PrimaryNicPrivateIPAddress = &primaryNicPrivateIPAddress
+	} else {
+		destination.PrimaryNicPrivateIPAddress = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

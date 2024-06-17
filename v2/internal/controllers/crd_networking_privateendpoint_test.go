@@ -16,6 +16,7 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 // Example is from https://learn.microsoft.com/en-us/azure/private-link/create-private-endpoint-bicep?tabs=CLI#review-the-bicep-file
@@ -29,13 +30,27 @@ func Test_Networking_PrivateEndpoint_CRUD(t *testing.T) {
 
 	saKind := storage.StorageAccount_Kind_Spec_BlobStorage
 	sa := newStorageAccount(tc, rg)
+	sa.Spec.AllowBlobPublicAccess = to.Ptr(false)
 	sa.Spec.Kind = &saKind
 
 	vnet := newVMVirtualNetwork(tc, testcommon.AsOwner(rg))
 	subnet := newVMSubnet(tc, testcommon.AsOwner(vnet))
+
+	configMapName := "testconfig"
+	configMapKey := "privateIpAddress"
 	endpoint := newPrivateEndpoint(tc, rg, sa, subnet)
+	endpoint.Spec.OperatorSpec = &network.PrivateEndpointOperatorSpec{
+		ConfigMaps: &network.PrivateEndpointOperatorConfigMaps{
+			PrimaryNicPrivateIPAddress: &genruntime.ConfigMapDestination{
+				Name: configMapName,
+				Key:  configMapKey,
+			},
+		},
+	}
 
 	tc.CreateResourcesAndWait(sa, vnet, subnet, endpoint)
+
+	tc.ExpectConfigMapHasKeys(configMapName, configMapKey)
 	tc.Expect(sa.Status.Id).ToNot(BeNil())
 	tc.Expect(endpoint.Status.Id).ToNot(BeNil())
 	armId := *endpoint.Status.Id
