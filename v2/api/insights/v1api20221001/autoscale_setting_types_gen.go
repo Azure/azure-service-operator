@@ -828,7 +828,7 @@ func (autoscalesetting *Autoscalesetting_Spec) Initialize_From_Autoscalesetting_
 	autoscalesetting.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	autoscalesetting.Name = genruntime.ClonePointerToString(source.Name)
+	autoscalesetting.Name = genruntime.ClonePointerToString(source.PropertiesName)
 
 	// Notifications
 	if source.Notifications != nil {

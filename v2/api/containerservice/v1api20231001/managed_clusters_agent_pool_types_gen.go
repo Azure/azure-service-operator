@@ -2062,10 +2062,9 @@ func (pool *ManagedClusters_AgentPool_Spec) Initialize_From_ManagedClusters_Agen
 	pool.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		typeTemp := genruntime.ToEnum(typeVar, agentPoolType_Values)
-		pool.Type = &typeTemp
+	if source.PropertiesType != nil {
+		typeVar := AgentPoolType(*source.PropertiesType)
+		pool.Type = &typeVar
 	} else {
 		pool.Type = nil
 	}
