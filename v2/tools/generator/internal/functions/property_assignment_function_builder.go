@@ -373,6 +373,13 @@ func (*PropertyAssignmentFunctionBuilder) selectIdenticallyNamedProperties(
 ) error {
 	for destinationName, destinationEndpoint := range destinationProperties {
 		if sourceEndpoint, ok := sourceProperties[destinationName]; ok {
+			// We have properties with the same name, we also need them to have the same path.
+			// This effectively means they were flattened from the same original property.
+			// If they don't, we can't match them up.
+			if sourceEndpoint.Endpoint().Path() != destinationEndpoint.Endpoint().Path() {
+				continue
+			}
+
 			err := assign(sourceEndpoint, destinationEndpoint)
 			if err != nil {
 				return errors.Wrapf(err, "assigning %s", destinationName)
