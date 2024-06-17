@@ -7,7 +7,6 @@ package conversions
 
 import (
 	"fmt"
-
 	"github.com/dave/dst"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
@@ -29,12 +28,17 @@ var _ fmt.Stringer = &ReadableConversionEndpoint{}
 // NewReadableConversionEndpointReadingProperty creates a ReadableConversionEndpoint that reads a value from a specific
 // property
 func NewReadableConversionEndpointReadingProperty(
-	propertyName astmodel.PropertyName,
-	propertyType astmodel.Type,
+	property *astmodel.PropertyDefinition,
 ) *ReadableConversionEndpoint {
-	name := string(propertyName)
+	name := string(property.PropertyName())
+	endpoint := NewTypedConversionEndpoint(property.PropertyType(), name)
+
+	if property.WasFlattened() {
+		endpoint = endpoint.WithPath(property.FlattenedFrom())
+	}
+
 	return &ReadableConversionEndpoint{
-		endpoint: NewTypedConversionEndpoint(propertyType, name),
+		endpoint: endpoint,
 		reader: func(source dst.Expr) dst.Expr {
 			return astbuilder.Selector(source, name)
 		},

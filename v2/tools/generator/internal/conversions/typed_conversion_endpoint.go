@@ -7,6 +7,7 @@ package conversions
 
 import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"strings"
 )
 
 // TypedConversionEndpoint represents either a source or a destination target for a storage conversion
@@ -16,6 +17,8 @@ type TypedConversionEndpoint struct {
 	theType astmodel.Type
 	// name is the name of the underlying property, used to generate useful local identifiers
 	name string
+	// path is a dot qualified path that leads to the property, used to match properties that may have been flattened
+	path string
 }
 
 func NewTypedConversionEndpoint(theType astmodel.Type, name string) *TypedConversionEndpoint {
@@ -30,6 +33,11 @@ func (endpoint *TypedConversionEndpoint) Name() string {
 	return endpoint.name
 }
 
+// Path returns a dot qualified path for this endpoint (might be empty)
+func (endpoint *TypedConversionEndpoint) Path() string {
+	return endpoint.path
+}
+
 // Type returns the type of this endpoint
 func (endpoint *TypedConversionEndpoint) Type() astmodel.Type {
 	return endpoint.theType
@@ -37,10 +45,9 @@ func (endpoint *TypedConversionEndpoint) Type() astmodel.Type {
 
 // WithType creates a new endpoint with a different type
 func (endpoint *TypedConversionEndpoint) WithType(theType astmodel.Type) *TypedConversionEndpoint {
-	return &TypedConversionEndpoint{
-		theType: theType,
-		name:    endpoint.name,
-	}
+	result := *endpoint
+	result.theType = theType
+	return &result
 }
 
 // IsOptional returns true if the endpoint contains an optional type, false otherwise
@@ -53,4 +60,21 @@ func (endpoint *TypedConversionEndpoint) IsOptional() bool {
 func (endpoint *TypedConversionEndpoint) IsBagItem() bool {
 	_, result := AsPropertyBagMemberType(endpoint.Type())
 	return result
+}
+
+func (endpoint *TypedConversionEndpoint) WithPath(
+	path []astmodel.PropertyName,
+) *TypedConversionEndpoint {
+	var builder strings.Builder
+	for i, name := range path {
+		if i > 0 {
+			builder.WriteString(".")
+		}
+
+		builder.WriteString(string(name))
+	}
+
+	result := *endpoint
+	result.path = builder.String()
+	return &result
 }

@@ -28,12 +28,17 @@ var _ fmt.Stringer = &WritableConversionEndpoint{}
 
 // NewWritableConversionEndpointWritingProperty creates a WritableConversionEndpoint for a specific property
 func NewWritableConversionEndpointWritingProperty(
-	propertyName astmodel.PropertyName,
-	propertyType astmodel.Type,
+	property *astmodel.PropertyDefinition,
 ) *WritableConversionEndpoint {
-	name := string(propertyName)
+	name := string(property.PropertyName())
+	endpoint := NewTypedConversionEndpoint(property.PropertyType(), name)
+
+	if property.WasFlattened() {
+		endpoint = endpoint.WithPath(property.FlattenedFrom())
+	}
+
 	return &WritableConversionEndpoint{
-		endpoint: NewTypedConversionEndpoint(propertyType, name),
+		endpoint: endpoint,
 		writer: func(destination dst.Expr, value dst.Expr) []dst.Stmt {
 			return []dst.Stmt{
 				astbuilder.SimpleAssignment(
@@ -41,7 +46,7 @@ func NewWritableConversionEndpointWritingProperty(
 					value),
 			}
 		},
-		description: fmt.Sprintf("write to property %s", propertyName),
+		description: fmt.Sprintf("write to property %s", name),
 	}
 }
 
