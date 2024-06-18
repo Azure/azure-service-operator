@@ -16,12 +16,25 @@ updates:
       # Grouped updates are currently in beta and is subject to change.
       # xref: https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#groups
       k8s-go-deps:
-        applies-to: version-updates  # security-updates would need a separate entry but for now lets try this
+        applies-to: version-updates
         patterns:
           - "k8s.io/*"
           - "sigs.k8s.io/*"
       go-deps:
         applies-to: version-updates
+        patterns:
+          - "*"
+        exclude-patterns:
+          - "k8s.io/*"
+          - "sigs.k8s.io/*"
+      # Group security updates too
+      k8s-go-deps-sec:
+        applies-to: security-updates
+        patterns:
+          - "k8s.io/*"
+          - "sigs.k8s.io/*"
+      go-deps-sec:
+        applies-to: security-updates
         patterns:
           - "*"
         exclude-patterns:
@@ -48,6 +61,19 @@ updates:
       exclude-patterns:
         - "k8s.io/*"
         - "sigs.k8s.io/*"
+      # Group security updates too
+      k8s-go-deps-sec:
+        applies-to: security-updates
+        patterns:
+          - "k8s.io/*"
+          - "sigs.k8s.io/*"
+      go-deps-sec:
+        applies-to: security-updates
+        patterns:
+          - "*"
+        exclude-patterns:
+          - "k8s.io/*"
+          - "sigs.k8s.io/*"
   # ASO v2 generator
   - package-ecosystem: "gomod" 
     directory: "/v2/tools/generator" 
@@ -69,3 +95,16 @@ updates:
       exclude-patterns:
         - "k8s.io/*"
         - "sigs.k8s.io/*"
+      # Group security updates too
+      k8s-go-deps-sec:
+        applies-to: security-updates
+        patterns:
+          - "k8s.io/*"
+          - "sigs.k8s.io/*"
+      go-deps-sec:
+        applies-to: security-updates
+        patterns:
+          - "*"
+        exclude-patterns:
+          - "k8s.io/*"
+          - "sigs.k8s.io/*"

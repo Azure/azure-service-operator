@@ -192,6 +192,11 @@ func (in *Account_Spec) DeepCopyInto(out *Account_Spec) {
 			(*out)[key] = val
 		}
 	}
+	if in.PublicNetworkAccess != nil {
+		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
+		*out = new(string)
+		**out = **in
+	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
 		*out = make(map[string]string, len(*in))

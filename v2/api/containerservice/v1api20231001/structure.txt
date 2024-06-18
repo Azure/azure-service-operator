@@ -2282,3 +2282,74 @@ ManagedClusters_AgentPool_Spec_ARM: Object (2 properties)
     └── WorkloadRuntime: *Enum (2 values)
         ├── "OCIContainer"
         └── "WasmWasi"
+ManagedClusters_TrustedAccessRoleBinding_STATUS_ARM: Object (5 properties)
+├── Id: *string
+├── Name: *string
+├── Properties: *Object (3 properties)
+│   ├── ProvisioningState: *Enum (5 values)
+│   │   ├── "Canceled"
+│   │   ├── "Deleting"
+│   │   ├── "Failed"
+│   │   ├── "Succeeded"
+│   │   └── "Updating"
+│   ├── Roles: string[]
+│   └── SourceResourceId: *string
+├── SystemData: *Object (6 properties)
+│   ├── CreatedAt: *string
+│   ├── CreatedBy: *string
+│   ├── CreatedByType: *Enum (4 values)
+│   │   ├── "Application"
+│   │   ├── "Key"
+│   │   ├── "ManagedIdentity"
+│   │   └── "User"
+│   ├── LastModifiedAt: *string
+│   ├── LastModifiedBy: *string
+│   └── LastModifiedByType: *Enum (4 values)
+│       ├── "Application"
+│       ├── "Key"
+│       ├── "ManagedIdentity"
+│       └── "User"
+└── Type: *string
+ManagedClusters_TrustedAccessRoleBinding_Spec_ARM: Object (2 properties)
+├── Name: string
+└── Properties: *Object (2 properties)
+    ├── Roles: string[]
+    └── SourceResourceId: *string
+TrustedAccessRoleBinding: Resource
+├── Owner: ManagedCluster
+├── Spec: Object (4 properties)
+│   ├── AzureName: Validated<string> (3 rules)
+│   │   ├── Rule 0: MaxLength: 24
+│   │   ├── Rule 1: MinLength: 1
+│   │   └── Rule 2: Pattern: "^([A-Za-z0-9-])+$"
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── Roles: string[]
+│   └── SourceResourceReference: *genruntime.ResourceReference
+└── Status: Object (8 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── Id: *string
+    ├── Name: *string
+    ├── ProvisioningState: *Enum (5 values)
+    │   ├── "Canceled"
+    │   ├── "Deleting"
+    │   ├── "Failed"
+    │   ├── "Succeeded"
+    │   └── "Updating"
+    ├── Roles: string[]
+    ├── SourceResourceId: *string
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
+    └── Type: *string
