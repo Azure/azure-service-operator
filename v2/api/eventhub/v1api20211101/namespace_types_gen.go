@@ -1882,7 +1882,7 @@ func (encryption *Encryption) Initialize_From_Encryption_STATUS(source *Encrypti
 
 	// KeySource
 	if source.KeySource != nil {
-		keySource := Encryption_KeySource(*source.KeySource)
+		keySource := genruntime.ToEnum(string(*source.KeySource), encryption_KeySource_Values)
 		encryption.KeySource = &keySource
 	} else {
 		encryption.KeySource = nil
@@ -2204,7 +2204,7 @@ func (identity *Identity) Initialize_From_Identity_STATUS(source *Identity_STATU
 
 	// Type
 	if source.Type != nil {
-		typeVar := Identity_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), identity_Type_Values)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -2655,7 +2655,7 @@ func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
 
 	// Name
 	if source.Name != nil {
-		name := Sku_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), sku_Name_Values)
 		sku.Name = &name
 	} else {
 		sku.Name = nil
@@ -2663,7 +2663,7 @@ func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
 
 	// Tier
 	if source.Tier != nil {
-		tier := Sku_Tier(*source.Tier)
+		tier := genruntime.ToEnum(string(*source.Tier), sku_Tier_Values)
 		sku.Tier = &tier
 	} else {
 		sku.Tier = nil

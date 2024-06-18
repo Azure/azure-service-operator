@@ -1235,7 +1235,7 @@ func (gateway *VirtualNetworkGateway_Spec) Initialize_From_VirtualNetworkGateway
 
 	// GatewayType
 	if source.GatewayType != nil {
-		gatewayType := VirtualNetworkGatewayPropertiesFormat_GatewayType(*source.GatewayType)
+		gatewayType := genruntime.ToEnum(string(*source.GatewayType), virtualNetworkGatewayPropertiesFormat_GatewayType_Values)
 		gateway.GatewayType = &gatewayType
 	} else {
 		gateway.GatewayType = nil
@@ -1299,7 +1299,7 @@ func (gateway *VirtualNetworkGateway_Spec) Initialize_From_VirtualNetworkGateway
 
 	// VpnGatewayGeneration
 	if source.VpnGatewayGeneration != nil {
-		vpnGatewayGeneration := VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration(*source.VpnGatewayGeneration)
+		vpnGatewayGeneration := genruntime.ToEnum(string(*source.VpnGatewayGeneration), virtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_Values)
 		gateway.VpnGatewayGeneration = &vpnGatewayGeneration
 	} else {
 		gateway.VpnGatewayGeneration = nil
@@ -1307,7 +1307,7 @@ func (gateway *VirtualNetworkGateway_Spec) Initialize_From_VirtualNetworkGateway
 
 	// VpnType
 	if source.VpnType != nil {
-		vpnType := VirtualNetworkGatewayPropertiesFormat_VpnType(*source.VpnType)
+		vpnType := genruntime.ToEnum(string(*source.VpnType), virtualNetworkGatewayPropertiesFormat_VpnType_Values)
 		gateway.VpnType = &vpnType
 	} else {
 		gateway.VpnType = nil
@@ -2697,7 +2697,7 @@ func (configuration *VirtualNetworkGatewayIPConfiguration) Initialize_From_Virtu
 
 	// PrivateIPAllocationMethod
 	if source.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := IPAllocationMethod(*source.PrivateIPAllocationMethod)
+		privateIPAllocationMethod := genruntime.ToEnum(string(*source.PrivateIPAllocationMethod), iPAllocationMethod_Values)
 		configuration.PrivateIPAllocationMethod = &privateIPAllocationMethod
 	} else {
 		configuration.PrivateIPAllocationMethod = nil
@@ -3189,7 +3189,7 @@ func (gatewaySku *VirtualNetworkGatewaySku) Initialize_From_VirtualNetworkGatewa
 
 	// Name
 	if source.Name != nil {
-		name := VirtualNetworkGatewaySku_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), virtualNetworkGatewaySku_Name_Values)
 		gatewaySku.Name = &name
 	} else {
 		gatewaySku.Name = nil
@@ -3197,7 +3197,7 @@ func (gatewaySku *VirtualNetworkGatewaySku) Initialize_From_VirtualNetworkGatewa
 
 	// Tier
 	if source.Tier != nil {
-		tier := VirtualNetworkGatewaySku_Tier(*source.Tier)
+		tier := genruntime.ToEnum(string(*source.Tier), virtualNetworkGatewaySku_Tier_Values)
 		gatewaySku.Tier = &tier
 	} else {
 		gatewaySku.Tier = nil
@@ -3879,7 +3879,7 @@ func (configuration *VpnClientConfiguration) Initialize_From_VpnClientConfigurat
 		for vpnAuthenticationTypeIndex, vpnAuthenticationTypeItem := range source.VpnAuthenticationTypes {
 			// Shadow the loop variable to avoid aliasing
 			vpnAuthenticationTypeItem := vpnAuthenticationTypeItem
-			vpnAuthenticationType := VpnClientConfiguration_VpnAuthenticationTypes(vpnAuthenticationTypeItem)
+			vpnAuthenticationType := genruntime.ToEnum(string(vpnAuthenticationTypeItem), vpnClientConfiguration_VpnAuthenticationTypes_Values)
 			vpnAuthenticationTypeList[vpnAuthenticationTypeIndex] = vpnAuthenticationType
 		}
 		configuration.VpnAuthenticationTypes = vpnAuthenticationTypeList
@@ -3923,7 +3923,7 @@ func (configuration *VpnClientConfiguration) Initialize_From_VpnClientConfigurat
 		for vpnClientProtocolIndex, vpnClientProtocolItem := range source.VpnClientProtocols {
 			// Shadow the loop variable to avoid aliasing
 			vpnClientProtocolItem := vpnClientProtocolItem
-			vpnClientProtocol := VpnClientConfiguration_VpnClientProtocols(vpnClientProtocolItem)
+			vpnClientProtocol := genruntime.ToEnum(string(vpnClientProtocolItem), vpnClientConfiguration_VpnClientProtocols_Values)
 			vpnClientProtocolList[vpnClientProtocolIndex] = vpnClientProtocol
 		}
 		configuration.VpnClientProtocols = vpnClientProtocolList
@@ -4904,7 +4904,7 @@ func (policy *IpsecPolicy) Initialize_From_IpsecPolicy_STATUS(source *IpsecPolic
 
 	// DhGroup
 	if source.DhGroup != nil {
-		dhGroup := DhGroup(*source.DhGroup)
+		dhGroup := genruntime.ToEnum(string(*source.DhGroup), dhGroup_Values)
 		policy.DhGroup = &dhGroup
 	} else {
 		policy.DhGroup = nil
@@ -4912,7 +4912,7 @@ func (policy *IpsecPolicy) Initialize_From_IpsecPolicy_STATUS(source *IpsecPolic
 
 	// IkeEncryption
 	if source.IkeEncryption != nil {
-		ikeEncryption := IkeEncryption(*source.IkeEncryption)
+		ikeEncryption := genruntime.ToEnum(string(*source.IkeEncryption), ikeEncryption_Values)
 		policy.IkeEncryption = &ikeEncryption
 	} else {
 		policy.IkeEncryption = nil
@@ -4920,7 +4920,7 @@ func (policy *IpsecPolicy) Initialize_From_IpsecPolicy_STATUS(source *IpsecPolic
 
 	// IkeIntegrity
 	if source.IkeIntegrity != nil {
-		ikeIntegrity := IkeIntegrity(*source.IkeIntegrity)
+		ikeIntegrity := genruntime.ToEnum(string(*source.IkeIntegrity), ikeIntegrity_Values)
 		policy.IkeIntegrity = &ikeIntegrity
 	} else {
 		policy.IkeIntegrity = nil
@@ -4928,7 +4928,7 @@ func (policy *IpsecPolicy) Initialize_From_IpsecPolicy_STATUS(source *IpsecPolic
 
 	// IpsecEncryption
 	if source.IpsecEncryption != nil {
-		ipsecEncryption := IpsecEncryption(*source.IpsecEncryption)
+		ipsecEncryption := genruntime.ToEnum(string(*source.IpsecEncryption), ipsecEncryption_Values)
 		policy.IpsecEncryption = &ipsecEncryption
 	} else {
 		policy.IpsecEncryption = nil
@@ -4936,7 +4936,7 @@ func (policy *IpsecPolicy) Initialize_From_IpsecPolicy_STATUS(source *IpsecPolic
 
 	// IpsecIntegrity
 	if source.IpsecIntegrity != nil {
-		ipsecIntegrity := IpsecIntegrity(*source.IpsecIntegrity)
+		ipsecIntegrity := genruntime.ToEnum(string(*source.IpsecIntegrity), ipsecIntegrity_Values)
 		policy.IpsecIntegrity = &ipsecIntegrity
 	} else {
 		policy.IpsecIntegrity = nil
@@ -4944,7 +4944,7 @@ func (policy *IpsecPolicy) Initialize_From_IpsecPolicy_STATUS(source *IpsecPolic
 
 	// PfsGroup
 	if source.PfsGroup != nil {
-		pfsGroup := PfsGroup(*source.PfsGroup)
+		pfsGroup := genruntime.ToEnum(string(*source.PfsGroup), pfsGroup_Values)
 		policy.PfsGroup = &pfsGroup
 	} else {
 		policy.PfsGroup = nil

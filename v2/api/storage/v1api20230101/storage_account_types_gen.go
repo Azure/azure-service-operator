@@ -1772,7 +1772,7 @@ func (account *StorageAccount_Spec) Initialize_From_StorageAccount_STATUS(source
 
 	// AccessTier
 	if source.AccessTier != nil {
-		accessTier := StorageAccountPropertiesCreateParameters_AccessTier(*source.AccessTier)
+		accessTier := genruntime.ToEnum(string(*source.AccessTier), storageAccountPropertiesCreateParameters_AccessTier_Values)
 		account.AccessTier = &accessTier
 	} else {
 		account.AccessTier = nil
@@ -1804,7 +1804,7 @@ func (account *StorageAccount_Spec) Initialize_From_StorageAccount_STATUS(source
 
 	// AllowedCopyScope
 	if source.AllowedCopyScope != nil {
-		allowedCopyScope := StorageAccountPropertiesCreateParameters_AllowedCopyScope(*source.AllowedCopyScope)
+		allowedCopyScope := genruntime.ToEnum(string(*source.AllowedCopyScope), storageAccountPropertiesCreateParameters_AllowedCopyScope_Values)
 		account.AllowedCopyScope = &allowedCopyScope
 	} else {
 		account.AllowedCopyScope = nil
@@ -1844,7 +1844,7 @@ func (account *StorageAccount_Spec) Initialize_From_StorageAccount_STATUS(source
 
 	// DnsEndpointType
 	if source.DnsEndpointType != nil {
-		dnsEndpointType := StorageAccountPropertiesCreateParameters_DnsEndpointType(*source.DnsEndpointType)
+		dnsEndpointType := genruntime.ToEnum(string(*source.DnsEndpointType), storageAccountPropertiesCreateParameters_DnsEndpointType_Values)
 		account.DnsEndpointType = &dnsEndpointType
 	} else {
 		account.DnsEndpointType = nil
@@ -1944,7 +1944,7 @@ func (account *StorageAccount_Spec) Initialize_From_StorageAccount_STATUS(source
 
 	// Kind
 	if source.Kind != nil {
-		kind := StorageAccount_Kind_Spec(*source.Kind)
+		kind := genruntime.ToEnum(string(*source.Kind), storageAccount_Kind_Spec_Values)
 		account.Kind = &kind
 	} else {
 		account.Kind = nil
@@ -1952,7 +1952,7 @@ func (account *StorageAccount_Spec) Initialize_From_StorageAccount_STATUS(source
 
 	// LargeFileSharesState
 	if source.LargeFileSharesState != nil {
-		largeFileSharesState := StorageAccountPropertiesCreateParameters_LargeFileSharesState(*source.LargeFileSharesState)
+		largeFileSharesState := genruntime.ToEnum(string(*source.LargeFileSharesState), storageAccountPropertiesCreateParameters_LargeFileSharesState_Values)
 		account.LargeFileSharesState = &largeFileSharesState
 	} else {
 		account.LargeFileSharesState = nil
@@ -1963,7 +1963,7 @@ func (account *StorageAccount_Spec) Initialize_From_StorageAccount_STATUS(source
 
 	// MinimumTlsVersion
 	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := StorageAccountPropertiesCreateParameters_MinimumTlsVersion(*source.MinimumTlsVersion)
+		minimumTlsVersion := genruntime.ToEnum(string(*source.MinimumTlsVersion), storageAccountPropertiesCreateParameters_MinimumTlsVersion_Values)
 		account.MinimumTlsVersion = &minimumTlsVersion
 	} else {
 		account.MinimumTlsVersion = nil
@@ -1983,7 +1983,7 @@ func (account *StorageAccount_Spec) Initialize_From_StorageAccount_STATUS(source
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := StorageAccountPropertiesCreateParameters_PublicNetworkAccess(*source.PublicNetworkAccess)
+		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), storageAccountPropertiesCreateParameters_PublicNetworkAccess_Values)
 		account.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		account.PublicNetworkAccess = nil
@@ -3872,7 +3872,7 @@ func (authentication *AzureFilesIdentityBasedAuthentication) Initialize_From_Azu
 
 	// DefaultSharePermission
 	if source.DefaultSharePermission != nil {
-		defaultSharePermission := AzureFilesIdentityBasedAuthentication_DefaultSharePermission(*source.DefaultSharePermission)
+		defaultSharePermission := genruntime.ToEnum(string(*source.DefaultSharePermission), azureFilesIdentityBasedAuthentication_DefaultSharePermission_Values)
 		authentication.DefaultSharePermission = &defaultSharePermission
 	} else {
 		authentication.DefaultSharePermission = nil
@@ -3880,7 +3880,7 @@ func (authentication *AzureFilesIdentityBasedAuthentication) Initialize_From_Azu
 
 	// DirectoryServiceOptions
 	if source.DirectoryServiceOptions != nil {
-		directoryServiceOption := AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions(*source.DirectoryServiceOptions)
+		directoryServiceOption := genruntime.ToEnum(string(*source.DirectoryServiceOptions), azureFilesIdentityBasedAuthentication_DirectoryServiceOptions_Values)
 		authentication.DirectoryServiceOptions = &directoryServiceOption
 	} else {
 		authentication.DirectoryServiceOptions = nil
@@ -4652,7 +4652,7 @@ func (encryption *Encryption) Initialize_From_Encryption_STATUS(source *Encrypti
 
 	// KeySource
 	if source.KeySource != nil {
-		keySource := Encryption_KeySource(*source.KeySource)
+		keySource := genruntime.ToEnum(string(*source.KeySource), encryption_KeySource_Values)
 		encryption.KeySource = &keySource
 	} else {
 		encryption.KeySource = nil
@@ -5229,7 +5229,7 @@ func (location *ExtendedLocation) Initialize_From_ExtendedLocation_STATUS(source
 
 	// Type
 	if source.Type != nil {
-		typeVar := ExtendedLocationType(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), extendedLocationType_Values)
 		location.Type = &typeVar
 	} else {
 		location.Type = nil
@@ -5662,7 +5662,7 @@ func (identity *Identity) Initialize_From_Identity_STATUS(source *Identity_STATU
 
 	// Type
 	if source.Type != nil {
-		typeVar := Identity_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), identity_Type_Values)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -6625,7 +6625,7 @@ func (ruleSet *NetworkRuleSet) Initialize_From_NetworkRuleSet_STATUS(source *Net
 
 	// Bypass
 	if source.Bypass != nil {
-		bypass := NetworkRuleSet_Bypass(*source.Bypass)
+		bypass := genruntime.ToEnum(string(*source.Bypass), networkRuleSet_Bypass_Values)
 		ruleSet.Bypass = &bypass
 	} else {
 		ruleSet.Bypass = nil
@@ -6633,7 +6633,7 @@ func (ruleSet *NetworkRuleSet) Initialize_From_NetworkRuleSet_STATUS(source *Net
 
 	// DefaultAction
 	if source.DefaultAction != nil {
-		defaultAction := NetworkRuleSet_DefaultAction(*source.DefaultAction)
+		defaultAction := genruntime.ToEnum(string(*source.DefaultAction), networkRuleSet_DefaultAction_Values)
 		ruleSet.DefaultAction = &defaultAction
 	} else {
 		ruleSet.DefaultAction = nil
@@ -7170,7 +7170,7 @@ func (preference *RoutingPreference) Initialize_From_RoutingPreference_STATUS(so
 
 	// RoutingChoice
 	if source.RoutingChoice != nil {
-		routingChoice := RoutingPreference_RoutingChoice(*source.RoutingChoice)
+		routingChoice := genruntime.ToEnum(string(*source.RoutingChoice), routingPreference_RoutingChoice_Values)
 		preference.RoutingChoice = &routingChoice
 	} else {
 		preference.RoutingChoice = nil
@@ -7414,7 +7414,7 @@ func (policy *SasPolicy) Initialize_From_SasPolicy_STATUS(source *SasPolicy_STAT
 
 	// ExpirationAction
 	if source.ExpirationAction != nil {
-		expirationAction := SasPolicy_ExpirationAction(*source.ExpirationAction)
+		expirationAction := genruntime.ToEnum(string(*source.ExpirationAction), sasPolicy_ExpirationAction_Values)
 		policy.ExpirationAction = &expirationAction
 	} else {
 		policy.ExpirationAction = nil
@@ -7636,7 +7636,7 @@ func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
 
 	// Name
 	if source.Name != nil {
-		name := SkuName(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), skuName_Values)
 		sku.Name = &name
 	} else {
 		sku.Name = nil
@@ -7644,7 +7644,7 @@ func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
 
 	// Tier
 	if source.Tier != nil {
-		tier := Tier(*source.Tier)
+		tier := genruntime.ToEnum(string(*source.Tier), tier_Values)
 		sku.Tier = &tier
 	} else {
 		sku.Tier = nil
@@ -8345,7 +8345,7 @@ func (properties *AccountImmutabilityPolicyProperties) Initialize_From_AccountIm
 
 	// State
 	if source.State != nil {
-		state := AccountImmutabilityPolicyProperties_State(*source.State)
+		state := genruntime.ToEnum(string(*source.State), accountImmutabilityPolicyProperties_State_Values)
 		properties.State = &state
 	} else {
 		properties.State = nil
@@ -8711,7 +8711,7 @@ func (properties *ActiveDirectoryProperties) Initialize_From_ActiveDirectoryProp
 
 	// AccountType
 	if source.AccountType != nil {
-		accountType := ActiveDirectoryProperties_AccountType(*source.AccountType)
+		accountType := genruntime.ToEnum(string(*source.AccountType), activeDirectoryProperties_AccountType_Values)
 		properties.AccountType = &accountType
 	} else {
 		properties.AccountType = nil
@@ -9983,7 +9983,7 @@ func (rule *IPRule) Initialize_From_IPRule_STATUS(source *IPRule_STATUS) error {
 
 	// Action
 	if source.Action != nil {
-		action := IPRule_Action(*source.Action)
+		action := genruntime.ToEnum(string(*source.Action), iPRule_Action_Values)
 		rule.Action = &action
 	} else {
 		rule.Action = nil
@@ -11492,7 +11492,7 @@ func (rule *VirtualNetworkRule) Initialize_From_VirtualNetworkRule_STATUS(source
 
 	// Action
 	if source.Action != nil {
-		action := VirtualNetworkRule_Action(*source.Action)
+		action := genruntime.ToEnum(string(*source.Action), virtualNetworkRule_Action_Values)
 		rule.Action = &action
 	} else {
 		rule.Action = nil
@@ -11508,7 +11508,7 @@ func (rule *VirtualNetworkRule) Initialize_From_VirtualNetworkRule_STATUS(source
 
 	// State
 	if source.State != nil {
-		state := VirtualNetworkRule_State(*source.State)
+		state := genruntime.ToEnum(string(*source.State), virtualNetworkRule_State_Values)
 		rule.State = &state
 	} else {
 		rule.State = nil
@@ -11893,7 +11893,7 @@ func (service *EncryptionService) Initialize_From_EncryptionService_STATUS(sourc
 
 	// KeyType
 	if source.KeyType != nil {
-		keyType := EncryptionService_KeyType(*source.KeyType)
+		keyType := genruntime.ToEnum(string(*source.KeyType), encryptionService_KeyType_Values)
 		service.KeyType = &keyType
 	} else {
 		service.KeyType = nil

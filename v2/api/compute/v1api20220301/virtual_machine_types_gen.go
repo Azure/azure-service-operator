@@ -1776,7 +1776,7 @@ func (machine *VirtualMachine_Spec) Initialize_From_VirtualMachine_STATUS(source
 
 	// EvictionPolicy
 	if source.EvictionPolicy != nil {
-		evictionPolicy := EvictionPolicy(*source.EvictionPolicy)
+		evictionPolicy := genruntime.ToEnum(string(*source.EvictionPolicy), evictionPolicy_Values)
 		machine.EvictionPolicy = &evictionPolicy
 	} else {
 		machine.EvictionPolicy = nil
@@ -1892,7 +1892,7 @@ func (machine *VirtualMachine_Spec) Initialize_From_VirtualMachine_STATUS(source
 
 	// Priority
 	if source.Priority != nil {
-		priority := Priority(*source.Priority)
+		priority := genruntime.ToEnum(string(*source.Priority), priority_Values)
 		machine.Priority = &priority
 	} else {
 		machine.Priority = nil
@@ -4867,7 +4867,7 @@ func (profile *NetworkProfile) Initialize_From_NetworkProfile_STATUS(source *Net
 
 	// NetworkApiVersion
 	if source.NetworkApiVersion != nil {
-		networkApiVersion := NetworkProfile_NetworkApiVersion(*source.NetworkApiVersion)
+		networkApiVersion := genruntime.ToEnum(string(*source.NetworkApiVersion), networkProfile_NetworkApiVersion_Values)
 		profile.NetworkApiVersion = &networkApiVersion
 	} else {
 		profile.NetworkApiVersion = nil
@@ -6541,7 +6541,7 @@ func (profile *SecurityProfile) Initialize_From_SecurityProfile_STATUS(source *S
 
 	// SecurityType
 	if source.SecurityType != nil {
-		securityType := SecurityProfile_SecurityType(*source.SecurityType)
+		securityType := genruntime.ToEnum(string(*source.SecurityType), securityProfile_SecurityType_Values)
 		profile.SecurityType = &securityType
 	} else {
 		profile.SecurityType = nil
@@ -7707,7 +7707,7 @@ func (identity *VirtualMachineIdentity) Initialize_From_VirtualMachineIdentity_S
 
 	// Type
 	if source.Type != nil {
-		typeVar := VirtualMachineIdentity_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), virtualMachineIdentity_Type_Values)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -9216,7 +9216,7 @@ func (disk *DataDisk) Initialize_From_DataDisk_STATUS(source *DataDisk_STATUS) e
 
 	// Caching
 	if source.Caching != nil {
-		caching := Caching(*source.Caching)
+		caching := genruntime.ToEnum(string(*source.Caching), caching_Values)
 		disk.Caching = &caching
 	} else {
 		disk.Caching = nil
@@ -9224,7 +9224,7 @@ func (disk *DataDisk) Initialize_From_DataDisk_STATUS(source *DataDisk_STATUS) e
 
 	// CreateOption
 	if source.CreateOption != nil {
-		createOption := CreateOption(*source.CreateOption)
+		createOption := genruntime.ToEnum(string(*source.CreateOption), createOption_Values)
 		disk.CreateOption = &createOption
 	} else {
 		disk.CreateOption = nil
@@ -9232,7 +9232,7 @@ func (disk *DataDisk) Initialize_From_DataDisk_STATUS(source *DataDisk_STATUS) e
 
 	// DeleteOption
 	if source.DeleteOption != nil {
-		deleteOption := DeleteOption(*source.DeleteOption)
+		deleteOption := genruntime.ToEnum(string(*source.DeleteOption), deleteOption_Values)
 		disk.DeleteOption = &deleteOption
 	} else {
 		disk.DeleteOption = nil
@@ -9240,7 +9240,7 @@ func (disk *DataDisk) Initialize_From_DataDisk_STATUS(source *DataDisk_STATUS) e
 
 	// DetachOption
 	if source.DetachOption != nil {
-		detachOption := DetachOption(*source.DetachOption)
+		detachOption := genruntime.ToEnum(string(*source.DetachOption), detachOption_Values)
 		disk.DetachOption = &detachOption
 	} else {
 		disk.DetachOption = nil
@@ -11554,7 +11554,7 @@ func (reference *NetworkInterfaceReference) Initialize_From_NetworkInterfaceRefe
 
 	// DeleteOption
 	if source.DeleteOption != nil {
-		deleteOption := NetworkInterfaceReferenceProperties_DeleteOption(*source.DeleteOption)
+		deleteOption := genruntime.ToEnum(string(*source.DeleteOption), networkInterfaceReferenceProperties_DeleteOption_Values)
 		reference.DeleteOption = &deleteOption
 	} else {
 		reference.DeleteOption = nil
@@ -12241,7 +12241,7 @@ func (disk *OSDisk) Initialize_From_OSDisk_STATUS(source *OSDisk_STATUS) error {
 
 	// Caching
 	if source.Caching != nil {
-		caching := Caching(*source.Caching)
+		caching := genruntime.ToEnum(string(*source.Caching), caching_Values)
 		disk.Caching = &caching
 	} else {
 		disk.Caching = nil
@@ -12249,7 +12249,7 @@ func (disk *OSDisk) Initialize_From_OSDisk_STATUS(source *OSDisk_STATUS) error {
 
 	// CreateOption
 	if source.CreateOption != nil {
-		createOption := CreateOption(*source.CreateOption)
+		createOption := genruntime.ToEnum(string(*source.CreateOption), createOption_Values)
 		disk.CreateOption = &createOption
 	} else {
 		disk.CreateOption = nil
@@ -12257,7 +12257,7 @@ func (disk *OSDisk) Initialize_From_OSDisk_STATUS(source *OSDisk_STATUS) error {
 
 	// DeleteOption
 	if source.DeleteOption != nil {
-		deleteOption := DeleteOption(*source.DeleteOption)
+		deleteOption := genruntime.ToEnum(string(*source.DeleteOption), deleteOption_Values)
 		disk.DeleteOption = &deleteOption
 	} else {
 		disk.DeleteOption = nil
@@ -12319,7 +12319,7 @@ func (disk *OSDisk) Initialize_From_OSDisk_STATUS(source *OSDisk_STATUS) error {
 
 	// OsType
 	if source.OsType != nil {
-		osType := OSDisk_OsType(*source.OsType)
+		osType := genruntime.ToEnum(string(*source.OsType), oSDisk_OsType_Values)
 		disk.OsType = &osType
 	} else {
 		disk.OsType = nil
@@ -14389,7 +14389,7 @@ func (configuration *VirtualMachineNetworkInterfaceConfiguration) Initialize_Fro
 
 	// DeleteOption
 	if source.DeleteOption != nil {
-		deleteOption := VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption(*source.DeleteOption)
+		deleteOption := genruntime.ToEnum(string(*source.DeleteOption), virtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_Values)
 		configuration.DeleteOption = &deleteOption
 	} else {
 		configuration.DeleteOption = nil
@@ -16427,7 +16427,7 @@ func (content *AdditionalUnattendContent) Initialize_From_AdditionalUnattendCont
 
 	// ComponentName
 	if source.ComponentName != nil {
-		componentName := AdditionalUnattendContent_ComponentName(*source.ComponentName)
+		componentName := genruntime.ToEnum(string(*source.ComponentName), additionalUnattendContent_ComponentName_Values)
 		content.ComponentName = &componentName
 	} else {
 		content.ComponentName = nil
@@ -16438,7 +16438,7 @@ func (content *AdditionalUnattendContent) Initialize_From_AdditionalUnattendCont
 
 	// PassName
 	if source.PassName != nil {
-		passName := AdditionalUnattendContent_PassName(*source.PassName)
+		passName := genruntime.ToEnum(string(*source.PassName), additionalUnattendContent_PassName_Values)
 		content.PassName = &passName
 	} else {
 		content.PassName = nil
@@ -16446,7 +16446,7 @@ func (content *AdditionalUnattendContent) Initialize_From_AdditionalUnattendCont
 
 	// SettingName
 	if source.SettingName != nil {
-		settingName := AdditionalUnattendContent_SettingName(*source.SettingName)
+		settingName := genruntime.ToEnum(string(*source.SettingName), additionalUnattendContent_SettingName_Values)
 		content.SettingName = &settingName
 	} else {
 		content.SettingName = nil
@@ -17105,7 +17105,7 @@ func (settings *DiffDiskSettings) Initialize_From_DiffDiskSettings_STATUS(source
 
 	// Option
 	if source.Option != nil {
-		option := DiffDiskOption(*source.Option)
+		option := genruntime.ToEnum(string(*source.Option), diffDiskOption_Values)
 		settings.Option = &option
 	} else {
 		settings.Option = nil
@@ -17113,7 +17113,7 @@ func (settings *DiffDiskSettings) Initialize_From_DiffDiskSettings_STATUS(source
 
 	// Placement
 	if source.Placement != nil {
-		placement := DiffDiskPlacement(*source.Placement)
+		placement := genruntime.ToEnum(string(*source.Placement), diffDiskPlacement_Values)
 		settings.Placement = &placement
 	} else {
 		settings.Placement = nil
@@ -18043,7 +18043,7 @@ func (settings *LinuxPatchSettings) Initialize_From_LinuxPatchSettings_STATUS(so
 
 	// AssessmentMode
 	if source.AssessmentMode != nil {
-		assessmentMode := LinuxPatchSettings_AssessmentMode(*source.AssessmentMode)
+		assessmentMode := genruntime.ToEnum(string(*source.AssessmentMode), linuxPatchSettings_AssessmentMode_Values)
 		settings.AssessmentMode = &assessmentMode
 	} else {
 		settings.AssessmentMode = nil
@@ -18063,7 +18063,7 @@ func (settings *LinuxPatchSettings) Initialize_From_LinuxPatchSettings_STATUS(so
 
 	// PatchMode
 	if source.PatchMode != nil {
-		patchMode := LinuxPatchSettings_PatchMode(*source.PatchMode)
+		patchMode := genruntime.ToEnum(string(*source.PatchMode), linuxPatchSettings_PatchMode_Values)
 		settings.PatchMode = &patchMode
 	} else {
 		settings.PatchMode = nil
@@ -18483,7 +18483,7 @@ func (parameters *ManagedDiskParameters) Initialize_From_ManagedDiskParameters_S
 
 	// StorageAccountType
 	if source.StorageAccountType != nil {
-		storageAccountType := StorageAccountType(*source.StorageAccountType)
+		storageAccountType := genruntime.ToEnum(string(*source.StorageAccountType), storageAccountType_Values)
 		parameters.StorageAccountType = &storageAccountType
 	} else {
 		parameters.StorageAccountType = nil
@@ -18924,7 +18924,7 @@ func (settings *PatchSettings) Initialize_From_PatchSettings_STATUS(source *Patc
 
 	// AssessmentMode
 	if source.AssessmentMode != nil {
-		assessmentMode := PatchSettings_AssessmentMode(*source.AssessmentMode)
+		assessmentMode := genruntime.ToEnum(string(*source.AssessmentMode), patchSettings_AssessmentMode_Values)
 		settings.AssessmentMode = &assessmentMode
 	} else {
 		settings.AssessmentMode = nil
@@ -18952,7 +18952,7 @@ func (settings *PatchSettings) Initialize_From_PatchSettings_STATUS(source *Patc
 
 	// PatchMode
 	if source.PatchMode != nil {
-		patchMode := PatchSettings_PatchMode(*source.PatchMode)
+		patchMode := genruntime.ToEnum(string(*source.PatchMode), patchSettings_PatchMode_Values)
 		settings.PatchMode = &patchMode
 	} else {
 		settings.PatchMode = nil
@@ -20499,7 +20499,7 @@ func (configuration *VirtualMachineNetworkInterfaceIPConfiguration) Initialize_F
 
 	// PrivateIPAddressVersion
 	if source.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion(*source.PrivateIPAddressVersion)
+		privateIPAddressVersion := genruntime.ToEnum(string(*source.PrivateIPAddressVersion), virtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_Values)
 		configuration.PrivateIPAddressVersion = &privateIPAddressVersion
 	} else {
 		configuration.PrivateIPAddressVersion = nil
@@ -21845,7 +21845,7 @@ func (settings *LinuxVMGuestPatchAutomaticByPlatformSettings) Initialize_From_Li
 
 	// RebootSetting
 	if source.RebootSetting != nil {
-		rebootSetting := LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting(*source.RebootSetting)
+		rebootSetting := genruntime.ToEnum(string(*source.RebootSetting), linuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_Values)
 		settings.RebootSetting = &rebootSetting
 	} else {
 		settings.RebootSetting = nil
@@ -22618,7 +22618,7 @@ func (configuration *VirtualMachinePublicIPAddressConfiguration) Initialize_From
 
 	// DeleteOption
 	if source.DeleteOption != nil {
-		deleteOption := VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption(*source.DeleteOption)
+		deleteOption := genruntime.ToEnum(string(*source.DeleteOption), virtualMachinePublicIPAddressConfigurationProperties_DeleteOption_Values)
 		configuration.DeleteOption = &deleteOption
 	} else {
 		configuration.DeleteOption = nil
@@ -22662,7 +22662,7 @@ func (configuration *VirtualMachinePublicIPAddressConfiguration) Initialize_From
 
 	// PublicIPAddressVersion
 	if source.PublicIPAddressVersion != nil {
-		publicIPAddressVersion := VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion(*source.PublicIPAddressVersion)
+		publicIPAddressVersion := genruntime.ToEnum(string(*source.PublicIPAddressVersion), virtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_Values)
 		configuration.PublicIPAddressVersion = &publicIPAddressVersion
 	} else {
 		configuration.PublicIPAddressVersion = nil
@@ -22670,7 +22670,7 @@ func (configuration *VirtualMachinePublicIPAddressConfiguration) Initialize_From
 
 	// PublicIPAllocationMethod
 	if source.PublicIPAllocationMethod != nil {
-		publicIPAllocationMethod := VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod(*source.PublicIPAllocationMethod)
+		publicIPAllocationMethod := genruntime.ToEnum(string(*source.PublicIPAllocationMethod), virtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_Values)
 		configuration.PublicIPAllocationMethod = &publicIPAllocationMethod
 	} else {
 		configuration.PublicIPAllocationMethod = nil
@@ -23196,7 +23196,7 @@ func (profile *VMDiskSecurityProfile) Initialize_From_VMDiskSecurityProfile_STAT
 
 	// SecurityEncryptionType
 	if source.SecurityEncryptionType != nil {
-		securityEncryptionType := VMDiskSecurityProfile_SecurityEncryptionType(*source.SecurityEncryptionType)
+		securityEncryptionType := genruntime.ToEnum(string(*source.SecurityEncryptionType), vMDiskSecurityProfile_SecurityEncryptionType_Values)
 		profile.SecurityEncryptionType = &securityEncryptionType
 	} else {
 		profile.SecurityEncryptionType = nil
@@ -23409,7 +23409,7 @@ func (settings *WindowsVMGuestPatchAutomaticByPlatformSettings) Initialize_From_
 
 	// RebootSetting
 	if source.RebootSetting != nil {
-		rebootSetting := WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting(*source.RebootSetting)
+		rebootSetting := genruntime.ToEnum(string(*source.RebootSetting), windowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_Values)
 		settings.RebootSetting = &rebootSetting
 	} else {
 		settings.RebootSetting = nil
@@ -23617,7 +23617,7 @@ func (listener *WinRMListener) Initialize_From_WinRMListener_STATUS(source *WinR
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := WinRMListener_Protocol(*source.Protocol)
+		protocol := genruntime.ToEnum(string(*source.Protocol), winRMListener_Protocol_Values)
 		listener.Protocol = &protocol
 	} else {
 		listener.Protocol = nil
@@ -24046,7 +24046,7 @@ func (addressSku *PublicIPAddressSku) Initialize_From_PublicIPAddressSku_STATUS(
 
 	// Name
 	if source.Name != nil {
-		name := PublicIPAddressSku_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), publicIPAddressSku_Name_Values)
 		addressSku.Name = &name
 	} else {
 		addressSku.Name = nil
@@ -24054,7 +24054,7 @@ func (addressSku *PublicIPAddressSku) Initialize_From_PublicIPAddressSku_STATUS(
 
 	// Tier
 	if source.Tier != nil {
-		tier := PublicIPAddressSku_Tier(*source.Tier)
+		tier := genruntime.ToEnum(string(*source.Tier), publicIPAddressSku_Tier_Values)
 		addressSku.Tier = &tier
 	} else {
 		addressSku.Tier = nil

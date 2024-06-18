@@ -1291,7 +1291,7 @@ func (workspace *Workspace_Spec) Initialize_From_Workspace_STATUS(source *Worksp
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := WorkspaceProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
+		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), workspaceProperties_PublicNetworkAccess_Values)
 		workspace.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		workspace.PublicNetworkAccess = nil
@@ -2501,7 +2501,7 @@ func (property *EncryptionProperty) Initialize_From_EncryptionProperty_STATUS(so
 
 	// Status
 	if source.Status != nil {
-		status := EncryptionProperty_Status(*source.Status)
+		status := genruntime.ToEnum(string(*source.Status), encryptionProperty_Status_Values)
 		property.Status = &status
 	} else {
 		property.Status = nil
@@ -2798,7 +2798,7 @@ func (identity *Identity) Initialize_From_Identity_STATUS(source *Identity_STATU
 
 	// Type
 	if source.Type != nil {
-		typeVar := Identity_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), identity_Type_Values)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -3551,7 +3551,7 @@ func (resource *SharedPrivateLinkResource) Initialize_From_SharedPrivateLinkReso
 
 	// Status
 	if source.Status != nil {
-		status := PrivateEndpointServiceConnectionStatus(*source.Status)
+		status := genruntime.ToEnum(string(*source.Status), privateEndpointServiceConnectionStatus_Values)
 		resource.Status = &status
 	} else {
 		resource.Status = nil
@@ -4096,7 +4096,7 @@ func (data *SystemData) Initialize_From_SystemData_STATUS(source *SystemData_STA
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-		createdByType := SystemData_CreatedByType(*source.CreatedByType)
+		createdByType := genruntime.ToEnum(string(*source.CreatedByType), systemData_CreatedByType_Values)
 		data.CreatedByType = &createdByType
 	} else {
 		data.CreatedByType = nil
@@ -4110,7 +4110,7 @@ func (data *SystemData) Initialize_From_SystemData_STATUS(source *SystemData_STA
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemData_LastModifiedByType(*source.LastModifiedByType)
+		lastModifiedByType := genruntime.ToEnum(string(*source.LastModifiedByType), systemData_LastModifiedByType_Values)
 		data.LastModifiedByType = &lastModifiedByType
 	} else {
 		data.LastModifiedByType = nil

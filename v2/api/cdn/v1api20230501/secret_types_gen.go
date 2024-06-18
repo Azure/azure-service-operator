@@ -1457,7 +1457,7 @@ func (parameters *AzureFirstPartyManagedCertificateParameters) Initialize_From_A
 
 	// Type
 	if source.Type != nil {
-		typeVar := AzureFirstPartyManagedCertificateParameters_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), azureFirstPartyManagedCertificateParameters_Type_Values)
 		parameters.Type = &typeVar
 	} else {
 		parameters.Type = nil
@@ -1868,7 +1868,7 @@ func (parameters *CustomerCertificateParameters) Initialize_From_CustomerCertifi
 
 	// Type
 	if source.Type != nil {
-		typeVar := CustomerCertificateParameters_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), customerCertificateParameters_Type_Values)
 		parameters.Type = &typeVar
 	} else {
 		parameters.Type = nil
@@ -2188,7 +2188,7 @@ func (parameters *ManagedCertificateParameters) Initialize_From_ManagedCertifica
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagedCertificateParameters_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), managedCertificateParameters_Type_Values)
 		parameters.Type = &typeVar
 	} else {
 		parameters.Type = nil
@@ -2489,7 +2489,7 @@ func (parameters *UrlSigningKeyParameters) Initialize_From_UrlSigningKeyParamete
 
 	// Type
 	if source.Type != nil {
-		typeVar := UrlSigningKeyParameters_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), urlSigningKeyParameters_Type_Values)
 		parameters.Type = &typeVar
 	} else {
 		parameters.Type = nil

@@ -1925,7 +1925,7 @@ func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
 
 	// Tier
 	if source.Tier != nil {
-		tier := Sku_Tier(*source.Tier)
+		tier := genruntime.ToEnum(string(*source.Tier), sku_Tier_Values)
 		sku.Tier = &tier
 	} else {
 		sku.Tier = nil

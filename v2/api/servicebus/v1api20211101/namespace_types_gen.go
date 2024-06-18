@@ -1640,7 +1640,7 @@ func (encryption *Encryption) Initialize_From_Encryption_STATUS(source *Encrypti
 
 	// KeySource
 	if source.KeySource != nil {
-		keySource := Encryption_KeySource(*source.KeySource)
+		keySource := genruntime.ToEnum(string(*source.KeySource), encryption_KeySource_Values)
 		encryption.KeySource = &keySource
 	} else {
 		encryption.KeySource = nil
@@ -1962,7 +1962,7 @@ func (identity *Identity) Initialize_From_Identity_STATUS(source *Identity_STATU
 
 	// Type
 	if source.Type != nil {
-		typeVar := Identity_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), identity_Type_Values)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -2396,7 +2396,7 @@ func (sbSku *SBSku) Initialize_From_SBSku_STATUS(source *SBSku_STATUS) error {
 
 	// Name
 	if source.Name != nil {
-		name := SBSku_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), sBSku_Name_Values)
 		sbSku.Name = &name
 	} else {
 		sbSku.Name = nil
@@ -2404,7 +2404,7 @@ func (sbSku *SBSku) Initialize_From_SBSku_STATUS(source *SBSku_STATUS) error {
 
 	// Tier
 	if source.Tier != nil {
-		tier := SBSku_Tier(*source.Tier)
+		tier := genruntime.ToEnum(string(*source.Tier), sBSku_Tier_Values)
 		sbSku.Tier = &tier
 	} else {
 		sbSku.Tier = nil

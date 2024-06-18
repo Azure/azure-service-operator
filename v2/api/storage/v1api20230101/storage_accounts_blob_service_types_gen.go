@@ -2386,7 +2386,7 @@ func (policy *LastAccessTimeTrackingPolicy) Initialize_From_LastAccessTimeTracki
 
 	// Name
 	if source.Name != nil {
-		name := LastAccessTimeTrackingPolicy_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), lastAccessTimeTrackingPolicy_Name_Values)
 		policy.Name = &name
 	} else {
 		policy.Name = nil
@@ -2971,7 +2971,7 @@ func (rule *CorsRule) Initialize_From_CorsRule_STATUS(source *CorsRule_STATUS) e
 		for allowedMethodIndex, allowedMethodItem := range source.AllowedMethods {
 			// Shadow the loop variable to avoid aliasing
 			allowedMethodItem := allowedMethodItem
-			allowedMethod := CorsRule_AllowedMethods(allowedMethodItem)
+			allowedMethod := genruntime.ToEnum(string(allowedMethodItem), corsRule_AllowedMethods_Values)
 			allowedMethodList[allowedMethodIndex] = allowedMethod
 		}
 		rule.AllowedMethods = allowedMethodList

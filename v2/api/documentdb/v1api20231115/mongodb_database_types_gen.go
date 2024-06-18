@@ -1411,7 +1411,7 @@ func (resource *MongoDBDatabaseResource) Initialize_From_MongoDBDatabaseGetPrope
 
 	// CreateMode
 	if source.CreateMode != nil {
-		createMode := CreateMode(*source.CreateMode)
+		createMode := genruntime.ToEnum(string(*source.CreateMode), createMode_Values)
 		resource.CreateMode = &createMode
 	} else {
 		resource.CreateMode = nil

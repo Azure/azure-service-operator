@@ -2137,7 +2137,7 @@ func (settings *PolicySettings) Initialize_From_PolicySettings_STATUS(source *Po
 
 	// EnabledState
 	if source.EnabledState != nil {
-		enabledState := PolicySettings_EnabledState(*source.EnabledState)
+		enabledState := genruntime.ToEnum(string(*source.EnabledState), policySettings_EnabledState_Values)
 		settings.EnabledState = &enabledState
 	} else {
 		settings.EnabledState = nil
@@ -2145,7 +2145,7 @@ func (settings *PolicySettings) Initialize_From_PolicySettings_STATUS(source *Po
 
 	// Mode
 	if source.Mode != nil {
-		mode := PolicySettings_Mode(*source.Mode)
+		mode := genruntime.ToEnum(string(*source.Mode), policySettings_Mode_Values)
 		settings.Mode = &mode
 	} else {
 		settings.Mode = nil
@@ -2156,7 +2156,7 @@ func (settings *PolicySettings) Initialize_From_PolicySettings_STATUS(source *Po
 
 	// RequestBodyCheck
 	if source.RequestBodyCheck != nil {
-		requestBodyCheck := PolicySettings_RequestBodyCheck(*source.RequestBodyCheck)
+		requestBodyCheck := genruntime.ToEnum(string(*source.RequestBodyCheck), policySettings_RequestBodyCheck_Values)
 		settings.RequestBodyCheck = &requestBodyCheck
 	} else {
 		settings.RequestBodyCheck = nil
@@ -2542,7 +2542,7 @@ func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
 
 	// Name
 	if source.Name != nil {
-		name := Sku_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), sku_Name_Values)
 		sku.Name = &name
 	} else {
 		sku.Name = nil
@@ -2956,7 +2956,7 @@ func (rule *CustomRule) Initialize_From_CustomRule_STATUS(source *CustomRule_STA
 
 	// Action
 	if source.Action != nil {
-		action := ActionType(*source.Action)
+		action := genruntime.ToEnum(string(*source.Action), actionType_Values)
 		rule.Action = &action
 	} else {
 		rule.Action = nil
@@ -2964,7 +2964,7 @@ func (rule *CustomRule) Initialize_From_CustomRule_STATUS(source *CustomRule_STA
 
 	// EnabledState
 	if source.EnabledState != nil {
-		enabledState := CustomRule_EnabledState(*source.EnabledState)
+		enabledState := genruntime.ToEnum(string(*source.EnabledState), customRule_EnabledState_Values)
 		rule.EnabledState = &enabledState
 	} else {
 		rule.EnabledState = nil
@@ -3017,7 +3017,7 @@ func (rule *CustomRule) Initialize_From_CustomRule_STATUS(source *CustomRule_STA
 
 	// RuleType
 	if source.RuleType != nil {
-		ruleType := CustomRule_RuleType(*source.RuleType)
+		ruleType := genruntime.ToEnum(string(*source.RuleType), customRule_RuleType_Values)
 		rule.RuleType = &ruleType
 	} else {
 		rule.RuleType = nil
@@ -3544,7 +3544,7 @@ func (ruleSet *ManagedRuleSet) Initialize_From_ManagedRuleSet_STATUS(source *Man
 
 	// RuleSetAction
 	if source.RuleSetAction != nil {
-		ruleSetAction := ManagedRuleSetActionType(*source.RuleSetAction)
+		ruleSetAction := genruntime.ToEnum(string(*source.RuleSetAction), managedRuleSetActionType_Values)
 		ruleSet.RuleSetAction = &ruleSetAction
 	} else {
 		ruleSet.RuleSetAction = nil
@@ -3905,7 +3905,7 @@ func (exclusion *ManagedRuleExclusion) Initialize_From_ManagedRuleExclusion_STAT
 
 	// MatchVariable
 	if source.MatchVariable != nil {
-		matchVariable := ManagedRuleExclusion_MatchVariable(*source.MatchVariable)
+		matchVariable := genruntime.ToEnum(string(*source.MatchVariable), managedRuleExclusion_MatchVariable_Values)
 		exclusion.MatchVariable = &matchVariable
 	} else {
 		exclusion.MatchVariable = nil
@@ -3916,7 +3916,7 @@ func (exclusion *ManagedRuleExclusion) Initialize_From_ManagedRuleExclusion_STAT
 
 	// SelectorMatchOperator
 	if source.SelectorMatchOperator != nil {
-		selectorMatchOperator := ManagedRuleExclusion_SelectorMatchOperator(*source.SelectorMatchOperator)
+		selectorMatchOperator := genruntime.ToEnum(string(*source.SelectorMatchOperator), managedRuleExclusion_SelectorMatchOperator_Values)
 		exclusion.SelectorMatchOperator = &selectorMatchOperator
 	} else {
 		exclusion.SelectorMatchOperator = nil
@@ -4671,7 +4671,7 @@ func (condition *MatchCondition) Initialize_From_MatchCondition_STATUS(source *M
 
 	// MatchVariable
 	if source.MatchVariable != nil {
-		matchVariable := MatchCondition_MatchVariable(*source.MatchVariable)
+		matchVariable := genruntime.ToEnum(string(*source.MatchVariable), matchCondition_MatchVariable_Values)
 		condition.MatchVariable = &matchVariable
 	} else {
 		condition.MatchVariable = nil
@@ -4687,7 +4687,7 @@ func (condition *MatchCondition) Initialize_From_MatchCondition_STATUS(source *M
 
 	// Operator
 	if source.Operator != nil {
-		operator := MatchCondition_Operator(*source.Operator)
+		operator := genruntime.ToEnum(string(*source.Operator), matchCondition_Operator_Values)
 		condition.Operator = &operator
 	} else {
 		condition.Operator = nil
@@ -4702,7 +4702,7 @@ func (condition *MatchCondition) Initialize_From_MatchCondition_STATUS(source *M
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transform := TransformType(transformItem)
+			transform := genruntime.ToEnum(string(transformItem), transformType_Values)
 			transformList[transformIndex] = transform
 		}
 		condition.Transforms = transformList
@@ -5101,7 +5101,7 @@ func (override *ManagedRuleOverride) Initialize_From_ManagedRuleOverride_STATUS(
 
 	// Action
 	if source.Action != nil {
-		action := ActionType(*source.Action)
+		action := genruntime.ToEnum(string(*source.Action), actionType_Values)
 		override.Action = &action
 	} else {
 		override.Action = nil
@@ -5109,7 +5109,7 @@ func (override *ManagedRuleOverride) Initialize_From_ManagedRuleOverride_STATUS(
 
 	// EnabledState
 	if source.EnabledState != nil {
-		enabledState := ManagedRuleEnabledState(*source.EnabledState)
+		enabledState := genruntime.ToEnum(string(*source.EnabledState), managedRuleEnabledState_Values)
 		override.EnabledState = &enabledState
 	} else {
 		override.EnabledState = nil

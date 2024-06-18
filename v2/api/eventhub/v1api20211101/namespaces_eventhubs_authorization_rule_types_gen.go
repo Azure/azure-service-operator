@@ -579,7 +579,7 @@ func (rule *Namespaces_Eventhubs_AuthorizationRule_Spec) Initialize_From_Namespa
 		for rightIndex, rightItem := range source.Rights {
 			// Shadow the loop variable to avoid aliasing
 			rightItem := rightItem
-			right := Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec(rightItem)
+			right := genruntime.ToEnum(string(rightItem), namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec_Values)
 			rightList[rightIndex] = right
 		}
 		rule.Rights = rightList

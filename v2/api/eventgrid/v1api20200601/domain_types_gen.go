@@ -733,7 +733,7 @@ func (domain *Domain_Spec) Initialize_From_Domain_STATUS(source *Domain_STATUS) 
 
 	// InputSchema
 	if source.InputSchema != nil {
-		inputSchema := DomainProperties_InputSchema(*source.InputSchema)
+		inputSchema := genruntime.ToEnum(string(*source.InputSchema), domainProperties_InputSchema_Values)
 		domain.InputSchema = &inputSchema
 	} else {
 		domain.InputSchema = nil
@@ -756,7 +756,7 @@ func (domain *Domain_Spec) Initialize_From_Domain_STATUS(source *Domain_STATUS) 
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := DomainProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
+		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), domainProperties_PublicNetworkAccess_Values)
 		domain.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		domain.PublicNetworkAccess = nil
@@ -1457,7 +1457,7 @@ func (rule *InboundIpRule) Initialize_From_InboundIpRule_STATUS(source *InboundI
 
 	// Action
 	if source.Action != nil {
-		action := InboundIpRule_Action(*source.Action)
+		action := genruntime.ToEnum(string(*source.Action), inboundIpRule_Action_Values)
 		rule.Action = &action
 	} else {
 		rule.Action = nil
@@ -2425,7 +2425,7 @@ func (mapping *JsonInputSchemaMapping) Initialize_From_JsonInputSchemaMapping_ST
 
 	// InputSchemaMappingType
 	if source.InputSchemaMappingType != nil {
-		inputSchemaMappingType := JsonInputSchemaMapping_InputSchemaMappingType(*source.InputSchemaMappingType)
+		inputSchemaMappingType := genruntime.ToEnum(string(*source.InputSchemaMappingType), jsonInputSchemaMapping_InputSchemaMappingType_Values)
 		mapping.InputSchemaMappingType = &inputSchemaMappingType
 	} else {
 		mapping.InputSchemaMappingType = nil

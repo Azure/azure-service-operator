@@ -760,7 +760,7 @@ func (container *StorageAccounts_BlobServices_Container_Spec) Initialize_From_St
 
 	// PublicAccess
 	if source.PublicAccess != nil {
-		publicAccess := ContainerProperties_PublicAccess(*source.PublicAccess)
+		publicAccess := genruntime.ToEnum(string(*source.PublicAccess), containerProperties_PublicAccess_Values)
 		container.PublicAccess = &publicAccess
 	} else {
 		container.PublicAccess = nil

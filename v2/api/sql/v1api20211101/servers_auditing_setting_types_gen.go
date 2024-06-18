@@ -909,7 +909,7 @@ func (setting *Servers_AuditingSetting_Spec) Initialize_From_Servers_AuditingSet
 
 	// State
 	if source.State != nil {
-		state := ServerBlobAuditingPolicyProperties_State(*source.State)
+		state := genruntime.ToEnum(string(*source.State), serverBlobAuditingPolicyProperties_State_Values)
 		setting.State = &state
 	} else {
 		setting.State = nil

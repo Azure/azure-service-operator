@@ -497,7 +497,7 @@ func (setting *Servers_AdvancedThreatProtectionSetting_Spec) Initialize_From_Ser
 
 	// State
 	if source.State != nil {
-		state := AdvancedThreatProtectionProperties_State(*source.State)
+		state := genruntime.ToEnum(string(*source.State), advancedThreatProtectionProperties_State_Values)
 		setting.State = &state
 	} else {
 		setting.State = nil

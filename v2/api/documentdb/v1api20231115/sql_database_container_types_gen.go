@@ -1923,7 +1923,7 @@ func (resource *SqlContainerResource) Initialize_From_SqlContainerGetProperties_
 
 	// CreateMode
 	if source.CreateMode != nil {
-		createMode := CreateMode(*source.CreateMode)
+		createMode := genruntime.ToEnum(string(*source.CreateMode), createMode_Values)
 		resource.CreateMode = &createMode
 	} else {
 		resource.CreateMode = nil
@@ -2596,7 +2596,7 @@ func (policy *ConflictResolutionPolicy) Initialize_From_ConflictResolutionPolicy
 
 	// Mode
 	if source.Mode != nil {
-		mode := ConflictResolutionPolicy_Mode(*source.Mode)
+		mode := genruntime.ToEnum(string(*source.Mode), conflictResolutionPolicy_Mode_Values)
 		policy.Mode = &mode
 	} else {
 		policy.Mode = nil
@@ -2849,7 +2849,7 @@ func (partitionKey *ContainerPartitionKey) Initialize_From_ContainerPartitionKey
 
 	// Kind
 	if source.Kind != nil {
-		kind := ContainerPartitionKey_Kind(*source.Kind)
+		kind := genruntime.ToEnum(string(*source.Kind), containerPartitionKey_Kind_Values)
 		partitionKey.Kind = &kind
 	} else {
 		partitionKey.Kind = nil
@@ -3448,7 +3448,7 @@ func (policy *IndexingPolicy) Initialize_From_IndexingPolicy_STATUS(source *Inde
 
 	// IndexingMode
 	if source.IndexingMode != nil {
-		indexingMode := IndexingPolicy_IndexingMode(*source.IndexingMode)
+		indexingMode := genruntime.ToEnum(string(*source.IndexingMode), indexingPolicy_IndexingMode_Values)
 		policy.IndexingMode = &indexingMode
 	} else {
 		policy.IndexingMode = nil
@@ -4399,7 +4399,7 @@ func (path *CompositePath) Initialize_From_CompositePath_STATUS(source *Composit
 
 	// Order
 	if source.Order != nil {
-		order := CompositePath_Order(*source.Order)
+		order := genruntime.ToEnum(string(*source.Order), compositePath_Order_Values)
 		path.Order = &order
 	} else {
 		path.Order = nil
@@ -5035,7 +5035,7 @@ func (spatial *SpatialSpec) Initialize_From_SpatialSpec_STATUS(source *SpatialSp
 		for typeIndex, typeItem := range source.Types {
 			// Shadow the loop variable to avoid aliasing
 			typeItem := typeItem
-			typeVar := SpatialType(typeItem)
+			typeVar := genruntime.ToEnum(string(typeItem), spatialType_Values)
 			typeList[typeIndex] = typeVar
 		}
 		spatial.Types = typeList
@@ -5423,7 +5423,7 @@ func (indexes *Indexes) Initialize_From_Indexes_STATUS(source *Indexes_STATUS) e
 
 	// DataType
 	if source.DataType != nil {
-		dataType := Indexes_DataType(*source.DataType)
+		dataType := genruntime.ToEnum(string(*source.DataType), indexes_DataType_Values)
 		indexes.DataType = &dataType
 	} else {
 		indexes.DataType = nil
@@ -5431,7 +5431,7 @@ func (indexes *Indexes) Initialize_From_Indexes_STATUS(source *Indexes_STATUS) e
 
 	// Kind
 	if source.Kind != nil {
-		kind := Indexes_Kind(*source.Kind)
+		kind := genruntime.ToEnum(string(*source.Kind), indexes_Kind_Values)
 		indexes.Kind = &kind
 	} else {
 		indexes.Kind = nil

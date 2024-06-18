@@ -643,7 +643,7 @@ func (rule *DnsForwardingRulesets_ForwardingRule_Spec) Initialize_From_DnsForwar
 
 	// ForwardingRuleState
 	if source.ForwardingRuleState != nil {
-		forwardingRuleState := ForwardingRuleProperties_ForwardingRuleState(*source.ForwardingRuleState)
+		forwardingRuleState := genruntime.ToEnum(string(*source.ForwardingRuleState), forwardingRuleProperties_ForwardingRuleState_Values)
 		rule.ForwardingRuleState = &forwardingRuleState
 	} else {
 		rule.ForwardingRuleState = nil

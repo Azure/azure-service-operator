@@ -1586,7 +1586,7 @@ func (site *Site_Spec) Initialize_From_Site_STATUS(source *Site_STATUS) error {
 
 	// ClientCertMode
 	if source.ClientCertMode != nil {
-		clientCertMode := Site_Properties_ClientCertMode_Spec(*source.ClientCertMode)
+		clientCertMode := genruntime.ToEnum(string(*source.ClientCertMode), site_Properties_ClientCertMode_Spec_Values)
 		site.ClientCertMode = &clientCertMode
 	} else {
 		site.ClientCertMode = nil
@@ -1721,7 +1721,7 @@ func (site *Site_Spec) Initialize_From_Site_STATUS(source *Site_STATUS) error {
 
 	// RedundancyMode
 	if source.RedundancyMode != nil {
-		redundancyMode := Site_Properties_RedundancyMode_Spec(*source.RedundancyMode)
+		redundancyMode := genruntime.ToEnum(string(*source.RedundancyMode), site_Properties_RedundancyMode_Spec_Values)
 		site.RedundancyMode = &redundancyMode
 	} else {
 		site.RedundancyMode = nil
@@ -4150,7 +4150,7 @@ func (state *HostNameSslState) Initialize_From_HostNameSslState_STATUS(source *H
 
 	// HostType
 	if source.HostType != nil {
-		hostType := HostNameSslState_HostType(*source.HostType)
+		hostType := genruntime.ToEnum(string(*source.HostType), hostNameSslState_HostType_Values)
 		state.HostType = &hostType
 	} else {
 		state.HostType = nil
@@ -4161,7 +4161,7 @@ func (state *HostNameSslState) Initialize_From_HostNameSslState_STATUS(source *H
 
 	// SslState
 	if source.SslState != nil {
-		sslState := HostNameSslState_SslState(*source.SslState)
+		sslState := genruntime.ToEnum(string(*source.SslState), hostNameSslState_SslState_Values)
 		state.SslState = &sslState
 	} else {
 		state.SslState = nil
@@ -4495,7 +4495,7 @@ func (identity *ManagedServiceIdentity) Initialize_From_ManagedServiceIdentity_S
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagedServiceIdentity_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), managedServiceIdentity_Type_Values)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -7078,7 +7078,7 @@ func (config *SiteConfig) Initialize_From_SiteConfig_STATUS(source *SiteConfig_S
 
 	// FtpsState
 	if source.FtpsState != nil {
-		ftpsState := SiteConfig_FtpsState(*source.FtpsState)
+		ftpsState := genruntime.ToEnum(string(*source.FtpsState), siteConfig_FtpsState_Values)
 		config.FtpsState = &ftpsState
 	} else {
 		config.FtpsState = nil
@@ -7184,7 +7184,7 @@ func (config *SiteConfig) Initialize_From_SiteConfig_STATUS(source *SiteConfig_S
 
 	// LoadBalancing
 	if source.LoadBalancing != nil {
-		loadBalancing := SiteConfig_LoadBalancing(*source.LoadBalancing)
+		loadBalancing := genruntime.ToEnum(string(*source.LoadBalancing), siteConfig_LoadBalancing_Values)
 		config.LoadBalancing = &loadBalancing
 	} else {
 		config.LoadBalancing = nil
@@ -7203,7 +7203,7 @@ func (config *SiteConfig) Initialize_From_SiteConfig_STATUS(source *SiteConfig_S
 
 	// ManagedPipelineMode
 	if source.ManagedPipelineMode != nil {
-		managedPipelineMode := SiteConfig_ManagedPipelineMode(*source.ManagedPipelineMode)
+		managedPipelineMode := genruntime.ToEnum(string(*source.ManagedPipelineMode), siteConfig_ManagedPipelineMode_Values)
 		config.ManagedPipelineMode = &managedPipelineMode
 	} else {
 		config.ManagedPipelineMode = nil
@@ -7214,7 +7214,7 @@ func (config *SiteConfig) Initialize_From_SiteConfig_STATUS(source *SiteConfig_S
 
 	// MinTlsVersion
 	if source.MinTlsVersion != nil {
-		minTlsVersion := SiteConfig_MinTlsVersion(*source.MinTlsVersion)
+		minTlsVersion := genruntime.ToEnum(string(*source.MinTlsVersion), siteConfig_MinTlsVersion_Values)
 		config.MinTlsVersion = &minTlsVersion
 	} else {
 		config.MinTlsVersion = nil
@@ -7322,7 +7322,7 @@ func (config *SiteConfig) Initialize_From_SiteConfig_STATUS(source *SiteConfig_S
 
 	// ScmMinTlsVersion
 	if source.ScmMinTlsVersion != nil {
-		scmMinTlsVersion := SiteConfig_ScmMinTlsVersion(*source.ScmMinTlsVersion)
+		scmMinTlsVersion := genruntime.ToEnum(string(*source.ScmMinTlsVersion), siteConfig_ScmMinTlsVersion_Values)
 		config.ScmMinTlsVersion = &scmMinTlsVersion
 	} else {
 		config.ScmMinTlsVersion = nil
@@ -7330,7 +7330,7 @@ func (config *SiteConfig) Initialize_From_SiteConfig_STATUS(source *SiteConfig_S
 
 	// ScmType
 	if source.ScmType != nil {
-		scmType := SiteConfig_ScmType(*source.ScmType)
+		scmType := genruntime.ToEnum(string(*source.ScmType), siteConfig_ScmType_Values)
 		config.ScmType = &scmType
 	} else {
 		config.ScmType = nil
@@ -9973,7 +9973,7 @@ func (value *AzureStorageInfoValue) Initialize_From_AzureStorageInfoValue_STATUS
 
 	// Type
 	if source.Type != nil {
-		typeVar := AzureStorageInfoValue_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), azureStorageInfoValue_Type_Values)
 		value.Type = &typeVar
 	} else {
 		value.Type = nil
@@ -10262,7 +10262,7 @@ func (info *ConnStringInfo) Initialize_From_ConnStringInfo_STATUS(source *ConnSt
 
 	// Type
 	if source.Type != nil {
-		typeVar := ConnStringInfo_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), connStringInfo_Type_Values)
 		info.Type = &typeVar
 	} else {
 		info.Type = nil
@@ -11487,7 +11487,7 @@ func (restriction *IpSecurityRestriction) Initialize_From_IpSecurityRestriction_
 
 	// Tag
 	if source.Tag != nil {
-		tag := IpSecurityRestriction_Tag(*source.Tag)
+		tag := genruntime.ToEnum(string(*source.Tag), ipSecurityRestriction_Tag_Values)
 		restriction.Tag = &tag
 	} else {
 		restriction.Tag = nil
@@ -13586,7 +13586,7 @@ func (actions *AutoHealActions) Initialize_From_AutoHealActions_STATUS(source *A
 
 	// ActionType
 	if source.ActionType != nil {
-		actionType := AutoHealActions_ActionType(*source.ActionType)
+		actionType := genruntime.ToEnum(string(*source.ActionType), autoHealActions_ActionType_Values)
 		actions.ActionType = &actionType
 	} else {
 		actions.ActionType = nil

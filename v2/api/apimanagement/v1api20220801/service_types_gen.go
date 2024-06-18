@@ -1433,7 +1433,7 @@ func (service *Service_Spec) Initialize_From_Service_STATUS(source *Service_STAT
 
 	// NatGatewayState
 	if source.NatGatewayState != nil {
-		natGatewayState := ApiManagementServiceProperties_NatGatewayState(*source.NatGatewayState)
+		natGatewayState := genruntime.ToEnum(string(*source.NatGatewayState), apiManagementServiceProperties_NatGatewayState_Values)
 		service.NatGatewayState = &natGatewayState
 	} else {
 		service.NatGatewayState = nil
@@ -1457,7 +1457,7 @@ func (service *Service_Spec) Initialize_From_Service_STATUS(source *Service_STAT
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := ApiManagementServiceProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
+		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), apiManagementServiceProperties_PublicNetworkAccess_Values)
 		service.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		service.PublicNetworkAccess = nil
@@ -1516,7 +1516,7 @@ func (service *Service_Spec) Initialize_From_Service_STATUS(source *Service_STAT
 
 	// VirtualNetworkType
 	if source.VirtualNetworkType != nil {
-		virtualNetworkType := ApiManagementServiceProperties_VirtualNetworkType(*source.VirtualNetworkType)
+		virtualNetworkType := genruntime.ToEnum(string(*source.VirtualNetworkType), apiManagementServiceProperties_VirtualNetworkType_Values)
 		service.VirtualNetworkType = &virtualNetworkType
 	} else {
 		service.VirtualNetworkType = nil
@@ -2996,7 +2996,7 @@ func (location *AdditionalLocation) Initialize_From_AdditionalLocation_STATUS(so
 
 	// NatGatewayState
 	if source.NatGatewayState != nil {
-		natGatewayState := AdditionalLocation_NatGatewayState(*source.NatGatewayState)
+		natGatewayState := genruntime.ToEnum(string(*source.NatGatewayState), additionalLocation_NatGatewayState_Values)
 		location.NatGatewayState = &natGatewayState
 	} else {
 		location.NatGatewayState = nil
@@ -3492,7 +3492,7 @@ func (identity *ApiManagementServiceIdentity) Initialize_From_ApiManagementServi
 
 	// Type
 	if source.Type != nil {
-		typeVar := ApiManagementServiceIdentity_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), apiManagementServiceIdentity_Type_Values)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -3888,7 +3888,7 @@ func (properties *ApiManagementServiceSkuProperties) Initialize_From_ApiManageme
 
 	// Name
 	if source.Name != nil {
-		name := ApiManagementServiceSkuProperties_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), apiManagementServiceSkuProperties_Name_Values)
 		properties.Name = &name
 	} else {
 		properties.Name = nil
@@ -4333,7 +4333,7 @@ func (configuration *CertificateConfiguration) Initialize_From_CertificateConfig
 
 	// StoreName
 	if source.StoreName != nil {
-		storeName := CertificateConfiguration_StoreName(*source.StoreName)
+		storeName := genruntime.ToEnum(string(*source.StoreName), certificateConfiguration_StoreName_Values)
 		configuration.StoreName = &storeName
 	} else {
 		configuration.StoreName = nil
@@ -4896,7 +4896,7 @@ func (configuration *HostnameConfiguration) Initialize_From_HostnameConfiguratio
 
 	// CertificateSource
 	if source.CertificateSource != nil {
-		certificateSource := HostnameConfiguration_CertificateSource(*source.CertificateSource)
+		certificateSource := genruntime.ToEnum(string(*source.CertificateSource), hostnameConfiguration_CertificateSource_Values)
 		configuration.CertificateSource = &certificateSource
 	} else {
 		configuration.CertificateSource = nil
@@ -4904,7 +4904,7 @@ func (configuration *HostnameConfiguration) Initialize_From_HostnameConfiguratio
 
 	// CertificateStatus
 	if source.CertificateStatus != nil {
-		certificateStatus := HostnameConfiguration_CertificateStatus(*source.CertificateStatus)
+		certificateStatus := genruntime.ToEnum(string(*source.CertificateStatus), hostnameConfiguration_CertificateStatus_Values)
 		configuration.CertificateStatus = &certificateStatus
 	} else {
 		configuration.CertificateStatus = nil
@@ -4940,7 +4940,7 @@ func (configuration *HostnameConfiguration) Initialize_From_HostnameConfiguratio
 
 	// Type
 	if source.Type != nil {
-		typeVar := HostnameConfiguration_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), hostnameConfiguration_Type_Values)
 		configuration.Type = &typeVar
 	} else {
 		configuration.Type = nil

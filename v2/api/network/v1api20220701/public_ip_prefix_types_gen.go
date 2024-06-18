@@ -920,7 +920,7 @@ func (prefix *PublicIPPrefix_Spec) Initialize_From_PublicIPPrefix_STATUS(source 
 
 	// PublicIPAddressVersion
 	if source.PublicIPAddressVersion != nil {
-		publicIPAddressVersion := IPVersion(*source.PublicIPAddressVersion)
+		publicIPAddressVersion := genruntime.ToEnum(string(*source.PublicIPAddressVersion), iPVersion_Values)
 		prefix.PublicIPAddressVersion = &publicIPAddressVersion
 	} else {
 		prefix.PublicIPAddressVersion = nil
@@ -2092,7 +2092,7 @@ func (prefixSku *PublicIPPrefixSku) Initialize_From_PublicIPPrefixSku_STATUS(sou
 
 	// Name
 	if source.Name != nil {
-		name := PublicIPPrefixSku_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), publicIPPrefixSku_Name_Values)
 		prefixSku.Name = &name
 	} else {
 		prefixSku.Name = nil
@@ -2100,7 +2100,7 @@ func (prefixSku *PublicIPPrefixSku) Initialize_From_PublicIPPrefixSku_STATUS(sou
 
 	// Tier
 	if source.Tier != nil {
-		tier := PublicIPPrefixSku_Tier(*source.Tier)
+		tier := genruntime.ToEnum(string(*source.Tier), publicIPPrefixSku_Tier_Values)
 		prefixSku.Tier = &tier
 	} else {
 		prefixSku.Tier = nil

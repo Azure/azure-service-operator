@@ -2288,7 +2288,7 @@ func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria) Initialize_Fr
 
 	// OdataType
 	if source.OdataType != nil {
-		odataType := MetricAlertMultipleResourceMultipleMetricCriteria_OdataType(*source.OdataType)
+		odataType := genruntime.ToEnum(string(*source.OdataType), metricAlertMultipleResourceMultipleMetricCriteria_OdataType_Values)
 		criteria.OdataType = &odataType
 	} else {
 		criteria.OdataType = nil
@@ -2668,7 +2668,7 @@ func (criteria *MetricAlertSingleResourceMultipleMetricCriteria) Initialize_From
 
 	// OdataType
 	if source.OdataType != nil {
-		odataType := MetricAlertSingleResourceMultipleMetricCriteria_OdataType(*source.OdataType)
+		odataType := genruntime.ToEnum(string(*source.OdataType), metricAlertSingleResourceMultipleMetricCriteria_OdataType_Values)
 		criteria.OdataType = &odataType
 	} else {
 		criteria.OdataType = nil
@@ -3074,7 +3074,7 @@ func (criteria *WebtestLocationAvailabilityCriteria) Initialize_From_WebtestLoca
 
 	// OdataType
 	if source.OdataType != nil {
-		odataType := WebtestLocationAvailabilityCriteria_OdataType(*source.OdataType)
+		odataType := genruntime.ToEnum(string(*source.OdataType), webtestLocationAvailabilityCriteria_OdataType_Values)
 		criteria.OdataType = &odataType
 	} else {
 		criteria.OdataType = nil
@@ -3678,7 +3678,7 @@ func (criteria *MetricCriteria) Initialize_From_MetricCriteria_STATUS(source *Me
 
 	// CriterionType
 	if source.CriterionType != nil {
-		criterionType := MetricCriteria_CriterionType(*source.CriterionType)
+		criterionType := genruntime.ToEnum(string(*source.CriterionType), metricCriteria_CriterionType_Values)
 		criteria.CriterionType = &criterionType
 	} else {
 		criteria.CriterionType = nil
@@ -3713,7 +3713,7 @@ func (criteria *MetricCriteria) Initialize_From_MetricCriteria_STATUS(source *Me
 
 	// Operator
 	if source.Operator != nil {
-		operator := MetricCriteria_Operator(*source.Operator)
+		operator := genruntime.ToEnum(string(*source.Operator), metricCriteria_Operator_Values)
 		criteria.Operator = &operator
 	} else {
 		criteria.Operator = nil
@@ -3737,7 +3737,7 @@ func (criteria *MetricCriteria) Initialize_From_MetricCriteria_STATUS(source *Me
 
 	// TimeAggregation
 	if source.TimeAggregation != nil {
-		timeAggregation := MetricCriteria_TimeAggregation(*source.TimeAggregation)
+		timeAggregation := genruntime.ToEnum(string(*source.TimeAggregation), metricCriteria_TimeAggregation_Values)
 		criteria.TimeAggregation = &timeAggregation
 	} else {
 		criteria.TimeAggregation = nil
@@ -4833,7 +4833,7 @@ func (criteria *DynamicMetricCriteria) Initialize_From_DynamicMetricCriteria_STA
 
 	// AlertSensitivity
 	if source.AlertSensitivity != nil {
-		alertSensitivity := DynamicMetricCriteria_AlertSensitivity(*source.AlertSensitivity)
+		alertSensitivity := genruntime.ToEnum(string(*source.AlertSensitivity), dynamicMetricCriteria_AlertSensitivity_Values)
 		criteria.AlertSensitivity = &alertSensitivity
 	} else {
 		criteria.AlertSensitivity = nil
@@ -4841,7 +4841,7 @@ func (criteria *DynamicMetricCriteria) Initialize_From_DynamicMetricCriteria_STA
 
 	// CriterionType
 	if source.CriterionType != nil {
-		criterionType := DynamicMetricCriteria_CriterionType(*source.CriterionType)
+		criterionType := genruntime.ToEnum(string(*source.CriterionType), dynamicMetricCriteria_CriterionType_Values)
 		criteria.CriterionType = &criterionType
 	} else {
 		criteria.CriterionType = nil
@@ -4891,7 +4891,7 @@ func (criteria *DynamicMetricCriteria) Initialize_From_DynamicMetricCriteria_STA
 
 	// Operator
 	if source.Operator != nil {
-		operator := DynamicMetricCriteria_Operator(*source.Operator)
+		operator := genruntime.ToEnum(string(*source.Operator), dynamicMetricCriteria_Operator_Values)
 		criteria.Operator = &operator
 	} else {
 		criteria.Operator = nil
@@ -4907,7 +4907,7 @@ func (criteria *DynamicMetricCriteria) Initialize_From_DynamicMetricCriteria_STA
 
 	// TimeAggregation
 	if source.TimeAggregation != nil {
-		timeAggregation := DynamicMetricCriteria_TimeAggregation(*source.TimeAggregation)
+		timeAggregation := genruntime.ToEnum(string(*source.TimeAggregation), dynamicMetricCriteria_TimeAggregation_Values)
 		criteria.TimeAggregation = &timeAggregation
 	} else {
 		criteria.TimeAggregation = nil
