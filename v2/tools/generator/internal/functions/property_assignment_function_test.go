@@ -56,6 +56,7 @@ func (factory *StorageConversionPropertyTestCaseFactory) CreatePropertyAssignmen
 	factory.createAssignmentViaFunctionTestCases()
 	factory.createAssignmentViaHelperMethodsTestCases()
 	factory.createPathologicalTestCases()
+	factory.createPathBasedTestCases()
 
 	return factory.cases
 }
@@ -328,6 +329,71 @@ func (factory *StorageConversionPropertyTestCaseFactory) createAssignmentViaHelp
 	factory.createPropertyAssignmentTest("SetMapOfStringToString", mapOfStringToStringProperty, mapOfStringToStringProperty)
 }
 
+func (factory *StorageConversionPropertyTestCaseFactory) createPathBasedTestCases() {
+	typeProperty := astmodel.NewPropertyDefinition("Type", "type", astmodel.StringType)
+	flattenedTypeProperty := typeProperty.AddFlattenedFrom(astmodel.PropertyName(""))
+	propertiesTypeProperty := flattenedTypeProperty.WithName("PropertiesType")
+
+	createConfigurableProperty := func(prop *astmodel.PropertyDefinition) *astmodel.PropertyDefinition {
+		return prop.
+			WithName(propertiesTypeProperty.PropertyName()+astmodel.OptionalConfigMapReferenceSuffix).
+			WithType(astmodel.ConfigMapReferenceType).
+			WithJsonName("propertiesType"+astmodel.OptionalConfigMapReferenceSuffix).
+			WithTag(astmodel.OptionalConfigMapPairTag, string(prop.PropertyName())).
+			MakeOptional().
+			MakeTypeOptional()
+	}
+
+	configurableTypeProperty := createConfigurableProperty(flattenedTypeProperty)
+	configurablePropertiesTypeProperty := createConfigurableProperty(propertiesTypeProperty)
+
+	factory.createPropertyAssignmentTest(
+		"No assignment when identically named properties have different paths",
+		typeProperty,
+		flattenedTypeProperty)
+
+	factory.createPropertyAssignmentTest(
+		"Assignment when properties have same paths even with different names",
+		flattenedTypeProperty,
+		propertiesTypeProperty)
+
+	// Test case: When property names haven't been mangled by flattening, we generate the expected assignment
+	// copying Type to Type and ignoring TypeFromConfig
+	currentDefinition := astmodel.MakeTypeDefinition(
+		astmodel.MakeInternalTypeName(factory.currentPackage, "Person"),
+		astmodel.NewObjectType().
+			WithProperty(flattenedTypeProperty))
+
+	otherDefinition := astmodel.MakeTypeDefinition(
+		astmodel.MakeInternalTypeName(factory.nextPackage, "Person"),
+		astmodel.NewObjectType().
+			WithProperty(flattenedTypeProperty).
+			WithProperty(configurableTypeProperty))
+
+	factory.createDefinitionAssignmentTest(
+		"Assigns to property with same name and path",
+		currentDefinition,
+		otherDefinition)
+
+	// Test case: When property names HAVE been mangled by inconsistent flattening, we generate the expected assignment
+	// copying PropertiesType to Type and ignoring PropertiesTypeFromConfig
+	currentDefinition = astmodel.MakeTypeDefinition(
+		astmodel.MakeInternalTypeName(factory.currentPackage, "Person"),
+		astmodel.NewObjectType().
+			WithProperty(flattenedTypeProperty))
+
+	otherDefinition = astmodel.MakeTypeDefinition(
+		astmodel.MakeInternalTypeName(factory.nextPackage, "Person"),
+		astmodel.NewObjectType().
+			WithProperty(propertiesTypeProperty).
+			WithProperty(configurablePropertiesTypeProperty))
+
+	factory.createDefinitionAssignmentTest(
+		"Does not try to assign to configurable variant of property",
+		currentDefinition,
+		otherDefinition)
+}
+
 func (factory *StorageConversionPropertyTestCaseFactory) createPropertyAssignmentTest(
 	name string,
 	currentProperty *astmodel.PropertyDefinition,
@@ -369,6 +435,29 @@ func (factory *StorageConversionPropertyTestCaseFactory) createPropertyAssignmen
 		name:        name,
 		current:     currentDefinition,
 		other:       hubDefinition,
+		definitions: defs,
+		cfg:         cfg,
+	})
+}
+
+// createDefinitionAssignmentTest allows creation of a test case where the structure of the definitions is more complex.
+// name is the name of the test case.
+// currentDefinition is the definition in the current package.
+// otherDefinition is the definition in the next package.
+func (factory *StorageConversionPropertyTestCaseFactory) createDefinitionAssignmentTest(
+	name string,
+	currentDefinition astmodel.TypeDefinition,
+	otherDefinition astmodel.TypeDefinition,
+) {
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.Add(currentDefinition)
+	defs.Add(otherDefinition)
+
+	cfg := config.NewObjectModelConfiguration()
+	factory.addCase(&StorageConversionPropertyTestCase{
+		name:        name,
+		current:     currentDefinition,
+		other:       otherDefinition,
 		definitions: defs,
 		cfg:         cfg,
 	})

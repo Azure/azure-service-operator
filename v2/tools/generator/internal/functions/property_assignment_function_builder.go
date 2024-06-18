@@ -399,14 +399,14 @@ func (*PropertyAssignmentFunctionBuilder) selectIdenticallyNamedProperties(
 // assign is a function that will be called for each matching property, with the source and destination endpoints
 // for that property.
 // Returns an error if any of the assignments fail.
-func (*PropertyAssignmentFunctionBuilder) selectIdenticallyPathedProperties(
+func (builder *PropertyAssignmentFunctionBuilder) selectIdenticallyPathedProperties(
 	sourceProperties conversions.ReadableConversionEndpointSet,
 	destinationProperties conversions.WritableConversionEndpointSet,
 	assign func(reader *conversions.ReadableConversionEndpoint, writer *conversions.WritableConversionEndpoint) error,
 	ctx *conversions.PropertyConversionContext,
 ) error {
 	// Create a map of source properties, by path
-	sourceByPath := make(map[string]*conversions.ReadableConversionEndpoint)
+	sourceByPath := make(map[string][]*conversions.ReadableConversionEndpoint)
 	for _, source := range sourceProperties {
 		path := source.Endpoint().Path()
 		if path == "" {
@@ -414,18 +414,7 @@ func (*PropertyAssignmentFunctionBuilder) selectIdenticallyPathedProperties(
 			continue
 		}
 
-		// theunrepentantgeek: My intuition is that this won't work if the property has been set up as a secret or to
-		// be configurable, as we'll have two source properties with the same path but different names and different
-		// types. I couldn't provoke a problem during testing though, so maybe I'm wrong.
-		// Nonetheless, I'm putting this check here to catch if this happens, so that we don't silently do the wrong
-		// thing and cause problems.
-		if _, ok := sourceByPath[path]; ok {
-			return errors.Errorf(
-				"multiple source properties with the same path %s can't be resolved by selectIdenticallyPathedProperties",
-				path)
-		}
-
-		sourceByPath[path] = source
+		sourceByPath[path] = append(sourceByPath[path], source)
 	}
 
 	for destinationName, destinationEndpoint := range destinationProperties {
@@ -435,7 +424,33 @@ func (*PropertyAssignmentFunctionBuilder) selectIdenticallyPathedProperties(
 			continue
 		}
 
-		if sourceEndpoint, ok := sourceByPath[path]; ok {
+		sourceEndpoints, ok := sourceByPath[path]
+		if !ok {
+			// No match
+			continue
+		}
+
+		// Look for a unique endpoint that's compatible with the destination
+		var sourceEndpoint *conversions.ReadableConversionEndpoint
+		for _, src := range sourceEndpoints {
+			if !builder.typesCompatible(src.Endpoint().Type(), destinationEndpoint.Endpoint().Type(), ctx) {
+				// Types aren't compatible, skip
+				continue
+			}
+
+			if sourceEndpoint != nil {
+				// We've found multiple candidates - we can't handle this
+				return errors.Errorf(
+					"multiple source properties with path %s are compatible with destination %s, no way to select",
+					path,
+					destinationName)
+			}
+
+			sourceEndpoint = src
+		}
+
+		// If we found a compatible endpoint, use it
+		if sourceEndpoint != nil {
 			err := assign(sourceEndpoint, destinationEndpoint)
 			if err != nil {
 				return errors.Wrapf(err, "assigning %s", destinationName)
@@ -642,4 +657,34 @@ func (builder *PropertyAssignmentFunctionBuilder) findTypeForBag(
 	}
 
 	return t
+}
+
+// Return true if the types are generally compatible; this is used to disambiguate between properties when
+// selecting property pairs for assignment, so it doesn't need to be perfect.
+func (*PropertyAssignmentFunctionBuilder) typesCompatible(
+	left astmodel.Type,
+	right astmodel.Type,
+	ctx *conversions.PropertyConversionContext,
+) bool {
+	// if left resolves to an external type name, we're compatible if right is also an external type name
+	if _, ok := astmodel.AsExternalTypeName(left); ok {
+		_, rightIsExternal := astmodel.AsExternalTypeName(right)
+		return rightIsExternal
+	}
+
+	// if left resolves to an internal type name, we're compatible if right is also an internal type name
+	if _, ok := astmodel.AsInternalTypeName(left); ok {
+		_, rightIsInternal := astmodel.AsInternalTypeName(right)
+		return rightIsInternal
+	}
+
+	// if left resolves to a primitive type, we're compatible if right is also a primitive type
+	if _, ok := astmodel.AsPrimitiveType(left); ok {
+		_, rightIsPrimitive := astmodel.AsPrimitiveType(right)
+		return rightIsPrimitive
+	}
+
+	//TODO: Arrays, Maps, and look-through of InternalTypeName for aliases
+
+	return false
 }
