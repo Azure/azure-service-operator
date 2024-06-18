@@ -664,7 +664,7 @@ func (builder *PropertyAssignmentFunctionBuilder) findTypeForBag(
 func (*PropertyAssignmentFunctionBuilder) typesCompatible(
 	left astmodel.Type,
 	right astmodel.Type,
-	ctx *conversions.PropertyConversionContext,
+	_ *conversions.PropertyConversionContext,
 ) bool {
 	// if left resolves to an external type name, we're compatible if right is also an external type name
 	if _, ok := astmodel.AsExternalTypeName(left); ok {
@@ -684,7 +684,7 @@ func (*PropertyAssignmentFunctionBuilder) typesCompatible(
 		return rightIsPrimitive
 	}
 
-	//TODO: Arrays, Maps, and look-through of InternalTypeName for aliases
+	// TODO: Arrays, Maps, and look-through of InternalTypeName for aliases
 
 	return false
 }

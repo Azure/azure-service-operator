@@ -6,8 +6,9 @@
 package conversions
 
 import (
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"strings"
+
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
 // TypedConversionEndpoint represents either a source or a destination target for a storage conversion
