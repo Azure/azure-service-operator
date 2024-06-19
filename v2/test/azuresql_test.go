@@ -340,6 +340,9 @@ func newAzureSQLServer(tc *testcommon.KubePerTestContext, rg *resources.Resource
 			AdministratorLogin:         to.Ptr(adminUsername),
 			AdministratorLoginPassword: &secretRef,
 			Version:                    to.Ptr("12.0"),
+			Administrators: &sql.ServerExternalAdministrator{
+				AzureADOnlyAuthentication: to.Ptr(true),
+			},
 		},
 	}
 
