@@ -342,6 +342,9 @@ func newAzureSQLServer(tc *testcommon.KubePerTestContext, rg *resources.Resource
 			Version:                    to.Ptr("12.0"),
 			Administrators: &sql.ServerExternalAdministrator{
 				AzureADOnlyAuthentication: to.Ptr(true),
+				Sid:                       to.Ptr(tc.AzureTenant), // Re-use tenantId as dummy ID
+				TenantId:                  to.Ptr(tc.AzureTenant),
+				Login:                     to.Ptr("myadmin"),
 			},
 		},
 	}
