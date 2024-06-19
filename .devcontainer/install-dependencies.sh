@@ -133,6 +133,12 @@ if ! command -v az > /dev/null 2>&1; then
     exit 1
 fi
 
+#doc# | Pip3 | latest | https://pip.pypa.io/en/stable/installation/ |
+if ! command -v pip3 > /dev/null 2>&1; then
+    write-error "Pip3 must be installed manually: https://pip.pypa.io/en/stable/installation/"
+    exit 1
+fi
+
 write-verbose "Installing tools to $TOOL_DEST"
 
 # Install Go tools
@@ -308,7 +314,7 @@ if [ "$VERBOSE" == true ]; then
     echo "Installed tools: $(ls "$TOOL_DEST")"
 fi
 
-if [ "$DEVCONTAINER" == true ]; then 
+if [ "$DEVCONTAINER" == true ]; then
 
     # Webhook Certs
     write-info "Setting up k8s webhook certificates"
@@ -321,3 +327,8 @@ if [ "$DEVCONTAINER" == true ]; then
     # Workaround for issue where /workspace has different owner because checkout happens outside the container
     git config --global --add safe.directory /workspace
 fi
+
+write-info "Setting up python virtual environment"
+
+# Install python virtualenv
+pip3 install virtualenv --break-system-packages
