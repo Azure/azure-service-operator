@@ -653,7 +653,7 @@ func (definition *RoleDefinition_Spec) Initialize_From_RoleDefinition_STATUS(sou
 	definition.RoleName = genruntime.ClonePointerToString(source.RoleName)
 
 	// Type
-	definition.Type = genruntime.ClonePointerToString(source.Type)
+	definition.Type = genruntime.ClonePointerToString(source.PropertiesType)
 
 	// No error
 	return nil

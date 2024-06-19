@@ -1578,10 +1578,9 @@ func (serviceApi *Service_Api_Spec) Initialize_From_Service_Api_STATUS(source *S
 	serviceApi.TermsOfServiceUrl = genruntime.ClonePointerToString(source.TermsOfServiceUrl)
 
 	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		typeTemp := genruntime.ToEnum(typeVar, apiCreateOrUpdateProperties_Type_Values)
-		serviceApi.Type = &typeTemp
+	if source.PropertiesType != nil {
+		typeVar := genruntime.ToEnum(string(*source.PropertiesType), apiCreateOrUpdateProperties_Type_Values)
+		serviceApi.Type = &typeVar
 	} else {
 		serviceApi.Type = nil
 	}

@@ -22,7 +22,7 @@ func NewWritableConversionEndpointSet() WritableConversionEndpointSet {
 func (set WritableConversionEndpointSet) CreatePropertyEndpoints(destinationType astmodel.Type) int {
 	// Add an endpoint for each property we can read
 	return set.addForEachProperty(destinationType, func(prop *astmodel.PropertyDefinition) *WritableConversionEndpoint {
-		return NewWritableConversionEndpointWritingProperty(prop.PropertyName(), prop.PropertyType())
+		return NewWritableConversionEndpointWritingProperty(prop)
 	})
 }
 

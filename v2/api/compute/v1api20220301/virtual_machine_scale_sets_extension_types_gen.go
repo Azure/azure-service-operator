@@ -887,7 +887,7 @@ func (extension *VirtualMachineScaleSets_Extension_Spec) Initialize_From_Virtual
 	}
 
 	// Type
-	extension.Type = genruntime.ClonePointerToString(source.Type)
+	extension.Type = genruntime.ClonePointerToString(source.PropertiesType)
 
 	// TypeHandlerVersion
 	extension.TypeHandlerVersion = genruntime.ClonePointerToString(source.TypeHandlerVersion)

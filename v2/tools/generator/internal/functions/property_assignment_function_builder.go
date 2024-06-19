@@ -80,6 +80,7 @@ func NewPropertyAssignmentFunctionBuilder(
 	result.assignmentSelectors = []assignmentSelector{
 		{0, result.selectIdenticallyNamedProperties},
 		{1, result.selectRenamedProperties},
+		{2, result.selectPropertiesWithIdenticalPaths},
 		// High sequence numbers to ensure these are executed last
 		{100, result.readPropertiesFromPropertyBag},
 		{100, result.writePropertiesToPropertyBag},
@@ -258,7 +259,7 @@ func (builder *PropertyAssignmentFunctionBuilder) createConversions(
 		}
 
 		if conv != nil {
-			// A conversion was created, keep it for later
+			// A conversion was created, keep it for later, and make sure we don't reuse these endpoints
 			propertyConversions[destinationEndpoint.Name()] = conv
 			usedSources.Add(sourceEndpoint.Name())
 			usedDestinations.Add(destinationEndpoint.Name())
@@ -369,10 +370,87 @@ func (*PropertyAssignmentFunctionBuilder) selectIdenticallyNamedProperties(
 	sourceProperties conversions.ReadableConversionEndpointSet,
 	destinationProperties conversions.WritableConversionEndpointSet,
 	assign func(reader *conversions.ReadableConversionEndpoint, writer *conversions.WritableConversionEndpoint) error,
-	_ *conversions.PropertyConversionContext,
+	ctx *conversions.PropertyConversionContext,
 ) error {
 	for destinationName, destinationEndpoint := range destinationProperties {
 		if sourceEndpoint, ok := sourceProperties[destinationName]; ok {
+			// We have properties with the same name, we also need them to have the same path.
+			// This effectively means they were flattened from the same original property.
+			// If they don't, we can't match them up.
+			if sourceEndpoint.Endpoint().Path() != destinationEndpoint.Endpoint().Path() {
+				continue
+			}
+
+			err := assign(sourceEndpoint, destinationEndpoint)
+			if err != nil {
+				return errors.Wrapf(err, "assigning %s", destinationName)
+			}
+		}
+	}
+
+	return nil
+}
+
+// selectPropertiesWithIdenticalPaths matches up properties with paths for conversion.
+// This serves to match up properties that were flattened from the original location,
+// even if they've ended up with different names.
+// sourceProperties is a set of endpoints that can be read from.
+// destinationProperties is a set of endpoints that can be written to.
+// assign is a function that will be called for each matching property, with the source and destination endpoints
+// for that property.
+// Returns an error if any of the assignments fail.
+func (builder *PropertyAssignmentFunctionBuilder) selectPropertiesWithIdenticalPaths(
+	sourceProperties conversions.ReadableConversionEndpointSet,
+	destinationProperties conversions.WritableConversionEndpointSet,
+	assign func(reader *conversions.ReadableConversionEndpoint, writer *conversions.WritableConversionEndpoint) error,
+	ctx *conversions.PropertyConversionContext,
+) error {
+	// Create a map of source properties, by path
+	sourceByPath := make(map[string][]*conversions.ReadableConversionEndpoint)
+	for _, source := range sourceProperties {
+		path := source.Endpoint().Path()
+		if path == "" {
+			// No path (so wasn't flattened); skip
+			continue
+		}
+
+		sourceByPath[path] = append(sourceByPath[path], source)
+	}
+
+	for destinationName, destinationEndpoint := range destinationProperties {
+		path := destinationEndpoint.Endpoint().Path()
+		if path == "" {
+			// No path (so wasn't flattened); skip
+			continue
+		}
+
+		sourceEndpoints, ok := sourceByPath[path]
+		if !ok {
+			// No match
+			continue
+		}
+
+		// Look for a unique endpoint that's compatible with the destination
+		var sourceEndpoint *conversions.ReadableConversionEndpoint
+		for _, src := range sourceEndpoints {
+			if !builder.typesCompatible(src.Endpoint().Type(), destinationEndpoint.Endpoint().Type(), ctx) {
+				// Types aren't compatible, skip
+				continue
+			}
+
+			if sourceEndpoint != nil {
+				// We've found multiple candidates - we can't handle this
+				return errors.Errorf(
+					"multiple source properties with path %s are compatible with destination %s, no way to select",
+					path,
+					destinationName)
+			}
+
+			sourceEndpoint = src
+		}
+
+		// If we found a compatible endpoint, use it
+		if sourceEndpoint != nil {
 			err := assign(sourceEndpoint, destinationEndpoint)
 			if err != nil {
 				return errors.Wrapf(err, "assigning %s", destinationName)
@@ -579,4 +657,34 @@ func (builder *PropertyAssignmentFunctionBuilder) findTypeForBag(
 	}
 
 	return t
+}
+
+// Return true if the types are generally compatible; this is used to disambiguate between properties when
+// selecting property pairs for assignment, so it doesn't need to be perfect.
+func (*PropertyAssignmentFunctionBuilder) typesCompatible(
+	left astmodel.Type,
+	right astmodel.Type,
+	_ *conversions.PropertyConversionContext,
+) bool {
+	// if left resolves to an external type name, we're compatible if right is also an external type name
+	if _, ok := astmodel.AsExternalTypeName(left); ok {
+		_, rightIsExternal := astmodel.AsExternalTypeName(right)
+		return rightIsExternal
+	}
+
+	// if left resolves to an internal type name, we're compatible if right is also an internal type name
+	if _, ok := astmodel.AsInternalTypeName(left); ok {
+		_, rightIsInternal := astmodel.AsInternalTypeName(right)
+		return rightIsInternal
+	}
+
+	// if left resolves to a primitive type, we're compatible if right is also a primitive type
+	if _, ok := astmodel.AsPrimitiveType(left); ok {
+		_, rightIsPrimitive := astmodel.AsPrimitiveType(right)
+		return rightIsPrimitive
+	}
+
+	// TODO: Arrays, Maps, and look-through of InternalTypeName for aliases
+
+	return false
 }

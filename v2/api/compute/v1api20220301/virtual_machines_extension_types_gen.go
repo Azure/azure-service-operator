@@ -976,7 +976,7 @@ func (extension *VirtualMachines_Extension_Spec) Initialize_From_VirtualMachines
 	extension.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	extension.Type = genruntime.ClonePointerToString(source.Type)
+	extension.Type = genruntime.ClonePointerToString(source.PropertiesType)
 
 	// TypeHandlerVersion
 	extension.TypeHandlerVersion = genruntime.ClonePointerToString(source.TypeHandlerVersion)

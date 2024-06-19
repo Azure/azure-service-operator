@@ -56,7 +56,10 @@ func transformPropertyToConfigMapReference(prop *astmodel.PropertyDefinition, ne
 	return prop.WithType(newType), nil
 }
 
-func createNewConfigMapReference(prop *astmodel.PropertyDefinition, newType astmodel.Type) (*astmodel.PropertyDefinition, *astmodel.PropertyDefinition, error) {
+func createNewConfigMapReference(
+	prop *astmodel.PropertyDefinition,
+	newType astmodel.Type,
+) (*astmodel.PropertyDefinition, *astmodel.PropertyDefinition, error) {
 	// The expectation is that this is a string
 	propType := prop.PropertyType()
 	if !astmodel.TypeEquals(astmodel.Unwrap(propType), astmodel.StringType) {

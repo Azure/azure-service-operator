@@ -1013,7 +1013,7 @@ func (webtest *Webtest_Spec) Initialize_From_Webtest_STATUS(source *Webtest_STAT
 	}
 
 	// Name
-	webtest.Name = genruntime.ClonePointerToString(source.Name)
+	webtest.Name = genruntime.ClonePointerToString(source.PropertiesName)
 
 	// Request
 	if source.Request != nil {
