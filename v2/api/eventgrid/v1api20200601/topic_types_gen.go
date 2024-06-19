@@ -816,7 +816,7 @@ func (topic *Topic_Spec) Initialize_From_Topic_STATUS(source *Topic_STATUS) erro
 
 	// InputSchema
 	if source.InputSchema != nil {
-		inputSchema := TopicProperties_InputSchema(*source.InputSchema)
+		inputSchema := genruntime.ToEnum(string(*source.InputSchema), topicProperties_InputSchema_Values)
 		topic.InputSchema = &inputSchema
 	} else {
 		topic.InputSchema = nil
@@ -839,7 +839,7 @@ func (topic *Topic_Spec) Initialize_From_Topic_STATUS(source *Topic_STATUS) erro
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := TopicProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
+		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), topicProperties_PublicNetworkAccess_Values)
 		topic.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		topic.PublicNetworkAccess = nil

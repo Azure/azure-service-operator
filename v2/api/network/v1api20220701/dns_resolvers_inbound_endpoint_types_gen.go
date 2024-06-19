@@ -1124,7 +1124,7 @@ func (configuration *IpConfiguration) Initialize_From_IpConfiguration_STATUS(sou
 
 	// PrivateIpAllocationMethod
 	if source.PrivateIpAllocationMethod != nil {
-		privateIpAllocationMethod := IpConfiguration_PrivateIpAllocationMethod(*source.PrivateIpAllocationMethod)
+		privateIpAllocationMethod := genruntime.ToEnum(string(*source.PrivateIpAllocationMethod), ipConfiguration_PrivateIpAllocationMethod_Values)
 		configuration.PrivateIpAllocationMethod = &privateIpAllocationMethod
 	} else {
 		configuration.PrivateIpAllocationMethod = nil

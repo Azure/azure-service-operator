@@ -1009,7 +1009,7 @@ func (server *Server_Spec) Initialize_From_Server_STATUS(source *Server_STATUS) 
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := ServerProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
+		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), serverProperties_PublicNetworkAccess_Values)
 		server.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		server.PublicNetworkAccess = nil
@@ -1017,7 +1017,7 @@ func (server *Server_Spec) Initialize_From_Server_STATUS(source *Server_STATUS) 
 
 	// RestrictOutboundNetworkAccess
 	if source.RestrictOutboundNetworkAccess != nil {
-		restrictOutboundNetworkAccess := ServerProperties_RestrictOutboundNetworkAccess(*source.RestrictOutboundNetworkAccess)
+		restrictOutboundNetworkAccess := genruntime.ToEnum(string(*source.RestrictOutboundNetworkAccess), serverProperties_RestrictOutboundNetworkAccess_Values)
 		server.RestrictOutboundNetworkAccess = &restrictOutboundNetworkAccess
 	} else {
 		server.RestrictOutboundNetworkAccess = nil
@@ -1745,7 +1745,7 @@ func (identity *ResourceIdentity) Initialize_From_ResourceIdentity_STATUS(source
 
 	// Type
 	if source.Type != nil {
-		typeVar := ResourceIdentity_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), resourceIdentity_Type_Values)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -2158,7 +2158,7 @@ func (administrator *ServerExternalAdministrator) Initialize_From_ServerExternal
 
 	// AdministratorType
 	if source.AdministratorType != nil {
-		administratorType := ServerExternalAdministrator_AdministratorType(*source.AdministratorType)
+		administratorType := genruntime.ToEnum(string(*source.AdministratorType), serverExternalAdministrator_AdministratorType_Values)
 		administrator.AdministratorType = &administratorType
 	} else {
 		administrator.AdministratorType = nil
@@ -2177,7 +2177,7 @@ func (administrator *ServerExternalAdministrator) Initialize_From_ServerExternal
 
 	// PrincipalType
 	if source.PrincipalType != nil {
-		principalType := ServerExternalAdministrator_PrincipalType(*source.PrincipalType)
+		principalType := genruntime.ToEnum(string(*source.PrincipalType), serverExternalAdministrator_PrincipalType_Values)
 		administrator.PrincipalType = &principalType
 	} else {
 		administrator.PrincipalType = nil

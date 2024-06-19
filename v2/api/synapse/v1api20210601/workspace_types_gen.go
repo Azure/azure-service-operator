@@ -1224,7 +1224,7 @@ func (workspace *Workspace_Spec) Initialize_From_Workspace_STATUS(source *Worksp
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := WorkspaceProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
+		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), workspaceProperties_PublicNetworkAccess_Values)
 		workspace.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		workspace.PublicNetworkAccess = nil
@@ -2989,7 +2989,7 @@ func (identity *ManagedIdentity) Initialize_From_ManagedIdentity_STATUS(source *
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagedIdentity_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), managedIdentity_Type_Values)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil

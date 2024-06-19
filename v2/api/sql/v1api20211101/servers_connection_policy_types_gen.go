@@ -496,7 +496,7 @@ func (policy *Servers_ConnectionPolicy_Spec) Initialize_From_Servers_ConnectionP
 
 	// ConnectionType
 	if source.ConnectionType != nil {
-		connectionType := ServerConnectionPolicyProperties_ConnectionType(*source.ConnectionType)
+		connectionType := genruntime.ToEnum(string(*source.ConnectionType), serverConnectionPolicyProperties_ConnectionType_Values)
 		policy.ConnectionType = &connectionType
 	} else {
 		policy.ConnectionType = nil

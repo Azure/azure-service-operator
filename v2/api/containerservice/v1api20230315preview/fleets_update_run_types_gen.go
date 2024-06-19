@@ -1695,7 +1695,7 @@ func (upgrade *ManagedClusterUpgradeSpec) Initialize_From_ManagedClusterUpgradeS
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagedClusterUpgradeType(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), managedClusterUpgradeType_Values)
 		upgrade.Type = &typeVar
 	} else {
 		upgrade.Type = nil

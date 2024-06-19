@@ -956,7 +956,7 @@ func (route *Profiles_AfdEndpoints_Route_Spec) Initialize_From_Profiles_AfdEndpo
 
 	// EnabledState
 	if source.EnabledState != nil {
-		enabledState := RouteProperties_EnabledState(*source.EnabledState)
+		enabledState := genruntime.ToEnum(string(*source.EnabledState), routeProperties_EnabledState_Values)
 		route.EnabledState = &enabledState
 	} else {
 		route.EnabledState = nil
@@ -964,7 +964,7 @@ func (route *Profiles_AfdEndpoints_Route_Spec) Initialize_From_Profiles_AfdEndpo
 
 	// ForwardingProtocol
 	if source.ForwardingProtocol != nil {
-		forwardingProtocol := RouteProperties_ForwardingProtocol(*source.ForwardingProtocol)
+		forwardingProtocol := genruntime.ToEnum(string(*source.ForwardingProtocol), routeProperties_ForwardingProtocol_Values)
 		route.ForwardingProtocol = &forwardingProtocol
 	} else {
 		route.ForwardingProtocol = nil
@@ -972,7 +972,7 @@ func (route *Profiles_AfdEndpoints_Route_Spec) Initialize_From_Profiles_AfdEndpo
 
 	// HttpsRedirect
 	if source.HttpsRedirect != nil {
-		httpsRedirect := RouteProperties_HttpsRedirect(*source.HttpsRedirect)
+		httpsRedirect := genruntime.ToEnum(string(*source.HttpsRedirect), routeProperties_HttpsRedirect_Values)
 		route.HttpsRedirect = &httpsRedirect
 	} else {
 		route.HttpsRedirect = nil
@@ -980,7 +980,7 @@ func (route *Profiles_AfdEndpoints_Route_Spec) Initialize_From_Profiles_AfdEndpo
 
 	// LinkToDefaultDomain
 	if source.LinkToDefaultDomain != nil {
-		linkToDefaultDomain := RouteProperties_LinkToDefaultDomain(*source.LinkToDefaultDomain)
+		linkToDefaultDomain := genruntime.ToEnum(string(*source.LinkToDefaultDomain), routeProperties_LinkToDefaultDomain_Values)
 		route.LinkToDefaultDomain = &linkToDefaultDomain
 	} else {
 		route.LinkToDefaultDomain = nil
@@ -1028,7 +1028,7 @@ func (route *Profiles_AfdEndpoints_Route_Spec) Initialize_From_Profiles_AfdEndpo
 		for supportedProtocolIndex, supportedProtocolItem := range source.SupportedProtocols {
 			// Shadow the loop variable to avoid aliasing
 			supportedProtocolItem := supportedProtocolItem
-			supportedProtocol := AFDEndpointProtocols(supportedProtocolItem)
+			supportedProtocol := genruntime.ToEnum(string(supportedProtocolItem), aFDEndpointProtocols_Values)
 			supportedProtocolList[supportedProtocolIndex] = supportedProtocol
 		}
 		route.SupportedProtocols = supportedProtocolList
@@ -2037,7 +2037,7 @@ func (configuration *AfdRouteCacheConfiguration) Initialize_From_AfdRouteCacheCo
 
 	// QueryStringCachingBehavior
 	if source.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := AfdRouteCacheConfiguration_QueryStringCachingBehavior(*source.QueryStringCachingBehavior)
+		queryStringCachingBehavior := genruntime.ToEnum(string(*source.QueryStringCachingBehavior), afdRouteCacheConfiguration_QueryStringCachingBehavior_Values)
 		configuration.QueryStringCachingBehavior = &queryStringCachingBehavior
 	} else {
 		configuration.QueryStringCachingBehavior = nil

@@ -47,7 +47,10 @@ func AddSecrets(config *config.Configuration) *Stage {
 	return stage
 }
 
-func applyConfigSecretOverrides(config *config.Configuration, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+func applyConfigSecretOverrides(
+	config *config.Configuration,
+	definitions astmodel.TypeDefinitionSet,
+) (astmodel.TypeDefinitionSet, error) {
 	result := make(astmodel.TypeDefinitionSet)
 
 	applyConfigSecrets := func(
@@ -58,14 +61,24 @@ func applyConfigSecretOverrides(config *config.Configuration, definitions astmod
 		strippedTypeName := ctx.WithName(strings.TrimSuffix(ctx.Name(), astmodel.StatusSuffix))
 
 		for _, prop := range it.Properties().Copy() {
-			if isSecret, ok := config.ObjectModelConfiguration.IsSecret.Lookup(ctx, prop.PropertyName()); ok && isSecret {
-				it = it.WithProperty(prop.WithIsSecret(true))
+			maybeSecret := mightBeSecretProperty(prop, definitions)
+
+			isSecret, isSecretConfigured := config.ObjectModelConfiguration.IsSecret.Lookup(ctx, prop.PropertyName())
+			if ctx.IsStatus() && !isSecretConfigured {
+				isSecret, isSecretConfigured = config.ObjectModelConfiguration.IsSecret.Lookup(strippedTypeName, prop.PropertyName())
 			}
 
-			if ctx.IsStatus() {
-				if isSecret, ok := config.ObjectModelConfiguration.IsSecret.Lookup(strippedTypeName, prop.PropertyName()); ok && isSecret {
-					it = it.WithProperty(prop.WithIsSecret(true))
-				}
+			if maybeSecret && !prop.IsSecret() && !isSecretConfigured {
+				// Property might be a secret, but isn't already configured as one,
+				// and we don't have config to tell us for sure
+				return nil, errors.Errorf(
+					"property %q might be a secret and must to be configured with $isSecret",
+					prop.PropertyName())
+			}
+
+			if isSecretConfigured {
+				propWithSecret := prop.WithIsSecret(isSecret)
+				it = it.WithProperty(propWithSecret)
 			}
 		}
 
@@ -77,6 +90,11 @@ func applyConfigSecretOverrides(config *config.Configuration, definitions astmod
 	}.Build()
 
 	for _, def := range definitions {
+		if def.Name().IsARMType() {
+			// No need to process ARM types
+			continue
+		}
+
 		updatedDef, err := visitor.VisitDefinition(def, def.Name())
 		if err != nil {
 			return nil, errors.Wrapf(err, "visiting type %q", def.Name())
@@ -94,6 +112,48 @@ func applyConfigSecretOverrides(config *config.Configuration, definitions astmod
 	}
 
 	return result, nil
+}
+
+// mightBeSecret returns true if the given name might represent a secret that shouldn't be present
+// in plain text in the resource. This is a heuristic used to require the presence of $isSecret
+// configuration so that we know for sure.
+// property is the property to check
+// definitions is the set of all definitions so we can look up a typename
+func mightBeSecretProperty(
+	prop *astmodel.PropertyDefinition,
+	definitions astmodel.TypeDefinitionSet,
+) bool {
+	// Only properties that are strings can be secrets
+	propertyType := prop.PropertyType()
+
+	// Look through a reference if we have one
+	if tn, ok := astmodel.AsInternalTypeName(propertyType); ok {
+		if def, ok := definitions[tn]; ok {
+			propertyType = def.Type()
+		}
+	}
+
+	// If not a string type, can't be a secret
+	pt, ok := astmodel.AsPrimitiveType(propertyType)
+	if !ok || pt != astmodel.StringType {
+		return false
+	}
+
+	// If the property name contains any of the secret words, it might be a secret
+	n := strings.ToLower(string(prop.PropertyName()))
+	for _, secretWord := range secretWords {
+		if strings.Contains(n, secretWord) {
+			return true
+		}
+	}
+
+	return false
+}
+
+// A list of secret words to scan for.
+// Lowercase only, please.
+var secretWords = []string{
+	"password",
 }
 
 func transformSpecSecrets(definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {

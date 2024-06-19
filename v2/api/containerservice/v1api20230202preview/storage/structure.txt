@@ -396,7 +396,7 @@ ManagedCluster: Resource
 │   │   │   └── Until: *string
 │   │   └── PropertyBag: genruntime.PropertyBag
 │   ├── WindowsProfile: *Object (6 properties)
-│   │   ├── AdminPassword: *string
+│   │   ├── AdminPassword: *genruntime.SecretReference
 │   │   ├── AdminUsername: *string
 │   │   ├── EnableCSIProxy: *bool
 │   │   ├── GmsaProfile: *Object (4 properties)
@@ -848,8 +848,7 @@ ManagedCluster: Resource
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── Until: *string
     │   └── PropertyBag: genruntime.PropertyBag
-    ├── WindowsProfile: *Object (6 properties)
-    │   ├── AdminPassword: *string
+    ├── WindowsProfile: *Object (5 properties)
     │   ├── AdminUsername: *string
     │   ├── EnableCSIProxy: *bool
     │   ├── GmsaProfile: *Object (4 properties)

@@ -857,7 +857,7 @@ func (account *BatchAccount_Spec) Initialize_From_BatchAccount_STATUS(source *Ba
 
 	// PoolAllocationMode
 	if source.PoolAllocationMode != nil {
-		poolAllocationMode := PoolAllocationMode(*source.PoolAllocationMode)
+		poolAllocationMode := genruntime.ToEnum(string(*source.PoolAllocationMode), poolAllocationMode_Values)
 		account.PoolAllocationMode = &poolAllocationMode
 	} else {
 		account.PoolAllocationMode = nil
@@ -865,7 +865,7 @@ func (account *BatchAccount_Spec) Initialize_From_BatchAccount_STATUS(source *Ba
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := PublicNetworkAccessType(*source.PublicNetworkAccess)
+		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), publicNetworkAccessType_Values)
 		account.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		account.PublicNetworkAccess = nil
@@ -1863,7 +1863,7 @@ func (identity *BatchAccountIdentity) Initialize_From_BatchAccountIdentity_STATU
 
 	// Type
 	if source.Type != nil {
-		typeVar := BatchAccountIdentity_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), batchAccountIdentity_Type_Values)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -2201,7 +2201,7 @@ func (properties *EncryptionProperties) Initialize_From_EncryptionProperties_STA
 
 	// KeySource
 	if source.KeySource != nil {
-		keySource := EncryptionProperties_KeySource(*source.KeySource)
+		keySource := genruntime.ToEnum(string(*source.KeySource), encryptionProperties_KeySource_Values)
 		properties.KeySource = &keySource
 	} else {
 		properties.KeySource = nil

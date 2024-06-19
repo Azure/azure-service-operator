@@ -246,7 +246,7 @@ ManagedCluster: Resource
 │   │   └── Tier: *string
 │   ├── Tags: map[string]string
 │   └── WindowsProfile: *Object (5 properties)
-│       ├── AdminPassword: *string
+│       ├── AdminPassword: *genruntime.SecretReference
 │       ├── AdminUsername: *string
 │       ├── EnableCSIProxy: *bool
 │       ├── LicenseType: *string
@@ -522,8 +522,7 @@ ManagedCluster: Resource
     │   └── Tier: *string
     ├── Tags: map[string]string
     ├── Type: *string
-    └── WindowsProfile: *Object (5 properties)
-        ├── AdminPassword: *string
+    └── WindowsProfile: *Object (4 properties)
         ├── AdminUsername: *string
         ├── EnableCSIProxy: *bool
         ├── LicenseType: *string

@@ -587,7 +587,7 @@ func (fragment *Service_PolicyFragment_Spec) Initialize_From_Service_PolicyFragm
 
 	// Format
 	if source.Format != nil {
-		format := PolicyFragmentContractProperties_Format(*source.Format)
+		format := genruntime.ToEnum(string(*source.Format), policyFragmentContractProperties_Format_Values)
 		fragment.Format = &format
 	} else {
 		fragment.Format = nil

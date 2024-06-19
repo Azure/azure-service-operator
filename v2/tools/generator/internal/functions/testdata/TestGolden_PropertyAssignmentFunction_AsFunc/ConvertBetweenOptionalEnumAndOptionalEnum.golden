@@ -3,7 +3,10 @@
 // Licensed under the MIT license.
 package vcurrent
 
-import vnext "github.com/Azure/azure-service-operator/testing/verification/vnext"
+import (
+	vnext "github.com/Azure/azure-service-operator/testing/verification/vnext"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+)
 
 type Person struct {
 	Release *Bucket `json:"release,omitempty"`
@@ -14,7 +17,7 @@ func (person *Person) AssignProperties_From_Person(source *vnext.Person) error {
 
 	// Release
 	if source.Release != nil {
-		release := Bucket(*source.Release)
+		release := genruntime.ToEnum(string(*source.Release), bucket_Values)
 		person.Release = &release
 	} else {
 		person.Release = nil
@@ -29,7 +32,7 @@ func (person *Person) AssignProperties_To_Person(destination *vnext.Person) erro
 
 	// Release
 	if person.Release != nil {
-		release := Bucket(*person.Release)
+		release := genruntime.ToEnum(string(*person.Release), bucket_Values)
 		destination.Release = &release
 	} else {
 		destination.Release = nil

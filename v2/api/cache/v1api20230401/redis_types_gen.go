@@ -1070,7 +1070,7 @@ func (redis *Redis_Spec) Initialize_From_Redis_STATUS(source *Redis_STATUS) erro
 
 	// MinimumTlsVersion
 	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := RedisCreateProperties_MinimumTlsVersion(*source.MinimumTlsVersion)
+		minimumTlsVersion := genruntime.ToEnum(string(*source.MinimumTlsVersion), redisCreateProperties_MinimumTlsVersion_Values)
 		redis.MinimumTlsVersion = &minimumTlsVersion
 	} else {
 		redis.MinimumTlsVersion = nil
@@ -1078,7 +1078,7 @@ func (redis *Redis_Spec) Initialize_From_Redis_STATUS(source *Redis_STATUS) erro
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := RedisCreateProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
+		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), redisCreateProperties_PublicNetworkAccess_Values)
 		redis.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		redis.PublicNetworkAccess = nil
@@ -2077,7 +2077,7 @@ func (identity *ManagedServiceIdentity) Initialize_From_ManagedServiceIdentity_S
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagedServiceIdentityType(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), managedServiceIdentityType_Values)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -3518,7 +3518,7 @@ func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
 
 	// Family
 	if source.Family != nil {
-		family := Sku_Family(*source.Family)
+		family := genruntime.ToEnum(string(*source.Family), sku_Family_Values)
 		sku.Family = &family
 	} else {
 		sku.Family = nil
@@ -3526,7 +3526,7 @@ func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
 
 	// Name
 	if source.Name != nil {
-		name := Sku_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), sku_Name_Values)
 		sku.Name = &name
 	} else {
 		sku.Name = nil

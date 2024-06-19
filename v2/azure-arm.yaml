@@ -1529,6 +1529,9 @@ objectModelConfiguration:
       ManagedClusterServicePrincipalProfile:
         Secret:
           $isSecret: true
+      ManagedClusterWindowsProfile:
+        AdminPassword:
+          $isSecret: true
       PrivateLinkResource:
         Id:
           $armReference: true
@@ -1564,6 +1567,9 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0
       ManagedClusterServicePrincipalProfile:
         Secret:
+          $isSecret: true
+      ManagedClusterWindowsProfile:
+        AdminPassword:
           $isSecret: true
       PrivateLinkResource:
         Id:
@@ -1604,6 +1610,9 @@ objectModelConfiguration:
       ManagedClusters_TrustedAccessRoleBinding:
         $exportAs: TrustedAccessRoleBinding
         $supportedFrom: v2.2.0
+      ManagedClusterWindowsProfile:
+        AdminPassword:
+          $isSecret: true
       TrustedAccessRoleBindingProperties:
         SourceResourceId:
           $armReference: true
@@ -1660,6 +1669,9 @@ objectModelConfiguration:
       ManagedClusterServicePrincipalProfile:
         Secret:
           $isSecret: true
+      ManagedClusterWindowsProfile:
+        AdminPassword:
+          $isSecret: true
       PrivateLinkResource:
         Id:
           $armReference: true
@@ -1701,6 +1713,9 @@ objectModelConfiguration:
       ManagedClusterServicePrincipalProfile:
         Secret:
           $isSecret: true
+      ManagedClusterWindowsProfile:
+        AdminPassword:
+          $isSecret: true
       PrivateLinkResource:
         Id:
           $armReference: true
@@ -1738,6 +1753,9 @@ objectModelConfiguration:
         $supportedFrom: v2.8.0
       ManagedClusterServicePrincipalProfile:
         Secret:
+          $isSecret: true
+      ManagedClusterWindowsProfile:
+        AdminPassword:
           $isSecret: true
       PrivateLinkResource:
         Id:

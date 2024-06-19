@@ -1453,7 +1453,7 @@ func (resource *MongoDBCollectionResource) Initialize_From_MongoDBCollectionGetP
 
 	// CreateMode
 	if source.CreateMode != nil {
-		createMode := CreateMode(*source.CreateMode)
+		createMode := genruntime.ToEnum(string(*source.CreateMode), createMode_Values)
 		resource.CreateMode = &createMode
 	} else {
 		resource.CreateMode = nil

@@ -89,11 +89,52 @@ spec:
 
 ### Rotating credentials
 
+{{% alert title="Warning" color="warning" %}}
+We recommend using Managed Identities wherever possible to avoid having to manually manage credentials.
+{{% /alert %}}
+
 Azure Service Operator does not currently support rotation Azure generated credentials through Kubernetes.
 ASO will (after some time) pick up rotations that happen via `az cli` or other tools. In order to avoid downtime
 during the sync time, applications must have access to both the primary and secondary key and fall back from the 
 primary to the secondary in the case authentication fails.
-The recommended pattern for rotating credentials that support a primary and secondary key is to rotate the primary key with the `az cli` or Azure portal,
-wait for 30m and then rotate the secondary key as well. As mentioned above, pods using the secrets ASO populates containing the
-Azure generated secrets should mount the secrets as a volume so that they are automatically updated as soon as ASO picks up the new secret
-value.  
+The recommended pattern for rotating credentials that support a primary and secondary key is to rotate the primary 
+key with the `az cli` or Azure portal, wait for 30m and then rotate the secondary key as well. 
+
+As mentioned above, pods using the secrets ASO populates containing the
+Azure generated secrets should mount the secrets as a volume so that they are automatically updated as soon as 
+ASO picks up the new secret value.
+
+Alternatively, instead of waiting 30m and having the application have logic to fallback to the other key during a 
+rotation, a tool like [reloader](https://github.com/stakater/Reloader) can be used to automate the process.
+
+The rotation process for an example resource such as CosmosDB then becomes: 
+
+Starting with the following `operatorSpec`:
+```yaml
+operatorSpec:
+  secrets:
+    primaryMasterKey:
+      name: cosmos-db
+      key: key
+```
+
+1. Rotate the secondary key.
+2. Update the `operatorSpec.secrets` `SecretDestination` to use the secondary key.
+    ```yaml
+    operatorSpec:
+      secrets:
+        primarySecondaryKey:
+          name: cosmos-db
+          key: key
+    ```
+3. Refresh workload (via `reloader`). Once workload pods are refreshed, proceed to next step.
+4. Rotate the primary key.
+5. Update the `operatorSpec.secrets` `SecretDestination` to use the primary key.
+    ```yaml
+    operatorSpec:
+      secrets:
+        primaryMasterKey:
+          name: cosmos-db
+          key: key
+    ```
+6. Refresh workload (via `reloader`).

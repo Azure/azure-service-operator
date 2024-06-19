@@ -896,7 +896,7 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) Initialize_From_Traffic
 		for allowedEndpointRecordTypeIndex, allowedEndpointRecordTypeItem := range source.AllowedEndpointRecordTypes {
 			// Shadow the loop variable to avoid aliasing
 			allowedEndpointRecordTypeItem := allowedEndpointRecordTypeItem
-			allowedEndpointRecordType := AllowedEndpointRecordType(allowedEndpointRecordTypeItem)
+			allowedEndpointRecordType := genruntime.ToEnum(string(allowedEndpointRecordTypeItem), allowedEndpointRecordType_Values)
 			allowedEndpointRecordTypeList[allowedEndpointRecordTypeIndex] = allowedEndpointRecordType
 		}
 		trafficmanagerprofile.AllowedEndpointRecordTypes = allowedEndpointRecordTypeList
@@ -936,7 +936,7 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) Initialize_From_Traffic
 
 	// ProfileStatus
 	if source.ProfileStatus != nil {
-		profileStatus := ProfileProperties_ProfileStatus(*source.ProfileStatus)
+		profileStatus := genruntime.ToEnum(string(*source.ProfileStatus), profileProperties_ProfileStatus_Values)
 		trafficmanagerprofile.ProfileStatus = &profileStatus
 	} else {
 		trafficmanagerprofile.ProfileStatus = nil
@@ -947,7 +947,7 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) Initialize_From_Traffic
 
 	// TrafficRoutingMethod
 	if source.TrafficRoutingMethod != nil {
-		trafficRoutingMethod := ProfileProperties_TrafficRoutingMethod(*source.TrafficRoutingMethod)
+		trafficRoutingMethod := genruntime.ToEnum(string(*source.TrafficRoutingMethod), profileProperties_TrafficRoutingMethod_Values)
 		trafficmanagerprofile.TrafficRoutingMethod = &trafficRoutingMethod
 	} else {
 		trafficmanagerprofile.TrafficRoutingMethod = nil
@@ -955,7 +955,7 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) Initialize_From_Traffic
 
 	// TrafficViewEnrollmentStatus
 	if source.TrafficViewEnrollmentStatus != nil {
-		trafficViewEnrollmentStatus := ProfileProperties_TrafficViewEnrollmentStatus(*source.TrafficViewEnrollmentStatus)
+		trafficViewEnrollmentStatus := genruntime.ToEnum(string(*source.TrafficViewEnrollmentStatus), profileProperties_TrafficViewEnrollmentStatus_Values)
 		trafficmanagerprofile.TrafficViewEnrollmentStatus = &trafficViewEnrollmentStatus
 	} else {
 		trafficmanagerprofile.TrafficViewEnrollmentStatus = nil
@@ -2127,7 +2127,7 @@ func (config *MonitorConfig) Initialize_From_MonitorConfig_STATUS(source *Monito
 
 	// ProfileMonitorStatus
 	if source.ProfileMonitorStatus != nil {
-		profileMonitorStatus := MonitorConfig_ProfileMonitorStatus(*source.ProfileMonitorStatus)
+		profileMonitorStatus := genruntime.ToEnum(string(*source.ProfileMonitorStatus), monitorConfig_ProfileMonitorStatus_Values)
 		config.ProfileMonitorStatus = &profileMonitorStatus
 	} else {
 		config.ProfileMonitorStatus = nil
@@ -2135,7 +2135,7 @@ func (config *MonitorConfig) Initialize_From_MonitorConfig_STATUS(source *Monito
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := MonitorConfig_Protocol(*source.Protocol)
+		protocol := genruntime.ToEnum(string(*source.Protocol), monitorConfig_Protocol_Values)
 		config.Protocol = &protocol
 	} else {
 		config.Protocol = nil

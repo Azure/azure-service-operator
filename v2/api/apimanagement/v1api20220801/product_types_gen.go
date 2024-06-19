@@ -737,7 +737,7 @@ func (product *Service_Product_Spec) Initialize_From_Service_Product_STATUS(sour
 
 	// State
 	if source.State != nil {
-		state := ProductContractProperties_State(*source.State)
+		state := genruntime.ToEnum(string(*source.State), productContractProperties_State_Values)
 		product.State = &state
 	} else {
 		product.State = nil

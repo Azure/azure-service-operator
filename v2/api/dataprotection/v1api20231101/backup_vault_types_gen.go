@@ -3333,7 +3333,7 @@ func (setting *StorageSetting) Initialize_From_StorageSetting_STATUS(source *Sto
 
 	// DatastoreType
 	if source.DatastoreType != nil {
-		datastoreType := StorageSetting_DatastoreType(*source.DatastoreType)
+		datastoreType := genruntime.ToEnum(string(*source.DatastoreType), storageSetting_DatastoreType_Values)
 		setting.DatastoreType = &datastoreType
 	} else {
 		setting.DatastoreType = nil
@@ -3341,7 +3341,7 @@ func (setting *StorageSetting) Initialize_From_StorageSetting_STATUS(source *Sto
 
 	// Type
 	if source.Type != nil {
-		typeVar := StorageSetting_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), storageSetting_Type_Values)
 		setting.Type = &typeVar
 	} else {
 		setting.Type = nil
@@ -3644,7 +3644,7 @@ func (settings *AzureMonitorAlertSettings) Initialize_From_AzureMonitorAlertSett
 
 	// AlertsForAllJobFailures
 	if source.AlertsForAllJobFailures != nil {
-		alertsForAllJobFailure := AzureMonitorAlertSettings_AlertsForAllJobFailures(*source.AlertsForAllJobFailures)
+		alertsForAllJobFailure := genruntime.ToEnum(string(*source.AlertsForAllJobFailures), azureMonitorAlertSettings_AlertsForAllJobFailures_Values)
 		settings.AlertsForAllJobFailures = &alertsForAllJobFailure
 	} else {
 		settings.AlertsForAllJobFailures = nil
@@ -3812,7 +3812,7 @@ func (settings *CrossRegionRestoreSettings) Initialize_From_CrossRegionRestoreSe
 
 	// State
 	if source.State != nil {
-		state := CrossRegionRestoreSettings_State(*source.State)
+		state := genruntime.ToEnum(string(*source.State), crossRegionRestoreSettings_State_Values)
 		settings.State = &state
 	} else {
 		settings.State = nil
@@ -3981,7 +3981,7 @@ func (settings *CrossSubscriptionRestoreSettings) Initialize_From_CrossSubscript
 
 	// State
 	if source.State != nil {
-		state := CrossSubscriptionRestoreSettings_State(*source.State)
+		state := genruntime.ToEnum(string(*source.State), crossSubscriptionRestoreSettings_State_Values)
 		settings.State = &state
 	} else {
 		settings.State = nil
@@ -4151,7 +4151,7 @@ func (settings *ImmutabilitySettings) Initialize_From_ImmutabilitySettings_STATU
 
 	// State
 	if source.State != nil {
-		state := ImmutabilitySettings_State(*source.State)
+		state := genruntime.ToEnum(string(*source.State), immutabilitySettings_State_Values)
 		settings.State = &state
 	} else {
 		settings.State = nil
@@ -4360,7 +4360,7 @@ func (settings *SoftDeleteSettings) Initialize_From_SoftDeleteSettings_STATUS(so
 
 	// State
 	if source.State != nil {
-		state := SoftDeleteSettings_State(*source.State)
+		state := genruntime.ToEnum(string(*source.State), softDeleteSettings_State_Values)
 		settings.State = &state
 	} else {
 		settings.State = nil

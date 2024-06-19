@@ -526,6 +526,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Obj: new(containerservice_v20231001s.ManagedCluster),
 		Indexes: []registration.Index{
 			{
+				Key:  ".spec.windowsProfile.adminPassword",
+				Func: indexContainerserviceManagedClusterAdminPassword,
+			},
+			{
 				Key:  ".spec.servicePrincipalProfile.secret",
 				Func: indexContainerserviceManagedClusterSecret,
 			},
@@ -533,7 +537,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{
 			{
 				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.servicePrincipalProfile.secret"}, &containerservice_v20231001s.ManagedClusterList{}),
+				MakeEventHandler: watchSecretsFactory([]string{".spec.servicePrincipalProfile.secret", ".spec.windowsProfile.adminPassword"}, &containerservice_v20231001s.ManagedClusterList{}),
 			},
 		},
 	})
@@ -2779,6 +2783,21 @@ func indexContainerinstanceContainerGroupWorkspaceKey(rawObj client.Object) []st
 		return nil
 	}
 	return obj.Spec.Diagnostics.LogAnalytics.WorkspaceKey.Index()
+}
+
+// indexContainerserviceManagedClusterAdminPassword an index function for containerservice_v20231001s.ManagedCluster .spec.windowsProfile.adminPassword
+func indexContainerserviceManagedClusterAdminPassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerservice_v20231001s.ManagedCluster)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.WindowsProfile == nil {
+		return nil
+	}
+	if obj.Spec.WindowsProfile.AdminPassword == nil {
+		return nil
+	}
+	return obj.Spec.WindowsProfile.AdminPassword.Index()
 }
 
 // indexContainerserviceManagedClusterSecret an index function for containerservice_v20231001s.ManagedCluster .spec.servicePrincipalProfile.secret

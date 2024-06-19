@@ -935,7 +935,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) Initialize_From_NetworkSecu
 
 	// Access
 	if source.Access != nil {
-		access := SecurityRuleAccess(*source.Access)
+		access := genruntime.ToEnum(string(*source.Access), securityRuleAccess_Values)
 		rule.Access = &access
 	} else {
 		rule.Access = nil
@@ -976,7 +976,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) Initialize_From_NetworkSecu
 
 	// Direction
 	if source.Direction != nil {
-		direction := SecurityRuleDirection(*source.Direction)
+		direction := genruntime.ToEnum(string(*source.Direction), securityRuleDirection_Values)
 		rule.Direction = &direction
 	} else {
 		rule.Direction = nil
@@ -987,7 +987,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) Initialize_From_NetworkSecu
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := SecurityRulePropertiesFormat_Protocol(*source.Protocol)
+		protocol := genruntime.ToEnum(string(*source.Protocol), securityRulePropertiesFormat_Protocol_Values)
 		rule.Protocol = &protocol
 	} else {
 		rule.Protocol = nil
