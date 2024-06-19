@@ -1368,7 +1368,7 @@ func (gatewaySku *NatGatewaySku) Initialize_From_NatGatewaySku_STATUS(source *Na
 
 	// Name
 	if source.Name != nil {
-		name := NatGatewaySku_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), natGatewaySku_Name_Values)
 		gatewaySku.Name = &name
 	} else {
 		gatewaySku.Name = nil

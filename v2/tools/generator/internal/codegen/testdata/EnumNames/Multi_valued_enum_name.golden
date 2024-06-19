@@ -431,7 +431,7 @@ func (resource *AResource_Spec) AssignProperties_From_AResource_Spec(source *sto
 	}
 
 	// AzureName
-	azureName := AResource_Name_Spec(source.AzureName)
+	azureName := genruntime.ToEnum(string(source.AzureName), aResource_Name_Spec_Values)
 	resource.AzureName = azureName
 
 	// Owner
@@ -464,7 +464,7 @@ func (resource *AResource_Spec) AssignProperties_To_AResource_Spec(destination *
 	destination.APIVersion = &apiVersion
 
 	// AzureName
-	azureName := AResource_Name_Spec(resource.AzureName)
+	azureName := genruntime.ToEnum(string(resource.AzureName), aResource_Name_Spec_Values)
 	destination.AzureName = azureName
 
 	// OriginalVersion

@@ -1268,7 +1268,7 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters) Initialize_Fro
 
 	// Type
 	if source.Type != nil {
-		typeVar := SecurityPolicyWebApplicationFirewallParameters_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), securityPolicyWebApplicationFirewallParameters_Type_Values)
 		parameters.Type = &typeVar
 	} else {
 		parameters.Type = nil

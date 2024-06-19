@@ -566,7 +566,7 @@ func (account *Account_Spec) Initialize_From_Account_STATUS(source *Account_STAT
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := AzureMonitorWorkspace_PublicNetworkAccess(*source.PublicNetworkAccess)
+		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), azureMonitorWorkspace_PublicNetworkAccess_Values)
 		account.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		account.PublicNetworkAccess = nil

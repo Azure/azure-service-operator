@@ -1178,7 +1178,7 @@ func (signalR *SignalR_Spec) Initialize_From_SignalR_STATUS(source *SignalR_STAT
 
 	// Kind
 	if source.Kind != nil {
-		kind := ServiceKind(*source.Kind)
+		kind := genruntime.ToEnum(string(*source.Kind), serviceKind_Values)
 		signalR.Kind = &kind
 	} else {
 		signalR.Kind = nil
@@ -2310,7 +2310,7 @@ func (identity *ManagedIdentity) Initialize_From_ManagedIdentity_STATUS(source *
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagedIdentityType(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), managedIdentityType_Values)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -2946,7 +2946,7 @@ func (resourceSku *ResourceSku) Initialize_From_ResourceSku_STATUS(source *Resou
 
 	// Tier
 	if source.Tier != nil {
-		tier := SignalRSkuTier(*source.Tier)
+		tier := genruntime.ToEnum(string(*source.Tier), signalRSkuTier_Values)
 		resourceSku.Tier = &tier
 	} else {
 		resourceSku.Tier = nil
@@ -3681,7 +3681,7 @@ func (feature *SignalRFeature) Initialize_From_SignalRFeature_STATUS(source *Sig
 
 	// Flag
 	if source.Flag != nil {
-		flag := FeatureFlags(*source.Flag)
+		flag := genruntime.ToEnum(string(*source.Flag), featureFlags_Values)
 		feature.Flag = &flag
 	} else {
 		feature.Flag = nil
@@ -4010,7 +4010,7 @@ func (acLs *SignalRNetworkACLs) Initialize_From_SignalRNetworkACLs_STATUS(source
 
 	// DefaultAction
 	if source.DefaultAction != nil {
-		defaultAction := ACLAction(*source.DefaultAction)
+		defaultAction := genruntime.ToEnum(string(*source.DefaultAction), aCLAction_Values)
 		acLs.DefaultAction = &defaultAction
 	} else {
 		acLs.DefaultAction = nil
@@ -4814,7 +4814,7 @@ func (networkACL *NetworkACL) Initialize_From_NetworkACL_STATUS(source *NetworkA
 		for allowIndex, allowItem := range source.Allow {
 			// Shadow the loop variable to avoid aliasing
 			allowItem := allowItem
-			allow := SignalRRequestType(allowItem)
+			allow := genruntime.ToEnum(string(allowItem), signalRRequestType_Values)
 			allowList[allowIndex] = allow
 		}
 		networkACL.Allow = allowList
@@ -4828,7 +4828,7 @@ func (networkACL *NetworkACL) Initialize_From_NetworkACL_STATUS(source *NetworkA
 		for denyIndex, denyItem := range source.Deny {
 			// Shadow the loop variable to avoid aliasing
 			denyItem := denyItem
-			deny := SignalRRequestType(denyItem)
+			deny := genruntime.ToEnum(string(denyItem), signalRRequestType_Values)
 			denyList[denyIndex] = deny
 		}
 		networkACL.Deny = denyList
@@ -5114,7 +5114,7 @@ func (endpointACL *PrivateEndpointACL) Initialize_From_PrivateEndpointACL_STATUS
 		for allowIndex, allowItem := range source.Allow {
 			// Shadow the loop variable to avoid aliasing
 			allowItem := allowItem
-			allow := SignalRRequestType(allowItem)
+			allow := genruntime.ToEnum(string(allowItem), signalRRequestType_Values)
 			allowList[allowIndex] = allow
 		}
 		endpointACL.Allow = allowList
@@ -5128,7 +5128,7 @@ func (endpointACL *PrivateEndpointACL) Initialize_From_PrivateEndpointACL_STATUS
 		for denyIndex, denyItem := range source.Deny {
 			// Shadow the loop variable to avoid aliasing
 			denyItem := denyItem
-			deny := SignalRRequestType(denyItem)
+			deny := genruntime.ToEnum(string(denyItem), signalRRequestType_Values)
 			denyList[denyIndex] = deny
 		}
 		endpointACL.Deny = denyList
@@ -6255,7 +6255,7 @@ func (settings *UpstreamAuthSettings) Initialize_From_UpstreamAuthSettings_STATU
 
 	// Type
 	if source.Type != nil {
-		typeVar := UpstreamAuthType(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), upstreamAuthType_Values)
 		settings.Type = &typeVar
 	} else {
 		settings.Type = nil

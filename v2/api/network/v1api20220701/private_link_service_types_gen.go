@@ -2182,7 +2182,7 @@ func (configuration *PrivateLinkServiceIpConfiguration) Initialize_From_PrivateL
 
 	// PrivateIPAddressVersion
 	if source.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := IPVersion(*source.PrivateIPAddressVersion)
+		privateIPAddressVersion := genruntime.ToEnum(string(*source.PrivateIPAddressVersion), iPVersion_Values)
 		configuration.PrivateIPAddressVersion = &privateIPAddressVersion
 	} else {
 		configuration.PrivateIPAddressVersion = nil
@@ -2190,7 +2190,7 @@ func (configuration *PrivateLinkServiceIpConfiguration) Initialize_From_PrivateL
 
 	// PrivateIPAllocationMethod
 	if source.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := IPAllocationMethod(*source.PrivateIPAllocationMethod)
+		privateIPAllocationMethod := genruntime.ToEnum(string(*source.PrivateIPAllocationMethod), iPAllocationMethod_Values)
 		configuration.PrivateIPAllocationMethod = &privateIPAllocationMethod
 	} else {
 		configuration.PrivateIPAllocationMethod = nil

@@ -852,7 +852,7 @@ func (origin *Profiles_OriginGroups_Origin_Spec) Initialize_From_Profiles_Origin
 
 	// EnabledState
 	if source.EnabledState != nil {
-		enabledState := AFDOriginProperties_EnabledState(*source.EnabledState)
+		enabledState := genruntime.ToEnum(string(*source.EnabledState), aFDOriginProperties_EnabledState_Values)
 		origin.EnabledState = &enabledState
 	} else {
 		origin.EnabledState = nil
@@ -1728,7 +1728,7 @@ func (properties *SharedPrivateLinkResourceProperties) Initialize_From_SharedPri
 
 	// Status
 	if source.Status != nil {
-		status := SharedPrivateLinkResourceProperties_Status(*source.Status)
+		status := genruntime.ToEnum(string(*source.Status), sharedPrivateLinkResourceProperties_Status_Values)
 		properties.Status = &status
 	} else {
 		properties.Status = nil

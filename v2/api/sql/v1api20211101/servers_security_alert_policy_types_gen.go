@@ -667,7 +667,7 @@ func (policy *Servers_SecurityAlertPolicy_Spec) Initialize_From_Servers_Security
 
 	// State
 	if source.State != nil {
-		state := ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_State(*source.State)
+		state := genruntime.ToEnum(string(*source.State), serverSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_Values)
 		policy.State = &state
 	} else {
 		policy.State = nil

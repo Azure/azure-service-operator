@@ -1421,7 +1421,7 @@ func (database *Servers_Database_Spec) Initialize_From_Servers_Database_STATUS(s
 
 	// CatalogCollation
 	if source.CatalogCollation != nil {
-		catalogCollation := DatabaseProperties_CatalogCollation(*source.CatalogCollation)
+		catalogCollation := genruntime.ToEnum(string(*source.CatalogCollation), databaseProperties_CatalogCollation_Values)
 		database.CatalogCollation = &catalogCollation
 	} else {
 		database.CatalogCollation = nil
@@ -1432,7 +1432,7 @@ func (database *Servers_Database_Spec) Initialize_From_Servers_Database_STATUS(s
 
 	// CreateMode
 	if source.CreateMode != nil {
-		createMode := DatabaseProperties_CreateMode(*source.CreateMode)
+		createMode := genruntime.ToEnum(string(*source.CreateMode), databaseProperties_CreateMode_Values)
 		database.CreateMode = &createMode
 	} else {
 		database.CreateMode = nil
@@ -1479,7 +1479,7 @@ func (database *Servers_Database_Spec) Initialize_From_Servers_Database_STATUS(s
 
 	// LicenseType
 	if source.LicenseType != nil {
-		licenseType := DatabaseProperties_LicenseType(*source.LicenseType)
+		licenseType := genruntime.ToEnum(string(*source.LicenseType), databaseProperties_LicenseType_Values)
 		database.LicenseType = &licenseType
 	} else {
 		database.LicenseType = nil
@@ -1512,7 +1512,7 @@ func (database *Servers_Database_Spec) Initialize_From_Servers_Database_STATUS(s
 
 	// ReadScale
 	if source.ReadScale != nil {
-		readScale := DatabaseProperties_ReadScale(*source.ReadScale)
+		readScale := genruntime.ToEnum(string(*source.ReadScale), databaseProperties_ReadScale_Values)
 		database.ReadScale = &readScale
 	} else {
 		database.ReadScale = nil
@@ -1536,7 +1536,7 @@ func (database *Servers_Database_Spec) Initialize_From_Servers_Database_STATUS(s
 
 	// RequestedBackupStorageRedundancy
 	if source.RequestedBackupStorageRedundancy != nil {
-		requestedBackupStorageRedundancy := DatabaseProperties_RequestedBackupStorageRedundancy(*source.RequestedBackupStorageRedundancy)
+		requestedBackupStorageRedundancy := genruntime.ToEnum(string(*source.RequestedBackupStorageRedundancy), databaseProperties_RequestedBackupStorageRedundancy_Values)
 		database.RequestedBackupStorageRedundancy = &requestedBackupStorageRedundancy
 	} else {
 		database.RequestedBackupStorageRedundancy = nil
@@ -1555,7 +1555,7 @@ func (database *Servers_Database_Spec) Initialize_From_Servers_Database_STATUS(s
 
 	// SampleName
 	if source.SampleName != nil {
-		sampleName := DatabaseProperties_SampleName(*source.SampleName)
+		sampleName := genruntime.ToEnum(string(*source.SampleName), databaseProperties_SampleName_Values)
 		database.SampleName = &sampleName
 	} else {
 		database.SampleName = nil
@@ -1563,7 +1563,7 @@ func (database *Servers_Database_Spec) Initialize_From_Servers_Database_STATUS(s
 
 	// SecondaryType
 	if source.SecondaryType != nil {
-		secondaryType := DatabaseProperties_SecondaryType(*source.SecondaryType)
+		secondaryType := genruntime.ToEnum(string(*source.SecondaryType), databaseProperties_SecondaryType_Values)
 		database.SecondaryType = &secondaryType
 	} else {
 		database.SecondaryType = nil
@@ -2969,7 +2969,7 @@ func (identity *DatabaseIdentity) Initialize_From_DatabaseIdentity_STATUS(source
 
 	// Type
 	if source.Type != nil {
-		typeVar := DatabaseIdentity_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), databaseIdentity_Type_Values)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil

@@ -1192,7 +1192,7 @@ func (address *PublicIPAddress_Spec) Initialize_From_PublicIPAddress_STATUS_Publ
 
 	// PublicIPAddressVersion
 	if source.PublicIPAddressVersion != nil {
-		publicIPAddressVersion := IPVersion(*source.PublicIPAddressVersion)
+		publicIPAddressVersion := genruntime.ToEnum(string(*source.PublicIPAddressVersion), iPVersion_Values)
 		address.PublicIPAddressVersion = &publicIPAddressVersion
 	} else {
 		address.PublicIPAddressVersion = nil
@@ -1200,7 +1200,7 @@ func (address *PublicIPAddress_Spec) Initialize_From_PublicIPAddress_STATUS_Publ
 
 	// PublicIPAllocationMethod
 	if source.PublicIPAllocationMethod != nil {
-		publicIPAllocationMethod := IPAllocationMethod(*source.PublicIPAllocationMethod)
+		publicIPAllocationMethod := genruntime.ToEnum(string(*source.PublicIPAllocationMethod), iPAllocationMethod_Values)
 		address.PublicIPAllocationMethod = &publicIPAllocationMethod
 	} else {
 		address.PublicIPAllocationMethod = nil
@@ -2152,7 +2152,7 @@ func (settings *DdosSettings) Initialize_From_DdosSettings_STATUS(source *DdosSe
 
 	// ProtectionCoverage
 	if source.ProtectionCoverage != nil {
-		protectionCoverage := DdosSettings_ProtectionCoverage(*source.ProtectionCoverage)
+		protectionCoverage := genruntime.ToEnum(string(*source.ProtectionCoverage), ddosSettings_ProtectionCoverage_Values)
 		settings.ProtectionCoverage = &protectionCoverage
 	} else {
 		settings.ProtectionCoverage = nil
@@ -3125,7 +3125,7 @@ func (addressSku *PublicIPAddressSku) Initialize_From_PublicIPAddressSku_STATUS(
 
 	// Name
 	if source.Name != nil {
-		name := PublicIPAddressSku_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), publicIPAddressSku_Name_Values)
 		addressSku.Name = &name
 	} else {
 		addressSku.Name = nil
@@ -3133,7 +3133,7 @@ func (addressSku *PublicIPAddressSku) Initialize_From_PublicIPAddressSku_STATUS(
 
 	// Tier
 	if source.Tier != nil {
-		tier := PublicIPAddressSku_Tier(*source.Tier)
+		tier := genruntime.ToEnum(string(*source.Tier), publicIPAddressSku_Tier_Values)
 		addressSku.Tier = &tier
 	} else {
 		addressSku.Tier = nil

@@ -870,7 +870,7 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) Initialize_From_Virtu
 
 	// PeeringState
 	if source.PeeringState != nil {
-		peeringState := VirtualNetworkPeeringPropertiesFormat_PeeringState(*source.PeeringState)
+		peeringState := genruntime.ToEnum(string(*source.PeeringState), virtualNetworkPeeringPropertiesFormat_PeeringState_Values)
 		peering.PeeringState = &peeringState
 	} else {
 		peering.PeeringState = nil

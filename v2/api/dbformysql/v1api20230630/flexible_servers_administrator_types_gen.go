@@ -667,7 +667,7 @@ func (administrator *FlexibleServers_Administrator_Spec) Initialize_From_Flexibl
 
 	// AdministratorType
 	if source.AdministratorType != nil {
-		administratorType := AdministratorProperties_AdministratorType(*source.AdministratorType)
+		administratorType := genruntime.ToEnum(string(*source.AdministratorType), administratorProperties_AdministratorType_Values)
 		administrator.AdministratorType = &administratorType
 	} else {
 		administrator.AdministratorType = nil

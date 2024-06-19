@@ -732,7 +732,7 @@ func (zone *DnsZone_Spec) Initialize_From_DnsZone_STATUS(source *DnsZone_STATUS)
 
 	// ZoneType
 	if source.ZoneType != nil {
-		zoneType := ZoneProperties_ZoneType(*source.ZoneType)
+		zoneType := genruntime.ToEnum(string(*source.ZoneType), zoneProperties_ZoneType_Values)
 		zone.ZoneType = &zoneType
 	} else {
 		zone.ZoneType = nil

@@ -707,7 +707,7 @@ func (assignment *RoleAssignment_Spec) Initialize_From_RoleAssignment_STATUS(sou
 
 	// PrincipalType
 	if source.PrincipalType != nil {
-		principalType := RoleAssignmentProperties_PrincipalType(*source.PrincipalType)
+		principalType := genruntime.ToEnum(string(*source.PrincipalType), roleAssignmentProperties_PrincipalType_Values)
 		assignment.PrincipalType = &principalType
 	} else {
 		assignment.PrincipalType = nil

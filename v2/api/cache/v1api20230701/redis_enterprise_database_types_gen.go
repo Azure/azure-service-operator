@@ -768,7 +768,7 @@ func (database *RedisEnterprise_Database_Spec) Initialize_From_RedisEnterprise_D
 
 	// ClientProtocol
 	if source.ClientProtocol != nil {
-		clientProtocol := DatabaseProperties_ClientProtocol(*source.ClientProtocol)
+		clientProtocol := genruntime.ToEnum(string(*source.ClientProtocol), databaseProperties_ClientProtocol_Values)
 		database.ClientProtocol = &clientProtocol
 	} else {
 		database.ClientProtocol = nil
@@ -776,7 +776,7 @@ func (database *RedisEnterprise_Database_Spec) Initialize_From_RedisEnterprise_D
 
 	// ClusteringPolicy
 	if source.ClusteringPolicy != nil {
-		clusteringPolicy := DatabaseProperties_ClusteringPolicy(*source.ClusteringPolicy)
+		clusteringPolicy := genruntime.ToEnum(string(*source.ClusteringPolicy), databaseProperties_ClusteringPolicy_Values)
 		database.ClusteringPolicy = &clusteringPolicy
 	} else {
 		database.ClusteringPolicy = nil
@@ -784,7 +784,7 @@ func (database *RedisEnterprise_Database_Spec) Initialize_From_RedisEnterprise_D
 
 	// EvictionPolicy
 	if source.EvictionPolicy != nil {
-		evictionPolicy := DatabaseProperties_EvictionPolicy(*source.EvictionPolicy)
+		evictionPolicy := genruntime.ToEnum(string(*source.EvictionPolicy), databaseProperties_EvictionPolicy_Values)
 		database.EvictionPolicy = &evictionPolicy
 	} else {
 		database.EvictionPolicy = nil
@@ -2058,7 +2058,7 @@ func (persistence *Persistence) Initialize_From_Persistence_STATUS(source *Persi
 
 	// AofFrequency
 	if source.AofFrequency != nil {
-		aofFrequency := Persistence_AofFrequency(*source.AofFrequency)
+		aofFrequency := genruntime.ToEnum(string(*source.AofFrequency), persistence_AofFrequency_Values)
 		persistence.AofFrequency = &aofFrequency
 	} else {
 		persistence.AofFrequency = nil
@@ -2074,7 +2074,7 @@ func (persistence *Persistence) Initialize_From_Persistence_STATUS(source *Persi
 
 	// RdbFrequency
 	if source.RdbFrequency != nil {
-		rdbFrequency := Persistence_RdbFrequency(*source.RdbFrequency)
+		rdbFrequency := genruntime.ToEnum(string(*source.RdbFrequency), persistence_RdbFrequency_Values)
 		persistence.RdbFrequency = &rdbFrequency
 	} else {
 		persistence.RdbFrequency = nil

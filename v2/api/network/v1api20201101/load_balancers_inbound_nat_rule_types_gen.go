@@ -743,7 +743,7 @@ func (rule *LoadBalancers_InboundNatRule_Spec) Initialize_From_LoadBalancers_Inb
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := TransportProtocol(*source.Protocol)
+		protocol := genruntime.ToEnum(string(*source.Protocol), transportProtocol_Values)
 		rule.Protocol = &protocol
 	} else {
 		rule.Protocol = nil

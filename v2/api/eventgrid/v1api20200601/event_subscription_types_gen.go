@@ -772,7 +772,7 @@ func (subscription *EventSubscription_Spec) Initialize_From_EventSubscription_ST
 
 	// EventDeliverySchema
 	if source.EventDeliverySchema != nil {
-		eventDeliverySchema := EventSubscriptionProperties_EventDeliverySchema(*source.EventDeliverySchema)
+		eventDeliverySchema := genruntime.ToEnum(string(*source.EventDeliverySchema), eventSubscriptionProperties_EventDeliverySchema_Values)
 		subscription.EventDeliverySchema = &eventDeliverySchema
 	} else {
 		subscription.EventDeliverySchema = nil
@@ -4372,7 +4372,7 @@ func (destination *AzureFunctionEventSubscriptionDestination) Initialize_From_Az
 
 	// EndpointType
 	if source.EndpointType != nil {
-		endpointType := AzureFunctionEventSubscriptionDestination_EndpointType(*source.EndpointType)
+		endpointType := genruntime.ToEnum(string(*source.EndpointType), azureFunctionEventSubscriptionDestination_EndpointType_Values)
 		destination.EndpointType = &endpointType
 	} else {
 		destination.EndpointType = nil
@@ -4638,7 +4638,7 @@ func (destination *EventHubEventSubscriptionDestination) Initialize_From_EventHu
 
 	// EndpointType
 	if source.EndpointType != nil {
-		endpointType := EventHubEventSubscriptionDestination_EndpointType(*source.EndpointType)
+		endpointType := genruntime.ToEnum(string(*source.EndpointType), eventHubEventSubscriptionDestination_EndpointType_Values)
 		destination.EndpointType = &endpointType
 	} else {
 		destination.EndpointType = nil
@@ -4860,7 +4860,7 @@ func (destination *HybridConnectionEventSubscriptionDestination) Initialize_From
 
 	// EndpointType
 	if source.EndpointType != nil {
-		endpointType := HybridConnectionEventSubscriptionDestination_EndpointType(*source.EndpointType)
+		endpointType := genruntime.ToEnum(string(*source.EndpointType), hybridConnectionEventSubscriptionDestination_EndpointType_Values)
 		destination.EndpointType = &endpointType
 	} else {
 		destination.EndpointType = nil
@@ -5083,7 +5083,7 @@ func (destination *ServiceBusQueueEventSubscriptionDestination) Initialize_From_
 
 	// EndpointType
 	if source.EndpointType != nil {
-		endpointType := ServiceBusQueueEventSubscriptionDestination_EndpointType(*source.EndpointType)
+		endpointType := genruntime.ToEnum(string(*source.EndpointType), serviceBusQueueEventSubscriptionDestination_EndpointType_Values)
 		destination.EndpointType = &endpointType
 	} else {
 		destination.EndpointType = nil
@@ -5306,7 +5306,7 @@ func (destination *ServiceBusTopicEventSubscriptionDestination) Initialize_From_
 
 	// EndpointType
 	if source.EndpointType != nil {
-		endpointType := ServiceBusTopicEventSubscriptionDestination_EndpointType(*source.EndpointType)
+		endpointType := genruntime.ToEnum(string(*source.EndpointType), serviceBusTopicEventSubscriptionDestination_EndpointType_Values)
 		destination.EndpointType = &endpointType
 	} else {
 		destination.EndpointType = nil
@@ -5554,7 +5554,7 @@ func (destination *StorageBlobDeadLetterDestination) Initialize_From_StorageBlob
 
 	// EndpointType
 	if source.EndpointType != nil {
-		endpointType := StorageBlobDeadLetterDestination_EndpointType(*source.EndpointType)
+		endpointType := genruntime.ToEnum(string(*source.EndpointType), storageBlobDeadLetterDestination_EndpointType_Values)
 		destination.EndpointType = &endpointType
 	} else {
 		destination.EndpointType = nil
@@ -5817,7 +5817,7 @@ func (destination *StorageQueueEventSubscriptionDestination) Initialize_From_Sto
 
 	// EndpointType
 	if source.EndpointType != nil {
-		endpointType := StorageQueueEventSubscriptionDestination_EndpointType(*source.EndpointType)
+		endpointType := genruntime.ToEnum(string(*source.EndpointType), storageQueueEventSubscriptionDestination_EndpointType_Values)
 		destination.EndpointType = &endpointType
 	} else {
 		destination.EndpointType = nil
@@ -6161,7 +6161,7 @@ func (destination *WebHookEventSubscriptionDestination) Initialize_From_WebHookE
 
 	// EndpointType
 	if source.EndpointType != nil {
-		endpointType := WebHookEventSubscriptionDestination_EndpointType(*source.EndpointType)
+		endpointType := genruntime.ToEnum(string(*source.EndpointType), webHookEventSubscriptionDestination_EndpointType_Values)
 		destination.EndpointType = &endpointType
 	} else {
 		destination.EndpointType = nil
@@ -6495,7 +6495,7 @@ func (filter *BoolEqualsAdvancedFilter) Initialize_From_BoolEqualsAdvancedFilter
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := BoolEqualsAdvancedFilter_OperatorType(*source.OperatorType)
+		operatorType := genruntime.ToEnum(string(*source.OperatorType), boolEqualsAdvancedFilter_OperatorType_Values)
 		filter.OperatorType = &operatorType
 	} else {
 		filter.OperatorType = nil
@@ -6798,7 +6798,7 @@ func (filter *NumberGreaterThanAdvancedFilter) Initialize_From_NumberGreaterThan
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := NumberGreaterThanAdvancedFilter_OperatorType(*source.OperatorType)
+		operatorType := genruntime.ToEnum(string(*source.OperatorType), numberGreaterThanAdvancedFilter_OperatorType_Values)
 		filter.OperatorType = &operatorType
 	} else {
 		filter.OperatorType = nil
@@ -7063,7 +7063,7 @@ func (filter *NumberGreaterThanOrEqualsAdvancedFilter) Initialize_From_NumberGre
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := NumberGreaterThanOrEqualsAdvancedFilter_OperatorType(*source.OperatorType)
+		operatorType := genruntime.ToEnum(string(*source.OperatorType), numberGreaterThanOrEqualsAdvancedFilter_OperatorType_Values)
 		filter.OperatorType = &operatorType
 	} else {
 		filter.OperatorType = nil
@@ -7336,7 +7336,7 @@ func (filter *NumberInAdvancedFilter) Initialize_From_NumberInAdvancedFilter_STA
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := NumberInAdvancedFilter_OperatorType(*source.OperatorType)
+		operatorType := genruntime.ToEnum(string(*source.OperatorType), numberInAdvancedFilter_OperatorType_Values)
 		filter.OperatorType = &operatorType
 	} else {
 		filter.OperatorType = nil
@@ -7615,7 +7615,7 @@ func (filter *NumberLessThanAdvancedFilter) Initialize_From_NumberLessThanAdvanc
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := NumberLessThanAdvancedFilter_OperatorType(*source.OperatorType)
+		operatorType := genruntime.ToEnum(string(*source.OperatorType), numberLessThanAdvancedFilter_OperatorType_Values)
 		filter.OperatorType = &operatorType
 	} else {
 		filter.OperatorType = nil
@@ -7880,7 +7880,7 @@ func (filter *NumberLessThanOrEqualsAdvancedFilter) Initialize_From_NumberLessTh
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := NumberLessThanOrEqualsAdvancedFilter_OperatorType(*source.OperatorType)
+		operatorType := genruntime.ToEnum(string(*source.OperatorType), numberLessThanOrEqualsAdvancedFilter_OperatorType_Values)
 		filter.OperatorType = &operatorType
 	} else {
 		filter.OperatorType = nil
@@ -8153,7 +8153,7 @@ func (filter *NumberNotInAdvancedFilter) Initialize_From_NumberNotInAdvancedFilt
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := NumberNotInAdvancedFilter_OperatorType(*source.OperatorType)
+		operatorType := genruntime.ToEnum(string(*source.OperatorType), numberNotInAdvancedFilter_OperatorType_Values)
 		filter.OperatorType = &operatorType
 	} else {
 		filter.OperatorType = nil
@@ -8496,7 +8496,7 @@ func (filter *StringBeginsWithAdvancedFilter) Initialize_From_StringBeginsWithAd
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := StringBeginsWithAdvancedFilter_OperatorType(*source.OperatorType)
+		operatorType := genruntime.ToEnum(string(*source.OperatorType), stringBeginsWithAdvancedFilter_OperatorType_Values)
 		filter.OperatorType = &operatorType
 	} else {
 		filter.OperatorType = nil
@@ -8733,7 +8733,7 @@ func (filter *StringContainsAdvancedFilter) Initialize_From_StringContainsAdvanc
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := StringContainsAdvancedFilter_OperatorType(*source.OperatorType)
+		operatorType := genruntime.ToEnum(string(*source.OperatorType), stringContainsAdvancedFilter_OperatorType_Values)
 		filter.OperatorType = &operatorType
 	} else {
 		filter.OperatorType = nil
@@ -8970,7 +8970,7 @@ func (filter *StringEndsWithAdvancedFilter) Initialize_From_StringEndsWithAdvanc
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := StringEndsWithAdvancedFilter_OperatorType(*source.OperatorType)
+		operatorType := genruntime.ToEnum(string(*source.OperatorType), stringEndsWithAdvancedFilter_OperatorType_Values)
 		filter.OperatorType = &operatorType
 	} else {
 		filter.OperatorType = nil
@@ -9207,7 +9207,7 @@ func (filter *StringInAdvancedFilter) Initialize_From_StringInAdvancedFilter_STA
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := StringInAdvancedFilter_OperatorType(*source.OperatorType)
+		operatorType := genruntime.ToEnum(string(*source.OperatorType), stringInAdvancedFilter_OperatorType_Values)
 		filter.OperatorType = &operatorType
 	} else {
 		filter.OperatorType = nil
@@ -9444,7 +9444,7 @@ func (filter *StringNotInAdvancedFilter) Initialize_From_StringNotInAdvancedFilt
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := StringNotInAdvancedFilter_OperatorType(*source.OperatorType)
+		operatorType := genruntime.ToEnum(string(*source.OperatorType), stringNotInAdvancedFilter_OperatorType_Values)
 		filter.OperatorType = &operatorType
 	} else {
 		filter.OperatorType = nil

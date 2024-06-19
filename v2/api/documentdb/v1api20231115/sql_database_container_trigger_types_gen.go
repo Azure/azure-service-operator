@@ -1226,7 +1226,7 @@ func (resource *SqlTriggerResource) Initialize_From_SqlTriggerGetProperties_Reso
 
 	// TriggerOperation
 	if source.TriggerOperation != nil {
-		triggerOperation := SqlTriggerResource_TriggerOperation(*source.TriggerOperation)
+		triggerOperation := genruntime.ToEnum(string(*source.TriggerOperation), sqlTriggerResource_TriggerOperation_Values)
 		resource.TriggerOperation = &triggerOperation
 	} else {
 		resource.TriggerOperation = nil
@@ -1234,7 +1234,7 @@ func (resource *SqlTriggerResource) Initialize_From_SqlTriggerGetProperties_Reso
 
 	// TriggerType
 	if source.TriggerType != nil {
-		triggerType := SqlTriggerResource_TriggerType(*source.TriggerType)
+		triggerType := genruntime.ToEnum(string(*source.TriggerType), sqlTriggerResource_TriggerType_Values)
 		resource.TriggerType = &triggerType
 	} else {
 		resource.TriggerType = nil

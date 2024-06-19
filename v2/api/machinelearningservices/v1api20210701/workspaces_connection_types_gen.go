@@ -620,7 +620,7 @@ func (connection *Workspaces_Connection_Spec) Initialize_From_Workspaces_Connect
 
 	// ValueFormat
 	if source.ValueFormat != nil {
-		valueFormat := WorkspaceConnectionProps_ValueFormat(*source.ValueFormat)
+		valueFormat := genruntime.ToEnum(string(*source.ValueFormat), workspaceConnectionProps_ValueFormat_Values)
 		connection.ValueFormat = &valueFormat
 	} else {
 		connection.ValueFormat = nil

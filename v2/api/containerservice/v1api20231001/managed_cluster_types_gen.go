@@ -2440,7 +2440,7 @@ func (cluster *ManagedCluster_Spec) Initialize_From_ManagedCluster_STATUS(source
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := ManagedClusterProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
+		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), managedClusterProperties_PublicNetworkAccess_Values)
 		cluster.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		cluster.PublicNetworkAccess = nil
@@ -2508,7 +2508,7 @@ func (cluster *ManagedCluster_Spec) Initialize_From_ManagedCluster_STATUS(source
 
 	// SupportPlan
 	if source.SupportPlan != nil {
-		supportPlan := KubernetesSupportPlan(*source.SupportPlan)
+		supportPlan := genruntime.ToEnum(string(*source.SupportPlan), kubernetesSupportPlan_Values)
 		cluster.SupportPlan = &supportPlan
 	} else {
 		cluster.SupportPlan = nil
@@ -5260,7 +5260,7 @@ func (profile *ContainerServiceNetworkProfile) Initialize_From_ContainerServiceN
 		for ipFamilyIndex, ipFamilyItem := range source.IpFamilies {
 			// Shadow the loop variable to avoid aliasing
 			ipFamilyItem := ipFamilyItem
-			ipFamily := ContainerServiceNetworkProfile_IpFamilies(ipFamilyItem)
+			ipFamily := genruntime.ToEnum(string(ipFamilyItem), containerServiceNetworkProfile_IpFamilies_Values)
 			ipFamilyList[ipFamilyIndex] = ipFamily
 		}
 		profile.IpFamilies = ipFamilyList
@@ -5282,7 +5282,7 @@ func (profile *ContainerServiceNetworkProfile) Initialize_From_ContainerServiceN
 
 	// LoadBalancerSku
 	if source.LoadBalancerSku != nil {
-		loadBalancerSku := ContainerServiceNetworkProfile_LoadBalancerSku(*source.LoadBalancerSku)
+		loadBalancerSku := genruntime.ToEnum(string(*source.LoadBalancerSku), containerServiceNetworkProfile_LoadBalancerSku_Values)
 		profile.LoadBalancerSku = &loadBalancerSku
 	} else {
 		profile.LoadBalancerSku = nil
@@ -5302,7 +5302,7 @@ func (profile *ContainerServiceNetworkProfile) Initialize_From_ContainerServiceN
 
 	// NetworkDataplane
 	if source.NetworkDataplane != nil {
-		networkDataplane := ContainerServiceNetworkProfile_NetworkDataplane(*source.NetworkDataplane)
+		networkDataplane := genruntime.ToEnum(string(*source.NetworkDataplane), containerServiceNetworkProfile_NetworkDataplane_Values)
 		profile.NetworkDataplane = &networkDataplane
 	} else {
 		profile.NetworkDataplane = nil
@@ -5310,7 +5310,7 @@ func (profile *ContainerServiceNetworkProfile) Initialize_From_ContainerServiceN
 
 	// NetworkMode
 	if source.NetworkMode != nil {
-		networkMode := ContainerServiceNetworkProfile_NetworkMode(*source.NetworkMode)
+		networkMode := genruntime.ToEnum(string(*source.NetworkMode), containerServiceNetworkProfile_NetworkMode_Values)
 		profile.NetworkMode = &networkMode
 	} else {
 		profile.NetworkMode = nil
@@ -5318,7 +5318,7 @@ func (profile *ContainerServiceNetworkProfile) Initialize_From_ContainerServiceN
 
 	// NetworkPlugin
 	if source.NetworkPlugin != nil {
-		networkPlugin := NetworkPlugin(*source.NetworkPlugin)
+		networkPlugin := genruntime.ToEnum(string(*source.NetworkPlugin), networkPlugin_Values)
 		profile.NetworkPlugin = &networkPlugin
 	} else {
 		profile.NetworkPlugin = nil
@@ -5326,7 +5326,7 @@ func (profile *ContainerServiceNetworkProfile) Initialize_From_ContainerServiceN
 
 	// NetworkPluginMode
 	if source.NetworkPluginMode != nil {
-		networkPluginMode := ContainerServiceNetworkProfile_NetworkPluginMode(*source.NetworkPluginMode)
+		networkPluginMode := genruntime.ToEnum(string(*source.NetworkPluginMode), containerServiceNetworkProfile_NetworkPluginMode_Values)
 		profile.NetworkPluginMode = &networkPluginMode
 	} else {
 		profile.NetworkPluginMode = nil
@@ -5334,7 +5334,7 @@ func (profile *ContainerServiceNetworkProfile) Initialize_From_ContainerServiceN
 
 	// NetworkPolicy
 	if source.NetworkPolicy != nil {
-		networkPolicy := ContainerServiceNetworkProfile_NetworkPolicy(*source.NetworkPolicy)
+		networkPolicy := genruntime.ToEnum(string(*source.NetworkPolicy), containerServiceNetworkProfile_NetworkPolicy_Values)
 		profile.NetworkPolicy = &networkPolicy
 	} else {
 		profile.NetworkPolicy = nil
@@ -5342,7 +5342,7 @@ func (profile *ContainerServiceNetworkProfile) Initialize_From_ContainerServiceN
 
 	// OutboundType
 	if source.OutboundType != nil {
-		outboundType := ContainerServiceNetworkProfile_OutboundType(*source.OutboundType)
+		outboundType := genruntime.ToEnum(string(*source.OutboundType), containerServiceNetworkProfile_OutboundType_Values)
 		profile.OutboundType = &outboundType
 	} else {
 		profile.OutboundType = nil
@@ -5905,7 +5905,7 @@ func (location *ExtendedLocation) Initialize_From_ExtendedLocation_STATUS(source
 
 	// Type
 	if source.Type != nil {
-		typeVar := ExtendedLocationType(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), extendedLocationType_Values)
 		location.Type = &typeVar
 	} else {
 		location.Type = nil
@@ -8157,7 +8157,7 @@ func (profile *ManagedClusterAgentPoolProfile) Initialize_From_ManagedClusterAge
 
 	// GpuInstanceProfile
 	if source.GpuInstanceProfile != nil {
-		gpuInstanceProfile := GPUInstanceProfile(*source.GpuInstanceProfile)
+		gpuInstanceProfile := genruntime.ToEnum(string(*source.GpuInstanceProfile), gPUInstanceProfile_Values)
 		profile.GpuInstanceProfile = &gpuInstanceProfile
 	} else {
 		profile.GpuInstanceProfile = nil
@@ -8177,7 +8177,7 @@ func (profile *ManagedClusterAgentPoolProfile) Initialize_From_ManagedClusterAge
 
 	// KubeletDiskType
 	if source.KubeletDiskType != nil {
-		kubeletDiskType := KubeletDiskType(*source.KubeletDiskType)
+		kubeletDiskType := genruntime.ToEnum(string(*source.KubeletDiskType), kubeletDiskType_Values)
 		profile.KubeletDiskType = &kubeletDiskType
 	} else {
 		profile.KubeletDiskType = nil
@@ -8206,7 +8206,7 @@ func (profile *ManagedClusterAgentPoolProfile) Initialize_From_ManagedClusterAge
 
 	// Mode
 	if source.Mode != nil {
-		mode := AgentPoolMode(*source.Mode)
+		mode := genruntime.ToEnum(string(*source.Mode), agentPoolMode_Values)
 		profile.Mode = &mode
 	} else {
 		profile.Mode = nil
@@ -8251,7 +8251,7 @@ func (profile *ManagedClusterAgentPoolProfile) Initialize_From_ManagedClusterAge
 
 	// OsDiskType
 	if source.OsDiskType != nil {
-		osDiskType := OSDiskType(*source.OsDiskType)
+		osDiskType := genruntime.ToEnum(string(*source.OsDiskType), oSDiskType_Values)
 		profile.OsDiskType = &osDiskType
 	} else {
 		profile.OsDiskType = nil
@@ -8259,7 +8259,7 @@ func (profile *ManagedClusterAgentPoolProfile) Initialize_From_ManagedClusterAge
 
 	// OsSKU
 	if source.OsSKU != nil {
-		osSKU := OSSKU(*source.OsSKU)
+		osSKU := genruntime.ToEnum(string(*source.OsSKU), oSSKU_Values)
 		profile.OsSKU = &osSKU
 	} else {
 		profile.OsSKU = nil
@@ -8267,7 +8267,7 @@ func (profile *ManagedClusterAgentPoolProfile) Initialize_From_ManagedClusterAge
 
 	// OsType
 	if source.OsType != nil {
-		osType := OSType(*source.OsType)
+		osType := genruntime.ToEnum(string(*source.OsType), oSType_Values)
 		profile.OsType = &osType
 	} else {
 		profile.OsType = nil
@@ -8287,7 +8287,7 @@ func (profile *ManagedClusterAgentPoolProfile) Initialize_From_ManagedClusterAge
 
 	// ScaleDownMode
 	if source.ScaleDownMode != nil {
-		scaleDownMode := ScaleDownMode(*source.ScaleDownMode)
+		scaleDownMode := genruntime.ToEnum(string(*source.ScaleDownMode), scaleDownMode_Values)
 		profile.ScaleDownMode = &scaleDownMode
 	} else {
 		profile.ScaleDownMode = nil
@@ -8295,7 +8295,7 @@ func (profile *ManagedClusterAgentPoolProfile) Initialize_From_ManagedClusterAge
 
 	// ScaleSetEvictionPolicy
 	if source.ScaleSetEvictionPolicy != nil {
-		scaleSetEvictionPolicy := ScaleSetEvictionPolicy(*source.ScaleSetEvictionPolicy)
+		scaleSetEvictionPolicy := genruntime.ToEnum(string(*source.ScaleSetEvictionPolicy), scaleSetEvictionPolicy_Values)
 		profile.ScaleSetEvictionPolicy = &scaleSetEvictionPolicy
 	} else {
 		profile.ScaleSetEvictionPolicy = nil
@@ -8303,7 +8303,7 @@ func (profile *ManagedClusterAgentPoolProfile) Initialize_From_ManagedClusterAge
 
 	// ScaleSetPriority
 	if source.ScaleSetPriority != nil {
-		scaleSetPriority := ScaleSetPriority(*source.ScaleSetPriority)
+		scaleSetPriority := genruntime.ToEnum(string(*source.ScaleSetPriority), scaleSetPriority_Values)
 		profile.ScaleSetPriority = &scaleSetPriority
 	} else {
 		profile.ScaleSetPriority = nil
@@ -8322,7 +8322,7 @@ func (profile *ManagedClusterAgentPoolProfile) Initialize_From_ManagedClusterAge
 
 	// Type
 	if source.Type != nil {
-		typeVar := AgentPoolType(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), agentPoolType_Values)
 		profile.Type = &typeVar
 	} else {
 		profile.Type = nil
@@ -8345,7 +8345,7 @@ func (profile *ManagedClusterAgentPoolProfile) Initialize_From_ManagedClusterAge
 
 	// WorkloadRuntime
 	if source.WorkloadRuntime != nil {
-		workloadRuntime := WorkloadRuntime(*source.WorkloadRuntime)
+		workloadRuntime := genruntime.ToEnum(string(*source.WorkloadRuntime), workloadRuntime_Values)
 		profile.WorkloadRuntime = &workloadRuntime
 	} else {
 		profile.WorkloadRuntime = nil
@@ -9920,7 +9920,7 @@ func (profile *ManagedClusterAutoUpgradeProfile) Initialize_From_ManagedClusterA
 
 	// NodeOSUpgradeChannel
 	if source.NodeOSUpgradeChannel != nil {
-		nodeOSUpgradeChannel := ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel(*source.NodeOSUpgradeChannel)
+		nodeOSUpgradeChannel := genruntime.ToEnum(string(*source.NodeOSUpgradeChannel), managedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_Values)
 		profile.NodeOSUpgradeChannel = &nodeOSUpgradeChannel
 	} else {
 		profile.NodeOSUpgradeChannel = nil
@@ -9928,7 +9928,7 @@ func (profile *ManagedClusterAutoUpgradeProfile) Initialize_From_ManagedClusterA
 
 	// UpgradeChannel
 	if source.UpgradeChannel != nil {
-		upgradeChannel := ManagedClusterAutoUpgradeProfile_UpgradeChannel(*source.UpgradeChannel)
+		upgradeChannel := genruntime.ToEnum(string(*source.UpgradeChannel), managedClusterAutoUpgradeProfile_UpgradeChannel_Values)
 		profile.UpgradeChannel = &upgradeChannel
 	} else {
 		profile.UpgradeChannel = nil
@@ -10725,7 +10725,7 @@ func (identity *ManagedClusterIdentity) Initialize_From_ManagedClusterIdentity_S
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagedClusterIdentity_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), managedClusterIdentity_Type_Values)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -12145,7 +12145,7 @@ func (profile *ManagedClusterProperties_AutoScalerProfile) Initialize_From_Manag
 
 	// Expander
 	if source.Expander != nil {
-		expander := ManagedClusterProperties_AutoScalerProfile_Expander(*source.Expander)
+		expander := genruntime.ToEnum(string(*source.Expander), managedClusterProperties_AutoScalerProfile_Expander_Values)
 		profile.Expander = &expander
 	} else {
 		profile.Expander = nil
@@ -13344,7 +13344,7 @@ func (clusterSKU *ManagedClusterSKU) Initialize_From_ManagedClusterSKU_STATUS(so
 
 	// Name
 	if source.Name != nil {
-		name := ManagedClusterSKU_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), managedClusterSKU_Name_Values)
 		clusterSKU.Name = &name
 	} else {
 		clusterSKU.Name = nil
@@ -13352,7 +13352,7 @@ func (clusterSKU *ManagedClusterSKU) Initialize_From_ManagedClusterSKU_STATUS(so
 
 	// Tier
 	if source.Tier != nil {
-		tier := ManagedClusterSKU_Tier(*source.Tier)
+		tier := genruntime.ToEnum(string(*source.Tier), managedClusterSKU_Tier_Values)
 		clusterSKU.Tier = &tier
 	} else {
 		clusterSKU.Tier = nil
@@ -14210,7 +14210,7 @@ func (profile *ManagedClusterWindowsProfile) Initialize_From_ManagedClusterWindo
 
 	// LicenseType
 	if source.LicenseType != nil {
-		licenseType := ManagedClusterWindowsProfile_LicenseType(*source.LicenseType)
+		licenseType := genruntime.ToEnum(string(*source.LicenseType), managedClusterWindowsProfile_LicenseType_Values)
 		profile.LicenseType = &licenseType
 	} else {
 		profile.LicenseType = nil
@@ -15247,7 +15247,7 @@ func (profile *ServiceMeshProfile) Initialize_From_ServiceMeshProfile_STATUS(sou
 
 	// Mode
 	if source.Mode != nil {
-		mode := ServiceMeshProfile_Mode(*source.Mode)
+		mode := genruntime.ToEnum(string(*source.Mode), serviceMeshProfile_Mode_Values)
 		profile.Mode = &mode
 	} else {
 		profile.Mode = nil
@@ -15947,7 +15947,7 @@ func (vaultKms *AzureKeyVaultKms) Initialize_From_AzureKeyVaultKms_STATUS(source
 
 	// KeyVaultNetworkAccess
 	if source.KeyVaultNetworkAccess != nil {
-		keyVaultNetworkAccess := AzureKeyVaultKms_KeyVaultNetworkAccess(*source.KeyVaultNetworkAccess)
+		keyVaultNetworkAccess := genruntime.ToEnum(string(*source.KeyVaultNetworkAccess), azureKeyVaultKms_KeyVaultNetworkAccess_Values)
 		vaultKms.KeyVaultNetworkAccess = &keyVaultNetworkAccess
 	} else {
 		vaultKms.KeyVaultNetworkAccess = nil
@@ -18017,7 +18017,7 @@ func (profile *ManagedClusterLoadBalancerProfile) Initialize_From_ManagedCluster
 
 	// BackendPoolType
 	if source.BackendPoolType != nil {
-		backendPoolType := ManagedClusterLoadBalancerProfile_BackendPoolType(*source.BackendPoolType)
+		backendPoolType := genruntime.ToEnum(string(*source.BackendPoolType), managedClusterLoadBalancerProfile_BackendPoolType_Values)
 		profile.BackendPoolType = &backendPoolType
 	} else {
 		profile.BackendPoolType = nil
@@ -24339,7 +24339,7 @@ func (gateway *IstioIngressGateway) Initialize_From_IstioIngressGateway_STATUS(s
 
 	// Mode
 	if source.Mode != nil {
-		mode := IstioIngressGateway_Mode(*source.Mode)
+		mode := genruntime.ToEnum(string(*source.Mode), istioIngressGateway_Mode_Values)
 		gateway.Mode = &mode
 	} else {
 		gateway.Mode = nil

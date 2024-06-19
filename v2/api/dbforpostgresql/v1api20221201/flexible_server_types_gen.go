@@ -1334,7 +1334,7 @@ func (server *FlexibleServer_Spec) Initialize_From_FlexibleServer_STATUS(source 
 
 	// CreateMode
 	if source.CreateMode != nil {
-		createMode := ServerProperties_CreateMode(*source.CreateMode)
+		createMode := genruntime.ToEnum(string(*source.CreateMode), serverProperties_CreateMode_Values)
 		server.CreateMode = &createMode
 	} else {
 		server.CreateMode = nil
@@ -1408,7 +1408,7 @@ func (server *FlexibleServer_Spec) Initialize_From_FlexibleServer_STATUS(source 
 
 	// ReplicationRole
 	if source.ReplicationRole != nil {
-		replicationRole := ReplicationRole(*source.ReplicationRole)
+		replicationRole := genruntime.ToEnum(string(*source.ReplicationRole), replicationRole_Values)
 		server.ReplicationRole = &replicationRole
 	} else {
 		server.ReplicationRole = nil
@@ -1451,7 +1451,7 @@ func (server *FlexibleServer_Spec) Initialize_From_FlexibleServer_STATUS(source 
 
 	// Version
 	if source.Version != nil {
-		version := ServerVersion(*source.Version)
+		version := genruntime.ToEnum(string(*source.Version), serverVersion_Values)
 		server.Version = &version
 	} else {
 		server.Version = nil
@@ -2441,7 +2441,7 @@ func (config *AuthConfig) Initialize_From_AuthConfig_STATUS(source *AuthConfig_S
 
 	// ActiveDirectoryAuth
 	if source.ActiveDirectoryAuth != nil {
-		activeDirectoryAuth := AuthConfig_ActiveDirectoryAuth(*source.ActiveDirectoryAuth)
+		activeDirectoryAuth := genruntime.ToEnum(string(*source.ActiveDirectoryAuth), authConfig_ActiveDirectoryAuth_Values)
 		config.ActiveDirectoryAuth = &activeDirectoryAuth
 	} else {
 		config.ActiveDirectoryAuth = nil
@@ -2449,7 +2449,7 @@ func (config *AuthConfig) Initialize_From_AuthConfig_STATUS(source *AuthConfig_S
 
 	// PasswordAuth
 	if source.PasswordAuth != nil {
-		passwordAuth := AuthConfig_PasswordAuth(*source.PasswordAuth)
+		passwordAuth := genruntime.ToEnum(string(*source.PasswordAuth), authConfig_PasswordAuth_Values)
 		config.PasswordAuth = &passwordAuth
 	} else {
 		config.PasswordAuth = nil
@@ -2687,7 +2687,7 @@ func (backup *Backup) Initialize_From_Backup_STATUS(source *Backup_STATUS) error
 
 	// GeoRedundantBackup
 	if source.GeoRedundantBackup != nil {
-		geoRedundantBackup := Backup_GeoRedundantBackup(*source.GeoRedundantBackup)
+		geoRedundantBackup := genruntime.ToEnum(string(*source.GeoRedundantBackup), backup_GeoRedundantBackup_Values)
 		backup.GeoRedundantBackup = &geoRedundantBackup
 	} else {
 		backup.GeoRedundantBackup = nil
@@ -2951,7 +2951,7 @@ func (encryption *DataEncryption) Initialize_From_DataEncryption_STATUS(source *
 
 	// Type
 	if source.Type != nil {
-		typeVar := DataEncryption_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), dataEncryption_Type_Values)
 		encryption.Type = &typeVar
 	} else {
 		encryption.Type = nil
@@ -3253,7 +3253,7 @@ func (availability *HighAvailability) Initialize_From_HighAvailability_STATUS(so
 
 	// Mode
 	if source.Mode != nil {
-		mode := HighAvailability_Mode(*source.Mode)
+		mode := genruntime.ToEnum(string(*source.Mode), highAvailability_Mode_Values)
 		availability.Mode = &mode
 	} else {
 		availability.Mode = nil
@@ -4139,7 +4139,7 @@ func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
 
 	// Tier
 	if source.Tier != nil {
-		tier := Sku_Tier(*source.Tier)
+		tier := genruntime.ToEnum(string(*source.Tier), sku_Tier_Values)
 		sku.Tier = &tier
 	} else {
 		sku.Tier = nil
@@ -4676,7 +4676,7 @@ func (identity *UserAssignedIdentity) Initialize_From_UserAssignedIdentity_STATU
 
 	// Type
 	if source.Type != nil {
-		typeVar := UserAssignedIdentity_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), userAssignedIdentity_Type_Values)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil

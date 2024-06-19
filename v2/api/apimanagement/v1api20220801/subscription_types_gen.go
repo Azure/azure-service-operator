@@ -782,7 +782,7 @@ func (subscription *Service_Subscription_Spec) Initialize_From_Service_Subscript
 
 	// State
 	if source.State != nil {
-		state := SubscriptionCreateParameterProperties_State(*source.State)
+		state := genruntime.ToEnum(string(*source.State), subscriptionCreateParameterProperties_State_Values)
 		subscription.State = &state
 	} else {
 		subscription.State = nil

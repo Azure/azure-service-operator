@@ -1266,7 +1266,7 @@ func (disk *Disk_Spec) Initialize_From_Disk_STATUS(source *Disk_STATUS) error {
 
 	// HyperVGeneration
 	if source.HyperVGeneration != nil {
-		hyperVGeneration := DiskProperties_HyperVGeneration(*source.HyperVGeneration)
+		hyperVGeneration := genruntime.ToEnum(string(*source.HyperVGeneration), diskProperties_HyperVGeneration_Values)
 		disk.HyperVGeneration = &hyperVGeneration
 	} else {
 		disk.HyperVGeneration = nil
@@ -1280,7 +1280,7 @@ func (disk *Disk_Spec) Initialize_From_Disk_STATUS(source *Disk_STATUS) error {
 
 	// NetworkAccessPolicy
 	if source.NetworkAccessPolicy != nil {
-		networkAccessPolicy := NetworkAccessPolicy(*source.NetworkAccessPolicy)
+		networkAccessPolicy := genruntime.ToEnum(string(*source.NetworkAccessPolicy), networkAccessPolicy_Values)
 		disk.NetworkAccessPolicy = &networkAccessPolicy
 	} else {
 		disk.NetworkAccessPolicy = nil
@@ -1288,7 +1288,7 @@ func (disk *Disk_Spec) Initialize_From_Disk_STATUS(source *Disk_STATUS) error {
 
 	// OsType
 	if source.OsType != nil {
-		osType := DiskProperties_OsType(*source.OsType)
+		osType := genruntime.ToEnum(string(*source.OsType), diskProperties_OsType_Values)
 		disk.OsType = &osType
 	} else {
 		disk.OsType = nil
@@ -2535,7 +2535,7 @@ func (data *CreationData) Initialize_From_CreationData_STATUS(source *CreationDa
 
 	// CreateOption
 	if source.CreateOption != nil {
-		createOption := CreationData_CreateOption(*source.CreateOption)
+		createOption := genruntime.ToEnum(string(*source.CreateOption), creationData_CreateOption_Values)
 		data.CreateOption = &createOption
 	} else {
 		data.CreateOption = nil
@@ -2973,7 +2973,7 @@ func (diskSku *DiskSku) Initialize_From_DiskSku_STATUS(source *DiskSku_STATUS) e
 
 	// Name
 	if source.Name != nil {
-		name := DiskSku_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), diskSku_Name_Values)
 		diskSku.Name = &name
 	} else {
 		diskSku.Name = nil
@@ -3219,7 +3219,7 @@ func (encryption *Encryption) Initialize_From_Encryption_STATUS(source *Encrypti
 
 	// Type
 	if source.Type != nil {
-		typeVar := EncryptionType(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), encryptionType_Values)
 		encryption.Type = &typeVar
 	} else {
 		encryption.Type = nil
@@ -3767,7 +3767,7 @@ func (location *ExtendedLocation) Initialize_From_ExtendedLocation_STATUS(source
 
 	// Type
 	if source.Type != nil {
-		typeVar := ExtendedLocationType(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), extendedLocationType_Values)
 		location.Type = &typeVar
 	} else {
 		location.Type = nil

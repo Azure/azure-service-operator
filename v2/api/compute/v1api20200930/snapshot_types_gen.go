@@ -1076,7 +1076,7 @@ func (snapshot *Snapshot_Spec) Initialize_From_Snapshot_STATUS(source *Snapshot_
 
 	// DiskState
 	if source.DiskState != nil {
-		diskState := DiskState(*source.DiskState)
+		diskState := genruntime.ToEnum(string(*source.DiskState), diskState_Values)
 		snapshot.DiskState = &diskState
 	} else {
 		snapshot.DiskState = nil
@@ -1120,7 +1120,7 @@ func (snapshot *Snapshot_Spec) Initialize_From_Snapshot_STATUS(source *Snapshot_
 
 	// HyperVGeneration
 	if source.HyperVGeneration != nil {
-		hyperVGeneration := SnapshotProperties_HyperVGeneration(*source.HyperVGeneration)
+		hyperVGeneration := genruntime.ToEnum(string(*source.HyperVGeneration), snapshotProperties_HyperVGeneration_Values)
 		snapshot.HyperVGeneration = &hyperVGeneration
 	} else {
 		snapshot.HyperVGeneration = nil
@@ -1139,7 +1139,7 @@ func (snapshot *Snapshot_Spec) Initialize_From_Snapshot_STATUS(source *Snapshot_
 
 	// NetworkAccessPolicy
 	if source.NetworkAccessPolicy != nil {
-		networkAccessPolicy := NetworkAccessPolicy(*source.NetworkAccessPolicy)
+		networkAccessPolicy := genruntime.ToEnum(string(*source.NetworkAccessPolicy), networkAccessPolicy_Values)
 		snapshot.NetworkAccessPolicy = &networkAccessPolicy
 	} else {
 		snapshot.NetworkAccessPolicy = nil
@@ -1147,7 +1147,7 @@ func (snapshot *Snapshot_Spec) Initialize_From_Snapshot_STATUS(source *Snapshot_
 
 	// OsType
 	if source.OsType != nil {
-		osType := SnapshotProperties_OsType(*source.OsType)
+		osType := genruntime.ToEnum(string(*source.OsType), snapshotProperties_OsType_Values)
 		snapshot.OsType = &osType
 	} else {
 		snapshot.OsType = nil
@@ -2054,7 +2054,7 @@ func (snapshotSku *SnapshotSku) Initialize_From_SnapshotSku_STATUS(source *Snaps
 
 	// Name
 	if source.Name != nil {
-		name := SnapshotSku_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), snapshotSku_Name_Values)
 		snapshotSku.Name = &name
 	} else {
 		snapshotSku.Name = nil

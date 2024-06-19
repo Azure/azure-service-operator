@@ -661,7 +661,7 @@ func (administrator *Servers_Administrator_Spec) Initialize_From_Servers_Adminis
 
 	// AdministratorType
 	if source.AdministratorType != nil {
-		administratorType := AdministratorProperties_AdministratorType(*source.AdministratorType)
+		administratorType := genruntime.ToEnum(string(*source.AdministratorType), administratorProperties_AdministratorType_Values)
 		administrator.AdministratorType = &administratorType
 	} else {
 		administrator.AdministratorType = nil

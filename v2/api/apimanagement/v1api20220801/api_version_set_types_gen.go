@@ -677,7 +677,7 @@ func (versionSet *Service_ApiVersionSet_Spec) Initialize_From_Service_ApiVersion
 
 	// VersioningScheme
 	if source.VersioningScheme != nil {
-		versioningScheme := ApiVersionSetContractProperties_VersioningScheme(*source.VersioningScheme)
+		versioningScheme := genruntime.ToEnum(string(*source.VersioningScheme), apiVersionSetContractProperties_VersioningScheme_Values)
 		versionSet.VersioningScheme = &versioningScheme
 	} else {
 		versionSet.VersioningScheme = nil

@@ -496,7 +496,7 @@ func (encryption *Servers_Databases_TransparentDataEncryption_Spec) Initialize_F
 
 	// State
 	if source.State != nil {
-		state := TransparentDataEncryptionProperties_State(*source.State)
+		state := genruntime.ToEnum(string(*source.State), transparentDataEncryptionProperties_State_Values)
 		encryption.State = &state
 	} else {
 		encryption.State = nil

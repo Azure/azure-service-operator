@@ -611,7 +611,7 @@ func (route *RouteTables_Route_Spec) Initialize_From_RouteTables_Route_STATUS(so
 
 	// NextHopType
 	if source.NextHopType != nil {
-		nextHopType := RouteNextHopType(*source.NextHopType)
+		nextHopType := genruntime.ToEnum(string(*source.NextHopType), routeNextHopType_Values)
 		route.NextHopType = &nextHopType
 	} else {
 		route.NextHopType = nil

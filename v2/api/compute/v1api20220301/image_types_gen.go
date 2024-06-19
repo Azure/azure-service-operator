@@ -731,7 +731,7 @@ func (image *Image_Spec) Initialize_From_Image_STATUS(source *Image_STATUS) erro
 
 	// HyperVGeneration
 	if source.HyperVGeneration != nil {
-		hyperVGeneration := HyperVGenerationType(*source.HyperVGeneration)
+		hyperVGeneration := genruntime.ToEnum(string(*source.HyperVGeneration), hyperVGenerationType_Values)
 		image.HyperVGeneration = &hyperVGeneration
 	} else {
 		image.HyperVGeneration = nil
@@ -1246,7 +1246,7 @@ func (location *ExtendedLocation) Initialize_From_ExtendedLocation_STATUS(source
 
 	// Type
 	if source.Type != nil {
-		typeVar := ExtendedLocationType(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), extendedLocationType_Values)
 		location.Type = &typeVar
 	} else {
 		location.Type = nil
@@ -2269,7 +2269,7 @@ func (disk *ImageDataDisk) Initialize_From_ImageDataDisk_STATUS(source *ImageDat
 
 	// Caching
 	if source.Caching != nil {
-		caching := ImageDataDisk_Caching(*source.Caching)
+		caching := genruntime.ToEnum(string(*source.Caching), imageDataDisk_Caching_Values)
 		disk.Caching = &caching
 	} else {
 		disk.Caching = nil
@@ -2319,7 +2319,7 @@ func (disk *ImageDataDisk) Initialize_From_ImageDataDisk_STATUS(source *ImageDat
 
 	// StorageAccountType
 	if source.StorageAccountType != nil {
-		storageAccountType := StorageAccountType(*source.StorageAccountType)
+		storageAccountType := genruntime.ToEnum(string(*source.StorageAccountType), storageAccountType_Values)
 		disk.StorageAccountType = &storageAccountType
 	} else {
 		disk.StorageAccountType = nil
@@ -2982,7 +2982,7 @@ func (disk *ImageOSDisk) Initialize_From_ImageOSDisk_STATUS(source *ImageOSDisk_
 
 	// Caching
 	if source.Caching != nil {
-		caching := ImageOSDisk_Caching(*source.Caching)
+		caching := genruntime.ToEnum(string(*source.Caching), imageOSDisk_Caching_Values)
 		disk.Caching = &caching
 	} else {
 		disk.Caching = nil
@@ -3017,7 +3017,7 @@ func (disk *ImageOSDisk) Initialize_From_ImageOSDisk_STATUS(source *ImageOSDisk_
 
 	// OsState
 	if source.OsState != nil {
-		osState := ImageOSDisk_OsState(*source.OsState)
+		osState := genruntime.ToEnum(string(*source.OsState), imageOSDisk_OsState_Values)
 		disk.OsState = &osState
 	} else {
 		disk.OsState = nil
@@ -3025,7 +3025,7 @@ func (disk *ImageOSDisk) Initialize_From_ImageOSDisk_STATUS(source *ImageOSDisk_
 
 	// OsType
 	if source.OsType != nil {
-		osType := ImageOSDisk_OsType(*source.OsType)
+		osType := genruntime.ToEnum(string(*source.OsType), imageOSDisk_OsType_Values)
 		disk.OsType = &osType
 	} else {
 		disk.OsType = nil
@@ -3045,7 +3045,7 @@ func (disk *ImageOSDisk) Initialize_From_ImageOSDisk_STATUS(source *ImageOSDisk_
 
 	// StorageAccountType
 	if source.StorageAccountType != nil {
-		storageAccountType := StorageAccountType(*source.StorageAccountType)
+		storageAccountType := genruntime.ToEnum(string(*source.StorageAccountType), storageAccountType_Values)
 		disk.StorageAccountType = &storageAccountType
 	} else {
 		disk.StorageAccountType = nil

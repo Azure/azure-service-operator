@@ -1238,7 +1238,7 @@ func (pool *Workspaces_BigDataPool_Spec) Initialize_From_Workspaces_BigDataPool_
 
 	// NodeSize
 	if source.NodeSize != nil {
-		nodeSize := BigDataPoolResourceProperties_NodeSize(*source.NodeSize)
+		nodeSize := genruntime.ToEnum(string(*source.NodeSize), bigDataPoolResourceProperties_NodeSize_Values)
 		pool.NodeSize = &nodeSize
 	} else {
 		pool.NodeSize = nil
@@ -1246,7 +1246,7 @@ func (pool *Workspaces_BigDataPool_Spec) Initialize_From_Workspaces_BigDataPool_
 
 	// NodeSizeFamily
 	if source.NodeSizeFamily != nil {
-		nodeSizeFamily := BigDataPoolResourceProperties_NodeSizeFamily(*source.NodeSizeFamily)
+		nodeSizeFamily := genruntime.ToEnum(string(*source.NodeSizeFamily), bigDataPoolResourceProperties_NodeSizeFamily_Values)
 		pool.NodeSizeFamily = &nodeSizeFamily
 	} else {
 		pool.NodeSizeFamily = nil
@@ -3436,7 +3436,7 @@ func (properties *SparkConfigProperties) Initialize_From_SparkConfigProperties_S
 
 	// ConfigurationType
 	if source.ConfigurationType != nil {
-		configurationType := SparkConfigProperties_ConfigurationType(*source.ConfigurationType)
+		configurationType := genruntime.ToEnum(string(*source.ConfigurationType), sparkConfigProperties_ConfigurationType_Values)
 		properties.ConfigurationType = &configurationType
 	} else {
 		properties.ConfigurationType = nil
