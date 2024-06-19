@@ -889,7 +889,7 @@ These steps are documented here in case that process fails.
 
 <ol>
 <li>Create a new branch from <code>&lt;NEW_RELEASE_TAG&gt;</code> HEAD</li>
-<li>Generate helm manifest for new release: <code>task controller:gen-helm-manifest</code></li>
+<li>Generate helm manifest for new release: <code>task controller:package-helm-manifest</code></li>
 <li>Check the version in <code>/v2/charts/azure-service-operator/Chart.yaml</code> if matches with the latest release tag.</li>
 <li>Create a kind cluster
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">task controller:kind-create-wi
