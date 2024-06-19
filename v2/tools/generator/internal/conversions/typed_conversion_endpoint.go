@@ -66,7 +66,7 @@ func (endpoint *TypedConversionEndpoint) IsBagItem() bool {
 func (endpoint *TypedConversionEndpoint) WithPath(
 	namePath []astmodel.PropertyName,
 ) *TypedConversionEndpoint {
-	path := make([]string, 0, len(namePath))
+	path := make([]string, len(namePath))
 	for i, name := range namePath {
 		path[i] = string(name)
 	}
