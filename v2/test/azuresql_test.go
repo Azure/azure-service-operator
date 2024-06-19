@@ -25,6 +25,7 @@ import (
 
 func Test_AzureSQL_Combined(t *testing.T) {
 	t.Parallel()
+	t.Skip("Skipping this test since this test is blocked by 'Entra-only auth' policy, Need to use AzureAd for auth")
 	tc := globalTestContext.ForTest(t)
 
 	// Use a different region where we have quota
