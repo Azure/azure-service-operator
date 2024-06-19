@@ -1579,7 +1579,7 @@ func (serviceApi *Service_Api_Spec) Initialize_From_Service_Api_STATUS(source *S
 
 	// Type
 	if source.PropertiesType != nil {
-		typeVar := ApiCreateOrUpdateProperties_Type(*source.PropertiesType)
+		typeVar := genruntime.ToEnum(string(*source.PropertiesType), apiCreateOrUpdateProperties_Type_Values)
 		serviceApi.Type = &typeVar
 	} else {
 		serviceApi.Type = nil

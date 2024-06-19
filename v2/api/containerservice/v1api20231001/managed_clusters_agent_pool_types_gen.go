@@ -2063,7 +2063,7 @@ func (pool *ManagedClusters_AgentPool_Spec) Initialize_From_ManagedClusters_Agen
 
 	// Type
 	if source.PropertiesType != nil {
-		typeVar := AgentPoolType(*source.PropertiesType)
+		typeVar := genruntime.ToEnum(string(*source.PropertiesType), agentPoolType_Values)
 		pool.Type = &typeVar
 	} else {
 		pool.Type = nil
