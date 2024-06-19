@@ -1657,7 +1657,7 @@ func (properties *VaultProperties) Initialize_From_VaultProperties_STATUS(source
 
 	// CreateMode
 	if source.CreateMode != nil {
-		createMode := VaultProperties_CreateMode(*source.CreateMode)
+		createMode := genruntime.ToEnum(string(*source.CreateMode), vaultProperties_CreateMode_Values)
 		properties.CreateMode = &createMode
 	} else {
 		properties.CreateMode = nil
@@ -1725,7 +1725,7 @@ func (properties *VaultProperties) Initialize_From_VaultProperties_STATUS(source
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := VaultProperties_ProvisioningState(*source.ProvisioningState)
+		provisioningState := genruntime.ToEnum(string(*source.ProvisioningState), vaultProperties_ProvisioningState_Values)
 		properties.ProvisioningState = &provisioningState
 	} else {
 		properties.ProvisioningState = nil
@@ -2961,7 +2961,7 @@ func (ruleSet *NetworkRuleSet) Initialize_From_NetworkRuleSet_STATUS(source *Net
 
 	// Bypass
 	if source.Bypass != nil {
-		bypass := NetworkRuleSet_Bypass(*source.Bypass)
+		bypass := genruntime.ToEnum(string(*source.Bypass), networkRuleSet_Bypass_Values)
 		ruleSet.Bypass = &bypass
 	} else {
 		ruleSet.Bypass = nil
@@ -2969,7 +2969,7 @@ func (ruleSet *NetworkRuleSet) Initialize_From_NetworkRuleSet_STATUS(source *Net
 
 	// DefaultAction
 	if source.DefaultAction != nil {
-		defaultAction := NetworkRuleSet_DefaultAction(*source.DefaultAction)
+		defaultAction := genruntime.ToEnum(string(*source.DefaultAction), networkRuleSet_DefaultAction_Values)
 		ruleSet.DefaultAction = &defaultAction
 	} else {
 		ruleSet.DefaultAction = nil
@@ -3520,7 +3520,7 @@ func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
 
 	// Family
 	if source.Family != nil {
-		family := Sku_Family(*source.Family)
+		family := genruntime.ToEnum(string(*source.Family), sku_Family_Values)
 		sku.Family = &family
 	} else {
 		sku.Family = nil
@@ -3528,7 +3528,7 @@ func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
 
 	// Name
 	if source.Name != nil {
-		name := Sku_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), sku_Name_Values)
 		sku.Name = &name
 	} else {
 		sku.Name = nil
@@ -3998,7 +3998,7 @@ func (permissions *Permissions) Initialize_From_Permissions_STATUS(source *Permi
 		for certificateIndex, certificateItem := range source.Certificates {
 			// Shadow the loop variable to avoid aliasing
 			certificateItem := certificateItem
-			certificate := Permissions_Certificates(certificateItem)
+			certificate := genruntime.ToEnum(string(certificateItem), permissions_Certificates_Values)
 			certificateList[certificateIndex] = certificate
 		}
 		permissions.Certificates = certificateList
@@ -4012,7 +4012,7 @@ func (permissions *Permissions) Initialize_From_Permissions_STATUS(source *Permi
 		for keyIndex, keyItem := range source.Keys {
 			// Shadow the loop variable to avoid aliasing
 			keyItem := keyItem
-			key := Permissions_Keys(keyItem)
+			key := genruntime.ToEnum(string(keyItem), permissions_Keys_Values)
 			keyList[keyIndex] = key
 		}
 		permissions.Keys = keyList
@@ -4026,7 +4026,7 @@ func (permissions *Permissions) Initialize_From_Permissions_STATUS(source *Permi
 		for secretIndex, secretItem := range source.Secrets {
 			// Shadow the loop variable to avoid aliasing
 			secretItem := secretItem
-			secret := Permissions_Secrets(secretItem)
+			secret := genruntime.ToEnum(string(secretItem), permissions_Secrets_Values)
 			secretList[secretIndex] = secret
 		}
 		permissions.Secrets = secretList
@@ -4040,7 +4040,7 @@ func (permissions *Permissions) Initialize_From_Permissions_STATUS(source *Permi
 		for storageIndex, storageItem := range source.Storage {
 			// Shadow the loop variable to avoid aliasing
 			storageItem := storageItem
-			storage := Permissions_Storage(storageItem)
+			storage := genruntime.ToEnum(string(storageItem), permissions_Storage_Values)
 			storageList[storageIndex] = storage
 		}
 		permissions.Storage = storageList

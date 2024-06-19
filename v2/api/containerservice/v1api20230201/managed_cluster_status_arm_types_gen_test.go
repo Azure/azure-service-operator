@@ -3206,7 +3206,6 @@ func ManagedClusterWindowsProfile_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedClusterWindowsProfile_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterWindowsProfile_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["AdminPassword"] = gen.PtrOf(gen.AlphaString())
 	gens["AdminUsername"] = gen.PtrOf(gen.AlphaString())
 	gens["EnableCSIProxy"] = gen.PtrOf(gen.Bool())
 	gens["LicenseType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterWindowsProfile_LicenseType_STATUS_None, ManagedClusterWindowsProfile_LicenseType_STATUS_Windows_Server))

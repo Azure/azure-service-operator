@@ -16,12 +16,25 @@ updates:
       # Grouped updates are currently in beta and is subject to change.
       # xref: https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#groups
       k8s-go-deps:
-        applies-to: version-updates  # security-updates would need a separate entry but for now lets try this
+        applies-to: version-updates
         patterns:
           - "k8s.io/*"
           - "sigs.k8s.io/*"
       go-deps:
         applies-to: version-updates
+        patterns:
+          - "*"
+        exclude-patterns:
+          - "k8s.io/*"
+          - "sigs.k8s.io/*"
+      # Group security updates too
+      k8s-go-deps-sec:
+        applies-to: security-updates
+        patterns:
+          - "k8s.io/*"
+          - "sigs.k8s.io/*"
+      go-deps-sec:
+        applies-to: security-updates
         patterns:
           - "*"
         exclude-patterns:
@@ -33,39 +46,67 @@ updates:
     schedule:
       interval: "weekly"
     rebase-strategy: "disabled"
-    # Group updates together, so that they are all applied in a single PR.
-    # Grouped updates are currently in beta and is subject to change.
-    # xref: https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#groups
-    k8s-go-deps:
-      applies-to: version-updates  # security-updates would need a separate entry but for now lets try this
-      patterns:
-        - "k8s.io/*"
-        - "sigs.k8s.io/*"
-    go-deps:
-      applies-to: version-updates
-      patterns:
-        - "*"
-      exclude-patterns:
-        - "k8s.io/*"
-        - "sigs.k8s.io/*"
+    groups:
+      # Group updates together, so that they are all applied in a single PR.
+      # Grouped updates are currently in beta and is subject to change.
+      # xref: https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#groups
+      k8s-go-deps:
+        applies-to: version-updates
+        patterns:
+          - "k8s.io/*"
+          - "sigs.k8s.io/*"
+      go-deps:
+        applies-to: version-updates
+        patterns:
+          - "*"
+        exclude-patterns:
+          - "k8s.io/*"
+          - "sigs.k8s.io/*"
+      # Group security updates too
+      k8s-go-deps-sec:
+        applies-to: security-updates
+        patterns:
+          - "k8s.io/*"
+          - "sigs.k8s.io/*"
+      go-deps-sec:
+        applies-to: security-updates
+        patterns:
+          - "*"
+        exclude-patterns:
+          - "k8s.io/*"
+          - "sigs.k8s.io/*"
   # ASO v2 generator
   - package-ecosystem: "gomod" 
     directory: "/v2/tools/generator" 
     schedule:
       interval: "weekly"
     rebase-strategy: "disabled"
-    # Group updates together, so that they are all applied in a single PR.
-    # Grouped updates are currently in beta and is subject to change.
-    # xref: https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#groups
-    k8s-go-deps:
-      applies-to: version-updates  # security-updates would need a separate entry but for now lets try this
-      patterns:
-        - "k8s.io/*"
-        - "sigs.k8s.io/*"
-    go-deps:
-      applies-to: version-updates
-      patterns:
-        - "*"
-      exclude-patterns:
-        - "k8s.io/*"
-        - "sigs.k8s.io/*"
+    groups:
+      # Group updates together, so that they are all applied in a single PR.
+      # Grouped updates are currently in beta and is subject to change.
+      # xref: https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#groups
+      k8s-go-deps:
+        applies-to: version-updates
+        patterns:
+          - "k8s.io/*"
+          - "sigs.k8s.io/*"
+      go-deps:
+        applies-to: version-updates
+        patterns:
+          - "*"
+        exclude-patterns:
+          - "k8s.io/*"
+          - "sigs.k8s.io/*"
+      # Group security updates too
+      k8s-go-deps-sec:
+        applies-to: security-updates
+        patterns:
+          - "k8s.io/*"
+          - "sigs.k8s.io/*"
+      go-deps-sec:
+        applies-to: security-updates
+        patterns:
+          - "*"
+        exclude-patterns:
+          - "k8s.io/*"
+          - "sigs.k8s.io/*"

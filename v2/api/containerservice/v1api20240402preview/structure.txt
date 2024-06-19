@@ -558,7 +558,7 @@ ManagedCluster: Resource
 │   │       ├── ForceUpgrade: *bool
 │   │       └── Until: *string
 │   ├── WindowsProfile: *Object (5 properties)
-│   │   ├── AdminPassword: *string
+│   │   ├── AdminPassword: *genruntime.SecretReference
 │   │   ├── AdminUsername: *string
 │   │   ├── EnableCSIProxy: *bool
 │   │   ├── GmsaProfile: *Object (3 properties)
@@ -1143,8 +1143,7 @@ ManagedCluster: Resource
     │   └── OverrideSettings: *Object (2 properties)
     │       ├── ForceUpgrade: *bool
     │       └── Until: *string
-    ├── WindowsProfile: *Object (5 properties)
-    │   ├── AdminPassword: *string
+    ├── WindowsProfile: *Object (4 properties)
     │   ├── AdminUsername: *string
     │   ├── EnableCSIProxy: *bool
     │   ├── GmsaProfile: *Object (3 properties)
@@ -1704,8 +1703,7 @@ ManagedCluster_STATUS_ARM: Object (12 properties)
 │   │   └── OverrideSettings: *Object (2 properties)
 │   │       ├── ForceUpgrade: *bool
 │   │       └── Until: *string
-│   ├── WindowsProfile: *Object (5 properties)
-│   │   ├── AdminPassword: *string
+│   ├── WindowsProfile: *Object (4 properties)
 │   │   ├── AdminUsername: *string
 │   │   ├── EnableCSIProxy: *bool
 │   │   ├── GmsaProfile: *Object (3 properties)

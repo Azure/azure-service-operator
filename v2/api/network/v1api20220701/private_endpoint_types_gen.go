@@ -1988,7 +1988,7 @@ func (location *ExtendedLocation) Initialize_From_ExtendedLocation_STATUS(source
 
 	// Type
 	if source.Type != nil {
-		typeVar := ExtendedLocationType(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), extendedLocationType_Values)
 		location.Type = &typeVar
 	} else {
 		location.Type = nil

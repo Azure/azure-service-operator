@@ -780,7 +780,7 @@ func (encryptionSet *DiskEncryptionSet_Spec) Initialize_From_DiskEncryptionSet_S
 
 	// EncryptionType
 	if source.EncryptionType != nil {
-		encryptionType := DiskEncryptionSetType(*source.EncryptionType)
+		encryptionType := genruntime.ToEnum(string(*source.EncryptionType), diskEncryptionSetType_Values)
 		encryptionSet.EncryptionType = &encryptionType
 	} else {
 		encryptionSet.EncryptionType = nil
@@ -1655,7 +1655,7 @@ func (identity *EncryptionSetIdentity) Initialize_From_EncryptionSetIdentity_STA
 
 	// Type
 	if source.Type != nil {
-		typeVar := EncryptionSetIdentity_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), encryptionSetIdentity_Type_Values)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil

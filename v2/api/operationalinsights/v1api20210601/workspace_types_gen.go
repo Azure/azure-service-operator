@@ -893,7 +893,7 @@ func (workspace *Workspace_Spec) Initialize_From_Workspace_STATUS(source *Worksp
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := WorkspaceProperties_ProvisioningState(*source.ProvisioningState)
+		provisioningState := genruntime.ToEnum(string(*source.ProvisioningState), workspaceProperties_ProvisioningState_Values)
 		workspace.ProvisioningState = &provisioningState
 	} else {
 		workspace.ProvisioningState = nil
@@ -901,7 +901,7 @@ func (workspace *Workspace_Spec) Initialize_From_Workspace_STATUS(source *Worksp
 
 	// PublicNetworkAccessForIngestion
 	if source.PublicNetworkAccessForIngestion != nil {
-		publicNetworkAccessForIngestion := PublicNetworkAccessType(*source.PublicNetworkAccessForIngestion)
+		publicNetworkAccessForIngestion := genruntime.ToEnum(string(*source.PublicNetworkAccessForIngestion), publicNetworkAccessType_Values)
 		workspace.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
 	} else {
 		workspace.PublicNetworkAccessForIngestion = nil
@@ -909,7 +909,7 @@ func (workspace *Workspace_Spec) Initialize_From_Workspace_STATUS(source *Worksp
 
 	// PublicNetworkAccessForQuery
 	if source.PublicNetworkAccessForQuery != nil {
-		publicNetworkAccessForQuery := PublicNetworkAccessType(*source.PublicNetworkAccessForQuery)
+		publicNetworkAccessForQuery := genruntime.ToEnum(string(*source.PublicNetworkAccessForQuery), publicNetworkAccessType_Values)
 		workspace.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
 	} else {
 		workspace.PublicNetworkAccessForQuery = nil
@@ -2422,7 +2422,7 @@ func (workspaceSku *WorkspaceSku) Initialize_From_WorkspaceSku_STATUS(source *Wo
 
 	// Name
 	if source.Name != nil {
-		name := WorkspaceSku_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), workspaceSku_Name_Values)
 		workspaceSku.Name = &name
 	} else {
 		workspaceSku.Name = nil

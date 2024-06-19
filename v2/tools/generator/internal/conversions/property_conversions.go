@@ -777,7 +777,7 @@ func assignToEnumeration(
 		}
 
 		if dstEnum.NeedsMappingConversion(dstName) {
-			// We need to use the values mapping to convert the value in a case insensitive way
+			// We need to use the values mapping to convert the value in a case-insensitive way
 
 			mapperId := dstEnum.MapperVariableName(dstName)
 			genruntimePkg := generationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
@@ -1757,8 +1757,29 @@ func assignEnumFromEnum(
 		generationContext *astmodel.CodeGenerationContext,
 	) ([]dst.Stmt, error) {
 		local := knownLocals.CreateSingularLocal(destinationEndpoint.Name(), "", "As"+destinationName.Name(), "Value")
-		declare := astbuilder.ShortDeclaration(local, astbuilder.CallFunc(destinationName.Name(), reader))
+
+		var declare dst.Stmt
+		if destinationEnum.NeedsMappingConversion(destinationName) {
+			// We need to use the values mapping to convert the value in a case-insensitive manner
+
+			mapperId := destinationEnum.MapperVariableName(destinationName)
+			genruntimePkg := generationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
+
+			// genruntime.ToEnum(<actualReader>, <mapperId>)
+			toEnum := astbuilder.CallQualifiedFunc(
+				genruntimePkg,
+				"ToEnum",
+				astbuilder.CallFunc("string", reader),
+				dst.NewIdent(mapperId))
+
+			declare = astbuilder.ShortDeclaration(local, toEnum)
+		} else {
+			// No conversion required
+			declare = astbuilder.ShortDeclaration(local, astbuilder.CallFunc(destinationName.Name(), reader))
+		}
+
 		write := writer(dst.NewIdent(local))
+
 		return astbuilder.Statements(
 			declare,
 			write,

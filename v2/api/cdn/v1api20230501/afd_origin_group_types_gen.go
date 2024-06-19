@@ -677,7 +677,7 @@ func (group *Profiles_OriginGroup_Spec) Initialize_From_Profiles_OriginGroup_STA
 
 	// SessionAffinityState
 	if source.SessionAffinityState != nil {
-		sessionAffinityState := AFDOriginGroupProperties_SessionAffinityState(*source.SessionAffinityState)
+		sessionAffinityState := genruntime.ToEnum(string(*source.SessionAffinityState), aFDOriginGroupProperties_SessionAffinityState_Values)
 		group.SessionAffinityState = &sessionAffinityState
 	} else {
 		group.SessionAffinityState = nil
@@ -1345,7 +1345,7 @@ func (parameters *HealthProbeParameters) Initialize_From_HealthProbeParameters_S
 
 	// ProbeProtocol
 	if source.ProbeProtocol != nil {
-		probeProtocol := HealthProbeParameters_ProbeProtocol(*source.ProbeProtocol)
+		probeProtocol := genruntime.ToEnum(string(*source.ProbeProtocol), healthProbeParameters_ProbeProtocol_Values)
 		parameters.ProbeProtocol = &probeProtocol
 	} else {
 		parameters.ProbeProtocol = nil
@@ -1353,7 +1353,7 @@ func (parameters *HealthProbeParameters) Initialize_From_HealthProbeParameters_S
 
 	// ProbeRequestType
 	if source.ProbeRequestType != nil {
-		probeRequestType := HealthProbeParameters_ProbeRequestType(*source.ProbeRequestType)
+		probeRequestType := genruntime.ToEnum(string(*source.ProbeRequestType), healthProbeParameters_ProbeRequestType_Values)
 		parameters.ProbeRequestType = &probeRequestType
 	} else {
 		parameters.ProbeRequestType = nil

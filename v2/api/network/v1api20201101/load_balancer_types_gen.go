@@ -2579,7 +2579,7 @@ func (location *ExtendedLocation) Initialize_From_ExtendedLocation_STATUS(source
 
 	// Type
 	if source.Type != nil {
-		typeVar := ExtendedLocationType(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), extendedLocationType_Values)
 		location.Type = &typeVar
 	} else {
 		location.Type = nil
@@ -3024,7 +3024,7 @@ func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) Initia
 
 	// PrivateIPAddressVersion
 	if source.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := IPVersion(*source.PrivateIPAddressVersion)
+		privateIPAddressVersion := genruntime.ToEnum(string(*source.PrivateIPAddressVersion), iPVersion_Values)
 		embedded.PrivateIPAddressVersion = &privateIPAddressVersion
 	} else {
 		embedded.PrivateIPAddressVersion = nil
@@ -3032,7 +3032,7 @@ func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) Initia
 
 	// PrivateIPAllocationMethod
 	if source.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := IPAllocationMethod(*source.PrivateIPAllocationMethod)
+		privateIPAllocationMethod := genruntime.ToEnum(string(*source.PrivateIPAllocationMethod), iPAllocationMethod_Values)
 		embedded.PrivateIPAllocationMethod = &privateIPAllocationMethod
 	} else {
 		embedded.PrivateIPAllocationMethod = nil
@@ -4015,7 +4015,7 @@ func (pool *InboundNatPool) Initialize_From_InboundNatPool_STATUS(source *Inboun
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := TransportProtocol(*source.Protocol)
+		protocol := genruntime.ToEnum(string(*source.Protocol), transportProtocol_Values)
 		pool.Protocol = &protocol
 	} else {
 		pool.Protocol = nil
@@ -4711,7 +4711,7 @@ func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) Initialize_From
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := TransportProtocol(*source.Protocol)
+		protocol := genruntime.ToEnum(string(*source.Protocol), transportProtocol_Values)
 		embedded.Protocol = &protocol
 	} else {
 		embedded.Protocol = nil
@@ -5204,7 +5204,7 @@ func (balancerSku *LoadBalancerSku) Initialize_From_LoadBalancerSku_STATUS(sourc
 
 	// Name
 	if source.Name != nil {
-		name := LoadBalancerSku_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), loadBalancerSku_Name_Values)
 		balancerSku.Name = &name
 	} else {
 		balancerSku.Name = nil
@@ -5212,7 +5212,7 @@ func (balancerSku *LoadBalancerSku) Initialize_From_LoadBalancerSku_STATUS(sourc
 
 	// Tier
 	if source.Tier != nil {
-		tier := LoadBalancerSku_Tier(*source.Tier)
+		tier := genruntime.ToEnum(string(*source.Tier), loadBalancerSku_Tier_Values)
 		balancerSku.Tier = &tier
 	} else {
 		balancerSku.Tier = nil
@@ -5855,7 +5855,7 @@ func (rule *LoadBalancingRule) Initialize_From_LoadBalancingRule_STATUS(source *
 
 	// LoadDistribution
 	if source.LoadDistribution != nil {
-		loadDistribution := LoadBalancingRulePropertiesFormat_LoadDistribution(*source.LoadDistribution)
+		loadDistribution := genruntime.ToEnum(string(*source.LoadDistribution), loadBalancingRulePropertiesFormat_LoadDistribution_Values)
 		rule.LoadDistribution = &loadDistribution
 	} else {
 		rule.LoadDistribution = nil
@@ -5878,7 +5878,7 @@ func (rule *LoadBalancingRule) Initialize_From_LoadBalancingRule_STATUS(source *
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := TransportProtocol(*source.Protocol)
+		protocol := genruntime.ToEnum(string(*source.Protocol), transportProtocol_Values)
 		rule.Protocol = &protocol
 	} else {
 		rule.Protocol = nil
@@ -6708,7 +6708,7 @@ func (rule *OutboundRule) Initialize_From_OutboundRule_STATUS(source *OutboundRu
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := OutboundRulePropertiesFormat_Protocol(*source.Protocol)
+		protocol := genruntime.ToEnum(string(*source.Protocol), outboundRulePropertiesFormat_Protocol_Values)
 		rule.Protocol = &protocol
 	} else {
 		rule.Protocol = nil
@@ -7271,7 +7271,7 @@ func (probe *Probe) Initialize_From_Probe_STATUS(source *Probe_STATUS) error {
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := ProbePropertiesFormat_Protocol(*source.Protocol)
+		protocol := genruntime.ToEnum(string(*source.Protocol), probePropertiesFormat_Protocol_Values)
 		probe.Protocol = &protocol
 	} else {
 		probe.Protocol = nil

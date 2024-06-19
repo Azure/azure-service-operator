@@ -711,7 +711,7 @@ func (share *StorageAccounts_FileServices_Share_Spec) Initialize_From_StorageAcc
 
 	// AccessTier
 	if source.AccessTier != nil {
-		accessTier := FileShareProperties_AccessTier(*source.AccessTier)
+		accessTier := genruntime.ToEnum(string(*source.AccessTier), fileShareProperties_AccessTier_Values)
 		share.AccessTier = &accessTier
 	} else {
 		share.AccessTier = nil
@@ -719,7 +719,7 @@ func (share *StorageAccounts_FileServices_Share_Spec) Initialize_From_StorageAcc
 
 	// EnabledProtocols
 	if source.EnabledProtocols != nil {
-		enabledProtocol := FileShareProperties_EnabledProtocols(*source.EnabledProtocols)
+		enabledProtocol := genruntime.ToEnum(string(*source.EnabledProtocols), fileShareProperties_EnabledProtocols_Values)
 		share.EnabledProtocols = &enabledProtocol
 	} else {
 		share.EnabledProtocols = nil
@@ -730,7 +730,7 @@ func (share *StorageAccounts_FileServices_Share_Spec) Initialize_From_StorageAcc
 
 	// RootSquash
 	if source.RootSquash != nil {
-		rootSquash := FileShareProperties_RootSquash(*source.RootSquash)
+		rootSquash := genruntime.ToEnum(string(*source.RootSquash), fileShareProperties_RootSquash_Values)
 		share.RootSquash = &rootSquash
 	} else {
 		share.RootSquash = nil

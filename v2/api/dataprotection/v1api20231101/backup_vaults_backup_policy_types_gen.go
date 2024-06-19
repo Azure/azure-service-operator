@@ -1142,7 +1142,7 @@ func (policy *BackupPolicy) Initialize_From_BackupPolicy_STATUS(source *BackupPo
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := BackupPolicy_ObjectType(*source.ObjectType)
+		objectType := genruntime.ToEnum(string(*source.ObjectType), backupPolicy_ObjectType_Values)
 		policy.ObjectType = &objectType
 	} else {
 		policy.ObjectType = nil
@@ -1872,7 +1872,7 @@ func (rule *AzureBackupRule) Initialize_From_AzureBackupRule_STATUS(source *Azur
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := AzureBackupRule_ObjectType(*source.ObjectType)
+		objectType := genruntime.ToEnum(string(*source.ObjectType), azureBackupRule_ObjectType_Values)
 		rule.ObjectType = &objectType
 	} else {
 		rule.ObjectType = nil
@@ -2305,7 +2305,7 @@ func (rule *AzureRetentionRule) Initialize_From_AzureRetentionRule_STATUS(source
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := AzureRetentionRule_ObjectType(*source.ObjectType)
+		objectType := genruntime.ToEnum(string(*source.ObjectType), azureRetentionRule_ObjectType_Values)
 		rule.ObjectType = &objectType
 	} else {
 		rule.ObjectType = nil
@@ -2776,7 +2776,7 @@ func (base *DataStoreInfoBase) Initialize_From_DataStoreInfoBase_STATUS(source *
 
 	// DataStoreType
 	if source.DataStoreType != nil {
-		dataStoreType := DataStoreInfoBase_DataStoreType(*source.DataStoreType)
+		dataStoreType := genruntime.ToEnum(string(*source.DataStoreType), dataStoreInfoBase_DataStoreType_Values)
 		base.DataStoreType = &dataStoreType
 	} else {
 		base.DataStoreType = nil
@@ -3728,7 +3728,7 @@ func (context *AdhocBasedTriggerContext) Initialize_From_AdhocBasedTriggerContex
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := AdhocBasedTriggerContext_ObjectType(*source.ObjectType)
+		objectType := genruntime.ToEnum(string(*source.ObjectType), adhocBasedTriggerContext_ObjectType_Values)
 		context.ObjectType = &objectType
 	} else {
 		context.ObjectType = nil
@@ -3965,7 +3965,7 @@ func (params *AzureBackupParams) Initialize_From_AzureBackupParams_STATUS(source
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := AzureBackupParams_ObjectType(*source.ObjectType)
+		objectType := genruntime.ToEnum(string(*source.ObjectType), azureBackupParams_ObjectType_Values)
 		params.ObjectType = &objectType
 	} else {
 		params.ObjectType = nil
@@ -4450,7 +4450,7 @@ func (context *ScheduleBasedTriggerContext) Initialize_From_ScheduleBasedTrigger
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := ScheduleBasedTriggerContext_ObjectType(*source.ObjectType)
+		objectType := genruntime.ToEnum(string(*source.ObjectType), scheduleBasedTriggerContext_ObjectType_Values)
 		context.ObjectType = &objectType
 	} else {
 		context.ObjectType = nil
@@ -5056,7 +5056,7 @@ func (option *AbsoluteDeleteOption) Initialize_From_AbsoluteDeleteOption_STATUS(
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := AbsoluteDeleteOption_ObjectType(*source.ObjectType)
+		objectType := genruntime.ToEnum(string(*source.ObjectType), absoluteDeleteOption_ObjectType_Values)
 		option.ObjectType = &objectType
 	} else {
 		option.ObjectType = nil
@@ -6644,7 +6644,7 @@ func (option *CopyOnExpiryOption) Initialize_From_CopyOnExpiryOption_STATUS(sour
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := CopyOnExpiryOption_ObjectType(*source.ObjectType)
+		objectType := genruntime.ToEnum(string(*source.ObjectType), copyOnExpiryOption_ObjectType_Values)
 		option.ObjectType = &objectType
 	} else {
 		option.ObjectType = nil
@@ -6830,7 +6830,7 @@ func (option *CustomCopyOption) Initialize_From_CustomCopyOption_STATUS(source *
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := CustomCopyOption_ObjectType(*source.ObjectType)
+		objectType := genruntime.ToEnum(string(*source.ObjectType), customCopyOption_ObjectType_Values)
 		option.ObjectType = &objectType
 	} else {
 		option.ObjectType = nil
@@ -7007,7 +7007,7 @@ func (option *ImmediateCopyOption) Initialize_From_ImmediateCopyOption_STATUS(so
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := ImmediateCopyOption_ObjectType(*source.ObjectType)
+		objectType := genruntime.ToEnum(string(*source.ObjectType), immediateCopyOption_ObjectType_Values)
 		option.ObjectType = &objectType
 	} else {
 		option.ObjectType = nil
@@ -7581,7 +7581,7 @@ func (criteria *ScheduleBasedBackupCriteria) Initialize_From_ScheduleBasedBackup
 		for absoluteCriterionIndex, absoluteCriterionItem := range source.AbsoluteCriteria {
 			// Shadow the loop variable to avoid aliasing
 			absoluteCriterionItem := absoluteCriterionItem
-			absoluteCriterion := ScheduleBasedBackupCriteria_AbsoluteCriteria(absoluteCriterionItem)
+			absoluteCriterion := genruntime.ToEnum(string(absoluteCriterionItem), scheduleBasedBackupCriteria_AbsoluteCriteria_Values)
 			absoluteCriterionList[absoluteCriterionIndex] = absoluteCriterion
 		}
 		criteria.AbsoluteCriteria = absoluteCriterionList
@@ -7613,7 +7613,7 @@ func (criteria *ScheduleBasedBackupCriteria) Initialize_From_ScheduleBasedBackup
 		for daysOfTheWeekIndex, daysOfTheWeekItem := range source.DaysOfTheWeek {
 			// Shadow the loop variable to avoid aliasing
 			daysOfTheWeekItem := daysOfTheWeekItem
-			daysOfTheWeek := ScheduleBasedBackupCriteria_DaysOfTheWeek(daysOfTheWeekItem)
+			daysOfTheWeek := genruntime.ToEnum(string(daysOfTheWeekItem), scheduleBasedBackupCriteria_DaysOfTheWeek_Values)
 			daysOfTheWeekList[daysOfTheWeekIndex] = daysOfTheWeek
 		}
 		criteria.DaysOfTheWeek = daysOfTheWeekList
@@ -7627,7 +7627,7 @@ func (criteria *ScheduleBasedBackupCriteria) Initialize_From_ScheduleBasedBackup
 		for monthsOfYearIndex, monthsOfYearItem := range source.MonthsOfYear {
 			// Shadow the loop variable to avoid aliasing
 			monthsOfYearItem := monthsOfYearItem
-			monthsOfYear := ScheduleBasedBackupCriteria_MonthsOfYear(monthsOfYearItem)
+			monthsOfYear := genruntime.ToEnum(string(monthsOfYearItem), scheduleBasedBackupCriteria_MonthsOfYear_Values)
 			monthsOfYearList[monthsOfYearIndex] = monthsOfYear
 		}
 		criteria.MonthsOfYear = monthsOfYearList
@@ -7637,7 +7637,7 @@ func (criteria *ScheduleBasedBackupCriteria) Initialize_From_ScheduleBasedBackup
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := ScheduleBasedBackupCriteria_ObjectType(*source.ObjectType)
+		objectType := genruntime.ToEnum(string(*source.ObjectType), scheduleBasedBackupCriteria_ObjectType_Values)
 		criteria.ObjectType = &objectType
 	} else {
 		criteria.ObjectType = nil
@@ -7652,7 +7652,7 @@ func (criteria *ScheduleBasedBackupCriteria) Initialize_From_ScheduleBasedBackup
 		for weeksOfTheMonthIndex, weeksOfTheMonthItem := range source.WeeksOfTheMonth {
 			// Shadow the loop variable to avoid aliasing
 			weeksOfTheMonthItem := weeksOfTheMonthItem
-			weeksOfTheMonth := ScheduleBasedBackupCriteria_WeeksOfTheMonth(weeksOfTheMonthItem)
+			weeksOfTheMonth := genruntime.ToEnum(string(weeksOfTheMonthItem), scheduleBasedBackupCriteria_WeeksOfTheMonth_Values)
 			weeksOfTheMonthList[weeksOfTheMonthIndex] = weeksOfTheMonth
 		}
 		criteria.WeeksOfTheMonth = weeksOfTheMonthList

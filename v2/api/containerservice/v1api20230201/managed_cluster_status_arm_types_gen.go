@@ -729,18 +729,6 @@ type ManagedClusterStorageProfile_STATUS_ARM struct {
 
 // Profile for Windows VMs in the managed cluster.
 type ManagedClusterWindowsProfile_STATUS_ARM struct {
-	// AdminPassword: Specifies the password of the administrator account.
-	// Minimum-length: 8 characters
-	// Max-length: 123 characters
-	// Complexity requirements: 3 out of 4 conditions below need to be fulfilled
-	// Has lower characters
-	// Has upper characters
-	// Has a digit
-	// Has a special character (Regex match [\W_])
-	// Disallowed values: "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1",
-	// "Password22", "iloveyou!"
-	AdminPassword *string `json:"adminPassword,omitempty"`
-
 	// AdminUsername: Specifies the name of the administrator account.
 	// Restriction: Cannot end in "."
 	// Disallowed values: "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123",

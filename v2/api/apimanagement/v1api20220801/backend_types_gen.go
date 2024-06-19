@@ -889,7 +889,7 @@ func (backend *Service_Backend_Spec) Initialize_From_Service_Backend_STATUS(sour
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := BackendContractProperties_Protocol(*source.Protocol)
+		protocol := genruntime.ToEnum(string(*source.Protocol), backendContractProperties_Protocol_Values)
 		backend.Protocol = &protocol
 	} else {
 		backend.Protocol = nil

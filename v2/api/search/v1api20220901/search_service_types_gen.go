@@ -1044,7 +1044,7 @@ func (service *SearchService_Spec) Initialize_From_SearchService_STATUS(source *
 
 	// HostingMode
 	if source.HostingMode != nil {
-		hostingMode := SearchServiceProperties_HostingMode(*source.HostingMode)
+		hostingMode := genruntime.ToEnum(string(*source.HostingMode), searchServiceProperties_HostingMode_Values)
 		service.HostingMode = &hostingMode
 	} else {
 		service.HostingMode = nil
@@ -1087,7 +1087,7 @@ func (service *SearchService_Spec) Initialize_From_SearchService_STATUS(source *
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := SearchServiceProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
+		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), searchServiceProperties_PublicNetworkAccess_Values)
 		service.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		service.PublicNetworkAccess = nil
@@ -2169,7 +2169,7 @@ func (withCmk *EncryptionWithCmk) Initialize_From_EncryptionWithCmk_STATUS(sourc
 
 	// Enforcement
 	if source.Enforcement != nil {
-		enforcement := EncryptionWithCmk_Enforcement(*source.Enforcement)
+		enforcement := genruntime.ToEnum(string(*source.Enforcement), encryptionWithCmk_Enforcement_Values)
 		withCmk.Enforcement = &enforcement
 	} else {
 		withCmk.Enforcement = nil
@@ -2369,7 +2369,7 @@ func (identity *Identity) Initialize_From_Identity_STATUS(source *Identity_STATU
 
 	// Type
 	if source.Type != nil {
-		typeVar := Identity_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), identity_Type_Values)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -3072,7 +3072,7 @@ func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
 
 	// Name
 	if source.Name != nil {
-		name := Sku_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), sku_Name_Values)
 		sku.Name = &name
 	} else {
 		sku.Name = nil
@@ -3248,7 +3248,7 @@ func (option *DataPlaneAadOrApiKeyAuthOption) Initialize_From_DataPlaneAadOrApiK
 
 	// AadAuthFailureMode
 	if source.AadAuthFailureMode != nil {
-		aadAuthFailureMode := DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode(*source.AadAuthFailureMode)
+		aadAuthFailureMode := genruntime.ToEnum(string(*source.AadAuthFailureMode), dataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_Values)
 		option.AadAuthFailureMode = &aadAuthFailureMode
 	} else {
 		option.AadAuthFailureMode = nil

@@ -1128,7 +1128,7 @@ func (subnet *VirtualNetworks_Subnet_Spec) Initialize_From_VirtualNetworks_Subne
 
 	// PrivateEndpointNetworkPolicies
 	if source.PrivateEndpointNetworkPolicies != nil {
-		privateEndpointNetworkPolicy := SubnetPropertiesFormat_PrivateEndpointNetworkPolicies(*source.PrivateEndpointNetworkPolicies)
+		privateEndpointNetworkPolicy := genruntime.ToEnum(string(*source.PrivateEndpointNetworkPolicies), subnetPropertiesFormat_PrivateEndpointNetworkPolicies_Values)
 		subnet.PrivateEndpointNetworkPolicies = &privateEndpointNetworkPolicy
 	} else {
 		subnet.PrivateEndpointNetworkPolicies = nil
@@ -1136,7 +1136,7 @@ func (subnet *VirtualNetworks_Subnet_Spec) Initialize_From_VirtualNetworks_Subne
 
 	// PrivateLinkServiceNetworkPolicies
 	if source.PrivateLinkServiceNetworkPolicies != nil {
-		privateLinkServiceNetworkPolicy := SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies(*source.PrivateLinkServiceNetworkPolicies)
+		privateLinkServiceNetworkPolicy := genruntime.ToEnum(string(*source.PrivateLinkServiceNetworkPolicies), subnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_Values)
 		subnet.PrivateLinkServiceNetworkPolicies = &privateLinkServiceNetworkPolicy
 	} else {
 		subnet.PrivateLinkServiceNetworkPolicies = nil

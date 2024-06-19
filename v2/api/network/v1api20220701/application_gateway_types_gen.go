@@ -6452,7 +6452,7 @@ func (error *ApplicationGatewayCustomError) Initialize_From_ApplicationGatewayCu
 
 	// StatusCode
 	if source.StatusCode != nil {
-		statusCode := ApplicationGatewayCustomError_StatusCode(*source.StatusCode)
+		statusCode := genruntime.ToEnum(string(*source.StatusCode), applicationGatewayCustomError_StatusCode_Values)
 		error.StatusCode = &statusCode
 	} else {
 		error.StatusCode = nil
@@ -11216,7 +11216,7 @@ func (gatewaySku *ApplicationGatewaySku) Initialize_From_ApplicationGatewaySku_S
 
 	// Name
 	if source.Name != nil {
-		name := ApplicationGatewaySku_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), applicationGatewaySku_Name_Values)
 		gatewaySku.Name = &name
 	} else {
 		gatewaySku.Name = nil
@@ -11224,7 +11224,7 @@ func (gatewaySku *ApplicationGatewaySku) Initialize_From_ApplicationGatewaySku_S
 
 	// Tier
 	if source.Tier != nil {
-		tier := ApplicationGatewaySku_Tier(*source.Tier)
+		tier := genruntime.ToEnum(string(*source.Tier), applicationGatewaySku_Tier_Values)
 		gatewaySku.Tier = &tier
 	} else {
 		gatewaySku.Tier = nil
@@ -11808,7 +11808,7 @@ func (policy *ApplicationGatewaySslPolicy) Initialize_From_ApplicationGatewaySsl
 		for cipherSuiteIndex, cipherSuiteItem := range source.CipherSuites {
 			// Shadow the loop variable to avoid aliasing
 			cipherSuiteItem := cipherSuiteItem
-			cipherSuite := CipherSuitesEnum(cipherSuiteItem)
+			cipherSuite := genruntime.ToEnum(string(cipherSuiteItem), cipherSuitesEnum_Values)
 			cipherSuiteList[cipherSuiteIndex] = cipherSuite
 		}
 		policy.CipherSuites = cipherSuiteList
@@ -11822,7 +11822,7 @@ func (policy *ApplicationGatewaySslPolicy) Initialize_From_ApplicationGatewaySsl
 		for disabledSslProtocolIndex, disabledSslProtocolItem := range source.DisabledSslProtocols {
 			// Shadow the loop variable to avoid aliasing
 			disabledSslProtocolItem := disabledSslProtocolItem
-			disabledSslProtocol := ProtocolsEnum(disabledSslProtocolItem)
+			disabledSslProtocol := genruntime.ToEnum(string(disabledSslProtocolItem), protocolsEnum_Values)
 			disabledSslProtocolList[disabledSslProtocolIndex] = disabledSslProtocol
 		}
 		policy.DisabledSslProtocols = disabledSslProtocolList
@@ -11832,7 +11832,7 @@ func (policy *ApplicationGatewaySslPolicy) Initialize_From_ApplicationGatewaySsl
 
 	// MinProtocolVersion
 	if source.MinProtocolVersion != nil {
-		minProtocolVersion := ProtocolsEnum(*source.MinProtocolVersion)
+		minProtocolVersion := genruntime.ToEnum(string(*source.MinProtocolVersion), protocolsEnum_Values)
 		policy.MinProtocolVersion = &minProtocolVersion
 	} else {
 		policy.MinProtocolVersion = nil
@@ -11840,7 +11840,7 @@ func (policy *ApplicationGatewaySslPolicy) Initialize_From_ApplicationGatewaySsl
 
 	// PolicyName
 	if source.PolicyName != nil {
-		policyName := PolicyNameEnum(*source.PolicyName)
+		policyName := genruntime.ToEnum(string(*source.PolicyName), policyNameEnum_Values)
 		policy.PolicyName = &policyName
 	} else {
 		policy.PolicyName = nil
@@ -11848,7 +11848,7 @@ func (policy *ApplicationGatewaySslPolicy) Initialize_From_ApplicationGatewaySsl
 
 	// PolicyType
 	if source.PolicyType != nil {
-		policyType := ApplicationGatewaySslPolicy_PolicyType(*source.PolicyType)
+		policyType := genruntime.ToEnum(string(*source.PolicyType), applicationGatewaySslPolicy_PolicyType_Values)
 		policy.PolicyType = &policyType
 	} else {
 		policy.PolicyType = nil
@@ -13798,7 +13798,7 @@ func (configuration *ApplicationGatewayWebApplicationFirewallConfiguration) Init
 
 	// FirewallMode
 	if source.FirewallMode != nil {
-		firewallMode := ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode(*source.FirewallMode)
+		firewallMode := genruntime.ToEnum(string(*source.FirewallMode), applicationGatewayWebApplicationFirewallConfiguration_FirewallMode_Values)
 		configuration.FirewallMode = &firewallMode
 	} else {
 		configuration.FirewallMode = nil
@@ -14277,7 +14277,7 @@ func (identity *ManagedServiceIdentity) Initialize_From_ManagedServiceIdentity_S
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagedServiceIdentity_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), managedServiceIdentity_Type_Values)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil

@@ -951,7 +951,7 @@ func (endpoint *Trafficmanagerprofiles_NestedEndpoint_Spec) Initialize_From_Traf
 
 	// AlwaysServe
 	if source.AlwaysServe != nil {
-		alwaysServe := EndpointProperties_AlwaysServe(*source.AlwaysServe)
+		alwaysServe := genruntime.ToEnum(string(*source.AlwaysServe), endpointProperties_AlwaysServe_Values)
 		endpoint.AlwaysServe = &alwaysServe
 	} else {
 		endpoint.AlwaysServe = nil
@@ -980,7 +980,7 @@ func (endpoint *Trafficmanagerprofiles_NestedEndpoint_Spec) Initialize_From_Traf
 
 	// EndpointMonitorStatus
 	if source.EndpointMonitorStatus != nil {
-		endpointMonitorStatus := EndpointProperties_EndpointMonitorStatus(*source.EndpointMonitorStatus)
+		endpointMonitorStatus := genruntime.ToEnum(string(*source.EndpointMonitorStatus), endpointProperties_EndpointMonitorStatus_Values)
 		endpoint.EndpointMonitorStatus = &endpointMonitorStatus
 	} else {
 		endpoint.EndpointMonitorStatus = nil
@@ -988,7 +988,7 @@ func (endpoint *Trafficmanagerprofiles_NestedEndpoint_Spec) Initialize_From_Traf
 
 	// EndpointStatus
 	if source.EndpointStatus != nil {
-		endpointStatus := EndpointProperties_EndpointStatus(*source.EndpointStatus)
+		endpointStatus := genruntime.ToEnum(string(*source.EndpointStatus), endpointProperties_EndpointStatus_Values)
 		endpoint.EndpointStatus = &endpointStatus
 	} else {
 		endpoint.EndpointStatus = nil

@@ -1410,7 +1410,7 @@ func (parameters *AFDDomainHttpsParameters) Initialize_From_AFDDomainHttpsParame
 
 	// CertificateType
 	if source.CertificateType != nil {
-		certificateType := AFDDomainHttpsParameters_CertificateType(*source.CertificateType)
+		certificateType := genruntime.ToEnum(string(*source.CertificateType), aFDDomainHttpsParameters_CertificateType_Values)
 		parameters.CertificateType = &certificateType
 	} else {
 		parameters.CertificateType = nil
@@ -1418,7 +1418,7 @@ func (parameters *AFDDomainHttpsParameters) Initialize_From_AFDDomainHttpsParame
 
 	// MinimumTlsVersion
 	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := AFDDomainHttpsParameters_MinimumTlsVersion(*source.MinimumTlsVersion)
+		minimumTlsVersion := genruntime.ToEnum(string(*source.MinimumTlsVersion), aFDDomainHttpsParameters_MinimumTlsVersion_Values)
 		parameters.MinimumTlsVersion = &minimumTlsVersion
 	} else {
 		parameters.MinimumTlsVersion = nil

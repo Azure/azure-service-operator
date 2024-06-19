@@ -949,7 +949,7 @@ func (store *ConfigurationStore_Spec) Initialize_From_ConfigurationStore_STATUS(
 
 	// CreateMode
 	if source.CreateMode != nil {
-		createMode := ConfigurationStoreProperties_CreateMode(*source.CreateMode)
+		createMode := genruntime.ToEnum(string(*source.CreateMode), configurationStoreProperties_CreateMode_Values)
 		store.CreateMode = &createMode
 	} else {
 		store.CreateMode = nil
@@ -1000,7 +1000,7 @@ func (store *ConfigurationStore_Spec) Initialize_From_ConfigurationStore_STATUS(
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := ConfigurationStoreProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
+		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), configurationStoreProperties_PublicNetworkAccess_Values)
 		store.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		store.PublicNetworkAccess = nil
@@ -2172,7 +2172,7 @@ func (identity *ResourceIdentity) Initialize_From_ResourceIdentity_STATUS(source
 
 	// Type
 	if source.Type != nil {
-		typeVar := ResourceIdentity_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), resourceIdentity_Type_Values)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -2706,7 +2706,7 @@ func (data *SystemData) Initialize_From_SystemData_STATUS(source *SystemData_STA
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-		createdByType := SystemData_CreatedByType(*source.CreatedByType)
+		createdByType := genruntime.ToEnum(string(*source.CreatedByType), systemData_CreatedByType_Values)
 		data.CreatedByType = &createdByType
 	} else {
 		data.CreatedByType = nil
@@ -2720,7 +2720,7 @@ func (data *SystemData) Initialize_From_SystemData_STATUS(source *SystemData_STA
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemData_LastModifiedByType(*source.LastModifiedByType)
+		lastModifiedByType := genruntime.ToEnum(string(*source.LastModifiedByType), systemData_LastModifiedByType_Values)
 		data.LastModifiedByType = &lastModifiedByType
 	} else {
 		data.LastModifiedByType = nil

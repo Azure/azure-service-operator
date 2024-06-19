@@ -583,7 +583,7 @@ func (server *Redis_LinkedServer_Spec) Initialize_From_Redis_LinkedServer_STATUS
 
 	// ServerRole
 	if source.ServerRole != nil {
-		serverRole := RedisLinkedServerCreateProperties_ServerRole(*source.ServerRole)
+		serverRole := genruntime.ToEnum(string(*source.ServerRole), redisLinkedServerCreateProperties_ServerRole_Values)
 		server.ServerRole = &serverRole
 	} else {
 		server.ServerRole = nil

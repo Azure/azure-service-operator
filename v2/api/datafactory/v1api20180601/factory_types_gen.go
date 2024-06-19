@@ -937,7 +937,7 @@ func (factory *Factory_Spec) Initialize_From_Factory_STATUS(source *Factory_STAT
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := FactoryProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
+		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), factoryProperties_PublicNetworkAccess_Values)
 		factory.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		factory.PublicNetworkAccess = nil
@@ -1980,7 +1980,7 @@ func (identity *FactoryIdentity) Initialize_From_FactoryIdentity_STATUS(source *
 
 	// Type
 	if source.Type != nil {
-		typeVar := FactoryIdentity_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), factoryIdentity_Type_Values)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -2601,7 +2601,7 @@ func (specification *GlobalParameterSpecification) Initialize_From_GlobalParamet
 
 	// Type
 	if source.Type != nil {
-		typeVar := GlobalParameterSpecification_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), globalParameterSpecification_Type_Values)
 		specification.Type = &typeVar
 	} else {
 		specification.Type = nil
@@ -3396,7 +3396,7 @@ func (configuration *FactoryGitHubConfiguration) Initialize_From_FactoryGitHubCo
 
 	// Type
 	if source.Type != nil {
-		typeVar := FactoryGitHubConfiguration_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), factoryGitHubConfiguration_Type_Values)
 		configuration.Type = &typeVar
 	} else {
 		configuration.Type = nil
@@ -3938,7 +3938,7 @@ func (configuration *FactoryVSTSConfiguration) Initialize_From_FactoryVSTSConfig
 
 	// Type
 	if source.Type != nil {
-		typeVar := FactoryVSTSConfiguration_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), factoryVSTSConfiguration_Type_Values)
 		configuration.Type = &typeVar
 	} else {
 		configuration.Type = nil

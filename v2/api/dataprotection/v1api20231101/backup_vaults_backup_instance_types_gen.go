@@ -1262,7 +1262,7 @@ func (instance *BackupInstance) Initialize_From_BackupInstance_STATUS(source *Ba
 
 	// ValidationType
 	if source.ValidationType != nil {
-		validationType := BackupInstance_ValidationType(*source.ValidationType)
+		validationType := genruntime.ToEnum(string(*source.ValidationType), backupInstance_ValidationType_Values)
 		instance.ValidationType = &validationType
 	} else {
 		instance.ValidationType = nil
@@ -4487,7 +4487,7 @@ func (credentials *SecretStoreBasedAuthCredentials) Initialize_From_SecretStoreB
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := SecretStoreBasedAuthCredentials_ObjectType(*source.ObjectType)
+		objectType := genruntime.ToEnum(string(*source.ObjectType), secretStoreBasedAuthCredentials_ObjectType_Values)
 		credentials.ObjectType = &objectType
 	} else {
 		credentials.ObjectType = nil
@@ -5402,7 +5402,7 @@ func (properties *DefaultResourceProperties) Initialize_From_DefaultResourceProp
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := DefaultResourceProperties_ObjectType(*source.ObjectType)
+		objectType := genruntime.ToEnum(string(*source.ObjectType), defaultResourceProperties_ObjectType_Values)
 		properties.ObjectType = &objectType
 	} else {
 		properties.ObjectType = nil
@@ -5686,7 +5686,7 @@ func (resource *SecretStoreResource) Initialize_From_SecretStoreResource_STATUS(
 
 	// SecretStoreType
 	if source.SecretStoreType != nil {
-		secretStoreType := SecretStoreResource_SecretStoreType(*source.SecretStoreType)
+		secretStoreType := genruntime.ToEnum(string(*source.SecretStoreType), secretStoreResource_SecretStoreType_Values)
 		resource.SecretStoreType = &secretStoreType
 	} else {
 		resource.SecretStoreType = nil
@@ -5952,7 +5952,7 @@ func (parameters *AzureOperationalStoreParameters) Initialize_From_AzureOperatio
 
 	// DataStoreType
 	if source.DataStoreType != nil {
-		dataStoreType := AzureOperationalStoreParameters_DataStoreType(*source.DataStoreType)
+		dataStoreType := genruntime.ToEnum(string(*source.DataStoreType), azureOperationalStoreParameters_DataStoreType_Values)
 		parameters.DataStoreType = &dataStoreType
 	} else {
 		parameters.DataStoreType = nil
@@ -5960,7 +5960,7 @@ func (parameters *AzureOperationalStoreParameters) Initialize_From_AzureOperatio
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := AzureOperationalStoreParameters_ObjectType(*source.ObjectType)
+		objectType := genruntime.ToEnum(string(*source.ObjectType), azureOperationalStoreParameters_ObjectType_Values)
 		parameters.ObjectType = &objectType
 	} else {
 		parameters.ObjectType = nil
@@ -6194,7 +6194,7 @@ func (parameters *BlobBackupDatasourceParameters) Initialize_From_BlobBackupData
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := BlobBackupDatasourceParameters_ObjectType(*source.ObjectType)
+		objectType := genruntime.ToEnum(string(*source.ObjectType), blobBackupDatasourceParameters_ObjectType_Values)
 		parameters.ObjectType = &objectType
 	} else {
 		parameters.ObjectType = nil
@@ -6636,7 +6636,7 @@ func (parameters *KubernetesClusterBackupDatasourceParameters) Initialize_From_K
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := KubernetesClusterBackupDatasourceParameters_ObjectType(*source.ObjectType)
+		objectType := genruntime.ToEnum(string(*source.ObjectType), kubernetesClusterBackupDatasourceParameters_ObjectType_Values)
 		parameters.ObjectType = &objectType
 	} else {
 		parameters.ObjectType = nil

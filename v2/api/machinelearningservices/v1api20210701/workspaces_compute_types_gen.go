@@ -2439,7 +2439,7 @@ func (aks *AKS) Initialize_From_AKS_STATUS(source *AKS_STATUS) error {
 
 	// ComputeType
 	if source.ComputeType != nil {
-		computeType := AKS_ComputeType(*source.ComputeType)
+		computeType := genruntime.ToEnum(string(*source.ComputeType), aKS_ComputeType_Values)
 		aks.ComputeType = &computeType
 	} else {
 		aks.ComputeType = nil
@@ -3029,7 +3029,7 @@ func (compute *AmlCompute) Initialize_From_AmlCompute_STATUS(source *AmlCompute_
 
 	// ComputeType
 	if source.ComputeType != nil {
-		computeType := AmlCompute_ComputeType(*source.ComputeType)
+		computeType := genruntime.ToEnum(string(*source.ComputeType), amlCompute_ComputeType_Values)
 		compute.ComputeType = &computeType
 	} else {
 		compute.ComputeType = nil
@@ -3619,7 +3619,7 @@ func (instance *ComputeInstance) Initialize_From_ComputeInstance_STATUS(source *
 
 	// ComputeType
 	if source.ComputeType != nil {
-		computeType := ComputeInstance_ComputeType(*source.ComputeType)
+		computeType := genruntime.ToEnum(string(*source.ComputeType), computeInstance_ComputeType_Values)
 		instance.ComputeType = &computeType
 	} else {
 		instance.ComputeType = nil
@@ -4209,7 +4209,7 @@ func (databricks *Databricks) Initialize_From_Databricks_STATUS(source *Databric
 
 	// ComputeType
 	if source.ComputeType != nil {
-		computeType := Databricks_ComputeType(*source.ComputeType)
+		computeType := genruntime.ToEnum(string(*source.ComputeType), databricks_ComputeType_Values)
 		databricks.ComputeType = &computeType
 	} else {
 		databricks.ComputeType = nil
@@ -4751,7 +4751,7 @@ func (factory *DataFactory) Initialize_From_DataFactory_STATUS(source *DataFacto
 
 	// ComputeType
 	if source.ComputeType != nil {
-		computeType := DataFactory_ComputeType(*source.ComputeType)
+		computeType := genruntime.ToEnum(string(*source.ComputeType), dataFactory_ComputeType_Values)
 		factory.ComputeType = &computeType
 	} else {
 		factory.ComputeType = nil
@@ -5289,7 +5289,7 @@ func (analytics *DataLakeAnalytics) Initialize_From_DataLakeAnalytics_STATUS(sou
 
 	// ComputeType
 	if source.ComputeType != nil {
-		computeType := DataLakeAnalytics_ComputeType(*source.ComputeType)
+		computeType := genruntime.ToEnum(string(*source.ComputeType), dataLakeAnalytics_ComputeType_Values)
 		analytics.ComputeType = &computeType
 	} else {
 		analytics.ComputeType = nil
@@ -5877,7 +5877,7 @@ func (insight *HDInsight) Initialize_From_HDInsight_STATUS(source *HDInsight_STA
 
 	// ComputeType
 	if source.ComputeType != nil {
-		computeType := HDInsight_ComputeType(*source.ComputeType)
+		computeType := genruntime.ToEnum(string(*source.ComputeType), hDInsight_ComputeType_Values)
 		insight.ComputeType = &computeType
 	} else {
 		insight.ComputeType = nil
@@ -6467,7 +6467,7 @@ func (kubernetes *Kubernetes) Initialize_From_Kubernetes_STATUS(source *Kubernet
 
 	// ComputeType
 	if source.ComputeType != nil {
-		computeType := Kubernetes_ComputeType(*source.ComputeType)
+		computeType := genruntime.ToEnum(string(*source.ComputeType), kubernetes_ComputeType_Values)
 		kubernetes.ComputeType = &computeType
 	} else {
 		kubernetes.ComputeType = nil
@@ -7055,7 +7055,7 @@ func (spark *SynapseSpark) Initialize_From_SynapseSpark_STATUS(source *SynapseSp
 
 	// ComputeType
 	if source.ComputeType != nil {
-		computeType := SynapseSpark_ComputeType(*source.ComputeType)
+		computeType := genruntime.ToEnum(string(*source.ComputeType), synapseSpark_ComputeType_Values)
 		spark.ComputeType = &computeType
 	} else {
 		spark.ComputeType = nil
@@ -7641,7 +7641,7 @@ func (machine *VirtualMachine) Initialize_From_VirtualMachine_STATUS(source *Vir
 
 	// ComputeType
 	if source.ComputeType != nil {
-		computeType := VirtualMachine_ComputeType(*source.ComputeType)
+		computeType := genruntime.ToEnum(string(*source.ComputeType), virtualMachine_ComputeType_Values)
 		machine.ComputeType = &computeType
 	} else {
 		machine.ComputeType = nil
@@ -8325,7 +8325,7 @@ func (properties *AKS_Properties) Initialize_From_AKS_Properties_STATUS(source *
 
 	// ClusterPurpose
 	if source.ClusterPurpose != nil {
-		clusterPurpose := AKS_Properties_ClusterPurpose(*source.ClusterPurpose)
+		clusterPurpose := genruntime.ToEnum(string(*source.ClusterPurpose), aKS_Properties_ClusterPurpose_Values)
 		properties.ClusterPurpose = &clusterPurpose
 	} else {
 		properties.ClusterPurpose = nil
@@ -8336,7 +8336,7 @@ func (properties *AKS_Properties) Initialize_From_AKS_Properties_STATUS(source *
 
 	// LoadBalancerType
 	if source.LoadBalancerType != nil {
-		loadBalancerType := AKS_Properties_LoadBalancerType(*source.LoadBalancerType)
+		loadBalancerType := genruntime.ToEnum(string(*source.LoadBalancerType), aKS_Properties_LoadBalancerType_Values)
 		properties.LoadBalancerType = &loadBalancerType
 	} else {
 		properties.LoadBalancerType = nil
@@ -9089,7 +9089,7 @@ func (properties *AmlComputeProperties) Initialize_From_AmlComputeProperties_STA
 
 	// OsType
 	if source.OsType != nil {
-		osType := AmlComputeProperties_OsType(*source.OsType)
+		osType := genruntime.ToEnum(string(*source.OsType), amlComputeProperties_OsType_Values)
 		properties.OsType = &osType
 	} else {
 		properties.OsType = nil
@@ -9097,7 +9097,7 @@ func (properties *AmlComputeProperties) Initialize_From_AmlComputeProperties_STA
 
 	// RemoteLoginPortPublicAccess
 	if source.RemoteLoginPortPublicAccess != nil {
-		remoteLoginPortPublicAccess := AmlComputeProperties_RemoteLoginPortPublicAccess(*source.RemoteLoginPortPublicAccess)
+		remoteLoginPortPublicAccess := genruntime.ToEnum(string(*source.RemoteLoginPortPublicAccess), amlComputeProperties_RemoteLoginPortPublicAccess_Values)
 		properties.RemoteLoginPortPublicAccess = &remoteLoginPortPublicAccess
 	} else {
 		properties.RemoteLoginPortPublicAccess = nil
@@ -9153,7 +9153,7 @@ func (properties *AmlComputeProperties) Initialize_From_AmlComputeProperties_STA
 
 	// VmPriority
 	if source.VmPriority != nil {
-		vmPriority := AmlComputeProperties_VmPriority(*source.VmPriority)
+		vmPriority := genruntime.ToEnum(string(*source.VmPriority), amlComputeProperties_VmPriority_Values)
 		properties.VmPriority = &vmPriority
 	} else {
 		properties.VmPriority = nil
@@ -10011,7 +10011,7 @@ func (properties *ComputeInstanceProperties) Initialize_From_ComputeInstanceProp
 
 	// ApplicationSharingPolicy
 	if source.ApplicationSharingPolicy != nil {
-		applicationSharingPolicy := ComputeInstanceProperties_ApplicationSharingPolicy(*source.ApplicationSharingPolicy)
+		applicationSharingPolicy := genruntime.ToEnum(string(*source.ApplicationSharingPolicy), computeInstanceProperties_ApplicationSharingPolicy_Values)
 		properties.ApplicationSharingPolicy = &applicationSharingPolicy
 	} else {
 		properties.ApplicationSharingPolicy = nil
@@ -10019,7 +10019,7 @@ func (properties *ComputeInstanceProperties) Initialize_From_ComputeInstanceProp
 
 	// ComputeInstanceAuthorizationType
 	if source.ComputeInstanceAuthorizationType != nil {
-		computeInstanceAuthorizationType := ComputeInstanceProperties_ComputeInstanceAuthorizationType(*source.ComputeInstanceAuthorizationType)
+		computeInstanceAuthorizationType := genruntime.ToEnum(string(*source.ComputeInstanceAuthorizationType), computeInstanceProperties_ComputeInstanceAuthorizationType_Values)
 		properties.ComputeInstanceAuthorizationType = &computeInstanceAuthorizationType
 	} else {
 		properties.ComputeInstanceAuthorizationType = nil
@@ -13987,7 +13987,7 @@ func (settings *ComputeInstanceSshSettings) Initialize_From_ComputeInstanceSshSe
 
 	// SshPublicAccess
 	if source.SshPublicAccess != nil {
-		sshPublicAccess := ComputeInstanceSshSettings_SshPublicAccess(*source.SshPublicAccess)
+		sshPublicAccess := genruntime.ToEnum(string(*source.SshPublicAccess), computeInstanceSshSettings_SshPublicAccess_Values)
 		settings.SshPublicAccess = &sshPublicAccess
 	} else {
 		settings.SshPublicAccess = nil
@@ -15693,7 +15693,7 @@ func (configuration *SslConfiguration) Initialize_From_SslConfiguration_STATUS(s
 
 	// Status
 	if source.Status != nil {
-		status := SslConfiguration_Status(*source.Status)
+		status := genruntime.ToEnum(string(*source.Status), sslConfiguration_Status_Values)
 		configuration.Status = &status
 	} else {
 		configuration.Status = nil

@@ -2002,7 +2002,7 @@ func (identity *Extension_Properties_AksAssignedIdentity_Spec) Initialize_From_E
 
 	// Type
 	if source.Type != nil {
-		typeVar := Extension_Properties_AksAssignedIdentity_Type_Spec(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), extension_Properties_AksAssignedIdentity_Type_Spec_Values)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -2384,7 +2384,7 @@ func (identity *Identity) Initialize_From_Identity_STATUS(source *Identity_STATU
 
 	// Type
 	if source.Type != nil {
-		typeVar := Identity_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), identity_Type_Values)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -3332,7 +3332,7 @@ func (data *SystemData) Initialize_From_SystemData_STATUS(source *SystemData_STA
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-		createdByType := SystemData_CreatedByType(*source.CreatedByType)
+		createdByType := genruntime.ToEnum(string(*source.CreatedByType), systemData_CreatedByType_Values)
 		data.CreatedByType = &createdByType
 	} else {
 		data.CreatedByType = nil
@@ -3346,7 +3346,7 @@ func (data *SystemData) Initialize_From_SystemData_STATUS(source *SystemData_STA
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemData_LastModifiedByType(*source.LastModifiedByType)
+		lastModifiedByType := genruntime.ToEnum(string(*source.LastModifiedByType), systemData_LastModifiedByType_Values)
 		data.LastModifiedByType = &lastModifiedByType
 	} else {
 		data.LastModifiedByType = nil

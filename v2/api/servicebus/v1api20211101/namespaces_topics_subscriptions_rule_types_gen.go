@@ -693,7 +693,7 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) Initialize_From_Namespace
 
 	// FilterType
 	if source.FilterType != nil {
-		filterType := FilterType(*source.FilterType)
+		filterType := genruntime.ToEnum(string(*source.FilterType), filterType_Values)
 		rule.FilterType = &filterType
 	} else {
 		rule.FilterType = nil

@@ -1278,7 +1278,7 @@ func (identity *ManagedServiceIdentity) Initialize_From_ManagedServiceIdentity_S
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagedServiceIdentityType(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), managedServiceIdentityType_Values)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -1611,7 +1611,7 @@ func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
 
 	// Name
 	if source.Name != nil {
-		name := Sku_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), sku_Name_Values)
 		sku.Name = &name
 	} else {
 		sku.Name = nil

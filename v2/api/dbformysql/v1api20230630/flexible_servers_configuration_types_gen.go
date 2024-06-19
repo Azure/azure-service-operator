@@ -564,7 +564,7 @@ func (configuration *FlexibleServers_Configuration_Spec) Initialize_From_Flexibl
 
 	// Source
 	if source.Source != nil {
-		sourceAsConfigurationProperties_Source := ConfigurationProperties_Source(*source.Source)
+		sourceAsConfigurationProperties_Source := genruntime.ToEnum(string(*source.Source), configurationProperties_Source_Values)
 		configuration.Source = &sourceAsConfigurationProperties_Source
 	} else {
 		configuration.Source = nil

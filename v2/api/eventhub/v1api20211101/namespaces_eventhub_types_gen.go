@@ -1269,7 +1269,7 @@ func (description *CaptureDescription) Initialize_From_CaptureDescription_STATUS
 
 	// Encoding
 	if source.Encoding != nil {
-		encoding := CaptureDescription_Encoding(*source.Encoding)
+		encoding := genruntime.ToEnum(string(*source.Encoding), captureDescription_Encoding_Values)
 		description.Encoding = &encoding
 	} else {
 		description.Encoding = nil
