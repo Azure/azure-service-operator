@@ -80,7 +80,7 @@ func NewPropertyAssignmentFunctionBuilder(
 	result.assignmentSelectors = []assignmentSelector{
 		{0, result.selectIdenticallyNamedProperties},
 		{1, result.selectRenamedProperties},
-		{2, result.selectIdenticallyPathedProperties},
+		{2, result.selectPropertiesWithIdenticalPaths},
 		// High sequence numbers to ensure these are executed last
 		{100, result.readPropertiesFromPropertyBag},
 		{100, result.writePropertiesToPropertyBag},
@@ -391,7 +391,7 @@ func (*PropertyAssignmentFunctionBuilder) selectIdenticallyNamedProperties(
 	return nil
 }
 
-// selectIdenticallyPathedProperties matches up properties with paths for conversion.
+// selectPropertiesWithIdenticalPaths matches up properties with paths for conversion.
 // This serves to match up properties that were flattened from the original location,
 // even if they've ended up with different names.
 // sourceProperties is a set of endpoints that can be read from.
@@ -399,7 +399,7 @@ func (*PropertyAssignmentFunctionBuilder) selectIdenticallyNamedProperties(
 // assign is a function that will be called for each matching property, with the source and destination endpoints
 // for that property.
 // Returns an error if any of the assignments fail.
-func (builder *PropertyAssignmentFunctionBuilder) selectIdenticallyPathedProperties(
+func (builder *PropertyAssignmentFunctionBuilder) selectPropertiesWithIdenticalPaths(
 	sourceProperties conversions.ReadableConversionEndpointSet,
 	destinationProperties conversions.WritableConversionEndpointSet,
 	assign func(reader *conversions.ReadableConversionEndpoint, writer *conversions.WritableConversionEndpoint) error,

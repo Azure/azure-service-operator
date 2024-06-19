@@ -64,18 +64,14 @@ func (endpoint *TypedConversionEndpoint) IsBagItem() bool {
 }
 
 func (endpoint *TypedConversionEndpoint) WithPath(
-	path []astmodel.PropertyName,
+	namePath []astmodel.PropertyName,
 ) *TypedConversionEndpoint {
-	var builder strings.Builder
-	for i, name := range path {
-		if i > 0 {
-			builder.WriteString(".")
-		}
-
-		builder.WriteString(string(name))
+	path := make([]string, 0, len(namePath))
+	for i, name := range namePath {
+		path[i] = string(name)
 	}
 
 	result := *endpoint
-	result.path = builder.String()
+	result.path = strings.Join(path, ".")
 	return &result
 }
