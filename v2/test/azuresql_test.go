@@ -343,7 +343,7 @@ func newAzureSQLServer(tc *testcommon.KubePerTestContext, rg *resources.Resource
 			Administrators: &sql.ServerExternalAdministrator{
 				AdministratorType:         to.Ptr(sql.ServerExternalAdministrator_AdministratorType_ActiveDirectory),
 				AzureADOnlyAuthentication: to.Ptr(true),
-				Login:                     to.Ptr("myadmin"),
+				Login:                     to.Ptr("asoadmin"),
 				PrincipalType:             to.Ptr(sql.ServerExternalAdministrator_PrincipalType_User),
 				Sid:                       to.Ptr(tc.AzureTenant), // Re-use tenantId as dummy ID
 				TenantId:                  to.Ptr(tc.AzureTenant),
