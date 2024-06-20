@@ -18,30 +18,30 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>Reducing Access | Azure Service Operator</title>
-<meta name="description" content="Using a credential for ASO with reduced permissions Most examples of installing ASO suggest using an identity that has Contributor access to the Subscription. Such broadly scoped access is not required to run the operator, it&amp;rsquo;s just the easiest way to set things up and so is often used in examples.
-Here we discuss a few approaches to restricting the access that the ASO identity has.
-Contributor access at a reduced scope In some scenarios you may know that ASO will be operating on only certain resource groups.">
-<meta property="og:title" content="Reducing Access" />
-<meta property="og:description" content="Using a credential for ASO with reduced permissions Most examples of installing ASO suggest using an identity that has Contributor access to the Subscription. Such broadly scoped access is not required to run the operator, it&rsquo;s just the easiest way to set things up and so is often used in examples.
-Here we discuss a few approaches to restricting the access that the ASO identity has.
-Contributor access at a reduced scope In some scenarios you may know that ASO will be operating on only certain resource groups." />
+<title>v2.8.0 Breaking Changes | Azure Service Operator</title>
+<meta name="description" content="ManagedCluster property .spec.properties.windowsProfile.adminPassword is now a SecretReference rather than a string The spec.properties.windowsProfile.adminPassword on ManagedCluster has been changed from a string to a SecretReference.
+We try to avoid breaking changes, but in this case, allowing raw passwords in the spec is a security problem and as such we&amp;rsquo;ve decided to make a break to correct this issue.
+Action required: If the containerservice.azure.com/ManagedCluster resource is used in your cluster and the spec.">
+<meta property="og:title" content="v2.8.0 Breaking Changes" />
+<meta property="og:description" content="ManagedCluster property .spec.properties.windowsProfile.adminPassword is now a SecretReference rather than a string The spec.properties.windowsProfile.adminPassword on ManagedCluster has been changed from a string to a SecretReference.
+We try to avoid breaking changes, but in this case, allowing raw passwords in the spec is a security problem and as such we&rsquo;ve decided to make a break to correct this issue.
+Action required: If the containerservice.azure.com/ManagedCluster resource is used in your cluster and the spec." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/authentication/reducing-access/" /><meta property="article:section" content="guide" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.8.0/" /><meta property="article:section" content="guide" />
 
 
 
-<meta itemprop="name" content="Reducing Access">
-<meta itemprop="description" content="Using a credential for ASO with reduced permissions Most examples of installing ASO suggest using an identity that has Contributor access to the Subscription. Such broadly scoped access is not required to run the operator, it&rsquo;s just the easiest way to set things up and so is often used in examples.
-Here we discuss a few approaches to restricting the access that the ASO identity has.
-Contributor access at a reduced scope In some scenarios you may know that ASO will be operating on only certain resource groups.">
+<meta itemprop="name" content="v2.8.0 Breaking Changes">
+<meta itemprop="description" content="ManagedCluster property .spec.properties.windowsProfile.adminPassword is now a SecretReference rather than a string The spec.properties.windowsProfile.adminPassword on ManagedCluster has been changed from a string to a SecretReference.
+We try to avoid breaking changes, but in this case, allowing raw passwords in the spec is a security problem and as such we&rsquo;ve decided to make a break to correct this issue.
+Action required: If the containerservice.azure.com/ManagedCluster resource is used in your cluster and the spec.">
 
-<meta itemprop="wordCount" content="465">
+<meta itemprop="wordCount" content="331">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Reducing Access"/>
-<meta name="twitter:description" content="Using a credential for ASO with reduced permissions Most examples of installing ASO suggest using an identity that has Contributor access to the Subscription. Such broadly scoped access is not required to run the operator, it&rsquo;s just the easiest way to set things up and so is often used in examples.
-Here we discuss a few approaches to restricting the access that the ASO identity has.
-Contributor access at a reduced scope In some scenarios you may know that ASO will be operating on only certain resource groups."/>
+<meta name="twitter:title" content="v2.8.0 Breaking Changes"/>
+<meta name="twitter:description" content="ManagedCluster property .spec.properties.windowsProfile.adminPassword is now a SecretReference rather than a string The spec.properties.windowsProfile.adminPassword on ManagedCluster has been changed from a string to a SecretReference.
+We try to avoid breaking changes, but in this case, allowing raw passwords in the spec is a security problem and as such we&rsquo;ve decided to make a break to correct this issue.
+Action required: If the containerservice.azure.com/ManagedCluster resource is used in your cluster and the spec."/>
 
 
 
@@ -122,17 +122,17 @@ Contributor access at a reduced scope In some scenarios you may know that ASO wi
   <a href="/azure-service-operator/guide/adoption/" title="Adopting existing Azure resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideadoption"><span class="">Adoption</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideannotations-li">
   <a href="/azure-service-operator/guide/annotations/" title="Annotations understood by the operator" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideannotations"><span class="">Annotations</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguideauthentication-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguideauthentication-li">
   <a href="/azure-service-operator/guide/authentication/" title="Authentication in Azure Service Operator" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguideauthentication"><span class="">Authentication</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideauthenticationcredential-format-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthenticationcredential-format-li">
   <a href="/azure-service-operator/guide/authentication/credential-format/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationcredential-format"><span class="">Credential Format</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideauthenticationcredential-scope-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthenticationcredential-scope-li">
   <a href="/azure-service-operator/guide/authentication/credential-scope/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationcredential-scope"><span class="">Credential Scope</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideauthenticationmultitenant-deployment-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthenticationmultitenant-deployment-li">
   <a href="/azure-service-operator/guide/authentication/multitenant-deployment/" title="Deploying Azure Service Operator v2 in multi-tenant mode" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationmultitenant-deployment"><span class="">Multitenancy</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorguideauthenticationreducing-access-li">
-  <a href="/azure-service-operator/guide/authentication/reducing-access/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationreducing-access"><span class="td-sidebar-nav-active-item">Reducing Access</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthenticationreducing-access-li">
+  <a href="/azure-service-operator/guide/authentication/reducing-access/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationreducing-access"><span class="">Reducing Access</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebest-practices-li">
@@ -142,22 +142,22 @@ Contributor access at a reduced scope In some scenarios you may know that ASO wi
   <a href="/azure-service-operator/guide/best-practices/security/" title="Security Best Practices" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebest-practicessecurity"><span class="">Security</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebreaking-changes-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguidebreaking-changes-li">
   <a href="/azure-service-operator/guide/breaking-changes/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebreaking-changes"><span class="">Breaking Changes</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v280-li">
-  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.8.0/" title="v2.8.0 Breaking Changes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v280"><span class="">v2.8.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v260-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v280-li">
+  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.8.0/" title="v2.8.0 Breaking Changes" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v280"><span class="td-sidebar-nav-active-item">v2.8.0</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v260-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.6.0/" title="v2.6.0 Breaking Changes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v260"><span class="">v2.6.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v240-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v240-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.4.0/" title="v2.4.0 Breaking Changes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v240"><span class="">v2.4.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v220-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v220-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.2.0/" title="v2.2.0 Breaking Changes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v220"><span class="">v2.2.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v210-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v210-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.1.0/" title="v2.1.0 Breaking Changes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v210"><span class="">v2.1.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0/" title="v2.0.0 Breaking Changes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200"><span class="">v2.0.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0-beta.4/" title="v2.0.0-beta.4 Breaking Changes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4"><span class="">v2.0.0-beta.4</span></a>
 </li>
   </ul>
@@ -706,10 +706,11 @@ Contributor access at a reduced scope In some scenarios you may know that ASO wi
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#using-a-credential-for-aso-with-reduced-permissions">Using a credential for ASO with reduced permissions</a>
+    <li><a href="#managedcluster-property-specpropertieswindowsprofileadminpassword-is-now-a-secretreference-rather-than-a-string">ManagedCluster property .spec.properties.windowsProfile.adminPassword is now a SecretReference rather than a string</a></li>
+    <li><a href="#use-never-rather-than--to-prevent-syncing-for-azure_sync_period">Use &ldquo;never&rdquo; rather than &quot;&quot; to prevent syncing for AZURE_SYNC_PERIOD</a></li>
+    <li><a href="#upcoming-breaking-changes">Upcoming breaking changes</a>
       <ul>
-        <li><a href="#contributor-access-at-a-reduced-scope">Contributor access at a reduced scope</a></li>
-        <li><a href="#reduced-access-at-subscription-scope">Reduced access at Subscription scope</a></li>
+        <li><a href="#v20230202preview-managedcluster-will-be-removed-due-to-underlying-azure-api-version-deprecation">v20230202preview ManagedCluster will be removed, due to underlying Azure API version deprecation</a></li>
       </ul>
     </li>
   </ul>
@@ -747,16 +748,16 @@ Contributor access at a reduced scope In some scenarios you may know that ASO wi
     <a href="https://azure.github.io/azure-service-operator/guide/">Guide</a>
   </li>
   <li class="breadcrumb-item">
-    <a href="https://azure.github.io/azure-service-operator/guide/authentication/">Authentication</a>
+    <a href="https://azure.github.io/azure-service-operator/guide/breaking-changes/">Breaking Changes</a>
   </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="https://azure.github.io/azure-service-operator/guide/authentication/reducing-access/" aria-disabled="true" class="btn-link disabled">Reducing Access</a>
+    <a href="https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.8.0/" aria-disabled="true" class="btn-link disabled">v2.8.0</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>Reducing Access</h1>
+	<h1>v2.8.0 Breaking Changes</h1>
 	
 	<header class="article-meta">
 		
@@ -773,52 +774,59 @@ Contributor access at a reduced scope In some scenarios you may know that ASO wi
 
 		
 	</header>    
-	<h2 id="using-a-credential-for-aso-with-reduced-permissions">Using a credential for ASO with reduced permissions</h2>
-<p>Most examples of installing ASO suggest using an identity that has Contributor access to the Subscription.
-Such broadly scoped access is <em><strong>not</strong></em> required to run the operator, it&rsquo;s just the easiest way to set things up and so
-is often used in examples.</p>
-<p>Here we discuss a few approaches to restricting the access that the ASO identity has.</p>
-<h3 id="contributor-access-at-a-reduced-scope">Contributor access at a reduced scope</h3>
-<p>In some scenarios you may know that ASO will be operating on only certain resource groups. For example, if you have two
-teams working in a cluster with ASO, &ldquo;Marketing&rdquo; and &ldquo;Product&rdquo;. If you know ahead of time that the only resource groups these
-teams will use are <code>marketing-dev</code>, <code>marketing-prod</code>, <code>product-dev</code> and <code>product-prod</code>, you can pre-create the following resources:</p>
-<ul>
-<li>The 4 resource groups.</li>
-<li>An identity for use by ASO, assigned Contributor permission to each of the 4 resource groups.</li>
-</ul>
-<p>Now install ASO following the instructions above. Once ASO is installed, adopt the existing resource groups in ASO by applying a YAML in the cluster
-for each of the 4 resource groups. Now users of ASO are free to create resources in those resource groups as normal. If they attempt
-to use ASO to create a new resource group <code>foo</code> they will be rejected by Azure as the ASO identity doesn&rsquo;t have permission to create
-arbitrary resource groups in the Subscription.</p>
-<h3 id="reduced-access-at-subscription-scope">Reduced access at Subscription scope</h3>
-<p>In other scenarios, you may want to give out reduced access at the Subscription scope. This can be done by determining what resources
-in ASO you will be using and creating a custom role scoped to just those permissions.</p>
-<p>For example if you want to use ASO to manage ResourceGroups, Redis and MySQL flexible servers, but <em>not</em> anything else, you could
-<a href="https://learn.microsoft.com/azure/role-based-access-control/custom-roles-cli">create a role</a> similar to <code>aso-operator.json</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-  <span style="color:#f92672">&#34;Name&#34;</span>: <span style="color:#e6db74">&#34;ASO Operator&#34;</span>,
-  <span style="color:#f92672">&#34;IsCustom&#34;</span>: <span style="color:#66d9ef">true</span>,
-  <span style="color:#f92672">&#34;Description&#34;</span>: <span style="color:#e6db74">&#34;Role with access to perform only the operations which we allow ASO to perform&#34;</span>,
-  <span style="color:#f92672">&#34;Actions&#34;</span>: [
-    <span style="color:#e6db74">&#34;Microsoft.Resources/subscriptions/resourceGroups/*&#34;</span>,
-    <span style="color:#e6db74">&#34;Microsoft.Cache/*&#34;</span>,
-    <span style="color:#e6db74">&#34;Microsoft.DBforMySQL/*&#34;</span>
-  ],
-  <span style="color:#f92672">&#34;NotActions&#34;</span>: [
-  ],
-  <span style="color:#f92672">&#34;AssignableScopes&#34;</span>: [
-    <span style="color:#e6db74">&#34;/subscriptions/{subscriptionId1}&#34;</span>,
-    <span style="color:#e6db74">&#34;/subscriptions/{subscriptionId2}&#34;</span>
-  ]
-}
-</code></pre></div><p>Then use the az cli to create that custom role definition: <code>az role definition create --role-definition ~/aso-operator.json</code></p>
-<p>See <a href="https://learn.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations">list of resource provider operations</a> for a comprehensive
-list of operations.</p>
-<p><strong>Note: We strongly recommend giving full permissions to the resource types ASO will be managing.</strong> ASO needs <code>read</code>, <code>write</code>, and <code>delete</code> permissions to a resource
-to fully manage it. In some cases, it also needs <code>action</code> permissions. It&rsquo;s recommended to give <code>*</code> permissions for a given resource type which ASO
-will be managing.</p>
-<p>Once the role has been created, assign it to the ASO identity and install the operator as normal. It will be able to
-manage any resource of the types you allowed. Any other resources will fail to be created/updated/deleted with a permissions error.</p>
+	<h2 id="managedcluster-property-specpropertieswindowsprofileadminpassword-is-now-a-secretreference-rather-than-a-string">ManagedCluster property .spec.properties.windowsProfile.adminPassword is now a SecretReference rather than a string</h2>
+<p>The <code>spec.properties.windowsProfile.adminPassword</code> on <code>ManagedCluster</code> has been changed from a string to a
+<code>SecretReference</code>.</p>
+<p>We try to avoid breaking changes, but in this case, allowing raw passwords in the spec is a security
+problem and as such we&rsquo;ve decided to make a break to correct this issue.</p>
+<p><strong>Action required:</strong> If the <code>containerservice.azure.com/ManagedCluster</code> resource is used in your cluster
+<strong>and</strong> the <code>spec.properties.windowsProfile.adminPassword</code> property is set, do the
+following before upgrading ASO:</p>
+<ol>
+<li>Annotate the resource with <code>serviceoperator.azure.com/reconcile-policy: skip</code> to prevent ASO from trying
+to reconcile the resource while you are upgrading.</li>
+<li>Save the current YAML for the resource using <code>kubectl</code> if you don&rsquo;t have it elsewhere.</li>
+<li>Create a kubernetes secret containing the value from <code>spec.properties.windowsProfile.adminPassword</code>.</li>
+<li>Edit the resource YAML in step 2, and add a secret key and name reference.
+Example <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/samples/apimanagement/v1api20230501preview/v1api20230501preview_authorizationprovider.yaml#L12">here</a>.</li>
+<li>Delete the resource from your cluster using <code>kubectl delete</code>. Your Azure resource will be left untouched because
+of the <code>reconcile-policy</code> annotation you added above.</li>
+<li><a href="/azure-service-operator/guide/upgrading/">Upgrade ASO</a> in your cluster.</li>
+<li>Apply the updated YAML to your cluster using <code>kubectl apply</code>. If any errors occur, address them.</li>
+<li>If the <code>reconcile-policy</code> annotation is still present, remove it from the resource.</li>
+</ol>
+<h2 id="use-never-rather-than--to-prevent-syncing-for-azure_sync_period">Use &ldquo;never&rdquo; rather than &quot;&quot; to prevent syncing for AZURE_SYNC_PERIOD</h2>
+<p>The documentation always said that an <code>AZURE_SYNC_PERIOD</code> of <code>&quot;&quot;</code> meant to use the default value (<code>15m</code>), but
+in actuality in the code <code>&quot;&quot;</code> meant never sync. This corrects the behavior to be as documented. After this release,
+the behavior is as follows:</p>
+<table>
+<thead>
+<tr>
+<th>AZURE_SYNC_PERIOD</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>omitted/not set</td>
+<td>Use default value (15m)</td>
+</tr>
+<tr>
+<td>&quot;&quot;</td>
+<td>Use default value (15m)</td>
+</tr>
+<tr>
+<td>&ldquo;never&rdquo;</td>
+<td>Do not sync</td>
+</tr>
+</tbody>
+</table>
+<p>If you intend to prevent ASO from periodically syncing with Azure, set <code>AZURE_SYNC_PERIOD</code> to <code>&quot;never&quot;</code>.
+For more information, see #3965.</p>
+<h2 id="upcoming-breaking-changes">Upcoming breaking changes</h2>
+<h3 id="v20230202preview-managedcluster-will-be-removed-due-to-underlying-azure-api-version-deprecation">v20230202preview ManagedCluster will be removed, due to underlying Azure API version deprecation</h3>
+<p>Other versions will continue to be supported. We recommend you move to use a different CRD version to avoid
+seeing errors from Azure due to the 2023-02-02-preview API being deprecated.</p>
 
 	
 	

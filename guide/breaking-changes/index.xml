@@ -15,6 +15,72 @@
     
     
     <item>
+      <title>Guide: v2.8.0 Breaking Changes</title>
+      <link>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.8.0/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.8.0/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;managedcluster-property-specpropertieswindowsprofileadminpassword-is-now-a-secretreference-rather-than-a-string&#34;&gt;ManagedCluster property .spec.properties.windowsProfile.adminPassword is now a SecretReference rather than a string&lt;/h2&gt;
+&lt;p&gt;The &lt;code&gt;spec.properties.windowsProfile.adminPassword&lt;/code&gt; on &lt;code&gt;ManagedCluster&lt;/code&gt; has been changed from a string to a
+&lt;code&gt;SecretReference&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;We try to avoid breaking changes, but in this case, allowing raw passwords in the spec is a security
+problem and as such we&amp;rsquo;ve decided to make a break to correct this issue.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Action required:&lt;/strong&gt; If the &lt;code&gt;containerservice.azure.com/ManagedCluster&lt;/code&gt; resource is used in your cluster
+&lt;strong&gt;and&lt;/strong&gt; the &lt;code&gt;spec.properties.windowsProfile.adminPassword&lt;/code&gt; property is set, do the
+following before upgrading ASO:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Annotate the resource with &lt;code&gt;serviceoperator.azure.com/reconcile-policy: skip&lt;/code&gt; to prevent ASO from trying
+to reconcile the resource while you are upgrading.&lt;/li&gt;
+&lt;li&gt;Save the current YAML for the resource using &lt;code&gt;kubectl&lt;/code&gt; if you don&amp;rsquo;t have it elsewhere.&lt;/li&gt;
+&lt;li&gt;Create a kubernetes secret containing the value from &lt;code&gt;spec.properties.windowsProfile.adminPassword&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Edit the resource YAML in step 2, and add a secret key and name reference.
+Example &lt;a href=&#34;https://github.com/Azure/azure-service-operator/blob/main/v2/samples/apimanagement/v1api20230501preview/v1api20230501preview_authorizationprovider.yaml#L12&#34;&gt;here&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Delete the resource from your cluster using &lt;code&gt;kubectl delete&lt;/code&gt;. Your Azure resource will be left untouched because
+of the &lt;code&gt;reconcile-policy&lt;/code&gt; annotation you added above.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://azure.github.io/azure-service-operator/azure-service-operator/guide/upgrading/&#34;&gt;Upgrade ASO&lt;/a&gt; in your cluster.&lt;/li&gt;
+&lt;li&gt;Apply the updated YAML to your cluster using &lt;code&gt;kubectl apply&lt;/code&gt;. If any errors occur, address them.&lt;/li&gt;
+&lt;li&gt;If the &lt;code&gt;reconcile-policy&lt;/code&gt; annotation is still present, remove it from the resource.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;use-never-rather-than--to-prevent-syncing-for-azure_sync_period&#34;&gt;Use &amp;ldquo;never&amp;rdquo; rather than &amp;quot;&amp;quot; to prevent syncing for AZURE_SYNC_PERIOD&lt;/h2&gt;
+&lt;p&gt;The documentation always said that an &lt;code&gt;AZURE_SYNC_PERIOD&lt;/code&gt; of &lt;code&gt;&amp;quot;&amp;quot;&lt;/code&gt; meant to use the default value (&lt;code&gt;15m&lt;/code&gt;), but
+in actuality in the code &lt;code&gt;&amp;quot;&amp;quot;&lt;/code&gt; meant never sync. This corrects the behavior to be as documented. After this release,
+the behavior is as follows:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;AZURE_SYNC_PERIOD&lt;/th&gt;
+&lt;th&gt;Meaning&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;omitted/not set&lt;/td&gt;
+&lt;td&gt;Use default value (15m)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&amp;quot;&amp;quot;&lt;/td&gt;
+&lt;td&gt;Use default value (15m)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&amp;ldquo;never&amp;rdquo;&lt;/td&gt;
+&lt;td&gt;Do not sync&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;If you intend to prevent ASO from periodically syncing with Azure, set &lt;code&gt;AZURE_SYNC_PERIOD&lt;/code&gt; to &lt;code&gt;&amp;quot;never&amp;quot;&lt;/code&gt;.
+For more information, see #3965.&lt;/p&gt;
+&lt;h2 id=&#34;upcoming-breaking-changes&#34;&gt;Upcoming breaking changes&lt;/h2&gt;
+&lt;h3 id=&#34;v20230202preview-managedcluster-will-be-removed-due-to-underlying-azure-api-version-deprecation&#34;&gt;v20230202preview ManagedCluster will be removed, due to underlying Azure API version deprecation&lt;/h3&gt;
+&lt;p&gt;Other versions will continue to be supported. We recommend you move to use a different CRD version to avoid
+seeing errors from Azure due to the 2023-02-02-preview API being deprecated.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Guide: v2.6.0 Breaking Changes</title>
       <link>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.6.0/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
