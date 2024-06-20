@@ -20,9 +20,9 @@ spec:
         {{- end }}
         kubectl.kubernetes.io/default-container: manager
       labels:
-   {{- if or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode "watchers") }}
+        {{- if or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode "watchers") }}
         aadpodidbinding: aso-manager-binding
-   {{- end }}
+        {{- end }}
         app.kubernetes.io/name: azure-service-operator
         app.kubernetes.io/version: v2.7.0
         control-plane: controller-manager
@@ -35,25 +35,29 @@ spec:
       affinity:
       {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- with .Values.image.pullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
       - args:
-   {{- if .Values.metrics.enable}}
+        {{- if .Values.metrics.enable}}
         - --metrics-addr={{ tpl .Values.metrics.address . }}
         - --secure-metrics={{ .Values.metrics.secure }}
         - --profiling-metrics={{ .Values.metrics.profiling }}
-   {{- end }}
+        {{- end }}
         - --health-addr=:8081
-   {{- if or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode "watchers") }}
+        {{- if or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode "watchers") }}
         - --enable-leader-election
-   {{- end }}
+        {{- end }}
         - --v=2
-   {{- if and (eq .Values.installCRDs true) (or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode "webhooks")) }}
+        {{- if and (eq .Values.installCRDs true) (or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode "webhooks")) }}
         - --crd-pattern={{ .Values.crdPattern }}
-   {{- end }}
+        {{- end }}
         - --webhook-port={{ .Values.webhook.port }}
-   {{- if or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode "webhooks") }}
+        {{- if or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode "webhooks") }}
         - --webhook-cert-dir={{ .Values.webhook.certDir }}
-   {{- end }}
+        {{- end }}
         env:
         - name: AZURE_CLIENT_ID
           valueFrom:
@@ -177,22 +181,22 @@ spec:
         - mountPath: /var/run/secrets/tokens
           name: azure-identity
           readOnly: true
-   {{- if or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode "webhooks") }}
+        {{- if or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode "webhooks") }}
         - mountPath: {{ .Values.webhook.certDir }}
           name: cert
           readOnly: true
-   {{- end }}
+        {{- end }}
       nodeSelector:
         kubernetes.io/os: linux
       serviceAccountName: azureserviceoperator-default
       terminationGracePeriodSeconds: 10
       volumes:
-   {{- if or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode "webhooks") }}
+      {{- if or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode "webhooks") }}
       - name: cert
         secret:
           defaultMode: 420
           secretName: webhook-server-cert
-   {{- end }}
+      {{- end }}
       - name: azure-identity
         projected:
           defaultMode: 420

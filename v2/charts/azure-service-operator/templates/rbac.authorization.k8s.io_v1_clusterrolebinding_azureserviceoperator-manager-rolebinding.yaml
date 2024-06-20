@@ -2,11 +2,11 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-   {{- if not .Values.multitenant.enable }}
+  {{- if not .Values.multitenant.enable }}
   name: azureserviceoperator-manager-rolebinding
-   {{ else }}
+  {{ else }}
   name: azureserviceoperator-manager-rolebinding-{{ .Release.Namespace }}
-   {{- end }}
+  {{- end }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
