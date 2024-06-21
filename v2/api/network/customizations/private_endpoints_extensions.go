@@ -8,21 +8,20 @@ import (
 	"fmt"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
-	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
-
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
-
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
 
@@ -119,7 +118,7 @@ func (extension *PrivateEndpointExtension) ExportKubernetesResources(
 		return nil, errors.Wrapf(err, "failed getting NetworkInterfaceController")
 	}
 
-	configsByName := configByName(resp.Interface)
+	configsByName := configByName(log, resp.Interface)
 	configs, err := configMapToWrite(endpoint, configsByName)
 	if err != nil {
 		return nil, err
@@ -128,16 +127,24 @@ func (extension *PrivateEndpointExtension) ExportKubernetesResources(
 	return configmaps.SliceToClientObjectSlice(configs), nil
 }
 
-func configByName(resp armnetwork.Interface) map[string]string {
+func configByName(log logr.Logger, nic armnetwork.Interface) map[string]string {
 	result := make(map[string]string)
 
-	if resp.Properties != nil &&
-		resp.Properties.IPConfigurations != nil &&
-		len(resp.Properties.IPConfigurations) > 0 &&
-		resp.Properties.IPConfigurations[0].Properties != nil &&
-		resp.Properties.IPConfigurations[0].Properties.PrivateIPAddress != nil {
+	if nic.Properties != nil && nic.Properties.IPConfigurations != nil {
+		for _, ipConfiguration := range nic.Properties.IPConfigurations {
+			if ipConfiguration.Properties == nil || ipConfiguration.Properties.PrivateIPAddress == nil {
+				log.V(Debug).Info("skipping IPConfiguration properties nil for IPConfiguration")
+				continue
+			}
 
-		result["primaryNICPrivateIPAddress"] = *resp.Properties.IPConfigurations[0].Properties.PrivateIPAddress
+			if to.Value(ipConfiguration.Properties.Primary) == false {
+				// This ipConfiguration is not primary
+				continue
+			}
+
+			result["primaryNICPrivateIPAddress"] = *nic.Properties.IPConfigurations[0].Properties.PrivateIPAddress
+			break
+		}
 	}
 
 	return result
@@ -167,7 +174,7 @@ func hasConfigMaps(endpoint *network.PrivateEndpoint) bool {
 	hasIPConfiguration := false
 	configMaps := endpoint.Spec.OperatorSpec.ConfigMaps
 
-	if configMaps != nil && configMaps.PrimaryNicPrivateIPAddress != nil {
+	if configMaps != nil && configMaps.PrimaryNicPrivateIpAddress != nil {
 		hasIPConfiguration = true
 	}
 
