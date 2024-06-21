@@ -310,7 +310,7 @@ $ kubectl apply -f rg.yaml
 Once the resource group has been created, we can see what it looks like.
 
 ``` bash
-$ kubectl describe resourcegroups/aso-sample-rg
+$ kubectl describe resourcegroups/aso-sample-rg -n default
 ```
 
 The output will be similar to this:
