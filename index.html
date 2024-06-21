@@ -1205,7 +1205,7 @@ with the following contents:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f rg.yaml
 <span style="color:#75715e"># resourcegroup.resources.azure.com/aso-sample-rg created</span>
 </code></pre></div><p>Once the resource group has been created, we can see what it looks like.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl describe resourcegroups/aso-sample-rg
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl describe resourcegroups/aso-sample-rg -n default
 </code></pre></div><p>The output will be similar to this:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">Name</span>:         <span style="color:#ae81ff">aso-sample-rg</span>
 <span style="color:#f92672">Namespace</span>:    <span style="color:#ae81ff">default</span>
