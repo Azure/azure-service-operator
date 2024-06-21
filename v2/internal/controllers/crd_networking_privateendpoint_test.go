@@ -41,7 +41,7 @@ func Test_Networking_PrivateEndpoint_CRUD(t *testing.T) {
 	endpoint := newPrivateEndpoint(tc, rg, sa, subnet)
 	endpoint.Spec.OperatorSpec = &network.PrivateEndpointOperatorSpec{
 		ConfigMaps: &network.PrivateEndpointOperatorConfigMaps{
-			PrimaryNicPrivateIPAddress: &genruntime.ConfigMapDestination{
+			PrimaryNicPrivateIpAddress: &genruntime.ConfigMapDestination{
 				Name: configMapName,
 				Key:  configMapKey,
 			},

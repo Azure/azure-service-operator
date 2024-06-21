@@ -349,7 +349,7 @@ type Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded struct {
 
 // Storage version of v1api20220701.PrivateEndpointOperatorConfigMaps
 type PrivateEndpointOperatorConfigMaps struct {
-	PrimaryNicPrivateIPAddress *genruntime.ConfigMapDestination `json:"primaryNicPrivateIPAddress,omitempty"`
+	PrimaryNicPrivateIpAddress *genruntime.ConfigMapDestination `json:"primaryNicPrivateIpAddress,omitempty"`
 	PropertyBag                genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
 }
 

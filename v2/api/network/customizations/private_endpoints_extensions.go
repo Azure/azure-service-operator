@@ -85,36 +85,41 @@ func (extension *PrivateEndpointExtension) ExportKubernetesResources(
 	// the hub type has been changed but this extension has not
 	var _ conversion.Hub = endpoint
 
-	hasIpConfiguration := configMapSpecified(endpoint)
+	hasIpConfiguration := hasConfigMaps(endpoint)
 	if !hasIpConfiguration {
 		log.V(Debug).Info("no configmap retrieval to perform as operatorSpec is empty")
 		return nil, nil
 	}
 
 	if endpoint.Status.NetworkInterfaces == nil || len(endpoint.Status.NetworkInterfaces) == 0 {
-		log.V(Debug).Info("no configmap retrieval to perform as there is no NetworkInterfaces attached")
+		log.V(Debug).Info("no configmap retrieval to perform as there are no NetworkInterfaces attached")
 		return nil, nil
 	}
 
-	nicId, err := arm.ParseResourceID(*endpoint.Status.NetworkInterfaces[0].Id)
+	if endpoint.Status.NetworkInterfaces[0].Id == nil {
+		log.V(Debug).Info("no configmap retrieval to perform, failed to fetch the attached NetworkInterfaces")
+		return nil, nil
+	}
+
+	nicID, err := arm.ParseResourceID(*endpoint.Status.NetworkInterfaces[0].Id)
 	if err != nil {
 		return nil, err
 	}
 
 	// The default primary ip configuration for PrivateEndpoint is on NetworkInterfaceController. Hence, we fetch it from there.
 	var interfacesClient *armnetwork.InterfacesClient
-	interfacesClient, err = armnetwork.NewInterfacesClient(nicId.SubscriptionID, armClient.Creds(), armClient.ClientOptions())
+	interfacesClient, err = armnetwork.NewInterfacesClient(nicID.SubscriptionID, armClient.Creds(), armClient.ClientOptions())
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to create new PrivateEndpointsClient")
+		return nil, errors.Wrapf(err, "failed to create new NetworkInterfacesClient")
 	}
 
 	var resp armnetwork.InterfacesClientGetResponse
-	resp, err = interfacesClient.Get(ctx, nicId.ResourceGroupName, nicId.Name, nil)
+	resp, err = interfacesClient.Get(ctx, nicID.ResourceGroupName, nicID.Name, nil)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed getting PrivateEndpoint")
+		return nil, errors.Wrapf(err, "failed getting NetworkInterfaceController")
 	}
 
-	configsByName := configByName(resp)
+	configsByName := configByName(resp.Interface)
 	configs, err := configMapToWrite(endpoint, configsByName)
 	if err != nil {
 		return nil, err
@@ -123,11 +128,16 @@ func (extension *PrivateEndpointExtension) ExportKubernetesResources(
 	return configmaps.SliceToClientObjectSlice(configs), nil
 }
 
-func configByName(resp armnetwork.InterfacesClientGetResponse) map[string]string {
+func configByName(resp armnetwork.Interface) map[string]string {
 	result := make(map[string]string)
 
-	if resp.Properties != nil && resp.Properties.IPConfigurations != nil && len(resp.Properties.IPConfigurations) > 0 {
-		result["PrimaryNicPrivateIPAddress"] = *resp.Properties.IPConfigurations[0].Properties.PrivateIPAddress
+	if resp.Properties != nil &&
+		resp.Properties.IPConfigurations != nil &&
+		len(resp.Properties.IPConfigurations) > 0 &&
+		resp.Properties.IPConfigurations[0].Properties != nil &&
+		resp.Properties.IPConfigurations[0].Properties.PrivateIPAddress != nil {
+
+		result["primaryNICPrivateIPAddress"] = *resp.Properties.IPConfigurations[0].Properties.PrivateIPAddress
 	}
 
 	return result
@@ -141,25 +151,25 @@ func configMapToWrite(obj *network.PrivateEndpoint, configs map[string]string) (
 
 	collector := configmaps.NewCollector(obj.Namespace)
 
-	primaryNicPrivateIPAddress, ok := configs["PrimaryNicPrivateIPAddress"]
+	primaryNICPrivateIPAddress, ok := configs["primaryNICPrivateIPAddress"]
 	if ok {
-		collector.AddValue(operatorSpecConfigs.PrimaryNicPrivateIPAddress, primaryNicPrivateIPAddress)
+		collector.AddValue(operatorSpecConfigs.PrimaryNicPrivateIpAddress, primaryNICPrivateIPAddress)
 	}
 
 	return collector.Values()
 }
 
-func configMapSpecified(endpoint *network.PrivateEndpoint) bool {
+func hasConfigMaps(endpoint *network.PrivateEndpoint) bool {
 	if endpoint.Spec.OperatorSpec == nil || endpoint.Spec.OperatorSpec.ConfigMaps == nil {
 		return false
 	}
 
-	hasIpConfiguration := false
+	hasIPConfiguration := false
 	configMaps := endpoint.Spec.OperatorSpec.ConfigMaps
 
 	if configMaps != nil && configMaps.PrimaryNicPrivateIPAddress != nil {
-		hasIpConfiguration = true
+		hasIPConfiguration = true
 	}
 
-	return hasIpConfiguration
+	return hasIPConfiguration
 }

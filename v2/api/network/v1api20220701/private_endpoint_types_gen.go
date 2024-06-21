@@ -241,7 +241,7 @@ func (endpoint *PrivateEndpoint) validateConfigMapDestinations() (admission.Warn
 		return nil, nil
 	}
 	toValidate := []*genruntime.ConfigMapDestination{
-		endpoint.Spec.OperatorSpec.ConfigMaps.PrimaryNicPrivateIPAddress,
+		endpoint.Spec.OperatorSpec.ConfigMaps.PrimaryNicPrivateIpAddress,
 	}
 	return genruntime.ValidateConfigMapDestinations(toValidate)
 }
@@ -3179,20 +3179,20 @@ func (embedded *Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignPropert
 }
 
 type PrivateEndpointOperatorConfigMaps struct {
-	// PrimaryNicPrivateIPAddress: indicates where the PrimaryNicPrivateIPAddress config map should be placed. If omitted, no
+	// PrimaryNicPrivateIpAddress: indicates where the PrimaryNicPrivateIpAddress config map should be placed. If omitted, no
 	// config map will be created.
-	PrimaryNicPrivateIPAddress *genruntime.ConfigMapDestination `json:"primaryNicPrivateIPAddress,omitempty"`
+	PrimaryNicPrivateIpAddress *genruntime.ConfigMapDestination `json:"primaryNicPrivateIpAddress,omitempty"`
 }
 
 // AssignProperties_From_PrivateEndpointOperatorConfigMaps populates our PrivateEndpointOperatorConfigMaps from the provided source PrivateEndpointOperatorConfigMaps
 func (maps *PrivateEndpointOperatorConfigMaps) AssignProperties_From_PrivateEndpointOperatorConfigMaps(source *storage.PrivateEndpointOperatorConfigMaps) error {
 
-	// PrimaryNicPrivateIPAddress
-	if source.PrimaryNicPrivateIPAddress != nil {
-		primaryNicPrivateIPAddress := source.PrimaryNicPrivateIPAddress.Copy()
-		maps.PrimaryNicPrivateIPAddress = &primaryNicPrivateIPAddress
+	// PrimaryNicPrivateIpAddress
+	if source.PrimaryNicPrivateIpAddress != nil {
+		primaryNicPrivateIpAddress := source.PrimaryNicPrivateIpAddress.Copy()
+		maps.PrimaryNicPrivateIpAddress = &primaryNicPrivateIpAddress
 	} else {
-		maps.PrimaryNicPrivateIPAddress = nil
+		maps.PrimaryNicPrivateIpAddress = nil
 	}
 
 	// No error
@@ -3204,12 +3204,12 @@ func (maps *PrivateEndpointOperatorConfigMaps) AssignProperties_To_PrivateEndpoi
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// PrimaryNicPrivateIPAddress
-	if maps.PrimaryNicPrivateIPAddress != nil {
-		primaryNicPrivateIPAddress := maps.PrimaryNicPrivateIPAddress.Copy()
-		destination.PrimaryNicPrivateIPAddress = &primaryNicPrivateIPAddress
+	// PrimaryNicPrivateIpAddress
+	if maps.PrimaryNicPrivateIpAddress != nil {
+		primaryNicPrivateIpAddress := maps.PrimaryNicPrivateIpAddress.Copy()
+		destination.PrimaryNicPrivateIpAddress = &primaryNicPrivateIpAddress
 	} else {
-		destination.PrimaryNicPrivateIPAddress = nil
+		destination.PrimaryNicPrivateIpAddress = nil
 	}
 
 	// Update the property bag
