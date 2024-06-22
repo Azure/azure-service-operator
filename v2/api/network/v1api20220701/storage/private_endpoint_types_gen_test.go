@@ -570,6 +570,122 @@ func AddIndependentPropertyGeneratorsForPrivateEndpointIPConfiguration_STATUS(ge
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_PrivateEndpointOperatorConfigMaps_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PrivateEndpointOperatorConfigMaps via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateEndpointOperatorConfigMaps, PrivateEndpointOperatorConfigMapsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPrivateEndpointOperatorConfigMaps runs a test to see if a specific instance of PrivateEndpointOperatorConfigMaps round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateEndpointOperatorConfigMaps(subject PrivateEndpointOperatorConfigMaps) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PrivateEndpointOperatorConfigMaps
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PrivateEndpointOperatorConfigMaps instances for property testing - lazily instantiated by
+// PrivateEndpointOperatorConfigMapsGenerator()
+var privateEndpointOperatorConfigMapsGenerator gopter.Gen
+
+// PrivateEndpointOperatorConfigMapsGenerator returns a generator of PrivateEndpointOperatorConfigMaps instances for property testing.
+func PrivateEndpointOperatorConfigMapsGenerator() gopter.Gen {
+	if privateEndpointOperatorConfigMapsGenerator != nil {
+		return privateEndpointOperatorConfigMapsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	privateEndpointOperatorConfigMapsGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointOperatorConfigMaps{}), generators)
+
+	return privateEndpointOperatorConfigMapsGenerator
+}
+
+func Test_PrivateEndpointOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PrivateEndpointOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateEndpointOperatorSpec, PrivateEndpointOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPrivateEndpointOperatorSpec runs a test to see if a specific instance of PrivateEndpointOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateEndpointOperatorSpec(subject PrivateEndpointOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PrivateEndpointOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PrivateEndpointOperatorSpec instances for property testing - lazily instantiated by
+// PrivateEndpointOperatorSpecGenerator()
+var privateEndpointOperatorSpecGenerator gopter.Gen
+
+// PrivateEndpointOperatorSpecGenerator returns a generator of PrivateEndpointOperatorSpec instances for property testing.
+func PrivateEndpointOperatorSpecGenerator() gopter.Gen {
+	if privateEndpointOperatorSpecGenerator != nil {
+		return privateEndpointOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForPrivateEndpointOperatorSpec(generators)
+	privateEndpointOperatorSpecGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointOperatorSpec{}), generators)
+
+	return privateEndpointOperatorSpecGenerator
+}
+
+// AddRelatedPropertyGeneratorsForPrivateEndpointOperatorSpec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForPrivateEndpointOperatorSpec(gens map[string]gopter.Gen) {
+	gens["ConfigMaps"] = gen.PtrOf(PrivateEndpointOperatorConfigMapsGenerator())
+}
+
 func Test_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -743,6 +859,7 @@ func AddRelatedPropertyGeneratorsForPrivateEndpoint_Spec(gens map[string]gopter.
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
 	gens["IpConfigurations"] = gen.SliceOf(PrivateEndpointIPConfigurationGenerator())
 	gens["ManualPrivateLinkServiceConnections"] = gen.SliceOf(PrivateLinkServiceConnectionGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(PrivateEndpointOperatorSpecGenerator())
 	gens["PrivateLinkServiceConnections"] = gen.SliceOf(PrivateLinkServiceConnectionGenerator())
 	gens["Subnet"] = gen.PtrOf(Subnet_PrivateEndpoint_SubResourceEmbeddedGenerator())
 }
