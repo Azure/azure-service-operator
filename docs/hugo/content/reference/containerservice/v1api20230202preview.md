@@ -19236,7 +19236,9 @@ ManagedClusterStorageProfileSnapshotController_STATUS_ARM
 <td>
 <code>adminPassword</code><br/>
 <em>
-string
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">
+genruntime.SecretReference
+</a>
 </em>
 </td>
 <td>
@@ -19462,26 +19464,6 @@ Benefits</a> for more details.</p>
 <tbody>
 <tr>
 <td>
-<code>adminPassword</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AdminPassword: Specifies the password of the administrator account.
-Minimum-length: 8 characters
-Max-length: 123 characters
-Complexity requirements: 3 out of 4 conditions below need to be fulfilled
-Has lower characters
-Has upper characters
-Has a digit
-Has a special character (Regex match [\W_])
-Disallowed values: &ldquo;abc@123&rdquo;, &ldquo;P@$$w0rd&rdquo;, &ldquo;P@ssw0rd&rdquo;, &ldquo;P@ssword123&rdquo;, &ldquo;Pa$$word&rdquo;, &ldquo;pass@word1&rdquo;, &ldquo;Password!&rdquo;, &ldquo;Password1&rdquo;,
-&ldquo;Password22&rdquo;, &ldquo;iloveyou!&rdquo;</p>
-</td>
-</tr>
-<tr>
-<td>
 <code>adminUsername</code><br/>
 <em>
 string
@@ -19554,26 +19536,6 @@ Benefits</a> for more details.</p>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>
-<code>adminPassword</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AdminPassword: Specifies the password of the administrator account.
-Minimum-length: 8 characters
-Max-length: 123 characters
-Complexity requirements: 3 out of 4 conditions below need to be fulfilled
-Has lower characters
-Has upper characters
-Has a digit
-Has a special character (Regex match [\W_])
-Disallowed values: &ldquo;abc@123&rdquo;, &ldquo;P@$$w0rd&rdquo;, &ldquo;P@ssw0rd&rdquo;, &ldquo;P@ssword123&rdquo;, &ldquo;Pa$$word&rdquo;, &ldquo;pass@word1&rdquo;, &ldquo;Password!&rdquo;, &ldquo;Password1&rdquo;,
-&ldquo;Password22&rdquo;, &ldquo;iloveyou!&rdquo;</p>
-</td>
-</tr>
 <tr>
 <td>
 <code>adminUsername</code><br/>
