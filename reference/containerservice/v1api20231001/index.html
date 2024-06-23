@@ -36,7 +36,7 @@
  Resource Types:  APIVersion (string alias)      Value Description   &#34;2023-10-01&#34;
     AgentPoolMode (string alias)  (Appears on:ManagedClusterAgentPoolProfile, ManagedClusterAgentPoolProfileProperties_ARM, ManagedClusterAgentPoolProfile_ARM, ManagedClusters_AgentPool_Spec)  A cluster must have at least one &lsquo;System&rsquo; Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools">
 
-<meta itemprop="wordCount" content="31772">
+<meta itemprop="wordCount" content="31660">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="containerservice.azure.com/v1api20231001"/>
 <meta name="twitter:description" content="containerservice.azure.com/v1api20231001  Package v1api20231001 contains API Schema definitions for the containerservice v1api20231001 API group
@@ -18997,7 +18997,9 @@ ManagedClusterStorageProfileSnapshotController_STATUS_ARM
 <td>
 <code>adminPassword</code><br/>
 <em>
-string
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">
+genruntime.SecretReference
+</a>
 </em>
 </td>
 <td>
@@ -19223,26 +19225,6 @@ Benefits</a> for more details.</p>
 <tbody>
 <tr>
 <td>
-<code>adminPassword</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AdminPassword: Specifies the password of the administrator account.
-Minimum-length: 8 characters
-Max-length: 123 characters
-Complexity requirements: 3 out of 4 conditions below need to be fulfilled
-Has lower characters
-Has upper characters
-Has a digit
-Has a special character (Regex match [\W_])
-Disallowed values: &ldquo;abc@123&rdquo;, &ldquo;P@$$w0rd&rdquo;, &ldquo;P@ssw0rd&rdquo;, &ldquo;P@ssword123&rdquo;, &ldquo;Pa$$word&rdquo;, &ldquo;pass@word1&rdquo;, &ldquo;Password!&rdquo;, &ldquo;Password1&rdquo;,
-&ldquo;Password22&rdquo;, &ldquo;iloveyou!&rdquo;</p>
-</td>
-</tr>
-<tr>
-<td>
 <code>adminUsername</code><br/>
 <em>
 string
@@ -19315,26 +19297,6 @@ Benefits</a> for more details.</p>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>
-<code>adminPassword</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AdminPassword: Specifies the password of the administrator account.
-Minimum-length: 8 characters
-Max-length: 123 characters
-Complexity requirements: 3 out of 4 conditions below need to be fulfilled
-Has lower characters
-Has upper characters
-Has a digit
-Has a special character (Regex match [\W_])
-Disallowed values: &ldquo;abc@123&rdquo;, &ldquo;P@$$w0rd&rdquo;, &ldquo;P@ssw0rd&rdquo;, &ldquo;P@ssword123&rdquo;, &ldquo;Pa$$word&rdquo;, &ldquo;pass@word1&rdquo;, &ldquo;Password!&rdquo;, &ldquo;Password1&rdquo;,
-&ldquo;Password22&rdquo;, &ldquo;iloveyou!&rdquo;</p>
-</td>
-</tr>
 <tr>
 <td>
 <code>adminUsername</code><br/>
