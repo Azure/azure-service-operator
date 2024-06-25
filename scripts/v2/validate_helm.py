@@ -44,7 +44,7 @@ def validate_helm(helm_dir, yaml_path):
             errors.append(f"Resource Kind: {resource['kind']}, Name:{resource['metadata']['name']} not found in helm")
             continue
 
-        diff = DeepDiff(resource, helm_resources[resource_name], ignore_order=True)
+        diff = DeepDiff(helm_resources[resource_name], resource, ignore_order=True)
         if diff == {}:
             logger.info(f"{resource_name} matched")
         else:
