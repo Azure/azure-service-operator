@@ -52,7 +52,7 @@ openssl rsa -in "$DIR/sa.key" -pubout -out "$DIR/sa.pub"
 
 az group create -l westus -n "${RESOURCE_GROUP}" --tags "CreatedAt=$(date --utc +"%Y-%m-%dT%H:%M:%SZ")"
 
-az storage account create --resource-group "${RESOURCE_GROUP}" --name "${AZURE_STORAGE_ACCOUNT}"
+az storage account create --resource-group "${RESOURCE_GROUP}" --name "${AZURE_STORAGE_ACCOUNT}" --allow-blob-public-access false
 # Enable static website serving
 az storage blob service-properties update --account-name "${AZURE_STORAGE_ACCOUNT}" --static-website
 az storage container create --account-name "${AZURE_STORAGE_ACCOUNT}" --name "${AZURE_STORAGE_CONTAINER}"
