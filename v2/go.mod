@@ -34,7 +34,7 @@ require (
 	github.com/jackc/pgx/v5 v5.6.0
 	github.com/kr/pretty v0.3.1
 	github.com/kylelemons/godebug v1.1.0
-	github.com/leanovate/gopter v0.2.9
+	github.com/leanovate/gopter v0.2.11
 	github.com/microsoft/go-mssqldb v1.7.2
 	github.com/onsi/gomega v1.33.1
 	github.com/pkg/errors v0.9.1
