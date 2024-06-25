@@ -56,6 +56,7 @@ jobs:
         env:
           DOCKER_PUSH_TARGET: ${{ secrets.REGISTRY_PUBLIC }}
           DOCKER_REGISTRY: ${{ secrets.REGISTRY_LOGIN }}
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Protect image
         run: |
