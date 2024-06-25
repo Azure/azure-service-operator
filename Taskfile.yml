@@ -374,7 +374,7 @@ tasks:
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
       - task: controller:docker-push-local
-      - task: controller:gen-helm-manifest
+      - task: controller:package-helm-manifest
       - task: controller:install-helm-wi
         vars:
           AZURE_MI_CLIENT_ID:
