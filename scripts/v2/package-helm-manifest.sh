@@ -38,7 +38,7 @@ fi
 
 ASO_CHART="$DIR"charts/azure-service-operator
 TEMPLATES_FILE_FIR="$ASO_CHART"/templates
-GEN_FILES_DIR="$TEMPLATES_FILE_FIR"/generated
+GEN_FILES_DIR="$TEMPLATES_FILE_DIR"/generated
 TEMP_DIR="$GEN_FILES_DIR"/temp
 IF_CLUSTER="{{- if or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode \"webhooks\") }}"
 
@@ -49,7 +49,7 @@ sed -i "s@\($PUBLIC_REGISTRY\)\(.*\)@\1azureserviceoperator:$VERSION@g" "$ASO_CH
 
 # Chart replacements
 sed -i "s/\(version: \)\(.*\)/\1${VERSION//v}/g" "$ASO_CHART"/Chart.yaml  # find version key and update the value with the current version
-find "$TEMPLATES_FILE_FIR" -type f -exec sed -i "s/\(app.kubernetes.io\/version: \)\(.*\)/\1${VERSION}/g" {} \;
+find "$TEMPLATES_FILE_DIR" -type f -exec sed -i "s/\(app.kubernetes.io\/version: \)\(.*\)/\1${VERSION}/g" {} \;
 
 mkdir -p "$TEMP_DIR"
 ${SCRIPT_DIR}/kustomize-build.sh -v "$VERSION" -k operator -o "$TEMP_DIR"
