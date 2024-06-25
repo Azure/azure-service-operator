@@ -37,7 +37,7 @@ if [[ -z "$DIR" ]] || [[ -z "$VERSION" ]] || [[ -z "$PUBLIC_REGISTRY" ]] || [[ -
 fi
 
 ASO_CHART="$DIR"charts/azure-service-operator
-TEMPLATES_FILE_FIR="$ASO_CHART"/templates
+TEMPLATES_FILE_DIR="$ASO_CHART"/templates
 GEN_FILES_DIR="$TEMPLATES_FILE_DIR"/generated
 TEMP_DIR="$GEN_FILES_DIR"/temp
 IF_CLUSTER="{{- if or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode \"webhooks\") }}"
