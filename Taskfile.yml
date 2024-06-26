@@ -760,12 +760,21 @@ tasks:
       --set azureTenantID=$AZURE_TENANT_ID \
       --set azureClientID={{.AZURE_MI_CLIENT_ID}} \
       --set useWorkloadIdentityAuth=true \
-      --set image.repository={{.IMAGE_REPOSITORY}} \
+      {{.IMAGE_REPOSITORY_CMD}} \
       --set crdPattern=* \
       aso2 -n {{.ASO_NAMESPACE}} --create-namespace ./charts/azure-service-operator/"
       - task: controller:wait-for-operator-ready
     vars:
       IMAGE_REPOSITORY: "{{default .LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE .IMAGE_REPOSITORY}}"
+      OVERRIDE_IMAGE_REPOSITORY: "{{default true .OVERRIDE_IMAGE_REPOSITORY}}"
+      IMAGE_REPOSITORY_CMD_DEFAULT: "--set image.repository={{.IMAGE_REPOSITORY}}"
+      IMAGE_REPOSITORY_CMD:
+        sh: |
+          if [ "{{.OVERRIDE_IMAGE_REPOSITORY}}" = true ]; then
+            echo "--set image.repository={{.IMAGE_REPOSITORY}}"
+          else
+            echo ""
+          fi 
 
   controller:install-helm-single-tenant:
     desc: Generate and install helm chart on cluster using workload identity
@@ -1056,6 +1065,19 @@ tasks:
       - "cmctl check api --wait=2m"
       - task: controller:install-helm-wi
         vars:
+          AZURE_MI_CLIENT_ID:
+            sh: "cat {{.KIND_WORKLOAD_IDENTITY_PATH}}/azure/miclientid.txt"
+
+  controller:kind-create-workloadidentity-local-helm:
+    desc: Creates a local kind cluster with Workload identity installed alongside the local ASO helm chart. Does NOT build the Helm chart, it expects that it has already been built. Does NOT swap the image for a local copy.
+    cmds:
+      - task: controller:kind-create-wi
+      - task: controller:create-mi-for-workload-identity
+      - task: controller:install-cert-manager
+      - "cmctl check api --wait=2m"
+      - task: controller:install-helm-wi
+        vars:
+          OVERRIDE_IMAGE_REPOSITORY: "false"
           AZURE_MI_CLIENT_ID:
             sh: "cat {{.KIND_WORKLOAD_IDENTITY_PATH}}/azure/miclientid.txt"
 
