@@ -39,7 +39,7 @@
   Go to the releases page and draft a new release.
   In the tag dropdown, type the name of the new tag you&rsquo;d like to create (it should match the pattern of previous releases tags, for example: v2.0.0-beta.3). The release target should be main (the default).">
 
-<meta itemprop="wordCount" content="842">
+<meta itemprop="wordCount" content="815">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Creating a new release"/>
 <meta name="twitter:description" content="Ensure that the controller CVE scan action is green.
@@ -712,7 +712,12 @@
   <ul>
     <li><a href="#catalog-breaking-changes">Catalog breaking changes</a></li>
     <li><a href="#testing">Testing</a></li>
-    <li><a href="#create-and-test-the-helm-chart">Create and test the Helm chart</a></li>
+    <li><a href="#create-and-test-the-helm-chart">Create and test the Helm chart</a>
+      <ul>
+        <li><a href="#update-the-chart">Update the chart</a></li>
+        <li><a href="#test-the-updated-chart">Test the updated chart</a></li>
+      </ul>
+    </li>
     <li><a href="#update-resource-documentation">Update Resource Documentation</a></li>
     <li><a href="#update-roadmap">Update ROADMAP</a></li>
     <li><a href="#fixing-an-incorrect-release">Fixing an incorrect release</a></li>
@@ -889,31 +894,21 @@ These steps are documented here in case that process fails.
 
 </div>
 
+<h3 id="update-the-chart">Update the chart</h3>
 <ol>
 <li>Create a new branch from <code>&lt;NEW_RELEASE_TAG&gt;</code> HEAD</li>
 <li>Generate helm manifest for new release: <code>task controller:package-helm-manifest</code></li>
 <li>Check the version in <code>/v2/charts/azure-service-operator/Chart.yaml</code> if matches with the latest release tag.</li>
-<li>Create a kind cluster
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">task controller:kind-create-wi
+</ol>
+<h3 id="test-the-updated-chart">Test the updated chart</h3>
+<ol>
+<li>Create a kind cluster with the chart installed
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">task controller:kind-create-workloadidentity-local-helm
 </code></pre></div></li>
-<li>Enable workload identity on that cluster:
-<pre tabindex="0"><code>task: controller:create-mi-for-workload-identity
-</code></pre></li>
-<li>Install cert-manager
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">task controller:install-cert-manager
-</code></pre></div></li>
-<li>Install helm chart:
-<pre tabindex="0"><code>helm install --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
---set azureTenantID=$AZURE_TENANT_ID \
---set azureClientID=$AZURE_CLIENT_ID \
---set useWorkloadIdentityAuth=true \
-asov2 -n azureserviceoperator-system --create-namespace ./v2/charts/azure-service-operator/.
-</code></pre></li>
-<li>Wait for the chart installation.</li>
-<li>Wait for it to start: <code>k get all -n azureserviceoperator-system</code></li>
+<li>Wait for it all to start: <code>k get all -n azureserviceoperator-system</code></li>
 <li>Create a resource group and a vnet in it (the vnet is to check that conversion webhooks are working, since there aren&rsquo;t any for RGs):
-<pre tabindex="0"><code>k apply -f v2/samples/resources/v1beta/v1beta20200601_resourcegroup.yaml
-k apply -f v2/samples/network/v1beta/v1beta20201101_virtualnetwork.yaml
+<pre tabindex="0"><code>k apply -f v2/samples/resources/v1api/v1api20200601_resourcegroup.yaml
+k apply -f v2/samples/network/v1api20201101/v1api20201101_virtualnetwork.yaml
 </code></pre></li>
 <li>Make sure they deploy successfully - check in the portal as well.</li>
 <li>If installed successfully, commit the files under <code>v2/charts/azure-service-operator</code>.</li>
