@@ -46,3 +46,26 @@ func TestStateCheckFinalState_WhenExpectationNotSatisfied_ReturnsExpectedError(t
 	g.Expect(err.Error()).To(ContainSubstring(firstStageId))
 	g.Expect(err.Error()).To(ContainSubstring(lastStageId))
 }
+
+func TestStateInfo_WhenValueStored_CanBeRetrieved(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	state := NewState()
+	state = StateWithInfo(state, ConversionGraphInfo, 42)
+
+	value, ok := GetStateInfo[int](state, ConversionGraphInfo)
+	g.Expect(ok).To(BeTrue())
+	g.Expect(value).To(Equal(42))
+}
+
+func TestStateInfo_WhenValueStored_CannotBeRetrievedWithWrongType(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	state := NewState()
+	state = StateWithInfo(state, ConversionGraphInfo, 42)
+
+	_, ok := GetStateInfo[string](state, ConversionGraphInfo)
+	g.Expect(ok).To(BeFalse())
+}

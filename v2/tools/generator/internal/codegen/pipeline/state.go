@@ -21,6 +21,7 @@ type State struct {
 	exportedConfigMaps *ExportedTypeNameProperties
 	stagesSeen         set.Set[string]            // set of ids of the stages already run
 	stagesExpected     map[string]set.Set[string] // set of ids of expected stages, each with a set of ids for the stages expecting them
+	stateInfo          map[StateInfo]any          // map of state information
 }
 
 /*
@@ -29,6 +30,12 @@ type State struct {
  *  information in a map indexed by their unique identifier; later stages can then retrieve that information using
  *  that identifier.
  */
+
+type StateInfo string
+
+const (
+	ConversionGraphInfo StateInfo = "ConversionGraph"
+)
 
 // NewState returns a new empty state
 // definitions is a (possibly empty) sequence of types to combine for the initial state
@@ -137,4 +144,38 @@ func (s *State) copy() *State {
 		stagesSeen:         s.stagesSeen,
 		stagesExpected:     s.stagesExpected,
 	}
+}
+
+// StateWithInfo returns a new state with the given information included.
+// Any existing information with the same key is replaced.
+// Has to be written as a standalone function because methods can't introduce new generic variation.
+func StateWithInfo[I any](
+	state *State,
+	key StateInfo,
+	info I,
+) *State {
+	result := state.copy()
+	if result.stateInfo == nil {
+		result.stateInfo = make(map[StateInfo]any)
+	}
+
+	result.stateInfo[key] = info
+	return result
+}
+
+// GetStateInfo returns the information stored in the state under the given key.
+// If no information is stored under the key, or if it doesn't have the expected type, the second
+// return value is false.
+// Has to be written as a standalone function because methods can't introduce new generic variation.
+func GetStateInfo[I any](
+	state *State,
+	key StateInfo,
+) (I, bool) {
+	if state.stateInfo == nil {
+		var result I
+		return result, false
+	}
+
+	info, ok := state.stateInfo[key].(I)
+	return info, ok
 }
