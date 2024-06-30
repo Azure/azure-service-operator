@@ -16,11 +16,10 @@ import (
 
 // State is an immutable instance that captures the information being passed along the pipeline
 type State struct {
-	definitions        astmodel.TypeDefinitionSet // set of type definitions generated so far
-	exportedConfigMaps *ExportedTypeNameProperties
-	stagesSeen         set.Set[string]            // set of ids of the stages already run
-	stagesExpected     map[string]set.Set[string] // set of ids of expected stages, each with a set of ids for the stages expecting them
-	stateInfo          map[StateInfo]any          // map of state information
+	definitions    astmodel.TypeDefinitionSet // set of type definitions generated so far
+	stagesSeen     set.Set[string]            // set of ids of the stages already run
+	stagesExpected map[string]set.Set[string] // set of ids of expected stages, each with a set of ids for the stages expecting them
+	stateInfo      map[StateInfo]any          // map of state information
 }
 
 /*
@@ -67,17 +66,6 @@ func (s *State) WithOverlaidDefinitions(definitions astmodel.TypeDefinitionSet) 
 	return result
 }
 
-// WithGeneratedConfigMaps returns a new independent State with the given generated config maps
-func (s *State) WithGeneratedConfigMaps(exportedConfigMaps *ExportedTypeNameProperties) *State {
-	if s.exportedConfigMaps != nil {
-		panic("may only set the generated config mappings once")
-	}
-
-	result := s.copy()
-	result.exportedConfigMaps = exportedConfigMaps
-	return result
-}
-
 // WithSeenStage records that the passed stage has been seen
 func (s *State) WithSeenStage(id string) *State {
 	result := s.copy()
@@ -105,11 +93,6 @@ func (s *State) Definitions() astmodel.TypeDefinitionSet {
 	return s.definitions
 }
 
-// GeneratedConfigMaps returns the set of generated config maps
-func (s *State) GeneratedConfigMaps() *ExportedTypeNameProperties {
-	return s.exportedConfigMaps
-}
-
 // CheckFinalState checks that our final state is valid, returning an error if not
 func (s *State) CheckFinalState() error {
 	var errs []error
@@ -125,11 +108,10 @@ func (s *State) CheckFinalState() error {
 // copy creates a new independent copy of the state
 func (s *State) copy() *State {
 	return &State{
-		definitions:        s.definitions.Copy(),
-		exportedConfigMaps: s.exportedConfigMaps.Copy(),
-		stagesSeen:         s.stagesSeen,
-		stagesExpected:     s.stagesExpected,
-		stateInfo:          maps.Clone(s.stateInfo),
+		definitions:    s.definitions.Copy(),
+		stagesSeen:     s.stagesSeen,
+		stagesExpected: s.stagesExpected,
+		stateInfo:      maps.Clone(s.stateInfo),
 	}
 }
 
