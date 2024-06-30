@@ -7,6 +7,7 @@ package pipeline
 
 import (
 	"github.com/pkg/errors"
+	"golang.org/x/exp/maps"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
@@ -35,6 +36,7 @@ type StateInfo string
 
 const (
 	ConversionGraphInfo StateInfo = "ConversionGraph"
+	ExportedConfigMaps  StateInfo = "ExportedConfigMaps"
 )
 
 // NewState returns a new empty state
@@ -143,6 +145,7 @@ func (s *State) copy() *State {
 		exportedConfigMaps: s.exportedConfigMaps.Copy(),
 		stagesSeen:         s.stagesSeen,
 		stagesExpected:     s.stagesExpected,
+		stateInfo:          maps.Clone(s.stateInfo),
 	}
 }
 

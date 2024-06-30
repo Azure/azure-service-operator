@@ -69,3 +69,20 @@ func TestStateInfo_WhenValueStored_CannotBeRetrievedWithWrongType(t *testing.T) 
 	_, ok := GetStateInfo[string](state, ConversionGraphInfo)
 	g.Expect(ok).To(BeFalse())
 }
+
+func TestStateInfo_CanStoreAndRecallMultipleValues(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	state := NewState()
+	state = StateWithInfo(state, ConversionGraphInfo, 42)
+	state = StateWithInfo(state, ExportedConfigMaps, "hello")
+
+	graphInfo, ok := GetStateInfo[int](state, ConversionGraphInfo)
+	g.Expect(ok).To(BeTrue())
+	g.Expect(graphInfo).To(Equal(42))
+
+	configMaps, ok := GetStateInfo[string](state, ExportedConfigMaps)
+	g.Expect(ok).To(BeTrue())
+	g.Expect(configMaps).To(Equal("hello"))
+}
