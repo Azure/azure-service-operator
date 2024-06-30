@@ -35,9 +35,14 @@ func InjectPropertyAssignmentFunctions(
 		InjectPropertyAssignmentFunctionsStageID,
 		"Inject property assignment functions AssignFrom() and AssignTo() into resources and objects",
 		func(ctx context.Context, state *State) (*State, error) {
+			graph, ok := GetStateInfo[*storage.ConversionGraph](state, ConversionGraphInfo)
+			if !ok {
+				return nil, errors.New("conversion graph not found")
+			}
+
 			defs := state.Definitions()
 			result := defs.Copy()
-			factory := newPropertyAssignmentFunctionsFactory(state.ConversionGraph(), idFactory, configuration, defs)
+			factory := newPropertyAssignmentFunctionsFactory(graph, idFactory, configuration, defs)
 
 			for name, def := range defs {
 				_, ok := astmodel.AsFunctionContainer(def.Type())
@@ -50,7 +55,7 @@ func InjectPropertyAssignmentFunctions(
 				}
 
 				// Find the definition we want to convert to/from
-				nextName, err := state.ConversionGraph().FindNextType(name, state.Definitions())
+				nextName, err := graph.FindNextType(name, state.Definitions())
 				if err != nil {
 					return nil, errors.Wrapf(err, "finding next type after %s", name)
 				}

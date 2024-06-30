@@ -6,6 +6,7 @@
 package pipeline
 
 import (
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -39,9 +40,10 @@ func TestCreateConversionGraph(t *testing.T) {
 	g.Expect(err).To(Succeed())
 
 	g.Expect(finalState.Definitions()).To(HaveLen(6))
-	g.Expect(finalState.ConversionGraph()).NotTo(BeNil())
 
-	graph := finalState.ConversionGraph()
+	graph, ok := GetStateInfo[*storage.ConversionGraph](finalState, ConversionGraphInfo)
+	g.Expect(graph).NotTo(BeNil())
+	g.Expect(ok).To(BeTrue())
 
 	// Expect to have a link from Pkg2020 to a matching storage version
 	storage2020 := graph.LookupTransition(person2020.Name())

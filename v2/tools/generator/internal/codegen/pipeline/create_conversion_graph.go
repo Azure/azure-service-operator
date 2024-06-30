@@ -52,7 +52,7 @@ func CreateConversionGraph(
 				return nil, errors.Wrapf(err, "creating conversion graph")
 			}
 
-			return state.WithConversionGraph(graph), nil
+			return StateWithInfo(state, ConversionGraphInfo, graph), nil
 		})
 
 	stage.AddDiagnostic(exportConversionGraph)
@@ -62,8 +62,8 @@ func CreateConversionGraph(
 }
 
 func exportConversionGraph(settings *DebugSettings, index int, state *State) error {
-	graph := state.ConversionGraph()
-	if graph == nil {
+	graph, ok := GetStateInfo[*storage.ConversionGraph](state, ConversionGraphInfo)
+	if !ok {
 		return errors.New("no conversion graph available")
 	}
 

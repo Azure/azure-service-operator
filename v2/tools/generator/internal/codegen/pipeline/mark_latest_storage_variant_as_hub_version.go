@@ -7,6 +7,7 @@ package pipeline
 
 import (
 	"context"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
 
 	"github.com/pkg/errors"
 
@@ -23,10 +24,15 @@ func MarkLatestStorageVariantAsHubVersion() *Stage {
 		MarkLatestStorageVariantAsHubVersionID,
 		"Mark the latest GA storage variant of each resource as the hub version",
 		func(ctx context.Context, state *State) (*State, error) {
+			graph, ok := GetStateInfo[*storage.ConversionGraph](state, ConversionGraphInfo)
+			if !ok {
+				return nil, errors.New("conversion graph not found")
+			}
+
 			updatedDefs, err := astmodel.FindResourceDefinitions(state.Definitions()).Process(
 				func(def astmodel.TypeDefinition) (*astmodel.TypeDefinition, error) {
 					rsrc := astmodel.MustBeResourceType(def.Type())
-					hub, err := state.ConversionGraph().FindHub(def.Name(), state.Definitions())
+					hub, err := graph.FindHub(def.Name(), state.Definitions())
 					if err != nil {
 						return nil, errors.Wrapf(err, "finding hub type for %s", def.Name())
 					}

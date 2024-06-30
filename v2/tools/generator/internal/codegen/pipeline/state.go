@@ -12,13 +12,11 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
 )
 
 // State is an immutable instance that captures the information being passed along the pipeline
 type State struct {
 	definitions        astmodel.TypeDefinitionSet // set of type definitions generated so far
-	conversionGraph    *storage.ConversionGraph   // graph of transitions between packages in our conversion graph
 	exportedConfigMaps *ExportedTypeNameProperties
 	stagesSeen         set.Set[string]            // set of ids of the stages already run
 	stagesExpected     map[string]set.Set[string] // set of ids of expected stages, each with a set of ids for the stages expecting them
@@ -48,10 +46,9 @@ func NewState(definitions ...astmodel.TypeDefinitionSet) *State {
 	}
 
 	return &State{
-		definitions:     defs,
-		conversionGraph: nil,
-		stagesSeen:      set.Make[string](),
-		stagesExpected:  make(map[string]set.Set[string]),
+		definitions:    defs,
+		stagesSeen:     set.Make[string](),
+		stagesExpected: make(map[string]set.Set[string]),
 	}
 }
 
@@ -67,13 +64,6 @@ func (s *State) WithDefinitions(definitions astmodel.TypeDefinitionSet) *State {
 func (s *State) WithOverlaidDefinitions(definitions astmodel.TypeDefinitionSet) *State {
 	result := s.copy()
 	result.definitions = result.definitions.OverlayWith(definitions)
-	return result
-}
-
-// WithConversionGraph returns a new independent State with the given conversion graph instead
-func (s *State) WithConversionGraph(graph *storage.ConversionGraph) *State {
-	result := s.copy()
-	result.conversionGraph = graph
 	return result
 }
 
@@ -99,13 +89,13 @@ func (s *State) WithSeenStage(id string) *State {
 // WithExpectation records our expectation that the later stage is coming
 func (s *State) WithExpectation(earlierStage string, laterStage string) *State {
 	result := s.copy()
-	if set, ok := result.stagesExpected[laterStage]; ok {
-		set.Add(earlierStage)
+	if expected, ok := result.stagesExpected[laterStage]; ok {
+		expected.Add(earlierStage)
 		return result
 	}
 
-	set := set.Make(earlierStage)
-	result.stagesExpected[laterStage] = set
+	expected := set.Make(earlierStage)
+	result.stagesExpected[laterStage] = expected
 
 	return result
 }
@@ -113,11 +103,6 @@ func (s *State) WithExpectation(earlierStage string, laterStage string) *State {
 // Definitions returns the set of type definitions contained by the state
 func (s *State) Definitions() astmodel.TypeDefinitionSet {
 	return s.definitions
-}
-
-// ConversionGraph returns the conversion graph included in our state (may be null)
-func (s *State) ConversionGraph() *storage.ConversionGraph {
-	return s.conversionGraph
 }
 
 // GeneratedConfigMaps returns the set of generated config maps
@@ -141,7 +126,6 @@ func (s *State) CheckFinalState() error {
 func (s *State) copy() *State {
 	return &State{
 		definitions:        s.definitions.Copy(),
-		conversionGraph:    s.conversionGraph,
 		exportedConfigMaps: s.exportedConfigMaps.Copy(),
 		stagesSeen:         s.stagesSeen,
 		stagesExpected:     s.stagesExpected,
