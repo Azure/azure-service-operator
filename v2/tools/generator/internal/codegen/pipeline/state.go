@@ -22,13 +22,6 @@ type State struct {
 	stateInfo      map[StateInfo]any          // map of state information
 }
 
-/*
- *  TODO: Future extension (suggested by @matthchr):
- *  Instead of hard coding specific knowledge in the state type, implement a generic solution where stages can stash
- *  information in a map indexed by their unique identifier; later stages can then retrieve that information using
- *  that identifier.
- */
-
 type StateInfo string
 
 const (
