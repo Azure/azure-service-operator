@@ -7,6 +7,7 @@ package pipeline
 
 import (
 	"context"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -29,7 +30,12 @@ func ImplementImportableResourceInterface(
 		"Implement the ImportableResource interface for resources that support import via asoctl",
 		func(ctx context.Context, state *State) (*State, error) {
 			// Scan for the resources requiring the ImportableResource interface injected
-			scanner := newSpecInitializationScanner(state.Definitions(), state.ConversionGraph(), configuration)
+			graph, ok := GetStateInfo[*storage.ConversionGraph](state, ConversionGraphInfo)
+			if !ok {
+				return nil, errors.New("conversion graph not found")
+			}
+
+			scanner := newSpecInitializationScanner(state.Definitions(), graph, configuration)
 			rsrcs, err := scanner.findResources()
 			if err != nil {
 				return nil, errors.Wrapf(err, "unable to find resources that support import")

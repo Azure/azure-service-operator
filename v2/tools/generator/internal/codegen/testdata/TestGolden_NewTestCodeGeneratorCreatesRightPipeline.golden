@@ -17,6 +17,7 @@ determineResourceOwnership                            Determine ARM resource rel
 removeAliases                                         Remove type aliases
 stripUnused                                           Strip unused types for test
 assertTypesStructureValid                             Verify that all local TypeNames refer to a type
+catalogKnownResources                                 Catalog known resources
 add-api-version-enums                                 Add enums for API Versions in each package
 removeAliases                                         Remove type aliases
 makeStatusPropertiesOptional                          Force all status properties to be optional

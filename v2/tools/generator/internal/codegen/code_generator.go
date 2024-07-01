@@ -151,6 +151,8 @@ func createAllPipelineStages(
 
 		pipeline.RemoveEmbeddedResources(configuration, log).UsedFor(pipeline.ARMTarget),
 
+		pipeline.CatalogKnownResources(),
+
 		// Apply export filters before generating
 		// ARM types for resources etc:
 		pipeline.ApplyExportFilters(configuration, log),
