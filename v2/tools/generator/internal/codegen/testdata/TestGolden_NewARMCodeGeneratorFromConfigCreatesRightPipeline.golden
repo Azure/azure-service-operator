@@ -19,6 +19,7 @@ collapseCrossGroupReferences                                 Find and remove cro
 stripUnreferenced                                            Strip unreferenced types
 assertTypesStructureValid                                    Verify that all local TypeNames refer to a type
 removeEmbeddedResources                           azure      Remove properties that point to embedded resources.
+catalogKnownResources                                        Catalog known resources
 filterTypes                                                  Apply export filters to reduce the number of generated types
 add-api-version-enums                                        Add enums for API Versions in each package
 removeAliases                                                Remove type aliases
