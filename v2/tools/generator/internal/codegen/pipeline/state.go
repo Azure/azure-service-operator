@@ -32,6 +32,7 @@ type State struct {
 type StateInfo string
 
 const (
+	AllKnownResources   StateInfo = "AllKnownResources"
 	ConversionGraphInfo StateInfo = "ConversionGraph"
 	ExportedConfigMaps  StateInfo = "ExportedConfigMaps"
 )
