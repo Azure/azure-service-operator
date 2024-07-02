@@ -456,7 +456,9 @@ tasks:
     desc: Builds, tags and pushes the multi architecture controller container image to repository
     deps:
       - controller:bundle-crds
-      - docker-login
+      - task: docker-login
+        vars:
+          DOCKER_REGISTRY: "{{.DOCKER_REGISTRY}}"
     dir: "{{.CONTROLLER_ROOT}}"
     run: always
     cmds:
@@ -846,7 +848,7 @@ tasks:
     vars:
       DIR: "{{default .KIND_WORKLOAD_IDENTITY_PATH .DIR}}"
       RESOURCE_GROUP_FILE:
-        sh: "cat ./{{.DIR}}/azure/rg.txt"
+        sh: "cat ./{{.DIR}}/azure/rg.txt || echo ''"
       RESOURCE_GROUP: "{{default .RESOURCE_GROUP_FILE .RESOURCE_GROUP}}"
       ISSUER_FILE:
         sh: "cat ./{{.DIR}}/azure/saissuer.txt"
@@ -891,11 +893,11 @@ tasks:
           DIR: "{{.AKS_WORKLOAD_IDENTITY_PATH}}"
           RESOURCE_GROUP: "{{.HOSTNAME}}-aso-rg"
       - task: controller:install-cert-manager
-      - "az acr login --name {{.ACR_NAME}}"
       - task: controller:docker-push-multiarch
         vars:
           PLATFORMS: "{{OS}}/{{ARCH}}" # Just push to one platform for now
           DOCKER_PUSH_TARGET: "{{.ACR_NAME}}.azurecr.io"
+          DOCKER_REGISTRY: "{{.ACR_NAME}}"
       - task: controller:package-helm-manifest
       # We need the below to wait until cert-manager is up, otherwise the subsequent installation of webhooks fails. See https://cert-manager.io/next-docs/installation/verify/
       - "cmctl check api --wait=2m"

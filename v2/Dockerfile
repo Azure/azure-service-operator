@@ -2,7 +2,7 @@
 ARG VERSION_FLAGS
 
 # Build the manager binary
-FROM golang:1.22 as builder
+FROM golang:1.22 AS builder
 ARG VERSION_FLAGS
 
 WORKDIR /workspace/
