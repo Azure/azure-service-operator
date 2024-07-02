@@ -10,18 +10,28 @@ cascade:
 - type: docs
 description: "Design discussions, decisions, and specifications for Azure Service Operator v2"
 ---
-Significant changes to Azure Service Operator should be captured by an ADR (architecture design record) in this folder. ADRs are listed reverse chronologically by year, and should contain the following sections:
+Significant changes to Azure Service Operator should be captured by an ADR (architecture design record) in this 
+folder. ADRs are listed reverse chronologically by year, and should contain the following sections:
 
-* Context
-* Decision
+* Context: Context for the problem. What are related issues/problems? What is the history?
+* Requirements: A short list of goals
+* Options optional section containing 1 or more options, w/ pros + cons. Can omit if there is only one real option.
+  * OR Category + Options: For more complex ADRs where there are multiple facets to the design that are somewhat 
+    orthogonal, you can instead give categories and then define options within those categories
+* Decision: Which option did you choose and why?
+  * FAQ: Can optionally include an FAQ in this section answering common questions about the decision that weren't
+    already answered in the options section.
 * Status
 * Consequences
 * Experience Report
 * References
 
-Ideally, each ADR should run to one or two pages in length.
+Ideally, each ADR should run to one or two pages in length. You can use the 
+[simple template]({{< relref "ADR-(YEAR)-(MONTH)-(TITLE)" >}}).
 
-For complex changes that require more detail, the ADR should provide an overview. Additional detail (say, to list alternative solutions, detail complex edge cases, or present detailed diagrams) should be captured in a separate design document linked from the ADR.
+For complex changes that require more detail, the ADR should provide an overview. Additional detail (say, to list 
+alternative solutions, detail complex edge cases, or present detailed diagrams) should be captured 
+in a separate design document linked from the ADR.
 
 For background information, check out [this Cognitect blog entry](https://www.cognitect.com/blog/2011/11/15/documenting-architecture-decisions).
 
