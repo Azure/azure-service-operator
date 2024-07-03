@@ -49,7 +49,14 @@ func RepairSkippingProperties() *Stage {
 		RepairSkippingPropertiesStageID,
 		"Repair property bag serialization for properties that skip resource or object versions",
 		func(ctx context.Context, state *State) (*State, error) {
-			repairer := newSkippingPropertyRepairer(state.Definitions(), state.ConversionGraph())
+			var graph *storage.ConversionGraph
+			if g, err := GetStateData[*storage.ConversionGraph](state, ConversionGraphInfo); err != nil {
+				return nil, errors.Wrapf(err, "couldn't find conversion graph")
+			} else {
+				graph = g
+			}
+
+			repairer := newSkippingPropertyRepairer(state.Definitions(), graph)
 
 			// Add resources and objects to the graph
 			for _, def := range state.Definitions() {

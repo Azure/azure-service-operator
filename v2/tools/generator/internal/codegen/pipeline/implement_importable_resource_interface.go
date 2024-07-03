@@ -9,6 +9,8 @@ import (
 	"context"
 	"strings"
 
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
+
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
@@ -29,7 +31,12 @@ func ImplementImportableResourceInterface(
 		"Implement the ImportableResource interface for resources that support import via asoctl",
 		func(ctx context.Context, state *State) (*State, error) {
 			// Scan for the resources requiring the ImportableResource interface injected
-			scanner := newSpecInitializationScanner(state.Definitions(), state.ConversionGraph(), configuration)
+			graph, err := GetStateData[*storage.ConversionGraph](state, ConversionGraphInfo)
+			if err != nil {
+				return nil, errors.Wrapf(err, "couldn't find conversion graph")
+			}
+
+			scanner := newSpecInitializationScanner(state.Definitions(), graph, configuration)
 			rsrcs, err := scanner.findResources()
 			if err != nil {
 				return nil, errors.Wrapf(err, "unable to find resources that support import")
