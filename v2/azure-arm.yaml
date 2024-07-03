@@ -2773,6 +2773,29 @@ objectModelConfiguration:
       ResourceGroup:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
+  redhatopenshift:
+    2023-11-22:
+      OpenShiftCluster:
+        $export: true
+        $supportedFrom: v2.8.0
+      WorkerProfile:
+        SubnetId:
+          $armReference: true
+        DiskEncryptionSetId:
+          $armReference: true
+      MasterProfile:
+        SubnetId:
+          $armReference: true
+        DiskEncryptionSetId:
+          $armReference: true
+      ClusterProfile:
+        ResourceGroupId:
+          $armReference: true
+        PullSecret:
+          $isSecret: true
+      ServicePrincipalProfile:
+        ClientSecret:
+          $isSecret: true
   search:
     2022-09-01:
       SearchService:
