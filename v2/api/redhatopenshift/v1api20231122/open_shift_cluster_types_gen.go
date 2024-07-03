@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /redhatopenshift/resource-manager/Microsoft.RedHatOpenShift/stable/2023-11-22/redhatopenshift.json
+// - Generated from: /redhatopenshift/resource-manager/Microsoft.RedHatOpenShift/openshiftclusters/stable/2023-11-22/redhatopenshift.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/openShiftClusters/{resourceName}
 type OpenShiftCluster struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -316,7 +316,7 @@ func (cluster *OpenShiftCluster) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /redhatopenshift/resource-manager/Microsoft.RedHatOpenShift/stable/2023-11-22/redhatopenshift.json
+// - Generated from: /redhatopenshift/resource-manager/Microsoft.RedHatOpenShift/openshiftclusters/stable/2023-11-22/redhatopenshift.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/openShiftClusters/{resourceName}
 type OpenShiftClusterList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -1007,7 +1007,7 @@ func (cluster *OpenShiftCluster_Spec) Initialize_From_OpenShiftCluster_STATUS(so
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState(*source.ProvisioningState)
+		provisioningState := genruntime.ToEnum(string(*source.ProvisioningState), provisioningState_Values)
 		cluster.ProvisioningState = &provisioningState
 	} else {
 		cluster.ProvisioningState = nil
@@ -1800,7 +1800,7 @@ func (profile *APIServerProfile) Initialize_From_APIServerProfile_STATUS(source 
 
 	// Visibility
 	if source.Visibility != nil {
-		visibility := Visibility(*source.Visibility)
+		visibility := genruntime.ToEnum(string(*source.Visibility), visibility_Values)
 		profile.Visibility = &visibility
 	} else {
 		profile.Visibility = nil
@@ -2107,7 +2107,7 @@ func (profile *ClusterProfile) Initialize_From_ClusterProfile_STATUS(source *Clu
 
 	// FipsValidatedModules
 	if source.FipsValidatedModules != nil {
-		fipsValidatedModule := FipsValidatedModules(*source.FipsValidatedModules)
+		fipsValidatedModule := genruntime.ToEnum(string(*source.FipsValidatedModules), fipsValidatedModules_Values)
 		profile.FipsValidatedModules = &fipsValidatedModule
 	} else {
 		profile.FipsValidatedModules = nil
@@ -2416,7 +2416,7 @@ func (profile *IngressProfile) Initialize_From_IngressProfile_STATUS(source *Ing
 
 	// Visibility
 	if source.Visibility != nil {
-		visibility := Visibility(*source.Visibility)
+		visibility := genruntime.ToEnum(string(*source.Visibility), visibility_Values)
 		profile.Visibility = &visibility
 	} else {
 		profile.Visibility = nil
@@ -2707,7 +2707,7 @@ func (profile *MasterProfile) Initialize_From_MasterProfile_STATUS(source *Maste
 
 	// EncryptionAtHost
 	if source.EncryptionAtHost != nil {
-		encryptionAtHost := EncryptionAtHost(*source.EncryptionAtHost)
+		encryptionAtHost := genruntime.ToEnum(string(*source.EncryptionAtHost), encryptionAtHost_Values)
 		profile.EncryptionAtHost = &encryptionAtHost
 	} else {
 		profile.EncryptionAtHost = nil
@@ -3067,7 +3067,7 @@ func (profile *NetworkProfile) Initialize_From_NetworkProfile_STATUS(source *Net
 
 	// OutboundType
 	if source.OutboundType != nil {
-		outboundType := OutboundType(*source.OutboundType)
+		outboundType := genruntime.ToEnum(string(*source.OutboundType), outboundType_Values)
 		profile.OutboundType = &outboundType
 	} else {
 		profile.OutboundType = nil
@@ -3078,7 +3078,7 @@ func (profile *NetworkProfile) Initialize_From_NetworkProfile_STATUS(source *Net
 
 	// PreconfiguredNSG
 	if source.PreconfiguredNSG != nil {
-		preconfiguredNSG := PreconfiguredNSG(*source.PreconfiguredNSG)
+		preconfiguredNSG := genruntime.ToEnum(string(*source.PreconfiguredNSG), preconfiguredNSG_Values)
 		profile.PreconfiguredNSG = &preconfiguredNSG
 	} else {
 		profile.PreconfiguredNSG = nil
@@ -3884,7 +3884,7 @@ func (profile *WorkerProfile) Initialize_From_WorkerProfile_STATUS(source *Worke
 
 	// EncryptionAtHost
 	if source.EncryptionAtHost != nil {
-		encryptionAtHost := EncryptionAtHost(*source.EncryptionAtHost)
+		encryptionAtHost := genruntime.ToEnum(string(*source.EncryptionAtHost), encryptionAtHost_Values)
 		profile.EncryptionAtHost = &encryptionAtHost
 	} else {
 		profile.EncryptionAtHost = nil

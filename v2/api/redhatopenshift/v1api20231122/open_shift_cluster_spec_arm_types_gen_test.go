@@ -17,173 +17,6 @@ import (
 	"testing"
 )
 
-func Test_OpenShiftCluster_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of OpenShiftCluster_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForOpenShiftCluster_Spec_ARM, OpenShiftCluster_Spec_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForOpenShiftCluster_Spec_ARM runs a test to see if a specific instance of OpenShiftCluster_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForOpenShiftCluster_Spec_ARM(subject OpenShiftCluster_Spec_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual OpenShiftCluster_Spec_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of OpenShiftCluster_Spec_ARM instances for property testing - lazily instantiated by
-// OpenShiftCluster_Spec_ARMGenerator()
-var openShiftCluster_Spec_ARMGenerator gopter.Gen
-
-// OpenShiftCluster_Spec_ARMGenerator returns a generator of OpenShiftCluster_Spec_ARM instances for property testing.
-// We first initialize openShiftCluster_Spec_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func OpenShiftCluster_Spec_ARMGenerator() gopter.Gen {
-	if openShiftCluster_Spec_ARMGenerator != nil {
-		return openShiftCluster_Spec_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOpenShiftCluster_Spec_ARM(generators)
-	openShiftCluster_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(OpenShiftCluster_Spec_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOpenShiftCluster_Spec_ARM(generators)
-	AddRelatedPropertyGeneratorsForOpenShiftCluster_Spec_ARM(generators)
-	openShiftCluster_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(OpenShiftCluster_Spec_ARM{}), generators)
-
-	return openShiftCluster_Spec_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForOpenShiftCluster_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForOpenShiftCluster_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForOpenShiftCluster_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForOpenShiftCluster_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(OpenShiftClusterProperties_ARMGenerator())
-}
-
-func Test_OpenShiftClusterProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of OpenShiftClusterProperties_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForOpenShiftClusterProperties_ARM, OpenShiftClusterProperties_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForOpenShiftClusterProperties_ARM runs a test to see if a specific instance of OpenShiftClusterProperties_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForOpenShiftClusterProperties_ARM(subject OpenShiftClusterProperties_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual OpenShiftClusterProperties_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of OpenShiftClusterProperties_ARM instances for property testing - lazily instantiated by
-// OpenShiftClusterProperties_ARMGenerator()
-var openShiftClusterProperties_ARMGenerator gopter.Gen
-
-// OpenShiftClusterProperties_ARMGenerator returns a generator of OpenShiftClusterProperties_ARM instances for property testing.
-// We first initialize openShiftClusterProperties_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func OpenShiftClusterProperties_ARMGenerator() gopter.Gen {
-	if openShiftClusterProperties_ARMGenerator != nil {
-		return openShiftClusterProperties_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOpenShiftClusterProperties_ARM(generators)
-	openShiftClusterProperties_ARMGenerator = gen.Struct(reflect.TypeOf(OpenShiftClusterProperties_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOpenShiftClusterProperties_ARM(generators)
-	AddRelatedPropertyGeneratorsForOpenShiftClusterProperties_ARM(generators)
-	openShiftClusterProperties_ARMGenerator = gen.Struct(reflect.TypeOf(OpenShiftClusterProperties_ARM{}), generators)
-
-	return openShiftClusterProperties_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForOpenShiftClusterProperties_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForOpenShiftClusterProperties_ARM(gens map[string]gopter.Gen) {
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_AdminUpdating,
-		ProvisioningState_Canceled,
-		ProvisioningState_Creating,
-		ProvisioningState_Deleting,
-		ProvisioningState_Failed,
-		ProvisioningState_Succeeded,
-		ProvisioningState_Updating))
-}
-
-// AddRelatedPropertyGeneratorsForOpenShiftClusterProperties_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForOpenShiftClusterProperties_ARM(gens map[string]gopter.Gen) {
-	gens["ApiserverProfile"] = gen.PtrOf(APIServerProfile_ARMGenerator())
-	gens["ClusterProfile"] = gen.PtrOf(ClusterProfile_ARMGenerator())
-	gens["IngressProfiles"] = gen.SliceOf(IngressProfile_ARMGenerator())
-	gens["MasterProfile"] = gen.PtrOf(MasterProfile_ARMGenerator())
-	gens["NetworkProfile"] = gen.PtrOf(NetworkProfile_ARMGenerator())
-	gens["ServicePrincipalProfile"] = gen.PtrOf(ServicePrincipalProfile_ARMGenerator())
-	gens["WorkerProfiles"] = gen.SliceOf(WorkerProfile_ARMGenerator())
-}
-
 func Test_APIServerProfile_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -370,6 +203,128 @@ func AddIndependentPropertyGeneratorsForIngressProfile_ARM(gens map[string]gopte
 	gens["Visibility"] = gen.PtrOf(gen.OneConstOf(Visibility_Private, Visibility_Public))
 }
 
+func Test_LoadBalancerProfile_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of LoadBalancerProfile_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForLoadBalancerProfile_ARM, LoadBalancerProfile_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForLoadBalancerProfile_ARM runs a test to see if a specific instance of LoadBalancerProfile_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForLoadBalancerProfile_ARM(subject LoadBalancerProfile_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual LoadBalancerProfile_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of LoadBalancerProfile_ARM instances for property testing - lazily instantiated by
+// LoadBalancerProfile_ARMGenerator()
+var loadBalancerProfile_ARMGenerator gopter.Gen
+
+// LoadBalancerProfile_ARMGenerator returns a generator of LoadBalancerProfile_ARM instances for property testing.
+func LoadBalancerProfile_ARMGenerator() gopter.Gen {
+	if loadBalancerProfile_ARMGenerator != nil {
+		return loadBalancerProfile_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForLoadBalancerProfile_ARM(generators)
+	loadBalancerProfile_ARMGenerator = gen.Struct(reflect.TypeOf(LoadBalancerProfile_ARM{}), generators)
+
+	return loadBalancerProfile_ARMGenerator
+}
+
+// AddRelatedPropertyGeneratorsForLoadBalancerProfile_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForLoadBalancerProfile_ARM(gens map[string]gopter.Gen) {
+	gens["ManagedOutboundIps"] = gen.PtrOf(ManagedOutboundIPs_ARMGenerator())
+}
+
+func Test_ManagedOutboundIPs_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedOutboundIPs_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedOutboundIPs_ARM, ManagedOutboundIPs_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedOutboundIPs_ARM runs a test to see if a specific instance of ManagedOutboundIPs_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedOutboundIPs_ARM(subject ManagedOutboundIPs_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedOutboundIPs_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedOutboundIPs_ARM instances for property testing - lazily instantiated by
+// ManagedOutboundIPs_ARMGenerator()
+var managedOutboundIPs_ARMGenerator gopter.Gen
+
+// ManagedOutboundIPs_ARMGenerator returns a generator of ManagedOutboundIPs_ARM instances for property testing.
+func ManagedOutboundIPs_ARMGenerator() gopter.Gen {
+	if managedOutboundIPs_ARMGenerator != nil {
+		return managedOutboundIPs_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedOutboundIPs_ARM(generators)
+	managedOutboundIPs_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedOutboundIPs_ARM{}), generators)
+
+	return managedOutboundIPs_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedOutboundIPs_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedOutboundIPs_ARM(gens map[string]gopter.Gen) {
+	gens["Count"] = gen.PtrOf(gen.Int())
+}
+
 func Test_MasterProfile_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -510,6 +465,173 @@ func AddRelatedPropertyGeneratorsForNetworkProfile_ARM(gens map[string]gopter.Ge
 	gens["LoadBalancerProfile"] = gen.PtrOf(LoadBalancerProfile_ARMGenerator())
 }
 
+func Test_OpenShiftClusterProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of OpenShiftClusterProperties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForOpenShiftClusterProperties_ARM, OpenShiftClusterProperties_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForOpenShiftClusterProperties_ARM runs a test to see if a specific instance of OpenShiftClusterProperties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForOpenShiftClusterProperties_ARM(subject OpenShiftClusterProperties_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual OpenShiftClusterProperties_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of OpenShiftClusterProperties_ARM instances for property testing - lazily instantiated by
+// OpenShiftClusterProperties_ARMGenerator()
+var openShiftClusterProperties_ARMGenerator gopter.Gen
+
+// OpenShiftClusterProperties_ARMGenerator returns a generator of OpenShiftClusterProperties_ARM instances for property testing.
+// We first initialize openShiftClusterProperties_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func OpenShiftClusterProperties_ARMGenerator() gopter.Gen {
+	if openShiftClusterProperties_ARMGenerator != nil {
+		return openShiftClusterProperties_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForOpenShiftClusterProperties_ARM(generators)
+	openShiftClusterProperties_ARMGenerator = gen.Struct(reflect.TypeOf(OpenShiftClusterProperties_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForOpenShiftClusterProperties_ARM(generators)
+	AddRelatedPropertyGeneratorsForOpenShiftClusterProperties_ARM(generators)
+	openShiftClusterProperties_ARMGenerator = gen.Struct(reflect.TypeOf(OpenShiftClusterProperties_ARM{}), generators)
+
+	return openShiftClusterProperties_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForOpenShiftClusterProperties_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForOpenShiftClusterProperties_ARM(gens map[string]gopter.Gen) {
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		ProvisioningState_AdminUpdating,
+		ProvisioningState_Canceled,
+		ProvisioningState_Creating,
+		ProvisioningState_Deleting,
+		ProvisioningState_Failed,
+		ProvisioningState_Succeeded,
+		ProvisioningState_Updating))
+}
+
+// AddRelatedPropertyGeneratorsForOpenShiftClusterProperties_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForOpenShiftClusterProperties_ARM(gens map[string]gopter.Gen) {
+	gens["ApiserverProfile"] = gen.PtrOf(APIServerProfile_ARMGenerator())
+	gens["ClusterProfile"] = gen.PtrOf(ClusterProfile_ARMGenerator())
+	gens["IngressProfiles"] = gen.SliceOf(IngressProfile_ARMGenerator())
+	gens["MasterProfile"] = gen.PtrOf(MasterProfile_ARMGenerator())
+	gens["NetworkProfile"] = gen.PtrOf(NetworkProfile_ARMGenerator())
+	gens["ServicePrincipalProfile"] = gen.PtrOf(ServicePrincipalProfile_ARMGenerator())
+	gens["WorkerProfiles"] = gen.SliceOf(WorkerProfile_ARMGenerator())
+}
+
+func Test_OpenShiftCluster_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of OpenShiftCluster_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForOpenShiftCluster_Spec_ARM, OpenShiftCluster_Spec_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForOpenShiftCluster_Spec_ARM runs a test to see if a specific instance of OpenShiftCluster_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForOpenShiftCluster_Spec_ARM(subject OpenShiftCluster_Spec_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual OpenShiftCluster_Spec_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of OpenShiftCluster_Spec_ARM instances for property testing - lazily instantiated by
+// OpenShiftCluster_Spec_ARMGenerator()
+var openShiftCluster_Spec_ARMGenerator gopter.Gen
+
+// OpenShiftCluster_Spec_ARMGenerator returns a generator of OpenShiftCluster_Spec_ARM instances for property testing.
+// We first initialize openShiftCluster_Spec_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func OpenShiftCluster_Spec_ARMGenerator() gopter.Gen {
+	if openShiftCluster_Spec_ARMGenerator != nil {
+		return openShiftCluster_Spec_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForOpenShiftCluster_Spec_ARM(generators)
+	openShiftCluster_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(OpenShiftCluster_Spec_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForOpenShiftCluster_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForOpenShiftCluster_Spec_ARM(generators)
+	openShiftCluster_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(OpenShiftCluster_Spec_ARM{}), generators)
+
+	return openShiftCluster_Spec_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForOpenShiftCluster_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForOpenShiftCluster_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.AlphaString()
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForOpenShiftCluster_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForOpenShiftCluster_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(OpenShiftClusterProperties_ARMGenerator())
+}
+
 func Test_ServicePrincipalProfile_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -636,126 +758,4 @@ func AddIndependentPropertyGeneratorsForWorkerProfile_ARM(gens map[string]gopter
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["SubnetId"] = gen.PtrOf(gen.AlphaString())
 	gens["VmSize"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_LoadBalancerProfile_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of LoadBalancerProfile_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLoadBalancerProfile_ARM, LoadBalancerProfile_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForLoadBalancerProfile_ARM runs a test to see if a specific instance of LoadBalancerProfile_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForLoadBalancerProfile_ARM(subject LoadBalancerProfile_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual LoadBalancerProfile_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of LoadBalancerProfile_ARM instances for property testing - lazily instantiated by
-// LoadBalancerProfile_ARMGenerator()
-var loadBalancerProfile_ARMGenerator gopter.Gen
-
-// LoadBalancerProfile_ARMGenerator returns a generator of LoadBalancerProfile_ARM instances for property testing.
-func LoadBalancerProfile_ARMGenerator() gopter.Gen {
-	if loadBalancerProfile_ARMGenerator != nil {
-		return loadBalancerProfile_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForLoadBalancerProfile_ARM(generators)
-	loadBalancerProfile_ARMGenerator = gen.Struct(reflect.TypeOf(LoadBalancerProfile_ARM{}), generators)
-
-	return loadBalancerProfile_ARMGenerator
-}
-
-// AddRelatedPropertyGeneratorsForLoadBalancerProfile_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForLoadBalancerProfile_ARM(gens map[string]gopter.Gen) {
-	gens["ManagedOutboundIps"] = gen.PtrOf(ManagedOutboundIPs_ARMGenerator())
-}
-
-func Test_ManagedOutboundIPs_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedOutboundIPs_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedOutboundIPs_ARM, ManagedOutboundIPs_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedOutboundIPs_ARM runs a test to see if a specific instance of ManagedOutboundIPs_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedOutboundIPs_ARM(subject ManagedOutboundIPs_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedOutboundIPs_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedOutboundIPs_ARM instances for property testing - lazily instantiated by
-// ManagedOutboundIPs_ARMGenerator()
-var managedOutboundIPs_ARMGenerator gopter.Gen
-
-// ManagedOutboundIPs_ARMGenerator returns a generator of ManagedOutboundIPs_ARM instances for property testing.
-func ManagedOutboundIPs_ARMGenerator() gopter.Gen {
-	if managedOutboundIPs_ARMGenerator != nil {
-		return managedOutboundIPs_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedOutboundIPs_ARM(generators)
-	managedOutboundIPs_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedOutboundIPs_ARM{}), generators)
-
-	return managedOutboundIPs_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedOutboundIPs_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedOutboundIPs_ARM(gens map[string]gopter.Gen) {
-	gens["Count"] = gen.PtrOf(gen.Int())
 }
