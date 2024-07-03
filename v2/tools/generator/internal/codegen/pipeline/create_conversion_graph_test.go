@@ -6,8 +6,9 @@
 package pipeline
 
 import (
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
 	"testing"
+
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
 
 	. "github.com/onsi/gomega"
 

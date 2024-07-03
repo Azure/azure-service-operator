@@ -7,6 +7,7 @@ package pipeline
 
 import (
 	"context"
+
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
 
 	"github.com/pkg/errors"
