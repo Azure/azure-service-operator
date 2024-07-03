@@ -131,7 +131,7 @@ func StateWithData[I any](
 // GetStateData returns the information stored in the state under the given key.
 // If no information is stored under the key, or if it doesn't have the expected type, the second
 // return value is false.
-// Has to be written as a standalone function because methods can't introduce new generic variation.
+// Has to be written as a standalone function because methods can't introduce new generic variables.
 func GetStateData[I any](
 	state *State,
 	key StateDataKey,
