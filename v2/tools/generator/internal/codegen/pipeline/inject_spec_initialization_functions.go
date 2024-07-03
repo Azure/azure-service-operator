@@ -34,9 +34,9 @@ func InjectSpecInitializationFunctions(
 		func(ctx context.Context, state *State) (*State, error) {
 			defs := state.Definitions()
 
-			graph, ok := GetStateInfo[*storage.ConversionGraph](state, ConversionGraphInfo)
-			if !ok {
-				return nil, errors.New("conversion graph not found")
+			graph, err := GetStateInfo[*storage.ConversionGraph](state, ConversionGraphInfo)
+			if err != nil {
+				return nil, errors.Wrapf(err, "couldn't find conversion graph")
 			}
 
 			// Scan for the object definitions that need spec initialization functions injected

@@ -29,9 +29,9 @@ func ImplementConvertibleInterface(idFactory astmodel.IdentifierFactory) *Stage 
 
 			modifiedTypes, err := astmodel.FindResourceDefinitions(state.Definitions()).Process(
 				func(def astmodel.TypeDefinition) (*astmodel.TypeDefinition, error) {
-					graph, ok := GetStateInfo[*storage.ConversionGraph](state, ConversionGraphInfo)
-					if !ok {
-						return nil, errors.New("conversion graph not found")
+					graph, err := GetStateInfo[*storage.ConversionGraph](state, ConversionGraphInfo)
+					if err != nil {
+						return nil, errors.Wrapf(err, "couldn't find conversion graph")
 					}
 
 					hub, err := graph.FindHub(def.Name(), state.Definitions())

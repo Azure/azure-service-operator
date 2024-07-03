@@ -41,9 +41,9 @@ func TestCreateConversionGraph(t *testing.T) {
 
 	g.Expect(finalState.Definitions()).To(HaveLen(6))
 
-	graph, ok := GetStateInfo[*storage.ConversionGraph](finalState, ConversionGraphInfo)
+	graph, err := GetStateInfo[*storage.ConversionGraph](finalState, ConversionGraphInfo)
 	g.Expect(graph).NotTo(BeNil())
-	g.Expect(ok).To(BeTrue())
+	g.Expect(err).NotTo(HaveOccurred())
 
 	// Expect to have a link from Pkg2020 to a matching storage version
 	storage2020 := graph.LookupTransition(person2020.Name())

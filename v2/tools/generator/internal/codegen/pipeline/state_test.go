@@ -54,8 +54,8 @@ func TestStateInfo_WhenValueStored_CanBeRetrieved(t *testing.T) {
 	state := NewState()
 	state = StateWithInfo(state, ConversionGraphInfo, 42)
 
-	value, ok := GetStateInfo[int](state, ConversionGraphInfo)
-	g.Expect(ok).To(BeTrue())
+	value, err := GetStateInfo[int](state, ConversionGraphInfo)
+	g.Expect(err).NotTo(HaveOccurred())
 	g.Expect(value).To(Equal(42))
 }
 
@@ -66,8 +66,9 @@ func TestStateInfo_WhenValueStored_CannotBeRetrievedWithWrongType(t *testing.T) 
 	state := NewState()
 	state = StateWithInfo(state, ConversionGraphInfo, 42)
 
-	_, ok := GetStateInfo[string](state, ConversionGraphInfo)
-	g.Expect(ok).To(BeFalse())
+	_, err := GetStateInfo[string](state, ConversionGraphInfo)
+	g.Expect(err).To(HaveOccurred())
+	g.Expect(err.Error()).To(ContainSubstring("expected string"))
 }
 
 func TestStateInfo_CanStoreAndRecallMultipleValues(t *testing.T) {
@@ -78,11 +79,11 @@ func TestStateInfo_CanStoreAndRecallMultipleValues(t *testing.T) {
 	state = StateWithInfo(state, ConversionGraphInfo, 42)
 	state = StateWithInfo(state, ExportedConfigMaps, "hello")
 
-	graphInfo, ok := GetStateInfo[int](state, ConversionGraphInfo)
-	g.Expect(ok).To(BeTrue())
+	graphInfo, err := GetStateInfo[int](state, ConversionGraphInfo)
+	g.Expect(err).NotTo(HaveOccurred())
 	g.Expect(graphInfo).To(Equal(42))
 
-	configMaps, ok := GetStateInfo[string](state, ExportedConfigMaps)
-	g.Expect(ok).To(BeTrue())
+	configMaps, err := GetStateInfo[string](state, ExportedConfigMaps)
+	g.Expect(err).NotTo(HaveOccurred())
 	g.Expect(configMaps).To(Equal("hello"))
 }

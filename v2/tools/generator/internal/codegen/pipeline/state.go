@@ -133,12 +133,28 @@ func StateWithInfo[I any](
 func GetStateInfo[I any](
 	state *State,
 	key StateInfo,
-) (I, bool) {
+) (I, error) {
 	if state.stateInfo == nil {
-		var result I
-		return result, false
+		var zero I
+		return zero, errors.Errorf("no state information available")
 	}
 
-	info, ok := state.stateInfo[key].(I)
-	return info, ok
+	value, ok := state.stateInfo[key]
+	if !ok {
+		var zero I
+		return zero, errors.Errorf("no state information found for key %s", key)
+	}
+
+	info, ok := value.(I)
+	if !ok {
+		var zero I
+		return zero,
+			errors.Errorf(
+				"state information found for key %s of type %T, expected %T",
+				key,
+				value,
+				zero)
+	}
+
+	return info, nil
 }
