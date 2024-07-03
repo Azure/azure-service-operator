@@ -1415,7 +1415,7 @@ func (scaleSet *VirtualMachineScaleSet_Spec) Initialize_From_VirtualMachineScale
 
 	// OrchestrationMode
 	if source.OrchestrationMode != nil {
-		orchestrationMode := OrchestrationMode(*source.OrchestrationMode)
+		orchestrationMode := genruntime.ToEnum(string(*source.OrchestrationMode), orchestrationMode_Values)
 		scaleSet.OrchestrationMode = &orchestrationMode
 	} else {
 		scaleSet.OrchestrationMode = nil
@@ -2614,7 +2614,7 @@ func (policy *AutomaticRepairsPolicy) Initialize_From_AutomaticRepairsPolicy_STA
 
 	// RepairAction
 	if source.RepairAction != nil {
-		repairAction := AutomaticRepairsPolicy_RepairAction(*source.RepairAction)
+		repairAction := genruntime.ToEnum(string(*source.RepairAction), automaticRepairsPolicy_RepairAction_Values)
 		policy.RepairAction = &repairAction
 	} else {
 		policy.RepairAction = nil
@@ -2919,7 +2919,7 @@ func (policy *ScaleInPolicy) Initialize_From_ScaleInPolicy_STATUS(source *ScaleI
 		for ruleIndex, ruleItem := range source.Rules {
 			// Shadow the loop variable to avoid aliasing
 			ruleItem := ruleItem
-			rule := ScaleInPolicy_Rules(ruleItem)
+			rule := genruntime.ToEnum(string(ruleItem), scaleInPolicy_Rules_Values)
 			ruleList[ruleIndex] = rule
 		}
 		policy.Rules = ruleList
@@ -3693,7 +3693,7 @@ func (policy *UpgradePolicy) Initialize_From_UpgradePolicy_STATUS(source *Upgrad
 
 	// Mode
 	if source.Mode != nil {
-		mode := UpgradePolicy_Mode(*source.Mode)
+		mode := genruntime.ToEnum(string(*source.Mode), upgradePolicy_Mode_Values)
 		policy.Mode = &mode
 	} else {
 		policy.Mode = nil
@@ -4011,7 +4011,7 @@ func (identity *VirtualMachineScaleSetIdentity) Initialize_From_VirtualMachineSc
 
 	// Type
 	if source.Type != nil {
-		typeVar := VirtualMachineScaleSetIdentity_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), virtualMachineScaleSetIdentity_Type_Values)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -4952,7 +4952,7 @@ func (profile *VirtualMachineScaleSetVMProfile) Initialize_From_VirtualMachineSc
 
 	// EvictionPolicy
 	if source.EvictionPolicy != nil {
-		evictionPolicy := EvictionPolicy(*source.EvictionPolicy)
+		evictionPolicy := genruntime.ToEnum(string(*source.EvictionPolicy), evictionPolicy_Values)
 		profile.EvictionPolicy = &evictionPolicy
 	} else {
 		profile.EvictionPolicy = nil
@@ -5011,7 +5011,7 @@ func (profile *VirtualMachineScaleSetVMProfile) Initialize_From_VirtualMachineSc
 
 	// Priority
 	if source.Priority != nil {
-		priority := Priority(*source.Priority)
+		priority := genruntime.ToEnum(string(*source.Priority), priority_Values)
 		profile.Priority = &priority
 	} else {
 		profile.Priority = nil
@@ -7245,7 +7245,7 @@ func (profile *VirtualMachineScaleSetNetworkProfile) Initialize_From_VirtualMach
 
 	// NetworkApiVersion
 	if source.NetworkApiVersion != nil {
-		networkApiVersion := VirtualMachineScaleSetNetworkProfile_NetworkApiVersion(*source.NetworkApiVersion)
+		networkApiVersion := genruntime.ToEnum(string(*source.NetworkApiVersion), virtualMachineScaleSetNetworkProfile_NetworkApiVersion_Values)
 		profile.NetworkApiVersion = &networkApiVersion
 	} else {
 		profile.NetworkApiVersion = nil
@@ -9069,7 +9069,7 @@ func (disk *VirtualMachineScaleSetDataDisk) Initialize_From_VirtualMachineScaleS
 
 	// Caching
 	if source.Caching != nil {
-		caching := Caching(*source.Caching)
+		caching := genruntime.ToEnum(string(*source.Caching), caching_Values)
 		disk.Caching = &caching
 	} else {
 		disk.Caching = nil
@@ -9077,7 +9077,7 @@ func (disk *VirtualMachineScaleSetDataDisk) Initialize_From_VirtualMachineScaleS
 
 	// CreateOption
 	if source.CreateOption != nil {
-		createOption := CreateOption(*source.CreateOption)
+		createOption := genruntime.ToEnum(string(*source.CreateOption), createOption_Values)
 		disk.CreateOption = &createOption
 	} else {
 		disk.CreateOption = nil
@@ -9085,7 +9085,7 @@ func (disk *VirtualMachineScaleSetDataDisk) Initialize_From_VirtualMachineScaleS
 
 	// DeleteOption
 	if source.DeleteOption != nil {
-		deleteOption := DeleteOption(*source.DeleteOption)
+		deleteOption := genruntime.ToEnum(string(*source.DeleteOption), deleteOption_Values)
 		disk.DeleteOption = &deleteOption
 	} else {
 		disk.DeleteOption = nil
@@ -9895,7 +9895,7 @@ func (extension *VirtualMachineScaleSetExtension) Initialize_From_VirtualMachine
 	}
 
 	// Type
-	extension.Type = genruntime.ClonePointerToString(source.Type)
+	extension.Type = genruntime.ClonePointerToString(source.PropertiesType)
 
 	// TypeHandlerVersion
 	extension.TypeHandlerVersion = genruntime.ClonePointerToString(source.TypeHandlerVersion)
@@ -10713,7 +10713,7 @@ func (configuration *VirtualMachineScaleSetNetworkConfiguration) Initialize_From
 
 	// DeleteOption
 	if source.DeleteOption != nil {
-		deleteOption := VirtualMachineScaleSetNetworkConfigurationProperties_DeleteOption(*source.DeleteOption)
+		deleteOption := genruntime.ToEnum(string(*source.DeleteOption), virtualMachineScaleSetNetworkConfigurationProperties_DeleteOption_Values)
 		configuration.DeleteOption = &deleteOption
 	} else {
 		configuration.DeleteOption = nil
@@ -11620,7 +11620,7 @@ func (disk *VirtualMachineScaleSetOSDisk) Initialize_From_VirtualMachineScaleSet
 
 	// Caching
 	if source.Caching != nil {
-		caching := Caching(*source.Caching)
+		caching := genruntime.ToEnum(string(*source.Caching), caching_Values)
 		disk.Caching = &caching
 	} else {
 		disk.Caching = nil
@@ -11628,7 +11628,7 @@ func (disk *VirtualMachineScaleSetOSDisk) Initialize_From_VirtualMachineScaleSet
 
 	// CreateOption
 	if source.CreateOption != nil {
-		createOption := CreateOption(*source.CreateOption)
+		createOption := genruntime.ToEnum(string(*source.CreateOption), createOption_Values)
 		disk.CreateOption = &createOption
 	} else {
 		disk.CreateOption = nil
@@ -11636,7 +11636,7 @@ func (disk *VirtualMachineScaleSetOSDisk) Initialize_From_VirtualMachineScaleSet
 
 	// DeleteOption
 	if source.DeleteOption != nil {
-		deleteOption := DeleteOption(*source.DeleteOption)
+		deleteOption := genruntime.ToEnum(string(*source.DeleteOption), deleteOption_Values)
 		disk.DeleteOption = &deleteOption
 	} else {
 		disk.DeleteOption = nil
@@ -11686,7 +11686,7 @@ func (disk *VirtualMachineScaleSetOSDisk) Initialize_From_VirtualMachineScaleSet
 
 	// OsType
 	if source.OsType != nil {
-		osType := VirtualMachineScaleSetOSDisk_OsType(*source.OsType)
+		osType := genruntime.ToEnum(string(*source.OsType), virtualMachineScaleSetOSDisk_OsType_Values)
 		disk.OsType = &osType
 	} else {
 		disk.OsType = nil
@@ -12671,7 +12671,7 @@ func (configuration *VirtualMachineScaleSetIPConfiguration) Initialize_From_Virt
 
 	// PrivateIPAddressVersion
 	if source.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion(*source.PrivateIPAddressVersion)
+		privateIPAddressVersion := genruntime.ToEnum(string(*source.PrivateIPAddressVersion), virtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_Values)
 		configuration.PrivateIPAddressVersion = &privateIPAddressVersion
 	} else {
 		configuration.PrivateIPAddressVersion = nil
@@ -13352,7 +13352,7 @@ func (parameters *VirtualMachineScaleSetManagedDiskParameters) Initialize_From_V
 
 	// StorageAccountType
 	if source.StorageAccountType != nil {
-		storageAccountType := StorageAccountType(*source.StorageAccountType)
+		storageAccountType := genruntime.ToEnum(string(*source.StorageAccountType), storageAccountType_Values)
 		parameters.StorageAccountType = &storageAccountType
 	} else {
 		parameters.StorageAccountType = nil
@@ -14114,7 +14114,7 @@ func (configuration *VirtualMachineScaleSetPublicIPAddressConfiguration) Initial
 
 	// DeleteOption
 	if source.DeleteOption != nil {
-		deleteOption := VirtualMachineScaleSetPublicIPAddressConfigurationProperties_DeleteOption(*source.DeleteOption)
+		deleteOption := genruntime.ToEnum(string(*source.DeleteOption), virtualMachineScaleSetPublicIPAddressConfigurationProperties_DeleteOption_Values)
 		configuration.DeleteOption = &deleteOption
 	} else {
 		configuration.DeleteOption = nil
@@ -14158,7 +14158,7 @@ func (configuration *VirtualMachineScaleSetPublicIPAddressConfiguration) Initial
 
 	// PublicIPAddressVersion
 	if source.PublicIPAddressVersion != nil {
-		publicIPAddressVersion := VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion(*source.PublicIPAddressVersion)
+		publicIPAddressVersion := genruntime.ToEnum(string(*source.PublicIPAddressVersion), virtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_Values)
 		configuration.PublicIPAddressVersion = &publicIPAddressVersion
 	} else {
 		configuration.PublicIPAddressVersion = nil

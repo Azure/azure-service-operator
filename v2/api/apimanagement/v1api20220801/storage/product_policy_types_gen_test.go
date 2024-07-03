@@ -78,69 +78,6 @@ func AddRelatedPropertyGeneratorsForProductPolicy(gens map[string]gopter.Gen) {
 	gens["Status"] = Service_Products_Policy_STATUSGenerator()
 }
 
-func Test_Service_Products_Policy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Service_Products_Policy_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForService_Products_Policy_Spec, Service_Products_Policy_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForService_Products_Policy_Spec runs a test to see if a specific instance of Service_Products_Policy_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForService_Products_Policy_Spec(subject Service_Products_Policy_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Service_Products_Policy_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Service_Products_Policy_Spec instances for property testing - lazily instantiated by
-// Service_Products_Policy_SpecGenerator()
-var service_Products_Policy_SpecGenerator gopter.Gen
-
-// Service_Products_Policy_SpecGenerator returns a generator of Service_Products_Policy_Spec instances for property testing.
-func Service_Products_Policy_SpecGenerator() gopter.Gen {
-	if service_Products_Policy_SpecGenerator != nil {
-		return service_Products_Policy_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForService_Products_Policy_Spec(generators)
-	service_Products_Policy_SpecGenerator = gen.Struct(reflect.TypeOf(Service_Products_Policy_Spec{}), generators)
-
-	return service_Products_Policy_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForService_Products_Policy_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForService_Products_Policy_Spec(gens map[string]gopter.Gen) {
-	gens["Format"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Value"] = gen.PtrOf(gen.AlphaString())
-}
-
 func Test_Service_Products_Policy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -203,5 +140,68 @@ func AddIndependentPropertyGeneratorsForService_Products_Policy_STATUS(gens map[
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
+	gens["Value"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_Service_Products_Policy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Service_Products_Policy_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForService_Products_Policy_Spec, Service_Products_Policy_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForService_Products_Policy_Spec runs a test to see if a specific instance of Service_Products_Policy_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForService_Products_Policy_Spec(subject Service_Products_Policy_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Service_Products_Policy_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Service_Products_Policy_Spec instances for property testing - lazily instantiated by
+// Service_Products_Policy_SpecGenerator()
+var service_Products_Policy_SpecGenerator gopter.Gen
+
+// Service_Products_Policy_SpecGenerator returns a generator of Service_Products_Policy_Spec instances for property testing.
+func Service_Products_Policy_SpecGenerator() gopter.Gen {
+	if service_Products_Policy_SpecGenerator != nil {
+		return service_Products_Policy_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForService_Products_Policy_Spec(generators)
+	service_Products_Policy_SpecGenerator = gen.Struct(reflect.TypeOf(Service_Products_Policy_Spec{}), generators)
+
+	return service_Products_Policy_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForService_Products_Policy_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForService_Products_Policy_Spec(gens map[string]gopter.Gen) {
+	gens["Format"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }

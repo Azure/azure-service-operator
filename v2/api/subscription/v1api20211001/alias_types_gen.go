@@ -972,7 +972,7 @@ func (properties *PutAliasRequestProperties) Initialize_From_SubscriptionAliasRe
 
 	// Workload
 	if source.Workload != nil {
-		workload := Workload(*source.Workload)
+		workload := genruntime.ToEnum(string(*source.Workload), workload_Values)
 		properties.Workload = &workload
 	} else {
 		properties.Workload = nil

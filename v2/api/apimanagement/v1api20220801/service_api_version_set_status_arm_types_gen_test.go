@@ -17,6 +17,71 @@ import (
 	"testing"
 )
 
+func Test_ApiVersionSetContractProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApiVersionSetContractProperties_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApiVersionSetContractProperties_STATUS_ARM, ApiVersionSetContractProperties_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApiVersionSetContractProperties_STATUS_ARM runs a test to see if a specific instance of ApiVersionSetContractProperties_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForApiVersionSetContractProperties_STATUS_ARM(subject ApiVersionSetContractProperties_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApiVersionSetContractProperties_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApiVersionSetContractProperties_STATUS_ARM instances for property testing - lazily instantiated by
+// ApiVersionSetContractProperties_STATUS_ARMGenerator()
+var apiVersionSetContractProperties_STATUS_ARMGenerator gopter.Gen
+
+// ApiVersionSetContractProperties_STATUS_ARMGenerator returns a generator of ApiVersionSetContractProperties_STATUS_ARM instances for property testing.
+func ApiVersionSetContractProperties_STATUS_ARMGenerator() gopter.Gen {
+	if apiVersionSetContractProperties_STATUS_ARMGenerator != nil {
+		return apiVersionSetContractProperties_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApiVersionSetContractProperties_STATUS_ARM(generators)
+	apiVersionSetContractProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ApiVersionSetContractProperties_STATUS_ARM{}), generators)
+
+	return apiVersionSetContractProperties_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForApiVersionSetContractProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApiVersionSetContractProperties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Description"] = gen.PtrOf(gen.AlphaString())
+	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
+	gens["VersionHeaderName"] = gen.PtrOf(gen.AlphaString())
+	gens["VersionQueryName"] = gen.PtrOf(gen.AlphaString())
+	gens["VersioningScheme"] = gen.PtrOf(gen.OneConstOf(ApiVersionSetContractProperties_VersioningScheme_STATUS_Header, ApiVersionSetContractProperties_VersioningScheme_STATUS_Query, ApiVersionSetContractProperties_VersioningScheme_STATUS_Segment))
+}
+
 func Test_Service_ApiVersionSet_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -92,69 +157,4 @@ func AddIndependentPropertyGeneratorsForService_ApiVersionSet_STATUS_ARM(gens ma
 // AddRelatedPropertyGeneratorsForService_ApiVersionSet_STATUS_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForService_ApiVersionSet_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(ApiVersionSetContractProperties_STATUS_ARMGenerator())
-}
-
-func Test_ApiVersionSetContractProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApiVersionSetContractProperties_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApiVersionSetContractProperties_STATUS_ARM, ApiVersionSetContractProperties_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForApiVersionSetContractProperties_STATUS_ARM runs a test to see if a specific instance of ApiVersionSetContractProperties_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForApiVersionSetContractProperties_STATUS_ARM(subject ApiVersionSetContractProperties_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ApiVersionSetContractProperties_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ApiVersionSetContractProperties_STATUS_ARM instances for property testing - lazily instantiated by
-// ApiVersionSetContractProperties_STATUS_ARMGenerator()
-var apiVersionSetContractProperties_STATUS_ARMGenerator gopter.Gen
-
-// ApiVersionSetContractProperties_STATUS_ARMGenerator returns a generator of ApiVersionSetContractProperties_STATUS_ARM instances for property testing.
-func ApiVersionSetContractProperties_STATUS_ARMGenerator() gopter.Gen {
-	if apiVersionSetContractProperties_STATUS_ARMGenerator != nil {
-		return apiVersionSetContractProperties_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApiVersionSetContractProperties_STATUS_ARM(generators)
-	apiVersionSetContractProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ApiVersionSetContractProperties_STATUS_ARM{}), generators)
-
-	return apiVersionSetContractProperties_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApiVersionSetContractProperties_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApiVersionSetContractProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
-	gens["VersionHeaderName"] = gen.PtrOf(gen.AlphaString())
-	gens["VersionQueryName"] = gen.PtrOf(gen.AlphaString())
-	gens["VersioningScheme"] = gen.PtrOf(gen.OneConstOf(ApiVersionSetContractProperties_VersioningScheme_STATUS_Header, ApiVersionSetContractProperties_VersioningScheme_STATUS_Query, ApiVersionSetContractProperties_VersioningScheme_STATUS_Segment))
 }

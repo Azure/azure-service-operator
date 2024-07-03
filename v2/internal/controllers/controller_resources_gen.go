@@ -67,6 +67,8 @@ import (
 	containerservice_v20231001s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage"
 	containerservice_v20231102p "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231102preview"
 	containerservice_v20231102ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231102preview/storage"
+	containerservice_v20240402p "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240402preview"
+	containerservice_v20240402ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240402preview/storage"
 	datafactory_customizations "github.com/Azure/azure-service-operator/v2/api/datafactory/customizations"
 	datafactory_v20180601 "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601"
 	datafactory_v20180601s "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601/storage"
@@ -387,6 +389,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(authorization_v20220401s.RoleDefinition)})
 	result = append(result, &registration.StorageType{Obj: new(batch_v20210101s.BatchAccount)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20230401s.Redis)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20230401s.RedisFirewallRule)})
@@ -519,13 +522,16 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{Obj: new(containerregistry_v20210901s.Registry)})
-	result = append(result, &registration.StorageType{Obj: new(containerservice_v20230202ps.TrustedAccessRoleBinding)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20230315ps.Fleet)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20230315ps.FleetsMember)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20230315ps.FleetsUpdateRun)})
 	result = append(result, &registration.StorageType{
 		Obj: new(containerservice_v20231001s.ManagedCluster),
 		Indexes: []registration.Index{
+			{
+				Key:  ".spec.windowsProfile.adminPassword",
+				Func: indexContainerserviceManagedClusterAdminPassword,
+			},
 			{
 				Key:  ".spec.servicePrincipalProfile.secret",
 				Func: indexContainerserviceManagedClusterSecret,
@@ -534,11 +540,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{
 			{
 				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.servicePrincipalProfile.secret"}, &containerservice_v20231001s.ManagedClusterList{}),
+				MakeEventHandler: watchSecretsFactory([]string{".spec.servicePrincipalProfile.secret", ".spec.windowsProfile.adminPassword"}, &containerservice_v20231001s.ManagedClusterList{}),
 			},
 		},
 	})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20231001s.ManagedClustersAgentPool)})
+	result = append(result, &registration.StorageType{Obj: new(containerservice_v20231001s.TrustedAccessRoleBinding)})
 	result = append(result, &registration.StorageType{Obj: new(datafactory_v20180601s.Factory)})
 	result = append(result, &registration.StorageType{Obj: new(dataprotection_v20231101s.BackupVault)})
 	result = append(result, &registration.StorageType{Obj: new(dataprotection_v20231101s.BackupVaultsBackupInstance)})
@@ -1216,8 +1223,14 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(appconfiguration_v20220501s.ConfigurationStore))
 	result = append(result, new(authorization_v20200801p.RoleAssignment))
 	result = append(result, new(authorization_v20200801ps.RoleAssignment))
-	result = append(result, new(authorization_v20220401.RoleAssignment))
-	result = append(result, new(authorization_v20220401s.RoleAssignment))
+	result = append(
+		result,
+		new(authorization_v20220401.RoleAssignment),
+		new(authorization_v20220401.RoleDefinition))
+	result = append(
+		result,
+		new(authorization_v20220401s.RoleAssignment),
+		new(authorization_v20220401s.RoleDefinition))
 	result = append(result, new(batch_v20210101.BatchAccount))
 	result = append(result, new(batch_v20210101s.BatchAccount))
 	result = append(
@@ -1373,11 +1386,13 @@ func getKnownTypes() []client.Object {
 	result = append(
 		result,
 		new(containerservice_v20231001.ManagedCluster),
-		new(containerservice_v20231001.ManagedClustersAgentPool))
+		new(containerservice_v20231001.ManagedClustersAgentPool),
+		new(containerservice_v20231001.TrustedAccessRoleBinding))
 	result = append(
 		result,
 		new(containerservice_v20231001s.ManagedCluster),
-		new(containerservice_v20231001s.ManagedClustersAgentPool))
+		new(containerservice_v20231001s.ManagedClustersAgentPool),
+		new(containerservice_v20231001s.TrustedAccessRoleBinding))
 	result = append(
 		result,
 		new(containerservice_v20231102p.ManagedCluster),
@@ -1386,6 +1401,16 @@ func getKnownTypes() []client.Object {
 		result,
 		new(containerservice_v20231102ps.ManagedCluster),
 		new(containerservice_v20231102ps.ManagedClustersAgentPool))
+	result = append(
+		result,
+		new(containerservice_v20240402p.ManagedCluster),
+		new(containerservice_v20240402p.ManagedClustersAgentPool),
+		new(containerservice_v20240402p.TrustedAccessRoleBinding))
+	result = append(
+		result,
+		new(containerservice_v20240402ps.ManagedCluster),
+		new(containerservice_v20240402ps.ManagedClustersAgentPool),
+		new(containerservice_v20240402ps.TrustedAccessRoleBinding))
 	result = append(result, new(datafactory_v20180601.Factory))
 	result = append(result, new(datafactory_v20180601s.Factory))
 	result = append(
@@ -1995,6 +2020,8 @@ func createScheme() *runtime.Scheme {
 	_ = containerservice_v20231001s.AddToScheme(scheme)
 	_ = containerservice_v20231102p.AddToScheme(scheme)
 	_ = containerservice_v20231102ps.AddToScheme(scheme)
+	_ = containerservice_v20240402p.AddToScheme(scheme)
+	_ = containerservice_v20240402ps.AddToScheme(scheme)
 	_ = datafactory_v20180601.AddToScheme(scheme)
 	_ = datafactory_v20180601s.AddToScheme(scheme)
 	_ = dataprotection_v20230101.AddToScheme(scheme)
@@ -2122,6 +2149,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &apimanagement_customizations.SubscriptionExtension{})
 	result = append(result, &appconfiguration_customizations.ConfigurationStoreExtension{})
 	result = append(result, &authorization_customizations.RoleAssignmentExtension{})
+	result = append(result, &authorization_customizations.RoleDefinitionExtension{})
 	result = append(result, &batch_customizations.BatchAccountExtension{})
 	result = append(result, &cache_customizations.RedisEnterpriseDatabaseExtension{})
 	result = append(result, &cache_customizations.RedisEnterpriseExtension{})
@@ -2782,6 +2810,21 @@ func indexContainerinstanceContainerGroupWorkspaceKey(rawObj client.Object) []st
 		return nil
 	}
 	return obj.Spec.Diagnostics.LogAnalytics.WorkspaceKey.Index()
+}
+
+// indexContainerserviceManagedClusterAdminPassword an index function for containerservice_v20231001s.ManagedCluster .spec.windowsProfile.adminPassword
+func indexContainerserviceManagedClusterAdminPassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerservice_v20231001s.ManagedCluster)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.WindowsProfile == nil {
+		return nil
+	}
+	if obj.Spec.WindowsProfile.AdminPassword == nil {
+		return nil
+	}
+	return obj.Spec.WindowsProfile.AdminPassword.Index()
 }
 
 // indexContainerserviceManagedClusterSecret an index function for containerservice_v20231001s.ManagedCluster .spec.servicePrincipalProfile.secret

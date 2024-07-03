@@ -520,7 +520,7 @@ func (policy *Service_Policy_Spec) Initialize_From_Service_Policy_STATUS(source 
 
 	// Format
 	if source.Format != nil {
-		format := PolicyContractProperties_Format(*source.Format)
+		format := genruntime.ToEnum(string(*source.Format), policyContractProperties_Format_Values)
 		policy.Format = &format
 	} else {
 		policy.Format = nil

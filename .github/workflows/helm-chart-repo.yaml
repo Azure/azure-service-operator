@@ -87,7 +87,7 @@ jobs:
       - name: Generate helm manifest
         run: |
           container_id=${{ env.container_id }}
-          docker exec "$container_id" task controller:gen-helm-manifest
+          docker exec "$container_id" task controller:package-helm-manifest
 
       # Workaround for getting "Permission denied" errors when trying to stage files
       - name: Take Ownership

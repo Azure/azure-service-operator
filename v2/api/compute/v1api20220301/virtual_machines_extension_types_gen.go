@@ -976,7 +976,7 @@ func (extension *VirtualMachines_Extension_Spec) Initialize_From_VirtualMachines
 	extension.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	extension.Type = genruntime.ClonePointerToString(source.Type)
+	extension.Type = genruntime.ClonePointerToString(source.PropertiesType)
 
 	// TypeHandlerVersion
 	extension.TypeHandlerVersion = genruntime.ClonePointerToString(source.TypeHandlerVersion)
@@ -2128,7 +2128,7 @@ func (status *InstanceViewStatus) Initialize_From_InstanceViewStatus_STATUS(sour
 
 	// Level
 	if source.Level != nil {
-		level := InstanceViewStatus_Level(*source.Level)
+		level := genruntime.ToEnum(string(*source.Level), instanceViewStatus_Level_Values)
 		status.Level = &level
 	} else {
 		status.Level = nil

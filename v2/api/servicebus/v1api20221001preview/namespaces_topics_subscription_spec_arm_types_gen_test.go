@@ -92,6 +92,69 @@ func AddRelatedPropertyGeneratorsForNamespaces_Topics_Subscription_Spec_ARM(gens
 	gens["Properties"] = gen.PtrOf(SBSubscriptionProperties_ARMGenerator())
 }
 
+func Test_SBClientAffineProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SBClientAffineProperties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSBClientAffineProperties_ARM, SBClientAffineProperties_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSBClientAffineProperties_ARM runs a test to see if a specific instance of SBClientAffineProperties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSBClientAffineProperties_ARM(subject SBClientAffineProperties_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SBClientAffineProperties_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SBClientAffineProperties_ARM instances for property testing - lazily instantiated by
+// SBClientAffineProperties_ARMGenerator()
+var sbClientAffineProperties_ARMGenerator gopter.Gen
+
+// SBClientAffineProperties_ARMGenerator returns a generator of SBClientAffineProperties_ARM instances for property testing.
+func SBClientAffineProperties_ARMGenerator() gopter.Gen {
+	if sbClientAffineProperties_ARMGenerator != nil {
+		return sbClientAffineProperties_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSBClientAffineProperties_ARM(generators)
+	sbClientAffineProperties_ARMGenerator = gen.Struct(reflect.TypeOf(SBClientAffineProperties_ARM{}), generators)
+
+	return sbClientAffineProperties_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForSBClientAffineProperties_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSBClientAffineProperties_ARM(gens map[string]gopter.Gen) {
+	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
+	gens["IsDurable"] = gen.PtrOf(gen.Bool())
+	gens["IsShared"] = gen.PtrOf(gen.Bool())
+}
+
 func Test_SBSubscriptionProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -176,67 +239,4 @@ func AddIndependentPropertyGeneratorsForSBSubscriptionProperties_ARM(gens map[st
 // AddRelatedPropertyGeneratorsForSBSubscriptionProperties_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSBSubscriptionProperties_ARM(gens map[string]gopter.Gen) {
 	gens["ClientAffineProperties"] = gen.PtrOf(SBClientAffineProperties_ARMGenerator())
-}
-
-func Test_SBClientAffineProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SBClientAffineProperties_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSBClientAffineProperties_ARM, SBClientAffineProperties_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSBClientAffineProperties_ARM runs a test to see if a specific instance of SBClientAffineProperties_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSBClientAffineProperties_ARM(subject SBClientAffineProperties_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual SBClientAffineProperties_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of SBClientAffineProperties_ARM instances for property testing - lazily instantiated by
-// SBClientAffineProperties_ARMGenerator()
-var sbClientAffineProperties_ARMGenerator gopter.Gen
-
-// SBClientAffineProperties_ARMGenerator returns a generator of SBClientAffineProperties_ARM instances for property testing.
-func SBClientAffineProperties_ARMGenerator() gopter.Gen {
-	if sbClientAffineProperties_ARMGenerator != nil {
-		return sbClientAffineProperties_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSBClientAffineProperties_ARM(generators)
-	sbClientAffineProperties_ARMGenerator = gen.Struct(reflect.TypeOf(SBClientAffineProperties_ARM{}), generators)
-
-	return sbClientAffineProperties_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSBClientAffineProperties_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSBClientAffineProperties_ARM(gens map[string]gopter.Gen) {
-	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
-	gens["IsDurable"] = gen.PtrOf(gen.Bool())
-	gens["IsShared"] = gen.PtrOf(gen.Bool())
 }

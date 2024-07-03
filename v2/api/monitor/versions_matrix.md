@@ -4,7 +4,9 @@
 | Account                                          | v1api20230403 |
 | Account_STATUS                                   | v1api20230403 |
 | Account_Spec                                     | v1api20230403 |
+| AzureMonitorWorkspace                            | v1api20230403 |
 | AzureMonitorWorkspace_ProvisioningState_STATUS   | v1api20230403 |
+| AzureMonitorWorkspace_PublicNetworkAccess        | v1api20230403 |
 | AzureMonitorWorkspace_PublicNetworkAccess_STATUS | v1api20230403 |
 | AzureMonitorWorkspace_STATUS                     | v1api20230403 |
 | IngestionSettings_STATUS                         | v1api20230403 |

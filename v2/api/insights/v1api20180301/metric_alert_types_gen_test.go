@@ -18,6 +18,476 @@ import (
 	"testing"
 )
 
+func Test_DynamicMetricCriteria_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DynamicMetricCriteria to DynamicMetricCriteria via AssignProperties_To_DynamicMetricCriteria & AssignProperties_From_DynamicMetricCriteria returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDynamicMetricCriteria, DynamicMetricCriteriaGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDynamicMetricCriteria tests if a specific instance of DynamicMetricCriteria can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDynamicMetricCriteria(subject DynamicMetricCriteria) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.DynamicMetricCriteria
+	err := copied.AssignProperties_To_DynamicMetricCriteria(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DynamicMetricCriteria
+	err = actual.AssignProperties_From_DynamicMetricCriteria(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_DynamicMetricCriteria_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DynamicMetricCriteria via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDynamicMetricCriteria, DynamicMetricCriteriaGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDynamicMetricCriteria runs a test to see if a specific instance of DynamicMetricCriteria round trips to JSON and back losslessly
+func RunJSONSerializationTestForDynamicMetricCriteria(subject DynamicMetricCriteria) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DynamicMetricCriteria
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DynamicMetricCriteria instances for property testing - lazily instantiated by
+// DynamicMetricCriteriaGenerator()
+var dynamicMetricCriteriaGenerator gopter.Gen
+
+// DynamicMetricCriteriaGenerator returns a generator of DynamicMetricCriteria instances for property testing.
+// We first initialize dynamicMetricCriteriaGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func DynamicMetricCriteriaGenerator() gopter.Gen {
+	if dynamicMetricCriteriaGenerator != nil {
+		return dynamicMetricCriteriaGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDynamicMetricCriteria(generators)
+	dynamicMetricCriteriaGenerator = gen.Struct(reflect.TypeOf(DynamicMetricCriteria{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDynamicMetricCriteria(generators)
+	AddRelatedPropertyGeneratorsForDynamicMetricCriteria(generators)
+	dynamicMetricCriteriaGenerator = gen.Struct(reflect.TypeOf(DynamicMetricCriteria{}), generators)
+
+	return dynamicMetricCriteriaGenerator
+}
+
+// AddIndependentPropertyGeneratorsForDynamicMetricCriteria is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDynamicMetricCriteria(gens map[string]gopter.Gen) {
+	gens["AlertSensitivity"] = gen.PtrOf(gen.OneConstOf(DynamicMetricCriteria_AlertSensitivity_High, DynamicMetricCriteria_AlertSensitivity_Low, DynamicMetricCriteria_AlertSensitivity_Medium))
+	gens["CriterionType"] = gen.PtrOf(gen.OneConstOf(DynamicMetricCriteria_CriterionType_DynamicThresholdCriterion))
+	gens["IgnoreDataBefore"] = gen.PtrOf(gen.AlphaString())
+	gens["MetricName"] = gen.PtrOf(gen.AlphaString())
+	gens["MetricNamespace"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Operator"] = gen.PtrOf(gen.OneConstOf(DynamicMetricCriteria_Operator_GreaterOrLessThan, DynamicMetricCriteria_Operator_GreaterThan, DynamicMetricCriteria_Operator_LessThan))
+	gens["SkipMetricValidation"] = gen.PtrOf(gen.Bool())
+	gens["TimeAggregation"] = gen.PtrOf(gen.OneConstOf(
+		DynamicMetricCriteria_TimeAggregation_Average,
+		DynamicMetricCriteria_TimeAggregation_Count,
+		DynamicMetricCriteria_TimeAggregation_Maximum,
+		DynamicMetricCriteria_TimeAggregation_Minimum,
+		DynamicMetricCriteria_TimeAggregation_Total))
+}
+
+// AddRelatedPropertyGeneratorsForDynamicMetricCriteria is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDynamicMetricCriteria(gens map[string]gopter.Gen) {
+	gens["Dimensions"] = gen.SliceOf(MetricDimensionGenerator())
+	gens["FailingPeriods"] = gen.PtrOf(DynamicThresholdFailingPeriodsGenerator())
+}
+
+func Test_DynamicMetricCriteria_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DynamicMetricCriteria_STATUS to DynamicMetricCriteria_STATUS via AssignProperties_To_DynamicMetricCriteria_STATUS & AssignProperties_From_DynamicMetricCriteria_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDynamicMetricCriteria_STATUS, DynamicMetricCriteria_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDynamicMetricCriteria_STATUS tests if a specific instance of DynamicMetricCriteria_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDynamicMetricCriteria_STATUS(subject DynamicMetricCriteria_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.DynamicMetricCriteria_STATUS
+	err := copied.AssignProperties_To_DynamicMetricCriteria_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DynamicMetricCriteria_STATUS
+	err = actual.AssignProperties_From_DynamicMetricCriteria_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_DynamicMetricCriteria_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DynamicMetricCriteria_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDynamicMetricCriteria_STATUS, DynamicMetricCriteria_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDynamicMetricCriteria_STATUS runs a test to see if a specific instance of DynamicMetricCriteria_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForDynamicMetricCriteria_STATUS(subject DynamicMetricCriteria_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DynamicMetricCriteria_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DynamicMetricCriteria_STATUS instances for property testing - lazily instantiated by
+// DynamicMetricCriteria_STATUSGenerator()
+var dynamicMetricCriteria_STATUSGenerator gopter.Gen
+
+// DynamicMetricCriteria_STATUSGenerator returns a generator of DynamicMetricCriteria_STATUS instances for property testing.
+// We first initialize dynamicMetricCriteria_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func DynamicMetricCriteria_STATUSGenerator() gopter.Gen {
+	if dynamicMetricCriteria_STATUSGenerator != nil {
+		return dynamicMetricCriteria_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDynamicMetricCriteria_STATUS(generators)
+	dynamicMetricCriteria_STATUSGenerator = gen.Struct(reflect.TypeOf(DynamicMetricCriteria_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDynamicMetricCriteria_STATUS(generators)
+	AddRelatedPropertyGeneratorsForDynamicMetricCriteria_STATUS(generators)
+	dynamicMetricCriteria_STATUSGenerator = gen.Struct(reflect.TypeOf(DynamicMetricCriteria_STATUS{}), generators)
+
+	return dynamicMetricCriteria_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForDynamicMetricCriteria_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDynamicMetricCriteria_STATUS(gens map[string]gopter.Gen) {
+	gens["AlertSensitivity"] = gen.PtrOf(gen.OneConstOf(DynamicMetricCriteria_AlertSensitivity_STATUS_High, DynamicMetricCriteria_AlertSensitivity_STATUS_Low, DynamicMetricCriteria_AlertSensitivity_STATUS_Medium))
+	gens["CriterionType"] = gen.PtrOf(gen.OneConstOf(DynamicMetricCriteria_CriterionType_STATUS_DynamicThresholdCriterion))
+	gens["IgnoreDataBefore"] = gen.PtrOf(gen.AlphaString())
+	gens["MetricName"] = gen.PtrOf(gen.AlphaString())
+	gens["MetricNamespace"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Operator"] = gen.PtrOf(gen.OneConstOf(DynamicMetricCriteria_Operator_STATUS_GreaterOrLessThan, DynamicMetricCriteria_Operator_STATUS_GreaterThan, DynamicMetricCriteria_Operator_STATUS_LessThan))
+	gens["SkipMetricValidation"] = gen.PtrOf(gen.Bool())
+	gens["TimeAggregation"] = gen.PtrOf(gen.OneConstOf(
+		DynamicMetricCriteria_TimeAggregation_STATUS_Average,
+		DynamicMetricCriteria_TimeAggregation_STATUS_Count,
+		DynamicMetricCriteria_TimeAggregation_STATUS_Maximum,
+		DynamicMetricCriteria_TimeAggregation_STATUS_Minimum,
+		DynamicMetricCriteria_TimeAggregation_STATUS_Total))
+}
+
+// AddRelatedPropertyGeneratorsForDynamicMetricCriteria_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDynamicMetricCriteria_STATUS(gens map[string]gopter.Gen) {
+	gens["Dimensions"] = gen.SliceOf(MetricDimension_STATUSGenerator())
+	gens["FailingPeriods"] = gen.PtrOf(DynamicThresholdFailingPeriods_STATUSGenerator())
+}
+
+func Test_DynamicThresholdFailingPeriods_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DynamicThresholdFailingPeriods to DynamicThresholdFailingPeriods via AssignProperties_To_DynamicThresholdFailingPeriods & AssignProperties_From_DynamicThresholdFailingPeriods returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDynamicThresholdFailingPeriods, DynamicThresholdFailingPeriodsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDynamicThresholdFailingPeriods tests if a specific instance of DynamicThresholdFailingPeriods can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDynamicThresholdFailingPeriods(subject DynamicThresholdFailingPeriods) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.DynamicThresholdFailingPeriods
+	err := copied.AssignProperties_To_DynamicThresholdFailingPeriods(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DynamicThresholdFailingPeriods
+	err = actual.AssignProperties_From_DynamicThresholdFailingPeriods(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_DynamicThresholdFailingPeriods_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DynamicThresholdFailingPeriods via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDynamicThresholdFailingPeriods, DynamicThresholdFailingPeriodsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDynamicThresholdFailingPeriods runs a test to see if a specific instance of DynamicThresholdFailingPeriods round trips to JSON and back losslessly
+func RunJSONSerializationTestForDynamicThresholdFailingPeriods(subject DynamicThresholdFailingPeriods) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DynamicThresholdFailingPeriods
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DynamicThresholdFailingPeriods instances for property testing - lazily instantiated by
+// DynamicThresholdFailingPeriodsGenerator()
+var dynamicThresholdFailingPeriodsGenerator gopter.Gen
+
+// DynamicThresholdFailingPeriodsGenerator returns a generator of DynamicThresholdFailingPeriods instances for property testing.
+func DynamicThresholdFailingPeriodsGenerator() gopter.Gen {
+	if dynamicThresholdFailingPeriodsGenerator != nil {
+		return dynamicThresholdFailingPeriodsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDynamicThresholdFailingPeriods(generators)
+	dynamicThresholdFailingPeriodsGenerator = gen.Struct(reflect.TypeOf(DynamicThresholdFailingPeriods{}), generators)
+
+	return dynamicThresholdFailingPeriodsGenerator
+}
+
+// AddIndependentPropertyGeneratorsForDynamicThresholdFailingPeriods is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDynamicThresholdFailingPeriods(gens map[string]gopter.Gen) {
+	gens["MinFailingPeriodsToAlert"] = gen.PtrOf(gen.Float64())
+	gens["NumberOfEvaluationPeriods"] = gen.PtrOf(gen.Float64())
+}
+
+func Test_DynamicThresholdFailingPeriods_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DynamicThresholdFailingPeriods_STATUS to DynamicThresholdFailingPeriods_STATUS via AssignProperties_To_DynamicThresholdFailingPeriods_STATUS & AssignProperties_From_DynamicThresholdFailingPeriods_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDynamicThresholdFailingPeriods_STATUS, DynamicThresholdFailingPeriods_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDynamicThresholdFailingPeriods_STATUS tests if a specific instance of DynamicThresholdFailingPeriods_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDynamicThresholdFailingPeriods_STATUS(subject DynamicThresholdFailingPeriods_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.DynamicThresholdFailingPeriods_STATUS
+	err := copied.AssignProperties_To_DynamicThresholdFailingPeriods_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DynamicThresholdFailingPeriods_STATUS
+	err = actual.AssignProperties_From_DynamicThresholdFailingPeriods_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_DynamicThresholdFailingPeriods_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DynamicThresholdFailingPeriods_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDynamicThresholdFailingPeriods_STATUS, DynamicThresholdFailingPeriods_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDynamicThresholdFailingPeriods_STATUS runs a test to see if a specific instance of DynamicThresholdFailingPeriods_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForDynamicThresholdFailingPeriods_STATUS(subject DynamicThresholdFailingPeriods_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DynamicThresholdFailingPeriods_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DynamicThresholdFailingPeriods_STATUS instances for property testing - lazily instantiated by
+// DynamicThresholdFailingPeriods_STATUSGenerator()
+var dynamicThresholdFailingPeriods_STATUSGenerator gopter.Gen
+
+// DynamicThresholdFailingPeriods_STATUSGenerator returns a generator of DynamicThresholdFailingPeriods_STATUS instances for property testing.
+func DynamicThresholdFailingPeriods_STATUSGenerator() gopter.Gen {
+	if dynamicThresholdFailingPeriods_STATUSGenerator != nil {
+		return dynamicThresholdFailingPeriods_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDynamicThresholdFailingPeriods_STATUS(generators)
+	dynamicThresholdFailingPeriods_STATUSGenerator = gen.Struct(reflect.TypeOf(DynamicThresholdFailingPeriods_STATUS{}), generators)
+
+	return dynamicThresholdFailingPeriods_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForDynamicThresholdFailingPeriods_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDynamicThresholdFailingPeriods_STATUS(gens map[string]gopter.Gen) {
+	gens["MinFailingPeriodsToAlert"] = gen.PtrOf(gen.Float64())
+	gens["NumberOfEvaluationPeriods"] = gen.PtrOf(gen.Float64())
+}
+
 func Test_MetricAlert_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -162,269 +632,6 @@ func MetricAlertGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForMetricAlert(gens map[string]gopter.Gen) {
 	gens["Spec"] = MetricAlert_SpecGenerator()
 	gens["Status"] = MetricAlert_STATUSGenerator()
-}
-
-func Test_MetricAlert_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from MetricAlert_Spec to MetricAlert_Spec via AssignProperties_To_MetricAlert_Spec & AssignProperties_From_MetricAlert_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForMetricAlert_Spec, MetricAlert_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForMetricAlert_Spec tests if a specific instance of MetricAlert_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForMetricAlert_Spec(subject MetricAlert_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.MetricAlert_Spec
-	err := copied.AssignProperties_To_MetricAlert_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual MetricAlert_Spec
-	err = actual.AssignProperties_From_MetricAlert_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_MetricAlert_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of MetricAlert_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMetricAlert_Spec, MetricAlert_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForMetricAlert_Spec runs a test to see if a specific instance of MetricAlert_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForMetricAlert_Spec(subject MetricAlert_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual MetricAlert_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of MetricAlert_Spec instances for property testing - lazily instantiated by MetricAlert_SpecGenerator()
-var metricAlert_SpecGenerator gopter.Gen
-
-// MetricAlert_SpecGenerator returns a generator of MetricAlert_Spec instances for property testing.
-// We first initialize metricAlert_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func MetricAlert_SpecGenerator() gopter.Gen {
-	if metricAlert_SpecGenerator != nil {
-		return metricAlert_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMetricAlert_Spec(generators)
-	metricAlert_SpecGenerator = gen.Struct(reflect.TypeOf(MetricAlert_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMetricAlert_Spec(generators)
-	AddRelatedPropertyGeneratorsForMetricAlert_Spec(generators)
-	metricAlert_SpecGenerator = gen.Struct(reflect.TypeOf(MetricAlert_Spec{}), generators)
-
-	return metricAlert_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForMetricAlert_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMetricAlert_Spec(gens map[string]gopter.Gen) {
-	gens["AutoMitigate"] = gen.PtrOf(gen.Bool())
-	gens["AzureName"] = gen.AlphaString()
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["EvaluationFrequency"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Severity"] = gen.PtrOf(gen.Int())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["TargetResourceRegion"] = gen.PtrOf(gen.AlphaString())
-	gens["TargetResourceType"] = gen.PtrOf(gen.AlphaString())
-	gens["WindowSize"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForMetricAlert_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForMetricAlert_Spec(gens map[string]gopter.Gen) {
-	gens["Actions"] = gen.SliceOf(MetricAlertActionGenerator())
-	gens["Criteria"] = gen.PtrOf(MetricAlertCriteriaGenerator())
-}
-
-func Test_MetricAlert_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from MetricAlert_STATUS to MetricAlert_STATUS via AssignProperties_To_MetricAlert_STATUS & AssignProperties_From_MetricAlert_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForMetricAlert_STATUS, MetricAlert_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForMetricAlert_STATUS tests if a specific instance of MetricAlert_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForMetricAlert_STATUS(subject MetricAlert_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.MetricAlert_STATUS
-	err := copied.AssignProperties_To_MetricAlert_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual MetricAlert_STATUS
-	err = actual.AssignProperties_From_MetricAlert_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_MetricAlert_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of MetricAlert_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMetricAlert_STATUS, MetricAlert_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForMetricAlert_STATUS runs a test to see if a specific instance of MetricAlert_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForMetricAlert_STATUS(subject MetricAlert_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual MetricAlert_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of MetricAlert_STATUS instances for property testing - lazily instantiated by MetricAlert_STATUSGenerator()
-var metricAlert_STATUSGenerator gopter.Gen
-
-// MetricAlert_STATUSGenerator returns a generator of MetricAlert_STATUS instances for property testing.
-// We first initialize metricAlert_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func MetricAlert_STATUSGenerator() gopter.Gen {
-	if metricAlert_STATUSGenerator != nil {
-		return metricAlert_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMetricAlert_STATUS(generators)
-	metricAlert_STATUSGenerator = gen.Struct(reflect.TypeOf(MetricAlert_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMetricAlert_STATUS(generators)
-	AddRelatedPropertyGeneratorsForMetricAlert_STATUS(generators)
-	metricAlert_STATUSGenerator = gen.Struct(reflect.TypeOf(MetricAlert_STATUS{}), generators)
-
-	return metricAlert_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForMetricAlert_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMetricAlert_STATUS(gens map[string]gopter.Gen) {
-	gens["AutoMitigate"] = gen.PtrOf(gen.Bool())
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["EvaluationFrequency"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["IsMigrated"] = gen.PtrOf(gen.Bool())
-	gens["LastUpdatedTime"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Scopes"] = gen.SliceOf(gen.AlphaString())
-	gens["Severity"] = gen.PtrOf(gen.Int())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["TargetResourceRegion"] = gen.PtrOf(gen.AlphaString())
-	gens["TargetResourceType"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["WindowSize"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForMetricAlert_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForMetricAlert_STATUS(gens map[string]gopter.Gen) {
-	gens["Actions"] = gen.SliceOf(MetricAlertAction_STATUSGenerator())
-	gens["Criteria"] = gen.PtrOf(MetricAlertCriteria_STATUSGenerator())
 }
 
 func Test_MetricAlertAction_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1340,32 +1547,32 @@ func AddRelatedPropertyGeneratorsForMetricAlertSingleResourceMultipleMetricCrite
 	gens["AllOf"] = gen.SliceOf(MetricCriteria_STATUSGenerator())
 }
 
-func Test_WebtestLocationAvailabilityCriteria_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_MetricAlert_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from WebtestLocationAvailabilityCriteria to WebtestLocationAvailabilityCriteria via AssignProperties_To_WebtestLocationAvailabilityCriteria & AssignProperties_From_WebtestLocationAvailabilityCriteria returns original",
-		prop.ForAll(RunPropertyAssignmentTestForWebtestLocationAvailabilityCriteria, WebtestLocationAvailabilityCriteriaGenerator()))
+		"Round trip from MetricAlert_STATUS to MetricAlert_STATUS via AssignProperties_To_MetricAlert_STATUS & AssignProperties_From_MetricAlert_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForMetricAlert_STATUS, MetricAlert_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForWebtestLocationAvailabilityCriteria tests if a specific instance of WebtestLocationAvailabilityCriteria can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForWebtestLocationAvailabilityCriteria(subject WebtestLocationAvailabilityCriteria) string {
+// RunPropertyAssignmentTestForMetricAlert_STATUS tests if a specific instance of MetricAlert_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForMetricAlert_STATUS(subject MetricAlert_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WebtestLocationAvailabilityCriteria
-	err := copied.AssignProperties_To_WebtestLocationAvailabilityCriteria(&other)
+	var other storage.MetricAlert_STATUS
+	err := copied.AssignProperties_To_MetricAlert_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual WebtestLocationAvailabilityCriteria
-	err = actual.AssignProperties_From_WebtestLocationAvailabilityCriteria(&other)
+	var actual MetricAlert_STATUS
+	err = actual.AssignProperties_From_MetricAlert_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1382,125 +1589,20 @@ func RunPropertyAssignmentTestForWebtestLocationAvailabilityCriteria(subject Web
 	return ""
 }
 
-func Test_WebtestLocationAvailabilityCriteria_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of WebtestLocationAvailabilityCriteria via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWebtestLocationAvailabilityCriteria, WebtestLocationAvailabilityCriteriaGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForWebtestLocationAvailabilityCriteria runs a test to see if a specific instance of WebtestLocationAvailabilityCriteria round trips to JSON and back losslessly
-func RunJSONSerializationTestForWebtestLocationAvailabilityCriteria(subject WebtestLocationAvailabilityCriteria) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual WebtestLocationAvailabilityCriteria
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of WebtestLocationAvailabilityCriteria instances for property testing - lazily instantiated by
-// WebtestLocationAvailabilityCriteriaGenerator()
-var webtestLocationAvailabilityCriteriaGenerator gopter.Gen
-
-// WebtestLocationAvailabilityCriteriaGenerator returns a generator of WebtestLocationAvailabilityCriteria instances for property testing.
-func WebtestLocationAvailabilityCriteriaGenerator() gopter.Gen {
-	if webtestLocationAvailabilityCriteriaGenerator != nil {
-		return webtestLocationAvailabilityCriteriaGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebtestLocationAvailabilityCriteria(generators)
-	webtestLocationAvailabilityCriteriaGenerator = gen.Struct(reflect.TypeOf(WebtestLocationAvailabilityCriteria{}), generators)
-
-	return webtestLocationAvailabilityCriteriaGenerator
-}
-
-// AddIndependentPropertyGeneratorsForWebtestLocationAvailabilityCriteria is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWebtestLocationAvailabilityCriteria(gens map[string]gopter.Gen) {
-	gens["FailedLocationCount"] = gen.PtrOf(gen.Float64())
-	gens["OdataType"] = gen.PtrOf(gen.OneConstOf(WebtestLocationAvailabilityCriteria_OdataType_MicrosoftAzureMonitorWebtestLocationAvailabilityCriteria))
-	gens["WebTestId"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_WebtestLocationAvailabilityCriteria_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from WebtestLocationAvailabilityCriteria_STATUS to WebtestLocationAvailabilityCriteria_STATUS via AssignProperties_To_WebtestLocationAvailabilityCriteria_STATUS & AssignProperties_From_WebtestLocationAvailabilityCriteria_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForWebtestLocationAvailabilityCriteria_STATUS, WebtestLocationAvailabilityCriteria_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForWebtestLocationAvailabilityCriteria_STATUS tests if a specific instance of WebtestLocationAvailabilityCriteria_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForWebtestLocationAvailabilityCriteria_STATUS(subject WebtestLocationAvailabilityCriteria_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WebtestLocationAvailabilityCriteria_STATUS
-	err := copied.AssignProperties_To_WebtestLocationAvailabilityCriteria_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual WebtestLocationAvailabilityCriteria_STATUS
-	err = actual.AssignProperties_From_WebtestLocationAvailabilityCriteria_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_WebtestLocationAvailabilityCriteria_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_MetricAlert_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of WebtestLocationAvailabilityCriteria_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWebtestLocationAvailabilityCriteria_STATUS, WebtestLocationAvailabilityCriteria_STATUSGenerator()))
+		"Round trip of MetricAlert_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMetricAlert_STATUS, MetricAlert_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForWebtestLocationAvailabilityCriteria_STATUS runs a test to see if a specific instance of WebtestLocationAvailabilityCriteria_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForWebtestLocationAvailabilityCriteria_STATUS(subject WebtestLocationAvailabilityCriteria_STATUS) string {
+// RunJSONSerializationTestForMetricAlert_STATUS runs a test to see if a specific instance of MetricAlert_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForMetricAlert_STATUS(subject MetricAlert_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1508,7 +1610,7 @@ func RunJSONSerializationTestForWebtestLocationAvailabilityCriteria_STATUS(subje
 	}
 
 	// Deserialize back into memory
-	var actual WebtestLocationAvailabilityCriteria_STATUS
+	var actual MetricAlert_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1526,29 +1628,186 @@ func RunJSONSerializationTestForWebtestLocationAvailabilityCriteria_STATUS(subje
 	return ""
 }
 
-// Generator of WebtestLocationAvailabilityCriteria_STATUS instances for property testing - lazily instantiated by
-// WebtestLocationAvailabilityCriteria_STATUSGenerator()
-var webtestLocationAvailabilityCriteria_STATUSGenerator gopter.Gen
+// Generator of MetricAlert_STATUS instances for property testing - lazily instantiated by MetricAlert_STATUSGenerator()
+var metricAlert_STATUSGenerator gopter.Gen
 
-// WebtestLocationAvailabilityCriteria_STATUSGenerator returns a generator of WebtestLocationAvailabilityCriteria_STATUS instances for property testing.
-func WebtestLocationAvailabilityCriteria_STATUSGenerator() gopter.Gen {
-	if webtestLocationAvailabilityCriteria_STATUSGenerator != nil {
-		return webtestLocationAvailabilityCriteria_STATUSGenerator
+// MetricAlert_STATUSGenerator returns a generator of MetricAlert_STATUS instances for property testing.
+// We first initialize metricAlert_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func MetricAlert_STATUSGenerator() gopter.Gen {
+	if metricAlert_STATUSGenerator != nil {
+		return metricAlert_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebtestLocationAvailabilityCriteria_STATUS(generators)
-	webtestLocationAvailabilityCriteria_STATUSGenerator = gen.Struct(reflect.TypeOf(WebtestLocationAvailabilityCriteria_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForMetricAlert_STATUS(generators)
+	metricAlert_STATUSGenerator = gen.Struct(reflect.TypeOf(MetricAlert_STATUS{}), generators)
 
-	return webtestLocationAvailabilityCriteria_STATUSGenerator
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForMetricAlert_STATUS(generators)
+	AddRelatedPropertyGeneratorsForMetricAlert_STATUS(generators)
+	metricAlert_STATUSGenerator = gen.Struct(reflect.TypeOf(MetricAlert_STATUS{}), generators)
+
+	return metricAlert_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForWebtestLocationAvailabilityCriteria_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWebtestLocationAvailabilityCriteria_STATUS(gens map[string]gopter.Gen) {
-	gens["ComponentId"] = gen.PtrOf(gen.AlphaString())
-	gens["FailedLocationCount"] = gen.PtrOf(gen.Float64())
-	gens["OdataType"] = gen.PtrOf(gen.OneConstOf(WebtestLocationAvailabilityCriteria_OdataType_STATUS_MicrosoftAzureMonitorWebtestLocationAvailabilityCriteria))
-	gens["WebTestId"] = gen.PtrOf(gen.AlphaString())
+// AddIndependentPropertyGeneratorsForMetricAlert_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMetricAlert_STATUS(gens map[string]gopter.Gen) {
+	gens["AutoMitigate"] = gen.PtrOf(gen.Bool())
+	gens["Description"] = gen.PtrOf(gen.AlphaString())
+	gens["Enabled"] = gen.PtrOf(gen.Bool())
+	gens["EvaluationFrequency"] = gen.PtrOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["IsMigrated"] = gen.PtrOf(gen.Bool())
+	gens["LastUpdatedTime"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Scopes"] = gen.SliceOf(gen.AlphaString())
+	gens["Severity"] = gen.PtrOf(gen.Int())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["TargetResourceRegion"] = gen.PtrOf(gen.AlphaString())
+	gens["TargetResourceType"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+	gens["WindowSize"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForMetricAlert_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForMetricAlert_STATUS(gens map[string]gopter.Gen) {
+	gens["Actions"] = gen.SliceOf(MetricAlertAction_STATUSGenerator())
+	gens["Criteria"] = gen.PtrOf(MetricAlertCriteria_STATUSGenerator())
+}
+
+func Test_MetricAlert_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from MetricAlert_Spec to MetricAlert_Spec via AssignProperties_To_MetricAlert_Spec & AssignProperties_From_MetricAlert_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForMetricAlert_Spec, MetricAlert_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForMetricAlert_Spec tests if a specific instance of MetricAlert_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForMetricAlert_Spec(subject MetricAlert_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.MetricAlert_Spec
+	err := copied.AssignProperties_To_MetricAlert_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual MetricAlert_Spec
+	err = actual.AssignProperties_From_MetricAlert_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_MetricAlert_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of MetricAlert_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMetricAlert_Spec, MetricAlert_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForMetricAlert_Spec runs a test to see if a specific instance of MetricAlert_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForMetricAlert_Spec(subject MetricAlert_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual MetricAlert_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of MetricAlert_Spec instances for property testing - lazily instantiated by MetricAlert_SpecGenerator()
+var metricAlert_SpecGenerator gopter.Gen
+
+// MetricAlert_SpecGenerator returns a generator of MetricAlert_Spec instances for property testing.
+// We first initialize metricAlert_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func MetricAlert_SpecGenerator() gopter.Gen {
+	if metricAlert_SpecGenerator != nil {
+		return metricAlert_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForMetricAlert_Spec(generators)
+	metricAlert_SpecGenerator = gen.Struct(reflect.TypeOf(MetricAlert_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForMetricAlert_Spec(generators)
+	AddRelatedPropertyGeneratorsForMetricAlert_Spec(generators)
+	metricAlert_SpecGenerator = gen.Struct(reflect.TypeOf(MetricAlert_Spec{}), generators)
+
+	return metricAlert_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForMetricAlert_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMetricAlert_Spec(gens map[string]gopter.Gen) {
+	gens["AutoMitigate"] = gen.PtrOf(gen.Bool())
+	gens["AzureName"] = gen.AlphaString()
+	gens["Description"] = gen.PtrOf(gen.AlphaString())
+	gens["Enabled"] = gen.PtrOf(gen.Bool())
+	gens["EvaluationFrequency"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Severity"] = gen.PtrOf(gen.Int())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["TargetResourceRegion"] = gen.PtrOf(gen.AlphaString())
+	gens["TargetResourceType"] = gen.PtrOf(gen.AlphaString())
+	gens["WindowSize"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForMetricAlert_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForMetricAlert_Spec(gens map[string]gopter.Gen) {
+	gens["Actions"] = gen.SliceOf(MetricAlertActionGenerator())
+	gens["Criteria"] = gen.PtrOf(MetricAlertCriteriaGenerator())
 }
 
 func Test_MetricCriteria_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1818,6 +2077,215 @@ func AddRelatedPropertyGeneratorsForMetricCriteria_STATUS(gens map[string]gopter
 	gens["Dimensions"] = gen.SliceOf(MetricDimension_STATUSGenerator())
 }
 
+func Test_MetricDimension_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from MetricDimension to MetricDimension via AssignProperties_To_MetricDimension & AssignProperties_From_MetricDimension returns original",
+		prop.ForAll(RunPropertyAssignmentTestForMetricDimension, MetricDimensionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForMetricDimension tests if a specific instance of MetricDimension can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForMetricDimension(subject MetricDimension) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.MetricDimension
+	err := copied.AssignProperties_To_MetricDimension(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual MetricDimension
+	err = actual.AssignProperties_From_MetricDimension(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_MetricDimension_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of MetricDimension via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMetricDimension, MetricDimensionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForMetricDimension runs a test to see if a specific instance of MetricDimension round trips to JSON and back losslessly
+func RunJSONSerializationTestForMetricDimension(subject MetricDimension) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual MetricDimension
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of MetricDimension instances for property testing - lazily instantiated by MetricDimensionGenerator()
+var metricDimensionGenerator gopter.Gen
+
+// MetricDimensionGenerator returns a generator of MetricDimension instances for property testing.
+func MetricDimensionGenerator() gopter.Gen {
+	if metricDimensionGenerator != nil {
+		return metricDimensionGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForMetricDimension(generators)
+	metricDimensionGenerator = gen.Struct(reflect.TypeOf(MetricDimension{}), generators)
+
+	return metricDimensionGenerator
+}
+
+// AddIndependentPropertyGeneratorsForMetricDimension is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMetricDimension(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Operator"] = gen.PtrOf(gen.AlphaString())
+	gens["Values"] = gen.SliceOf(gen.AlphaString())
+}
+
+func Test_MetricDimension_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from MetricDimension_STATUS to MetricDimension_STATUS via AssignProperties_To_MetricDimension_STATUS & AssignProperties_From_MetricDimension_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForMetricDimension_STATUS, MetricDimension_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForMetricDimension_STATUS tests if a specific instance of MetricDimension_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForMetricDimension_STATUS(subject MetricDimension_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.MetricDimension_STATUS
+	err := copied.AssignProperties_To_MetricDimension_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual MetricDimension_STATUS
+	err = actual.AssignProperties_From_MetricDimension_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_MetricDimension_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of MetricDimension_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMetricDimension_STATUS, MetricDimension_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForMetricDimension_STATUS runs a test to see if a specific instance of MetricDimension_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForMetricDimension_STATUS(subject MetricDimension_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual MetricDimension_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of MetricDimension_STATUS instances for property testing - lazily instantiated by
+// MetricDimension_STATUSGenerator()
+var metricDimension_STATUSGenerator gopter.Gen
+
+// MetricDimension_STATUSGenerator returns a generator of MetricDimension_STATUS instances for property testing.
+func MetricDimension_STATUSGenerator() gopter.Gen {
+	if metricDimension_STATUSGenerator != nil {
+		return metricDimension_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForMetricDimension_STATUS(generators)
+	metricDimension_STATUSGenerator = gen.Struct(reflect.TypeOf(MetricDimension_STATUS{}), generators)
+
+	return metricDimension_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForMetricDimension_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMetricDimension_STATUS(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Operator"] = gen.PtrOf(gen.AlphaString())
+	gens["Values"] = gen.SliceOf(gen.AlphaString())
+}
+
 func Test_MultiMetricCriteria_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -2046,32 +2514,32 @@ func AddRelatedPropertyGeneratorsForMultiMetricCriteria_STATUS(gens map[string]g
 	}) // generate one case for OneOf type
 }
 
-func Test_DynamicMetricCriteria_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_WebtestLocationAvailabilityCriteria_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from DynamicMetricCriteria to DynamicMetricCriteria via AssignProperties_To_DynamicMetricCriteria & AssignProperties_From_DynamicMetricCriteria returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDynamicMetricCriteria, DynamicMetricCriteriaGenerator()))
+		"Round trip from WebtestLocationAvailabilityCriteria to WebtestLocationAvailabilityCriteria via AssignProperties_To_WebtestLocationAvailabilityCriteria & AssignProperties_From_WebtestLocationAvailabilityCriteria returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWebtestLocationAvailabilityCriteria, WebtestLocationAvailabilityCriteriaGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDynamicMetricCriteria tests if a specific instance of DynamicMetricCriteria can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDynamicMetricCriteria(subject DynamicMetricCriteria) string {
+// RunPropertyAssignmentTestForWebtestLocationAvailabilityCriteria tests if a specific instance of WebtestLocationAvailabilityCriteria can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForWebtestLocationAvailabilityCriteria(subject WebtestLocationAvailabilityCriteria) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DynamicMetricCriteria
-	err := copied.AssignProperties_To_DynamicMetricCriteria(&other)
+	var other storage.WebtestLocationAvailabilityCriteria
+	err := copied.AssignProperties_To_WebtestLocationAvailabilityCriteria(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DynamicMetricCriteria
-	err = actual.AssignProperties_From_DynamicMetricCriteria(&other)
+	var actual WebtestLocationAvailabilityCriteria
+	err = actual.AssignProperties_From_WebtestLocationAvailabilityCriteria(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2088,20 +2556,20 @@ func RunPropertyAssignmentTestForDynamicMetricCriteria(subject DynamicMetricCrit
 	return ""
 }
 
-func Test_DynamicMetricCriteria_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_WebtestLocationAvailabilityCriteria_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DynamicMetricCriteria via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDynamicMetricCriteria, DynamicMetricCriteriaGenerator()))
+		"Round trip of WebtestLocationAvailabilityCriteria via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWebtestLocationAvailabilityCriteria, WebtestLocationAvailabilityCriteriaGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDynamicMetricCriteria runs a test to see if a specific instance of DynamicMetricCriteria round trips to JSON and back losslessly
-func RunJSONSerializationTestForDynamicMetricCriteria(subject DynamicMetricCriteria) string {
+// RunJSONSerializationTestForWebtestLocationAvailabilityCriteria runs a test to see if a specific instance of WebtestLocationAvailabilityCriteria round trips to JSON and back losslessly
+func RunJSONSerializationTestForWebtestLocationAvailabilityCriteria(subject WebtestLocationAvailabilityCriteria) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2109,7 +2577,7 @@ func RunJSONSerializationTestForDynamicMetricCriteria(subject DynamicMetricCrite
 	}
 
 	// Deserialize back into memory
-	var actual DynamicMetricCriteria
+	var actual WebtestLocationAvailabilityCriteria
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2127,82 +2595,56 @@ func RunJSONSerializationTestForDynamicMetricCriteria(subject DynamicMetricCrite
 	return ""
 }
 
-// Generator of DynamicMetricCriteria instances for property testing - lazily instantiated by
-// DynamicMetricCriteriaGenerator()
-var dynamicMetricCriteriaGenerator gopter.Gen
+// Generator of WebtestLocationAvailabilityCriteria instances for property testing - lazily instantiated by
+// WebtestLocationAvailabilityCriteriaGenerator()
+var webtestLocationAvailabilityCriteriaGenerator gopter.Gen
 
-// DynamicMetricCriteriaGenerator returns a generator of DynamicMetricCriteria instances for property testing.
-// We first initialize dynamicMetricCriteriaGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DynamicMetricCriteriaGenerator() gopter.Gen {
-	if dynamicMetricCriteriaGenerator != nil {
-		return dynamicMetricCriteriaGenerator
+// WebtestLocationAvailabilityCriteriaGenerator returns a generator of WebtestLocationAvailabilityCriteria instances for property testing.
+func WebtestLocationAvailabilityCriteriaGenerator() gopter.Gen {
+	if webtestLocationAvailabilityCriteriaGenerator != nil {
+		return webtestLocationAvailabilityCriteriaGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDynamicMetricCriteria(generators)
-	dynamicMetricCriteriaGenerator = gen.Struct(reflect.TypeOf(DynamicMetricCriteria{}), generators)
+	AddIndependentPropertyGeneratorsForWebtestLocationAvailabilityCriteria(generators)
+	webtestLocationAvailabilityCriteriaGenerator = gen.Struct(reflect.TypeOf(WebtestLocationAvailabilityCriteria{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDynamicMetricCriteria(generators)
-	AddRelatedPropertyGeneratorsForDynamicMetricCriteria(generators)
-	dynamicMetricCriteriaGenerator = gen.Struct(reflect.TypeOf(DynamicMetricCriteria{}), generators)
-
-	return dynamicMetricCriteriaGenerator
+	return webtestLocationAvailabilityCriteriaGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDynamicMetricCriteria is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDynamicMetricCriteria(gens map[string]gopter.Gen) {
-	gens["AlertSensitivity"] = gen.PtrOf(gen.OneConstOf(DynamicMetricCriteria_AlertSensitivity_High, DynamicMetricCriteria_AlertSensitivity_Low, DynamicMetricCriteria_AlertSensitivity_Medium))
-	gens["CriterionType"] = gen.PtrOf(gen.OneConstOf(DynamicMetricCriteria_CriterionType_DynamicThresholdCriterion))
-	gens["IgnoreDataBefore"] = gen.PtrOf(gen.AlphaString())
-	gens["MetricName"] = gen.PtrOf(gen.AlphaString())
-	gens["MetricNamespace"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Operator"] = gen.PtrOf(gen.OneConstOf(DynamicMetricCriteria_Operator_GreaterOrLessThan, DynamicMetricCriteria_Operator_GreaterThan, DynamicMetricCriteria_Operator_LessThan))
-	gens["SkipMetricValidation"] = gen.PtrOf(gen.Bool())
-	gens["TimeAggregation"] = gen.PtrOf(gen.OneConstOf(
-		DynamicMetricCriteria_TimeAggregation_Average,
-		DynamicMetricCriteria_TimeAggregation_Count,
-		DynamicMetricCriteria_TimeAggregation_Maximum,
-		DynamicMetricCriteria_TimeAggregation_Minimum,
-		DynamicMetricCriteria_TimeAggregation_Total))
+// AddIndependentPropertyGeneratorsForWebtestLocationAvailabilityCriteria is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWebtestLocationAvailabilityCriteria(gens map[string]gopter.Gen) {
+	gens["FailedLocationCount"] = gen.PtrOf(gen.Float64())
+	gens["OdataType"] = gen.PtrOf(gen.OneConstOf(WebtestLocationAvailabilityCriteria_OdataType_MicrosoftAzureMonitorWebtestLocationAvailabilityCriteria))
+	gens["WebTestId"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForDynamicMetricCriteria is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDynamicMetricCriteria(gens map[string]gopter.Gen) {
-	gens["Dimensions"] = gen.SliceOf(MetricDimensionGenerator())
-	gens["FailingPeriods"] = gen.PtrOf(DynamicThresholdFailingPeriodsGenerator())
-}
-
-func Test_DynamicMetricCriteria_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_WebtestLocationAvailabilityCriteria_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from DynamicMetricCriteria_STATUS to DynamicMetricCriteria_STATUS via AssignProperties_To_DynamicMetricCriteria_STATUS & AssignProperties_From_DynamicMetricCriteria_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDynamicMetricCriteria_STATUS, DynamicMetricCriteria_STATUSGenerator()))
+		"Round trip from WebtestLocationAvailabilityCriteria_STATUS to WebtestLocationAvailabilityCriteria_STATUS via AssignProperties_To_WebtestLocationAvailabilityCriteria_STATUS & AssignProperties_From_WebtestLocationAvailabilityCriteria_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWebtestLocationAvailabilityCriteria_STATUS, WebtestLocationAvailabilityCriteria_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDynamicMetricCriteria_STATUS tests if a specific instance of DynamicMetricCriteria_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDynamicMetricCriteria_STATUS(subject DynamicMetricCriteria_STATUS) string {
+// RunPropertyAssignmentTestForWebtestLocationAvailabilityCriteria_STATUS tests if a specific instance of WebtestLocationAvailabilityCriteria_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForWebtestLocationAvailabilityCriteria_STATUS(subject WebtestLocationAvailabilityCriteria_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DynamicMetricCriteria_STATUS
-	err := copied.AssignProperties_To_DynamicMetricCriteria_STATUS(&other)
+	var other storage.WebtestLocationAvailabilityCriteria_STATUS
+	err := copied.AssignProperties_To_WebtestLocationAvailabilityCriteria_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DynamicMetricCriteria_STATUS
-	err = actual.AssignProperties_From_DynamicMetricCriteria_STATUS(&other)
+	var actual WebtestLocationAvailabilityCriteria_STATUS
+	err = actual.AssignProperties_From_WebtestLocationAvailabilityCriteria_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2219,20 +2661,20 @@ func RunPropertyAssignmentTestForDynamicMetricCriteria_STATUS(subject DynamicMet
 	return ""
 }
 
-func Test_DynamicMetricCriteria_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_WebtestLocationAvailabilityCriteria_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DynamicMetricCriteria_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDynamicMetricCriteria_STATUS, DynamicMetricCriteria_STATUSGenerator()))
+		"Round trip of WebtestLocationAvailabilityCriteria_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWebtestLocationAvailabilityCriteria_STATUS, WebtestLocationAvailabilityCriteria_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDynamicMetricCriteria_STATUS runs a test to see if a specific instance of DynamicMetricCriteria_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDynamicMetricCriteria_STATUS(subject DynamicMetricCriteria_STATUS) string {
+// RunJSONSerializationTestForWebtestLocationAvailabilityCriteria_STATUS runs a test to see if a specific instance of WebtestLocationAvailabilityCriteria_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForWebtestLocationAvailabilityCriteria_STATUS(subject WebtestLocationAvailabilityCriteria_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2240,7 +2682,7 @@ func RunJSONSerializationTestForDynamicMetricCriteria_STATUS(subject DynamicMetr
 	}
 
 	// Deserialize back into memory
-	var actual DynamicMetricCriteria_STATUS
+	var actual WebtestLocationAvailabilityCriteria_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2258,469 +2700,27 @@ func RunJSONSerializationTestForDynamicMetricCriteria_STATUS(subject DynamicMetr
 	return ""
 }
 
-// Generator of DynamicMetricCriteria_STATUS instances for property testing - lazily instantiated by
-// DynamicMetricCriteria_STATUSGenerator()
-var dynamicMetricCriteria_STATUSGenerator gopter.Gen
+// Generator of WebtestLocationAvailabilityCriteria_STATUS instances for property testing - lazily instantiated by
+// WebtestLocationAvailabilityCriteria_STATUSGenerator()
+var webtestLocationAvailabilityCriteria_STATUSGenerator gopter.Gen
 
-// DynamicMetricCriteria_STATUSGenerator returns a generator of DynamicMetricCriteria_STATUS instances for property testing.
-// We first initialize dynamicMetricCriteria_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DynamicMetricCriteria_STATUSGenerator() gopter.Gen {
-	if dynamicMetricCriteria_STATUSGenerator != nil {
-		return dynamicMetricCriteria_STATUSGenerator
+// WebtestLocationAvailabilityCriteria_STATUSGenerator returns a generator of WebtestLocationAvailabilityCriteria_STATUS instances for property testing.
+func WebtestLocationAvailabilityCriteria_STATUSGenerator() gopter.Gen {
+	if webtestLocationAvailabilityCriteria_STATUSGenerator != nil {
+		return webtestLocationAvailabilityCriteria_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDynamicMetricCriteria_STATUS(generators)
-	dynamicMetricCriteria_STATUSGenerator = gen.Struct(reflect.TypeOf(DynamicMetricCriteria_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForWebtestLocationAvailabilityCriteria_STATUS(generators)
+	webtestLocationAvailabilityCriteria_STATUSGenerator = gen.Struct(reflect.TypeOf(WebtestLocationAvailabilityCriteria_STATUS{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDynamicMetricCriteria_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDynamicMetricCriteria_STATUS(generators)
-	dynamicMetricCriteria_STATUSGenerator = gen.Struct(reflect.TypeOf(DynamicMetricCriteria_STATUS{}), generators)
-
-	return dynamicMetricCriteria_STATUSGenerator
+	return webtestLocationAvailabilityCriteria_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDynamicMetricCriteria_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDynamicMetricCriteria_STATUS(gens map[string]gopter.Gen) {
-	gens["AlertSensitivity"] = gen.PtrOf(gen.OneConstOf(DynamicMetricCriteria_AlertSensitivity_STATUS_High, DynamicMetricCriteria_AlertSensitivity_STATUS_Low, DynamicMetricCriteria_AlertSensitivity_STATUS_Medium))
-	gens["CriterionType"] = gen.PtrOf(gen.OneConstOf(DynamicMetricCriteria_CriterionType_STATUS_DynamicThresholdCriterion))
-	gens["IgnoreDataBefore"] = gen.PtrOf(gen.AlphaString())
-	gens["MetricName"] = gen.PtrOf(gen.AlphaString())
-	gens["MetricNamespace"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Operator"] = gen.PtrOf(gen.OneConstOf(DynamicMetricCriteria_Operator_STATUS_GreaterOrLessThan, DynamicMetricCriteria_Operator_STATUS_GreaterThan, DynamicMetricCriteria_Operator_STATUS_LessThan))
-	gens["SkipMetricValidation"] = gen.PtrOf(gen.Bool())
-	gens["TimeAggregation"] = gen.PtrOf(gen.OneConstOf(
-		DynamicMetricCriteria_TimeAggregation_STATUS_Average,
-		DynamicMetricCriteria_TimeAggregation_STATUS_Count,
-		DynamicMetricCriteria_TimeAggregation_STATUS_Maximum,
-		DynamicMetricCriteria_TimeAggregation_STATUS_Minimum,
-		DynamicMetricCriteria_TimeAggregation_STATUS_Total))
-}
-
-// AddRelatedPropertyGeneratorsForDynamicMetricCriteria_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDynamicMetricCriteria_STATUS(gens map[string]gopter.Gen) {
-	gens["Dimensions"] = gen.SliceOf(MetricDimension_STATUSGenerator())
-	gens["FailingPeriods"] = gen.PtrOf(DynamicThresholdFailingPeriods_STATUSGenerator())
-}
-
-func Test_MetricDimension_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from MetricDimension to MetricDimension via AssignProperties_To_MetricDimension & AssignProperties_From_MetricDimension returns original",
-		prop.ForAll(RunPropertyAssignmentTestForMetricDimension, MetricDimensionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForMetricDimension tests if a specific instance of MetricDimension can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForMetricDimension(subject MetricDimension) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.MetricDimension
-	err := copied.AssignProperties_To_MetricDimension(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual MetricDimension
-	err = actual.AssignProperties_From_MetricDimension(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_MetricDimension_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of MetricDimension via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMetricDimension, MetricDimensionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForMetricDimension runs a test to see if a specific instance of MetricDimension round trips to JSON and back losslessly
-func RunJSONSerializationTestForMetricDimension(subject MetricDimension) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual MetricDimension
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of MetricDimension instances for property testing - lazily instantiated by MetricDimensionGenerator()
-var metricDimensionGenerator gopter.Gen
-
-// MetricDimensionGenerator returns a generator of MetricDimension instances for property testing.
-func MetricDimensionGenerator() gopter.Gen {
-	if metricDimensionGenerator != nil {
-		return metricDimensionGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMetricDimension(generators)
-	metricDimensionGenerator = gen.Struct(reflect.TypeOf(MetricDimension{}), generators)
-
-	return metricDimensionGenerator
-}
-
-// AddIndependentPropertyGeneratorsForMetricDimension is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMetricDimension(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Values"] = gen.SliceOf(gen.AlphaString())
-}
-
-func Test_MetricDimension_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from MetricDimension_STATUS to MetricDimension_STATUS via AssignProperties_To_MetricDimension_STATUS & AssignProperties_From_MetricDimension_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForMetricDimension_STATUS, MetricDimension_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForMetricDimension_STATUS tests if a specific instance of MetricDimension_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForMetricDimension_STATUS(subject MetricDimension_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.MetricDimension_STATUS
-	err := copied.AssignProperties_To_MetricDimension_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual MetricDimension_STATUS
-	err = actual.AssignProperties_From_MetricDimension_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_MetricDimension_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of MetricDimension_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMetricDimension_STATUS, MetricDimension_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForMetricDimension_STATUS runs a test to see if a specific instance of MetricDimension_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForMetricDimension_STATUS(subject MetricDimension_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual MetricDimension_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of MetricDimension_STATUS instances for property testing - lazily instantiated by
-// MetricDimension_STATUSGenerator()
-var metricDimension_STATUSGenerator gopter.Gen
-
-// MetricDimension_STATUSGenerator returns a generator of MetricDimension_STATUS instances for property testing.
-func MetricDimension_STATUSGenerator() gopter.Gen {
-	if metricDimension_STATUSGenerator != nil {
-		return metricDimension_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMetricDimension_STATUS(generators)
-	metricDimension_STATUSGenerator = gen.Struct(reflect.TypeOf(MetricDimension_STATUS{}), generators)
-
-	return metricDimension_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForMetricDimension_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMetricDimension_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Values"] = gen.SliceOf(gen.AlphaString())
-}
-
-func Test_DynamicThresholdFailingPeriods_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DynamicThresholdFailingPeriods to DynamicThresholdFailingPeriods via AssignProperties_To_DynamicThresholdFailingPeriods & AssignProperties_From_DynamicThresholdFailingPeriods returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDynamicThresholdFailingPeriods, DynamicThresholdFailingPeriodsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForDynamicThresholdFailingPeriods tests if a specific instance of DynamicThresholdFailingPeriods can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDynamicThresholdFailingPeriods(subject DynamicThresholdFailingPeriods) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DynamicThresholdFailingPeriods
-	err := copied.AssignProperties_To_DynamicThresholdFailingPeriods(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DynamicThresholdFailingPeriods
-	err = actual.AssignProperties_From_DynamicThresholdFailingPeriods(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_DynamicThresholdFailingPeriods_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DynamicThresholdFailingPeriods via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDynamicThresholdFailingPeriods, DynamicThresholdFailingPeriodsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForDynamicThresholdFailingPeriods runs a test to see if a specific instance of DynamicThresholdFailingPeriods round trips to JSON and back losslessly
-func RunJSONSerializationTestForDynamicThresholdFailingPeriods(subject DynamicThresholdFailingPeriods) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual DynamicThresholdFailingPeriods
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of DynamicThresholdFailingPeriods instances for property testing - lazily instantiated by
-// DynamicThresholdFailingPeriodsGenerator()
-var dynamicThresholdFailingPeriodsGenerator gopter.Gen
-
-// DynamicThresholdFailingPeriodsGenerator returns a generator of DynamicThresholdFailingPeriods instances for property testing.
-func DynamicThresholdFailingPeriodsGenerator() gopter.Gen {
-	if dynamicThresholdFailingPeriodsGenerator != nil {
-		return dynamicThresholdFailingPeriodsGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDynamicThresholdFailingPeriods(generators)
-	dynamicThresholdFailingPeriodsGenerator = gen.Struct(reflect.TypeOf(DynamicThresholdFailingPeriods{}), generators)
-
-	return dynamicThresholdFailingPeriodsGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDynamicThresholdFailingPeriods is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDynamicThresholdFailingPeriods(gens map[string]gopter.Gen) {
-	gens["MinFailingPeriodsToAlert"] = gen.PtrOf(gen.Float64())
-	gens["NumberOfEvaluationPeriods"] = gen.PtrOf(gen.Float64())
-}
-
-func Test_DynamicThresholdFailingPeriods_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DynamicThresholdFailingPeriods_STATUS to DynamicThresholdFailingPeriods_STATUS via AssignProperties_To_DynamicThresholdFailingPeriods_STATUS & AssignProperties_From_DynamicThresholdFailingPeriods_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDynamicThresholdFailingPeriods_STATUS, DynamicThresholdFailingPeriods_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForDynamicThresholdFailingPeriods_STATUS tests if a specific instance of DynamicThresholdFailingPeriods_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDynamicThresholdFailingPeriods_STATUS(subject DynamicThresholdFailingPeriods_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DynamicThresholdFailingPeriods_STATUS
-	err := copied.AssignProperties_To_DynamicThresholdFailingPeriods_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DynamicThresholdFailingPeriods_STATUS
-	err = actual.AssignProperties_From_DynamicThresholdFailingPeriods_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_DynamicThresholdFailingPeriods_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DynamicThresholdFailingPeriods_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDynamicThresholdFailingPeriods_STATUS, DynamicThresholdFailingPeriods_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForDynamicThresholdFailingPeriods_STATUS runs a test to see if a specific instance of DynamicThresholdFailingPeriods_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDynamicThresholdFailingPeriods_STATUS(subject DynamicThresholdFailingPeriods_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual DynamicThresholdFailingPeriods_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of DynamicThresholdFailingPeriods_STATUS instances for property testing - lazily instantiated by
-// DynamicThresholdFailingPeriods_STATUSGenerator()
-var dynamicThresholdFailingPeriods_STATUSGenerator gopter.Gen
-
-// DynamicThresholdFailingPeriods_STATUSGenerator returns a generator of DynamicThresholdFailingPeriods_STATUS instances for property testing.
-func DynamicThresholdFailingPeriods_STATUSGenerator() gopter.Gen {
-	if dynamicThresholdFailingPeriods_STATUSGenerator != nil {
-		return dynamicThresholdFailingPeriods_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDynamicThresholdFailingPeriods_STATUS(generators)
-	dynamicThresholdFailingPeriods_STATUSGenerator = gen.Struct(reflect.TypeOf(DynamicThresholdFailingPeriods_STATUS{}), generators)
-
-	return dynamicThresholdFailingPeriods_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDynamicThresholdFailingPeriods_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDynamicThresholdFailingPeriods_STATUS(gens map[string]gopter.Gen) {
-	gens["MinFailingPeriodsToAlert"] = gen.PtrOf(gen.Float64())
-	gens["NumberOfEvaluationPeriods"] = gen.PtrOf(gen.Float64())
+// AddIndependentPropertyGeneratorsForWebtestLocationAvailabilityCriteria_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWebtestLocationAvailabilityCriteria_STATUS(gens map[string]gopter.Gen) {
+	gens["ComponentId"] = gen.PtrOf(gen.AlphaString())
+	gens["FailedLocationCount"] = gen.PtrOf(gen.Float64())
+	gens["OdataType"] = gen.PtrOf(gen.OneConstOf(WebtestLocationAvailabilityCriteria_OdataType_STATUS_MicrosoftAzureMonitorWebtestLocationAvailabilityCriteria))
+	gens["WebTestId"] = gen.PtrOf(gen.AlphaString())
 }

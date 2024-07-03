@@ -1245,7 +1245,7 @@ func (endpoint *FailoverGroupReadOnlyEndpoint) Initialize_From_FailoverGroupRead
 
 	// FailoverPolicy
 	if source.FailoverPolicy != nil {
-		failoverPolicy := FailoverGroupReadOnlyEndpoint_FailoverPolicy(*source.FailoverPolicy)
+		failoverPolicy := genruntime.ToEnum(string(*source.FailoverPolicy), failoverGroupReadOnlyEndpoint_FailoverPolicy_Values)
 		endpoint.FailoverPolicy = &failoverPolicy
 	} else {
 		endpoint.FailoverPolicy = nil
@@ -1439,7 +1439,7 @@ func (endpoint *FailoverGroupReadWriteEndpoint) Initialize_From_FailoverGroupRea
 
 	// FailoverPolicy
 	if source.FailoverPolicy != nil {
-		failoverPolicy := FailoverGroupReadWriteEndpoint_FailoverPolicy(*source.FailoverPolicy)
+		failoverPolicy := genruntime.ToEnum(string(*source.FailoverPolicy), failoverGroupReadWriteEndpoint_FailoverPolicy_Values)
 		endpoint.FailoverPolicy = &failoverPolicy
 	} else {
 		endpoint.FailoverPolicy = nil

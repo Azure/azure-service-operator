@@ -1263,7 +1263,7 @@ func (endpoint *Profiles_Endpoint_Spec) Initialize_From_Profiles_Endpoint_STATUS
 
 	// OptimizationType
 	if source.OptimizationType != nil {
-		optimizationType := OptimizationType(*source.OptimizationType)
+		optimizationType := genruntime.ToEnum(string(*source.OptimizationType), optimizationType_Values)
 		endpoint.OptimizationType = &optimizationType
 	} else {
 		endpoint.OptimizationType = nil
@@ -1316,7 +1316,7 @@ func (endpoint *Profiles_Endpoint_Spec) Initialize_From_Profiles_Endpoint_STATUS
 
 	// QueryStringCachingBehavior
 	if source.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := QueryStringCachingBehavior(*source.QueryStringCachingBehavior)
+		queryStringCachingBehavior := genruntime.ToEnum(string(*source.QueryStringCachingBehavior), queryStringCachingBehavior_Values)
 		endpoint.QueryStringCachingBehavior = &queryStringCachingBehavior
 	} else {
 		endpoint.QueryStringCachingBehavior = nil
@@ -4304,7 +4304,7 @@ func (filter *GeoFilter) Initialize_From_GeoFilter_STATUS(source *GeoFilter_STAT
 
 	// Action
 	if source.Action != nil {
-		action := GeoFilter_Action(*source.Action)
+		action := genruntime.ToEnum(string(*source.Action), geoFilter_Action_Values)
 		filter.Action = &action
 	} else {
 		filter.Action = nil
@@ -5548,7 +5548,7 @@ func (parameters *HealthProbeParameters) Initialize_From_HealthProbeParameters_S
 
 	// ProbeProtocol
 	if source.ProbeProtocol != nil {
-		probeProtocol := HealthProbeParameters_ProbeProtocol(*source.ProbeProtocol)
+		probeProtocol := genruntime.ToEnum(string(*source.ProbeProtocol), healthProbeParameters_ProbeProtocol_Values)
 		parameters.ProbeProtocol = &probeProtocol
 	} else {
 		parameters.ProbeProtocol = nil
@@ -5556,7 +5556,7 @@ func (parameters *HealthProbeParameters) Initialize_From_HealthProbeParameters_S
 
 	// ProbeRequestType
 	if source.ProbeRequestType != nil {
-		probeRequestType := HealthProbeParameters_ProbeRequestType(*source.ProbeRequestType)
+		probeRequestType := genruntime.ToEnum(string(*source.ProbeRequestType), healthProbeParameters_ProbeRequestType_Values)
 		parameters.ProbeRequestType = &probeRequestType
 	} else {
 		parameters.ProbeRequestType = nil
@@ -5904,7 +5904,7 @@ func (parameters *KeyVaultSigningKeyParameters) Initialize_From_KeyVaultSigningK
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := KeyVaultSigningKeyParameters_TypeName(*source.TypeName)
+		typeName := genruntime.ToEnum(string(*source.TypeName), keyVaultSigningKeyParameters_TypeName_Values)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -6280,7 +6280,7 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters) Initialize_From_R
 
 	// ResponseBasedDetectedErrorTypes
 	if source.ResponseBasedDetectedErrorTypes != nil {
-		responseBasedDetectedErrorType := ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes(*source.ResponseBasedDetectedErrorTypes)
+		responseBasedDetectedErrorType := genruntime.ToEnum(string(*source.ResponseBasedDetectedErrorTypes), responseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_Values)
 		parameters.ResponseBasedDetectedErrorTypes = &responseBasedDetectedErrorType
 	} else {
 		parameters.ResponseBasedDetectedErrorTypes = nil
@@ -9848,7 +9848,7 @@ func (action *DeliveryRuleCacheExpirationAction) Initialize_From_DeliveryRuleCac
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleCacheExpirationAction_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), deliveryRuleCacheExpirationAction_Name_Values)
 		action.Name = &name
 	} else {
 		action.Name = nil
@@ -10109,7 +10109,7 @@ func (action *DeliveryRuleCacheKeyQueryStringAction) Initialize_From_DeliveryRul
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleCacheKeyQueryStringAction_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), deliveryRuleCacheKeyQueryStringAction_Name_Values)
 		action.Name = &name
 	} else {
 		action.Name = nil
@@ -10370,7 +10370,7 @@ func (condition *DeliveryRuleClientPortCondition) Initialize_From_DeliveryRuleCl
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleClientPortCondition_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), deliveryRuleClientPortCondition_Name_Values)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -10631,7 +10631,7 @@ func (condition *DeliveryRuleCookiesCondition) Initialize_From_DeliveryRuleCooki
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleCookiesCondition_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), deliveryRuleCookiesCondition_Name_Values)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -10892,7 +10892,7 @@ func (condition *DeliveryRuleHostNameCondition) Initialize_From_DeliveryRuleHost
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleHostNameCondition_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), deliveryRuleHostNameCondition_Name_Values)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -11153,7 +11153,7 @@ func (condition *DeliveryRuleHttpVersionCondition) Initialize_From_DeliveryRuleH
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleHttpVersionCondition_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), deliveryRuleHttpVersionCondition_Name_Values)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -11414,7 +11414,7 @@ func (condition *DeliveryRuleIsDeviceCondition) Initialize_From_DeliveryRuleIsDe
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleIsDeviceCondition_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), deliveryRuleIsDeviceCondition_Name_Values)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -11675,7 +11675,7 @@ func (condition *DeliveryRulePostArgsCondition) Initialize_From_DeliveryRulePost
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRulePostArgsCondition_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), deliveryRulePostArgsCondition_Name_Values)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -11936,7 +11936,7 @@ func (condition *DeliveryRuleQueryStringCondition) Initialize_From_DeliveryRuleQ
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleQueryStringCondition_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), deliveryRuleQueryStringCondition_Name_Values)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -12197,7 +12197,7 @@ func (condition *DeliveryRuleRemoteAddressCondition) Initialize_From_DeliveryRul
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRemoteAddressCondition_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), deliveryRuleRemoteAddressCondition_Name_Values)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -12458,7 +12458,7 @@ func (condition *DeliveryRuleRequestBodyCondition) Initialize_From_DeliveryRuleR
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestBodyCondition_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), deliveryRuleRequestBodyCondition_Name_Values)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -12719,7 +12719,7 @@ func (action *DeliveryRuleRequestHeaderAction) Initialize_From_DeliveryRuleReque
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestHeaderAction_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), deliveryRuleRequestHeaderAction_Name_Values)
 		action.Name = &name
 	} else {
 		action.Name = nil
@@ -12980,7 +12980,7 @@ func (condition *DeliveryRuleRequestHeaderCondition) Initialize_From_DeliveryRul
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestHeaderCondition_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), deliveryRuleRequestHeaderCondition_Name_Values)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -13241,7 +13241,7 @@ func (condition *DeliveryRuleRequestMethodCondition) Initialize_From_DeliveryRul
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestMethodCondition_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), deliveryRuleRequestMethodCondition_Name_Values)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -13502,7 +13502,7 @@ func (condition *DeliveryRuleRequestSchemeCondition) Initialize_From_DeliveryRul
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestSchemeCondition_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), deliveryRuleRequestSchemeCondition_Name_Values)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -13763,7 +13763,7 @@ func (condition *DeliveryRuleRequestUriCondition) Initialize_From_DeliveryRuleRe
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestUriCondition_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), deliveryRuleRequestUriCondition_Name_Values)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -14024,7 +14024,7 @@ func (action *DeliveryRuleResponseHeaderAction) Initialize_From_DeliveryRuleResp
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleResponseHeaderAction_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), deliveryRuleResponseHeaderAction_Name_Values)
 		action.Name = &name
 	} else {
 		action.Name = nil
@@ -14285,7 +14285,7 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction) Initialize_From_Deli
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRouteConfigurationOverrideAction_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), deliveryRuleRouteConfigurationOverrideAction_Name_Values)
 		action.Name = &name
 	} else {
 		action.Name = nil
@@ -14546,7 +14546,7 @@ func (condition *DeliveryRuleServerPortCondition) Initialize_From_DeliveryRuleSe
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleServerPortCondition_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), deliveryRuleServerPortCondition_Name_Values)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -14807,7 +14807,7 @@ func (condition *DeliveryRuleSocketAddrCondition) Initialize_From_DeliveryRuleSo
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleSocketAddrCondition_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), deliveryRuleSocketAddrCondition_Name_Values)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -15068,7 +15068,7 @@ func (condition *DeliveryRuleSslProtocolCondition) Initialize_From_DeliveryRuleS
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleSslProtocolCondition_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), deliveryRuleSslProtocolCondition_Name_Values)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -15329,7 +15329,7 @@ func (condition *DeliveryRuleUrlFileExtensionCondition) Initialize_From_Delivery
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleUrlFileExtensionCondition_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), deliveryRuleUrlFileExtensionCondition_Name_Values)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -15590,7 +15590,7 @@ func (condition *DeliveryRuleUrlFileNameCondition) Initialize_From_DeliveryRuleU
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleUrlFileNameCondition_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), deliveryRuleUrlFileNameCondition_Name_Values)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -15851,7 +15851,7 @@ func (condition *DeliveryRuleUrlPathCondition) Initialize_From_DeliveryRuleUrlPa
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleUrlPathCondition_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), deliveryRuleUrlPathCondition_Name_Values)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -16112,7 +16112,7 @@ func (action *OriginGroupOverrideAction) Initialize_From_OriginGroupOverrideActi
 
 	// Name
 	if source.Name != nil {
-		name := OriginGroupOverrideAction_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), originGroupOverrideAction_Name_Values)
 		action.Name = &name
 	} else {
 		action.Name = nil
@@ -16373,7 +16373,7 @@ func (action *UrlRedirectAction) Initialize_From_UrlRedirectAction_STATUS(source
 
 	// Name
 	if source.Name != nil {
-		name := UrlRedirectAction_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), urlRedirectAction_Name_Values)
 		action.Name = &name
 	} else {
 		action.Name = nil
@@ -16634,7 +16634,7 @@ func (action *UrlRewriteAction) Initialize_From_UrlRewriteAction_STATUS(source *
 
 	// Name
 	if source.Name != nil {
-		name := UrlRewriteAction_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), urlRewriteAction_Name_Values)
 		action.Name = &name
 	} else {
 		action.Name = nil
@@ -16895,7 +16895,7 @@ func (action *UrlSigningAction) Initialize_From_UrlSigningAction_STATUS(source *
 
 	// Name
 	if source.Name != nil {
-		name := UrlSigningAction_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), urlSigningAction_Name_Values)
 		action.Name = &name
 	} else {
 		action.Name = nil
@@ -17198,7 +17198,7 @@ func (parameters *CacheExpirationActionParameters) Initialize_From_CacheExpirati
 
 	// CacheBehavior
 	if source.CacheBehavior != nil {
-		cacheBehavior := CacheExpirationActionParameters_CacheBehavior(*source.CacheBehavior)
+		cacheBehavior := genruntime.ToEnum(string(*source.CacheBehavior), cacheExpirationActionParameters_CacheBehavior_Values)
 		parameters.CacheBehavior = &cacheBehavior
 	} else {
 		parameters.CacheBehavior = nil
@@ -17209,7 +17209,7 @@ func (parameters *CacheExpirationActionParameters) Initialize_From_CacheExpirati
 
 	// CacheType
 	if source.CacheType != nil {
-		cacheType := CacheExpirationActionParameters_CacheType(*source.CacheType)
+		cacheType := genruntime.ToEnum(string(*source.CacheType), cacheExpirationActionParameters_CacheType_Values)
 		parameters.CacheType = &cacheType
 	} else {
 		parameters.CacheType = nil
@@ -17217,7 +17217,7 @@ func (parameters *CacheExpirationActionParameters) Initialize_From_CacheExpirati
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := CacheExpirationActionParameters_TypeName(*source.TypeName)
+		typeName := genruntime.ToEnum(string(*source.TypeName), cacheExpirationActionParameters_TypeName_Values)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -17509,7 +17509,7 @@ func (parameters *CacheKeyQueryStringActionParameters) Initialize_From_CacheKeyQ
 
 	// QueryStringBehavior
 	if source.QueryStringBehavior != nil {
-		queryStringBehavior := CacheKeyQueryStringActionParameters_QueryStringBehavior(*source.QueryStringBehavior)
+		queryStringBehavior := genruntime.ToEnum(string(*source.QueryStringBehavior), cacheKeyQueryStringActionParameters_QueryStringBehavior_Values)
 		parameters.QueryStringBehavior = &queryStringBehavior
 	} else {
 		parameters.QueryStringBehavior = nil
@@ -17517,7 +17517,7 @@ func (parameters *CacheKeyQueryStringActionParameters) Initialize_From_CacheKeyQ
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := CacheKeyQueryStringActionParameters_TypeName(*source.TypeName)
+		typeName := genruntime.ToEnum(string(*source.TypeName), cacheKeyQueryStringActionParameters_TypeName_Values)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -17859,7 +17859,7 @@ func (parameters *ClientPortMatchConditionParameters) Initialize_From_ClientPort
 
 	// Operator
 	if source.Operator != nil {
-		operator := ClientPortMatchConditionParameters_Operator(*source.Operator)
+		operator := genruntime.ToEnum(string(*source.Operator), clientPortMatchConditionParameters_Operator_Values)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -17871,7 +17871,7 @@ func (parameters *ClientPortMatchConditionParameters) Initialize_From_ClientPort
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transform := Transform(transformItem)
+			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
 		parameters.Transforms = transformList
@@ -17881,7 +17881,7 @@ func (parameters *ClientPortMatchConditionParameters) Initialize_From_ClientPort
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := ClientPortMatchConditionParameters_TypeName(*source.TypeName)
+		typeName := genruntime.ToEnum(string(*source.TypeName), clientPortMatchConditionParameters_TypeName_Values)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -18302,7 +18302,7 @@ func (parameters *CookiesMatchConditionParameters) Initialize_From_CookiesMatchC
 
 	// Operator
 	if source.Operator != nil {
-		operator := CookiesMatchConditionParameters_Operator(*source.Operator)
+		operator := genruntime.ToEnum(string(*source.Operator), cookiesMatchConditionParameters_Operator_Values)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -18317,7 +18317,7 @@ func (parameters *CookiesMatchConditionParameters) Initialize_From_CookiesMatchC
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transform := Transform(transformItem)
+			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
 		parameters.Transforms = transformList
@@ -18327,7 +18327,7 @@ func (parameters *CookiesMatchConditionParameters) Initialize_From_CookiesMatchC
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := CookiesMatchConditionParameters_TypeName(*source.TypeName)
+		typeName := genruntime.ToEnum(string(*source.TypeName), cookiesMatchConditionParameters_TypeName_Values)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -19141,7 +19141,7 @@ func (parameters *HeaderActionParameters) Initialize_From_HeaderActionParameters
 
 	// HeaderAction
 	if source.HeaderAction != nil {
-		headerAction := HeaderActionParameters_HeaderAction(*source.HeaderAction)
+		headerAction := genruntime.ToEnum(string(*source.HeaderAction), headerActionParameters_HeaderAction_Values)
 		parameters.HeaderAction = &headerAction
 	} else {
 		parameters.HeaderAction = nil
@@ -19152,7 +19152,7 @@ func (parameters *HeaderActionParameters) Initialize_From_HeaderActionParameters
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := HeaderActionParameters_TypeName(*source.TypeName)
+		typeName := genruntime.ToEnum(string(*source.TypeName), headerActionParameters_TypeName_Values)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -19512,7 +19512,7 @@ func (parameters *HostNameMatchConditionParameters) Initialize_From_HostNameMatc
 
 	// Operator
 	if source.Operator != nil {
-		operator := HostNameMatchConditionParameters_Operator(*source.Operator)
+		operator := genruntime.ToEnum(string(*source.Operator), hostNameMatchConditionParameters_Operator_Values)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -19524,7 +19524,7 @@ func (parameters *HostNameMatchConditionParameters) Initialize_From_HostNameMatc
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transform := Transform(transformItem)
+			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
 		parameters.Transforms = transformList
@@ -19534,7 +19534,7 @@ func (parameters *HostNameMatchConditionParameters) Initialize_From_HostNameMatc
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := HostNameMatchConditionParameters_TypeName(*source.TypeName)
+		typeName := genruntime.ToEnum(string(*source.TypeName), hostNameMatchConditionParameters_TypeName_Values)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -19934,7 +19934,7 @@ func (parameters *HttpVersionMatchConditionParameters) Initialize_From_HttpVersi
 
 	// Operator
 	if source.Operator != nil {
-		operator := HttpVersionMatchConditionParameters_Operator(*source.Operator)
+		operator := genruntime.ToEnum(string(*source.Operator), httpVersionMatchConditionParameters_Operator_Values)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -19946,7 +19946,7 @@ func (parameters *HttpVersionMatchConditionParameters) Initialize_From_HttpVersi
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transform := Transform(transformItem)
+			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
 		parameters.Transforms = transformList
@@ -19956,7 +19956,7 @@ func (parameters *HttpVersionMatchConditionParameters) Initialize_From_HttpVersi
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := HttpVersionMatchConditionParameters_TypeName(*source.TypeName)
+		typeName := genruntime.ToEnum(string(*source.TypeName), httpVersionMatchConditionParameters_TypeName_Values)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -20369,7 +20369,7 @@ func (parameters *IsDeviceMatchConditionParameters) Initialize_From_IsDeviceMatc
 		for matchValueIndex, matchValueItem := range source.MatchValues {
 			// Shadow the loop variable to avoid aliasing
 			matchValueItem := matchValueItem
-			matchValue := IsDeviceMatchConditionParameters_MatchValues(matchValueItem)
+			matchValue := genruntime.ToEnum(string(matchValueItem), isDeviceMatchConditionParameters_MatchValues_Values)
 			matchValueList[matchValueIndex] = matchValue
 		}
 		parameters.MatchValues = matchValueList
@@ -20387,7 +20387,7 @@ func (parameters *IsDeviceMatchConditionParameters) Initialize_From_IsDeviceMatc
 
 	// Operator
 	if source.Operator != nil {
-		operator := IsDeviceMatchConditionParameters_Operator(*source.Operator)
+		operator := genruntime.ToEnum(string(*source.Operator), isDeviceMatchConditionParameters_Operator_Values)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -20399,7 +20399,7 @@ func (parameters *IsDeviceMatchConditionParameters) Initialize_From_IsDeviceMatc
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transform := Transform(transformItem)
+			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
 		parameters.Transforms = transformList
@@ -20409,7 +20409,7 @@ func (parameters *IsDeviceMatchConditionParameters) Initialize_From_IsDeviceMatc
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := IsDeviceMatchConditionParameters_TypeName(*source.TypeName)
+		typeName := genruntime.ToEnum(string(*source.TypeName), isDeviceMatchConditionParameters_TypeName_Values)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -20776,7 +20776,7 @@ func (parameters *OriginGroupOverrideActionParameters) Initialize_From_OriginGro
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := OriginGroupOverrideActionParameters_TypeName(*source.TypeName)
+		typeName := genruntime.ToEnum(string(*source.TypeName), originGroupOverrideActionParameters_TypeName_Values)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -21136,7 +21136,7 @@ func (parameters *PostArgsMatchConditionParameters) Initialize_From_PostArgsMatc
 
 	// Operator
 	if source.Operator != nil {
-		operator := PostArgsMatchConditionParameters_Operator(*source.Operator)
+		operator := genruntime.ToEnum(string(*source.Operator), postArgsMatchConditionParameters_Operator_Values)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -21151,7 +21151,7 @@ func (parameters *PostArgsMatchConditionParameters) Initialize_From_PostArgsMatc
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transform := Transform(transformItem)
+			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
 		parameters.Transforms = transformList
@@ -21161,7 +21161,7 @@ func (parameters *PostArgsMatchConditionParameters) Initialize_From_PostArgsMatc
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := PostArgsMatchConditionParameters_TypeName(*source.TypeName)
+		typeName := genruntime.ToEnum(string(*source.TypeName), postArgsMatchConditionParameters_TypeName_Values)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -21576,7 +21576,7 @@ func (parameters *QueryStringMatchConditionParameters) Initialize_From_QueryStri
 
 	// Operator
 	if source.Operator != nil {
-		operator := QueryStringMatchConditionParameters_Operator(*source.Operator)
+		operator := genruntime.ToEnum(string(*source.Operator), queryStringMatchConditionParameters_Operator_Values)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -21588,7 +21588,7 @@ func (parameters *QueryStringMatchConditionParameters) Initialize_From_QueryStri
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transform := Transform(transformItem)
+			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
 		parameters.Transforms = transformList
@@ -21598,7 +21598,7 @@ func (parameters *QueryStringMatchConditionParameters) Initialize_From_QueryStri
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := QueryStringMatchConditionParameters_TypeName(*source.TypeName)
+		typeName := genruntime.ToEnum(string(*source.TypeName), queryStringMatchConditionParameters_TypeName_Values)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -21999,7 +21999,7 @@ func (parameters *RemoteAddressMatchConditionParameters) Initialize_From_RemoteA
 
 	// Operator
 	if source.Operator != nil {
-		operator := RemoteAddressMatchConditionParameters_Operator(*source.Operator)
+		operator := genruntime.ToEnum(string(*source.Operator), remoteAddressMatchConditionParameters_Operator_Values)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -22011,7 +22011,7 @@ func (parameters *RemoteAddressMatchConditionParameters) Initialize_From_RemoteA
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transform := Transform(transformItem)
+			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
 		parameters.Transforms = transformList
@@ -22021,7 +22021,7 @@ func (parameters *RemoteAddressMatchConditionParameters) Initialize_From_RemoteA
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RemoteAddressMatchConditionParameters_TypeName(*source.TypeName)
+		typeName := genruntime.ToEnum(string(*source.TypeName), remoteAddressMatchConditionParameters_TypeName_Values)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -22422,7 +22422,7 @@ func (parameters *RequestBodyMatchConditionParameters) Initialize_From_RequestBo
 
 	// Operator
 	if source.Operator != nil {
-		operator := RequestBodyMatchConditionParameters_Operator(*source.Operator)
+		operator := genruntime.ToEnum(string(*source.Operator), requestBodyMatchConditionParameters_Operator_Values)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -22434,7 +22434,7 @@ func (parameters *RequestBodyMatchConditionParameters) Initialize_From_RequestBo
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transform := Transform(transformItem)
+			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
 		parameters.Transforms = transformList
@@ -22444,7 +22444,7 @@ func (parameters *RequestBodyMatchConditionParameters) Initialize_From_RequestBo
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RequestBodyMatchConditionParameters_TypeName(*source.TypeName)
+		typeName := genruntime.ToEnum(string(*source.TypeName), requestBodyMatchConditionParameters_TypeName_Values)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -22865,7 +22865,7 @@ func (parameters *RequestHeaderMatchConditionParameters) Initialize_From_Request
 
 	// Operator
 	if source.Operator != nil {
-		operator := RequestHeaderMatchConditionParameters_Operator(*source.Operator)
+		operator := genruntime.ToEnum(string(*source.Operator), requestHeaderMatchConditionParameters_Operator_Values)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -22880,7 +22880,7 @@ func (parameters *RequestHeaderMatchConditionParameters) Initialize_From_Request
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transform := Transform(transformItem)
+			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
 		parameters.Transforms = transformList
@@ -22890,7 +22890,7 @@ func (parameters *RequestHeaderMatchConditionParameters) Initialize_From_Request
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RequestHeaderMatchConditionParameters_TypeName(*source.TypeName)
+		typeName := genruntime.ToEnum(string(*source.TypeName), requestHeaderMatchConditionParameters_TypeName_Values)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -23318,7 +23318,7 @@ func (parameters *RequestMethodMatchConditionParameters) Initialize_From_Request
 		for matchValueIndex, matchValueItem := range source.MatchValues {
 			// Shadow the loop variable to avoid aliasing
 			matchValueItem := matchValueItem
-			matchValue := RequestMethodMatchConditionParameters_MatchValues(matchValueItem)
+			matchValue := genruntime.ToEnum(string(matchValueItem), requestMethodMatchConditionParameters_MatchValues_Values)
 			matchValueList[matchValueIndex] = matchValue
 		}
 		parameters.MatchValues = matchValueList
@@ -23336,7 +23336,7 @@ func (parameters *RequestMethodMatchConditionParameters) Initialize_From_Request
 
 	// Operator
 	if source.Operator != nil {
-		operator := RequestMethodMatchConditionParameters_Operator(*source.Operator)
+		operator := genruntime.ToEnum(string(*source.Operator), requestMethodMatchConditionParameters_Operator_Values)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -23348,7 +23348,7 @@ func (parameters *RequestMethodMatchConditionParameters) Initialize_From_Request
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transform := Transform(transformItem)
+			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
 		parameters.Transforms = transformList
@@ -23358,7 +23358,7 @@ func (parameters *RequestMethodMatchConditionParameters) Initialize_From_Request
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RequestMethodMatchConditionParameters_TypeName(*source.TypeName)
+		typeName := genruntime.ToEnum(string(*source.TypeName), requestMethodMatchConditionParameters_TypeName_Values)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -23791,7 +23791,7 @@ func (parameters *RequestSchemeMatchConditionParameters) Initialize_From_Request
 		for matchValueIndex, matchValueItem := range source.MatchValues {
 			// Shadow the loop variable to avoid aliasing
 			matchValueItem := matchValueItem
-			matchValue := RequestSchemeMatchConditionParameters_MatchValues(matchValueItem)
+			matchValue := genruntime.ToEnum(string(matchValueItem), requestSchemeMatchConditionParameters_MatchValues_Values)
 			matchValueList[matchValueIndex] = matchValue
 		}
 		parameters.MatchValues = matchValueList
@@ -23809,7 +23809,7 @@ func (parameters *RequestSchemeMatchConditionParameters) Initialize_From_Request
 
 	// Operator
 	if source.Operator != nil {
-		operator := RequestSchemeMatchConditionParameters_Operator(*source.Operator)
+		operator := genruntime.ToEnum(string(*source.Operator), requestSchemeMatchConditionParameters_Operator_Values)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -23821,7 +23821,7 @@ func (parameters *RequestSchemeMatchConditionParameters) Initialize_From_Request
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transform := Transform(transformItem)
+			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
 		parameters.Transforms = transformList
@@ -23831,7 +23831,7 @@ func (parameters *RequestSchemeMatchConditionParameters) Initialize_From_Request
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RequestSchemeMatchConditionParameters_TypeName(*source.TypeName)
+		typeName := genruntime.ToEnum(string(*source.TypeName), requestSchemeMatchConditionParameters_TypeName_Values)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -24251,7 +24251,7 @@ func (parameters *RequestUriMatchConditionParameters) Initialize_From_RequestUri
 
 	// Operator
 	if source.Operator != nil {
-		operator := RequestUriMatchConditionParameters_Operator(*source.Operator)
+		operator := genruntime.ToEnum(string(*source.Operator), requestUriMatchConditionParameters_Operator_Values)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -24263,7 +24263,7 @@ func (parameters *RequestUriMatchConditionParameters) Initialize_From_RequestUri
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transform := Transform(transformItem)
+			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
 		parameters.Transforms = transformList
@@ -24273,7 +24273,7 @@ func (parameters *RequestUriMatchConditionParameters) Initialize_From_RequestUri
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RequestUriMatchConditionParameters_TypeName(*source.TypeName)
+		typeName := genruntime.ToEnum(string(*source.TypeName), requestUriMatchConditionParameters_TypeName_Values)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -24662,7 +24662,7 @@ func (parameters *RouteConfigurationOverrideActionParameters) Initialize_From_Ro
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RouteConfigurationOverrideActionParameters_TypeName(*source.TypeName)
+		typeName := genruntime.ToEnum(string(*source.TypeName), routeConfigurationOverrideActionParameters_TypeName_Values)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -25041,7 +25041,7 @@ func (parameters *ServerPortMatchConditionParameters) Initialize_From_ServerPort
 
 	// Operator
 	if source.Operator != nil {
-		operator := ServerPortMatchConditionParameters_Operator(*source.Operator)
+		operator := genruntime.ToEnum(string(*source.Operator), serverPortMatchConditionParameters_Operator_Values)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -25053,7 +25053,7 @@ func (parameters *ServerPortMatchConditionParameters) Initialize_From_ServerPort
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transform := Transform(transformItem)
+			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
 		parameters.Transforms = transformList
@@ -25063,7 +25063,7 @@ func (parameters *ServerPortMatchConditionParameters) Initialize_From_ServerPort
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := ServerPortMatchConditionParameters_TypeName(*source.TypeName)
+		typeName := genruntime.ToEnum(string(*source.TypeName), serverPortMatchConditionParameters_TypeName_Values)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -25463,7 +25463,7 @@ func (parameters *SocketAddrMatchConditionParameters) Initialize_From_SocketAddr
 
 	// Operator
 	if source.Operator != nil {
-		operator := SocketAddrMatchConditionParameters_Operator(*source.Operator)
+		operator := genruntime.ToEnum(string(*source.Operator), socketAddrMatchConditionParameters_Operator_Values)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -25475,7 +25475,7 @@ func (parameters *SocketAddrMatchConditionParameters) Initialize_From_SocketAddr
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transform := Transform(transformItem)
+			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
 		parameters.Transforms = transformList
@@ -25485,7 +25485,7 @@ func (parameters *SocketAddrMatchConditionParameters) Initialize_From_SocketAddr
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := SocketAddrMatchConditionParameters_TypeName(*source.TypeName)
+		typeName := genruntime.ToEnum(string(*source.TypeName), socketAddrMatchConditionParameters_TypeName_Values)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -25898,7 +25898,7 @@ func (parameters *SslProtocolMatchConditionParameters) Initialize_From_SslProtoc
 		for matchValueIndex, matchValueItem := range source.MatchValues {
 			// Shadow the loop variable to avoid aliasing
 			matchValueItem := matchValueItem
-			matchValue := SslProtocol(matchValueItem)
+			matchValue := genruntime.ToEnum(string(matchValueItem), sslProtocol_Values)
 			matchValueList[matchValueIndex] = matchValue
 		}
 		parameters.MatchValues = matchValueList
@@ -25916,7 +25916,7 @@ func (parameters *SslProtocolMatchConditionParameters) Initialize_From_SslProtoc
 
 	// Operator
 	if source.Operator != nil {
-		operator := SslProtocolMatchConditionParameters_Operator(*source.Operator)
+		operator := genruntime.ToEnum(string(*source.Operator), sslProtocolMatchConditionParameters_Operator_Values)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -25928,7 +25928,7 @@ func (parameters *SslProtocolMatchConditionParameters) Initialize_From_SslProtoc
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transform := Transform(transformItem)
+			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
 		parameters.Transforms = transformList
@@ -25938,7 +25938,7 @@ func (parameters *SslProtocolMatchConditionParameters) Initialize_From_SslProtoc
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := SslProtocolMatchConditionParameters_TypeName(*source.TypeName)
+		typeName := genruntime.ToEnum(string(*source.TypeName), sslProtocolMatchConditionParameters_TypeName_Values)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -26358,7 +26358,7 @@ func (parameters *UrlFileExtensionMatchConditionParameters) Initialize_From_UrlF
 
 	// Operator
 	if source.Operator != nil {
-		operator := UrlFileExtensionMatchConditionParameters_Operator(*source.Operator)
+		operator := genruntime.ToEnum(string(*source.Operator), urlFileExtensionMatchConditionParameters_Operator_Values)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -26370,7 +26370,7 @@ func (parameters *UrlFileExtensionMatchConditionParameters) Initialize_From_UrlF
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transform := Transform(transformItem)
+			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
 		parameters.Transforms = transformList
@@ -26380,7 +26380,7 @@ func (parameters *UrlFileExtensionMatchConditionParameters) Initialize_From_UrlF
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlFileExtensionMatchConditionParameters_TypeName(*source.TypeName)
+		typeName := genruntime.ToEnum(string(*source.TypeName), urlFileExtensionMatchConditionParameters_TypeName_Values)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -26780,7 +26780,7 @@ func (parameters *UrlFileNameMatchConditionParameters) Initialize_From_UrlFileNa
 
 	// Operator
 	if source.Operator != nil {
-		operator := UrlFileNameMatchConditionParameters_Operator(*source.Operator)
+		operator := genruntime.ToEnum(string(*source.Operator), urlFileNameMatchConditionParameters_Operator_Values)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -26792,7 +26792,7 @@ func (parameters *UrlFileNameMatchConditionParameters) Initialize_From_UrlFileNa
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transform := Transform(transformItem)
+			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
 		parameters.Transforms = transformList
@@ -26802,7 +26802,7 @@ func (parameters *UrlFileNameMatchConditionParameters) Initialize_From_UrlFileNa
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlFileNameMatchConditionParameters_TypeName(*source.TypeName)
+		typeName := genruntime.ToEnum(string(*source.TypeName), urlFileNameMatchConditionParameters_TypeName_Values)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -27202,7 +27202,7 @@ func (parameters *UrlPathMatchConditionParameters) Initialize_From_UrlPathMatchC
 
 	// Operator
 	if source.Operator != nil {
-		operator := UrlPathMatchConditionParameters_Operator(*source.Operator)
+		operator := genruntime.ToEnum(string(*source.Operator), urlPathMatchConditionParameters_Operator_Values)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -27214,7 +27214,7 @@ func (parameters *UrlPathMatchConditionParameters) Initialize_From_UrlPathMatchC
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transform := Transform(transformItem)
+			transform := genruntime.ToEnum(string(transformItem), transform_Values)
 			transformList[transformIndex] = transform
 		}
 		parameters.Transforms = transformList
@@ -27224,7 +27224,7 @@ func (parameters *UrlPathMatchConditionParameters) Initialize_From_UrlPathMatchC
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlPathMatchConditionParameters_TypeName(*source.TypeName)
+		typeName := genruntime.ToEnum(string(*source.TypeName), urlPathMatchConditionParameters_TypeName_Values)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -27675,7 +27675,7 @@ func (parameters *UrlRedirectActionParameters) Initialize_From_UrlRedirectAction
 
 	// DestinationProtocol
 	if source.DestinationProtocol != nil {
-		destinationProtocol := UrlRedirectActionParameters_DestinationProtocol(*source.DestinationProtocol)
+		destinationProtocol := genruntime.ToEnum(string(*source.DestinationProtocol), urlRedirectActionParameters_DestinationProtocol_Values)
 		parameters.DestinationProtocol = &destinationProtocol
 	} else {
 		parameters.DestinationProtocol = nil
@@ -27683,7 +27683,7 @@ func (parameters *UrlRedirectActionParameters) Initialize_From_UrlRedirectAction
 
 	// RedirectType
 	if source.RedirectType != nil {
-		redirectType := UrlRedirectActionParameters_RedirectType(*source.RedirectType)
+		redirectType := genruntime.ToEnum(string(*source.RedirectType), urlRedirectActionParameters_RedirectType_Values)
 		parameters.RedirectType = &redirectType
 	} else {
 		parameters.RedirectType = nil
@@ -27691,7 +27691,7 @@ func (parameters *UrlRedirectActionParameters) Initialize_From_UrlRedirectAction
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlRedirectActionParameters_TypeName(*source.TypeName)
+		typeName := genruntime.ToEnum(string(*source.TypeName), urlRedirectActionParameters_TypeName_Values)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -28084,7 +28084,7 @@ func (parameters *UrlRewriteActionParameters) Initialize_From_UrlRewriteActionPa
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlRewriteActionParameters_TypeName(*source.TypeName)
+		typeName := genruntime.ToEnum(string(*source.TypeName), urlRewriteActionParameters_TypeName_Values)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -28417,7 +28417,7 @@ func (parameters *UrlSigningActionParameters) Initialize_From_UrlSigningActionPa
 
 	// Algorithm
 	if source.Algorithm != nil {
-		algorithm := UrlSigningActionParameters_Algorithm(*source.Algorithm)
+		algorithm := genruntime.ToEnum(string(*source.Algorithm), urlSigningActionParameters_Algorithm_Values)
 		parameters.Algorithm = &algorithm
 	} else {
 		parameters.Algorithm = nil
@@ -28443,7 +28443,7 @@ func (parameters *UrlSigningActionParameters) Initialize_From_UrlSigningActionPa
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlSigningActionParameters_TypeName(*source.TypeName)
+		typeName := genruntime.ToEnum(string(*source.TypeName), urlSigningActionParameters_TypeName_Values)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -28796,7 +28796,7 @@ func (configuration *CacheConfiguration) Initialize_From_CacheConfiguration_STAT
 
 	// CacheBehavior
 	if source.CacheBehavior != nil {
-		cacheBehavior := CacheConfiguration_CacheBehavior(*source.CacheBehavior)
+		cacheBehavior := genruntime.ToEnum(string(*source.CacheBehavior), cacheConfiguration_CacheBehavior_Values)
 		configuration.CacheBehavior = &cacheBehavior
 	} else {
 		configuration.CacheBehavior = nil
@@ -28807,7 +28807,7 @@ func (configuration *CacheConfiguration) Initialize_From_CacheConfiguration_STAT
 
 	// IsCompressionEnabled
 	if source.IsCompressionEnabled != nil {
-		isCompressionEnabled := CacheConfiguration_IsCompressionEnabled(*source.IsCompressionEnabled)
+		isCompressionEnabled := genruntime.ToEnum(string(*source.IsCompressionEnabled), cacheConfiguration_IsCompressionEnabled_Values)
 		configuration.IsCompressionEnabled = &isCompressionEnabled
 	} else {
 		configuration.IsCompressionEnabled = nil
@@ -28818,7 +28818,7 @@ func (configuration *CacheConfiguration) Initialize_From_CacheConfiguration_STAT
 
 	// QueryStringCachingBehavior
 	if source.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := CacheConfiguration_QueryStringCachingBehavior(*source.QueryStringCachingBehavior)
+		queryStringCachingBehavior := genruntime.ToEnum(string(*source.QueryStringCachingBehavior), cacheConfiguration_QueryStringCachingBehavior_Values)
 		configuration.QueryStringCachingBehavior = &queryStringCachingBehavior
 	} else {
 		configuration.QueryStringCachingBehavior = nil
@@ -29632,7 +29632,7 @@ func (override *OriginGroupOverride) Initialize_From_OriginGroupOverride_STATUS(
 
 	// ForwardingProtocol
 	if source.ForwardingProtocol != nil {
-		forwardingProtocol := OriginGroupOverride_ForwardingProtocol(*source.ForwardingProtocol)
+		forwardingProtocol := genruntime.ToEnum(string(*source.ForwardingProtocol), originGroupOverride_ForwardingProtocol_Values)
 		override.ForwardingProtocol = &forwardingProtocol
 	} else {
 		override.ForwardingProtocol = nil
@@ -31123,7 +31123,7 @@ func (identifier *UrlSigningParamIdentifier) Initialize_From_UrlSigningParamIden
 
 	// ParamIndicator
 	if source.ParamIndicator != nil {
-		paramIndicator := UrlSigningParamIdentifier_ParamIndicator(*source.ParamIndicator)
+		paramIndicator := genruntime.ToEnum(string(*source.ParamIndicator), urlSigningParamIdentifier_ParamIndicator_Values)
 		identifier.ParamIndicator = &paramIndicator
 	} else {
 		identifier.ParamIndicator = nil

@@ -17,6 +17,140 @@ import (
 	"testing"
 )
 
+func Test_Action_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Action_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAction_STATUS_ARM, Action_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForAction_STATUS_ARM runs a test to see if a specific instance of Action_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForAction_STATUS_ARM(subject Action_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Action_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Action_STATUS_ARM instances for property testing - lazily instantiated by Action_STATUS_ARMGenerator()
+var action_STATUS_ARMGenerator gopter.Gen
+
+// Action_STATUS_ARMGenerator returns a generator of Action_STATUS_ARM instances for property testing.
+func Action_STATUS_ARMGenerator() gopter.Gen {
+	if action_STATUS_ARMGenerator != nil {
+		return action_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForAction_STATUS_ARM(generators)
+	action_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Action_STATUS_ARM{}), generators)
+
+	return action_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForAction_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAction_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["CompatibilityLevel"] = gen.PtrOf(gen.Int())
+	gens["RequiresPreprocessing"] = gen.PtrOf(gen.Bool())
+	gens["SqlExpression"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_CorrelationFilter_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of CorrelationFilter_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForCorrelationFilter_STATUS_ARM, CorrelationFilter_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForCorrelationFilter_STATUS_ARM runs a test to see if a specific instance of CorrelationFilter_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForCorrelationFilter_STATUS_ARM(subject CorrelationFilter_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual CorrelationFilter_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of CorrelationFilter_STATUS_ARM instances for property testing - lazily instantiated by
+// CorrelationFilter_STATUS_ARMGenerator()
+var correlationFilter_STATUS_ARMGenerator gopter.Gen
+
+// CorrelationFilter_STATUS_ARMGenerator returns a generator of CorrelationFilter_STATUS_ARM instances for property testing.
+func CorrelationFilter_STATUS_ARMGenerator() gopter.Gen {
+	if correlationFilter_STATUS_ARMGenerator != nil {
+		return correlationFilter_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForCorrelationFilter_STATUS_ARM(generators)
+	correlationFilter_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(CorrelationFilter_STATUS_ARM{}), generators)
+
+	return correlationFilter_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForCorrelationFilter_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForCorrelationFilter_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["ContentType"] = gen.PtrOf(gen.AlphaString())
+	gens["CorrelationId"] = gen.PtrOf(gen.AlphaString())
+	gens["Label"] = gen.PtrOf(gen.AlphaString())
+	gens["MessageId"] = gen.PtrOf(gen.AlphaString())
+	gens["Properties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["ReplyTo"] = gen.PtrOf(gen.AlphaString())
+	gens["ReplyToSessionId"] = gen.PtrOf(gen.AlphaString())
+	gens["RequiresPreprocessing"] = gen.PtrOf(gen.Bool())
+	gens["SessionId"] = gen.PtrOf(gen.AlphaString())
+	gens["To"] = gen.PtrOf(gen.AlphaString())
+}
+
 func Test_Namespaces_Topics_Subscriptions_Rule_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -170,140 +304,6 @@ func AddRelatedPropertyGeneratorsForRuleproperties_STATUS_ARM(gens map[string]go
 	gens["Action"] = gen.PtrOf(Action_STATUS_ARMGenerator())
 	gens["CorrelationFilter"] = gen.PtrOf(CorrelationFilter_STATUS_ARMGenerator())
 	gens["SqlFilter"] = gen.PtrOf(SqlFilter_STATUS_ARMGenerator())
-}
-
-func Test_Action_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Action_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAction_STATUS_ARM, Action_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForAction_STATUS_ARM runs a test to see if a specific instance of Action_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForAction_STATUS_ARM(subject Action_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Action_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Action_STATUS_ARM instances for property testing - lazily instantiated by Action_STATUS_ARMGenerator()
-var action_STATUS_ARMGenerator gopter.Gen
-
-// Action_STATUS_ARMGenerator returns a generator of Action_STATUS_ARM instances for property testing.
-func Action_STATUS_ARMGenerator() gopter.Gen {
-	if action_STATUS_ARMGenerator != nil {
-		return action_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAction_STATUS_ARM(generators)
-	action_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Action_STATUS_ARM{}), generators)
-
-	return action_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAction_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAction_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["CompatibilityLevel"] = gen.PtrOf(gen.Int())
-	gens["RequiresPreprocessing"] = gen.PtrOf(gen.Bool())
-	gens["SqlExpression"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_CorrelationFilter_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CorrelationFilter_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCorrelationFilter_STATUS_ARM, CorrelationFilter_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForCorrelationFilter_STATUS_ARM runs a test to see if a specific instance of CorrelationFilter_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForCorrelationFilter_STATUS_ARM(subject CorrelationFilter_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual CorrelationFilter_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of CorrelationFilter_STATUS_ARM instances for property testing - lazily instantiated by
-// CorrelationFilter_STATUS_ARMGenerator()
-var correlationFilter_STATUS_ARMGenerator gopter.Gen
-
-// CorrelationFilter_STATUS_ARMGenerator returns a generator of CorrelationFilter_STATUS_ARM instances for property testing.
-func CorrelationFilter_STATUS_ARMGenerator() gopter.Gen {
-	if correlationFilter_STATUS_ARMGenerator != nil {
-		return correlationFilter_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCorrelationFilter_STATUS_ARM(generators)
-	correlationFilter_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(CorrelationFilter_STATUS_ARM{}), generators)
-
-	return correlationFilter_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCorrelationFilter_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCorrelationFilter_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ContentType"] = gen.PtrOf(gen.AlphaString())
-	gens["CorrelationId"] = gen.PtrOf(gen.AlphaString())
-	gens["Label"] = gen.PtrOf(gen.AlphaString())
-	gens["MessageId"] = gen.PtrOf(gen.AlphaString())
-	gens["Properties"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["ReplyTo"] = gen.PtrOf(gen.AlphaString())
-	gens["ReplyToSessionId"] = gen.PtrOf(gen.AlphaString())
-	gens["RequiresPreprocessing"] = gen.PtrOf(gen.Bool())
-	gens["SessionId"] = gen.PtrOf(gen.AlphaString())
-	gens["To"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_SqlFilter_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

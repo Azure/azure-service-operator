@@ -17,99 +17,20 @@ import (
 	"testing"
 )
 
-func Test_MetricAlert_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of MetricAlert_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMetricAlert_Spec_ARM, MetricAlert_Spec_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForMetricAlert_Spec_ARM runs a test to see if a specific instance of MetricAlert_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForMetricAlert_Spec_ARM(subject MetricAlert_Spec_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual MetricAlert_Spec_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of MetricAlert_Spec_ARM instances for property testing - lazily instantiated by
-// MetricAlert_Spec_ARMGenerator()
-var metricAlert_Spec_ARMGenerator gopter.Gen
-
-// MetricAlert_Spec_ARMGenerator returns a generator of MetricAlert_Spec_ARM instances for property testing.
-// We first initialize metricAlert_Spec_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func MetricAlert_Spec_ARMGenerator() gopter.Gen {
-	if metricAlert_Spec_ARMGenerator != nil {
-		return metricAlert_Spec_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMetricAlert_Spec_ARM(generators)
-	metricAlert_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(MetricAlert_Spec_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMetricAlert_Spec_ARM(generators)
-	AddRelatedPropertyGeneratorsForMetricAlert_Spec_ARM(generators)
-	metricAlert_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(MetricAlert_Spec_ARM{}), generators)
-
-	return metricAlert_Spec_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForMetricAlert_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMetricAlert_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForMetricAlert_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForMetricAlert_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(MetricAlertProperties_ARMGenerator())
-}
-
-func Test_MetricAlertProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DynamicMetricCriteria_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of MetricAlertProperties_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMetricAlertProperties_ARM, MetricAlertProperties_ARMGenerator()))
+		"Round trip of DynamicMetricCriteria_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDynamicMetricCriteria_ARM, DynamicMetricCriteria_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForMetricAlertProperties_ARM runs a test to see if a specific instance of MetricAlertProperties_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForMetricAlertProperties_ARM(subject MetricAlertProperties_ARM) string {
+// RunJSONSerializationTestForDynamicMetricCriteria_ARM runs a test to see if a specific instance of DynamicMetricCriteria_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDynamicMetricCriteria_ARM(subject DynamicMetricCriteria_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -117,7 +38,7 @@ func RunJSONSerializationTestForMetricAlertProperties_ARM(subject MetricAlertPro
 	}
 
 	// Deserialize back into memory
-	var actual MetricAlertProperties_ARM
+	var actual DynamicMetricCriteria_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -135,49 +56,116 @@ func RunJSONSerializationTestForMetricAlertProperties_ARM(subject MetricAlertPro
 	return ""
 }
 
-// Generator of MetricAlertProperties_ARM instances for property testing - lazily instantiated by
-// MetricAlertProperties_ARMGenerator()
-var metricAlertProperties_ARMGenerator gopter.Gen
+// Generator of DynamicMetricCriteria_ARM instances for property testing - lazily instantiated by
+// DynamicMetricCriteria_ARMGenerator()
+var dynamicMetricCriteria_ARMGenerator gopter.Gen
 
-// MetricAlertProperties_ARMGenerator returns a generator of MetricAlertProperties_ARM instances for property testing.
-// We first initialize metricAlertProperties_ARMGenerator with a simplified generator based on the
+// DynamicMetricCriteria_ARMGenerator returns a generator of DynamicMetricCriteria_ARM instances for property testing.
+// We first initialize dynamicMetricCriteria_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func MetricAlertProperties_ARMGenerator() gopter.Gen {
-	if metricAlertProperties_ARMGenerator != nil {
-		return metricAlertProperties_ARMGenerator
+func DynamicMetricCriteria_ARMGenerator() gopter.Gen {
+	if dynamicMetricCriteria_ARMGenerator != nil {
+		return dynamicMetricCriteria_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMetricAlertProperties_ARM(generators)
-	metricAlertProperties_ARMGenerator = gen.Struct(reflect.TypeOf(MetricAlertProperties_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForDynamicMetricCriteria_ARM(generators)
+	dynamicMetricCriteria_ARMGenerator = gen.Struct(reflect.TypeOf(DynamicMetricCriteria_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMetricAlertProperties_ARM(generators)
-	AddRelatedPropertyGeneratorsForMetricAlertProperties_ARM(generators)
-	metricAlertProperties_ARMGenerator = gen.Struct(reflect.TypeOf(MetricAlertProperties_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForDynamicMetricCriteria_ARM(generators)
+	AddRelatedPropertyGeneratorsForDynamicMetricCriteria_ARM(generators)
+	dynamicMetricCriteria_ARMGenerator = gen.Struct(reflect.TypeOf(DynamicMetricCriteria_ARM{}), generators)
 
-	return metricAlertProperties_ARMGenerator
+	return dynamicMetricCriteria_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForMetricAlertProperties_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMetricAlertProperties_ARM(gens map[string]gopter.Gen) {
-	gens["AutoMitigate"] = gen.PtrOf(gen.Bool())
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["EvaluationFrequency"] = gen.PtrOf(gen.AlphaString())
-	gens["Scopes"] = gen.SliceOf(gen.AlphaString())
-	gens["Severity"] = gen.PtrOf(gen.Int())
-	gens["TargetResourceRegion"] = gen.PtrOf(gen.AlphaString())
-	gens["TargetResourceType"] = gen.PtrOf(gen.AlphaString())
-	gens["WindowSize"] = gen.PtrOf(gen.AlphaString())
+// AddIndependentPropertyGeneratorsForDynamicMetricCriteria_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDynamicMetricCriteria_ARM(gens map[string]gopter.Gen) {
+	gens["AlertSensitivity"] = gen.PtrOf(gen.OneConstOf(DynamicMetricCriteria_AlertSensitivity_High, DynamicMetricCriteria_AlertSensitivity_Low, DynamicMetricCriteria_AlertSensitivity_Medium))
+	gens["CriterionType"] = gen.OneConstOf(DynamicMetricCriteria_CriterionType_DynamicThresholdCriterion)
+	gens["IgnoreDataBefore"] = gen.PtrOf(gen.AlphaString())
+	gens["MetricName"] = gen.PtrOf(gen.AlphaString())
+	gens["MetricNamespace"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Operator"] = gen.PtrOf(gen.OneConstOf(DynamicMetricCriteria_Operator_GreaterOrLessThan, DynamicMetricCriteria_Operator_GreaterThan, DynamicMetricCriteria_Operator_LessThan))
+	gens["SkipMetricValidation"] = gen.PtrOf(gen.Bool())
+	gens["TimeAggregation"] = gen.PtrOf(gen.OneConstOf(
+		DynamicMetricCriteria_TimeAggregation_Average,
+		DynamicMetricCriteria_TimeAggregation_Count,
+		DynamicMetricCriteria_TimeAggregation_Maximum,
+		DynamicMetricCriteria_TimeAggregation_Minimum,
+		DynamicMetricCriteria_TimeAggregation_Total))
 }
 
-// AddRelatedPropertyGeneratorsForMetricAlertProperties_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForMetricAlertProperties_ARM(gens map[string]gopter.Gen) {
-	gens["Actions"] = gen.SliceOf(MetricAlertAction_ARMGenerator())
-	gens["Criteria"] = gen.PtrOf(MetricAlertCriteria_ARMGenerator())
+// AddRelatedPropertyGeneratorsForDynamicMetricCriteria_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDynamicMetricCriteria_ARM(gens map[string]gopter.Gen) {
+	gens["Dimensions"] = gen.SliceOf(MetricDimension_ARMGenerator())
+	gens["FailingPeriods"] = gen.PtrOf(DynamicThresholdFailingPeriods_ARMGenerator())
+}
+
+func Test_DynamicThresholdFailingPeriods_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DynamicThresholdFailingPeriods_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDynamicThresholdFailingPeriods_ARM, DynamicThresholdFailingPeriods_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDynamicThresholdFailingPeriods_ARM runs a test to see if a specific instance of DynamicThresholdFailingPeriods_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDynamicThresholdFailingPeriods_ARM(subject DynamicThresholdFailingPeriods_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DynamicThresholdFailingPeriods_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DynamicThresholdFailingPeriods_ARM instances for property testing - lazily instantiated by
+// DynamicThresholdFailingPeriods_ARMGenerator()
+var dynamicThresholdFailingPeriods_ARMGenerator gopter.Gen
+
+// DynamicThresholdFailingPeriods_ARMGenerator returns a generator of DynamicThresholdFailingPeriods_ARM instances for property testing.
+func DynamicThresholdFailingPeriods_ARMGenerator() gopter.Gen {
+	if dynamicThresholdFailingPeriods_ARMGenerator != nil {
+		return dynamicThresholdFailingPeriods_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDynamicThresholdFailingPeriods_ARM(generators)
+	dynamicThresholdFailingPeriods_ARMGenerator = gen.Struct(reflect.TypeOf(DynamicThresholdFailingPeriods_ARM{}), generators)
+
+	return dynamicThresholdFailingPeriods_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForDynamicThresholdFailingPeriods_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDynamicThresholdFailingPeriods_ARM(gens map[string]gopter.Gen) {
+	gens["MinFailingPeriodsToAlert"] = gen.PtrOf(gen.Float64())
+	gens["NumberOfEvaluationPeriods"] = gen.PtrOf(gen.Float64())
 }
 
 func Test_MetricAlertAction_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -394,6 +382,90 @@ func AddRelatedPropertyGeneratorsForMetricAlertMultipleResourceMultipleMetricCri
 	gens["AllOf"] = gen.SliceOf(MultiMetricCriteria_ARMGenerator())
 }
 
+func Test_MetricAlertProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of MetricAlertProperties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMetricAlertProperties_ARM, MetricAlertProperties_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForMetricAlertProperties_ARM runs a test to see if a specific instance of MetricAlertProperties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForMetricAlertProperties_ARM(subject MetricAlertProperties_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual MetricAlertProperties_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of MetricAlertProperties_ARM instances for property testing - lazily instantiated by
+// MetricAlertProperties_ARMGenerator()
+var metricAlertProperties_ARMGenerator gopter.Gen
+
+// MetricAlertProperties_ARMGenerator returns a generator of MetricAlertProperties_ARM instances for property testing.
+// We first initialize metricAlertProperties_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func MetricAlertProperties_ARMGenerator() gopter.Gen {
+	if metricAlertProperties_ARMGenerator != nil {
+		return metricAlertProperties_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForMetricAlertProperties_ARM(generators)
+	metricAlertProperties_ARMGenerator = gen.Struct(reflect.TypeOf(MetricAlertProperties_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForMetricAlertProperties_ARM(generators)
+	AddRelatedPropertyGeneratorsForMetricAlertProperties_ARM(generators)
+	metricAlertProperties_ARMGenerator = gen.Struct(reflect.TypeOf(MetricAlertProperties_ARM{}), generators)
+
+	return metricAlertProperties_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForMetricAlertProperties_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMetricAlertProperties_ARM(gens map[string]gopter.Gen) {
+	gens["AutoMitigate"] = gen.PtrOf(gen.Bool())
+	gens["Description"] = gen.PtrOf(gen.AlphaString())
+	gens["Enabled"] = gen.PtrOf(gen.Bool())
+	gens["EvaluationFrequency"] = gen.PtrOf(gen.AlphaString())
+	gens["Scopes"] = gen.SliceOf(gen.AlphaString())
+	gens["Severity"] = gen.PtrOf(gen.Int())
+	gens["TargetResourceRegion"] = gen.PtrOf(gen.AlphaString())
+	gens["TargetResourceType"] = gen.PtrOf(gen.AlphaString())
+	gens["WindowSize"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForMetricAlertProperties_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForMetricAlertProperties_ARM(gens map[string]gopter.Gen) {
+	gens["Actions"] = gen.SliceOf(MetricAlertAction_ARMGenerator())
+	gens["Criteria"] = gen.PtrOf(MetricAlertCriteria_ARMGenerator())
+}
+
 func Test_MetricAlertSingleResourceMultipleMetricCriteria_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -469,20 +541,20 @@ func AddRelatedPropertyGeneratorsForMetricAlertSingleResourceMultipleMetricCrite
 	gens["AllOf"] = gen.SliceOf(MetricCriteria_ARMGenerator())
 }
 
-func Test_WebtestLocationAvailabilityCriteria_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_MetricAlert_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of WebtestLocationAvailabilityCriteria_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWebtestLocationAvailabilityCriteria_ARM, WebtestLocationAvailabilityCriteria_ARMGenerator()))
+		"Round trip of MetricAlert_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMetricAlert_Spec_ARM, MetricAlert_Spec_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForWebtestLocationAvailabilityCriteria_ARM runs a test to see if a specific instance of WebtestLocationAvailabilityCriteria_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForWebtestLocationAvailabilityCriteria_ARM(subject WebtestLocationAvailabilityCriteria_ARM) string {
+// RunJSONSerializationTestForMetricAlert_Spec_ARM runs a test to see if a specific instance of MetricAlert_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForMetricAlert_Spec_ARM(subject MetricAlert_Spec_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -490,7 +562,7 @@ func RunJSONSerializationTestForWebtestLocationAvailabilityCriteria_ARM(subject 
 	}
 
 	// Deserialize back into memory
-	var actual WebtestLocationAvailabilityCriteria_ARM
+	var actual MetricAlert_Spec_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -508,29 +580,44 @@ func RunJSONSerializationTestForWebtestLocationAvailabilityCriteria_ARM(subject 
 	return ""
 }
 
-// Generator of WebtestLocationAvailabilityCriteria_ARM instances for property testing - lazily instantiated by
-// WebtestLocationAvailabilityCriteria_ARMGenerator()
-var webtestLocationAvailabilityCriteria_ARMGenerator gopter.Gen
+// Generator of MetricAlert_Spec_ARM instances for property testing - lazily instantiated by
+// MetricAlert_Spec_ARMGenerator()
+var metricAlert_Spec_ARMGenerator gopter.Gen
 
-// WebtestLocationAvailabilityCriteria_ARMGenerator returns a generator of WebtestLocationAvailabilityCriteria_ARM instances for property testing.
-func WebtestLocationAvailabilityCriteria_ARMGenerator() gopter.Gen {
-	if webtestLocationAvailabilityCriteria_ARMGenerator != nil {
-		return webtestLocationAvailabilityCriteria_ARMGenerator
+// MetricAlert_Spec_ARMGenerator returns a generator of MetricAlert_Spec_ARM instances for property testing.
+// We first initialize metricAlert_Spec_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func MetricAlert_Spec_ARMGenerator() gopter.Gen {
+	if metricAlert_Spec_ARMGenerator != nil {
+		return metricAlert_Spec_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebtestLocationAvailabilityCriteria_ARM(generators)
-	webtestLocationAvailabilityCriteria_ARMGenerator = gen.Struct(reflect.TypeOf(WebtestLocationAvailabilityCriteria_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForMetricAlert_Spec_ARM(generators)
+	metricAlert_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(MetricAlert_Spec_ARM{}), generators)
 
-	return webtestLocationAvailabilityCriteria_ARMGenerator
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForMetricAlert_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForMetricAlert_Spec_ARM(generators)
+	metricAlert_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(MetricAlert_Spec_ARM{}), generators)
+
+	return metricAlert_Spec_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForWebtestLocationAvailabilityCriteria_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWebtestLocationAvailabilityCriteria_ARM(gens map[string]gopter.Gen) {
-	gens["ComponentId"] = gen.PtrOf(gen.AlphaString())
-	gens["FailedLocationCount"] = gen.PtrOf(gen.Float64())
-	gens["OdataType"] = gen.OneConstOf(WebtestLocationAvailabilityCriteria_OdataType_MicrosoftAzureMonitorWebtestLocationAvailabilityCriteria)
-	gens["WebTestId"] = gen.PtrOf(gen.AlphaString())
+// AddIndependentPropertyGeneratorsForMetricAlert_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMetricAlert_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.AlphaString()
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForMetricAlert_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForMetricAlert_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(MetricAlertProperties_ARMGenerator())
 }
 
 func Test_MetricCriteria_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -624,6 +711,69 @@ func AddRelatedPropertyGeneratorsForMetricCriteria_ARM(gens map[string]gopter.Ge
 	gens["Dimensions"] = gen.SliceOf(MetricDimension_ARMGenerator())
 }
 
+func Test_MetricDimension_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of MetricDimension_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMetricDimension_ARM, MetricDimension_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForMetricDimension_ARM runs a test to see if a specific instance of MetricDimension_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForMetricDimension_ARM(subject MetricDimension_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual MetricDimension_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of MetricDimension_ARM instances for property testing - lazily instantiated by
+// MetricDimension_ARMGenerator()
+var metricDimension_ARMGenerator gopter.Gen
+
+// MetricDimension_ARMGenerator returns a generator of MetricDimension_ARM instances for property testing.
+func MetricDimension_ARMGenerator() gopter.Gen {
+	if metricDimension_ARMGenerator != nil {
+		return metricDimension_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForMetricDimension_ARM(generators)
+	metricDimension_ARMGenerator = gen.Struct(reflect.TypeOf(MetricDimension_ARM{}), generators)
+
+	return metricDimension_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForMetricDimension_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMetricDimension_ARM(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Operator"] = gen.PtrOf(gen.AlphaString())
+	gens["Values"] = gen.SliceOf(gen.AlphaString())
+}
+
 func Test_MultiMetricCriteria_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -696,20 +846,20 @@ func AddRelatedPropertyGeneratorsForMultiMetricCriteria_ARM(gens map[string]gopt
 	}) // generate one case for OneOf type
 }
 
-func Test_DynamicMetricCriteria_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_WebtestLocationAvailabilityCriteria_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DynamicMetricCriteria_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDynamicMetricCriteria_ARM, DynamicMetricCriteria_ARMGenerator()))
+		"Round trip of WebtestLocationAvailabilityCriteria_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWebtestLocationAvailabilityCriteria_ARM, WebtestLocationAvailabilityCriteria_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDynamicMetricCriteria_ARM runs a test to see if a specific instance of DynamicMetricCriteria_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDynamicMetricCriteria_ARM(subject DynamicMetricCriteria_ARM) string {
+// RunJSONSerializationTestForWebtestLocationAvailabilityCriteria_ARM runs a test to see if a specific instance of WebtestLocationAvailabilityCriteria_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForWebtestLocationAvailabilityCriteria_ARM(subject WebtestLocationAvailabilityCriteria_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -717,7 +867,7 @@ func RunJSONSerializationTestForDynamicMetricCriteria_ARM(subject DynamicMetricC
 	}
 
 	// Deserialize back into memory
-	var actual DynamicMetricCriteria_ARM
+	var actual WebtestLocationAvailabilityCriteria_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -735,177 +885,27 @@ func RunJSONSerializationTestForDynamicMetricCriteria_ARM(subject DynamicMetricC
 	return ""
 }
 
-// Generator of DynamicMetricCriteria_ARM instances for property testing - lazily instantiated by
-// DynamicMetricCriteria_ARMGenerator()
-var dynamicMetricCriteria_ARMGenerator gopter.Gen
+// Generator of WebtestLocationAvailabilityCriteria_ARM instances for property testing - lazily instantiated by
+// WebtestLocationAvailabilityCriteria_ARMGenerator()
+var webtestLocationAvailabilityCriteria_ARMGenerator gopter.Gen
 
-// DynamicMetricCriteria_ARMGenerator returns a generator of DynamicMetricCriteria_ARM instances for property testing.
-// We first initialize dynamicMetricCriteria_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DynamicMetricCriteria_ARMGenerator() gopter.Gen {
-	if dynamicMetricCriteria_ARMGenerator != nil {
-		return dynamicMetricCriteria_ARMGenerator
+// WebtestLocationAvailabilityCriteria_ARMGenerator returns a generator of WebtestLocationAvailabilityCriteria_ARM instances for property testing.
+func WebtestLocationAvailabilityCriteria_ARMGenerator() gopter.Gen {
+	if webtestLocationAvailabilityCriteria_ARMGenerator != nil {
+		return webtestLocationAvailabilityCriteria_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDynamicMetricCriteria_ARM(generators)
-	dynamicMetricCriteria_ARMGenerator = gen.Struct(reflect.TypeOf(DynamicMetricCriteria_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForWebtestLocationAvailabilityCriteria_ARM(generators)
+	webtestLocationAvailabilityCriteria_ARMGenerator = gen.Struct(reflect.TypeOf(WebtestLocationAvailabilityCriteria_ARM{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDynamicMetricCriteria_ARM(generators)
-	AddRelatedPropertyGeneratorsForDynamicMetricCriteria_ARM(generators)
-	dynamicMetricCriteria_ARMGenerator = gen.Struct(reflect.TypeOf(DynamicMetricCriteria_ARM{}), generators)
-
-	return dynamicMetricCriteria_ARMGenerator
+	return webtestLocationAvailabilityCriteria_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDynamicMetricCriteria_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDynamicMetricCriteria_ARM(gens map[string]gopter.Gen) {
-	gens["AlertSensitivity"] = gen.PtrOf(gen.OneConstOf(DynamicMetricCriteria_AlertSensitivity_High, DynamicMetricCriteria_AlertSensitivity_Low, DynamicMetricCriteria_AlertSensitivity_Medium))
-	gens["CriterionType"] = gen.OneConstOf(DynamicMetricCriteria_CriterionType_DynamicThresholdCriterion)
-	gens["IgnoreDataBefore"] = gen.PtrOf(gen.AlphaString())
-	gens["MetricName"] = gen.PtrOf(gen.AlphaString())
-	gens["MetricNamespace"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Operator"] = gen.PtrOf(gen.OneConstOf(DynamicMetricCriteria_Operator_GreaterOrLessThan, DynamicMetricCriteria_Operator_GreaterThan, DynamicMetricCriteria_Operator_LessThan))
-	gens["SkipMetricValidation"] = gen.PtrOf(gen.Bool())
-	gens["TimeAggregation"] = gen.PtrOf(gen.OneConstOf(
-		DynamicMetricCriteria_TimeAggregation_Average,
-		DynamicMetricCriteria_TimeAggregation_Count,
-		DynamicMetricCriteria_TimeAggregation_Maximum,
-		DynamicMetricCriteria_TimeAggregation_Minimum,
-		DynamicMetricCriteria_TimeAggregation_Total))
-}
-
-// AddRelatedPropertyGeneratorsForDynamicMetricCriteria_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDynamicMetricCriteria_ARM(gens map[string]gopter.Gen) {
-	gens["Dimensions"] = gen.SliceOf(MetricDimension_ARMGenerator())
-	gens["FailingPeriods"] = gen.PtrOf(DynamicThresholdFailingPeriods_ARMGenerator())
-}
-
-func Test_MetricDimension_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of MetricDimension_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMetricDimension_ARM, MetricDimension_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForMetricDimension_ARM runs a test to see if a specific instance of MetricDimension_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForMetricDimension_ARM(subject MetricDimension_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual MetricDimension_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of MetricDimension_ARM instances for property testing - lazily instantiated by
-// MetricDimension_ARMGenerator()
-var metricDimension_ARMGenerator gopter.Gen
-
-// MetricDimension_ARMGenerator returns a generator of MetricDimension_ARM instances for property testing.
-func MetricDimension_ARMGenerator() gopter.Gen {
-	if metricDimension_ARMGenerator != nil {
-		return metricDimension_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMetricDimension_ARM(generators)
-	metricDimension_ARMGenerator = gen.Struct(reflect.TypeOf(MetricDimension_ARM{}), generators)
-
-	return metricDimension_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForMetricDimension_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMetricDimension_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Values"] = gen.SliceOf(gen.AlphaString())
-}
-
-func Test_DynamicThresholdFailingPeriods_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DynamicThresholdFailingPeriods_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDynamicThresholdFailingPeriods_ARM, DynamicThresholdFailingPeriods_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForDynamicThresholdFailingPeriods_ARM runs a test to see if a specific instance of DynamicThresholdFailingPeriods_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDynamicThresholdFailingPeriods_ARM(subject DynamicThresholdFailingPeriods_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual DynamicThresholdFailingPeriods_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of DynamicThresholdFailingPeriods_ARM instances for property testing - lazily instantiated by
-// DynamicThresholdFailingPeriods_ARMGenerator()
-var dynamicThresholdFailingPeriods_ARMGenerator gopter.Gen
-
-// DynamicThresholdFailingPeriods_ARMGenerator returns a generator of DynamicThresholdFailingPeriods_ARM instances for property testing.
-func DynamicThresholdFailingPeriods_ARMGenerator() gopter.Gen {
-	if dynamicThresholdFailingPeriods_ARMGenerator != nil {
-		return dynamicThresholdFailingPeriods_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDynamicThresholdFailingPeriods_ARM(generators)
-	dynamicThresholdFailingPeriods_ARMGenerator = gen.Struct(reflect.TypeOf(DynamicThresholdFailingPeriods_ARM{}), generators)
-
-	return dynamicThresholdFailingPeriods_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDynamicThresholdFailingPeriods_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDynamicThresholdFailingPeriods_ARM(gens map[string]gopter.Gen) {
-	gens["MinFailingPeriodsToAlert"] = gen.PtrOf(gen.Float64())
-	gens["NumberOfEvaluationPeriods"] = gen.PtrOf(gen.Float64())
+// AddIndependentPropertyGeneratorsForWebtestLocationAvailabilityCriteria_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWebtestLocationAvailabilityCriteria_ARM(gens map[string]gopter.Gen) {
+	gens["ComponentId"] = gen.PtrOf(gen.AlphaString())
+	gens["FailedLocationCount"] = gen.PtrOf(gen.Float64())
+	gens["OdataType"] = gen.OneConstOf(WebtestLocationAvailabilityCriteria_OdataType_MicrosoftAzureMonitorWebtestLocationAvailabilityCriteria)
+	gens["WebTestId"] = gen.PtrOf(gen.AlphaString())
 }

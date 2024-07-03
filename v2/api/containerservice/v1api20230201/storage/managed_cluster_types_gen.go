@@ -7429,12 +7429,12 @@ func (profile *ManagedClusterStorageProfile_STATUS) AssignProperties_To_ManagedC
 // Storage version of v1api20230201.ManagedClusterWindowsProfile
 // Profile for Windows VMs in the managed cluster.
 type ManagedClusterWindowsProfile struct {
-	AdminPassword  *string                `json:"adminPassword,omitempty"`
-	AdminUsername  *string                `json:"adminUsername,omitempty"`
-	EnableCSIProxy *bool                  `json:"enableCSIProxy,omitempty"`
-	GmsaProfile    *WindowsGmsaProfile    `json:"gmsaProfile,omitempty"`
-	LicenseType    *string                `json:"licenseType,omitempty"`
-	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	AdminPassword  *genruntime.SecretReference `json:"adminPassword,omitempty"`
+	AdminUsername  *string                     `json:"adminUsername,omitempty"`
+	EnableCSIProxy *bool                       `json:"enableCSIProxy,omitempty"`
+	GmsaProfile    *WindowsGmsaProfile         `json:"gmsaProfile,omitempty"`
+	LicenseType    *string                     `json:"licenseType,omitempty"`
+	PropertyBag    genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 }
 
 // AssignProperties_From_ManagedClusterWindowsProfile populates our ManagedClusterWindowsProfile from the provided source ManagedClusterWindowsProfile
@@ -7443,7 +7443,12 @@ func (profile *ManagedClusterWindowsProfile) AssignProperties_From_ManagedCluste
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// AdminPassword
-	profile.AdminPassword = genruntime.ClonePointerToString(source.AdminPassword)
+	if source.AdminPassword != nil {
+		adminPassword := source.AdminPassword.Copy()
+		profile.AdminPassword = &adminPassword
+	} else {
+		profile.AdminPassword = nil
+	}
 
 	// AdminUsername
 	profile.AdminUsername = genruntime.ClonePointerToString(source.AdminUsername)
@@ -7497,7 +7502,12 @@ func (profile *ManagedClusterWindowsProfile) AssignProperties_To_ManagedClusterW
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
 	// AdminPassword
-	destination.AdminPassword = genruntime.ClonePointerToString(profile.AdminPassword)
+	if profile.AdminPassword != nil {
+		adminPassword := profile.AdminPassword.Copy()
+		destination.AdminPassword = &adminPassword
+	} else {
+		destination.AdminPassword = nil
+	}
 
 	// AdminUsername
 	destination.AdminUsername = genruntime.ClonePointerToString(profile.AdminUsername)
@@ -7548,7 +7558,6 @@ func (profile *ManagedClusterWindowsProfile) AssignProperties_To_ManagedClusterW
 // Storage version of v1api20230201.ManagedClusterWindowsProfile_STATUS
 // Profile for Windows VMs in the managed cluster.
 type ManagedClusterWindowsProfile_STATUS struct {
-	AdminPassword  *string                    `json:"adminPassword,omitempty"`
 	AdminUsername  *string                    `json:"adminUsername,omitempty"`
 	EnableCSIProxy *bool                      `json:"enableCSIProxy,omitempty"`
 	GmsaProfile    *WindowsGmsaProfile_STATUS `json:"gmsaProfile,omitempty"`
@@ -7560,9 +7569,6 @@ type ManagedClusterWindowsProfile_STATUS struct {
 func (profile *ManagedClusterWindowsProfile_STATUS) AssignProperties_From_ManagedClusterWindowsProfile_STATUS(source *storage.ManagedClusterWindowsProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// AdminPassword
-	profile.AdminPassword = genruntime.ClonePointerToString(source.AdminPassword)
 
 	// AdminUsername
 	profile.AdminUsername = genruntime.ClonePointerToString(source.AdminUsername)
@@ -7614,9 +7620,6 @@ func (profile *ManagedClusterWindowsProfile_STATUS) AssignProperties_From_Manage
 func (profile *ManagedClusterWindowsProfile_STATUS) AssignProperties_To_ManagedClusterWindowsProfile_STATUS(destination *storage.ManagedClusterWindowsProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
-
-	// AdminPassword
-	destination.AdminPassword = genruntime.ClonePointerToString(profile.AdminPassword)
 
 	// AdminUsername
 	destination.AdminUsername = genruntime.ClonePointerToString(profile.AdminUsername)

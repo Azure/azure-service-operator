@@ -1194,7 +1194,7 @@ func (rule *ManagementPolicyRule) Initialize_From_ManagementPolicyRule_STATUS(so
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagementPolicyRule_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), managementPolicyRule_Type_Values)
 		rule.Type = &typeVar
 	} else {
 		rule.Type = nil

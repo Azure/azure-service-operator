@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_ManagedCluster_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_AzureKeyVaultKms_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManagedCluster_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedCluster_STATUS_ARM, ManagedCluster_STATUS_ARMGenerator()))
+		"Round trip of AzureKeyVaultKms_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAzureKeyVaultKms_STATUS_ARM, AzureKeyVaultKms_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedCluster_STATUS_ARM runs a test to see if a specific instance of ManagedCluster_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedCluster_STATUS_ARM(subject ManagedCluster_STATUS_ARM) string {
+// RunJSONSerializationTestForAzureKeyVaultKms_STATUS_ARM runs a test to see if a specific instance of AzureKeyVaultKms_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForAzureKeyVaultKms_STATUS_ARM(subject AzureKeyVaultKms_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForManagedCluster_STATUS_ARM(subject ManagedCluster
 	}
 
 	// Deserialize back into memory
-	var actual ManagedCluster_STATUS_ARM
+	var actual AzureKeyVaultKms_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,439 +56,29 @@ func RunJSONSerializationTestForManagedCluster_STATUS_ARM(subject ManagedCluster
 	return ""
 }
 
-// Generator of ManagedCluster_STATUS_ARM instances for property testing - lazily instantiated by
-// ManagedCluster_STATUS_ARMGenerator()
-var managedCluster_STATUS_ARMGenerator gopter.Gen
+// Generator of AzureKeyVaultKms_STATUS_ARM instances for property testing - lazily instantiated by
+// AzureKeyVaultKms_STATUS_ARMGenerator()
+var azureKeyVaultKms_STATUS_ARMGenerator gopter.Gen
 
-// ManagedCluster_STATUS_ARMGenerator returns a generator of ManagedCluster_STATUS_ARM instances for property testing.
-// We first initialize managedCluster_STATUS_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ManagedCluster_STATUS_ARMGenerator() gopter.Gen {
-	if managedCluster_STATUS_ARMGenerator != nil {
-		return managedCluster_STATUS_ARMGenerator
+// AzureKeyVaultKms_STATUS_ARMGenerator returns a generator of AzureKeyVaultKms_STATUS_ARM instances for property testing.
+func AzureKeyVaultKms_STATUS_ARMGenerator() gopter.Gen {
+	if azureKeyVaultKms_STATUS_ARMGenerator != nil {
+		return azureKeyVaultKms_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedCluster_STATUS_ARM(generators)
-	managedCluster_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedCluster_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForAzureKeyVaultKms_STATUS_ARM(generators)
+	azureKeyVaultKms_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(AzureKeyVaultKms_STATUS_ARM{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedCluster_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForManagedCluster_STATUS_ARM(generators)
-	managedCluster_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedCluster_STATUS_ARM{}), generators)
-
-	return managedCluster_STATUS_ARMGenerator
+	return azureKeyVaultKms_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagedCluster_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedCluster_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForManagedCluster_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedCluster_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUS_ARMGenerator())
-	gens["Identity"] = gen.PtrOf(ManagedClusterIdentity_STATUS_ARMGenerator())
-	gens["Properties"] = gen.PtrOf(ManagedClusterProperties_STATUS_ARMGenerator())
-	gens["Sku"] = gen.PtrOf(ManagedClusterSKU_STATUS_ARMGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUS_ARMGenerator())
-}
-
-func Test_ExtendedLocation_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ExtendedLocation_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForExtendedLocation_STATUS_ARM, ExtendedLocation_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForExtendedLocation_STATUS_ARM runs a test to see if a specific instance of ExtendedLocation_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForExtendedLocation_STATUS_ARM(subject ExtendedLocation_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ExtendedLocation_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ExtendedLocation_STATUS_ARM instances for property testing - lazily instantiated by
-// ExtendedLocation_STATUS_ARMGenerator()
-var extendedLocation_STATUS_ARMGenerator gopter.Gen
-
-// ExtendedLocation_STATUS_ARMGenerator returns a generator of ExtendedLocation_STATUS_ARM instances for property testing.
-func ExtendedLocation_STATUS_ARMGenerator() gopter.Gen {
-	if extendedLocation_STATUS_ARMGenerator != nil {
-		return extendedLocation_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForExtendedLocation_STATUS_ARM(generators)
-	extendedLocation_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ExtendedLocation_STATUS_ARM{}), generators)
-
-	return extendedLocation_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForExtendedLocation_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForExtendedLocation_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_STATUS_EdgeZone))
-}
-
-func Test_ManagedClusterIdentity_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedClusterIdentity_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterIdentity_STATUS_ARM, ManagedClusterIdentity_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedClusterIdentity_STATUS_ARM runs a test to see if a specific instance of ManagedClusterIdentity_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterIdentity_STATUS_ARM(subject ManagedClusterIdentity_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedClusterIdentity_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedClusterIdentity_STATUS_ARM instances for property testing - lazily instantiated by
-// ManagedClusterIdentity_STATUS_ARMGenerator()
-var managedClusterIdentity_STATUS_ARMGenerator gopter.Gen
-
-// ManagedClusterIdentity_STATUS_ARMGenerator returns a generator of ManagedClusterIdentity_STATUS_ARM instances for property testing.
-// We first initialize managedClusterIdentity_STATUS_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ManagedClusterIdentity_STATUS_ARMGenerator() gopter.Gen {
-	if managedClusterIdentity_STATUS_ARMGenerator != nil {
-		return managedClusterIdentity_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterIdentity_STATUS_ARM(generators)
-	managedClusterIdentity_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterIdentity_STATUS_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterIdentity_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForManagedClusterIdentity_STATUS_ARM(generators)
-	managedClusterIdentity_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterIdentity_STATUS_ARM{}), generators)
-
-	return managedClusterIdentity_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedClusterIdentity_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterIdentity_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
-	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedClusterIdentity_Type_STATUS_None, ManagedClusterIdentity_Type_STATUS_SystemAssigned, ManagedClusterIdentity_Type_STATUS_UserAssigned))
-}
-
-// AddRelatedPropertyGeneratorsForManagedClusterIdentity_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedClusterIdentity_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(
-		gen.AlphaString(),
-		ManagedClusterIdentity_UserAssignedIdentities_STATUS_ARMGenerator())
-}
-
-func Test_ManagedClusterProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedClusterProperties_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterProperties_STATUS_ARM, ManagedClusterProperties_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedClusterProperties_STATUS_ARM runs a test to see if a specific instance of ManagedClusterProperties_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterProperties_STATUS_ARM(subject ManagedClusterProperties_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedClusterProperties_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedClusterProperties_STATUS_ARM instances for property testing - lazily instantiated by
-// ManagedClusterProperties_STATUS_ARMGenerator()
-var managedClusterProperties_STATUS_ARMGenerator gopter.Gen
-
-// ManagedClusterProperties_STATUS_ARMGenerator returns a generator of ManagedClusterProperties_STATUS_ARM instances for property testing.
-// We first initialize managedClusterProperties_STATUS_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ManagedClusterProperties_STATUS_ARMGenerator() gopter.Gen {
-	if managedClusterProperties_STATUS_ARMGenerator != nil {
-		return managedClusterProperties_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterProperties_STATUS_ARM(generators)
-	managedClusterProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterProperties_STATUS_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterProperties_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForManagedClusterProperties_STATUS_ARM(generators)
-	managedClusterProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterProperties_STATUS_ARM{}), generators)
-
-	return managedClusterProperties_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedClusterProperties_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["AzurePortalFQDN"] = gen.PtrOf(gen.AlphaString())
-	gens["CurrentKubernetesVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["DisableLocalAccounts"] = gen.PtrOf(gen.Bool())
-	gens["DiskEncryptionSetID"] = gen.PtrOf(gen.AlphaString())
-	gens["DnsPrefix"] = gen.PtrOf(gen.AlphaString())
-	gens["EnablePodSecurityPolicy"] = gen.PtrOf(gen.Bool())
-	gens["EnableRBAC"] = gen.PtrOf(gen.Bool())
-	gens["Fqdn"] = gen.PtrOf(gen.AlphaString())
-	gens["FqdnSubdomain"] = gen.PtrOf(gen.AlphaString())
-	gens["KubernetesVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["MaxAgentPools"] = gen.PtrOf(gen.Int())
-	gens["NodeResourceGroup"] = gen.PtrOf(gen.AlphaString())
-	gens["PrivateFQDN"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ManagedClusterProperties_PublicNetworkAccess_STATUS_Disabled, ManagedClusterProperties_PublicNetworkAccess_STATUS_Enabled))
-}
-
-// AddRelatedPropertyGeneratorsForManagedClusterProperties_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedClusterProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["AadProfile"] = gen.PtrOf(ManagedClusterAADProfile_STATUS_ARMGenerator())
-	gens["AddonProfiles"] = gen.MapOf(
-		gen.AlphaString(),
-		ManagedClusterAddonProfile_STATUS_ARMGenerator())
-	gens["AgentPoolProfiles"] = gen.SliceOf(ManagedClusterAgentPoolProfile_STATUS_ARMGenerator())
-	gens["ApiServerAccessProfile"] = gen.PtrOf(ManagedClusterAPIServerAccessProfile_STATUS_ARMGenerator())
-	gens["AutoScalerProfile"] = gen.PtrOf(ManagedClusterProperties_AutoScalerProfile_STATUS_ARMGenerator())
-	gens["AutoUpgradeProfile"] = gen.PtrOf(ManagedClusterAutoUpgradeProfile_STATUS_ARMGenerator())
-	gens["AzureMonitorProfile"] = gen.PtrOf(ManagedClusterAzureMonitorProfile_STATUS_ARMGenerator())
-	gens["HttpProxyConfig"] = gen.PtrOf(ManagedClusterHTTPProxyConfig_STATUS_ARMGenerator())
-	gens["IdentityProfile"] = gen.MapOf(
-		gen.AlphaString(),
-		UserAssignedIdentity_STATUS_ARMGenerator())
-	gens["LinuxProfile"] = gen.PtrOf(ContainerServiceLinuxProfile_STATUS_ARMGenerator())
-	gens["NetworkProfile"] = gen.PtrOf(ContainerServiceNetworkProfile_STATUS_ARMGenerator())
-	gens["OidcIssuerProfile"] = gen.PtrOf(ManagedClusterOIDCIssuerProfile_STATUS_ARMGenerator())
-	gens["PodIdentityProfile"] = gen.PtrOf(ManagedClusterPodIdentityProfile_STATUS_ARMGenerator())
-	gens["PowerState"] = gen.PtrOf(PowerState_STATUS_ARMGenerator())
-	gens["PrivateLinkResources"] = gen.SliceOf(PrivateLinkResource_STATUS_ARMGenerator())
-	gens["SecurityProfile"] = gen.PtrOf(ManagedClusterSecurityProfile_STATUS_ARMGenerator())
-	gens["ServicePrincipalProfile"] = gen.PtrOf(ManagedClusterServicePrincipalProfile_STATUS_ARMGenerator())
-	gens["StorageProfile"] = gen.PtrOf(ManagedClusterStorageProfile_STATUS_ARMGenerator())
-	gens["WindowsProfile"] = gen.PtrOf(ManagedClusterWindowsProfile_STATUS_ARMGenerator())
-	gens["WorkloadAutoScalerProfile"] = gen.PtrOf(ManagedClusterWorkloadAutoScalerProfile_STATUS_ARMGenerator())
-}
-
-func Test_ManagedClusterSKU_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedClusterSKU_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterSKU_STATUS_ARM, ManagedClusterSKU_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedClusterSKU_STATUS_ARM runs a test to see if a specific instance of ManagedClusterSKU_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterSKU_STATUS_ARM(subject ManagedClusterSKU_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedClusterSKU_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedClusterSKU_STATUS_ARM instances for property testing - lazily instantiated by
-// ManagedClusterSKU_STATUS_ARMGenerator()
-var managedClusterSKU_STATUS_ARMGenerator gopter.Gen
-
-// ManagedClusterSKU_STATUS_ARMGenerator returns a generator of ManagedClusterSKU_STATUS_ARM instances for property testing.
-func ManagedClusterSKU_STATUS_ARMGenerator() gopter.Gen {
-	if managedClusterSKU_STATUS_ARMGenerator != nil {
-		return managedClusterSKU_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterSKU_STATUS_ARM(generators)
-	managedClusterSKU_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterSKU_STATUS_ARM{}), generators)
-
-	return managedClusterSKU_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedClusterSKU_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterSKU_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(ManagedClusterSKU_Name_STATUS_Base))
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(ManagedClusterSKU_Tier_STATUS_Free, ManagedClusterSKU_Tier_STATUS_Standard))
-}
-
-func Test_SystemData_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SystemData_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSystemData_STATUS_ARM, SystemData_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSystemData_STATUS_ARM runs a test to see if a specific instance of SystemData_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSystemData_STATUS_ARM(subject SystemData_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual SystemData_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of SystemData_STATUS_ARM instances for property testing - lazily instantiated by
-// SystemData_STATUS_ARMGenerator()
-var systemData_STATUS_ARMGenerator gopter.Gen
-
-// SystemData_STATUS_ARMGenerator returns a generator of SystemData_STATUS_ARM instances for property testing.
-func SystemData_STATUS_ARMGenerator() gopter.Gen {
-	if systemData_STATUS_ARMGenerator != nil {
-		return systemData_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSystemData_STATUS_ARM(generators)
-	systemData_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(SystemData_STATUS_ARM{}), generators)
-
-	return systemData_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSystemData_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSystemData_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_STATUS_Application,
-		SystemData_CreatedByType_STATUS_Key,
-		SystemData_CreatedByType_STATUS_ManagedIdentity,
-		SystemData_CreatedByType_STATUS_User))
-	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_STATUS_Application,
-		SystemData_LastModifiedByType_STATUS_Key,
-		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-		SystemData_LastModifiedByType_STATUS_User))
+// AddIndependentPropertyGeneratorsForAzureKeyVaultKms_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAzureKeyVaultKms_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Enabled"] = gen.PtrOf(gen.Bool())
+	gens["KeyId"] = gen.PtrOf(gen.AlphaString())
+	gens["KeyVaultNetworkAccess"] = gen.PtrOf(gen.OneConstOf(AzureKeyVaultKms_KeyVaultNetworkAccess_STATUS_Private, AzureKeyVaultKms_KeyVaultNetworkAccess_STATUS_Public))
+	gens["KeyVaultResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ContainerServiceLinuxProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -659,6 +249,190 @@ func AddRelatedPropertyGeneratorsForContainerServiceNetworkProfile_STATUS_ARM(ge
 	gens["NatGatewayProfile"] = gen.PtrOf(ManagedClusterNATGatewayProfile_STATUS_ARMGenerator())
 }
 
+func Test_ContainerServiceSshConfiguration_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ContainerServiceSshConfiguration_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForContainerServiceSshConfiguration_STATUS_ARM, ContainerServiceSshConfiguration_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForContainerServiceSshConfiguration_STATUS_ARM runs a test to see if a specific instance of ContainerServiceSshConfiguration_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForContainerServiceSshConfiguration_STATUS_ARM(subject ContainerServiceSshConfiguration_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ContainerServiceSshConfiguration_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ContainerServiceSshConfiguration_STATUS_ARM instances for property testing - lazily instantiated by
+// ContainerServiceSshConfiguration_STATUS_ARMGenerator()
+var containerServiceSshConfiguration_STATUS_ARMGenerator gopter.Gen
+
+// ContainerServiceSshConfiguration_STATUS_ARMGenerator returns a generator of ContainerServiceSshConfiguration_STATUS_ARM instances for property testing.
+func ContainerServiceSshConfiguration_STATUS_ARMGenerator() gopter.Gen {
+	if containerServiceSshConfiguration_STATUS_ARMGenerator != nil {
+		return containerServiceSshConfiguration_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForContainerServiceSshConfiguration_STATUS_ARM(generators)
+	containerServiceSshConfiguration_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerServiceSshConfiguration_STATUS_ARM{}), generators)
+
+	return containerServiceSshConfiguration_STATUS_ARMGenerator
+}
+
+// AddRelatedPropertyGeneratorsForContainerServiceSshConfiguration_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForContainerServiceSshConfiguration_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["PublicKeys"] = gen.SliceOf(ContainerServiceSshPublicKey_STATUS_ARMGenerator())
+}
+
+func Test_ContainerServiceSshPublicKey_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ContainerServiceSshPublicKey_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForContainerServiceSshPublicKey_STATUS_ARM, ContainerServiceSshPublicKey_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForContainerServiceSshPublicKey_STATUS_ARM runs a test to see if a specific instance of ContainerServiceSshPublicKey_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForContainerServiceSshPublicKey_STATUS_ARM(subject ContainerServiceSshPublicKey_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ContainerServiceSshPublicKey_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ContainerServiceSshPublicKey_STATUS_ARM instances for property testing - lazily instantiated by
+// ContainerServiceSshPublicKey_STATUS_ARMGenerator()
+var containerServiceSshPublicKey_STATUS_ARMGenerator gopter.Gen
+
+// ContainerServiceSshPublicKey_STATUS_ARMGenerator returns a generator of ContainerServiceSshPublicKey_STATUS_ARM instances for property testing.
+func ContainerServiceSshPublicKey_STATUS_ARMGenerator() gopter.Gen {
+	if containerServiceSshPublicKey_STATUS_ARMGenerator != nil {
+		return containerServiceSshPublicKey_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForContainerServiceSshPublicKey_STATUS_ARM(generators)
+	containerServiceSshPublicKey_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerServiceSshPublicKey_STATUS_ARM{}), generators)
+
+	return containerServiceSshPublicKey_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForContainerServiceSshPublicKey_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForContainerServiceSshPublicKey_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["KeyData"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ExtendedLocation_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ExtendedLocation_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForExtendedLocation_STATUS_ARM, ExtendedLocation_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForExtendedLocation_STATUS_ARM runs a test to see if a specific instance of ExtendedLocation_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForExtendedLocation_STATUS_ARM(subject ExtendedLocation_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ExtendedLocation_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ExtendedLocation_STATUS_ARM instances for property testing - lazily instantiated by
+// ExtendedLocation_STATUS_ARMGenerator()
+var extendedLocation_STATUS_ARMGenerator gopter.Gen
+
+// ExtendedLocation_STATUS_ARMGenerator returns a generator of ExtendedLocation_STATUS_ARM instances for property testing.
+func ExtendedLocation_STATUS_ARMGenerator() gopter.Gen {
+	if extendedLocation_STATUS_ARMGenerator != nil {
+		return extendedLocation_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForExtendedLocation_STATUS_ARM(generators)
+	extendedLocation_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ExtendedLocation_STATUS_ARM{}), generators)
+
+	return extendedLocation_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForExtendedLocation_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForExtendedLocation_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_STATUS_EdgeZone))
+}
+
 func Test_ManagedClusterAADProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -724,6 +498,71 @@ func AddIndependentPropertyGeneratorsForManagedClusterAADProfile_STATUS_ARM(gens
 	gens["ServerAppID"] = gen.PtrOf(gen.AlphaString())
 	gens["ServerAppSecret"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantID"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ManagedClusterAPIServerAccessProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedClusterAPIServerAccessProfile_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterAPIServerAccessProfile_STATUS_ARM, ManagedClusterAPIServerAccessProfile_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusterAPIServerAccessProfile_STATUS_ARM runs a test to see if a specific instance of ManagedClusterAPIServerAccessProfile_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterAPIServerAccessProfile_STATUS_ARM(subject ManagedClusterAPIServerAccessProfile_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedClusterAPIServerAccessProfile_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedClusterAPIServerAccessProfile_STATUS_ARM instances for property testing - lazily instantiated by
+// ManagedClusterAPIServerAccessProfile_STATUS_ARMGenerator()
+var managedClusterAPIServerAccessProfile_STATUS_ARMGenerator gopter.Gen
+
+// ManagedClusterAPIServerAccessProfile_STATUS_ARMGenerator returns a generator of ManagedClusterAPIServerAccessProfile_STATUS_ARM instances for property testing.
+func ManagedClusterAPIServerAccessProfile_STATUS_ARMGenerator() gopter.Gen {
+	if managedClusterAPIServerAccessProfile_STATUS_ARMGenerator != nil {
+		return managedClusterAPIServerAccessProfile_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusterAPIServerAccessProfile_STATUS_ARM(generators)
+	managedClusterAPIServerAccessProfile_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAPIServerAccessProfile_STATUS_ARM{}), generators)
+
+	return managedClusterAPIServerAccessProfile_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedClusterAPIServerAccessProfile_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterAPIServerAccessProfile_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["AuthorizedIPRanges"] = gen.SliceOf(gen.AlphaString())
+	gens["DisableRunCommand"] = gen.PtrOf(gen.Bool())
+	gens["EnablePrivateCluster"] = gen.PtrOf(gen.Bool())
+	gens["EnablePrivateClusterPublicFQDN"] = gen.PtrOf(gen.Bool())
+	gens["PrivateDNSZone"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ManagedClusterAddonProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -932,71 +771,6 @@ func AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfile_STATUS_ARM(ge
 	gens["UpgradeSettings"] = gen.PtrOf(AgentPoolUpgradeSettings_STATUS_ARMGenerator())
 }
 
-func Test_ManagedClusterAPIServerAccessProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedClusterAPIServerAccessProfile_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterAPIServerAccessProfile_STATUS_ARM, ManagedClusterAPIServerAccessProfile_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedClusterAPIServerAccessProfile_STATUS_ARM runs a test to see if a specific instance of ManagedClusterAPIServerAccessProfile_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterAPIServerAccessProfile_STATUS_ARM(subject ManagedClusterAPIServerAccessProfile_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedClusterAPIServerAccessProfile_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedClusterAPIServerAccessProfile_STATUS_ARM instances for property testing - lazily instantiated by
-// ManagedClusterAPIServerAccessProfile_STATUS_ARMGenerator()
-var managedClusterAPIServerAccessProfile_STATUS_ARMGenerator gopter.Gen
-
-// ManagedClusterAPIServerAccessProfile_STATUS_ARMGenerator returns a generator of ManagedClusterAPIServerAccessProfile_STATUS_ARM instances for property testing.
-func ManagedClusterAPIServerAccessProfile_STATUS_ARMGenerator() gopter.Gen {
-	if managedClusterAPIServerAccessProfile_STATUS_ARMGenerator != nil {
-		return managedClusterAPIServerAccessProfile_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterAPIServerAccessProfile_STATUS_ARM(generators)
-	managedClusterAPIServerAccessProfile_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAPIServerAccessProfile_STATUS_ARM{}), generators)
-
-	return managedClusterAPIServerAccessProfile_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedClusterAPIServerAccessProfile_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterAPIServerAccessProfile_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["AuthorizedIPRanges"] = gen.SliceOf(gen.AlphaString())
-	gens["DisableRunCommand"] = gen.PtrOf(gen.Bool())
-	gens["EnablePrivateCluster"] = gen.PtrOf(gen.Bool())
-	gens["EnablePrivateClusterPublicFQDN"] = gen.PtrOf(gen.Bool())
-	gens["PrivateDNSZone"] = gen.PtrOf(gen.AlphaString())
-}
-
 func Test_ManagedClusterAutoUpgradeProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1061,6 +835,143 @@ func AddIndependentPropertyGeneratorsForManagedClusterAutoUpgradeProfile_STATUS_
 		ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS_Patch,
 		ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS_Rapid,
 		ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS_Stable))
+}
+
+func Test_ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARM, ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARM runs a test to see if a specific instance of ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARM(subject ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARM instances for property testing - lazily
+// instantiated by ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARMGenerator()
+var managedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARMGenerator gopter.Gen
+
+// ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARMGenerator returns a generator of ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARM instances for property testing.
+func ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARMGenerator() gopter.Gen {
+	if managedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARMGenerator != nil {
+		return managedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARM(generators)
+	managedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARM{}), generators)
+
+	return managedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["MetricAnnotationsAllowList"] = gen.PtrOf(gen.AlphaString())
+	gens["MetricLabelsAllowlist"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ManagedClusterAzureMonitorProfileMetrics_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedClusterAzureMonitorProfileMetrics_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterAzureMonitorProfileMetrics_STATUS_ARM, ManagedClusterAzureMonitorProfileMetrics_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusterAzureMonitorProfileMetrics_STATUS_ARM runs a test to see if a specific instance of ManagedClusterAzureMonitorProfileMetrics_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterAzureMonitorProfileMetrics_STATUS_ARM(subject ManagedClusterAzureMonitorProfileMetrics_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedClusterAzureMonitorProfileMetrics_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedClusterAzureMonitorProfileMetrics_STATUS_ARM instances for property testing - lazily instantiated
+// by ManagedClusterAzureMonitorProfileMetrics_STATUS_ARMGenerator()
+var managedClusterAzureMonitorProfileMetrics_STATUS_ARMGenerator gopter.Gen
+
+// ManagedClusterAzureMonitorProfileMetrics_STATUS_ARMGenerator returns a generator of ManagedClusterAzureMonitorProfileMetrics_STATUS_ARM instances for property testing.
+// We first initialize managedClusterAzureMonitorProfileMetrics_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ManagedClusterAzureMonitorProfileMetrics_STATUS_ARMGenerator() gopter.Gen {
+	if managedClusterAzureMonitorProfileMetrics_STATUS_ARMGenerator != nil {
+		return managedClusterAzureMonitorProfileMetrics_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusterAzureMonitorProfileMetrics_STATUS_ARM(generators)
+	managedClusterAzureMonitorProfileMetrics_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAzureMonitorProfileMetrics_STATUS_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusterAzureMonitorProfileMetrics_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForManagedClusterAzureMonitorProfileMetrics_STATUS_ARM(generators)
+	managedClusterAzureMonitorProfileMetrics_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAzureMonitorProfileMetrics_STATUS_ARM{}), generators)
+
+	return managedClusterAzureMonitorProfileMetrics_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedClusterAzureMonitorProfileMetrics_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterAzureMonitorProfileMetrics_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Enabled"] = gen.PtrOf(gen.Bool())
+}
+
+// AddRelatedPropertyGeneratorsForManagedClusterAzureMonitorProfileMetrics_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClusterAzureMonitorProfileMetrics_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["KubeStateMetrics"] = gen.PtrOf(ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARMGenerator())
 }
 
 func Test_ManagedClusterAzureMonitorProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1188,6 +1099,85 @@ func AddIndependentPropertyGeneratorsForManagedClusterHTTPProxyConfig_STATUS_ARM
 	gens["TrustedCa"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_ManagedClusterIdentity_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedClusterIdentity_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterIdentity_STATUS_ARM, ManagedClusterIdentity_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusterIdentity_STATUS_ARM runs a test to see if a specific instance of ManagedClusterIdentity_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterIdentity_STATUS_ARM(subject ManagedClusterIdentity_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedClusterIdentity_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedClusterIdentity_STATUS_ARM instances for property testing - lazily instantiated by
+// ManagedClusterIdentity_STATUS_ARMGenerator()
+var managedClusterIdentity_STATUS_ARMGenerator gopter.Gen
+
+// ManagedClusterIdentity_STATUS_ARMGenerator returns a generator of ManagedClusterIdentity_STATUS_ARM instances for property testing.
+// We first initialize managedClusterIdentity_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ManagedClusterIdentity_STATUS_ARMGenerator() gopter.Gen {
+	if managedClusterIdentity_STATUS_ARMGenerator != nil {
+		return managedClusterIdentity_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusterIdentity_STATUS_ARM(generators)
+	managedClusterIdentity_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterIdentity_STATUS_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusterIdentity_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForManagedClusterIdentity_STATUS_ARM(generators)
+	managedClusterIdentity_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterIdentity_STATUS_ARM{}), generators)
+
+	return managedClusterIdentity_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedClusterIdentity_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterIdentity_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
+	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedClusterIdentity_Type_STATUS_None, ManagedClusterIdentity_Type_STATUS_SystemAssigned, ManagedClusterIdentity_Type_STATUS_UserAssigned))
+}
+
+// AddRelatedPropertyGeneratorsForManagedClusterIdentity_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClusterIdentity_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		ManagedClusterIdentity_UserAssignedIdentities_STATUS_ARMGenerator())
+}
+
 func Test_ManagedClusterIdentity_UserAssignedIdentities_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1250,20 +1240,20 @@ func AddIndependentPropertyGeneratorsForManagedClusterIdentity_UserAssignedIdent
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_ManagedClusterOIDCIssuerProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManagedClusterOIDCIssuerProfile_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterOIDCIssuerProfile_STATUS_ARM, ManagedClusterOIDCIssuerProfile_STATUS_ARMGenerator()))
+		"Round trip of ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARM, ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedClusterOIDCIssuerProfile_STATUS_ARM runs a test to see if a specific instance of ManagedClusterOIDCIssuerProfile_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterOIDCIssuerProfile_STATUS_ARM(subject ManagedClusterOIDCIssuerProfile_STATUS_ARM) string {
+// RunJSONSerializationTestForManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARM runs a test to see if a specific instance of ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARM(subject ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1271,7 +1261,7 @@ func RunJSONSerializationTestForManagedClusterOIDCIssuerProfile_STATUS_ARM(subje
 	}
 
 	// Deserialize back into memory
-	var actual ManagedClusterOIDCIssuerProfile_STATUS_ARM
+	var actual ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1289,43 +1279,43 @@ func RunJSONSerializationTestForManagedClusterOIDCIssuerProfile_STATUS_ARM(subje
 	return ""
 }
 
-// Generator of ManagedClusterOIDCIssuerProfile_STATUS_ARM instances for property testing - lazily instantiated by
-// ManagedClusterOIDCIssuerProfile_STATUS_ARMGenerator()
-var managedClusterOIDCIssuerProfile_STATUS_ARMGenerator gopter.Gen
+// Generator of ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARM instances for property testing - lazily
+// instantiated by ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARMGenerator()
+var managedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARMGenerator gopter.Gen
 
-// ManagedClusterOIDCIssuerProfile_STATUS_ARMGenerator returns a generator of ManagedClusterOIDCIssuerProfile_STATUS_ARM instances for property testing.
-func ManagedClusterOIDCIssuerProfile_STATUS_ARMGenerator() gopter.Gen {
-	if managedClusterOIDCIssuerProfile_STATUS_ARMGenerator != nil {
-		return managedClusterOIDCIssuerProfile_STATUS_ARMGenerator
+// ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARMGenerator returns a generator of ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARM instances for property testing.
+func ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARMGenerator() gopter.Gen {
+	if managedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARMGenerator != nil {
+		return managedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterOIDCIssuerProfile_STATUS_ARM(generators)
-	managedClusterOIDCIssuerProfile_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterOIDCIssuerProfile_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARM(generators)
+	managedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARM{}), generators)
 
-	return managedClusterOIDCIssuerProfile_STATUS_ARMGenerator
+	return managedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagedClusterOIDCIssuerProfile_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterOIDCIssuerProfile_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["IssuerURL"] = gen.PtrOf(gen.AlphaString())
+// AddIndependentPropertyGeneratorsForManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Count"] = gen.PtrOf(gen.Int())
+	gens["CountIPv6"] = gen.PtrOf(gen.Int())
 }
 
-func Test_ManagedClusterPodIdentityProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManagedClusterPodIdentityProfile_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterPodIdentityProfile_STATUS_ARM, ManagedClusterPodIdentityProfile_STATUS_ARMGenerator()))
+		"Round trip of ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARM, ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedClusterPodIdentityProfile_STATUS_ARM runs a test to see if a specific instance of ManagedClusterPodIdentityProfile_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterPodIdentityProfile_STATUS_ARM(subject ManagedClusterPodIdentityProfile_STATUS_ARM) string {
+// RunJSONSerializationTestForManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARM runs a test to see if a specific instance of ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARM(subject ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1333,7 +1323,7 @@ func RunJSONSerializationTestForManagedClusterPodIdentityProfile_STATUS_ARM(subj
 	}
 
 	// Deserialize back into memory
-	var actual ManagedClusterPodIdentityProfile_STATUS_ARM
+	var actual ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1351,58 +1341,42 @@ func RunJSONSerializationTestForManagedClusterPodIdentityProfile_STATUS_ARM(subj
 	return ""
 }
 
-// Generator of ManagedClusterPodIdentityProfile_STATUS_ARM instances for property testing - lazily instantiated by
-// ManagedClusterPodIdentityProfile_STATUS_ARMGenerator()
-var managedClusterPodIdentityProfile_STATUS_ARMGenerator gopter.Gen
+// Generator of ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARM instances for property testing - lazily
+// instantiated by ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARMGenerator()
+var managedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARMGenerator gopter.Gen
 
-// ManagedClusterPodIdentityProfile_STATUS_ARMGenerator returns a generator of ManagedClusterPodIdentityProfile_STATUS_ARM instances for property testing.
-// We first initialize managedClusterPodIdentityProfile_STATUS_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ManagedClusterPodIdentityProfile_STATUS_ARMGenerator() gopter.Gen {
-	if managedClusterPodIdentityProfile_STATUS_ARMGenerator != nil {
-		return managedClusterPodIdentityProfile_STATUS_ARMGenerator
+// ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARMGenerator returns a generator of ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARM instances for property testing.
+func ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARMGenerator() gopter.Gen {
+	if managedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARMGenerator != nil {
+		return managedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProfile_STATUS_ARM(generators)
-	managedClusterPodIdentityProfile_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterPodIdentityProfile_STATUS_ARM{}), generators)
+	AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARM(generators)
+	managedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARM{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProfile_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForManagedClusterPodIdentityProfile_STATUS_ARM(generators)
-	managedClusterPodIdentityProfile_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterPodIdentityProfile_STATUS_ARM{}), generators)
-
-	return managedClusterPodIdentityProfile_STATUS_ARMGenerator
+	return managedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProfile_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProfile_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["AllowNetworkPluginKubenet"] = gen.PtrOf(gen.Bool())
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
+// AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["PublicIPPrefixes"] = gen.SliceOf(ResourceReference_STATUS_ARMGenerator())
 }
 
-// AddRelatedPropertyGeneratorsForManagedClusterPodIdentityProfile_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedClusterPodIdentityProfile_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.SliceOf(ManagedClusterPodIdentity_STATUS_ARMGenerator())
-	gens["UserAssignedIdentityExceptions"] = gen.SliceOf(ManagedClusterPodIdentityException_STATUS_ARMGenerator())
-}
-
-func Test_ManagedClusterProperties_AutoScalerProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManagedClusterProperties_AutoScalerProfile_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterProperties_AutoScalerProfile_STATUS_ARM, ManagedClusterProperties_AutoScalerProfile_STATUS_ARMGenerator()))
+		"Round trip of ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARM, ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedClusterProperties_AutoScalerProfile_STATUS_ARM runs a test to see if a specific instance of ManagedClusterProperties_AutoScalerProfile_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterProperties_AutoScalerProfile_STATUS_ARM(subject ManagedClusterProperties_AutoScalerProfile_STATUS_ARM) string {
+// RunJSONSerializationTestForManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARM runs a test to see if a specific instance of ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARM(subject ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1410,7 +1384,7 @@ func RunJSONSerializationTestForManagedClusterProperties_AutoScalerProfile_STATU
 	}
 
 	// Deserialize back into memory
-	var actual ManagedClusterProperties_AutoScalerProfile_STATUS_ARM
+	var actual ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1428,764 +1402,26 @@ func RunJSONSerializationTestForManagedClusterProperties_AutoScalerProfile_STATU
 	return ""
 }
 
-// Generator of ManagedClusterProperties_AutoScalerProfile_STATUS_ARM instances for property testing - lazily
-// instantiated by ManagedClusterProperties_AutoScalerProfile_STATUS_ARMGenerator()
-var managedClusterProperties_AutoScalerProfile_STATUS_ARMGenerator gopter.Gen
+// Generator of ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARM instances for property testing - lazily
+// instantiated by ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARMGenerator()
+var managedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARMGenerator gopter.Gen
 
-// ManagedClusterProperties_AutoScalerProfile_STATUS_ARMGenerator returns a generator of ManagedClusterProperties_AutoScalerProfile_STATUS_ARM instances for property testing.
-func ManagedClusterProperties_AutoScalerProfile_STATUS_ARMGenerator() gopter.Gen {
-	if managedClusterProperties_AutoScalerProfile_STATUS_ARMGenerator != nil {
-		return managedClusterProperties_AutoScalerProfile_STATUS_ARMGenerator
+// ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARMGenerator returns a generator of ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARM instances for property testing.
+func ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARMGenerator() gopter.Gen {
+	if managedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARMGenerator != nil {
+		return managedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterProperties_AutoScalerProfile_STATUS_ARM(generators)
-	managedClusterProperties_AutoScalerProfile_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterProperties_AutoScalerProfile_STATUS_ARM{}), generators)
+	AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARM(generators)
+	managedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARM{}), generators)
 
-	return managedClusterProperties_AutoScalerProfile_STATUS_ARMGenerator
+	return managedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagedClusterProperties_AutoScalerProfile_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterProperties_AutoScalerProfile_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["BalanceSimilarNodeGroups"] = gen.PtrOf(gen.AlphaString())
-	gens["Expander"] = gen.PtrOf(gen.OneConstOf(
-		ManagedClusterProperties_AutoScalerProfile_Expander_STATUS_LeastWaste,
-		ManagedClusterProperties_AutoScalerProfile_Expander_STATUS_MostPods,
-		ManagedClusterProperties_AutoScalerProfile_Expander_STATUS_Priority,
-		ManagedClusterProperties_AutoScalerProfile_Expander_STATUS_Random))
-	gens["MaxEmptyBulkDelete"] = gen.PtrOf(gen.AlphaString())
-	gens["MaxGracefulTerminationSec"] = gen.PtrOf(gen.AlphaString())
-	gens["MaxNodeProvisionTime"] = gen.PtrOf(gen.AlphaString())
-	gens["MaxTotalUnreadyPercentage"] = gen.PtrOf(gen.AlphaString())
-	gens["NewPodScaleUpDelay"] = gen.PtrOf(gen.AlphaString())
-	gens["OkTotalUnreadyCount"] = gen.PtrOf(gen.AlphaString())
-	gens["ScaleDownDelayAfterAdd"] = gen.PtrOf(gen.AlphaString())
-	gens["ScaleDownDelayAfterDelete"] = gen.PtrOf(gen.AlphaString())
-	gens["ScaleDownDelayAfterFailure"] = gen.PtrOf(gen.AlphaString())
-	gens["ScaleDownUnneededTime"] = gen.PtrOf(gen.AlphaString())
-	gens["ScaleDownUnreadyTime"] = gen.PtrOf(gen.AlphaString())
-	gens["ScaleDownUtilizationThreshold"] = gen.PtrOf(gen.AlphaString())
-	gens["ScanInterval"] = gen.PtrOf(gen.AlphaString())
-	gens["SkipNodesWithLocalStorage"] = gen.PtrOf(gen.AlphaString())
-	gens["SkipNodesWithSystemPods"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_ManagedClusterSecurityProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedClusterSecurityProfile_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterSecurityProfile_STATUS_ARM, ManagedClusterSecurityProfile_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedClusterSecurityProfile_STATUS_ARM runs a test to see if a specific instance of ManagedClusterSecurityProfile_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterSecurityProfile_STATUS_ARM(subject ManagedClusterSecurityProfile_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedClusterSecurityProfile_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedClusterSecurityProfile_STATUS_ARM instances for property testing - lazily instantiated by
-// ManagedClusterSecurityProfile_STATUS_ARMGenerator()
-var managedClusterSecurityProfile_STATUS_ARMGenerator gopter.Gen
-
-// ManagedClusterSecurityProfile_STATUS_ARMGenerator returns a generator of ManagedClusterSecurityProfile_STATUS_ARM instances for property testing.
-func ManagedClusterSecurityProfile_STATUS_ARMGenerator() gopter.Gen {
-	if managedClusterSecurityProfile_STATUS_ARMGenerator != nil {
-		return managedClusterSecurityProfile_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForManagedClusterSecurityProfile_STATUS_ARM(generators)
-	managedClusterSecurityProfile_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterSecurityProfile_STATUS_ARM{}), generators)
-
-	return managedClusterSecurityProfile_STATUS_ARMGenerator
-}
-
-// AddRelatedPropertyGeneratorsForManagedClusterSecurityProfile_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedClusterSecurityProfile_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["AzureKeyVaultKms"] = gen.PtrOf(AzureKeyVaultKms_STATUS_ARMGenerator())
-	gens["Defender"] = gen.PtrOf(ManagedClusterSecurityProfileDefender_STATUS_ARMGenerator())
-	gens["ImageCleaner"] = gen.PtrOf(ManagedClusterSecurityProfileImageCleaner_STATUS_ARMGenerator())
-	gens["WorkloadIdentity"] = gen.PtrOf(ManagedClusterSecurityProfileWorkloadIdentity_STATUS_ARMGenerator())
-}
-
-func Test_ManagedClusterServicePrincipalProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedClusterServicePrincipalProfile_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterServicePrincipalProfile_STATUS_ARM, ManagedClusterServicePrincipalProfile_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedClusterServicePrincipalProfile_STATUS_ARM runs a test to see if a specific instance of ManagedClusterServicePrincipalProfile_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterServicePrincipalProfile_STATUS_ARM(subject ManagedClusterServicePrincipalProfile_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedClusterServicePrincipalProfile_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedClusterServicePrincipalProfile_STATUS_ARM instances for property testing - lazily instantiated by
-// ManagedClusterServicePrincipalProfile_STATUS_ARMGenerator()
-var managedClusterServicePrincipalProfile_STATUS_ARMGenerator gopter.Gen
-
-// ManagedClusterServicePrincipalProfile_STATUS_ARMGenerator returns a generator of ManagedClusterServicePrincipalProfile_STATUS_ARM instances for property testing.
-func ManagedClusterServicePrincipalProfile_STATUS_ARMGenerator() gopter.Gen {
-	if managedClusterServicePrincipalProfile_STATUS_ARMGenerator != nil {
-		return managedClusterServicePrincipalProfile_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterServicePrincipalProfile_STATUS_ARM(generators)
-	managedClusterServicePrincipalProfile_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterServicePrincipalProfile_STATUS_ARM{}), generators)
-
-	return managedClusterServicePrincipalProfile_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedClusterServicePrincipalProfile_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterServicePrincipalProfile_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_ManagedClusterStorageProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedClusterStorageProfile_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterStorageProfile_STATUS_ARM, ManagedClusterStorageProfile_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedClusterStorageProfile_STATUS_ARM runs a test to see if a specific instance of ManagedClusterStorageProfile_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterStorageProfile_STATUS_ARM(subject ManagedClusterStorageProfile_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedClusterStorageProfile_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedClusterStorageProfile_STATUS_ARM instances for property testing - lazily instantiated by
-// ManagedClusterStorageProfile_STATUS_ARMGenerator()
-var managedClusterStorageProfile_STATUS_ARMGenerator gopter.Gen
-
-// ManagedClusterStorageProfile_STATUS_ARMGenerator returns a generator of ManagedClusterStorageProfile_STATUS_ARM instances for property testing.
-func ManagedClusterStorageProfile_STATUS_ARMGenerator() gopter.Gen {
-	if managedClusterStorageProfile_STATUS_ARMGenerator != nil {
-		return managedClusterStorageProfile_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForManagedClusterStorageProfile_STATUS_ARM(generators)
-	managedClusterStorageProfile_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterStorageProfile_STATUS_ARM{}), generators)
-
-	return managedClusterStorageProfile_STATUS_ARMGenerator
-}
-
-// AddRelatedPropertyGeneratorsForManagedClusterStorageProfile_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedClusterStorageProfile_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["BlobCSIDriver"] = gen.PtrOf(ManagedClusterStorageProfileBlobCSIDriver_STATUS_ARMGenerator())
-	gens["DiskCSIDriver"] = gen.PtrOf(ManagedClusterStorageProfileDiskCSIDriver_STATUS_ARMGenerator())
-	gens["FileCSIDriver"] = gen.PtrOf(ManagedClusterStorageProfileFileCSIDriver_STATUS_ARMGenerator())
-	gens["SnapshotController"] = gen.PtrOf(ManagedClusterStorageProfileSnapshotController_STATUS_ARMGenerator())
-}
-
-func Test_ManagedClusterWindowsProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedClusterWindowsProfile_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterWindowsProfile_STATUS_ARM, ManagedClusterWindowsProfile_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedClusterWindowsProfile_STATUS_ARM runs a test to see if a specific instance of ManagedClusterWindowsProfile_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterWindowsProfile_STATUS_ARM(subject ManagedClusterWindowsProfile_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedClusterWindowsProfile_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedClusterWindowsProfile_STATUS_ARM instances for property testing - lazily instantiated by
-// ManagedClusterWindowsProfile_STATUS_ARMGenerator()
-var managedClusterWindowsProfile_STATUS_ARMGenerator gopter.Gen
-
-// ManagedClusterWindowsProfile_STATUS_ARMGenerator returns a generator of ManagedClusterWindowsProfile_STATUS_ARM instances for property testing.
-// We first initialize managedClusterWindowsProfile_STATUS_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ManagedClusterWindowsProfile_STATUS_ARMGenerator() gopter.Gen {
-	if managedClusterWindowsProfile_STATUS_ARMGenerator != nil {
-		return managedClusterWindowsProfile_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterWindowsProfile_STATUS_ARM(generators)
-	managedClusterWindowsProfile_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterWindowsProfile_STATUS_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterWindowsProfile_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForManagedClusterWindowsProfile_STATUS_ARM(generators)
-	managedClusterWindowsProfile_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterWindowsProfile_STATUS_ARM{}), generators)
-
-	return managedClusterWindowsProfile_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedClusterWindowsProfile_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterWindowsProfile_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["AdminPassword"] = gen.PtrOf(gen.AlphaString())
-	gens["AdminUsername"] = gen.PtrOf(gen.AlphaString())
-	gens["EnableCSIProxy"] = gen.PtrOf(gen.Bool())
-	gens["LicenseType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterWindowsProfile_LicenseType_STATUS_None, ManagedClusterWindowsProfile_LicenseType_STATUS_Windows_Server))
-}
-
-// AddRelatedPropertyGeneratorsForManagedClusterWindowsProfile_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedClusterWindowsProfile_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["GmsaProfile"] = gen.PtrOf(WindowsGmsaProfile_STATUS_ARMGenerator())
-}
-
-func Test_ManagedClusterWorkloadAutoScalerProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedClusterWorkloadAutoScalerProfile_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterWorkloadAutoScalerProfile_STATUS_ARM, ManagedClusterWorkloadAutoScalerProfile_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedClusterWorkloadAutoScalerProfile_STATUS_ARM runs a test to see if a specific instance of ManagedClusterWorkloadAutoScalerProfile_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterWorkloadAutoScalerProfile_STATUS_ARM(subject ManagedClusterWorkloadAutoScalerProfile_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedClusterWorkloadAutoScalerProfile_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedClusterWorkloadAutoScalerProfile_STATUS_ARM instances for property testing - lazily instantiated
-// by ManagedClusterWorkloadAutoScalerProfile_STATUS_ARMGenerator()
-var managedClusterWorkloadAutoScalerProfile_STATUS_ARMGenerator gopter.Gen
-
-// ManagedClusterWorkloadAutoScalerProfile_STATUS_ARMGenerator returns a generator of ManagedClusterWorkloadAutoScalerProfile_STATUS_ARM instances for property testing.
-func ManagedClusterWorkloadAutoScalerProfile_STATUS_ARMGenerator() gopter.Gen {
-	if managedClusterWorkloadAutoScalerProfile_STATUS_ARMGenerator != nil {
-		return managedClusterWorkloadAutoScalerProfile_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForManagedClusterWorkloadAutoScalerProfile_STATUS_ARM(generators)
-	managedClusterWorkloadAutoScalerProfile_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterWorkloadAutoScalerProfile_STATUS_ARM{}), generators)
-
-	return managedClusterWorkloadAutoScalerProfile_STATUS_ARMGenerator
-}
-
-// AddRelatedPropertyGeneratorsForManagedClusterWorkloadAutoScalerProfile_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedClusterWorkloadAutoScalerProfile_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Keda"] = gen.PtrOf(ManagedClusterWorkloadAutoScalerProfileKeda_STATUS_ARMGenerator())
-}
-
-func Test_PowerState_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PowerState_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPowerState_STATUS_ARM, PowerState_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPowerState_STATUS_ARM runs a test to see if a specific instance of PowerState_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForPowerState_STATUS_ARM(subject PowerState_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual PowerState_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of PowerState_STATUS_ARM instances for property testing - lazily instantiated by
-// PowerState_STATUS_ARMGenerator()
-var powerState_STATUS_ARMGenerator gopter.Gen
-
-// PowerState_STATUS_ARMGenerator returns a generator of PowerState_STATUS_ARM instances for property testing.
-func PowerState_STATUS_ARMGenerator() gopter.Gen {
-	if powerState_STATUS_ARMGenerator != nil {
-		return powerState_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPowerState_STATUS_ARM(generators)
-	powerState_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(PowerState_STATUS_ARM{}), generators)
-
-	return powerState_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPowerState_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPowerState_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Code"] = gen.PtrOf(gen.OneConstOf(PowerState_Code_STATUS_Running, PowerState_Code_STATUS_Stopped))
-}
-
-func Test_PrivateLinkResource_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrivateLinkResource_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateLinkResource_STATUS_ARM, PrivateLinkResource_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPrivateLinkResource_STATUS_ARM runs a test to see if a specific instance of PrivateLinkResource_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateLinkResource_STATUS_ARM(subject PrivateLinkResource_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual PrivateLinkResource_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of PrivateLinkResource_STATUS_ARM instances for property testing - lazily instantiated by
-// PrivateLinkResource_STATUS_ARMGenerator()
-var privateLinkResource_STATUS_ARMGenerator gopter.Gen
-
-// PrivateLinkResource_STATUS_ARMGenerator returns a generator of PrivateLinkResource_STATUS_ARM instances for property testing.
-func PrivateLinkResource_STATUS_ARMGenerator() gopter.Gen {
-	if privateLinkResource_STATUS_ARMGenerator != nil {
-		return privateLinkResource_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateLinkResource_STATUS_ARM(generators)
-	privateLinkResource_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(PrivateLinkResource_STATUS_ARM{}), generators)
-
-	return privateLinkResource_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrivateLinkResource_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateLinkResource_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["GroupId"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["PrivateLinkServiceID"] = gen.PtrOf(gen.AlphaString())
-	gens["RequiredMembers"] = gen.SliceOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_UserAssignedIdentity_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UserAssignedIdentity_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUserAssignedIdentity_STATUS_ARM, UserAssignedIdentity_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForUserAssignedIdentity_STATUS_ARM runs a test to see if a specific instance of UserAssignedIdentity_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForUserAssignedIdentity_STATUS_ARM(subject UserAssignedIdentity_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual UserAssignedIdentity_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of UserAssignedIdentity_STATUS_ARM instances for property testing - lazily instantiated by
-// UserAssignedIdentity_STATUS_ARMGenerator()
-var userAssignedIdentity_STATUS_ARMGenerator gopter.Gen
-
-// UserAssignedIdentity_STATUS_ARMGenerator returns a generator of UserAssignedIdentity_STATUS_ARM instances for property testing.
-func UserAssignedIdentity_STATUS_ARMGenerator() gopter.Gen {
-	if userAssignedIdentity_STATUS_ARMGenerator != nil {
-		return userAssignedIdentity_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUserAssignedIdentity_STATUS_ARM(generators)
-	userAssignedIdentity_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentity_STATUS_ARM{}), generators)
-
-	return userAssignedIdentity_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForUserAssignedIdentity_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUserAssignedIdentity_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
-	gens["ObjectId"] = gen.PtrOf(gen.AlphaString())
-	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_AzureKeyVaultKms_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AzureKeyVaultKms_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAzureKeyVaultKms_STATUS_ARM, AzureKeyVaultKms_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForAzureKeyVaultKms_STATUS_ARM runs a test to see if a specific instance of AzureKeyVaultKms_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForAzureKeyVaultKms_STATUS_ARM(subject AzureKeyVaultKms_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual AzureKeyVaultKms_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of AzureKeyVaultKms_STATUS_ARM instances for property testing - lazily instantiated by
-// AzureKeyVaultKms_STATUS_ARMGenerator()
-var azureKeyVaultKms_STATUS_ARMGenerator gopter.Gen
-
-// AzureKeyVaultKms_STATUS_ARMGenerator returns a generator of AzureKeyVaultKms_STATUS_ARM instances for property testing.
-func AzureKeyVaultKms_STATUS_ARMGenerator() gopter.Gen {
-	if azureKeyVaultKms_STATUS_ARMGenerator != nil {
-		return azureKeyVaultKms_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAzureKeyVaultKms_STATUS_ARM(generators)
-	azureKeyVaultKms_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(AzureKeyVaultKms_STATUS_ARM{}), generators)
-
-	return azureKeyVaultKms_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAzureKeyVaultKms_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAzureKeyVaultKms_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["KeyId"] = gen.PtrOf(gen.AlphaString())
-	gens["KeyVaultNetworkAccess"] = gen.PtrOf(gen.OneConstOf(AzureKeyVaultKms_KeyVaultNetworkAccess_STATUS_Private, AzureKeyVaultKms_KeyVaultNetworkAccess_STATUS_Public))
-	gens["KeyVaultResourceId"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_ContainerServiceSshConfiguration_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ContainerServiceSshConfiguration_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForContainerServiceSshConfiguration_STATUS_ARM, ContainerServiceSshConfiguration_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForContainerServiceSshConfiguration_STATUS_ARM runs a test to see if a specific instance of ContainerServiceSshConfiguration_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForContainerServiceSshConfiguration_STATUS_ARM(subject ContainerServiceSshConfiguration_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ContainerServiceSshConfiguration_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ContainerServiceSshConfiguration_STATUS_ARM instances for property testing - lazily instantiated by
-// ContainerServiceSshConfiguration_STATUS_ARMGenerator()
-var containerServiceSshConfiguration_STATUS_ARMGenerator gopter.Gen
-
-// ContainerServiceSshConfiguration_STATUS_ARMGenerator returns a generator of ContainerServiceSshConfiguration_STATUS_ARM instances for property testing.
-func ContainerServiceSshConfiguration_STATUS_ARMGenerator() gopter.Gen {
-	if containerServiceSshConfiguration_STATUS_ARMGenerator != nil {
-		return containerServiceSshConfiguration_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForContainerServiceSshConfiguration_STATUS_ARM(generators)
-	containerServiceSshConfiguration_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerServiceSshConfiguration_STATUS_ARM{}), generators)
-
-	return containerServiceSshConfiguration_STATUS_ARMGenerator
-}
-
-// AddRelatedPropertyGeneratorsForContainerServiceSshConfiguration_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForContainerServiceSshConfiguration_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["PublicKeys"] = gen.SliceOf(ContainerServiceSshPublicKey_STATUS_ARMGenerator())
-}
-
-func Test_ManagedClusterAzureMonitorProfileMetrics_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedClusterAzureMonitorProfileMetrics_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterAzureMonitorProfileMetrics_STATUS_ARM, ManagedClusterAzureMonitorProfileMetrics_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedClusterAzureMonitorProfileMetrics_STATUS_ARM runs a test to see if a specific instance of ManagedClusterAzureMonitorProfileMetrics_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterAzureMonitorProfileMetrics_STATUS_ARM(subject ManagedClusterAzureMonitorProfileMetrics_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedClusterAzureMonitorProfileMetrics_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedClusterAzureMonitorProfileMetrics_STATUS_ARM instances for property testing - lazily instantiated
-// by ManagedClusterAzureMonitorProfileMetrics_STATUS_ARMGenerator()
-var managedClusterAzureMonitorProfileMetrics_STATUS_ARMGenerator gopter.Gen
-
-// ManagedClusterAzureMonitorProfileMetrics_STATUS_ARMGenerator returns a generator of ManagedClusterAzureMonitorProfileMetrics_STATUS_ARM instances for property testing.
-// We first initialize managedClusterAzureMonitorProfileMetrics_STATUS_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ManagedClusterAzureMonitorProfileMetrics_STATUS_ARMGenerator() gopter.Gen {
-	if managedClusterAzureMonitorProfileMetrics_STATUS_ARMGenerator != nil {
-		return managedClusterAzureMonitorProfileMetrics_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterAzureMonitorProfileMetrics_STATUS_ARM(generators)
-	managedClusterAzureMonitorProfileMetrics_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAzureMonitorProfileMetrics_STATUS_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterAzureMonitorProfileMetrics_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForManagedClusterAzureMonitorProfileMetrics_STATUS_ARM(generators)
-	managedClusterAzureMonitorProfileMetrics_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAzureMonitorProfileMetrics_STATUS_ARM{}), generators)
-
-	return managedClusterAzureMonitorProfileMetrics_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedClusterAzureMonitorProfileMetrics_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterAzureMonitorProfileMetrics_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
-}
-
-// AddRelatedPropertyGeneratorsForManagedClusterAzureMonitorProfileMetrics_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedClusterAzureMonitorProfileMetrics_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["KubeStateMetrics"] = gen.PtrOf(ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARMGenerator())
+// AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["PublicIPs"] = gen.SliceOf(ResourceReference_STATUS_ARMGenerator())
 }
 
 func Test_ManagedClusterLoadBalancerProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2268,6 +1504,67 @@ func AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfile_STATUS_ARM
 	gens["OutboundIPs"] = gen.PtrOf(ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARMGenerator())
 }
 
+func Test_ManagedClusterManagedOutboundIPProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedClusterManagedOutboundIPProfile_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterManagedOutboundIPProfile_STATUS_ARM, ManagedClusterManagedOutboundIPProfile_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusterManagedOutboundIPProfile_STATUS_ARM runs a test to see if a specific instance of ManagedClusterManagedOutboundIPProfile_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterManagedOutboundIPProfile_STATUS_ARM(subject ManagedClusterManagedOutboundIPProfile_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedClusterManagedOutboundIPProfile_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedClusterManagedOutboundIPProfile_STATUS_ARM instances for property testing - lazily instantiated
+// by ManagedClusterManagedOutboundIPProfile_STATUS_ARMGenerator()
+var managedClusterManagedOutboundIPProfile_STATUS_ARMGenerator gopter.Gen
+
+// ManagedClusterManagedOutboundIPProfile_STATUS_ARMGenerator returns a generator of ManagedClusterManagedOutboundIPProfile_STATUS_ARM instances for property testing.
+func ManagedClusterManagedOutboundIPProfile_STATUS_ARMGenerator() gopter.Gen {
+	if managedClusterManagedOutboundIPProfile_STATUS_ARMGenerator != nil {
+		return managedClusterManagedOutboundIPProfile_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusterManagedOutboundIPProfile_STATUS_ARM(generators)
+	managedClusterManagedOutboundIPProfile_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterManagedOutboundIPProfile_STATUS_ARM{}), generators)
+
+	return managedClusterManagedOutboundIPProfile_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedClusterManagedOutboundIPProfile_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterManagedOutboundIPProfile_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Count"] = gen.PtrOf(gen.Int())
+}
+
 func Test_ManagedClusterNATGatewayProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -2342,6 +1639,472 @@ func AddIndependentPropertyGeneratorsForManagedClusterNATGatewayProfile_STATUS_A
 func AddRelatedPropertyGeneratorsForManagedClusterNATGatewayProfile_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["EffectiveOutboundIPs"] = gen.SliceOf(ResourceReference_STATUS_ARMGenerator())
 	gens["ManagedOutboundIPProfile"] = gen.PtrOf(ManagedClusterManagedOutboundIPProfile_STATUS_ARMGenerator())
+}
+
+func Test_ManagedClusterOIDCIssuerProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedClusterOIDCIssuerProfile_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterOIDCIssuerProfile_STATUS_ARM, ManagedClusterOIDCIssuerProfile_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusterOIDCIssuerProfile_STATUS_ARM runs a test to see if a specific instance of ManagedClusterOIDCIssuerProfile_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterOIDCIssuerProfile_STATUS_ARM(subject ManagedClusterOIDCIssuerProfile_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedClusterOIDCIssuerProfile_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedClusterOIDCIssuerProfile_STATUS_ARM instances for property testing - lazily instantiated by
+// ManagedClusterOIDCIssuerProfile_STATUS_ARMGenerator()
+var managedClusterOIDCIssuerProfile_STATUS_ARMGenerator gopter.Gen
+
+// ManagedClusterOIDCIssuerProfile_STATUS_ARMGenerator returns a generator of ManagedClusterOIDCIssuerProfile_STATUS_ARM instances for property testing.
+func ManagedClusterOIDCIssuerProfile_STATUS_ARMGenerator() gopter.Gen {
+	if managedClusterOIDCIssuerProfile_STATUS_ARMGenerator != nil {
+		return managedClusterOIDCIssuerProfile_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusterOIDCIssuerProfile_STATUS_ARM(generators)
+	managedClusterOIDCIssuerProfile_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterOIDCIssuerProfile_STATUS_ARM{}), generators)
+
+	return managedClusterOIDCIssuerProfile_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedClusterOIDCIssuerProfile_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterOIDCIssuerProfile_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Enabled"] = gen.PtrOf(gen.Bool())
+	gens["IssuerURL"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ManagedClusterPodIdentityException_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedClusterPodIdentityException_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterPodIdentityException_STATUS_ARM, ManagedClusterPodIdentityException_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusterPodIdentityException_STATUS_ARM runs a test to see if a specific instance of ManagedClusterPodIdentityException_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterPodIdentityException_STATUS_ARM(subject ManagedClusterPodIdentityException_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedClusterPodIdentityException_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedClusterPodIdentityException_STATUS_ARM instances for property testing - lazily instantiated by
+// ManagedClusterPodIdentityException_STATUS_ARMGenerator()
+var managedClusterPodIdentityException_STATUS_ARMGenerator gopter.Gen
+
+// ManagedClusterPodIdentityException_STATUS_ARMGenerator returns a generator of ManagedClusterPodIdentityException_STATUS_ARM instances for property testing.
+func ManagedClusterPodIdentityException_STATUS_ARMGenerator() gopter.Gen {
+	if managedClusterPodIdentityException_STATUS_ARMGenerator != nil {
+		return managedClusterPodIdentityException_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusterPodIdentityException_STATUS_ARM(generators)
+	managedClusterPodIdentityException_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterPodIdentityException_STATUS_ARM{}), generators)
+
+	return managedClusterPodIdentityException_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedClusterPodIdentityException_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterPodIdentityException_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Namespace"] = gen.PtrOf(gen.AlphaString())
+	gens["PodLabels"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+}
+
+func Test_ManagedClusterPodIdentityProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedClusterPodIdentityProfile_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterPodIdentityProfile_STATUS_ARM, ManagedClusterPodIdentityProfile_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusterPodIdentityProfile_STATUS_ARM runs a test to see if a specific instance of ManagedClusterPodIdentityProfile_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterPodIdentityProfile_STATUS_ARM(subject ManagedClusterPodIdentityProfile_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedClusterPodIdentityProfile_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedClusterPodIdentityProfile_STATUS_ARM instances for property testing - lazily instantiated by
+// ManagedClusterPodIdentityProfile_STATUS_ARMGenerator()
+var managedClusterPodIdentityProfile_STATUS_ARMGenerator gopter.Gen
+
+// ManagedClusterPodIdentityProfile_STATUS_ARMGenerator returns a generator of ManagedClusterPodIdentityProfile_STATUS_ARM instances for property testing.
+// We first initialize managedClusterPodIdentityProfile_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ManagedClusterPodIdentityProfile_STATUS_ARMGenerator() gopter.Gen {
+	if managedClusterPodIdentityProfile_STATUS_ARMGenerator != nil {
+		return managedClusterPodIdentityProfile_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProfile_STATUS_ARM(generators)
+	managedClusterPodIdentityProfile_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterPodIdentityProfile_STATUS_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProfile_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForManagedClusterPodIdentityProfile_STATUS_ARM(generators)
+	managedClusterPodIdentityProfile_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterPodIdentityProfile_STATUS_ARM{}), generators)
+
+	return managedClusterPodIdentityProfile_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProfile_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProfile_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["AllowNetworkPluginKubenet"] = gen.PtrOf(gen.Bool())
+	gens["Enabled"] = gen.PtrOf(gen.Bool())
+}
+
+// AddRelatedPropertyGeneratorsForManagedClusterPodIdentityProfile_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClusterPodIdentityProfile_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["UserAssignedIdentities"] = gen.SliceOf(ManagedClusterPodIdentity_STATUS_ARMGenerator())
+	gens["UserAssignedIdentityExceptions"] = gen.SliceOf(ManagedClusterPodIdentityException_STATUS_ARMGenerator())
+}
+
+func Test_ManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM, ManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM runs a test to see if a specific instance of ManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM(subject ManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM instances for property testing - lazily
+// instantiated by ManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARMGenerator()
+var managedClusterPodIdentityProvisioningErrorBody_STATUS_ARMGenerator gopter.Gen
+
+// ManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARMGenerator returns a generator of ManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM instances for property testing.
+// We first initialize managedClusterPodIdentityProvisioningErrorBody_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARMGenerator() gopter.Gen {
+	if managedClusterPodIdentityProvisioningErrorBody_STATUS_ARMGenerator != nil {
+		return managedClusterPodIdentityProvisioningErrorBody_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM(generators)
+	managedClusterPodIdentityProvisioningErrorBody_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM(generators)
+	managedClusterPodIdentityProvisioningErrorBody_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM{}), generators)
+
+	return managedClusterPodIdentityProvisioningErrorBody_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Code"] = gen.PtrOf(gen.AlphaString())
+	gens["Message"] = gen.PtrOf(gen.AlphaString())
+	gens["Target"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Details"] = gen.SliceOf(ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARMGenerator())
+}
+
+func Test_ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARM, ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARM runs a test to see if a specific instance of ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARM(subject ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARM instances for property testing -
+// lazily instantiated by ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARMGenerator()
+var managedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARMGenerator gopter.Gen
+
+// ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARMGenerator returns a generator of ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARM instances for property testing.
+func ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARMGenerator() gopter.Gen {
+	if managedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARMGenerator != nil {
+		return managedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARM(generators)
+	managedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARM{}), generators)
+
+	return managedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARM(gens map[string]gopter.Gen) {
+	gens["Code"] = gen.PtrOf(gen.AlphaString())
+	gens["Message"] = gen.PtrOf(gen.AlphaString())
+	gens["Target"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ManagedClusterPodIdentityProvisioningError_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedClusterPodIdentityProvisioningError_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterPodIdentityProvisioningError_STATUS_ARM, ManagedClusterPodIdentityProvisioningError_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusterPodIdentityProvisioningError_STATUS_ARM runs a test to see if a specific instance of ManagedClusterPodIdentityProvisioningError_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterPodIdentityProvisioningError_STATUS_ARM(subject ManagedClusterPodIdentityProvisioningError_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedClusterPodIdentityProvisioningError_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedClusterPodIdentityProvisioningError_STATUS_ARM instances for property testing - lazily
+// instantiated by ManagedClusterPodIdentityProvisioningError_STATUS_ARMGenerator()
+var managedClusterPodIdentityProvisioningError_STATUS_ARMGenerator gopter.Gen
+
+// ManagedClusterPodIdentityProvisioningError_STATUS_ARMGenerator returns a generator of ManagedClusterPodIdentityProvisioningError_STATUS_ARM instances for property testing.
+func ManagedClusterPodIdentityProvisioningError_STATUS_ARMGenerator() gopter.Gen {
+	if managedClusterPodIdentityProvisioningError_STATUS_ARMGenerator != nil {
+		return managedClusterPodIdentityProvisioningError_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForManagedClusterPodIdentityProvisioningError_STATUS_ARM(generators)
+	managedClusterPodIdentityProvisioningError_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterPodIdentityProvisioningError_STATUS_ARM{}), generators)
+
+	return managedClusterPodIdentityProvisioningError_STATUS_ARMGenerator
+}
+
+// AddRelatedPropertyGeneratorsForManagedClusterPodIdentityProvisioningError_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClusterPodIdentityProvisioningError_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Error"] = gen.PtrOf(ManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARMGenerator())
+}
+
+func Test_ManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM, ManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM runs a test to see if a specific instance of ManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM(subject ManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM instances for property testing - lazily
+// instantiated by ManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARMGenerator()
+var managedClusterPodIdentity_ProvisioningInfo_STATUS_ARMGenerator gopter.Gen
+
+// ManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARMGenerator returns a generator of ManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM instances for property testing.
+func ManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARMGenerator() gopter.Gen {
+	if managedClusterPodIdentity_ProvisioningInfo_STATUS_ARMGenerator != nil {
+		return managedClusterPodIdentity_ProvisioningInfo_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM(generators)
+	managedClusterPodIdentity_ProvisioningInfo_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM{}), generators)
+
+	return managedClusterPodIdentity_ProvisioningInfo_STATUS_ARMGenerator
+}
+
+// AddRelatedPropertyGeneratorsForManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Error"] = gen.PtrOf(ManagedClusterPodIdentityProvisioningError_STATUS_ARMGenerator())
 }
 
 func Test_ManagedClusterPodIdentity_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2429,20 +2192,20 @@ func AddRelatedPropertyGeneratorsForManagedClusterPodIdentity_STATUS_ARM(gens ma
 	gens["ProvisioningInfo"] = gen.PtrOf(ManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARMGenerator())
 }
 
-func Test_ManagedClusterPodIdentityException_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedClusterProperties_AutoScalerProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManagedClusterPodIdentityException_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterPodIdentityException_STATUS_ARM, ManagedClusterPodIdentityException_STATUS_ARMGenerator()))
+		"Round trip of ManagedClusterProperties_AutoScalerProfile_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterProperties_AutoScalerProfile_STATUS_ARM, ManagedClusterProperties_AutoScalerProfile_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedClusterPodIdentityException_STATUS_ARM runs a test to see if a specific instance of ManagedClusterPodIdentityException_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterPodIdentityException_STATUS_ARM(subject ManagedClusterPodIdentityException_STATUS_ARM) string {
+// RunJSONSerializationTestForManagedClusterProperties_AutoScalerProfile_STATUS_ARM runs a test to see if a specific instance of ManagedClusterProperties_AutoScalerProfile_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterProperties_AutoScalerProfile_STATUS_ARM(subject ManagedClusterProperties_AutoScalerProfile_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2450,7 +2213,7 @@ func RunJSONSerializationTestForManagedClusterPodIdentityException_STATUS_ARM(su
 	}
 
 	// Deserialize back into memory
-	var actual ManagedClusterPodIdentityException_STATUS_ARM
+	var actual ManagedClusterProperties_AutoScalerProfile_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2468,30 +2231,281 @@ func RunJSONSerializationTestForManagedClusterPodIdentityException_STATUS_ARM(su
 	return ""
 }
 
-// Generator of ManagedClusterPodIdentityException_STATUS_ARM instances for property testing - lazily instantiated by
-// ManagedClusterPodIdentityException_STATUS_ARMGenerator()
-var managedClusterPodIdentityException_STATUS_ARMGenerator gopter.Gen
+// Generator of ManagedClusterProperties_AutoScalerProfile_STATUS_ARM instances for property testing - lazily
+// instantiated by ManagedClusterProperties_AutoScalerProfile_STATUS_ARMGenerator()
+var managedClusterProperties_AutoScalerProfile_STATUS_ARMGenerator gopter.Gen
 
-// ManagedClusterPodIdentityException_STATUS_ARMGenerator returns a generator of ManagedClusterPodIdentityException_STATUS_ARM instances for property testing.
-func ManagedClusterPodIdentityException_STATUS_ARMGenerator() gopter.Gen {
-	if managedClusterPodIdentityException_STATUS_ARMGenerator != nil {
-		return managedClusterPodIdentityException_STATUS_ARMGenerator
+// ManagedClusterProperties_AutoScalerProfile_STATUS_ARMGenerator returns a generator of ManagedClusterProperties_AutoScalerProfile_STATUS_ARM instances for property testing.
+func ManagedClusterProperties_AutoScalerProfile_STATUS_ARMGenerator() gopter.Gen {
+	if managedClusterProperties_AutoScalerProfile_STATUS_ARMGenerator != nil {
+		return managedClusterProperties_AutoScalerProfile_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterPodIdentityException_STATUS_ARM(generators)
-	managedClusterPodIdentityException_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterPodIdentityException_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForManagedClusterProperties_AutoScalerProfile_STATUS_ARM(generators)
+	managedClusterProperties_AutoScalerProfile_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterProperties_AutoScalerProfile_STATUS_ARM{}), generators)
 
-	return managedClusterPodIdentityException_STATUS_ARMGenerator
+	return managedClusterProperties_AutoScalerProfile_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagedClusterPodIdentityException_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterPodIdentityException_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Namespace"] = gen.PtrOf(gen.AlphaString())
-	gens["PodLabels"] = gen.MapOf(
+// AddIndependentPropertyGeneratorsForManagedClusterProperties_AutoScalerProfile_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterProperties_AutoScalerProfile_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["BalanceSimilarNodeGroups"] = gen.PtrOf(gen.AlphaString())
+	gens["Expander"] = gen.PtrOf(gen.OneConstOf(
+		ManagedClusterProperties_AutoScalerProfile_Expander_STATUS_LeastWaste,
+		ManagedClusterProperties_AutoScalerProfile_Expander_STATUS_MostPods,
+		ManagedClusterProperties_AutoScalerProfile_Expander_STATUS_Priority,
+		ManagedClusterProperties_AutoScalerProfile_Expander_STATUS_Random))
+	gens["MaxEmptyBulkDelete"] = gen.PtrOf(gen.AlphaString())
+	gens["MaxGracefulTerminationSec"] = gen.PtrOf(gen.AlphaString())
+	gens["MaxNodeProvisionTime"] = gen.PtrOf(gen.AlphaString())
+	gens["MaxTotalUnreadyPercentage"] = gen.PtrOf(gen.AlphaString())
+	gens["NewPodScaleUpDelay"] = gen.PtrOf(gen.AlphaString())
+	gens["OkTotalUnreadyCount"] = gen.PtrOf(gen.AlphaString())
+	gens["ScaleDownDelayAfterAdd"] = gen.PtrOf(gen.AlphaString())
+	gens["ScaleDownDelayAfterDelete"] = gen.PtrOf(gen.AlphaString())
+	gens["ScaleDownDelayAfterFailure"] = gen.PtrOf(gen.AlphaString())
+	gens["ScaleDownUnneededTime"] = gen.PtrOf(gen.AlphaString())
+	gens["ScaleDownUnreadyTime"] = gen.PtrOf(gen.AlphaString())
+	gens["ScaleDownUtilizationThreshold"] = gen.PtrOf(gen.AlphaString())
+	gens["ScanInterval"] = gen.PtrOf(gen.AlphaString())
+	gens["SkipNodesWithLocalStorage"] = gen.PtrOf(gen.AlphaString())
+	gens["SkipNodesWithSystemPods"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ManagedClusterProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedClusterProperties_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterProperties_STATUS_ARM, ManagedClusterProperties_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusterProperties_STATUS_ARM runs a test to see if a specific instance of ManagedClusterProperties_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterProperties_STATUS_ARM(subject ManagedClusterProperties_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedClusterProperties_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedClusterProperties_STATUS_ARM instances for property testing - lazily instantiated by
+// ManagedClusterProperties_STATUS_ARMGenerator()
+var managedClusterProperties_STATUS_ARMGenerator gopter.Gen
+
+// ManagedClusterProperties_STATUS_ARMGenerator returns a generator of ManagedClusterProperties_STATUS_ARM instances for property testing.
+// We first initialize managedClusterProperties_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ManagedClusterProperties_STATUS_ARMGenerator() gopter.Gen {
+	if managedClusterProperties_STATUS_ARMGenerator != nil {
+		return managedClusterProperties_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusterProperties_STATUS_ARM(generators)
+	managedClusterProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterProperties_STATUS_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusterProperties_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForManagedClusterProperties_STATUS_ARM(generators)
+	managedClusterProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterProperties_STATUS_ARM{}), generators)
+
+	return managedClusterProperties_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedClusterProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterProperties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["AzurePortalFQDN"] = gen.PtrOf(gen.AlphaString())
+	gens["CurrentKubernetesVersion"] = gen.PtrOf(gen.AlphaString())
+	gens["DisableLocalAccounts"] = gen.PtrOf(gen.Bool())
+	gens["DiskEncryptionSetID"] = gen.PtrOf(gen.AlphaString())
+	gens["DnsPrefix"] = gen.PtrOf(gen.AlphaString())
+	gens["EnablePodSecurityPolicy"] = gen.PtrOf(gen.Bool())
+	gens["EnableRBAC"] = gen.PtrOf(gen.Bool())
+	gens["Fqdn"] = gen.PtrOf(gen.AlphaString())
+	gens["FqdnSubdomain"] = gen.PtrOf(gen.AlphaString())
+	gens["KubernetesVersion"] = gen.PtrOf(gen.AlphaString())
+	gens["MaxAgentPools"] = gen.PtrOf(gen.Int())
+	gens["NodeResourceGroup"] = gen.PtrOf(gen.AlphaString())
+	gens["PrivateFQDN"] = gen.PtrOf(gen.AlphaString())
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ManagedClusterProperties_PublicNetworkAccess_STATUS_Disabled, ManagedClusterProperties_PublicNetworkAccess_STATUS_Enabled))
+}
+
+// AddRelatedPropertyGeneratorsForManagedClusterProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClusterProperties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["AadProfile"] = gen.PtrOf(ManagedClusterAADProfile_STATUS_ARMGenerator())
+	gens["AddonProfiles"] = gen.MapOf(
 		gen.AlphaString(),
-		gen.AlphaString())
+		ManagedClusterAddonProfile_STATUS_ARMGenerator())
+	gens["AgentPoolProfiles"] = gen.SliceOf(ManagedClusterAgentPoolProfile_STATUS_ARMGenerator())
+	gens["ApiServerAccessProfile"] = gen.PtrOf(ManagedClusterAPIServerAccessProfile_STATUS_ARMGenerator())
+	gens["AutoScalerProfile"] = gen.PtrOf(ManagedClusterProperties_AutoScalerProfile_STATUS_ARMGenerator())
+	gens["AutoUpgradeProfile"] = gen.PtrOf(ManagedClusterAutoUpgradeProfile_STATUS_ARMGenerator())
+	gens["AzureMonitorProfile"] = gen.PtrOf(ManagedClusterAzureMonitorProfile_STATUS_ARMGenerator())
+	gens["HttpProxyConfig"] = gen.PtrOf(ManagedClusterHTTPProxyConfig_STATUS_ARMGenerator())
+	gens["IdentityProfile"] = gen.MapOf(
+		gen.AlphaString(),
+		UserAssignedIdentity_STATUS_ARMGenerator())
+	gens["LinuxProfile"] = gen.PtrOf(ContainerServiceLinuxProfile_STATUS_ARMGenerator())
+	gens["NetworkProfile"] = gen.PtrOf(ContainerServiceNetworkProfile_STATUS_ARMGenerator())
+	gens["OidcIssuerProfile"] = gen.PtrOf(ManagedClusterOIDCIssuerProfile_STATUS_ARMGenerator())
+	gens["PodIdentityProfile"] = gen.PtrOf(ManagedClusterPodIdentityProfile_STATUS_ARMGenerator())
+	gens["PowerState"] = gen.PtrOf(PowerState_STATUS_ARMGenerator())
+	gens["PrivateLinkResources"] = gen.SliceOf(PrivateLinkResource_STATUS_ARMGenerator())
+	gens["SecurityProfile"] = gen.PtrOf(ManagedClusterSecurityProfile_STATUS_ARMGenerator())
+	gens["ServicePrincipalProfile"] = gen.PtrOf(ManagedClusterServicePrincipalProfile_STATUS_ARMGenerator())
+	gens["StorageProfile"] = gen.PtrOf(ManagedClusterStorageProfile_STATUS_ARMGenerator())
+	gens["WindowsProfile"] = gen.PtrOf(ManagedClusterWindowsProfile_STATUS_ARMGenerator())
+	gens["WorkloadAutoScalerProfile"] = gen.PtrOf(ManagedClusterWorkloadAutoScalerProfile_STATUS_ARMGenerator())
+}
+
+func Test_ManagedClusterSKU_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedClusterSKU_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterSKU_STATUS_ARM, ManagedClusterSKU_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusterSKU_STATUS_ARM runs a test to see if a specific instance of ManagedClusterSKU_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterSKU_STATUS_ARM(subject ManagedClusterSKU_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedClusterSKU_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedClusterSKU_STATUS_ARM instances for property testing - lazily instantiated by
+// ManagedClusterSKU_STATUS_ARMGenerator()
+var managedClusterSKU_STATUS_ARMGenerator gopter.Gen
+
+// ManagedClusterSKU_STATUS_ARMGenerator returns a generator of ManagedClusterSKU_STATUS_ARM instances for property testing.
+func ManagedClusterSKU_STATUS_ARMGenerator() gopter.Gen {
+	if managedClusterSKU_STATUS_ARMGenerator != nil {
+		return managedClusterSKU_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusterSKU_STATUS_ARM(generators)
+	managedClusterSKU_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterSKU_STATUS_ARM{}), generators)
+
+	return managedClusterSKU_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedClusterSKU_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterSKU_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(ManagedClusterSKU_Name_STATUS_Base))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(ManagedClusterSKU_Tier_STATUS_Free, ManagedClusterSKU_Tier_STATUS_Standard))
+}
+
+func Test_ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARM, ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARM runs a test to see if a specific instance of ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARM(subject ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARM instances for property testing -
+// lazily instantiated by ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARMGenerator()
+var managedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARMGenerator gopter.Gen
+
+// ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARMGenerator returns a generator of ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARM instances for property testing.
+func ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARMGenerator() gopter.Gen {
+	if managedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARMGenerator != nil {
+		return managedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARM(generators)
+	managedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARM{}), generators)
+
+	return managedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Enabled"] = gen.PtrOf(gen.Bool())
 }
 
 func Test_ManagedClusterSecurityProfileDefender_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2690,6 +2704,131 @@ func ManagedClusterSecurityProfileWorkloadIdentity_STATUS_ARMGenerator() gopter.
 // AddIndependentPropertyGeneratorsForManagedClusterSecurityProfileWorkloadIdentity_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterSecurityProfileWorkloadIdentity_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
+}
+
+func Test_ManagedClusterSecurityProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedClusterSecurityProfile_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterSecurityProfile_STATUS_ARM, ManagedClusterSecurityProfile_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusterSecurityProfile_STATUS_ARM runs a test to see if a specific instance of ManagedClusterSecurityProfile_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterSecurityProfile_STATUS_ARM(subject ManagedClusterSecurityProfile_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedClusterSecurityProfile_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedClusterSecurityProfile_STATUS_ARM instances for property testing - lazily instantiated by
+// ManagedClusterSecurityProfile_STATUS_ARMGenerator()
+var managedClusterSecurityProfile_STATUS_ARMGenerator gopter.Gen
+
+// ManagedClusterSecurityProfile_STATUS_ARMGenerator returns a generator of ManagedClusterSecurityProfile_STATUS_ARM instances for property testing.
+func ManagedClusterSecurityProfile_STATUS_ARMGenerator() gopter.Gen {
+	if managedClusterSecurityProfile_STATUS_ARMGenerator != nil {
+		return managedClusterSecurityProfile_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForManagedClusterSecurityProfile_STATUS_ARM(generators)
+	managedClusterSecurityProfile_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterSecurityProfile_STATUS_ARM{}), generators)
+
+	return managedClusterSecurityProfile_STATUS_ARMGenerator
+}
+
+// AddRelatedPropertyGeneratorsForManagedClusterSecurityProfile_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClusterSecurityProfile_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["AzureKeyVaultKms"] = gen.PtrOf(AzureKeyVaultKms_STATUS_ARMGenerator())
+	gens["Defender"] = gen.PtrOf(ManagedClusterSecurityProfileDefender_STATUS_ARMGenerator())
+	gens["ImageCleaner"] = gen.PtrOf(ManagedClusterSecurityProfileImageCleaner_STATUS_ARMGenerator())
+	gens["WorkloadIdentity"] = gen.PtrOf(ManagedClusterSecurityProfileWorkloadIdentity_STATUS_ARMGenerator())
+}
+
+func Test_ManagedClusterServicePrincipalProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedClusterServicePrincipalProfile_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterServicePrincipalProfile_STATUS_ARM, ManagedClusterServicePrincipalProfile_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusterServicePrincipalProfile_STATUS_ARM runs a test to see if a specific instance of ManagedClusterServicePrincipalProfile_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterServicePrincipalProfile_STATUS_ARM(subject ManagedClusterServicePrincipalProfile_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedClusterServicePrincipalProfile_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedClusterServicePrincipalProfile_STATUS_ARM instances for property testing - lazily instantiated by
+// ManagedClusterServicePrincipalProfile_STATUS_ARMGenerator()
+var managedClusterServicePrincipalProfile_STATUS_ARMGenerator gopter.Gen
+
+// ManagedClusterServicePrincipalProfile_STATUS_ARMGenerator returns a generator of ManagedClusterServicePrincipalProfile_STATUS_ARM instances for property testing.
+func ManagedClusterServicePrincipalProfile_STATUS_ARMGenerator() gopter.Gen {
+	if managedClusterServicePrincipalProfile_STATUS_ARMGenerator != nil {
+		return managedClusterServicePrincipalProfile_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusterServicePrincipalProfile_STATUS_ARM(generators)
+	managedClusterServicePrincipalProfile_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterServicePrincipalProfile_STATUS_ARM{}), generators)
+
+	return managedClusterServicePrincipalProfile_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedClusterServicePrincipalProfile_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterServicePrincipalProfile_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ManagedClusterStorageProfileBlobCSIDriver_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2936,6 +3075,147 @@ func AddIndependentPropertyGeneratorsForManagedClusterStorageProfileSnapshotCont
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 }
 
+func Test_ManagedClusterStorageProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedClusterStorageProfile_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterStorageProfile_STATUS_ARM, ManagedClusterStorageProfile_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusterStorageProfile_STATUS_ARM runs a test to see if a specific instance of ManagedClusterStorageProfile_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterStorageProfile_STATUS_ARM(subject ManagedClusterStorageProfile_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedClusterStorageProfile_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedClusterStorageProfile_STATUS_ARM instances for property testing - lazily instantiated by
+// ManagedClusterStorageProfile_STATUS_ARMGenerator()
+var managedClusterStorageProfile_STATUS_ARMGenerator gopter.Gen
+
+// ManagedClusterStorageProfile_STATUS_ARMGenerator returns a generator of ManagedClusterStorageProfile_STATUS_ARM instances for property testing.
+func ManagedClusterStorageProfile_STATUS_ARMGenerator() gopter.Gen {
+	if managedClusterStorageProfile_STATUS_ARMGenerator != nil {
+		return managedClusterStorageProfile_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForManagedClusterStorageProfile_STATUS_ARM(generators)
+	managedClusterStorageProfile_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterStorageProfile_STATUS_ARM{}), generators)
+
+	return managedClusterStorageProfile_STATUS_ARMGenerator
+}
+
+// AddRelatedPropertyGeneratorsForManagedClusterStorageProfile_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClusterStorageProfile_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["BlobCSIDriver"] = gen.PtrOf(ManagedClusterStorageProfileBlobCSIDriver_STATUS_ARMGenerator())
+	gens["DiskCSIDriver"] = gen.PtrOf(ManagedClusterStorageProfileDiskCSIDriver_STATUS_ARMGenerator())
+	gens["FileCSIDriver"] = gen.PtrOf(ManagedClusterStorageProfileFileCSIDriver_STATUS_ARMGenerator())
+	gens["SnapshotController"] = gen.PtrOf(ManagedClusterStorageProfileSnapshotController_STATUS_ARMGenerator())
+}
+
+func Test_ManagedClusterWindowsProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedClusterWindowsProfile_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterWindowsProfile_STATUS_ARM, ManagedClusterWindowsProfile_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusterWindowsProfile_STATUS_ARM runs a test to see if a specific instance of ManagedClusterWindowsProfile_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterWindowsProfile_STATUS_ARM(subject ManagedClusterWindowsProfile_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedClusterWindowsProfile_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedClusterWindowsProfile_STATUS_ARM instances for property testing - lazily instantiated by
+// ManagedClusterWindowsProfile_STATUS_ARMGenerator()
+var managedClusterWindowsProfile_STATUS_ARMGenerator gopter.Gen
+
+// ManagedClusterWindowsProfile_STATUS_ARMGenerator returns a generator of ManagedClusterWindowsProfile_STATUS_ARM instances for property testing.
+// We first initialize managedClusterWindowsProfile_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ManagedClusterWindowsProfile_STATUS_ARMGenerator() gopter.Gen {
+	if managedClusterWindowsProfile_STATUS_ARMGenerator != nil {
+		return managedClusterWindowsProfile_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusterWindowsProfile_STATUS_ARM(generators)
+	managedClusterWindowsProfile_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterWindowsProfile_STATUS_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusterWindowsProfile_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForManagedClusterWindowsProfile_STATUS_ARM(generators)
+	managedClusterWindowsProfile_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterWindowsProfile_STATUS_ARM{}), generators)
+
+	return managedClusterWindowsProfile_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedClusterWindowsProfile_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterWindowsProfile_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["AdminUsername"] = gen.PtrOf(gen.AlphaString())
+	gens["EnableCSIProxy"] = gen.PtrOf(gen.Bool())
+	gens["LicenseType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterWindowsProfile_LicenseType_STATUS_None, ManagedClusterWindowsProfile_LicenseType_STATUS_Windows_Server))
+}
+
+// AddRelatedPropertyGeneratorsForManagedClusterWindowsProfile_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClusterWindowsProfile_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["GmsaProfile"] = gen.PtrOf(WindowsGmsaProfile_STATUS_ARMGenerator())
+}
+
 func Test_ManagedClusterWorkloadAutoScalerProfileKeda_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -2997,20 +3277,20 @@ func AddIndependentPropertyGeneratorsForManagedClusterWorkloadAutoScalerProfileK
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 }
 
-func Test_WindowsGmsaProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedClusterWorkloadAutoScalerProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of WindowsGmsaProfile_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWindowsGmsaProfile_STATUS_ARM, WindowsGmsaProfile_STATUS_ARMGenerator()))
+		"Round trip of ManagedClusterWorkloadAutoScalerProfile_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterWorkloadAutoScalerProfile_STATUS_ARM, ManagedClusterWorkloadAutoScalerProfile_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForWindowsGmsaProfile_STATUS_ARM runs a test to see if a specific instance of WindowsGmsaProfile_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForWindowsGmsaProfile_STATUS_ARM(subject WindowsGmsaProfile_STATUS_ARM) string {
+// RunJSONSerializationTestForManagedClusterWorkloadAutoScalerProfile_STATUS_ARM runs a test to see if a specific instance of ManagedClusterWorkloadAutoScalerProfile_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterWorkloadAutoScalerProfile_STATUS_ARM(subject ManagedClusterWorkloadAutoScalerProfile_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -3018,7 +3298,7 @@ func RunJSONSerializationTestForWindowsGmsaProfile_STATUS_ARM(subject WindowsGms
 	}
 
 	// Deserialize back into memory
-	var actual WindowsGmsaProfile_STATUS_ARM
+	var actual ManagedClusterWorkloadAutoScalerProfile_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -3036,44 +3316,42 @@ func RunJSONSerializationTestForWindowsGmsaProfile_STATUS_ARM(subject WindowsGms
 	return ""
 }
 
-// Generator of WindowsGmsaProfile_STATUS_ARM instances for property testing - lazily instantiated by
-// WindowsGmsaProfile_STATUS_ARMGenerator()
-var windowsGmsaProfile_STATUS_ARMGenerator gopter.Gen
+// Generator of ManagedClusterWorkloadAutoScalerProfile_STATUS_ARM instances for property testing - lazily instantiated
+// by ManagedClusterWorkloadAutoScalerProfile_STATUS_ARMGenerator()
+var managedClusterWorkloadAutoScalerProfile_STATUS_ARMGenerator gopter.Gen
 
-// WindowsGmsaProfile_STATUS_ARMGenerator returns a generator of WindowsGmsaProfile_STATUS_ARM instances for property testing.
-func WindowsGmsaProfile_STATUS_ARMGenerator() gopter.Gen {
-	if windowsGmsaProfile_STATUS_ARMGenerator != nil {
-		return windowsGmsaProfile_STATUS_ARMGenerator
+// ManagedClusterWorkloadAutoScalerProfile_STATUS_ARMGenerator returns a generator of ManagedClusterWorkloadAutoScalerProfile_STATUS_ARM instances for property testing.
+func ManagedClusterWorkloadAutoScalerProfile_STATUS_ARMGenerator() gopter.Gen {
+	if managedClusterWorkloadAutoScalerProfile_STATUS_ARMGenerator != nil {
+		return managedClusterWorkloadAutoScalerProfile_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWindowsGmsaProfile_STATUS_ARM(generators)
-	windowsGmsaProfile_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(WindowsGmsaProfile_STATUS_ARM{}), generators)
+	AddRelatedPropertyGeneratorsForManagedClusterWorkloadAutoScalerProfile_STATUS_ARM(generators)
+	managedClusterWorkloadAutoScalerProfile_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterWorkloadAutoScalerProfile_STATUS_ARM{}), generators)
 
-	return windowsGmsaProfile_STATUS_ARMGenerator
+	return managedClusterWorkloadAutoScalerProfile_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForWindowsGmsaProfile_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWindowsGmsaProfile_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["DnsServer"] = gen.PtrOf(gen.AlphaString())
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["RootDomainName"] = gen.PtrOf(gen.AlphaString())
+// AddRelatedPropertyGeneratorsForManagedClusterWorkloadAutoScalerProfile_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClusterWorkloadAutoScalerProfile_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Keda"] = gen.PtrOf(ManagedClusterWorkloadAutoScalerProfileKeda_STATUS_ARMGenerator())
 }
 
-func Test_ContainerServiceSshPublicKey_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedCluster_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ContainerServiceSshPublicKey_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForContainerServiceSshPublicKey_STATUS_ARM, ContainerServiceSshPublicKey_STATUS_ARMGenerator()))
+		"Round trip of ManagedCluster_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedCluster_STATUS_ARM, ManagedCluster_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForContainerServiceSshPublicKey_STATUS_ARM runs a test to see if a specific instance of ContainerServiceSshPublicKey_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForContainerServiceSshPublicKey_STATUS_ARM(subject ContainerServiceSshPublicKey_STATUS_ARM) string {
+// RunJSONSerializationTestForManagedCluster_STATUS_ARM runs a test to see if a specific instance of ManagedCluster_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedCluster_STATUS_ARM(subject ManagedCluster_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -3081,7 +3359,7 @@ func RunJSONSerializationTestForContainerServiceSshPublicKey_STATUS_ARM(subject 
 	}
 
 	// Deserialize back into memory
-	var actual ContainerServiceSshPublicKey_STATUS_ARM
+	var actual ManagedCluster_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -3099,42 +3377,66 @@ func RunJSONSerializationTestForContainerServiceSshPublicKey_STATUS_ARM(subject 
 	return ""
 }
 
-// Generator of ContainerServiceSshPublicKey_STATUS_ARM instances for property testing - lazily instantiated by
-// ContainerServiceSshPublicKey_STATUS_ARMGenerator()
-var containerServiceSshPublicKey_STATUS_ARMGenerator gopter.Gen
+// Generator of ManagedCluster_STATUS_ARM instances for property testing - lazily instantiated by
+// ManagedCluster_STATUS_ARMGenerator()
+var managedCluster_STATUS_ARMGenerator gopter.Gen
 
-// ContainerServiceSshPublicKey_STATUS_ARMGenerator returns a generator of ContainerServiceSshPublicKey_STATUS_ARM instances for property testing.
-func ContainerServiceSshPublicKey_STATUS_ARMGenerator() gopter.Gen {
-	if containerServiceSshPublicKey_STATUS_ARMGenerator != nil {
-		return containerServiceSshPublicKey_STATUS_ARMGenerator
+// ManagedCluster_STATUS_ARMGenerator returns a generator of ManagedCluster_STATUS_ARM instances for property testing.
+// We first initialize managedCluster_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ManagedCluster_STATUS_ARMGenerator() gopter.Gen {
+	if managedCluster_STATUS_ARMGenerator != nil {
+		return managedCluster_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerServiceSshPublicKey_STATUS_ARM(generators)
-	containerServiceSshPublicKey_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerServiceSshPublicKey_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForManagedCluster_STATUS_ARM(generators)
+	managedCluster_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedCluster_STATUS_ARM{}), generators)
 
-	return containerServiceSshPublicKey_STATUS_ARMGenerator
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedCluster_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForManagedCluster_STATUS_ARM(generators)
+	managedCluster_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedCluster_STATUS_ARM{}), generators)
+
+	return managedCluster_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForContainerServiceSshPublicKey_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForContainerServiceSshPublicKey_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["KeyData"] = gen.PtrOf(gen.AlphaString())
+// AddIndependentPropertyGeneratorsForManagedCluster_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedCluster_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+// AddRelatedPropertyGeneratorsForManagedCluster_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedCluster_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUS_ARMGenerator())
+	gens["Identity"] = gen.PtrOf(ManagedClusterIdentity_STATUS_ARMGenerator())
+	gens["Properties"] = gen.PtrOf(ManagedClusterProperties_STATUS_ARMGenerator())
+	gens["Sku"] = gen.PtrOf(ManagedClusterSKU_STATUS_ARMGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUS_ARMGenerator())
+}
+
+func Test_PowerState_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARM, ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARMGenerator()))
+		"Round trip of PowerState_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPowerState_STATUS_ARM, PowerState_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARM runs a test to see if a specific instance of ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARM(subject ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARM) string {
+// RunJSONSerializationTestForPowerState_STATUS_ARM runs a test to see if a specific instance of PowerState_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForPowerState_STATUS_ARM(subject PowerState_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -3142,7 +3444,7 @@ func RunJSONSerializationTestForManagedClusterAzureMonitorProfileKubeStateMetric
 	}
 
 	// Deserialize back into memory
-	var actual ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARM
+	var actual PowerState_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -3160,43 +3462,42 @@ func RunJSONSerializationTestForManagedClusterAzureMonitorProfileKubeStateMetric
 	return ""
 }
 
-// Generator of ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARM instances for property testing - lazily
-// instantiated by ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARMGenerator()
-var managedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARMGenerator gopter.Gen
+// Generator of PowerState_STATUS_ARM instances for property testing - lazily instantiated by
+// PowerState_STATUS_ARMGenerator()
+var powerState_STATUS_ARMGenerator gopter.Gen
 
-// ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARMGenerator returns a generator of ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARM instances for property testing.
-func ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARMGenerator() gopter.Gen {
-	if managedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARMGenerator != nil {
-		return managedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARMGenerator
+// PowerState_STATUS_ARMGenerator returns a generator of PowerState_STATUS_ARM instances for property testing.
+func PowerState_STATUS_ARMGenerator() gopter.Gen {
+	if powerState_STATUS_ARMGenerator != nil {
+		return powerState_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARM(generators)
-	managedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForPowerState_STATUS_ARM(generators)
+	powerState_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(PowerState_STATUS_ARM{}), generators)
 
-	return managedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARMGenerator
+	return powerState_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["MetricAnnotationsAllowList"] = gen.PtrOf(gen.AlphaString())
-	gens["MetricLabelsAllowlist"] = gen.PtrOf(gen.AlphaString())
+// AddIndependentPropertyGeneratorsForPowerState_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPowerState_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Code"] = gen.PtrOf(gen.OneConstOf(PowerState_Code_STATUS_Running, PowerState_Code_STATUS_Stopped))
 }
 
-func Test_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_PrivateLinkResource_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARM, ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARMGenerator()))
+		"Round trip of PrivateLinkResource_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateLinkResource_STATUS_ARM, PrivateLinkResource_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARM runs a test to see if a specific instance of ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARM(subject ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARM) string {
+// RunJSONSerializationTestForPrivateLinkResource_STATUS_ARM runs a test to see if a specific instance of PrivateLinkResource_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateLinkResource_STATUS_ARM(subject PrivateLinkResource_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -3204,7 +3505,7 @@ func RunJSONSerializationTestForManagedClusterLoadBalancerProfile_ManagedOutboun
 	}
 
 	// Deserialize back into memory
-	var actual ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARM
+	var actual PrivateLinkResource_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -3222,332 +3523,31 @@ func RunJSONSerializationTestForManagedClusterLoadBalancerProfile_ManagedOutboun
 	return ""
 }
 
-// Generator of ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARM instances for property testing - lazily
-// instantiated by ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARMGenerator()
-var managedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARMGenerator gopter.Gen
+// Generator of PrivateLinkResource_STATUS_ARM instances for property testing - lazily instantiated by
+// PrivateLinkResource_STATUS_ARMGenerator()
+var privateLinkResource_STATUS_ARMGenerator gopter.Gen
 
-// ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARMGenerator returns a generator of ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARM instances for property testing.
-func ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARMGenerator() gopter.Gen {
-	if managedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARMGenerator != nil {
-		return managedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARMGenerator
+// PrivateLinkResource_STATUS_ARMGenerator returns a generator of PrivateLinkResource_STATUS_ARM instances for property testing.
+func PrivateLinkResource_STATUS_ARMGenerator() gopter.Gen {
+	if privateLinkResource_STATUS_ARMGenerator != nil {
+		return privateLinkResource_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARM(generators)
-	managedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForPrivateLinkResource_STATUS_ARM(generators)
+	privateLinkResource_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(PrivateLinkResource_STATUS_ARM{}), generators)
 
-	return managedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARMGenerator
+	return privateLinkResource_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Count"] = gen.PtrOf(gen.Int())
-	gens["CountIPv6"] = gen.PtrOf(gen.Int())
-}
-
-func Test_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARM, ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARM runs a test to see if a specific instance of ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARM(subject ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARM instances for property testing - lazily
-// instantiated by ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARMGenerator()
-var managedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARMGenerator gopter.Gen
-
-// ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARMGenerator returns a generator of ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARM instances for property testing.
-func ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARMGenerator() gopter.Gen {
-	if managedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARMGenerator != nil {
-		return managedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARM(generators)
-	managedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARM{}), generators)
-
-	return managedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARMGenerator
-}
-
-// AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["PublicIPPrefixes"] = gen.SliceOf(ResourceReference_STATUS_ARMGenerator())
-}
-
-func Test_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARM, ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARM runs a test to see if a specific instance of ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARM(subject ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARM instances for property testing - lazily
-// instantiated by ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARMGenerator()
-var managedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARMGenerator gopter.Gen
-
-// ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARMGenerator returns a generator of ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARM instances for property testing.
-func ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARMGenerator() gopter.Gen {
-	if managedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARMGenerator != nil {
-		return managedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARM(generators)
-	managedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARM{}), generators)
-
-	return managedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARMGenerator
-}
-
-// AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["PublicIPs"] = gen.SliceOf(ResourceReference_STATUS_ARMGenerator())
-}
-
-func Test_ManagedClusterManagedOutboundIPProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedClusterManagedOutboundIPProfile_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterManagedOutboundIPProfile_STATUS_ARM, ManagedClusterManagedOutboundIPProfile_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedClusterManagedOutboundIPProfile_STATUS_ARM runs a test to see if a specific instance of ManagedClusterManagedOutboundIPProfile_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterManagedOutboundIPProfile_STATUS_ARM(subject ManagedClusterManagedOutboundIPProfile_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedClusterManagedOutboundIPProfile_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedClusterManagedOutboundIPProfile_STATUS_ARM instances for property testing - lazily instantiated
-// by ManagedClusterManagedOutboundIPProfile_STATUS_ARMGenerator()
-var managedClusterManagedOutboundIPProfile_STATUS_ARMGenerator gopter.Gen
-
-// ManagedClusterManagedOutboundIPProfile_STATUS_ARMGenerator returns a generator of ManagedClusterManagedOutboundIPProfile_STATUS_ARM instances for property testing.
-func ManagedClusterManagedOutboundIPProfile_STATUS_ARMGenerator() gopter.Gen {
-	if managedClusterManagedOutboundIPProfile_STATUS_ARMGenerator != nil {
-		return managedClusterManagedOutboundIPProfile_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterManagedOutboundIPProfile_STATUS_ARM(generators)
-	managedClusterManagedOutboundIPProfile_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterManagedOutboundIPProfile_STATUS_ARM{}), generators)
-
-	return managedClusterManagedOutboundIPProfile_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedClusterManagedOutboundIPProfile_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterManagedOutboundIPProfile_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Count"] = gen.PtrOf(gen.Int())
-}
-
-func Test_ManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM, ManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM runs a test to see if a specific instance of ManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM(subject ManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM instances for property testing - lazily
-// instantiated by ManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARMGenerator()
-var managedClusterPodIdentity_ProvisioningInfo_STATUS_ARMGenerator gopter.Gen
-
-// ManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARMGenerator returns a generator of ManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM instances for property testing.
-func ManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARMGenerator() gopter.Gen {
-	if managedClusterPodIdentity_ProvisioningInfo_STATUS_ARMGenerator != nil {
-		return managedClusterPodIdentity_ProvisioningInfo_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM(generators)
-	managedClusterPodIdentity_ProvisioningInfo_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM{}), generators)
-
-	return managedClusterPodIdentity_ProvisioningInfo_STATUS_ARMGenerator
-}
-
-// AddRelatedPropertyGeneratorsForManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Error"] = gen.PtrOf(ManagedClusterPodIdentityProvisioningError_STATUS_ARMGenerator())
-}
-
-func Test_ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARM, ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARM runs a test to see if a specific instance of ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARM(subject ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARM instances for property testing -
-// lazily instantiated by ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARMGenerator()
-var managedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARMGenerator gopter.Gen
-
-// ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARMGenerator returns a generator of ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARM instances for property testing.
-func ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARMGenerator() gopter.Gen {
-	if managedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARMGenerator != nil {
-		return managedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARM(generators)
-	managedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARM{}), generators)
-
-	return managedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
+// AddIndependentPropertyGeneratorsForPrivateLinkResource_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateLinkResource_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["GroupId"] = gen.PtrOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["PrivateLinkServiceID"] = gen.PtrOf(gen.AlphaString())
+	gens["RequiredMembers"] = gen.SliceOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ResourceReference_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3611,20 +3611,20 @@ func AddIndependentPropertyGeneratorsForResourceReference_STATUS_ARM(gens map[st
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_ManagedClusterPodIdentityProvisioningError_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SystemData_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManagedClusterPodIdentityProvisioningError_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterPodIdentityProvisioningError_STATUS_ARM, ManagedClusterPodIdentityProvisioningError_STATUS_ARMGenerator()))
+		"Round trip of SystemData_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSystemData_STATUS_ARM, SystemData_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedClusterPodIdentityProvisioningError_STATUS_ARM runs a test to see if a specific instance of ManagedClusterPodIdentityProvisioningError_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterPodIdentityProvisioningError_STATUS_ARM(subject ManagedClusterPodIdentityProvisioningError_STATUS_ARM) string {
+// RunJSONSerializationTestForSystemData_STATUS_ARM runs a test to see if a specific instance of SystemData_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSystemData_STATUS_ARM(subject SystemData_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -3632,7 +3632,7 @@ func RunJSONSerializationTestForManagedClusterPodIdentityProvisioningError_STATU
 	}
 
 	// Deserialize back into memory
-	var actual ManagedClusterPodIdentityProvisioningError_STATUS_ARM
+	var actual SystemData_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -3650,42 +3650,55 @@ func RunJSONSerializationTestForManagedClusterPodIdentityProvisioningError_STATU
 	return ""
 }
 
-// Generator of ManagedClusterPodIdentityProvisioningError_STATUS_ARM instances for property testing - lazily
-// instantiated by ManagedClusterPodIdentityProvisioningError_STATUS_ARMGenerator()
-var managedClusterPodIdentityProvisioningError_STATUS_ARMGenerator gopter.Gen
+// Generator of SystemData_STATUS_ARM instances for property testing - lazily instantiated by
+// SystemData_STATUS_ARMGenerator()
+var systemData_STATUS_ARMGenerator gopter.Gen
 
-// ManagedClusterPodIdentityProvisioningError_STATUS_ARMGenerator returns a generator of ManagedClusterPodIdentityProvisioningError_STATUS_ARM instances for property testing.
-func ManagedClusterPodIdentityProvisioningError_STATUS_ARMGenerator() gopter.Gen {
-	if managedClusterPodIdentityProvisioningError_STATUS_ARMGenerator != nil {
-		return managedClusterPodIdentityProvisioningError_STATUS_ARMGenerator
+// SystemData_STATUS_ARMGenerator returns a generator of SystemData_STATUS_ARM instances for property testing.
+func SystemData_STATUS_ARMGenerator() gopter.Gen {
+	if systemData_STATUS_ARMGenerator != nil {
+		return systemData_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForManagedClusterPodIdentityProvisioningError_STATUS_ARM(generators)
-	managedClusterPodIdentityProvisioningError_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterPodIdentityProvisioningError_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForSystemData_STATUS_ARM(generators)
+	systemData_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(SystemData_STATUS_ARM{}), generators)
 
-	return managedClusterPodIdentityProvisioningError_STATUS_ARMGenerator
+	return systemData_STATUS_ARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForManagedClusterPodIdentityProvisioningError_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedClusterPodIdentityProvisioningError_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Error"] = gen.PtrOf(ManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARMGenerator())
+// AddIndependentPropertyGeneratorsForSystemData_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSystemData_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
+	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
+	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
+		SystemData_CreatedByType_STATUS_Application,
+		SystemData_CreatedByType_STATUS_Key,
+		SystemData_CreatedByType_STATUS_ManagedIdentity,
+		SystemData_CreatedByType_STATUS_User))
+	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
+	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
+	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
+		SystemData_LastModifiedByType_STATUS_Application,
+		SystemData_LastModifiedByType_STATUS_Key,
+		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+		SystemData_LastModifiedByType_STATUS_User))
 }
 
-func Test_ManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_UserAssignedIdentity_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM, ManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARMGenerator()))
+		"Round trip of UserAssignedIdentity_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForUserAssignedIdentity_STATUS_ARM, UserAssignedIdentity_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM runs a test to see if a specific instance of ManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM(subject ManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM) string {
+// RunJSONSerializationTestForUserAssignedIdentity_STATUS_ARM runs a test to see if a specific instance of UserAssignedIdentity_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForUserAssignedIdentity_STATUS_ARM(subject UserAssignedIdentity_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -3693,7 +3706,7 @@ func RunJSONSerializationTestForManagedClusterPodIdentityProvisioningErrorBody_S
 	}
 
 	// Deserialize back into memory
-	var actual ManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM
+	var actual UserAssignedIdentity_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -3711,58 +3724,44 @@ func RunJSONSerializationTestForManagedClusterPodIdentityProvisioningErrorBody_S
 	return ""
 }
 
-// Generator of ManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM instances for property testing - lazily
-// instantiated by ManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARMGenerator()
-var managedClusterPodIdentityProvisioningErrorBody_STATUS_ARMGenerator gopter.Gen
+// Generator of UserAssignedIdentity_STATUS_ARM instances for property testing - lazily instantiated by
+// UserAssignedIdentity_STATUS_ARMGenerator()
+var userAssignedIdentity_STATUS_ARMGenerator gopter.Gen
 
-// ManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARMGenerator returns a generator of ManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM instances for property testing.
-// We first initialize managedClusterPodIdentityProvisioningErrorBody_STATUS_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARMGenerator() gopter.Gen {
-	if managedClusterPodIdentityProvisioningErrorBody_STATUS_ARMGenerator != nil {
-		return managedClusterPodIdentityProvisioningErrorBody_STATUS_ARMGenerator
+// UserAssignedIdentity_STATUS_ARMGenerator returns a generator of UserAssignedIdentity_STATUS_ARM instances for property testing.
+func UserAssignedIdentity_STATUS_ARMGenerator() gopter.Gen {
+	if userAssignedIdentity_STATUS_ARMGenerator != nil {
+		return userAssignedIdentity_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM(generators)
-	managedClusterPodIdentityProvisioningErrorBody_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForUserAssignedIdentity_STATUS_ARM(generators)
+	userAssignedIdentity_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentity_STATUS_ARM{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM(generators)
-	managedClusterPodIdentityProvisioningErrorBody_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM{}), generators)
-
-	return managedClusterPodIdentityProvisioningErrorBody_STATUS_ARMGenerator
+	return userAssignedIdentity_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Code"] = gen.PtrOf(gen.AlphaString())
-	gens["Message"] = gen.PtrOf(gen.AlphaString())
-	gens["Target"] = gen.PtrOf(gen.AlphaString())
+// AddIndependentPropertyGeneratorsForUserAssignedIdentity_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForUserAssignedIdentity_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
+	gens["ObjectId"] = gen.PtrOf(gen.AlphaString())
+	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Details"] = gen.SliceOf(ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARMGenerator())
-}
-
-func Test_ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_WindowsGmsaProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARM, ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARMGenerator()))
+		"Round trip of WindowsGmsaProfile_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWindowsGmsaProfile_STATUS_ARM, WindowsGmsaProfile_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARM runs a test to see if a specific instance of ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARM(subject ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARM) string {
+// RunJSONSerializationTestForWindowsGmsaProfile_STATUS_ARM runs a test to see if a specific instance of WindowsGmsaProfile_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForWindowsGmsaProfile_STATUS_ARM(subject WindowsGmsaProfile_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -3770,7 +3769,7 @@ func RunJSONSerializationTestForManagedClusterPodIdentityProvisioningErrorBody_S
 	}
 
 	// Deserialize back into memory
-	var actual ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARM
+	var actual WindowsGmsaProfile_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -3788,26 +3787,26 @@ func RunJSONSerializationTestForManagedClusterPodIdentityProvisioningErrorBody_S
 	return ""
 }
 
-// Generator of ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARM instances for property testing -
-// lazily instantiated by ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARMGenerator()
-var managedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARMGenerator gopter.Gen
+// Generator of WindowsGmsaProfile_STATUS_ARM instances for property testing - lazily instantiated by
+// WindowsGmsaProfile_STATUS_ARMGenerator()
+var windowsGmsaProfile_STATUS_ARMGenerator gopter.Gen
 
-// ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARMGenerator returns a generator of ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARM instances for property testing.
-func ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARMGenerator() gopter.Gen {
-	if managedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARMGenerator != nil {
-		return managedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARMGenerator
+// WindowsGmsaProfile_STATUS_ARMGenerator returns a generator of WindowsGmsaProfile_STATUS_ARM instances for property testing.
+func WindowsGmsaProfile_STATUS_ARMGenerator() gopter.Gen {
+	if windowsGmsaProfile_STATUS_ARMGenerator != nil {
+		return windowsGmsaProfile_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARM(generators)
-	managedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForWindowsGmsaProfile_STATUS_ARM(generators)
+	windowsGmsaProfile_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(WindowsGmsaProfile_STATUS_ARM{}), generators)
 
-	return managedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARMGenerator
+	return windowsGmsaProfile_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARM(gens map[string]gopter.Gen) {
-	gens["Code"] = gen.PtrOf(gen.AlphaString())
-	gens["Message"] = gen.PtrOf(gen.AlphaString())
-	gens["Target"] = gen.PtrOf(gen.AlphaString())
+// AddIndependentPropertyGeneratorsForWindowsGmsaProfile_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWindowsGmsaProfile_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["DnsServer"] = gen.PtrOf(gen.AlphaString())
+	gens["Enabled"] = gen.PtrOf(gen.Bool())
+	gens["RootDomainName"] = gen.PtrOf(gen.AlphaString())
 }

@@ -79,70 +79,6 @@ func AddRelatedPropertyGeneratorsForServersFirewallRule(gens map[string]gopter.G
 	gens["Status"] = Servers_FirewallRule_STATUSGenerator()
 }
 
-func Test_Servers_FirewallRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Servers_FirewallRule_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServers_FirewallRule_Spec, Servers_FirewallRule_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForServers_FirewallRule_Spec runs a test to see if a specific instance of Servers_FirewallRule_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForServers_FirewallRule_Spec(subject Servers_FirewallRule_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Servers_FirewallRule_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Servers_FirewallRule_Spec instances for property testing - lazily instantiated by
-// Servers_FirewallRule_SpecGenerator()
-var servers_FirewallRule_SpecGenerator gopter.Gen
-
-// Servers_FirewallRule_SpecGenerator returns a generator of Servers_FirewallRule_Spec instances for property testing.
-func Servers_FirewallRule_SpecGenerator() gopter.Gen {
-	if servers_FirewallRule_SpecGenerator != nil {
-		return servers_FirewallRule_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_FirewallRule_Spec(generators)
-	servers_FirewallRule_SpecGenerator = gen.Struct(reflect.TypeOf(Servers_FirewallRule_Spec{}), generators)
-
-	return servers_FirewallRule_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForServers_FirewallRule_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServers_FirewallRule_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["EndIpAddress"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["StartIpAddress"] = gen.PtrOf(gen.AlphaString())
-}
-
 func Test_Servers_FirewallRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -206,4 +142,68 @@ func AddIndependentPropertyGeneratorsForServers_FirewallRule_STATUS(gens map[str
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["StartIpAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_Servers_FirewallRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Servers_FirewallRule_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServers_FirewallRule_Spec, Servers_FirewallRule_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForServers_FirewallRule_Spec runs a test to see if a specific instance of Servers_FirewallRule_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForServers_FirewallRule_Spec(subject Servers_FirewallRule_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Servers_FirewallRule_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Servers_FirewallRule_Spec instances for property testing - lazily instantiated by
+// Servers_FirewallRule_SpecGenerator()
+var servers_FirewallRule_SpecGenerator gopter.Gen
+
+// Servers_FirewallRule_SpecGenerator returns a generator of Servers_FirewallRule_Spec instances for property testing.
+func Servers_FirewallRule_SpecGenerator() gopter.Gen {
+	if servers_FirewallRule_SpecGenerator != nil {
+		return servers_FirewallRule_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServers_FirewallRule_Spec(generators)
+	servers_FirewallRule_SpecGenerator = gen.Struct(reflect.TypeOf(Servers_FirewallRule_Spec{}), generators)
+
+	return servers_FirewallRule_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForServers_FirewallRule_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServers_FirewallRule_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["EndIpAddress"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["StartIpAddress"] = gen.PtrOf(gen.AlphaString())
 }

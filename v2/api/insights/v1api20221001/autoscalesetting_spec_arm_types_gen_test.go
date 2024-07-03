@@ -17,165 +17,6 @@ import (
 	"testing"
 )
 
-func Test_Autoscalesetting_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Autoscalesetting_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAutoscalesetting_Spec_ARM, Autoscalesetting_Spec_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForAutoscalesetting_Spec_ARM runs a test to see if a specific instance of Autoscalesetting_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForAutoscalesetting_Spec_ARM(subject Autoscalesetting_Spec_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Autoscalesetting_Spec_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Autoscalesetting_Spec_ARM instances for property testing - lazily instantiated by
-// Autoscalesetting_Spec_ARMGenerator()
-var autoscalesetting_Spec_ARMGenerator gopter.Gen
-
-// Autoscalesetting_Spec_ARMGenerator returns a generator of Autoscalesetting_Spec_ARM instances for property testing.
-// We first initialize autoscalesetting_Spec_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Autoscalesetting_Spec_ARMGenerator() gopter.Gen {
-	if autoscalesetting_Spec_ARMGenerator != nil {
-		return autoscalesetting_Spec_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAutoscalesetting_Spec_ARM(generators)
-	autoscalesetting_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Autoscalesetting_Spec_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAutoscalesetting_Spec_ARM(generators)
-	AddRelatedPropertyGeneratorsForAutoscalesetting_Spec_ARM(generators)
-	autoscalesetting_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Autoscalesetting_Spec_ARM{}), generators)
-
-	return autoscalesetting_Spec_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAutoscalesetting_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAutoscalesetting_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForAutoscalesetting_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAutoscalesetting_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(AutoscaleSettingProperties_ARMGenerator())
-}
-
-func Test_AutoscaleSettingProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AutoscaleSettingProperties_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAutoscaleSettingProperties_ARM, AutoscaleSettingProperties_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForAutoscaleSettingProperties_ARM runs a test to see if a specific instance of AutoscaleSettingProperties_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForAutoscaleSettingProperties_ARM(subject AutoscaleSettingProperties_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual AutoscaleSettingProperties_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of AutoscaleSettingProperties_ARM instances for property testing - lazily instantiated by
-// AutoscaleSettingProperties_ARMGenerator()
-var autoscaleSettingProperties_ARMGenerator gopter.Gen
-
-// AutoscaleSettingProperties_ARMGenerator returns a generator of AutoscaleSettingProperties_ARM instances for property testing.
-// We first initialize autoscaleSettingProperties_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func AutoscaleSettingProperties_ARMGenerator() gopter.Gen {
-	if autoscaleSettingProperties_ARMGenerator != nil {
-		return autoscaleSettingProperties_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAutoscaleSettingProperties_ARM(generators)
-	autoscaleSettingProperties_ARMGenerator = gen.Struct(reflect.TypeOf(AutoscaleSettingProperties_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAutoscaleSettingProperties_ARM(generators)
-	AddRelatedPropertyGeneratorsForAutoscaleSettingProperties_ARM(generators)
-	autoscaleSettingProperties_ARMGenerator = gen.Struct(reflect.TypeOf(AutoscaleSettingProperties_ARM{}), generators)
-
-	return autoscaleSettingProperties_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAutoscaleSettingProperties_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAutoscaleSettingProperties_ARM(gens map[string]gopter.Gen) {
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["TargetResourceLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["TargetResourceUri"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForAutoscaleSettingProperties_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAutoscaleSettingProperties_ARM(gens map[string]gopter.Gen) {
-	gens["Notifications"] = gen.SliceOf(AutoscaleNotification_ARMGenerator())
-	gens["PredictiveAutoscalePolicy"] = gen.PtrOf(PredictiveAutoscalePolicy_ARMGenerator())
-	gens["Profiles"] = gen.SliceOf(AutoscaleProfile_ARMGenerator())
-}
-
 func Test_AutoscaleNotification_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -330,20 +171,20 @@ func AddRelatedPropertyGeneratorsForAutoscaleProfile_ARM(gens map[string]gopter.
 	gens["Rules"] = gen.SliceOf(ScaleRule_ARMGenerator())
 }
 
-func Test_PredictiveAutoscalePolicy_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_AutoscaleSettingProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of PredictiveAutoscalePolicy_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPredictiveAutoscalePolicy_ARM, PredictiveAutoscalePolicy_ARMGenerator()))
+		"Round trip of AutoscaleSettingProperties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAutoscaleSettingProperties_ARM, AutoscaleSettingProperties_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPredictiveAutoscalePolicy_ARM runs a test to see if a specific instance of PredictiveAutoscalePolicy_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForPredictiveAutoscalePolicy_ARM(subject PredictiveAutoscalePolicy_ARM) string {
+// RunJSONSerializationTestForAutoscaleSettingProperties_ARM runs a test to see if a specific instance of AutoscaleSettingProperties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForAutoscaleSettingProperties_ARM(subject AutoscaleSettingProperties_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -351,7 +192,7 @@ func RunJSONSerializationTestForPredictiveAutoscalePolicy_ARM(subject Predictive
 	}
 
 	// Deserialize back into memory
-	var actual PredictiveAutoscalePolicy_ARM
+	var actual AutoscaleSettingProperties_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -369,27 +210,124 @@ func RunJSONSerializationTestForPredictiveAutoscalePolicy_ARM(subject Predictive
 	return ""
 }
 
-// Generator of PredictiveAutoscalePolicy_ARM instances for property testing - lazily instantiated by
-// PredictiveAutoscalePolicy_ARMGenerator()
-var predictiveAutoscalePolicy_ARMGenerator gopter.Gen
+// Generator of AutoscaleSettingProperties_ARM instances for property testing - lazily instantiated by
+// AutoscaleSettingProperties_ARMGenerator()
+var autoscaleSettingProperties_ARMGenerator gopter.Gen
 
-// PredictiveAutoscalePolicy_ARMGenerator returns a generator of PredictiveAutoscalePolicy_ARM instances for property testing.
-func PredictiveAutoscalePolicy_ARMGenerator() gopter.Gen {
-	if predictiveAutoscalePolicy_ARMGenerator != nil {
-		return predictiveAutoscalePolicy_ARMGenerator
+// AutoscaleSettingProperties_ARMGenerator returns a generator of AutoscaleSettingProperties_ARM instances for property testing.
+// We first initialize autoscaleSettingProperties_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func AutoscaleSettingProperties_ARMGenerator() gopter.Gen {
+	if autoscaleSettingProperties_ARMGenerator != nil {
+		return autoscaleSettingProperties_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPredictiveAutoscalePolicy_ARM(generators)
-	predictiveAutoscalePolicy_ARMGenerator = gen.Struct(reflect.TypeOf(PredictiveAutoscalePolicy_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForAutoscaleSettingProperties_ARM(generators)
+	autoscaleSettingProperties_ARMGenerator = gen.Struct(reflect.TypeOf(AutoscaleSettingProperties_ARM{}), generators)
 
-	return predictiveAutoscalePolicy_ARMGenerator
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForAutoscaleSettingProperties_ARM(generators)
+	AddRelatedPropertyGeneratorsForAutoscaleSettingProperties_ARM(generators)
+	autoscaleSettingProperties_ARMGenerator = gen.Struct(reflect.TypeOf(AutoscaleSettingProperties_ARM{}), generators)
+
+	return autoscaleSettingProperties_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPredictiveAutoscalePolicy_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPredictiveAutoscalePolicy_ARM(gens map[string]gopter.Gen) {
-	gens["ScaleLookAheadTime"] = gen.PtrOf(gen.AlphaString())
-	gens["ScaleMode"] = gen.PtrOf(gen.OneConstOf(PredictiveAutoscalePolicy_ScaleMode_Disabled, PredictiveAutoscalePolicy_ScaleMode_Enabled, PredictiveAutoscalePolicy_ScaleMode_ForecastOnly))
+// AddIndependentPropertyGeneratorsForAutoscaleSettingProperties_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAutoscaleSettingProperties_ARM(gens map[string]gopter.Gen) {
+	gens["Enabled"] = gen.PtrOf(gen.Bool())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["TargetResourceLocation"] = gen.PtrOf(gen.AlphaString())
+	gens["TargetResourceUri"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForAutoscaleSettingProperties_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForAutoscaleSettingProperties_ARM(gens map[string]gopter.Gen) {
+	gens["Notifications"] = gen.SliceOf(AutoscaleNotification_ARMGenerator())
+	gens["PredictiveAutoscalePolicy"] = gen.PtrOf(PredictiveAutoscalePolicy_ARMGenerator())
+	gens["Profiles"] = gen.SliceOf(AutoscaleProfile_ARMGenerator())
+}
+
+func Test_Autoscalesetting_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Autoscalesetting_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAutoscalesetting_Spec_ARM, Autoscalesetting_Spec_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForAutoscalesetting_Spec_ARM runs a test to see if a specific instance of Autoscalesetting_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForAutoscalesetting_Spec_ARM(subject Autoscalesetting_Spec_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Autoscalesetting_Spec_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Autoscalesetting_Spec_ARM instances for property testing - lazily instantiated by
+// Autoscalesetting_Spec_ARMGenerator()
+var autoscalesetting_Spec_ARMGenerator gopter.Gen
+
+// Autoscalesetting_Spec_ARMGenerator returns a generator of Autoscalesetting_Spec_ARM instances for property testing.
+// We first initialize autoscalesetting_Spec_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Autoscalesetting_Spec_ARMGenerator() gopter.Gen {
+	if autoscalesetting_Spec_ARMGenerator != nil {
+		return autoscalesetting_Spec_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForAutoscalesetting_Spec_ARM(generators)
+	autoscalesetting_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Autoscalesetting_Spec_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForAutoscalesetting_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForAutoscalesetting_Spec_ARM(generators)
+	autoscalesetting_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Autoscalesetting_Spec_ARM{}), generators)
+
+	return autoscalesetting_Spec_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForAutoscalesetting_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAutoscalesetting_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.AlphaString()
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForAutoscalesetting_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForAutoscalesetting_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(AutoscaleSettingProperties_ARMGenerator())
 }
 
 func Test_EmailNotification_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -453,6 +391,169 @@ func AddIndependentPropertyGeneratorsForEmailNotification_ARM(gens map[string]go
 	gens["CustomEmails"] = gen.SliceOf(gen.AlphaString())
 	gens["SendToSubscriptionAdministrator"] = gen.PtrOf(gen.Bool())
 	gens["SendToSubscriptionCoAdministrators"] = gen.PtrOf(gen.Bool())
+}
+
+func Test_MetricTrigger_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of MetricTrigger_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMetricTrigger_ARM, MetricTrigger_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForMetricTrigger_ARM runs a test to see if a specific instance of MetricTrigger_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForMetricTrigger_ARM(subject MetricTrigger_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual MetricTrigger_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of MetricTrigger_ARM instances for property testing - lazily instantiated by MetricTrigger_ARMGenerator()
+var metricTrigger_ARMGenerator gopter.Gen
+
+// MetricTrigger_ARMGenerator returns a generator of MetricTrigger_ARM instances for property testing.
+// We first initialize metricTrigger_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func MetricTrigger_ARMGenerator() gopter.Gen {
+	if metricTrigger_ARMGenerator != nil {
+		return metricTrigger_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForMetricTrigger_ARM(generators)
+	metricTrigger_ARMGenerator = gen.Struct(reflect.TypeOf(MetricTrigger_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForMetricTrigger_ARM(generators)
+	AddRelatedPropertyGeneratorsForMetricTrigger_ARM(generators)
+	metricTrigger_ARMGenerator = gen.Struct(reflect.TypeOf(MetricTrigger_ARM{}), generators)
+
+	return metricTrigger_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForMetricTrigger_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMetricTrigger_ARM(gens map[string]gopter.Gen) {
+	gens["DividePerInstance"] = gen.PtrOf(gen.Bool())
+	gens["MetricName"] = gen.PtrOf(gen.AlphaString())
+	gens["MetricNamespace"] = gen.PtrOf(gen.AlphaString())
+	gens["MetricResourceLocation"] = gen.PtrOf(gen.AlphaString())
+	gens["MetricResourceUri"] = gen.PtrOf(gen.AlphaString())
+	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
+		MetricTrigger_Operator_Equals,
+		MetricTrigger_Operator_GreaterThan,
+		MetricTrigger_Operator_GreaterThanOrEqual,
+		MetricTrigger_Operator_LessThan,
+		MetricTrigger_Operator_LessThanOrEqual,
+		MetricTrigger_Operator_NotEquals))
+	gens["Statistic"] = gen.PtrOf(gen.OneConstOf(
+		MetricTrigger_Statistic_Average,
+		MetricTrigger_Statistic_Count,
+		MetricTrigger_Statistic_Max,
+		MetricTrigger_Statistic_Min,
+		MetricTrigger_Statistic_Sum))
+	gens["Threshold"] = gen.PtrOf(gen.Float64())
+	gens["TimeAggregation"] = gen.PtrOf(gen.OneConstOf(
+		MetricTrigger_TimeAggregation_Average,
+		MetricTrigger_TimeAggregation_Count,
+		MetricTrigger_TimeAggregation_Last,
+		MetricTrigger_TimeAggregation_Maximum,
+		MetricTrigger_TimeAggregation_Minimum,
+		MetricTrigger_TimeAggregation_Total))
+	gens["TimeGrain"] = gen.PtrOf(gen.AlphaString())
+	gens["TimeWindow"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForMetricTrigger_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForMetricTrigger_ARM(gens map[string]gopter.Gen) {
+	gens["Dimensions"] = gen.SliceOf(ScaleRuleMetricDimension_ARMGenerator())
+}
+
+func Test_PredictiveAutoscalePolicy_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PredictiveAutoscalePolicy_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPredictiveAutoscalePolicy_ARM, PredictiveAutoscalePolicy_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPredictiveAutoscalePolicy_ARM runs a test to see if a specific instance of PredictiveAutoscalePolicy_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForPredictiveAutoscalePolicy_ARM(subject PredictiveAutoscalePolicy_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PredictiveAutoscalePolicy_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PredictiveAutoscalePolicy_ARM instances for property testing - lazily instantiated by
+// PredictiveAutoscalePolicy_ARMGenerator()
+var predictiveAutoscalePolicy_ARMGenerator gopter.Gen
+
+// PredictiveAutoscalePolicy_ARMGenerator returns a generator of PredictiveAutoscalePolicy_ARM instances for property testing.
+func PredictiveAutoscalePolicy_ARMGenerator() gopter.Gen {
+	if predictiveAutoscalePolicy_ARMGenerator != nil {
+		return predictiveAutoscalePolicy_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPredictiveAutoscalePolicy_ARM(generators)
+	predictiveAutoscalePolicy_ARMGenerator = gen.Struct(reflect.TypeOf(PredictiveAutoscalePolicy_ARM{}), generators)
+
+	return predictiveAutoscalePolicy_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForPredictiveAutoscalePolicy_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPredictiveAutoscalePolicy_ARM(gens map[string]gopter.Gen) {
+	gens["ScaleLookAheadTime"] = gen.PtrOf(gen.AlphaString())
+	gens["ScaleMode"] = gen.PtrOf(gen.OneConstOf(PredictiveAutoscalePolicy_ScaleMode_Disabled, PredictiveAutoscalePolicy_ScaleMode_Enabled, PredictiveAutoscalePolicy_ScaleMode_ForecastOnly))
 }
 
 func Test_Recurrence_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -537,6 +638,137 @@ func AddRelatedPropertyGeneratorsForRecurrence_ARM(gens map[string]gopter.Gen) {
 	gens["Schedule"] = gen.PtrOf(RecurrentSchedule_ARMGenerator())
 }
 
+func Test_RecurrentSchedule_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of RecurrentSchedule_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRecurrentSchedule_ARM, RecurrentSchedule_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForRecurrentSchedule_ARM runs a test to see if a specific instance of RecurrentSchedule_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForRecurrentSchedule_ARM(subject RecurrentSchedule_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual RecurrentSchedule_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of RecurrentSchedule_ARM instances for property testing - lazily instantiated by
+// RecurrentSchedule_ARMGenerator()
+var recurrentSchedule_ARMGenerator gopter.Gen
+
+// RecurrentSchedule_ARMGenerator returns a generator of RecurrentSchedule_ARM instances for property testing.
+func RecurrentSchedule_ARMGenerator() gopter.Gen {
+	if recurrentSchedule_ARMGenerator != nil {
+		return recurrentSchedule_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRecurrentSchedule_ARM(generators)
+	recurrentSchedule_ARMGenerator = gen.Struct(reflect.TypeOf(RecurrentSchedule_ARM{}), generators)
+
+	return recurrentSchedule_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForRecurrentSchedule_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRecurrentSchedule_ARM(gens map[string]gopter.Gen) {
+	gens["Days"] = gen.SliceOf(gen.AlphaString())
+	gens["Hours"] = gen.SliceOf(gen.Int())
+	gens["Minutes"] = gen.SliceOf(gen.Int())
+	gens["TimeZone"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ScaleAction_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ScaleAction_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForScaleAction_ARM, ScaleAction_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForScaleAction_ARM runs a test to see if a specific instance of ScaleAction_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForScaleAction_ARM(subject ScaleAction_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ScaleAction_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ScaleAction_ARM instances for property testing - lazily instantiated by ScaleAction_ARMGenerator()
+var scaleAction_ARMGenerator gopter.Gen
+
+// ScaleAction_ARMGenerator returns a generator of ScaleAction_ARM instances for property testing.
+func ScaleAction_ARMGenerator() gopter.Gen {
+	if scaleAction_ARMGenerator != nil {
+		return scaleAction_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForScaleAction_ARM(generators)
+	scaleAction_ARMGenerator = gen.Struct(reflect.TypeOf(ScaleAction_ARM{}), generators)
+
+	return scaleAction_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForScaleAction_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForScaleAction_ARM(gens map[string]gopter.Gen) {
+	gens["Cooldown"] = gen.PtrOf(gen.AlphaString())
+	gens["Direction"] = gen.PtrOf(gen.OneConstOf(ScaleAction_Direction_Decrease, ScaleAction_Direction_Increase, ScaleAction_Direction_None))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(
+		ScaleAction_Type_ChangeCount,
+		ScaleAction_Type_ExactCount,
+		ScaleAction_Type_PercentChangeCount,
+		ScaleAction_Type_ServiceAllowedNextValue))
+	gens["Value"] = gen.PtrOf(gen.AlphaString())
+}
+
 func Test_ScaleCapacity_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -597,6 +829,69 @@ func AddIndependentPropertyGeneratorsForScaleCapacity_ARM(gens map[string]gopter
 	gens["Default"] = gen.PtrOf(gen.AlphaString())
 	gens["Maximum"] = gen.PtrOf(gen.AlphaString())
 	gens["Minimum"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ScaleRuleMetricDimension_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ScaleRuleMetricDimension_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForScaleRuleMetricDimension_ARM, ScaleRuleMetricDimension_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForScaleRuleMetricDimension_ARM runs a test to see if a specific instance of ScaleRuleMetricDimension_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForScaleRuleMetricDimension_ARM(subject ScaleRuleMetricDimension_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ScaleRuleMetricDimension_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ScaleRuleMetricDimension_ARM instances for property testing - lazily instantiated by
+// ScaleRuleMetricDimension_ARMGenerator()
+var scaleRuleMetricDimension_ARMGenerator gopter.Gen
+
+// ScaleRuleMetricDimension_ARMGenerator returns a generator of ScaleRuleMetricDimension_ARM instances for property testing.
+func ScaleRuleMetricDimension_ARMGenerator() gopter.Gen {
+	if scaleRuleMetricDimension_ARMGenerator != nil {
+		return scaleRuleMetricDimension_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForScaleRuleMetricDimension_ARM(generators)
+	scaleRuleMetricDimension_ARMGenerator = gen.Struct(reflect.TypeOf(ScaleRuleMetricDimension_ARM{}), generators)
+
+	return scaleRuleMetricDimension_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForScaleRuleMetricDimension_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForScaleRuleMetricDimension_ARM(gens map[string]gopter.Gen) {
+	gens["DimensionName"] = gen.PtrOf(gen.AlphaString())
+	gens["Operator"] = gen.PtrOf(gen.OneConstOf(ScaleRuleMetricDimension_Operator_Equals, ScaleRuleMetricDimension_Operator_NotEquals))
+	gens["Values"] = gen.SliceOf(gen.AlphaString())
 }
 
 func Test_ScaleRule_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -784,299 +1079,4 @@ func AddIndependentPropertyGeneratorsForWebhookNotification_ARM(gens map[string]
 		gen.AlphaString(),
 		gen.AlphaString())
 	gens["ServiceUri"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_MetricTrigger_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of MetricTrigger_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMetricTrigger_ARM, MetricTrigger_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForMetricTrigger_ARM runs a test to see if a specific instance of MetricTrigger_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForMetricTrigger_ARM(subject MetricTrigger_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual MetricTrigger_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of MetricTrigger_ARM instances for property testing - lazily instantiated by MetricTrigger_ARMGenerator()
-var metricTrigger_ARMGenerator gopter.Gen
-
-// MetricTrigger_ARMGenerator returns a generator of MetricTrigger_ARM instances for property testing.
-// We first initialize metricTrigger_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func MetricTrigger_ARMGenerator() gopter.Gen {
-	if metricTrigger_ARMGenerator != nil {
-		return metricTrigger_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMetricTrigger_ARM(generators)
-	metricTrigger_ARMGenerator = gen.Struct(reflect.TypeOf(MetricTrigger_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMetricTrigger_ARM(generators)
-	AddRelatedPropertyGeneratorsForMetricTrigger_ARM(generators)
-	metricTrigger_ARMGenerator = gen.Struct(reflect.TypeOf(MetricTrigger_ARM{}), generators)
-
-	return metricTrigger_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForMetricTrigger_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMetricTrigger_ARM(gens map[string]gopter.Gen) {
-	gens["DividePerInstance"] = gen.PtrOf(gen.Bool())
-	gens["MetricName"] = gen.PtrOf(gen.AlphaString())
-	gens["MetricNamespace"] = gen.PtrOf(gen.AlphaString())
-	gens["MetricResourceLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["MetricResourceUri"] = gen.PtrOf(gen.AlphaString())
-	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		MetricTrigger_Operator_Equals,
-		MetricTrigger_Operator_GreaterThan,
-		MetricTrigger_Operator_GreaterThanOrEqual,
-		MetricTrigger_Operator_LessThan,
-		MetricTrigger_Operator_LessThanOrEqual,
-		MetricTrigger_Operator_NotEquals))
-	gens["Statistic"] = gen.PtrOf(gen.OneConstOf(
-		MetricTrigger_Statistic_Average,
-		MetricTrigger_Statistic_Count,
-		MetricTrigger_Statistic_Max,
-		MetricTrigger_Statistic_Min,
-		MetricTrigger_Statistic_Sum))
-	gens["Threshold"] = gen.PtrOf(gen.Float64())
-	gens["TimeAggregation"] = gen.PtrOf(gen.OneConstOf(
-		MetricTrigger_TimeAggregation_Average,
-		MetricTrigger_TimeAggregation_Count,
-		MetricTrigger_TimeAggregation_Last,
-		MetricTrigger_TimeAggregation_Maximum,
-		MetricTrigger_TimeAggregation_Minimum,
-		MetricTrigger_TimeAggregation_Total))
-	gens["TimeGrain"] = gen.PtrOf(gen.AlphaString())
-	gens["TimeWindow"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForMetricTrigger_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForMetricTrigger_ARM(gens map[string]gopter.Gen) {
-	gens["Dimensions"] = gen.SliceOf(ScaleRuleMetricDimension_ARMGenerator())
-}
-
-func Test_RecurrentSchedule_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RecurrentSchedule_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRecurrentSchedule_ARM, RecurrentSchedule_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForRecurrentSchedule_ARM runs a test to see if a specific instance of RecurrentSchedule_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForRecurrentSchedule_ARM(subject RecurrentSchedule_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual RecurrentSchedule_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of RecurrentSchedule_ARM instances for property testing - lazily instantiated by
-// RecurrentSchedule_ARMGenerator()
-var recurrentSchedule_ARMGenerator gopter.Gen
-
-// RecurrentSchedule_ARMGenerator returns a generator of RecurrentSchedule_ARM instances for property testing.
-func RecurrentSchedule_ARMGenerator() gopter.Gen {
-	if recurrentSchedule_ARMGenerator != nil {
-		return recurrentSchedule_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRecurrentSchedule_ARM(generators)
-	recurrentSchedule_ARMGenerator = gen.Struct(reflect.TypeOf(RecurrentSchedule_ARM{}), generators)
-
-	return recurrentSchedule_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRecurrentSchedule_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRecurrentSchedule_ARM(gens map[string]gopter.Gen) {
-	gens["Days"] = gen.SliceOf(gen.AlphaString())
-	gens["Hours"] = gen.SliceOf(gen.Int())
-	gens["Minutes"] = gen.SliceOf(gen.Int())
-	gens["TimeZone"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_ScaleAction_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ScaleAction_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForScaleAction_ARM, ScaleAction_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForScaleAction_ARM runs a test to see if a specific instance of ScaleAction_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForScaleAction_ARM(subject ScaleAction_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ScaleAction_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ScaleAction_ARM instances for property testing - lazily instantiated by ScaleAction_ARMGenerator()
-var scaleAction_ARMGenerator gopter.Gen
-
-// ScaleAction_ARMGenerator returns a generator of ScaleAction_ARM instances for property testing.
-func ScaleAction_ARMGenerator() gopter.Gen {
-	if scaleAction_ARMGenerator != nil {
-		return scaleAction_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForScaleAction_ARM(generators)
-	scaleAction_ARMGenerator = gen.Struct(reflect.TypeOf(ScaleAction_ARM{}), generators)
-
-	return scaleAction_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForScaleAction_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForScaleAction_ARM(gens map[string]gopter.Gen) {
-	gens["Cooldown"] = gen.PtrOf(gen.AlphaString())
-	gens["Direction"] = gen.PtrOf(gen.OneConstOf(ScaleAction_Direction_Decrease, ScaleAction_Direction_Increase, ScaleAction_Direction_None))
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ScaleAction_Type_ChangeCount,
-		ScaleAction_Type_ExactCount,
-		ScaleAction_Type_PercentChangeCount,
-		ScaleAction_Type_ServiceAllowedNextValue))
-	gens["Value"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_ScaleRuleMetricDimension_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ScaleRuleMetricDimension_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForScaleRuleMetricDimension_ARM, ScaleRuleMetricDimension_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForScaleRuleMetricDimension_ARM runs a test to see if a specific instance of ScaleRuleMetricDimension_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForScaleRuleMetricDimension_ARM(subject ScaleRuleMetricDimension_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ScaleRuleMetricDimension_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ScaleRuleMetricDimension_ARM instances for property testing - lazily instantiated by
-// ScaleRuleMetricDimension_ARMGenerator()
-var scaleRuleMetricDimension_ARMGenerator gopter.Gen
-
-// ScaleRuleMetricDimension_ARMGenerator returns a generator of ScaleRuleMetricDimension_ARM instances for property testing.
-func ScaleRuleMetricDimension_ARMGenerator() gopter.Gen {
-	if scaleRuleMetricDimension_ARMGenerator != nil {
-		return scaleRuleMetricDimension_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForScaleRuleMetricDimension_ARM(generators)
-	scaleRuleMetricDimension_ARMGenerator = gen.Struct(reflect.TypeOf(ScaleRuleMetricDimension_ARM{}), generators)
-
-	return scaleRuleMetricDimension_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForScaleRuleMetricDimension_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForScaleRuleMetricDimension_ARM(gens map[string]gopter.Gen) {
-	gens["DimensionName"] = gen.PtrOf(gen.AlphaString())
-	gens["Operator"] = gen.PtrOf(gen.OneConstOf(ScaleRuleMetricDimension_Operator_Equals, ScaleRuleMetricDimension_Operator_NotEquals))
-	gens["Values"] = gen.SliceOf(gen.AlphaString())
 }

@@ -985,7 +985,7 @@ func (webtest *Webtest_Spec) Initialize_From_Webtest_STATUS(source *Webtest_STAT
 
 	// Kind
 	if source.Kind != nil {
-		kind := WebTestProperties_Kind(*source.Kind)
+		kind := genruntime.ToEnum(string(*source.Kind), webTestProperties_Kind_Values)
 		webtest.Kind = &kind
 	} else {
 		webtest.Kind = nil
@@ -1013,7 +1013,7 @@ func (webtest *Webtest_Spec) Initialize_From_Webtest_STATUS(source *Webtest_STAT
 	}
 
 	// Name
-	webtest.Name = genruntime.ClonePointerToString(source.Name)
+	webtest.Name = genruntime.ClonePointerToString(source.PropertiesName)
 
 	// Request
 	if source.Request != nil {

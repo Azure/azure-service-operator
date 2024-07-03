@@ -959,7 +959,7 @@ func (networkInterface *NetworkInterface_Spec) Initialize_From_NetworkInterface_
 
 	// NicType
 	if source.NicType != nil {
-		nicType := NetworkInterfacePropertiesFormat_NicType(*source.NicType)
+		nicType := genruntime.ToEnum(string(*source.NicType), networkInterfacePropertiesFormat_NicType_Values)
 		networkInterface.NicType = &nicType
 	} else {
 		networkInterface.NicType = nil
@@ -2726,7 +2726,7 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 
 	// PrivateIPAddressVersion
 	if source.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := IPVersion(*source.PrivateIPAddressVersion)
+		privateIPAddressVersion := genruntime.ToEnum(string(*source.PrivateIPAddressVersion), iPVersion_Values)
 		embedded.PrivateIPAddressVersion = &privateIPAddressVersion
 	} else {
 		embedded.PrivateIPAddressVersion = nil
@@ -2734,7 +2734,7 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 
 	// PrivateIPAllocationMethod
 	if source.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := IPAllocationMethod(*source.PrivateIPAllocationMethod)
+		privateIPAllocationMethod := genruntime.ToEnum(string(*source.PrivateIPAllocationMethod), iPAllocationMethod_Values)
 		embedded.PrivateIPAllocationMethod = &privateIPAllocationMethod
 	} else {
 		embedded.PrivateIPAllocationMethod = nil

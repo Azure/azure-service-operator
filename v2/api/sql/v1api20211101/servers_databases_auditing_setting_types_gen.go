@@ -858,7 +858,7 @@ func (setting *Servers_Databases_AuditingSetting_Spec) Initialize_From_Servers_D
 
 	// State
 	if source.State != nil {
-		state := DatabaseBlobAuditingPolicyProperties_State(*source.State)
+		state := genruntime.ToEnum(string(*source.State), databaseBlobAuditingPolicyProperties_State_Values)
 		setting.State = &state
 	} else {
 		setting.State = nil

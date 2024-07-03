@@ -828,7 +828,7 @@ func (autoscalesetting *Autoscalesetting_Spec) Initialize_From_Autoscalesetting_
 	autoscalesetting.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	autoscalesetting.Name = genruntime.ClonePointerToString(source.Name)
+	autoscalesetting.Name = genruntime.ClonePointerToString(source.PropertiesName)
 
 	// Notifications
 	if source.Notifications != nil {
@@ -1556,7 +1556,7 @@ func (notification *AutoscaleNotification) Initialize_From_AutoscaleNotification
 
 	// Operation
 	if source.Operation != nil {
-		operation := AutoscaleNotification_Operation(*source.Operation)
+		operation := genruntime.ToEnum(string(*source.Operation), autoscaleNotification_Operation_Values)
 		notification.Operation = &operation
 	} else {
 		notification.Operation = nil
@@ -2427,7 +2427,7 @@ func (policy *PredictiveAutoscalePolicy) Initialize_From_PredictiveAutoscalePoli
 
 	// ScaleMode
 	if source.ScaleMode != nil {
-		scaleMode := PredictiveAutoscalePolicy_ScaleMode(*source.ScaleMode)
+		scaleMode := genruntime.ToEnum(string(*source.ScaleMode), predictiveAutoscalePolicy_ScaleMode_Values)
 		policy.ScaleMode = &scaleMode
 	} else {
 		policy.ScaleMode = nil
@@ -3139,7 +3139,7 @@ func (recurrence *Recurrence) Initialize_From_Recurrence_STATUS(source *Recurren
 
 	// Frequency
 	if source.Frequency != nil {
-		frequency := Recurrence_Frequency(*source.Frequency)
+		frequency := genruntime.ToEnum(string(*source.Frequency), recurrence_Frequency_Values)
 		recurrence.Frequency = &frequency
 	} else {
 		recurrence.Frequency = nil
@@ -4722,7 +4722,7 @@ func (trigger *MetricTrigger) Initialize_From_MetricTrigger_STATUS(source *Metri
 
 	// Operator
 	if source.Operator != nil {
-		operator := MetricTrigger_Operator(*source.Operator)
+		operator := genruntime.ToEnum(string(*source.Operator), metricTrigger_Operator_Values)
 		trigger.Operator = &operator
 	} else {
 		trigger.Operator = nil
@@ -4730,7 +4730,7 @@ func (trigger *MetricTrigger) Initialize_From_MetricTrigger_STATUS(source *Metri
 
 	// Statistic
 	if source.Statistic != nil {
-		statistic := MetricTrigger_Statistic(*source.Statistic)
+		statistic := genruntime.ToEnum(string(*source.Statistic), metricTrigger_Statistic_Values)
 		trigger.Statistic = &statistic
 	} else {
 		trigger.Statistic = nil
@@ -4746,7 +4746,7 @@ func (trigger *MetricTrigger) Initialize_From_MetricTrigger_STATUS(source *Metri
 
 	// TimeAggregation
 	if source.TimeAggregation != nil {
-		timeAggregation := MetricTrigger_TimeAggregation(*source.TimeAggregation)
+		timeAggregation := genruntime.ToEnum(string(*source.TimeAggregation), metricTrigger_TimeAggregation_Values)
 		trigger.TimeAggregation = &timeAggregation
 	} else {
 		trigger.TimeAggregation = nil
@@ -5714,7 +5714,7 @@ func (action *ScaleAction) Initialize_From_ScaleAction_STATUS(source *ScaleActio
 
 	// Direction
 	if source.Direction != nil {
-		direction := ScaleAction_Direction(*source.Direction)
+		direction := genruntime.ToEnum(string(*source.Direction), scaleAction_Direction_Values)
 		action.Direction = &direction
 	} else {
 		action.Direction = nil
@@ -5722,7 +5722,7 @@ func (action *ScaleAction) Initialize_From_ScaleAction_STATUS(source *ScaleActio
 
 	// Type
 	if source.Type != nil {
-		typeVar := ScaleAction_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), scaleAction_Type_Values)
 		action.Type = &typeVar
 	} else {
 		action.Type = nil
@@ -6199,7 +6199,7 @@ func (dimension *ScaleRuleMetricDimension) Initialize_From_ScaleRuleMetricDimens
 
 	// Operator
 	if source.Operator != nil {
-		operator := ScaleRuleMetricDimension_Operator(*source.Operator)
+		operator := genruntime.ToEnum(string(*source.Operator), scaleRuleMetricDimension_Operator_Values)
 		dimension.Operator = &operator
 	} else {
 		dimension.Operator = nil

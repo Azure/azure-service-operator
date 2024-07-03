@@ -17,235 +17,6 @@ import (
 	"testing"
 )
 
-func Test_ServersFailoverGroup_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ServersFailoverGroup via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServersFailoverGroup, ServersFailoverGroupGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForServersFailoverGroup runs a test to see if a specific instance of ServersFailoverGroup round trips to JSON and back losslessly
-func RunJSONSerializationTestForServersFailoverGroup(subject ServersFailoverGroup) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ServersFailoverGroup
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ServersFailoverGroup instances for property testing - lazily instantiated by
-// ServersFailoverGroupGenerator()
-var serversFailoverGroupGenerator gopter.Gen
-
-// ServersFailoverGroupGenerator returns a generator of ServersFailoverGroup instances for property testing.
-func ServersFailoverGroupGenerator() gopter.Gen {
-	if serversFailoverGroupGenerator != nil {
-		return serversFailoverGroupGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForServersFailoverGroup(generators)
-	serversFailoverGroupGenerator = gen.Struct(reflect.TypeOf(ServersFailoverGroup{}), generators)
-
-	return serversFailoverGroupGenerator
-}
-
-// AddRelatedPropertyGeneratorsForServersFailoverGroup is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForServersFailoverGroup(gens map[string]gopter.Gen) {
-	gens["Spec"] = Servers_FailoverGroup_SpecGenerator()
-	gens["Status"] = Servers_FailoverGroup_STATUSGenerator()
-}
-
-func Test_Servers_FailoverGroup_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Servers_FailoverGroup_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServers_FailoverGroup_Spec, Servers_FailoverGroup_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForServers_FailoverGroup_Spec runs a test to see if a specific instance of Servers_FailoverGroup_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForServers_FailoverGroup_Spec(subject Servers_FailoverGroup_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Servers_FailoverGroup_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Servers_FailoverGroup_Spec instances for property testing - lazily instantiated by
-// Servers_FailoverGroup_SpecGenerator()
-var servers_FailoverGroup_SpecGenerator gopter.Gen
-
-// Servers_FailoverGroup_SpecGenerator returns a generator of Servers_FailoverGroup_Spec instances for property testing.
-// We first initialize servers_FailoverGroup_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Servers_FailoverGroup_SpecGenerator() gopter.Gen {
-	if servers_FailoverGroup_SpecGenerator != nil {
-		return servers_FailoverGroup_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_FailoverGroup_Spec(generators)
-	servers_FailoverGroup_SpecGenerator = gen.Struct(reflect.TypeOf(Servers_FailoverGroup_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_FailoverGroup_Spec(generators)
-	AddRelatedPropertyGeneratorsForServers_FailoverGroup_Spec(generators)
-	servers_FailoverGroup_SpecGenerator = gen.Struct(reflect.TypeOf(Servers_FailoverGroup_Spec{}), generators)
-
-	return servers_FailoverGroup_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForServers_FailoverGroup_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServers_FailoverGroup_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForServers_FailoverGroup_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForServers_FailoverGroup_Spec(gens map[string]gopter.Gen) {
-	gens["PartnerServers"] = gen.SliceOf(PartnerInfoGenerator())
-	gens["ReadOnlyEndpoint"] = gen.PtrOf(FailoverGroupReadOnlyEndpointGenerator())
-	gens["ReadWriteEndpoint"] = gen.PtrOf(FailoverGroupReadWriteEndpointGenerator())
-}
-
-func Test_Servers_FailoverGroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Servers_FailoverGroup_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServers_FailoverGroup_STATUS, Servers_FailoverGroup_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForServers_FailoverGroup_STATUS runs a test to see if a specific instance of Servers_FailoverGroup_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForServers_FailoverGroup_STATUS(subject Servers_FailoverGroup_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Servers_FailoverGroup_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Servers_FailoverGroup_STATUS instances for property testing - lazily instantiated by
-// Servers_FailoverGroup_STATUSGenerator()
-var servers_FailoverGroup_STATUSGenerator gopter.Gen
-
-// Servers_FailoverGroup_STATUSGenerator returns a generator of Servers_FailoverGroup_STATUS instances for property testing.
-// We first initialize servers_FailoverGroup_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Servers_FailoverGroup_STATUSGenerator() gopter.Gen {
-	if servers_FailoverGroup_STATUSGenerator != nil {
-		return servers_FailoverGroup_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_FailoverGroup_STATUS(generators)
-	servers_FailoverGroup_STATUSGenerator = gen.Struct(reflect.TypeOf(Servers_FailoverGroup_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_FailoverGroup_STATUS(generators)
-	AddRelatedPropertyGeneratorsForServers_FailoverGroup_STATUS(generators)
-	servers_FailoverGroup_STATUSGenerator = gen.Struct(reflect.TypeOf(Servers_FailoverGroup_STATUS{}), generators)
-
-	return servers_FailoverGroup_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForServers_FailoverGroup_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServers_FailoverGroup_STATUS(gens map[string]gopter.Gen) {
-	gens["Databases"] = gen.SliceOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ReplicationRole"] = gen.PtrOf(gen.AlphaString())
-	gens["ReplicationState"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForServers_FailoverGroup_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForServers_FailoverGroup_STATUS(gens map[string]gopter.Gen) {
-	gens["PartnerServers"] = gen.SliceOf(PartnerInfo_STATUSGenerator())
-	gens["ReadOnlyEndpoint"] = gen.PtrOf(FailoverGroupReadOnlyEndpoint_STATUSGenerator())
-	gens["ReadWriteEndpoint"] = gen.PtrOf(FailoverGroupReadWriteEndpoint_STATUSGenerator())
-}
-
 func Test_FailoverGroupReadOnlyEndpoint_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -606,4 +377,233 @@ func AddIndependentPropertyGeneratorsForPartnerInfo_STATUS(gens map[string]gopte
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["ReplicationRole"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ServersFailoverGroup_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ServersFailoverGroup via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServersFailoverGroup, ServersFailoverGroupGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForServersFailoverGroup runs a test to see if a specific instance of ServersFailoverGroup round trips to JSON and back losslessly
+func RunJSONSerializationTestForServersFailoverGroup(subject ServersFailoverGroup) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ServersFailoverGroup
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ServersFailoverGroup instances for property testing - lazily instantiated by
+// ServersFailoverGroupGenerator()
+var serversFailoverGroupGenerator gopter.Gen
+
+// ServersFailoverGroupGenerator returns a generator of ServersFailoverGroup instances for property testing.
+func ServersFailoverGroupGenerator() gopter.Gen {
+	if serversFailoverGroupGenerator != nil {
+		return serversFailoverGroupGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForServersFailoverGroup(generators)
+	serversFailoverGroupGenerator = gen.Struct(reflect.TypeOf(ServersFailoverGroup{}), generators)
+
+	return serversFailoverGroupGenerator
+}
+
+// AddRelatedPropertyGeneratorsForServersFailoverGroup is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServersFailoverGroup(gens map[string]gopter.Gen) {
+	gens["Spec"] = Servers_FailoverGroup_SpecGenerator()
+	gens["Status"] = Servers_FailoverGroup_STATUSGenerator()
+}
+
+func Test_Servers_FailoverGroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Servers_FailoverGroup_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServers_FailoverGroup_STATUS, Servers_FailoverGroup_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForServers_FailoverGroup_STATUS runs a test to see if a specific instance of Servers_FailoverGroup_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForServers_FailoverGroup_STATUS(subject Servers_FailoverGroup_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Servers_FailoverGroup_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Servers_FailoverGroup_STATUS instances for property testing - lazily instantiated by
+// Servers_FailoverGroup_STATUSGenerator()
+var servers_FailoverGroup_STATUSGenerator gopter.Gen
+
+// Servers_FailoverGroup_STATUSGenerator returns a generator of Servers_FailoverGroup_STATUS instances for property testing.
+// We first initialize servers_FailoverGroup_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Servers_FailoverGroup_STATUSGenerator() gopter.Gen {
+	if servers_FailoverGroup_STATUSGenerator != nil {
+		return servers_FailoverGroup_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServers_FailoverGroup_STATUS(generators)
+	servers_FailoverGroup_STATUSGenerator = gen.Struct(reflect.TypeOf(Servers_FailoverGroup_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServers_FailoverGroup_STATUS(generators)
+	AddRelatedPropertyGeneratorsForServers_FailoverGroup_STATUS(generators)
+	servers_FailoverGroup_STATUSGenerator = gen.Struct(reflect.TypeOf(Servers_FailoverGroup_STATUS{}), generators)
+
+	return servers_FailoverGroup_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForServers_FailoverGroup_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServers_FailoverGroup_STATUS(gens map[string]gopter.Gen) {
+	gens["Databases"] = gen.SliceOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["ReplicationRole"] = gen.PtrOf(gen.AlphaString())
+	gens["ReplicationState"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForServers_FailoverGroup_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServers_FailoverGroup_STATUS(gens map[string]gopter.Gen) {
+	gens["PartnerServers"] = gen.SliceOf(PartnerInfo_STATUSGenerator())
+	gens["ReadOnlyEndpoint"] = gen.PtrOf(FailoverGroupReadOnlyEndpoint_STATUSGenerator())
+	gens["ReadWriteEndpoint"] = gen.PtrOf(FailoverGroupReadWriteEndpoint_STATUSGenerator())
+}
+
+func Test_Servers_FailoverGroup_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Servers_FailoverGroup_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServers_FailoverGroup_Spec, Servers_FailoverGroup_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForServers_FailoverGroup_Spec runs a test to see if a specific instance of Servers_FailoverGroup_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForServers_FailoverGroup_Spec(subject Servers_FailoverGroup_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Servers_FailoverGroup_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Servers_FailoverGroup_Spec instances for property testing - lazily instantiated by
+// Servers_FailoverGroup_SpecGenerator()
+var servers_FailoverGroup_SpecGenerator gopter.Gen
+
+// Servers_FailoverGroup_SpecGenerator returns a generator of Servers_FailoverGroup_Spec instances for property testing.
+// We first initialize servers_FailoverGroup_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Servers_FailoverGroup_SpecGenerator() gopter.Gen {
+	if servers_FailoverGroup_SpecGenerator != nil {
+		return servers_FailoverGroup_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServers_FailoverGroup_Spec(generators)
+	servers_FailoverGroup_SpecGenerator = gen.Struct(reflect.TypeOf(Servers_FailoverGroup_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServers_FailoverGroup_Spec(generators)
+	AddRelatedPropertyGeneratorsForServers_FailoverGroup_Spec(generators)
+	servers_FailoverGroup_SpecGenerator = gen.Struct(reflect.TypeOf(Servers_FailoverGroup_Spec{}), generators)
+
+	return servers_FailoverGroup_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForServers_FailoverGroup_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServers_FailoverGroup_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForServers_FailoverGroup_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServers_FailoverGroup_Spec(gens map[string]gopter.Gen) {
+	gens["PartnerServers"] = gen.SliceOf(PartnerInfoGenerator())
+	gens["ReadOnlyEndpoint"] = gen.PtrOf(FailoverGroupReadOnlyEndpointGenerator())
+	gens["ReadWriteEndpoint"] = gen.PtrOf(FailoverGroupReadWriteEndpointGenerator())
 }

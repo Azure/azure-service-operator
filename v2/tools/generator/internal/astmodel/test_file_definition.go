@@ -6,12 +6,13 @@
 package astmodel
 
 import (
+	"cmp"
 	"go/token"
 
-	"github.com/pkg/errors"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
-
 	"github.com/dave/dst"
+	"github.com/pkg/errors"
+	"golang.org/x/exp/slices"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
 
 // TestFileDefinition defines the content of a test file we're generating
@@ -32,10 +33,20 @@ func NewTestFileDefinition(
 	definitions []TypeDefinition,
 	generatedPackages map[InternalPackageReference]*PackageDefinition,
 ) *TestFileDefinition {
+	// Force deterministic ordering of type definitions
+	defs := make([]TypeDefinition, len(definitions))
+	copy(defs, definitions)
+
+	slices.SortFunc(
+		defs,
+		func(left TypeDefinition, right TypeDefinition) int {
+			return cmp.Compare(left.Name().Name(), right.Name().Name())
+		})
+
 	// TODO: check that all definitions are from same package
 	return &TestFileDefinition{
 		packageReference:  packageRef,
-		definitions:       definitions,
+		definitions:       defs,
 		generatedPackages: generatedPackages,
 	}
 }

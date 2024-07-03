@@ -1530,7 +1530,7 @@ func (serviceApi *Service_Api_Spec) Initialize_From_Service_Api_STATUS(source *S
 		for protocolIndex, protocolItem := range source.Protocols {
 			// Shadow the loop variable to avoid aliasing
 			protocolItem := protocolItem
-			protocol := ApiCreateOrUpdateProperties_Protocols(protocolItem)
+			protocol := genruntime.ToEnum(string(protocolItem), apiCreateOrUpdateProperties_Protocols_Values)
 			protocolList[protocolIndex] = protocol
 		}
 		serviceApi.Protocols = protocolList
@@ -1578,10 +1578,9 @@ func (serviceApi *Service_Api_Spec) Initialize_From_Service_Api_STATUS(source *S
 	serviceApi.TermsOfServiceUrl = genruntime.ClonePointerToString(source.TermsOfServiceUrl)
 
 	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		typeTemp := genruntime.ToEnum(typeVar, apiCreateOrUpdateProperties_Type_Values)
-		serviceApi.Type = &typeTemp
+	if source.PropertiesType != nil {
+		typeVar := genruntime.ToEnum(string(*source.PropertiesType), apiCreateOrUpdateProperties_Type_Values)
+		serviceApi.Type = &typeVar
 	} else {
 		serviceApi.Type = nil
 	}
@@ -3159,7 +3158,7 @@ func (details *ApiVersionSetContractDetails) Initialize_From_ApiVersionSetContra
 
 	// VersioningScheme
 	if source.VersioningScheme != nil {
-		versioningScheme := ApiVersionSetContractDetails_VersioningScheme(*source.VersioningScheme)
+		versioningScheme := genruntime.ToEnum(string(*source.VersioningScheme), apiVersionSetContractDetails_VersioningScheme_Values)
 		details.VersioningScheme = &versioningScheme
 	} else {
 		details.VersioningScheme = nil
@@ -4381,7 +4380,7 @@ func (contract *OpenIdAuthenticationSettingsContract) Initialize_From_OpenIdAuth
 		for bearerTokenSendingMethodIndex, bearerTokenSendingMethodItem := range source.BearerTokenSendingMethods {
 			// Shadow the loop variable to avoid aliasing
 			bearerTokenSendingMethodItem := bearerTokenSendingMethodItem
-			bearerTokenSendingMethod := BearerTokenSendingMethodsContract(bearerTokenSendingMethodItem)
+			bearerTokenSendingMethod := genruntime.ToEnum(string(bearerTokenSendingMethodItem), bearerTokenSendingMethodsContract_Values)
 			bearerTokenSendingMethodList[bearerTokenSendingMethodIndex] = bearerTokenSendingMethod
 		}
 		contract.BearerTokenSendingMethods = bearerTokenSendingMethodList

@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_StorageAccounts_FileServices_Share_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_AccessPolicy_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
+	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of StorageAccounts_FileServices_Share_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForStorageAccounts_FileServices_Share_Spec_ARM, StorageAccounts_FileServices_Share_Spec_ARMGenerator()))
+		"Round trip of AccessPolicy_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAccessPolicy_ARM, AccessPolicy_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForStorageAccounts_FileServices_Share_Spec_ARM runs a test to see if a specific instance of StorageAccounts_FileServices_Share_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForStorageAccounts_FileServices_Share_Spec_ARM(subject StorageAccounts_FileServices_Share_Spec_ARM) string {
+// RunJSONSerializationTestForAccessPolicy_ARM runs a test to see if a specific instance of AccessPolicy_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForAccessPolicy_ARM(subject AccessPolicy_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForStorageAccounts_FileServices_Share_Spec_ARM(subj
 	}
 
 	// Deserialize back into memory
-	var actual StorageAccounts_FileServices_Share_Spec_ARM
+	var actual AccessPolicy_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,40 +56,27 @@ func RunJSONSerializationTestForStorageAccounts_FileServices_Share_Spec_ARM(subj
 	return ""
 }
 
-// Generator of StorageAccounts_FileServices_Share_Spec_ARM instances for property testing - lazily instantiated by
-// StorageAccounts_FileServices_Share_Spec_ARMGenerator()
-var storageAccounts_FileServices_Share_Spec_ARMGenerator gopter.Gen
+// Generator of AccessPolicy_ARM instances for property testing - lazily instantiated by AccessPolicy_ARMGenerator()
+var accessPolicy_ARMGenerator gopter.Gen
 
-// StorageAccounts_FileServices_Share_Spec_ARMGenerator returns a generator of StorageAccounts_FileServices_Share_Spec_ARM instances for property testing.
-// We first initialize storageAccounts_FileServices_Share_Spec_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func StorageAccounts_FileServices_Share_Spec_ARMGenerator() gopter.Gen {
-	if storageAccounts_FileServices_Share_Spec_ARMGenerator != nil {
-		return storageAccounts_FileServices_Share_Spec_ARMGenerator
+// AccessPolicy_ARMGenerator returns a generator of AccessPolicy_ARM instances for property testing.
+func AccessPolicy_ARMGenerator() gopter.Gen {
+	if accessPolicy_ARMGenerator != nil {
+		return accessPolicy_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageAccounts_FileServices_Share_Spec_ARM(generators)
-	storageAccounts_FileServices_Share_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_FileServices_Share_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForAccessPolicy_ARM(generators)
+	accessPolicy_ARMGenerator = gen.Struct(reflect.TypeOf(AccessPolicy_ARM{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageAccounts_FileServices_Share_Spec_ARM(generators)
-	AddRelatedPropertyGeneratorsForStorageAccounts_FileServices_Share_Spec_ARM(generators)
-	storageAccounts_FileServices_Share_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_FileServices_Share_Spec_ARM{}), generators)
-
-	return storageAccounts_FileServices_Share_Spec_ARMGenerator
+	return accessPolicy_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForStorageAccounts_FileServices_Share_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForStorageAccounts_FileServices_Share_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForStorageAccounts_FileServices_Share_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForStorageAccounts_FileServices_Share_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(FileShareProperties_ARMGenerator())
+// AddIndependentPropertyGeneratorsForAccessPolicy_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAccessPolicy_ARM(gens map[string]gopter.Gen) {
+	gens["ExpiryTime"] = gen.PtrOf(gen.AlphaString())
+	gens["Permission"] = gen.PtrOf(gen.AlphaString())
+	gens["StartTime"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_FileShareProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -252,20 +239,20 @@ func AddRelatedPropertyGeneratorsForSignedIdentifier_ARM(gens map[string]gopter.
 	gens["AccessPolicy"] = gen.PtrOf(AccessPolicy_ARMGenerator())
 }
 
-func Test_AccessPolicy_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_StorageAccounts_FileServices_Share_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of AccessPolicy_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAccessPolicy_ARM, AccessPolicy_ARMGenerator()))
+		"Round trip of StorageAccounts_FileServices_Share_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageAccounts_FileServices_Share_Spec_ARM, StorageAccounts_FileServices_Share_Spec_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAccessPolicy_ARM runs a test to see if a specific instance of AccessPolicy_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForAccessPolicy_ARM(subject AccessPolicy_ARM) string {
+// RunJSONSerializationTestForStorageAccounts_FileServices_Share_Spec_ARM runs a test to see if a specific instance of StorageAccounts_FileServices_Share_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageAccounts_FileServices_Share_Spec_ARM(subject StorageAccounts_FileServices_Share_Spec_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -273,7 +260,7 @@ func RunJSONSerializationTestForAccessPolicy_ARM(subject AccessPolicy_ARM) strin
 	}
 
 	// Deserialize back into memory
-	var actual AccessPolicy_ARM
+	var actual StorageAccounts_FileServices_Share_Spec_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -291,25 +278,38 @@ func RunJSONSerializationTestForAccessPolicy_ARM(subject AccessPolicy_ARM) strin
 	return ""
 }
 
-// Generator of AccessPolicy_ARM instances for property testing - lazily instantiated by AccessPolicy_ARMGenerator()
-var accessPolicy_ARMGenerator gopter.Gen
+// Generator of StorageAccounts_FileServices_Share_Spec_ARM instances for property testing - lazily instantiated by
+// StorageAccounts_FileServices_Share_Spec_ARMGenerator()
+var storageAccounts_FileServices_Share_Spec_ARMGenerator gopter.Gen
 
-// AccessPolicy_ARMGenerator returns a generator of AccessPolicy_ARM instances for property testing.
-func AccessPolicy_ARMGenerator() gopter.Gen {
-	if accessPolicy_ARMGenerator != nil {
-		return accessPolicy_ARMGenerator
+// StorageAccounts_FileServices_Share_Spec_ARMGenerator returns a generator of StorageAccounts_FileServices_Share_Spec_ARM instances for property testing.
+// We first initialize storageAccounts_FileServices_Share_Spec_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func StorageAccounts_FileServices_Share_Spec_ARMGenerator() gopter.Gen {
+	if storageAccounts_FileServices_Share_Spec_ARMGenerator != nil {
+		return storageAccounts_FileServices_Share_Spec_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAccessPolicy_ARM(generators)
-	accessPolicy_ARMGenerator = gen.Struct(reflect.TypeOf(AccessPolicy_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForStorageAccounts_FileServices_Share_Spec_ARM(generators)
+	storageAccounts_FileServices_Share_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_FileServices_Share_Spec_ARM{}), generators)
 
-	return accessPolicy_ARMGenerator
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForStorageAccounts_FileServices_Share_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForStorageAccounts_FileServices_Share_Spec_ARM(generators)
+	storageAccounts_FileServices_Share_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_FileServices_Share_Spec_ARM{}), generators)
+
+	return storageAccounts_FileServices_Share_Spec_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAccessPolicy_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAccessPolicy_ARM(gens map[string]gopter.Gen) {
-	gens["ExpiryTime"] = gen.PtrOf(gen.AlphaString())
-	gens["Permission"] = gen.PtrOf(gen.AlphaString())
-	gens["StartTime"] = gen.PtrOf(gen.AlphaString())
+// AddIndependentPropertyGeneratorsForStorageAccounts_FileServices_Share_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForStorageAccounts_FileServices_Share_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.AlphaString()
+}
+
+// AddRelatedPropertyGeneratorsForStorageAccounts_FileServices_Share_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForStorageAccounts_FileServices_Share_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(FileShareProperties_ARMGenerator())
 }

@@ -17,6 +17,145 @@ import (
 	"testing"
 )
 
+func Test_AzureMonitorAlertSettings_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of AzureMonitorAlertSettings_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAzureMonitorAlertSettings_ARM, AzureMonitorAlertSettings_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForAzureMonitorAlertSettings_ARM runs a test to see if a specific instance of AzureMonitorAlertSettings_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForAzureMonitorAlertSettings_ARM(subject AzureMonitorAlertSettings_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual AzureMonitorAlertSettings_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of AzureMonitorAlertSettings_ARM instances for property testing - lazily instantiated by
+// AzureMonitorAlertSettings_ARMGenerator()
+var azureMonitorAlertSettings_ARMGenerator gopter.Gen
+
+// AzureMonitorAlertSettings_ARMGenerator returns a generator of AzureMonitorAlertSettings_ARM instances for property testing.
+func AzureMonitorAlertSettings_ARMGenerator() gopter.Gen {
+	if azureMonitorAlertSettings_ARMGenerator != nil {
+		return azureMonitorAlertSettings_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForAzureMonitorAlertSettings_ARM(generators)
+	azureMonitorAlertSettings_ARMGenerator = gen.Struct(reflect.TypeOf(AzureMonitorAlertSettings_ARM{}), generators)
+
+	return azureMonitorAlertSettings_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForAzureMonitorAlertSettings_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAzureMonitorAlertSettings_ARM(gens map[string]gopter.Gen) {
+	gens["AlertsForAllJobFailures"] = gen.PtrOf(gen.OneConstOf(AzureMonitorAlertSettings_AlertsForAllJobFailures_Disabled, AzureMonitorAlertSettings_AlertsForAllJobFailures_Enabled))
+}
+
+func Test_BackupVaultSpec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of BackupVaultSpec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBackupVaultSpec_ARM, BackupVaultSpec_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForBackupVaultSpec_ARM runs a test to see if a specific instance of BackupVaultSpec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForBackupVaultSpec_ARM(subject BackupVaultSpec_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual BackupVaultSpec_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of BackupVaultSpec_ARM instances for property testing - lazily instantiated by
+// BackupVaultSpec_ARMGenerator()
+var backupVaultSpec_ARMGenerator gopter.Gen
+
+// BackupVaultSpec_ARMGenerator returns a generator of BackupVaultSpec_ARM instances for property testing.
+// We first initialize backupVaultSpec_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func BackupVaultSpec_ARMGenerator() gopter.Gen {
+	if backupVaultSpec_ARMGenerator != nil {
+		return backupVaultSpec_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForBackupVaultSpec_ARM(generators)
+	backupVaultSpec_ARMGenerator = gen.Struct(reflect.TypeOf(BackupVaultSpec_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForBackupVaultSpec_ARM(generators)
+	AddRelatedPropertyGeneratorsForBackupVaultSpec_ARM(generators)
+	backupVaultSpec_ARMGenerator = gen.Struct(reflect.TypeOf(BackupVaultSpec_ARM{}), generators)
+
+	return backupVaultSpec_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForBackupVaultSpec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForBackupVaultSpec_ARM(gens map[string]gopter.Gen) {
+	gens["ReplicatedRegions"] = gen.SliceOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForBackupVaultSpec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForBackupVaultSpec_ARM(gens map[string]gopter.Gen) {
+	gens["FeatureSettings"] = gen.PtrOf(FeatureSettings_ARMGenerator())
+	gens["MonitoringSettings"] = gen.PtrOf(MonitoringSettings_ARMGenerator())
+	gens["SecuritySettings"] = gen.PtrOf(SecuritySettings_ARMGenerator())
+	gens["StorageSettings"] = gen.SliceOf(StorageSetting_ARMGenerator())
+}
+
 func Test_BackupVault_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -97,20 +236,20 @@ func AddRelatedPropertyGeneratorsForBackupVault_Spec_ARM(gens map[string]gopter.
 	gens["Properties"] = gen.PtrOf(BackupVaultSpec_ARMGenerator())
 }
 
-func Test_BackupVaultSpec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_CrossRegionRestoreSettings_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of BackupVaultSpec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBackupVaultSpec_ARM, BackupVaultSpec_ARMGenerator()))
+		"Round trip of CrossRegionRestoreSettings_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForCrossRegionRestoreSettings_ARM, CrossRegionRestoreSettings_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForBackupVaultSpec_ARM runs a test to see if a specific instance of BackupVaultSpec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForBackupVaultSpec_ARM(subject BackupVaultSpec_ARM) string {
+// RunJSONSerializationTestForCrossRegionRestoreSettings_ARM runs a test to see if a specific instance of CrossRegionRestoreSettings_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForCrossRegionRestoreSettings_ARM(subject CrossRegionRestoreSettings_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -118,7 +257,7 @@ func RunJSONSerializationTestForBackupVaultSpec_ARM(subject BackupVaultSpec_ARM)
 	}
 
 	// Deserialize back into memory
-	var actual BackupVaultSpec_ARM
+	var actual CrossRegionRestoreSettings_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -136,43 +275,87 @@ func RunJSONSerializationTestForBackupVaultSpec_ARM(subject BackupVaultSpec_ARM)
 	return ""
 }
 
-// Generator of BackupVaultSpec_ARM instances for property testing - lazily instantiated by
-// BackupVaultSpec_ARMGenerator()
-var backupVaultSpec_ARMGenerator gopter.Gen
+// Generator of CrossRegionRestoreSettings_ARM instances for property testing - lazily instantiated by
+// CrossRegionRestoreSettings_ARMGenerator()
+var crossRegionRestoreSettings_ARMGenerator gopter.Gen
 
-// BackupVaultSpec_ARMGenerator returns a generator of BackupVaultSpec_ARM instances for property testing.
-// We first initialize backupVaultSpec_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func BackupVaultSpec_ARMGenerator() gopter.Gen {
-	if backupVaultSpec_ARMGenerator != nil {
-		return backupVaultSpec_ARMGenerator
+// CrossRegionRestoreSettings_ARMGenerator returns a generator of CrossRegionRestoreSettings_ARM instances for property testing.
+func CrossRegionRestoreSettings_ARMGenerator() gopter.Gen {
+	if crossRegionRestoreSettings_ARMGenerator != nil {
+		return crossRegionRestoreSettings_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBackupVaultSpec_ARM(generators)
-	backupVaultSpec_ARMGenerator = gen.Struct(reflect.TypeOf(BackupVaultSpec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForCrossRegionRestoreSettings_ARM(generators)
+	crossRegionRestoreSettings_ARMGenerator = gen.Struct(reflect.TypeOf(CrossRegionRestoreSettings_ARM{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBackupVaultSpec_ARM(generators)
-	AddRelatedPropertyGeneratorsForBackupVaultSpec_ARM(generators)
-	backupVaultSpec_ARMGenerator = gen.Struct(reflect.TypeOf(BackupVaultSpec_ARM{}), generators)
-
-	return backupVaultSpec_ARMGenerator
+	return crossRegionRestoreSettings_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForBackupVaultSpec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBackupVaultSpec_ARM(gens map[string]gopter.Gen) {
-	gens["ReplicatedRegions"] = gen.SliceOf(gen.AlphaString())
+// AddIndependentPropertyGeneratorsForCrossRegionRestoreSettings_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForCrossRegionRestoreSettings_ARM(gens map[string]gopter.Gen) {
+	gens["State"] = gen.PtrOf(gen.OneConstOf(CrossRegionRestoreSettings_State_Disabled, CrossRegionRestoreSettings_State_Enabled))
 }
 
-// AddRelatedPropertyGeneratorsForBackupVaultSpec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForBackupVaultSpec_ARM(gens map[string]gopter.Gen) {
-	gens["FeatureSettings"] = gen.PtrOf(FeatureSettings_ARMGenerator())
-	gens["MonitoringSettings"] = gen.PtrOf(MonitoringSettings_ARMGenerator())
-	gens["SecuritySettings"] = gen.PtrOf(SecuritySettings_ARMGenerator())
-	gens["StorageSettings"] = gen.SliceOf(StorageSetting_ARMGenerator())
+func Test_CrossSubscriptionRestoreSettings_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of CrossSubscriptionRestoreSettings_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForCrossSubscriptionRestoreSettings_ARM, CrossSubscriptionRestoreSettings_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForCrossSubscriptionRestoreSettings_ARM runs a test to see if a specific instance of CrossSubscriptionRestoreSettings_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForCrossSubscriptionRestoreSettings_ARM(subject CrossSubscriptionRestoreSettings_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual CrossSubscriptionRestoreSettings_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of CrossSubscriptionRestoreSettings_ARM instances for property testing - lazily instantiated by
+// CrossSubscriptionRestoreSettings_ARMGenerator()
+var crossSubscriptionRestoreSettings_ARMGenerator gopter.Gen
+
+// CrossSubscriptionRestoreSettings_ARMGenerator returns a generator of CrossSubscriptionRestoreSettings_ARM instances for property testing.
+func CrossSubscriptionRestoreSettings_ARMGenerator() gopter.Gen {
+	if crossSubscriptionRestoreSettings_ARMGenerator != nil {
+		return crossSubscriptionRestoreSettings_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForCrossSubscriptionRestoreSettings_ARM(generators)
+	crossSubscriptionRestoreSettings_ARMGenerator = gen.Struct(reflect.TypeOf(CrossSubscriptionRestoreSettings_ARM{}), generators)
+
+	return crossSubscriptionRestoreSettings_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForCrossSubscriptionRestoreSettings_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForCrossSubscriptionRestoreSettings_ARM(gens map[string]gopter.Gen) {
+	gens["State"] = gen.PtrOf(gen.OneConstOf(CrossSubscriptionRestoreSettings_State_Disabled, CrossSubscriptionRestoreSettings_State_Enabled, CrossSubscriptionRestoreSettings_State_PermanentlyDisabled))
 }
 
 func Test_DppIdentityDetails_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -314,6 +497,67 @@ func AddRelatedPropertyGeneratorsForFeatureSettings_ARM(gens map[string]gopter.G
 	gens["CrossSubscriptionRestoreSettings"] = gen.PtrOf(CrossSubscriptionRestoreSettings_ARMGenerator())
 }
 
+func Test_ImmutabilitySettings_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ImmutabilitySettings_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForImmutabilitySettings_ARM, ImmutabilitySettings_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForImmutabilitySettings_ARM runs a test to see if a specific instance of ImmutabilitySettings_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForImmutabilitySettings_ARM(subject ImmutabilitySettings_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ImmutabilitySettings_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ImmutabilitySettings_ARM instances for property testing - lazily instantiated by
+// ImmutabilitySettings_ARMGenerator()
+var immutabilitySettings_ARMGenerator gopter.Gen
+
+// ImmutabilitySettings_ARMGenerator returns a generator of ImmutabilitySettings_ARM instances for property testing.
+func ImmutabilitySettings_ARMGenerator() gopter.Gen {
+	if immutabilitySettings_ARMGenerator != nil {
+		return immutabilitySettings_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForImmutabilitySettings_ARM(generators)
+	immutabilitySettings_ARMGenerator = gen.Struct(reflect.TypeOf(ImmutabilitySettings_ARM{}), generators)
+
+	return immutabilitySettings_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForImmutabilitySettings_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForImmutabilitySettings_ARM(gens map[string]gopter.Gen) {
+	gens["State"] = gen.PtrOf(gen.OneConstOf(ImmutabilitySettings_State_Disabled, ImmutabilitySettings_State_Locked, ImmutabilitySettings_State_Unlocked))
+}
+
 func Test_MonitoringSettings_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -437,6 +681,68 @@ func AddRelatedPropertyGeneratorsForSecuritySettings_ARM(gens map[string]gopter.
 	gens["SoftDeleteSettings"] = gen.PtrOf(SoftDeleteSettings_ARMGenerator())
 }
 
+func Test_SoftDeleteSettings_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SoftDeleteSettings_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSoftDeleteSettings_ARM, SoftDeleteSettings_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSoftDeleteSettings_ARM runs a test to see if a specific instance of SoftDeleteSettings_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSoftDeleteSettings_ARM(subject SoftDeleteSettings_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SoftDeleteSettings_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SoftDeleteSettings_ARM instances for property testing - lazily instantiated by
+// SoftDeleteSettings_ARMGenerator()
+var softDeleteSettings_ARMGenerator gopter.Gen
+
+// SoftDeleteSettings_ARMGenerator returns a generator of SoftDeleteSettings_ARM instances for property testing.
+func SoftDeleteSettings_ARMGenerator() gopter.Gen {
+	if softDeleteSettings_ARMGenerator != nil {
+		return softDeleteSettings_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSoftDeleteSettings_ARM(generators)
+	softDeleteSettings_ARMGenerator = gen.Struct(reflect.TypeOf(SoftDeleteSettings_ARM{}), generators)
+
+	return softDeleteSettings_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForSoftDeleteSettings_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSoftDeleteSettings_ARM(gens map[string]gopter.Gen) {
+	gens["RetentionDurationInDays"] = gen.PtrOf(gen.Float64())
+	gens["State"] = gen.PtrOf(gen.OneConstOf(SoftDeleteSettings_State_AlwaysOn, SoftDeleteSettings_State_Off, SoftDeleteSettings_State_On))
+}
+
 func Test_StorageSetting_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -551,310 +857,4 @@ func UserAssignedIdentityDetails_ARMGenerator() gopter.Gen {
 	userAssignedIdentityDetails_ARMGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentityDetails_ARM{}), generators)
 
 	return userAssignedIdentityDetails_ARMGenerator
-}
-
-func Test_AzureMonitorAlertSettings_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AzureMonitorAlertSettings_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAzureMonitorAlertSettings_ARM, AzureMonitorAlertSettings_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForAzureMonitorAlertSettings_ARM runs a test to see if a specific instance of AzureMonitorAlertSettings_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForAzureMonitorAlertSettings_ARM(subject AzureMonitorAlertSettings_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual AzureMonitorAlertSettings_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of AzureMonitorAlertSettings_ARM instances for property testing - lazily instantiated by
-// AzureMonitorAlertSettings_ARMGenerator()
-var azureMonitorAlertSettings_ARMGenerator gopter.Gen
-
-// AzureMonitorAlertSettings_ARMGenerator returns a generator of AzureMonitorAlertSettings_ARM instances for property testing.
-func AzureMonitorAlertSettings_ARMGenerator() gopter.Gen {
-	if azureMonitorAlertSettings_ARMGenerator != nil {
-		return azureMonitorAlertSettings_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAzureMonitorAlertSettings_ARM(generators)
-	azureMonitorAlertSettings_ARMGenerator = gen.Struct(reflect.TypeOf(AzureMonitorAlertSettings_ARM{}), generators)
-
-	return azureMonitorAlertSettings_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAzureMonitorAlertSettings_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAzureMonitorAlertSettings_ARM(gens map[string]gopter.Gen) {
-	gens["AlertsForAllJobFailures"] = gen.PtrOf(gen.OneConstOf(AzureMonitorAlertSettings_AlertsForAllJobFailures_Disabled, AzureMonitorAlertSettings_AlertsForAllJobFailures_Enabled))
-}
-
-func Test_CrossRegionRestoreSettings_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CrossRegionRestoreSettings_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCrossRegionRestoreSettings_ARM, CrossRegionRestoreSettings_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForCrossRegionRestoreSettings_ARM runs a test to see if a specific instance of CrossRegionRestoreSettings_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForCrossRegionRestoreSettings_ARM(subject CrossRegionRestoreSettings_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual CrossRegionRestoreSettings_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of CrossRegionRestoreSettings_ARM instances for property testing - lazily instantiated by
-// CrossRegionRestoreSettings_ARMGenerator()
-var crossRegionRestoreSettings_ARMGenerator gopter.Gen
-
-// CrossRegionRestoreSettings_ARMGenerator returns a generator of CrossRegionRestoreSettings_ARM instances for property testing.
-func CrossRegionRestoreSettings_ARMGenerator() gopter.Gen {
-	if crossRegionRestoreSettings_ARMGenerator != nil {
-		return crossRegionRestoreSettings_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCrossRegionRestoreSettings_ARM(generators)
-	crossRegionRestoreSettings_ARMGenerator = gen.Struct(reflect.TypeOf(CrossRegionRestoreSettings_ARM{}), generators)
-
-	return crossRegionRestoreSettings_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCrossRegionRestoreSettings_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCrossRegionRestoreSettings_ARM(gens map[string]gopter.Gen) {
-	gens["State"] = gen.PtrOf(gen.OneConstOf(CrossRegionRestoreSettings_State_Disabled, CrossRegionRestoreSettings_State_Enabled))
-}
-
-func Test_CrossSubscriptionRestoreSettings_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CrossSubscriptionRestoreSettings_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCrossSubscriptionRestoreSettings_ARM, CrossSubscriptionRestoreSettings_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForCrossSubscriptionRestoreSettings_ARM runs a test to see if a specific instance of CrossSubscriptionRestoreSettings_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForCrossSubscriptionRestoreSettings_ARM(subject CrossSubscriptionRestoreSettings_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual CrossSubscriptionRestoreSettings_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of CrossSubscriptionRestoreSettings_ARM instances for property testing - lazily instantiated by
-// CrossSubscriptionRestoreSettings_ARMGenerator()
-var crossSubscriptionRestoreSettings_ARMGenerator gopter.Gen
-
-// CrossSubscriptionRestoreSettings_ARMGenerator returns a generator of CrossSubscriptionRestoreSettings_ARM instances for property testing.
-func CrossSubscriptionRestoreSettings_ARMGenerator() gopter.Gen {
-	if crossSubscriptionRestoreSettings_ARMGenerator != nil {
-		return crossSubscriptionRestoreSettings_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCrossSubscriptionRestoreSettings_ARM(generators)
-	crossSubscriptionRestoreSettings_ARMGenerator = gen.Struct(reflect.TypeOf(CrossSubscriptionRestoreSettings_ARM{}), generators)
-
-	return crossSubscriptionRestoreSettings_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCrossSubscriptionRestoreSettings_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCrossSubscriptionRestoreSettings_ARM(gens map[string]gopter.Gen) {
-	gens["State"] = gen.PtrOf(gen.OneConstOf(CrossSubscriptionRestoreSettings_State_Disabled, CrossSubscriptionRestoreSettings_State_Enabled, CrossSubscriptionRestoreSettings_State_PermanentlyDisabled))
-}
-
-func Test_ImmutabilitySettings_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ImmutabilitySettings_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForImmutabilitySettings_ARM, ImmutabilitySettings_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForImmutabilitySettings_ARM runs a test to see if a specific instance of ImmutabilitySettings_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForImmutabilitySettings_ARM(subject ImmutabilitySettings_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ImmutabilitySettings_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ImmutabilitySettings_ARM instances for property testing - lazily instantiated by
-// ImmutabilitySettings_ARMGenerator()
-var immutabilitySettings_ARMGenerator gopter.Gen
-
-// ImmutabilitySettings_ARMGenerator returns a generator of ImmutabilitySettings_ARM instances for property testing.
-func ImmutabilitySettings_ARMGenerator() gopter.Gen {
-	if immutabilitySettings_ARMGenerator != nil {
-		return immutabilitySettings_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImmutabilitySettings_ARM(generators)
-	immutabilitySettings_ARMGenerator = gen.Struct(reflect.TypeOf(ImmutabilitySettings_ARM{}), generators)
-
-	return immutabilitySettings_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForImmutabilitySettings_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForImmutabilitySettings_ARM(gens map[string]gopter.Gen) {
-	gens["State"] = gen.PtrOf(gen.OneConstOf(ImmutabilitySettings_State_Disabled, ImmutabilitySettings_State_Locked, ImmutabilitySettings_State_Unlocked))
-}
-
-func Test_SoftDeleteSettings_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SoftDeleteSettings_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSoftDeleteSettings_ARM, SoftDeleteSettings_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSoftDeleteSettings_ARM runs a test to see if a specific instance of SoftDeleteSettings_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSoftDeleteSettings_ARM(subject SoftDeleteSettings_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual SoftDeleteSettings_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of SoftDeleteSettings_ARM instances for property testing - lazily instantiated by
-// SoftDeleteSettings_ARMGenerator()
-var softDeleteSettings_ARMGenerator gopter.Gen
-
-// SoftDeleteSettings_ARMGenerator returns a generator of SoftDeleteSettings_ARM instances for property testing.
-func SoftDeleteSettings_ARMGenerator() gopter.Gen {
-	if softDeleteSettings_ARMGenerator != nil {
-		return softDeleteSettings_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSoftDeleteSettings_ARM(generators)
-	softDeleteSettings_ARMGenerator = gen.Struct(reflect.TypeOf(SoftDeleteSettings_ARM{}), generators)
-
-	return softDeleteSettings_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSoftDeleteSettings_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSoftDeleteSettings_ARM(gens map[string]gopter.Gen) {
-	gens["RetentionDurationInDays"] = gen.PtrOf(gen.Float64())
-	gens["State"] = gen.PtrOf(gen.OneConstOf(SoftDeleteSettings_State_AlwaysOn, SoftDeleteSettings_State_Off, SoftDeleteSettings_State_On))
 }

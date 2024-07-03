@@ -995,7 +995,7 @@ func (registry *Registry_Spec) Initialize_From_Registry_STATUS(source *Registry_
 
 	// NetworkRuleBypassOptions
 	if source.NetworkRuleBypassOptions != nil {
-		networkRuleBypassOption := RegistryProperties_NetworkRuleBypassOptions(*source.NetworkRuleBypassOptions)
+		networkRuleBypassOption := genruntime.ToEnum(string(*source.NetworkRuleBypassOptions), registryProperties_NetworkRuleBypassOptions_Values)
 		registry.NetworkRuleBypassOptions = &networkRuleBypassOption
 	} else {
 		registry.NetworkRuleBypassOptions = nil
@@ -1027,7 +1027,7 @@ func (registry *Registry_Spec) Initialize_From_Registry_STATUS(source *Registry_
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := RegistryProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
+		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), registryProperties_PublicNetworkAccess_Values)
 		registry.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		registry.PublicNetworkAccess = nil
@@ -1050,7 +1050,7 @@ func (registry *Registry_Spec) Initialize_From_Registry_STATUS(source *Registry_
 
 	// ZoneRedundancy
 	if source.ZoneRedundancy != nil {
-		zoneRedundancy := RegistryProperties_ZoneRedundancy(*source.ZoneRedundancy)
+		zoneRedundancy := genruntime.ToEnum(string(*source.ZoneRedundancy), registryProperties_ZoneRedundancy_Values)
 		registry.ZoneRedundancy = &zoneRedundancy
 	} else {
 		registry.ZoneRedundancy = nil
@@ -1954,7 +1954,7 @@ func (property *EncryptionProperty) Initialize_From_EncryptionProperty_STATUS(so
 
 	// Status
 	if source.Status != nil {
-		status := EncryptionProperty_Status(*source.Status)
+		status := genruntime.ToEnum(string(*source.Status), encryptionProperty_Status_Values)
 		property.Status = &status
 	} else {
 		property.Status = nil
@@ -2264,7 +2264,7 @@ func (properties *IdentityProperties) Initialize_From_IdentityProperties_STATUS(
 
 	// Type
 	if source.Type != nil {
-		typeVar := IdentityProperties_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), identityProperties_Type_Values)
 		properties.Type = &typeVar
 	} else {
 		properties.Type = nil
@@ -2590,7 +2590,7 @@ func (ruleSet *NetworkRuleSet) Initialize_From_NetworkRuleSet_STATUS(source *Net
 
 	// DefaultAction
 	if source.DefaultAction != nil {
-		defaultAction := NetworkRuleSet_DefaultAction(*source.DefaultAction)
+		defaultAction := genruntime.ToEnum(string(*source.DefaultAction), networkRuleSet_DefaultAction_Values)
 		ruleSet.DefaultAction = &defaultAction
 	} else {
 		ruleSet.DefaultAction = nil
@@ -3485,7 +3485,7 @@ func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
 
 	// Name
 	if source.Name != nil {
-		name := Sku_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), sku_Name_Values)
 		sku.Name = &name
 	} else {
 		sku.Name = nil
@@ -3953,7 +3953,7 @@ func (policy *ExportPolicy) Initialize_From_ExportPolicy_STATUS(source *ExportPo
 
 	// Status
 	if source.Status != nil {
-		status := ExportPolicy_Status(*source.Status)
+		status := genruntime.ToEnum(string(*source.Status), exportPolicy_Status_Values)
 		policy.Status = &status
 	} else {
 		policy.Status = nil
@@ -4145,7 +4145,7 @@ func (rule *IPRule) Initialize_From_IPRule_STATUS(source *IPRule_STATUS) error {
 
 	// Action
 	if source.Action != nil {
-		action := IPRule_Action(*source.Action)
+		action := genruntime.ToEnum(string(*source.Action), iPRule_Action_Values)
 		rule.Action = &action
 	} else {
 		rule.Action = nil
@@ -4596,7 +4596,7 @@ func (policy *QuarantinePolicy) Initialize_From_QuarantinePolicy_STATUS(source *
 
 	// Status
 	if source.Status != nil {
-		status := QuarantinePolicy_Status(*source.Status)
+		status := genruntime.ToEnum(string(*source.Status), quarantinePolicy_Status_Values)
 		policy.Status = &status
 	} else {
 		policy.Status = nil
@@ -4790,7 +4790,7 @@ func (policy *RetentionPolicy) Initialize_From_RetentionPolicy_STATUS(source *Re
 
 	// Status
 	if source.Status != nil {
-		status := RetentionPolicy_Status(*source.Status)
+		status := genruntime.ToEnum(string(*source.Status), retentionPolicy_Status_Values)
 		policy.Status = &status
 	} else {
 		policy.Status = nil
@@ -5022,7 +5022,7 @@ func (policy *TrustPolicy) Initialize_From_TrustPolicy_STATUS(source *TrustPolic
 
 	// Status
 	if source.Status != nil {
-		status := TrustPolicy_Status(*source.Status)
+		status := genruntime.ToEnum(string(*source.Status), trustPolicy_Status_Values)
 		policy.Status = &status
 	} else {
 		policy.Status = nil
@@ -5030,7 +5030,7 @@ func (policy *TrustPolicy) Initialize_From_TrustPolicy_STATUS(source *TrustPolic
 
 	// Type
 	if source.Type != nil {
-		typeVar := TrustPolicy_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), trustPolicy_Type_Values)
 		policy.Type = &typeVar
 	} else {
 		policy.Type = nil

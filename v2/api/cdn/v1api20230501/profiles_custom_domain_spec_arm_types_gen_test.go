@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_Profiles_CustomDomain_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_AFDDomainHttpsParameters_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
+	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Profiles_CustomDomain_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProfiles_CustomDomain_Spec_ARM, Profiles_CustomDomain_Spec_ARMGenerator()))
+		"Round trip of AFDDomainHttpsParameters_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAFDDomainHttpsParameters_ARM, AFDDomainHttpsParameters_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForProfiles_CustomDomain_Spec_ARM runs a test to see if a specific instance of Profiles_CustomDomain_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForProfiles_CustomDomain_Spec_ARM(subject Profiles_CustomDomain_Spec_ARM) string {
+// RunJSONSerializationTestForAFDDomainHttpsParameters_ARM runs a test to see if a specific instance of AFDDomainHttpsParameters_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForAFDDomainHttpsParameters_ARM(subject AFDDomainHttpsParameters_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForProfiles_CustomDomain_Spec_ARM(subject Profiles_
 	}
 
 	// Deserialize back into memory
-	var actual Profiles_CustomDomain_Spec_ARM
+	var actual AFDDomainHttpsParameters_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,40 +56,41 @@ func RunJSONSerializationTestForProfiles_CustomDomain_Spec_ARM(subject Profiles_
 	return ""
 }
 
-// Generator of Profiles_CustomDomain_Spec_ARM instances for property testing - lazily instantiated by
-// Profiles_CustomDomain_Spec_ARMGenerator()
-var profiles_CustomDomain_Spec_ARMGenerator gopter.Gen
+// Generator of AFDDomainHttpsParameters_ARM instances for property testing - lazily instantiated by
+// AFDDomainHttpsParameters_ARMGenerator()
+var afdDomainHttpsParameters_ARMGenerator gopter.Gen
 
-// Profiles_CustomDomain_Spec_ARMGenerator returns a generator of Profiles_CustomDomain_Spec_ARM instances for property testing.
-// We first initialize profiles_CustomDomain_Spec_ARMGenerator with a simplified generator based on the
+// AFDDomainHttpsParameters_ARMGenerator returns a generator of AFDDomainHttpsParameters_ARM instances for property testing.
+// We first initialize afdDomainHttpsParameters_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Profiles_CustomDomain_Spec_ARMGenerator() gopter.Gen {
-	if profiles_CustomDomain_Spec_ARMGenerator != nil {
-		return profiles_CustomDomain_Spec_ARMGenerator
+func AFDDomainHttpsParameters_ARMGenerator() gopter.Gen {
+	if afdDomainHttpsParameters_ARMGenerator != nil {
+		return afdDomainHttpsParameters_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_CustomDomain_Spec_ARM(generators)
-	profiles_CustomDomain_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Profiles_CustomDomain_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForAFDDomainHttpsParameters_ARM(generators)
+	afdDomainHttpsParameters_ARMGenerator = gen.Struct(reflect.TypeOf(AFDDomainHttpsParameters_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_CustomDomain_Spec_ARM(generators)
-	AddRelatedPropertyGeneratorsForProfiles_CustomDomain_Spec_ARM(generators)
-	profiles_CustomDomain_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Profiles_CustomDomain_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForAFDDomainHttpsParameters_ARM(generators)
+	AddRelatedPropertyGeneratorsForAFDDomainHttpsParameters_ARM(generators)
+	afdDomainHttpsParameters_ARMGenerator = gen.Struct(reflect.TypeOf(AFDDomainHttpsParameters_ARM{}), generators)
 
-	return profiles_CustomDomain_Spec_ARMGenerator
+	return afdDomainHttpsParameters_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForProfiles_CustomDomain_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProfiles_CustomDomain_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
+// AddIndependentPropertyGeneratorsForAFDDomainHttpsParameters_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAFDDomainHttpsParameters_ARM(gens map[string]gopter.Gen) {
+	gens["CertificateType"] = gen.PtrOf(gen.OneConstOf(AFDDomainHttpsParameters_CertificateType_AzureFirstPartyManagedCertificate, AFDDomainHttpsParameters_CertificateType_CustomerCertificate, AFDDomainHttpsParameters_CertificateType_ManagedCertificate))
+	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(AFDDomainHttpsParameters_MinimumTlsVersion_TLS10, AFDDomainHttpsParameters_MinimumTlsVersion_TLS12))
 }
 
-// AddRelatedPropertyGeneratorsForProfiles_CustomDomain_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForProfiles_CustomDomain_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(AFDDomainProperties_ARMGenerator())
+// AddRelatedPropertyGeneratorsForAFDDomainHttpsParameters_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForAFDDomainHttpsParameters_ARM(gens map[string]gopter.Gen) {
+	gens["Secret"] = gen.PtrOf(ResourceReference_ARMGenerator())
 }
 
 func Test_AFDDomainProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -172,20 +173,20 @@ func AddRelatedPropertyGeneratorsForAFDDomainProperties_ARM(gens map[string]gopt
 	gens["TlsSettings"] = gen.PtrOf(AFDDomainHttpsParameters_ARMGenerator())
 }
 
-func Test_AFDDomainHttpsParameters_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Profiles_CustomDomain_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of AFDDomainHttpsParameters_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAFDDomainHttpsParameters_ARM, AFDDomainHttpsParameters_ARMGenerator()))
+		"Round trip of Profiles_CustomDomain_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForProfiles_CustomDomain_Spec_ARM, Profiles_CustomDomain_Spec_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAFDDomainHttpsParameters_ARM runs a test to see if a specific instance of AFDDomainHttpsParameters_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForAFDDomainHttpsParameters_ARM(subject AFDDomainHttpsParameters_ARM) string {
+// RunJSONSerializationTestForProfiles_CustomDomain_Spec_ARM runs a test to see if a specific instance of Profiles_CustomDomain_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForProfiles_CustomDomain_Spec_ARM(subject Profiles_CustomDomain_Spec_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -193,7 +194,7 @@ func RunJSONSerializationTestForAFDDomainHttpsParameters_ARM(subject AFDDomainHt
 	}
 
 	// Deserialize back into memory
-	var actual AFDDomainHttpsParameters_ARM
+	var actual Profiles_CustomDomain_Spec_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -211,39 +212,38 @@ func RunJSONSerializationTestForAFDDomainHttpsParameters_ARM(subject AFDDomainHt
 	return ""
 }
 
-// Generator of AFDDomainHttpsParameters_ARM instances for property testing - lazily instantiated by
-// AFDDomainHttpsParameters_ARMGenerator()
-var afdDomainHttpsParameters_ARMGenerator gopter.Gen
+// Generator of Profiles_CustomDomain_Spec_ARM instances for property testing - lazily instantiated by
+// Profiles_CustomDomain_Spec_ARMGenerator()
+var profiles_CustomDomain_Spec_ARMGenerator gopter.Gen
 
-// AFDDomainHttpsParameters_ARMGenerator returns a generator of AFDDomainHttpsParameters_ARM instances for property testing.
-// We first initialize afdDomainHttpsParameters_ARMGenerator with a simplified generator based on the
+// Profiles_CustomDomain_Spec_ARMGenerator returns a generator of Profiles_CustomDomain_Spec_ARM instances for property testing.
+// We first initialize profiles_CustomDomain_Spec_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func AFDDomainHttpsParameters_ARMGenerator() gopter.Gen {
-	if afdDomainHttpsParameters_ARMGenerator != nil {
-		return afdDomainHttpsParameters_ARMGenerator
+func Profiles_CustomDomain_Spec_ARMGenerator() gopter.Gen {
+	if profiles_CustomDomain_Spec_ARMGenerator != nil {
+		return profiles_CustomDomain_Spec_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAFDDomainHttpsParameters_ARM(generators)
-	afdDomainHttpsParameters_ARMGenerator = gen.Struct(reflect.TypeOf(AFDDomainHttpsParameters_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForProfiles_CustomDomain_Spec_ARM(generators)
+	profiles_CustomDomain_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Profiles_CustomDomain_Spec_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAFDDomainHttpsParameters_ARM(generators)
-	AddRelatedPropertyGeneratorsForAFDDomainHttpsParameters_ARM(generators)
-	afdDomainHttpsParameters_ARMGenerator = gen.Struct(reflect.TypeOf(AFDDomainHttpsParameters_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForProfiles_CustomDomain_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForProfiles_CustomDomain_Spec_ARM(generators)
+	profiles_CustomDomain_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Profiles_CustomDomain_Spec_ARM{}), generators)
 
-	return afdDomainHttpsParameters_ARMGenerator
+	return profiles_CustomDomain_Spec_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAFDDomainHttpsParameters_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAFDDomainHttpsParameters_ARM(gens map[string]gopter.Gen) {
-	gens["CertificateType"] = gen.PtrOf(gen.OneConstOf(AFDDomainHttpsParameters_CertificateType_AzureFirstPartyManagedCertificate, AFDDomainHttpsParameters_CertificateType_CustomerCertificate, AFDDomainHttpsParameters_CertificateType_ManagedCertificate))
-	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(AFDDomainHttpsParameters_MinimumTlsVersion_TLS10, AFDDomainHttpsParameters_MinimumTlsVersion_TLS12))
+// AddIndependentPropertyGeneratorsForProfiles_CustomDomain_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForProfiles_CustomDomain_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.AlphaString()
 }
 
-// AddRelatedPropertyGeneratorsForAFDDomainHttpsParameters_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAFDDomainHttpsParameters_ARM(gens map[string]gopter.Gen) {
-	gens["Secret"] = gen.PtrOf(ResourceReference_ARMGenerator())
+// AddRelatedPropertyGeneratorsForProfiles_CustomDomain_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForProfiles_CustomDomain_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(AFDDomainProperties_ARMGenerator())
 }

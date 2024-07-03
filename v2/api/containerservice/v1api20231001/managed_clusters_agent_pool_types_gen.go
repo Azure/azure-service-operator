@@ -1906,7 +1906,7 @@ func (pool *ManagedClusters_AgentPool_Spec) Initialize_From_ManagedClusters_Agen
 
 	// GpuInstanceProfile
 	if source.GpuInstanceProfile != nil {
-		gpuInstanceProfile := GPUInstanceProfile(*source.GpuInstanceProfile)
+		gpuInstanceProfile := genruntime.ToEnum(string(*source.GpuInstanceProfile), gPUInstanceProfile_Values)
 		pool.GpuInstanceProfile = &gpuInstanceProfile
 	} else {
 		pool.GpuInstanceProfile = nil
@@ -1926,7 +1926,7 @@ func (pool *ManagedClusters_AgentPool_Spec) Initialize_From_ManagedClusters_Agen
 
 	// KubeletDiskType
 	if source.KubeletDiskType != nil {
-		kubeletDiskType := KubeletDiskType(*source.KubeletDiskType)
+		kubeletDiskType := genruntime.ToEnum(string(*source.KubeletDiskType), kubeletDiskType_Values)
 		pool.KubeletDiskType = &kubeletDiskType
 	} else {
 		pool.KubeletDiskType = nil
@@ -1955,7 +1955,7 @@ func (pool *ManagedClusters_AgentPool_Spec) Initialize_From_ManagedClusters_Agen
 
 	// Mode
 	if source.Mode != nil {
-		mode := AgentPoolMode(*source.Mode)
+		mode := genruntime.ToEnum(string(*source.Mode), agentPoolMode_Values)
 		pool.Mode = &mode
 	} else {
 		pool.Mode = nil
@@ -1992,7 +1992,7 @@ func (pool *ManagedClusters_AgentPool_Spec) Initialize_From_ManagedClusters_Agen
 
 	// OsDiskType
 	if source.OsDiskType != nil {
-		osDiskType := OSDiskType(*source.OsDiskType)
+		osDiskType := genruntime.ToEnum(string(*source.OsDiskType), oSDiskType_Values)
 		pool.OsDiskType = &osDiskType
 	} else {
 		pool.OsDiskType = nil
@@ -2000,7 +2000,7 @@ func (pool *ManagedClusters_AgentPool_Spec) Initialize_From_ManagedClusters_Agen
 
 	// OsSKU
 	if source.OsSKU != nil {
-		osSKU := OSSKU(*source.OsSKU)
+		osSKU := genruntime.ToEnum(string(*source.OsSKU), oSSKU_Values)
 		pool.OsSKU = &osSKU
 	} else {
 		pool.OsSKU = nil
@@ -2008,7 +2008,7 @@ func (pool *ManagedClusters_AgentPool_Spec) Initialize_From_ManagedClusters_Agen
 
 	// OsType
 	if source.OsType != nil {
-		osType := OSType(*source.OsType)
+		osType := genruntime.ToEnum(string(*source.OsType), oSType_Values)
 		pool.OsType = &osType
 	} else {
 		pool.OsType = nil
@@ -2028,7 +2028,7 @@ func (pool *ManagedClusters_AgentPool_Spec) Initialize_From_ManagedClusters_Agen
 
 	// ScaleDownMode
 	if source.ScaleDownMode != nil {
-		scaleDownMode := ScaleDownMode(*source.ScaleDownMode)
+		scaleDownMode := genruntime.ToEnum(string(*source.ScaleDownMode), scaleDownMode_Values)
 		pool.ScaleDownMode = &scaleDownMode
 	} else {
 		pool.ScaleDownMode = nil
@@ -2036,7 +2036,7 @@ func (pool *ManagedClusters_AgentPool_Spec) Initialize_From_ManagedClusters_Agen
 
 	// ScaleSetEvictionPolicy
 	if source.ScaleSetEvictionPolicy != nil {
-		scaleSetEvictionPolicy := ScaleSetEvictionPolicy(*source.ScaleSetEvictionPolicy)
+		scaleSetEvictionPolicy := genruntime.ToEnum(string(*source.ScaleSetEvictionPolicy), scaleSetEvictionPolicy_Values)
 		pool.ScaleSetEvictionPolicy = &scaleSetEvictionPolicy
 	} else {
 		pool.ScaleSetEvictionPolicy = nil
@@ -2044,7 +2044,7 @@ func (pool *ManagedClusters_AgentPool_Spec) Initialize_From_ManagedClusters_Agen
 
 	// ScaleSetPriority
 	if source.ScaleSetPriority != nil {
-		scaleSetPriority := ScaleSetPriority(*source.ScaleSetPriority)
+		scaleSetPriority := genruntime.ToEnum(string(*source.ScaleSetPriority), scaleSetPriority_Values)
 		pool.ScaleSetPriority = &scaleSetPriority
 	} else {
 		pool.ScaleSetPriority = nil
@@ -2062,10 +2062,9 @@ func (pool *ManagedClusters_AgentPool_Spec) Initialize_From_ManagedClusters_Agen
 	pool.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		typeTemp := genruntime.ToEnum(typeVar, agentPoolType_Values)
-		pool.Type = &typeTemp
+	if source.PropertiesType != nil {
+		typeVar := genruntime.ToEnum(string(*source.PropertiesType), agentPoolType_Values)
+		pool.Type = &typeVar
 	} else {
 		pool.Type = nil
 	}
@@ -2087,7 +2086,7 @@ func (pool *ManagedClusters_AgentPool_Spec) Initialize_From_ManagedClusters_Agen
 
 	// WorkloadRuntime
 	if source.WorkloadRuntime != nil {
-		workloadRuntime := WorkloadRuntime(*source.WorkloadRuntime)
+		workloadRuntime := genruntime.ToEnum(string(*source.WorkloadRuntime), workloadRuntime_Values)
 		pool.WorkloadRuntime = &workloadRuntime
 	} else {
 		pool.WorkloadRuntime = nil
@@ -5427,7 +5426,7 @@ func (state *PowerState) Initialize_From_PowerState_STATUS(source *PowerState_ST
 
 	// Code
 	if source.Code != nil {
-		code := PowerState_Code(*source.Code)
+		code := genruntime.ToEnum(string(*source.Code), powerState_Code_Values)
 		state.Code = &code
 	} else {
 		state.Code = nil
@@ -5913,7 +5912,7 @@ func (portRange *PortRange) Initialize_From_PortRange_STATUS(source *PortRange_S
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := PortRange_Protocol(*source.Protocol)
+		protocol := genruntime.ToEnum(string(*source.Protocol), portRange_Protocol_Values)
 		portRange.Protocol = &protocol
 	} else {
 		portRange.Protocol = nil

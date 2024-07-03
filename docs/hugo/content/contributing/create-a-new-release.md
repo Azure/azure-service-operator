@@ -110,39 +110,27 @@ A PR that does this should be automatically generated when a new release is publ
 These steps are documented here in case that process fails.
 {{% /alert %}}
 
+### Update the chart
+
 1. Create a new branch from `<NEW_RELEASE_TAG>` HEAD
-2. Generate helm manifest for new release: `task controller:gen-helm-manifest`
+2. Generate helm manifest for new release: `task controller:package-helm-manifest`
 3. Check the version in `/v2/charts/azure-service-operator/Chart.yaml` if matches with the latest release tag.
-4. Create a kind cluster
+
+### Test the updated chart
+
+1. Create a kind cluster with the chart installed
    ``` bash
-   task controller:kind-create-wi
+   task controller:kind-create-workloadidentity-local-helm
    ```
-5. Enable workload identity on that cluster:
-   ```
-   task: controller:create-mi-for-workload-identity
-   ```
-6. Install cert-manager
-   ``` bash
-   task controller:install-cert-manager
-   ```
-7. Install helm chart:
+2. Wait for it all to start: `k get all -n azureserviceoperator-system`
+3. Create a resource group and a vnet in it (the vnet is to check that conversion webhooks are working, since there aren't any for RGs):
     ```
-   helm install --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
-   --set azureTenantID=$AZURE_TENANT_ID \
-   --set azureClientID=$AZURE_CLIENT_ID \
-   --set useWorkloadIdentityAuth=true \
-   asov2 -n azureserviceoperator-system --create-namespace ./v2/charts/azure-service-operator/.
+    k apply -f v2/samples/resources/v1api/v1api20200601_resourcegroup.yaml
+    k apply -f v2/samples/network/v1api20201101/v1api20201101_virtualnetwork.yaml
     ```
-8. Wait for the chart installation.
-9. Wait for it to start: `k get all -n azureserviceoperator-system`
-10. Create a resource group and a vnet in it (the vnet is to check that conversion webhooks are working, since there aren't any for RGs):
-    ```
-    k apply -f v2/samples/resources/v1beta/v1beta20200601_resourcegroup.yaml
-    k apply -f v2/samples/network/v1beta/v1beta20201101_virtualnetwork.yaml
-    ```
-11. Make sure they deploy successfully - check in the portal as well.
-12. If installed successfully, commit the files under `v2/charts/azure-service-operator`.
-13. Send a PR.
+4. Make sure they deploy successfully - check in the portal as well.
+5. If installed successfully, commit the files under `v2/charts/azure-service-operator`.
+6. Send a PR.
 
 ## Update Resource Documentation
 

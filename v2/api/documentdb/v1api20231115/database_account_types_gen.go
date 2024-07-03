@@ -1982,7 +1982,7 @@ func (account *DatabaseAccount_Spec) Initialize_From_DatabaseAccount_STATUS(sour
 
 	// ConnectorOffer
 	if source.ConnectorOffer != nil {
-		connectorOffer := ConnectorOffer(*source.ConnectorOffer)
+		connectorOffer := genruntime.ToEnum(string(*source.ConnectorOffer), connectorOffer_Values)
 		account.ConnectorOffer = &connectorOffer
 	} else {
 		account.ConnectorOffer = nil
@@ -2020,7 +2020,7 @@ func (account *DatabaseAccount_Spec) Initialize_From_DatabaseAccount_STATUS(sour
 
 	// CreateMode
 	if source.CreateMode != nil {
-		createMode := CreateMode(*source.CreateMode)
+		createMode := genruntime.ToEnum(string(*source.CreateMode), createMode_Values)
 		account.CreateMode = &createMode
 	} else {
 		account.CreateMode = nil
@@ -2031,7 +2031,7 @@ func (account *DatabaseAccount_Spec) Initialize_From_DatabaseAccount_STATUS(sour
 
 	// DatabaseAccountOfferType
 	if source.DatabaseAccountOfferType != nil {
-		databaseAccountOfferType := DatabaseAccountOfferType(*source.DatabaseAccountOfferType)
+		databaseAccountOfferType := genruntime.ToEnum(string(*source.DatabaseAccountOfferType), databaseAccountOfferType_Values)
 		account.DatabaseAccountOfferType = &databaseAccountOfferType
 	} else {
 		account.DatabaseAccountOfferType = nil
@@ -2155,7 +2155,7 @@ func (account *DatabaseAccount_Spec) Initialize_From_DatabaseAccount_STATUS(sour
 
 	// Kind
 	if source.Kind != nil {
-		kind := DatabaseAccount_Kind_Spec(*source.Kind)
+		kind := genruntime.ToEnum(string(*source.Kind), databaseAccount_Kind_Spec_Values)
 		account.Kind = &kind
 	} else {
 		account.Kind = nil
@@ -2184,7 +2184,7 @@ func (account *DatabaseAccount_Spec) Initialize_From_DatabaseAccount_STATUS(sour
 
 	// MinimalTlsVersion
 	if source.MinimalTlsVersion != nil {
-		minimalTlsVersion := MinimalTlsVersion(*source.MinimalTlsVersion)
+		minimalTlsVersion := genruntime.ToEnum(string(*source.MinimalTlsVersion), minimalTlsVersion_Values)
 		account.MinimalTlsVersion = &minimalTlsVersion
 	} else {
 		account.MinimalTlsVersion = nil
@@ -2192,7 +2192,7 @@ func (account *DatabaseAccount_Spec) Initialize_From_DatabaseAccount_STATUS(sour
 
 	// NetworkAclBypass
 	if source.NetworkAclBypass != nil {
-		networkAclBypass := NetworkAclBypass(*source.NetworkAclBypass)
+		networkAclBypass := genruntime.ToEnum(string(*source.NetworkAclBypass), networkAclBypass_Values)
 		account.NetworkAclBypass = &networkAclBypass
 	} else {
 		account.NetworkAclBypass = nil
@@ -2200,7 +2200,7 @@ func (account *DatabaseAccount_Spec) Initialize_From_DatabaseAccount_STATUS(sour
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := PublicNetworkAccess(*source.PublicNetworkAccess)
+		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), publicNetworkAccess_Values)
 		account.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		account.PublicNetworkAccess = nil
@@ -3960,7 +3960,7 @@ func (configuration *AnalyticalStorageConfiguration) Initialize_From_AnalyticalS
 
 	// SchemaType
 	if source.SchemaType != nil {
-		schemaType := AnalyticalStorageSchemaType(*source.SchemaType)
+		schemaType := genruntime.ToEnum(string(*source.SchemaType), analyticalStorageSchemaType_Values)
 		configuration.SchemaType = &schemaType
 	} else {
 		configuration.SchemaType = nil
@@ -4129,7 +4129,7 @@ func (properties *ApiProperties) Initialize_From_ApiProperties_STATUS(source *Ap
 
 	// ServerVersion
 	if source.ServerVersion != nil {
-		serverVersion := ApiProperties_ServerVersion(*source.ServerVersion)
+		serverVersion := genruntime.ToEnum(string(*source.ServerVersion), apiProperties_ServerVersion_Values)
 		properties.ServerVersion = &serverVersion
 	} else {
 		properties.ServerVersion = nil
@@ -4996,7 +4996,7 @@ func (policy *ConsistencyPolicy) Initialize_From_ConsistencyPolicy_STATUS(source
 
 	// DefaultConsistencyLevel
 	if source.DefaultConsistencyLevel != nil {
-		defaultConsistencyLevel := ConsistencyPolicy_DefaultConsistencyLevel(*source.DefaultConsistencyLevel)
+		defaultConsistencyLevel := genruntime.ToEnum(string(*source.DefaultConsistencyLevel), consistencyPolicy_DefaultConsistencyLevel_Values)
 		policy.DefaultConsistencyLevel = &defaultConsistencyLevel
 	} else {
 		policy.DefaultConsistencyLevel = nil
@@ -6440,7 +6440,7 @@ func (identity *ManagedServiceIdentity) Initialize_From_ManagedServiceIdentity_S
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagedServiceIdentity_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), managedServiceIdentity_Type_Values)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -7078,7 +7078,7 @@ func (parameters *RestoreParameters) Initialize_From_RestoreParameters_STATUS(so
 
 	// RestoreMode
 	if source.RestoreMode != nil {
-		restoreMode := RestoreParameters_RestoreMode(*source.RestoreMode)
+		restoreMode := genruntime.ToEnum(string(*source.RestoreMode), restoreParameters_RestoreMode_Values)
 		parameters.RestoreMode = &restoreMode
 	} else {
 		parameters.RestoreMode = nil
@@ -8059,7 +8059,7 @@ func (policy *ContinuousModeBackupPolicy) Initialize_From_ContinuousModeBackupPo
 
 	// Type
 	if source.Type != nil {
-		typeVar := ContinuousModeBackupPolicy_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), continuousModeBackupPolicy_Type_Values)
 		policy.Type = &typeVar
 	} else {
 		policy.Type = nil
@@ -8973,7 +8973,7 @@ func (policy *PeriodicModeBackupPolicy) Initialize_From_PeriodicModeBackupPolicy
 
 	// Type
 	if source.Type != nil {
-		typeVar := PeriodicModeBackupPolicy_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), periodicModeBackupPolicy_Type_Values)
 		policy.Type = &typeVar
 	} else {
 		policy.Type = nil
@@ -9324,7 +9324,7 @@ func (state *BackupPolicyMigrationState) Initialize_From_BackupPolicyMigrationSt
 
 	// Status
 	if source.Status != nil {
-		status := BackupPolicyMigrationStatus(*source.Status)
+		status := genruntime.ToEnum(string(*source.Status), backupPolicyMigrationStatus_Values)
 		state.Status = &status
 	} else {
 		state.Status = nil
@@ -9332,7 +9332,7 @@ func (state *BackupPolicyMigrationState) Initialize_From_BackupPolicyMigrationSt
 
 	// TargetType
 	if source.TargetType != nil {
-		targetType := BackupPolicyType(*source.TargetType)
+		targetType := genruntime.ToEnum(string(*source.TargetType), backupPolicyType_Values)
 		state.TargetType = &targetType
 	} else {
 		state.TargetType = nil
@@ -9562,7 +9562,7 @@ func (properties *ContinuousModeProperties) Initialize_From_ContinuousModeProper
 
 	// Tier
 	if source.Tier != nil {
-		tier := ContinuousTier(*source.Tier)
+		tier := genruntime.ToEnum(string(*source.Tier), continuousTier_Values)
 		properties.Tier = &tier
 	} else {
 		properties.Tier = nil
@@ -9831,7 +9831,7 @@ func (properties *PeriodicModeProperties) Initialize_From_PeriodicModeProperties
 
 	// BackupStorageRedundancy
 	if source.BackupStorageRedundancy != nil {
-		backupStorageRedundancy := BackupStorageRedundancy(*source.BackupStorageRedundancy)
+		backupStorageRedundancy := genruntime.ToEnum(string(*source.BackupStorageRedundancy), backupStorageRedundancy_Values)
 		properties.BackupStorageRedundancy = &backupStorageRedundancy
 	} else {
 		properties.BackupStorageRedundancy = nil

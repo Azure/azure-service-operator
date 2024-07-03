@@ -78,71 +78,6 @@ func AddRelatedPropertyGeneratorsForAccount(gens map[string]gopter.Gen) {
 	gens["Status"] = Account_STATUSGenerator()
 }
 
-func Test_Account_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Account_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAccount_Spec, Account_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForAccount_Spec runs a test to see if a specific instance of Account_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForAccount_Spec(subject Account_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Account_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Account_Spec instances for property testing - lazily instantiated by Account_SpecGenerator()
-var account_SpecGenerator gopter.Gen
-
-// Account_SpecGenerator returns a generator of Account_Spec instances for property testing.
-func Account_SpecGenerator() gopter.Gen {
-	if account_SpecGenerator != nil {
-		return account_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAccount_Spec(generators)
-	account_SpecGenerator = gen.Struct(reflect.TypeOf(Account_Spec{}), generators)
-
-	return account_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAccount_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAccount_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
 func Test_Account_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -228,6 +163,72 @@ func AddRelatedPropertyGeneratorsForAccount_STATUS(gens map[string]gopter.Gen) {
 	gens["Metrics"] = gen.PtrOf(Metrics_STATUSGenerator())
 	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnection_STATUSGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
+}
+
+func Test_Account_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Account_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAccount_Spec, Account_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForAccount_Spec runs a test to see if a specific instance of Account_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForAccount_Spec(subject Account_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Account_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Account_Spec instances for property testing - lazily instantiated by Account_SpecGenerator()
+var account_SpecGenerator gopter.Gen
+
+// Account_SpecGenerator returns a generator of Account_Spec instances for property testing.
+func Account_SpecGenerator() gopter.Gen {
+	if account_SpecGenerator != nil {
+		return account_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForAccount_Spec(generators)
+	account_SpecGenerator = gen.Struct(reflect.TypeOf(Account_Spec{}), generators)
+
+	return account_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForAccount_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAccount_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 func Test_IngestionSettings_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

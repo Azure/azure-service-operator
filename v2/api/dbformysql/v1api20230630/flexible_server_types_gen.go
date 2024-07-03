@@ -1323,7 +1323,7 @@ func (server *FlexibleServer_Spec) Initialize_From_FlexibleServer_STATUS(source 
 
 	// CreateMode
 	if source.CreateMode != nil {
-		createMode := ServerProperties_CreateMode(*source.CreateMode)
+		createMode := genruntime.ToEnum(string(*source.CreateMode), serverProperties_CreateMode_Values)
 		server.CreateMode = &createMode
 	} else {
 		server.CreateMode = nil
@@ -1406,7 +1406,7 @@ func (server *FlexibleServer_Spec) Initialize_From_FlexibleServer_STATUS(source 
 
 	// ReplicationRole
 	if source.ReplicationRole != nil {
-		replicationRole := ReplicationRole(*source.ReplicationRole)
+		replicationRole := genruntime.ToEnum(string(*source.ReplicationRole), replicationRole_Values)
 		server.ReplicationRole = &replicationRole
 	} else {
 		server.ReplicationRole = nil
@@ -1452,7 +1452,7 @@ func (server *FlexibleServer_Spec) Initialize_From_FlexibleServer_STATUS(source 
 
 	// Version
 	if source.Version != nil {
-		version := ServerVersion(*source.Version)
+		version := genruntime.ToEnum(string(*source.Version), serverVersion_Values)
 		server.Version = &version
 	} else {
 		server.Version = nil
@@ -2444,7 +2444,7 @@ func (backup *Backup) Initialize_From_Backup_STATUS(source *Backup_STATUS) error
 
 	// GeoRedundantBackup
 	if source.GeoRedundantBackup != nil {
-		geoRedundantBackup := EnableStatusEnum(*source.GeoRedundantBackup)
+		geoRedundantBackup := genruntime.ToEnum(string(*source.GeoRedundantBackup), enableStatusEnum_Values)
 		backup.GeoRedundantBackup = &geoRedundantBackup
 	} else {
 		backup.GeoRedundantBackup = nil
@@ -2771,7 +2771,7 @@ func (encryption *DataEncryption) Initialize_From_DataEncryption_STATUS(source *
 
 	// Type
 	if source.Type != nil {
-		typeVar := DataEncryption_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), dataEncryption_Type_Values)
 		encryption.Type = &typeVar
 	} else {
 		encryption.Type = nil
@@ -3103,7 +3103,7 @@ func (availability *HighAvailability) Initialize_From_HighAvailability_STATUS(so
 
 	// Mode
 	if source.Mode != nil {
-		mode := HighAvailability_Mode(*source.Mode)
+		mode := genruntime.ToEnum(string(*source.Mode), highAvailability_Mode_Values)
 		availability.Mode = &mode
 	} else {
 		availability.Mode = nil
@@ -3393,7 +3393,7 @@ func (properties *ImportSourceProperties) Initialize_From_ImportSourceProperties
 
 	// StorageType
 	if source.StorageType != nil {
-		storageType := ImportSourceProperties_StorageType(*source.StorageType)
+		storageType := genruntime.ToEnum(string(*source.StorageType), importSourceProperties_StorageType_Values)
 		properties.StorageType = &storageType
 	} else {
 		properties.StorageType = nil
@@ -3908,7 +3908,7 @@ func (identity *MySQLServerIdentity) Initialize_From_MySQLServerIdentity_STATUS(
 
 	// Type
 	if source.Type != nil {
-		typeVar := MySQLServerIdentity_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), mySQLServerIdentity_Type_Values)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -4183,7 +4183,7 @@ func (serverSku *MySQLServerSku) Initialize_From_MySQLServerSku_STATUS(source *M
 
 	// Tier
 	if source.Tier != nil {
-		tier := MySQLServerSku_Tier(*source.Tier)
+		tier := genruntime.ToEnum(string(*source.Tier), mySQLServerSku_Tier_Values)
 		serverSku.Tier = &tier
 	} else {
 		serverSku.Tier = nil
@@ -4447,7 +4447,7 @@ func (network *Network) Initialize_From_Network_STATUS(source *Network_STATUS) e
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := EnableStatusEnum(*source.PublicNetworkAccess)
+		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), enableStatusEnum_Values)
 		network.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		network.PublicNetworkAccess = nil
@@ -4934,7 +4934,7 @@ func (storage *Storage) Initialize_From_Storage_STATUS(source *Storage_STATUS) e
 
 	// AutoGrow
 	if source.AutoGrow != nil {
-		autoGrow := EnableStatusEnum(*source.AutoGrow)
+		autoGrow := genruntime.ToEnum(string(*source.AutoGrow), enableStatusEnum_Values)
 		storage.AutoGrow = &autoGrow
 	} else {
 		storage.AutoGrow = nil
@@ -4942,7 +4942,7 @@ func (storage *Storage) Initialize_From_Storage_STATUS(source *Storage_STATUS) e
 
 	// AutoIoScaling
 	if source.AutoIoScaling != nil {
-		autoIoScaling := EnableStatusEnum(*source.AutoIoScaling)
+		autoIoScaling := genruntime.ToEnum(string(*source.AutoIoScaling), enableStatusEnum_Values)
 		storage.AutoIoScaling = &autoIoScaling
 	} else {
 		storage.AutoIoScaling = nil
@@ -4953,7 +4953,7 @@ func (storage *Storage) Initialize_From_Storage_STATUS(source *Storage_STATUS) e
 
 	// LogOnDisk
 	if source.LogOnDisk != nil {
-		logOnDisk := EnableStatusEnum(*source.LogOnDisk)
+		logOnDisk := genruntime.ToEnum(string(*source.LogOnDisk), enableStatusEnum_Values)
 		storage.LogOnDisk = &logOnDisk
 	} else {
 		storage.LogOnDisk = nil

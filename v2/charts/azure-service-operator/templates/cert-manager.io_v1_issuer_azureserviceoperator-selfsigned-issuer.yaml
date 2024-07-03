@@ -1,0 +1,9 @@
+{{- if or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode "webhooks") }}
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: azureserviceoperator-selfsigned-issuer
+  namespace: {{ .Release.Namespace }}
+spec:
+  selfSigned: {}
+{{- end }}

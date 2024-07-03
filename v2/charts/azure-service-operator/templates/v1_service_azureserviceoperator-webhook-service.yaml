@@ -1,0 +1,16 @@
+{{- if or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode "webhooks") }}
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/name: azure-service-operator
+    app.kubernetes.io/version: v2.8.0
+  name: azureserviceoperator-webhook-service
+  namespace: {{ .Release.Namespace }}
+spec:
+  ports:
+  - port: 443
+    targetPort: {{ .Values.webhook.port }}
+  selector:
+    control-plane: controller-manager
+{{- end }}

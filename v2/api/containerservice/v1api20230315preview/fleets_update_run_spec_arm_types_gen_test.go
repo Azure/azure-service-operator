@@ -92,68 +92,6 @@ func AddRelatedPropertyGeneratorsForFleets_UpdateRun_Spec_ARM(gens map[string]go
 	gens["Properties"] = gen.PtrOf(UpdateRunProperties_ARMGenerator())
 }
 
-func Test_UpdateRunProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UpdateRunProperties_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUpdateRunProperties_ARM, UpdateRunProperties_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForUpdateRunProperties_ARM runs a test to see if a specific instance of UpdateRunProperties_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForUpdateRunProperties_ARM(subject UpdateRunProperties_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual UpdateRunProperties_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of UpdateRunProperties_ARM instances for property testing - lazily instantiated by
-// UpdateRunProperties_ARMGenerator()
-var updateRunProperties_ARMGenerator gopter.Gen
-
-// UpdateRunProperties_ARMGenerator returns a generator of UpdateRunProperties_ARM instances for property testing.
-func UpdateRunProperties_ARMGenerator() gopter.Gen {
-	if updateRunProperties_ARMGenerator != nil {
-		return updateRunProperties_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForUpdateRunProperties_ARM(generators)
-	updateRunProperties_ARMGenerator = gen.Struct(reflect.TypeOf(UpdateRunProperties_ARM{}), generators)
-
-	return updateRunProperties_ARMGenerator
-}
-
-// AddRelatedPropertyGeneratorsForUpdateRunProperties_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForUpdateRunProperties_ARM(gens map[string]gopter.Gen) {
-	gens["ManagedClusterUpdate"] = gen.PtrOf(ManagedClusterUpdate_ARMGenerator())
-	gens["Strategy"] = gen.PtrOf(UpdateRunStrategy_ARMGenerator())
-}
-
 func Test_ManagedClusterUpdate_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -213,67 +151,6 @@ func ManagedClusterUpdate_ARMGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForManagedClusterUpdate_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedClusterUpdate_ARM(gens map[string]gopter.Gen) {
 	gens["Upgrade"] = gen.PtrOf(ManagedClusterUpgradeSpec_ARMGenerator())
-}
-
-func Test_UpdateRunStrategy_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UpdateRunStrategy_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUpdateRunStrategy_ARM, UpdateRunStrategy_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForUpdateRunStrategy_ARM runs a test to see if a specific instance of UpdateRunStrategy_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForUpdateRunStrategy_ARM(subject UpdateRunStrategy_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual UpdateRunStrategy_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of UpdateRunStrategy_ARM instances for property testing - lazily instantiated by
-// UpdateRunStrategy_ARMGenerator()
-var updateRunStrategy_ARMGenerator gopter.Gen
-
-// UpdateRunStrategy_ARMGenerator returns a generator of UpdateRunStrategy_ARM instances for property testing.
-func UpdateRunStrategy_ARMGenerator() gopter.Gen {
-	if updateRunStrategy_ARMGenerator != nil {
-		return updateRunStrategy_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForUpdateRunStrategy_ARM(generators)
-	updateRunStrategy_ARMGenerator = gen.Struct(reflect.TypeOf(UpdateRunStrategy_ARM{}), generators)
-
-	return updateRunStrategy_ARMGenerator
-}
-
-// AddRelatedPropertyGeneratorsForUpdateRunStrategy_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForUpdateRunStrategy_ARM(gens map[string]gopter.Gen) {
-	gens["Stages"] = gen.SliceOf(UpdateStage_ARMGenerator())
 }
 
 func Test_ManagedClusterUpgradeSpec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -336,6 +213,189 @@ func ManagedClusterUpgradeSpec_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForManagedClusterUpgradeSpec_ARM(gens map[string]gopter.Gen) {
 	gens["KubernetesVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedClusterUpgradeType_Full, ManagedClusterUpgradeType_NodeImageOnly))
+}
+
+func Test_UpdateGroup_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of UpdateGroup_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForUpdateGroup_ARM, UpdateGroup_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForUpdateGroup_ARM runs a test to see if a specific instance of UpdateGroup_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForUpdateGroup_ARM(subject UpdateGroup_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual UpdateGroup_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of UpdateGroup_ARM instances for property testing - lazily instantiated by UpdateGroup_ARMGenerator()
+var updateGroup_ARMGenerator gopter.Gen
+
+// UpdateGroup_ARMGenerator returns a generator of UpdateGroup_ARM instances for property testing.
+func UpdateGroup_ARMGenerator() gopter.Gen {
+	if updateGroup_ARMGenerator != nil {
+		return updateGroup_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForUpdateGroup_ARM(generators)
+	updateGroup_ARMGenerator = gen.Struct(reflect.TypeOf(UpdateGroup_ARM{}), generators)
+
+	return updateGroup_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForUpdateGroup_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForUpdateGroup_ARM(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_UpdateRunProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of UpdateRunProperties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForUpdateRunProperties_ARM, UpdateRunProperties_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForUpdateRunProperties_ARM runs a test to see if a specific instance of UpdateRunProperties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForUpdateRunProperties_ARM(subject UpdateRunProperties_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual UpdateRunProperties_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of UpdateRunProperties_ARM instances for property testing - lazily instantiated by
+// UpdateRunProperties_ARMGenerator()
+var updateRunProperties_ARMGenerator gopter.Gen
+
+// UpdateRunProperties_ARMGenerator returns a generator of UpdateRunProperties_ARM instances for property testing.
+func UpdateRunProperties_ARMGenerator() gopter.Gen {
+	if updateRunProperties_ARMGenerator != nil {
+		return updateRunProperties_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForUpdateRunProperties_ARM(generators)
+	updateRunProperties_ARMGenerator = gen.Struct(reflect.TypeOf(UpdateRunProperties_ARM{}), generators)
+
+	return updateRunProperties_ARMGenerator
+}
+
+// AddRelatedPropertyGeneratorsForUpdateRunProperties_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForUpdateRunProperties_ARM(gens map[string]gopter.Gen) {
+	gens["ManagedClusterUpdate"] = gen.PtrOf(ManagedClusterUpdate_ARMGenerator())
+	gens["Strategy"] = gen.PtrOf(UpdateRunStrategy_ARMGenerator())
+}
+
+func Test_UpdateRunStrategy_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of UpdateRunStrategy_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForUpdateRunStrategy_ARM, UpdateRunStrategy_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForUpdateRunStrategy_ARM runs a test to see if a specific instance of UpdateRunStrategy_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForUpdateRunStrategy_ARM(subject UpdateRunStrategy_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual UpdateRunStrategy_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of UpdateRunStrategy_ARM instances for property testing - lazily instantiated by
+// UpdateRunStrategy_ARMGenerator()
+var updateRunStrategy_ARMGenerator gopter.Gen
+
+// UpdateRunStrategy_ARMGenerator returns a generator of UpdateRunStrategy_ARM instances for property testing.
+func UpdateRunStrategy_ARMGenerator() gopter.Gen {
+	if updateRunStrategy_ARMGenerator != nil {
+		return updateRunStrategy_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForUpdateRunStrategy_ARM(generators)
+	updateRunStrategy_ARMGenerator = gen.Struct(reflect.TypeOf(UpdateRunStrategy_ARM{}), generators)
+
+	return updateRunStrategy_ARMGenerator
+}
+
+// AddRelatedPropertyGeneratorsForUpdateRunStrategy_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForUpdateRunStrategy_ARM(gens map[string]gopter.Gen) {
+	gens["Stages"] = gen.SliceOf(UpdateStage_ARMGenerator())
 }
 
 func Test_UpdateStage_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -411,64 +471,4 @@ func AddIndependentPropertyGeneratorsForUpdateStage_ARM(gens map[string]gopter.G
 // AddRelatedPropertyGeneratorsForUpdateStage_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForUpdateStage_ARM(gens map[string]gopter.Gen) {
 	gens["Groups"] = gen.SliceOf(UpdateGroup_ARMGenerator())
-}
-
-func Test_UpdateGroup_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UpdateGroup_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUpdateGroup_ARM, UpdateGroup_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForUpdateGroup_ARM runs a test to see if a specific instance of UpdateGroup_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForUpdateGroup_ARM(subject UpdateGroup_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual UpdateGroup_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of UpdateGroup_ARM instances for property testing - lazily instantiated by UpdateGroup_ARMGenerator()
-var updateGroup_ARMGenerator gopter.Gen
-
-// UpdateGroup_ARMGenerator returns a generator of UpdateGroup_ARM instances for property testing.
-func UpdateGroup_ARMGenerator() gopter.Gen {
-	if updateGroup_ARMGenerator != nil {
-		return updateGroup_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUpdateGroup_ARM(generators)
-	updateGroup_ARMGenerator = gen.Struct(reflect.TypeOf(UpdateGroup_ARM{}), generators)
-
-	return updateGroup_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForUpdateGroup_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUpdateGroup_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }

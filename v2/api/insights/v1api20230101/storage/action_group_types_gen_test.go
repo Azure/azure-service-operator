@@ -78,97 +78,6 @@ func AddRelatedPropertyGeneratorsForActionGroup(gens map[string]gopter.Gen) {
 	gens["Status"] = ActionGroupResource_STATUSGenerator()
 }
 
-func Test_ActionGroup_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ActionGroup_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForActionGroup_Spec, ActionGroup_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForActionGroup_Spec runs a test to see if a specific instance of ActionGroup_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForActionGroup_Spec(subject ActionGroup_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ActionGroup_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ActionGroup_Spec instances for property testing - lazily instantiated by ActionGroup_SpecGenerator()
-var actionGroup_SpecGenerator gopter.Gen
-
-// ActionGroup_SpecGenerator returns a generator of ActionGroup_Spec instances for property testing.
-// We first initialize actionGroup_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ActionGroup_SpecGenerator() gopter.Gen {
-	if actionGroup_SpecGenerator != nil {
-		return actionGroup_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForActionGroup_Spec(generators)
-	actionGroup_SpecGenerator = gen.Struct(reflect.TypeOf(ActionGroup_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForActionGroup_Spec(generators)
-	AddRelatedPropertyGeneratorsForActionGroup_Spec(generators)
-	actionGroup_SpecGenerator = gen.Struct(reflect.TypeOf(ActionGroup_Spec{}), generators)
-
-	return actionGroup_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForActionGroup_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForActionGroup_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["GroupShortName"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForActionGroup_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForActionGroup_Spec(gens map[string]gopter.Gen) {
-	gens["ArmRoleReceivers"] = gen.SliceOf(ArmRoleReceiverGenerator())
-	gens["AutomationRunbookReceivers"] = gen.SliceOf(AutomationRunbookReceiverGenerator())
-	gens["AzureAppPushReceivers"] = gen.SliceOf(AzureAppPushReceiverGenerator())
-	gens["AzureFunctionReceivers"] = gen.SliceOf(AzureFunctionReceiverGenerator())
-	gens["EmailReceivers"] = gen.SliceOf(EmailReceiverGenerator())
-	gens["EventHubReceivers"] = gen.SliceOf(EventHubReceiverGenerator())
-	gens["ItsmReceivers"] = gen.SliceOf(ItsmReceiverGenerator())
-	gens["LogicAppReceivers"] = gen.SliceOf(LogicAppReceiverGenerator())
-	gens["SmsReceivers"] = gen.SliceOf(SmsReceiverGenerator())
-	gens["VoiceReceivers"] = gen.SliceOf(VoiceReceiverGenerator())
-	gens["WebhookReceivers"] = gen.SliceOf(WebhookReceiverGenerator())
-}
-
 func Test_ActionGroupResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -260,6 +169,97 @@ func AddRelatedPropertyGeneratorsForActionGroupResource_STATUS(gens map[string]g
 	gens["SmsReceivers"] = gen.SliceOf(SmsReceiver_STATUSGenerator())
 	gens["VoiceReceivers"] = gen.SliceOf(VoiceReceiver_STATUSGenerator())
 	gens["WebhookReceivers"] = gen.SliceOf(WebhookReceiver_STATUSGenerator())
+}
+
+func Test_ActionGroup_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ActionGroup_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForActionGroup_Spec, ActionGroup_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForActionGroup_Spec runs a test to see if a specific instance of ActionGroup_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForActionGroup_Spec(subject ActionGroup_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ActionGroup_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ActionGroup_Spec instances for property testing - lazily instantiated by ActionGroup_SpecGenerator()
+var actionGroup_SpecGenerator gopter.Gen
+
+// ActionGroup_SpecGenerator returns a generator of ActionGroup_Spec instances for property testing.
+// We first initialize actionGroup_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ActionGroup_SpecGenerator() gopter.Gen {
+	if actionGroup_SpecGenerator != nil {
+		return actionGroup_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForActionGroup_Spec(generators)
+	actionGroup_SpecGenerator = gen.Struct(reflect.TypeOf(ActionGroup_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForActionGroup_Spec(generators)
+	AddRelatedPropertyGeneratorsForActionGroup_Spec(generators)
+	actionGroup_SpecGenerator = gen.Struct(reflect.TypeOf(ActionGroup_Spec{}), generators)
+
+	return actionGroup_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForActionGroup_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForActionGroup_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["Enabled"] = gen.PtrOf(gen.Bool())
+	gens["GroupShortName"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForActionGroup_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForActionGroup_Spec(gens map[string]gopter.Gen) {
+	gens["ArmRoleReceivers"] = gen.SliceOf(ArmRoleReceiverGenerator())
+	gens["AutomationRunbookReceivers"] = gen.SliceOf(AutomationRunbookReceiverGenerator())
+	gens["AzureAppPushReceivers"] = gen.SliceOf(AzureAppPushReceiverGenerator())
+	gens["AzureFunctionReceivers"] = gen.SliceOf(AzureFunctionReceiverGenerator())
+	gens["EmailReceivers"] = gen.SliceOf(EmailReceiverGenerator())
+	gens["EventHubReceivers"] = gen.SliceOf(EventHubReceiverGenerator())
+	gens["ItsmReceivers"] = gen.SliceOf(ItsmReceiverGenerator())
+	gens["LogicAppReceivers"] = gen.SliceOf(LogicAppReceiverGenerator())
+	gens["SmsReceivers"] = gen.SliceOf(SmsReceiverGenerator())
+	gens["VoiceReceivers"] = gen.SliceOf(VoiceReceiverGenerator())
+	gens["WebhookReceivers"] = gen.SliceOf(WebhookReceiverGenerator())
 }
 
 func Test_ArmRoleReceiver_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

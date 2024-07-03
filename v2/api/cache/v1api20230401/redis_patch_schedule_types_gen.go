@@ -899,7 +899,7 @@ func (entry *ScheduleEntry) Initialize_From_ScheduleEntry_STATUS(source *Schedul
 
 	// DayOfWeek
 	if source.DayOfWeek != nil {
-		dayOfWeek := ScheduleEntry_DayOfWeek(*source.DayOfWeek)
+		dayOfWeek := genruntime.ToEnum(string(*source.DayOfWeek), scheduleEntry_DayOfWeek_Values)
 		entry.DayOfWeek = &dayOfWeek
 	} else {
 		entry.DayOfWeek = nil

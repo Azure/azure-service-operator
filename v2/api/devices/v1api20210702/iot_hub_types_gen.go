@@ -1272,7 +1272,7 @@ func (identity *ArmIdentity) Initialize_From_ArmIdentity_STATUS(source *ArmIdent
 
 	// Type
 	if source.Type != nil {
-		typeVar := ArmIdentity_Type(*source.Type)
+		typeVar := genruntime.ToEnum(string(*source.Type), armIdentity_Type_Values)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -2420,7 +2420,7 @@ func (properties *IotHubProperties) Initialize_From_IotHubProperties_STATUS(sour
 
 	// Features
 	if source.Features != nil {
-		feature := IotHubProperties_Features(*source.Features)
+		feature := genruntime.ToEnum(string(*source.Features), iotHubProperties_Features_Values)
 		properties.Features = &feature
 	} else {
 		properties.Features = nil
@@ -2479,7 +2479,7 @@ func (properties *IotHubProperties) Initialize_From_IotHubProperties_STATUS(sour
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := IotHubProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
+		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), iotHubProperties_PublicNetworkAccess_Values)
 		properties.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		properties.PublicNetworkAccess = nil
@@ -3452,7 +3452,7 @@ func (info *IotHubSkuInfo) Initialize_From_IotHubSkuInfo_STATUS(source *IotHubSk
 
 	// Name
 	if source.Name != nil {
-		name := IotHubSkuInfo_Name(*source.Name)
+		name := genruntime.ToEnum(string(*source.Name), iotHubSkuInfo_Name_Values)
 		info.Name = &name
 	} else {
 		info.Name = nil
@@ -4778,7 +4778,7 @@ func (rule *IpFilterRule) Initialize_From_IpFilterRule_STATUS(source *IpFilterRu
 
 	// Action
 	if source.Action != nil {
-		action := IpFilterRule_Action(*source.Action)
+		action := genruntime.ToEnum(string(*source.Action), ipFilterRule_Action_Values)
 		rule.Action = &action
 	} else {
 		rule.Action = nil
@@ -5325,7 +5325,7 @@ func (properties *NetworkRuleSetProperties) Initialize_From_NetworkRuleSetProper
 
 	// DefaultAction
 	if source.DefaultAction != nil {
-		defaultAction := NetworkRuleSetProperties_DefaultAction(*source.DefaultAction)
+		defaultAction := genruntime.ToEnum(string(*source.DefaultAction), networkRuleSetProperties_DefaultAction_Values)
 		properties.DefaultAction = &defaultAction
 	} else {
 		properties.DefaultAction = nil
@@ -6236,7 +6236,7 @@ func (rule *SharedAccessSignatureAuthorizationRule) Initialize_From_SharedAccess
 
 	// Rights
 	if source.Rights != nil {
-		right := SharedAccessSignatureAuthorizationRule_Rights(*source.Rights)
+		right := genruntime.ToEnum(string(*source.Rights), sharedAccessSignatureAuthorizationRule_Rights_Values)
 		rule.Rights = &right
 	} else {
 		rule.Rights = nil
@@ -6546,7 +6546,7 @@ func (properties *StorageEndpointProperties) Initialize_From_StorageEndpointProp
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
-		authenticationType := StorageEndpointProperties_AuthenticationType(*source.AuthenticationType)
+		authenticationType := genruntime.ToEnum(string(*source.AuthenticationType), storageEndpointProperties_AuthenticationType_Values)
 		properties.AuthenticationType = &authenticationType
 	} else {
 		properties.AuthenticationType = nil
@@ -7238,7 +7238,7 @@ func (properties *FallbackRouteProperties) Initialize_From_FallbackRouteProperti
 
 	// Source
 	if source.Source != nil {
-		sourceAsFallbackRouteProperties_Source := FallbackRouteProperties_Source(*source.Source)
+		sourceAsFallbackRouteProperties_Source := genruntime.ToEnum(string(*source.Source), fallbackRouteProperties_Source_Values)
 		properties.Source = &sourceAsFallbackRouteProperties_Source
 	} else {
 		properties.Source = nil
@@ -7912,7 +7912,7 @@ func (rule *NetworkRuleSetIpRule) Initialize_From_NetworkRuleSetIpRule_STATUS(so
 
 	// Action
 	if source.Action != nil {
-		action := NetworkRuleSetIpRule_Action(*source.Action)
+		action := genruntime.ToEnum(string(*source.Action), networkRuleSetIpRule_Action_Values)
 		rule.Action = &action
 	} else {
 		rule.Action = nil
@@ -8282,7 +8282,7 @@ func (properties *RouteProperties) Initialize_From_RouteProperties_STATUS(source
 
 	// Source
 	if source.Source != nil {
-		sourceAsRouteProperties_Source := RouteProperties_Source(*source.Source)
+		sourceAsRouteProperties_Source := genruntime.ToEnum(string(*source.Source), routeProperties_Source_Values)
 		properties.Source = &sourceAsRouteProperties_Source
 	} else {
 		properties.Source = nil
@@ -9367,7 +9367,7 @@ func (properties *RoutingEventHubProperties) Initialize_From_RoutingEventHubProp
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
-		authenticationType := RoutingEventHubProperties_AuthenticationType(*source.AuthenticationType)
+		authenticationType := genruntime.ToEnum(string(*source.AuthenticationType), routingEventHubProperties_AuthenticationType_Values)
 		properties.AuthenticationType = &authenticationType
 	} else {
 		properties.AuthenticationType = nil
@@ -9936,7 +9936,7 @@ func (properties *RoutingServiceBusQueueEndpointProperties) Initialize_From_Rout
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
-		authenticationType := RoutingServiceBusQueueEndpointProperties_AuthenticationType(*source.AuthenticationType)
+		authenticationType := genruntime.ToEnum(string(*source.AuthenticationType), routingServiceBusQueueEndpointProperties_AuthenticationType_Values)
 		properties.AuthenticationType = &authenticationType
 	} else {
 		properties.AuthenticationType = nil
@@ -10505,7 +10505,7 @@ func (properties *RoutingServiceBusTopicEndpointProperties) Initialize_From_Rout
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
-		authenticationType := RoutingServiceBusTopicEndpointProperties_AuthenticationType(*source.AuthenticationType)
+		authenticationType := genruntime.ToEnum(string(*source.AuthenticationType), routingServiceBusTopicEndpointProperties_AuthenticationType_Values)
 		properties.AuthenticationType = &authenticationType
 	} else {
 		properties.AuthenticationType = nil
@@ -11198,7 +11198,7 @@ func (properties *RoutingStorageContainerProperties) Initialize_From_RoutingStor
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
-		authenticationType := RoutingStorageContainerProperties_AuthenticationType(*source.AuthenticationType)
+		authenticationType := genruntime.ToEnum(string(*source.AuthenticationType), routingStorageContainerProperties_AuthenticationType_Values)
 		properties.AuthenticationType = &authenticationType
 	} else {
 		properties.AuthenticationType = nil
@@ -11217,7 +11217,7 @@ func (properties *RoutingStorageContainerProperties) Initialize_From_RoutingStor
 
 	// Encoding
 	if source.Encoding != nil {
-		encoding := RoutingStorageContainerProperties_Encoding(*source.Encoding)
+		encoding := genruntime.ToEnum(string(*source.Encoding), routingStorageContainerProperties_Encoding_Values)
 		properties.Encoding = &encoding
 	} else {
 		properties.Encoding = nil

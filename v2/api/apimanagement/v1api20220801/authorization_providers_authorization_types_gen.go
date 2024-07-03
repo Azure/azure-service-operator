@@ -586,7 +586,7 @@ func (authorization *Service_AuthorizationProviders_Authorization_Spec) Initiali
 
 	// AuthorizationType
 	if source.AuthorizationType != nil {
-		authorizationType := AuthorizationContractProperties_AuthorizationType(*source.AuthorizationType)
+		authorizationType := genruntime.ToEnum(string(*source.AuthorizationType), authorizationContractProperties_AuthorizationType_Values)
 		authorization.AuthorizationType = &authorizationType
 	} else {
 		authorization.AuthorizationType = nil
@@ -594,7 +594,7 @@ func (authorization *Service_AuthorizationProviders_Authorization_Spec) Initiali
 
 	// Oauth2GrantType
 	if source.Oauth2GrantType != nil {
-		oauth2GrantType := AuthorizationContractProperties_Oauth2GrantType(*source.Oauth2GrantType)
+		oauth2GrantType := genruntime.ToEnum(string(*source.Oauth2GrantType), authorizationContractProperties_Oauth2GrantType_Values)
 		authorization.Oauth2GrantType = &oauth2GrantType
 	} else {
 		authorization.Oauth2GrantType = nil

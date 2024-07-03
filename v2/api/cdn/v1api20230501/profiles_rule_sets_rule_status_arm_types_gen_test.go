@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_Profiles_RuleSets_Rule_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_CacheConfiguration_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Profiles_RuleSets_Rule_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProfiles_RuleSets_Rule_STATUS_ARM, Profiles_RuleSets_Rule_STATUS_ARMGenerator()))
+		"Round trip of CacheConfiguration_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForCacheConfiguration_STATUS_ARM, CacheConfiguration_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForProfiles_RuleSets_Rule_STATUS_ARM runs a test to see if a specific instance of Profiles_RuleSets_Rule_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForProfiles_RuleSets_Rule_STATUS_ARM(subject Profiles_RuleSets_Rule_STATUS_ARM) string {
+// RunJSONSerializationTestForCacheConfiguration_STATUS_ARM runs a test to see if a specific instance of CacheConfiguration_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForCacheConfiguration_STATUS_ARM(subject CacheConfiguration_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForProfiles_RuleSets_Rule_STATUS_ARM(subject Profil
 	}
 
 	// Deserialize back into memory
-	var actual Profiles_RuleSets_Rule_STATUS_ARM
+	var actual CacheConfiguration_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,59 +56,50 @@ func RunJSONSerializationTestForProfiles_RuleSets_Rule_STATUS_ARM(subject Profil
 	return ""
 }
 
-// Generator of Profiles_RuleSets_Rule_STATUS_ARM instances for property testing - lazily instantiated by
-// Profiles_RuleSets_Rule_STATUS_ARMGenerator()
-var profiles_RuleSets_Rule_STATUS_ARMGenerator gopter.Gen
+// Generator of CacheConfiguration_STATUS_ARM instances for property testing - lazily instantiated by
+// CacheConfiguration_STATUS_ARMGenerator()
+var cacheConfiguration_STATUS_ARMGenerator gopter.Gen
 
-// Profiles_RuleSets_Rule_STATUS_ARMGenerator returns a generator of Profiles_RuleSets_Rule_STATUS_ARM instances for property testing.
-// We first initialize profiles_RuleSets_Rule_STATUS_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Profiles_RuleSets_Rule_STATUS_ARMGenerator() gopter.Gen {
-	if profiles_RuleSets_Rule_STATUS_ARMGenerator != nil {
-		return profiles_RuleSets_Rule_STATUS_ARMGenerator
+// CacheConfiguration_STATUS_ARMGenerator returns a generator of CacheConfiguration_STATUS_ARM instances for property testing.
+func CacheConfiguration_STATUS_ARMGenerator() gopter.Gen {
+	if cacheConfiguration_STATUS_ARMGenerator != nil {
+		return cacheConfiguration_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_RuleSets_Rule_STATUS_ARM(generators)
-	profiles_RuleSets_Rule_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Profiles_RuleSets_Rule_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForCacheConfiguration_STATUS_ARM(generators)
+	cacheConfiguration_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(CacheConfiguration_STATUS_ARM{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_RuleSets_Rule_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForProfiles_RuleSets_Rule_STATUS_ARM(generators)
-	profiles_RuleSets_Rule_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Profiles_RuleSets_Rule_STATUS_ARM{}), generators)
-
-	return profiles_RuleSets_Rule_STATUS_ARMGenerator
+	return cacheConfiguration_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForProfiles_RuleSets_Rule_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProfiles_RuleSets_Rule_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
+// AddIndependentPropertyGeneratorsForCacheConfiguration_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForCacheConfiguration_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["CacheBehavior"] = gen.PtrOf(gen.OneConstOf(CacheConfiguration_CacheBehavior_STATUS_HonorOrigin, CacheConfiguration_CacheBehavior_STATUS_OverrideAlways, CacheConfiguration_CacheBehavior_STATUS_OverrideIfOriginMissing))
+	gens["CacheDuration"] = gen.PtrOf(gen.AlphaString())
+	gens["IsCompressionEnabled"] = gen.PtrOf(gen.OneConstOf(CacheConfiguration_IsCompressionEnabled_STATUS_Disabled, CacheConfiguration_IsCompressionEnabled_STATUS_Enabled))
+	gens["QueryParameters"] = gen.PtrOf(gen.AlphaString())
+	gens["QueryStringCachingBehavior"] = gen.PtrOf(gen.OneConstOf(
+		CacheConfiguration_QueryStringCachingBehavior_STATUS_IgnoreQueryString,
+		CacheConfiguration_QueryStringCachingBehavior_STATUS_IgnoreSpecifiedQueryStrings,
+		CacheConfiguration_QueryStringCachingBehavior_STATUS_IncludeSpecifiedQueryStrings,
+		CacheConfiguration_QueryStringCachingBehavior_STATUS_UseQueryString))
 }
 
-// AddRelatedPropertyGeneratorsForProfiles_RuleSets_Rule_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForProfiles_RuleSets_Rule_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(RuleProperties_STATUS_ARMGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUS_ARMGenerator())
-}
-
-func Test_RuleProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_CacheExpirationActionParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of RuleProperties_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRuleProperties_STATUS_ARM, RuleProperties_STATUS_ARMGenerator()))
+		"Round trip of CacheExpirationActionParameters_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForCacheExpirationActionParameters_STATUS_ARM, CacheExpirationActionParameters_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRuleProperties_STATUS_ARM runs a test to see if a specific instance of RuleProperties_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForRuleProperties_STATUS_ARM(subject RuleProperties_STATUS_ARM) string {
+// RunJSONSerializationTestForCacheExpirationActionParameters_STATUS_ARM runs a test to see if a specific instance of CacheExpirationActionParameters_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForCacheExpirationActionParameters_STATUS_ARM(subject CacheExpirationActionParameters_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -116,7 +107,7 @@ func RunJSONSerializationTestForRuleProperties_STATUS_ARM(subject RuleProperties
 	}
 
 	// Deserialize back into memory
-	var actual RuleProperties_STATUS_ARM
+	var actual CacheExpirationActionParameters_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -134,54 +125,259 @@ func RunJSONSerializationTestForRuleProperties_STATUS_ARM(subject RuleProperties
 	return ""
 }
 
-// Generator of RuleProperties_STATUS_ARM instances for property testing - lazily instantiated by
-// RuleProperties_STATUS_ARMGenerator()
-var ruleProperties_STATUS_ARMGenerator gopter.Gen
+// Generator of CacheExpirationActionParameters_STATUS_ARM instances for property testing - lazily instantiated by
+// CacheExpirationActionParameters_STATUS_ARMGenerator()
+var cacheExpirationActionParameters_STATUS_ARMGenerator gopter.Gen
 
-// RuleProperties_STATUS_ARMGenerator returns a generator of RuleProperties_STATUS_ARM instances for property testing.
-// We first initialize ruleProperties_STATUS_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func RuleProperties_STATUS_ARMGenerator() gopter.Gen {
-	if ruleProperties_STATUS_ARMGenerator != nil {
-		return ruleProperties_STATUS_ARMGenerator
+// CacheExpirationActionParameters_STATUS_ARMGenerator returns a generator of CacheExpirationActionParameters_STATUS_ARM instances for property testing.
+func CacheExpirationActionParameters_STATUS_ARMGenerator() gopter.Gen {
+	if cacheExpirationActionParameters_STATUS_ARMGenerator != nil {
+		return cacheExpirationActionParameters_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRuleProperties_STATUS_ARM(generators)
-	ruleProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(RuleProperties_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForCacheExpirationActionParameters_STATUS_ARM(generators)
+	cacheExpirationActionParameters_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(CacheExpirationActionParameters_STATUS_ARM{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRuleProperties_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForRuleProperties_STATUS_ARM(generators)
-	ruleProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(RuleProperties_STATUS_ARM{}), generators)
-
-	return ruleProperties_STATUS_ARMGenerator
+	return cacheExpirationActionParameters_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRuleProperties_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRuleProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["DeploymentStatus"] = gen.PtrOf(gen.OneConstOf(
-		RuleProperties_DeploymentStatus_STATUS_Failed,
-		RuleProperties_DeploymentStatus_STATUS_InProgress,
-		RuleProperties_DeploymentStatus_STATUS_NotStarted,
-		RuleProperties_DeploymentStatus_STATUS_Succeeded))
-	gens["MatchProcessingBehavior"] = gen.PtrOf(gen.OneConstOf(RuleProperties_MatchProcessingBehavior_STATUS_Continue, RuleProperties_MatchProcessingBehavior_STATUS_Stop))
-	gens["Order"] = gen.PtrOf(gen.Int())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		RuleProperties_ProvisioningState_STATUS_Creating,
-		RuleProperties_ProvisioningState_STATUS_Deleting,
-		RuleProperties_ProvisioningState_STATUS_Failed,
-		RuleProperties_ProvisioningState_STATUS_Succeeded,
-		RuleProperties_ProvisioningState_STATUS_Updating))
-	gens["RuleSetName"] = gen.PtrOf(gen.AlphaString())
+// AddIndependentPropertyGeneratorsForCacheExpirationActionParameters_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForCacheExpirationActionParameters_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["CacheBehavior"] = gen.PtrOf(gen.OneConstOf(CacheExpirationActionParameters_CacheBehavior_STATUS_BypassCache, CacheExpirationActionParameters_CacheBehavior_STATUS_Override, CacheExpirationActionParameters_CacheBehavior_STATUS_SetIfMissing))
+	gens["CacheDuration"] = gen.PtrOf(gen.AlphaString())
+	gens["CacheType"] = gen.PtrOf(gen.OneConstOf(CacheExpirationActionParameters_CacheType_STATUS_All))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(CacheExpirationActionParameters_TypeName_STATUS_DeliveryRuleCacheExpirationActionParameters))
 }
 
-// AddRelatedPropertyGeneratorsForRuleProperties_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRuleProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Actions"] = gen.SliceOf(DeliveryRuleAction_STATUS_ARMGenerator())
-	gens["Conditions"] = gen.SliceOf(DeliveryRuleCondition_STATUS_ARMGenerator())
+func Test_CacheKeyQueryStringActionParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of CacheKeyQueryStringActionParameters_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForCacheKeyQueryStringActionParameters_STATUS_ARM, CacheKeyQueryStringActionParameters_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForCacheKeyQueryStringActionParameters_STATUS_ARM runs a test to see if a specific instance of CacheKeyQueryStringActionParameters_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForCacheKeyQueryStringActionParameters_STATUS_ARM(subject CacheKeyQueryStringActionParameters_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual CacheKeyQueryStringActionParameters_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of CacheKeyQueryStringActionParameters_STATUS_ARM instances for property testing - lazily instantiated by
+// CacheKeyQueryStringActionParameters_STATUS_ARMGenerator()
+var cacheKeyQueryStringActionParameters_STATUS_ARMGenerator gopter.Gen
+
+// CacheKeyQueryStringActionParameters_STATUS_ARMGenerator returns a generator of CacheKeyQueryStringActionParameters_STATUS_ARM instances for property testing.
+func CacheKeyQueryStringActionParameters_STATUS_ARMGenerator() gopter.Gen {
+	if cacheKeyQueryStringActionParameters_STATUS_ARMGenerator != nil {
+		return cacheKeyQueryStringActionParameters_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForCacheKeyQueryStringActionParameters_STATUS_ARM(generators)
+	cacheKeyQueryStringActionParameters_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(CacheKeyQueryStringActionParameters_STATUS_ARM{}), generators)
+
+	return cacheKeyQueryStringActionParameters_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForCacheKeyQueryStringActionParameters_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForCacheKeyQueryStringActionParameters_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["QueryParameters"] = gen.PtrOf(gen.AlphaString())
+	gens["QueryStringBehavior"] = gen.PtrOf(gen.OneConstOf(
+		CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS_Exclude,
+		CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS_ExcludeAll,
+		CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS_Include,
+		CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS_IncludeAll))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(CacheKeyQueryStringActionParameters_TypeName_STATUS_DeliveryRuleCacheKeyQueryStringBehaviorActionParameters))
+}
+
+func Test_ClientPortMatchConditionParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ClientPortMatchConditionParameters_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForClientPortMatchConditionParameters_STATUS_ARM, ClientPortMatchConditionParameters_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForClientPortMatchConditionParameters_STATUS_ARM runs a test to see if a specific instance of ClientPortMatchConditionParameters_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForClientPortMatchConditionParameters_STATUS_ARM(subject ClientPortMatchConditionParameters_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ClientPortMatchConditionParameters_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ClientPortMatchConditionParameters_STATUS_ARM instances for property testing - lazily instantiated by
+// ClientPortMatchConditionParameters_STATUS_ARMGenerator()
+var clientPortMatchConditionParameters_STATUS_ARMGenerator gopter.Gen
+
+// ClientPortMatchConditionParameters_STATUS_ARMGenerator returns a generator of ClientPortMatchConditionParameters_STATUS_ARM instances for property testing.
+func ClientPortMatchConditionParameters_STATUS_ARMGenerator() gopter.Gen {
+	if clientPortMatchConditionParameters_STATUS_ARMGenerator != nil {
+		return clientPortMatchConditionParameters_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForClientPortMatchConditionParameters_STATUS_ARM(generators)
+	clientPortMatchConditionParameters_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ClientPortMatchConditionParameters_STATUS_ARM{}), generators)
+
+	return clientPortMatchConditionParameters_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForClientPortMatchConditionParameters_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForClientPortMatchConditionParameters_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
+	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
+	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
+		ClientPortMatchConditionParameters_Operator_STATUS_Any,
+		ClientPortMatchConditionParameters_Operator_STATUS_BeginsWith,
+		ClientPortMatchConditionParameters_Operator_STATUS_Contains,
+		ClientPortMatchConditionParameters_Operator_STATUS_EndsWith,
+		ClientPortMatchConditionParameters_Operator_STATUS_Equal,
+		ClientPortMatchConditionParameters_Operator_STATUS_GreaterThan,
+		ClientPortMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
+		ClientPortMatchConditionParameters_Operator_STATUS_LessThan,
+		ClientPortMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
+		ClientPortMatchConditionParameters_Operator_STATUS_RegEx))
+	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
+		Transform_STATUS_Lowercase,
+		Transform_STATUS_RemoveNulls,
+		Transform_STATUS_Trim,
+		Transform_STATUS_Uppercase,
+		Transform_STATUS_UrlDecode,
+		Transform_STATUS_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(ClientPortMatchConditionParameters_TypeName_STATUS_DeliveryRuleClientPortConditionParameters))
+}
+
+func Test_CookiesMatchConditionParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of CookiesMatchConditionParameters_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForCookiesMatchConditionParameters_STATUS_ARM, CookiesMatchConditionParameters_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForCookiesMatchConditionParameters_STATUS_ARM runs a test to see if a specific instance of CookiesMatchConditionParameters_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForCookiesMatchConditionParameters_STATUS_ARM(subject CookiesMatchConditionParameters_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual CookiesMatchConditionParameters_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of CookiesMatchConditionParameters_STATUS_ARM instances for property testing - lazily instantiated by
+// CookiesMatchConditionParameters_STATUS_ARMGenerator()
+var cookiesMatchConditionParameters_STATUS_ARMGenerator gopter.Gen
+
+// CookiesMatchConditionParameters_STATUS_ARMGenerator returns a generator of CookiesMatchConditionParameters_STATUS_ARM instances for property testing.
+func CookiesMatchConditionParameters_STATUS_ARMGenerator() gopter.Gen {
+	if cookiesMatchConditionParameters_STATUS_ARMGenerator != nil {
+		return cookiesMatchConditionParameters_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForCookiesMatchConditionParameters_STATUS_ARM(generators)
+	cookiesMatchConditionParameters_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(CookiesMatchConditionParameters_STATUS_ARM{}), generators)
+
+	return cookiesMatchConditionParameters_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForCookiesMatchConditionParameters_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForCookiesMatchConditionParameters_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
+	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
+	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
+		CookiesMatchConditionParameters_Operator_STATUS_Any,
+		CookiesMatchConditionParameters_Operator_STATUS_BeginsWith,
+		CookiesMatchConditionParameters_Operator_STATUS_Contains,
+		CookiesMatchConditionParameters_Operator_STATUS_EndsWith,
+		CookiesMatchConditionParameters_Operator_STATUS_Equal,
+		CookiesMatchConditionParameters_Operator_STATUS_GreaterThan,
+		CookiesMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
+		CookiesMatchConditionParameters_Operator_STATUS_LessThan,
+		CookiesMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
+		CookiesMatchConditionParameters_Operator_STATUS_RegEx))
+	gens["Selector"] = gen.PtrOf(gen.AlphaString())
+	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
+		Transform_STATUS_Lowercase,
+		Transform_STATUS_RemoveNulls,
+		Transform_STATUS_Trim,
+		Transform_STATUS_Uppercase,
+		Transform_STATUS_UrlDecode,
+		Transform_STATUS_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(CookiesMatchConditionParameters_TypeName_STATUS_DeliveryRuleCookiesConditionParameters))
 }
 
 func Test_DeliveryRuleAction_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -273,129 +469,6 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleAction_STATUS_ARM(gens map[strin
 		return &it
 	}) // generate one case for OneOf type
 	gens["UrlSigning"] = UrlSigningAction_STATUS_ARMGenerator().Map(func(it UrlSigningAction_STATUS_ARM) *UrlSigningAction_STATUS_ARM {
-		return &it
-	}) // generate one case for OneOf type
-}
-
-func Test_DeliveryRuleCondition_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleCondition_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleCondition_STATUS_ARM, DeliveryRuleCondition_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForDeliveryRuleCondition_STATUS_ARM runs a test to see if a specific instance of DeliveryRuleCondition_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleCondition_STATUS_ARM(subject DeliveryRuleCondition_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual DeliveryRuleCondition_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of DeliveryRuleCondition_STATUS_ARM instances for property testing - lazily instantiated by
-// DeliveryRuleCondition_STATUS_ARMGenerator()
-var deliveryRuleCondition_STATUS_ARMGenerator gopter.Gen
-
-// DeliveryRuleCondition_STATUS_ARMGenerator returns a generator of DeliveryRuleCondition_STATUS_ARM instances for property testing.
-func DeliveryRuleCondition_STATUS_ARMGenerator() gopter.Gen {
-	if deliveryRuleCondition_STATUS_ARMGenerator != nil {
-		return deliveryRuleCondition_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForDeliveryRuleCondition_STATUS_ARM(generators)
-
-	// handle OneOf by choosing only one field to instantiate
-	var gens []gopter.Gen
-	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(DeliveryRuleCondition_STATUS_ARM{}), map[string]gopter.Gen{propName: propGen}))
-	}
-	deliveryRuleCondition_STATUS_ARMGenerator = gen.OneGenOf(gens...)
-
-	return deliveryRuleCondition_STATUS_ARMGenerator
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleCondition_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleCondition_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ClientPort"] = DeliveryRuleClientPortCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleClientPortCondition_STATUS_ARM) *DeliveryRuleClientPortCondition_STATUS_ARM {
-		return &it
-	}) // generate one case for OneOf type
-	gens["Cookies"] = DeliveryRuleCookiesCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleCookiesCondition_STATUS_ARM) *DeliveryRuleCookiesCondition_STATUS_ARM {
-		return &it
-	}) // generate one case for OneOf type
-	gens["HostName"] = DeliveryRuleHostNameCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleHostNameCondition_STATUS_ARM) *DeliveryRuleHostNameCondition_STATUS_ARM {
-		return &it
-	}) // generate one case for OneOf type
-	gens["HttpVersion"] = DeliveryRuleHttpVersionCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleHttpVersionCondition_STATUS_ARM) *DeliveryRuleHttpVersionCondition_STATUS_ARM {
-		return &it
-	}) // generate one case for OneOf type
-	gens["IsDevice"] = DeliveryRuleIsDeviceCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleIsDeviceCondition_STATUS_ARM) *DeliveryRuleIsDeviceCondition_STATUS_ARM {
-		return &it
-	}) // generate one case for OneOf type
-	gens["PostArgs"] = DeliveryRulePostArgsCondition_STATUS_ARMGenerator().Map(func(it DeliveryRulePostArgsCondition_STATUS_ARM) *DeliveryRulePostArgsCondition_STATUS_ARM {
-		return &it
-	}) // generate one case for OneOf type
-	gens["QueryString"] = DeliveryRuleQueryStringCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleQueryStringCondition_STATUS_ARM) *DeliveryRuleQueryStringCondition_STATUS_ARM {
-		return &it
-	}) // generate one case for OneOf type
-	gens["RemoteAddress"] = DeliveryRuleRemoteAddressCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleRemoteAddressCondition_STATUS_ARM) *DeliveryRuleRemoteAddressCondition_STATUS_ARM {
-		return &it
-	}) // generate one case for OneOf type
-	gens["RequestBody"] = DeliveryRuleRequestBodyCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleRequestBodyCondition_STATUS_ARM) *DeliveryRuleRequestBodyCondition_STATUS_ARM {
-		return &it
-	}) // generate one case for OneOf type
-	gens["RequestHeader"] = DeliveryRuleRequestHeaderCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleRequestHeaderCondition_STATUS_ARM) *DeliveryRuleRequestHeaderCondition_STATUS_ARM {
-		return &it
-	}) // generate one case for OneOf type
-	gens["RequestMethod"] = DeliveryRuleRequestMethodCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleRequestMethodCondition_STATUS_ARM) *DeliveryRuleRequestMethodCondition_STATUS_ARM {
-		return &it
-	}) // generate one case for OneOf type
-	gens["RequestScheme"] = DeliveryRuleRequestSchemeCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleRequestSchemeCondition_STATUS_ARM) *DeliveryRuleRequestSchemeCondition_STATUS_ARM {
-		return &it
-	}) // generate one case for OneOf type
-	gens["RequestUri"] = DeliveryRuleRequestUriCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleRequestUriCondition_STATUS_ARM) *DeliveryRuleRequestUriCondition_STATUS_ARM {
-		return &it
-	}) // generate one case for OneOf type
-	gens["ServerPort"] = DeliveryRuleServerPortCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleServerPortCondition_STATUS_ARM) *DeliveryRuleServerPortCondition_STATUS_ARM {
-		return &it
-	}) // generate one case for OneOf type
-	gens["SocketAddr"] = DeliveryRuleSocketAddrCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleSocketAddrCondition_STATUS_ARM) *DeliveryRuleSocketAddrCondition_STATUS_ARM {
-		return &it
-	}) // generate one case for OneOf type
-	gens["SslProtocol"] = DeliveryRuleSslProtocolCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleSslProtocolCondition_STATUS_ARM) *DeliveryRuleSslProtocolCondition_STATUS_ARM {
-		return &it
-	}) // generate one case for OneOf type
-	gens["UrlFileExtension"] = DeliveryRuleUrlFileExtensionCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleUrlFileExtensionCondition_STATUS_ARM) *DeliveryRuleUrlFileExtensionCondition_STATUS_ARM {
-		return &it
-	}) // generate one case for OneOf type
-	gens["UrlFileName"] = DeliveryRuleUrlFileNameCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleUrlFileNameCondition_STATUS_ARM) *DeliveryRuleUrlFileNameCondition_STATUS_ARM {
-		return &it
-	}) // generate one case for OneOf type
-	gens["UrlPath"] = DeliveryRuleUrlPathCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleUrlPathCondition_STATUS_ARM) *DeliveryRuleUrlPathCondition_STATUS_ARM {
 		return &it
 	}) // generate one case for OneOf type
 }
@@ -623,6 +696,129 @@ func AddIndependentPropertyGeneratorsForDeliveryRuleClientPortCondition_STATUS_A
 // AddRelatedPropertyGeneratorsForDeliveryRuleClientPortCondition_STATUS_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDeliveryRuleClientPortCondition_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Parameters"] = gen.PtrOf(ClientPortMatchConditionParameters_STATUS_ARMGenerator())
+}
+
+func Test_DeliveryRuleCondition_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DeliveryRuleCondition_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDeliveryRuleCondition_STATUS_ARM, DeliveryRuleCondition_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDeliveryRuleCondition_STATUS_ARM runs a test to see if a specific instance of DeliveryRuleCondition_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDeliveryRuleCondition_STATUS_ARM(subject DeliveryRuleCondition_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DeliveryRuleCondition_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DeliveryRuleCondition_STATUS_ARM instances for property testing - lazily instantiated by
+// DeliveryRuleCondition_STATUS_ARMGenerator()
+var deliveryRuleCondition_STATUS_ARMGenerator gopter.Gen
+
+// DeliveryRuleCondition_STATUS_ARMGenerator returns a generator of DeliveryRuleCondition_STATUS_ARM instances for property testing.
+func DeliveryRuleCondition_STATUS_ARMGenerator() gopter.Gen {
+	if deliveryRuleCondition_STATUS_ARMGenerator != nil {
+		return deliveryRuleCondition_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForDeliveryRuleCondition_STATUS_ARM(generators)
+
+	// handle OneOf by choosing only one field to instantiate
+	var gens []gopter.Gen
+	for propName, propGen := range generators {
+		gens = append(gens, gen.Struct(reflect.TypeOf(DeliveryRuleCondition_STATUS_ARM{}), map[string]gopter.Gen{propName: propGen}))
+	}
+	deliveryRuleCondition_STATUS_ARMGenerator = gen.OneGenOf(gens...)
+
+	return deliveryRuleCondition_STATUS_ARMGenerator
+}
+
+// AddRelatedPropertyGeneratorsForDeliveryRuleCondition_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDeliveryRuleCondition_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["ClientPort"] = DeliveryRuleClientPortCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleClientPortCondition_STATUS_ARM) *DeliveryRuleClientPortCondition_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["Cookies"] = DeliveryRuleCookiesCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleCookiesCondition_STATUS_ARM) *DeliveryRuleCookiesCondition_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["HostName"] = DeliveryRuleHostNameCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleHostNameCondition_STATUS_ARM) *DeliveryRuleHostNameCondition_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["HttpVersion"] = DeliveryRuleHttpVersionCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleHttpVersionCondition_STATUS_ARM) *DeliveryRuleHttpVersionCondition_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["IsDevice"] = DeliveryRuleIsDeviceCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleIsDeviceCondition_STATUS_ARM) *DeliveryRuleIsDeviceCondition_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["PostArgs"] = DeliveryRulePostArgsCondition_STATUS_ARMGenerator().Map(func(it DeliveryRulePostArgsCondition_STATUS_ARM) *DeliveryRulePostArgsCondition_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["QueryString"] = DeliveryRuleQueryStringCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleQueryStringCondition_STATUS_ARM) *DeliveryRuleQueryStringCondition_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["RemoteAddress"] = DeliveryRuleRemoteAddressCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleRemoteAddressCondition_STATUS_ARM) *DeliveryRuleRemoteAddressCondition_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["RequestBody"] = DeliveryRuleRequestBodyCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleRequestBodyCondition_STATUS_ARM) *DeliveryRuleRequestBodyCondition_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["RequestHeader"] = DeliveryRuleRequestHeaderCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleRequestHeaderCondition_STATUS_ARM) *DeliveryRuleRequestHeaderCondition_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["RequestMethod"] = DeliveryRuleRequestMethodCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleRequestMethodCondition_STATUS_ARM) *DeliveryRuleRequestMethodCondition_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["RequestScheme"] = DeliveryRuleRequestSchemeCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleRequestSchemeCondition_STATUS_ARM) *DeliveryRuleRequestSchemeCondition_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["RequestUri"] = DeliveryRuleRequestUriCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleRequestUriCondition_STATUS_ARM) *DeliveryRuleRequestUriCondition_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["ServerPort"] = DeliveryRuleServerPortCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleServerPortCondition_STATUS_ARM) *DeliveryRuleServerPortCondition_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["SocketAddr"] = DeliveryRuleSocketAddrCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleSocketAddrCondition_STATUS_ARM) *DeliveryRuleSocketAddrCondition_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["SslProtocol"] = DeliveryRuleSslProtocolCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleSslProtocolCondition_STATUS_ARM) *DeliveryRuleSslProtocolCondition_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["UrlFileExtension"] = DeliveryRuleUrlFileExtensionCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleUrlFileExtensionCondition_STATUS_ARM) *DeliveryRuleUrlFileExtensionCondition_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["UrlFileName"] = DeliveryRuleUrlFileNameCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleUrlFileNameCondition_STATUS_ARM) *DeliveryRuleUrlFileNameCondition_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["UrlPath"] = DeliveryRuleUrlPathCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleUrlPathCondition_STATUS_ARM) *DeliveryRuleUrlPathCondition_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
 }
 
 func Test_DeliveryRuleCookiesCondition_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2200,600 +2396,6 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleUrlPathCondition_STATUS_ARM(gens
 	gens["Parameters"] = gen.PtrOf(UrlPathMatchConditionParameters_STATUS_ARMGenerator())
 }
 
-func Test_OriginGroupOverrideAction_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of OriginGroupOverrideAction_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForOriginGroupOverrideAction_STATUS_ARM, OriginGroupOverrideAction_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForOriginGroupOverrideAction_STATUS_ARM runs a test to see if a specific instance of OriginGroupOverrideAction_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForOriginGroupOverrideAction_STATUS_ARM(subject OriginGroupOverrideAction_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual OriginGroupOverrideAction_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of OriginGroupOverrideAction_STATUS_ARM instances for property testing - lazily instantiated by
-// OriginGroupOverrideAction_STATUS_ARMGenerator()
-var originGroupOverrideAction_STATUS_ARMGenerator gopter.Gen
-
-// OriginGroupOverrideAction_STATUS_ARMGenerator returns a generator of OriginGroupOverrideAction_STATUS_ARM instances for property testing.
-// We first initialize originGroupOverrideAction_STATUS_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func OriginGroupOverrideAction_STATUS_ARMGenerator() gopter.Gen {
-	if originGroupOverrideAction_STATUS_ARMGenerator != nil {
-		return originGroupOverrideAction_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOriginGroupOverrideAction_STATUS_ARM(generators)
-	originGroupOverrideAction_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(OriginGroupOverrideAction_STATUS_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOriginGroupOverrideAction_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForOriginGroupOverrideAction_STATUS_ARM(generators)
-	originGroupOverrideAction_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(OriginGroupOverrideAction_STATUS_ARM{}), generators)
-
-	return originGroupOverrideAction_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForOriginGroupOverrideAction_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForOriginGroupOverrideAction_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(OriginGroupOverrideAction_Name_STATUS_OriginGroupOverride)
-}
-
-// AddRelatedPropertyGeneratorsForOriginGroupOverrideAction_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForOriginGroupOverrideAction_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(OriginGroupOverrideActionParameters_STATUS_ARMGenerator())
-}
-
-func Test_UrlRedirectAction_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UrlRedirectAction_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUrlRedirectAction_STATUS_ARM, UrlRedirectAction_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForUrlRedirectAction_STATUS_ARM runs a test to see if a specific instance of UrlRedirectAction_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForUrlRedirectAction_STATUS_ARM(subject UrlRedirectAction_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual UrlRedirectAction_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of UrlRedirectAction_STATUS_ARM instances for property testing - lazily instantiated by
-// UrlRedirectAction_STATUS_ARMGenerator()
-var urlRedirectAction_STATUS_ARMGenerator gopter.Gen
-
-// UrlRedirectAction_STATUS_ARMGenerator returns a generator of UrlRedirectAction_STATUS_ARM instances for property testing.
-// We first initialize urlRedirectAction_STATUS_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func UrlRedirectAction_STATUS_ARMGenerator() gopter.Gen {
-	if urlRedirectAction_STATUS_ARMGenerator != nil {
-		return urlRedirectAction_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUrlRedirectAction_STATUS_ARM(generators)
-	urlRedirectAction_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(UrlRedirectAction_STATUS_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUrlRedirectAction_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForUrlRedirectAction_STATUS_ARM(generators)
-	urlRedirectAction_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(UrlRedirectAction_STATUS_ARM{}), generators)
-
-	return urlRedirectAction_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForUrlRedirectAction_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUrlRedirectAction_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(UrlRedirectAction_Name_STATUS_UrlRedirect)
-}
-
-// AddRelatedPropertyGeneratorsForUrlRedirectAction_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForUrlRedirectAction_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(UrlRedirectActionParameters_STATUS_ARMGenerator())
-}
-
-func Test_UrlRewriteAction_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UrlRewriteAction_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUrlRewriteAction_STATUS_ARM, UrlRewriteAction_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForUrlRewriteAction_STATUS_ARM runs a test to see if a specific instance of UrlRewriteAction_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForUrlRewriteAction_STATUS_ARM(subject UrlRewriteAction_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual UrlRewriteAction_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of UrlRewriteAction_STATUS_ARM instances for property testing - lazily instantiated by
-// UrlRewriteAction_STATUS_ARMGenerator()
-var urlRewriteAction_STATUS_ARMGenerator gopter.Gen
-
-// UrlRewriteAction_STATUS_ARMGenerator returns a generator of UrlRewriteAction_STATUS_ARM instances for property testing.
-// We first initialize urlRewriteAction_STATUS_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func UrlRewriteAction_STATUS_ARMGenerator() gopter.Gen {
-	if urlRewriteAction_STATUS_ARMGenerator != nil {
-		return urlRewriteAction_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUrlRewriteAction_STATUS_ARM(generators)
-	urlRewriteAction_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(UrlRewriteAction_STATUS_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUrlRewriteAction_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForUrlRewriteAction_STATUS_ARM(generators)
-	urlRewriteAction_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(UrlRewriteAction_STATUS_ARM{}), generators)
-
-	return urlRewriteAction_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForUrlRewriteAction_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUrlRewriteAction_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(UrlRewriteAction_Name_STATUS_UrlRewrite)
-}
-
-// AddRelatedPropertyGeneratorsForUrlRewriteAction_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForUrlRewriteAction_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(UrlRewriteActionParameters_STATUS_ARMGenerator())
-}
-
-func Test_UrlSigningAction_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UrlSigningAction_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUrlSigningAction_STATUS_ARM, UrlSigningAction_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForUrlSigningAction_STATUS_ARM runs a test to see if a specific instance of UrlSigningAction_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForUrlSigningAction_STATUS_ARM(subject UrlSigningAction_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual UrlSigningAction_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of UrlSigningAction_STATUS_ARM instances for property testing - lazily instantiated by
-// UrlSigningAction_STATUS_ARMGenerator()
-var urlSigningAction_STATUS_ARMGenerator gopter.Gen
-
-// UrlSigningAction_STATUS_ARMGenerator returns a generator of UrlSigningAction_STATUS_ARM instances for property testing.
-// We first initialize urlSigningAction_STATUS_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func UrlSigningAction_STATUS_ARMGenerator() gopter.Gen {
-	if urlSigningAction_STATUS_ARMGenerator != nil {
-		return urlSigningAction_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUrlSigningAction_STATUS_ARM(generators)
-	urlSigningAction_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(UrlSigningAction_STATUS_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUrlSigningAction_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForUrlSigningAction_STATUS_ARM(generators)
-	urlSigningAction_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(UrlSigningAction_STATUS_ARM{}), generators)
-
-	return urlSigningAction_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForUrlSigningAction_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUrlSigningAction_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(UrlSigningAction_Name_STATUS_UrlSigning)
-}
-
-// AddRelatedPropertyGeneratorsForUrlSigningAction_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForUrlSigningAction_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(UrlSigningActionParameters_STATUS_ARMGenerator())
-}
-
-func Test_CacheExpirationActionParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CacheExpirationActionParameters_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCacheExpirationActionParameters_STATUS_ARM, CacheExpirationActionParameters_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForCacheExpirationActionParameters_STATUS_ARM runs a test to see if a specific instance of CacheExpirationActionParameters_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForCacheExpirationActionParameters_STATUS_ARM(subject CacheExpirationActionParameters_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual CacheExpirationActionParameters_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of CacheExpirationActionParameters_STATUS_ARM instances for property testing - lazily instantiated by
-// CacheExpirationActionParameters_STATUS_ARMGenerator()
-var cacheExpirationActionParameters_STATUS_ARMGenerator gopter.Gen
-
-// CacheExpirationActionParameters_STATUS_ARMGenerator returns a generator of CacheExpirationActionParameters_STATUS_ARM instances for property testing.
-func CacheExpirationActionParameters_STATUS_ARMGenerator() gopter.Gen {
-	if cacheExpirationActionParameters_STATUS_ARMGenerator != nil {
-		return cacheExpirationActionParameters_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCacheExpirationActionParameters_STATUS_ARM(generators)
-	cacheExpirationActionParameters_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(CacheExpirationActionParameters_STATUS_ARM{}), generators)
-
-	return cacheExpirationActionParameters_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCacheExpirationActionParameters_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCacheExpirationActionParameters_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["CacheBehavior"] = gen.PtrOf(gen.OneConstOf(CacheExpirationActionParameters_CacheBehavior_STATUS_BypassCache, CacheExpirationActionParameters_CacheBehavior_STATUS_Override, CacheExpirationActionParameters_CacheBehavior_STATUS_SetIfMissing))
-	gens["CacheDuration"] = gen.PtrOf(gen.AlphaString())
-	gens["CacheType"] = gen.PtrOf(gen.OneConstOf(CacheExpirationActionParameters_CacheType_STATUS_All))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(CacheExpirationActionParameters_TypeName_STATUS_DeliveryRuleCacheExpirationActionParameters))
-}
-
-func Test_CacheKeyQueryStringActionParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CacheKeyQueryStringActionParameters_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCacheKeyQueryStringActionParameters_STATUS_ARM, CacheKeyQueryStringActionParameters_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForCacheKeyQueryStringActionParameters_STATUS_ARM runs a test to see if a specific instance of CacheKeyQueryStringActionParameters_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForCacheKeyQueryStringActionParameters_STATUS_ARM(subject CacheKeyQueryStringActionParameters_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual CacheKeyQueryStringActionParameters_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of CacheKeyQueryStringActionParameters_STATUS_ARM instances for property testing - lazily instantiated by
-// CacheKeyQueryStringActionParameters_STATUS_ARMGenerator()
-var cacheKeyQueryStringActionParameters_STATUS_ARMGenerator gopter.Gen
-
-// CacheKeyQueryStringActionParameters_STATUS_ARMGenerator returns a generator of CacheKeyQueryStringActionParameters_STATUS_ARM instances for property testing.
-func CacheKeyQueryStringActionParameters_STATUS_ARMGenerator() gopter.Gen {
-	if cacheKeyQueryStringActionParameters_STATUS_ARMGenerator != nil {
-		return cacheKeyQueryStringActionParameters_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCacheKeyQueryStringActionParameters_STATUS_ARM(generators)
-	cacheKeyQueryStringActionParameters_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(CacheKeyQueryStringActionParameters_STATUS_ARM{}), generators)
-
-	return cacheKeyQueryStringActionParameters_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCacheKeyQueryStringActionParameters_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCacheKeyQueryStringActionParameters_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["QueryParameters"] = gen.PtrOf(gen.AlphaString())
-	gens["QueryStringBehavior"] = gen.PtrOf(gen.OneConstOf(
-		CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS_Exclude,
-		CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS_ExcludeAll,
-		CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS_Include,
-		CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS_IncludeAll))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(CacheKeyQueryStringActionParameters_TypeName_STATUS_DeliveryRuleCacheKeyQueryStringBehaviorActionParameters))
-}
-
-func Test_ClientPortMatchConditionParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ClientPortMatchConditionParameters_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForClientPortMatchConditionParameters_STATUS_ARM, ClientPortMatchConditionParameters_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForClientPortMatchConditionParameters_STATUS_ARM runs a test to see if a specific instance of ClientPortMatchConditionParameters_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForClientPortMatchConditionParameters_STATUS_ARM(subject ClientPortMatchConditionParameters_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ClientPortMatchConditionParameters_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ClientPortMatchConditionParameters_STATUS_ARM instances for property testing - lazily instantiated by
-// ClientPortMatchConditionParameters_STATUS_ARMGenerator()
-var clientPortMatchConditionParameters_STATUS_ARMGenerator gopter.Gen
-
-// ClientPortMatchConditionParameters_STATUS_ARMGenerator returns a generator of ClientPortMatchConditionParameters_STATUS_ARM instances for property testing.
-func ClientPortMatchConditionParameters_STATUS_ARMGenerator() gopter.Gen {
-	if clientPortMatchConditionParameters_STATUS_ARMGenerator != nil {
-		return clientPortMatchConditionParameters_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForClientPortMatchConditionParameters_STATUS_ARM(generators)
-	clientPortMatchConditionParameters_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ClientPortMatchConditionParameters_STATUS_ARM{}), generators)
-
-	return clientPortMatchConditionParameters_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForClientPortMatchConditionParameters_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForClientPortMatchConditionParameters_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		ClientPortMatchConditionParameters_Operator_STATUS_Any,
-		ClientPortMatchConditionParameters_Operator_STATUS_BeginsWith,
-		ClientPortMatchConditionParameters_Operator_STATUS_Contains,
-		ClientPortMatchConditionParameters_Operator_STATUS_EndsWith,
-		ClientPortMatchConditionParameters_Operator_STATUS_Equal,
-		ClientPortMatchConditionParameters_Operator_STATUS_GreaterThan,
-		ClientPortMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
-		ClientPortMatchConditionParameters_Operator_STATUS_LessThan,
-		ClientPortMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
-		ClientPortMatchConditionParameters_Operator_STATUS_RegEx))
-	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		Transform_STATUS_Lowercase,
-		Transform_STATUS_RemoveNulls,
-		Transform_STATUS_Trim,
-		Transform_STATUS_Uppercase,
-		Transform_STATUS_UrlDecode,
-		Transform_STATUS_UrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(ClientPortMatchConditionParameters_TypeName_STATUS_DeliveryRuleClientPortConditionParameters))
-}
-
-func Test_CookiesMatchConditionParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CookiesMatchConditionParameters_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCookiesMatchConditionParameters_STATUS_ARM, CookiesMatchConditionParameters_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForCookiesMatchConditionParameters_STATUS_ARM runs a test to see if a specific instance of CookiesMatchConditionParameters_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForCookiesMatchConditionParameters_STATUS_ARM(subject CookiesMatchConditionParameters_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual CookiesMatchConditionParameters_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of CookiesMatchConditionParameters_STATUS_ARM instances for property testing - lazily instantiated by
-// CookiesMatchConditionParameters_STATUS_ARMGenerator()
-var cookiesMatchConditionParameters_STATUS_ARMGenerator gopter.Gen
-
-// CookiesMatchConditionParameters_STATUS_ARMGenerator returns a generator of CookiesMatchConditionParameters_STATUS_ARM instances for property testing.
-func CookiesMatchConditionParameters_STATUS_ARMGenerator() gopter.Gen {
-	if cookiesMatchConditionParameters_STATUS_ARMGenerator != nil {
-		return cookiesMatchConditionParameters_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCookiesMatchConditionParameters_STATUS_ARM(generators)
-	cookiesMatchConditionParameters_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(CookiesMatchConditionParameters_STATUS_ARM{}), generators)
-
-	return cookiesMatchConditionParameters_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCookiesMatchConditionParameters_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCookiesMatchConditionParameters_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		CookiesMatchConditionParameters_Operator_STATUS_Any,
-		CookiesMatchConditionParameters_Operator_STATUS_BeginsWith,
-		CookiesMatchConditionParameters_Operator_STATUS_Contains,
-		CookiesMatchConditionParameters_Operator_STATUS_EndsWith,
-		CookiesMatchConditionParameters_Operator_STATUS_Equal,
-		CookiesMatchConditionParameters_Operator_STATUS_GreaterThan,
-		CookiesMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
-		CookiesMatchConditionParameters_Operator_STATUS_LessThan,
-		CookiesMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
-		CookiesMatchConditionParameters_Operator_STATUS_RegEx))
-	gens["Selector"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		Transform_STATUS_Lowercase,
-		Transform_STATUS_RemoveNulls,
-		Transform_STATUS_Trim,
-		Transform_STATUS_Uppercase,
-		Transform_STATUS_UrlDecode,
-		Transform_STATUS_UrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(CookiesMatchConditionParameters_TypeName_STATUS_DeliveryRuleCookiesConditionParameters))
-}
-
 func Test_HeaderActionParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -3156,6 +2758,156 @@ func AddRelatedPropertyGeneratorsForOriginGroupOverrideActionParameters_STATUS_A
 	gens["OriginGroup"] = gen.PtrOf(ResourceReference_STATUS_ARMGenerator())
 }
 
+func Test_OriginGroupOverrideAction_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of OriginGroupOverrideAction_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForOriginGroupOverrideAction_STATUS_ARM, OriginGroupOverrideAction_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForOriginGroupOverrideAction_STATUS_ARM runs a test to see if a specific instance of OriginGroupOverrideAction_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForOriginGroupOverrideAction_STATUS_ARM(subject OriginGroupOverrideAction_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual OriginGroupOverrideAction_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of OriginGroupOverrideAction_STATUS_ARM instances for property testing - lazily instantiated by
+// OriginGroupOverrideAction_STATUS_ARMGenerator()
+var originGroupOverrideAction_STATUS_ARMGenerator gopter.Gen
+
+// OriginGroupOverrideAction_STATUS_ARMGenerator returns a generator of OriginGroupOverrideAction_STATUS_ARM instances for property testing.
+// We first initialize originGroupOverrideAction_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func OriginGroupOverrideAction_STATUS_ARMGenerator() gopter.Gen {
+	if originGroupOverrideAction_STATUS_ARMGenerator != nil {
+		return originGroupOverrideAction_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForOriginGroupOverrideAction_STATUS_ARM(generators)
+	originGroupOverrideAction_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(OriginGroupOverrideAction_STATUS_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForOriginGroupOverrideAction_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForOriginGroupOverrideAction_STATUS_ARM(generators)
+	originGroupOverrideAction_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(OriginGroupOverrideAction_STATUS_ARM{}), generators)
+
+	return originGroupOverrideAction_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForOriginGroupOverrideAction_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForOriginGroupOverrideAction_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.OneConstOf(OriginGroupOverrideAction_Name_STATUS_OriginGroupOverride)
+}
+
+// AddRelatedPropertyGeneratorsForOriginGroupOverrideAction_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForOriginGroupOverrideAction_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Parameters"] = gen.PtrOf(OriginGroupOverrideActionParameters_STATUS_ARMGenerator())
+}
+
+func Test_OriginGroupOverride_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of OriginGroupOverride_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForOriginGroupOverride_STATUS_ARM, OriginGroupOverride_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForOriginGroupOverride_STATUS_ARM runs a test to see if a specific instance of OriginGroupOverride_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForOriginGroupOverride_STATUS_ARM(subject OriginGroupOverride_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual OriginGroupOverride_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of OriginGroupOverride_STATUS_ARM instances for property testing - lazily instantiated by
+// OriginGroupOverride_STATUS_ARMGenerator()
+var originGroupOverride_STATUS_ARMGenerator gopter.Gen
+
+// OriginGroupOverride_STATUS_ARMGenerator returns a generator of OriginGroupOverride_STATUS_ARM instances for property testing.
+// We first initialize originGroupOverride_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func OriginGroupOverride_STATUS_ARMGenerator() gopter.Gen {
+	if originGroupOverride_STATUS_ARMGenerator != nil {
+		return originGroupOverride_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForOriginGroupOverride_STATUS_ARM(generators)
+	originGroupOverride_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(OriginGroupOverride_STATUS_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForOriginGroupOverride_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForOriginGroupOverride_STATUS_ARM(generators)
+	originGroupOverride_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(OriginGroupOverride_STATUS_ARM{}), generators)
+
+	return originGroupOverride_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForOriginGroupOverride_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForOriginGroupOverride_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["ForwardingProtocol"] = gen.PtrOf(gen.OneConstOf(OriginGroupOverride_ForwardingProtocol_STATUS_HttpOnly, OriginGroupOverride_ForwardingProtocol_STATUS_HttpsOnly, OriginGroupOverride_ForwardingProtocol_STATUS_MatchRequest))
+}
+
+// AddRelatedPropertyGeneratorsForOriginGroupOverride_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForOriginGroupOverride_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["OriginGroup"] = gen.PtrOf(ResourceReference_STATUS_ARMGenerator())
+}
+
 func Test_PostArgsMatchConditionParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -3236,6 +2988,84 @@ func AddIndependentPropertyGeneratorsForPostArgsMatchConditionParameters_STATUS_
 		Transform_STATUS_UrlDecode,
 		Transform_STATUS_UrlEncode))
 	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(PostArgsMatchConditionParameters_TypeName_STATUS_DeliveryRulePostArgsConditionParameters))
+}
+
+func Test_Profiles_RuleSets_Rule_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Profiles_RuleSets_Rule_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForProfiles_RuleSets_Rule_STATUS_ARM, Profiles_RuleSets_Rule_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForProfiles_RuleSets_Rule_STATUS_ARM runs a test to see if a specific instance of Profiles_RuleSets_Rule_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForProfiles_RuleSets_Rule_STATUS_ARM(subject Profiles_RuleSets_Rule_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Profiles_RuleSets_Rule_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Profiles_RuleSets_Rule_STATUS_ARM instances for property testing - lazily instantiated by
+// Profiles_RuleSets_Rule_STATUS_ARMGenerator()
+var profiles_RuleSets_Rule_STATUS_ARMGenerator gopter.Gen
+
+// Profiles_RuleSets_Rule_STATUS_ARMGenerator returns a generator of Profiles_RuleSets_Rule_STATUS_ARM instances for property testing.
+// We first initialize profiles_RuleSets_Rule_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Profiles_RuleSets_Rule_STATUS_ARMGenerator() gopter.Gen {
+	if profiles_RuleSets_Rule_STATUS_ARMGenerator != nil {
+		return profiles_RuleSets_Rule_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForProfiles_RuleSets_Rule_STATUS_ARM(generators)
+	profiles_RuleSets_Rule_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Profiles_RuleSets_Rule_STATUS_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForProfiles_RuleSets_Rule_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForProfiles_RuleSets_Rule_STATUS_ARM(generators)
+	profiles_RuleSets_Rule_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Profiles_RuleSets_Rule_STATUS_ARM{}), generators)
+
+	return profiles_RuleSets_Rule_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForProfiles_RuleSets_Rule_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForProfiles_RuleSets_Rule_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForProfiles_RuleSets_Rule_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForProfiles_RuleSets_Rule_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(RuleProperties_STATUS_ARMGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUS_ARMGenerator())
 }
 
 func Test_QueryStringMatchConditionParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3859,6 +3689,95 @@ func AddRelatedPropertyGeneratorsForRouteConfigurationOverrideActionParameters_S
 	gens["OriginGroupOverride"] = gen.PtrOf(OriginGroupOverride_STATUS_ARMGenerator())
 }
 
+func Test_RuleProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of RuleProperties_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRuleProperties_STATUS_ARM, RuleProperties_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForRuleProperties_STATUS_ARM runs a test to see if a specific instance of RuleProperties_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForRuleProperties_STATUS_ARM(subject RuleProperties_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual RuleProperties_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of RuleProperties_STATUS_ARM instances for property testing - lazily instantiated by
+// RuleProperties_STATUS_ARMGenerator()
+var ruleProperties_STATUS_ARMGenerator gopter.Gen
+
+// RuleProperties_STATUS_ARMGenerator returns a generator of RuleProperties_STATUS_ARM instances for property testing.
+// We first initialize ruleProperties_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func RuleProperties_STATUS_ARMGenerator() gopter.Gen {
+	if ruleProperties_STATUS_ARMGenerator != nil {
+		return ruleProperties_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRuleProperties_STATUS_ARM(generators)
+	ruleProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(RuleProperties_STATUS_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRuleProperties_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForRuleProperties_STATUS_ARM(generators)
+	ruleProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(RuleProperties_STATUS_ARM{}), generators)
+
+	return ruleProperties_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForRuleProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRuleProperties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["DeploymentStatus"] = gen.PtrOf(gen.OneConstOf(
+		RuleProperties_DeploymentStatus_STATUS_Failed,
+		RuleProperties_DeploymentStatus_STATUS_InProgress,
+		RuleProperties_DeploymentStatus_STATUS_NotStarted,
+		RuleProperties_DeploymentStatus_STATUS_Succeeded))
+	gens["MatchProcessingBehavior"] = gen.PtrOf(gen.OneConstOf(RuleProperties_MatchProcessingBehavior_STATUS_Continue, RuleProperties_MatchProcessingBehavior_STATUS_Stop))
+	gens["Order"] = gen.PtrOf(gen.Int())
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		RuleProperties_ProvisioningState_STATUS_Creating,
+		RuleProperties_ProvisioningState_STATUS_Deleting,
+		RuleProperties_ProvisioningState_STATUS_Failed,
+		RuleProperties_ProvisioningState_STATUS_Succeeded,
+		RuleProperties_ProvisioningState_STATUS_Updating))
+	gens["RuleSetName"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForRuleProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRuleProperties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Actions"] = gen.SliceOf(DeliveryRuleAction_STATUS_ARMGenerator())
+	gens["Conditions"] = gen.SliceOf(DeliveryRuleCondition_STATUS_ARMGenerator())
+}
+
 func Test_ServerPortMatchConditionParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -4397,6 +4316,81 @@ func AddIndependentPropertyGeneratorsForUrlRedirectActionParameters_STATUS_ARM(g
 	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(UrlRedirectActionParameters_TypeName_STATUS_DeliveryRuleUrlRedirectActionParameters))
 }
 
+func Test_UrlRedirectAction_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of UrlRedirectAction_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForUrlRedirectAction_STATUS_ARM, UrlRedirectAction_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForUrlRedirectAction_STATUS_ARM runs a test to see if a specific instance of UrlRedirectAction_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForUrlRedirectAction_STATUS_ARM(subject UrlRedirectAction_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual UrlRedirectAction_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of UrlRedirectAction_STATUS_ARM instances for property testing - lazily instantiated by
+// UrlRedirectAction_STATUS_ARMGenerator()
+var urlRedirectAction_STATUS_ARMGenerator gopter.Gen
+
+// UrlRedirectAction_STATUS_ARMGenerator returns a generator of UrlRedirectAction_STATUS_ARM instances for property testing.
+// We first initialize urlRedirectAction_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func UrlRedirectAction_STATUS_ARMGenerator() gopter.Gen {
+	if urlRedirectAction_STATUS_ARMGenerator != nil {
+		return urlRedirectAction_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForUrlRedirectAction_STATUS_ARM(generators)
+	urlRedirectAction_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(UrlRedirectAction_STATUS_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForUrlRedirectAction_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForUrlRedirectAction_STATUS_ARM(generators)
+	urlRedirectAction_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(UrlRedirectAction_STATUS_ARM{}), generators)
+
+	return urlRedirectAction_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForUrlRedirectAction_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForUrlRedirectAction_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.OneConstOf(UrlRedirectAction_Name_STATUS_UrlRedirect)
+}
+
+// AddRelatedPropertyGeneratorsForUrlRedirectAction_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForUrlRedirectAction_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Parameters"] = gen.PtrOf(UrlRedirectActionParameters_STATUS_ARMGenerator())
+}
+
 func Test_UrlRewriteActionParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -4459,6 +4453,81 @@ func AddIndependentPropertyGeneratorsForUrlRewriteActionParameters_STATUS_ARM(ge
 	gens["PreserveUnmatchedPath"] = gen.PtrOf(gen.Bool())
 	gens["SourcePattern"] = gen.PtrOf(gen.AlphaString())
 	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(UrlRewriteActionParameters_TypeName_STATUS_DeliveryRuleUrlRewriteActionParameters))
+}
+
+func Test_UrlRewriteAction_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of UrlRewriteAction_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForUrlRewriteAction_STATUS_ARM, UrlRewriteAction_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForUrlRewriteAction_STATUS_ARM runs a test to see if a specific instance of UrlRewriteAction_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForUrlRewriteAction_STATUS_ARM(subject UrlRewriteAction_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual UrlRewriteAction_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of UrlRewriteAction_STATUS_ARM instances for property testing - lazily instantiated by
+// UrlRewriteAction_STATUS_ARMGenerator()
+var urlRewriteAction_STATUS_ARMGenerator gopter.Gen
+
+// UrlRewriteAction_STATUS_ARMGenerator returns a generator of UrlRewriteAction_STATUS_ARM instances for property testing.
+// We first initialize urlRewriteAction_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func UrlRewriteAction_STATUS_ARMGenerator() gopter.Gen {
+	if urlRewriteAction_STATUS_ARMGenerator != nil {
+		return urlRewriteAction_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForUrlRewriteAction_STATUS_ARM(generators)
+	urlRewriteAction_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(UrlRewriteAction_STATUS_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForUrlRewriteAction_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForUrlRewriteAction_STATUS_ARM(generators)
+	urlRewriteAction_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(UrlRewriteAction_STATUS_ARM{}), generators)
+
+	return urlRewriteAction_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForUrlRewriteAction_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForUrlRewriteAction_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.OneConstOf(UrlRewriteAction_Name_STATUS_UrlRewrite)
+}
+
+// AddRelatedPropertyGeneratorsForUrlRewriteAction_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForUrlRewriteAction_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Parameters"] = gen.PtrOf(UrlRewriteActionParameters_STATUS_ARMGenerator())
 }
 
 func Test_UrlSigningActionParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -4537,20 +4606,20 @@ func AddRelatedPropertyGeneratorsForUrlSigningActionParameters_STATUS_ARM(gens m
 	gens["ParameterNameOverride"] = gen.SliceOf(UrlSigningParamIdentifier_STATUS_ARMGenerator())
 }
 
-func Test_CacheConfiguration_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_UrlSigningAction_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of CacheConfiguration_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCacheConfiguration_STATUS_ARM, CacheConfiguration_STATUS_ARMGenerator()))
+		"Round trip of UrlSigningAction_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForUrlSigningAction_STATUS_ARM, UrlSigningAction_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForCacheConfiguration_STATUS_ARM runs a test to see if a specific instance of CacheConfiguration_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForCacheConfiguration_STATUS_ARM(subject CacheConfiguration_STATUS_ARM) string {
+// RunJSONSerializationTestForUrlSigningAction_STATUS_ARM runs a test to see if a specific instance of UrlSigningAction_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForUrlSigningAction_STATUS_ARM(subject UrlSigningAction_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -4558,7 +4627,7 @@ func RunJSONSerializationTestForCacheConfiguration_STATUS_ARM(subject CacheConfi
 	}
 
 	// Deserialize back into memory
-	var actual CacheConfiguration_STATUS_ARM
+	var actual UrlSigningAction_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -4576,109 +4645,40 @@ func RunJSONSerializationTestForCacheConfiguration_STATUS_ARM(subject CacheConfi
 	return ""
 }
 
-// Generator of CacheConfiguration_STATUS_ARM instances for property testing - lazily instantiated by
-// CacheConfiguration_STATUS_ARMGenerator()
-var cacheConfiguration_STATUS_ARMGenerator gopter.Gen
+// Generator of UrlSigningAction_STATUS_ARM instances for property testing - lazily instantiated by
+// UrlSigningAction_STATUS_ARMGenerator()
+var urlSigningAction_STATUS_ARMGenerator gopter.Gen
 
-// CacheConfiguration_STATUS_ARMGenerator returns a generator of CacheConfiguration_STATUS_ARM instances for property testing.
-func CacheConfiguration_STATUS_ARMGenerator() gopter.Gen {
-	if cacheConfiguration_STATUS_ARMGenerator != nil {
-		return cacheConfiguration_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCacheConfiguration_STATUS_ARM(generators)
-	cacheConfiguration_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(CacheConfiguration_STATUS_ARM{}), generators)
-
-	return cacheConfiguration_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCacheConfiguration_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCacheConfiguration_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["CacheBehavior"] = gen.PtrOf(gen.OneConstOf(CacheConfiguration_CacheBehavior_STATUS_HonorOrigin, CacheConfiguration_CacheBehavior_STATUS_OverrideAlways, CacheConfiguration_CacheBehavior_STATUS_OverrideIfOriginMissing))
-	gens["CacheDuration"] = gen.PtrOf(gen.AlphaString())
-	gens["IsCompressionEnabled"] = gen.PtrOf(gen.OneConstOf(CacheConfiguration_IsCompressionEnabled_STATUS_Disabled, CacheConfiguration_IsCompressionEnabled_STATUS_Enabled))
-	gens["QueryParameters"] = gen.PtrOf(gen.AlphaString())
-	gens["QueryStringCachingBehavior"] = gen.PtrOf(gen.OneConstOf(
-		CacheConfiguration_QueryStringCachingBehavior_STATUS_IgnoreQueryString,
-		CacheConfiguration_QueryStringCachingBehavior_STATUS_IgnoreSpecifiedQueryStrings,
-		CacheConfiguration_QueryStringCachingBehavior_STATUS_IncludeSpecifiedQueryStrings,
-		CacheConfiguration_QueryStringCachingBehavior_STATUS_UseQueryString))
-}
-
-func Test_OriginGroupOverride_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of OriginGroupOverride_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForOriginGroupOverride_STATUS_ARM, OriginGroupOverride_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForOriginGroupOverride_STATUS_ARM runs a test to see if a specific instance of OriginGroupOverride_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForOriginGroupOverride_STATUS_ARM(subject OriginGroupOverride_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual OriginGroupOverride_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of OriginGroupOverride_STATUS_ARM instances for property testing - lazily instantiated by
-// OriginGroupOverride_STATUS_ARMGenerator()
-var originGroupOverride_STATUS_ARMGenerator gopter.Gen
-
-// OriginGroupOverride_STATUS_ARMGenerator returns a generator of OriginGroupOverride_STATUS_ARM instances for property testing.
-// We first initialize originGroupOverride_STATUS_ARMGenerator with a simplified generator based on the
+// UrlSigningAction_STATUS_ARMGenerator returns a generator of UrlSigningAction_STATUS_ARM instances for property testing.
+// We first initialize urlSigningAction_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func OriginGroupOverride_STATUS_ARMGenerator() gopter.Gen {
-	if originGroupOverride_STATUS_ARMGenerator != nil {
-		return originGroupOverride_STATUS_ARMGenerator
+func UrlSigningAction_STATUS_ARMGenerator() gopter.Gen {
+	if urlSigningAction_STATUS_ARMGenerator != nil {
+		return urlSigningAction_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOriginGroupOverride_STATUS_ARM(generators)
-	originGroupOverride_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(OriginGroupOverride_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForUrlSigningAction_STATUS_ARM(generators)
+	urlSigningAction_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(UrlSigningAction_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOriginGroupOverride_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForOriginGroupOverride_STATUS_ARM(generators)
-	originGroupOverride_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(OriginGroupOverride_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForUrlSigningAction_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForUrlSigningAction_STATUS_ARM(generators)
+	urlSigningAction_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(UrlSigningAction_STATUS_ARM{}), generators)
 
-	return originGroupOverride_STATUS_ARMGenerator
+	return urlSigningAction_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForOriginGroupOverride_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForOriginGroupOverride_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ForwardingProtocol"] = gen.PtrOf(gen.OneConstOf(OriginGroupOverride_ForwardingProtocol_STATUS_HttpOnly, OriginGroupOverride_ForwardingProtocol_STATUS_HttpsOnly, OriginGroupOverride_ForwardingProtocol_STATUS_MatchRequest))
+// AddIndependentPropertyGeneratorsForUrlSigningAction_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForUrlSigningAction_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.OneConstOf(UrlSigningAction_Name_STATUS_UrlSigning)
 }
 
-// AddRelatedPropertyGeneratorsForOriginGroupOverride_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForOriginGroupOverride_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["OriginGroup"] = gen.PtrOf(ResourceReference_STATUS_ARMGenerator())
+// AddRelatedPropertyGeneratorsForUrlSigningAction_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForUrlSigningAction_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Parameters"] = gen.PtrOf(UrlSigningActionParameters_STATUS_ARMGenerator())
 }
 
 func Test_UrlSigningParamIdentifier_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

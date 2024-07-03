@@ -17,6 +17,70 @@ import (
 	"testing"
 )
 
+func Test_BaseLongTermRetentionPolicyProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of BaseLongTermRetentionPolicyProperties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBaseLongTermRetentionPolicyProperties_ARM, BaseLongTermRetentionPolicyProperties_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForBaseLongTermRetentionPolicyProperties_ARM runs a test to see if a specific instance of BaseLongTermRetentionPolicyProperties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForBaseLongTermRetentionPolicyProperties_ARM(subject BaseLongTermRetentionPolicyProperties_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual BaseLongTermRetentionPolicyProperties_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of BaseLongTermRetentionPolicyProperties_ARM instances for property testing - lazily instantiated by
+// BaseLongTermRetentionPolicyProperties_ARMGenerator()
+var baseLongTermRetentionPolicyProperties_ARMGenerator gopter.Gen
+
+// BaseLongTermRetentionPolicyProperties_ARMGenerator returns a generator of BaseLongTermRetentionPolicyProperties_ARM instances for property testing.
+func BaseLongTermRetentionPolicyProperties_ARMGenerator() gopter.Gen {
+	if baseLongTermRetentionPolicyProperties_ARMGenerator != nil {
+		return baseLongTermRetentionPolicyProperties_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForBaseLongTermRetentionPolicyProperties_ARM(generators)
+	baseLongTermRetentionPolicyProperties_ARMGenerator = gen.Struct(reflect.TypeOf(BaseLongTermRetentionPolicyProperties_ARM{}), generators)
+
+	return baseLongTermRetentionPolicyProperties_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForBaseLongTermRetentionPolicyProperties_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForBaseLongTermRetentionPolicyProperties_ARM(gens map[string]gopter.Gen) {
+	gens["MonthlyRetention"] = gen.PtrOf(gen.AlphaString())
+	gens["WeekOfYear"] = gen.PtrOf(gen.Int())
+	gens["WeeklyRetention"] = gen.PtrOf(gen.AlphaString())
+	gens["YearlyRetention"] = gen.PtrOf(gen.AlphaString())
+}
+
 func Test_Servers_Databases_BackupLongTermRetentionPolicy_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -90,68 +154,4 @@ func AddIndependentPropertyGeneratorsForServers_Databases_BackupLongTermRetentio
 // AddRelatedPropertyGeneratorsForServers_Databases_BackupLongTermRetentionPolicy_Spec_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForServers_Databases_BackupLongTermRetentionPolicy_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(BaseLongTermRetentionPolicyProperties_ARMGenerator())
-}
-
-func Test_BaseLongTermRetentionPolicyProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BaseLongTermRetentionPolicyProperties_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBaseLongTermRetentionPolicyProperties_ARM, BaseLongTermRetentionPolicyProperties_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForBaseLongTermRetentionPolicyProperties_ARM runs a test to see if a specific instance of BaseLongTermRetentionPolicyProperties_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForBaseLongTermRetentionPolicyProperties_ARM(subject BaseLongTermRetentionPolicyProperties_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual BaseLongTermRetentionPolicyProperties_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of BaseLongTermRetentionPolicyProperties_ARM instances for property testing - lazily instantiated by
-// BaseLongTermRetentionPolicyProperties_ARMGenerator()
-var baseLongTermRetentionPolicyProperties_ARMGenerator gopter.Gen
-
-// BaseLongTermRetentionPolicyProperties_ARMGenerator returns a generator of BaseLongTermRetentionPolicyProperties_ARM instances for property testing.
-func BaseLongTermRetentionPolicyProperties_ARMGenerator() gopter.Gen {
-	if baseLongTermRetentionPolicyProperties_ARMGenerator != nil {
-		return baseLongTermRetentionPolicyProperties_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBaseLongTermRetentionPolicyProperties_ARM(generators)
-	baseLongTermRetentionPolicyProperties_ARMGenerator = gen.Struct(reflect.TypeOf(BaseLongTermRetentionPolicyProperties_ARM{}), generators)
-
-	return baseLongTermRetentionPolicyProperties_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForBaseLongTermRetentionPolicyProperties_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBaseLongTermRetentionPolicyProperties_ARM(gens map[string]gopter.Gen) {
-	gens["MonthlyRetention"] = gen.PtrOf(gen.AlphaString())
-	gens["WeekOfYear"] = gen.PtrOf(gen.Int())
-	gens["WeeklyRetention"] = gen.PtrOf(gen.AlphaString())
-	gens["YearlyRetention"] = gen.PtrOf(gen.AlphaString())
 }

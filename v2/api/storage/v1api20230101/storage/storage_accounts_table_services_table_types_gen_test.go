@@ -79,82 +79,6 @@ func AddRelatedPropertyGeneratorsForStorageAccountsTableServicesTable(gens map[s
 	gens["Status"] = StorageAccounts_TableServices_Table_STATUSGenerator()
 }
 
-func Test_StorageAccounts_TableServices_Table_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of StorageAccounts_TableServices_Table_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForStorageAccounts_TableServices_Table_Spec, StorageAccounts_TableServices_Table_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForStorageAccounts_TableServices_Table_Spec runs a test to see if a specific instance of StorageAccounts_TableServices_Table_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForStorageAccounts_TableServices_Table_Spec(subject StorageAccounts_TableServices_Table_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual StorageAccounts_TableServices_Table_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of StorageAccounts_TableServices_Table_Spec instances for property testing - lazily instantiated by
-// StorageAccounts_TableServices_Table_SpecGenerator()
-var storageAccounts_TableServices_Table_SpecGenerator gopter.Gen
-
-// StorageAccounts_TableServices_Table_SpecGenerator returns a generator of StorageAccounts_TableServices_Table_Spec instances for property testing.
-// We first initialize storageAccounts_TableServices_Table_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func StorageAccounts_TableServices_Table_SpecGenerator() gopter.Gen {
-	if storageAccounts_TableServices_Table_SpecGenerator != nil {
-		return storageAccounts_TableServices_Table_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageAccounts_TableServices_Table_Spec(generators)
-	storageAccounts_TableServices_Table_SpecGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_TableServices_Table_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageAccounts_TableServices_Table_Spec(generators)
-	AddRelatedPropertyGeneratorsForStorageAccounts_TableServices_Table_Spec(generators)
-	storageAccounts_TableServices_Table_SpecGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_TableServices_Table_Spec{}), generators)
-
-	return storageAccounts_TableServices_Table_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForStorageAccounts_TableServices_Table_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForStorageAccounts_TableServices_Table_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["OriginalVersion"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForStorageAccounts_TableServices_Table_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForStorageAccounts_TableServices_Table_Spec(gens map[string]gopter.Gen) {
-	gens["SignedIdentifiers"] = gen.SliceOf(TableSignedIdentifierGenerator())
-}
-
 func Test_StorageAccounts_TableServices_Table_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -231,6 +155,207 @@ func AddIndependentPropertyGeneratorsForStorageAccounts_TableServices_Table_STAT
 // AddRelatedPropertyGeneratorsForStorageAccounts_TableServices_Table_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForStorageAccounts_TableServices_Table_STATUS(gens map[string]gopter.Gen) {
 	gens["SignedIdentifiers"] = gen.SliceOf(TableSignedIdentifier_STATUSGenerator())
+}
+
+func Test_StorageAccounts_TableServices_Table_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of StorageAccounts_TableServices_Table_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageAccounts_TableServices_Table_Spec, StorageAccounts_TableServices_Table_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForStorageAccounts_TableServices_Table_Spec runs a test to see if a specific instance of StorageAccounts_TableServices_Table_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageAccounts_TableServices_Table_Spec(subject StorageAccounts_TableServices_Table_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual StorageAccounts_TableServices_Table_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of StorageAccounts_TableServices_Table_Spec instances for property testing - lazily instantiated by
+// StorageAccounts_TableServices_Table_SpecGenerator()
+var storageAccounts_TableServices_Table_SpecGenerator gopter.Gen
+
+// StorageAccounts_TableServices_Table_SpecGenerator returns a generator of StorageAccounts_TableServices_Table_Spec instances for property testing.
+// We first initialize storageAccounts_TableServices_Table_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func StorageAccounts_TableServices_Table_SpecGenerator() gopter.Gen {
+	if storageAccounts_TableServices_Table_SpecGenerator != nil {
+		return storageAccounts_TableServices_Table_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForStorageAccounts_TableServices_Table_Spec(generators)
+	storageAccounts_TableServices_Table_SpecGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_TableServices_Table_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForStorageAccounts_TableServices_Table_Spec(generators)
+	AddRelatedPropertyGeneratorsForStorageAccounts_TableServices_Table_Spec(generators)
+	storageAccounts_TableServices_Table_SpecGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_TableServices_Table_Spec{}), generators)
+
+	return storageAccounts_TableServices_Table_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForStorageAccounts_TableServices_Table_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForStorageAccounts_TableServices_Table_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["OriginalVersion"] = gen.AlphaString()
+}
+
+// AddRelatedPropertyGeneratorsForStorageAccounts_TableServices_Table_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForStorageAccounts_TableServices_Table_Spec(gens map[string]gopter.Gen) {
+	gens["SignedIdentifiers"] = gen.SliceOf(TableSignedIdentifierGenerator())
+}
+
+func Test_TableAccessPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of TableAccessPolicy via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForTableAccessPolicy, TableAccessPolicyGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForTableAccessPolicy runs a test to see if a specific instance of TableAccessPolicy round trips to JSON and back losslessly
+func RunJSONSerializationTestForTableAccessPolicy(subject TableAccessPolicy) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual TableAccessPolicy
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of TableAccessPolicy instances for property testing - lazily instantiated by TableAccessPolicyGenerator()
+var tableAccessPolicyGenerator gopter.Gen
+
+// TableAccessPolicyGenerator returns a generator of TableAccessPolicy instances for property testing.
+func TableAccessPolicyGenerator() gopter.Gen {
+	if tableAccessPolicyGenerator != nil {
+		return tableAccessPolicyGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForTableAccessPolicy(generators)
+	tableAccessPolicyGenerator = gen.Struct(reflect.TypeOf(TableAccessPolicy{}), generators)
+
+	return tableAccessPolicyGenerator
+}
+
+// AddIndependentPropertyGeneratorsForTableAccessPolicy is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForTableAccessPolicy(gens map[string]gopter.Gen) {
+	gens["ExpiryTime"] = gen.PtrOf(gen.AlphaString())
+	gens["Permission"] = gen.PtrOf(gen.AlphaString())
+	gens["StartTime"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_TableAccessPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of TableAccessPolicy_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForTableAccessPolicy_STATUS, TableAccessPolicy_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForTableAccessPolicy_STATUS runs a test to see if a specific instance of TableAccessPolicy_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForTableAccessPolicy_STATUS(subject TableAccessPolicy_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual TableAccessPolicy_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of TableAccessPolicy_STATUS instances for property testing - lazily instantiated by
+// TableAccessPolicy_STATUSGenerator()
+var tableAccessPolicy_STATUSGenerator gopter.Gen
+
+// TableAccessPolicy_STATUSGenerator returns a generator of TableAccessPolicy_STATUS instances for property testing.
+func TableAccessPolicy_STATUSGenerator() gopter.Gen {
+	if tableAccessPolicy_STATUSGenerator != nil {
+		return tableAccessPolicy_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForTableAccessPolicy_STATUS(generators)
+	tableAccessPolicy_STATUSGenerator = gen.Struct(reflect.TypeOf(TableAccessPolicy_STATUS{}), generators)
+
+	return tableAccessPolicy_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForTableAccessPolicy_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForTableAccessPolicy_STATUS(gens map[string]gopter.Gen) {
+	gens["ExpiryTime"] = gen.PtrOf(gen.AlphaString())
+	gens["Permission"] = gen.PtrOf(gen.AlphaString())
+	gens["StartTime"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_TableSignedIdentifier_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -367,129 +492,4 @@ func AddIndependentPropertyGeneratorsForTableSignedIdentifier_STATUS(gens map[st
 // AddRelatedPropertyGeneratorsForTableSignedIdentifier_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForTableSignedIdentifier_STATUS(gens map[string]gopter.Gen) {
 	gens["AccessPolicy"] = gen.PtrOf(TableAccessPolicy_STATUSGenerator())
-}
-
-func Test_TableAccessPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of TableAccessPolicy via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForTableAccessPolicy, TableAccessPolicyGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForTableAccessPolicy runs a test to see if a specific instance of TableAccessPolicy round trips to JSON and back losslessly
-func RunJSONSerializationTestForTableAccessPolicy(subject TableAccessPolicy) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual TableAccessPolicy
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of TableAccessPolicy instances for property testing - lazily instantiated by TableAccessPolicyGenerator()
-var tableAccessPolicyGenerator gopter.Gen
-
-// TableAccessPolicyGenerator returns a generator of TableAccessPolicy instances for property testing.
-func TableAccessPolicyGenerator() gopter.Gen {
-	if tableAccessPolicyGenerator != nil {
-		return tableAccessPolicyGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForTableAccessPolicy(generators)
-	tableAccessPolicyGenerator = gen.Struct(reflect.TypeOf(TableAccessPolicy{}), generators)
-
-	return tableAccessPolicyGenerator
-}
-
-// AddIndependentPropertyGeneratorsForTableAccessPolicy is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForTableAccessPolicy(gens map[string]gopter.Gen) {
-	gens["ExpiryTime"] = gen.PtrOf(gen.AlphaString())
-	gens["Permission"] = gen.PtrOf(gen.AlphaString())
-	gens["StartTime"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_TableAccessPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of TableAccessPolicy_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForTableAccessPolicy_STATUS, TableAccessPolicy_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForTableAccessPolicy_STATUS runs a test to see if a specific instance of TableAccessPolicy_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForTableAccessPolicy_STATUS(subject TableAccessPolicy_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual TableAccessPolicy_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of TableAccessPolicy_STATUS instances for property testing - lazily instantiated by
-// TableAccessPolicy_STATUSGenerator()
-var tableAccessPolicy_STATUSGenerator gopter.Gen
-
-// TableAccessPolicy_STATUSGenerator returns a generator of TableAccessPolicy_STATUS instances for property testing.
-func TableAccessPolicy_STATUSGenerator() gopter.Gen {
-	if tableAccessPolicy_STATUSGenerator != nil {
-		return tableAccessPolicy_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForTableAccessPolicy_STATUS(generators)
-	tableAccessPolicy_STATUSGenerator = gen.Struct(reflect.TypeOf(TableAccessPolicy_STATUS{}), generators)
-
-	return tableAccessPolicy_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForTableAccessPolicy_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForTableAccessPolicy_STATUS(gens map[string]gopter.Gen) {
-	gens["ExpiryTime"] = gen.PtrOf(gen.AlphaString())
-	gens["Permission"] = gen.PtrOf(gen.AlphaString())
-	gens["StartTime"] = gen.PtrOf(gen.AlphaString())
 }

@@ -17,6 +17,80 @@ import (
 	"testing"
 )
 
+func Test_ApplicationInsightsComponentProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApplicationInsightsComponentProperties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApplicationInsightsComponentProperties_ARM, ApplicationInsightsComponentProperties_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApplicationInsightsComponentProperties_ARM runs a test to see if a specific instance of ApplicationInsightsComponentProperties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationInsightsComponentProperties_ARM(subject ApplicationInsightsComponentProperties_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApplicationInsightsComponentProperties_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApplicationInsightsComponentProperties_ARM instances for property testing - lazily instantiated by
+// ApplicationInsightsComponentProperties_ARMGenerator()
+var applicationInsightsComponentProperties_ARMGenerator gopter.Gen
+
+// ApplicationInsightsComponentProperties_ARMGenerator returns a generator of ApplicationInsightsComponentProperties_ARM instances for property testing.
+func ApplicationInsightsComponentProperties_ARMGenerator() gopter.Gen {
+	if applicationInsightsComponentProperties_ARMGenerator != nil {
+		return applicationInsightsComponentProperties_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationInsightsComponentProperties_ARM(generators)
+	applicationInsightsComponentProperties_ARMGenerator = gen.Struct(reflect.TypeOf(ApplicationInsightsComponentProperties_ARM{}), generators)
+
+	return applicationInsightsComponentProperties_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForApplicationInsightsComponentProperties_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApplicationInsightsComponentProperties_ARM(gens map[string]gopter.Gen) {
+	gens["Application_Type"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_Application_Type_Other, ApplicationInsightsComponentProperties_Application_Type_Web))
+	gens["DisableIpMasking"] = gen.PtrOf(gen.Bool())
+	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
+	gens["Flow_Type"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_Flow_Type_Bluefield))
+	gens["ForceCustomerStorageForProfiler"] = gen.PtrOf(gen.Bool())
+	gens["HockeyAppId"] = gen.PtrOf(gen.AlphaString())
+	gens["ImmediatePurgeDataOn30Days"] = gen.PtrOf(gen.Bool())
+	gens["IngestionMode"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_IngestionMode_ApplicationInsights, ApplicationInsightsComponentProperties_IngestionMode_ApplicationInsightsWithDiagnosticSettings, ApplicationInsightsComponentProperties_IngestionMode_LogAnalytics))
+	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_Disabled, PublicNetworkAccessType_Enabled))
+	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_Disabled, PublicNetworkAccessType_Enabled))
+	gens["Request_Source"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_Request_Source_Rest))
+	gens["RetentionInDays"] = gen.PtrOf(gen.Int())
+	gens["SamplingPercentage"] = gen.PtrOf(gen.Float64())
+	gens["WorkspaceResourceId"] = gen.PtrOf(gen.AlphaString())
+}
+
 func Test_Component_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -95,78 +169,4 @@ func AddIndependentPropertyGeneratorsForComponent_Spec_ARM(gens map[string]gopte
 // AddRelatedPropertyGeneratorsForComponent_Spec_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForComponent_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(ApplicationInsightsComponentProperties_ARMGenerator())
-}
-
-func Test_ApplicationInsightsComponentProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApplicationInsightsComponentProperties_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationInsightsComponentProperties_ARM, ApplicationInsightsComponentProperties_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForApplicationInsightsComponentProperties_ARM runs a test to see if a specific instance of ApplicationInsightsComponentProperties_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationInsightsComponentProperties_ARM(subject ApplicationInsightsComponentProperties_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ApplicationInsightsComponentProperties_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ApplicationInsightsComponentProperties_ARM instances for property testing - lazily instantiated by
-// ApplicationInsightsComponentProperties_ARMGenerator()
-var applicationInsightsComponentProperties_ARMGenerator gopter.Gen
-
-// ApplicationInsightsComponentProperties_ARMGenerator returns a generator of ApplicationInsightsComponentProperties_ARM instances for property testing.
-func ApplicationInsightsComponentProperties_ARMGenerator() gopter.Gen {
-	if applicationInsightsComponentProperties_ARMGenerator != nil {
-		return applicationInsightsComponentProperties_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationInsightsComponentProperties_ARM(generators)
-	applicationInsightsComponentProperties_ARMGenerator = gen.Struct(reflect.TypeOf(ApplicationInsightsComponentProperties_ARM{}), generators)
-
-	return applicationInsightsComponentProperties_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApplicationInsightsComponentProperties_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApplicationInsightsComponentProperties_ARM(gens map[string]gopter.Gen) {
-	gens["Application_Type"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_Application_Type_Other, ApplicationInsightsComponentProperties_Application_Type_Web))
-	gens["DisableIpMasking"] = gen.PtrOf(gen.Bool())
-	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
-	gens["Flow_Type"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_Flow_Type_Bluefield))
-	gens["ForceCustomerStorageForProfiler"] = gen.PtrOf(gen.Bool())
-	gens["HockeyAppId"] = gen.PtrOf(gen.AlphaString())
-	gens["ImmediatePurgeDataOn30Days"] = gen.PtrOf(gen.Bool())
-	gens["IngestionMode"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_IngestionMode_ApplicationInsights, ApplicationInsightsComponentProperties_IngestionMode_ApplicationInsightsWithDiagnosticSettings, ApplicationInsightsComponentProperties_IngestionMode_LogAnalytics))
-	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_Disabled, PublicNetworkAccessType_Enabled))
-	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_Disabled, PublicNetworkAccessType_Enabled))
-	gens["Request_Source"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_Request_Source_Rest))
-	gens["RetentionInDays"] = gen.PtrOf(gen.Int())
-	gens["SamplingPercentage"] = gen.PtrOf(gen.Float64())
-	gens["WorkspaceResourceId"] = gen.PtrOf(gen.AlphaString())
 }

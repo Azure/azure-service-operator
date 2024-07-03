@@ -17,246 +17,6 @@ import (
 	"testing"
 )
 
-func Test_PrivateLinkService_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrivateLinkService via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateLinkService, PrivateLinkServiceGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPrivateLinkService runs a test to see if a specific instance of PrivateLinkService round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateLinkService(subject PrivateLinkService) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual PrivateLinkService
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of PrivateLinkService instances for property testing - lazily instantiated by PrivateLinkServiceGenerator()
-var privateLinkServiceGenerator gopter.Gen
-
-// PrivateLinkServiceGenerator returns a generator of PrivateLinkService instances for property testing.
-func PrivateLinkServiceGenerator() gopter.Gen {
-	if privateLinkServiceGenerator != nil {
-		return privateLinkServiceGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForPrivateLinkService(generators)
-	privateLinkServiceGenerator = gen.Struct(reflect.TypeOf(PrivateLinkService{}), generators)
-
-	return privateLinkServiceGenerator
-}
-
-// AddRelatedPropertyGeneratorsForPrivateLinkService is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPrivateLinkService(gens map[string]gopter.Gen) {
-	gens["Spec"] = PrivateLinkService_SpecGenerator()
-	gens["Status"] = PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator()
-}
-
-func Test_PrivateLinkService_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrivateLinkService_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateLinkService_Spec, PrivateLinkService_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPrivateLinkService_Spec runs a test to see if a specific instance of PrivateLinkService_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateLinkService_Spec(subject PrivateLinkService_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual PrivateLinkService_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of PrivateLinkService_Spec instances for property testing - lazily instantiated by
-// PrivateLinkService_SpecGenerator()
-var privateLinkService_SpecGenerator gopter.Gen
-
-// PrivateLinkService_SpecGenerator returns a generator of PrivateLinkService_Spec instances for property testing.
-// We first initialize privateLinkService_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func PrivateLinkService_SpecGenerator() gopter.Gen {
-	if privateLinkService_SpecGenerator != nil {
-		return privateLinkService_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateLinkService_Spec(generators)
-	privateLinkService_SpecGenerator = gen.Struct(reflect.TypeOf(PrivateLinkService_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateLinkService_Spec(generators)
-	AddRelatedPropertyGeneratorsForPrivateLinkService_Spec(generators)
-	privateLinkService_SpecGenerator = gen.Struct(reflect.TypeOf(PrivateLinkService_Spec{}), generators)
-
-	return privateLinkService_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrivateLinkService_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateLinkService_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["EnableProxyProtocol"] = gen.PtrOf(gen.Bool())
-	gens["Fqdns"] = gen.SliceOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForPrivateLinkService_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPrivateLinkService_Spec(gens map[string]gopter.Gen) {
-	gens["AutoApproval"] = gen.PtrOf(ResourceSetGenerator())
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
-	gens["IpConfigurations"] = gen.SliceOf(PrivateLinkServiceIpConfigurationGenerator())
-	gens["LoadBalancerFrontendIpConfigurations"] = gen.SliceOf(FrontendIPConfiguration_PrivateLinkService_SubResourceEmbeddedGenerator())
-	gens["OperatorSpec"] = gen.PtrOf(PrivateLinkServiceOperatorSpecGenerator())
-	gens["Visibility"] = gen.PtrOf(ResourceSetGenerator())
-}
-
-func Test_PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded, PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded runs a test to see if a specific instance of PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded(subject PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded instances for property testing - lazily
-// instantiated by PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator()
-var privateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator gopter.Gen
-
-// PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator returns a generator of PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded instances for property testing.
-// We first initialize privateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator() gopter.Gen {
-	if privateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator != nil {
-		return privateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded(generators)
-	privateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded(generators)
-	AddRelatedPropertyGeneratorsForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded(generators)
-	privateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded{}), generators)
-
-	return privateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded(gens map[string]gopter.Gen) {
-	gens["Alias"] = gen.PtrOf(gen.AlphaString())
-	gens["EnableProxyProtocol"] = gen.PtrOf(gen.Bool())
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["Fqdns"] = gen.SliceOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded(gens map[string]gopter.Gen) {
-	gens["AutoApproval"] = gen.PtrOf(ResourceSet_STATUSGenerator())
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUSGenerator())
-	gens["IpConfigurations"] = gen.SliceOf(PrivateLinkServiceIpConfiguration_STATUSGenerator())
-	gens["LoadBalancerFrontendIpConfigurations"] = gen.SliceOf(FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator())
-	gens["NetworkInterfaces"] = gen.SliceOf(NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator())
-	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnection_STATUSGenerator())
-	gens["Visibility"] = gen.PtrOf(ResourceSet_STATUSGenerator())
-}
-
 func Test_FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -495,6 +255,67 @@ func AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS(gens ma
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_PrivateLinkService_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PrivateLinkService via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateLinkService, PrivateLinkServiceGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPrivateLinkService runs a test to see if a specific instance of PrivateLinkService round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateLinkService(subject PrivateLinkService) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PrivateLinkService
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PrivateLinkService instances for property testing - lazily instantiated by PrivateLinkServiceGenerator()
+var privateLinkServiceGenerator gopter.Gen
+
+// PrivateLinkServiceGenerator returns a generator of PrivateLinkService instances for property testing.
+func PrivateLinkServiceGenerator() gopter.Gen {
+	if privateLinkServiceGenerator != nil {
+		return privateLinkServiceGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForPrivateLinkService(generators)
+	privateLinkServiceGenerator = gen.Struct(reflect.TypeOf(PrivateLinkService{}), generators)
+
+	return privateLinkServiceGenerator
+}
+
+// AddRelatedPropertyGeneratorsForPrivateLinkService is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForPrivateLinkService(gens map[string]gopter.Gen) {
+	gens["Spec"] = PrivateLinkService_SpecGenerator()
+	gens["Status"] = PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator()
+}
+
 func Test_PrivateLinkServiceIpConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -657,6 +478,61 @@ func AddRelatedPropertyGeneratorsForPrivateLinkServiceIpConfiguration_STATUS(gen
 	gens["Subnet"] = gen.PtrOf(Subnet_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator())
 }
 
+func Test_PrivateLinkServiceOperatorConfigMaps_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PrivateLinkServiceOperatorConfigMaps via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateLinkServiceOperatorConfigMaps, PrivateLinkServiceOperatorConfigMapsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPrivateLinkServiceOperatorConfigMaps runs a test to see if a specific instance of PrivateLinkServiceOperatorConfigMaps round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateLinkServiceOperatorConfigMaps(subject PrivateLinkServiceOperatorConfigMaps) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PrivateLinkServiceOperatorConfigMaps
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PrivateLinkServiceOperatorConfigMaps instances for property testing - lazily instantiated by
+// PrivateLinkServiceOperatorConfigMapsGenerator()
+var privateLinkServiceOperatorConfigMapsGenerator gopter.Gen
+
+// PrivateLinkServiceOperatorConfigMapsGenerator returns a generator of PrivateLinkServiceOperatorConfigMaps instances for property testing.
+func PrivateLinkServiceOperatorConfigMapsGenerator() gopter.Gen {
+	if privateLinkServiceOperatorConfigMapsGenerator != nil {
+		return privateLinkServiceOperatorConfigMapsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	privateLinkServiceOperatorConfigMapsGenerator = gen.Struct(reflect.TypeOf(PrivateLinkServiceOperatorConfigMaps{}), generators)
+
+	return privateLinkServiceOperatorConfigMapsGenerator
+}
+
 func Test_PrivateLinkServiceOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -716,6 +592,185 @@ func PrivateLinkServiceOperatorSpecGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForPrivateLinkServiceOperatorSpec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForPrivateLinkServiceOperatorSpec(gens map[string]gopter.Gen) {
 	gens["ConfigMaps"] = gen.PtrOf(PrivateLinkServiceOperatorConfigMapsGenerator())
+}
+
+func Test_PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded, PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded runs a test to see if a specific instance of PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded(subject PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded instances for property testing - lazily
+// instantiated by PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator()
+var privateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator gopter.Gen
+
+// PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator returns a generator of PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded instances for property testing.
+// We first initialize privateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator() gopter.Gen {
+	if privateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator != nil {
+		return privateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded(generators)
+	privateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded(generators)
+	AddRelatedPropertyGeneratorsForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded(generators)
+	privateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded{}), generators)
+
+	return privateLinkService_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator
+}
+
+// AddIndependentPropertyGeneratorsForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded(gens map[string]gopter.Gen) {
+	gens["Alias"] = gen.PtrOf(gen.AlphaString())
+	gens["EnableProxyProtocol"] = gen.PtrOf(gen.Bool())
+	gens["Etag"] = gen.PtrOf(gen.AlphaString())
+	gens["Fqdns"] = gen.SliceOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded(gens map[string]gopter.Gen) {
+	gens["AutoApproval"] = gen.PtrOf(ResourceSet_STATUSGenerator())
+	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUSGenerator())
+	gens["IpConfigurations"] = gen.SliceOf(PrivateLinkServiceIpConfiguration_STATUSGenerator())
+	gens["LoadBalancerFrontendIpConfigurations"] = gen.SliceOf(FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator())
+	gens["NetworkInterfaces"] = gen.SliceOf(NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator())
+	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnection_STATUSGenerator())
+	gens["Visibility"] = gen.PtrOf(ResourceSet_STATUSGenerator())
+}
+
+func Test_PrivateLinkService_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PrivateLinkService_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateLinkService_Spec, PrivateLinkService_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPrivateLinkService_Spec runs a test to see if a specific instance of PrivateLinkService_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateLinkService_Spec(subject PrivateLinkService_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PrivateLinkService_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PrivateLinkService_Spec instances for property testing - lazily instantiated by
+// PrivateLinkService_SpecGenerator()
+var privateLinkService_SpecGenerator gopter.Gen
+
+// PrivateLinkService_SpecGenerator returns a generator of PrivateLinkService_Spec instances for property testing.
+// We first initialize privateLinkService_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func PrivateLinkService_SpecGenerator() gopter.Gen {
+	if privateLinkService_SpecGenerator != nil {
+		return privateLinkService_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPrivateLinkService_Spec(generators)
+	privateLinkService_SpecGenerator = gen.Struct(reflect.TypeOf(PrivateLinkService_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPrivateLinkService_Spec(generators)
+	AddRelatedPropertyGeneratorsForPrivateLinkService_Spec(generators)
+	privateLinkService_SpecGenerator = gen.Struct(reflect.TypeOf(PrivateLinkService_Spec{}), generators)
+
+	return privateLinkService_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForPrivateLinkService_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateLinkService_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["EnableProxyProtocol"] = gen.PtrOf(gen.Bool())
+	gens["Fqdns"] = gen.SliceOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForPrivateLinkService_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForPrivateLinkService_Spec(gens map[string]gopter.Gen) {
+	gens["AutoApproval"] = gen.PtrOf(ResourceSetGenerator())
+	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
+	gens["IpConfigurations"] = gen.SliceOf(PrivateLinkServiceIpConfigurationGenerator())
+	gens["LoadBalancerFrontendIpConfigurations"] = gen.SliceOf(FrontendIPConfiguration_PrivateLinkService_SubResourceEmbeddedGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(PrivateLinkServiceOperatorSpecGenerator())
+	gens["Visibility"] = gen.PtrOf(ResourceSetGenerator())
 }
 
 func Test_ResourceSet_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -836,61 +891,6 @@ func ResourceSet_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForResourceSet_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForResourceSet_STATUS(gens map[string]gopter.Gen) {
 	gens["Subscriptions"] = gen.SliceOf(gen.AlphaString())
-}
-
-func Test_PrivateLinkServiceOperatorConfigMaps_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrivateLinkServiceOperatorConfigMaps via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateLinkServiceOperatorConfigMaps, PrivateLinkServiceOperatorConfigMapsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPrivateLinkServiceOperatorConfigMaps runs a test to see if a specific instance of PrivateLinkServiceOperatorConfigMaps round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateLinkServiceOperatorConfigMaps(subject PrivateLinkServiceOperatorConfigMaps) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual PrivateLinkServiceOperatorConfigMaps
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of PrivateLinkServiceOperatorConfigMaps instances for property testing - lazily instantiated by
-// PrivateLinkServiceOperatorConfigMapsGenerator()
-var privateLinkServiceOperatorConfigMapsGenerator gopter.Gen
-
-// PrivateLinkServiceOperatorConfigMapsGenerator returns a generator of PrivateLinkServiceOperatorConfigMaps instances for property testing.
-func PrivateLinkServiceOperatorConfigMapsGenerator() gopter.Gen {
-	if privateLinkServiceOperatorConfigMapsGenerator != nil {
-		return privateLinkServiceOperatorConfigMapsGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	privateLinkServiceOperatorConfigMapsGenerator = gen.Struct(reflect.TypeOf(PrivateLinkServiceOperatorConfigMaps{}), generators)
-
-	return privateLinkServiceOperatorConfigMapsGenerator
 }
 
 func Test_Subnet_PrivateLinkService_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

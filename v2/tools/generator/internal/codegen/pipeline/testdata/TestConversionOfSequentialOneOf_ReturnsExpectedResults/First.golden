@@ -1,4 +1,5 @@
 github.com/Azure/azure-service-operator/testing/person/v20200101
-└── First: Object (2 properties)
-    ├── alpha: string
-    └── beta: string
+----------------------------------------------------------------
+First: Object (2 properties)
+├── alpha: string
+└── beta: string

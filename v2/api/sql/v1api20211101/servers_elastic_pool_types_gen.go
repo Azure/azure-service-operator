@@ -808,7 +808,7 @@ func (pool *Servers_ElasticPool_Spec) Initialize_From_Servers_ElasticPool_STATUS
 
 	// LicenseType
 	if source.LicenseType != nil {
-		licenseType := ElasticPoolProperties_LicenseType(*source.LicenseType)
+		licenseType := genruntime.ToEnum(string(*source.LicenseType), elasticPoolProperties_LicenseType_Values)
 		pool.LicenseType = &licenseType
 	} else {
 		pool.LicenseType = nil

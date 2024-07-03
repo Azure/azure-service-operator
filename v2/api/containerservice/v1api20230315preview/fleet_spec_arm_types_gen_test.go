@@ -17,6 +17,128 @@ import (
 	"testing"
 )
 
+func Test_FleetHubProfile_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of FleetHubProfile_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFleetHubProfile_ARM, FleetHubProfile_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForFleetHubProfile_ARM runs a test to see if a specific instance of FleetHubProfile_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForFleetHubProfile_ARM(subject FleetHubProfile_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual FleetHubProfile_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of FleetHubProfile_ARM instances for property testing - lazily instantiated by
+// FleetHubProfile_ARMGenerator()
+var fleetHubProfile_ARMGenerator gopter.Gen
+
+// FleetHubProfile_ARMGenerator returns a generator of FleetHubProfile_ARM instances for property testing.
+func FleetHubProfile_ARMGenerator() gopter.Gen {
+	if fleetHubProfile_ARMGenerator != nil {
+		return fleetHubProfile_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForFleetHubProfile_ARM(generators)
+	fleetHubProfile_ARMGenerator = gen.Struct(reflect.TypeOf(FleetHubProfile_ARM{}), generators)
+
+	return fleetHubProfile_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForFleetHubProfile_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForFleetHubProfile_ARM(gens map[string]gopter.Gen) {
+	gens["DnsPrefix"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_FleetProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of FleetProperties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFleetProperties_ARM, FleetProperties_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForFleetProperties_ARM runs a test to see if a specific instance of FleetProperties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForFleetProperties_ARM(subject FleetProperties_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual FleetProperties_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of FleetProperties_ARM instances for property testing - lazily instantiated by
+// FleetProperties_ARMGenerator()
+var fleetProperties_ARMGenerator gopter.Gen
+
+// FleetProperties_ARMGenerator returns a generator of FleetProperties_ARM instances for property testing.
+func FleetProperties_ARMGenerator() gopter.Gen {
+	if fleetProperties_ARMGenerator != nil {
+		return fleetProperties_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForFleetProperties_ARM(generators)
+	fleetProperties_ARMGenerator = gen.Struct(reflect.TypeOf(FleetProperties_ARM{}), generators)
+
+	return fleetProperties_ARMGenerator
+}
+
+// AddRelatedPropertyGeneratorsForFleetProperties_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForFleetProperties_ARM(gens map[string]gopter.Gen) {
+	gens["HubProfile"] = gen.PtrOf(FleetHubProfile_ARMGenerator())
+}
+
 func Test_Fleet_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -93,126 +215,4 @@ func AddIndependentPropertyGeneratorsForFleet_Spec_ARM(gens map[string]gopter.Ge
 // AddRelatedPropertyGeneratorsForFleet_Spec_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForFleet_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(FleetProperties_ARMGenerator())
-}
-
-func Test_FleetProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FleetProperties_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFleetProperties_ARM, FleetProperties_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForFleetProperties_ARM runs a test to see if a specific instance of FleetProperties_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForFleetProperties_ARM(subject FleetProperties_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual FleetProperties_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of FleetProperties_ARM instances for property testing - lazily instantiated by
-// FleetProperties_ARMGenerator()
-var fleetProperties_ARMGenerator gopter.Gen
-
-// FleetProperties_ARMGenerator returns a generator of FleetProperties_ARM instances for property testing.
-func FleetProperties_ARMGenerator() gopter.Gen {
-	if fleetProperties_ARMGenerator != nil {
-		return fleetProperties_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForFleetProperties_ARM(generators)
-	fleetProperties_ARMGenerator = gen.Struct(reflect.TypeOf(FleetProperties_ARM{}), generators)
-
-	return fleetProperties_ARMGenerator
-}
-
-// AddRelatedPropertyGeneratorsForFleetProperties_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFleetProperties_ARM(gens map[string]gopter.Gen) {
-	gens["HubProfile"] = gen.PtrOf(FleetHubProfile_ARMGenerator())
-}
-
-func Test_FleetHubProfile_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FleetHubProfile_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFleetHubProfile_ARM, FleetHubProfile_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForFleetHubProfile_ARM runs a test to see if a specific instance of FleetHubProfile_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForFleetHubProfile_ARM(subject FleetHubProfile_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual FleetHubProfile_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of FleetHubProfile_ARM instances for property testing - lazily instantiated by
-// FleetHubProfile_ARMGenerator()
-var fleetHubProfile_ARMGenerator gopter.Gen
-
-// FleetHubProfile_ARMGenerator returns a generator of FleetHubProfile_ARM instances for property testing.
-func FleetHubProfile_ARMGenerator() gopter.Gen {
-	if fleetHubProfile_ARMGenerator != nil {
-		return fleetHubProfile_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleetHubProfile_ARM(generators)
-	fleetHubProfile_ARMGenerator = gen.Struct(reflect.TypeOf(FleetHubProfile_ARM{}), generators)
-
-	return fleetHubProfile_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForFleetHubProfile_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFleetHubProfile_ARM(gens map[string]gopter.Gen) {
-	gens["DnsPrefix"] = gen.PtrOf(gen.AlphaString())
 }

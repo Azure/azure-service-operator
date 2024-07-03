@@ -164,327 +164,6 @@ func AddRelatedPropertyGeneratorsForApplicationGateway(gens map[string]gopter.Ge
 	gens["Status"] = ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator()
 }
 
-func Test_ApplicationGateway_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ApplicationGateway_Spec to ApplicationGateway_Spec via AssignProperties_To_ApplicationGateway_Spec & AssignProperties_From_ApplicationGateway_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApplicationGateway_Spec, ApplicationGateway_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForApplicationGateway_Spec tests if a specific instance of ApplicationGateway_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApplicationGateway_Spec(subject ApplicationGateway_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApplicationGateway_Spec
-	err := copied.AssignProperties_To_ApplicationGateway_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApplicationGateway_Spec
-	err = actual.AssignProperties_From_ApplicationGateway_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ApplicationGateway_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApplicationGateway_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationGateway_Spec, ApplicationGateway_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForApplicationGateway_Spec runs a test to see if a specific instance of ApplicationGateway_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationGateway_Spec(subject ApplicationGateway_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ApplicationGateway_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ApplicationGateway_Spec instances for property testing - lazily instantiated by
-// ApplicationGateway_SpecGenerator()
-var applicationGateway_SpecGenerator gopter.Gen
-
-// ApplicationGateway_SpecGenerator returns a generator of ApplicationGateway_Spec instances for property testing.
-// We first initialize applicationGateway_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ApplicationGateway_SpecGenerator() gopter.Gen {
-	if applicationGateway_SpecGenerator != nil {
-		return applicationGateway_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationGateway_Spec(generators)
-	applicationGateway_SpecGenerator = gen.Struct(reflect.TypeOf(ApplicationGateway_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationGateway_Spec(generators)
-	AddRelatedPropertyGeneratorsForApplicationGateway_Spec(generators)
-	applicationGateway_SpecGenerator = gen.Struct(reflect.TypeOf(ApplicationGateway_Spec{}), generators)
-
-	return applicationGateway_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApplicationGateway_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApplicationGateway_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["EnableFips"] = gen.PtrOf(gen.Bool())
-	gens["EnableHttp2"] = gen.PtrOf(gen.Bool())
-	gens["ForceFirewallPolicyAssociation"] = gen.PtrOf(gen.Bool())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Zones"] = gen.SliceOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForApplicationGateway_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForApplicationGateway_Spec(gens map[string]gopter.Gen) {
-	gens["AuthenticationCertificates"] = gen.SliceOf(ApplicationGatewayAuthenticationCertificateGenerator())
-	gens["AutoscaleConfiguration"] = gen.PtrOf(ApplicationGatewayAutoscaleConfigurationGenerator())
-	gens["BackendAddressPools"] = gen.SliceOf(ApplicationGatewayBackendAddressPoolGenerator())
-	gens["BackendHttpSettingsCollection"] = gen.SliceOf(ApplicationGatewayBackendHttpSettingsGenerator())
-	gens["BackendSettingsCollection"] = gen.SliceOf(ApplicationGatewayBackendSettingsGenerator())
-	gens["CustomErrorConfigurations"] = gen.SliceOf(ApplicationGatewayCustomErrorGenerator())
-	gens["FirewallPolicy"] = gen.PtrOf(ApplicationGatewaySubResourceGenerator())
-	gens["FrontendIPConfigurations"] = gen.SliceOf(ApplicationGatewayFrontendIPConfigurationGenerator())
-	gens["FrontendPorts"] = gen.SliceOf(ApplicationGatewayFrontendPortGenerator())
-	gens["GatewayIPConfigurations"] = gen.SliceOf(ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbeddedGenerator())
-	gens["GlobalConfiguration"] = gen.PtrOf(ApplicationGatewayGlobalConfigurationGenerator())
-	gens["HttpListeners"] = gen.SliceOf(ApplicationGatewayHttpListenerGenerator())
-	gens["Identity"] = gen.PtrOf(ManagedServiceIdentityGenerator())
-	gens["Listeners"] = gen.SliceOf(ApplicationGatewayListenerGenerator())
-	gens["LoadDistributionPolicies"] = gen.SliceOf(ApplicationGatewayLoadDistributionPolicyGenerator())
-	gens["PrivateLinkConfigurations"] = gen.SliceOf(ApplicationGatewayPrivateLinkConfigurationGenerator())
-	gens["Probes"] = gen.SliceOf(ApplicationGatewayProbeGenerator())
-	gens["RedirectConfigurations"] = gen.SliceOf(ApplicationGatewayRedirectConfigurationGenerator())
-	gens["RequestRoutingRules"] = gen.SliceOf(ApplicationGatewayRequestRoutingRuleGenerator())
-	gens["RewriteRuleSets"] = gen.SliceOf(ApplicationGatewayRewriteRuleSetGenerator())
-	gens["RoutingRules"] = gen.SliceOf(ApplicationGatewayRoutingRuleGenerator())
-	gens["Sku"] = gen.PtrOf(ApplicationGatewaySkuGenerator())
-	gens["SslCertificates"] = gen.SliceOf(ApplicationGatewaySslCertificateGenerator())
-	gens["SslPolicy"] = gen.PtrOf(ApplicationGatewaySslPolicyGenerator())
-	gens["SslProfiles"] = gen.SliceOf(ApplicationGatewaySslProfileGenerator())
-	gens["TrustedClientCertificates"] = gen.SliceOf(ApplicationGatewayTrustedClientCertificateGenerator())
-	gens["TrustedRootCertificates"] = gen.SliceOf(ApplicationGatewayTrustedRootCertificateGenerator())
-	gens["UrlPathMaps"] = gen.SliceOf(ApplicationGatewayUrlPathMapGenerator())
-	gens["WebApplicationFirewallConfiguration"] = gen.PtrOf(ApplicationGatewayWebApplicationFirewallConfigurationGenerator())
-}
-
-func Test_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded to ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded via AssignProperties_To_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded & AssignProperties_From_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded, ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded tests if a specific instance of ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(subject ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
-	err := copied.AssignProperties_To_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
-	err = actual.AssignProperties_From_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded, ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded runs a test to see if a specific instance of ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(subject ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded instances for property testing - lazily
-// instantiated by ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator()
-var applicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator gopter.Gen
-
-// ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator returns a generator of ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded instances for property testing.
-// We first initialize applicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator() gopter.Gen {
-	if applicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator != nil {
-		return applicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(generators)
-	applicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(generators)
-	AddRelatedPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(generators)
-	applicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded{}), generators)
-
-	return applicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(gens map[string]gopter.Gen) {
-	gens["EnableFips"] = gen.PtrOf(gen.Bool())
-	gens["EnableHttp2"] = gen.PtrOf(gen.Bool())
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["ForceFirewallPolicyAssociation"] = gen.PtrOf(gen.Bool())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["OperationalState"] = gen.PtrOf(gen.OneConstOf(
-		ApplicationGatewayPropertiesFormat_OperationalState_STATUS_Running,
-		ApplicationGatewayPropertiesFormat_OperationalState_STATUS_Starting,
-		ApplicationGatewayPropertiesFormat_OperationalState_STATUS_Stopped,
-		ApplicationGatewayPropertiesFormat_OperationalState_STATUS_Stopping))
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ApplicationGatewayProvisioningState_STATUS_Deleting,
-		ApplicationGatewayProvisioningState_STATUS_Failed,
-		ApplicationGatewayProvisioningState_STATUS_Succeeded,
-		ApplicationGatewayProvisioningState_STATUS_Updating))
-	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["Zones"] = gen.SliceOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(gens map[string]gopter.Gen) {
-	gens["AuthenticationCertificates"] = gen.SliceOf(ApplicationGatewayAuthenticationCertificate_STATUSGenerator())
-	gens["AutoscaleConfiguration"] = gen.PtrOf(ApplicationGatewayAutoscaleConfiguration_STATUSGenerator())
-	gens["BackendAddressPools"] = gen.SliceOf(ApplicationGatewayBackendAddressPool_STATUSGenerator())
-	gens["BackendHttpSettingsCollection"] = gen.SliceOf(ApplicationGatewayBackendHttpSettings_STATUSGenerator())
-	gens["BackendSettingsCollection"] = gen.SliceOf(ApplicationGatewayBackendSettings_STATUSGenerator())
-	gens["CustomErrorConfigurations"] = gen.SliceOf(ApplicationGatewayCustomError_STATUSGenerator())
-	gens["FirewallPolicy"] = gen.PtrOf(ApplicationGatewaySubResource_STATUSGenerator())
-	gens["FrontendIPConfigurations"] = gen.SliceOf(ApplicationGatewayFrontendIPConfiguration_STATUSGenerator())
-	gens["FrontendPorts"] = gen.SliceOf(ApplicationGatewayFrontendPort_STATUSGenerator())
-	gens["GatewayIPConfigurations"] = gen.SliceOf(ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator())
-	gens["GlobalConfiguration"] = gen.PtrOf(ApplicationGatewayGlobalConfiguration_STATUSGenerator())
-	gens["HttpListeners"] = gen.SliceOf(ApplicationGatewayHttpListener_STATUSGenerator())
-	gens["Identity"] = gen.PtrOf(ManagedServiceIdentity_STATUSGenerator())
-	gens["Listeners"] = gen.SliceOf(ApplicationGatewayListener_STATUSGenerator())
-	gens["LoadDistributionPolicies"] = gen.SliceOf(ApplicationGatewayLoadDistributionPolicy_STATUSGenerator())
-	gens["PrivateEndpointConnections"] = gen.SliceOf(ApplicationGatewayPrivateEndpointConnection_STATUSGenerator())
-	gens["PrivateLinkConfigurations"] = gen.SliceOf(ApplicationGatewayPrivateLinkConfiguration_STATUSGenerator())
-	gens["Probes"] = gen.SliceOf(ApplicationGatewayProbe_STATUSGenerator())
-	gens["RedirectConfigurations"] = gen.SliceOf(ApplicationGatewayRedirectConfiguration_STATUSGenerator())
-	gens["RequestRoutingRules"] = gen.SliceOf(ApplicationGatewayRequestRoutingRule_STATUSGenerator())
-	gens["RewriteRuleSets"] = gen.SliceOf(ApplicationGatewayRewriteRuleSet_STATUSGenerator())
-	gens["RoutingRules"] = gen.SliceOf(ApplicationGatewayRoutingRule_STATUSGenerator())
-	gens["Sku"] = gen.PtrOf(ApplicationGatewaySku_STATUSGenerator())
-	gens["SslCertificates"] = gen.SliceOf(ApplicationGatewaySslCertificate_STATUSGenerator())
-	gens["SslPolicy"] = gen.PtrOf(ApplicationGatewaySslPolicy_STATUSGenerator())
-	gens["SslProfiles"] = gen.SliceOf(ApplicationGatewaySslProfile_STATUSGenerator())
-	gens["TrustedClientCertificates"] = gen.SliceOf(ApplicationGatewayTrustedClientCertificate_STATUSGenerator())
-	gens["TrustedRootCertificates"] = gen.SliceOf(ApplicationGatewayTrustedRootCertificate_STATUSGenerator())
-	gens["UrlPathMaps"] = gen.SliceOf(ApplicationGatewayUrlPathMap_STATUSGenerator())
-	gens["WebApplicationFirewallConfiguration"] = gen.PtrOf(ApplicationGatewayWebApplicationFirewallConfiguration_STATUSGenerator())
-}
-
 func Test_ApplicationGatewayAuthenticationCertificate_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -897,6 +576,110 @@ func ApplicationGatewayAutoscaleConfiguration_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForApplicationGatewayAutoscaleConfiguration_STATUS(gens map[string]gopter.Gen) {
 	gens["MaxCapacity"] = gen.PtrOf(gen.Int())
 	gens["MinCapacity"] = gen.PtrOf(gen.Int())
+}
+
+func Test_ApplicationGatewayBackendAddress_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApplicationGatewayBackendAddress to ApplicationGatewayBackendAddress via AssignProperties_To_ApplicationGatewayBackendAddress & AssignProperties_From_ApplicationGatewayBackendAddress returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayBackendAddress, ApplicationGatewayBackendAddressGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApplicationGatewayBackendAddress tests if a specific instance of ApplicationGatewayBackendAddress can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForApplicationGatewayBackendAddress(subject ApplicationGatewayBackendAddress) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ApplicationGatewayBackendAddress
+	err := copied.AssignProperties_To_ApplicationGatewayBackendAddress(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApplicationGatewayBackendAddress
+	err = actual.AssignProperties_From_ApplicationGatewayBackendAddress(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ApplicationGatewayBackendAddress_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApplicationGatewayBackendAddress via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApplicationGatewayBackendAddress, ApplicationGatewayBackendAddressGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApplicationGatewayBackendAddress runs a test to see if a specific instance of ApplicationGatewayBackendAddress round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationGatewayBackendAddress(subject ApplicationGatewayBackendAddress) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApplicationGatewayBackendAddress
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApplicationGatewayBackendAddress instances for property testing - lazily instantiated by
+// ApplicationGatewayBackendAddressGenerator()
+var applicationGatewayBackendAddressGenerator gopter.Gen
+
+// ApplicationGatewayBackendAddressGenerator returns a generator of ApplicationGatewayBackendAddress instances for property testing.
+func ApplicationGatewayBackendAddressGenerator() gopter.Gen {
+	if applicationGatewayBackendAddressGenerator != nil {
+		return applicationGatewayBackendAddressGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGatewayBackendAddress(generators)
+	applicationGatewayBackendAddressGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayBackendAddress{}), generators)
+
+	return applicationGatewayBackendAddressGenerator
+}
+
+// AddIndependentPropertyGeneratorsForApplicationGatewayBackendAddress is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApplicationGatewayBackendAddress(gens map[string]gopter.Gen) {
+	gens["Fqdn"] = gen.PtrOf(gen.AlphaString())
+	gens["IpAddress"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ApplicationGatewayBackendAddressPool_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1585,6 +1368,214 @@ func AddIndependentPropertyGeneratorsForApplicationGatewayBackendSettings_STATUS
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_ApplicationGatewayClientAuthConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApplicationGatewayClientAuthConfiguration to ApplicationGatewayClientAuthConfiguration via AssignProperties_To_ApplicationGatewayClientAuthConfiguration & AssignProperties_From_ApplicationGatewayClientAuthConfiguration returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayClientAuthConfiguration, ApplicationGatewayClientAuthConfigurationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApplicationGatewayClientAuthConfiguration tests if a specific instance of ApplicationGatewayClientAuthConfiguration can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForApplicationGatewayClientAuthConfiguration(subject ApplicationGatewayClientAuthConfiguration) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ApplicationGatewayClientAuthConfiguration
+	err := copied.AssignProperties_To_ApplicationGatewayClientAuthConfiguration(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApplicationGatewayClientAuthConfiguration
+	err = actual.AssignProperties_From_ApplicationGatewayClientAuthConfiguration(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ApplicationGatewayClientAuthConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApplicationGatewayClientAuthConfiguration via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApplicationGatewayClientAuthConfiguration, ApplicationGatewayClientAuthConfigurationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApplicationGatewayClientAuthConfiguration runs a test to see if a specific instance of ApplicationGatewayClientAuthConfiguration round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationGatewayClientAuthConfiguration(subject ApplicationGatewayClientAuthConfiguration) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApplicationGatewayClientAuthConfiguration
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApplicationGatewayClientAuthConfiguration instances for property testing - lazily instantiated by
+// ApplicationGatewayClientAuthConfigurationGenerator()
+var applicationGatewayClientAuthConfigurationGenerator gopter.Gen
+
+// ApplicationGatewayClientAuthConfigurationGenerator returns a generator of ApplicationGatewayClientAuthConfiguration instances for property testing.
+func ApplicationGatewayClientAuthConfigurationGenerator() gopter.Gen {
+	if applicationGatewayClientAuthConfigurationGenerator != nil {
+		return applicationGatewayClientAuthConfigurationGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGatewayClientAuthConfiguration(generators)
+	applicationGatewayClientAuthConfigurationGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayClientAuthConfiguration{}), generators)
+
+	return applicationGatewayClientAuthConfigurationGenerator
+}
+
+// AddIndependentPropertyGeneratorsForApplicationGatewayClientAuthConfiguration is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApplicationGatewayClientAuthConfiguration(gens map[string]gopter.Gen) {
+	gens["VerifyClientCertIssuerDN"] = gen.PtrOf(gen.Bool())
+	gens["VerifyClientRevocation"] = gen.PtrOf(gen.OneConstOf(ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation_None, ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation_OCSP))
+}
+
+func Test_ApplicationGatewayConnectionDraining_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApplicationGatewayConnectionDraining to ApplicationGatewayConnectionDraining via AssignProperties_To_ApplicationGatewayConnectionDraining & AssignProperties_From_ApplicationGatewayConnectionDraining returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayConnectionDraining, ApplicationGatewayConnectionDrainingGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApplicationGatewayConnectionDraining tests if a specific instance of ApplicationGatewayConnectionDraining can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForApplicationGatewayConnectionDraining(subject ApplicationGatewayConnectionDraining) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ApplicationGatewayConnectionDraining
+	err := copied.AssignProperties_To_ApplicationGatewayConnectionDraining(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApplicationGatewayConnectionDraining
+	err = actual.AssignProperties_From_ApplicationGatewayConnectionDraining(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ApplicationGatewayConnectionDraining_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApplicationGatewayConnectionDraining via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApplicationGatewayConnectionDraining, ApplicationGatewayConnectionDrainingGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApplicationGatewayConnectionDraining runs a test to see if a specific instance of ApplicationGatewayConnectionDraining round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationGatewayConnectionDraining(subject ApplicationGatewayConnectionDraining) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApplicationGatewayConnectionDraining
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApplicationGatewayConnectionDraining instances for property testing - lazily instantiated by
+// ApplicationGatewayConnectionDrainingGenerator()
+var applicationGatewayConnectionDrainingGenerator gopter.Gen
+
+// ApplicationGatewayConnectionDrainingGenerator returns a generator of ApplicationGatewayConnectionDraining instances for property testing.
+func ApplicationGatewayConnectionDrainingGenerator() gopter.Gen {
+	if applicationGatewayConnectionDrainingGenerator != nil {
+		return applicationGatewayConnectionDrainingGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGatewayConnectionDraining(generators)
+	applicationGatewayConnectionDrainingGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayConnectionDraining{}), generators)
+
+	return applicationGatewayConnectionDrainingGenerator
+}
+
+// AddIndependentPropertyGeneratorsForApplicationGatewayConnectionDraining is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApplicationGatewayConnectionDraining(gens map[string]gopter.Gen) {
+	gens["DrainTimeoutInSec"] = gen.PtrOf(gen.Int())
+	gens["Enabled"] = gen.PtrOf(gen.Bool())
+}
+
 func Test_ApplicationGatewayCustomError_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1791,6 +1782,424 @@ func ApplicationGatewayCustomError_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForApplicationGatewayCustomError_STATUS(gens map[string]gopter.Gen) {
 	gens["CustomErrorPageUrl"] = gen.PtrOf(gen.AlphaString())
 	gens["StatusCode"] = gen.PtrOf(gen.OneConstOf(ApplicationGatewayCustomError_StatusCode_STATUS_HttpStatus403, ApplicationGatewayCustomError_StatusCode_STATUS_HttpStatus502))
+}
+
+func Test_ApplicationGatewayFirewallDisabledRuleGroup_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApplicationGatewayFirewallDisabledRuleGroup to ApplicationGatewayFirewallDisabledRuleGroup via AssignProperties_To_ApplicationGatewayFirewallDisabledRuleGroup & AssignProperties_From_ApplicationGatewayFirewallDisabledRuleGroup returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayFirewallDisabledRuleGroup, ApplicationGatewayFirewallDisabledRuleGroupGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApplicationGatewayFirewallDisabledRuleGroup tests if a specific instance of ApplicationGatewayFirewallDisabledRuleGroup can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForApplicationGatewayFirewallDisabledRuleGroup(subject ApplicationGatewayFirewallDisabledRuleGroup) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ApplicationGatewayFirewallDisabledRuleGroup
+	err := copied.AssignProperties_To_ApplicationGatewayFirewallDisabledRuleGroup(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApplicationGatewayFirewallDisabledRuleGroup
+	err = actual.AssignProperties_From_ApplicationGatewayFirewallDisabledRuleGroup(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ApplicationGatewayFirewallDisabledRuleGroup_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApplicationGatewayFirewallDisabledRuleGroup via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApplicationGatewayFirewallDisabledRuleGroup, ApplicationGatewayFirewallDisabledRuleGroupGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApplicationGatewayFirewallDisabledRuleGroup runs a test to see if a specific instance of ApplicationGatewayFirewallDisabledRuleGroup round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationGatewayFirewallDisabledRuleGroup(subject ApplicationGatewayFirewallDisabledRuleGroup) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApplicationGatewayFirewallDisabledRuleGroup
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApplicationGatewayFirewallDisabledRuleGroup instances for property testing - lazily instantiated by
+// ApplicationGatewayFirewallDisabledRuleGroupGenerator()
+var applicationGatewayFirewallDisabledRuleGroupGenerator gopter.Gen
+
+// ApplicationGatewayFirewallDisabledRuleGroupGenerator returns a generator of ApplicationGatewayFirewallDisabledRuleGroup instances for property testing.
+func ApplicationGatewayFirewallDisabledRuleGroupGenerator() gopter.Gen {
+	if applicationGatewayFirewallDisabledRuleGroupGenerator != nil {
+		return applicationGatewayFirewallDisabledRuleGroupGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGatewayFirewallDisabledRuleGroup(generators)
+	applicationGatewayFirewallDisabledRuleGroupGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayFirewallDisabledRuleGroup{}), generators)
+
+	return applicationGatewayFirewallDisabledRuleGroupGenerator
+}
+
+// AddIndependentPropertyGeneratorsForApplicationGatewayFirewallDisabledRuleGroup is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApplicationGatewayFirewallDisabledRuleGroup(gens map[string]gopter.Gen) {
+	gens["RuleGroupName"] = gen.PtrOf(gen.AlphaString())
+	gens["Rules"] = gen.SliceOf(gen.Int())
+}
+
+func Test_ApplicationGatewayFirewallDisabledRuleGroup_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApplicationGatewayFirewallDisabledRuleGroup_STATUS to ApplicationGatewayFirewallDisabledRuleGroup_STATUS via AssignProperties_To_ApplicationGatewayFirewallDisabledRuleGroup_STATUS & AssignProperties_From_ApplicationGatewayFirewallDisabledRuleGroup_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayFirewallDisabledRuleGroup_STATUS, ApplicationGatewayFirewallDisabledRuleGroup_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApplicationGatewayFirewallDisabledRuleGroup_STATUS tests if a specific instance of ApplicationGatewayFirewallDisabledRuleGroup_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForApplicationGatewayFirewallDisabledRuleGroup_STATUS(subject ApplicationGatewayFirewallDisabledRuleGroup_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ApplicationGatewayFirewallDisabledRuleGroup_STATUS
+	err := copied.AssignProperties_To_ApplicationGatewayFirewallDisabledRuleGroup_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApplicationGatewayFirewallDisabledRuleGroup_STATUS
+	err = actual.AssignProperties_From_ApplicationGatewayFirewallDisabledRuleGroup_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ApplicationGatewayFirewallDisabledRuleGroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApplicationGatewayFirewallDisabledRuleGroup_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApplicationGatewayFirewallDisabledRuleGroup_STATUS, ApplicationGatewayFirewallDisabledRuleGroup_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApplicationGatewayFirewallDisabledRuleGroup_STATUS runs a test to see if a specific instance of ApplicationGatewayFirewallDisabledRuleGroup_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationGatewayFirewallDisabledRuleGroup_STATUS(subject ApplicationGatewayFirewallDisabledRuleGroup_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApplicationGatewayFirewallDisabledRuleGroup_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApplicationGatewayFirewallDisabledRuleGroup_STATUS instances for property testing - lazily instantiated
+// by ApplicationGatewayFirewallDisabledRuleGroup_STATUSGenerator()
+var applicationGatewayFirewallDisabledRuleGroup_STATUSGenerator gopter.Gen
+
+// ApplicationGatewayFirewallDisabledRuleGroup_STATUSGenerator returns a generator of ApplicationGatewayFirewallDisabledRuleGroup_STATUS instances for property testing.
+func ApplicationGatewayFirewallDisabledRuleGroup_STATUSGenerator() gopter.Gen {
+	if applicationGatewayFirewallDisabledRuleGroup_STATUSGenerator != nil {
+		return applicationGatewayFirewallDisabledRuleGroup_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGatewayFirewallDisabledRuleGroup_STATUS(generators)
+	applicationGatewayFirewallDisabledRuleGroup_STATUSGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayFirewallDisabledRuleGroup_STATUS{}), generators)
+
+	return applicationGatewayFirewallDisabledRuleGroup_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForApplicationGatewayFirewallDisabledRuleGroup_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApplicationGatewayFirewallDisabledRuleGroup_STATUS(gens map[string]gopter.Gen) {
+	gens["RuleGroupName"] = gen.PtrOf(gen.AlphaString())
+	gens["Rules"] = gen.SliceOf(gen.Int())
+}
+
+func Test_ApplicationGatewayFirewallExclusion_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApplicationGatewayFirewallExclusion to ApplicationGatewayFirewallExclusion via AssignProperties_To_ApplicationGatewayFirewallExclusion & AssignProperties_From_ApplicationGatewayFirewallExclusion returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayFirewallExclusion, ApplicationGatewayFirewallExclusionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApplicationGatewayFirewallExclusion tests if a specific instance of ApplicationGatewayFirewallExclusion can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForApplicationGatewayFirewallExclusion(subject ApplicationGatewayFirewallExclusion) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ApplicationGatewayFirewallExclusion
+	err := copied.AssignProperties_To_ApplicationGatewayFirewallExclusion(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApplicationGatewayFirewallExclusion
+	err = actual.AssignProperties_From_ApplicationGatewayFirewallExclusion(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ApplicationGatewayFirewallExclusion_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApplicationGatewayFirewallExclusion via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApplicationGatewayFirewallExclusion, ApplicationGatewayFirewallExclusionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApplicationGatewayFirewallExclusion runs a test to see if a specific instance of ApplicationGatewayFirewallExclusion round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationGatewayFirewallExclusion(subject ApplicationGatewayFirewallExclusion) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApplicationGatewayFirewallExclusion
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApplicationGatewayFirewallExclusion instances for property testing - lazily instantiated by
+// ApplicationGatewayFirewallExclusionGenerator()
+var applicationGatewayFirewallExclusionGenerator gopter.Gen
+
+// ApplicationGatewayFirewallExclusionGenerator returns a generator of ApplicationGatewayFirewallExclusion instances for property testing.
+func ApplicationGatewayFirewallExclusionGenerator() gopter.Gen {
+	if applicationGatewayFirewallExclusionGenerator != nil {
+		return applicationGatewayFirewallExclusionGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGatewayFirewallExclusion(generators)
+	applicationGatewayFirewallExclusionGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayFirewallExclusion{}), generators)
+
+	return applicationGatewayFirewallExclusionGenerator
+}
+
+// AddIndependentPropertyGeneratorsForApplicationGatewayFirewallExclusion is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApplicationGatewayFirewallExclusion(gens map[string]gopter.Gen) {
+	gens["MatchVariable"] = gen.PtrOf(gen.AlphaString())
+	gens["Selector"] = gen.PtrOf(gen.AlphaString())
+	gens["SelectorMatchOperator"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ApplicationGatewayFirewallExclusion_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApplicationGatewayFirewallExclusion_STATUS to ApplicationGatewayFirewallExclusion_STATUS via AssignProperties_To_ApplicationGatewayFirewallExclusion_STATUS & AssignProperties_From_ApplicationGatewayFirewallExclusion_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayFirewallExclusion_STATUS, ApplicationGatewayFirewallExclusion_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApplicationGatewayFirewallExclusion_STATUS tests if a specific instance of ApplicationGatewayFirewallExclusion_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForApplicationGatewayFirewallExclusion_STATUS(subject ApplicationGatewayFirewallExclusion_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ApplicationGatewayFirewallExclusion_STATUS
+	err := copied.AssignProperties_To_ApplicationGatewayFirewallExclusion_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApplicationGatewayFirewallExclusion_STATUS
+	err = actual.AssignProperties_From_ApplicationGatewayFirewallExclusion_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ApplicationGatewayFirewallExclusion_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApplicationGatewayFirewallExclusion_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApplicationGatewayFirewallExclusion_STATUS, ApplicationGatewayFirewallExclusion_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApplicationGatewayFirewallExclusion_STATUS runs a test to see if a specific instance of ApplicationGatewayFirewallExclusion_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationGatewayFirewallExclusion_STATUS(subject ApplicationGatewayFirewallExclusion_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApplicationGatewayFirewallExclusion_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApplicationGatewayFirewallExclusion_STATUS instances for property testing - lazily instantiated by
+// ApplicationGatewayFirewallExclusion_STATUSGenerator()
+var applicationGatewayFirewallExclusion_STATUSGenerator gopter.Gen
+
+// ApplicationGatewayFirewallExclusion_STATUSGenerator returns a generator of ApplicationGatewayFirewallExclusion_STATUS instances for property testing.
+func ApplicationGatewayFirewallExclusion_STATUSGenerator() gopter.Gen {
+	if applicationGatewayFirewallExclusion_STATUSGenerator != nil {
+		return applicationGatewayFirewallExclusion_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGatewayFirewallExclusion_STATUS(generators)
+	applicationGatewayFirewallExclusion_STATUSGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayFirewallExclusion_STATUS{}), generators)
+
+	return applicationGatewayFirewallExclusion_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForApplicationGatewayFirewallExclusion_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApplicationGatewayFirewallExclusion_STATUS(gens map[string]gopter.Gen) {
+	gens["MatchVariable"] = gen.PtrOf(gen.AlphaString())
+	gens["Selector"] = gen.PtrOf(gen.AlphaString())
+	gens["SelectorMatchOperator"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ApplicationGatewayFrontendIPConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2430,6 +2839,110 @@ func ApplicationGatewayGlobalConfiguration_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForApplicationGatewayGlobalConfiguration_STATUS(gens map[string]gopter.Gen) {
 	gens["EnableRequestBuffering"] = gen.PtrOf(gen.Bool())
 	gens["EnableResponseBuffering"] = gen.PtrOf(gen.Bool())
+}
+
+func Test_ApplicationGatewayHeaderConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApplicationGatewayHeaderConfiguration to ApplicationGatewayHeaderConfiguration via AssignProperties_To_ApplicationGatewayHeaderConfiguration & AssignProperties_From_ApplicationGatewayHeaderConfiguration returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayHeaderConfiguration, ApplicationGatewayHeaderConfigurationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApplicationGatewayHeaderConfiguration tests if a specific instance of ApplicationGatewayHeaderConfiguration can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForApplicationGatewayHeaderConfiguration(subject ApplicationGatewayHeaderConfiguration) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ApplicationGatewayHeaderConfiguration
+	err := copied.AssignProperties_To_ApplicationGatewayHeaderConfiguration(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApplicationGatewayHeaderConfiguration
+	err = actual.AssignProperties_From_ApplicationGatewayHeaderConfiguration(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ApplicationGatewayHeaderConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApplicationGatewayHeaderConfiguration via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApplicationGatewayHeaderConfiguration, ApplicationGatewayHeaderConfigurationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApplicationGatewayHeaderConfiguration runs a test to see if a specific instance of ApplicationGatewayHeaderConfiguration round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationGatewayHeaderConfiguration(subject ApplicationGatewayHeaderConfiguration) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApplicationGatewayHeaderConfiguration
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApplicationGatewayHeaderConfiguration instances for property testing - lazily instantiated by
+// ApplicationGatewayHeaderConfigurationGenerator()
+var applicationGatewayHeaderConfigurationGenerator gopter.Gen
+
+// ApplicationGatewayHeaderConfigurationGenerator returns a generator of ApplicationGatewayHeaderConfiguration instances for property testing.
+func ApplicationGatewayHeaderConfigurationGenerator() gopter.Gen {
+	if applicationGatewayHeaderConfigurationGenerator != nil {
+		return applicationGatewayHeaderConfigurationGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGatewayHeaderConfiguration(generators)
+	applicationGatewayHeaderConfigurationGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayHeaderConfiguration{}), generators)
+
+	return applicationGatewayHeaderConfigurationGenerator
+}
+
+// AddIndependentPropertyGeneratorsForApplicationGatewayHeaderConfiguration is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApplicationGatewayHeaderConfiguration(gens map[string]gopter.Gen) {
+	gens["HeaderName"] = gen.PtrOf(gen.AlphaString())
+	gens["HeaderValue"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ApplicationGatewayHttpListener_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -3335,6 +3848,200 @@ func AddIndependentPropertyGeneratorsForApplicationGatewayLoadDistributionPolicy
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_ApplicationGatewayLoadDistributionTarget_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApplicationGatewayLoadDistributionTarget to ApplicationGatewayLoadDistributionTarget via AssignProperties_To_ApplicationGatewayLoadDistributionTarget & AssignProperties_From_ApplicationGatewayLoadDistributionTarget returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayLoadDistributionTarget, ApplicationGatewayLoadDistributionTargetGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApplicationGatewayLoadDistributionTarget tests if a specific instance of ApplicationGatewayLoadDistributionTarget can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForApplicationGatewayLoadDistributionTarget(subject ApplicationGatewayLoadDistributionTarget) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ApplicationGatewayLoadDistributionTarget
+	err := copied.AssignProperties_To_ApplicationGatewayLoadDistributionTarget(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApplicationGatewayLoadDistributionTarget
+	err = actual.AssignProperties_From_ApplicationGatewayLoadDistributionTarget(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ApplicationGatewayLoadDistributionTarget_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApplicationGatewayLoadDistributionTarget via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApplicationGatewayLoadDistributionTarget, ApplicationGatewayLoadDistributionTargetGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApplicationGatewayLoadDistributionTarget runs a test to see if a specific instance of ApplicationGatewayLoadDistributionTarget round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationGatewayLoadDistributionTarget(subject ApplicationGatewayLoadDistributionTarget) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApplicationGatewayLoadDistributionTarget
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApplicationGatewayLoadDistributionTarget instances for property testing - lazily instantiated by
+// ApplicationGatewayLoadDistributionTargetGenerator()
+var applicationGatewayLoadDistributionTargetGenerator gopter.Gen
+
+// ApplicationGatewayLoadDistributionTargetGenerator returns a generator of ApplicationGatewayLoadDistributionTarget instances for property testing.
+func ApplicationGatewayLoadDistributionTargetGenerator() gopter.Gen {
+	if applicationGatewayLoadDistributionTargetGenerator != nil {
+		return applicationGatewayLoadDistributionTargetGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	applicationGatewayLoadDistributionTargetGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayLoadDistributionTarget{}), generators)
+
+	return applicationGatewayLoadDistributionTargetGenerator
+}
+
+func Test_ApplicationGatewayPathRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApplicationGatewayPathRule to ApplicationGatewayPathRule via AssignProperties_To_ApplicationGatewayPathRule & AssignProperties_From_ApplicationGatewayPathRule returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayPathRule, ApplicationGatewayPathRuleGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApplicationGatewayPathRule tests if a specific instance of ApplicationGatewayPathRule can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForApplicationGatewayPathRule(subject ApplicationGatewayPathRule) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ApplicationGatewayPathRule
+	err := copied.AssignProperties_To_ApplicationGatewayPathRule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApplicationGatewayPathRule
+	err = actual.AssignProperties_From_ApplicationGatewayPathRule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ApplicationGatewayPathRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApplicationGatewayPathRule via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApplicationGatewayPathRule, ApplicationGatewayPathRuleGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApplicationGatewayPathRule runs a test to see if a specific instance of ApplicationGatewayPathRule round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationGatewayPathRule(subject ApplicationGatewayPathRule) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApplicationGatewayPathRule
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApplicationGatewayPathRule instances for property testing - lazily instantiated by
+// ApplicationGatewayPathRuleGenerator()
+var applicationGatewayPathRuleGenerator gopter.Gen
+
+// ApplicationGatewayPathRuleGenerator returns a generator of ApplicationGatewayPathRule instances for property testing.
+func ApplicationGatewayPathRuleGenerator() gopter.Gen {
+	if applicationGatewayPathRuleGenerator != nil {
+		return applicationGatewayPathRuleGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	applicationGatewayPathRuleGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayPathRule{}), generators)
+
+	return applicationGatewayPathRuleGenerator
+}
+
 func Test_ApplicationGatewayPrivateEndpointConnection_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -3658,6 +4365,103 @@ func AddIndependentPropertyGeneratorsForApplicationGatewayPrivateLinkConfigurati
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_ApplicationGatewayPrivateLinkIpConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApplicationGatewayPrivateLinkIpConfiguration to ApplicationGatewayPrivateLinkIpConfiguration via AssignProperties_To_ApplicationGatewayPrivateLinkIpConfiguration & AssignProperties_From_ApplicationGatewayPrivateLinkIpConfiguration returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayPrivateLinkIpConfiguration, ApplicationGatewayPrivateLinkIpConfigurationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApplicationGatewayPrivateLinkIpConfiguration tests if a specific instance of ApplicationGatewayPrivateLinkIpConfiguration can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForApplicationGatewayPrivateLinkIpConfiguration(subject ApplicationGatewayPrivateLinkIpConfiguration) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ApplicationGatewayPrivateLinkIpConfiguration
+	err := copied.AssignProperties_To_ApplicationGatewayPrivateLinkIpConfiguration(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApplicationGatewayPrivateLinkIpConfiguration
+	err = actual.AssignProperties_From_ApplicationGatewayPrivateLinkIpConfiguration(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ApplicationGatewayPrivateLinkIpConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApplicationGatewayPrivateLinkIpConfiguration via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApplicationGatewayPrivateLinkIpConfiguration, ApplicationGatewayPrivateLinkIpConfigurationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApplicationGatewayPrivateLinkIpConfiguration runs a test to see if a specific instance of ApplicationGatewayPrivateLinkIpConfiguration round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationGatewayPrivateLinkIpConfiguration(subject ApplicationGatewayPrivateLinkIpConfiguration) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApplicationGatewayPrivateLinkIpConfiguration
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApplicationGatewayPrivateLinkIpConfiguration instances for property testing - lazily instantiated by
+// ApplicationGatewayPrivateLinkIpConfigurationGenerator()
+var applicationGatewayPrivateLinkIpConfigurationGenerator gopter.Gen
+
+// ApplicationGatewayPrivateLinkIpConfigurationGenerator returns a generator of ApplicationGatewayPrivateLinkIpConfiguration instances for property testing.
+func ApplicationGatewayPrivateLinkIpConfigurationGenerator() gopter.Gen {
+	if applicationGatewayPrivateLinkIpConfigurationGenerator != nil {
+		return applicationGatewayPrivateLinkIpConfigurationGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	applicationGatewayPrivateLinkIpConfigurationGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayPrivateLinkIpConfiguration{}), generators)
+
+	return applicationGatewayPrivateLinkIpConfigurationGenerator
+}
+
 func Test_ApplicationGatewayProbe_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -3787,6 +4591,110 @@ func AddIndependentPropertyGeneratorsForApplicationGatewayProbe(gens map[string]
 // AddRelatedPropertyGeneratorsForApplicationGatewayProbe is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForApplicationGatewayProbe(gens map[string]gopter.Gen) {
 	gens["Match"] = gen.PtrOf(ApplicationGatewayProbeHealthResponseMatchGenerator())
+}
+
+func Test_ApplicationGatewayProbeHealthResponseMatch_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApplicationGatewayProbeHealthResponseMatch to ApplicationGatewayProbeHealthResponseMatch via AssignProperties_To_ApplicationGatewayProbeHealthResponseMatch & AssignProperties_From_ApplicationGatewayProbeHealthResponseMatch returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayProbeHealthResponseMatch, ApplicationGatewayProbeHealthResponseMatchGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApplicationGatewayProbeHealthResponseMatch tests if a specific instance of ApplicationGatewayProbeHealthResponseMatch can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForApplicationGatewayProbeHealthResponseMatch(subject ApplicationGatewayProbeHealthResponseMatch) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ApplicationGatewayProbeHealthResponseMatch
+	err := copied.AssignProperties_To_ApplicationGatewayProbeHealthResponseMatch(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApplicationGatewayProbeHealthResponseMatch
+	err = actual.AssignProperties_From_ApplicationGatewayProbeHealthResponseMatch(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ApplicationGatewayProbeHealthResponseMatch_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApplicationGatewayProbeHealthResponseMatch via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApplicationGatewayProbeHealthResponseMatch, ApplicationGatewayProbeHealthResponseMatchGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApplicationGatewayProbeHealthResponseMatch runs a test to see if a specific instance of ApplicationGatewayProbeHealthResponseMatch round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationGatewayProbeHealthResponseMatch(subject ApplicationGatewayProbeHealthResponseMatch) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApplicationGatewayProbeHealthResponseMatch
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApplicationGatewayProbeHealthResponseMatch instances for property testing - lazily instantiated by
+// ApplicationGatewayProbeHealthResponseMatchGenerator()
+var applicationGatewayProbeHealthResponseMatchGenerator gopter.Gen
+
+// ApplicationGatewayProbeHealthResponseMatchGenerator returns a generator of ApplicationGatewayProbeHealthResponseMatch instances for property testing.
+func ApplicationGatewayProbeHealthResponseMatchGenerator() gopter.Gen {
+	if applicationGatewayProbeHealthResponseMatchGenerator != nil {
+		return applicationGatewayProbeHealthResponseMatchGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGatewayProbeHealthResponseMatch(generators)
+	applicationGatewayProbeHealthResponseMatchGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayProbeHealthResponseMatch{}), generators)
+
+	return applicationGatewayProbeHealthResponseMatchGenerator
+}
+
+// AddIndependentPropertyGeneratorsForApplicationGatewayProbeHealthResponseMatch is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApplicationGatewayProbeHealthResponseMatch(gens map[string]gopter.Gen) {
+	gens["Body"] = gen.PtrOf(gen.AlphaString())
+	gens["StatusCodes"] = gen.SliceOf(gen.AlphaString())
 }
 
 func Test_ApplicationGatewayProbe_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -4349,6 +5257,336 @@ func ApplicationGatewayRequestRoutingRule_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForApplicationGatewayRequestRoutingRule_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApplicationGatewayRequestRoutingRule_STATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ApplicationGatewayRewriteRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApplicationGatewayRewriteRule to ApplicationGatewayRewriteRule via AssignProperties_To_ApplicationGatewayRewriteRule & AssignProperties_From_ApplicationGatewayRewriteRule returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayRewriteRule, ApplicationGatewayRewriteRuleGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApplicationGatewayRewriteRule tests if a specific instance of ApplicationGatewayRewriteRule can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForApplicationGatewayRewriteRule(subject ApplicationGatewayRewriteRule) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ApplicationGatewayRewriteRule
+	err := copied.AssignProperties_To_ApplicationGatewayRewriteRule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApplicationGatewayRewriteRule
+	err = actual.AssignProperties_From_ApplicationGatewayRewriteRule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ApplicationGatewayRewriteRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApplicationGatewayRewriteRule via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApplicationGatewayRewriteRule, ApplicationGatewayRewriteRuleGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApplicationGatewayRewriteRule runs a test to see if a specific instance of ApplicationGatewayRewriteRule round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationGatewayRewriteRule(subject ApplicationGatewayRewriteRule) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApplicationGatewayRewriteRule
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApplicationGatewayRewriteRule instances for property testing - lazily instantiated by
+// ApplicationGatewayRewriteRuleGenerator()
+var applicationGatewayRewriteRuleGenerator gopter.Gen
+
+// ApplicationGatewayRewriteRuleGenerator returns a generator of ApplicationGatewayRewriteRule instances for property testing.
+// We first initialize applicationGatewayRewriteRuleGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ApplicationGatewayRewriteRuleGenerator() gopter.Gen {
+	if applicationGatewayRewriteRuleGenerator != nil {
+		return applicationGatewayRewriteRuleGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGatewayRewriteRule(generators)
+	applicationGatewayRewriteRuleGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayRewriteRule{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGatewayRewriteRule(generators)
+	AddRelatedPropertyGeneratorsForApplicationGatewayRewriteRule(generators)
+	applicationGatewayRewriteRuleGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayRewriteRule{}), generators)
+
+	return applicationGatewayRewriteRuleGenerator
+}
+
+// AddIndependentPropertyGeneratorsForApplicationGatewayRewriteRule is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApplicationGatewayRewriteRule(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["RuleSequence"] = gen.PtrOf(gen.Int())
+}
+
+// AddRelatedPropertyGeneratorsForApplicationGatewayRewriteRule is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForApplicationGatewayRewriteRule(gens map[string]gopter.Gen) {
+	gens["ActionSet"] = gen.PtrOf(ApplicationGatewayRewriteRuleActionSetGenerator())
+	gens["Conditions"] = gen.SliceOf(ApplicationGatewayRewriteRuleConditionGenerator())
+}
+
+func Test_ApplicationGatewayRewriteRuleActionSet_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApplicationGatewayRewriteRuleActionSet to ApplicationGatewayRewriteRuleActionSet via AssignProperties_To_ApplicationGatewayRewriteRuleActionSet & AssignProperties_From_ApplicationGatewayRewriteRuleActionSet returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayRewriteRuleActionSet, ApplicationGatewayRewriteRuleActionSetGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApplicationGatewayRewriteRuleActionSet tests if a specific instance of ApplicationGatewayRewriteRuleActionSet can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForApplicationGatewayRewriteRuleActionSet(subject ApplicationGatewayRewriteRuleActionSet) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ApplicationGatewayRewriteRuleActionSet
+	err := copied.AssignProperties_To_ApplicationGatewayRewriteRuleActionSet(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApplicationGatewayRewriteRuleActionSet
+	err = actual.AssignProperties_From_ApplicationGatewayRewriteRuleActionSet(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ApplicationGatewayRewriteRuleActionSet_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApplicationGatewayRewriteRuleActionSet via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApplicationGatewayRewriteRuleActionSet, ApplicationGatewayRewriteRuleActionSetGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApplicationGatewayRewriteRuleActionSet runs a test to see if a specific instance of ApplicationGatewayRewriteRuleActionSet round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationGatewayRewriteRuleActionSet(subject ApplicationGatewayRewriteRuleActionSet) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApplicationGatewayRewriteRuleActionSet
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApplicationGatewayRewriteRuleActionSet instances for property testing - lazily instantiated by
+// ApplicationGatewayRewriteRuleActionSetGenerator()
+var applicationGatewayRewriteRuleActionSetGenerator gopter.Gen
+
+// ApplicationGatewayRewriteRuleActionSetGenerator returns a generator of ApplicationGatewayRewriteRuleActionSet instances for property testing.
+func ApplicationGatewayRewriteRuleActionSetGenerator() gopter.Gen {
+	if applicationGatewayRewriteRuleActionSetGenerator != nil {
+		return applicationGatewayRewriteRuleActionSetGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForApplicationGatewayRewriteRuleActionSet(generators)
+	applicationGatewayRewriteRuleActionSetGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayRewriteRuleActionSet{}), generators)
+
+	return applicationGatewayRewriteRuleActionSetGenerator
+}
+
+// AddRelatedPropertyGeneratorsForApplicationGatewayRewriteRuleActionSet is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForApplicationGatewayRewriteRuleActionSet(gens map[string]gopter.Gen) {
+	gens["RequestHeaderConfigurations"] = gen.SliceOf(ApplicationGatewayHeaderConfigurationGenerator())
+	gens["ResponseHeaderConfigurations"] = gen.SliceOf(ApplicationGatewayHeaderConfigurationGenerator())
+	gens["UrlConfiguration"] = gen.PtrOf(ApplicationGatewayUrlConfigurationGenerator())
+}
+
+func Test_ApplicationGatewayRewriteRuleCondition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApplicationGatewayRewriteRuleCondition to ApplicationGatewayRewriteRuleCondition via AssignProperties_To_ApplicationGatewayRewriteRuleCondition & AssignProperties_From_ApplicationGatewayRewriteRuleCondition returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayRewriteRuleCondition, ApplicationGatewayRewriteRuleConditionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApplicationGatewayRewriteRuleCondition tests if a specific instance of ApplicationGatewayRewriteRuleCondition can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForApplicationGatewayRewriteRuleCondition(subject ApplicationGatewayRewriteRuleCondition) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ApplicationGatewayRewriteRuleCondition
+	err := copied.AssignProperties_To_ApplicationGatewayRewriteRuleCondition(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApplicationGatewayRewriteRuleCondition
+	err = actual.AssignProperties_From_ApplicationGatewayRewriteRuleCondition(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ApplicationGatewayRewriteRuleCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApplicationGatewayRewriteRuleCondition via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApplicationGatewayRewriteRuleCondition, ApplicationGatewayRewriteRuleConditionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApplicationGatewayRewriteRuleCondition runs a test to see if a specific instance of ApplicationGatewayRewriteRuleCondition round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationGatewayRewriteRuleCondition(subject ApplicationGatewayRewriteRuleCondition) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApplicationGatewayRewriteRuleCondition
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApplicationGatewayRewriteRuleCondition instances for property testing - lazily instantiated by
+// ApplicationGatewayRewriteRuleConditionGenerator()
+var applicationGatewayRewriteRuleConditionGenerator gopter.Gen
+
+// ApplicationGatewayRewriteRuleConditionGenerator returns a generator of ApplicationGatewayRewriteRuleCondition instances for property testing.
+func ApplicationGatewayRewriteRuleConditionGenerator() gopter.Gen {
+	if applicationGatewayRewriteRuleConditionGenerator != nil {
+		return applicationGatewayRewriteRuleConditionGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGatewayRewriteRuleCondition(generators)
+	applicationGatewayRewriteRuleConditionGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayRewriteRuleCondition{}), generators)
+
+	return applicationGatewayRewriteRuleConditionGenerator
+}
+
+// AddIndependentPropertyGeneratorsForApplicationGatewayRewriteRuleCondition is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApplicationGatewayRewriteRuleCondition(gens map[string]gopter.Gen) {
+	gens["IgnoreCase"] = gen.PtrOf(gen.Bool())
+	gens["Negate"] = gen.PtrOf(gen.Bool())
+	gens["Pattern"] = gen.PtrOf(gen.AlphaString())
+	gens["Variable"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ApplicationGatewayRewriteRuleSet_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -6365,6 +7603,111 @@ func AddIndependentPropertyGeneratorsForApplicationGatewayTrustedRootCertificate
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_ApplicationGatewayUrlConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApplicationGatewayUrlConfiguration to ApplicationGatewayUrlConfiguration via AssignProperties_To_ApplicationGatewayUrlConfiguration & AssignProperties_From_ApplicationGatewayUrlConfiguration returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayUrlConfiguration, ApplicationGatewayUrlConfigurationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApplicationGatewayUrlConfiguration tests if a specific instance of ApplicationGatewayUrlConfiguration can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForApplicationGatewayUrlConfiguration(subject ApplicationGatewayUrlConfiguration) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ApplicationGatewayUrlConfiguration
+	err := copied.AssignProperties_To_ApplicationGatewayUrlConfiguration(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApplicationGatewayUrlConfiguration
+	err = actual.AssignProperties_From_ApplicationGatewayUrlConfiguration(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ApplicationGatewayUrlConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApplicationGatewayUrlConfiguration via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApplicationGatewayUrlConfiguration, ApplicationGatewayUrlConfigurationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApplicationGatewayUrlConfiguration runs a test to see if a specific instance of ApplicationGatewayUrlConfiguration round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationGatewayUrlConfiguration(subject ApplicationGatewayUrlConfiguration) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApplicationGatewayUrlConfiguration
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApplicationGatewayUrlConfiguration instances for property testing - lazily instantiated by
+// ApplicationGatewayUrlConfigurationGenerator()
+var applicationGatewayUrlConfigurationGenerator gopter.Gen
+
+// ApplicationGatewayUrlConfigurationGenerator returns a generator of ApplicationGatewayUrlConfiguration instances for property testing.
+func ApplicationGatewayUrlConfigurationGenerator() gopter.Gen {
+	if applicationGatewayUrlConfigurationGenerator != nil {
+		return applicationGatewayUrlConfigurationGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGatewayUrlConfiguration(generators)
+	applicationGatewayUrlConfigurationGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayUrlConfiguration{}), generators)
+
+	return applicationGatewayUrlConfigurationGenerator
+}
+
+// AddIndependentPropertyGeneratorsForApplicationGatewayUrlConfiguration is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApplicationGatewayUrlConfiguration(gens map[string]gopter.Gen) {
+	gens["ModifiedPath"] = gen.PtrOf(gen.AlphaString())
+	gens["ModifiedQueryString"] = gen.PtrOf(gen.AlphaString())
+	gens["Reroute"] = gen.PtrOf(gen.Bool())
+}
+
 func Test_ApplicationGatewayUrlPathMap_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -6840,6 +8183,327 @@ func AddRelatedPropertyGeneratorsForApplicationGatewayWebApplicationFirewallConf
 	gens["Exclusions"] = gen.SliceOf(ApplicationGatewayFirewallExclusion_STATUSGenerator())
 }
 
+func Test_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded to ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded via AssignProperties_To_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded & AssignProperties_From_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded, ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded tests if a specific instance of ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(subject ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
+	err := copied.AssignProperties_To_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
+	err = actual.AssignProperties_From_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded, ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded runs a test to see if a specific instance of ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(subject ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded instances for property testing - lazily
+// instantiated by ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator()
+var applicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator gopter.Gen
+
+// ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator returns a generator of ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded instances for property testing.
+// We first initialize applicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator() gopter.Gen {
+	if applicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator != nil {
+		return applicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(generators)
+	applicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(generators)
+	AddRelatedPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(generators)
+	applicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded{}), generators)
+
+	return applicationGateway_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator
+}
+
+// AddIndependentPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(gens map[string]gopter.Gen) {
+	gens["EnableFips"] = gen.PtrOf(gen.Bool())
+	gens["EnableHttp2"] = gen.PtrOf(gen.Bool())
+	gens["Etag"] = gen.PtrOf(gen.AlphaString())
+	gens["ForceFirewallPolicyAssociation"] = gen.PtrOf(gen.Bool())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["OperationalState"] = gen.PtrOf(gen.OneConstOf(
+		ApplicationGatewayPropertiesFormat_OperationalState_STATUS_Running,
+		ApplicationGatewayPropertiesFormat_OperationalState_STATUS_Starting,
+		ApplicationGatewayPropertiesFormat_OperationalState_STATUS_Stopped,
+		ApplicationGatewayPropertiesFormat_OperationalState_STATUS_Stopping))
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		ApplicationGatewayProvisioningState_STATUS_Deleting,
+		ApplicationGatewayProvisioningState_STATUS_Failed,
+		ApplicationGatewayProvisioningState_STATUS_Succeeded,
+		ApplicationGatewayProvisioningState_STATUS_Updating))
+	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+	gens["Zones"] = gen.SliceOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(gens map[string]gopter.Gen) {
+	gens["AuthenticationCertificates"] = gen.SliceOf(ApplicationGatewayAuthenticationCertificate_STATUSGenerator())
+	gens["AutoscaleConfiguration"] = gen.PtrOf(ApplicationGatewayAutoscaleConfiguration_STATUSGenerator())
+	gens["BackendAddressPools"] = gen.SliceOf(ApplicationGatewayBackendAddressPool_STATUSGenerator())
+	gens["BackendHttpSettingsCollection"] = gen.SliceOf(ApplicationGatewayBackendHttpSettings_STATUSGenerator())
+	gens["BackendSettingsCollection"] = gen.SliceOf(ApplicationGatewayBackendSettings_STATUSGenerator())
+	gens["CustomErrorConfigurations"] = gen.SliceOf(ApplicationGatewayCustomError_STATUSGenerator())
+	gens["FirewallPolicy"] = gen.PtrOf(ApplicationGatewaySubResource_STATUSGenerator())
+	gens["FrontendIPConfigurations"] = gen.SliceOf(ApplicationGatewayFrontendIPConfiguration_STATUSGenerator())
+	gens["FrontendPorts"] = gen.SliceOf(ApplicationGatewayFrontendPort_STATUSGenerator())
+	gens["GatewayIPConfigurations"] = gen.SliceOf(ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbeddedGenerator())
+	gens["GlobalConfiguration"] = gen.PtrOf(ApplicationGatewayGlobalConfiguration_STATUSGenerator())
+	gens["HttpListeners"] = gen.SliceOf(ApplicationGatewayHttpListener_STATUSGenerator())
+	gens["Identity"] = gen.PtrOf(ManagedServiceIdentity_STATUSGenerator())
+	gens["Listeners"] = gen.SliceOf(ApplicationGatewayListener_STATUSGenerator())
+	gens["LoadDistributionPolicies"] = gen.SliceOf(ApplicationGatewayLoadDistributionPolicy_STATUSGenerator())
+	gens["PrivateEndpointConnections"] = gen.SliceOf(ApplicationGatewayPrivateEndpointConnection_STATUSGenerator())
+	gens["PrivateLinkConfigurations"] = gen.SliceOf(ApplicationGatewayPrivateLinkConfiguration_STATUSGenerator())
+	gens["Probes"] = gen.SliceOf(ApplicationGatewayProbe_STATUSGenerator())
+	gens["RedirectConfigurations"] = gen.SliceOf(ApplicationGatewayRedirectConfiguration_STATUSGenerator())
+	gens["RequestRoutingRules"] = gen.SliceOf(ApplicationGatewayRequestRoutingRule_STATUSGenerator())
+	gens["RewriteRuleSets"] = gen.SliceOf(ApplicationGatewayRewriteRuleSet_STATUSGenerator())
+	gens["RoutingRules"] = gen.SliceOf(ApplicationGatewayRoutingRule_STATUSGenerator())
+	gens["Sku"] = gen.PtrOf(ApplicationGatewaySku_STATUSGenerator())
+	gens["SslCertificates"] = gen.SliceOf(ApplicationGatewaySslCertificate_STATUSGenerator())
+	gens["SslPolicy"] = gen.PtrOf(ApplicationGatewaySslPolicy_STATUSGenerator())
+	gens["SslProfiles"] = gen.SliceOf(ApplicationGatewaySslProfile_STATUSGenerator())
+	gens["TrustedClientCertificates"] = gen.SliceOf(ApplicationGatewayTrustedClientCertificate_STATUSGenerator())
+	gens["TrustedRootCertificates"] = gen.SliceOf(ApplicationGatewayTrustedRootCertificate_STATUSGenerator())
+	gens["UrlPathMaps"] = gen.SliceOf(ApplicationGatewayUrlPathMap_STATUSGenerator())
+	gens["WebApplicationFirewallConfiguration"] = gen.PtrOf(ApplicationGatewayWebApplicationFirewallConfiguration_STATUSGenerator())
+}
+
+func Test_ApplicationGateway_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApplicationGateway_Spec to ApplicationGateway_Spec via AssignProperties_To_ApplicationGateway_Spec & AssignProperties_From_ApplicationGateway_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApplicationGateway_Spec, ApplicationGateway_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApplicationGateway_Spec tests if a specific instance of ApplicationGateway_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForApplicationGateway_Spec(subject ApplicationGateway_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ApplicationGateway_Spec
+	err := copied.AssignProperties_To_ApplicationGateway_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApplicationGateway_Spec
+	err = actual.AssignProperties_From_ApplicationGateway_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ApplicationGateway_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApplicationGateway_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApplicationGateway_Spec, ApplicationGateway_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApplicationGateway_Spec runs a test to see if a specific instance of ApplicationGateway_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationGateway_Spec(subject ApplicationGateway_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApplicationGateway_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApplicationGateway_Spec instances for property testing - lazily instantiated by
+// ApplicationGateway_SpecGenerator()
+var applicationGateway_SpecGenerator gopter.Gen
+
+// ApplicationGateway_SpecGenerator returns a generator of ApplicationGateway_Spec instances for property testing.
+// We first initialize applicationGateway_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ApplicationGateway_SpecGenerator() gopter.Gen {
+	if applicationGateway_SpecGenerator != nil {
+		return applicationGateway_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGateway_Spec(generators)
+	applicationGateway_SpecGenerator = gen.Struct(reflect.TypeOf(ApplicationGateway_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGateway_Spec(generators)
+	AddRelatedPropertyGeneratorsForApplicationGateway_Spec(generators)
+	applicationGateway_SpecGenerator = gen.Struct(reflect.TypeOf(ApplicationGateway_Spec{}), generators)
+
+	return applicationGateway_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForApplicationGateway_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApplicationGateway_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["EnableFips"] = gen.PtrOf(gen.Bool())
+	gens["EnableHttp2"] = gen.PtrOf(gen.Bool())
+	gens["ForceFirewallPolicyAssociation"] = gen.PtrOf(gen.Bool())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["Zones"] = gen.SliceOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForApplicationGateway_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForApplicationGateway_Spec(gens map[string]gopter.Gen) {
+	gens["AuthenticationCertificates"] = gen.SliceOf(ApplicationGatewayAuthenticationCertificateGenerator())
+	gens["AutoscaleConfiguration"] = gen.PtrOf(ApplicationGatewayAutoscaleConfigurationGenerator())
+	gens["BackendAddressPools"] = gen.SliceOf(ApplicationGatewayBackendAddressPoolGenerator())
+	gens["BackendHttpSettingsCollection"] = gen.SliceOf(ApplicationGatewayBackendHttpSettingsGenerator())
+	gens["BackendSettingsCollection"] = gen.SliceOf(ApplicationGatewayBackendSettingsGenerator())
+	gens["CustomErrorConfigurations"] = gen.SliceOf(ApplicationGatewayCustomErrorGenerator())
+	gens["FirewallPolicy"] = gen.PtrOf(ApplicationGatewaySubResourceGenerator())
+	gens["FrontendIPConfigurations"] = gen.SliceOf(ApplicationGatewayFrontendIPConfigurationGenerator())
+	gens["FrontendPorts"] = gen.SliceOf(ApplicationGatewayFrontendPortGenerator())
+	gens["GatewayIPConfigurations"] = gen.SliceOf(ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbeddedGenerator())
+	gens["GlobalConfiguration"] = gen.PtrOf(ApplicationGatewayGlobalConfigurationGenerator())
+	gens["HttpListeners"] = gen.SliceOf(ApplicationGatewayHttpListenerGenerator())
+	gens["Identity"] = gen.PtrOf(ManagedServiceIdentityGenerator())
+	gens["Listeners"] = gen.SliceOf(ApplicationGatewayListenerGenerator())
+	gens["LoadDistributionPolicies"] = gen.SliceOf(ApplicationGatewayLoadDistributionPolicyGenerator())
+	gens["PrivateLinkConfigurations"] = gen.SliceOf(ApplicationGatewayPrivateLinkConfigurationGenerator())
+	gens["Probes"] = gen.SliceOf(ApplicationGatewayProbeGenerator())
+	gens["RedirectConfigurations"] = gen.SliceOf(ApplicationGatewayRedirectConfigurationGenerator())
+	gens["RequestRoutingRules"] = gen.SliceOf(ApplicationGatewayRequestRoutingRuleGenerator())
+	gens["RewriteRuleSets"] = gen.SliceOf(ApplicationGatewayRewriteRuleSetGenerator())
+	gens["RoutingRules"] = gen.SliceOf(ApplicationGatewayRoutingRuleGenerator())
+	gens["Sku"] = gen.PtrOf(ApplicationGatewaySkuGenerator())
+	gens["SslCertificates"] = gen.SliceOf(ApplicationGatewaySslCertificateGenerator())
+	gens["SslPolicy"] = gen.PtrOf(ApplicationGatewaySslPolicyGenerator())
+	gens["SslProfiles"] = gen.SliceOf(ApplicationGatewaySslProfileGenerator())
+	gens["TrustedClientCertificates"] = gen.SliceOf(ApplicationGatewayTrustedClientCertificateGenerator())
+	gens["TrustedRootCertificates"] = gen.SliceOf(ApplicationGatewayTrustedRootCertificateGenerator())
+	gens["UrlPathMaps"] = gen.SliceOf(ApplicationGatewayUrlPathMapGenerator())
+	gens["WebApplicationFirewallConfiguration"] = gen.PtrOf(ApplicationGatewayWebApplicationFirewallConfigurationGenerator())
+}
+
 func Test_ManagedServiceIdentity_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -7086,1250 +8750,6 @@ func AddRelatedPropertyGeneratorsForManagedServiceIdentity_STATUS(gens map[strin
 		ManagedServiceIdentity_UserAssignedIdentities_STATUSGenerator())
 }
 
-func Test_ApplicationGatewayBackendAddress_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ApplicationGatewayBackendAddress to ApplicationGatewayBackendAddress via AssignProperties_To_ApplicationGatewayBackendAddress & AssignProperties_From_ApplicationGatewayBackendAddress returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayBackendAddress, ApplicationGatewayBackendAddressGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForApplicationGatewayBackendAddress tests if a specific instance of ApplicationGatewayBackendAddress can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApplicationGatewayBackendAddress(subject ApplicationGatewayBackendAddress) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApplicationGatewayBackendAddress
-	err := copied.AssignProperties_To_ApplicationGatewayBackendAddress(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApplicationGatewayBackendAddress
-	err = actual.AssignProperties_From_ApplicationGatewayBackendAddress(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ApplicationGatewayBackendAddress_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApplicationGatewayBackendAddress via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationGatewayBackendAddress, ApplicationGatewayBackendAddressGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForApplicationGatewayBackendAddress runs a test to see if a specific instance of ApplicationGatewayBackendAddress round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationGatewayBackendAddress(subject ApplicationGatewayBackendAddress) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ApplicationGatewayBackendAddress
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ApplicationGatewayBackendAddress instances for property testing - lazily instantiated by
-// ApplicationGatewayBackendAddressGenerator()
-var applicationGatewayBackendAddressGenerator gopter.Gen
-
-// ApplicationGatewayBackendAddressGenerator returns a generator of ApplicationGatewayBackendAddress instances for property testing.
-func ApplicationGatewayBackendAddressGenerator() gopter.Gen {
-	if applicationGatewayBackendAddressGenerator != nil {
-		return applicationGatewayBackendAddressGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationGatewayBackendAddress(generators)
-	applicationGatewayBackendAddressGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayBackendAddress{}), generators)
-
-	return applicationGatewayBackendAddressGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApplicationGatewayBackendAddress is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApplicationGatewayBackendAddress(gens map[string]gopter.Gen) {
-	gens["Fqdn"] = gen.PtrOf(gen.AlphaString())
-	gens["IpAddress"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_ApplicationGatewayClientAuthConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ApplicationGatewayClientAuthConfiguration to ApplicationGatewayClientAuthConfiguration via AssignProperties_To_ApplicationGatewayClientAuthConfiguration & AssignProperties_From_ApplicationGatewayClientAuthConfiguration returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayClientAuthConfiguration, ApplicationGatewayClientAuthConfigurationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForApplicationGatewayClientAuthConfiguration tests if a specific instance of ApplicationGatewayClientAuthConfiguration can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApplicationGatewayClientAuthConfiguration(subject ApplicationGatewayClientAuthConfiguration) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApplicationGatewayClientAuthConfiguration
-	err := copied.AssignProperties_To_ApplicationGatewayClientAuthConfiguration(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApplicationGatewayClientAuthConfiguration
-	err = actual.AssignProperties_From_ApplicationGatewayClientAuthConfiguration(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ApplicationGatewayClientAuthConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApplicationGatewayClientAuthConfiguration via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationGatewayClientAuthConfiguration, ApplicationGatewayClientAuthConfigurationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForApplicationGatewayClientAuthConfiguration runs a test to see if a specific instance of ApplicationGatewayClientAuthConfiguration round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationGatewayClientAuthConfiguration(subject ApplicationGatewayClientAuthConfiguration) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ApplicationGatewayClientAuthConfiguration
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ApplicationGatewayClientAuthConfiguration instances for property testing - lazily instantiated by
-// ApplicationGatewayClientAuthConfigurationGenerator()
-var applicationGatewayClientAuthConfigurationGenerator gopter.Gen
-
-// ApplicationGatewayClientAuthConfigurationGenerator returns a generator of ApplicationGatewayClientAuthConfiguration instances for property testing.
-func ApplicationGatewayClientAuthConfigurationGenerator() gopter.Gen {
-	if applicationGatewayClientAuthConfigurationGenerator != nil {
-		return applicationGatewayClientAuthConfigurationGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationGatewayClientAuthConfiguration(generators)
-	applicationGatewayClientAuthConfigurationGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayClientAuthConfiguration{}), generators)
-
-	return applicationGatewayClientAuthConfigurationGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApplicationGatewayClientAuthConfiguration is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApplicationGatewayClientAuthConfiguration(gens map[string]gopter.Gen) {
-	gens["VerifyClientCertIssuerDN"] = gen.PtrOf(gen.Bool())
-	gens["VerifyClientRevocation"] = gen.PtrOf(gen.OneConstOf(ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation_None, ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation_OCSP))
-}
-
-func Test_ApplicationGatewayConnectionDraining_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ApplicationGatewayConnectionDraining to ApplicationGatewayConnectionDraining via AssignProperties_To_ApplicationGatewayConnectionDraining & AssignProperties_From_ApplicationGatewayConnectionDraining returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayConnectionDraining, ApplicationGatewayConnectionDrainingGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForApplicationGatewayConnectionDraining tests if a specific instance of ApplicationGatewayConnectionDraining can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApplicationGatewayConnectionDraining(subject ApplicationGatewayConnectionDraining) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApplicationGatewayConnectionDraining
-	err := copied.AssignProperties_To_ApplicationGatewayConnectionDraining(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApplicationGatewayConnectionDraining
-	err = actual.AssignProperties_From_ApplicationGatewayConnectionDraining(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ApplicationGatewayConnectionDraining_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApplicationGatewayConnectionDraining via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationGatewayConnectionDraining, ApplicationGatewayConnectionDrainingGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForApplicationGatewayConnectionDraining runs a test to see if a specific instance of ApplicationGatewayConnectionDraining round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationGatewayConnectionDraining(subject ApplicationGatewayConnectionDraining) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ApplicationGatewayConnectionDraining
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ApplicationGatewayConnectionDraining instances for property testing - lazily instantiated by
-// ApplicationGatewayConnectionDrainingGenerator()
-var applicationGatewayConnectionDrainingGenerator gopter.Gen
-
-// ApplicationGatewayConnectionDrainingGenerator returns a generator of ApplicationGatewayConnectionDraining instances for property testing.
-func ApplicationGatewayConnectionDrainingGenerator() gopter.Gen {
-	if applicationGatewayConnectionDrainingGenerator != nil {
-		return applicationGatewayConnectionDrainingGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationGatewayConnectionDraining(generators)
-	applicationGatewayConnectionDrainingGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayConnectionDraining{}), generators)
-
-	return applicationGatewayConnectionDrainingGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApplicationGatewayConnectionDraining is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApplicationGatewayConnectionDraining(gens map[string]gopter.Gen) {
-	gens["DrainTimeoutInSec"] = gen.PtrOf(gen.Int())
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
-}
-
-func Test_ApplicationGatewayFirewallDisabledRuleGroup_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ApplicationGatewayFirewallDisabledRuleGroup to ApplicationGatewayFirewallDisabledRuleGroup via AssignProperties_To_ApplicationGatewayFirewallDisabledRuleGroup & AssignProperties_From_ApplicationGatewayFirewallDisabledRuleGroup returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayFirewallDisabledRuleGroup, ApplicationGatewayFirewallDisabledRuleGroupGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForApplicationGatewayFirewallDisabledRuleGroup tests if a specific instance of ApplicationGatewayFirewallDisabledRuleGroup can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApplicationGatewayFirewallDisabledRuleGroup(subject ApplicationGatewayFirewallDisabledRuleGroup) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApplicationGatewayFirewallDisabledRuleGroup
-	err := copied.AssignProperties_To_ApplicationGatewayFirewallDisabledRuleGroup(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApplicationGatewayFirewallDisabledRuleGroup
-	err = actual.AssignProperties_From_ApplicationGatewayFirewallDisabledRuleGroup(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ApplicationGatewayFirewallDisabledRuleGroup_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApplicationGatewayFirewallDisabledRuleGroup via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationGatewayFirewallDisabledRuleGroup, ApplicationGatewayFirewallDisabledRuleGroupGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForApplicationGatewayFirewallDisabledRuleGroup runs a test to see if a specific instance of ApplicationGatewayFirewallDisabledRuleGroup round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationGatewayFirewallDisabledRuleGroup(subject ApplicationGatewayFirewallDisabledRuleGroup) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ApplicationGatewayFirewallDisabledRuleGroup
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ApplicationGatewayFirewallDisabledRuleGroup instances for property testing - lazily instantiated by
-// ApplicationGatewayFirewallDisabledRuleGroupGenerator()
-var applicationGatewayFirewallDisabledRuleGroupGenerator gopter.Gen
-
-// ApplicationGatewayFirewallDisabledRuleGroupGenerator returns a generator of ApplicationGatewayFirewallDisabledRuleGroup instances for property testing.
-func ApplicationGatewayFirewallDisabledRuleGroupGenerator() gopter.Gen {
-	if applicationGatewayFirewallDisabledRuleGroupGenerator != nil {
-		return applicationGatewayFirewallDisabledRuleGroupGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationGatewayFirewallDisabledRuleGroup(generators)
-	applicationGatewayFirewallDisabledRuleGroupGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayFirewallDisabledRuleGroup{}), generators)
-
-	return applicationGatewayFirewallDisabledRuleGroupGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApplicationGatewayFirewallDisabledRuleGroup is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApplicationGatewayFirewallDisabledRuleGroup(gens map[string]gopter.Gen) {
-	gens["RuleGroupName"] = gen.PtrOf(gen.AlphaString())
-	gens["Rules"] = gen.SliceOf(gen.Int())
-}
-
-func Test_ApplicationGatewayFirewallDisabledRuleGroup_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ApplicationGatewayFirewallDisabledRuleGroup_STATUS to ApplicationGatewayFirewallDisabledRuleGroup_STATUS via AssignProperties_To_ApplicationGatewayFirewallDisabledRuleGroup_STATUS & AssignProperties_From_ApplicationGatewayFirewallDisabledRuleGroup_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayFirewallDisabledRuleGroup_STATUS, ApplicationGatewayFirewallDisabledRuleGroup_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForApplicationGatewayFirewallDisabledRuleGroup_STATUS tests if a specific instance of ApplicationGatewayFirewallDisabledRuleGroup_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApplicationGatewayFirewallDisabledRuleGroup_STATUS(subject ApplicationGatewayFirewallDisabledRuleGroup_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApplicationGatewayFirewallDisabledRuleGroup_STATUS
-	err := copied.AssignProperties_To_ApplicationGatewayFirewallDisabledRuleGroup_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApplicationGatewayFirewallDisabledRuleGroup_STATUS
-	err = actual.AssignProperties_From_ApplicationGatewayFirewallDisabledRuleGroup_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ApplicationGatewayFirewallDisabledRuleGroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApplicationGatewayFirewallDisabledRuleGroup_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationGatewayFirewallDisabledRuleGroup_STATUS, ApplicationGatewayFirewallDisabledRuleGroup_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForApplicationGatewayFirewallDisabledRuleGroup_STATUS runs a test to see if a specific instance of ApplicationGatewayFirewallDisabledRuleGroup_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationGatewayFirewallDisabledRuleGroup_STATUS(subject ApplicationGatewayFirewallDisabledRuleGroup_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ApplicationGatewayFirewallDisabledRuleGroup_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ApplicationGatewayFirewallDisabledRuleGroup_STATUS instances for property testing - lazily instantiated
-// by ApplicationGatewayFirewallDisabledRuleGroup_STATUSGenerator()
-var applicationGatewayFirewallDisabledRuleGroup_STATUSGenerator gopter.Gen
-
-// ApplicationGatewayFirewallDisabledRuleGroup_STATUSGenerator returns a generator of ApplicationGatewayFirewallDisabledRuleGroup_STATUS instances for property testing.
-func ApplicationGatewayFirewallDisabledRuleGroup_STATUSGenerator() gopter.Gen {
-	if applicationGatewayFirewallDisabledRuleGroup_STATUSGenerator != nil {
-		return applicationGatewayFirewallDisabledRuleGroup_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationGatewayFirewallDisabledRuleGroup_STATUS(generators)
-	applicationGatewayFirewallDisabledRuleGroup_STATUSGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayFirewallDisabledRuleGroup_STATUS{}), generators)
-
-	return applicationGatewayFirewallDisabledRuleGroup_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApplicationGatewayFirewallDisabledRuleGroup_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApplicationGatewayFirewallDisabledRuleGroup_STATUS(gens map[string]gopter.Gen) {
-	gens["RuleGroupName"] = gen.PtrOf(gen.AlphaString())
-	gens["Rules"] = gen.SliceOf(gen.Int())
-}
-
-func Test_ApplicationGatewayFirewallExclusion_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ApplicationGatewayFirewallExclusion to ApplicationGatewayFirewallExclusion via AssignProperties_To_ApplicationGatewayFirewallExclusion & AssignProperties_From_ApplicationGatewayFirewallExclusion returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayFirewallExclusion, ApplicationGatewayFirewallExclusionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForApplicationGatewayFirewallExclusion tests if a specific instance of ApplicationGatewayFirewallExclusion can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApplicationGatewayFirewallExclusion(subject ApplicationGatewayFirewallExclusion) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApplicationGatewayFirewallExclusion
-	err := copied.AssignProperties_To_ApplicationGatewayFirewallExclusion(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApplicationGatewayFirewallExclusion
-	err = actual.AssignProperties_From_ApplicationGatewayFirewallExclusion(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ApplicationGatewayFirewallExclusion_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApplicationGatewayFirewallExclusion via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationGatewayFirewallExclusion, ApplicationGatewayFirewallExclusionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForApplicationGatewayFirewallExclusion runs a test to see if a specific instance of ApplicationGatewayFirewallExclusion round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationGatewayFirewallExclusion(subject ApplicationGatewayFirewallExclusion) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ApplicationGatewayFirewallExclusion
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ApplicationGatewayFirewallExclusion instances for property testing - lazily instantiated by
-// ApplicationGatewayFirewallExclusionGenerator()
-var applicationGatewayFirewallExclusionGenerator gopter.Gen
-
-// ApplicationGatewayFirewallExclusionGenerator returns a generator of ApplicationGatewayFirewallExclusion instances for property testing.
-func ApplicationGatewayFirewallExclusionGenerator() gopter.Gen {
-	if applicationGatewayFirewallExclusionGenerator != nil {
-		return applicationGatewayFirewallExclusionGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationGatewayFirewallExclusion(generators)
-	applicationGatewayFirewallExclusionGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayFirewallExclusion{}), generators)
-
-	return applicationGatewayFirewallExclusionGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApplicationGatewayFirewallExclusion is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApplicationGatewayFirewallExclusion(gens map[string]gopter.Gen) {
-	gens["MatchVariable"] = gen.PtrOf(gen.AlphaString())
-	gens["Selector"] = gen.PtrOf(gen.AlphaString())
-	gens["SelectorMatchOperator"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_ApplicationGatewayFirewallExclusion_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ApplicationGatewayFirewallExclusion_STATUS to ApplicationGatewayFirewallExclusion_STATUS via AssignProperties_To_ApplicationGatewayFirewallExclusion_STATUS & AssignProperties_From_ApplicationGatewayFirewallExclusion_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayFirewallExclusion_STATUS, ApplicationGatewayFirewallExclusion_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForApplicationGatewayFirewallExclusion_STATUS tests if a specific instance of ApplicationGatewayFirewallExclusion_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApplicationGatewayFirewallExclusion_STATUS(subject ApplicationGatewayFirewallExclusion_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApplicationGatewayFirewallExclusion_STATUS
-	err := copied.AssignProperties_To_ApplicationGatewayFirewallExclusion_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApplicationGatewayFirewallExclusion_STATUS
-	err = actual.AssignProperties_From_ApplicationGatewayFirewallExclusion_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ApplicationGatewayFirewallExclusion_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApplicationGatewayFirewallExclusion_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationGatewayFirewallExclusion_STATUS, ApplicationGatewayFirewallExclusion_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForApplicationGatewayFirewallExclusion_STATUS runs a test to see if a specific instance of ApplicationGatewayFirewallExclusion_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationGatewayFirewallExclusion_STATUS(subject ApplicationGatewayFirewallExclusion_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ApplicationGatewayFirewallExclusion_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ApplicationGatewayFirewallExclusion_STATUS instances for property testing - lazily instantiated by
-// ApplicationGatewayFirewallExclusion_STATUSGenerator()
-var applicationGatewayFirewallExclusion_STATUSGenerator gopter.Gen
-
-// ApplicationGatewayFirewallExclusion_STATUSGenerator returns a generator of ApplicationGatewayFirewallExclusion_STATUS instances for property testing.
-func ApplicationGatewayFirewallExclusion_STATUSGenerator() gopter.Gen {
-	if applicationGatewayFirewallExclusion_STATUSGenerator != nil {
-		return applicationGatewayFirewallExclusion_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationGatewayFirewallExclusion_STATUS(generators)
-	applicationGatewayFirewallExclusion_STATUSGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayFirewallExclusion_STATUS{}), generators)
-
-	return applicationGatewayFirewallExclusion_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApplicationGatewayFirewallExclusion_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApplicationGatewayFirewallExclusion_STATUS(gens map[string]gopter.Gen) {
-	gens["MatchVariable"] = gen.PtrOf(gen.AlphaString())
-	gens["Selector"] = gen.PtrOf(gen.AlphaString())
-	gens["SelectorMatchOperator"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_ApplicationGatewayLoadDistributionTarget_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ApplicationGatewayLoadDistributionTarget to ApplicationGatewayLoadDistributionTarget via AssignProperties_To_ApplicationGatewayLoadDistributionTarget & AssignProperties_From_ApplicationGatewayLoadDistributionTarget returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayLoadDistributionTarget, ApplicationGatewayLoadDistributionTargetGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForApplicationGatewayLoadDistributionTarget tests if a specific instance of ApplicationGatewayLoadDistributionTarget can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApplicationGatewayLoadDistributionTarget(subject ApplicationGatewayLoadDistributionTarget) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApplicationGatewayLoadDistributionTarget
-	err := copied.AssignProperties_To_ApplicationGatewayLoadDistributionTarget(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApplicationGatewayLoadDistributionTarget
-	err = actual.AssignProperties_From_ApplicationGatewayLoadDistributionTarget(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ApplicationGatewayLoadDistributionTarget_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApplicationGatewayLoadDistributionTarget via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationGatewayLoadDistributionTarget, ApplicationGatewayLoadDistributionTargetGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForApplicationGatewayLoadDistributionTarget runs a test to see if a specific instance of ApplicationGatewayLoadDistributionTarget round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationGatewayLoadDistributionTarget(subject ApplicationGatewayLoadDistributionTarget) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ApplicationGatewayLoadDistributionTarget
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ApplicationGatewayLoadDistributionTarget instances for property testing - lazily instantiated by
-// ApplicationGatewayLoadDistributionTargetGenerator()
-var applicationGatewayLoadDistributionTargetGenerator gopter.Gen
-
-// ApplicationGatewayLoadDistributionTargetGenerator returns a generator of ApplicationGatewayLoadDistributionTarget instances for property testing.
-func ApplicationGatewayLoadDistributionTargetGenerator() gopter.Gen {
-	if applicationGatewayLoadDistributionTargetGenerator != nil {
-		return applicationGatewayLoadDistributionTargetGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	applicationGatewayLoadDistributionTargetGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayLoadDistributionTarget{}), generators)
-
-	return applicationGatewayLoadDistributionTargetGenerator
-}
-
-func Test_ApplicationGatewayPathRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ApplicationGatewayPathRule to ApplicationGatewayPathRule via AssignProperties_To_ApplicationGatewayPathRule & AssignProperties_From_ApplicationGatewayPathRule returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayPathRule, ApplicationGatewayPathRuleGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForApplicationGatewayPathRule tests if a specific instance of ApplicationGatewayPathRule can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApplicationGatewayPathRule(subject ApplicationGatewayPathRule) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApplicationGatewayPathRule
-	err := copied.AssignProperties_To_ApplicationGatewayPathRule(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApplicationGatewayPathRule
-	err = actual.AssignProperties_From_ApplicationGatewayPathRule(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ApplicationGatewayPathRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApplicationGatewayPathRule via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationGatewayPathRule, ApplicationGatewayPathRuleGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForApplicationGatewayPathRule runs a test to see if a specific instance of ApplicationGatewayPathRule round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationGatewayPathRule(subject ApplicationGatewayPathRule) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ApplicationGatewayPathRule
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ApplicationGatewayPathRule instances for property testing - lazily instantiated by
-// ApplicationGatewayPathRuleGenerator()
-var applicationGatewayPathRuleGenerator gopter.Gen
-
-// ApplicationGatewayPathRuleGenerator returns a generator of ApplicationGatewayPathRule instances for property testing.
-func ApplicationGatewayPathRuleGenerator() gopter.Gen {
-	if applicationGatewayPathRuleGenerator != nil {
-		return applicationGatewayPathRuleGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	applicationGatewayPathRuleGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayPathRule{}), generators)
-
-	return applicationGatewayPathRuleGenerator
-}
-
-func Test_ApplicationGatewayPrivateLinkIpConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ApplicationGatewayPrivateLinkIpConfiguration to ApplicationGatewayPrivateLinkIpConfiguration via AssignProperties_To_ApplicationGatewayPrivateLinkIpConfiguration & AssignProperties_From_ApplicationGatewayPrivateLinkIpConfiguration returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayPrivateLinkIpConfiguration, ApplicationGatewayPrivateLinkIpConfigurationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForApplicationGatewayPrivateLinkIpConfiguration tests if a specific instance of ApplicationGatewayPrivateLinkIpConfiguration can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApplicationGatewayPrivateLinkIpConfiguration(subject ApplicationGatewayPrivateLinkIpConfiguration) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApplicationGatewayPrivateLinkIpConfiguration
-	err := copied.AssignProperties_To_ApplicationGatewayPrivateLinkIpConfiguration(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApplicationGatewayPrivateLinkIpConfiguration
-	err = actual.AssignProperties_From_ApplicationGatewayPrivateLinkIpConfiguration(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ApplicationGatewayPrivateLinkIpConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApplicationGatewayPrivateLinkIpConfiguration via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationGatewayPrivateLinkIpConfiguration, ApplicationGatewayPrivateLinkIpConfigurationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForApplicationGatewayPrivateLinkIpConfiguration runs a test to see if a specific instance of ApplicationGatewayPrivateLinkIpConfiguration round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationGatewayPrivateLinkIpConfiguration(subject ApplicationGatewayPrivateLinkIpConfiguration) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ApplicationGatewayPrivateLinkIpConfiguration
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ApplicationGatewayPrivateLinkIpConfiguration instances for property testing - lazily instantiated by
-// ApplicationGatewayPrivateLinkIpConfigurationGenerator()
-var applicationGatewayPrivateLinkIpConfigurationGenerator gopter.Gen
-
-// ApplicationGatewayPrivateLinkIpConfigurationGenerator returns a generator of ApplicationGatewayPrivateLinkIpConfiguration instances for property testing.
-func ApplicationGatewayPrivateLinkIpConfigurationGenerator() gopter.Gen {
-	if applicationGatewayPrivateLinkIpConfigurationGenerator != nil {
-		return applicationGatewayPrivateLinkIpConfigurationGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	applicationGatewayPrivateLinkIpConfigurationGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayPrivateLinkIpConfiguration{}), generators)
-
-	return applicationGatewayPrivateLinkIpConfigurationGenerator
-}
-
-func Test_ApplicationGatewayProbeHealthResponseMatch_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ApplicationGatewayProbeHealthResponseMatch to ApplicationGatewayProbeHealthResponseMatch via AssignProperties_To_ApplicationGatewayProbeHealthResponseMatch & AssignProperties_From_ApplicationGatewayProbeHealthResponseMatch returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayProbeHealthResponseMatch, ApplicationGatewayProbeHealthResponseMatchGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForApplicationGatewayProbeHealthResponseMatch tests if a specific instance of ApplicationGatewayProbeHealthResponseMatch can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApplicationGatewayProbeHealthResponseMatch(subject ApplicationGatewayProbeHealthResponseMatch) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApplicationGatewayProbeHealthResponseMatch
-	err := copied.AssignProperties_To_ApplicationGatewayProbeHealthResponseMatch(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApplicationGatewayProbeHealthResponseMatch
-	err = actual.AssignProperties_From_ApplicationGatewayProbeHealthResponseMatch(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ApplicationGatewayProbeHealthResponseMatch_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApplicationGatewayProbeHealthResponseMatch via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationGatewayProbeHealthResponseMatch, ApplicationGatewayProbeHealthResponseMatchGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForApplicationGatewayProbeHealthResponseMatch runs a test to see if a specific instance of ApplicationGatewayProbeHealthResponseMatch round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationGatewayProbeHealthResponseMatch(subject ApplicationGatewayProbeHealthResponseMatch) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ApplicationGatewayProbeHealthResponseMatch
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ApplicationGatewayProbeHealthResponseMatch instances for property testing - lazily instantiated by
-// ApplicationGatewayProbeHealthResponseMatchGenerator()
-var applicationGatewayProbeHealthResponseMatchGenerator gopter.Gen
-
-// ApplicationGatewayProbeHealthResponseMatchGenerator returns a generator of ApplicationGatewayProbeHealthResponseMatch instances for property testing.
-func ApplicationGatewayProbeHealthResponseMatchGenerator() gopter.Gen {
-	if applicationGatewayProbeHealthResponseMatchGenerator != nil {
-		return applicationGatewayProbeHealthResponseMatchGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationGatewayProbeHealthResponseMatch(generators)
-	applicationGatewayProbeHealthResponseMatchGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayProbeHealthResponseMatch{}), generators)
-
-	return applicationGatewayProbeHealthResponseMatchGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApplicationGatewayProbeHealthResponseMatch is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApplicationGatewayProbeHealthResponseMatch(gens map[string]gopter.Gen) {
-	gens["Body"] = gen.PtrOf(gen.AlphaString())
-	gens["StatusCodes"] = gen.SliceOf(gen.AlphaString())
-}
-
-func Test_ApplicationGatewayRewriteRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ApplicationGatewayRewriteRule to ApplicationGatewayRewriteRule via AssignProperties_To_ApplicationGatewayRewriteRule & AssignProperties_From_ApplicationGatewayRewriteRule returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayRewriteRule, ApplicationGatewayRewriteRuleGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForApplicationGatewayRewriteRule tests if a specific instance of ApplicationGatewayRewriteRule can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApplicationGatewayRewriteRule(subject ApplicationGatewayRewriteRule) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApplicationGatewayRewriteRule
-	err := copied.AssignProperties_To_ApplicationGatewayRewriteRule(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApplicationGatewayRewriteRule
-	err = actual.AssignProperties_From_ApplicationGatewayRewriteRule(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ApplicationGatewayRewriteRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApplicationGatewayRewriteRule via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationGatewayRewriteRule, ApplicationGatewayRewriteRuleGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForApplicationGatewayRewriteRule runs a test to see if a specific instance of ApplicationGatewayRewriteRule round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationGatewayRewriteRule(subject ApplicationGatewayRewriteRule) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ApplicationGatewayRewriteRule
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ApplicationGatewayRewriteRule instances for property testing - lazily instantiated by
-// ApplicationGatewayRewriteRuleGenerator()
-var applicationGatewayRewriteRuleGenerator gopter.Gen
-
-// ApplicationGatewayRewriteRuleGenerator returns a generator of ApplicationGatewayRewriteRule instances for property testing.
-// We first initialize applicationGatewayRewriteRuleGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ApplicationGatewayRewriteRuleGenerator() gopter.Gen {
-	if applicationGatewayRewriteRuleGenerator != nil {
-		return applicationGatewayRewriteRuleGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationGatewayRewriteRule(generators)
-	applicationGatewayRewriteRuleGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayRewriteRule{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationGatewayRewriteRule(generators)
-	AddRelatedPropertyGeneratorsForApplicationGatewayRewriteRule(generators)
-	applicationGatewayRewriteRuleGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayRewriteRule{}), generators)
-
-	return applicationGatewayRewriteRuleGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApplicationGatewayRewriteRule is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApplicationGatewayRewriteRule(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["RuleSequence"] = gen.PtrOf(gen.Int())
-}
-
-// AddRelatedPropertyGeneratorsForApplicationGatewayRewriteRule is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForApplicationGatewayRewriteRule(gens map[string]gopter.Gen) {
-	gens["ActionSet"] = gen.PtrOf(ApplicationGatewayRewriteRuleActionSetGenerator())
-	gens["Conditions"] = gen.SliceOf(ApplicationGatewayRewriteRuleConditionGenerator())
-}
-
 func Test_ManagedServiceIdentity_UserAssignedIdentities_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -8529,424 +8949,4 @@ func UserAssignedIdentityDetailsGenerator() gopter.Gen {
 	userAssignedIdentityDetailsGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentityDetails{}), generators)
 
 	return userAssignedIdentityDetailsGenerator
-}
-
-func Test_ApplicationGatewayRewriteRuleActionSet_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ApplicationGatewayRewriteRuleActionSet to ApplicationGatewayRewriteRuleActionSet via AssignProperties_To_ApplicationGatewayRewriteRuleActionSet & AssignProperties_From_ApplicationGatewayRewriteRuleActionSet returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayRewriteRuleActionSet, ApplicationGatewayRewriteRuleActionSetGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForApplicationGatewayRewriteRuleActionSet tests if a specific instance of ApplicationGatewayRewriteRuleActionSet can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApplicationGatewayRewriteRuleActionSet(subject ApplicationGatewayRewriteRuleActionSet) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApplicationGatewayRewriteRuleActionSet
-	err := copied.AssignProperties_To_ApplicationGatewayRewriteRuleActionSet(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApplicationGatewayRewriteRuleActionSet
-	err = actual.AssignProperties_From_ApplicationGatewayRewriteRuleActionSet(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ApplicationGatewayRewriteRuleActionSet_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApplicationGatewayRewriteRuleActionSet via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationGatewayRewriteRuleActionSet, ApplicationGatewayRewriteRuleActionSetGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForApplicationGatewayRewriteRuleActionSet runs a test to see if a specific instance of ApplicationGatewayRewriteRuleActionSet round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationGatewayRewriteRuleActionSet(subject ApplicationGatewayRewriteRuleActionSet) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ApplicationGatewayRewriteRuleActionSet
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ApplicationGatewayRewriteRuleActionSet instances for property testing - lazily instantiated by
-// ApplicationGatewayRewriteRuleActionSetGenerator()
-var applicationGatewayRewriteRuleActionSetGenerator gopter.Gen
-
-// ApplicationGatewayRewriteRuleActionSetGenerator returns a generator of ApplicationGatewayRewriteRuleActionSet instances for property testing.
-func ApplicationGatewayRewriteRuleActionSetGenerator() gopter.Gen {
-	if applicationGatewayRewriteRuleActionSetGenerator != nil {
-		return applicationGatewayRewriteRuleActionSetGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForApplicationGatewayRewriteRuleActionSet(generators)
-	applicationGatewayRewriteRuleActionSetGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayRewriteRuleActionSet{}), generators)
-
-	return applicationGatewayRewriteRuleActionSetGenerator
-}
-
-// AddRelatedPropertyGeneratorsForApplicationGatewayRewriteRuleActionSet is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForApplicationGatewayRewriteRuleActionSet(gens map[string]gopter.Gen) {
-	gens["RequestHeaderConfigurations"] = gen.SliceOf(ApplicationGatewayHeaderConfigurationGenerator())
-	gens["ResponseHeaderConfigurations"] = gen.SliceOf(ApplicationGatewayHeaderConfigurationGenerator())
-	gens["UrlConfiguration"] = gen.PtrOf(ApplicationGatewayUrlConfigurationGenerator())
-}
-
-func Test_ApplicationGatewayRewriteRuleCondition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ApplicationGatewayRewriteRuleCondition to ApplicationGatewayRewriteRuleCondition via AssignProperties_To_ApplicationGatewayRewriteRuleCondition & AssignProperties_From_ApplicationGatewayRewriteRuleCondition returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayRewriteRuleCondition, ApplicationGatewayRewriteRuleConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForApplicationGatewayRewriteRuleCondition tests if a specific instance of ApplicationGatewayRewriteRuleCondition can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApplicationGatewayRewriteRuleCondition(subject ApplicationGatewayRewriteRuleCondition) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApplicationGatewayRewriteRuleCondition
-	err := copied.AssignProperties_To_ApplicationGatewayRewriteRuleCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApplicationGatewayRewriteRuleCondition
-	err = actual.AssignProperties_From_ApplicationGatewayRewriteRuleCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ApplicationGatewayRewriteRuleCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApplicationGatewayRewriteRuleCondition via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationGatewayRewriteRuleCondition, ApplicationGatewayRewriteRuleConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForApplicationGatewayRewriteRuleCondition runs a test to see if a specific instance of ApplicationGatewayRewriteRuleCondition round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationGatewayRewriteRuleCondition(subject ApplicationGatewayRewriteRuleCondition) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ApplicationGatewayRewriteRuleCondition
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ApplicationGatewayRewriteRuleCondition instances for property testing - lazily instantiated by
-// ApplicationGatewayRewriteRuleConditionGenerator()
-var applicationGatewayRewriteRuleConditionGenerator gopter.Gen
-
-// ApplicationGatewayRewriteRuleConditionGenerator returns a generator of ApplicationGatewayRewriteRuleCondition instances for property testing.
-func ApplicationGatewayRewriteRuleConditionGenerator() gopter.Gen {
-	if applicationGatewayRewriteRuleConditionGenerator != nil {
-		return applicationGatewayRewriteRuleConditionGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationGatewayRewriteRuleCondition(generators)
-	applicationGatewayRewriteRuleConditionGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayRewriteRuleCondition{}), generators)
-
-	return applicationGatewayRewriteRuleConditionGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApplicationGatewayRewriteRuleCondition is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApplicationGatewayRewriteRuleCondition(gens map[string]gopter.Gen) {
-	gens["IgnoreCase"] = gen.PtrOf(gen.Bool())
-	gens["Negate"] = gen.PtrOf(gen.Bool())
-	gens["Pattern"] = gen.PtrOf(gen.AlphaString())
-	gens["Variable"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_ApplicationGatewayHeaderConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ApplicationGatewayHeaderConfiguration to ApplicationGatewayHeaderConfiguration via AssignProperties_To_ApplicationGatewayHeaderConfiguration & AssignProperties_From_ApplicationGatewayHeaderConfiguration returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayHeaderConfiguration, ApplicationGatewayHeaderConfigurationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForApplicationGatewayHeaderConfiguration tests if a specific instance of ApplicationGatewayHeaderConfiguration can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApplicationGatewayHeaderConfiguration(subject ApplicationGatewayHeaderConfiguration) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApplicationGatewayHeaderConfiguration
-	err := copied.AssignProperties_To_ApplicationGatewayHeaderConfiguration(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApplicationGatewayHeaderConfiguration
-	err = actual.AssignProperties_From_ApplicationGatewayHeaderConfiguration(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ApplicationGatewayHeaderConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApplicationGatewayHeaderConfiguration via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationGatewayHeaderConfiguration, ApplicationGatewayHeaderConfigurationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForApplicationGatewayHeaderConfiguration runs a test to see if a specific instance of ApplicationGatewayHeaderConfiguration round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationGatewayHeaderConfiguration(subject ApplicationGatewayHeaderConfiguration) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ApplicationGatewayHeaderConfiguration
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ApplicationGatewayHeaderConfiguration instances for property testing - lazily instantiated by
-// ApplicationGatewayHeaderConfigurationGenerator()
-var applicationGatewayHeaderConfigurationGenerator gopter.Gen
-
-// ApplicationGatewayHeaderConfigurationGenerator returns a generator of ApplicationGatewayHeaderConfiguration instances for property testing.
-func ApplicationGatewayHeaderConfigurationGenerator() gopter.Gen {
-	if applicationGatewayHeaderConfigurationGenerator != nil {
-		return applicationGatewayHeaderConfigurationGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationGatewayHeaderConfiguration(generators)
-	applicationGatewayHeaderConfigurationGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayHeaderConfiguration{}), generators)
-
-	return applicationGatewayHeaderConfigurationGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApplicationGatewayHeaderConfiguration is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApplicationGatewayHeaderConfiguration(gens map[string]gopter.Gen) {
-	gens["HeaderName"] = gen.PtrOf(gen.AlphaString())
-	gens["HeaderValue"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_ApplicationGatewayUrlConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ApplicationGatewayUrlConfiguration to ApplicationGatewayUrlConfiguration via AssignProperties_To_ApplicationGatewayUrlConfiguration & AssignProperties_From_ApplicationGatewayUrlConfiguration returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayUrlConfiguration, ApplicationGatewayUrlConfigurationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForApplicationGatewayUrlConfiguration tests if a specific instance of ApplicationGatewayUrlConfiguration can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApplicationGatewayUrlConfiguration(subject ApplicationGatewayUrlConfiguration) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApplicationGatewayUrlConfiguration
-	err := copied.AssignProperties_To_ApplicationGatewayUrlConfiguration(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApplicationGatewayUrlConfiguration
-	err = actual.AssignProperties_From_ApplicationGatewayUrlConfiguration(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ApplicationGatewayUrlConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApplicationGatewayUrlConfiguration via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationGatewayUrlConfiguration, ApplicationGatewayUrlConfigurationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForApplicationGatewayUrlConfiguration runs a test to see if a specific instance of ApplicationGatewayUrlConfiguration round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationGatewayUrlConfiguration(subject ApplicationGatewayUrlConfiguration) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ApplicationGatewayUrlConfiguration
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ApplicationGatewayUrlConfiguration instances for property testing - lazily instantiated by
-// ApplicationGatewayUrlConfigurationGenerator()
-var applicationGatewayUrlConfigurationGenerator gopter.Gen
-
-// ApplicationGatewayUrlConfigurationGenerator returns a generator of ApplicationGatewayUrlConfiguration instances for property testing.
-func ApplicationGatewayUrlConfigurationGenerator() gopter.Gen {
-	if applicationGatewayUrlConfigurationGenerator != nil {
-		return applicationGatewayUrlConfigurationGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationGatewayUrlConfiguration(generators)
-	applicationGatewayUrlConfigurationGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayUrlConfiguration{}), generators)
-
-	return applicationGatewayUrlConfigurationGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApplicationGatewayUrlConfiguration is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApplicationGatewayUrlConfiguration(gens map[string]gopter.Gen) {
-	gens["ModifiedPath"] = gen.PtrOf(gen.AlphaString())
-	gens["ModifiedQueryString"] = gen.PtrOf(gen.AlphaString())
-	gens["Reroute"] = gen.PtrOf(gen.Bool())
 }

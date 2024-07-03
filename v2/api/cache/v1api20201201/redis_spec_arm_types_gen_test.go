@@ -17,85 +17,6 @@ import (
 	"testing"
 )
 
-func Test_Redis_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Redis_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedis_Spec_ARM, Redis_Spec_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForRedis_Spec_ARM runs a test to see if a specific instance of Redis_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedis_Spec_ARM(subject Redis_Spec_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Redis_Spec_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Redis_Spec_ARM instances for property testing - lazily instantiated by Redis_Spec_ARMGenerator()
-var redis_Spec_ARMGenerator gopter.Gen
-
-// Redis_Spec_ARMGenerator returns a generator of Redis_Spec_ARM instances for property testing.
-// We first initialize redis_Spec_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Redis_Spec_ARMGenerator() gopter.Gen {
-	if redis_Spec_ARMGenerator != nil {
-		return redis_Spec_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedis_Spec_ARM(generators)
-	redis_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Redis_Spec_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedis_Spec_ARM(generators)
-	AddRelatedPropertyGeneratorsForRedis_Spec_ARM(generators)
-	redis_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Redis_Spec_ARM{}), generators)
-
-	return redis_Spec_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRedis_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedis_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Zones"] = gen.SliceOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForRedis_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRedis_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(RedisCreateProperties_ARMGenerator())
-}
-
 func Test_RedisCreateProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -256,6 +177,85 @@ func AddIndependentPropertyGeneratorsForRedisCreateProperties_RedisConfiguration
 	gens["RdbBackupFrequency"] = gen.PtrOf(gen.AlphaString())
 	gens["RdbBackupMaxSnapshotCount"] = gen.PtrOf(gen.AlphaString())
 	gens["RdbStorageConnectionString"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_Redis_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Redis_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRedis_Spec_ARM, Redis_Spec_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForRedis_Spec_ARM runs a test to see if a specific instance of Redis_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForRedis_Spec_ARM(subject Redis_Spec_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Redis_Spec_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Redis_Spec_ARM instances for property testing - lazily instantiated by Redis_Spec_ARMGenerator()
+var redis_Spec_ARMGenerator gopter.Gen
+
+// Redis_Spec_ARMGenerator returns a generator of Redis_Spec_ARM instances for property testing.
+// We first initialize redis_Spec_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Redis_Spec_ARMGenerator() gopter.Gen {
+	if redis_Spec_ARMGenerator != nil {
+		return redis_Spec_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRedis_Spec_ARM(generators)
+	redis_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Redis_Spec_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRedis_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForRedis_Spec_ARM(generators)
+	redis_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Redis_Spec_ARM{}), generators)
+
+	return redis_Spec_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForRedis_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRedis_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.AlphaString()
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["Zones"] = gen.SliceOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForRedis_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRedis_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(RedisCreateProperties_ARMGenerator())
 }
 
 func Test_Sku_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

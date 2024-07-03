@@ -17,180 +17,6 @@ import (
 	"testing"
 )
 
-func Test_VirtualNetworks_Subnet_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualNetworks_Subnet_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualNetworks_Subnet_STATUS_ARM, VirtualNetworks_Subnet_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForVirtualNetworks_Subnet_STATUS_ARM runs a test to see if a specific instance of VirtualNetworks_Subnet_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetworks_Subnet_STATUS_ARM(subject VirtualNetworks_Subnet_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual VirtualNetworks_Subnet_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of VirtualNetworks_Subnet_STATUS_ARM instances for property testing - lazily instantiated by
-// VirtualNetworks_Subnet_STATUS_ARMGenerator()
-var virtualNetworks_Subnet_STATUS_ARMGenerator gopter.Gen
-
-// VirtualNetworks_Subnet_STATUS_ARMGenerator returns a generator of VirtualNetworks_Subnet_STATUS_ARM instances for property testing.
-// We first initialize virtualNetworks_Subnet_STATUS_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func VirtualNetworks_Subnet_STATUS_ARMGenerator() gopter.Gen {
-	if virtualNetworks_Subnet_STATUS_ARMGenerator != nil {
-		return virtualNetworks_Subnet_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworks_Subnet_STATUS_ARM(generators)
-	virtualNetworks_Subnet_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(VirtualNetworks_Subnet_STATUS_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworks_Subnet_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForVirtualNetworks_Subnet_STATUS_ARM(generators)
-	virtualNetworks_Subnet_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(VirtualNetworks_Subnet_STATUS_ARM{}), generators)
-
-	return virtualNetworks_Subnet_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForVirtualNetworks_Subnet_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualNetworks_Subnet_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForVirtualNetworks_Subnet_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualNetworks_Subnet_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(SubnetPropertiesFormat_STATUS_ARMGenerator())
-}
-
-func Test_SubnetPropertiesFormat_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SubnetPropertiesFormat_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSubnetPropertiesFormat_STATUS_ARM, SubnetPropertiesFormat_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSubnetPropertiesFormat_STATUS_ARM runs a test to see if a specific instance of SubnetPropertiesFormat_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSubnetPropertiesFormat_STATUS_ARM(subject SubnetPropertiesFormat_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual SubnetPropertiesFormat_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of SubnetPropertiesFormat_STATUS_ARM instances for property testing - lazily instantiated by
-// SubnetPropertiesFormat_STATUS_ARMGenerator()
-var subnetPropertiesFormat_STATUS_ARMGenerator gopter.Gen
-
-// SubnetPropertiesFormat_STATUS_ARMGenerator returns a generator of SubnetPropertiesFormat_STATUS_ARM instances for property testing.
-// We first initialize subnetPropertiesFormat_STATUS_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func SubnetPropertiesFormat_STATUS_ARMGenerator() gopter.Gen {
-	if subnetPropertiesFormat_STATUS_ARMGenerator != nil {
-		return subnetPropertiesFormat_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSubnetPropertiesFormat_STATUS_ARM(generators)
-	subnetPropertiesFormat_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(SubnetPropertiesFormat_STATUS_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSubnetPropertiesFormat_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForSubnetPropertiesFormat_STATUS_ARM(generators)
-	subnetPropertiesFormat_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(SubnetPropertiesFormat_STATUS_ARM{}), generators)
-
-	return subnetPropertiesFormat_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSubnetPropertiesFormat_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSubnetPropertiesFormat_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["AddressPrefix"] = gen.PtrOf(gen.AlphaString())
-	gens["AddressPrefixes"] = gen.SliceOf(gen.AlphaString())
-	gens["PrivateEndpointNetworkPolicies"] = gen.PtrOf(gen.OneConstOf(SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS_Disabled, SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS_Enabled))
-	gens["PrivateLinkServiceNetworkPolicies"] = gen.PtrOf(gen.OneConstOf(SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS_Disabled, SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS_Enabled))
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_STATUS_Deleting,
-		ProvisioningState_STATUS_Failed,
-		ProvisioningState_STATUS_Succeeded,
-		ProvisioningState_STATUS_Updating))
-	gens["Purpose"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForSubnetPropertiesFormat_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSubnetPropertiesFormat_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ApplicationGatewayIpConfigurations"] = gen.SliceOf(ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARMGenerator())
-	gens["Delegations"] = gen.SliceOf(Delegation_STATUS_ARMGenerator())
-	gens["IpAllocations"] = gen.SliceOf(SubResource_STATUS_ARMGenerator())
-	gens["IpConfigurationProfiles"] = gen.SliceOf(IPConfigurationProfile_STATUS_ARMGenerator())
-	gens["IpConfigurations"] = gen.SliceOf(IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARMGenerator())
-	gens["NatGateway"] = gen.PtrOf(SubResource_STATUS_ARMGenerator())
-	gens["NetworkSecurityGroup"] = gen.PtrOf(NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARMGenerator())
-	gens["PrivateEndpoints"] = gen.SliceOf(PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARMGenerator())
-	gens["ResourceNavigationLinks"] = gen.SliceOf(ResourceNavigationLink_STATUS_ARMGenerator())
-	gens["RouteTable"] = gen.PtrOf(RouteTable_STATUS_SubResourceEmbedded_ARMGenerator())
-	gens["ServiceAssociationLinks"] = gen.SliceOf(ServiceAssociationLink_STATUS_ARMGenerator())
-	gens["ServiceEndpointPolicies"] = gen.SliceOf(ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARMGenerator())
-	gens["ServiceEndpoints"] = gen.SliceOf(ServiceEndpointPropertiesFormat_STATUS_ARMGenerator())
-}
-
 func Test_ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -331,67 +157,6 @@ func AddRelatedPropertyGeneratorsForDelegation_STATUS_ARM(gens map[string]gopter
 	gens["Properties"] = gen.PtrOf(ServiceDelegationPropertiesFormat_STATUS_ARMGenerator())
 }
 
-func Test_IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM, IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM runs a test to see if a specific instance of IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM(subject IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM instances for property testing -
-// lazily instantiated by IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARMGenerator()
-var ipConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARMGenerator gopter.Gen
-
-// IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARMGenerator returns a generator of IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM instances for property testing.
-func IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARMGenerator() gopter.Gen {
-	if ipConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARMGenerator != nil {
-		return ipConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM(generators)
-	ipConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARMGenerator = gen.Struct(reflect.TypeOf(IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM{}), generators)
-
-	return ipConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-}
-
 func Test_IPConfigurationProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -450,6 +215,67 @@ func IPConfigurationProfile_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForIPConfigurationProfile_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIPConfigurationProfile_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM, IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM runs a test to see if a specific instance of IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM(subject IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM instances for property testing -
+// lazily instantiated by IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARMGenerator()
+var ipConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARMGenerator gopter.Gen
+
+// IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARMGenerator returns a generator of IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM instances for property testing.
+func IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARMGenerator() gopter.Gen {
+	if ipConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARMGenerator != nil {
+		return ipConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM(generators)
+	ipConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARMGenerator = gen.Struct(reflect.TypeOf(IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM{}), generators)
+
+	return ipConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -758,6 +584,73 @@ func AddIndependentPropertyGeneratorsForServiceAssociationLink_STATUS_ARM(gens m
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_ServiceDelegationPropertiesFormat_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ServiceDelegationPropertiesFormat_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServiceDelegationPropertiesFormat_STATUS_ARM, ServiceDelegationPropertiesFormat_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForServiceDelegationPropertiesFormat_STATUS_ARM runs a test to see if a specific instance of ServiceDelegationPropertiesFormat_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForServiceDelegationPropertiesFormat_STATUS_ARM(subject ServiceDelegationPropertiesFormat_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ServiceDelegationPropertiesFormat_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ServiceDelegationPropertiesFormat_STATUS_ARM instances for property testing - lazily instantiated by
+// ServiceDelegationPropertiesFormat_STATUS_ARMGenerator()
+var serviceDelegationPropertiesFormat_STATUS_ARMGenerator gopter.Gen
+
+// ServiceDelegationPropertiesFormat_STATUS_ARMGenerator returns a generator of ServiceDelegationPropertiesFormat_STATUS_ARM instances for property testing.
+func ServiceDelegationPropertiesFormat_STATUS_ARMGenerator() gopter.Gen {
+	if serviceDelegationPropertiesFormat_STATUS_ARMGenerator != nil {
+		return serviceDelegationPropertiesFormat_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServiceDelegationPropertiesFormat_STATUS_ARM(generators)
+	serviceDelegationPropertiesFormat_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ServiceDelegationPropertiesFormat_STATUS_ARM{}), generators)
+
+	return serviceDelegationPropertiesFormat_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForServiceDelegationPropertiesFormat_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServiceDelegationPropertiesFormat_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Actions"] = gen.SliceOf(gen.AlphaString())
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		ProvisioningState_STATUS_Deleting,
+		ProvisioningState_STATUS_Failed,
+		ProvisioningState_STATUS_Succeeded,
+		ProvisioningState_STATUS_Updating))
+	gens["ServiceName"] = gen.PtrOf(gen.AlphaString())
+}
+
 func Test_ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -886,20 +779,20 @@ func AddIndependentPropertyGeneratorsForServiceEndpointPropertiesFormat_STATUS_A
 	gens["Service"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_ServiceDelegationPropertiesFormat_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SubnetPropertiesFormat_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ServiceDelegationPropertiesFormat_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServiceDelegationPropertiesFormat_STATUS_ARM, ServiceDelegationPropertiesFormat_STATUS_ARMGenerator()))
+		"Round trip of SubnetPropertiesFormat_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSubnetPropertiesFormat_STATUS_ARM, SubnetPropertiesFormat_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForServiceDelegationPropertiesFormat_STATUS_ARM runs a test to see if a specific instance of ServiceDelegationPropertiesFormat_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForServiceDelegationPropertiesFormat_STATUS_ARM(subject ServiceDelegationPropertiesFormat_STATUS_ARM) string {
+// RunJSONSerializationTestForSubnetPropertiesFormat_STATUS_ARM runs a test to see if a specific instance of SubnetPropertiesFormat_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSubnetPropertiesFormat_STATUS_ARM(subject SubnetPropertiesFormat_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -907,7 +800,7 @@ func RunJSONSerializationTestForServiceDelegationPropertiesFormat_STATUS_ARM(sub
 	}
 
 	// Deserialize back into memory
-	var actual ServiceDelegationPropertiesFormat_STATUS_ARM
+	var actual SubnetPropertiesFormat_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -925,30 +818,137 @@ func RunJSONSerializationTestForServiceDelegationPropertiesFormat_STATUS_ARM(sub
 	return ""
 }
 
-// Generator of ServiceDelegationPropertiesFormat_STATUS_ARM instances for property testing - lazily instantiated by
-// ServiceDelegationPropertiesFormat_STATUS_ARMGenerator()
-var serviceDelegationPropertiesFormat_STATUS_ARMGenerator gopter.Gen
+// Generator of SubnetPropertiesFormat_STATUS_ARM instances for property testing - lazily instantiated by
+// SubnetPropertiesFormat_STATUS_ARMGenerator()
+var subnetPropertiesFormat_STATUS_ARMGenerator gopter.Gen
 
-// ServiceDelegationPropertiesFormat_STATUS_ARMGenerator returns a generator of ServiceDelegationPropertiesFormat_STATUS_ARM instances for property testing.
-func ServiceDelegationPropertiesFormat_STATUS_ARMGenerator() gopter.Gen {
-	if serviceDelegationPropertiesFormat_STATUS_ARMGenerator != nil {
-		return serviceDelegationPropertiesFormat_STATUS_ARMGenerator
+// SubnetPropertiesFormat_STATUS_ARMGenerator returns a generator of SubnetPropertiesFormat_STATUS_ARM instances for property testing.
+// We first initialize subnetPropertiesFormat_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func SubnetPropertiesFormat_STATUS_ARMGenerator() gopter.Gen {
+	if subnetPropertiesFormat_STATUS_ARMGenerator != nil {
+		return subnetPropertiesFormat_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServiceDelegationPropertiesFormat_STATUS_ARM(generators)
-	serviceDelegationPropertiesFormat_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ServiceDelegationPropertiesFormat_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForSubnetPropertiesFormat_STATUS_ARM(generators)
+	subnetPropertiesFormat_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(SubnetPropertiesFormat_STATUS_ARM{}), generators)
 
-	return serviceDelegationPropertiesFormat_STATUS_ARMGenerator
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSubnetPropertiesFormat_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForSubnetPropertiesFormat_STATUS_ARM(generators)
+	subnetPropertiesFormat_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(SubnetPropertiesFormat_STATUS_ARM{}), generators)
+
+	return subnetPropertiesFormat_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForServiceDelegationPropertiesFormat_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServiceDelegationPropertiesFormat_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Actions"] = gen.SliceOf(gen.AlphaString())
+// AddIndependentPropertyGeneratorsForSubnetPropertiesFormat_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSubnetPropertiesFormat_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["AddressPrefix"] = gen.PtrOf(gen.AlphaString())
+	gens["AddressPrefixes"] = gen.SliceOf(gen.AlphaString())
+	gens["PrivateEndpointNetworkPolicies"] = gen.PtrOf(gen.OneConstOf(SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS_Disabled, SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS_Enabled))
+	gens["PrivateLinkServiceNetworkPolicies"] = gen.PtrOf(gen.OneConstOf(SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS_Disabled, SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS_Enabled))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
 		ProvisioningState_STATUS_Deleting,
 		ProvisioningState_STATUS_Failed,
 		ProvisioningState_STATUS_Succeeded,
 		ProvisioningState_STATUS_Updating))
-	gens["ServiceName"] = gen.PtrOf(gen.AlphaString())
+	gens["Purpose"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForSubnetPropertiesFormat_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSubnetPropertiesFormat_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["ApplicationGatewayIpConfigurations"] = gen.SliceOf(ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARMGenerator())
+	gens["Delegations"] = gen.SliceOf(Delegation_STATUS_ARMGenerator())
+	gens["IpAllocations"] = gen.SliceOf(SubResource_STATUS_ARMGenerator())
+	gens["IpConfigurationProfiles"] = gen.SliceOf(IPConfigurationProfile_STATUS_ARMGenerator())
+	gens["IpConfigurations"] = gen.SliceOf(IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARMGenerator())
+	gens["NatGateway"] = gen.PtrOf(SubResource_STATUS_ARMGenerator())
+	gens["NetworkSecurityGroup"] = gen.PtrOf(NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARMGenerator())
+	gens["PrivateEndpoints"] = gen.SliceOf(PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARMGenerator())
+	gens["ResourceNavigationLinks"] = gen.SliceOf(ResourceNavigationLink_STATUS_ARMGenerator())
+	gens["RouteTable"] = gen.PtrOf(RouteTable_STATUS_SubResourceEmbedded_ARMGenerator())
+	gens["ServiceAssociationLinks"] = gen.SliceOf(ServiceAssociationLink_STATUS_ARMGenerator())
+	gens["ServiceEndpointPolicies"] = gen.SliceOf(ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARMGenerator())
+	gens["ServiceEndpoints"] = gen.SliceOf(ServiceEndpointPropertiesFormat_STATUS_ARMGenerator())
+}
+
+func Test_VirtualNetworks_Subnet_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualNetworks_Subnet_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualNetworks_Subnet_STATUS_ARM, VirtualNetworks_Subnet_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualNetworks_Subnet_STATUS_ARM runs a test to see if a specific instance of VirtualNetworks_Subnet_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualNetworks_Subnet_STATUS_ARM(subject VirtualNetworks_Subnet_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualNetworks_Subnet_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualNetworks_Subnet_STATUS_ARM instances for property testing - lazily instantiated by
+// VirtualNetworks_Subnet_STATUS_ARMGenerator()
+var virtualNetworks_Subnet_STATUS_ARMGenerator gopter.Gen
+
+// VirtualNetworks_Subnet_STATUS_ARMGenerator returns a generator of VirtualNetworks_Subnet_STATUS_ARM instances for property testing.
+// We first initialize virtualNetworks_Subnet_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func VirtualNetworks_Subnet_STATUS_ARMGenerator() gopter.Gen {
+	if virtualNetworks_Subnet_STATUS_ARMGenerator != nil {
+		return virtualNetworks_Subnet_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualNetworks_Subnet_STATUS_ARM(generators)
+	virtualNetworks_Subnet_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(VirtualNetworks_Subnet_STATUS_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualNetworks_Subnet_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForVirtualNetworks_Subnet_STATUS_ARM(generators)
+	virtualNetworks_Subnet_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(VirtualNetworks_Subnet_STATUS_ARM{}), generators)
+
+	return virtualNetworks_Subnet_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForVirtualNetworks_Subnet_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualNetworks_Subnet_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Etag"] = gen.PtrOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForVirtualNetworks_Subnet_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualNetworks_Subnet_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(SubnetPropertiesFormat_STATUS_ARMGenerator())
 }

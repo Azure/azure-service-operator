@@ -22,7 +22,7 @@ func NewReadableConversionEndpointSet() ReadableConversionEndpointSet {
 func (set ReadableConversionEndpointSet) CreatePropertyEndpoints(sourceType astmodel.Type) int {
 	// Add an endpoint for each property we can read
 	return set.addForEachProperty(sourceType, func(prop *astmodel.PropertyDefinition) *ReadableConversionEndpoint {
-		return NewReadableConversionEndpointReadingProperty(prop.PropertyName(), prop.PropertyType())
+		return NewReadableConversionEndpointReadingProperty(prop)
 	})
 }
 

@@ -31,7 +31,7 @@ supportedResourcesReport:
   # resourcePath is a template used for generating a file path for checking whether docs for a resource have been generated
   # specified relative to the directory of outputPath, and supports the same placeholders
   resourcePathTemplate: "{group}/{version}.md"
-  currentRelease: v2.7.0
+  currentRelease: v2.8.0
 
 #
 # These filters are used early in the processing pipeline. 
@@ -64,11 +64,6 @@ typeFilters:
   - action: include
     group: dbforpostgresql
     version: v*20230601preview
-    because: We want to export this particular preview version
-
-  - action: include
-    group: containerservice
-    version: v*20230202preview
     because: We want to export this particular preview version
 
   - action: include
@@ -1144,6 +1139,13 @@ objectModelConfiguration:
           $armReference: true
         PrincipalId:
           $importConfigMapMode: optional
+      RoleDefinition:
+        $export: true
+        $supportedFrom: v2.8.0
+        $defaultAzureName: false
+      RoleDefinitionProperties:
+        AssignableScopes:
+          $armReference: true
   batch:
     2021-01-01:
       BatchAccount:
@@ -1527,6 +1529,9 @@ objectModelConfiguration:
       ManagedClusterServicePrincipalProfile:
         Secret:
           $isSecret: true
+      ManagedClusterWindowsProfile:
+        AdminPassword:
+          $isSecret: true
       PrivateLinkResource:
         Id:
           $armReference: true
@@ -1562,6 +1567,9 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0
       ManagedClusterServicePrincipalProfile:
         Secret:
+          $isSecret: true
+      ManagedClusterWindowsProfile:
+        AdminPassword:
           $isSecret: true
       PrivateLinkResource:
         Id:
@@ -1602,6 +1610,9 @@ objectModelConfiguration:
       ManagedClusters_TrustedAccessRoleBinding:
         $exportAs: TrustedAccessRoleBinding
         $supportedFrom: v2.2.0
+      ManagedClusterWindowsProfile:
+        AdminPassword:
+          $isSecret: true
       TrustedAccessRoleBindingProperties:
         SourceResourceId:
           $armReference: true
@@ -1658,9 +1669,15 @@ objectModelConfiguration:
       ManagedClusterServicePrincipalProfile:
         Secret:
           $isSecret: true
+      ManagedClusterWindowsProfile:
+        AdminPassword:
+          $isSecret: true
       PrivateLinkResource:
         Id:
           $armReference: true
+      ManagedClusters_TrustedAccessRoleBinding:
+        $exportAs: TrustedAccessRoleBinding
+        $supportedFrom: v2.8.0
     2023-11-02-preview:
       DelegatedResource:
         ResourceId:
@@ -1696,9 +1713,56 @@ objectModelConfiguration:
       ManagedClusterServicePrincipalProfile:
         Secret:
           $isSecret: true
+      ManagedClusterWindowsProfile:
+        AdminPassword:
+          $isSecret: true
       PrivateLinkResource:
         Id:
           $armReference: true
+    2024-04-02-preview:
+      DelegatedResource:
+        ResourceId:
+          $armReference: true
+      ManagedCluster:
+        $export: true
+        $supportedFrom: v2.8.0
+        $azureGeneratedSecrets:
+          - AdminCredentials
+          - UserCredentials
+        $generatedConfigs:
+          OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
+      ManagedCluster_Spec:
+        Tags:
+          $payloadType: explicitEmptyCollections
+      ManagedClusterAgentPoolProfile:
+        NodeLabels:
+          $payloadType: explicitEmptyCollections
+        NodeTaints:
+          $payloadType: explicitEmptyCollections
+        Tags:
+          $payloadType: explicitEmptyCollections
+      ManagedClusterAgentPoolProfileProperties:
+        NodeLabels:
+          $payloadType: explicitEmptyCollections
+        NodeTaints:
+          $payloadType: explicitEmptyCollections
+        Tags:
+          $payloadType: explicitEmptyCollections
+      ManagedClusters_AgentPool:
+        $exportAs: ManagedClustersAgentPool
+        $supportedFrom: v2.8.0
+      ManagedClusterServicePrincipalProfile:
+        Secret:
+          $isSecret: true
+      ManagedClusterWindowsProfile:
+        AdminPassword:
+          $isSecret: true
+      PrivateLinkResource:
+        Id:
+          $armReference: true
+      ManagedClusters_TrustedAccessRoleBinding:
+        $exportAs: TrustedAccessRoleBinding
+        $supportedFrom: v2.8.0
   datafactory:
     2018-06-01:
       PurviewConfiguration:
@@ -2733,6 +2797,8 @@ objectModelConfiguration:
       PrivateEndpoint:
         $export: true
         $supportedFrom: v2.0.0
+        $manualConfigs:
+          - PrimaryNicPrivateIpAddress
       PrivateLinkService:
         $export: true
         $supportedFrom: v2.0.0

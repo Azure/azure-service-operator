@@ -18,424 +18,6 @@ import (
 	"testing"
 )
 
-func Test_AfdCustomDomain_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AfdCustomDomain to hub returns original",
-		prop.ForAll(RunResourceConversionTestForAfdCustomDomain, AfdCustomDomainGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunResourceConversionTestForAfdCustomDomain tests if a specific instance of AfdCustomDomain round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForAfdCustomDomain(subject AfdCustomDomain) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub storage.AfdCustomDomain
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual AfdCustomDomain
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_AfdCustomDomain_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AfdCustomDomain to AfdCustomDomain via AssignProperties_To_AfdCustomDomain & AssignProperties_From_AfdCustomDomain returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAfdCustomDomain, AfdCustomDomainGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForAfdCustomDomain tests if a specific instance of AfdCustomDomain can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForAfdCustomDomain(subject AfdCustomDomain) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AfdCustomDomain
-	err := copied.AssignProperties_To_AfdCustomDomain(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AfdCustomDomain
-	err = actual.AssignProperties_From_AfdCustomDomain(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_AfdCustomDomain_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AfdCustomDomain via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAfdCustomDomain, AfdCustomDomainGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForAfdCustomDomain runs a test to see if a specific instance of AfdCustomDomain round trips to JSON and back losslessly
-func RunJSONSerializationTestForAfdCustomDomain(subject AfdCustomDomain) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual AfdCustomDomain
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of AfdCustomDomain instances for property testing - lazily instantiated by AfdCustomDomainGenerator()
-var afdCustomDomainGenerator gopter.Gen
-
-// AfdCustomDomainGenerator returns a generator of AfdCustomDomain instances for property testing.
-func AfdCustomDomainGenerator() gopter.Gen {
-	if afdCustomDomainGenerator != nil {
-		return afdCustomDomainGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForAfdCustomDomain(generators)
-	afdCustomDomainGenerator = gen.Struct(reflect.TypeOf(AfdCustomDomain{}), generators)
-
-	return afdCustomDomainGenerator
-}
-
-// AddRelatedPropertyGeneratorsForAfdCustomDomain is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAfdCustomDomain(gens map[string]gopter.Gen) {
-	gens["Spec"] = Profiles_CustomDomain_SpecGenerator()
-	gens["Status"] = Profiles_CustomDomain_STATUSGenerator()
-}
-
-func Test_Profiles_CustomDomain_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Profiles_CustomDomain_Spec to Profiles_CustomDomain_Spec via AssignProperties_To_Profiles_CustomDomain_Spec & AssignProperties_From_Profiles_CustomDomain_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForProfiles_CustomDomain_Spec, Profiles_CustomDomain_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForProfiles_CustomDomain_Spec tests if a specific instance of Profiles_CustomDomain_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForProfiles_CustomDomain_Spec(subject Profiles_CustomDomain_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Profiles_CustomDomain_Spec
-	err := copied.AssignProperties_To_Profiles_CustomDomain_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Profiles_CustomDomain_Spec
-	err = actual.AssignProperties_From_Profiles_CustomDomain_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_Profiles_CustomDomain_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Profiles_CustomDomain_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProfiles_CustomDomain_Spec, Profiles_CustomDomain_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForProfiles_CustomDomain_Spec runs a test to see if a specific instance of Profiles_CustomDomain_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForProfiles_CustomDomain_Spec(subject Profiles_CustomDomain_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Profiles_CustomDomain_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Profiles_CustomDomain_Spec instances for property testing - lazily instantiated by
-// Profiles_CustomDomain_SpecGenerator()
-var profiles_CustomDomain_SpecGenerator gopter.Gen
-
-// Profiles_CustomDomain_SpecGenerator returns a generator of Profiles_CustomDomain_Spec instances for property testing.
-// We first initialize profiles_CustomDomain_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Profiles_CustomDomain_SpecGenerator() gopter.Gen {
-	if profiles_CustomDomain_SpecGenerator != nil {
-		return profiles_CustomDomain_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_CustomDomain_Spec(generators)
-	profiles_CustomDomain_SpecGenerator = gen.Struct(reflect.TypeOf(Profiles_CustomDomain_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_CustomDomain_Spec(generators)
-	AddRelatedPropertyGeneratorsForProfiles_CustomDomain_Spec(generators)
-	profiles_CustomDomain_SpecGenerator = gen.Struct(reflect.TypeOf(Profiles_CustomDomain_Spec{}), generators)
-
-	return profiles_CustomDomain_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForProfiles_CustomDomain_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProfiles_CustomDomain_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["ExtendedProperties"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["HostName"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForProfiles_CustomDomain_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForProfiles_CustomDomain_Spec(gens map[string]gopter.Gen) {
-	gens["AzureDnsZone"] = gen.PtrOf(ResourceReferenceGenerator())
-	gens["PreValidatedCustomDomainResourceId"] = gen.PtrOf(ResourceReferenceGenerator())
-	gens["TlsSettings"] = gen.PtrOf(AFDDomainHttpsParametersGenerator())
-}
-
-func Test_Profiles_CustomDomain_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Profiles_CustomDomain_STATUS to Profiles_CustomDomain_STATUS via AssignProperties_To_Profiles_CustomDomain_STATUS & AssignProperties_From_Profiles_CustomDomain_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForProfiles_CustomDomain_STATUS, Profiles_CustomDomain_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForProfiles_CustomDomain_STATUS tests if a specific instance of Profiles_CustomDomain_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForProfiles_CustomDomain_STATUS(subject Profiles_CustomDomain_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Profiles_CustomDomain_STATUS
-	err := copied.AssignProperties_To_Profiles_CustomDomain_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Profiles_CustomDomain_STATUS
-	err = actual.AssignProperties_From_Profiles_CustomDomain_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_Profiles_CustomDomain_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Profiles_CustomDomain_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProfiles_CustomDomain_STATUS, Profiles_CustomDomain_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForProfiles_CustomDomain_STATUS runs a test to see if a specific instance of Profiles_CustomDomain_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForProfiles_CustomDomain_STATUS(subject Profiles_CustomDomain_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Profiles_CustomDomain_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Profiles_CustomDomain_STATUS instances for property testing - lazily instantiated by
-// Profiles_CustomDomain_STATUSGenerator()
-var profiles_CustomDomain_STATUSGenerator gopter.Gen
-
-// Profiles_CustomDomain_STATUSGenerator returns a generator of Profiles_CustomDomain_STATUS instances for property testing.
-// We first initialize profiles_CustomDomain_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Profiles_CustomDomain_STATUSGenerator() gopter.Gen {
-	if profiles_CustomDomain_STATUSGenerator != nil {
-		return profiles_CustomDomain_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_CustomDomain_STATUS(generators)
-	profiles_CustomDomain_STATUSGenerator = gen.Struct(reflect.TypeOf(Profiles_CustomDomain_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_CustomDomain_STATUS(generators)
-	AddRelatedPropertyGeneratorsForProfiles_CustomDomain_STATUS(generators)
-	profiles_CustomDomain_STATUSGenerator = gen.Struct(reflect.TypeOf(Profiles_CustomDomain_STATUS{}), generators)
-
-	return profiles_CustomDomain_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForProfiles_CustomDomain_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProfiles_CustomDomain_STATUS(gens map[string]gopter.Gen) {
-	gens["DeploymentStatus"] = gen.PtrOf(gen.OneConstOf(
-		AFDDomainProperties_DeploymentStatus_STATUS_Failed,
-		AFDDomainProperties_DeploymentStatus_STATUS_InProgress,
-		AFDDomainProperties_DeploymentStatus_STATUS_NotStarted,
-		AFDDomainProperties_DeploymentStatus_STATUS_Succeeded))
-	gens["DomainValidationState"] = gen.PtrOf(gen.OneConstOf(
-		AFDDomainProperties_DomainValidationState_STATUS_Approved,
-		AFDDomainProperties_DomainValidationState_STATUS_InternalError,
-		AFDDomainProperties_DomainValidationState_STATUS_Pending,
-		AFDDomainProperties_DomainValidationState_STATUS_PendingRevalidation,
-		AFDDomainProperties_DomainValidationState_STATUS_RefreshingValidationToken,
-		AFDDomainProperties_DomainValidationState_STATUS_Rejected,
-		AFDDomainProperties_DomainValidationState_STATUS_Submitting,
-		AFDDomainProperties_DomainValidationState_STATUS_TimedOut,
-		AFDDomainProperties_DomainValidationState_STATUS_Unknown))
-	gens["ExtendedProperties"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["HostName"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ProfileName"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		AFDDomainProperties_ProvisioningState_STATUS_Creating,
-		AFDDomainProperties_ProvisioningState_STATUS_Deleting,
-		AFDDomainProperties_ProvisioningState_STATUS_Failed,
-		AFDDomainProperties_ProvisioningState_STATUS_Succeeded,
-		AFDDomainProperties_ProvisioningState_STATUS_Updating))
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForProfiles_CustomDomain_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForProfiles_CustomDomain_STATUS(gens map[string]gopter.Gen) {
-	gens["AzureDnsZone"] = gen.PtrOf(ResourceReference_STATUSGenerator())
-	gens["PreValidatedCustomDomainResourceId"] = gen.PtrOf(ResourceReference_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
-	gens["TlsSettings"] = gen.PtrOf(AFDDomainHttpsParameters_STATUSGenerator())
-	gens["ValidationProperties"] = gen.PtrOf(DomainValidationProperties_STATUSGenerator())
-}
-
 func Test_AFDDomainHttpsParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -672,6 +254,152 @@ func AddRelatedPropertyGeneratorsForAFDDomainHttpsParameters_STATUS(gens map[str
 	gens["Secret"] = gen.PtrOf(ResourceReference_STATUSGenerator())
 }
 
+func Test_AfdCustomDomain_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AfdCustomDomain to hub returns original",
+		prop.ForAll(RunResourceConversionTestForAfdCustomDomain, AfdCustomDomainGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForAfdCustomDomain tests if a specific instance of AfdCustomDomain round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForAfdCustomDomain(subject AfdCustomDomain) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.AfdCustomDomain
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual AfdCustomDomain
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_AfdCustomDomain_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AfdCustomDomain to AfdCustomDomain via AssignProperties_To_AfdCustomDomain & AssignProperties_From_AfdCustomDomain returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAfdCustomDomain, AfdCustomDomainGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAfdCustomDomain tests if a specific instance of AfdCustomDomain can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAfdCustomDomain(subject AfdCustomDomain) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.AfdCustomDomain
+	err := copied.AssignProperties_To_AfdCustomDomain(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AfdCustomDomain
+	err = actual.AssignProperties_From_AfdCustomDomain(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_AfdCustomDomain_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of AfdCustomDomain via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAfdCustomDomain, AfdCustomDomainGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForAfdCustomDomain runs a test to see if a specific instance of AfdCustomDomain round trips to JSON and back losslessly
+func RunJSONSerializationTestForAfdCustomDomain(subject AfdCustomDomain) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual AfdCustomDomain
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of AfdCustomDomain instances for property testing - lazily instantiated by AfdCustomDomainGenerator()
+var afdCustomDomainGenerator gopter.Gen
+
+// AfdCustomDomainGenerator returns a generator of AfdCustomDomain instances for property testing.
+func AfdCustomDomainGenerator() gopter.Gen {
+	if afdCustomDomainGenerator != nil {
+		return afdCustomDomainGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForAfdCustomDomain(generators)
+	afdCustomDomainGenerator = gen.Struct(reflect.TypeOf(AfdCustomDomain{}), generators)
+
+	return afdCustomDomainGenerator
+}
+
+// AddRelatedPropertyGeneratorsForAfdCustomDomain is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForAfdCustomDomain(gens map[string]gopter.Gen) {
+	gens["Spec"] = Profiles_CustomDomain_SpecGenerator()
+	gens["Status"] = Profiles_CustomDomain_STATUSGenerator()
+}
+
 func Test_DomainValidationProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -774,6 +502,278 @@ func DomainValidationProperties_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForDomainValidationProperties_STATUS(gens map[string]gopter.Gen) {
 	gens["ExpirationDate"] = gen.PtrOf(gen.AlphaString())
 	gens["ValidationToken"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_Profiles_CustomDomain_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Profiles_CustomDomain_STATUS to Profiles_CustomDomain_STATUS via AssignProperties_To_Profiles_CustomDomain_STATUS & AssignProperties_From_Profiles_CustomDomain_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForProfiles_CustomDomain_STATUS, Profiles_CustomDomain_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForProfiles_CustomDomain_STATUS tests if a specific instance of Profiles_CustomDomain_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForProfiles_CustomDomain_STATUS(subject Profiles_CustomDomain_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Profiles_CustomDomain_STATUS
+	err := copied.AssignProperties_To_Profiles_CustomDomain_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Profiles_CustomDomain_STATUS
+	err = actual.AssignProperties_From_Profiles_CustomDomain_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Profiles_CustomDomain_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Profiles_CustomDomain_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForProfiles_CustomDomain_STATUS, Profiles_CustomDomain_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForProfiles_CustomDomain_STATUS runs a test to see if a specific instance of Profiles_CustomDomain_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForProfiles_CustomDomain_STATUS(subject Profiles_CustomDomain_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Profiles_CustomDomain_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Profiles_CustomDomain_STATUS instances for property testing - lazily instantiated by
+// Profiles_CustomDomain_STATUSGenerator()
+var profiles_CustomDomain_STATUSGenerator gopter.Gen
+
+// Profiles_CustomDomain_STATUSGenerator returns a generator of Profiles_CustomDomain_STATUS instances for property testing.
+// We first initialize profiles_CustomDomain_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Profiles_CustomDomain_STATUSGenerator() gopter.Gen {
+	if profiles_CustomDomain_STATUSGenerator != nil {
+		return profiles_CustomDomain_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForProfiles_CustomDomain_STATUS(generators)
+	profiles_CustomDomain_STATUSGenerator = gen.Struct(reflect.TypeOf(Profiles_CustomDomain_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForProfiles_CustomDomain_STATUS(generators)
+	AddRelatedPropertyGeneratorsForProfiles_CustomDomain_STATUS(generators)
+	profiles_CustomDomain_STATUSGenerator = gen.Struct(reflect.TypeOf(Profiles_CustomDomain_STATUS{}), generators)
+
+	return profiles_CustomDomain_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForProfiles_CustomDomain_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForProfiles_CustomDomain_STATUS(gens map[string]gopter.Gen) {
+	gens["DeploymentStatus"] = gen.PtrOf(gen.OneConstOf(
+		AFDDomainProperties_DeploymentStatus_STATUS_Failed,
+		AFDDomainProperties_DeploymentStatus_STATUS_InProgress,
+		AFDDomainProperties_DeploymentStatus_STATUS_NotStarted,
+		AFDDomainProperties_DeploymentStatus_STATUS_Succeeded))
+	gens["DomainValidationState"] = gen.PtrOf(gen.OneConstOf(
+		AFDDomainProperties_DomainValidationState_STATUS_Approved,
+		AFDDomainProperties_DomainValidationState_STATUS_InternalError,
+		AFDDomainProperties_DomainValidationState_STATUS_Pending,
+		AFDDomainProperties_DomainValidationState_STATUS_PendingRevalidation,
+		AFDDomainProperties_DomainValidationState_STATUS_RefreshingValidationToken,
+		AFDDomainProperties_DomainValidationState_STATUS_Rejected,
+		AFDDomainProperties_DomainValidationState_STATUS_Submitting,
+		AFDDomainProperties_DomainValidationState_STATUS_TimedOut,
+		AFDDomainProperties_DomainValidationState_STATUS_Unknown))
+	gens["ExtendedProperties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["HostName"] = gen.PtrOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["ProfileName"] = gen.PtrOf(gen.AlphaString())
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		AFDDomainProperties_ProvisioningState_STATUS_Creating,
+		AFDDomainProperties_ProvisioningState_STATUS_Deleting,
+		AFDDomainProperties_ProvisioningState_STATUS_Failed,
+		AFDDomainProperties_ProvisioningState_STATUS_Succeeded,
+		AFDDomainProperties_ProvisioningState_STATUS_Updating))
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForProfiles_CustomDomain_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForProfiles_CustomDomain_STATUS(gens map[string]gopter.Gen) {
+	gens["AzureDnsZone"] = gen.PtrOf(ResourceReference_STATUSGenerator())
+	gens["PreValidatedCustomDomainResourceId"] = gen.PtrOf(ResourceReference_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
+	gens["TlsSettings"] = gen.PtrOf(AFDDomainHttpsParameters_STATUSGenerator())
+	gens["ValidationProperties"] = gen.PtrOf(DomainValidationProperties_STATUSGenerator())
+}
+
+func Test_Profiles_CustomDomain_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Profiles_CustomDomain_Spec to Profiles_CustomDomain_Spec via AssignProperties_To_Profiles_CustomDomain_Spec & AssignProperties_From_Profiles_CustomDomain_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForProfiles_CustomDomain_Spec, Profiles_CustomDomain_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForProfiles_CustomDomain_Spec tests if a specific instance of Profiles_CustomDomain_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForProfiles_CustomDomain_Spec(subject Profiles_CustomDomain_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Profiles_CustomDomain_Spec
+	err := copied.AssignProperties_To_Profiles_CustomDomain_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Profiles_CustomDomain_Spec
+	err = actual.AssignProperties_From_Profiles_CustomDomain_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Profiles_CustomDomain_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Profiles_CustomDomain_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForProfiles_CustomDomain_Spec, Profiles_CustomDomain_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForProfiles_CustomDomain_Spec runs a test to see if a specific instance of Profiles_CustomDomain_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForProfiles_CustomDomain_Spec(subject Profiles_CustomDomain_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Profiles_CustomDomain_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Profiles_CustomDomain_Spec instances for property testing - lazily instantiated by
+// Profiles_CustomDomain_SpecGenerator()
+var profiles_CustomDomain_SpecGenerator gopter.Gen
+
+// Profiles_CustomDomain_SpecGenerator returns a generator of Profiles_CustomDomain_Spec instances for property testing.
+// We first initialize profiles_CustomDomain_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Profiles_CustomDomain_SpecGenerator() gopter.Gen {
+	if profiles_CustomDomain_SpecGenerator != nil {
+		return profiles_CustomDomain_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForProfiles_CustomDomain_Spec(generators)
+	profiles_CustomDomain_SpecGenerator = gen.Struct(reflect.TypeOf(Profiles_CustomDomain_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForProfiles_CustomDomain_Spec(generators)
+	AddRelatedPropertyGeneratorsForProfiles_CustomDomain_Spec(generators)
+	profiles_CustomDomain_SpecGenerator = gen.Struct(reflect.TypeOf(Profiles_CustomDomain_Spec{}), generators)
+
+	return profiles_CustomDomain_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForProfiles_CustomDomain_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForProfiles_CustomDomain_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["ExtendedProperties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["HostName"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForProfiles_CustomDomain_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForProfiles_CustomDomain_Spec(gens map[string]gopter.Gen) {
+	gens["AzureDnsZone"] = gen.PtrOf(ResourceReferenceGenerator())
+	gens["PreValidatedCustomDomainResourceId"] = gen.PtrOf(ResourceReferenceGenerator())
+	gens["TlsSettings"] = gen.PtrOf(AFDDomainHttpsParametersGenerator())
 }
 
 func Test_ResourceReference_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

@@ -1104,7 +1104,7 @@ func (component *Component_Spec) Initialize_From_Component_STATUS(source *Compon
 
 	// Application_Type
 	if source.Application_Type != nil {
-		applicationType := ApplicationInsightsComponentProperties_Application_Type(*source.Application_Type)
+		applicationType := genruntime.ToEnum(string(*source.Application_Type), applicationInsightsComponentProperties_Application_Type_Values)
 		component.Application_Type = &applicationType
 	} else {
 		component.Application_Type = nil
@@ -1131,7 +1131,7 @@ func (component *Component_Spec) Initialize_From_Component_STATUS(source *Compon
 
 	// Flow_Type
 	if source.Flow_Type != nil {
-		flowType := ApplicationInsightsComponentProperties_Flow_Type(*source.Flow_Type)
+		flowType := genruntime.ToEnum(string(*source.Flow_Type), applicationInsightsComponentProperties_Flow_Type_Values)
 		component.Flow_Type = &flowType
 	} else {
 		component.Flow_Type = nil
@@ -1158,7 +1158,7 @@ func (component *Component_Spec) Initialize_From_Component_STATUS(source *Compon
 
 	// IngestionMode
 	if source.IngestionMode != nil {
-		ingestionMode := ApplicationInsightsComponentProperties_IngestionMode(*source.IngestionMode)
+		ingestionMode := genruntime.ToEnum(string(*source.IngestionMode), applicationInsightsComponentProperties_IngestionMode_Values)
 		component.IngestionMode = &ingestionMode
 	} else {
 		component.IngestionMode = nil
@@ -1172,7 +1172,7 @@ func (component *Component_Spec) Initialize_From_Component_STATUS(source *Compon
 
 	// PublicNetworkAccessForIngestion
 	if source.PublicNetworkAccessForIngestion != nil {
-		publicNetworkAccessForIngestion := PublicNetworkAccessType(*source.PublicNetworkAccessForIngestion)
+		publicNetworkAccessForIngestion := genruntime.ToEnum(string(*source.PublicNetworkAccessForIngestion), publicNetworkAccessType_Values)
 		component.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
 	} else {
 		component.PublicNetworkAccessForIngestion = nil
@@ -1180,7 +1180,7 @@ func (component *Component_Spec) Initialize_From_Component_STATUS(source *Compon
 
 	// PublicNetworkAccessForQuery
 	if source.PublicNetworkAccessForQuery != nil {
-		publicNetworkAccessForQuery := PublicNetworkAccessType(*source.PublicNetworkAccessForQuery)
+		publicNetworkAccessForQuery := genruntime.ToEnum(string(*source.PublicNetworkAccessForQuery), publicNetworkAccessType_Values)
 		component.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
 	} else {
 		component.PublicNetworkAccessForQuery = nil
@@ -1188,7 +1188,7 @@ func (component *Component_Spec) Initialize_From_Component_STATUS(source *Compon
 
 	// Request_Source
 	if source.Request_Source != nil {
-		requestSource := ApplicationInsightsComponentProperties_Request_Source(*source.Request_Source)
+		requestSource := genruntime.ToEnum(string(*source.Request_Source), applicationInsightsComponentProperties_Request_Source_Values)
 		component.Request_Source = &requestSource
 	} else {
 		component.Request_Source = nil

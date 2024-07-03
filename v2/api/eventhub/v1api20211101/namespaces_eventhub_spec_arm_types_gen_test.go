@@ -17,157 +17,6 @@ import (
 	"testing"
 )
 
-func Test_Namespaces_Eventhub_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Namespaces_Eventhub_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamespaces_Eventhub_Spec_ARM, Namespaces_Eventhub_Spec_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForNamespaces_Eventhub_Spec_ARM runs a test to see if a specific instance of Namespaces_Eventhub_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamespaces_Eventhub_Spec_ARM(subject Namespaces_Eventhub_Spec_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Namespaces_Eventhub_Spec_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Namespaces_Eventhub_Spec_ARM instances for property testing - lazily instantiated by
-// Namespaces_Eventhub_Spec_ARMGenerator()
-var namespaces_Eventhub_Spec_ARMGenerator gopter.Gen
-
-// Namespaces_Eventhub_Spec_ARMGenerator returns a generator of Namespaces_Eventhub_Spec_ARM instances for property testing.
-// We first initialize namespaces_Eventhub_Spec_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Namespaces_Eventhub_Spec_ARMGenerator() gopter.Gen {
-	if namespaces_Eventhub_Spec_ARMGenerator != nil {
-		return namespaces_Eventhub_Spec_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespaces_Eventhub_Spec_ARM(generators)
-	namespaces_Eventhub_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Namespaces_Eventhub_Spec_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespaces_Eventhub_Spec_ARM(generators)
-	AddRelatedPropertyGeneratorsForNamespaces_Eventhub_Spec_ARM(generators)
-	namespaces_Eventhub_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Namespaces_Eventhub_Spec_ARM{}), generators)
-
-	return namespaces_Eventhub_Spec_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForNamespaces_Eventhub_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNamespaces_Eventhub_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForNamespaces_Eventhub_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNamespaces_Eventhub_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(Namespaces_Eventhub_Properties_Spec_ARMGenerator())
-}
-
-func Test_Namespaces_Eventhub_Properties_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Namespaces_Eventhub_Properties_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamespaces_Eventhub_Properties_Spec_ARM, Namespaces_Eventhub_Properties_Spec_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForNamespaces_Eventhub_Properties_Spec_ARM runs a test to see if a specific instance of Namespaces_Eventhub_Properties_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamespaces_Eventhub_Properties_Spec_ARM(subject Namespaces_Eventhub_Properties_Spec_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Namespaces_Eventhub_Properties_Spec_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Namespaces_Eventhub_Properties_Spec_ARM instances for property testing - lazily instantiated by
-// Namespaces_Eventhub_Properties_Spec_ARMGenerator()
-var namespaces_Eventhub_Properties_Spec_ARMGenerator gopter.Gen
-
-// Namespaces_Eventhub_Properties_Spec_ARMGenerator returns a generator of Namespaces_Eventhub_Properties_Spec_ARM instances for property testing.
-// We first initialize namespaces_Eventhub_Properties_Spec_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Namespaces_Eventhub_Properties_Spec_ARMGenerator() gopter.Gen {
-	if namespaces_Eventhub_Properties_Spec_ARMGenerator != nil {
-		return namespaces_Eventhub_Properties_Spec_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespaces_Eventhub_Properties_Spec_ARM(generators)
-	namespaces_Eventhub_Properties_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Namespaces_Eventhub_Properties_Spec_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespaces_Eventhub_Properties_Spec_ARM(generators)
-	AddRelatedPropertyGeneratorsForNamespaces_Eventhub_Properties_Spec_ARM(generators)
-	namespaces_Eventhub_Properties_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Namespaces_Eventhub_Properties_Spec_ARM{}), generators)
-
-	return namespaces_Eventhub_Properties_Spec_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForNamespaces_Eventhub_Properties_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNamespaces_Eventhub_Properties_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["MessageRetentionInDays"] = gen.PtrOf(gen.Int())
-	gens["PartitionCount"] = gen.PtrOf(gen.Int())
-}
-
-// AddRelatedPropertyGeneratorsForNamespaces_Eventhub_Properties_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNamespaces_Eventhub_Properties_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["CaptureDescription"] = gen.PtrOf(CaptureDescription_ARMGenerator())
-}
-
 func Test_CaptureDescription_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -385,4 +234,155 @@ func AddIndependentPropertyGeneratorsForDestination_Properties_ARM(gens map[stri
 	gens["DataLakeFolderPath"] = gen.PtrOf(gen.AlphaString())
 	gens["DataLakeSubscriptionId"] = gen.PtrOf(gen.AlphaString())
 	gens["StorageAccountResourceId"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_Namespaces_Eventhub_Properties_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Namespaces_Eventhub_Properties_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespaces_Eventhub_Properties_Spec_ARM, Namespaces_Eventhub_Properties_Spec_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForNamespaces_Eventhub_Properties_Spec_ARM runs a test to see if a specific instance of Namespaces_Eventhub_Properties_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespaces_Eventhub_Properties_Spec_ARM(subject Namespaces_Eventhub_Properties_Spec_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Namespaces_Eventhub_Properties_Spec_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Namespaces_Eventhub_Properties_Spec_ARM instances for property testing - lazily instantiated by
+// Namespaces_Eventhub_Properties_Spec_ARMGenerator()
+var namespaces_Eventhub_Properties_Spec_ARMGenerator gopter.Gen
+
+// Namespaces_Eventhub_Properties_Spec_ARMGenerator returns a generator of Namespaces_Eventhub_Properties_Spec_ARM instances for property testing.
+// We first initialize namespaces_Eventhub_Properties_Spec_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Namespaces_Eventhub_Properties_Spec_ARMGenerator() gopter.Gen {
+	if namespaces_Eventhub_Properties_Spec_ARMGenerator != nil {
+		return namespaces_Eventhub_Properties_Spec_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNamespaces_Eventhub_Properties_Spec_ARM(generators)
+	namespaces_Eventhub_Properties_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Namespaces_Eventhub_Properties_Spec_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNamespaces_Eventhub_Properties_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForNamespaces_Eventhub_Properties_Spec_ARM(generators)
+	namespaces_Eventhub_Properties_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Namespaces_Eventhub_Properties_Spec_ARM{}), generators)
+
+	return namespaces_Eventhub_Properties_Spec_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForNamespaces_Eventhub_Properties_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespaces_Eventhub_Properties_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["MessageRetentionInDays"] = gen.PtrOf(gen.Int())
+	gens["PartitionCount"] = gen.PtrOf(gen.Int())
+}
+
+// AddRelatedPropertyGeneratorsForNamespaces_Eventhub_Properties_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNamespaces_Eventhub_Properties_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["CaptureDescription"] = gen.PtrOf(CaptureDescription_ARMGenerator())
+}
+
+func Test_Namespaces_Eventhub_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Namespaces_Eventhub_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespaces_Eventhub_Spec_ARM, Namespaces_Eventhub_Spec_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForNamespaces_Eventhub_Spec_ARM runs a test to see if a specific instance of Namespaces_Eventhub_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespaces_Eventhub_Spec_ARM(subject Namespaces_Eventhub_Spec_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Namespaces_Eventhub_Spec_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Namespaces_Eventhub_Spec_ARM instances for property testing - lazily instantiated by
+// Namespaces_Eventhub_Spec_ARMGenerator()
+var namespaces_Eventhub_Spec_ARMGenerator gopter.Gen
+
+// Namespaces_Eventhub_Spec_ARMGenerator returns a generator of Namespaces_Eventhub_Spec_ARM instances for property testing.
+// We first initialize namespaces_Eventhub_Spec_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Namespaces_Eventhub_Spec_ARMGenerator() gopter.Gen {
+	if namespaces_Eventhub_Spec_ARMGenerator != nil {
+		return namespaces_Eventhub_Spec_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNamespaces_Eventhub_Spec_ARM(generators)
+	namespaces_Eventhub_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Namespaces_Eventhub_Spec_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNamespaces_Eventhub_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForNamespaces_Eventhub_Spec_ARM(generators)
+	namespaces_Eventhub_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Namespaces_Eventhub_Spec_ARM{}), generators)
+
+	return namespaces_Eventhub_Spec_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForNamespaces_Eventhub_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespaces_Eventhub_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.AlphaString()
+}
+
+// AddRelatedPropertyGeneratorsForNamespaces_Eventhub_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNamespaces_Eventhub_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(Namespaces_Eventhub_Properties_Spec_ARMGenerator())
 }

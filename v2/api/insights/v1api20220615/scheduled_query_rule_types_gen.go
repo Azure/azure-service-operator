@@ -1097,7 +1097,7 @@ func (rule *ScheduledQueryRule_Spec) Initialize_From_ScheduledQueryRule_STATUS(s
 
 	// Kind
 	if source.Kind != nil {
-		kind := ScheduledQueryRule_Kind_Spec(*source.Kind)
+		kind := genruntime.ToEnum(string(*source.Kind), scheduledQueryRule_Kind_Spec_Values)
 		rule.Kind = &kind
 	} else {
 		rule.Kind = nil
@@ -2864,7 +2864,7 @@ func (condition *Condition) Initialize_From_Condition_STATUS(source *Condition_S
 
 	// Operator
 	if source.Operator != nil {
-		operator := Condition_Operator(*source.Operator)
+		operator := genruntime.ToEnum(string(*source.Operator), condition_Operator_Values)
 		condition.Operator = &operator
 	} else {
 		condition.Operator = nil
@@ -2883,7 +2883,7 @@ func (condition *Condition) Initialize_From_Condition_STATUS(source *Condition_S
 
 	// TimeAggregation
 	if source.TimeAggregation != nil {
-		timeAggregation := Condition_TimeAggregation(*source.TimeAggregation)
+		timeAggregation := genruntime.ToEnum(string(*source.TimeAggregation), condition_TimeAggregation_Values)
 		condition.TimeAggregation = &timeAggregation
 	} else {
 		condition.TimeAggregation = nil
@@ -3562,7 +3562,7 @@ func (dimension *Dimension) Initialize_From_Dimension_STATUS(source *Dimension_S
 
 	// Operator
 	if source.Operator != nil {
-		operator := Dimension_Operator(*source.Operator)
+		operator := genruntime.ToEnum(string(*source.Operator), dimension_Operator_Values)
 		dimension.Operator = &operator
 	} else {
 		dimension.Operator = nil
