@@ -34,7 +34,7 @@ func CatalogKnownResources() *Stage {
 				rsrcsInGroup.Add(rsrc.Name())
 			}
 
-			return StateWithInfo(state, AllKnownResources, catalog), nil
+			return StateWithData(state, AllKnownResources, catalog), nil
 		})
 
 	// We're cataloging all known resources, so we have to do this before we reduce the set of

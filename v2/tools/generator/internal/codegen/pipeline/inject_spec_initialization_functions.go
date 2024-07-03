@@ -34,7 +34,7 @@ func InjectSpecInitializationFunctions(
 		func(ctx context.Context, state *State) (*State, error) {
 			defs := state.Definitions()
 
-			graph, err := GetStateInfo[*storage.ConversionGraph](state, ConversionGraphInfo)
+			graph, err := GetStateData[*storage.ConversionGraph](state, ConversionGraphInfo)
 			if err != nil {
 				return nil, errors.Wrapf(err, "couldn't find conversion graph")
 			}

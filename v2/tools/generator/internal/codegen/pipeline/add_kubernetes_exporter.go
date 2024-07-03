@@ -24,7 +24,7 @@ func AddKubernetesExporter(idFactory astmodel.IdentifierFactory) *Stage {
 			defs := state.Definitions()
 			updatedDefs := make(astmodel.TypeDefinitionSet)
 
-			mappings, err := GetStateInfo[*ExportedTypeNameProperties](state, ExportedConfigMaps)
+			mappings, err := GetStateData[*ExportedTypeNameProperties](state, ExportedConfigMaps)
 			if err != nil {
 				return nil, errors.Wrapf(err, "couldn't find exported config maps")
 			}

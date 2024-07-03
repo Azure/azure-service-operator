@@ -35,7 +35,7 @@ func InjectPropertyAssignmentFunctions(
 		InjectPropertyAssignmentFunctionsStageID,
 		"Inject property assignment functions AssignFrom() and AssignTo() into resources and objects",
 		func(ctx context.Context, state *State) (*State, error) {
-			graph, err := GetStateInfo[*storage.ConversionGraph](state, ConversionGraphInfo)
+			graph, err := GetStateData[*storage.ConversionGraph](state, ConversionGraphInfo)
 			if err != nil {
 				return nil, errors.Wrapf(err, "couldn't find conversion graph")
 			}

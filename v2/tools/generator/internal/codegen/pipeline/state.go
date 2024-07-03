@@ -19,15 +19,17 @@ type State struct {
 	definitions    astmodel.TypeDefinitionSet // set of type definitions generated so far
 	stagesSeen     set.Set[string]            // set of ids of the stages already run
 	stagesExpected map[string]set.Set[string] // set of ids of expected stages, each with a set of ids for the stages expecting them
-	stateInfo      map[StateInfo]any          // map of state information
+	stateInfo      map[StateDataKey]any       // map of state information
 }
 
-type StateInfo string
+// StateDataKey defines a unique key used to store/recall information in the pipeline state.
+// This allows one stage to store information for consumption by another later stage.
+type StateDataKey string
 
 const (
-	AllKnownResources   StateInfo = "AllKnownResources"
-	ConversionGraphInfo StateInfo = "ConversionGraph"
-	ExportedConfigMaps  StateInfo = "ExportedConfigMaps"
+	AllKnownResources   StateDataKey = "AllKnownResources"
+	ConversionGraphInfo StateDataKey = "ConversionGraph"
+	ExportedConfigMaps  StateDataKey = "ExportedConfigMaps"
 )
 
 // NewState returns a new empty state
@@ -109,30 +111,30 @@ func (s *State) copy() *State {
 	}
 }
 
-// StateWithInfo returns a new state with the given information included.
+// StateWithData returns a new state with the given information included.
 // Any existing information with the same key is replaced.
 // Has to be written as a standalone function because methods can't introduce new generic variation.
-func StateWithInfo[I any](
+func StateWithData[I any](
 	state *State,
-	key StateInfo,
+	key StateDataKey,
 	info I,
 ) *State {
 	result := state.copy()
 	if result.stateInfo == nil {
-		result.stateInfo = make(map[StateInfo]any)
+		result.stateInfo = make(map[StateDataKey]any)
 	}
 
 	result.stateInfo[key] = info
 	return result
 }
 
-// GetStateInfo returns the information stored in the state under the given key.
+// GetStateData returns the information stored in the state under the given key.
 // If no information is stored under the key, or if it doesn't have the expected type, the second
 // return value is false.
 // Has to be written as a standalone function because methods can't introduce new generic variation.
-func GetStateInfo[I any](
+func GetStateData[I any](
 	state *State,
-	key StateInfo,
+	key StateDataKey,
 ) (I, error) {
 	if state.stateInfo == nil {
 		var zero I

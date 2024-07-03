@@ -41,7 +41,7 @@ func TestCreateConversionGraph(t *testing.T) {
 
 	g.Expect(finalState.Definitions()).To(HaveLen(6))
 
-	graph, err := GetStateInfo[*storage.ConversionGraph](finalState, ConversionGraphInfo)
+	graph, err := GetStateData[*storage.ConversionGraph](finalState, ConversionGraphInfo)
 	g.Expect(graph).NotTo(BeNil())
 	g.Expect(err).NotTo(HaveOccurred())
 

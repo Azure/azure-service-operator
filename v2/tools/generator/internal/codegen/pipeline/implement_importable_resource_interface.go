@@ -30,7 +30,7 @@ func ImplementImportableResourceInterface(
 		"Implement the ImportableResource interface for resources that support import via asoctl",
 		func(ctx context.Context, state *State) (*State, error) {
 			// Scan for the resources requiring the ImportableResource interface injected
-			graph, err := GetStateInfo[*storage.ConversionGraph](state, ConversionGraphInfo)
+			graph, err := GetStateData[*storage.ConversionGraph](state, ConversionGraphInfo)
 			if err != nil {
 				return nil, errors.Wrapf(err, "couldn't find conversion graph")
 			}

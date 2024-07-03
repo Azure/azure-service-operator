@@ -55,7 +55,7 @@ func AddOperatorSpec(configuration *config.Configuration, idFactory astmodel.Ide
 				return nil, err
 			}
 
-			return StateWithInfo(
+			return StateWithData(
 				state.WithOverlaidDefinitions(result),
 				ExportedConfigMaps,
 				exportedTypeNameConfigMaps), nil
