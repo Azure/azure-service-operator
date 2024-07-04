@@ -441,5 +441,7 @@
     <loc>https://azure.github.io/azure-service-operator/reference/web/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/web/v1api20220301/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/design/adr-year-month-title/</loc>
   </url>
 </urlset>
