@@ -424,13 +424,9 @@ func Test_BundledCRDs_HaveExactlyTwoInstancesOfNamespace(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	path := "../../out/crds"
-	logger := testcommon.NewTestLogger(t)
-	crdManager := crdmanagement.NewManager(logger, nil)
+	testData := testSetup(t)
 
-	defaultNamespace := "azureserviceoperator-system"
-
-	loadedCRDs, err := crdManager.LoadOperatorCRDs(path, defaultNamespace)
+	loadedCRDs, err := testData.crdManager.LoadOperatorCRDs(testData.crdPath, testData.namespace)
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(loadedCRDs).ToNot(BeEmpty())
 	// The raw JSON should contain exactly 2 locations where the namespace is referenced. If this changes, we need
@@ -440,7 +436,7 @@ func Test_BundledCRDs_HaveExactlyTwoInstancesOfNamespace(t *testing.T) {
 	bytes, err := json.Marshal(crd)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	count := strings.Count(string(bytes), defaultNamespace)
+	count := strings.Count(string(bytes), testData.namespace)
 	g.Expect(count).To(Equal(2))
 }
 

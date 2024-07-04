@@ -321,7 +321,7 @@ func (m *Manager) loadCRDs(path string) ([]apiextensions.CustomResourceDefinitio
 			return nil, errors.Wrapf(err, "failed to unmarshal %s to CRD", filePath)
 		}
 
-		m.logger.V(Verbose).Info("Loaded CRD", "path", filePath, "name", crd.Name)
+		m.logger.V(Verbose).Info("Loaded CRD", "crdPath", filePath, "name", crd.Name)
 		results = append(results, crd)
 	}
 

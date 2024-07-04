@@ -163,11 +163,9 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flag
 		os.Exit(1)
 	}
 
-	// By default, assume the existing CRDs are the goal CRDs. If CRD management is enabled, we will
-	// load the goal CRDs from disk and apply them.
-	goalCRDs := existingCRDs
 	switch flgs.CRDManagementMode {
 	case "auto":
+		var goalCRDs []apiextensions.CustomResourceDefinition
 		goalCRDs, err = crdManager.LoadOperatorCRDs(crdmanagement.CRDLocation, cfg.PodNamespace)
 		if err != nil {
 			setupLog.Error(err, "failed to load CRDs from disk")
@@ -190,6 +188,7 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flag
 				os.Exit(1)
 			}
 
+			// Note that this step will restart the pod when it succeeds
 			err = crdManager.ApplyCRDs(ctx, installationInstructions)
 			if err != nil {
 				setupLog.Error(err, "failed to apply CRDs")
@@ -203,13 +202,24 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flag
 		os.Exit(1)
 	}
 
-	// Of all the resources we know of, find any that aren't ready. We will use this collection
-	// to skip watching of these not-ready resources.
-	nonReadyResources := crdmanagement.GetNonReadyCRDs(cfg, crdManager, goalCRDs, existingCRDs)
+	// There are 3 possibilities once we reach here:
+	// 1. Webhooks mode + crd-management-mode=auto: existingCRDs will be up to date (upgraded, crd-pattern applied, etc)
+	//    by the time we get here as the pod will keep exiting until it is so (see crdManager.ApplyCRDs above).
+	// 2. Non-webhooks mode + auto: As outlined in https://azure.github.io/azure-service-operator/guide/authentication/multitenant-deployment/#upgrading
+	//    the webhooks mode pod must be upgraded first, so there's not really much practical difference between this and
+	//    crd-management-mode=none (see below).
+	// 3. crd-management-mode=none: existingCRDs is the set of CRDs that are installed and we can't do anything else but
+	//    trust that they are correct.
+	//    TODO: This is not quite true as if we wanted we could still read the CRDs from the filesystem and
+	//    TODO: just exit if what we see remotely doesn't match what we have locally, the downside of this is we pay
+	//    TODO: the nontrivial startup cost of reading the local copy of CRDs into memory. Since "none" is
+	//    TODO: us approximating the standard operator experience we don't perform this assertion currently as most
+	//    TODO: operators don't.
+	readyResources := crdmanagement.MakeCRDMap(existingCRDs)
 
 	if cfg.OperatorMode.IncludesWatchers() {
 		//nolint:contextcheck
-		err = initializeWatchers(nonReadyResources, cfg, mgr, clients)
+		err = initializeWatchers(readyResources, cfg, mgr, clients)
 		if err != nil {
 			setupLog.Error(err, "failed to initialize watchers")
 			os.Exit(1)
@@ -219,7 +229,7 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flag
 	if cfg.OperatorMode.IncludesWebhooks() {
 		objs := controllers.GetKnownTypes()
 
-		objs, err = crdmanagement.FilterKnownTypesByReadyCRDs(clients.log, scheme, nonReadyResources, objs)
+		objs, err = crdmanagement.FilterKnownTypesByReadyCRDs(clients.log, scheme, readyResources, objs)
 		if err != nil {
 			setupLog.Error(err, "failed to filter known types by ready CRDs")
 			os.Exit(1)
@@ -385,7 +395,7 @@ func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
 	}, nil
 }
 
-func initializeWatchers(nonReadyResources map[string]apiextensions.CustomResourceDefinition, cfg config.Values, mgr ctrl.Manager, clients *clients) error {
+func initializeWatchers(readyResources map[string]apiextensions.CustomResourceDefinition, cfg config.Values, mgr ctrl.Manager, clients *clients) error {
 	clients.log.V(Status).Info("Configuration details", "config", cfg.String())
 
 	objs, err := controllers.GetKnownStorageTypes(
@@ -400,7 +410,7 @@ func initializeWatchers(nonReadyResources map[string]apiextensions.CustomResourc
 	}
 
 	// Filter the types to register
-	objs, err = crdmanagement.FilterStorageTypesByReadyCRDs(clients.log, mgr.GetScheme(), nonReadyResources, objs)
+	objs, err = crdmanagement.FilterStorageTypesByReadyCRDs(clients.log, mgr.GetScheme(), readyResources, objs)
 	if err != nil {
 		return errors.Wrap(err, "failed to filter storage types by ready CRDs")
 	}

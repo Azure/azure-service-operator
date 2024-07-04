@@ -18,7 +18,6 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/types"
-	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 	"sigs.k8s.io/controller-runtime/pkg/handler"
@@ -44,8 +43,12 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
 )
 
+type Schemer interface {
+	GetScheme() *runtime.Scheme
+}
+
 func GetKnownStorageTypes(
-	mgr ctrl.Manager,
+	schemer Schemer,
 	armConnectionFactory arm.ARMConnectionFactory,
 	credentialProvider identity.CredentialProvider,
 	kubeClient kubeclient.Client,
@@ -53,7 +56,7 @@ func GetKnownStorageTypes(
 	options generic.Options,
 ) ([]*registration.StorageType, error) {
 	resourceResolver := resolver.NewResolver(kubeClient)
-	knownStorageTypes, err := getGeneratedStorageTypes(mgr, armConnectionFactory, kubeClient, resourceResolver, positiveConditions, options)
+	knownStorageTypes, err := getGeneratedStorageTypes(schemer, armConnectionFactory, kubeClient, resourceResolver, positiveConditions, options)
 	if err != nil {
 		return nil, err
 	}
@@ -147,7 +150,7 @@ func GetKnownStorageTypes(
 }
 
 func getGeneratedStorageTypes(
-	mgr ctrl.Manager,
+	schemer Schemer,
 	armConnectionFactory arm.ARMConnectionFactory,
 	kubeClient kubeclient.Client,
 	resourceResolver *resolver.Resolver,
@@ -156,13 +159,13 @@ func getGeneratedStorageTypes(
 ) ([]*registration.StorageType, error) {
 	knownStorageTypes := getKnownStorageTypes()
 
-	err := resourceResolver.IndexStorageTypes(mgr.GetScheme(), knownStorageTypes)
+	err := resourceResolver.IndexStorageTypes(schemer.GetScheme(), knownStorageTypes)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed add storage types to resource resolver")
 	}
 
 	var extensions map[schema.GroupVersionKind]genruntime.ResourceExtension
-	extensions, err = GetResourceExtensions(mgr.GetScheme())
+	extensions, err = GetResourceExtensions(schemer.GetScheme())
 	if err != nil {
 		return nil, errors.Wrap(err, "failed getting extensions")
 	}
@@ -170,7 +173,7 @@ func getGeneratedStorageTypes(
 	for _, t := range knownStorageTypes {
 		// Use the provided GVK to construct a new runtime object of the desired concrete type.
 		var gvk schema.GroupVersionKind
-		gvk, err = apiutil.GVKForObject(t.Obj, mgr.GetScheme())
+		gvk, err = apiutil.GVKForObject(t.Obj, schemer.GetScheme())
 		if err != nil {
 			return nil, errors.Wrapf(err, "creating GVK for obj %T", t.Obj)
 		}
