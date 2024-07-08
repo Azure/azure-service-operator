@@ -175,9 +175,10 @@ func (v *ValidatedType) AsDeclarations(
 	return v.ElementType().AsDeclarations(codeGenerationContext, declContext)
 }
 
-// AsType panics because validated types should always be named
+// AsType returns a type expression suitable for declaring a local of this type -
+// which is simply whatever our underlying type requires.
 func (v *ValidatedType) AsTypeExpr(codeGenerationContext *CodeGenerationContext) (dst.Expr, error) {
-	panic("Should never happen: validated types must either be named (handled by 'name types for CRDs' pipeline stage) or be directly under properties (handled by PropertyDefinition.AsField)")
+	return v.element.AsTypeExpr(codeGenerationContext)
 }
 
 // AsZero returns the zero for our underlying type
