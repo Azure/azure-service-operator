@@ -199,6 +199,7 @@ func ClusterProfileGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForClusterProfile(gens map[string]gopter.Gen) {
 	gens["Domain"] = gen.PtrOf(gen.AlphaString())
 	gens["FipsValidatedModules"] = gen.PtrOf(gen.AlphaString())
+	gens["ResourceGroupId"] = gen.PtrOf(gen.AlphaString())
 	gens["Version"] = gen.PtrOf(gen.AlphaString())
 }
 

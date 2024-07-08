@@ -104,9 +104,9 @@ func (in *ClusterProfile) DeepCopyInto(out *ClusterProfile) {
 		*out = new(genruntime.SecretReference)
 		**out = **in
 	}
-	if in.ResourceGroupReference != nil {
-		in, out := &in.ResourceGroupReference, &out.ResourceGroupReference
-		*out = new(genruntime.ResourceReference)
+	if in.ResourceGroupId != nil {
+		in, out := &in.ResourceGroupId, &out.ResourceGroupId
+		*out = new(string)
 		**out = **in
 	}
 	if in.Version != nil {

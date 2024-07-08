@@ -102,6 +102,7 @@ func HideRecordingData(azureIDs creds.AzureIDs, s string) string {
 	s = hideDates(s)
 	s = hideSSHKeys(s)
 	s = hidePasswords(s)
+	s = hideSecrets(s)
 	s = hideKubeConfigs(s)
 	s = hideKeys(s)
 	s = hideCustomKeys(s)
@@ -129,6 +130,13 @@ var passwordMatcher = regexp.MustCompile("\"pass[^\"]*?pass\"")
 // hidePasswords hides anything that looks like a generated password
 func hidePasswords(s string) string {
 	return passwordMatcher.ReplaceAllLiteralString(s, "\"{PASSWORD}\"")
+}
+
+var secretMatcher = regexp.MustCompile("\".*[Ss]ecret.*\"")
+
+// hideSecrets hides anything that looks like a secret
+func hideSecrets(s string) string {
+	return secretMatcher.ReplaceAllLiteralString(s, "\"{SECRET}\"")
 }
 
 // kubeConfigMatcher specifically matches base64 data returned by the AKS get keys API

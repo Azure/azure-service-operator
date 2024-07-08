@@ -6,60 +6,116 @@ Licensed under the MIT license.
 package controllers_test
 
 import (
+	"fmt"
 	"testing"
 
 	. "github.com/onsi/gomega"
 
+	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
 	aro "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20231122"
 
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
+// TODO: TO re-record this test, create a new service principal and follow the todos below in the test code.
 func Test_RedHatOpenShift_OpenShiftCluster_CRUD(t *testing.T) {
 	t.Parallel()
 
+	if *isLive {
+		t.Skip("ARO cluster test requires ServicePrincipal creation and referenced in the cluster object.")
+	}
+
 	tc := globalTestContext.ForTest(t)
 	rg := tc.CreateTestResourceGroupAndWait()
-	rg2 := tc.CreateTestResourceGroupAndWait()
 
 	secretName := "aro-secret"
 	secretKey := "client-secret"
-	clientSecretRef := tc.CreateSecret(secretName, secretKey, "-3a8Q~ahZHn3MKL9uRicTi4MSnecJMuMsSIagagW")
+	// TODO: Replace the principalID, clientSecret and clientId vars below with principalId, clientSecret and clientId of your SP
+	principalId := "b542c40a-d0b3-41f7-a9f4-56adbbed1ccd"
+	clientId := "c055e786-8d06-44db-90a1-31ea5767123c"
+	clientSecret := "your-client-secret-here"
+	// This is the RP principalId, no need to change this.
+	// This can be fetched by using `az ad sp list --display-name "Azure Red Hat OpenShift RP" --query "[0].id" -o tsv` command
+	azureRedHadOpenshiftRPIdentityPrincipalId := "50c17c64-bc11-4fdd-a339-0ecd396bf911"
+	clientSecretRef := tc.CreateSecret(secretName, secretKey, clientSecret)
+
+	serviceEndpoints := []network.ServiceEndpointPropertiesFormat{
+		{
+			Service: to.Ptr("Microsoft.ContainerRegistry"),
+		},
+	}
+
+	vnet := newVNet(tc, testcommon.AsOwner(rg), []string{"10.100.0.0/15"})
+	masterSubnet := newSubnet(tc, vnet, "10.100.76.0/24")
+	masterSubnet.Spec.ServiceEndpoints = serviceEndpoints
+	workerSubnet := newSubnet(tc, vnet, "10.100.70.0/23")
+	workerSubnet.Spec.ServiceEndpoints = serviceEndpoints
+
+	contributorRoleId := fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c", tc.AzureSubscription)
+	roleAssingmentToVnet := newRoleAssignment(tc, vnet, "roleassingment", contributorRoleId)
+	roleAssingmentToVnet.Spec.PrincipalId = to.Ptr(principalId)
+
+	roleAssingmentFromRPtoVnet := newRoleAssignment(tc, vnet, "rollassginmentrp", contributorRoleId)
+	roleAssingmentFromRPtoVnet.Spec.PrincipalId = to.Ptr(azureRedHadOpenshiftRPIdentityPrincipalId)
 
 	cluster := &aro.OpenShiftCluster{
-		ObjectMeta: tc.MakeObjectMeta("cluster"),
+		ObjectMeta: tc.MakeObjectMeta("aro-cluster"),
 		Spec: aro.OpenShiftCluster_Spec{
-			Location: to.Ptr("westus"), // Not available in westus2
+			Location: tc.AzureRegion, // Not available in westus2
 			Owner:    testcommon.AsOwner(rg),
+			ApiserverProfile: &aro.APIServerProfile{
+				Visibility: to.Ptr(aro.Visibility_Private),
+			},
 			ClusterProfile: &aro.ClusterProfile{
-				Domain:                 to.Ptr("test"),
-				Version:                to.Ptr("4.14.16"),
-				ResourceGroupReference: tc.MakeReferenceFromResource(rg2),
-				FipsValidatedModules:   to.Ptr(aro.FipsValidatedModules_Disabled),
+				Domain:               to.Ptr("aro-example.com"),
+				Version:              to.Ptr("4.14.16"),
+				ResourceGroupId:      to.Ptr(fmt.Sprintf("/subscriptions/%s/resourceGroups/%s", tc.AzureSubscription, tc.Namer.GenerateName("cluster-rg"))),
+				FipsValidatedModules: to.Ptr(aro.FipsValidatedModules_Disabled),
+			},
+			IngressProfiles: []aro.IngressProfile{
+				{
+					Name:       to.Ptr("default"),
+					Visibility: to.Ptr(aro.Visibility_Private),
+				},
+			},
+			MasterProfile: &aro.MasterProfile{
+				SubnetReference:  tc.MakeReferenceFromResource(masterSubnet),
+				VmSize:           to.Ptr("Standard_D8s_v3"),
+				EncryptionAtHost: to.Ptr(aro.EncryptionAtHost_Disabled),
+			},
+			NetworkProfile: &aro.NetworkProfile{
+				PodCidr:     to.Ptr("10.128.0.0/14"),
+				ServiceCidr: to.Ptr("172.30.0.0/16"),
 			},
 			ServicePrincipalProfile: &aro.ServicePrincipalProfile{
-				ClientId:     to.Ptr("c055e786-8d06-44db-90a1-31ea5767123c"),
+				ClientId:     to.Ptr(clientId),
 				ClientSecret: &clientSecretRef,
+			},
+			WorkerProfiles: []aro.WorkerProfile{
+				{
+					Count:            to.Ptr(3),
+					Name:             to.Ptr("worker"),
+					SubnetReference:  tc.MakeReferenceFromResource(workerSubnet),
+					VmSize:           to.Ptr("Standard_D4s_v3"),
+					DiskSizeGB:       to.Ptr(128),
+					EncryptionAtHost: to.Ptr(aro.EncryptionAtHost_Disabled),
+				},
 			},
 		},
 	}
 
-	tc.CreateResourceAndWait(cluster)
+	tc.CreateResourcesAndWait(
+		vnet,
+		roleAssingmentToVnet,
+		roleAssingmentFromRPtoVnet,
+		workerSubnet,
+		masterSubnet,
+		cluster)
+
 	tc.Expect(cluster.Status.Id).ToNot(BeNil())
 	armId := *cluster.Status.Id
 	tc.Expect(armId).ToNot(BeNil())
-
-	old := cluster.DeepCopy()
-	cluster.Spec.IngressProfiles = []aro.IngressProfile{
-		{
-			Name:       to.Ptr("profile1"),
-			Visibility: to.Ptr(aro.Visibility_Private),
-		},
-	}
-
-	tc.PatchResourceAndWait(old, cluster)
-	tc.Expect(len(cluster.Spec.IngressProfiles)).ToNot(BeZero())
 
 	tc.DeleteResourceAndWait(cluster)
 

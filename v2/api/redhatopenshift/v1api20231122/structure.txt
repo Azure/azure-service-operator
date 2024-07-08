@@ -17,7 +17,7 @@ OpenShiftCluster: Resource
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
 │   │   ├── PullSecret: *genruntime.SecretReference
-│   │   ├── ResourceGroupReference: *genruntime.ResourceReference
+│   │   ├── ResourceGroupId: *string
 │   │   └── Version: *string
 │   ├── IngressProfiles: Object (2 properties)[]
 │   │   ├── Name: *string

@@ -1921,8 +1921,8 @@ type ClusterProfile struct {
 	// PullSecret: The pull secret for the cluster.
 	PullSecret *genruntime.SecretReference `json:"pullSecret,omitempty"`
 
-	// ResourceGroupReference: The ID of the cluster resource group.
-	ResourceGroupReference *genruntime.ResourceReference `armReference:"ResourceGroupId" json:"resourceGroupReference,omitempty"`
+	// ResourceGroupId: The ID of the cluster resource group.
+	ResourceGroupId *string `json:"resourceGroupId,omitempty"`
 
 	// Version: The version of the cluster.
 	Version *string `json:"version,omitempty"`
@@ -1960,13 +1960,9 @@ func (profile *ClusterProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 	}
 
 	// Set property "ResourceGroupId":
-	if profile.ResourceGroupReference != nil {
-		resourceGroupReferenceARMID, err := resolved.ResolvedReferences.Lookup(*profile.ResourceGroupReference)
-		if err != nil {
-			return nil, err
-		}
-		resourceGroupReference := resourceGroupReferenceARMID
-		result.ResourceGroupId = &resourceGroupReference
+	if profile.ResourceGroupId != nil {
+		resourceGroupId := *profile.ResourceGroupId
+		result.ResourceGroupId = &resourceGroupId
 	}
 
 	// Set property "Version":
@@ -2003,7 +1999,11 @@ func (profile *ClusterProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// no assignment for property "PullSecret"
 
-	// no assignment for property "ResourceGroupReference"
+	// Set property "ResourceGroupId":
+	if typedInput.ResourceGroupId != nil {
+		resourceGroupId := *typedInput.ResourceGroupId
+		profile.ResourceGroupId = &resourceGroupId
+	}
 
 	// Set property "Version":
 	if typedInput.Version != nil {
@@ -2038,13 +2038,8 @@ func (profile *ClusterProfile) AssignProperties_From_ClusterProfile(source *stor
 		profile.PullSecret = nil
 	}
 
-	// ResourceGroupReference
-	if source.ResourceGroupReference != nil {
-		resourceGroupReference := source.ResourceGroupReference.Copy()
-		profile.ResourceGroupReference = &resourceGroupReference
-	} else {
-		profile.ResourceGroupReference = nil
-	}
+	// ResourceGroupId
+	profile.ResourceGroupId = genruntime.ClonePointerToString(source.ResourceGroupId)
 
 	// Version
 	profile.Version = genruntime.ClonePointerToString(source.Version)
@@ -2077,13 +2072,8 @@ func (profile *ClusterProfile) AssignProperties_To_ClusterProfile(destination *s
 		destination.PullSecret = nil
 	}
 
-	// ResourceGroupReference
-	if profile.ResourceGroupReference != nil {
-		resourceGroupReference := profile.ResourceGroupReference.Copy()
-		destination.ResourceGroupReference = &resourceGroupReference
-	} else {
-		destination.ResourceGroupReference = nil
-	}
+	// ResourceGroupId
+	destination.ResourceGroupId = genruntime.ClonePointerToString(profile.ResourceGroupId)
 
 	// Version
 	destination.Version = genruntime.ClonePointerToString(profile.Version)
@@ -2113,13 +2103,8 @@ func (profile *ClusterProfile) Initialize_From_ClusterProfile_STATUS(source *Clu
 		profile.FipsValidatedModules = nil
 	}
 
-	// ResourceGroupReference
-	if source.ResourceGroupId != nil {
-		resourceGroupReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceGroupId)
-		profile.ResourceGroupReference = &resourceGroupReference
-	} else {
-		profile.ResourceGroupReference = nil
-	}
+	// ResourceGroupId
+	profile.ResourceGroupId = genruntime.ClonePointerToString(source.ResourceGroupId)
 
 	// Version
 	profile.Version = genruntime.ClonePointerToString(source.Version)

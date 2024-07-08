@@ -256,10 +256,8 @@ type ClusterProfile struct {
 	FipsValidatedModules *string                     `json:"fipsValidatedModules,omitempty"`
 	PropertyBag          genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 	PullSecret           *genruntime.SecretReference `json:"pullSecret,omitempty"`
-
-	// ResourceGroupReference: The ID of the cluster resource group.
-	ResourceGroupReference *genruntime.ResourceReference `armReference:"ResourceGroupId" json:"resourceGroupReference,omitempty"`
-	Version                *string                       `json:"version,omitempty"`
+	ResourceGroupId      *string                     `json:"resourceGroupId,omitempty"`
+	Version              *string                     `json:"version,omitempty"`
 }
 
 // Storage version of v1api20231122.ClusterProfile_STATUS

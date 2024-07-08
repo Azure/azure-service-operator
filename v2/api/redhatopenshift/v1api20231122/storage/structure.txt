@@ -15,7 +15,7 @@ OpenShiftCluster: Resource
 │   │   ├── FipsValidatedModules: *string
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   ├── PullSecret: *genruntime.SecretReference
-│   │   ├── ResourceGroupReference: *genruntime.ResourceReference
+│   │   ├── ResourceGroupId: *string
 │   │   └── Version: *string
 │   ├── IngressProfiles: Object (3 properties)[]
 │   │   ├── Name: *string

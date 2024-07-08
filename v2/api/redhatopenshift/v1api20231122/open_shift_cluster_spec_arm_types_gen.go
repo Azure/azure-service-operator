@@ -76,7 +76,9 @@ type ClusterProfile_ARM struct {
 	FipsValidatedModules *FipsValidatedModules `json:"fipsValidatedModules,omitempty"`
 
 	// PullSecret: The pull secret for the cluster.
-	PullSecret      *string `json:"pullSecret,omitempty"`
+	PullSecret *string `json:"pullSecret,omitempty"`
+
+	// ResourceGroupId: The ID of the cluster resource group.
 	ResourceGroupId *string `json:"resourceGroupId,omitempty"`
 
 	// Version: The version of the cluster.

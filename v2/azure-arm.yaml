@@ -2855,8 +2855,6 @@ objectModelConfiguration:
         DiskEncryptionSetId:
           $armReference: true
       ClusterProfile:
-        ResourceGroupId:
-          $armReference: true
         PullSecret:
           $isSecret: true
       ServicePrincipalProfile:
