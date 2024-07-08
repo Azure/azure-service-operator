@@ -346,7 +346,8 @@ SignalR_Spec_ARM: Object (7 properties)
 │   │   ├── "None"
 │   │   ├── "SystemAssigned"
 │   │   └── "UserAssigned"
-│   └── UserAssignedIdentities: map[string]Object (0 properties)
+│   └── UserAssignedIdentities: map[string]Object (1 property)
+│       └── Reference: *string
 ├── Kind: *Enum (2 values)
 │   ├── "RawWebSockets"
 │   └── "SignalR"

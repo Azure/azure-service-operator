@@ -466,6 +466,7 @@ type SiteConfig_ARM struct {
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails_ARM struct {
+	Reference *string `json:"reference,omitempty"`
 }
 
 // Information about the formal API definition for the app.

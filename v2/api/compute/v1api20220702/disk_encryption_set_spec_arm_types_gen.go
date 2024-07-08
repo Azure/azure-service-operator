@@ -110,6 +110,7 @@ type KeyForDiskEncryptionSet_ARM struct {
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails_ARM struct {
+	Reference *string `json:"reference,omitempty"`
 }
 
 // The vault id is an Azure Resource Manager Resource id in the form

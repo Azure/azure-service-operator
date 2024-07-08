@@ -1237,6 +1237,9 @@ func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfile_ARM(gens 
 	gens["NodePublicIPPrefixID"] = gen.PtrOf(gen.AlphaString())
 	gens["NodeTaints"] = gen.SliceOf(gen.AlphaString())
 	gens["OrchestratorVersion"] = gen.PtrOf(gen.AlphaString())
+	gens["OsDiskSizeGB"] = gen.PtrOf(gen.Int().Map(func(it int) ContainerServiceOSDisk_ARM {
+		return ContainerServiceOSDisk_ARM(it)
+	}))
 	gens["OsDiskType"] = gen.PtrOf(gen.OneConstOf(OSDiskType_ARM_Ephemeral, OSDiskType_ARM_Managed))
 	gens["OsSKU"] = gen.PtrOf(gen.OneConstOf(
 		OSSKU_ARM_AzureLinux,
@@ -1266,7 +1269,6 @@ func AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfile_ARM(gens map[
 	gens["KubeletConfig"] = gen.PtrOf(KubeletConfig_ARMGenerator())
 	gens["LinuxOSConfig"] = gen.PtrOf(LinuxOSConfig_ARMGenerator())
 	gens["NetworkProfile"] = gen.PtrOf(AgentPoolNetworkProfile_ARMGenerator())
-	gens["OsDiskSizeGB"] = gen.PtrOf(ContainerServiceOSDisk_ARMGenerator())
 	gens["PowerState"] = gen.PtrOf(PowerState_ARMGenerator())
 	gens["UpgradeSettings"] = gen.PtrOf(AgentPoolUpgradeSettings_ARMGenerator())
 }
@@ -3963,9 +3965,15 @@ func UserAssignedIdentityDetails_ARMGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForUserAssignedIdentityDetails_ARM(generators)
 	userAssignedIdentityDetails_ARMGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentityDetails_ARM{}), generators)
 
 	return userAssignedIdentityDetails_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForUserAssignedIdentityDetails_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForUserAssignedIdentityDetails_ARM(gens map[string]gopter.Gen) {
+	gens["Reference"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_UserAssignedIdentity_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

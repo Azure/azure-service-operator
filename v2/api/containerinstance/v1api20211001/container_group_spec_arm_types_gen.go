@@ -256,6 +256,7 @@ type IpAddress_ARM struct {
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails_ARM struct {
+	Reference *string `json:"reference,omitempty"`
 }
 
 // The properties of the volume.

@@ -136,7 +136,7 @@ func (in *AdditionalUnattendContent_ARM) DeepCopyInto(out *AdditionalUnattendCon
 	*out = *in
 	if in.ComponentName != nil {
 		in, out := &in.ComponentName, &out.ComponentName
-		*out = new(AdditionalUnattendContent_ComponentName)
+		*out = new(AdditionalUnattendContent_ComponentName_ARM)
 		**out = **in
 	}
 	if in.Content != nil {
@@ -146,12 +146,12 @@ func (in *AdditionalUnattendContent_ARM) DeepCopyInto(out *AdditionalUnattendCon
 	}
 	if in.PassName != nil {
 		in, out := &in.PassName, &out.PassName
-		*out = new(AdditionalUnattendContent_PassName)
+		*out = new(AdditionalUnattendContent_PassName_ARM)
 		**out = **in
 	}
 	if in.SettingName != nil {
 		in, out := &in.SettingName, &out.SettingName
-		*out = new(AdditionalUnattendContent_SettingName)
+		*out = new(AdditionalUnattendContent_SettingName_ARM)
 		**out = **in
 	}
 }
@@ -206,7 +206,7 @@ func (in *AdditionalUnattendContent_STATUS_ARM) DeepCopyInto(out *AdditionalUnat
 	*out = *in
 	if in.ComponentName != nil {
 		in, out := &in.ComponentName, &out.ComponentName
-		*out = new(AdditionalUnattendContent_ComponentName_STATUS)
+		*out = new(AdditionalUnattendContent_ComponentName_STATUS_ARM)
 		**out = **in
 	}
 	if in.Content != nil {
@@ -216,12 +216,12 @@ func (in *AdditionalUnattendContent_STATUS_ARM) DeepCopyInto(out *AdditionalUnat
 	}
 	if in.PassName != nil {
 		in, out := &in.PassName, &out.PassName
-		*out = new(AdditionalUnattendContent_PassName_STATUS)
+		*out = new(AdditionalUnattendContent_PassName_STATUS_ARM)
 		**out = **in
 	}
 	if in.SettingName != nil {
 		in, out := &in.SettingName, &out.SettingName
-		*out = new(AdditionalUnattendContent_SettingName_STATUS)
+		*out = new(AdditionalUnattendContent_SettingName_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -755,7 +755,7 @@ func (in *AvailablePatchSummary_STATUS_ARM) DeepCopyInto(out *AvailablePatchSumm
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(AvailablePatchSummary_Status_STATUS)
+		*out = new(AvailablePatchSummary_Status_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1085,17 +1085,17 @@ func (in *DataDisk_ARM) DeepCopyInto(out *DataDisk_ARM) {
 	*out = *in
 	if in.Caching != nil {
 		in, out := &in.Caching, &out.Caching
-		*out = new(Caching)
+		*out = new(Caching_ARM)
 		**out = **in
 	}
 	if in.CreateOption != nil {
 		in, out := &in.CreateOption, &out.CreateOption
-		*out = new(CreateOption)
+		*out = new(CreateOption_ARM)
 		**out = **in
 	}
 	if in.DetachOption != nil {
 		in, out := &in.DetachOption, &out.DetachOption
-		*out = new(DetachOption)
+		*out = new(DetachOption_ARM)
 		**out = **in
 	}
 	if in.DiskSizeGB != nil {
@@ -1235,17 +1235,17 @@ func (in *DataDisk_STATUS_ARM) DeepCopyInto(out *DataDisk_STATUS_ARM) {
 	*out = *in
 	if in.Caching != nil {
 		in, out := &in.Caching, &out.Caching
-		*out = new(Caching_STATUS)
+		*out = new(Caching_STATUS_ARM)
 		**out = **in
 	}
 	if in.CreateOption != nil {
 		in, out := &in.CreateOption, &out.CreateOption
-		*out = new(CreateOption_STATUS)
+		*out = new(CreateOption_STATUS_ARM)
 		**out = **in
 	}
 	if in.DetachOption != nil {
 		in, out := &in.DetachOption, &out.DetachOption
-		*out = new(DetachOption_STATUS)
+		*out = new(DetachOption_STATUS_ARM)
 		**out = **in
 	}
 	if in.DiskIOPSReadWrite != nil {
@@ -1420,12 +1420,12 @@ func (in *DiffDiskSettings_ARM) DeepCopyInto(out *DiffDiskSettings_ARM) {
 	*out = *in
 	if in.Option != nil {
 		in, out := &in.Option, &out.Option
-		*out = new(DiffDiskOption)
+		*out = new(DiffDiskOption_ARM)
 		**out = **in
 	}
 	if in.Placement != nil {
 		in, out := &in.Placement, &out.Placement
-		*out = new(DiffDiskPlacement)
+		*out = new(DiffDiskPlacement_ARM)
 		**out = **in
 	}
 }
@@ -1470,12 +1470,12 @@ func (in *DiffDiskSettings_STATUS_ARM) DeepCopyInto(out *DiffDiskSettings_STATUS
 	*out = *in
 	if in.Option != nil {
 		in, out := &in.Option, &out.Option
-		*out = new(DiffDiskOption_STATUS)
+		*out = new(DiffDiskOption_STATUS_ARM)
 		**out = **in
 	}
 	if in.Placement != nil {
 		in, out := &in.Placement, &out.Placement
-		*out = new(DiffDiskPlacement_STATUS)
+		*out = new(DiffDiskPlacement_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1713,7 +1713,7 @@ func (in *ExtendedLocation_ARM) DeepCopyInto(out *ExtendedLocation_ARM) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ExtendedLocationType)
+		*out = new(ExtendedLocationType_ARM)
 		**out = **in
 	}
 }
@@ -1763,7 +1763,7 @@ func (in *ExtendedLocation_STATUS_ARM) DeepCopyInto(out *ExtendedLocation_STATUS
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ExtendedLocationType_STATUS)
+		*out = new(ExtendedLocationType_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1843,7 +1843,7 @@ func (in *HardwareProfile_STATUS_ARM) DeepCopyInto(out *HardwareProfile_STATUS_A
 	*out = *in
 	if in.VmSize != nil {
 		in, out := &in.VmSize, &out.VmSize
-		*out = new(HardwareProfile_VmSize_STATUS)
+		*out = new(HardwareProfile_VmSize_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -2133,7 +2133,7 @@ func (in *InstanceViewStatus_ARM) DeepCopyInto(out *InstanceViewStatus_ARM) {
 	}
 	if in.Level != nil {
 		in, out := &in.Level, &out.Level
-		*out = new(InstanceViewStatus_Level)
+		*out = new(InstanceViewStatus_Level_ARM)
 		**out = **in
 	}
 	if in.Message != nil {
@@ -2213,7 +2213,7 @@ func (in *InstanceViewStatus_STATUS_ARM) DeepCopyInto(out *InstanceViewStatus_ST
 	}
 	if in.Level != nil {
 		in, out := &in.Level, &out.Level
-		*out = new(InstanceViewStatus_Level_STATUS)
+		*out = new(InstanceViewStatus_Level_STATUS_ARM)
 		**out = **in
 	}
 	if in.Message != nil {
@@ -2563,7 +2563,7 @@ func (in *LastPatchInstallationSummary_STATUS_ARM) DeepCopyInto(out *LastPatchIn
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(LastPatchInstallationSummary_Status_STATUS)
+		*out = new(LastPatchInstallationSummary_Status_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -2743,7 +2743,7 @@ func (in *LinuxPatchSettings_ARM) DeepCopyInto(out *LinuxPatchSettings_ARM) {
 	*out = *in
 	if in.PatchMode != nil {
 		in, out := &in.PatchMode, &out.PatchMode
-		*out = new(LinuxPatchSettings_PatchMode)
+		*out = new(LinuxPatchSettings_PatchMode_ARM)
 		**out = **in
 	}
 }
@@ -2783,7 +2783,7 @@ func (in *LinuxPatchSettings_STATUS_ARM) DeepCopyInto(out *LinuxPatchSettings_ST
 	*out = *in
 	if in.PatchMode != nil {
 		in, out := &in.PatchMode, &out.PatchMode
-		*out = new(LinuxPatchSettings_PatchMode_STATUS)
+		*out = new(LinuxPatchSettings_PatchMode_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -2863,7 +2863,7 @@ func (in *MaintenanceRedeployStatus_STATUS_ARM) DeepCopyInto(out *MaintenanceRed
 	}
 	if in.LastOperationResultCode != nil {
 		in, out := &in.LastOperationResultCode, &out.LastOperationResultCode
-		*out = new(MaintenanceRedeployStatus_LastOperationResultCode_STATUS)
+		*out = new(MaintenanceRedeployStatus_LastOperationResultCode_STATUS_ARM)
 		**out = **in
 	}
 	if in.MaintenanceWindowEndTime != nil {
@@ -2943,7 +2943,7 @@ func (in *ManagedDiskParameters_ARM) DeepCopyInto(out *ManagedDiskParameters_ARM
 	}
 	if in.StorageAccountType != nil {
 		in, out := &in.StorageAccountType, &out.StorageAccountType
-		*out = new(StorageAccountType)
+		*out = new(StorageAccountType_ARM)
 		**out = **in
 	}
 }
@@ -3003,7 +3003,7 @@ func (in *ManagedDiskParameters_STATUS_ARM) DeepCopyInto(out *ManagedDiskParamet
 	}
 	if in.StorageAccountType != nil {
 		in, out := &in.StorageAccountType, &out.StorageAccountType
-		*out = new(StorageAccountType_STATUS)
+		*out = new(StorageAccountType_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -3321,12 +3321,12 @@ func (in *OSDisk_ARM) DeepCopyInto(out *OSDisk_ARM) {
 	*out = *in
 	if in.Caching != nil {
 		in, out := &in.Caching, &out.Caching
-		*out = new(Caching)
+		*out = new(Caching_ARM)
 		**out = **in
 	}
 	if in.CreateOption != nil {
 		in, out := &in.CreateOption, &out.CreateOption
-		*out = new(CreateOption)
+		*out = new(CreateOption_ARM)
 		**out = **in
 	}
 	if in.DiffDiskSettings != nil {
@@ -3361,7 +3361,7 @@ func (in *OSDisk_ARM) DeepCopyInto(out *OSDisk_ARM) {
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(OSDisk_OsType)
+		*out = new(OSDisk_OsType_ARM)
 		**out = **in
 	}
 	if in.Vhd != nil {
@@ -3461,12 +3461,12 @@ func (in *OSDisk_STATUS_ARM) DeepCopyInto(out *OSDisk_STATUS_ARM) {
 	*out = *in
 	if in.Caching != nil {
 		in, out := &in.Caching, &out.Caching
-		*out = new(Caching_STATUS)
+		*out = new(Caching_STATUS_ARM)
 		**out = **in
 	}
 	if in.CreateOption != nil {
 		in, out := &in.CreateOption, &out.CreateOption
-		*out = new(CreateOption_STATUS)
+		*out = new(CreateOption_STATUS_ARM)
 		**out = **in
 	}
 	if in.DiffDiskSettings != nil {
@@ -3501,7 +3501,7 @@ func (in *OSDisk_STATUS_ARM) DeepCopyInto(out *OSDisk_STATUS_ARM) {
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(OSDisk_OsType_STATUS)
+		*out = new(OSDisk_OsType_STATUS_ARM)
 		**out = **in
 	}
 	if in.Vhd != nil {
@@ -3799,7 +3799,7 @@ func (in *PatchSettings_ARM) DeepCopyInto(out *PatchSettings_ARM) {
 	}
 	if in.PatchMode != nil {
 		in, out := &in.PatchMode, &out.PatchMode
-		*out = new(PatchSettings_PatchMode)
+		*out = new(PatchSettings_PatchMode_ARM)
 		**out = **in
 	}
 }
@@ -3849,7 +3849,7 @@ func (in *PatchSettings_STATUS_ARM) DeepCopyInto(out *PatchSettings_STATUS_ARM) 
 	}
 	if in.PatchMode != nil {
 		in, out := &in.PatchMode, &out.PatchMode
-		*out = new(PatchSettings_PatchMode_STATUS)
+		*out = new(PatchSettings_PatchMode_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -4209,7 +4209,7 @@ func (in *ScaleInPolicy_ARM) DeepCopyInto(out *ScaleInPolicy_ARM) {
 	*out = *in
 	if in.Rules != nil {
 		in, out := &in.Rules, &out.Rules
-		*out = make([]ScaleInPolicy_Rules, len(*in))
+		*out = make([]ScaleInPolicy_Rules_ARM, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -4249,7 +4249,7 @@ func (in *ScaleInPolicy_STATUS_ARM) DeepCopyInto(out *ScaleInPolicy_STATUS_ARM) 
 	*out = *in
 	if in.Rules != nil {
 		in, out := &in.Rules, &out.Rules
-		*out = make([]ScaleInPolicy_Rules_STATUS, len(*in))
+		*out = make([]ScaleInPolicy_Rules_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -4384,7 +4384,7 @@ func (in *SecurityProfile_ARM) DeepCopyInto(out *SecurityProfile_ARM) {
 	}
 	if in.SecurityType != nil {
 		in, out := &in.SecurityType, &out.SecurityType
-		*out = new(SecurityProfile_SecurityType)
+		*out = new(SecurityProfile_SecurityType_ARM)
 		**out = **in
 	}
 	if in.UefiSettings != nil {
@@ -4444,7 +4444,7 @@ func (in *SecurityProfile_STATUS_ARM) DeepCopyInto(out *SecurityProfile_STATUS_A
 	}
 	if in.SecurityType != nil {
 		in, out := &in.SecurityType, &out.SecurityType
-		*out = new(SecurityProfile_SecurityType_STATUS)
+		*out = new(SecurityProfile_SecurityType_STATUS_ARM)
 		**out = **in
 	}
 	if in.UefiSettings != nil {
@@ -5220,7 +5220,7 @@ func (in *UpgradePolicy_ARM) DeepCopyInto(out *UpgradePolicy_ARM) {
 	}
 	if in.Mode != nil {
 		in, out := &in.Mode, &out.Mode
-		*out = new(UpgradePolicy_Mode)
+		*out = new(UpgradePolicy_Mode_ARM)
 		**out = **in
 	}
 	if in.RollingUpgradePolicy != nil {
@@ -5280,7 +5280,7 @@ func (in *UpgradePolicy_STATUS_ARM) DeepCopyInto(out *UpgradePolicy_STATUS_ARM) 
 	}
 	if in.Mode != nil {
 		in, out := &in.Mode, &out.Mode
-		*out = new(UpgradePolicy_Mode_STATUS)
+		*out = new(UpgradePolicy_Mode_STATUS_ARM)
 		**out = **in
 	}
 	if in.RollingUpgradePolicy != nil {
@@ -6282,7 +6282,7 @@ func (in *VirtualMachineIdentity_ARM) DeepCopyInto(out *VirtualMachineIdentity_A
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(VirtualMachineIdentity_Type)
+		*out = new(VirtualMachineIdentity_Type_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -6356,7 +6356,7 @@ func (in *VirtualMachineIdentity_STATUS_ARM) DeepCopyInto(out *VirtualMachineIde
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(VirtualMachineIdentity_Type_STATUS)
+		*out = new(VirtualMachineIdentity_Type_STATUS_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -6563,7 +6563,7 @@ func (in *VirtualMachineInstanceView_STATUS_ARM) DeepCopyInto(out *VirtualMachin
 	}
 	if in.HyperVGeneration != nil {
 		in, out := &in.HyperVGeneration, &out.HyperVGeneration
-		*out = new(VirtualMachineInstanceView_HyperVGeneration_STATUS)
+		*out = new(VirtualMachineInstanceView_HyperVGeneration_STATUS_ARM)
 		**out = **in
 	}
 	if in.MaintenanceRedeployStatus != nil {
@@ -6751,7 +6751,7 @@ func (in *VirtualMachineProperties_ARM) DeepCopyInto(out *VirtualMachineProperti
 	}
 	if in.EvictionPolicy != nil {
 		in, out := &in.EvictionPolicy, &out.EvictionPolicy
-		*out = new(EvictionPolicy)
+		*out = new(EvictionPolicy_ARM)
 		**out = **in
 	}
 	if in.ExtensionsTimeBudget != nil {
@@ -6796,7 +6796,7 @@ func (in *VirtualMachineProperties_ARM) DeepCopyInto(out *VirtualMachineProperti
 	}
 	if in.Priority != nil {
 		in, out := &in.Priority, &out.Priority
-		*out = new(Priority)
+		*out = new(Priority_ARM)
 		**out = **in
 	}
 	if in.ProximityPlacementGroup != nil {
@@ -6856,7 +6856,7 @@ func (in *VirtualMachineProperties_STATUS_ARM) DeepCopyInto(out *VirtualMachineP
 	}
 	if in.EvictionPolicy != nil {
 		in, out := &in.EvictionPolicy, &out.EvictionPolicy
-		*out = new(EvictionPolicy_STATUS)
+		*out = new(EvictionPolicy_STATUS_ARM)
 		**out = **in
 	}
 	if in.ExtensionsTimeBudget != nil {
@@ -6906,7 +6906,7 @@ func (in *VirtualMachineProperties_STATUS_ARM) DeepCopyInto(out *VirtualMachineP
 	}
 	if in.Priority != nil {
 		in, out := &in.Priority, &out.Priority
-		*out = new(Priority_STATUS)
+		*out = new(Priority_STATUS_ARM)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
@@ -7043,12 +7043,12 @@ func (in *VirtualMachineScaleSetDataDisk_ARM) DeepCopyInto(out *VirtualMachineSc
 	*out = *in
 	if in.Caching != nil {
 		in, out := &in.Caching, &out.Caching
-		*out = new(Caching)
+		*out = new(Caching_ARM)
 		**out = **in
 	}
 	if in.CreateOption != nil {
 		in, out := &in.CreateOption, &out.CreateOption
-		*out = new(CreateOption)
+		*out = new(CreateOption_ARM)
 		**out = **in
 	}
 	if in.DiskIOPSReadWrite != nil {
@@ -7163,12 +7163,12 @@ func (in *VirtualMachineScaleSetDataDisk_STATUS_ARM) DeepCopyInto(out *VirtualMa
 	*out = *in
 	if in.Caching != nil {
 		in, out := &in.Caching, &out.Caching
-		*out = new(Caching_STATUS)
+		*out = new(Caching_STATUS_ARM)
 		**out = **in
 	}
 	if in.CreateOption != nil {
 		in, out := &in.CreateOption, &out.CreateOption
-		*out = new(CreateOption_STATUS)
+		*out = new(CreateOption_STATUS_ARM)
 		**out = **in
 	}
 	if in.DiskIOPSReadWrite != nil {
@@ -7767,7 +7767,7 @@ func (in *VirtualMachineScaleSetIPConfigurationProperties_ARM) DeepCopyInto(out 
 	}
 	if in.PrivateIPAddressVersion != nil {
 		in, out := &in.PrivateIPAddressVersion, &out.PrivateIPAddressVersion
-		*out = new(VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion)
+		*out = new(VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_ARM)
 		**out = **in
 	}
 	if in.PublicIPAddressConfiguration != nil {
@@ -7830,7 +7830,7 @@ func (in *VirtualMachineScaleSetIPConfigurationProperties_STATUS_ARM) DeepCopyIn
 	}
 	if in.PrivateIPAddressVersion != nil {
 		in, out := &in.PrivateIPAddressVersion, &out.PrivateIPAddressVersion
-		*out = new(VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS)
+		*out = new(VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS_ARM)
 		**out = **in
 	}
 	if in.PublicIPAddressConfiguration != nil {
@@ -8018,7 +8018,7 @@ func (in *VirtualMachineScaleSetIdentity_ARM) DeepCopyInto(out *VirtualMachineSc
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(VirtualMachineScaleSetIdentity_Type)
+		*out = new(VirtualMachineScaleSetIdentity_Type_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -8092,7 +8092,7 @@ func (in *VirtualMachineScaleSetIdentity_STATUS_ARM) DeepCopyInto(out *VirtualMa
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(VirtualMachineScaleSetIdentity_Type_STATUS)
+		*out = new(VirtualMachineScaleSetIdentity_Type_STATUS_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -8331,7 +8331,7 @@ func (in *VirtualMachineScaleSetManagedDiskParameters_ARM) DeepCopyInto(out *Vir
 	}
 	if in.StorageAccountType != nil {
 		in, out := &in.StorageAccountType, &out.StorageAccountType
-		*out = new(StorageAccountType)
+		*out = new(StorageAccountType_ARM)
 		**out = **in
 	}
 }
@@ -8381,7 +8381,7 @@ func (in *VirtualMachineScaleSetManagedDiskParameters_STATUS_ARM) DeepCopyInto(o
 	}
 	if in.StorageAccountType != nil {
 		in, out := &in.StorageAccountType, &out.StorageAccountType
-		*out = new(StorageAccountType_STATUS)
+		*out = new(StorageAccountType_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -8942,12 +8942,12 @@ func (in *VirtualMachineScaleSetOSDisk_ARM) DeepCopyInto(out *VirtualMachineScal
 	*out = *in
 	if in.Caching != nil {
 		in, out := &in.Caching, &out.Caching
-		*out = new(Caching)
+		*out = new(Caching_ARM)
 		**out = **in
 	}
 	if in.CreateOption != nil {
 		in, out := &in.CreateOption, &out.CreateOption
-		*out = new(CreateOption)
+		*out = new(CreateOption_ARM)
 		**out = **in
 	}
 	if in.DiffDiskSettings != nil {
@@ -8977,7 +8977,7 @@ func (in *VirtualMachineScaleSetOSDisk_ARM) DeepCopyInto(out *VirtualMachineScal
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(VirtualMachineScaleSetOSDisk_OsType)
+		*out = new(VirtualMachineScaleSetOSDisk_OsType_ARM)
 		**out = **in
 	}
 	if in.VhdContainers != nil {
@@ -9072,12 +9072,12 @@ func (in *VirtualMachineScaleSetOSDisk_STATUS_ARM) DeepCopyInto(out *VirtualMach
 	*out = *in
 	if in.Caching != nil {
 		in, out := &in.Caching, &out.Caching
-		*out = new(Caching_STATUS)
+		*out = new(Caching_STATUS_ARM)
 		**out = **in
 	}
 	if in.CreateOption != nil {
 		in, out := &in.CreateOption, &out.CreateOption
-		*out = new(CreateOption_STATUS)
+		*out = new(CreateOption_STATUS_ARM)
 		**out = **in
 	}
 	if in.DiffDiskSettings != nil {
@@ -9107,7 +9107,7 @@ func (in *VirtualMachineScaleSetOSDisk_STATUS_ARM) DeepCopyInto(out *VirtualMach
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(VirtualMachineScaleSetOSDisk_OsType_STATUS)
+		*out = new(VirtualMachineScaleSetOSDisk_OsType_STATUS_ARM)
 		**out = **in
 	}
 	if in.VhdContainers != nil {
@@ -9355,7 +9355,7 @@ func (in *VirtualMachineScaleSetProperties_ARM) DeepCopyInto(out *VirtualMachine
 	}
 	if in.OrchestrationMode != nil {
 		in, out := &in.OrchestrationMode, &out.OrchestrationMode
-		*out = new(OrchestrationMode)
+		*out = new(OrchestrationMode_ARM)
 		**out = **in
 	}
 	if in.Overprovision != nil {
@@ -9435,7 +9435,7 @@ func (in *VirtualMachineScaleSetProperties_STATUS_ARM) DeepCopyInto(out *Virtual
 	}
 	if in.OrchestrationMode != nil {
 		in, out := &in.OrchestrationMode, &out.OrchestrationMode
-		*out = new(OrchestrationMode_STATUS)
+		*out = new(OrchestrationMode_STATUS_ARM)
 		**out = **in
 	}
 	if in.Overprovision != nil {
@@ -9649,7 +9649,7 @@ func (in *VirtualMachineScaleSetPublicIPAddressConfigurationProperties_ARM) Deep
 	}
 	if in.PublicIPAddressVersion != nil {
 		in, out := &in.PublicIPAddressVersion, &out.PublicIPAddressVersion
-		*out = new(VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion)
+		*out = new(VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_ARM)
 		**out = **in
 	}
 	if in.PublicIPPrefix != nil {
@@ -9691,7 +9691,7 @@ func (in *VirtualMachineScaleSetPublicIPAddressConfigurationProperties_STATUS_AR
 	}
 	if in.PublicIPAddressVersion != nil {
 		in, out := &in.PublicIPAddressVersion, &out.PublicIPAddressVersion
-		*out = new(VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS)
+		*out = new(VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS_ARM)
 		**out = **in
 	}
 	if in.PublicIPPrefix != nil {
@@ -10021,7 +10021,7 @@ func (in *VirtualMachineScaleSetVMProfile_ARM) DeepCopyInto(out *VirtualMachineS
 	}
 	if in.EvictionPolicy != nil {
 		in, out := &in.EvictionPolicy, &out.EvictionPolicy
-		*out = new(EvictionPolicy)
+		*out = new(EvictionPolicy_ARM)
 		**out = **in
 	}
 	if in.ExtensionProfile != nil {
@@ -10046,7 +10046,7 @@ func (in *VirtualMachineScaleSetVMProfile_ARM) DeepCopyInto(out *VirtualMachineS
 	}
 	if in.Priority != nil {
 		in, out := &in.Priority, &out.Priority
-		*out = new(Priority)
+		*out = new(Priority_ARM)
 		**out = **in
 	}
 	if in.ScheduledEventsProfile != nil {
@@ -10161,7 +10161,7 @@ func (in *VirtualMachineScaleSetVMProfile_STATUS_ARM) DeepCopyInto(out *VirtualM
 	}
 	if in.EvictionPolicy != nil {
 		in, out := &in.EvictionPolicy, &out.EvictionPolicy
-		*out = new(EvictionPolicy_STATUS)
+		*out = new(EvictionPolicy_STATUS_ARM)
 		**out = **in
 	}
 	if in.ExtensionProfile != nil {
@@ -10186,7 +10186,7 @@ func (in *VirtualMachineScaleSetVMProfile_STATUS_ARM) DeepCopyInto(out *VirtualM
 	}
 	if in.Priority != nil {
 		in, out := &in.Priority, &out.Priority
-		*out = new(Priority_STATUS)
+		*out = new(Priority_STATUS_ARM)
 		**out = **in
 	}
 	if in.ScheduledEventsProfile != nil {
@@ -11766,7 +11766,7 @@ func (in *WinRMListener_ARM) DeepCopyInto(out *WinRMListener_ARM) {
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(WinRMListener_Protocol)
+		*out = new(WinRMListener_Protocol_ARM)
 		**out = **in
 	}
 }
@@ -11816,7 +11816,7 @@ func (in *WinRMListener_STATUS_ARM) DeepCopyInto(out *WinRMListener_STATUS_ARM) 
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(WinRMListener_Protocol_STATUS)
+		*out = new(WinRMListener_Protocol_STATUS_ARM)
 		**out = **in
 	}
 }

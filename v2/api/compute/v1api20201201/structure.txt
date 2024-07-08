@@ -1612,7 +1612,8 @@ VirtualMachineScaleSet_Spec_ARM: Object (9 properties)
 │   │   ├── "SystemAssigned"
 │   │   ├── "SystemAssigned, UserAssigned"
 │   │   └── "UserAssigned"
-│   └── UserAssignedIdentities: map[string]Object (0 properties)
+│   └── UserAssignedIdentities: map[string]Object (1 property)
+│       └── Reference: *string
 ├── Location: *string
 ├── Name: string
 ├── Plan: *Object (4 properties)
@@ -2520,7 +2521,8 @@ VirtualMachine_Spec_ARM: Object (8 properties)
 │   │   ├── "SystemAssigned"
 │   │   ├── "SystemAssigned, UserAssigned"
 │   │   └── "UserAssigned"
-│   └── UserAssignedIdentities: map[string]Object (0 properties)
+│   └── UserAssignedIdentities: map[string]Object (1 property)
+│       └── Reference: *string
 ├── Location: *string
 ├── Name: string
 ├── Plan: *Object (4 properties)

@@ -20,7 +20,7 @@ func (in *ClusterProperties_ARM) DeepCopyInto(out *ClusterProperties_ARM) {
 	*out = *in
 	if in.MinimumTlsVersion != nil {
 		in, out := &in.MinimumTlsVersion, &out.MinimumTlsVersion
-		*out = new(ClusterProperties_MinimumTlsVersion)
+		*out = new(ClusterProperties_MinimumTlsVersion_ARM)
 		**out = **in
 	}
 }
@@ -45,7 +45,7 @@ func (in *ClusterProperties_STATUS_ARM) DeepCopyInto(out *ClusterProperties_STAT
 	}
 	if in.MinimumTlsVersion != nil {
 		in, out := &in.MinimumTlsVersion, &out.MinimumTlsVersion
-		*out = new(ClusterProperties_MinimumTlsVersion_STATUS)
+		*out = new(ClusterProperties_MinimumTlsVersion_STATUS_ARM)
 		**out = **in
 	}
 	if in.PrivateEndpointConnections != nil {
@@ -57,7 +57,7 @@ func (in *ClusterProperties_STATUS_ARM) DeepCopyInto(out *ClusterProperties_STAT
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_STATUS)
+		*out = new(ProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.RedisVersion != nil {
@@ -67,7 +67,7 @@ func (in *ClusterProperties_STATUS_ARM) DeepCopyInto(out *ClusterProperties_STAT
 	}
 	if in.ResourceState != nil {
 		in, out := &in.ResourceState, &out.ResourceState
-		*out = new(ResourceState_STATUS)
+		*out = new(ResourceState_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -87,17 +87,17 @@ func (in *DatabaseProperties_ARM) DeepCopyInto(out *DatabaseProperties_ARM) {
 	*out = *in
 	if in.ClientProtocol != nil {
 		in, out := &in.ClientProtocol, &out.ClientProtocol
-		*out = new(DatabaseProperties_ClientProtocol)
+		*out = new(DatabaseProperties_ClientProtocol_ARM)
 		**out = **in
 	}
 	if in.ClusteringPolicy != nil {
 		in, out := &in.ClusteringPolicy, &out.ClusteringPolicy
-		*out = new(DatabaseProperties_ClusteringPolicy)
+		*out = new(DatabaseProperties_ClusteringPolicy_ARM)
 		**out = **in
 	}
 	if in.EvictionPolicy != nil {
 		in, out := &in.EvictionPolicy, &out.EvictionPolicy
-		*out = new(DatabaseProperties_EvictionPolicy)
+		*out = new(DatabaseProperties_EvictionPolicy_ARM)
 		**out = **in
 	}
 	if in.Modules != nil {
@@ -134,17 +134,17 @@ func (in *DatabaseProperties_STATUS_ARM) DeepCopyInto(out *DatabaseProperties_ST
 	*out = *in
 	if in.ClientProtocol != nil {
 		in, out := &in.ClientProtocol, &out.ClientProtocol
-		*out = new(DatabaseProperties_ClientProtocol_STATUS)
+		*out = new(DatabaseProperties_ClientProtocol_STATUS_ARM)
 		**out = **in
 	}
 	if in.ClusteringPolicy != nil {
 		in, out := &in.ClusteringPolicy, &out.ClusteringPolicy
-		*out = new(DatabaseProperties_ClusteringPolicy_STATUS)
+		*out = new(DatabaseProperties_ClusteringPolicy_STATUS_ARM)
 		**out = **in
 	}
 	if in.EvictionPolicy != nil {
 		in, out := &in.EvictionPolicy, &out.EvictionPolicy
-		*out = new(DatabaseProperties_EvictionPolicy_STATUS)
+		*out = new(DatabaseProperties_EvictionPolicy_STATUS_ARM)
 		**out = **in
 	}
 	if in.Modules != nil {
@@ -166,12 +166,12 @@ func (in *DatabaseProperties_STATUS_ARM) DeepCopyInto(out *DatabaseProperties_ST
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_STATUS)
+		*out = new(ProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.ResourceState != nil {
 		in, out := &in.ResourceState, &out.ResourceState
-		*out = new(ResourceState_STATUS)
+		*out = new(ResourceState_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -341,7 +341,7 @@ func (in *Persistence_ARM) DeepCopyInto(out *Persistence_ARM) {
 	}
 	if in.AofFrequency != nil {
 		in, out := &in.AofFrequency, &out.AofFrequency
-		*out = new(Persistence_AofFrequency)
+		*out = new(Persistence_AofFrequency_ARM)
 		**out = **in
 	}
 	if in.RdbEnabled != nil {
@@ -351,7 +351,7 @@ func (in *Persistence_ARM) DeepCopyInto(out *Persistence_ARM) {
 	}
 	if in.RdbFrequency != nil {
 		in, out := &in.RdbFrequency, &out.RdbFrequency
-		*out = new(Persistence_RdbFrequency)
+		*out = new(Persistence_RdbFrequency_ARM)
 		**out = **in
 	}
 }
@@ -411,7 +411,7 @@ func (in *Persistence_STATUS_ARM) DeepCopyInto(out *Persistence_STATUS_ARM) {
 	}
 	if in.AofFrequency != nil {
 		in, out := &in.AofFrequency, &out.AofFrequency
-		*out = new(Persistence_AofFrequency_STATUS)
+		*out = new(Persistence_AofFrequency_STATUS_ARM)
 		**out = **in
 	}
 	if in.RdbEnabled != nil {
@@ -421,7 +421,7 @@ func (in *Persistence_STATUS_ARM) DeepCopyInto(out *Persistence_STATUS_ARM) {
 	}
 	if in.RdbFrequency != nil {
 		in, out := &in.RdbFrequency, &out.RdbFrequency
-		*out = new(Persistence_RdbFrequency_STATUS)
+		*out = new(Persistence_RdbFrequency_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1052,7 +1052,7 @@ func (in *Sku_ARM) DeepCopyInto(out *Sku_ARM) {
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(Sku_Name)
+		*out = new(Sku_Name_ARM)
 		**out = **in
 	}
 }
@@ -1102,7 +1102,7 @@ func (in *Sku_STATUS_ARM) DeepCopyInto(out *Sku_STATUS_ARM) {
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(Sku_Name_STATUS)
+		*out = new(Sku_Name_STATUS_ARM)
 		**out = **in
 	}
 }

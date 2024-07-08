@@ -311,6 +311,7 @@ type StorageEndpointProperties_ARM struct {
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails_ARM struct {
+	Reference *string `json:"reference,omitempty"`
 }
 
 // The properties of an enrichment that your IoT hub applies to messages delivered to endpoints.

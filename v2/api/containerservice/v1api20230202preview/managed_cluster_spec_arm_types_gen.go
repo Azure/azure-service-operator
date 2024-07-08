@@ -834,6 +834,7 @@ type UserAssignedIdentity_ARM struct {
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails_ARM struct {
+	Reference *string `json:"reference,omitempty"`
 }
 
 // Azure Key Vault key management service settings for the security profile.
@@ -1098,6 +1099,10 @@ var managedClusterProperties_AutoScalerProfile_Expander_ARM_Values = map[string]
 	"priority":    ManagedClusterProperties_AutoScalerProfile_Expander_ARM_Priority,
 	"random":      ManagedClusterProperties_AutoScalerProfile_Expander_ARM_Random,
 }
+
+// +kubebuilder:validation:MaxItems=10
+// +kubebuilder:validation:MinItems=0
+type ManagedClusterSecurityProfileCustomCATrustCertificates_ARM []string
 
 // Microsoft Defender settings for the security profile.
 type ManagedClusterSecurityProfileDefender_ARM struct {

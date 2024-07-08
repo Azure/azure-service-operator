@@ -329,6 +329,7 @@ var publicNetworkAccess_ARM_Values = map[string]PublicNetworkAccess_ARM{
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails_ARM struct {
+	Reference *string `json:"reference,omitempty"`
 }
 
 // Virtual Network ACL Rule object

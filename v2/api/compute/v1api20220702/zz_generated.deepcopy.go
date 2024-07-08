@@ -495,7 +495,7 @@ func (in *EncryptionSetIdentity_ARM) DeepCopyInto(out *EncryptionSetIdentity_ARM
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(EncryptionSetIdentity_Type)
+		*out = new(EncryptionSetIdentity_Type_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -569,7 +569,7 @@ func (in *EncryptionSetIdentity_STATUS_ARM) DeepCopyInto(out *EncryptionSetIdent
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(EncryptionSetIdentity_Type_STATUS)
+		*out = new(EncryptionSetIdentity_Type_STATUS_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -651,7 +651,7 @@ func (in *EncryptionSetProperties_ARM) DeepCopyInto(out *EncryptionSetProperties
 	}
 	if in.EncryptionType != nil {
 		in, out := &in.EncryptionType, &out.EncryptionType
-		*out = new(DiskEncryptionSetType)
+		*out = new(DiskEncryptionSetType_ARM)
 		**out = **in
 	}
 	if in.FederatedClientId != nil {
@@ -691,7 +691,7 @@ func (in *EncryptionSetProperties_STATUS_ARM) DeepCopyInto(out *EncryptionSetPro
 	}
 	if in.EncryptionType != nil {
 		in, out := &in.EncryptionType, &out.EncryptionType
-		*out = new(DiskEncryptionSetType_STATUS)
+		*out = new(DiskEncryptionSetType_STATUS_ARM)
 		**out = **in
 	}
 	if in.FederatedClientId != nil {

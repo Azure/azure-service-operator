@@ -4103,11 +4103,9 @@ func (condition *CircuitBreakerFailureCondition) ConvertToARM(resolved genruntim
 
 	// Set property "ErrorReasons":
 	for _, item := range condition.ErrorReasons {
-		item_ARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.ErrorReasons = append(result.ErrorReasons, *item_ARM.(*CircuitBreakerFailureCondition_ErrorReasons_ARM))
+		var temp string
+		temp = string(item)
+		result.ErrorReasons = append(result.ErrorReasons, CircuitBreakerFailureCondition_ErrorReasons_ARM(temp))
 	}
 
 	// Set property "Interval":
@@ -4153,12 +4151,9 @@ func (condition *CircuitBreakerFailureCondition) PopulateFromARM(owner genruntim
 
 	// Set property "ErrorReasons":
 	for _, item := range typedInput.ErrorReasons {
-		var item1 CircuitBreakerFailureCondition_ErrorReasons
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		condition.ErrorReasons = append(condition.ErrorReasons, item1)
+		var temp string
+		temp = string(item)
+		condition.ErrorReasons = append(condition.ErrorReasons, CircuitBreakerFailureCondition_ErrorReasons(temp))
 	}
 
 	// Set property "Interval":
@@ -4332,12 +4327,9 @@ func (condition *CircuitBreakerFailureCondition_STATUS) PopulateFromARM(owner ge
 
 	// Set property "ErrorReasons":
 	for _, item := range typedInput.ErrorReasons {
-		var item1 CircuitBreakerFailureCondition_ErrorReasons_STATUS
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		condition.ErrorReasons = append(condition.ErrorReasons, item1)
+		var temp string
+		temp = string(item)
+		condition.ErrorReasons = append(condition.ErrorReasons, CircuitBreakerFailureCondition_ErrorReasons_STATUS(temp))
 	}
 
 	// Set property "Interval":

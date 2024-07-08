@@ -96,6 +96,7 @@ type StorageSetting_ARM struct {
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails_ARM struct {
+	Reference *string `json:"reference,omitempty"`
 }
 
 // Settings for Azure Monitor based alerts

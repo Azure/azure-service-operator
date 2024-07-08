@@ -57,7 +57,7 @@ func (in *AutoscaleNotification_ARM) DeepCopyInto(out *AutoscaleNotification_ARM
 	}
 	if in.Operation != nil {
 		in, out := &in.Operation, &out.Operation
-		*out = new(AutoscaleNotification_Operation)
+		*out = new(AutoscaleNotification_Operation_ARM)
 		**out = **in
 	}
 	if in.Webhooks != nil {
@@ -121,7 +121,7 @@ func (in *AutoscaleNotification_STATUS_ARM) DeepCopyInto(out *AutoscaleNotificat
 	}
 	if in.Operation != nil {
 		in, out := &in.Operation, &out.Operation
-		*out = new(AutoscaleNotification_Operation_STATUS)
+		*out = new(AutoscaleNotification_Operation_STATUS_ARM)
 		**out = **in
 	}
 	if in.Webhooks != nil {
@@ -960,12 +960,12 @@ func (in *MetricTrigger_ARM) DeepCopyInto(out *MetricTrigger_ARM) {
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(MetricTrigger_Operator)
+		*out = new(MetricTrigger_Operator_ARM)
 		**out = **in
 	}
 	if in.Statistic != nil {
 		in, out := &in.Statistic, &out.Statistic
-		*out = new(MetricTrigger_Statistic)
+		*out = new(MetricTrigger_Statistic_ARM)
 		**out = **in
 	}
 	if in.Threshold != nil {
@@ -975,7 +975,7 @@ func (in *MetricTrigger_ARM) DeepCopyInto(out *MetricTrigger_ARM) {
 	}
 	if in.TimeAggregation != nil {
 		in, out := &in.TimeAggregation, &out.TimeAggregation
-		*out = new(MetricTrigger_TimeAggregation)
+		*out = new(MetricTrigger_TimeAggregation_ARM)
 		**out = **in
 	}
 	if in.TimeGrain != nil {
@@ -1114,12 +1114,12 @@ func (in *MetricTrigger_STATUS_ARM) DeepCopyInto(out *MetricTrigger_STATUS_ARM) 
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(MetricTrigger_Operator_STATUS)
+		*out = new(MetricTrigger_Operator_STATUS_ARM)
 		**out = **in
 	}
 	if in.Statistic != nil {
 		in, out := &in.Statistic, &out.Statistic
-		*out = new(MetricTrigger_Statistic_STATUS)
+		*out = new(MetricTrigger_Statistic_STATUS_ARM)
 		**out = **in
 	}
 	if in.Threshold != nil {
@@ -1129,7 +1129,7 @@ func (in *MetricTrigger_STATUS_ARM) DeepCopyInto(out *MetricTrigger_STATUS_ARM) 
 	}
 	if in.TimeAggregation != nil {
 		in, out := &in.TimeAggregation, &out.TimeAggregation
-		*out = new(MetricTrigger_TimeAggregation_STATUS)
+		*out = new(MetricTrigger_TimeAggregation_STATUS_ARM)
 		**out = **in
 	}
 	if in.TimeGrain != nil {
@@ -1189,7 +1189,7 @@ func (in *PredictiveAutoscalePolicy_ARM) DeepCopyInto(out *PredictiveAutoscalePo
 	}
 	if in.ScaleMode != nil {
 		in, out := &in.ScaleMode, &out.ScaleMode
-		*out = new(PredictiveAutoscalePolicy_ScaleMode)
+		*out = new(PredictiveAutoscalePolicy_ScaleMode_ARM)
 		**out = **in
 	}
 }
@@ -1239,7 +1239,7 @@ func (in *PredictiveAutoscalePolicy_STATUS_ARM) DeepCopyInto(out *PredictiveAuto
 	}
 	if in.ScaleMode != nil {
 		in, out := &in.ScaleMode, &out.ScaleMode
-		*out = new(PredictiveAutoscalePolicy_ScaleMode_STATUS)
+		*out = new(PredictiveAutoscalePolicy_ScaleMode_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1284,7 +1284,7 @@ func (in *Recurrence_ARM) DeepCopyInto(out *Recurrence_ARM) {
 	*out = *in
 	if in.Frequency != nil {
 		in, out := &in.Frequency, &out.Frequency
-		*out = new(Recurrence_Frequency)
+		*out = new(Recurrence_Frequency_ARM)
 		**out = **in
 	}
 	if in.Schedule != nil {
@@ -1334,7 +1334,7 @@ func (in *Recurrence_STATUS_ARM) DeepCopyInto(out *Recurrence_STATUS_ARM) {
 	*out = *in
 	if in.Frequency != nil {
 		in, out := &in.Frequency, &out.Frequency
-		*out = new(Recurrence_Frequency_STATUS)
+		*out = new(Recurrence_Frequency_STATUS_ARM)
 		**out = **in
 	}
 	if in.Schedule != nil {
@@ -1539,12 +1539,12 @@ func (in *ScaleAction_ARM) DeepCopyInto(out *ScaleAction_ARM) {
 	}
 	if in.Direction != nil {
 		in, out := &in.Direction, &out.Direction
-		*out = new(ScaleAction_Direction)
+		*out = new(ScaleAction_Direction_ARM)
 		**out = **in
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ScaleAction_Type)
+		*out = new(ScaleAction_Type_ARM)
 		**out = **in
 	}
 	if in.Value != nil {
@@ -1609,12 +1609,12 @@ func (in *ScaleAction_STATUS_ARM) DeepCopyInto(out *ScaleAction_STATUS_ARM) {
 	}
 	if in.Direction != nil {
 		in, out := &in.Direction, &out.Direction
-		*out = new(ScaleAction_Direction_STATUS)
+		*out = new(ScaleAction_Direction_STATUS_ARM)
 		**out = **in
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ScaleAction_Type_STATUS)
+		*out = new(ScaleAction_Type_STATUS_ARM)
 		**out = **in
 	}
 	if in.Value != nil {
@@ -1819,7 +1819,7 @@ func (in *ScaleRuleMetricDimension_ARM) DeepCopyInto(out *ScaleRuleMetricDimensi
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(ScaleRuleMetricDimension_Operator)
+		*out = new(ScaleRuleMetricDimension_Operator_ARM)
 		**out = **in
 	}
 	if in.Values != nil {
@@ -1879,7 +1879,7 @@ func (in *ScaleRuleMetricDimension_STATUS_ARM) DeepCopyInto(out *ScaleRuleMetric
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(ScaleRuleMetricDimension_Operator_STATUS)
+		*out = new(ScaleRuleMetricDimension_Operator_STATUS_ARM)
 		**out = **in
 	}
 	if in.Values != nil {
@@ -2034,7 +2034,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemData_CreatedByType_STATUS)
+		*out = new(SystemData_CreatedByType_STATUS_ARM)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -2049,7 +2049,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemData_LastModifiedByType_STATUS)
+		*out = new(SystemData_LastModifiedByType_STATUS_ARM)
 		**out = **in
 	}
 }

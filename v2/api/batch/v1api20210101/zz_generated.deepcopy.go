@@ -152,12 +152,12 @@ func (in *BatchAccountCreateProperties_ARM) DeepCopyInto(out *BatchAccountCreate
 	}
 	if in.PoolAllocationMode != nil {
 		in, out := &in.PoolAllocationMode, &out.PoolAllocationMode
-		*out = new(PoolAllocationMode)
+		*out = new(PoolAllocationMode_ARM)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(PublicNetworkAccessType)
+		*out = new(PublicNetworkAccessType_ARM)
 		**out = **in
 	}
 }
@@ -202,7 +202,7 @@ func (in *BatchAccountIdentity_ARM) DeepCopyInto(out *BatchAccountIdentity_ARM) 
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(BatchAccountIdentity_Type)
+		*out = new(BatchAccountIdentity_Type_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -276,7 +276,7 @@ func (in *BatchAccountIdentity_STATUS_ARM) DeepCopyInto(out *BatchAccountIdentit
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(BatchAccountIdentity_Type_STATUS)
+		*out = new(BatchAccountIdentity_Type_STATUS_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -432,7 +432,7 @@ func (in *BatchAccountProperties_STATUS_ARM) DeepCopyInto(out *BatchAccountPrope
 	}
 	if in.PoolAllocationMode != nil {
 		in, out := &in.PoolAllocationMode, &out.PoolAllocationMode
-		*out = new(PoolAllocationMode_STATUS)
+		*out = new(PoolAllocationMode_STATUS_ARM)
 		**out = **in
 	}
 	if in.PoolQuota != nil {
@@ -449,12 +449,12 @@ func (in *BatchAccountProperties_STATUS_ARM) DeepCopyInto(out *BatchAccountPrope
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(BatchAccountProperties_ProvisioningState_STATUS)
+		*out = new(BatchAccountProperties_ProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(PublicNetworkAccessType_STATUS)
+		*out = new(PublicNetworkAccessType_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -778,7 +778,7 @@ func (in *EncryptionProperties_ARM) DeepCopyInto(out *EncryptionProperties_ARM) 
 	*out = *in
 	if in.KeySource != nil {
 		in, out := &in.KeySource, &out.KeySource
-		*out = new(EncryptionProperties_KeySource)
+		*out = new(EncryptionProperties_KeySource_ARM)
 		**out = **in
 	}
 	if in.KeyVaultProperties != nil {
@@ -828,7 +828,7 @@ func (in *EncryptionProperties_STATUS_ARM) DeepCopyInto(out *EncryptionPropertie
 	*out = *in
 	if in.KeySource != nil {
 		in, out := &in.KeySource, &out.KeySource
-		*out = new(EncryptionProperties_KeySource_STATUS)
+		*out = new(EncryptionProperties_KeySource_STATUS_ARM)
 		**out = **in
 	}
 	if in.KeyVaultProperties != nil {

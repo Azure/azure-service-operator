@@ -369,7 +369,9 @@ func (account *Account_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Properties = &AzureMonitorWorkspace_ARM{}
 	}
 	if account.PublicNetworkAccess != nil {
-		publicNetworkAccess := *account.PublicNetworkAccess
+		var temp string
+		temp = string(*account.PublicNetworkAccess)
+		publicNetworkAccess := AzureMonitorWorkspace_PublicNetworkAccess_ARM(temp)
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 
@@ -414,7 +416,9 @@ func (account *Account_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
-			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccess)
+			publicNetworkAccess := AzureMonitorWorkspace_PublicNetworkAccess(temp)
 			account.PublicNetworkAccess = &publicNetworkAccess
 		}
 	}

@@ -50,7 +50,7 @@ func (in *ExtendedLocation_ARM) DeepCopyInto(out *ExtendedLocation_ARM) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ExtendedLocationType)
+		*out = new(ExtendedLocationType_ARM)
 		**out = **in
 	}
 }
@@ -100,7 +100,7 @@ func (in *ExtendedLocation_STATUS_ARM) DeepCopyInto(out *ExtendedLocation_STATUS
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ExtendedLocationType_STATUS)
+		*out = new(ExtendedLocationType_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -207,7 +207,7 @@ func (in *ImageDataDisk_ARM) DeepCopyInto(out *ImageDataDisk_ARM) {
 	}
 	if in.Caching != nil {
 		in, out := &in.Caching, &out.Caching
-		*out = new(ImageDataDisk_Caching)
+		*out = new(ImageDataDisk_Caching_ARM)
 		**out = **in
 	}
 	if in.DiskEncryptionSet != nil {
@@ -237,7 +237,7 @@ func (in *ImageDataDisk_ARM) DeepCopyInto(out *ImageDataDisk_ARM) {
 	}
 	if in.StorageAccountType != nil {
 		in, out := &in.StorageAccountType, &out.StorageAccountType
-		*out = new(StorageAccountType)
+		*out = new(StorageAccountType_ARM)
 		**out = **in
 	}
 }
@@ -317,7 +317,7 @@ func (in *ImageDataDisk_STATUS_ARM) DeepCopyInto(out *ImageDataDisk_STATUS_ARM) 
 	}
 	if in.Caching != nil {
 		in, out := &in.Caching, &out.Caching
-		*out = new(ImageDataDisk_Caching_STATUS)
+		*out = new(ImageDataDisk_Caching_STATUS_ARM)
 		**out = **in
 	}
 	if in.DiskEncryptionSet != nil {
@@ -347,7 +347,7 @@ func (in *ImageDataDisk_STATUS_ARM) DeepCopyInto(out *ImageDataDisk_STATUS_ARM) 
 	}
 	if in.StorageAccountType != nil {
 		in, out := &in.StorageAccountType, &out.StorageAccountType
-		*out = new(StorageAccountType_STATUS)
+		*out = new(StorageAccountType_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -464,7 +464,7 @@ func (in *ImageOSDisk_ARM) DeepCopyInto(out *ImageOSDisk_ARM) {
 	}
 	if in.Caching != nil {
 		in, out := &in.Caching, &out.Caching
-		*out = new(ImageOSDisk_Caching)
+		*out = new(ImageOSDisk_Caching_ARM)
 		**out = **in
 	}
 	if in.DiskEncryptionSet != nil {
@@ -484,12 +484,12 @@ func (in *ImageOSDisk_ARM) DeepCopyInto(out *ImageOSDisk_ARM) {
 	}
 	if in.OsState != nil {
 		in, out := &in.OsState, &out.OsState
-		*out = new(ImageOSDisk_OsState)
+		*out = new(ImageOSDisk_OsState_ARM)
 		**out = **in
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(ImageOSDisk_OsType)
+		*out = new(ImageOSDisk_OsType_ARM)
 		**out = **in
 	}
 	if in.Snapshot != nil {
@@ -499,7 +499,7 @@ func (in *ImageOSDisk_ARM) DeepCopyInto(out *ImageOSDisk_ARM) {
 	}
 	if in.StorageAccountType != nil {
 		in, out := &in.StorageAccountType, &out.StorageAccountType
-		*out = new(StorageAccountType)
+		*out = new(StorageAccountType_ARM)
 		**out = **in
 	}
 }
@@ -584,7 +584,7 @@ func (in *ImageOSDisk_STATUS_ARM) DeepCopyInto(out *ImageOSDisk_STATUS_ARM) {
 	}
 	if in.Caching != nil {
 		in, out := &in.Caching, &out.Caching
-		*out = new(ImageOSDisk_Caching_STATUS)
+		*out = new(ImageOSDisk_Caching_STATUS_ARM)
 		**out = **in
 	}
 	if in.DiskEncryptionSet != nil {
@@ -604,12 +604,12 @@ func (in *ImageOSDisk_STATUS_ARM) DeepCopyInto(out *ImageOSDisk_STATUS_ARM) {
 	}
 	if in.OsState != nil {
 		in, out := &in.OsState, &out.OsState
-		*out = new(ImageOSDisk_OsState_STATUS)
+		*out = new(ImageOSDisk_OsState_STATUS_ARM)
 		**out = **in
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(ImageOSDisk_OsType_STATUS)
+		*out = new(ImageOSDisk_OsType_STATUS_ARM)
 		**out = **in
 	}
 	if in.Snapshot != nil {
@@ -619,7 +619,7 @@ func (in *ImageOSDisk_STATUS_ARM) DeepCopyInto(out *ImageOSDisk_STATUS_ARM) {
 	}
 	if in.StorageAccountType != nil {
 		in, out := &in.StorageAccountType, &out.StorageAccountType
-		*out = new(StorageAccountType_STATUS)
+		*out = new(StorageAccountType_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -639,7 +639,7 @@ func (in *ImageProperties_ARM) DeepCopyInto(out *ImageProperties_ARM) {
 	*out = *in
 	if in.HyperVGeneration != nil {
 		in, out := &in.HyperVGeneration, &out.HyperVGeneration
-		*out = new(HyperVGenerationType)
+		*out = new(HyperVGenerationType_ARM)
 		**out = **in
 	}
 	if in.SourceVirtualMachine != nil {
@@ -669,7 +669,7 @@ func (in *ImageProperties_STATUS_ARM) DeepCopyInto(out *ImageProperties_STATUS_A
 	*out = *in
 	if in.HyperVGeneration != nil {
 		in, out := &in.HyperVGeneration, &out.HyperVGeneration
-		*out = new(HyperVGenerationType_STATUS)
+		*out = new(HyperVGenerationType_STATUS_ARM)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {

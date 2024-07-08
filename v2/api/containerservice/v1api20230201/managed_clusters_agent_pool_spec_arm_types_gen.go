@@ -203,6 +203,10 @@ type AgentPoolUpgradeSettings_ARM struct {
 	MaxSurge *string `json:"maxSurge,omitempty"`
 }
 
+// +kubebuilder:validation:Maximum=2048
+// +kubebuilder:validation:Minimum=0
+type ContainerServiceOSDisk_ARM int
+
 // Data used when creating a target resource from a source resource.
 type CreationData_ARM struct {
 	SourceResourceId *string `json:"sourceResourceId,omitempty"`

@@ -527,7 +527,7 @@ func (in *ApplicationGatewayBackendHttpSettingsPropertiesFormat_ARM) DeepCopyInt
 	}
 	if in.CookieBasedAffinity != nil {
 		in, out := &in.CookieBasedAffinity, &out.CookieBasedAffinity
-		*out = new(ApplicationGatewayBackendHttpSettingsPropertiesFormat_CookieBasedAffinity)
+		*out = new(ApplicationGatewayBackendHttpSettingsPropertiesFormat_CookieBasedAffinity_ARM)
 		**out = **in
 	}
 	if in.HostName != nil {
@@ -562,7 +562,7 @@ func (in *ApplicationGatewayBackendHttpSettingsPropertiesFormat_ARM) DeepCopyInt
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(ApplicationGatewayProtocol)
+		*out = new(ApplicationGatewayProtocol_ARM)
 		**out = **in
 	}
 	if in.RequestTimeout != nil {
@@ -736,7 +736,7 @@ func (in *ApplicationGatewayBackendSettingsPropertiesFormat_ARM) DeepCopyInto(ou
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(ApplicationGatewayProtocol)
+		*out = new(ApplicationGatewayProtocol_ARM)
 		**out = **in
 	}
 	if in.Timeout != nil {
@@ -863,7 +863,7 @@ func (in *ApplicationGatewayClientAuthConfiguration_ARM) DeepCopyInto(out *Appli
 	}
 	if in.VerifyClientRevocation != nil {
 		in, out := &in.VerifyClientRevocation, &out.VerifyClientRevocation
-		*out = new(ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation)
+		*out = new(ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation_ARM)
 		**out = **in
 	}
 }
@@ -963,7 +963,7 @@ func (in *ApplicationGatewayCustomError_ARM) DeepCopyInto(out *ApplicationGatewa
 	}
 	if in.StatusCode != nil {
 		in, out := &in.StatusCode, &out.StatusCode
-		*out = new(ApplicationGatewayCustomError_StatusCode)
+		*out = new(ApplicationGatewayCustomError_StatusCode_ARM)
 		**out = **in
 	}
 }
@@ -1013,7 +1013,7 @@ func (in *ApplicationGatewayCustomError_STATUS_ARM) DeepCopyInto(out *Applicatio
 	}
 	if in.StatusCode != nil {
 		in, out := &in.StatusCode, &out.StatusCode
-		*out = new(ApplicationGatewayCustomError_StatusCode_STATUS)
+		*out = new(ApplicationGatewayCustomError_StatusCode_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1303,7 +1303,7 @@ func (in *ApplicationGatewayFrontendIPConfigurationPropertiesFormat_ARM) DeepCop
 	}
 	if in.PrivateIPAllocationMethod != nil {
 		in, out := &in.PrivateIPAllocationMethod, &out.PrivateIPAllocationMethod
-		*out = new(IPAllocationMethod)
+		*out = new(IPAllocationMethod_ARM)
 		**out = **in
 	}
 	if in.PrivateLinkConfiguration != nil {
@@ -1767,7 +1767,7 @@ func (in *ApplicationGatewayHttpListenerPropertiesFormat_ARM) DeepCopyInto(out *
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(ApplicationGatewayProtocol)
+		*out = new(ApplicationGatewayProtocol_ARM)
 		**out = **in
 	}
 	if in.RequireServerNameIndication != nil {
@@ -2064,7 +2064,7 @@ func (in *ApplicationGatewayListenerPropertiesFormat_ARM) DeepCopyInto(out *Appl
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(ApplicationGatewayProtocol)
+		*out = new(ApplicationGatewayProtocol_ARM)
 		**out = **in
 	}
 	if in.SslCertificate != nil {
@@ -2191,7 +2191,7 @@ func (in *ApplicationGatewayLoadDistributionPolicyPropertiesFormat_ARM) DeepCopy
 	*out = *in
 	if in.LoadDistributionAlgorithm != nil {
 		in, out := &in.LoadDistributionAlgorithm, &out.LoadDistributionAlgorithm
-		*out = new(ApplicationGatewayLoadDistributionAlgorithmEnum)
+		*out = new(ApplicationGatewayLoadDistributionAlgorithmEnum_ARM)
 		**out = **in
 	}
 	if in.LoadDistributionTargets != nil {
@@ -2722,7 +2722,7 @@ func (in *ApplicationGatewayProbePropertiesFormat_ARM) DeepCopyInto(out *Applica
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(ApplicationGatewayProtocol)
+		*out = new(ApplicationGatewayProtocol_ARM)
 		**out = **in
 	}
 	if in.Timeout != nil {
@@ -3138,7 +3138,7 @@ func (in *ApplicationGatewayPropertiesFormat_STATUS_ARM) DeepCopyInto(out *Appli
 	}
 	if in.OperationalState != nil {
 		in, out := &in.OperationalState, &out.OperationalState
-		*out = new(ApplicationGatewayPropertiesFormat_OperationalState_STATUS)
+		*out = new(ApplicationGatewayPropertiesFormat_OperationalState_STATUS_ARM)
 		**out = **in
 	}
 	if in.PrivateEndpointConnections != nil {
@@ -3164,7 +3164,7 @@ func (in *ApplicationGatewayPropertiesFormat_STATUS_ARM) DeepCopyInto(out *Appli
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ApplicationGatewayProvisioningState_STATUS)
+		*out = new(ApplicationGatewayProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.RedirectConfigurations != nil {
@@ -3350,7 +3350,7 @@ func (in *ApplicationGatewayRedirectConfigurationPropertiesFormat_ARM) DeepCopyI
 	}
 	if in.RedirectType != nil {
 		in, out := &in.RedirectType, &out.RedirectType
-		*out = new(RedirectTypeEnum)
+		*out = new(RedirectTypeEnum_ARM)
 		**out = **in
 	}
 	if in.RequestRoutingRules != nil {
@@ -3559,7 +3559,7 @@ func (in *ApplicationGatewayRequestRoutingRulePropertiesFormat_ARM) DeepCopyInto
 	}
 	if in.RuleType != nil {
 		in, out := &in.RuleType, &out.RuleType
-		*out = new(ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType)
+		*out = new(ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType_ARM)
 		**out = **in
 	}
 	if in.UrlPathMap != nil {
@@ -4040,7 +4040,7 @@ func (in *ApplicationGatewayRoutingRulePropertiesFormat_ARM) DeepCopyInto(out *A
 	}
 	if in.RuleType != nil {
 		in, out := &in.RuleType, &out.RuleType
-		*out = new(ApplicationGatewayRoutingRulePropertiesFormat_RuleType)
+		*out = new(ApplicationGatewayRoutingRulePropertiesFormat_RuleType_ARM)
 		**out = **in
 	}
 }
@@ -4160,12 +4160,12 @@ func (in *ApplicationGatewaySku_ARM) DeepCopyInto(out *ApplicationGatewaySku_ARM
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(ApplicationGatewaySku_Name)
+		*out = new(ApplicationGatewaySku_Name_ARM)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(ApplicationGatewaySku_Tier)
+		*out = new(ApplicationGatewaySku_Tier_ARM)
 		**out = **in
 	}
 }
@@ -4220,12 +4220,12 @@ func (in *ApplicationGatewaySku_STATUS_ARM) DeepCopyInto(out *ApplicationGateway
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(ApplicationGatewaySku_Name_STATUS)
+		*out = new(ApplicationGatewaySku_Name_STATUS_ARM)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(ApplicationGatewaySku_Tier_STATUS)
+		*out = new(ApplicationGatewaySku_Tier_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -4415,27 +4415,27 @@ func (in *ApplicationGatewaySslPolicy_ARM) DeepCopyInto(out *ApplicationGatewayS
 	*out = *in
 	if in.CipherSuites != nil {
 		in, out := &in.CipherSuites, &out.CipherSuites
-		*out = make([]CipherSuitesEnum, len(*in))
+		*out = make([]CipherSuitesEnum_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.DisabledSslProtocols != nil {
 		in, out := &in.DisabledSslProtocols, &out.DisabledSslProtocols
-		*out = make([]ProtocolsEnum, len(*in))
+		*out = make([]ProtocolsEnum_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.MinProtocolVersion != nil {
 		in, out := &in.MinProtocolVersion, &out.MinProtocolVersion
-		*out = new(ProtocolsEnum)
+		*out = new(ProtocolsEnum_ARM)
 		**out = **in
 	}
 	if in.PolicyName != nil {
 		in, out := &in.PolicyName, &out.PolicyName
-		*out = new(PolicyNameEnum)
+		*out = new(PolicyNameEnum_ARM)
 		**out = **in
 	}
 	if in.PolicyType != nil {
 		in, out := &in.PolicyType, &out.PolicyType
-		*out = new(ApplicationGatewaySslPolicy_PolicyType)
+		*out = new(ApplicationGatewaySslPolicy_PolicyType_ARM)
 		**out = **in
 	}
 }
@@ -4495,27 +4495,27 @@ func (in *ApplicationGatewaySslPolicy_STATUS_ARM) DeepCopyInto(out *ApplicationG
 	*out = *in
 	if in.CipherSuites != nil {
 		in, out := &in.CipherSuites, &out.CipherSuites
-		*out = make([]CipherSuitesEnum_STATUS, len(*in))
+		*out = make([]CipherSuitesEnum_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.DisabledSslProtocols != nil {
 		in, out := &in.DisabledSslProtocols, &out.DisabledSslProtocols
-		*out = make([]ProtocolsEnum_STATUS, len(*in))
+		*out = make([]ProtocolsEnum_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.MinProtocolVersion != nil {
 		in, out := &in.MinProtocolVersion, &out.MinProtocolVersion
-		*out = new(ProtocolsEnum_STATUS)
+		*out = new(ProtocolsEnum_STATUS_ARM)
 		**out = **in
 	}
 	if in.PolicyName != nil {
 		in, out := &in.PolicyName, &out.PolicyName
-		*out = new(PolicyNameEnum_STATUS)
+		*out = new(PolicyNameEnum_STATUS_ARM)
 		**out = **in
 	}
 	if in.PolicyType != nil {
 		in, out := &in.PolicyType, &out.PolicyType
-		*out = new(ApplicationGatewaySslPolicy_PolicyType_STATUS)
+		*out = new(ApplicationGatewaySslPolicy_PolicyType_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -5296,7 +5296,7 @@ func (in *ApplicationGatewayWebApplicationFirewallConfiguration_ARM) DeepCopyInt
 	}
 	if in.FirewallMode != nil {
 		in, out := &in.FirewallMode, &out.FirewallMode
-		*out = new(ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode)
+		*out = new(ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_ARM)
 		**out = **in
 	}
 	if in.MaxRequestBodySize != nil {
@@ -5434,7 +5434,7 @@ func (in *ApplicationGatewayWebApplicationFirewallConfiguration_STATUS_ARM) Deep
 	}
 	if in.FirewallMode != nil {
 		in, out := &in.FirewallMode, &out.FirewallMode
-		*out = new(ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_STATUS)
+		*out = new(ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_STATUS_ARM)
 		**out = **in
 	}
 	if in.MaxRequestBodySize != nil {
@@ -6251,7 +6251,7 @@ func (in *BastionHostIPConfigurationPropertiesFormat_ARM) DeepCopyInto(out *Bast
 	*out = *in
 	if in.PrivateIPAllocationMethod != nil {
 		in, out := &in.PrivateIPAllocationMethod, &out.PrivateIPAllocationMethod
-		*out = new(IPAllocationMethod)
+		*out = new(IPAllocationMethod_ARM)
 		**out = **in
 	}
 	if in.PublicIPAddress != nil {
@@ -6472,7 +6472,7 @@ func (in *BastionHostPropertiesFormat_STATUS_ARM) DeepCopyInto(out *BastionHostP
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(BastionHostProvisioningState_STATUS)
+		*out = new(BastionHostProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.ScaleUnits != nil {
@@ -7013,7 +7013,7 @@ func (in *DnsForwardingRulesetProperties_STATUS_ARM) DeepCopyInto(out *DnsForwar
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(DnsresolverProvisioningState_STATUS)
+		*out = new(DnsresolverProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.ResourceGuid != nil {
@@ -7506,12 +7506,12 @@ func (in *DnsResolverProperties_STATUS_ARM) DeepCopyInto(out *DnsResolverPropert
 	*out = *in
 	if in.DnsResolverState != nil {
 		in, out := &in.DnsResolverState, &out.DnsResolverState
-		*out = new(DnsResolverProperties_DnsResolverState_STATUS)
+		*out = new(DnsResolverProperties_DnsResolverState_STATUS_ARM)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(DnsresolverProvisioningState_STATUS)
+		*out = new(DnsresolverProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.ResourceGuid != nil {
@@ -8378,7 +8378,7 @@ func (in *ExtendedLocation_ARM) DeepCopyInto(out *ExtendedLocation_ARM) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ExtendedLocationType)
+		*out = new(ExtendedLocationType_ARM)
 		**out = **in
 	}
 }
@@ -8428,7 +8428,7 @@ func (in *ExtendedLocation_STATUS_ARM) DeepCopyInto(out *ExtendedLocation_STATUS
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ExtendedLocationType_STATUS)
+		*out = new(ExtendedLocationType_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -8453,7 +8453,7 @@ func (in *ForwardingRuleProperties_ARM) DeepCopyInto(out *ForwardingRuleProperti
 	}
 	if in.ForwardingRuleState != nil {
 		in, out := &in.ForwardingRuleState, &out.ForwardingRuleState
-		*out = new(ForwardingRuleProperties_ForwardingRuleState)
+		*out = new(ForwardingRuleProperties_ForwardingRuleState_ARM)
 		**out = **in
 	}
 	if in.Metadata != nil {
@@ -8492,7 +8492,7 @@ func (in *ForwardingRuleProperties_STATUS_ARM) DeepCopyInto(out *ForwardingRuleP
 	}
 	if in.ForwardingRuleState != nil {
 		in, out := &in.ForwardingRuleState, &out.ForwardingRuleState
-		*out = new(ForwardingRuleProperties_ForwardingRuleState_STATUS)
+		*out = new(ForwardingRuleProperties_ForwardingRuleState_STATUS_ARM)
 		**out = **in
 	}
 	if in.Metadata != nil {
@@ -8504,7 +8504,7 @@ func (in *ForwardingRuleProperties_STATUS_ARM) DeepCopyInto(out *ForwardingRuleP
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(DnsresolverProvisioningState_STATUS)
+		*out = new(DnsresolverProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.TargetDnsServers != nil {
@@ -8640,7 +8640,7 @@ func (in *InboundEndpointProperties_STATUS_ARM) DeepCopyInto(out *InboundEndpoin
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(DnsresolverProvisioningState_STATUS)
+		*out = new(DnsresolverProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.ResourceGuid != nil {
@@ -8700,7 +8700,7 @@ func (in *IpConfiguration_ARM) DeepCopyInto(out *IpConfiguration_ARM) {
 	}
 	if in.PrivateIpAllocationMethod != nil {
 		in, out := &in.PrivateIpAllocationMethod, &out.PrivateIpAllocationMethod
-		*out = new(IpConfiguration_PrivateIpAllocationMethod)
+		*out = new(IpConfiguration_PrivateIpAllocationMethod_ARM)
 		**out = **in
 	}
 	if in.Subnet != nil {
@@ -8760,7 +8760,7 @@ func (in *IpConfiguration_STATUS_ARM) DeepCopyInto(out *IpConfiguration_STATUS_A
 	}
 	if in.PrivateIpAllocationMethod != nil {
 		in, out := &in.PrivateIpAllocationMethod, &out.PrivateIpAllocationMethod
-		*out = new(IpConfiguration_PrivateIpAllocationMethod_STATUS)
+		*out = new(IpConfiguration_PrivateIpAllocationMethod_STATUS_ARM)
 		**out = **in
 	}
 	if in.Subnet != nil {
@@ -8910,7 +8910,7 @@ func (in *ManagedServiceIdentity_ARM) DeepCopyInto(out *ManagedServiceIdentity_A
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ManagedServiceIdentity_Type)
+		*out = new(ManagedServiceIdentity_Type_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -8984,7 +8984,7 @@ func (in *ManagedServiceIdentity_STATUS_ARM) DeepCopyInto(out *ManagedServiceIde
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ManagedServiceIdentity_Type_STATUS)
+		*out = new(ManagedServiceIdentity_Type_STATUS_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -9159,7 +9159,7 @@ func (in *NatGatewayPropertiesFormat_STATUS_ARM) DeepCopyInto(out *NatGatewayPro
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ApplicationGatewayProvisioningState_STATUS)
+		*out = new(ApplicationGatewayProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.PublicIpAddresses != nil {
@@ -9225,7 +9225,7 @@ func (in *NatGatewaySku_ARM) DeepCopyInto(out *NatGatewaySku_ARM) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(NatGatewaySku_Name)
+		*out = new(NatGatewaySku_Name_ARM)
 		**out = **in
 	}
 }
@@ -9265,7 +9265,7 @@ func (in *NatGatewaySku_STATUS_ARM) DeepCopyInto(out *NatGatewaySku_STATUS_ARM) 
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(NatGatewaySku_Name_STATUS)
+		*out = new(NatGatewaySku_Name_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -9730,7 +9730,7 @@ func (in *OutboundEndpointProperties_STATUS_ARM) DeepCopyInto(out *OutboundEndpo
 	*out = *in
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(DnsresolverProvisioningState_STATUS)
+		*out = new(DnsresolverProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.ResourceGuid != nil {
@@ -9896,7 +9896,7 @@ func (in *PrivateDnsZoneGroupPropertiesFormat_STATUS_ARM) DeepCopyInto(out *Priv
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(PrivateEndpointProvisioningState_STATUS)
+		*out = new(PrivateEndpointProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -10402,7 +10402,7 @@ func (in *PrivateEndpointProperties_STATUS_ARM) DeepCopyInto(out *PrivateEndpoin
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ApplicationGatewayProvisioningState_STATUS)
+		*out = new(ApplicationGatewayProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.Subnet != nil {
@@ -11024,7 +11024,7 @@ func (in *PrivateLinkServiceConnectionProperties_STATUS_ARM) DeepCopyInto(out *P
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ApplicationGatewayProvisioningState_STATUS)
+		*out = new(ApplicationGatewayProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.RequestMessage != nil {
@@ -11349,12 +11349,12 @@ func (in *PrivateLinkServiceIpConfigurationProperties_ARM) DeepCopyInto(out *Pri
 	}
 	if in.PrivateIPAddressVersion != nil {
 		in, out := &in.PrivateIPAddressVersion, &out.PrivateIPAddressVersion
-		*out = new(IPVersion)
+		*out = new(IPVersion_ARM)
 		**out = **in
 	}
 	if in.PrivateIPAllocationMethod != nil {
 		in, out := &in.PrivateIPAllocationMethod, &out.PrivateIPAllocationMethod
-		*out = new(IPAllocationMethod)
+		*out = new(IPAllocationMethod_ARM)
 		**out = **in
 	}
 	if in.Subnet != nil {
@@ -11389,17 +11389,17 @@ func (in *PrivateLinkServiceIpConfigurationProperties_STATUS_ARM) DeepCopyInto(o
 	}
 	if in.PrivateIPAddressVersion != nil {
 		in, out := &in.PrivateIPAddressVersion, &out.PrivateIPAddressVersion
-		*out = new(IPVersion_STATUS)
+		*out = new(IPVersion_STATUS_ARM)
 		**out = **in
 	}
 	if in.PrivateIPAllocationMethod != nil {
 		in, out := &in.PrivateIPAllocationMethod, &out.PrivateIPAllocationMethod
-		*out = new(IPAllocationMethod_STATUS)
+		*out = new(IPAllocationMethod_STATUS_ARM)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ApplicationGatewayProvisioningState_STATUS)
+		*out = new(ApplicationGatewayProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.Subnet != nil {
@@ -11723,7 +11723,7 @@ func (in *PrivateLinkServiceProperties_STATUS_ARM) DeepCopyInto(out *PrivateLink
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ApplicationGatewayProvisioningState_STATUS)
+		*out = new(ApplicationGatewayProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.Visibility != nil {
@@ -12116,7 +12116,7 @@ func (in *PublicIPPrefixPropertiesFormat_ARM) DeepCopyInto(out *PublicIPPrefixPr
 	}
 	if in.PublicIPAddressVersion != nil {
 		in, out := &in.PublicIPAddressVersion, &out.PublicIPAddressVersion
-		*out = new(IPVersion)
+		*out = new(IPVersion_ARM)
 		**out = **in
 	}
 }
@@ -12168,12 +12168,12 @@ func (in *PublicIPPrefixPropertiesFormat_STATUS_ARM) DeepCopyInto(out *PublicIPP
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(PublicIpPrefixProvisioningState_STATUS)
+		*out = new(PublicIpPrefixProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.PublicIPAddressVersion != nil {
 		in, out := &in.PublicIPAddressVersion, &out.PublicIPAddressVersion
-		*out = new(IPVersion_STATUS)
+		*out = new(IPVersion_STATUS_ARM)
 		**out = **in
 	}
 	if in.PublicIPAddresses != nil {
@@ -12230,12 +12230,12 @@ func (in *PublicIPPrefixSku_ARM) DeepCopyInto(out *PublicIPPrefixSku_ARM) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(PublicIPPrefixSku_Name)
+		*out = new(PublicIPPrefixSku_Name_ARM)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(PublicIPPrefixSku_Tier)
+		*out = new(PublicIPPrefixSku_Tier_ARM)
 		**out = **in
 	}
 }
@@ -12280,12 +12280,12 @@ func (in *PublicIPPrefixSku_STATUS_ARM) DeepCopyInto(out *PublicIPPrefixSku_STAT
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(PublicIPPrefixSku_Name_STATUS)
+		*out = new(PublicIPPrefixSku_Name_STATUS_ARM)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(PublicIPPrefixSku_Tier_STATUS)
+		*out = new(PublicIPPrefixSku_Tier_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -12751,7 +12751,7 @@ func (in *RecordSet_STATUS_ARM) DeepCopyInto(out *RecordSet_STATUS_ARM) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(PrivateEndpointProvisioningState_STATUS)
+		*out = new(PrivateEndpointProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.RecordSetName != nil {
@@ -12926,7 +12926,7 @@ func (in *Sku_ARM) DeepCopyInto(out *Sku_ARM) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(Sku_Name)
+		*out = new(Sku_Name_ARM)
 		**out = **in
 	}
 }
@@ -12966,7 +12966,7 @@ func (in *Sku_STATUS_ARM) DeepCopyInto(out *Sku_STATUS_ARM) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(Sku_Name_STATUS)
+		*out = new(Sku_Name_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -13201,7 +13201,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemData_CreatedByType_STATUS)
+		*out = new(SystemData_CreatedByType_STATUS_ARM)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -13216,7 +13216,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemData_LastModifiedByType_STATUS)
+		*out = new(SystemData_LastModifiedByType_STATUS_ARM)
 		**out = **in
 	}
 }

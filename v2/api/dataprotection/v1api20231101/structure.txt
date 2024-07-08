@@ -253,7 +253,8 @@ BackupVaultResource_STATUS_ARM: Object (9 properties)
 BackupVault_Spec_ARM: Object (5 properties)
 ├── Identity: *Object (2 properties)
 │   ├── Type: *string
-│   └── UserAssignedIdentities: map[string]Object (0 properties)
+│   └── UserAssignedIdentities: map[string]Object (1 property)
+│       └── Reference: *string
 ├── Location: *string
 ├── Name: string
 ├── Properties: *Object (5 properties)

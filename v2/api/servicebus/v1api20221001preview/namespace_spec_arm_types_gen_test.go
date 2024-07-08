@@ -521,9 +521,15 @@ func UserAssignedIdentityDetails_ARMGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForUserAssignedIdentityDetails_ARM(generators)
 	userAssignedIdentityDetails_ARMGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentityDetails_ARM{}), generators)
 
 	return userAssignedIdentityDetails_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForUserAssignedIdentityDetails_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForUserAssignedIdentityDetails_ARM(gens map[string]gopter.Gen) {
+	gens["Reference"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_UserAssignedIdentityProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

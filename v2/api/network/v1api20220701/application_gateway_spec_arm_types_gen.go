@@ -471,6 +471,7 @@ var managedServiceIdentity_Type_ARM_Values = map[string]ManagedServiceIdentity_T
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails_ARM struct {
+	Reference *string `json:"reference,omitempty"`
 }
 
 // Authentication certificates properties of an application gateway.

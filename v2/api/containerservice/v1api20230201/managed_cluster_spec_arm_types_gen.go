@@ -723,6 +723,7 @@ type UserAssignedIdentity_ARM struct {
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails_ARM struct {
+	Reference *string `json:"reference,omitempty"`
 }
 
 // Azure Key Vault key management service settings for the security profile.

@@ -757,7 +757,8 @@ StorageAccount_Spec_ARM: Object (8 properties)
 │   │   ├── "SystemAssigned"
 │   │   ├── "SystemAssigned,UserAssigned"
 │   │   └── "UserAssigned"
-│   └── UserAssignedIdentities: map[string]Object (0 properties)
+│   └── UserAssignedIdentities: map[string]Object (1 property)
+│       └── Reference: *string
 ├── Kind: *Enum (5 values)
 │   ├── "BlobStorage"
 │   ├── "BlockBlobStorage"

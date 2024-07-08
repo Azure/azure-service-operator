@@ -165,12 +165,12 @@ func (in *CustomRule_ARM) DeepCopyInto(out *CustomRule_ARM) {
 	*out = *in
 	if in.Action != nil {
 		in, out := &in.Action, &out.Action
-		*out = new(ActionType)
+		*out = new(ActionType_ARM)
 		**out = **in
 	}
 	if in.EnabledState != nil {
 		in, out := &in.EnabledState, &out.EnabledState
-		*out = new(CustomRule_EnabledState)
+		*out = new(CustomRule_EnabledState_ARM)
 		**out = **in
 	}
 	if in.MatchConditions != nil {
@@ -202,7 +202,7 @@ func (in *CustomRule_ARM) DeepCopyInto(out *CustomRule_ARM) {
 	}
 	if in.RuleType != nil {
 		in, out := &in.RuleType, &out.RuleType
-		*out = new(CustomRule_RuleType)
+		*out = new(CustomRule_RuleType_ARM)
 		**out = **in
 	}
 }
@@ -279,12 +279,12 @@ func (in *CustomRule_STATUS_ARM) DeepCopyInto(out *CustomRule_STATUS_ARM) {
 	*out = *in
 	if in.Action != nil {
 		in, out := &in.Action, &out.Action
-		*out = new(ActionType_STATUS)
+		*out = new(ActionType_STATUS_ARM)
 		**out = **in
 	}
 	if in.EnabledState != nil {
 		in, out := &in.EnabledState, &out.EnabledState
-		*out = new(CustomRule_EnabledState_STATUS)
+		*out = new(CustomRule_EnabledState_STATUS_ARM)
 		**out = **in
 	}
 	if in.MatchConditions != nil {
@@ -316,7 +316,7 @@ func (in *CustomRule_STATUS_ARM) DeepCopyInto(out *CustomRule_STATUS_ARM) {
 	}
 	if in.RuleType != nil {
 		in, out := &in.RuleType, &out.RuleType
-		*out = new(CustomRule_RuleType_STATUS)
+		*out = new(CustomRule_RuleType_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -667,7 +667,7 @@ func (in *ManagedRuleExclusion_ARM) DeepCopyInto(out *ManagedRuleExclusion_ARM) 
 	*out = *in
 	if in.MatchVariable != nil {
 		in, out := &in.MatchVariable, &out.MatchVariable
-		*out = new(ManagedRuleExclusion_MatchVariable)
+		*out = new(ManagedRuleExclusion_MatchVariable_ARM)
 		**out = **in
 	}
 	if in.Selector != nil {
@@ -677,7 +677,7 @@ func (in *ManagedRuleExclusion_ARM) DeepCopyInto(out *ManagedRuleExclusion_ARM) 
 	}
 	if in.SelectorMatchOperator != nil {
 		in, out := &in.SelectorMatchOperator, &out.SelectorMatchOperator
-		*out = new(ManagedRuleExclusion_SelectorMatchOperator)
+		*out = new(ManagedRuleExclusion_SelectorMatchOperator_ARM)
 		**out = **in
 	}
 }
@@ -727,7 +727,7 @@ func (in *ManagedRuleExclusion_STATUS_ARM) DeepCopyInto(out *ManagedRuleExclusio
 	*out = *in
 	if in.MatchVariable != nil {
 		in, out := &in.MatchVariable, &out.MatchVariable
-		*out = new(ManagedRuleExclusion_MatchVariable_STATUS)
+		*out = new(ManagedRuleExclusion_MatchVariable_STATUS_ARM)
 		**out = **in
 	}
 	if in.Selector != nil {
@@ -737,7 +737,7 @@ func (in *ManagedRuleExclusion_STATUS_ARM) DeepCopyInto(out *ManagedRuleExclusio
 	}
 	if in.SelectorMatchOperator != nil {
 		in, out := &in.SelectorMatchOperator, &out.SelectorMatchOperator
-		*out = new(ManagedRuleExclusion_SelectorMatchOperator_STATUS)
+		*out = new(ManagedRuleExclusion_SelectorMatchOperator_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -930,12 +930,12 @@ func (in *ManagedRuleOverride_ARM) DeepCopyInto(out *ManagedRuleOverride_ARM) {
 	*out = *in
 	if in.Action != nil {
 		in, out := &in.Action, &out.Action
-		*out = new(ActionType)
+		*out = new(ActionType_ARM)
 		**out = **in
 	}
 	if in.EnabledState != nil {
 		in, out := &in.EnabledState, &out.EnabledState
-		*out = new(ManagedRuleEnabledState)
+		*out = new(ManagedRuleEnabledState_ARM)
 		**out = **in
 	}
 	if in.Exclusions != nil {
@@ -1004,12 +1004,12 @@ func (in *ManagedRuleOverride_STATUS_ARM) DeepCopyInto(out *ManagedRuleOverride_
 	*out = *in
 	if in.Action != nil {
 		in, out := &in.Action, &out.Action
-		*out = new(ActionType_STATUS)
+		*out = new(ActionType_STATUS_ARM)
 		**out = **in
 	}
 	if in.EnabledState != nil {
 		in, out := &in.EnabledState, &out.EnabledState
-		*out = new(ManagedRuleEnabledState_STATUS)
+		*out = new(ManagedRuleEnabledState_STATUS_ARM)
 		**out = **in
 	}
 	if in.Exclusions != nil {
@@ -1187,7 +1187,7 @@ func (in *ManagedRuleSet_ARM) DeepCopyInto(out *ManagedRuleSet_ARM) {
 	}
 	if in.RuleSetAction != nil {
 		in, out := &in.RuleSetAction, &out.RuleSetAction
-		*out = new(ManagedRuleSetActionType)
+		*out = new(ManagedRuleSetActionType_ARM)
 		**out = **in
 	}
 	if in.RuleSetType != nil {
@@ -1275,7 +1275,7 @@ func (in *ManagedRuleSet_STATUS_ARM) DeepCopyInto(out *ManagedRuleSet_STATUS_ARM
 	}
 	if in.RuleSetAction != nil {
 		in, out := &in.RuleSetAction, &out.RuleSetAction
-		*out = new(ManagedRuleSetActionType_STATUS)
+		*out = new(ManagedRuleSetActionType_STATUS_ARM)
 		**out = **in
 	}
 	if in.RuleSetType != nil {
@@ -1355,7 +1355,7 @@ func (in *MatchCondition_ARM) DeepCopyInto(out *MatchCondition_ARM) {
 	}
 	if in.MatchVariable != nil {
 		in, out := &in.MatchVariable, &out.MatchVariable
-		*out = new(MatchCondition_MatchVariable)
+		*out = new(MatchCondition_MatchVariable_ARM)
 		**out = **in
 	}
 	if in.NegateCondition != nil {
@@ -1365,7 +1365,7 @@ func (in *MatchCondition_ARM) DeepCopyInto(out *MatchCondition_ARM) {
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(MatchCondition_Operator)
+		*out = new(MatchCondition_Operator_ARM)
 		**out = **in
 	}
 	if in.Selector != nil {
@@ -1375,7 +1375,7 @@ func (in *MatchCondition_ARM) DeepCopyInto(out *MatchCondition_ARM) {
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]TransformType, len(*in))
+		*out = make([]TransformType_ARM, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -1445,7 +1445,7 @@ func (in *MatchCondition_STATUS_ARM) DeepCopyInto(out *MatchCondition_STATUS_ARM
 	}
 	if in.MatchVariable != nil {
 		in, out := &in.MatchVariable, &out.MatchVariable
-		*out = new(MatchCondition_MatchVariable_STATUS)
+		*out = new(MatchCondition_MatchVariable_STATUS_ARM)
 		**out = **in
 	}
 	if in.NegateCondition != nil {
@@ -1455,7 +1455,7 @@ func (in *MatchCondition_STATUS_ARM) DeepCopyInto(out *MatchCondition_STATUS_ARM
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(MatchCondition_Operator_STATUS)
+		*out = new(MatchCondition_Operator_STATUS_ARM)
 		**out = **in
 	}
 	if in.Selector != nil {
@@ -1465,7 +1465,7 @@ func (in *MatchCondition_STATUS_ARM) DeepCopyInto(out *MatchCondition_STATUS_ARM
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]TransformType_STATUS, len(*in))
+		*out = make([]TransformType_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -1540,12 +1540,12 @@ func (in *PolicySettings_ARM) DeepCopyInto(out *PolicySettings_ARM) {
 	}
 	if in.EnabledState != nil {
 		in, out := &in.EnabledState, &out.EnabledState
-		*out = new(PolicySettings_EnabledState)
+		*out = new(PolicySettings_EnabledState_ARM)
 		**out = **in
 	}
 	if in.Mode != nil {
 		in, out := &in.Mode, &out.Mode
-		*out = new(PolicySettings_Mode)
+		*out = new(PolicySettings_Mode_ARM)
 		**out = **in
 	}
 	if in.RedirectUrl != nil {
@@ -1555,7 +1555,7 @@ func (in *PolicySettings_ARM) DeepCopyInto(out *PolicySettings_ARM) {
 	}
 	if in.RequestBodyCheck != nil {
 		in, out := &in.RequestBodyCheck, &out.RequestBodyCheck
-		*out = new(PolicySettings_RequestBodyCheck)
+		*out = new(PolicySettings_RequestBodyCheck_ARM)
 		**out = **in
 	}
 }
@@ -1630,12 +1630,12 @@ func (in *PolicySettings_STATUS_ARM) DeepCopyInto(out *PolicySettings_STATUS_ARM
 	}
 	if in.EnabledState != nil {
 		in, out := &in.EnabledState, &out.EnabledState
-		*out = new(PolicySettings_EnabledState_STATUS)
+		*out = new(PolicySettings_EnabledState_STATUS_ARM)
 		**out = **in
 	}
 	if in.Mode != nil {
 		in, out := &in.Mode, &out.Mode
-		*out = new(PolicySettings_Mode_STATUS)
+		*out = new(PolicySettings_Mode_STATUS_ARM)
 		**out = **in
 	}
 	if in.RedirectUrl != nil {
@@ -1645,7 +1645,7 @@ func (in *PolicySettings_STATUS_ARM) DeepCopyInto(out *PolicySettings_STATUS_ARM
 	}
 	if in.RequestBodyCheck != nil {
 		in, out := &in.RequestBodyCheck, &out.RequestBodyCheck
-		*out = new(PolicySettings_RequestBodyCheck_STATUS)
+		*out = new(PolicySettings_RequestBodyCheck_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1765,7 +1765,7 @@ func (in *Sku_ARM) DeepCopyInto(out *Sku_ARM) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(Sku_Name)
+		*out = new(Sku_Name_ARM)
 		**out = **in
 	}
 }
@@ -1805,7 +1805,7 @@ func (in *Sku_STATUS_ARM) DeepCopyInto(out *Sku_STATUS_ARM) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(Sku_Name_STATUS)
+		*out = new(Sku_Name_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1941,7 +1941,7 @@ func (in *WebApplicationFirewallPolicyProperties_STATUS_ARM) DeepCopyInto(out *W
 	}
 	if in.ResourceState != nil {
 		in, out := &in.ResourceState, &out.ResourceState
-		*out = new(WebApplicationFirewallPolicyProperties_ResourceState_STATUS)
+		*out = new(WebApplicationFirewallPolicyProperties_ResourceState_STATUS_ARM)
 		**out = **in
 	}
 	if in.RoutingRuleLinks != nil {

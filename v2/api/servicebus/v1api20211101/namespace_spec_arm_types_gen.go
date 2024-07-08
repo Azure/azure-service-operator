@@ -138,6 +138,7 @@ var sBSku_Tier_ARM_Values = map[string]SBSku_Tier_ARM{
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails_ARM struct {
+	Reference *string `json:"reference,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"Microsoft.KeyVault"}

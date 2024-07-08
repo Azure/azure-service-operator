@@ -543,7 +543,7 @@ func (in *FactoryIdentity_ARM) DeepCopyInto(out *FactoryIdentity_ARM) {
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(FactoryIdentity_Type)
+		*out = new(FactoryIdentity_Type_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -617,7 +617,7 @@ func (in *FactoryIdentity_STATUS_ARM) DeepCopyInto(out *FactoryIdentity_STATUS_A
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(FactoryIdentity_Type_STATUS)
+		*out = new(FactoryIdentity_Type_STATUS_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -688,7 +688,7 @@ func (in *FactoryProperties_ARM) DeepCopyInto(out *FactoryProperties_ARM) {
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(FactoryProperties_PublicNetworkAccess)
+		*out = new(FactoryProperties_PublicNetworkAccess_ARM)
 		**out = **in
 	}
 	if in.PurviewConfiguration != nil {
@@ -740,7 +740,7 @@ func (in *FactoryProperties_STATUS_ARM) DeepCopyInto(out *FactoryProperties_STAT
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(FactoryProperties_PublicNetworkAccess_STATUS)
+		*out = new(FactoryProperties_PublicNetworkAccess_STATUS_ARM)
 		**out = **in
 	}
 	if in.PurviewConfiguration != nil {
@@ -1519,7 +1519,7 @@ func (in *GlobalParameterSpecification_ARM) DeepCopyInto(out *GlobalParameterSpe
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(GlobalParameterSpecification_Type)
+		*out = new(GlobalParameterSpecification_Type_ARM)
 		**out = **in
 	}
 	if in.Value != nil {
@@ -1573,7 +1573,7 @@ func (in *GlobalParameterSpecification_STATUS_ARM) DeepCopyInto(out *GlobalParam
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(GlobalParameterSpecification_Type_STATUS)
+		*out = new(GlobalParameterSpecification_Type_STATUS_ARM)
 		**out = **in
 	}
 	if in.Value != nil {

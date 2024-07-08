@@ -448,6 +448,7 @@ var tier_ARM_Values = map[string]Tier_ARM{
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails_ARM struct {
+	Reference *string `json:"reference,omitempty"`
 }
 
 // This defines account-level immutability policy properties.

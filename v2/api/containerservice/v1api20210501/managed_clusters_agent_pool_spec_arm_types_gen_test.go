@@ -315,6 +315,9 @@ func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfileProperties
 	gens["NodePublicIPPrefixID"] = gen.PtrOf(gen.AlphaString())
 	gens["NodeTaints"] = gen.SliceOf(gen.AlphaString())
 	gens["OrchestratorVersion"] = gen.PtrOf(gen.AlphaString())
+	gens["OsDiskSizeGB"] = gen.PtrOf(gen.Int().Map(func(it int) ContainerServiceOSDisk_ARM {
+		return ContainerServiceOSDisk_ARM(it)
+	}))
 	gens["OsDiskType"] = gen.PtrOf(gen.OneConstOf(OSDiskType_ARM_Ephemeral, OSDiskType_ARM_Managed))
 	gens["OsSKU"] = gen.PtrOf(gen.OneConstOf(OSSKU_ARM_CBLMariner, OSSKU_ARM_Ubuntu))
 	gens["OsType"] = gen.PtrOf(gen.OneConstOf(OSType_ARM_Linux, OSType_ARM_Windows))
@@ -335,7 +338,6 @@ func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfileProperties
 func AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfileProperties_ARM(gens map[string]gopter.Gen) {
 	gens["KubeletConfig"] = gen.PtrOf(KubeletConfig_ARMGenerator())
 	gens["LinuxOSConfig"] = gen.PtrOf(LinuxOSConfig_ARMGenerator())
-	gens["OsDiskSizeGB"] = gen.PtrOf(ContainerServiceOSDisk_ARMGenerator())
 	gens["UpgradeSettings"] = gen.PtrOf(AgentPoolUpgradeSettings_ARMGenerator())
 }
 

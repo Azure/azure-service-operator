@@ -137,6 +137,7 @@ var publicNetworkAccessType_ARM_Values = map[string]PublicNetworkAccessType_ARM{
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails_ARM struct {
+	Reference *string `json:"reference,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"Microsoft.Batch","Microsoft.KeyVault"}

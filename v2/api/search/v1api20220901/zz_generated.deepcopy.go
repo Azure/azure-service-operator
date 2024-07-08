@@ -41,7 +41,7 @@ func (in *DataPlaneAadOrApiKeyAuthOption_ARM) DeepCopyInto(out *DataPlaneAadOrAp
 	*out = *in
 	if in.AadAuthFailureMode != nil {
 		in, out := &in.AadAuthFailureMode, &out.AadAuthFailureMode
-		*out = new(DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode)
+		*out = new(DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_ARM)
 		**out = **in
 	}
 }
@@ -81,7 +81,7 @@ func (in *DataPlaneAadOrApiKeyAuthOption_STATUS_ARM) DeepCopyInto(out *DataPlane
 	*out = *in
 	if in.AadAuthFailureMode != nil {
 		in, out := &in.AadAuthFailureMode, &out.AadAuthFailureMode
-		*out = new(DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS)
+		*out = new(DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -215,7 +215,7 @@ func (in *EncryptionWithCmk_ARM) DeepCopyInto(out *EncryptionWithCmk_ARM) {
 	*out = *in
 	if in.Enforcement != nil {
 		in, out := &in.Enforcement, &out.Enforcement
-		*out = new(EncryptionWithCmk_Enforcement)
+		*out = new(EncryptionWithCmk_Enforcement_ARM)
 		**out = **in
 	}
 }
@@ -260,12 +260,12 @@ func (in *EncryptionWithCmk_STATUS_ARM) DeepCopyInto(out *EncryptionWithCmk_STAT
 	*out = *in
 	if in.EncryptionComplianceStatus != nil {
 		in, out := &in.EncryptionComplianceStatus, &out.EncryptionComplianceStatus
-		*out = new(EncryptionWithCmk_EncryptionComplianceStatus_STATUS)
+		*out = new(EncryptionWithCmk_EncryptionComplianceStatus_STATUS_ARM)
 		**out = **in
 	}
 	if in.Enforcement != nil {
 		in, out := &in.Enforcement, &out.Enforcement
-		*out = new(EncryptionWithCmk_Enforcement_STATUS)
+		*out = new(EncryptionWithCmk_Enforcement_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -305,7 +305,7 @@ func (in *Identity_ARM) DeepCopyInto(out *Identity_ARM) {
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(Identity_Type)
+		*out = new(Identity_Type_ARM)
 		**out = **in
 	}
 }
@@ -365,7 +365,7 @@ func (in *Identity_STATUS_ARM) DeepCopyInto(out *Identity_STATUS_ARM) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(Identity_Type_STATUS)
+		*out = new(Identity_Type_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -717,7 +717,7 @@ func (in *SearchServiceProperties_ARM) DeepCopyInto(out *SearchServiceProperties
 	}
 	if in.HostingMode != nil {
 		in, out := &in.HostingMode, &out.HostingMode
-		*out = new(SearchServiceProperties_HostingMode)
+		*out = new(SearchServiceProperties_HostingMode_ARM)
 		**out = **in
 	}
 	if in.NetworkRuleSet != nil {
@@ -732,7 +732,7 @@ func (in *SearchServiceProperties_ARM) DeepCopyInto(out *SearchServiceProperties
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(SearchServiceProperties_PublicNetworkAccess)
+		*out = new(SearchServiceProperties_PublicNetworkAccess_ARM)
 		**out = **in
 	}
 	if in.ReplicaCount != nil {
@@ -772,7 +772,7 @@ func (in *SearchServiceProperties_STATUS_ARM) DeepCopyInto(out *SearchServicePro
 	}
 	if in.HostingMode != nil {
 		in, out := &in.HostingMode, &out.HostingMode
-		*out = new(SearchServiceProperties_HostingMode_STATUS)
+		*out = new(SearchServiceProperties_HostingMode_STATUS_ARM)
 		**out = **in
 	}
 	if in.NetworkRuleSet != nil {
@@ -794,12 +794,12 @@ func (in *SearchServiceProperties_STATUS_ARM) DeepCopyInto(out *SearchServicePro
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(SearchServiceProperties_ProvisioningState_STATUS)
+		*out = new(SearchServiceProperties_ProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(SearchServiceProperties_PublicNetworkAccess_STATUS)
+		*out = new(SearchServiceProperties_PublicNetworkAccess_STATUS_ARM)
 		**out = **in
 	}
 	if in.ReplicaCount != nil {
@@ -816,7 +816,7 @@ func (in *SearchServiceProperties_STATUS_ARM) DeepCopyInto(out *SearchServicePro
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(SearchServiceProperties_Status_STATUS)
+		*out = new(SearchServiceProperties_Status_STATUS_ARM)
 		**out = **in
 	}
 	if in.StatusDetails != nil {
@@ -1215,7 +1215,7 @@ func (in *Sku_ARM) DeepCopyInto(out *Sku_ARM) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(Sku_Name)
+		*out = new(Sku_Name_ARM)
 		**out = **in
 	}
 }
@@ -1255,7 +1255,7 @@ func (in *Sku_STATUS_ARM) DeepCopyInto(out *Sku_STATUS_ARM) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(Sku_Name_STATUS)
+		*out = new(Sku_Name_STATUS_ARM)
 		**out = **in
 	}
 }

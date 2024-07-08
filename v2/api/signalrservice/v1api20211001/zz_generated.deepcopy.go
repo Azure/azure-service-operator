@@ -125,7 +125,7 @@ func (in *ManagedIdentity_ARM) DeepCopyInto(out *ManagedIdentity_ARM) {
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ManagedIdentityType)
+		*out = new(ManagedIdentityType_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -199,7 +199,7 @@ func (in *ManagedIdentity_STATUS_ARM) DeepCopyInto(out *ManagedIdentity_STATUS_A
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ManagedIdentityType_STATUS)
+		*out = new(ManagedIdentityType_STATUS_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -251,12 +251,12 @@ func (in *NetworkACL_ARM) DeepCopyInto(out *NetworkACL_ARM) {
 	*out = *in
 	if in.Allow != nil {
 		in, out := &in.Allow, &out.Allow
-		*out = make([]SignalRRequestType, len(*in))
+		*out = make([]SignalRRequestType_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.Deny != nil {
 		in, out := &in.Deny, &out.Deny
-		*out = make([]SignalRRequestType, len(*in))
+		*out = make([]SignalRRequestType_ARM, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -301,12 +301,12 @@ func (in *NetworkACL_STATUS_ARM) DeepCopyInto(out *NetworkACL_STATUS_ARM) {
 	*out = *in
 	if in.Allow != nil {
 		in, out := &in.Allow, &out.Allow
-		*out = make([]SignalRRequestType_STATUS, len(*in))
+		*out = make([]SignalRRequestType_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.Deny != nil {
 		in, out := &in.Deny, &out.Deny
-		*out = make([]SignalRRequestType_STATUS, len(*in))
+		*out = make([]SignalRRequestType_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -356,12 +356,12 @@ func (in *PrivateEndpointACL_ARM) DeepCopyInto(out *PrivateEndpointACL_ARM) {
 	*out = *in
 	if in.Allow != nil {
 		in, out := &in.Allow, &out.Allow
-		*out = make([]SignalRRequestType, len(*in))
+		*out = make([]SignalRRequestType_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.Deny != nil {
 		in, out := &in.Deny, &out.Deny
-		*out = make([]SignalRRequestType, len(*in))
+		*out = make([]SignalRRequestType_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.Name != nil {
@@ -416,12 +416,12 @@ func (in *PrivateEndpointACL_STATUS_ARM) DeepCopyInto(out *PrivateEndpointACL_ST
 	*out = *in
 	if in.Allow != nil {
 		in, out := &in.Allow, &out.Allow
-		*out = make([]SignalRRequestType_STATUS, len(*in))
+		*out = make([]SignalRRequestType_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.Deny != nil {
 		in, out := &in.Deny, &out.Deny
-		*out = make([]SignalRRequestType_STATUS, len(*in))
+		*out = make([]SignalRRequestType_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.Name != nil {
@@ -714,7 +714,7 @@ func (in *ResourceSku_ARM) DeepCopyInto(out *ResourceSku_ARM) {
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(SignalRSkuTier)
+		*out = new(SignalRSkuTier_ARM)
 		**out = **in
 	}
 }
@@ -794,7 +794,7 @@ func (in *ResourceSku_STATUS_ARM) DeepCopyInto(out *ResourceSku_STATUS_ARM) {
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(SignalRSkuTier_STATUS)
+		*out = new(SignalRSkuTier_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1081,7 +1081,7 @@ func (in *SignalRFeature_ARM) DeepCopyInto(out *SignalRFeature_ARM) {
 	*out = *in
 	if in.Flag != nil {
 		in, out := &in.Flag, &out.Flag
-		*out = new(FeatureFlags)
+		*out = new(FeatureFlags_ARM)
 		**out = **in
 	}
 	if in.Properties != nil {
@@ -1145,7 +1145,7 @@ func (in *SignalRFeature_STATUS_ARM) DeepCopyInto(out *SignalRFeature_STATUS_ARM
 	*out = *in
 	if in.Flag != nil {
 		in, out := &in.Flag, &out.Flag
-		*out = new(FeatureFlags_STATUS)
+		*out = new(FeatureFlags_STATUS_ARM)
 		**out = **in
 	}
 	if in.Properties != nil {
@@ -1241,7 +1241,7 @@ func (in *SignalRNetworkACLs_ARM) DeepCopyInto(out *SignalRNetworkACLs_ARM) {
 	*out = *in
 	if in.DefaultAction != nil {
 		in, out := &in.DefaultAction, &out.DefaultAction
-		*out = new(ACLAction)
+		*out = new(ACLAction_ARM)
 		**out = **in
 	}
 	if in.PrivateEndpoints != nil {
@@ -1305,7 +1305,7 @@ func (in *SignalRNetworkACLs_STATUS_ARM) DeepCopyInto(out *SignalRNetworkACLs_ST
 	*out = *in
 	if in.DefaultAction != nil {
 		in, out := &in.DefaultAction, &out.DefaultAction
-		*out = new(ACLAction_STATUS)
+		*out = new(ACLAction_STATUS_ARM)
 		**out = **in
 	}
 	if in.PrivateEndpoints != nil {
@@ -1503,7 +1503,7 @@ func (in *SignalRProperties_STATUS_ARM) DeepCopyInto(out *SignalRProperties_STAT
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_STATUS)
+		*out = new(ProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
@@ -1820,7 +1820,7 @@ func (in *SignalR_STATUS_ARM) DeepCopyInto(out *SignalR_STATUS_ARM) {
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(ServiceKind_STATUS)
+		*out = new(ServiceKind_STATUS_ARM)
 		**out = **in
 	}
 	if in.Location != nil {
@@ -1981,7 +1981,7 @@ func (in *SignalR_Spec_ARM) DeepCopyInto(out *SignalR_Spec_ARM) {
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(ServiceKind)
+		*out = new(ServiceKind_ARM)
 		**out = **in
 	}
 	if in.Location != nil {
@@ -2078,7 +2078,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemData_CreatedByType_STATUS)
+		*out = new(SystemData_CreatedByType_STATUS_ARM)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -2093,7 +2093,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemData_LastModifiedByType_STATUS)
+		*out = new(SystemData_LastModifiedByType_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -2143,7 +2143,7 @@ func (in *UpstreamAuthSettings_ARM) DeepCopyInto(out *UpstreamAuthSettings_ARM) 
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(UpstreamAuthType)
+		*out = new(UpstreamAuthType_ARM)
 		**out = **in
 	}
 }
@@ -2193,7 +2193,7 @@ func (in *UpstreamAuthSettings_STATUS_ARM) DeepCopyInto(out *UpstreamAuthSetting
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(UpstreamAuthType_STATUS)
+		*out = new(UpstreamAuthType_STATUS_ARM)
 		**out = **in
 	}
 }

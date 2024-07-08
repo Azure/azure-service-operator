@@ -20,7 +20,7 @@ func (in *AdministratorProperties_ARM) DeepCopyInto(out *AdministratorProperties
 	*out = *in
 	if in.AdministratorType != nil {
 		in, out := &in.AdministratorType, &out.AdministratorType
-		*out = new(AdministratorProperties_AdministratorType)
+		*out = new(AdministratorProperties_AdministratorType_ARM)
 		**out = **in
 	}
 	if in.Login != nil {
@@ -55,7 +55,7 @@ func (in *AdministratorProperties_STATUS_ARM) DeepCopyInto(out *AdministratorPro
 	*out = *in
 	if in.AdministratorType != nil {
 		in, out := &in.AdministratorType, &out.AdministratorType
-		*out = new(AdministratorProperties_AdministratorType_STATUS)
+		*out = new(AdministratorProperties_AdministratorType_STATUS_ARM)
 		**out = **in
 	}
 	if in.AzureADOnlyAuthentication != nil {
@@ -95,7 +95,7 @@ func (in *AdvancedThreatProtectionProperties_ARM) DeepCopyInto(out *AdvancedThre
 	*out = *in
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(AdvancedThreatProtectionProperties_State)
+		*out = new(AdvancedThreatProtectionProperties_State_ARM)
 		**out = **in
 	}
 }
@@ -120,7 +120,7 @@ func (in *AdvancedThreatProtectionProperties_STATUS_ARM) DeepCopyInto(out *Advan
 	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(AdvancedThreatProtectionProperties_State_STATUS)
+		*out = new(AdvancedThreatProtectionProperties_State_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -180,7 +180,7 @@ func (in *BackupShortTermRetentionPolicyProperties_ARM) DeepCopyInto(out *Backup
 	*out = *in
 	if in.DiffBackupIntervalInHours != nil {
 		in, out := &in.DiffBackupIntervalInHours, &out.DiffBackupIntervalInHours
-		*out = new(BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours)
+		*out = new(BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours_ARM)
 		**out = **in
 	}
 	if in.RetentionDays != nil {
@@ -205,7 +205,7 @@ func (in *BackupShortTermRetentionPolicyProperties_STATUS_ARM) DeepCopyInto(out 
 	*out = *in
 	if in.DiffBackupIntervalInHours != nil {
 		in, out := &in.DiffBackupIntervalInHours, &out.DiffBackupIntervalInHours
-		*out = new(BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours_STATUS)
+		*out = new(BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours_STATUS_ARM)
 		**out = **in
 	}
 	if in.RetentionDays != nil {
@@ -330,7 +330,7 @@ func (in *DatabaseBlobAuditingPolicyProperties_ARM) DeepCopyInto(out *DatabaseBl
 	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(DatabaseBlobAuditingPolicyProperties_State)
+		*out = new(DatabaseBlobAuditingPolicyProperties_State_ARM)
 		**out = **in
 	}
 	if in.StorageAccountAccessKey != nil {
@@ -395,7 +395,7 @@ func (in *DatabaseBlobAuditingPolicyProperties_STATUS_ARM) DeepCopyInto(out *Dat
 	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(DatabaseBlobAuditingPolicyProperties_State_STATUS)
+		*out = new(DatabaseBlobAuditingPolicyProperties_State_STATUS_ARM)
 		**out = **in
 	}
 	if in.StorageAccountSubscriptionId != nil {
@@ -450,7 +450,7 @@ func (in *DatabaseIdentity_ARM) DeepCopyInto(out *DatabaseIdentity_ARM) {
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(DatabaseIdentity_Type)
+		*out = new(DatabaseIdentity_Type_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -514,7 +514,7 @@ func (in *DatabaseIdentity_STATUS_ARM) DeepCopyInto(out *DatabaseIdentity_STATUS
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(DatabaseIdentity_Type_STATUS)
+		*out = new(DatabaseIdentity_Type_STATUS_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -546,7 +546,7 @@ func (in *DatabaseProperties_ARM) DeepCopyInto(out *DatabaseProperties_ARM) {
 	}
 	if in.CatalogCollation != nil {
 		in, out := &in.CatalogCollation, &out.CatalogCollation
-		*out = new(DatabaseProperties_CatalogCollation)
+		*out = new(DatabaseProperties_CatalogCollation_ARM)
 		**out = **in
 	}
 	if in.Collation != nil {
@@ -556,7 +556,7 @@ func (in *DatabaseProperties_ARM) DeepCopyInto(out *DatabaseProperties_ARM) {
 	}
 	if in.CreateMode != nil {
 		in, out := &in.CreateMode, &out.CreateMode
-		*out = new(DatabaseProperties_CreateMode)
+		*out = new(DatabaseProperties_CreateMode_ARM)
 		**out = **in
 	}
 	if in.ElasticPoolId != nil {
@@ -581,7 +581,7 @@ func (in *DatabaseProperties_ARM) DeepCopyInto(out *DatabaseProperties_ARM) {
 	}
 	if in.LicenseType != nil {
 		in, out := &in.LicenseType, &out.LicenseType
-		*out = new(DatabaseProperties_LicenseType)
+		*out = new(DatabaseProperties_LicenseType_ARM)
 		**out = **in
 	}
 	if in.LongTermRetentionBackupResourceId != nil {
@@ -606,7 +606,7 @@ func (in *DatabaseProperties_ARM) DeepCopyInto(out *DatabaseProperties_ARM) {
 	}
 	if in.ReadScale != nil {
 		in, out := &in.ReadScale, &out.ReadScale
-		*out = new(DatabaseProperties_ReadScale)
+		*out = new(DatabaseProperties_ReadScale_ARM)
 		**out = **in
 	}
 	if in.RecoverableDatabaseId != nil {
@@ -621,7 +621,7 @@ func (in *DatabaseProperties_ARM) DeepCopyInto(out *DatabaseProperties_ARM) {
 	}
 	if in.RequestedBackupStorageRedundancy != nil {
 		in, out := &in.RequestedBackupStorageRedundancy, &out.RequestedBackupStorageRedundancy
-		*out = new(DatabaseProperties_RequestedBackupStorageRedundancy)
+		*out = new(DatabaseProperties_RequestedBackupStorageRedundancy_ARM)
 		**out = **in
 	}
 	if in.RestorableDroppedDatabaseId != nil {
@@ -636,12 +636,12 @@ func (in *DatabaseProperties_ARM) DeepCopyInto(out *DatabaseProperties_ARM) {
 	}
 	if in.SampleName != nil {
 		in, out := &in.SampleName, &out.SampleName
-		*out = new(DatabaseProperties_SampleName)
+		*out = new(DatabaseProperties_SampleName_ARM)
 		**out = **in
 	}
 	if in.SecondaryType != nil {
 		in, out := &in.SecondaryType, &out.SecondaryType
-		*out = new(DatabaseProperties_SecondaryType)
+		*out = new(DatabaseProperties_SecondaryType_ARM)
 		**out = **in
 	}
 	if in.SourceDatabaseDeletionDate != nil {
@@ -686,7 +686,7 @@ func (in *DatabaseProperties_STATUS_ARM) DeepCopyInto(out *DatabaseProperties_ST
 	}
 	if in.CatalogCollation != nil {
 		in, out := &in.CatalogCollation, &out.CatalogCollation
-		*out = new(DatabaseProperties_CatalogCollation_STATUS)
+		*out = new(DatabaseProperties_CatalogCollation_STATUS_ARM)
 		**out = **in
 	}
 	if in.Collation != nil {
@@ -696,7 +696,7 @@ func (in *DatabaseProperties_STATUS_ARM) DeepCopyInto(out *DatabaseProperties_ST
 	}
 	if in.CreateMode != nil {
 		in, out := &in.CreateMode, &out.CreateMode
-		*out = new(DatabaseProperties_CreateMode_STATUS)
+		*out = new(DatabaseProperties_CreateMode_STATUS_ARM)
 		**out = **in
 	}
 	if in.CreationDate != nil {
@@ -706,7 +706,7 @@ func (in *DatabaseProperties_STATUS_ARM) DeepCopyInto(out *DatabaseProperties_ST
 	}
 	if in.CurrentBackupStorageRedundancy != nil {
 		in, out := &in.CurrentBackupStorageRedundancy, &out.CurrentBackupStorageRedundancy
-		*out = new(DatabaseProperties_CurrentBackupStorageRedundancy_STATUS)
+		*out = new(DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_ARM)
 		**out = **in
 	}
 	if in.CurrentServiceObjectiveName != nil {
@@ -766,7 +766,7 @@ func (in *DatabaseProperties_STATUS_ARM) DeepCopyInto(out *DatabaseProperties_ST
 	}
 	if in.LicenseType != nil {
 		in, out := &in.LicenseType, &out.LicenseType
-		*out = new(DatabaseProperties_LicenseType_STATUS)
+		*out = new(DatabaseProperties_LicenseType_STATUS_ARM)
 		**out = **in
 	}
 	if in.LongTermRetentionBackupResourceId != nil {
@@ -801,7 +801,7 @@ func (in *DatabaseProperties_STATUS_ARM) DeepCopyInto(out *DatabaseProperties_ST
 	}
 	if in.ReadScale != nil {
 		in, out := &in.ReadScale, &out.ReadScale
-		*out = new(DatabaseProperties_ReadScale_STATUS)
+		*out = new(DatabaseProperties_ReadScale_STATUS_ARM)
 		**out = **in
 	}
 	if in.RecoverableDatabaseId != nil {
@@ -816,7 +816,7 @@ func (in *DatabaseProperties_STATUS_ARM) DeepCopyInto(out *DatabaseProperties_ST
 	}
 	if in.RequestedBackupStorageRedundancy != nil {
 		in, out := &in.RequestedBackupStorageRedundancy, &out.RequestedBackupStorageRedundancy
-		*out = new(DatabaseProperties_RequestedBackupStorageRedundancy_STATUS)
+		*out = new(DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_ARM)
 		**out = **in
 	}
 	if in.RequestedServiceObjectiveName != nil {
@@ -841,12 +841,12 @@ func (in *DatabaseProperties_STATUS_ARM) DeepCopyInto(out *DatabaseProperties_ST
 	}
 	if in.SampleName != nil {
 		in, out := &in.SampleName, &out.SampleName
-		*out = new(DatabaseProperties_SampleName_STATUS)
+		*out = new(DatabaseProperties_SampleName_STATUS_ARM)
 		**out = **in
 	}
 	if in.SecondaryType != nil {
 		in, out := &in.SecondaryType, &out.SecondaryType
-		*out = new(DatabaseProperties_SecondaryType_STATUS)
+		*out = new(DatabaseProperties_SecondaryType_STATUS_ARM)
 		**out = **in
 	}
 	if in.SourceDatabaseDeletionDate != nil {
@@ -866,7 +866,7 @@ func (in *DatabaseProperties_STATUS_ARM) DeepCopyInto(out *DatabaseProperties_ST
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(DatabaseProperties_Status_STATUS)
+		*out = new(DatabaseProperties_Status_STATUS_ARM)
 		**out = **in
 	}
 	if in.ZoneRedundant != nil {
@@ -911,7 +911,7 @@ func (in *DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_ARM) DeepC
 	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State)
+		*out = new(DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_ARM)
 		**out = **in
 	}
 	if in.StorageAccountAccessKey != nil {
@@ -966,7 +966,7 @@ func (in *DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_STATUS_ARM
 	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS)
+		*out = new(DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS_ARM)
 		**out = **in
 	}
 	if in.StorageEndpoint != nil {
@@ -1206,7 +1206,7 @@ func (in *ElasticPoolProperties_ARM) DeepCopyInto(out *ElasticPoolProperties_ARM
 	}
 	if in.LicenseType != nil {
 		in, out := &in.LicenseType, &out.LicenseType
-		*out = new(ElasticPoolProperties_LicenseType)
+		*out = new(ElasticPoolProperties_LicenseType_ARM)
 		**out = **in
 	}
 	if in.MaintenanceConfigurationId != nil {
@@ -1261,7 +1261,7 @@ func (in *ElasticPoolProperties_STATUS_ARM) DeepCopyInto(out *ElasticPoolPropert
 	}
 	if in.LicenseType != nil {
 		in, out := &in.LicenseType, &out.LicenseType
-		*out = new(ElasticPoolProperties_LicenseType_STATUS)
+		*out = new(ElasticPoolProperties_LicenseType_STATUS_ARM)
 		**out = **in
 	}
 	if in.MaintenanceConfigurationId != nil {
@@ -1286,7 +1286,7 @@ func (in *ElasticPoolProperties_STATUS_ARM) DeepCopyInto(out *ElasticPoolPropert
 	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(ElasticPoolProperties_State_STATUS)
+		*out = new(ElasticPoolProperties_State_STATUS_ARM)
 		**out = **in
 	}
 	if in.ZoneRedundant != nil {
@@ -1370,7 +1370,7 @@ func (in *FailoverGroupProperties_STATUS_ARM) DeepCopyInto(out *FailoverGroupPro
 	}
 	if in.ReplicationRole != nil {
 		in, out := &in.ReplicationRole, &out.ReplicationRole
-		*out = new(FailoverGroupProperties_ReplicationRole_STATUS)
+		*out = new(FailoverGroupProperties_ReplicationRole_STATUS_ARM)
 		**out = **in
 	}
 	if in.ReplicationState != nil {
@@ -1415,7 +1415,7 @@ func (in *FailoverGroupReadOnlyEndpoint_ARM) DeepCopyInto(out *FailoverGroupRead
 	*out = *in
 	if in.FailoverPolicy != nil {
 		in, out := &in.FailoverPolicy, &out.FailoverPolicy
-		*out = new(FailoverGroupReadOnlyEndpoint_FailoverPolicy)
+		*out = new(FailoverGroupReadOnlyEndpoint_FailoverPolicy_ARM)
 		**out = **in
 	}
 }
@@ -1455,7 +1455,7 @@ func (in *FailoverGroupReadOnlyEndpoint_STATUS_ARM) DeepCopyInto(out *FailoverGr
 	*out = *in
 	if in.FailoverPolicy != nil {
 		in, out := &in.FailoverPolicy, &out.FailoverPolicy
-		*out = new(FailoverGroupReadOnlyEndpoint_FailoverPolicy_STATUS)
+		*out = new(FailoverGroupReadOnlyEndpoint_FailoverPolicy_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1500,7 +1500,7 @@ func (in *FailoverGroupReadWriteEndpoint_ARM) DeepCopyInto(out *FailoverGroupRea
 	*out = *in
 	if in.FailoverPolicy != nil {
 		in, out := &in.FailoverPolicy, &out.FailoverPolicy
-		*out = new(FailoverGroupReadWriteEndpoint_FailoverPolicy)
+		*out = new(FailoverGroupReadWriteEndpoint_FailoverPolicy_ARM)
 		**out = **in
 	}
 	if in.FailoverWithDataLossGracePeriodMinutes != nil {
@@ -1550,7 +1550,7 @@ func (in *FailoverGroupReadWriteEndpoint_STATUS_ARM) DeepCopyInto(out *FailoverG
 	*out = *in
 	if in.FailoverPolicy != nil {
 		in, out := &in.FailoverPolicy, &out.FailoverPolicy
-		*out = new(FailoverGroupReadWriteEndpoint_FailoverPolicy_STATUS)
+		*out = new(FailoverGroupReadWriteEndpoint_FailoverPolicy_STATUS_ARM)
 		**out = **in
 	}
 	if in.FailoverWithDataLossGracePeriodMinutes != nil {
@@ -1725,7 +1725,7 @@ func (in *PartnerInfo_STATUS_ARM) DeepCopyInto(out *PartnerInfo_STATUS_ARM) {
 	}
 	if in.ReplicationRole != nil {
 		in, out := &in.ReplicationRole, &out.ReplicationRole
-		*out = new(PartnerInfo_ReplicationRole_STATUS)
+		*out = new(PartnerInfo_ReplicationRole_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1795,7 +1795,7 @@ func (in *PrivateEndpointConnectionProperties_STATUS_ARM) DeepCopyInto(out *Priv
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(PrivateEndpointConnectionProperties_ProvisioningState_STATUS)
+		*out = new(PrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1885,7 +1885,7 @@ func (in *PrivateLinkServiceConnectionStateProperty_STATUS_ARM) DeepCopyInto(out
 	*out = *in
 	if in.ActionsRequired != nil {
 		in, out := &in.ActionsRequired, &out.ActionsRequired
-		*out = new(PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS)
+		*out = new(PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_ARM)
 		**out = **in
 	}
 	if in.Description != nil {
@@ -1895,7 +1895,7 @@ func (in *PrivateLinkServiceConnectionStateProperty_STATUS_ARM) DeepCopyInto(out
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(PrivateLinkServiceConnectionStateProperty_Status_STATUS)
+		*out = new(PrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1940,7 +1940,7 @@ func (in *ResourceIdentity_ARM) DeepCopyInto(out *ResourceIdentity_ARM) {
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ResourceIdentity_Type)
+		*out = new(ResourceIdentity_Type_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -2014,7 +2014,7 @@ func (in *ResourceIdentity_STATUS_ARM) DeepCopyInto(out *ResourceIdentity_STATUS
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ResourceIdentity_Type_STATUS)
+		*out = new(ResourceIdentity_Type_STATUS_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -2103,7 +2103,7 @@ func (in *ServerBlobAuditingPolicyProperties_ARM) DeepCopyInto(out *ServerBlobAu
 	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(ServerBlobAuditingPolicyProperties_State)
+		*out = new(ServerBlobAuditingPolicyProperties_State_ARM)
 		**out = **in
 	}
 	if in.StorageAccountAccessKey != nil {
@@ -2173,7 +2173,7 @@ func (in *ServerBlobAuditingPolicyProperties_STATUS_ARM) DeepCopyInto(out *Serve
 	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(ServerBlobAuditingPolicyProperties_State_STATUS)
+		*out = new(ServerBlobAuditingPolicyProperties_State_STATUS_ARM)
 		**out = **in
 	}
 	if in.StorageAccountSubscriptionId != nil {
@@ -2203,7 +2203,7 @@ func (in *ServerConnectionPolicyProperties_ARM) DeepCopyInto(out *ServerConnecti
 	*out = *in
 	if in.ConnectionType != nil {
 		in, out := &in.ConnectionType, &out.ConnectionType
-		*out = new(ServerConnectionPolicyProperties_ConnectionType)
+		*out = new(ServerConnectionPolicyProperties_ConnectionType_ARM)
 		**out = **in
 	}
 }
@@ -2223,7 +2223,7 @@ func (in *ServerConnectionPolicyProperties_STATUS_ARM) DeepCopyInto(out *ServerC
 	*out = *in
 	if in.ConnectionType != nil {
 		in, out := &in.ConnectionType, &out.ConnectionType
-		*out = new(ServerConnectionPolicyProperties_ConnectionType_STATUS)
+		*out = new(ServerConnectionPolicyProperties_ConnectionType_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -2288,7 +2288,7 @@ func (in *ServerExternalAdministrator_ARM) DeepCopyInto(out *ServerExternalAdmin
 	*out = *in
 	if in.AdministratorType != nil {
 		in, out := &in.AdministratorType, &out.AdministratorType
-		*out = new(ServerExternalAdministrator_AdministratorType)
+		*out = new(ServerExternalAdministrator_AdministratorType_ARM)
 		**out = **in
 	}
 	if in.AzureADOnlyAuthentication != nil {
@@ -2303,7 +2303,7 @@ func (in *ServerExternalAdministrator_ARM) DeepCopyInto(out *ServerExternalAdmin
 	}
 	if in.PrincipalType != nil {
 		in, out := &in.PrincipalType, &out.PrincipalType
-		*out = new(ServerExternalAdministrator_PrincipalType)
+		*out = new(ServerExternalAdministrator_PrincipalType_ARM)
 		**out = **in
 	}
 	if in.Sid != nil {
@@ -2378,7 +2378,7 @@ func (in *ServerExternalAdministrator_STATUS_ARM) DeepCopyInto(out *ServerExtern
 	*out = *in
 	if in.AdministratorType != nil {
 		in, out := &in.AdministratorType, &out.AdministratorType
-		*out = new(ServerExternalAdministrator_AdministratorType_STATUS)
+		*out = new(ServerExternalAdministrator_AdministratorType_STATUS_ARM)
 		**out = **in
 	}
 	if in.AzureADOnlyAuthentication != nil {
@@ -2393,7 +2393,7 @@ func (in *ServerExternalAdministrator_STATUS_ARM) DeepCopyInto(out *ServerExtern
 	}
 	if in.PrincipalType != nil {
 		in, out := &in.PrincipalType, &out.PrincipalType
-		*out = new(ServerExternalAdministrator_PrincipalType_STATUS)
+		*out = new(ServerExternalAdministrator_PrincipalType_STATUS_ARM)
 		**out = **in
 	}
 	if in.Sid != nil {
@@ -2630,12 +2630,12 @@ func (in *ServerProperties_ARM) DeepCopyInto(out *ServerProperties_ARM) {
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(ServerProperties_PublicNetworkAccess)
+		*out = new(ServerProperties_PublicNetworkAccess_ARM)
 		**out = **in
 	}
 	if in.RestrictOutboundNetworkAccess != nil {
 		in, out := &in.RestrictOutboundNetworkAccess, &out.RestrictOutboundNetworkAccess
-		*out = new(ServerProperties_RestrictOutboundNetworkAccess)
+		*out = new(ServerProperties_RestrictOutboundNetworkAccess_ARM)
 		**out = **in
 	}
 	if in.Version != nil {
@@ -2702,12 +2702,12 @@ func (in *ServerProperties_STATUS_ARM) DeepCopyInto(out *ServerProperties_STATUS
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(ServerProperties_PublicNetworkAccess_STATUS)
+		*out = new(ServerProperties_PublicNetworkAccess_STATUS_ARM)
 		**out = **in
 	}
 	if in.RestrictOutboundNetworkAccess != nil {
 		in, out := &in.RestrictOutboundNetworkAccess, &out.RestrictOutboundNetworkAccess
-		*out = new(ServerProperties_RestrictOutboundNetworkAccess_STATUS)
+		*out = new(ServerProperties_RestrictOutboundNetworkAccess_STATUS_ARM)
 		**out = **in
 	}
 	if in.State != nil {
@@ -2722,7 +2722,7 @@ func (in *ServerProperties_STATUS_ARM) DeepCopyInto(out *ServerProperties_STATUS
 	}
 	if in.WorkspaceFeature != nil {
 		in, out := &in.WorkspaceFeature, &out.WorkspaceFeature
-		*out = new(ServerProperties_WorkspaceFeature_STATUS)
+		*out = new(ServerProperties_WorkspaceFeature_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -2762,7 +2762,7 @@ func (in *ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_ARM) DeepCop
 	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_State)
+		*out = new(ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_ARM)
 		**out = **in
 	}
 	if in.StorageAccountAccessKey != nil {
@@ -2817,7 +2817,7 @@ func (in *ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_STATUS_ARM) 
 	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS)
+		*out = new(ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS_ARM)
 		**out = **in
 	}
 	if in.StorageEndpoint != nil {
@@ -8418,7 +8418,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemData_CreatedByType_STATUS)
+		*out = new(SystemData_CreatedByType_STATUS_ARM)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -8433,7 +8433,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemData_LastModifiedByType_STATUS)
+		*out = new(SystemData_LastModifiedByType_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -8453,7 +8453,7 @@ func (in *TransparentDataEncryptionProperties_ARM) DeepCopyInto(out *Transparent
 	*out = *in
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(TransparentDataEncryptionProperties_State)
+		*out = new(TransparentDataEncryptionProperties_State_ARM)
 		**out = **in
 	}
 }
@@ -8473,7 +8473,7 @@ func (in *TransparentDataEncryptionProperties_STATUS_ARM) DeepCopyInto(out *Tran
 	*out = *in
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(TransparentDataEncryptionProperties_State_STATUS)
+		*out = new(TransparentDataEncryptionProperties_State_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -8604,7 +8604,7 @@ func (in *VirtualNetworkRuleProperties_STATUS_ARM) DeepCopyInto(out *VirtualNetw
 	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(VirtualNetworkRuleProperties_State_STATUS)
+		*out = new(VirtualNetworkRuleProperties_State_STATUS_ARM)
 		**out = **in
 	}
 	if in.VirtualNetworkSubnetId != nil {

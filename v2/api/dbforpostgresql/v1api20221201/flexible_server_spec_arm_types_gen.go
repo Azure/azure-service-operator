@@ -264,6 +264,7 @@ var userAssignedIdentity_Type_ARM_Values = map[string]UserAssignedIdentity_Type_
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails_ARM struct {
+	Reference *string `json:"reference,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}

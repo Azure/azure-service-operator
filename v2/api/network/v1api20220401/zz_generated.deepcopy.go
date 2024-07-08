@@ -130,7 +130,7 @@ func (in *EndpointProperties_ARM) DeepCopyInto(out *EndpointProperties_ARM) {
 	*out = *in
 	if in.AlwaysServe != nil {
 		in, out := &in.AlwaysServe, &out.AlwaysServe
-		*out = new(EndpointProperties_AlwaysServe)
+		*out = new(EndpointProperties_AlwaysServe_ARM)
 		**out = **in
 	}
 	if in.CustomHeaders != nil {
@@ -147,12 +147,12 @@ func (in *EndpointProperties_ARM) DeepCopyInto(out *EndpointProperties_ARM) {
 	}
 	if in.EndpointMonitorStatus != nil {
 		in, out := &in.EndpointMonitorStatus, &out.EndpointMonitorStatus
-		*out = new(EndpointProperties_EndpointMonitorStatus)
+		*out = new(EndpointProperties_EndpointMonitorStatus_ARM)
 		**out = **in
 	}
 	if in.EndpointStatus != nil {
 		in, out := &in.EndpointStatus, &out.EndpointStatus
-		*out = new(EndpointProperties_EndpointStatus)
+		*out = new(EndpointProperties_EndpointStatus_ARM)
 		**out = **in
 	}
 	if in.GeoMapping != nil {
@@ -319,7 +319,7 @@ func (in *EndpointProperties_STATUS_ARM) DeepCopyInto(out *EndpointProperties_ST
 	*out = *in
 	if in.AlwaysServe != nil {
 		in, out := &in.AlwaysServe, &out.AlwaysServe
-		*out = new(EndpointProperties_AlwaysServe_STATUS)
+		*out = new(EndpointProperties_AlwaysServe_STATUS_ARM)
 		**out = **in
 	}
 	if in.CustomHeaders != nil {
@@ -336,12 +336,12 @@ func (in *EndpointProperties_STATUS_ARM) DeepCopyInto(out *EndpointProperties_ST
 	}
 	if in.EndpointMonitorStatus != nil {
 		in, out := &in.EndpointMonitorStatus, &out.EndpointMonitorStatus
-		*out = new(EndpointProperties_EndpointMonitorStatus_STATUS)
+		*out = new(EndpointProperties_EndpointMonitorStatus_STATUS_ARM)
 		**out = **in
 	}
 	if in.EndpointStatus != nil {
 		in, out := &in.EndpointStatus, &out.EndpointStatus
-		*out = new(EndpointProperties_EndpointStatus_STATUS)
+		*out = new(EndpointProperties_EndpointStatus_STATUS_ARM)
 		**out = **in
 	}
 	if in.GeoMapping != nil {
@@ -661,12 +661,12 @@ func (in *MonitorConfig_ARM) DeepCopyInto(out *MonitorConfig_ARM) {
 	}
 	if in.ProfileMonitorStatus != nil {
 		in, out := &in.ProfileMonitorStatus, &out.ProfileMonitorStatus
-		*out = new(MonitorConfig_ProfileMonitorStatus)
+		*out = new(MonitorConfig_ProfileMonitorStatus_ARM)
 		**out = **in
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(MonitorConfig_Protocol)
+		*out = new(MonitorConfig_Protocol_ARM)
 		**out = **in
 	}
 	if in.TimeoutInSeconds != nil {
@@ -989,12 +989,12 @@ func (in *MonitorConfig_STATUS_ARM) DeepCopyInto(out *MonitorConfig_STATUS_ARM) 
 	}
 	if in.ProfileMonitorStatus != nil {
 		in, out := &in.ProfileMonitorStatus, &out.ProfileMonitorStatus
-		*out = new(MonitorConfig_ProfileMonitorStatus_STATUS)
+		*out = new(MonitorConfig_ProfileMonitorStatus_STATUS_ARM)
 		**out = **in
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(MonitorConfig_Protocol_STATUS)
+		*out = new(MonitorConfig_Protocol_STATUS_ARM)
 		**out = **in
 	}
 	if in.TimeoutInSeconds != nil {
@@ -1024,7 +1024,7 @@ func (in *ProfileProperties_ARM) DeepCopyInto(out *ProfileProperties_ARM) {
 	*out = *in
 	if in.AllowedEndpointRecordTypes != nil {
 		in, out := &in.AllowedEndpointRecordTypes, &out.AllowedEndpointRecordTypes
-		*out = make([]AllowedEndpointRecordType, len(*in))
+		*out = make([]AllowedEndpointRecordType_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.DnsConfig != nil {
@@ -1044,17 +1044,17 @@ func (in *ProfileProperties_ARM) DeepCopyInto(out *ProfileProperties_ARM) {
 	}
 	if in.ProfileStatus != nil {
 		in, out := &in.ProfileStatus, &out.ProfileStatus
-		*out = new(ProfileProperties_ProfileStatus)
+		*out = new(ProfileProperties_ProfileStatus_ARM)
 		**out = **in
 	}
 	if in.TrafficRoutingMethod != nil {
 		in, out := &in.TrafficRoutingMethod, &out.TrafficRoutingMethod
-		*out = new(ProfileProperties_TrafficRoutingMethod)
+		*out = new(ProfileProperties_TrafficRoutingMethod_ARM)
 		**out = **in
 	}
 	if in.TrafficViewEnrollmentStatus != nil {
 		in, out := &in.TrafficViewEnrollmentStatus, &out.TrafficViewEnrollmentStatus
-		*out = new(ProfileProperties_TrafficViewEnrollmentStatus)
+		*out = new(ProfileProperties_TrafficViewEnrollmentStatus_ARM)
 		**out = **in
 	}
 }
@@ -1074,7 +1074,7 @@ func (in *ProfileProperties_STATUS_ARM) DeepCopyInto(out *ProfileProperties_STAT
 	*out = *in
 	if in.AllowedEndpointRecordTypes != nil {
 		in, out := &in.AllowedEndpointRecordTypes, &out.AllowedEndpointRecordTypes
-		*out = make([]AllowedEndpointRecordType_STATUS, len(*in))
+		*out = make([]AllowedEndpointRecordType_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.DnsConfig != nil {
@@ -1101,17 +1101,17 @@ func (in *ProfileProperties_STATUS_ARM) DeepCopyInto(out *ProfileProperties_STAT
 	}
 	if in.ProfileStatus != nil {
 		in, out := &in.ProfileStatus, &out.ProfileStatus
-		*out = new(ProfileProperties_ProfileStatus_STATUS)
+		*out = new(ProfileProperties_ProfileStatus_STATUS_ARM)
 		**out = **in
 	}
 	if in.TrafficRoutingMethod != nil {
 		in, out := &in.TrafficRoutingMethod, &out.TrafficRoutingMethod
-		*out = new(ProfileProperties_TrafficRoutingMethod_STATUS)
+		*out = new(ProfileProperties_TrafficRoutingMethod_STATUS_ARM)
 		**out = **in
 	}
 	if in.TrafficViewEnrollmentStatus != nil {
 		in, out := &in.TrafficViewEnrollmentStatus, &out.TrafficViewEnrollmentStatus
-		*out = new(ProfileProperties_TrafficViewEnrollmentStatus_STATUS)
+		*out = new(ProfileProperties_TrafficViewEnrollmentStatus_STATUS_ARM)
 		**out = **in
 	}
 }

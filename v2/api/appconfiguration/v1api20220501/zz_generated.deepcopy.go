@@ -174,7 +174,7 @@ func (in *ConfigurationStoreProperties_ARM) DeepCopyInto(out *ConfigurationStore
 	*out = *in
 	if in.CreateMode != nil {
 		in, out := &in.CreateMode, &out.CreateMode
-		*out = new(ConfigurationStoreProperties_CreateMode)
+		*out = new(ConfigurationStoreProperties_CreateMode_ARM)
 		**out = **in
 	}
 	if in.DisableLocalAuth != nil {
@@ -194,7 +194,7 @@ func (in *ConfigurationStoreProperties_ARM) DeepCopyInto(out *ConfigurationStore
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(ConfigurationStoreProperties_PublicNetworkAccess)
+		*out = new(ConfigurationStoreProperties_PublicNetworkAccess_ARM)
 		**out = **in
 	}
 	if in.SoftDeleteRetentionInDays != nil {
@@ -219,7 +219,7 @@ func (in *ConfigurationStoreProperties_STATUS_ARM) DeepCopyInto(out *Configurati
 	*out = *in
 	if in.CreateMode != nil {
 		in, out := &in.CreateMode, &out.CreateMode
-		*out = new(ConfigurationStoreProperties_CreateMode_STATUS)
+		*out = new(ConfigurationStoreProperties_CreateMode_STATUS_ARM)
 		**out = **in
 	}
 	if in.CreationDate != nil {
@@ -256,12 +256,12 @@ func (in *ConfigurationStoreProperties_STATUS_ARM) DeepCopyInto(out *Configurati
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ConfigurationStoreProperties_ProvisioningState_STATUS)
+		*out = new(ConfigurationStoreProperties_ProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(ConfigurationStoreProperties_PublicNetworkAccess_STATUS)
+		*out = new(ConfigurationStoreProperties_PublicNetworkAccess_STATUS_ARM)
 		**out = **in
 	}
 	if in.SoftDeleteRetentionInDays != nil {
@@ -838,7 +838,7 @@ func (in *ResourceIdentity_ARM) DeepCopyInto(out *ResourceIdentity_ARM) {
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ResourceIdentity_Type)
+		*out = new(ResourceIdentity_Type_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -912,7 +912,7 @@ func (in *ResourceIdentity_STATUS_ARM) DeepCopyInto(out *ResourceIdentity_STATUS
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ResourceIdentity_Type_STATUS)
+		*out = new(ResourceIdentity_Type_STATUS_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -1074,7 +1074,7 @@ func (in *SystemData_ARM) DeepCopyInto(out *SystemData_ARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemData_CreatedByType)
+		*out = new(SystemData_CreatedByType_ARM)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -1089,7 +1089,7 @@ func (in *SystemData_ARM) DeepCopyInto(out *SystemData_ARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemData_LastModifiedByType)
+		*out = new(SystemData_LastModifiedByType_ARM)
 		**out = **in
 	}
 }
@@ -1164,7 +1164,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemData_CreatedByType_STATUS)
+		*out = new(SystemData_CreatedByType_STATUS_ARM)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -1179,7 +1179,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemData_LastModifiedByType_STATUS)
+		*out = new(SystemData_LastModifiedByType_STATUS_ARM)
 		**out = **in
 	}
 }

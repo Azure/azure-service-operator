@@ -1236,6 +1236,9 @@ func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfile_ARM(gens 
 	gens["NodePublicIPPrefixID"] = gen.PtrOf(gen.AlphaString())
 	gens["NodeTaints"] = gen.SliceOf(gen.AlphaString())
 	gens["OrchestratorVersion"] = gen.PtrOf(gen.AlphaString())
+	gens["OsDiskSizeGB"] = gen.PtrOf(gen.Int().Map(func(it int) ContainerServiceOSDisk_ARM {
+		return ContainerServiceOSDisk_ARM(it)
+	}))
 	gens["OsDiskType"] = gen.PtrOf(gen.OneConstOf(OSDiskType_ARM_Ephemeral, OSDiskType_ARM_Managed))
 	gens["OsSKU"] = gen.PtrOf(gen.OneConstOf(
 		OSSKU_ARM_CBLMariner,
@@ -1265,7 +1268,6 @@ func AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfile_ARM(gens map[
 	gens["KubeletConfig"] = gen.PtrOf(KubeletConfig_ARMGenerator())
 	gens["LinuxOSConfig"] = gen.PtrOf(LinuxOSConfig_ARMGenerator())
 	gens["NetworkProfile"] = gen.PtrOf(AgentPoolNetworkProfile_ARMGenerator())
-	gens["OsDiskSizeGB"] = gen.PtrOf(ContainerServiceOSDisk_ARMGenerator())
 	gens["PowerState"] = gen.PtrOf(PowerState_ARMGenerator())
 	gens["UpgradeSettings"] = gen.PtrOf(AgentPoolUpgradeSettings_ARMGenerator())
 	gens["WindowsProfile"] = gen.PtrOf(AgentPoolWindowsProfile_ARMGenerator())
@@ -3166,22 +3168,37 @@ func RunJSONSerializationTestForManagedClusterSecurityProfile_ARM(subject Manage
 var managedClusterSecurityProfile_ARMGenerator gopter.Gen
 
 // ManagedClusterSecurityProfile_ARMGenerator returns a generator of ManagedClusterSecurityProfile_ARM instances for property testing.
+// We first initialize managedClusterSecurityProfile_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func ManagedClusterSecurityProfile_ARMGenerator() gopter.Gen {
 	if managedClusterSecurityProfile_ARMGenerator != nil {
 		return managedClusterSecurityProfile_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusterSecurityProfile_ARM(generators)
+	managedClusterSecurityProfile_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterSecurityProfile_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusterSecurityProfile_ARM(generators)
 	AddRelatedPropertyGeneratorsForManagedClusterSecurityProfile_ARM(generators)
 	managedClusterSecurityProfile_ARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterSecurityProfile_ARM{}), generators)
 
 	return managedClusterSecurityProfile_ARMGenerator
 }
 
+// AddIndependentPropertyGeneratorsForManagedClusterSecurityProfile_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterSecurityProfile_ARM(gens map[string]gopter.Gen) {
+	gens["CustomCATrustCertificates"] = gen.SliceOf(gen.AlphaString()).Map(func(it []string) ManagedClusterSecurityProfileCustomCATrustCertificates_ARM {
+		return ManagedClusterSecurityProfileCustomCATrustCertificates_ARM(it)
+	})
+}
+
 // AddRelatedPropertyGeneratorsForManagedClusterSecurityProfile_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedClusterSecurityProfile_ARM(gens map[string]gopter.Gen) {
 	gens["AzureKeyVaultKms"] = gen.PtrOf(AzureKeyVaultKms_ARMGenerator())
-	gens["CustomCATrustCertificates"] = ManagedClusterSecurityProfileCustomCATrustCertificates_ARMGenerator()
 	gens["Defender"] = gen.PtrOf(ManagedClusterSecurityProfileDefender_ARMGenerator())
 	gens["ImageCleaner"] = gen.PtrOf(ManagedClusterSecurityProfileImageCleaner_ARMGenerator())
 	gens["NodeRestriction"] = gen.PtrOf(ManagedClusterSecurityProfileNodeRestriction_ARMGenerator())
@@ -4222,9 +4239,15 @@ func UserAssignedIdentityDetails_ARMGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForUserAssignedIdentityDetails_ARM(generators)
 	userAssignedIdentityDetails_ARMGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentityDetails_ARM{}), generators)
 
 	return userAssignedIdentityDetails_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForUserAssignedIdentityDetails_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForUserAssignedIdentityDetails_ARM(gens map[string]gopter.Gen) {
+	gens["Reference"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_UserAssignedIdentity_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

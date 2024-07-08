@@ -191,6 +191,7 @@ var systemData_LastModifiedByType_ARM_Values = map[string]SystemData_LastModifie
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails_ARM struct {
+	Reference *string `json:"reference,omitempty"`
 }
 
 // Settings concerning key vault encryption for a configuration store.

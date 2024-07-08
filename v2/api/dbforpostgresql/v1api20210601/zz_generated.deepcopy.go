@@ -50,7 +50,7 @@ func (in *Backup_ARM) DeepCopyInto(out *Backup_ARM) {
 	}
 	if in.GeoRedundantBackup != nil {
 		in, out := &in.GeoRedundantBackup, &out.GeoRedundantBackup
-		*out = new(Backup_GeoRedundantBackup)
+		*out = new(Backup_GeoRedundantBackup_ARM)
 		**out = **in
 	}
 }
@@ -110,7 +110,7 @@ func (in *Backup_STATUS_ARM) DeepCopyInto(out *Backup_STATUS_ARM) {
 	}
 	if in.GeoRedundantBackup != nil {
 		in, out := &in.GeoRedundantBackup, &out.GeoRedundantBackup
-		*out = new(Backup_GeoRedundantBackup_STATUS)
+		*out = new(Backup_GeoRedundantBackup_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -160,7 +160,7 @@ func (in *ConfigurationProperties_STATUS_ARM) DeepCopyInto(out *ConfigurationPro
 	}
 	if in.DataType != nil {
 		in, out := &in.DataType, &out.DataType
-		*out = new(ConfigurationProperties_DataType_STATUS)
+		*out = new(ConfigurationProperties_DataType_STATUS_ARM)
 		**out = **in
 	}
 	if in.DefaultValue != nil {
@@ -1422,7 +1422,7 @@ func (in *HighAvailability_ARM) DeepCopyInto(out *HighAvailability_ARM) {
 	*out = *in
 	if in.Mode != nil {
 		in, out := &in.Mode, &out.Mode
-		*out = new(HighAvailability_Mode)
+		*out = new(HighAvailability_Mode_ARM)
 		**out = **in
 	}
 	if in.StandbyAvailabilityZone != nil {
@@ -1477,7 +1477,7 @@ func (in *HighAvailability_STATUS_ARM) DeepCopyInto(out *HighAvailability_STATUS
 	*out = *in
 	if in.Mode != nil {
 		in, out := &in.Mode, &out.Mode
-		*out = new(HighAvailability_Mode_STATUS)
+		*out = new(HighAvailability_Mode_STATUS_ARM)
 		**out = **in
 	}
 	if in.StandbyAvailabilityZone != nil {
@@ -1487,7 +1487,7 @@ func (in *HighAvailability_STATUS_ARM) DeepCopyInto(out *HighAvailability_STATUS
 	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(HighAvailability_State_STATUS)
+		*out = new(HighAvailability_State_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1737,7 +1737,7 @@ func (in *Network_STATUS_ARM) DeepCopyInto(out *Network_STATUS_ARM) {
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(Network_PublicNetworkAccess_STATUS)
+		*out = new(Network_PublicNetworkAccess_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1777,7 +1777,7 @@ func (in *ServerProperties_ARM) DeepCopyInto(out *ServerProperties_ARM) {
 	}
 	if in.CreateMode != nil {
 		in, out := &in.CreateMode, &out.CreateMode
-		*out = new(ServerProperties_CreateMode)
+		*out = new(ServerProperties_CreateMode_ARM)
 		**out = **in
 	}
 	if in.HighAvailability != nil {
@@ -1812,7 +1812,7 @@ func (in *ServerProperties_ARM) DeepCopyInto(out *ServerProperties_ARM) {
 	}
 	if in.Version != nil {
 		in, out := &in.Version, &out.Version
-		*out = new(ServerVersion)
+		*out = new(ServerVersion_ARM)
 		**out = **in
 	}
 }
@@ -1847,7 +1847,7 @@ func (in *ServerProperties_STATUS_ARM) DeepCopyInto(out *ServerProperties_STATUS
 	}
 	if in.CreateMode != nil {
 		in, out := &in.CreateMode, &out.CreateMode
-		*out = new(ServerProperties_CreateMode_STATUS)
+		*out = new(ServerProperties_CreateMode_STATUS_ARM)
 		**out = **in
 	}
 	if in.FullyQualifiedDomainName != nil {
@@ -1887,7 +1887,7 @@ func (in *ServerProperties_STATUS_ARM) DeepCopyInto(out *ServerProperties_STATUS
 	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(ServerProperties_State_STATUS)
+		*out = new(ServerProperties_State_STATUS_ARM)
 		**out = **in
 	}
 	if in.Storage != nil {
@@ -1897,7 +1897,7 @@ func (in *ServerProperties_STATUS_ARM) DeepCopyInto(out *ServerProperties_STATUS
 	}
 	if in.Version != nil {
 		in, out := &in.Version, &out.Version
-		*out = new(ServerVersion_STATUS)
+		*out = new(ServerVersion_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1947,7 +1947,7 @@ func (in *Sku_ARM) DeepCopyInto(out *Sku_ARM) {
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(Sku_Tier)
+		*out = new(Sku_Tier_ARM)
 		**out = **in
 	}
 }
@@ -1997,7 +1997,7 @@ func (in *Sku_STATUS_ARM) DeepCopyInto(out *Sku_STATUS_ARM) {
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(Sku_Tier_STATUS)
+		*out = new(Sku_Tier_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -2152,7 +2152,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemData_CreatedByType_STATUS)
+		*out = new(SystemData_CreatedByType_STATUS_ARM)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -2167,7 +2167,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemData_LastModifiedByType_STATUS)
+		*out = new(SystemData_LastModifiedByType_STATUS_ARM)
 		**out = **in
 	}
 }

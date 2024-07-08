@@ -203,7 +203,8 @@ Workspace_Spec_ARM: Object (5 properties)
 │   │   ├── "None"
 │   │   ├── "SystemAssigned"
 │   │   └── "SystemAssigned,UserAssigned"
-│   └── UserAssignedIdentities: map[string]Object (0 properties)
+│   └── UserAssignedIdentities: map[string]Object (1 property)
+│       └── Reference: *string
 ├── Location: *string
 ├── Name: string
 ├── Properties: *Object (14 properties)

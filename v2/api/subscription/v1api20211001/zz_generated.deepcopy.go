@@ -349,7 +349,7 @@ func (in *PutAliasRequestProperties_ARM) DeepCopyInto(out *PutAliasRequestProper
 	}
 	if in.Workload != nil {
 		in, out := &in.Workload, &out.Workload
-		*out = new(Workload)
+		*out = new(Workload_ARM)
 		**out = **in
 	}
 }
@@ -446,7 +446,7 @@ func (in *SubscriptionAliasResponseProperties_STATUS_ARM) DeepCopyInto(out *Subs
 	*out = *in
 	if in.AcceptOwnershipState != nil {
 		in, out := &in.AcceptOwnershipState, &out.AcceptOwnershipState
-		*out = new(AcceptOwnershipState_STATUS)
+		*out = new(AcceptOwnershipState_STATUS_ARM)
 		**out = **in
 	}
 	if in.AcceptOwnershipUrl != nil {
@@ -476,7 +476,7 @@ func (in *SubscriptionAliasResponseProperties_STATUS_ARM) DeepCopyInto(out *Subs
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(SubscriptionAliasResponseProperties_ProvisioningState_STATUS)
+		*out = new(SubscriptionAliasResponseProperties_ProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.ResellerId != nil {
@@ -503,7 +503,7 @@ func (in *SubscriptionAliasResponseProperties_STATUS_ARM) DeepCopyInto(out *Subs
 	}
 	if in.Workload != nil {
 		in, out := &in.Workload, &out.Workload
-		*out = new(Workload_STATUS)
+		*out = new(Workload_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -578,7 +578,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemData_CreatedByType_STATUS)
+		*out = new(SystemData_CreatedByType_STATUS_ARM)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -593,7 +593,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemData_LastModifiedByType_STATUS)
+		*out = new(SystemData_LastModifiedByType_STATUS_ARM)
 		**out = **in
 	}
 }

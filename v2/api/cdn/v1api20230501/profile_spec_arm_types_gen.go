@@ -141,4 +141,5 @@ var sku_Name_ARM_Values = map[string]Sku_Name_ARM{
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails_ARM struct {
+	Reference *string `json:"reference,omitempty"`
 }

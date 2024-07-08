@@ -190,7 +190,8 @@ ConfigurationStore_Spec_ARM: Object (7 properties)
 │   │   ├── "SystemAssigned"
 │   │   ├── "SystemAssigned, UserAssigned"
 │   │   └── "UserAssigned"
-│   └── UserAssignedIdentities: map[string]Object (0 properties)
+│   └── UserAssignedIdentities: map[string]Object (1 property)
+│       └── Reference: *string
 ├── Location: *string
 ├── Name: string
 ├── Properties: *Object (6 properties)

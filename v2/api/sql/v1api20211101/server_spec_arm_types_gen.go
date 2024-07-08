@@ -147,6 +147,7 @@ var serverProperties_RestrictOutboundNetworkAccess_ARM_Values = map[string]Serve
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails_ARM struct {
+	Reference *string `json:"reference,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"ActiveDirectory"}

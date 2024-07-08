@@ -3188,6 +3188,27 @@ func (embedded *Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignPropert
 	return nil
 }
 
+// The supported ExtendedLocation types. Currently only EdgeZone is supported in Microsoft.Network resources.
+// +kubebuilder:validation:Enum={"EdgeZone"}
+type ExtendedLocationType string
+
+const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
+
+// Mapping from string to ExtendedLocationType
+var extendedLocationType_Values = map[string]ExtendedLocationType{
+	"edgezone": ExtendedLocationType_EdgeZone,
+}
+
+// The supported ExtendedLocation types. Currently only EdgeZone is supported in Microsoft.Network resources.
+type ExtendedLocationType_STATUS string
+
+const ExtendedLocationType_STATUS_EdgeZone = ExtendedLocationType_STATUS("EdgeZone")
+
+// Mapping from string to ExtendedLocationType_STATUS
+var extendedLocationType_STATUS_Values = map[string]ExtendedLocationType_STATUS{
+	"edgezone": ExtendedLocationType_STATUS_EdgeZone,
+}
+
 type PrivateEndpointOperatorConfigMaps struct {
 	// PrimaryNicPrivateIpAddress: indicates where the PrimaryNicPrivateIpAddress config map should be placed. If omitted, no
 	// config map will be created.

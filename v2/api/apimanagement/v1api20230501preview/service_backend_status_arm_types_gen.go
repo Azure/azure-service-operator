@@ -217,6 +217,9 @@ type X509CertificateName_STATUS_ARM struct {
 	Name *string `json:"name,omitempty"`
 }
 
+// +kubebuilder:validation:MaxLength=200
+type CircuitBreakerFailureCondition_ErrorReasons_STATUS_ARM string
+
 // The failure http status code range
 type FailureStatusCodeRange_STATUS_ARM struct {
 	// Max: The maximum http status code.

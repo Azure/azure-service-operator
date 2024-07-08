@@ -185,6 +185,10 @@ type AgentPoolUpgradeSettings_ARM struct {
 	MaxSurge *string `json:"maxSurge,omitempty"`
 }
 
+// +kubebuilder:validation:Maximum=2048
+// +kubebuilder:validation:Minimum=0
+type ContainerServiceOSDisk_ARM int
+
 // GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
 // +kubebuilder:validation:Enum={"MIG1g","MIG2g","MIG3g","MIG4g","MIG7g"}
 type GPUInstanceProfile_ARM string

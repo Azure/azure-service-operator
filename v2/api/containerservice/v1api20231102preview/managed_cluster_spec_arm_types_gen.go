@@ -938,6 +938,7 @@ type UserAssignedIdentity_ARM struct {
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails_ARM struct {
+	Reference *string `json:"reference,omitempty"`
 }
 
 // Azure Key Vault key management service settings for the security profile.
@@ -1239,6 +1240,10 @@ type ManagedClusterPodIdentityException_ARM struct {
 	// PodLabels: The pod labels to match.
 	PodLabels map[string]string `json:"podLabels"`
 }
+
+// +kubebuilder:validation:MaxItems=10
+// +kubebuilder:validation:MinItems=0
+type ManagedClusterSecurityProfileCustomCATrustCertificates_ARM []string
 
 // Microsoft Defender settings for the security profile.
 type ManagedClusterSecurityProfileDefender_ARM struct {

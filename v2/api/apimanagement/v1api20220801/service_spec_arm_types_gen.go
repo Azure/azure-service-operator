@@ -312,6 +312,7 @@ type HostnameConfiguration_ARM struct {
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails_ARM struct {
+	Reference *string `json:"reference,omitempty"`
 }
 
 // Configuration of a virtual network to which API Management service is deployed.

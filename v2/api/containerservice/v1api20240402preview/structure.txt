@@ -1761,7 +1761,8 @@ ManagedCluster_Spec_ARM: Object (8 properties)
 │   │   ├── "None"
 │   │   ├── "SystemAssigned"
 │   │   └── "UserAssigned"
-│   └── UserAssignedIdentities: map[string]Object (0 properties)
+│   └── UserAssignedIdentities: map[string]Object (1 property)
+│       └── Reference: *string
 ├── Kind: *string
 ├── Location: *string
 ├── Name: string

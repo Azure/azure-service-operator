@@ -153,5 +153,5 @@ func AzureMonitorWorkspace_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAzureMonitorWorkspace_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAzureMonitorWorkspace_ARM(gens map[string]gopter.Gen) {
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(AzureMonitorWorkspace_PublicNetworkAccess_Disabled, AzureMonitorWorkspace_PublicNetworkAccess_Enabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(AzureMonitorWorkspace_PublicNetworkAccess_ARM_Disabled, AzureMonitorWorkspace_PublicNetworkAccess_ARM_Enabled))
 }
