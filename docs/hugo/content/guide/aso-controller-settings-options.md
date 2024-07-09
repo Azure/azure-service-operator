@@ -177,3 +177,51 @@ MAX_CONCURRENT_RECONCILES applies to every registered resource type being watche
 **Example:** `2`
 
 **Required**: False
+
+### RATE_LIMIT_MODE
+
+RateLimitMode configures the internal rate-limiting mode.
+
+ * **disabled** (default): No ASO-controlled rate-limiting occurs. ASO will attempt to communicate with Azure and
+   kube-apiserver as much as needed based on load. It will back off based on throttling from
+   either kube-apiserver or Azure, but will not artificially limit its throughput.
+ * **bucket**: Uses a token-bucket algorithm to rate-limit reconciliations. Note that this limits how often
+   the operator performs a reconciliation, but not every reconciliation triggers a call to kube-apiserver
+   or Azure (though many do). Since this controls reconciles it can be used to coarsely control throughput
+   and CPU usage of the operator, as well as the number of requests that the operator issues to Azure.
+   Keep in mind that the Azure throttling limits (defined at
+   https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/request-limits-and-throttling)
+   differentiate between request types. Since a given reconcile for a resource may result in polling (a GET) or
+   modification (a PUT) it's not possible to entirely avoid Azure throttling by tuning these bucket limits.
+   
+   We don't recommend enabling this mode by default.
+
+   If enabling this mode, we strongly recommend doing some experimentation to tune these values to something to
+   works for your specific need.
+
+**Format:** `disabled|bucket`
+
+**Example:** `disabled` or `bucket`
+
+**Required**: False
+
+### RATE_LIMIT_QPS
+
+RATE_LIMIT_QPS is the rate (per second) that the bucket is refilled. 
+This value only has an effect if RATE_LIMIT_MODE is 'bucket'.
+
+**Format:** `float`
+
+**Example:** `5`
+
+**Required**: False
+
+### RATE_LIMIT_BUCKET_SIZE
+
+RATE_LIMIT_BUCKET_SIZE is the size of the bucket. This value only has an effect if RATE_LIMIT_MODE is 'bucket'.
+
+**Format:** `int`
+
+**Example:** `200`
+
+**Required**: False
