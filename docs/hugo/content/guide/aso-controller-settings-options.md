@@ -156,3 +156,24 @@ AZURE_USER_AGENT_SUFFIX is appended to the default User-Agent for Azure HTTP cli
 **Example:** `"my-user-agent"`
 
 **Required**: False
+
+### MAX_CONCURRENT_RECONCILES
+
+MAX_CONCURRENT_RECONCILES is the number of threads/goroutines dedicated to reconciling each resource type.
+If not specified, the default is 1.
+
+IMPORTANT: Having MAX_CONCURRENT_RECONCILES set to N does not mean that ASO is limited to N interactions with
+Azure at any given time, because the control loop yields to another resource while it is not actively issuing HTTP
+calls to Azure. Any single resource only blocks the control-loop for its resource-type for as long as it takes to issue
+an HTTP call to Azure, view the result, and make a decision. In most cases the time taken to perform these actions
+(and thus how long the loop is blocked and preventing other resources from being acted upon) is a few hundred
+milliseconds to at most a second or two. In a typical 60s period, many hundreds or even thousands of resources
+can be managed with this set to 1.
+
+MAX_CONCURRENT_RECONCILES applies to every registered resource type being watched/managed by ASO.
+
+**Format:** `int`
+
+**Example:** `2`
+
+**Required**: False

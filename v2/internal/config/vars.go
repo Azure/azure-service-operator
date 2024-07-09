@@ -20,9 +20,10 @@ import (
 // we don't import.
 
 var (
-	DefaultEndpoint         = "https://management.azure.com"
-	DefaultAudience         = "https://management.core.windows.net/"
-	DefaultAADAuthorityHost = "https://login.microsoftonline.com/"
+	DefaultEndpoint                = "https://management.azure.com"
+	DefaultAudience                = "https://management.core.windows.net/"
+	DefaultAADAuthorityHost        = "https://login.microsoftonline.com/"
+	DefaultMaxConcurrentReconciles = 1
 )
 
 // NOTE: Changes to documentation or available values here should be documented in Helm values.yaml as well
@@ -88,6 +89,18 @@ type Values struct {
 
 	// UserAgentSuffix is appended to the default User-Agent for Azure HTTP clients.
 	UserAgentSuffix string
+
+	// MaxConcurrentReconciles is the number of threads/goroutines dedicated to reconciling each resource type.
+	// If not specified, the default is 1.
+	// IMPORTANT: Having MaxConcurrentReconciles set to N does not mean that ASO is limited to N interactions with
+	// Azure at any given time, because the control loop yields to another resource while it is not actively issuing HTTP
+	// calls to Azure. Any single resource only blocks the control-loop for its resource-type for as long as it takes to issue
+	// an HTTP call to Azure, view the result, and make a decision. In most cases the time taken to perform these actions
+	// (and thus how long the loop is blocked and preventing other resources from being acted upon) is a few hundred
+	// milliseconds to at most a second or two. In a typical 60s period, many hundreds or even thousands of resources
+	// can be managed with this set to 1.
+	// MaxConcurrentReconciles applies to every registered resource type being watched/managed by ASO.
+	MaxConcurrentReconciles int
 }
 
 var _ fmt.Stringer = Values{}
@@ -107,6 +120,7 @@ func (v Values) String() string {
 	builder.WriteString(fmt.Sprintf("AzureAuthorityHost:%s/", v.AzureAuthorityHost))
 	builder.WriteString(fmt.Sprintf("UseWorkloadIdentityAuth:%t/", v.UseWorkloadIdentityAuth))
 	builder.WriteString(fmt.Sprintf("UserAgentSuffix:%s", v.UserAgentSuffix))
+	builder.WriteString(fmt.Sprintf("MaxConcurrentReconciles:%d", v.MaxConcurrentReconciles))
 
 	return builder.String()
 }
@@ -169,20 +183,24 @@ func ReadFromEnvironment() (Values, error) {
 	result.PodNamespace = os.Getenv(config.PodNamespace)
 	result.TargetNamespaces = parseTargetNamespaces(os.Getenv(config.TargetNamespaces))
 	result.SyncPeriod, err = parseSyncPeriod()
+	if err != nil {
+		return result, errors.Wrapf(err, "parsing %q", config.SyncPeriod)
+	}
+
 	result.ResourceManagerEndpoint = envOrDefault(config.ResourceManagerEndpoint, DefaultEndpoint)
 	result.ResourceManagerAudience = envOrDefault(config.ResourceManagerAudience, DefaultAudience)
 	result.AzureAuthorityHost = envOrDefault(config.AzureAuthorityHost, DefaultAADAuthorityHost)
 	result.ClientID = os.Getenv(config.AzureClientID)
 	result.TenantID = os.Getenv(config.AzureTenantID)
+	result.MaxConcurrentReconciles, err = envParseOrDefault(config.MaxConcurrentReconciles, DefaultMaxConcurrentReconciles)
+	if err != nil {
+		return result, err
+	}
 
 	// Ignoring error here, as any other value or empty value means we should default to false
 	result.UseWorkloadIdentityAuth, _ = strconv.ParseBool(os.Getenv(config.UseWorkloadIdentityAuth))
 
 	result.UserAgentSuffix = os.Getenv(config.UserAgentSuffix)
-
-	if err != nil {
-		return result, errors.Wrapf(err, "parsing %q", config.SyncPeriod)
-	}
 
 	// Not calling validate here to support using from tests where we
 	// don't require consistent settings.
@@ -210,6 +228,9 @@ func (v Values) Validate() error {
 	}
 	if !v.OperatorMode.IncludesWatchers() && len(v.TargetNamespaces) > 0 {
 		return errors.Errorf("%s must include watchers to specify target namespaces", config.TargetNamespaces)
+	}
+	if v.MaxConcurrentReconciles <= 0 {
+		return errors.Errorf("%s must be at least 1", config.MaxConcurrentReconciles)
 	}
 	return nil
 }
@@ -240,6 +261,32 @@ func parseSyncPeriod() (*time.Duration, error) {
 		return nil, err
 	}
 	return &syncPeriod, nil
+}
+
+func envParseOrDefault[T int | string](env string, def T) (T, error) {
+	str, specified := os.LookupEnv(env)
+	if !specified {
+		return def, nil
+	}
+	if str == "" {
+		return def, nil
+	}
+
+	var result T
+	switch any(def).(type) {
+	case int:
+		parsedVal, err := strconv.Atoi(str)
+		if err != nil {
+			return def, errors.Wrapf(err, "failed to parse value %q for %q", str, env)
+		}
+		result = any(parsedVal).(T)
+	case string:
+		result = any(str).(T)
+	default:
+		return def, errors.Errorf("can't read unsupported type %T from env", def)
+	}
+
+	return result, nil
 }
 
 // envOrDefault returns the value of the specified env variable or the default value if

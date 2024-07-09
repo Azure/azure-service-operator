@@ -94,6 +94,12 @@ spec:
                   key: AZURE_USER_AGENT_SUFFIX
                   name: aso-controller-settings
                   optional: true
+            - name: MAX_CONCURRENT_RECONCILES
+              valueFrom:
+                secretKeyRef:
+                  key: MAX_CONCURRENT_RECONCILES
+                  name: aso-controller-settings
+                  optional: true
             # Used for setting the operator-namespace annotation (and
             # for aad-pod-identity once we support it).
             - name: POD_NAMESPACE

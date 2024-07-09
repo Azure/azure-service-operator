@@ -433,7 +433,7 @@ func makeControllerOptions(log logr.Logger, cfg config.Values) generic.Options {
 	return generic.Options{
 		Config: cfg,
 		Options: controller.Options{
-			MaxConcurrentReconciles: 1,
+			MaxConcurrentReconciles: cfg.MaxConcurrentReconciles,
 			LogConstructor: func(req *reconcile.Request) logr.Logger {
 				// refer to https://github.com/kubernetes-sigs/controller-runtime/pull/1827/files
 				if req == nil {
