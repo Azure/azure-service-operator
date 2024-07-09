@@ -102,37 +102,30 @@ func newARMTypeCreator(
 }
 
 func (c *armTypeCreator) createARMTypes() (astmodel.TypeDefinitionSet, error) {
-	result := make(astmodel.TypeDefinitionSet)
-	resourceSpecDefs := make(astmodel.TypeDefinitionSet)
+	// We create ARM versions of everything, relying on a later StripUnreferencedTypeDefinitions stage
+	// to remove any we don't need. We do ResourceDefinitions first so that we create ARM versions of
+	// spec types before we do anything else (they get special handling)
 
-	resourceDefs := astmodel.FindResourceDefinitions(c.definitions)
-	for _, def := range resourceDefs {
+	armSpecs := make(astmodel.TypeDefinitionSet)
+	resources := astmodel.FindResourceDefinitions(c.definitions)
+	for _, def := range resources {
 		resolved, err := c.definitions.ResolveResourceSpecAndStatus(def)
 		if err != nil {
 			return nil, errors.Wrapf(err, "resolving resource spec and status for %s", def.Name())
 		}
-
-		resourceSpecDefs.Add(resolved.SpecDef)
 
 		armSpecDef, err := c.createARMResourceSpecDefinition(resolved.ResourceType, resolved.SpecDef)
 		if err != nil {
 			return nil, errors.Wrapf(err, "unable to create arm resource spec definition for resource %s", def.Name())
 		}
 
-		result.Add(armSpecDef)
+		armSpecs.Add(armSpecDef)
 	}
 
-	// Collect other object and enum definitions, as we need to create ARM variants of those too
-	otherDefs := c.definitions.Except(resourceSpecDefs).
-		Where(
-			func(def astmodel.TypeDefinition) bool {
-				_, isObject := astmodel.AsObjectType(def.Type())
-				_, isEnum := astmodel.AsEnumType(def.Type())
-				return isObject || isEnum
-			})
-
-	for name, def := range otherDefs {
-		if !requiresARMType(def) {
+	armDefs := make(astmodel.TypeDefinitionSet)
+	for name, def := range c.definitions {
+		// Skip resource types
+		if resources.Contains(def.Name()) {
 			continue
 		}
 
@@ -143,10 +136,11 @@ func (c *armTypeCreator) createARMTypes() (astmodel.TypeDefinitionSet, error) {
 			return nil, err
 		}
 
-		result.Add(armDef)
+		armDefs.Add(armDef)
 	}
 
-	result.AddTypes(c.newDefs)
+	// We'll have two ARM variants of each spec - we must use the one from armSpecs as that has extra features
+	result := armDefs.OverlayWith(armSpecs)
 
 	return result, nil
 }
@@ -217,12 +211,7 @@ func (c *armTypeCreator) createARMTypeDefinition(
 		return c.createARMObjectTypeDefinition(def, convContext)
 	}
 
-	if _, isEnum := astmodel.AsEnumType(def.Type()); isEnum {
-		return c.createARMEnumTypeDefinition(def, convContext)
-	}
-
-	debug := astmodel.DebugDescription(def.Type())
-	return astmodel.TypeDefinition{}, errors.New("unsupported type: " + debug)
+	return c.createDefaultARMTypeDefinition(def, convContext)
 }
 
 func (c *armTypeCreator) createARMObjectTypeDefinition(
@@ -277,7 +266,7 @@ func (c *armTypeCreator) createARMObjectTypeDefinition(
 	return result, nil
 }
 
-func (c *armTypeCreator) createARMEnumTypeDefinition(
+func (c *armTypeCreator) createDefaultARMTypeDefinition(
 	def astmodel.TypeDefinition,
 	_ *armPropertyTypeConversionContext,
 ) (astmodel.TypeDefinition, error) {
@@ -536,43 +525,8 @@ func (c *armTypeCreator) visitARMTypeName(
 	it astmodel.InternalTypeName,
 	ctx any,
 ) (astmodel.Type, error) {
-	// Look up the definition
-	def, err := c.definitions.GetDefinition(it)
-	if err != nil {
-		// Don't need to wrap, it already has everything we want in the error
-		return nil, err
-	}
-
-	// If the name references an object type, we need an updated name, create it and return
-	if _, ok := astmodel.AsObjectType(def.Type()); ok {
-		return astmodel.CreateARMTypeName(def.Name()), nil
-	}
-
-	// If the name references an enum type, we need an updated name, create it and return
-	if _, ok := astmodel.AsEnumType(def.Type()); ok {
-		return astmodel.CreateARMTypeName(def.Name()), nil
-	}
-
-	// If the name references a primitive type, we use that type directly
-	// (though we sanitise it by running through the type visitor first)
-	if _, ok := astmodel.AsPrimitiveType(def.Type()); ok {
-		return this.Visit(def.Type(), ctx)
-	}
-
-	// We may or may not need to use an updated type name (i.e. if it's an aliased primitive type we can
-	// just keep using that alias)
-	updatedType, err := this.Visit(def.Type(), ctx)
-	if err != nil {
-		return nil, errors.Wrapf(err, "failed to update definition %s", def.Name())
-	}
-
-	// If no change, keep the existing name
-	if astmodel.TypeEquals(updatedType, def.Type()) {
-		return it, nil
-	}
-
-	// Otherwise give it a new name, and use that
-	return astmodel.CreateARMTypeName(def.Name()), nil
+	// Give it a new name, and use that
+	return astmodel.CreateARMTypeName(it), nil
 }
 
 // visitValidatedType unwraps the base type out of the validation, as we don't need the validation for the ARM payload
