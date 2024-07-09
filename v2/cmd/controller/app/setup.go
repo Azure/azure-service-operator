@@ -20,12 +20,14 @@ import (
 	"github.com/benbjohnson/clock"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
+	"golang.org/x/time/rate"
 	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	apiextensionsclient "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/client-go/rest"
+	"k8s.io/client-go/util/workqueue"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/cache"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -430,10 +432,19 @@ func initializeWatchers(readyResources map[string]apiextensions.CustomResourceDe
 }
 
 func makeControllerOptions(log logr.Logger, cfg config.Values) generic.Options {
+	var additionalRateLimiters []workqueue.RateLimiter
+	if cfg.RateLimit.Mode == config.RateLimitModeBucket {
+		additionalRateLimiters = append(
+			additionalRateLimiters,
+			&workqueue.BucketRateLimiter{
+				Limiter: rate.NewLimiter(rate.Limit(cfg.RateLimit.QPS), cfg.RateLimit.BucketSize),
+			})
+	}
+
 	return generic.Options{
 		Config: cfg,
 		Options: controller.Options{
-			MaxConcurrentReconciles: 1,
+			MaxConcurrentReconciles: cfg.MaxConcurrentReconciles,
 			LogConstructor: func(req *reconcile.Request) logr.Logger {
 				// refer to https://github.com/kubernetes-sigs/controller-runtime/pull/1827/files
 				if req == nil {
@@ -443,7 +454,7 @@ func makeControllerOptions(log logr.Logger, cfg config.Values) generic.Options {
 				return log.WithValues("namespace", req.Namespace, "name", req.Name)
 			},
 			// These rate limits are used for happy-path backoffs (for example polling async operation IDs for PUT/DELETE)
-			RateLimiter: generic.NewRateLimiter(1*time.Second, 1*time.Minute, true),
+			RateLimiter: generic.NewRateLimiter(1*time.Second, 1*time.Minute, additionalRateLimiters...),
 		},
 		RequeueIntervalCalculator: interval.NewCalculator(
 			// These rate limits are primarily for ReadyConditionImpactingError's
