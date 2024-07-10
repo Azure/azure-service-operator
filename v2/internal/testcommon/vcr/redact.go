@@ -132,11 +132,16 @@ func hidePasswords(s string) string {
 	return passwordMatcher.ReplaceAllLiteralString(s, "\"{PASSWORD}\"")
 }
 
-var secretMatcher = regexp.MustCompile("\".*[Ss]ecret.*\"")
+var (
+	secretMatcher  = regexp.MustCompile(`"([A-Za-z]+)?[Ss]ecret":".*"`)
+	secretReplacer = regexp.MustCompile(`:".*"`)
+)
 
 // hideSecrets hides anything that looks like a secret
 func hideSecrets(s string) string {
-	return secretMatcher.ReplaceAllLiteralString(s, "\"{SECRET}\"")
+	return secretMatcher.ReplaceAllStringFunc(s, func(matched string) string {
+		return secretReplacer.ReplaceAllString(matched, `:"{SECRET}"`)
+	})
 }
 
 // kubeConfigMatcher specifically matches base64 data returned by the AKS get keys API

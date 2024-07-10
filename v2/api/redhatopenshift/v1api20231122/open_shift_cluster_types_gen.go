@@ -208,7 +208,7 @@ func (cluster *OpenShiftCluster) ValidateUpdate(old runtime.Object) (admission.W
 
 // createValidations validates the creation of the resource
 func (cluster *OpenShiftCluster) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){cluster.validateResourceReferences, cluster.validateOwnerReference}
+	return []func() (admission.Warnings, error){cluster.validateResourceReferences, cluster.validateOwnerReference, cluster.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -226,7 +226,19 @@ func (cluster *OpenShiftCluster) updateValidations() []func(old runtime.Object) 
 		func(old runtime.Object) (admission.Warnings, error) {
 			return cluster.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return cluster.validateOptionalConfigMapReferences()
+		},
 	}
+}
+
+// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
+func (cluster *OpenShiftCluster) validateOptionalConfigMapReferences() (admission.Warnings, error) {
+	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&cluster.Spec)
+	if err != nil {
+		return nil, err
+	}
+	return genruntime.ValidateOptionalConfigMapReferences(refs)
 }
 
 // validateOwnerReference validates the owner field
@@ -3292,7 +3304,10 @@ var provisioningState_STATUS_Values = map[string]ProvisioningState_STATUS{
 // ServicePrincipalProfile represents a service principal profile.
 type ServicePrincipalProfile struct {
 	// ClientId: The client ID used for the cluster.
-	ClientId *string `json:"clientId,omitempty"`
+	ClientId *string `json:"clientId,omitempty" optionalConfigMapPair:"ClientId"`
+
+	// ClientIdFromConfig: The client ID used for the cluster.
+	ClientIdFromConfig *genruntime.ConfigMapReference `json:"clientIdFromConfig,omitempty" optionalConfigMapPair:"ClientId"`
 
 	// ClientSecret: The client secret used for the cluster.
 	ClientSecret *genruntime.SecretReference `json:"clientSecret,omitempty"`
@@ -3310,6 +3325,14 @@ func (profile *ServicePrincipalProfile) ConvertToARM(resolved genruntime.Convert
 	// Set property "ClientId":
 	if profile.ClientId != nil {
 		clientId := *profile.ClientId
+		result.ClientId = &clientId
+	}
+	if profile.ClientIdFromConfig != nil {
+		clientIdValue, err := resolved.ResolvedConfigMaps.Lookup(*profile.ClientIdFromConfig)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property ClientId")
+		}
+		clientId := clientIdValue
 		result.ClientId = &clientId
 	}
 
@@ -3343,6 +3366,8 @@ func (profile *ServicePrincipalProfile) PopulateFromARM(owner genruntime.Arbitra
 		profile.ClientId = &clientId
 	}
 
+	// no assignment for property "ClientIdFromConfig"
+
 	// no assignment for property "ClientSecret"
 
 	// No error
@@ -3354,6 +3379,14 @@ func (profile *ServicePrincipalProfile) AssignProperties_From_ServicePrincipalPr
 
 	// ClientId
 	profile.ClientId = genruntime.ClonePointerToString(source.ClientId)
+
+	// ClientIdFromConfig
+	if source.ClientIdFromConfig != nil {
+		clientIdFromConfig := source.ClientIdFromConfig.Copy()
+		profile.ClientIdFromConfig = &clientIdFromConfig
+	} else {
+		profile.ClientIdFromConfig = nil
+	}
 
 	// ClientSecret
 	if source.ClientSecret != nil {
@@ -3374,6 +3407,14 @@ func (profile *ServicePrincipalProfile) AssignProperties_To_ServicePrincipalProf
 
 	// ClientId
 	destination.ClientId = genruntime.ClonePointerToString(profile.ClientId)
+
+	// ClientIdFromConfig
+	if profile.ClientIdFromConfig != nil {
+		clientIdFromConfig := profile.ClientIdFromConfig.Copy()
+		destination.ClientIdFromConfig = &clientIdFromConfig
+	} else {
+		destination.ClientIdFromConfig = nil
+	}
 
 	// ClientSecret
 	if profile.ClientSecret != nil {

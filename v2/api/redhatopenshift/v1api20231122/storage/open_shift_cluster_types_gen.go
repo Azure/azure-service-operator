@@ -342,9 +342,10 @@ type NetworkProfile_STATUS struct {
 // Storage version of v1api20231122.ServicePrincipalProfile
 // ServicePrincipalProfile represents a service principal profile.
 type ServicePrincipalProfile struct {
-	ClientId     *string                     `json:"clientId,omitempty"`
-	ClientSecret *genruntime.SecretReference `json:"clientSecret,omitempty"`
-	PropertyBag  genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	ClientId           *string                        `json:"clientId,omitempty" optionalConfigMapPair:"ClientId"`
+	ClientIdFromConfig *genruntime.ConfigMapReference `json:"clientIdFromConfig,omitempty" optionalConfigMapPair:"ClientId"`
+	ClientSecret       *genruntime.SecretReference    `json:"clientSecret,omitempty"`
+	PropertyBag        genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20231122.ServicePrincipalProfile_STATUS

@@ -1396,6 +1396,11 @@ func (in *ServicePrincipalProfile) DeepCopyInto(out *ServicePrincipalProfile) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ClientIdFromConfig != nil {
+		in, out := &in.ClientIdFromConfig, &out.ClientIdFromConfig
+		*out = new(genruntime.ConfigMapReference)
+		**out = **in
+	}
 	if in.ClientSecret != nil {
 		in, out := &in.ClientSecret, &out.ClientSecret
 		*out = new(genruntime.SecretReference)

@@ -910,6 +910,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Obj: new(redhatopenshift_v20231122s.OpenShiftCluster),
 		Indexes: []registration.Index{
 			{
+				Key:  ".spec.servicePrincipalProfile.clientIdFromConfig",
+				Func: indexRedhatopenshiftOpenShiftClusterClientIdFromConfig,
+			},
+			{
 				Key:  ".spec.servicePrincipalProfile.clientSecret",
 				Func: indexRedhatopenshiftOpenShiftClusterClientSecret,
 			},
@@ -922,6 +926,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 			{
 				Type:             &v1.Secret{},
 				MakeEventHandler: watchSecretsFactory([]string{".spec.clusterProfile.pullSecret", ".spec.servicePrincipalProfile.clientSecret"}, &redhatopenshift_v20231122s.OpenShiftClusterList{}),
+			},
+			{
+				Type:             &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.servicePrincipalProfile.clientIdFromConfig"}, &redhatopenshift_v20231122s.OpenShiftClusterList{}),
 			},
 		},
 	})
@@ -3412,6 +3420,21 @@ func indexNetworkDnsForwardingRuleSetsForwardingRuleIpAddressFromConfig(rawObj c
 		result = append(result, targetDnsServerItem.IpAddressFromConfig.Index()...)
 	}
 	return result
+}
+
+// indexRedhatopenshiftOpenShiftClusterClientIdFromConfig an index function for redhatopenshift_v20231122s.OpenShiftCluster .spec.servicePrincipalProfile.clientIdFromConfig
+func indexRedhatopenshiftOpenShiftClusterClientIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*redhatopenshift_v20231122s.OpenShiftCluster)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.ServicePrincipalProfile == nil {
+		return nil
+	}
+	if obj.Spec.ServicePrincipalProfile.ClientIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.ServicePrincipalProfile.ClientIdFromConfig.Index()
 }
 
 // indexRedhatopenshiftOpenShiftClusterClientSecret an index function for redhatopenshift_v20231122s.OpenShiftCluster .spec.servicePrincipalProfile.clientSecret

@@ -53,8 +53,9 @@ OpenShiftCluster: Resource
 │   │   ├── "Failed"
 │   │   ├── "Succeeded"
 │   │   └── "Updating"
-│   ├── ServicePrincipalProfile: *Object (2 properties)
+│   ├── ServicePrincipalProfile: *Object (3 properties)
 │   │   ├── ClientId: *string
+│   │   ├── ClientIdFromConfig: *genruntime.ConfigMapReference
 │   │   └── ClientSecret: *genruntime.SecretReference
 │   ├── Tags: map[string]string
 │   └── WorkerProfiles: Object (7 properties)[]

@@ -127,7 +127,7 @@ type NetworkProfile_ARM struct {
 // ServicePrincipalProfile represents a service principal profile.
 type ServicePrincipalProfile_ARM struct {
 	// ClientId: The client ID used for the cluster.
-	ClientId *string `json:"clientId,omitempty"`
+	ClientId *string `json:"clientId,omitempty" optionalConfigMapPair:"ClientId"`
 
 	// ClientSecret: The client secret used for the cluster.
 	ClientSecret *string `json:"clientSecret,omitempty"`

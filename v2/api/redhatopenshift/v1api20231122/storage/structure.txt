@@ -43,8 +43,9 @@ OpenShiftCluster: Resource
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
 │   ├── ProvisioningState: *string
-│   ├── ServicePrincipalProfile: *Object (3 properties)
+│   ├── ServicePrincipalProfile: *Object (4 properties)
 │   │   ├── ClientId: *string
+│   │   ├── ClientIdFromConfig: *genruntime.ConfigMapReference
 │   │   ├── ClientSecret: *genruntime.SecretReference
 │   │   └── PropertyBag: genruntime.PropertyBag
 │   ├── Tags: map[string]string

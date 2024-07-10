@@ -32,8 +32,8 @@ func Test_RedHatOpenShift_OpenShiftCluster_CRUD(t *testing.T) {
 	secretName := "aro-secret"
 	secretKey := "client-secret"
 	// TODO: Replace the principalID, clientSecret and clientId vars below with principalId, clientSecret and clientId of your SP
-	principalId := "b542c40a-d0b3-41f7-a9f4-56adbbed1ccd"
-	clientId := "c055e786-8d06-44db-90a1-31ea5767123c"
+	principalId := "5c6be76c-5fc4-4817-992d-22027b44c402"
+	clientId := "5b7a18b9-8aec-4456-a4c3-0865cbfa1512"
 	clientSecret := "your-client-secret-here"
 	// This is the RP principalId, no need to change this.
 	// This can be fetched by using `az ad sp list --display-name "Azure Red Hat OpenShift RP" --query "[0].id" -o tsv` command
@@ -68,8 +68,9 @@ func Test_RedHatOpenShift_OpenShiftCluster_CRUD(t *testing.T) {
 				Visibility: to.Ptr(aro.Visibility_Private),
 			},
 			ClusterProfile: &aro.ClusterProfile{
-				Domain:               to.Ptr("aro-example.com"),
-				Version:              to.Ptr("4.14.16"),
+				Domain:  to.Ptr("aro-example.com"),
+				Version: to.Ptr("4.14.16"),
+				// This is RG below is created by the RP.
 				ResourceGroupId:      to.Ptr(fmt.Sprintf("/subscriptions/%s/resourceGroups/%s", tc.AzureSubscription, tc.Namer.GenerateName("cluster-rg"))),
 				FipsValidatedModules: to.Ptr(aro.FipsValidatedModules_Disabled),
 			},
