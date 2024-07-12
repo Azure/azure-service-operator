@@ -18,30 +18,30 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>network.azure.com/v1api20180901 | Azure Service Operator</title>
-<meta name="description" content="network.azure.com/v1api20180901  Package v1api20180901 contains API Schema definitions for the network v1api20180901 API group
- Resource Types:  APIVersion (string alias)      Value Description   &amp;#34;2018-09-01&amp;#34;
-    PrivateDnsZone   Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2018-09-01/privatedns.json - ARM URI: /&amp;#x200b;subscriptions/&amp;#x200b;{subscriptionId}/&amp;#x200b;resourceGroups/&amp;#x200b;{resourceGroupName}/&amp;#x200b;providers/&amp;#x200b;Microsoft.Network/&amp;#x200b;privateDnsZones/&amp;#x200b;{privateZoneName}     Field Description      metadata  Kubernetes meta/v1.ObjectMeta     Refer to the Kubernetes API documentation for the fields of the metadata field.">
-<meta property="og:title" content="network.azure.com/v1api20180901" />
-<meta property="og:description" content="network.azure.com/v1api20180901  Package v1api20180901 contains API Schema definitions for the network v1api20180901 API group
- Resource Types:  APIVersion (string alias)      Value Description   &#34;2018-09-01&#34;
-    PrivateDnsZone   Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2018-09-01/privatedns.json - ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;privateDnsZones/&#x200b;{privateZoneName}     Field Description      metadata  Kubernetes meta/v1.ObjectMeta     Refer to the Kubernetes API documentation for the fields of the metadata field." />
+<title>2024-07: Dynamic Export to Secret or ConfigMap | Azure Service Operator</title>
+<meta name="description" content="Context It is a common ask for users to request a new value be exportable to ConfigMap, or for the values that are currently exported to a ConfigMap or Secret to be customizable in some way.
+Outstanding issues related to this topic:
+ #2920: Feature: Support export of storage account connection strings. #2555: Feature: Support dynamic secret/configmap exports #3711: PublicIPPrefix: Allow exporting IP range as ConfigMap #3671: DatabaseAccount CRD: Add support to store the account Id in a config map  (there may be more)">
+<meta property="og:title" content="2024-07: Dynamic Export to Secret or ConfigMap" />
+<meta property="og:description" content="Context It is a common ask for users to request a new value be exportable to ConfigMap, or for the values that are currently exported to a ConfigMap or Secret to be customizable in some way.
+Outstanding issues related to this topic:
+ #2920: Feature: Support export of storage account connection strings. #2555: Feature: Support dynamic secret/configmap exports #3711: PublicIPPrefix: Allow exporting IP range as ConfigMap #3671: DatabaseAccount CRD: Add support to store the account Id in a config map  (there may be more)" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/network/v1api20180901/" /><meta property="article:section" content="reference" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/design/adr-2024-07-dynamic-export-to-secret-or-configmap/" /><meta property="article:section" content="design" />
 
 
 
-<meta itemprop="name" content="network.azure.com/v1api20180901">
-<meta itemprop="description" content="network.azure.com/v1api20180901  Package v1api20180901 contains API Schema definitions for the network v1api20180901 API group
- Resource Types:  APIVersion (string alias)      Value Description   &#34;2018-09-01&#34;
-    PrivateDnsZone   Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2018-09-01/privatedns.json - ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;privateDnsZones/&#x200b;{privateZoneName}     Field Description      metadata  Kubernetes meta/v1.ObjectMeta     Refer to the Kubernetes API documentation for the fields of the metadata field.">
+<meta itemprop="name" content="2024-07: Dynamic Export to Secret or ConfigMap">
+<meta itemprop="description" content="Context It is a common ask for users to request a new value be exportable to ConfigMap, or for the values that are currently exported to a ConfigMap or Secret to be customizable in some way.
+Outstanding issues related to this topic:
+ #2920: Feature: Support export of storage account connection strings. #2555: Feature: Support dynamic secret/configmap exports #3711: PublicIPPrefix: Allow exporting IP range as ConfigMap #3671: DatabaseAccount CRD: Add support to store the account Id in a config map  (there may be more)">
 
-<meta itemprop="wordCount" content="894">
+<meta itemprop="wordCount" content="2506">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="network.azure.com/v1api20180901"/>
-<meta name="twitter:description" content="network.azure.com/v1api20180901  Package v1api20180901 contains API Schema definitions for the network v1api20180901 API group
- Resource Types:  APIVersion (string alias)      Value Description   &#34;2018-09-01&#34;
-    PrivateDnsZone   Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2018-09-01/privatedns.json - ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;privateDnsZones/&#x200b;{privateZoneName}     Field Description      metadata  Kubernetes meta/v1.ObjectMeta     Refer to the Kubernetes API documentation for the fields of the metadata field."/>
+<meta name="twitter:title" content="2024-07: Dynamic Export to Secret or ConfigMap"/>
+<meta name="twitter:description" content="Context It is a common ask for users to request a new value be exportable to ConfigMap, or for the values that are currently exported to a ConfigMap or Secret to be customizable in some way.
+Outstanding issues related to this topic:
+ #2920: Feature: Support export of storage account connection strings. #2555: Feature: Support dynamic secret/configmap exports #3711: PublicIPPrefix: Allow exporting IP range as ConfigMap #3671: DatabaseAccount CRD: Add support to store the account Id in a config map  (there may be more)"/>
 
 
 
@@ -71,13 +71,13 @@
         <a class="nav-link" href="/azure-service-operator/tools/"><span>Tools</span></a>
       </li>
       <li class="nav-item mr-4 mb-2 mb-lg-0">
-        <a class="nav-link active" href="/azure-service-operator/reference/"><span class="active">Supported Resources</span></a>
+        <a class="nav-link" href="/azure-service-operator/reference/"><span>Supported Resources</span></a>
       </li>
       <li class="nav-item mr-4 mb-2 mb-lg-0">
         <a class="nav-link" href="/azure-service-operator/contributing/"><span>Contributing</span></a>
       </li>
       <li class="nav-item mr-4 mb-2 mb-lg-0">
-        <a class="nav-link" href="/azure-service-operator/design/"><span>Design</span></a>
+        <a class="nav-link active" href="/azure-service-operator/design/"><span class="active">Design</span></a>
       </li>
       </ul>
   </div>
@@ -224,17 +224,17 @@
   <a href="/azure-service-operator/tools/generator/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatortoolsgenerator"><span class="">generator</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreference-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreference-li">
   <a href="/azure-service-operator/reference/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreference"><span class="">Supported Resources</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencealertsmanagement-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencealertsmanagement-li">
   <a href="/azure-service-operator/reference/alertsmanagement/" title="AlertsManagement Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencealertsmanagement"><span class="">AlertsManagement</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencealertsmanagementv1api20230301-li">
   <a href="/azure-service-operator/reference/alertsmanagement/v1api20230301/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencealertsmanagementv1api20230301"><span class="">alertsmanagement.azure.com/v1api20230301</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceapimanagement-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceapimanagement-li">
   <a href="/azure-service-operator/reference/apimanagement/" title="ApiManagement Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceapimanagement"><span class="">ApiManagement</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceapimanagementv1api20220801-li">
@@ -243,14 +243,14 @@
   <a href="/azure-service-operator/reference/apimanagement/v1api20230501preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceapimanagementv1api20230501preview"><span class="">apimanagement.azure.com/v1api20230501preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceappconfiguration-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceappconfiguration-li">
   <a href="/azure-service-operator/reference/appconfiguration/" title="AppConfiguration Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceappconfiguration"><span class="">AppConfiguration</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceappconfigurationv1api20220501-li">
   <a href="/azure-service-operator/reference/appconfiguration/v1api20220501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappconfigurationv1api20220501"><span class="">appconfiguration.azure.com/v1api20220501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceauthorization-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceauthorization-li">
   <a href="/azure-service-operator/reference/authorization/" title="Authorization Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceauthorization"><span class="">Authorization</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceauthorizationv1api20200801preview-li">
@@ -259,14 +259,14 @@
   <a href="/azure-service-operator/reference/authorization/v1api20220401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1api20220401"><span class="">authorization.azure.com/v1api20220401</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencebatch-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencebatch-li">
   <a href="/azure-service-operator/reference/batch/" title="Batch Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencebatch"><span class="">Batch</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencebatchv1api20210101-li">
   <a href="/azure-service-operator/reference/batch/v1api20210101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebatchv1api20210101"><span class="">batch.azure.com/v1api20210101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecache-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecache-li">
   <a href="/azure-service-operator/reference/cache/" title="Cache Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecache"><span class="">Cache</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20201201-li">
@@ -279,7 +279,7 @@
   <a href="/azure-service-operator/reference/cache/v1api20230701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230701"><span class="">cache.azure.com/v1api20230701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecdn-li">
   <a href="/azure-service-operator/reference/cdn/" title="Cdn Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecdn"><span class="">Cdn</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecdnv1api20210601-li">
@@ -288,7 +288,7 @@
   <a href="/azure-service-operator/reference/cdn/v1api20230501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecdnv1api20230501"><span class="">cdn.azure.com/v1api20230501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecompute-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecompute-li">
   <a href="/azure-service-operator/reference/compute/" title="Compute Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecompute"><span class="">Compute</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20200930-li">
@@ -303,21 +303,21 @@
   <a href="/azure-service-operator/reference/compute/v1api20220702/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20220702"><span class="">compute.azure.com/v1api20220702</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerinstance-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerinstance-li">
   <a href="/azure-service-operator/reference/containerinstance/" title="ContainerInstance Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerinstance"><span class="">ContainerInstance</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerinstancev1api20211001-li">
   <a href="/azure-service-operator/reference/containerinstance/v1api20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerinstancev1api20211001"><span class="">containerinstance.azure.com/v1api20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerregistry-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerregistry-li">
   <a href="/azure-service-operator/reference/containerregistry/" title="ContainerRegistry Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerregistry"><span class="">ContainerRegistry</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1api20210901-li">
   <a href="/azure-service-operator/reference/containerregistry/v1api20210901/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1api20210901"><span class="">containerregistry.azure.com/v1api20210901</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerservice-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerservice-li">
   <a href="/azure-service-operator/reference/containerservice/" title="ContainerService Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerservice"><span class="">ContainerService</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20210501-li">
@@ -336,14 +336,14 @@
   <a href="/azure-service-operator/reference/containerservice/v1api20240402preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240402preview"><span class="">containerservice.azure.com/v1api20240402preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedatafactory-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedatafactory-li">
   <a href="/azure-service-operator/reference/datafactory/" title="DataFactory Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedatafactory"><span class="">DataFactory</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedatafactoryv1api20180601-li">
   <a href="/azure-service-operator/reference/datafactory/v1api20180601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedatafactoryv1api20180601"><span class="">datafactory.azure.com/v1api20180601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedataprotection-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedataprotection-li">
   <a href="/azure-service-operator/reference/dataprotection/" title="DataProtection Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedataprotection"><span class="">DataProtection</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedataprotectionv1api20230101-li">
@@ -352,14 +352,14 @@
   <a href="/azure-service-operator/reference/dataprotection/v1api20231101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedataprotectionv1api20231101"><span class="">dataprotection.azure.com/v1api20231101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformariadb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbformariadb-li">
   <a href="/azure-service-operator/reference/dbformariadb/" title="DBforMariaDB Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformariadb"><span class="">DBforMariaDB</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformariadbv1api20180601-li">
   <a href="/azure-service-operator/reference/dbformariadb/v1api20180601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformariadbv1api20180601"><span class="">dbformariadb.azure.com/v1api20180601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformysql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbformysql-li">
   <a href="/azure-service-operator/reference/dbformysql/" title="DBforMySQL Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformysql"><span class="">DBforMySQL</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1-li">
@@ -372,7 +372,7 @@
   <a href="/azure-service-operator/reference/dbformysql/v1api20230630/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20230630"><span class="">dbformysql.azure.com/v1api20230630</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbforpostgresql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbforpostgresql-li">
   <a href="/azure-service-operator/reference/dbforpostgresql/" title="DBforPostgreSQL Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbforpostgresql"><span class="">DBforPostgreSQL</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1-li">
@@ -387,14 +387,14 @@
   <a href="/azure-service-operator/reference/dbforpostgresql/v1api20230601preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20230601preview"><span class="">dbforpostgresql.azure.com/v1api20230601preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedevices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedevices-li">
   <a href="/azure-service-operator/reference/devices/" title="Devices Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedevices"><span class="">Devices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedevicesv1api20210702-li">
   <a href="/azure-service-operator/reference/devices/v1api20210702/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedevicesv1api20210702"><span class="">devices.azure.com/v1api20210702</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedocumentdb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedocumentdb-li">
   <a href="/azure-service-operator/reference/documentdb/" title="DocumentDB Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedocumentdb"><span class="">DocumentDB</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1api20210515-li">
@@ -403,21 +403,21 @@
   <a href="/azure-service-operator/reference/documentdb/v1api20231115/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1api20231115"><span class="">documentdb.azure.com/v1api20231115</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventgrid-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceeventgrid-li">
   <a href="/azure-service-operator/reference/eventgrid/" title="EventGrid Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventgrid"><span class="">EventGrid</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventgridv1api20200601-li">
   <a href="/azure-service-operator/reference/eventgrid/v1api20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventgridv1api20200601"><span class="">eventgrid.azure.com/v1api20200601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventhub-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceeventhub-li">
   <a href="/azure-service-operator/reference/eventhub/" title="EventHub Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventhub"><span class="">EventHub</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventhubv1api20211101-li">
   <a href="/azure-service-operator/reference/eventhub/v1api20211101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1api20211101"><span class="">eventhub.azure.com/v1api20211101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceinsights-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceinsights-li">
   <a href="/azure-service-operator/reference/insights/" title="Insights Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceinsights"><span class="">Insights</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20180301-li">
@@ -434,7 +434,7 @@
   <a href="/azure-service-operator/reference/insights/v1api20230101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20230101"><span class="">insights.azure.com/v1api20230101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekeyvault-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencekeyvault-li">
   <a href="/azure-service-operator/reference/keyvault/" title="KeyVault Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekeyvault"><span class="">KeyVault</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekeyvaultv1api20210401preview-li">
@@ -443,21 +443,21 @@
   <a href="/azure-service-operator/reference/keyvault/v1api20230701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekeyvaultv1api20230701"><span class="">keyvault.azure.com/v1api20230701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekubernetesconfiguration-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencekubernetesconfiguration-li">
   <a href="/azure-service-operator/reference/kubernetesconfiguration/" title="KubernetesConfiguration Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekubernetesconfiguration"><span class="">KubernetesConfiguration</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20230501-li">
   <a href="/azure-service-operator/reference/kubernetesconfiguration/v1api20230501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20230501"><span class="">kubernetesconfiguration.azure.com/v1api20230501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemachinelearningservices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemachinelearningservices-li">
   <a href="/azure-service-operator/reference/machinelearningservices/" title="MachineLearningServices Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemachinelearningservices"><span class="">MachineLearningServices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
   <a href="/azure-service-operator/reference/machinelearningservices/v1api20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701"><span class="">machinelearningservices.azure.com/v1api20210701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemanagedidentity-li">
   <a href="/azure-service-operator/reference/managedidentity/" title="ManagedIdentity Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemanagedidentity"><span class="">ManagedIdentity</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1api20181130-li">
@@ -468,59 +468,59 @@
   <a href="/azure-service-operator/reference/managedidentity/v1api20230131/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1api20230131"><span class="">managedidentity.azure.com/v1api20230131</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemonitor-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemonitor-li">
   <a href="/azure-service-operator/reference/monitor/" title="Monitor Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemonitor"><span class="">Monitor</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemonitorv1api20230403-li">
   <a href="/azure-service-operator/reference/monitor/v1api20230403/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemonitorv1api20230403"><span class="">monitor.azure.com/v1api20230403</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetworkfrontdoor-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencenetworkfrontdoor-li">
   <a href="/azure-service-operator/reference/network.frontdoor/" title="Network Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetworkfrontdoor"><span class="">Network</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkfrontdoorv1api20220501-li">
   <a href="/azure-service-operator/reference/network.frontdoor/v1api20220501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkfrontdoorv1api20220501"><span class="">network.frontdoor.azure.com/v1api20220501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferencenetwork-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencenetwork-li">
   <a href="/azure-service-operator/reference/network/" title="Network Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetwork"><span class="">Network</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencenetworkv1api20180501-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20180501-li">
   <a href="/azure-service-operator/reference/network/v1api20180501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20180501"><span class="">network.azure.com/v1api20180501</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorreferencenetworkv1api20180901-li">
-  <a href="/azure-service-operator/reference/network/v1api20180901/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20180901"><span class="td-sidebar-nav-active-item">network.azure.com/v1api20180901</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencenetworkv1api20200601-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20180901-li">
+  <a href="/azure-service-operator/reference/network/v1api20180901/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20180901"><span class="">network.azure.com/v1api20180901</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20200601-li">
   <a href="/azure-service-operator/reference/network/v1api20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20200601"><span class="">network.azure.com/v1api20200601</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencenetworkv1api20201101-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20201101-li">
   <a href="/azure-service-operator/reference/network/v1api20201101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20201101"><span class="">network.azure.com/v1api20201101</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencenetworkv1api20220401-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20220401-li">
   <a href="/azure-service-operator/reference/network/v1api20220401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220401"><span class="">network.azure.com/v1api20220401</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencenetworkv1api20220701-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20220701-li">
   <a href="/azure-service-operator/reference/network/v1api20220701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220701"><span class="">network.azure.com/v1api20220701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceoperationalinsights-li">
   <a href="/azure-service-operator/reference/operationalinsights/" title="OperationalInsights Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceoperationalinsights"><span class="">OperationalInsights</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceoperationalinsightsv1api20210601-li">
   <a href="/azure-service-operator/reference/operationalinsights/v1api20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv1api20210601"><span class="">operationalinsights.azure.com/v1api20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceresources-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceresources-li">
   <a href="/azure-service-operator/reference/resources/" title="Resources Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceresources"><span class="">Resources</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceresourcesv1api20200601-li">
   <a href="/azure-service-operator/reference/resources/v1api20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceresourcesv1api20200601"><span class="">resources.azure.com/v1api20200601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesearch-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesearch-li">
   <a href="/azure-service-operator/reference/search/" title="Search Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesearch"><span class="">Search</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesearchv1api20220901-li">
   <a href="/azure-service-operator/reference/search/v1api20220901/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesearchv1api20220901"><span class="">search.azure.com/v1api20220901</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceservicebus-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceservicebus-li">
   <a href="/azure-service-operator/reference/servicebus/" title="ServiceBus Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceservicebus"><span class="">ServiceBus</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv1api20210101preview-li">
@@ -531,14 +531,14 @@
   <a href="/azure-service-operator/reference/servicebus/v1api20221001preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1api20221001preview"><span class="">servicebus.azure.com/v1api20221001preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesignalrservice-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesignalrservice-li">
   <a href="/azure-service-operator/reference/signalrservice/" title="SignalRService Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesignalrservice"><span class="">SignalRService</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesignalrservicev1api20211001-li">
   <a href="/azure-service-operator/reference/signalrservice/v1api20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesignalrservicev1api20211001"><span class="">signalrservice.azure.com/v1api20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesql-li">
   <a href="/azure-service-operator/reference/sql/" title="Sql Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesql"><span class="">Sql</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesqlv1-li">
@@ -547,7 +547,7 @@
   <a href="/azure-service-operator/reference/sql/v1api20211101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesqlv1api20211101"><span class="">sql.azure.com/v1api20211101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencestorage-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencestorage-li">
   <a href="/azure-service-operator/reference/storage/" title="Storage Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencestorage"><span class="">Storage</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1api20210401-li">
@@ -558,21 +558,21 @@
   <a href="/azure-service-operator/reference/storage/v1api20230101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1api20230101"><span class="">storage.azure.com/v1api20230101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesubscription-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesubscription-li">
   <a href="/azure-service-operator/reference/subscription/" title="Subscription Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesubscription"><span class="">Subscription</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesubscriptionv1api20211001-li">
   <a href="/azure-service-operator/reference/subscription/v1api20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesubscriptionv1api20211001"><span class="">subscription.azure.com/v1api20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesynapse-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesynapse-li">
   <a href="/azure-service-operator/reference/synapse/" title="Synapse Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesynapse"><span class="">Synapse</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesynapsev1api20210601-li">
   <a href="/azure-service-operator/reference/synapse/v1api20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesynapsev1api20210601"><span class="">synapse.azure.com/v1api20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceweb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceweb-li">
   <a href="/azure-service-operator/reference/web/" title="Web Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceweb"><span class="">Web</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencewebv1api20220301-li">
@@ -602,76 +602,76 @@
   <a href="/azure-service-operator/contributing/upgrade-resource-version/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorcontributingupgrade-resource-version"><span class="">Upgrading a resource</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesign-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatordesign-li">
   <a href="/azure-service-operator/design/" title="Design &amp; Specifications" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesign"><span class="">Design</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2020-04-code-generation-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-04-code-generation-li">
   <a href="/azure-service-operator/design/adr-2020-04-code-generation/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-04-code-generation"><span class="">2020-04: Why Code Generation?</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2020-07-pipeline-architecture-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-07-pipeline-architecture-li">
   <a href="/azure-service-operator/design/adr-2020-07-pipeline-architecture/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-07-pipeline-architecture"><span class="">2020-07: Pipeline Architecture</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2020-11-abstract-syntax-trees-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-11-abstract-syntax-trees-li">
   <a href="/azure-service-operator/design/adr-2020-11-abstract-syntax-trees/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-11-abstract-syntax-trees"><span class="">2020-11: AST Library Choice</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2021-02-property-conversions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2021-02-property-conversions-li">
   <a href="/azure-service-operator/design/adr-2021-02-property-conversions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-02-property-conversions"><span class="">2021-02: Property Conversions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2021-06-api-version-recovery-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2021-06-api-version-recovery-li">
   <a href="/azure-service-operator/design/adr-2021-06-api-version-recovery/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-06-api-version-recovery"><span class="">2021-06: API Version Recovery</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2021-08-committing-generated-code-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2021-08-committing-generated-code-li">
   <a href="/azure-service-operator/design/adr-2021-08-committing-generated-code/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-08-committing-generated-code"><span class="">2021-08: Committing Generated Code</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-01-reconciler-extensions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-01-reconciler-extensions-li">
   <a href="/azure-service-operator/design/adr-2022-01-reconciler-extensions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-01-reconciler-extensions"><span class="">2022-01: Reconciler Extensions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility-li">
   <a href="/azure-service-operator/design/adr-2022-02-backward-compatibility/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility"><span class="">2022-02: Backward Resource Compatibility</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-08-evil-discriminator-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-08-evil-discriminator-li">
   <a href="/azure-service-operator/design/adr-2022-08-evil-discriminator/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-08-evil-discriminator"><span class="">2022-08 Evil Discriminator</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources-li">
   <a href="/azure-service-operator/design/adr-2022-09-reading-status-properties-of-resources/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources"><span class="">2022-09: Reading Status properties from other ASO resources</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator-li">
   <a href="/azure-service-operator/design/adr-2022-09-multiple-credential-operator/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator"><span class="">2022-09: Support For Multiple Credentials Under Global Operator</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-11-resource-import-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-11-resource-import-li">
   <a href="/azure-service-operator/design/adr-2022-11-resource-import/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-11-resource-import"><span class="">2022-11: ASO v1 Migration and Resource Import</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-11-change-detection-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-11-change-detection-li">
   <a href="/azure-service-operator/design/adr-2022-11-change-detection/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-11-change-detection"><span class="">2022-11: Change Detection</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-01-conversion-augmentation-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-01-conversion-augmentation-li">
   <a href="/azure-service-operator/design/adr-2023-01-conversion-augmentation/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-01-conversion-augmentation"><span class="">2022-12: Conversion Augmentation</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-12-reconciliation-extensions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-12-reconciliation-extensions-li">
   <a href="/azure-service-operator/design/adr-2022-12-reconciliation-extensions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-12-reconciliation-extensions"><span class="">2022-12: Reconciliation Extensions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-02-helm-chart-size-limitations-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-02-helm-chart-size-limitations-li">
   <a href="/azure-service-operator/design/adr-2023-02-helm-chart-size-limitations/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-02-helm-chart-size-limitations"><span class="">2023-01: Helm Chart Size Limitations and Workarounds</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-02-adoption-policy-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-02-adoption-policy-li">
   <a href="/azure-service-operator/design/adr-2023-02-adoption-policy/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-02-adoption-policy"><span class="">2023-02: Adoption Policy</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-03-post-reconciliation-extension-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-03-post-reconciliation-extension-li">
   <a href="/azure-service-operator/design/adr-2023-03-post-reconciliation-extension/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-03-post-reconciliation-extension"><span class="">2023-03: Post Reconciliation Extensions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-04-deprecation-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-04-deprecation-li">
   <a href="/azure-service-operator/design/adr-2023-04-deprecation/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-04-deprecation"><span class="">2023-04: Azure Resource Deprecation</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-04-patch-collections-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-04-patch-collections-li">
   <a href="/azure-service-operator/design/adr-2023-04-patch-collections/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-04-patch-collections"><span class="">2023-04: Preventing Resource Drift</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-05-installing-only-selected-crds-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-05-installing-only-selected-crds-li">
   <a href="/azure-service-operator/design/adr-2023-05-installing-only-selected-crds/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-05-installing-only-selected-crds"><span class="">2023-05: Installing only selected CRDs</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-07-goal-seeking-keyvaults-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-07-goal-seeking-keyvaults-li">
   <a href="/azure-service-operator/design/adr-2023-07-goal-seeking-keyvaults/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2023-07-goal-seeking-keyvaults"><span class="">2023-07 Goal Seeking KeyVaults</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-07-packagereferences-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-07-packagereferences-li">
   <a href="/azure-service-operator/design/adr-2023-07-packagereferences/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2023-07-packagereferences"><span class="">2023-07 Package References</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-09-skipping-properties-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-09-skipping-properties-li">
   <a href="/azure-service-operator/design/adr-2023-09-skipping-properties/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2023-09-skipping-properties"><span class="">2023-09 Complex Properties that Skip Versions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2024-02-upstream-deletion-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2024-02-upstream-deletion-li">
   <a href="/azure-service-operator/design/adr-2024-02-upstream-deletion/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2024-02-upstream-deletion"><span class="">2024-02 Upstream Deletion</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2024-05-operatorspec-custom-properties-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2024-05-operatorspec-custom-properties-li">
   <a href="/azure-service-operator/design/adr-2024-05-operatorspec-custom-properties/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2024-05-operatorspec-custom-properties"><span class="">2024-05 OperatorSpec Custom Properties</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2024-07-dynamic-export-to-secret-or-configmap-li">
-  <a href="/azure-service-operator/design/adr-2024-07-dynamic-export-to-secret-or-configmap/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2024-07-dynamic-export-to-secret-or-configmap"><span class="">2024-07: Dynamic Export to Secret or ConfigMap</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignclarifying-object-structure-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatordesignadr-2024-07-dynamic-export-to-secret-or-configmap-li">
+  <a href="/azure-service-operator/design/adr-2024-07-dynamic-export-to-secret-or-configmap/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2024-07-dynamic-export-to-secret-or-configmap"><span class="td-sidebar-nav-active-item">2024-07: Dynamic Export to Secret or ConfigMap</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignclarifying-object-structure-li">
   <a href="/azure-service-operator/design/clarifying-object-structure/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignclarifying-object-structure"><span class="">Clarifying object structure</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigncrossplane-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigncrossplane-li">
   <a href="/azure-service-operator/design/crossplane/" title="Code generation for Crossplane" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigncrossplane"><span class="">Crossplane support</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigndefaulter-validator-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigndefaulter-validator-li">
   <a href="/azure-service-operator/design/defaulter-validator/" title="Custom validation and defaulting for code generated resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigndefaulter-validator"><span class="">Custom validation</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignsecrets-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignsecrets-li">
   <a href="/azure-service-operator/design/secrets/" title="Managing dataplane secrets" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignsecrets"><span class="">Dataplane secrets</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignreconcile-interface-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignreconcile-interface-li">
   <a href="/azure-service-operator/design/reconcile-interface/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignreconcile-interface"><span class="">Improving the Reconciler interface</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignresource-states-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignresource-states-li">
   <a href="/azure-service-operator/design/resource-states/" title="Proposal for reporting resource Status" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignresource-states"><span class="">Resource status</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatordesignversioning-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesignversioning-li">
   <a href="/azure-service-operator/design/versioning/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignversioning"><span class="">Resource versioning</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatordesignversioningcase-studies-li">
@@ -687,7 +687,7 @@
   </ul>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigntype-references-and-ownership-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigntype-references-and-ownership-li">
   <a href="/azure-service-operator/design/type-references-and-ownership/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigntype-references-and-ownership"><span class="">Type References &amp; ownership</span></a>
 </li>
   </ul>
@@ -705,7 +705,34 @@
 
 </div>
 
-            
+            <div class="td-toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#context">Context</a></li>
+    <li><a href="#requirements">Requirements</a></li>
+    <li><a href="#options">Options</a>
+      <ul>
+        <li><a href="#template-language">Template Language</a></li>
+        <li><a href="#location">Location</a></li>
+        <li><a href="#access-to-secret-data">Access to secret data</a></li>
+      </ul>
+    </li>
+    <li><a href="#decision">Decision</a>
+      <ul>
+        <li><a href="#aspect-1-template-language">Aspect 1: Template language</a></li>
+        <li><a href="#aspect-2-location">Aspect 2: Location</a></li>
+        <li><a href="#aspect-3-secret-access">Aspect 3: Secret access</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </li>
+    <li><a href="#status">Status</a></li>
+    <li><a href="#consequences">Consequences</a></li>
+    <li><a href="#experience-report">Experience Report</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+      </div>
+    
             
 
 	
@@ -734,19 +761,16 @@
             <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
   <li class="breadcrumb-item">
-    <a href="https://azure.github.io/azure-service-operator/reference/">Supported Resources</a>
-  </li>
-  <li class="breadcrumb-item">
-    <a href="https://azure.github.io/azure-service-operator/reference/network/">Network</a>
+    <a href="https://azure.github.io/azure-service-operator/design/">Design</a>
   </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="https://azure.github.io/azure-service-operator/reference/network/v1api20180901/" aria-disabled="true" class="btn-link disabled">network.azure.com/v1api20180901</a>
+    <a href="https://azure.github.io/azure-service-operator/design/adr-2024-07-dynamic-export-to-secret-or-configmap/" aria-disabled="true" class="btn-link disabled">2024-07: Dynamic Export to Secret or ConfigMap</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>network.azure.com/v1api20180901</h1>
+	<h1>2024-07: Dynamic Export to Secret or ConfigMap</h1>
 	
 	<header class="article-meta">
 		
@@ -763,692 +787,385 @@
 
 		
 	</header>    
-	<h2 id="network.azure.com/v1api20180901">network.azure.com/v1api20180901</h2>
-<div>
-<p>Package v1api20180901 contains API Schema definitions for the network v1api20180901 API group</p>
-</div>
-Resource Types:
-<ul></ul>
-<h3 id="network.azure.com/v1api20180901.APIVersion">APIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2018-09-01&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="network.azure.com/v1api20180901.PrivateDnsZone">PrivateDnsZone
-</h3>
-<div>
-<p>Generator information:
-- Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2018-09-01/privatedns.json
-- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;privateDnsZones/&#x200b;{privateZoneName}</&#x200b;p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>metadata</code><br/>
-<em>
-<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
-Kubernetes meta/v1.ObjectMeta
-</a>
-</em>
-</td>
-<td>
-Refer to the Kubernetes API documentation for the fields of the
-<code>metadata</code> field.
-</td>
-</tr>
-<tr>
-<td>
-<code>spec</code><br/>
-<em>
-<a href="#network.azure.com/v1api20180901.PrivateDnsZone_Spec">
-PrivateDnsZone_Spec
-</a>
-</em>
-</td>
-<td>
-<br/>
-<br/>
-<table>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>etag</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Etag: The ETag of the zone.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The Azure Region where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a resources.azure.com/ResourceGroup resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags.</p>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#network.azure.com/v1api20180901.PrivateDnsZone_STATUS">
-PrivateDnsZone_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="network.azure.com/v1api20180901.PrivateDnsZone_STATUS">PrivateDnsZone_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20180901.PrivateDnsZone">PrivateDnsZone</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>conditions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
-[]genruntime/conditions.Condition
-</a>
-</em>
-</td>
-<td>
-<p>Conditions: The observed state of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>etag</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Etag: The ETag of the zone.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource Id for the resource. Example -
-&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;privateDnsZones/&#x200b;{privateDnsZoneName}&rsquo;.</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The Azure Region where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxNumberOfRecordSets</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxNumberOfRecordSets: The maximum number of record sets that can be created in this Private DNS zone. This is a
-read-only property and any attempt to set this value will be ignored.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxNumberOfVirtualNetworkLinks</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxNumberOfVirtualNetworkLinks: The maximum number of virtual networks that can be linked to this Private DNS zone. This
-is a read-only property and any attempt to set this value will be ignored.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxNumberOfVirtualNetworkLinksWithRegistration</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxNumberOfVirtualNetworkLinksWithRegistration: The maximum number of virtual networks that can be linked to this
-Private DNS zone with registration enabled. This is a read-only property and any attempt to set this value will be
-ignored.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>numberOfRecordSets</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>NumberOfRecordSets: The current number of record sets in this Private DNS zone. This is a read-only property and any
-attempt to set this value will be ignored.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>numberOfVirtualNetworkLinks</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>NumberOfVirtualNetworkLinks: The current number of virtual networks that are linked to this Private DNS zone. This is a
-read-only property and any attempt to set this value will be ignored.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>numberOfVirtualNetworkLinksWithRegistration</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>NumberOfVirtualNetworkLinksWithRegistration: The current number of virtual networks that are linked to this Private DNS
-zone with registration enabled. This is a read-only property and any attempt to set this value will be ignored.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-<a href="#network.azure.com/v1api20180901.PrivateZoneProperties_ProvisioningState_STATUS">
-PrivateZoneProperties_ProvisioningState_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>ProvisioningState: The provisioning state of the resource. This is a read-only property and any attempt to set this
-value will be ignored.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. Example - &lsquo;Microsoft.Network/privateDnsZones&rsquo;.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="network.azure.com/v1api20180901.PrivateDnsZone_STATUS_ARM">PrivateDnsZone_STATUS_ARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>etag</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Etag: The ETag of the zone.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource Id for the resource. Example -
-&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;privateDnsZones/&#x200b;{privateDnsZoneName}&rsquo;.</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The Azure Region where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#network.azure.com/v1api20180901.PrivateZoneProperties_STATUS_ARM">
-PrivateZoneProperties_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: Properties of the Private DNS zone.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. Example - &lsquo;Microsoft.Network/privateDnsZones&rsquo;.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="network.azure.com/v1api20180901.PrivateDnsZone_Spec">PrivateDnsZone_Spec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20180901.PrivateDnsZone">PrivateDnsZone</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>etag</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Etag: The ETag of the zone.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The Azure Region where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a resources.azure.com/ResourceGroup resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="network.azure.com/v1api20180901.PrivateDnsZone_Spec_ARM">PrivateDnsZone_Spec_ARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>etag</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Etag: The ETag of the zone.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The Azure Region where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="network.azure.com/v1api20180901.PrivateZoneProperties_ProvisioningState_STATUS">PrivateZoneProperties_ProvisioningState_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20180901.PrivateDnsZone_STATUS">PrivateDnsZone_STATUS</a>, <a href="#network.azure.com/v1api20180901.PrivateZoneProperties_STATUS_ARM">PrivateZoneProperties_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Canceled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Creating&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Deleting&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Failed&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Succeeded&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Updating&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="network.azure.com/v1api20180901.PrivateZoneProperties_STATUS_ARM">PrivateZoneProperties_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20180901.PrivateDnsZone_STATUS_ARM">PrivateDnsZone_STATUS_ARM</a>)
-</p>
-<div>
-<p>Represents the properties of the Private DNS zone.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>maxNumberOfRecordSets</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxNumberOfRecordSets: The maximum number of record sets that can be created in this Private DNS zone. This is a
-read-only property and any attempt to set this value will be ignored.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxNumberOfVirtualNetworkLinks</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxNumberOfVirtualNetworkLinks: The maximum number of virtual networks that can be linked to this Private DNS zone. This
-is a read-only property and any attempt to set this value will be ignored.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxNumberOfVirtualNetworkLinksWithRegistration</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxNumberOfVirtualNetworkLinksWithRegistration: The maximum number of virtual networks that can be linked to this
-Private DNS zone with registration enabled. This is a read-only property and any attempt to set this value will be
-ignored.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>numberOfRecordSets</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>NumberOfRecordSets: The current number of record sets in this Private DNS zone. This is a read-only property and any
-attempt to set this value will be ignored.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>numberOfVirtualNetworkLinks</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>NumberOfVirtualNetworkLinks: The current number of virtual networks that are linked to this Private DNS zone. This is a
-read-only property and any attempt to set this value will be ignored.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>numberOfVirtualNetworkLinksWithRegistration</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>NumberOfVirtualNetworkLinksWithRegistration: The current number of virtual networks that are linked to this Private DNS
-zone with registration enabled. This is a read-only property and any attempt to set this value will be ignored.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-<a href="#network.azure.com/v1api20180901.PrivateZoneProperties_ProvisioningState_STATUS">
-PrivateZoneProperties_ProvisioningState_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>ProvisioningState: The provisioning state of the resource. This is a read-only property and any attempt to set this
-value will be ignored.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<hr/>
+	<h2 id="context">Context</h2>
+<p>It is a common ask for users to request a new value be exportable to <code>ConfigMap</code>, or for the values
+that are currently exported to a <code>ConfigMap</code> or <code>Secret</code> to be customizable in some way.</p>
+<p>Outstanding issues related to this topic:</p>
+<ol>
+<li><a href="https://github.com/Azure/azure-service-operator/issues/3929">#2920: Feature: Support export of storage account connection strings</a>.</li>
+<li><a href="https://github.com/Azure/azure-service-operator/issues/2555">#2555: Feature: Support dynamic secret/configmap exports</a></li>
+<li><a href="https://github.com/Azure/azure-service-operator/issues/3711">#3711: PublicIPPrefix: Allow exporting IP range as ConfigMap</a></li>
+<li><a href="https://github.com/Azure/azure-service-operator/issues/3671">#3671: DatabaseAccount CRD: Add support to store the account Id in a config map</a></li>
+</ol>
+<p>(there may be more)</p>
+<p>Digging into <a href="https://github.com/Azure/azure-service-operator/issues/3929">#2920</a>:</p>
+<p>We don&rsquo;t currently support Azure storage connection strings, which is something that ASOv1 has
+supported for quite some time.</p>
+<p>The format of a connection string is:
+<code>DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=%s</code></p>
+<p>Users would like the ability to export a <code>Secret</code> formatted like this from a <code>StorageAccount</code>. While we could
+manually support this shape in the <code>OperatorSpec</code> of the <code>StorageAccount</code>, a better solution would be one that
+scaled to other connection string formats and worked for other resources without manual effort required for each one.</p>
+<h2 id="requirements">Requirements</h2>
+<ul>
+<li>Support composite exports that contain a combination of static text and variable data.</li>
+<li>Support variable data from from spec or status.</li>
+<li>Support variable data from operatorSpec.secrets (only to secrets).
+<ul>
+<li>If no secrets are used, no secret APIs should be called.</li>
+</ul>
+</li>
+<li>Mechanism of export is safe in a multitenant environment.</li>
+</ul>
+<h2 id="options">Options</h2>
+<p>There are 3 aspects to delivering this feature.</p>
+<ol>
+<li>How to express the desired output string format. This is the <a href="#template-language">template language</a>.</li>
+<li>Where to signal the desire for one or more of these dynamic outputs, and where they should go. This is
+the <a href="#location">location</a>.</li>
+<li>How to include secret data.</li>
+</ol>
+<h3 id="template-language">Template Language</h3>
+<h4 id="option-1-go-text-templates-texttemplate">Option 1: Go Text Templates (text/template)</h4>
+<p>Templates based on the Go stdlib <a href="https://pkg.go.dev/text/template">text/template</a> package.</p>
+<p>The format of these templates is:
+<code>DefaultEndpointsProtocol=https;AccountName={{.Spec.AzureName}};AccountKey={{.Spec.OperatorSpec.Secrets.Key1}};EndpointSuffix=core.windows.net</code></p>
+<p>The Go code involved in parsing this template would look something like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">renderTemplate</span>(<span style="color:#a6e22e">resource</span> <span style="color:#a6e22e">any</span>, <span style="color:#a6e22e">template</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">string</span> {
+	<span style="color:#a6e22e">tmpl</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">template</span>.<span style="color:#a6e22e">New</span>(<span style="color:#e6db74">&#34;test&#34;</span>).<span style="color:#a6e22e">Parse</span>(<span style="color:#a6e22e">template</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> { 
+		panic(<span style="color:#a6e22e">err</span>) 
+	}
+	<span style="color:#a6e22e">builder</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">strings</span>.<span style="color:#a6e22e">Builder</span>{}
+	<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">tmpl</span>.<span style="color:#a6e22e">Execute</span>(<span style="color:#a6e22e">builder</span>, <span style="color:#a6e22e">resource</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> { 
+		panic(<span style="color:#a6e22e">err</span>) 
+	}
+
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">builder</span>.<span style="color:#a6e22e">String</span>()
+}
+</code></pre></div><p><strong>Pros</strong></p>
+<ul>
+<li>Likely familiar to users of Helm, which uses the same engine, as do many other projects like go-task.</li>
+<li>Simple templates are simple, string interpolation is supported.</li>
+</ul>
+<p><strong>Cons</strong></p>
+<ul>
+<li><code>text/template</code> is powerful and not very configurable. It supports loops (<code>range</code>), if-statements, and some builtin
+functions (<code>printf</code>, etc) out of the box without any way to restrict these capabilities. This puts the operator at
+risk in a multi-tenant environment because there&rsquo;s nothing stopping namespace A from submitting a template
+<code>range int64max</code>.</li>
+</ul>
+<h4 id="option-2-google-common-expression-language-cel">Option 2: Google Common Expression Language (CEL)</h4>
+<p>You can read more about it in the
+<a href="https://github.com/google/cel-spec/blob/master/doc/langdef.md#overview">language specification</a> and at
+<a href="https://github.com/google/cel-go">cel-go</a>.</p>
+<p>The format of these templates is:
+<code>'DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=core.windows.net'.format([resource.spec.azureName, resource.spec.operatorSpec.secrets.key1])</code></p>
+<p>You can read more about other CEL string extensions and the format function specifically in
+<a href="https://github.com/google/cel-go/blob/master/ext/strings.go#L81">cel-go string extensions</a>.</p>
+<p>If we really wanted string interpolation we could possibly write a helper for it, see
+<a href="https://github.com/google/cel-go/blob/a555792723a2ae8d35cec381e8b222b5b20cb1d9/ext/strings.go#L468">here</a>.</p>
+<p>The Go code involved in parsing this template would look something like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// renderTemplate produces a variable from the given template
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">renderTemplate</span>(<span style="color:#a6e22e">resource</span> <span style="color:#a6e22e">any</span>, <span style="color:#a6e22e">template</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">string</span> {
+	<span style="color:#75715e">// The environment can be customized by providing the options cel.EnvOption to the call.
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// Those options are able to disable macros, declare custom variables and functions, etc.
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">env</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">cel</span>.<span style="color:#a6e22e">NewEnv</span>(
+		<span style="color:#a6e22e">ext</span>.<span style="color:#a6e22e">Strings</span>(),
+		<span style="color:#a6e22e">cel</span>.<span style="color:#a6e22e">Declarations</span>(
+			<span style="color:#a6e22e">decls</span>.<span style="color:#a6e22e">NewVar</span>(<span style="color:#e6db74">&#34;resource&#34;</span>, <span style="color:#a6e22e">decls</span>.<span style="color:#a6e22e">Dyn</span>)),
+	)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		panic(<span style="color:#a6e22e">err</span>) <span style="color:#75715e">// Simple panic-based error handling for example purposes.
+</span><span style="color:#75715e"></span>	}
+
+	<span style="color:#a6e22e">ast</span>, <span style="color:#a6e22e">iss</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">env</span>.<span style="color:#a6e22e">Compile</span>(<span style="color:#a6e22e">template</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">iss</span>.<span style="color:#a6e22e">Err</span>() <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		panic(<span style="color:#a6e22e">iss</span>.<span style="color:#a6e22e">Err</span>())
+	}
+	<span style="color:#75715e">// Check the output type is a string.
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">reflect</span>.<span style="color:#a6e22e">DeepEqual</span>(<span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">OutputType</span>(), <span style="color:#a6e22e">cel</span>.<span style="color:#a6e22e">StringType</span>) {
+		panic(<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(
+			<span style="color:#e6db74">&#34;Got %v, wanted %v output type&#34;</span>,
+			<span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">OutputType</span>(), <span style="color:#a6e22e">cel</span>.<span style="color:#a6e22e">StringType</span>,
+		)
+	}
+
+	<span style="color:#a6e22e">program</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">env</span>.<span style="color:#a6e22e">Program</span>(<span style="color:#a6e22e">ast</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		panic(<span style="color:#a6e22e">err</span>)
+	}
+
+
+    <span style="color:#a6e22e">input</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#a6e22e">any</span>{
+        <span style="color:#e6db74">&#34;resource&#34;</span>: <span style="color:#a6e22e">resource</span>,
+    }
+	
+    <span style="color:#a6e22e">out</span>, <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">program</span>.<span style="color:#a6e22e">Eval</span>(<span style="color:#a6e22e">input</span>)
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+        panic(<span style="color:#a6e22e">err</span>)
+    }
+    <span style="color:#a6e22e">outStr</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">Value</span>().(<span style="color:#66d9ef">string</span>)
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">outStr</span>
+}
+</code></pre></div><p><strong>Pros</strong></p>
+<ul>
+<li>We have a significant amount of control over what functions are accessible in the CEL expressions,
+including defining our own if we want.</li>
+<li>Security: Users have little/no flow-control constructs, and CEL is hardened for use in multitenant environments such
+as Kubernetes APIServer.</li>
+<li>Power: We can parse the CEL expression and examine the AST ourselves to extract useful information such as
+which secrets they&rsquo;re attempting to use, which enables us to deliver on the &ldquo;no secret APIs called if no secrets used&rdquo;
+goal.</li>
+</ul>
+<p><strong>Cons</strong></p>
+<ul>
+<li>May not be as familiar to users.</li>
+<li>No string interpolation, which makes the templates not quite as clean as they otherwise could be.
+<ul>
+<li>Mitigation: We could write our own, although then that function will <em>definitely</em> not be familiar to users.</li>
+</ul>
+</li>
+</ul>
+<h4 id="option-3-write-our-own-simple-text-replacement-engine">Option 3: Write our own simple text-replacement engine</h4>
+<p>Supporting a format similar to <code>text/template</code>, but without any of the other looping/flow-control features.
+<code>DefaultEndpointsProtocol=https;AccountName={{.Spec.AzureName}};AccountKey={{.Spec.OperatorSpec.Secrets.Key1}};EndpointSuffix=core.windows.net</code></p>
+<p><strong>Pros</strong></p>
+<ul>
+<li>Theoretically simple</li>
+</ul>
+<p><strong>Cons</strong></p>
+<ul>
+<li>More work than using something off the shelf. Including things like getting errors right, etc.</li>
+<li>Not as easily extensible as something like CEL if we wanted to add more capabilities.</li>
+<li>Trusting our security/hardening is scarier than trusting a &ldquo;real&rdquo; product.</li>
+</ul>
+<h3 id="location">Location</h3>
+<h4 id="option-1-part-of-operatorspecsecrets-and-operatorspecconfigmap">Option 1: Part of operatorSpec.secrets and operatorSpec.configMap</h4>
+<p>A new <code>dynamicValues</code> option in <code>operatorSpec.secrets</code> and <code>operatorSpec.configMaps</code></p>
+<p><strong>Secrets</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">  <span style="color:#f92672">operatorSpec</span>:
+    <span style="color:#f92672">secrets</span>:
+      <span style="color:#f92672">hostName</span>:
+        <span style="color:#f92672">name</span>: <span style="color:#ae81ff">redis-secret</span>
+        <span style="color:#f92672">key</span>: <span style="color:#ae81ff">hostName</span>
+      <span style="color:#f92672">sslPort</span>:
+        <span style="color:#f92672">name</span>: <span style="color:#ae81ff">redis-secret</span>
+        <span style="color:#f92672">key</span>: <span style="color:#ae81ff">port</span>
+      <span style="color:#f92672">dynamicValues</span>:
+        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">redis-secret</span> <span style="color:#75715e"># Name of the destination secret</span>
+          <span style="color:#f92672">key</span>: <span style="color:#ae81ff">hostPort</span> <span style="color:#75715e"># Name of the key in the secret</span>
+          <span style="color:#f92672">value</span>: <span style="color:#e6db74">&#34;&#39;%s:%s&#39;.format([secret.hostName, secret.sslPort])&#34;</span> <span style="color:#75715e"># Value (format) of the secret</span>
+</code></pre></div><p><strong>ConfigMaps</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">  <span style="color:#f92672">operatorSpec</span>:
+    <span style="color:#f92672">configMaps</span>:
+      <span style="color:#f92672">dynamicValues</span>:
+        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">account-data</span> <span style="color:#75715e"># Name of the destination configMap</span>
+          <span style="color:#f92672">key</span>: <span style="color:#ae81ff">id</span> <span style="color:#75715e"># Name of the key in the configMap</span>
+          <span style="color:#f92672">value</span>: <span style="color:#e6db74">&#34;resource.status.id&#34;</span> <span style="color:#75715e"># Value (format) of the configMap entry</span>
+</code></pre></div><p><strong>Pros</strong></p>
+<ul>
+<li>Fits into our existing model relatively well.</li>
+</ul>
+<p><strong>Cons</strong></p>
+<ul>
+<li>Need to deal with possibility of property name collisions with <code>dynamicValues</code>,
+though practically it seems unlikely to be common.</li>
+</ul>
+<h4 id="option-2-two-new-operatorspec-properties-operatorspecdynamicsecrets-and-operatorspecdynamicconfigmaps">Option 2: Two new operatorSpec properties: operatorSpec.dynamicSecrets and operatorSpec.dynamicConfigMaps</h4>
+<p>Other than the location, this is very similar to the
+<a href="#option-1-part-of-operatorspecsecrets-and-operatorspecconfigmap">first proposal</a>.</p>
+<p><strong>Secrets</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">  <span style="color:#f92672">operatorSpec</span>:
+    <span style="color:#f92672">secrets</span>:
+      <span style="color:#f92672">hostName</span>:
+        <span style="color:#f92672">name</span>: <span style="color:#ae81ff">redis-secret</span>
+        <span style="color:#f92672">key</span>: <span style="color:#ae81ff">hostName</span>
+      <span style="color:#f92672">sslPort</span>:
+        <span style="color:#f92672">name</span>: <span style="color:#ae81ff">redis-secret</span>
+        <span style="color:#f92672">key</span>: <span style="color:#ae81ff">port</span>
+    <span style="color:#f92672">dynamicSecrets</span>:
+      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">redis-secret</span> <span style="color:#75715e"># Name of the destination secret</span>
+        <span style="color:#f92672">key</span>: <span style="color:#ae81ff">hostPort</span> <span style="color:#75715e"># Name of the key in the secret</span>
+        <span style="color:#f92672">value</span>: <span style="color:#e6db74">&#34;&#39;%s:%s&#39;.format([secret.hostName, secret.sslPort])&#34;</span> <span style="color:#75715e"># Value (format) of the secret</span>
+</code></pre></div><p><strong>ConfigMaps</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">  <span style="color:#f92672">operatorSpec</span>:
+    <span style="color:#f92672">dynamicConfigMaps</span>:
+      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">account-data</span> <span style="color:#75715e"># Name of the destination configMap</span>
+        <span style="color:#f92672">key</span>: <span style="color:#ae81ff">id</span> <span style="color:#75715e"># Name of the key in the configMap</span>
+        <span style="color:#f92672">value</span>: <span style="color:#e6db74">&#34;resource.status.id&#34;</span> <span style="color:#75715e"># Value (format) of the configMap entry</span>
+</code></pre></div><p><strong>Pros</strong></p>
+<ul>
+<li>Fits into our existing model relatively well.</li>
+<li>Avoids potential issue with names clashing if adding a new magically named field in
+<code>operatorSpec.secrets</code> or <code>operatorSpec.configMaps</code>.</li>
+</ul>
+<p><strong>Cons</strong></p>
+<h4 id="option-3-a-new-crd-exporter">Option 3: A new CRD <code>Exporter</code></h4>
+<p>The final name of this resource is TBD.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">serviceoperator.azure.com/v1</span>
+<span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Exporter</span>
+<span style="color:#f92672">spec</span>:
+  <span style="color:#f92672">connectedResources</span>:
+    - <span style="color:#f92672">ref</span>:
+        <span style="color:#f92672">group</span>: <span style="color:#ae81ff">documentdb.azure.com</span>
+        <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">DatabaseAccount</span>
+        <span style="color:#f92672">name</span>: <span style="color:#ae81ff">mydb</span>
+      <span style="color:#f92672">secrets</span>:
+        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">redis-secret</span> <span style="color:#75715e"># Name of the destination secret</span>
+          <span style="color:#f92672">key</span>: <span style="color:#ae81ff">hostPort</span> <span style="color:#75715e"># Name of the key in the secret</span>
+          <span style="color:#f92672">value</span>: <span style="color:#e6db74">&#34;&#39;%s:%s&#39;.format([secret.hostName, secret.sslPort])&#34;</span> <span style="color:#75715e"># Value (format) of the secret</span>
+      <span style="color:#f92672">configMaps</span>:
+        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">account-data</span> <span style="color:#75715e"># Name of the destination configMap</span>
+          <span style="color:#f92672">key</span>: <span style="color:#ae81ff">id</span> <span style="color:#75715e"># Name of the key in the configMap</span>
+          <span style="color:#f92672">value</span>: <span style="color:#e6db74">&#34;resource.status.id&#34;</span> <span style="color:#75715e"># Value (format) of the configMap entry</span>
+</code></pre></div><p>Open question if this would also support the well-typed approach we have now with fields like:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">    <span style="color:#f92672">secrets</span>:
+      <span style="color:#f92672">hostName</span>:
+        <span style="color:#f92672">name</span>: <span style="color:#ae81ff">redis-secret</span>
+        <span style="color:#f92672">key</span>: <span style="color:#ae81ff">hostName</span>
+      <span style="color:#f92672">sslPort</span>:
+        <span style="color:#f92672">name</span>: <span style="color:#ae81ff">redis-secret</span>
+        <span style="color:#f92672">key</span>: <span style="color:#ae81ff">port</span>
+</code></pre></div><p>or if everything required a dynamic expression.</p>
+<p><strong>Pros</strong></p>
+<ul>
+<li>Could combine multiple resources data into a single ConfigMap, though this brings questions of ownership
+and deletion/propagation.</li>
+</ul>
+<p><strong>Cons</strong></p>
+<ul>
+<li>Another way to do things. Possibly confusing because there will be 2 ways to export data to configmap/secret
+for many existing resources.</li>
+<li>More complicated, especially setting up watches on N resource types so that changes are correctly monitored and
+propagated quickly. That additional complexity doesn&rsquo;t necessarily bring all that many wins.</li>
+<li>Access to secret data is more difficult to implement. We would need to have a static mapping of resource types and
+the <code>Exporter</code> would need to call each referenced resources <code>ExportKubernetesResources</code>, and we&rsquo;d likely need to
+refactor <code>ExportKubernetesResources</code> some to support the new pattern (though we may need to do this anyway).</li>
+</ul>
+<h3 id="access-to-secret-data">Access to secret data</h3>
+<p>Getting access to data to export to ConfigMaps is pretty easy, we&rsquo;ll just pass the whole <code>resource</code> to
+the expression. As shown elsewhere fields will be accessible in expressions like <code>resource.status.id</code>.</p>
+<p>Secret data is by definition <em>not</em> on the <code>resource</code> though, and is often returned in a list format only after
+calling a special API. As the <a href="#requirements">requirements</a> section discusses, we need to ensure that we only
+invoke this secret API if and when a user asks for secrets. Then, actual access to the secret fields should
+be off of a <em>separate</em> object: <code>secret.hostName</code> or <code>secret.key1</code> for example.</p>
+<p>We currently have an extension for Secrets or custom ConfigMaps whose signature is:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">ExportKubernetesResources</span>(
+    <span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>,
+    <span style="color:#a6e22e">obj</span> <span style="color:#a6e22e">genruntime</span>.<span style="color:#a6e22e">MetaObject</span>,
+    <span style="color:#a6e22e">armClient</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">genericarmclient</span>.<span style="color:#a6e22e">GenericClient</span>,
+    <span style="color:#a6e22e">log</span> <span style="color:#a6e22e">logr</span>.<span style="color:#a6e22e">Logger</span>,
+) ([]<span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Object</span>, <span style="color:#66d9ef">error</span>)
+</code></pre></div><p>This extension is used both by handcrafted extensions used to export secrets and autogenerated extensions to support
+<code>$generatedConfigs</code>.
+This implementation is not suitable to supporting the new approach because it returns <code>[]client.Object</code>,
+but to supply the CEL-expressions we need a return type of an object or a map whose
+properties/keys line up with the secret names. Alternatively we could delegate evaluation of the CEL expression
+to the extension itself but this would require relatively complex code autogenerated for each type, since every
+type will support the new <code>operatorSpec.dynamicConfigMaps</code> field.</p>
+<p>Since <code>ExportKubernetesResources</code> is already used for a variety of purposes, rather than change its signature I propose
+we add a new sister interface to it called <code>SecretGetter</code> for resources that have Secret APIs to call.
+This interface must be implemented manually alongside the manual implementation of the
+<code>KubernetesExporter</code> resource. We <em>could</em> add the <code>SecretGetter</code> method to the <code>KubernetesExporter</code> interface and
+just have some implementations that return nothing always (because they don&rsquo;t get any secrets, only ConfigMaps),
+but I think it might be cleaner to have a separate interface.</p>
+<p>The existing <code>KuberentesExporter</code> interfaces implementation should be updated to share code with the
+<code>SecretGetter</code> implementation to reduce code duplication.</p>
+<p>The signature of this interface is:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">GetSecretsParameters</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">Obj</span> <span style="color:#a6e22e">MetaObject</span>
+	<span style="color:#a6e22e">ARMClient</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">genericarmclient</span>.<span style="color:#a6e22e">GenericClient</span>
+	<span style="color:#a6e22e">Log</span> <span style="color:#a6e22e">logr</span>.<span style="color:#a6e22e">Logger</span>
+
+	<span style="color:#75715e">// Hints is the set of secrets used in the expression(s), which can be used to filter/define what 
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// if any secrets should be retrieved
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Hints</span> <span style="color:#a6e22e">set</span>.<span style="color:#a6e22e">Set</span>[<span style="color:#66d9ef">string</span>]
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">SecretGetter</span> <span style="color:#66d9ef">interface</span> {
+	<span style="color:#75715e">// GetSecrets retrieves the set of secrets defined by params.
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// The resulting map is keyed by the secret key (== property name of operatorSpec.secrets.&lt;key&gt;)
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// which is the same as what is referenced by the user when authoring their expressions and passed in
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// via params.Hints
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">GetSecrets</span>(
+		<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>,
+		<span style="color:#a6e22e">params</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">GetSecretsParameters</span>,
+	) (<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">string</span>, <span style="color:#66d9ef">error</span>)
+}
+</code></pre></div><p>The generic reconciler will check for this extension like it does for others before invoking the new generic code
+to handle the <code>operatorSpec.dynamicSecrets</code> field.</p>
+<h2 id="decision">Decision</h2>
+<h3 id="aspect-1-template-language">Aspect 1: Template language</h3>
+<p>We will use <a href="#option-2-google-common-expression-language-cel">Option 2: CEL</a> as it gets us the most power for the lowest
+amount of effort and is fully customizable and already hardened for use in multitenant environments.</p>
+<h3 id="aspect-2-location">Aspect 2: Location</h3>
+<p>We will use <a href="#option-2-two-new-operatorspec-properties-operatorspecdynamicsecrets-and-operatorspecdynamicconfigmaps">Option 2: operatorSpec.dynamicConfigMaps and operatorSpec.dynamicSecrets</a>.
+It avoids the problems with <a href="#option-3-a-new-crd-exporter">Option 3</a> and avoids the
+(admittedly minimal) collision risk with <a href="#option-1-part-of-operatorspecsecrets-and-operatorspecconfigmap">Option 1</a></p>
+<h3 id="aspect-3-secret-access">Aspect 3: Secret access</h3>
+<p>Only one option was presented and we&rsquo;re using it.</p>
+<h3 id="faq">FAQ</h3>
+<p>Q: How does this new way avoid calling the secrets APIs if the user didn&rsquo;t ask for any secrets to be exported?
+Keep in mind that some resources such as ManagedCluster (at v2/api/containerservice/customizations/managed_cluster_extensions.go)
+require the ability to differentiate <em>which</em> secrets are being requested as well because there are multiple
+secrets APIs.</p>
+<p>A: For <code>DynamicSecrets</code>, the function signature to discover secrets will have <code>secretHints</code> passed to it,
+which will contain details about the specific secrets requested in the formatting expression. The resource-specific
+implementation can use these hints to determine which (if any) APIs to call. Empty <code>secretHints</code> means no secrets
+were requested and no secret APIs should be invoked.</p>
+<p>Q: How will <code>secretHints</code> be determined, since they&rsquo;re buried in an expression the users authored?</p>
+<p>A: We will examine the CEL AST and find all instances of <code>SelectExpr</code> and extract out those that correspond to
+<code>secret.foo</code>.</p>
+<p>Q: What about the existing <code>$generatedConfigs</code> capability from <code>azure-arm.yaml</code>?</p>
+<p>A: It won&rsquo;t be removed, but will be deprecated in favor of this more generic way that requires less manual effort
+on our part.</p>
+<p>Q: Can this be used to export a particular item from an arbitrary array or map?</p>
+<p>A: Yes! The syntax for maps is: <code>request.myMap['hello']</code>, and for arrays <code>request.myArray[0]</code>. CEL has a concept of
+macros and there are some useful ones such as <code>filter</code>, <code>exists</code>, and <code>all</code>
+<a href="https://github.com/google/cel-spec/blob/master/doc/langdef.md#macros">built in</a>, so you can craft more complex
+expressions like <code>request.slice.exists_one(i, i.name=='foo') ? request.slice.filter(i, i.name == 'foo')[0].value : 0</code>
+which checks if the slice contains exactly one element whose name is <code>foo</code> and if so, gets that elements value,
+otherwise returns 0. A similar construct can be done for maps using the same <code>exists_one</code> and <code>filter</code> macros.</p>
+<p>Q: Can this be used to export entire collections of secret or configmap values?</p>
+<p>A: Yes. We will support two flavors of entry into the <code>dynamicSecrets</code> and <code>dynamicConfigMaps</code> collections. One
+flavor is the one we&rsquo;ve seen above, where <code>value</code> is a CEL expression that returns a <code>string</code> and the <code>name</code> and <code>key</code>
+fields specify which configMap or secret and what key within that to export.</p>
+<p>The other kind of entry is:</p>
+<pre tabindex="0"><code>  operatorSpec:
+    dynamicConfigMaps:
+      - name: account-data # Name of the destination configMap
+        valueMap: &quot;{&quot;key1&quot;: &quot;foo&quot;, &quot;key2&quot;: &quot;bar&quot;}&quot; # CEL expression that returns a map[string]string
+</code></pre><p>The <code>valueMap</code> fields result can be directly saved as keys + values in the resulting configmap or secret, so the author
+of the CEL expression has direct control over what values go into their secret/configMap.</p>
+<p>Q: Do we want the syntax in the CEL expression to access the <code>spec</code> field to be just <code>spec.foo</code> or <code>resource.spec.foo</code>?</p>
+<p>A: <strong>Open question:</strong> I believe that <code>resource.spec.foo</code> is better, because:</p>
+<ol>
+<li>It disambiguates between the resource and its secrets, since for secret usage we&rsquo;ll support <code>secrets.myKey</code>.
+If we control the top-level name of all the inputs (the main 2 right now being <code>resource</code> and <code>secrets</code>), then we
+can ensure there are no collisions because we own the top of the path for each input. If we instead snip that
+part out (for just resource? or for secrets too?) then we run the risk that a top level
+field such as <code>secrets</code> collides.</li>
+<li>It puts us in a better position to grow in the future by adding other top-level types going forward,
+such as <code>operator</code> (holding operator configuration?) or <code>cluster</code> (holding cluster details?).
+I don&rsquo;t know if we&rsquo;re ever going to want to add these but if we did, disambiguating between them at the
+top level helps with clarity.</li>
+<li>It means we&rsquo;re consistent between <code>resource.x</code> and <code>secrets.y</code> in terms of the pattern, as opposed to doing <code>x</code>
+and <code>secrets.y</code>. I think including secrets as a prefix for secret values which are not on
+the resource is useful from a security/safety point of view, making it obvious the value you&rsquo;re about to
+output is a secret. Obviously we only support this in the context of saving to secrets,
+so it&rsquo;s not like there&rsquo;s risk of exposing a secret value as plaintext but still the clarity seems a
+win for something sensitive like secrets.</li>
+</ol>
+<h2 id="status">Status</h2>
+<p>Proposed.</p>
+<h2 id="consequences">Consequences</h2>
+<p>TBC</p>
+<h2 id="experience-report">Experience Report</h2>
+<p>TBC</p>
+<h2 id="references">References</h2>
+<p>None</p>
 
 	
 	
