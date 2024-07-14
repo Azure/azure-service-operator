@@ -277,7 +277,7 @@ interactions:
     code: 202
     duration: ""
 - request:
-    body: '{"name":"asotest-authorizationprovider-rnlhtp","properties":{"displayName":"sampleauthcode","identityProvider":"aad","oauth2":{"grantTypes":{"authorizationCode":{"ResourceUri":"https://www.contoso.com","clientId":"{PASSWORD}","clientSecret":"{PASSWORD}"}}}}}'
+    body: '{"name":"asotest-authorizationprovider-rnlhtp","properties":{"displayName":"sampleauthcode","identityProvider":"aad","oauth2":{"grantTypes":{"authorizationCode":{"ResourceUri":"https://www.contoso.com","clientId":"{PASSWORD}","clientSecret":"{SECRET}"}}}}}'
     form: {}
     headers:
       Accept:
@@ -316,7 +316,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"asotest-authorizationprovider-tfdwjh","properties":{"displayName":"sampleauthcode","identityProvider":"aad","oauth2":{"grantTypes":{"authorizationCode":{"ResourceUri":"https://www.contoso.com","clientId":"{PASSWORD}","clientSecret":"{PASSWORD}"}}}}}'
+    body: '{"name":"asotest-authorizationprovider-tfdwjh","properties":{"displayName":"sampleauthcode","identityProvider":"aad","oauth2":{"grantTypes":{"authorizationCode":{"ResourceUri":"https://www.contoso.com","clientId":"{PASSWORD}","clientSecret":"{SECRET}"}}}}}'
     form: {}
     headers:
       Accept:
@@ -355,7 +355,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"asotest-authorizationprovider-larsiz","properties":{"displayName":"sampleauthcode","identityProvider":"aad","oauth2":{"grantTypes":{"authorizationCode":{"ResourceUri":"https://www.contoso.com","clientId":"{PASSWORD}","clientSecret":"{PASSWORD}"}}}}}'
+    body: '{"name":"asotest-authorizationprovider-larsiz","properties":{"displayName":"sampleauthcode","identityProvider":"aad","oauth2":{"grantTypes":{"authorizationCode":{"ResourceUri":"https://www.contoso.com","clientId":"{PASSWORD}","clientSecret":"{SECRET}"}}}}}'
     form: {}
     headers:
       Accept:

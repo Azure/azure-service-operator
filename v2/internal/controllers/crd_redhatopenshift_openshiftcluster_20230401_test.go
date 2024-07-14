@@ -7,6 +7,7 @@ package controllers_test
 
 import (
 	"fmt"
+	"os"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -18,7 +19,10 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
-// TODO: TO re-record this test, create a new service principal and follow the todos below in the test code.
+// TODO: To re-record this test, create a new service principal and save its details into the
+// TODO: ARO_CLIENT_SECRET env variable and replace clientID and principalId below
+// TODO: This is required because the ARO resource requires a service principal for input currently. Hopefully
+// TODO: we can revisit this in the future when they support other options.
 func Test_RedHatOpenShift_OpenShiftCluster_CRUD(t *testing.T) {
 	t.Parallel()
 
@@ -34,10 +38,14 @@ func Test_RedHatOpenShift_OpenShiftCluster_CRUD(t *testing.T) {
 	// TODO: Replace the principalID, clientSecret and clientId vars below with principalId, clientSecret and clientId of your SP
 	principalId := "5c6be76c-5fc4-4817-992d-22027b44c402"
 	clientId := "5b7a18b9-8aec-4456-a4c3-0865cbfa1512"
-	clientSecret := "your-client-secret-here"
 	// This is the RP principalId, no need to change this.
 	// This can be fetched by using `az ad sp list --display-name "Azure Red Hat OpenShift RP" --query "[0].id" -o tsv` command
 	azureRedHadOpenshiftRPIdentityPrincipalId := "50c17c64-bc11-4fdd-a339-0ecd396bf911"
+
+	clientSecret := os.Getenv("ARO_CLIENT_SECRET")
+	if clientSecret == "" {
+		clientSecret = "client-secret"
+	}
 	clientSecretRef := tc.CreateSecret(secretName, secretKey, clientSecret)
 
 	serviceEndpoints := []network.ServiceEndpointPropertiesFormat{
@@ -62,7 +70,7 @@ func Test_RedHatOpenShift_OpenShiftCluster_CRUD(t *testing.T) {
 	cluster := &aro.OpenShiftCluster{
 		ObjectMeta: tc.MakeObjectMeta("aro-cluster"),
 		Spec: aro.OpenShiftCluster_Spec{
-			Location: tc.AzureRegion, // Not available in westus2
+			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			ApiserverProfile: &aro.APIServerProfile{
 				Visibility: to.Ptr(aro.Visibility_Private),

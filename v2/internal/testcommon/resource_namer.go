@@ -127,12 +127,17 @@ func (n ResourceNamer) GeneratePassword() string {
 	return n.GeneratePasswordOfLength(n.randomChars)
 }
 
+var runes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789~!@#$%^&*()")
+
 func (n ResourceNamer) GeneratePasswordOfLength(length int) string {
-	runes := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789~!@#$%^&*()")
 	// This pass + <content> + pass pattern is to make it so that matchers can reliably find and prune
 	// generated passwords from the recordings. If you change it make sure to change the passwordMatcher
 	// in test_context.go as well.
 	return "pass" + n.makeRandomStringOfLength(length, runes) + "pass"
+}
+
+func (n ResourceNamer) GenerateSecretOfLength(length int) string {
+	return n.makeRandomStringOfLength(length, runes)
 }
 
 func (n ResourceNamer) GenerateUUID() (uuid.UUID, error) {

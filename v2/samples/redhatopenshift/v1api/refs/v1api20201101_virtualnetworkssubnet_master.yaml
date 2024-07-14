@@ -1,7 +1,7 @@
 apiVersion: network.azure.com/v1api20201101
 kind: VirtualNetworksSubnet
 metadata:
-  name: samplesubnet
+  name: aso-sample-master-subnet
   namespace: default
 spec:
   owner:

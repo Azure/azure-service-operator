@@ -133,7 +133,10 @@ func hidePasswords(s string) string {
 }
 
 var (
-	secretMatcher  = regexp.MustCompile(`"([A-Za-z]+)?[Ss]ecret":".*"`)
+	// secretMatcher matches any field with a [Ss]ecret suffix.
+	// It's only valid for a case where [Ss]ecret contains a prefix or else its ignored.
+	// e.g: clientSecret, adminSecret, etc.
+	secretMatcher  = regexp.MustCompile(`"([A-Za-z]+)[Ss]ecret":".*"`)
 	secretReplacer = regexp.MustCompile(`:".*"`)
 )
 

@@ -2843,7 +2843,7 @@ objectModelConfiguration:
     2023-11-22:
       OpenShiftCluster:
         $export: true
-        $supportedFrom: v2.8.0
+        $supportedFrom: v2.9.0
       WorkerProfile:
         SubnetId:
           $armReference: true
