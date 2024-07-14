@@ -122,6 +122,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/adr-2024-02-upstream-deletion/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/design/adr-2024-04-roleassignment-uuid-generation/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/adr-2024-05-operatorspec-custom-properties/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/adr-2024-07-dynamic-export-to-secret-or-configmap/</loc>
