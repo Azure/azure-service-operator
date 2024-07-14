@@ -154,7 +154,7 @@ func makeSecureStringOfLength(num int, runes []rune) (string, error) {
 	for i := range result {
 		idx, err := crypto.Int(crypto.Reader, big.NewInt(int64(len(runes))))
 		if err != nil {
-			return "", errors.Wrapf(err, "failed while generating secure string")
+			return "", errors.Wrapf(err, "failed to generate a secure string")
 		}
 
 		result[i] = runes[idx.Int64()]
