@@ -5653,7 +5653,7 @@ interactions:
                 - 'Ref A: 39F9DC1D2EBB43658EEA44E0311585F2 Ref B: SYD03EDGE1613 Ref C: 2024-07-10T01:52:57Z'
         status: 202 Accepted
         code: 202
-        duration: 1.38388958s
+        duration: 1.238388958s
     - id: 99
       request:
         proto: HTTP/1.1
