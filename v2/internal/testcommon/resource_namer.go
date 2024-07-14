@@ -6,12 +6,15 @@ Licensed under the MIT license.
 package testcommon
 
 import (
+	crypto "crypto/rand"
 	"hash/fnv"
+	"math/big"
 	"math/rand"
 	"strings"
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/pkg/errors"
 )
 
 type ResourceNameConfig struct {
@@ -133,13 +136,29 @@ func (n ResourceNamer) GeneratePasswordOfLength(length int) string {
 	// This pass + <content> + pass pattern is to make it so that matchers can reliably find and prune
 	// generated passwords from the recordings. If you change it make sure to change the passwordMatcher
 	// in test_context.go as well.
+	// TODO: replace this with n.makeSecureStringOfLength in following PR
 	return "pass" + n.makeRandomStringOfLength(length, runes) + "pass"
 }
 
-func (n ResourceNamer) GenerateSecretOfLength(length int) string {
-	return n.makeRandomStringOfLength(length, runes)
+func (n ResourceNamer) GenerateSecretOfLength(length int) (string, error) {
+	str, err := makeSecureStringOfLength(length, runes)
+	return str, err
 }
 
 func (n ResourceNamer) GenerateUUID() (uuid.UUID, error) {
 	return uuid.NewRandomFromReader(n.rand)
+}
+
+func makeSecureStringOfLength(num int, runes []rune) (string, error) {
+	result := make([]rune, num)
+	for i := range result {
+		idx, err := crypto.Int(crypto.Reader, big.NewInt(int64(len(runes))))
+		if err != nil {
+			return "", errors.Wrapf(err, "failed while generating secure string")
+		}
+
+		result[i] = runes[idx.Int64()]
+	}
+
+	return string(result), nil
 }

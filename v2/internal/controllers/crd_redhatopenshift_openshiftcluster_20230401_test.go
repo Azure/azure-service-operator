@@ -43,8 +43,10 @@ func Test_RedHatOpenShift_OpenShiftCluster_CRUD(t *testing.T) {
 	azureRedHadOpenshiftRPIdentityPrincipalId := "50c17c64-bc11-4fdd-a339-0ecd396bf911"
 
 	clientSecret := os.Getenv("ARO_CLIENT_SECRET")
+	var err error
 	if clientSecret == "" {
-		clientSecret = "client-secret"
+		clientSecret, err = tc.Namer.GenerateSecretOfLength(40)
+		tc.Expect(err).To(BeNil())
 	}
 	clientSecretRef := tc.CreateSecret(secretName, secretKey, clientSecret)
 
