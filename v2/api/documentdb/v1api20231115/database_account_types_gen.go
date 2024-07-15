@@ -412,7 +412,7 @@ type DatabaseAccount_Spec struct {
 	// failover priorities configured for the account.
 	EnableAutomaticFailover *bool `json:"enableAutomaticFailover,omitempty"`
 
-	// EnableBurstCapacity: Flag to indicate enabling/disabling of Burst Capacity Preview feature on the account
+	// EnableBurstCapacity: Flag to indicate enabling/disabling of Burst Capacity feature on the account
 	EnableBurstCapacity *bool `json:"enableBurstCapacity,omitempty"`
 
 	// EnableCassandraConnector: Enables the cassandra connector on the Cosmos DB C* account
@@ -2311,7 +2311,7 @@ type DatabaseAccount_STATUS struct {
 	// failover priorities configured for the account.
 	EnableAutomaticFailover *bool `json:"enableAutomaticFailover,omitempty"`
 
-	// EnableBurstCapacity: Flag to indicate enabling/disabling of Burst Capacity Preview feature on the account
+	// EnableBurstCapacity: Flag to indicate enabling/disabling of Burst Capacity feature on the account
 	EnableBurstCapacity *bool `json:"enableBurstCapacity,omitempty"`
 
 	// EnableCassandraConnector: Enables the cassandra connector on the Cosmos DB C* account
