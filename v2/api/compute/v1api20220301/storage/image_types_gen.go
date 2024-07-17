@@ -4,6 +4,7 @@
 package storage
 
 import (
+	storage "github.com/Azure/azure-service-operator/v2/api/compute/v1api20240302/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
@@ -231,12 +232,136 @@ type ExtendedLocation struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
+// AssignProperties_From_ExtendedLocation populates our ExtendedLocation from the provided source ExtendedLocation
+func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source *storage.ExtendedLocation) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Name
+	location.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Type
+	location.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		location.PropertyBag = propertyBag
+	} else {
+		location.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForExtendedLocation interface (if implemented) to customize the conversion
+	var locationAsAny any = location
+	if augmentedLocation, ok := locationAsAny.(augmentConversionForExtendedLocation); ok {
+		err := augmentedLocation.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ExtendedLocation populates the provided destination ExtendedLocation from our ExtendedLocation
+func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destination *storage.ExtendedLocation) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(location.PropertyBag)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(location.Name)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(location.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForExtendedLocation interface (if implemented) to customize the conversion
+	var locationAsAny any = location
+	if augmentedLocation, ok := locationAsAny.(augmentConversionForExtendedLocation); ok {
+		err := augmentedLocation.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20220301.ExtendedLocation_STATUS
 // The complex type of the extended location.
 type ExtendedLocation_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
+}
+
+// AssignProperties_From_ExtendedLocation_STATUS populates our ExtendedLocation_STATUS from the provided source ExtendedLocation_STATUS
+func (location *ExtendedLocation_STATUS) AssignProperties_From_ExtendedLocation_STATUS(source *storage.ExtendedLocation_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Name
+	location.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Type
+	location.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		location.PropertyBag = propertyBag
+	} else {
+		location.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForExtendedLocation_STATUS interface (if implemented) to customize the conversion
+	var locationAsAny any = location
+	if augmentedLocation, ok := locationAsAny.(augmentConversionForExtendedLocation_STATUS); ok {
+		err := augmentedLocation.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ExtendedLocation_STATUS populates the provided destination ExtendedLocation_STATUS from our ExtendedLocation_STATUS
+func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_STATUS(destination *storage.ExtendedLocation_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(location.PropertyBag)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(location.Name)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(location.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForExtendedLocation_STATUS interface (if implemented) to customize the conversion
+	var locationAsAny any = location
+	if augmentedLocation, ok := locationAsAny.(augmentConversionForExtendedLocation_STATUS); ok {
+		err := augmentedLocation.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20220301.ImageStorageProfile
@@ -269,6 +394,16 @@ type SubResource struct {
 type SubResource_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+type augmentConversionForExtendedLocation interface {
+	AssignPropertiesFrom(src *storage.ExtendedLocation) error
+	AssignPropertiesTo(dst *storage.ExtendedLocation) error
+}
+
+type augmentConversionForExtendedLocation_STATUS interface {
+	AssignPropertiesFrom(src *storage.ExtendedLocation_STATUS) error
+	AssignPropertiesTo(dst *storage.ExtendedLocation_STATUS) error
 }
 
 // Storage version of v1api20220301.ImageDataDisk

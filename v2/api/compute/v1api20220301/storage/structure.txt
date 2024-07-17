@@ -1739,5 +1739,7 @@ VirtualMachinesExtension: Resource
     └── TypeHandlerVersion: *string
 augmentConversionForApiErrorBase_STATUS: Interface
 augmentConversionForApiError_STATUS: Interface
+augmentConversionForExtendedLocation: Interface
+augmentConversionForExtendedLocation_STATUS: Interface
 augmentConversionForInnerError_STATUS: Interface
 augmentConversionForUserAssignedIdentityDetails: Interface
