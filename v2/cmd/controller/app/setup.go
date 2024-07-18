@@ -107,7 +107,21 @@ func SetupPreUpgradeCheck(ctx context.Context) error {
 	return kerrors.NewAggregate(errs)
 }
 
-func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flags) manager.Manager {
+type ManagerWrapper struct {
+	mgr     manager.Manager
+	watcher *config.Watcher
+}
+
+func (w *ManagerWrapper) Start(ctx context.Context) error {
+	err := w.watcher.Start(ctx)
+	if err != nil {
+		return errors.Wrap(err, "failed to start config watcher")
+	}
+
+	return w.mgr.Start(ctx) // This blocks
+}
+
+func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flags) ManagerWrapper {
 	scheme := controllers.CreateScheme()
 	_ = apiextensions.AddToScheme(scheme) // Used for managing CRDs
 
@@ -263,7 +277,14 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flag
 		setupLog.Error(err, "Failed setting up readyz check")
 		os.Exit(1)
 	}
-	return mgr
+
+	// This watches the mounted secret and restart the pod if it changes
+	configWatcher := config.NewWatcher(setupLog)
+
+	return ManagerWrapper{
+		mgr:     mgr,
+		watcher: configWatcher,
+	}
 }
 
 func getMetricsOpts(flags Flags) server.Options {
