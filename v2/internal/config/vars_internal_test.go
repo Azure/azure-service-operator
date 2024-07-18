@@ -17,7 +17,7 @@ func Test_ParseSyncPeriod_ReturnsNever(t *testing.T) {
 	g := NewGomegaWithT(t)
 	t.Setenv(config.SyncPeriod, "never") // Can't run in parallel
 
-	dur, err := parseSyncPeriod()
+	dur, err := parseSyncPeriod(newEnvReader())
 
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(dur).To(BeNil()) // Nil means no sync
@@ -28,7 +28,7 @@ func Test_ParseSyncPeriod_ReturnsDefaultWhenEmpty(t *testing.T) {
 	g := NewGomegaWithT(t)
 	t.Setenv(config.SyncPeriod, "") // Can't run in parallel
 
-	dur, err := parseSyncPeriod()
+	dur, err := parseSyncPeriod(newEnvReader())
 
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(dur).ToNot(BeNil())
@@ -40,7 +40,7 @@ func Test_ParseSyncPeriod_ReturnsValue(t *testing.T) {
 	g := NewGomegaWithT(t)
 	t.Setenv(config.SyncPeriod, "21m") // Can't run in parallel
 
-	dur, err := parseSyncPeriod()
+	dur, err := parseSyncPeriod(newEnvReader())
 
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(dur).ToNot(BeNil())

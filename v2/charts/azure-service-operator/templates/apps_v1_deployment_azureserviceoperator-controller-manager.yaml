@@ -67,111 +67,6 @@ spec:
         - --webhook-cert-dir={{ .Values.webhook.certDir }}
         {{- end }}
         env:
-        - name: AZURE_CLIENT_ID
-          valueFrom:
-            secretKeyRef:
-              key: AZURE_CLIENT_ID
-              name: aso-controller-settings
-        - name: AZURE_CLIENT_SECRET
-          valueFrom:
-            secretKeyRef:
-              key: AZURE_CLIENT_SECRET
-              name: aso-controller-settings
-              optional: true
-        - name: AZURE_TENANT_ID
-          valueFrom:
-            secretKeyRef:
-              key: AZURE_TENANT_ID
-              name: aso-controller-settings
-        - name: AZURE_SUBSCRIPTION_ID
-          valueFrom:
-            secretKeyRef:
-              key: AZURE_SUBSCRIPTION_ID
-              name: aso-controller-settings
-        - name: AZURE_CLIENT_CERTIFICATE
-          valueFrom:
-            secretKeyRef:
-              key: AZURE_CLIENT_CERTIFICATE
-              name: aso-controller-settings
-              optional: true
-        - name: AZURE_CLIENT_CERTIFICATE_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              key: AZURE_CLIENT_CERTIFICATE_PASSWORD
-              name: aso-controller-settings
-              optional: true
-        - name: AZURE_AUTHORITY_HOST
-          valueFrom:
-            secretKeyRef:
-              key: AZURE_AUTHORITY_HOST
-              name: aso-controller-settings
-              optional: true
-        - name: AZURE_RESOURCE_MANAGER_ENDPOINT
-          valueFrom:
-            secretKeyRef:
-              key: AZURE_RESOURCE_MANAGER_ENDPOINT
-              name: aso-controller-settings
-              optional: true
-        - name: AZURE_RESOURCE_MANAGER_AUDIENCE
-          valueFrom:
-            secretKeyRef:
-              key: AZURE_RESOURCE_MANAGER_AUDIENCE
-              name: aso-controller-settings
-              optional: true
-        - name: AZURE_TARGET_NAMESPACES
-          valueFrom:
-            secretKeyRef:
-              key: AZURE_TARGET_NAMESPACES
-              name: aso-controller-settings
-              optional: true
-        - name: AZURE_OPERATOR_MODE
-          valueFrom:
-            secretKeyRef:
-              key: AZURE_OPERATOR_MODE
-              name: aso-controller-settings
-              optional: true
-        - name: AZURE_SYNC_PERIOD
-          valueFrom:
-            secretKeyRef:
-              key: AZURE_SYNC_PERIOD
-              name: aso-controller-settings
-              optional: true
-        - name: USE_WORKLOAD_IDENTITY_AUTH
-          valueFrom:
-            secretKeyRef:
-              key: USE_WORKLOAD_IDENTITY_AUTH
-              name: aso-controller-settings
-              optional: true
-        - name: AZURE_USER_AGENT_SUFFIX
-          valueFrom:
-            secretKeyRef:
-              key: AZURE_USER_AGENT_SUFFIX
-              name: aso-controller-settings
-              optional: true
-        - name: MAX_CONCURRENT_RECONCILES
-          valueFrom:
-            secretKeyRef:
-              key: MAX_CONCURRENT_RECONCILES
-              name: aso-controller-settings
-              optional: true
-        - name: RATE_LIMIT_MODE
-          valueFrom:
-            secretKeyRef:
-              key: RATE_LIMIT_MODE
-              name: aso-controller-settings
-              optional: true
-        - name: RATE_LIMIT_QPS
-          valueFrom:
-            secretKeyRef:
-              key: RATE_LIMIT_QPS
-              name: aso-controller-settings
-              optional: true
-        - name: RATE_LIMIT_BUCKET_SIZE
-          valueFrom:
-            secretKeyRef:
-              key: RATE_LIMIT_BUCKET_SIZE
-              name: aso-controller-settings
-              optional: true
         - name: POD_NAMESPACE
           valueFrom:
             fieldRef:
@@ -216,6 +111,9 @@ spec:
           name: cert
           readOnly: true
         {{- end }}
+        - name: settings-volume
+          readOnly: true
+          mountPath: "/etc/aso-controller-settings"
       {{- with .Values.nodeSelector }}
       nodeSelector:
       {{- toYaml . | nindent 8 }}
@@ -244,3 +142,6 @@ spec:
               audience: api://AzureADTokenExchange
               expirationSeconds: 3600
               path: azure-identity
+      - name: settings-volume
+        secret:
+          secretName: aso-controller-settings
