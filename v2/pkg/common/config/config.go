@@ -15,9 +15,9 @@ const (
 	// AzureClientID is the client ID of the Azure Service Principal or Managed Identity to use to authenticate with Azure.
 	AzureClientID = "AZURE_CLIENT_ID"
 	// AzureClientCertificate is a PEM or PKCS12 certificate string including the private key for Azure Credential Authentication.
-	// If certificate is password protected,  use 'AzureClientCertificatePassword' for password.
+	// If the certificate is password protected,  use the 'AzureClientCertificatePassword' for password.
 	AzureClientCertificate = "AZURE_CLIENT_CERTIFICATE"
-	// AzureClientCertificatePassword is password used to protect the AzureClientCertificate.
+	// AzureClientCertificatePassword is the password used to protect the AzureClientCertificate.
 	// #nosec
 	AzureClientCertificatePassword = "AZURE_CLIENT_CERTIFICATE_PASSWORD"
 	// TargetNamespaces lists the namespaces the operator will watch
