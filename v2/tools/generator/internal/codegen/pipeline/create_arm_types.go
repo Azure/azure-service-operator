@@ -95,6 +95,7 @@ func newARMTypeCreator(
 
 	result.visitor = astmodel.TypeVisitorBuilder[any]{
 		VisitInternalTypeName: result.visitARMTypeName,
+		VisitValidatedType:    result.visitARMValidatedType,
 	}.Build()
 
 	return result
@@ -532,6 +533,14 @@ func (c *armTypeCreator) visitARMTypeName(
 	}
 
 	return astmodel.CreateARMTypeName(def.Name()), nil
+}
+
+func (c *armTypeCreator) visitARMValidatedType(
+	this *astmodel.TypeVisitor[any],
+	it *astmodel.ValidatedType,
+	ctx any,
+) (astmodel.Type, error) {
+	return this.Visit(it.ElementType(), ctx)
 }
 
 func (c *armTypeCreator) createSpecConversionContext(name astmodel.InternalTypeName) *armPropertyTypeConversionContext {
