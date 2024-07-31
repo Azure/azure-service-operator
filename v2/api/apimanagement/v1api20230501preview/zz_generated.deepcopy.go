@@ -4229,7 +4229,7 @@ func (in *CircuitBreakerFailureCondition_ARM) DeepCopyInto(out *CircuitBreakerFa
 	}
 	if in.ErrorReasons != nil {
 		in, out := &in.ErrorReasons, &out.ErrorReasons
-		*out = make([]CircuitBreakerFailureCondition_ErrorReasons, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 	if in.Interval != nil {
@@ -4313,7 +4313,7 @@ func (in *CircuitBreakerFailureCondition_STATUS_ARM) DeepCopyInto(out *CircuitBr
 	}
 	if in.ErrorReasons != nil {
 		in, out := &in.ErrorReasons, &out.ErrorReasons
-		*out = make([]CircuitBreakerFailureCondition_ErrorReasons_STATUS, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 	if in.Interval != nil {
