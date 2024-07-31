@@ -274,8 +274,10 @@ tasks:
   controller:ci-integration-tests:
     cmds:
       - task: cleanup-old-live-azure-resources
-      - task: controller:test-integration-kind-ci
-      - task: controller:test-multitenant-integration-kind-ci
+      # TODO: These two test suites have been commented out temporarily
+      # TODO: due to https://github.com/Azure/azure-service-operator/issues/4166
+      # - task: controller:test-integration-kind-ci
+      # - task: controller:test-multitenant-integration-kind-ci
       - task: cleanup-old-live-azure-resources  # Run this on both sides of the test pass to do our best to avoid leaking something
 
   controller:ci-live:
