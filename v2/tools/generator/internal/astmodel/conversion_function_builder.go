@@ -157,6 +157,7 @@ func NewConversionFunctionBuilder(
 			IdentityAssignPrimitiveType,
 			AssignToOptional,
 			AssignFromOptional,
+			AssignToAliasOfPrimitive,
 			IdentityDeepCopyJSON,
 			IdentityAssignTypeName,
 		},
@@ -679,6 +680,57 @@ func AssignFromOptional(
 		astbuilder.IfNotNil(
 			params.GetSource(),
 			result...)), nil
+}
+
+// AssignToAliasOfPrimitive assigns a primitive value to an alias of that same type.
+// This function generates code that looks like this:
+//
+// <destination> <assignmentHandler> <destinationType>(<source>)
+func AssignToAliasOfPrimitive(
+	builder *ConversionFunctionBuilder,
+	params ConversionParameters,
+) ([]dst.Stmt, error) {
+	// Source must be a primitive type
+	srcPrim, ok := params.SourceType.(*PrimitiveType)
+	if !ok {
+		return nil, nil
+	}
+
+	// Destination must be an internal type name
+	dstName, ok := params.DestinationType.(InternalTypeName)
+	if !ok {
+		return nil, nil
+	}
+
+	// ... who's definition we know ...
+	dstDef, err := builder.CodeGenerationContext.GetDefinition(dstName)
+	if err != nil {
+		return nil, nil
+	}
+
+	// ... and it's not optional (hedging against oddities) ...
+	if _, ok := AsOptionalType(dstDef.Type()); ok {
+		return nil, nil
+	}
+
+	// ... and it is a primitive type ...
+	dstPrim, ok := AsPrimitiveType(dstDef.Type())
+	if !ok {
+		return nil, nil
+	}
+
+	// ... and is an alias of the source type ...
+	if !TypeEquals(srcPrim, dstPrim) {
+		return nil, nil
+	}
+
+	return astbuilder.Statements(
+			params.AssignmentHandlerOrDefault()(
+				params.GetDestination(),
+				astbuilder.CallFunc(
+					dstName.Name(),
+					params.GetSource()))),
+		nil
 }
 
 // IdentityAssignValidatedTypeDestination generates an assignment to the underlying validated type Element
