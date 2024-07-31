@@ -521,6 +521,17 @@ func (c *armTypeCreator) visitARMTypeName(
 		return astmodel.CreateARMTypeName(def.Name()), nil
 	}
 
+	// If the name is an alias for a primitive type, we look through it to the underlying type
+	if _, ok := astmodel.AsPrimitiveType(def.Type()); ok {
+		// We use the visitor to simplify the type
+		updatedType, err := this.Visit(def.Type(), ctx)
+		if err != nil {
+			return nil, errors.Wrapf(err, "failed to look through definition %s", def.Name())
+		}
+
+		return updatedType, nil
+	}
+
 	// We may or may not need to use an updated type name (i.e. if it's an aliased primitive type we can
 	// just keep using that alias)
 	updatedType, err := this.Visit(def.Type(), ctx)
