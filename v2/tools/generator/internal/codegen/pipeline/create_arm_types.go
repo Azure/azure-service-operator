@@ -532,6 +532,16 @@ func (c *armTypeCreator) visitARMTypeName(
 		return updatedType, nil
 	}
 
+	// If the name is an alias for a map type, we reuse that alias (for now)
+	if _, ok := astmodel.AsMapType(def.Type()); ok {
+		return it, nil
+	}
+
+	// Ditto if the name is an alias for an array type
+	if _, ok := astmodel.AsArrayType(def.Type()); ok {
+		return it, nil
+	}
+
 	// We may or may not need to use an updated type name (i.e. if it's an aliased primitive type we can
 	// just keep using that alias)
 	updatedType, err := this.Visit(def.Type(), ctx)
