@@ -1236,9 +1236,7 @@ func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfile_ARM(gens 
 	gens["NodePublicIPPrefixID"] = gen.PtrOf(gen.AlphaString())
 	gens["NodeTaints"] = gen.SliceOf(gen.AlphaString())
 	gens["OrchestratorVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["OsDiskSizeGB"] = gen.PtrOf(gen.Int().Map(func(it int) ContainerServiceOSDisk {
-		return ContainerServiceOSDisk(it)
-	}))
+	gens["OsDiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["OsDiskType"] = gen.PtrOf(gen.OneConstOf(OSDiskType_Ephemeral, OSDiskType_Managed))
 	gens["OsSKU"] = gen.PtrOf(gen.OneConstOf(
 		OSSKU_CBLMariner,
