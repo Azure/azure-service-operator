@@ -706,17 +706,19 @@ func AssignToAliasOfPrimitive(
 	// ... who's definition we know ...
 	dstDef, err := builder.CodeGenerationContext.GetDefinition(dstName)
 	if err != nil {
+		//nolint:nilerr // err is not nil, we defer to a different conversion
 		return nil, nil
 	}
 
 	// ... and it's not optional (hedging against oddities) ...
-	if _, ok := AsOptionalType(dstDef.Type()); ok {
+	if _, ok = AsOptionalType(dstDef.Type()); ok {
 		return nil, nil
 	}
 
 	// ... and it is a primitive type ...
 	dstPrim, ok := AsPrimitiveType(dstDef.Type())
 	if !ok {
+		//nolint:nilerr // err is not nil, we defer to a different conversion
 		return nil, nil
 	}
 
@@ -751,11 +753,12 @@ func AssignFromAliasOfPrimitive(
 	// ... who's definition we know ...
 	srcDef, err := builder.CodeGenerationContext.GetDefinition(srcName)
 	if err != nil {
+		//nolint:nilerr // err is not nil, we defer to a different conversion
 		return nil, nil
 	}
 
 	// ... and it's not optional (hedging against oddities) ...
-	if _, ok := AsOptionalType(srcDef.Type()); ok {
+	if _, ok = AsOptionalType(srcDef.Type()); ok {
 		return nil, nil
 	}
 
