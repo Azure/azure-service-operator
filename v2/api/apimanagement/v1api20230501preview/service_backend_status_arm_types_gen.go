@@ -170,7 +170,7 @@ type CircuitBreakerFailureCondition_STATUS_ARM struct {
 	Count *int `json:"count,omitempty"`
 
 	// ErrorReasons: The error reasons which are considered as failure.
-	ErrorReasons []CircuitBreakerFailureCondition_ErrorReasons_STATUS `json:"errorReasons,omitempty"`
+	ErrorReasons []string `json:"errorReasons,omitempty"`
 
 	// Interval: The interval during which the failures are counted.
 	Interval *string `json:"interval,omitempty"`
