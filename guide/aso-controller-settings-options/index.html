@@ -48,7 +48,7 @@ Example: 00000000-0000-0000-0000-000000000000
 Required: True
 This may be set to empty string to configure no global credential.">
 
-<meta itemprop="wordCount" content="963">
+<meta itemprop="wordCount" content="1007">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Configuring ASO"/>
 <meta name="twitter:description" content="Configuration of ASO is done primarily through a secret in the azureserviceoperator-system namespace called aso-controller-settings. This secret contains both details about the (optional) global credential as well as other operator pod options.
@@ -732,6 +732,8 @@ This may be set to empty string to configure no global credential."/>
         <li><a href="#azure_tenant_id">AZURE_TENANT_ID</a></li>
         <li><a href="#azure_client_id">AZURE_CLIENT_ID</a></li>
         <li><a href="#azure_client_secret">AZURE_CLIENT_SECRET</a></li>
+        <li><a href="#azure_client_certificate">AZURE_CLIENT_CERTIFICATE</a></li>
+        <li><a href="#azure_client_certificate_password">AZURE_CLIENT_CERTIFICATE_PASSWORD</a></li>
         <li><a href="#azure_sync_period">AZURE_SYNC_PERIOD</a></li>
         <li><a href="#azure_operator_mode">AZURE_OPERATOR_MODE</a></li>
         <li><a href="#azure_target_namespaces">AZURE_TARGET_NAMESPACES</a></li>
@@ -836,6 +838,16 @@ credential is specified at the per-resource or per-namespace scope.</p>
 <p>The secret associated with the client to use if
 no <a href="/azure-service-operator/guide/authentication/credential-scope/">more specific</a>
 credential is specified at the per-resource or per-namespace scope.</p>
+<p><strong>Format:</strong> <code>String</code></p>
+<p><strong>Required</strong>: False</p>
+<h3 id="azure_client_certificate">AZURE_CLIENT_CERTIFICATE</h3>
+<p>AzureClientCertificate is a PEM or PKCS12 certificate string including the private key for
+Azure Credential Authentication.
+If the certificate is password protected,  use <code>AZURE_CLIENT_CERTIFICATE_PASSWORD</code> for the password.</p>
+<p><strong>Format:</strong> <code>String</code></p>
+<p><strong>Required</strong>: False</p>
+<h3 id="azure_client_certificate_password">AZURE_CLIENT_CERTIFICATE_PASSWORD</h3>
+<p>The password used to protect the <code>AZURE_CLIENT_CERTIFICATE</code>.</p>
 <p><strong>Format:</strong> <code>String</code></p>
 <p><strong>Required</strong>: False</p>
 <h3 id="azure_sync_period">AZURE_SYNC_PERIOD</h3>
