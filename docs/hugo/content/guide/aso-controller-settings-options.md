@@ -63,6 +63,24 @@ credential is specified at the per-resource or per-namespace scope.
 
 **Required**: False
 
+### AZURE_CLIENT_CERTIFICATE
+
+AzureClientCertificate is a PEM or PKCS12 certificate string including the private key for 
+Azure Credential Authentication.
+If the certificate is password protected,  use `AZURE_CLIENT_CERTIFICATE_PASSWORD` for the password.
+
+**Format:** `String`
+
+**Required**: False
+
+### AZURE_CLIENT_CERTIFICATE_PASSWORD
+
+The password used to protect the `AZURE_CLIENT_CERTIFICATE`.
+
+**Format:** `String`
+
+**Required**: False
+
 ### AZURE_SYNC_PERIOD
 
 AZURE_SYNC_PERIOD is the frequency at which resources are re-reconciled with Azure when
