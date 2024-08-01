@@ -1120,6 +1120,10 @@ objectModelConfiguration:
         $export: true
         $supportedFrom: v2.0.0-alpha.2
         $defaultAzureName: false
+        $operatorSpecProperties:
+          - name: NamingConvention
+            type: string
+            description: The naming convention to use for the AzureName of any RoleAssignment where AzureName is not given. One of 'deterministic' (the default) or 'random' (for a new GUID every time).
       RoleAssignmentProperties:
         DelegatedManagedIdentityResourceId:
           $armReference: false # Actually, this *IS* a resource id, but we want to avoid breaking changes so we're fibbing here
@@ -1132,6 +1136,10 @@ objectModelConfiguration:
         $export: true
         $supportedFrom: v2.4.0
         $defaultAzureName: false
+        $operatorSpecProperties:
+          - name: NamingConvention
+            type: string
+            description: The naming convention to use for the AzureName of any RoleAssignment where AzureName is not given. One of 'deterministic' (the default) or 'random' (for a new GUID every time).
       RoleAssignmentProperties:
         DelegatedManagedIdentityResourceId:
           $armReference: false # Actually, this *IS* a resource id, but we want to avoid breaking changes so we're fibbing here
