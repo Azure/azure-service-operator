@@ -39,9 +39,9 @@ func AddOperatorSpec(configuration *config.Configuration, idFactory astmodel.Ide
 				exportedTypeNameConfigMaps.Add(resource.Name(), exportedConfigMaps)
 			}
 
-			// confirm that all the Azure generated secrets were used. Note that this also indirectly confirms that
-			// this property was only used on resources, since that's the only place we try to check it from. If it's
-			// set on anything else it will be labeled unconsumed.
+			// confirm that operator spec specific configuration was used. Note that this also indirectly confirms that
+			// these properties were only used on resources, since that's the only place we try to check them from. If
+			// they are set on anything else it will be labeled unconsumed.
 			err := configuration.ObjectModelConfiguration.AzureGeneratedSecrets.VerifyConsumed()
 			if err != nil {
 				return nil, err
@@ -51,6 +51,10 @@ func AddOperatorSpec(configuration *config.Configuration, idFactory astmodel.Ide
 				return nil, err
 			}
 			err = configuration.ObjectModelConfiguration.ManualConfigs.VerifyConsumed()
+			if err != nil {
+				return nil, err
+			}
+			err = configuration.ObjectModelConfiguration.OperatorSpecProperties.VerifyConsumed()
 			if err != nil {
 				return nil, err
 			}
@@ -73,8 +77,13 @@ func createOperatorSpecIfNeeded(
 		return nil, nil, errors.Wrapf(err, "resolving resource spec and status for %s", resource.Name())
 	}
 
+	// Look up Azure generated secrets for this resource
 	secrets, hasSecrets := configuration.ObjectModelConfiguration.AzureGeneratedSecrets.Lookup(resolved.ResourceDef.Name())
 
+	// Look up custom operatorSpec properties for this resource
+	operatorSpecProperties, hasOperatorSpecProperties := configuration.ObjectModelConfiguration.OperatorSpecProperties.Lookup(resolved.ResourceDef.Name())
+
+	// Lookup any properties that might be exported to config maps
 	configs, exportedProperties, err := getConfigMapProperties(defs, configuration, resource)
 	if err != nil {
 		return nil, nil, errors.Wrapf(err, "finding properties allowed to export as config maps")
@@ -82,7 +91,7 @@ func createOperatorSpecIfNeeded(
 
 	hasConfigMapProperties := len(configs) != 0
 
-	if !hasSecrets && !hasConfigMapProperties {
+	if !hasSecrets && !hasConfigMapProperties && !hasOperatorSpecProperties {
 		// We don't need to make an OperatorSpec type
 		return nil, nil, nil
 	}
@@ -90,8 +99,12 @@ func createOperatorSpecIfNeeded(
 	builder := newOperatorSpecBuilder(configuration, idFactory, resolved.ResourceDef)
 	builder.addSecretsToOperatorSpec(secrets)
 	builder.addConfigs(configs)
+	builder.addCustomProperties(operatorSpecProperties)
 
-	operatorSpec := builder.build()
+	operatorSpec, err := builder.build()
+	if err != nil {
+		return nil, nil, errors.Wrapf(err, "building OperatorSpec for %q", resolved.ResourceDef.Name())
+	}
 
 	propInjector := astmodel.NewPropertyInjector()
 	updatedDef, err := propInjector.Inject(resolved.SpecDef, builder.newOperatorSpecProperty(operatorSpec))
@@ -280,11 +293,13 @@ func getConfigMapProperties(
 }
 
 type operatorSpecBuilder struct {
-	idFactory     astmodel.IdentifierFactory
-	configuration *config.Configuration
-	resource      astmodel.TypeDefinition
-	definitions   astmodel.TypeDefinitionSet
-	operatorSpec  astmodel.TypeDefinition
+	idFactory        astmodel.IdentifierFactory
+	configuration    *config.Configuration
+	resource         astmodel.TypeDefinition
+	definitions      astmodel.TypeDefinitionSet
+	operatorSpecName astmodel.InternalTypeName
+	operatorSpecType *astmodel.ObjectType
+	errs             []error // any errors that occurred while building the operator spec
 }
 
 func newOperatorSpecBuilder(
@@ -292,29 +307,18 @@ func newOperatorSpecBuilder(
 	idFactory astmodel.IdentifierFactory,
 	resource astmodel.TypeDefinition,
 ) *operatorSpecBuilder {
+	name := idFactory.CreateIdentifier(resource.Name().Name()+"OperatorSpec", astmodel.Exported)
+
 	result := &operatorSpecBuilder{
-		idFactory:     idFactory,
-		configuration: configuration,
-		resource:      resource,
-		definitions:   make(astmodel.TypeDefinitionSet),
+		idFactory:        idFactory,
+		configuration:    configuration,
+		resource:         resource,
+		definitions:      make(astmodel.TypeDefinitionSet),
+		operatorSpecName: resource.Name().WithName(name),
+		operatorSpecType: astmodel.NewObjectType(),
 	}
 
-	result.operatorSpec = result.newEmptyOperatorSpec()
-
 	return result
-}
-
-func (b *operatorSpecBuilder) newEmptyOperatorSpec() astmodel.TypeDefinition {
-	name := b.idFactory.CreateIdentifier(b.resource.Name().Name()+"OperatorSpec", astmodel.Exported)
-	operatorSpecTypeName := b.resource.Name().WithName(name)
-	operatorSpec := astmodel.NewObjectType()
-
-	operatorSpecDefinition := astmodel.MakeTypeDefinition(operatorSpecTypeName, operatorSpec)
-	description := "Details for configuring operator behavior. Fields in this struct are " +
-		"interpreted by the operator directly rather than being passed to Azure"
-	operatorSpecDefinition = operatorSpecDefinition.WithDescription(description)
-
-	return operatorSpecDefinition
 }
 
 func (b *operatorSpecBuilder) newOperatorSpecProperty(operatorSpec astmodel.TypeDefinition) *astmodel.PropertyDefinition {
@@ -358,11 +362,6 @@ func (b *operatorSpecBuilder) addSecretsToOperatorSpec(
 		return // Nothing to do
 	}
 
-	operatorSpec, ok := astmodel.AsObjectType(b.operatorSpec.Type())
-	if !ok {
-		panic(fmt.Sprintf("OperatorSpec %q was not an ObjectType, which is impossible", b.operatorSpec.Name()))
-	}
-
 	// Create a new "secrets" type to hold the secrets
 	resourceName := b.resource.Name()
 	secretsTypeName := resourceName.WithName(
@@ -373,7 +372,7 @@ func (b *operatorSpecBuilder) addSecretsToOperatorSpec(
 
 	// Add the "secrets" property to the operator spec
 	secretProp := b.newSecretsProperty(secretsTypeName)
-	operatorSpec = operatorSpec.WithProperty(secretProp)
+	b.operatorSpecType = b.operatorSpecType.WithProperty(secretProp)
 
 	for _, secret := range azureGeneratedSecrets {
 		prop := astmodel.NewPropertyDefinition(
@@ -390,8 +389,6 @@ func (b *operatorSpecBuilder) addSecretsToOperatorSpec(
 
 	secretsTypeDef := astmodel.MakeTypeDefinition(secretsTypeName, secretsType)
 	b.definitions.Add(secretsTypeDef)
-
-	b.operatorSpec = b.operatorSpec.WithType(operatorSpec)
 }
 
 func (b *operatorSpecBuilder) addConfigs(
@@ -399,11 +396,6 @@ func (b *operatorSpecBuilder) addConfigs(
 ) {
 	if len(exportedConfigs) == 0 {
 		return // Nothing to do
-	}
-
-	operatorSpec, ok := astmodel.AsObjectType(b.operatorSpec.Type())
-	if !ok {
-		panic(fmt.Sprintf("OperatorSpec %q was not an ObjectType, which is impossible", b.operatorSpec.Name()))
 	}
 
 	// Create a new "ConfigMaps" type to hold the config map values
@@ -416,7 +408,7 @@ func (b *operatorSpecBuilder) addConfigs(
 
 	// Add the "configMaps" property to the operator spec
 	configMapProp := b.newConfigMapProperty(configMapTypeName)
-	operatorSpec = operatorSpec.WithProperty(configMapProp)
+	b.operatorSpecType = b.operatorSpecType.WithProperty(configMapProp)
 
 	for _, exportedConfig := range exportedConfigs {
 		prop := astmodel.NewPropertyDefinition(
@@ -433,10 +425,49 @@ func (b *operatorSpecBuilder) addConfigs(
 
 	configMapTypeDef := astmodel.MakeTypeDefinition(configMapTypeName, configMapsType)
 	b.definitions.Add(configMapTypeDef)
-
-	b.operatorSpec = b.operatorSpec.WithType(operatorSpec)
 }
 
-func (b *operatorSpecBuilder) build() astmodel.TypeDefinition {
-	return b.operatorSpec
+func (b *operatorSpecBuilder) addCustomProperties(
+	properties []config.OperatorSpecPropertyConfiguration,
+) {
+	if len(properties) == 0 {
+		return // Nothing to do
+	}
+
+	for _, prop := range properties {
+		propertyType, ok := astmodel.LookupPrimitiveType(prop.Type)
+		if !ok {
+			b.errs = append(
+				b.errs,
+				errors.Errorf("unknown type %q for custom OperatorSpec property %q", prop.Type, prop.Name))
+			continue
+		}
+
+		property := astmodel.NewPropertyDefinition(
+			b.idFactory.CreatePropertyName(prop.Name, astmodel.Exported),
+			b.idFactory.CreateStringIdentifier(prop.Name, astmodel.NotExported),
+			propertyType).
+			MakeTypeOptional().
+			WithDescription(prop.Description)
+		b.operatorSpecType = b.operatorSpecType.WithProperty(property)
+	}
+}
+
+func (b *operatorSpecBuilder) build() (astmodel.TypeDefinition, error) {
+	if len(b.errs) > 0 {
+		return astmodel.TypeDefinition{},
+			errors.Wrapf(
+				kerrors.NewAggregate(b.errs),
+				"failed to build OperatorSpec for %q",
+				b.resource.Name())
+	}
+
+	def := astmodel.MakeTypeDefinition(
+		b.operatorSpecName,
+		b.operatorSpecType)
+
+	description := "Details for configuring operator behavior. Fields in this struct are " +
+		"interpreted by the operator directly rather than being passed to Azure"
+	def = def.WithDescription(description)
+	return def, nil
 }
