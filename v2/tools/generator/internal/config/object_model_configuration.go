@@ -43,6 +43,7 @@ type ObjectModelConfiguration struct {
 	ManualConfigs            typeAccess[[]string]
 	RenameTo                 typeAccess[string]
 	ResourceEmbeddedInParent typeAccess[string]
+	OperatorSpecProperties   typeAccess[[]OperatorSpecPropertyConfiguration]
 	SupportedFrom            typeAccess[string]
 	TypeNameInNextVersion    typeAccess[string]
 
@@ -90,6 +91,10 @@ func NewObjectModelConfiguration() *ObjectModelConfiguration {
 		result, func(c *TypeConfiguration) *configurable[bool] { return &c.IsResource })
 	result.ManualConfigs = makeTypeAccess[[]string](
 		result, func(c *TypeConfiguration) *configurable[[]string] { return &c.ManualConfigs })
+	result.OperatorSpecProperties = makeTypeAccess[[]OperatorSpecPropertyConfiguration](
+		result, func(c *TypeConfiguration) *configurable[[]OperatorSpecPropertyConfiguration] {
+			return &c.OperatorSpecProperties
+		})
 	result.RenameTo = makeTypeAccess[string](
 		result, func(c *TypeConfiguration) *configurable[string] { return &c.RenameTo })
 	result.ResourceEmbeddedInParent = makeTypeAccess[string](
