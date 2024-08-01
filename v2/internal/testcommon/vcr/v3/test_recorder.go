@@ -30,7 +30,12 @@ type recorderDetails struct {
 	log          logr.Logger
 }
 
-func NewTestRecorder(cassetteName string, cfg config.Values, log logr.Logger, hideCustomData map[string]string) (vcr.Interface, error) {
+func NewTestRecorder(
+	cassetteName string,
+	cfg config.Values,
+	log logr.Logger,
+	hideCustomData map[string]string,
+) (vcr.Interface, error) {
 	opts := &recorder.Options{
 		CassetteName: cassetteName,
 	}
