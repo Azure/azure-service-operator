@@ -28,7 +28,7 @@ Extend our configuration to allow the need for a new operator spec property to b
           $operatorSpecProperty:
               name: generationType
               type: string
-    ```
+```
 
 * PRO: Makes it clear the relationship between the new operator property and the resource property it configures.
 * CON: Only allows one operator spec property per resource property.
@@ -49,7 +49,7 @@ Extend our configuration to allow the need for a new operator spec property to b
 
 * PRO: Allows multiple operator spec properties to be declared against a single resource.
 * PRO: Allows for operator spec properties that aren't specific to a single property or group of properties
-* CON: Doesn't make it clear which resource properties are influenced by the operator spec property.
+* CON: Doesn't make it clear which resource properties are influenced by the operator spec property (but we can provide documentation to clarify this).
 
 ### Option 3: Add new properties via a Type Transformation
 
