@@ -129,6 +129,7 @@ func (ctx KubeGlobalContext) ForTest(t *testing.T) *KubePerTestContext {
 	return ctx.ForTestWithCustomRedact(t, nil)
 }
 
+// ForTestWithCustomRedact takes an extra `hideCustomData` parameter of type map[string]string to specify the key as what needs to be replaced and value as the replacement value.
 func (ctx KubeGlobalContext) ForTestWithCustomRedact(t *testing.T, hideCustomData map[string]string) *KubePerTestContext {
 	cfg, err := ReadFromEnvironmentForTest()
 	if err != nil {

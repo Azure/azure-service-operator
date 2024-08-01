@@ -16,7 +16,12 @@ import (
 )
 
 // createTestRecorder returns an instance of testRecorder to allow recording and playback of HTTP requests.
-func createTestRecorder(cassetteName string, cfg config.Values, recordReplay bool, log logr.Logger, hideCustomData map[string]string) (vcr.Interface, error) {
+func createTestRecorder(
+	cassetteName string,
+	cfg config.Values,
+	recordReplay bool,
+	log logr.Logger,
+	hideCustomData map[string]string) (vcr.Interface, error) {
 	if !recordReplay {
 		// We're not using VCR, so just pass through the requests
 		return vcr.NewTestPassthroughRecorder(cfg)
