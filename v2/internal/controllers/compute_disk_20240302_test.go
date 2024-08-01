@@ -10,11 +10,11 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930"
+	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1api20240302"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 
-func Test_Compute_Disk_CRUD(t *testing.T) {
+func Test_Compute_Disk_20240302_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
@@ -22,7 +22,7 @@ func Test_Compute_Disk_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Create a disk.
-	standardSkuName := compute.DiskSku_Name_Standard_LRS
+	standardSkuName := compute.DiskSku_Name_Premium_ZRS
 	sizeInGb := 500
 	createOption := compute.CreationData_CreateOption_Empty
 	disk := &compute.Disk{

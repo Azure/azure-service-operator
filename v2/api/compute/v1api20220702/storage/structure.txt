@@ -77,3 +77,17 @@ DiskEncryptionSet: Resource
     ├── RotationToLatestKeyVersionEnabled: *bool
     ├── Tags: map[string]string
     └── Type: *string
+augmentConversionForApiErrorBase_STATUS: Interface
+augmentConversionForApiError_STATUS: Interface
+augmentConversionForDiskEncryptionSet: Interface
+augmentConversionForDiskEncryptionSet_STATUS: Interface
+augmentConversionForDiskEncryptionSet_Spec: Interface
+augmentConversionForEncryptionSetIdentity: Interface
+augmentConversionForEncryptionSetIdentity_STATUS: Interface
+augmentConversionForEncryptionSetIdentity_UserAssignedIdentities_STATUS: Interface
+augmentConversionForInnerError_STATUS: Interface
+augmentConversionForKeyForDiskEncryptionSet: Interface
+augmentConversionForKeyForDiskEncryptionSet_STATUS: Interface
+augmentConversionForSourceVault: Interface
+augmentConversionForSourceVault_STATUS: Interface
+augmentConversionForUserAssignedIdentityDetails: Interface

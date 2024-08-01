@@ -49,22 +49,36 @@ var _ conversion.Convertible = &DiskEncryptionSet{}
 
 // ConvertFrom populates our DiskEncryptionSet from the provided hub DiskEncryptionSet
 func (encryptionSet *DiskEncryptionSet) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.DiskEncryptionSet)
-	if !ok {
-		return fmt.Errorf("expected compute/v1api20220702/storage/DiskEncryptionSet but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.DiskEncryptionSet
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return encryptionSet.AssignProperties_From_DiskEncryptionSet(source)
+	err = encryptionSet.AssignProperties_From_DiskEncryptionSet(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to encryptionSet")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub DiskEncryptionSet from our DiskEncryptionSet
 func (encryptionSet *DiskEncryptionSet) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.DiskEncryptionSet)
-	if !ok {
-		return fmt.Errorf("expected compute/v1api20220702/storage/DiskEncryptionSet but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.DiskEncryptionSet
+	err := encryptionSet.AssignProperties_To_DiskEncryptionSet(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from encryptionSet")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return encryptionSet.AssignProperties_To_DiskEncryptionSet(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-compute-azure-com-v1api20220702-diskencryptionset,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=compute.azure.com,resources=diskencryptionsets,verbs=create;update,versions=v1api20220702,name=default.v1api20220702.diskencryptionsets.compute.azure.com,admissionReviewVersions=v1
@@ -89,17 +103,6 @@ func (encryptionSet *DiskEncryptionSet) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the DiskEncryptionSet resource
 func (encryptionSet *DiskEncryptionSet) defaultImpl() { encryptionSet.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &DiskEncryptionSet{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (encryptionSet *DiskEncryptionSet) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*DiskEncryptionSet_STATUS); ok {
-		return encryptionSet.Spec.Initialize_From_DiskEncryptionSet_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type DiskEncryptionSet_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &DiskEncryptionSet{}
 
@@ -758,62 +761,6 @@ func (encryptionSet *DiskEncryptionSet_Spec) AssignProperties_To_DiskEncryptionS
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DiskEncryptionSet_STATUS populates our DiskEncryptionSet_Spec from the provided source DiskEncryptionSet_STATUS
-func (encryptionSet *DiskEncryptionSet_Spec) Initialize_From_DiskEncryptionSet_STATUS(source *DiskEncryptionSet_STATUS) error {
-
-	// ActiveKey
-	if source.ActiveKey != nil {
-		var activeKey KeyForDiskEncryptionSet
-		err := activeKey.Initialize_From_KeyForDiskEncryptionSet_STATUS(source.ActiveKey)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_KeyForDiskEncryptionSet_STATUS() to populate field ActiveKey")
-		}
-		encryptionSet.ActiveKey = &activeKey
-	} else {
-		encryptionSet.ActiveKey = nil
-	}
-
-	// EncryptionType
-	if source.EncryptionType != nil {
-		encryptionType := genruntime.ToEnum(string(*source.EncryptionType), diskEncryptionSetType_Values)
-		encryptionSet.EncryptionType = &encryptionType
-	} else {
-		encryptionSet.EncryptionType = nil
-	}
-
-	// FederatedClientId
-	encryptionSet.FederatedClientId = genruntime.ClonePointerToString(source.FederatedClientId)
-
-	// Identity
-	if source.Identity != nil {
-		var identity EncryptionSetIdentity
-		err := identity.Initialize_From_EncryptionSetIdentity_STATUS(source.Identity)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_EncryptionSetIdentity_STATUS() to populate field Identity")
-		}
-		encryptionSet.Identity = &identity
-	} else {
-		encryptionSet.Identity = nil
-	}
-
-	// Location
-	encryptionSet.Location = genruntime.ClonePointerToString(source.Location)
-
-	// RotationToLatestKeyVersionEnabled
-	if source.RotationToLatestKeyVersionEnabled != nil {
-		rotationToLatestKeyVersionEnabled := *source.RotationToLatestKeyVersionEnabled
-		encryptionSet.RotationToLatestKeyVersionEnabled = &rotationToLatestKeyVersionEnabled
-	} else {
-		encryptionSet.RotationToLatestKeyVersionEnabled = nil
-	}
-
-	// Tags
-	encryptionSet.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1650,33 +1597,6 @@ func (identity *EncryptionSetIdentity) AssignProperties_To_EncryptionSetIdentity
 	return nil
 }
 
-// Initialize_From_EncryptionSetIdentity_STATUS populates our EncryptionSetIdentity from the provided source EncryptionSetIdentity_STATUS
-func (identity *EncryptionSetIdentity) Initialize_From_EncryptionSetIdentity_STATUS(source *EncryptionSetIdentity_STATUS) error {
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), encryptionSetIdentity_Type_Values)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]UserAssignedIdentityDetails, 0, len(source.UserAssignedIdentities))
-		for userAssignedIdentitiesKey := range source.UserAssignedIdentities {
-			userAssignedIdentitiesRef := genruntime.CreateResourceReferenceFromARMID(userAssignedIdentitiesKey)
-			userAssignedIdentityList = append(userAssignedIdentityList, UserAssignedIdentityDetails{Reference: userAssignedIdentitiesRef})
-		}
-		identity.UserAssignedIdentities = userAssignedIdentityList
-	} else {
-		identity.UserAssignedIdentities = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used
 // to encrypt disks.
 type EncryptionSetIdentity_STATUS struct {
@@ -1984,28 +1904,6 @@ func (encryptionSet *KeyForDiskEncryptionSet) AssignProperties_To_KeyForDiskEncr
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_KeyForDiskEncryptionSet_STATUS populates our KeyForDiskEncryptionSet from the provided source KeyForDiskEncryptionSet_STATUS
-func (encryptionSet *KeyForDiskEncryptionSet) Initialize_From_KeyForDiskEncryptionSet_STATUS(source *KeyForDiskEncryptionSet_STATUS) error {
-
-	// KeyUrl
-	encryptionSet.KeyUrl = genruntime.ClonePointerToString(source.KeyUrl)
-
-	// SourceVault
-	if source.SourceVault != nil {
-		var sourceVault SourceVault
-		err := sourceVault.Initialize_From_SourceVault_STATUS(source.SourceVault)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SourceVault_STATUS() to populate field SourceVault")
-		}
-		encryptionSet.SourceVault = &sourceVault
-	} else {
-		encryptionSet.SourceVault = nil
 	}
 
 	// No error
@@ -2426,21 +2324,6 @@ func (vault *SourceVault) AssignProperties_To_SourceVault(destination *storage.S
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SourceVault_STATUS populates our SourceVault from the provided source SourceVault_STATUS
-func (vault *SourceVault) Initialize_From_SourceVault_STATUS(source *SourceVault_STATUS) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		vault.Reference = &reference
-	} else {
-		vault.Reference = nil
 	}
 
 	// No error

@@ -15,7 +15,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
-func Test_Compute_Snapshot_CRUD(t *testing.T) {
+func Test_Compute_Snapshot_20200930_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)

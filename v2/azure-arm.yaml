@@ -1474,6 +1474,50 @@ objectModelConfiguration:
       EncryptionSetProperties:
         FederatedClientId:
           $importConfigMapMode: optional
+    2024-03-02:
+      CreationData:
+        SourceResourceId:
+          $armReference: true
+        ElasticSanResourceId:
+          $armReference: true
+      Disk:
+        $export: true
+        $supportedFrom: v2.9.0
+      DiskProperties:
+        DiskAccessId:
+          $armReference: true
+      Encryption:
+        DiskEncryptionSetId:
+          $armReference: true
+      ImageDiskReference:
+        Id:
+          $armReference: true
+      Snapshot:
+        $export: true
+        $supportedFrom: v2.9.0
+      SnapshotProperties:
+        DiskAccessId:
+          $armReference: true
+      SourceVault:
+        Id:
+          $armReference: true
+      DiskAccess:
+        $export: true
+        $supportedFrom: v2.9.0
+      DiskEncryptionSet:
+        $export: true
+        $supportedFrom: v2.9.0
+      KeyForDiskEncryptionSet:
+        KeyUrl:
+          $importConfigMapMode: optional
+      EncryptionSetProperties:
+        FederatedClientId:
+          $importConfigMapMode: optional
+      # TODO: Reorganize this section
+      # TODO: Confirm that these guys are really ARM IDs
+      DiskSecurityProfile:
+        SecureVMDiskEncryptionSetId:
+          $armReference: true
   containerinstance:
     2021-10-01:
       ContainerGroup:
