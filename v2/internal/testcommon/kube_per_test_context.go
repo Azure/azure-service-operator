@@ -126,12 +126,16 @@ func CreateTestResourceGroupDefaultTags() map[string]string {
 }
 
 func (ctx KubeGlobalContext) ForTest(t *testing.T) *KubePerTestContext {
+	return ctx.ForTestWithCustomRedact(t, nil)
+}
+
+func (ctx KubeGlobalContext) ForTestWithCustomRedact(t *testing.T, hideCustomData map[string]string) *KubePerTestContext {
 	cfg, err := ReadFromEnvironmentForTest()
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	return ctx.forTestWithConfig(t, cfg, bypassesParallelLimits)
+	return ctx.forTestWithConfig(t, cfg, bypassesParallelLimits, hideCustomData)
 }
 
 func ReadFromEnvironmentForTest() (config.Values, error) {
@@ -154,15 +158,15 @@ const (
 )
 
 func (ctx KubeGlobalContext) ForTestWithConfig(t *testing.T, cfg config.Values) *KubePerTestContext {
-	return ctx.forTestWithConfig(t, cfg, countsAgainstParallelLimits)
+	return ctx.forTestWithConfig(t, cfg, countsAgainstParallelLimits, nil)
 }
 
-func (ctx KubeGlobalContext) forTestWithConfig(t *testing.T, cfg config.Values, parallelismRestriction testConfigParallelismLimit) *KubePerTestContext {
+func (ctx KubeGlobalContext) forTestWithConfig(t *testing.T, cfg config.Values, parallelismRestriction testConfigParallelismLimit, hideCustomData map[string]string) *KubePerTestContext {
 	/*
 		Note: if you update this method you might also need to update TestContext.Subtest.
 	*/
 
-	perTestContext, err := ctx.TestContext.ForTest(t, cfg)
+	perTestContext, err := ctx.TestContext.ForTest(t, cfg, hideCustomData)
 	if err != nil {
 		t.Fatal(err)
 	}

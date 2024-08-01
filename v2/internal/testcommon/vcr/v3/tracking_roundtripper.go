@@ -97,7 +97,7 @@ func (rt *requestCounter) addHashHeader(request *http.Request) {
 	}
 
 	// Apply the same body filtering that we do in recordings so that the hash is consistent
-	bodyString := vcr.HideRecordingData(rt.azureIDs, string(body.Bytes()))
+	bodyString := vcr.HideRecordingData(rt.azureIDs, string(body.Bytes()), nil)
 
 	// Calculate a hash based on body string
 	hash := sha256.Sum256([]byte(bodyString))

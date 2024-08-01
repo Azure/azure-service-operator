@@ -36,20 +36,23 @@ import (
 func translateErrors(
 	r http.RoundTripper,
 	cassetteName string,
+	hideCustomData map[string]string,
 	t *testing.T,
 ) http.RoundTripper {
 	return errorTranslation{
-		recorder:     r,
-		cassetteName: cassetteName,
-		t:            t,
+		recorder:       r,
+		cassetteName:   cassetteName,
+		hideCustomData: hideCustomData,
+		t:              t,
 	}
 }
 
 type errorTranslation struct {
-	recorder     http.RoundTripper
-	cassetteName string
-	cassette     *cassettev1.Cassette
-	t            *testing.T
+	recorder       http.RoundTripper
+	cassette       *cassettev1.Cassette
+	cassetteName   string
+	hideCustomData map[string]string
+	t              *testing.T
 }
 
 func (w errorTranslation) ensureCassette() *cassettev1.Cassette {
@@ -82,7 +85,7 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 
 		// Apply the same body filtering that we do in recordings so that the diffs don't show things
 		// that we've just removed
-		sentBodyString = vcr.HideRecordingData(creds.DummyAzureIDs(), string(bodyBytes))
+		sentBodyString = vcr.HideRecordingData(creds.DummyAzureIDs(), string(bodyBytes), w.hideCustomData)
 	}
 
 	// find all request bodies for the specified method/URL combination

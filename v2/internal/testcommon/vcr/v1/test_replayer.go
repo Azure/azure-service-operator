@@ -38,10 +38,7 @@ var _ vcr.Interface = &player{}
 // NewTestPlayer creates a TestRecorder that can be used to replay test recorded with go-vcr v1.
 // cassetteName is the name of the cassette file to replay.
 // cfg is the configuration to use when replaying the test.
-func NewTestPlayer(
-	cassetteName string,
-	cfg config.Values,
-) (vcr.Interface, error) {
+func NewTestPlayer(cassetteName string, cfg config.Values, hideCustomData map[string]string) (vcr.Interface, error) {
 	cassetteExists, err := vcr.CassetteFileExists(cassetteName)
 	if err != nil {
 		return nil, errors.Wrapf(err, "checking for cassette file")
@@ -91,7 +88,7 @@ func NewTestPlayer(
 		}
 
 		r.Body = io.NopCloser(&b)
-		return b.String() == "" || vcr.HideRecordingData(creds.DummyAzureIDs(), b.String()) == i.Body
+		return b.String() == "" || vcr.HideRecordingData(creds.DummyAzureIDs(), b.String(), hideCustomData) == i.Body
 	})
 
 	return &player{
@@ -131,8 +128,8 @@ func (r *player) IsReplaying() bool {
 // CreateClient creates an HTTP client configured to record or replay HTTP requests.
 // t is a reference to the test currently executing.
 // TODO: Remove the reference to t to reduce coupling
-func (r *player) CreateClient(t *testing.T) *http.Client {
-	withErrorTranslation := translateErrors(r.recorder, r.cassetteName, t)
+func (r *player) CreateClient(hideCustomData map[string]string, t *testing.T) *http.Client {
+	withErrorTranslation := translateErrors(r.recorder, r.cassetteName, hideCustomData, t)
 	withCountHeader := AddCountHeader(withErrorTranslation)
 
 	return &http.Client{

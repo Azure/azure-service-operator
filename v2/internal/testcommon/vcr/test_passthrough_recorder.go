@@ -10,6 +10,7 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
+
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
 )
@@ -44,7 +45,7 @@ func (r *testPassthroughRecorder) Cfg() config.Values {
 }
 
 // CreateClient implements testRecorder.
-func (*testPassthroughRecorder) CreateClient(t *testing.T) *http.Client {
+func (*testPassthroughRecorder) CreateClient(t *testing.T, data map[string]string) *http.Client {
 	return http.DefaultClient
 }
 

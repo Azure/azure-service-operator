@@ -10,6 +10,7 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
+
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
 )
@@ -34,5 +35,5 @@ type Interface interface {
 
 	// CreateClient creates an HTTP client configured to record or replay HTTP requests.
 	// t is a reference to the test currently executing.
-	CreateClient(t *testing.T) *http.Client
+	CreateClient(t *testing.T, hideCustomData map[string]string) *http.Client
 }

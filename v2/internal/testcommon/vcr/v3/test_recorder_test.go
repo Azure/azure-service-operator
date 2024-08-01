@@ -47,12 +47,12 @@ func TestRecorder_WhenRecordingAndRecordingDoesNotExist_MakesRecording(t *testin
 	}()
 
 	// Create our TestRecorder and ensure it's recording
-	recorder, err := NewTestRecorder(cassetteName, cfg, logr.Discard())
+	recorder, err := NewTestRecorder(cassetteName, cfg, logr.Discard(), nil)
 	g.Expect(err).To(BeNil())
 	g.Expect(recorder.IsReplaying()).To(BeFalse())
 
 	url := "https://www.bing.com"
-	client := recorder.CreateClient(t)
+	client := recorder.CreateClient(t, nil)
 
 	// Make sure we can get a response from the internet
 	//nolint:noctx
@@ -101,12 +101,12 @@ func TestRecorder_WhenRecordingAndRecordingExists_DoesPlayback(t *testing.T) {
 	g.Expect(exists).To(BeTrue())
 
 	// Create our TestRecorder and ensure it's recording
-	recorder, err := NewTestRecorder(cassetteName, cfg, logr.Discard())
+	recorder, err := NewTestRecorder(cassetteName, cfg, logr.Discard(), nil)
 	g.Expect(err).To(BeNil())
 	g.Expect(recorder.IsReplaying()).To(BeTrue())
 
 	url := "https://www.bing.com"
-	client := recorder.CreateClient(t)
+	client := recorder.CreateClient(t, nil)
 
 	// Make sure we can get a response from the internet
 	req, err := http.NewRequestWithContext(context.Background(), http.MethodGet, url, nil)

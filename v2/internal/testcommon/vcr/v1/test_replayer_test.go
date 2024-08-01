@@ -22,11 +22,11 @@ func TestReplayer_WhenRecordingExists_ReturnsResult(t *testing.T) {
 
 	cfg := config.Values{}
 	cassetteName := "recordings/" + t.Name()
-	replayer, err := NewTestPlayer(cassetteName, cfg)
+	replayer, err := NewTestPlayer(cassetteName, cfg, nil)
 	g.Expect(err).To(BeNil())
 
 	url := "https://www.bing.com"
-	client := replayer.CreateClient(t)
+	client := replayer.CreateClient(t, nil)
 
 	req, err := http.NewRequestWithContext(context.Background(), http.MethodGet, url, nil)
 	g.Expect(err).To(BeNil())

@@ -87,7 +87,15 @@ func RedactResponseHeaders(azureIDs creds.AzureIDs, headers http.Header) {
 	}
 }
 
-func HideRecordingData(azureIDs creds.AzureIDs, s string) string {
+func HideRecordingData(azureIDs creds.AzureIDs, s string, hideCustomData map[string]string) string {
+
+	// Replace and hide all the custom data
+	if hideCustomData != nil {
+		for k, v := range hideCustomData {
+			s = strings.ReplaceAll(s, k, v)
+		}
+	}
+
 	// Hide the subscription ID
 	s = strings.ReplaceAll(s, azureIDs.SubscriptionID, nilGuid)
 
@@ -128,7 +136,7 @@ var passwordMatcher = regexp.MustCompile("\"pass[^\"]*?pass\"")
 
 // hidePasswords hides anything that looks like a generated password
 func hidePasswords(s string) string {
-	return passwordMatcher.ReplaceAllLiteralString(s, "\"{PASSWORD}\"")
+	return passwordMatcher.ReplaceAllLiteralString(s, "\"{REDACTED}\"")
 }
 
 // kubeConfigMatcher specifically matches base64 data returned by the AKS get keys API
@@ -147,7 +155,7 @@ func hideKubeConfigs(s string) string {
 var keyMatcher = regexp.MustCompile("(?:[A-Za-z0-9+/]{4}){10,}(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)")
 
 func hideKeys(s string) string {
-	return keyMatcher.ReplaceAllLiteralString(s, "{KEY}")
+	return keyMatcher.ReplaceAllLiteralString(s, "{REDACTED}")
 }
 
 var (
@@ -158,7 +166,7 @@ var (
 
 func hideCustomKeys(s string) string {
 	return customKeyMatcher.ReplaceAllStringFunc(s, func(matched string) string {
-		return customKeyReplacer.ReplaceAllString(matched, `"{KEY}"`)
+		return customKeyReplacer.ReplaceAllString(matched, `"{REDACTED}"`)
 	})
 }
 

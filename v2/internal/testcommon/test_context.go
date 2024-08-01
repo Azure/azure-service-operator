@@ -54,6 +54,7 @@ type PerTestContext struct {
 	TestName              string
 	Namespace             string
 	Ctx                   context.Context
+	Redact                map[string]string
 	// CountsTowardsParallelLimits true means that the envtest (if any) started for this test pass counts towards the limit of
 	// concurrent envtests running at once. If this is false, it doesn't count towards the limit.
 	CountsTowardsParallelLimits bool
@@ -87,11 +88,11 @@ func NewTestContext(
 	}
 }
 
-func (tc TestContext) ForTest(t *testing.T, cfg config.Values) (PerTestContext, error) {
+func (tc TestContext) ForTest(t *testing.T, cfg config.Values, hideCustomData map[string]string) (PerTestContext, error) {
 	logger := NewTestLogger(t)
 
 	cassetteName := "recordings/" + t.Name()
-	details, err := createTestRecorder(cassetteName, cfg, tc.RecordReplay, logger)
+	details, err := createTestRecorder(cassetteName, cfg, tc.RecordReplay, logger, hideCustomData)
 	if err != nil {
 		return PerTestContext{}, errors.Wrapf(err, "creating recorder")
 	}
@@ -104,7 +105,7 @@ func (tc TestContext) ForTest(t *testing.T, cfg config.Values) (PerTestContext, 
 	// the specific test in question, which means that clients cannot be reused.
 	// We explicitly create a new http.Client so that the recording from one test doesn't
 	// get used for all other parallel tests.
-	httpClient := details.CreateClient(t)
+	httpClient := details.CreateClient(t, hideCustomData)
 
 	var globalARMClient *genericarmclient.GenericClient
 	options := &genericarmclient.GenericClientOptions{

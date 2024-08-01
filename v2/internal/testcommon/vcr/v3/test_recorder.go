@@ -30,11 +30,7 @@ type recorderDetails struct {
 	log          logr.Logger
 }
 
-func NewTestRecorder(
-	cassetteName string,
-	cfg config.Values,
-	log logr.Logger,
-) (vcr.Interface, error) {
+func NewTestRecorder(cassetteName string, cfg config.Values, log logr.Logger, hideCustomData map[string]string) (vcr.Interface, error) {
 	opts := &recorder.Options{
 		CassetteName: cassetteName,
 	}
@@ -108,7 +104,7 @@ func NewTestRecorder(
 		return true
 	})
 
-	r.AddHook(redactRecording(azureIDs), recorder.BeforeSaveHook)
+	r.AddHook(redactRecording(azureIDs, hideCustomData), recorder.BeforeSaveHook)
 
 	return &recorderDetails{
 		cassetteName: cassetteName,
@@ -126,10 +122,11 @@ func NewTestRecorder(
 // any subscription, so a contributor can update the tests against their own sub.
 func redactRecording(
 	azureIDs creds.AzureIDs,
+	hideCustomData map[string]string,
 ) recorder.HookFunc {
 	return func(i *cassette.Interaction) error {
-		i.Request.Body = vcr.HideRecordingData(azureIDs, i.Request.Body)
-		i.Response.Body = vcr.HideRecordingData(azureIDs, i.Response.Body)
+		i.Request.Body = vcr.HideRecordingData(azureIDs, i.Request.Body, hideCustomData)
+		i.Response.Body = vcr.HideRecordingData(azureIDs, i.Response.Body, hideCustomData)
 		i.Request.URL = vcr.HideURLData(azureIDs, i.Request.URL)
 
 		vcr.RedactRequestHeaders(azureIDs, i.Request.Headers)
@@ -166,9 +163,9 @@ func (r *recorderDetails) IsReplaying() bool {
 
 // CreateClient creates an HTTP client configured to record or replay HTTP requests.
 // t is a reference to the test currently executing.
-func (r *recorderDetails) CreateClient(t *testing.T) *http.Client {
+func (r *recorderDetails) CreateClient(t *testing.T, hideCustomData map[string]string) *http.Client {
 	withReplay := NewReplayRoundTripper(r.recorder, r.log)
-	withErrorTranslation := translateErrors(withReplay, r.cassetteName, t)
+	withErrorTranslation := translateErrors(withReplay, r.cassetteName, hideCustomData, t)
 	withTrackingHeaders := AddTrackingHeaders(r.ids, withErrorTranslation)
 
 	return &http.Client{
