@@ -4753,7 +4753,7 @@ func (in *ManagedClusterAgentPoolProfileProperties_ARM) DeepCopyInto(out *Manage
 	}
 	if in.OsDiskSizeGB != nil {
 		in, out := &in.OsDiskSizeGB, &out.OsDiskSizeGB
-		*out = new(ContainerServiceOSDisk)
+		*out = new(int)
 		**out = **in
 	}
 	if in.OsDiskType != nil {
@@ -5330,7 +5330,7 @@ func (in *ManagedClusterAgentPoolProfile_ARM) DeepCopyInto(out *ManagedClusterAg
 	}
 	if in.OsDiskSizeGB != nil {
 		in, out := &in.OsDiskSizeGB, &out.OsDiskSizeGB
-		*out = new(ContainerServiceOSDisk)
+		*out = new(int)
 		**out = **in
 	}
 	if in.OsDiskType != nil {

@@ -78,3 +78,6 @@ hack/tools
 
 # Private powershell scripts
 .ps
+
+# goenv condiguration
+.go-version

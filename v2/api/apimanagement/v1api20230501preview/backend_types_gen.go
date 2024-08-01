@@ -4091,7 +4091,7 @@ func (condition *CircuitBreakerFailureCondition) ConvertToARM(resolved genruntim
 
 	// Set property "ErrorReasons":
 	for _, item := range condition.ErrorReasons {
-		result.ErrorReasons = append(result.ErrorReasons, item)
+		result.ErrorReasons = append(result.ErrorReasons, string(item))
 	}
 
 	// Set property "Interval":
@@ -4137,7 +4137,7 @@ func (condition *CircuitBreakerFailureCondition) PopulateFromARM(owner genruntim
 
 	// Set property "ErrorReasons":
 	for _, item := range typedInput.ErrorReasons {
-		condition.ErrorReasons = append(condition.ErrorReasons, item)
+		condition.ErrorReasons = append(condition.ErrorReasons, CircuitBreakerFailureCondition_ErrorReasons(item))
 	}
 
 	// Set property "Interval":
@@ -4311,7 +4311,7 @@ func (condition *CircuitBreakerFailureCondition_STATUS) PopulateFromARM(owner ge
 
 	// Set property "ErrorReasons":
 	for _, item := range typedInput.ErrorReasons {
-		condition.ErrorReasons = append(condition.ErrorReasons, item)
+		condition.ErrorReasons = append(condition.ErrorReasons, CircuitBreakerFailureCondition_ErrorReasons_STATUS(item))
 	}
 
 	// Set property "Interval":

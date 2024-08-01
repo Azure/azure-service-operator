@@ -761,9 +761,7 @@ func CircuitBreakerFailureCondition_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForCircuitBreakerFailureCondition_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCircuitBreakerFailureCondition_ARM(gens map[string]gopter.Gen) {
 	gens["Count"] = gen.PtrOf(gen.Int())
-	gens["ErrorReasons"] = gen.SliceOf(gen.AlphaString().Map(func(it string) CircuitBreakerFailureCondition_ErrorReasons {
-		return CircuitBreakerFailureCondition_ErrorReasons(it)
-	}))
+	gens["ErrorReasons"] = gen.SliceOf(gen.AlphaString())
 	gens["Interval"] = gen.PtrOf(gen.AlphaString())
 	gens["Percentage"] = gen.PtrOf(gen.Int())
 }

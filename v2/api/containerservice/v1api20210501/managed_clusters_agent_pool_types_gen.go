@@ -607,7 +607,7 @@ func (pool *ManagedClusters_AgentPool_Spec) ConvertToARM(resolved genruntime.Con
 		result.Properties.OrchestratorVersion = &orchestratorVersion
 	}
 	if pool.OsDiskSizeGB != nil {
-		osDiskSizeGB := *pool.OsDiskSizeGB
+		osDiskSizeGB := int(*pool.OsDiskSizeGB)
 		result.Properties.OsDiskSizeGB = &osDiskSizeGB
 	}
 	if pool.OsDiskType != nil {
@@ -875,7 +875,7 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OsDiskSizeGB != nil {
-			osDiskSizeGB := *typedInput.Properties.OsDiskSizeGB
+			osDiskSizeGB := ContainerServiceOSDisk(*typedInput.Properties.OsDiskSizeGB)
 			pool.OsDiskSizeGB = &osDiskSizeGB
 		}
 	}

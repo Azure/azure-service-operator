@@ -5981,7 +5981,7 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 
 	// Set property "OsDiskSizeGB":
 	if profile.OsDiskSizeGB != nil {
-		osDiskSizeGB := *profile.OsDiskSizeGB
+		osDiskSizeGB := int(*profile.OsDiskSizeGB)
 		result.OsDiskSizeGB = &osDiskSizeGB
 	}
 
@@ -6261,7 +6261,7 @@ func (profile *ManagedClusterAgentPoolProfile) PopulateFromARM(owner genruntime.
 
 	// Set property "OsDiskSizeGB":
 	if typedInput.OsDiskSizeGB != nil {
-		osDiskSizeGB := *typedInput.OsDiskSizeGB
+		osDiskSizeGB := ContainerServiceOSDisk(*typedInput.OsDiskSizeGB)
 		profile.OsDiskSizeGB = &osDiskSizeGB
 	}
 
