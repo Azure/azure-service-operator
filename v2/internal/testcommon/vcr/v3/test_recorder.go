@@ -132,8 +132,8 @@ func redactRecording(
 	customRedactMap map[string]string,
 ) recorder.HookFunc {
 	return func(i *cassette.Interaction) error {
-		i.Request.Body = vcr.HideRecordingData(azureIDs, i.Request.Body, customRedactMap)
-		i.Response.Body = vcr.HideRecordingData(azureIDs, i.Response.Body, customRedactMap)
+		i.Request.Body = vcr.HideRecordingDataWithCustomRedaction(azureIDs, i.Request.Body, customRedactMap)
+		i.Response.Body = vcr.HideRecordingDataWithCustomRedaction(azureIDs, i.Response.Body, customRedactMap)
 		i.Request.URL = vcr.HideURLData(azureIDs, i.Request.URL)
 
 		vcr.RedactRequestHeaders(azureIDs, i.Request.Headers)
@@ -173,7 +173,7 @@ func (r *recorderDetails) IsReplaying() bool {
 func (r *recorderDetails) CreateClient(t *testing.T) *http.Client {
 	withReplay := NewReplayRoundTripper(r.recorder, r.log)
 	withErrorTranslation := translateErrors(withReplay, r.cassetteName, r.customRedactMap, t)
-	withTrackingHeaders := AddTrackingHeaders(r.ids, withErrorTranslation)
+	withTrackingHeaders := AddTrackingHeaders(r.ids, withErrorTranslation, r.customRedactMap)
 
 	return &http.Client{
 		Transport: withTrackingHeaders,

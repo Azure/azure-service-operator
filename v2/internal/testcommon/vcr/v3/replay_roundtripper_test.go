@@ -162,9 +162,7 @@ func Test_ReplayRoundTripper_WhenCombinedWithTrackingRoundTripper_GivesDesiredRe
 	fake.AddError(updateRequest, cassette.ErrInteractionNotFound)
 
 	// Act
-	replayer := AddTrackingHeaders(
-		creds.DummyAzureIDs(),
-		NewReplayRoundTripper(fake, logr.Discard()))
+	replayer := AddTrackingHeaders(creds.DummyAzureIDs(), NewReplayRoundTripper(fake, logr.Discard()), nil)
 
 	// Assert - first PUT to create the resource works
 	assertExpectedResponse(t, replayer, creationRequest, 200, "create resource A")

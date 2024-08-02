@@ -88,7 +88,7 @@ func NewTestPlayer(cassetteName string, cfg config.Values) (vcr.Interface, error
 		}
 
 		r.Body = io.NopCloser(&b)
-		return b.String() == "" || vcr.HideRecordingData(creds.DummyAzureIDs(), b.String(), nil) == i.Body
+		return b.String() == "" || vcr.HideRecordingData(creds.DummyAzureIDs(), b.String()) == i.Body
 	})
 
 	return &player{

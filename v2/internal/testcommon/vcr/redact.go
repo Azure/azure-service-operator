@@ -87,15 +87,7 @@ func RedactResponseHeaders(azureIDs creds.AzureIDs, headers http.Header) {
 	}
 }
 
-func HideRecordingData(azureIDs creds.AzureIDs, s string, redact map[string]string) string {
-
-	// Replace and hide all the custom data
-	if redact != nil {
-		for k, v := range redact {
-			s = strings.ReplaceAll(s, k, v)
-		}
-	}
-
+func HideRecordingData(azureIDs creds.AzureIDs, s string) string {
 	// Hide the subscription ID
 	s = strings.ReplaceAll(s, azureIDs.SubscriptionID, nilGuid)
 
@@ -115,6 +107,17 @@ func HideRecordingData(azureIDs creds.AzureIDs, s string, redact map[string]stri
 	s = hideCustomKeys(s)
 
 	return s
+}
+
+func HideRecordingDataWithCustomRedaction(azureIDs creds.AzureIDs, s string, redact map[string]string) string {
+	// Replace and hide all the custom data
+	if redact != nil {
+		for k, v := range redact {
+			s = strings.ReplaceAll(s, k, v)
+		}
+	}
+
+	return HideRecordingData(azureIDs, s)
 }
 
 var dateMatcher = regexp.MustCompile(`\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(.\d+)?Z`)

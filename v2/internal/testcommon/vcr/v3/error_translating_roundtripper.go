@@ -81,7 +81,7 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 
 		// Apply the same body filtering that we do in recordings so that the diffs don't show things
 		// that we've just removed
-		sentBodyString = vcr.HideRecordingData(creds.DummyAzureIDs(), string(bodyBytes), w.customRedactMap)
+		sentBodyString = vcr.HideRecordingDataWithCustomRedaction(creds.DummyAzureIDs(), string(bodyBytes), w.customRedactMap)
 	}
 
 	// find all request bodies for the specified method/URL combination

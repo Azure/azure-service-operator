@@ -143,7 +143,7 @@ func (replayer *replayRoundTripper) hashOfBody(request *http.Request) string {
 	}
 
 	// Apply the same body filtering that we do in recordings so that the hash is consistent
-	bodyString := vcr.HideRecordingData(creds.DummyAzureIDs(), string(body.Bytes()), nil)
+	bodyString := vcr.HideRecordingData(creds.DummyAzureIDs(), string(body.Bytes()))
 
 	// Calculate a hash based on body string
 	hash := sha256.Sum256([]byte(bodyString))
