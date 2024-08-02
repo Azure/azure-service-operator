@@ -45,7 +45,7 @@ func (r *testPassthroughRecorder) Cfg() config.Values {
 }
 
 // CreateClient implements testRecorder.
-func (*testPassthroughRecorder) CreateClient(t *testing.T, data map[string]string) *http.Client {
+func (*testPassthroughRecorder) CreateClient(t *testing.T) *http.Client {
 	return http.DefaultClient
 }
 

@@ -33,9 +33,10 @@ import (
 var DefaultTestRegion = "westus2" // Could make this an env variable if we wanted
 
 type TestContext struct {
-	AzureRegion  *string
-	NameConfig   *ResourceNameConfig
-	RecordReplay bool
+	AzureRegion     *string
+	NameConfig      *ResourceNameConfig
+	RecordReplay    bool
+	customRedactMap map[string]string
 }
 
 type PerTestContext struct {
@@ -54,7 +55,6 @@ type PerTestContext struct {
 	TestName              string
 	Namespace             string
 	Ctx                   context.Context
-	Redact                map[string]string
 	// CountsTowardsParallelLimits true means that the envtest (if any) started for this test pass counts towards the limit of
 	// concurrent envtests running at once. If this is false, it doesn't count towards the limit.
 	CountsTowardsParallelLimits bool
@@ -82,17 +82,18 @@ func NewTestContext(
 	nameConfig *ResourceNameConfig,
 ) TestContext {
 	return TestContext{
-		AzureRegion:  &region,
-		RecordReplay: recordReplay,
-		NameConfig:   nameConfig,
+		AzureRegion:     &region,
+		RecordReplay:    recordReplay,
+		NameConfig:      nameConfig,
+		customRedactMap: make(map[string]string),
 	}
 }
 
-func (tc TestContext) ForTest(t *testing.T, cfg config.Values, hideCustomData map[string]string) (PerTestContext, error) {
+func (tc TestContext) ForTest(t *testing.T, cfg config.Values) (PerTestContext, error) {
 	logger := NewTestLogger(t)
 
 	cassetteName := "recordings/" + t.Name()
-	details, err := createTestRecorder(cassetteName, cfg, tc.RecordReplay, logger, hideCustomData)
+	details, err := createTestRecorder(cassetteName, cfg, tc.RecordReplay, logger, tc.customRedactMap)
 	if err != nil {
 		return PerTestContext{}, errors.Wrapf(err, "creating recorder")
 	}
@@ -105,7 +106,7 @@ func (tc TestContext) ForTest(t *testing.T, cfg config.Values, hideCustomData ma
 	// the specific test in question, which means that clients cannot be reused.
 	// We explicitly create a new http.Client so that the recording from one test doesn't
 	// get used for all other parallel tests.
-	httpClient := details.CreateClient(t, hideCustomData)
+	httpClient := details.CreateClient(t)
 
 	var globalARMClient *genericarmclient.GenericClient
 	options := &genericarmclient.GenericClientOptions{
@@ -162,6 +163,12 @@ func (tc TestContext) ForTest(t *testing.T, cfg config.Values, hideCustomData ma
 		Namespace:             createTestNamespaceName(t),
 		Ctx:                   context,
 	}, nil
+}
+
+// WithCustomRedaction method is used to add custom redaction values based on the requirements of each test.
+// The method takes in redactValue to be `redacted` and replacement value to which the value should be `replaced`.
+func (tc TestContext) WithCustomRedaction(redactValue string, replacementValue string) {
+	tc.customRedactMap[redactValue] = replacementValue
 }
 
 var replaceRegex = regexp.MustCompile("[./_]+")

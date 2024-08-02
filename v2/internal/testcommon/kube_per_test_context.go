@@ -126,17 +126,12 @@ func CreateTestResourceGroupDefaultTags() map[string]string {
 }
 
 func (ctx KubeGlobalContext) ForTest(t *testing.T) *KubePerTestContext {
-	return ctx.ForTestWithCustomRedact(t, nil)
-}
-
-// ForTestWithCustomRedact takes an extra `hideCustomData` parameter of type map[string]string to specify the key as what needs to be replaced and value as the replacement value.
-func (ctx KubeGlobalContext) ForTestWithCustomRedact(t *testing.T, hideCustomData map[string]string) *KubePerTestContext {
 	cfg, err := ReadFromEnvironmentForTest()
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	return ctx.forTestWithConfig(t, cfg, bypassesParallelLimits, hideCustomData)
+	return ctx.forTestWithConfig(t, cfg, bypassesParallelLimits)
 }
 
 func ReadFromEnvironmentForTest() (config.Values, error) {
@@ -144,7 +139,7 @@ func ReadFromEnvironmentForTest() (config.Values, error) {
 
 	// Test configs never want SyncPeriod set as it introduces jitter
 	cfg.SyncPeriod = nil
-	// Simulate pod namespace being set, as we're not running in a pod context so we don't have this env varaible
+	// Simulate pod namespace being set, as we're not running in a pod context so we don't have this env variable
 	// injected automatically
 	cfg.PodNamespace = "azureserviceoperator-system"
 
@@ -159,15 +154,15 @@ const (
 )
 
 func (ctx KubeGlobalContext) ForTestWithConfig(t *testing.T, cfg config.Values) *KubePerTestContext {
-	return ctx.forTestWithConfig(t, cfg, countsAgainstParallelLimits, nil)
+	return ctx.forTestWithConfig(t, cfg, countsAgainstParallelLimits)
 }
 
-func (ctx KubeGlobalContext) forTestWithConfig(t *testing.T, cfg config.Values, parallelismRestriction testConfigParallelismLimit, hideCustomData map[string]string) *KubePerTestContext {
+func (ctx KubeGlobalContext) forTestWithConfig(t *testing.T, cfg config.Values, parallelismRestriction testConfigParallelismLimit) *KubePerTestContext {
 	/*
 		Note: if you update this method you might also need to update TestContext.Subtest.
 	*/
 
-	perTestContext, err := ctx.TestContext.ForTest(t, cfg, hideCustomData)
+	perTestContext, err := ctx.TestContext.ForTest(t, cfg)
 	if err != nil {
 		t.Fatal(err)
 	}

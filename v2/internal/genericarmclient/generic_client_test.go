@@ -36,7 +36,7 @@ func Test_NewResourceGroup(t *testing.T) {
 	cfg, err := config.ReadFromEnvironment()
 	g.Expect(err).ToNot(HaveOccurred())
 
-	testContext, err := testContext.ForTest(t, cfg, nil)
+	testContext, err := testContext.ForTest(t, cfg)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	resourceGroup := testContext.NewTestResourceGroup()
@@ -87,7 +87,7 @@ func Test_NewResourceGroup_Error(t *testing.T) {
 	cfg, err := config.ReadFromEnvironment()
 	g.Expect(err).ToNot(HaveOccurred())
 
-	testContext, err := testContext.ForTest(t, cfg, nil)
+	testContext, err := testContext.ForTest(t, cfg)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	rgName := testContext.Namer.GenerateName("rg")

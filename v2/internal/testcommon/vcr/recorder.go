@@ -35,5 +35,5 @@ type Interface interface {
 
 	// CreateClient creates an HTTP client configured to record or replay HTTP requests.
 	// t is a reference to the test currently executing.
-	CreateClient(t *testing.T, hideCustomData map[string]string) *http.Client
+	CreateClient(t *testing.T) *http.Client
 }

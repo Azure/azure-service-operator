@@ -87,11 +87,11 @@ func RedactResponseHeaders(azureIDs creds.AzureIDs, headers http.Header) {
 	}
 }
 
-func HideRecordingData(azureIDs creds.AzureIDs, s string, hideCustomData map[string]string) string {
+func HideRecordingData(azureIDs creds.AzureIDs, s string, redact map[string]string) string {
 
 	// Replace and hide all the custom data
-	if hideCustomData != nil {
-		for k, v := range hideCustomData {
+	if redact != nil {
+		for k, v := range redact {
 			s = strings.ReplaceAll(s, k, v)
 		}
 	}
