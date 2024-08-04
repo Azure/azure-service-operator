@@ -9,12 +9,12 @@ To install the CRDs for these resources, your ASO configuration must include `co
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource          | ARM Version | CRD Version   | Supported From | Sample                                                                                                                          |
-|-------------------|-------------|---------------|----------------|---------------------------------------------------------------------------------------------------------------------------------|
-| Disk              | 2024-03-02  | v1api20240302 | v2.9.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20240302_disk.yaml)              |
-| DiskAccess        | 2024-03-02  | v1api20240302 | v2.9.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20240302_diskaccess.yaml)        |
-| DiskEncryptionSet | 2024-03-02  | v1api20240302 | v2.9.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20240302_diskencryptionset.yaml) |
-| Snapshot          | 2024-03-02  | v1api20240302 | v2.9.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20240302_snapshot.yaml)          |
+| Resource                                                                                                                                               | ARM Version | CRD Version   | Supported From | Sample                                                                                                                          |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|---------------------------------------------------------------------------------------------------------------------------------|
+| [Disk](https://azure.github.io/azure-service-operator/reference/compute/v1api20240302/#compute.azure.com/v1api20240302.Disk)                           | 2024-03-02  | v1api20240302 | v2.9.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20240302_disk.yaml)              |
+| [DiskAccess](https://azure.github.io/azure-service-operator/reference/compute/v1api20240302/#compute.azure.com/v1api20240302.DiskAccess)               | 2024-03-02  | v1api20240302 | v2.9.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20240302_diskaccess.yaml)        |
+| [DiskEncryptionSet](https://azure.github.io/azure-service-operator/reference/compute/v1api20240302/#compute.azure.com/v1api20240302.DiskEncryptionSet) | 2024-03-02  | v1api20240302 | v2.9.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20240302_diskencryptionset.yaml) |
+| [Snapshot](https://azure.github.io/azure-service-operator/reference/compute/v1api20240302/#compute.azure.com/v1api20240302.Snapshot)                   | 2024-03-02  | v1api20240302 | v2.9.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20240302_snapshot.yaml)          |
 
 ### Released
 

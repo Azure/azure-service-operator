@@ -9105,9 +9105,7 @@ int
 <td>
 <code>errorReasons</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.CircuitBreakerFailureCondition_ErrorReasons">
-[]CircuitBreakerFailureCondition_ErrorReasons
-</a>
+[]string
 </em>
 </td>
 <td>
@@ -9154,14 +9152,14 @@ int
 <h3 id="apimanagement.azure.com/v1api20230501preview.CircuitBreakerFailureCondition_ErrorReasons">CircuitBreakerFailureCondition_ErrorReasons
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.CircuitBreakerFailureCondition">CircuitBreakerFailureCondition</a>, <a href="#apimanagement.azure.com/v1api20230501preview.CircuitBreakerFailureCondition_ARM">CircuitBreakerFailureCondition_ARM</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.CircuitBreakerFailureCondition">CircuitBreakerFailureCondition</a>)
 </p>
 <div>
 </div>
 <h3 id="apimanagement.azure.com/v1api20230501preview.CircuitBreakerFailureCondition_ErrorReasons_STATUS">CircuitBreakerFailureCondition_ErrorReasons_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.CircuitBreakerFailureCondition_STATUS">CircuitBreakerFailureCondition_STATUS</a>, <a href="#apimanagement.azure.com/v1api20230501preview.CircuitBreakerFailureCondition_STATUS_ARM">CircuitBreakerFailureCondition_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.CircuitBreakerFailureCondition_STATUS">CircuitBreakerFailureCondition_STATUS</a>)
 </p>
 <div>
 </div>
@@ -9273,9 +9271,7 @@ int
 <td>
 <code>errorReasons</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.CircuitBreakerFailureCondition_ErrorReasons_STATUS">
-[]CircuitBreakerFailureCondition_ErrorReasons_STATUS
-</a>
+[]string
 </em>
 </td>
 <td>

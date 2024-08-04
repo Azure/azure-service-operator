@@ -2789,7 +2789,7 @@ expected for dual-stack networking. They must not overlap with any Subnet IP ran
 <h3 id="containerservice.azure.com/v1api20230202preview.ContainerServiceOSDisk">ContainerServiceOSDisk
 (<code>int</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230202preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20230202preview.ManagedClusterAgentPoolProfileProperties_ARM">ManagedClusterAgentPoolProfileProperties_ARM</a>, <a href="#containerservice.azure.com/v1api20230202preview.ManagedClusterAgentPoolProfile_ARM">ManagedClusterAgentPoolProfile_ARM</a>, <a href="#containerservice.azure.com/v1api20230202preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230202preview.ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, <a href="#containerservice.azure.com/v1api20230202preview.ManagedClusters_AgentPool_Spec">ManagedClusters_AgentPool_Spec</a>)
 </p>
 <div>
 </div>
@@ -7797,9 +7797,7 @@ see <a href="https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrad
 <td>
 <code>osDiskSizeGB</code><br/>
 <em>
-<a href="#containerservice.azure.com/v1api20230202preview.ContainerServiceOSDisk">
-ContainerServiceOSDisk
-</a>
+int
 </em>
 </td>
 <td>
@@ -8965,9 +8963,7 @@ see <a href="https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrad
 <td>
 <code>osDiskSizeGB</code><br/>
 <em>
-<a href="#containerservice.azure.com/v1api20230202preview.ContainerServiceOSDisk">
-ContainerServiceOSDisk
-</a>
+int
 </em>
 </td>
 <td>
