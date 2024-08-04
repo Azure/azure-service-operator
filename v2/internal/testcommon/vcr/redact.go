@@ -109,12 +109,10 @@ func HideRecordingData(azureIDs creds.AzureIDs, s string) string {
 	return s
 }
 
-func HideRecordingDataWithCustomRedaction(azureIDs creds.AzureIDs, s string, redact map[string]string) string {
+func HideRecordingDataWithCustomRedaction(azureIDs creds.AzureIDs, s string, redactions map[string]string) string {
 	// Replace and hide all the custom data
-	if redact != nil {
-		for k, v := range redact {
-			s = strings.ReplaceAll(s, k, v)
-		}
+	for k, v := range redactions {
+		s = strings.ReplaceAll(s, k, v)
 	}
 
 	return HideRecordingData(azureIDs, s)

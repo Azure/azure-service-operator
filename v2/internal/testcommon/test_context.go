@@ -33,10 +33,10 @@ import (
 var DefaultTestRegion = "westus2" // Could make this an env variable if we wanted
 
 type TestContext struct {
-	AzureRegion     *string
-	NameConfig      *ResourceNameConfig
-	RecordReplay    bool
-	customRedactMap map[string]string
+	AzureRegion  *string
+	NameConfig   *ResourceNameConfig
+	RecordReplay bool
+	redactions   map[string]string
 }
 
 type PerTestContext struct {
@@ -82,10 +82,10 @@ func NewTestContext(
 	nameConfig *ResourceNameConfig,
 ) TestContext {
 	return TestContext{
-		AzureRegion:     &region,
-		RecordReplay:    recordReplay,
-		NameConfig:      nameConfig,
-		customRedactMap: make(map[string]string),
+		AzureRegion:  &region,
+		RecordReplay: recordReplay,
+		NameConfig:   nameConfig,
+		redactions:   make(map[string]string),
 	}
 }
 
@@ -93,7 +93,7 @@ func (tc TestContext) ForTest(t *testing.T, cfg config.Values) (PerTestContext, 
 	logger := NewTestLogger(t)
 
 	cassetteName := "recordings/" + t.Name()
-	details, err := createTestRecorder(cassetteName, cfg, tc.RecordReplay, logger, tc.customRedactMap)
+	details, err := createTestRecorder(cassetteName, cfg, tc.RecordReplay, logger, tc.redactions)
 	if err != nil {
 		return PerTestContext{}, errors.Wrapf(err, "creating recorder")
 	}
@@ -168,7 +168,7 @@ func (tc TestContext) ForTest(t *testing.T, cfg config.Values) (PerTestContext, 
 // WithCustomRedaction method is used to add custom redaction values based on the requirements of each test.
 // The method takes in redactValue to be `redacted` and replacement value to which the value should be `replaced`.
 func (tc TestContext) WithCustomRedaction(redactValue string, replacementValue string) {
-	tc.customRedactMap[redactValue] = replacementValue
+	tc.redactions[redactValue] = replacementValue
 }
 
 var replaceRegex = regexp.MustCompile("[./_]+")

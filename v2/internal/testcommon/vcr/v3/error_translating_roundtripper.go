@@ -33,19 +33,19 @@ import (
 //   - during record the controller does GET (404), PUT, … GET (OK)
 //   - during playback the controller does GET (which now returns OK), DELETE, PUT, …
 //     and fails due to a missing DELETE recording
-func translateErrors(r http.RoundTripper, cassetteName string, redact map[string]string, t *testing.T) http.RoundTripper {
+func translateErrors(r http.RoundTripper, cassetteName string, redactions map[string]string, t *testing.T) http.RoundTripper {
 	return errorTranslation{
-		recorder:        r,
-		cassetteName:    cassetteName,
-		customRedactMap: redact,
-		t:               t,
+		recorder:     r,
+		cassetteName: cassetteName,
+		redactions:   redactions,
+		t:            t,
 	}
 }
 
 type errorTranslation struct {
-	recorder        http.RoundTripper
-	cassetteName    string
-	customRedactMap map[string]string
+	recorder     http.RoundTripper
+	cassetteName string
+	redactions   map[string]string
 
 	cassette *cassette.Cassette
 	t        *testing.T
@@ -81,7 +81,7 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 
 		// Apply the same body filtering that we do in recordings so that the diffs don't show things
 		// that we've just removed
-		sentBodyString = vcr.HideRecordingDataWithCustomRedaction(creds.DummyAzureIDs(), string(bodyBytes), w.customRedactMap)
+		sentBodyString = vcr.HideRecordingDataWithCustomRedaction(creds.DummyAzureIDs(), string(bodyBytes), w.redactions)
 	}
 
 	// find all request bodies for the specified method/URL combination

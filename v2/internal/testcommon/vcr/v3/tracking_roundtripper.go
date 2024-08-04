@@ -34,19 +34,19 @@ const (
 type requestCounter struct {
 	inner http.RoundTripper
 
-	countsMutex     sync.Mutex
-	counts          map[string]uint32
-	azureIDs        creds.AzureIDs
-	customRedactMap map[string]string
+	countsMutex sync.Mutex
+	counts      map[string]uint32
+	azureIDs    creds.AzureIDs
+	redactions  map[string]string
 }
 
-func AddTrackingHeaders(ids creds.AzureIDs, inner http.RoundTripper, customRedactMap map[string]string) *requestCounter {
+func AddTrackingHeaders(ids creds.AzureIDs, inner http.RoundTripper, redactions map[string]string) *requestCounter {
 	return &requestCounter{
-		inner:           inner,
-		azureIDs:        ids,
-		counts:          make(map[string]uint32),
-		countsMutex:     sync.Mutex{},
-		customRedactMap: customRedactMap,
+		inner:       inner,
+		azureIDs:    ids,
+		counts:      make(map[string]uint32),
+		countsMutex: sync.Mutex{},
+		redactions:  redactions,
 	}
 }
 
@@ -99,7 +99,7 @@ func (rt *requestCounter) addHashHeader(request *http.Request) {
 	}
 
 	// Apply the same body filtering that we do in recordings so that the hash is consistent
-	bodyString := vcr.HideRecordingDataWithCustomRedaction(rt.azureIDs, string(body.Bytes()), rt.customRedactMap)
+	bodyString := vcr.HideRecordingDataWithCustomRedaction(rt.azureIDs, string(body.Bytes()), rt.redactions)
 
 	// Calculate a hash based on body string
 	hash := sha256.Sum256([]byte(bodyString))

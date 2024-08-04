@@ -21,7 +21,7 @@ func createTestRecorder(
 	cfg config.Values,
 	recordReplay bool,
 	log logr.Logger,
-	customRedactMap map[string]string) (vcr.Interface, error) {
+	redactions map[string]string) (vcr.Interface, error) {
 	if !recordReplay {
 		// We're not using VCR, so just pass through the requests
 		return vcr.NewTestPassthroughRecorder(cfg)
@@ -37,5 +37,5 @@ func createTestRecorder(
 		return v1.NewTestPlayer(cassetteName, cfg)
 	}
 
-	return v3.NewTestRecorder(cassetteName, cfg, log, customRedactMap)
+	return v3.NewTestRecorder(cassetteName, cfg, log, redactions)
 }

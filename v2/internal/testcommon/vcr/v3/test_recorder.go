@@ -22,20 +22,20 @@ import (
 
 // recorderDetails is an implementation of testRecorder using go-vcr v3.
 type recorderDetails struct {
-	cassetteName    string
-	creds           azcore.TokenCredential
-	ids             creds.AzureIDs
-	recorder        *recorder.Recorder
-	cfg             config.Values
-	log             logr.Logger
-	customRedactMap map[string]string
+	cassetteName string
+	creds        azcore.TokenCredential
+	ids          creds.AzureIDs
+	recorder     *recorder.Recorder
+	cfg          config.Values
+	log          logr.Logger
+	redactions   map[string]string
 }
 
 func NewTestRecorder(
 	cassetteName string,
 	cfg config.Values,
 	log logr.Logger,
-	customRedactMap map[string]string,
+	redactions map[string]string,
 ) (vcr.Interface, error) {
 	opts := &recorder.Options{
 		CassetteName: cassetteName,
@@ -110,16 +110,16 @@ func NewTestRecorder(
 		return true
 	})
 
-	r.AddHook(redactRecording(azureIDs, customRedactMap), recorder.BeforeSaveHook)
+	r.AddHook(redactRecording(azureIDs, redactions), recorder.BeforeSaveHook)
 
 	return &recorderDetails{
-		cassetteName:    cassetteName,
-		creds:           credentials,
-		ids:             azureIDs,
-		recorder:        r,
-		cfg:             cfg,
-		log:             log,
-		customRedactMap: customRedactMap,
+		cassetteName: cassetteName,
+		creds:        credentials,
+		ids:          azureIDs,
+		recorder:     r,
+		cfg:          cfg,
+		log:          log,
+		redactions:   redactions,
 	}, nil
 }
 
@@ -129,11 +129,11 @@ func NewTestRecorder(
 // any subscription, so a contributor can update the tests against their own sub.
 func redactRecording(
 	azureIDs creds.AzureIDs,
-	customRedactMap map[string]string,
+	redactions map[string]string,
 ) recorder.HookFunc {
 	return func(i *cassette.Interaction) error {
-		i.Request.Body = vcr.HideRecordingDataWithCustomRedaction(azureIDs, i.Request.Body, customRedactMap)
-		i.Response.Body = vcr.HideRecordingDataWithCustomRedaction(azureIDs, i.Response.Body, customRedactMap)
+		i.Request.Body = vcr.HideRecordingDataWithCustomRedaction(azureIDs, i.Request.Body, redactions)
+		i.Response.Body = vcr.HideRecordingDataWithCustomRedaction(azureIDs, i.Response.Body, redactions)
 		i.Request.URL = vcr.HideURLData(azureIDs, i.Request.URL)
 
 		vcr.RedactRequestHeaders(azureIDs, i.Request.Headers)
@@ -172,8 +172,8 @@ func (r *recorderDetails) IsReplaying() bool {
 // t is a reference to the test currently executing.
 func (r *recorderDetails) CreateClient(t *testing.T) *http.Client {
 	withReplay := NewReplayRoundTripper(r.recorder, r.log)
-	withErrorTranslation := translateErrors(withReplay, r.cassetteName, r.customRedactMap, t)
-	withTrackingHeaders := AddTrackingHeaders(r.ids, withErrorTranslation, r.customRedactMap)
+	withErrorTranslation := translateErrors(withReplay, r.cassetteName, r.redactions, t)
+	withTrackingHeaders := AddTrackingHeaders(r.ids, withErrorTranslation, r.redactions)
 
 	return &http.Client{
 		Transport: withTrackingHeaders,
