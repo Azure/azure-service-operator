@@ -27789,9 +27789,7 @@ int
 &lt;td&gt;
 &lt;code&gt;errorReasons&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#apimanagement.azure.com/v1api20230501preview.CircuitBreakerFailureCondition_ErrorReasons&#34;&gt;
-[]CircuitBreakerFailureCondition_ErrorReasons
-&lt;/a&gt;
+[]string
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
@@ -27838,14 +27836,14 @@ int
 &lt;h3 id=&#34;apimanagement.azure.com/v1api20230501preview.CircuitBreakerFailureCondition_ErrorReasons&#34;&gt;CircuitBreakerFailureCondition_ErrorReasons
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#apimanagement.azure.com/v1api20230501preview.CircuitBreakerFailureCondition&#34;&gt;CircuitBreakerFailureCondition&lt;/a&gt;, &lt;a href=&#34;#apimanagement.azure.com/v1api20230501preview.CircuitBreakerFailureCondition_ARM&#34;&gt;CircuitBreakerFailureCondition_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#apimanagement.azure.com/v1api20230501preview.CircuitBreakerFailureCondition&#34;&gt;CircuitBreakerFailureCondition&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
 &lt;h3 id=&#34;apimanagement.azure.com/v1api20230501preview.CircuitBreakerFailureCondition_ErrorReasons_STATUS&#34;&gt;CircuitBreakerFailureCondition_ErrorReasons_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#apimanagement.azure.com/v1api20230501preview.CircuitBreakerFailureCondition_STATUS&#34;&gt;CircuitBreakerFailureCondition_STATUS&lt;/a&gt;, &lt;a href=&#34;#apimanagement.azure.com/v1api20230501preview.CircuitBreakerFailureCondition_STATUS_ARM&#34;&gt;CircuitBreakerFailureCondition_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#apimanagement.azure.com/v1api20230501preview.CircuitBreakerFailureCondition_STATUS&#34;&gt;CircuitBreakerFailureCondition_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -27957,9 +27955,7 @@ int
 &lt;td&gt;
 &lt;code&gt;errorReasons&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#apimanagement.azure.com/v1api20230501preview.CircuitBreakerFailureCondition_ErrorReasons_STATUS&#34;&gt;
-[]CircuitBreakerFailureCondition_ErrorReasons_STATUS
-&lt;/a&gt;
+[]string
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;

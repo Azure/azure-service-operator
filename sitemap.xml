@@ -196,6 +196,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/compute/v1api20220702/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/compute/v1api20240302/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerinstance/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerinstance/v1api20211001/</loc>
