@@ -27,6 +27,9 @@ type Interface interface {
 	// IDs returns the available Azure resource IDs for the test
 	IDs() creds.AzureIDs
 
+	// Redactor returns the redactor associated with the recorder
+	Redactor() *Redactor
+
 	// Stop recording
 	Stop() error
 

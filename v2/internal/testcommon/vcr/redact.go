@@ -21,11 +21,15 @@ type Redactor struct {
 	redactions map[string]string
 }
 
-func NewRedactor(azureIDs creds.AzureIDs, redactions map[string]string) *Redactor {
+func NewRedactor(azureIDs creds.AzureIDs) *Redactor {
 	return &Redactor{
 		azureIDs:   azureIDs,
-		redactions: redactions,
+		redactions: make(map[string]string),
 	}
+}
+
+func (r *Redactor) AddRedaction(redactionValue string, replacementValue string) {
+	r.redactions[redactionValue] = replacementValue
 }
 
 var nilGuid = uuid.Nil.String()

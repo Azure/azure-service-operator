@@ -35,7 +35,6 @@ func NewTestRecorder(
 	cassetteName string,
 	cfg config.Values,
 	log logr.Logger,
-	redactions map[string]string,
 ) (vcr.Interface, error) {
 	opts := &recorder.Options{
 		CassetteName: cassetteName,
@@ -110,7 +109,7 @@ func NewTestRecorder(
 		return true
 	})
 
-	redactor := vcr.NewRedactor(azureIDs, redactions)
+	redactor := vcr.NewRedactor(azureIDs)
 	r.AddHook(redactRecording(redactor), recorder.BeforeSaveHook)
 
 	return &recorderDetails{
@@ -156,6 +155,11 @@ func (r *recorderDetails) Creds() azcore.TokenCredential {
 // IDs returns the available Azure resource IDs for the test
 func (r *recorderDetails) IDs() creds.AzureIDs {
 	return r.ids
+}
+
+// Redactor returns the redactor associated with the recorder
+func (r *recorderDetails) Redactor() *vcr.Redactor {
+	return r.redactor
 }
 
 // Stop recording

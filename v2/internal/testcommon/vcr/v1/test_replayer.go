@@ -39,7 +39,10 @@ var _ vcr.Interface = &player{}
 // NewTestPlayer creates a TestRecorder that can be used to replay test recorded with go-vcr v1.
 // cassetteName is the name of the cassette file to replay.
 // cfg is the configuration to use when replaying the test.
-func NewTestPlayer(cassetteName string, cfg config.Values) (vcr.Interface, error) {
+func NewTestPlayer(
+	cassetteName string,
+	cfg config.Values,
+) (vcr.Interface, error) {
 	cassetteExists, err := vcr.CassetteFileExists(cassetteName)
 	if err != nil {
 		return nil, errors.Wrapf(err, "checking for cassette file")
@@ -68,7 +71,7 @@ func NewTestPlayer(cassetteName string, cfg config.Values) (vcr.Interface, error
 	cfg.ResourceManagerAudience = config.DefaultAudience
 	cfg.AzureAuthorityHost = config.DefaultAADAuthorityHost
 
-	redactor := vcr.NewRedactor(azureIDs, nil)
+	redactor := vcr.NewRedactor(azureIDs)
 
 	// check body as well as URL/Method (copied from go-vcr documentation)
 	r.SetMatcher(func(r *http.Request, i cassette.Request) bool {
@@ -117,6 +120,11 @@ func (r *player) Creds() azcore.TokenCredential {
 // IDs returns the available Azure resource IDs for the test
 func (r *player) IDs() creds.AzureIDs {
 	return r.ids
+}
+
+// Redactor returns the redactor associated with the recorder
+func (r *player) Redactor() *vcr.Redactor {
+	return r.redactor
 }
 
 // Stop recording

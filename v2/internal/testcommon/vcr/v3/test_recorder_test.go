@@ -47,7 +47,7 @@ func TestRecorder_WhenRecordingAndRecordingDoesNotExist_MakesRecording(t *testin
 	}()
 
 	// Create our TestRecorder and ensure it's recording
-	recorder, err := NewTestRecorder(cassetteName, cfg, logr.Discard(), nil)
+	recorder, err := NewTestRecorder(cassetteName, cfg, logr.Discard())
 	g.Expect(err).To(BeNil())
 	g.Expect(recorder.IsReplaying()).To(BeFalse())
 
@@ -101,7 +101,7 @@ func TestRecorder_WhenRecordingAndRecordingExists_DoesPlayback(t *testing.T) {
 	g.Expect(exists).To(BeTrue())
 
 	// Create our TestRecorder and ensure it's recording
-	recorder, err := NewTestRecorder(cassetteName, cfg, logr.Discard(), nil)
+	recorder, err := NewTestRecorder(cassetteName, cfg, logr.Discard())
 	g.Expect(err).To(BeNil())
 	g.Expect(recorder.IsReplaying()).To(BeTrue())
 
