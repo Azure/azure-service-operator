@@ -41,7 +41,7 @@ func TestReplayRoundTripperRoundTrip_GivenSingleGET_ReturnsMultipleTimes(t *test
 	fake := vcr.NewFakeRoundTripper()
 	fake.AddResponse(req, resp)
 
-	redactor := vcr.NewRedactor(creds.DummyAzureIDs(), nil)
+	redactor := vcr.NewRedactor(creds.DummyAzureIDs())
 
 	// Act
 	replayer := NewReplayRoundTripper(fake, logr.Discard(), redactor)
@@ -75,7 +75,7 @@ func TestReplayRoundTripperRoundTrip_GivenSinglePut_ReturnsOnceExtra(t *testing.
 	fake := vcr.NewFakeRoundTripper()
 	fake.AddResponse(req, resp)
 
-	redactor := vcr.NewRedactor(creds.DummyAzureIDs(), nil)
+	redactor := vcr.NewRedactor(creds.DummyAzureIDs())
 
 	// Act
 	replayer := NewReplayRoundTripper(fake, logr.Discard(), redactor)
@@ -119,7 +119,7 @@ func TestReplayRoundTripperRoundTrip_GivenMultiplePUTsToSameURL_ReturnsExpectedB
 	fake.AddResponse(betaRequest, betaResponse)
 	fake.AddResponse(gammaRequest, gammaResponse)
 
-	redactor := vcr.NewRedactor(creds.DummyAzureIDs(), nil)
+	redactor := vcr.NewRedactor(creds.DummyAzureIDs())
 
 	// Act
 	replayer := NewReplayRoundTripper(fake, logr.Discard(), redactor)
@@ -167,7 +167,7 @@ func Test_ReplayRoundTripper_WhenCombinedWithTrackingRoundTripper_GivesDesiredRe
 	fake.AddResponse(updateRequest, updateResponse)
 	fake.AddError(updateRequest, cassette.ErrInteractionNotFound)
 
-	redactor := vcr.NewRedactor(creds.DummyAzureIDs(), nil)
+	redactor := vcr.NewRedactor(creds.DummyAzureIDs())
 
 	// Act
 	replayer := AddTrackingHeaders(NewReplayRoundTripper(fake, logr.Discard(), redactor), redactor)
