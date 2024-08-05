@@ -49,7 +49,6 @@ func translateErrors(
 type errorTranslation struct {
 	recorder     http.RoundTripper
 	cassetteName string
-	redactions   map[string]string
 
 	redactor *vcr.Redactor
 	cassette *cassette.Cassette
