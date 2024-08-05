@@ -16,7 +16,6 @@ import (
 	"github.com/pkg/errors"
 	"gopkg.in/dnaeon/go-vcr.v3/cassette"
 
-	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
@@ -33,11 +32,16 @@ import (
 //   - during record the controller does GET (404), PUT, … GET (OK)
 //   - during playback the controller does GET (which now returns OK), DELETE, PUT, …
 //     and fails due to a missing DELETE recording
-func translateErrors(r http.RoundTripper, cassetteName string, redactions map[string]string, t *testing.T) http.RoundTripper {
+func translateErrors(
+	r http.RoundTripper,
+	cassetteName string,
+	redactor *vcr.Redactor,
+	t *testing.T,
+) http.RoundTripper {
 	return errorTranslation{
 		recorder:     r,
 		cassetteName: cassetteName,
-		redactions:   redactions,
+		redactor:     redactor,
 		t:            t,
 	}
 }
@@ -47,6 +51,7 @@ type errorTranslation struct {
 	cassetteName string
 	redactions   map[string]string
 
+	redactor *vcr.Redactor
 	cassette *cassette.Cassette
 	t        *testing.T
 }
@@ -81,7 +86,7 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 
 		// Apply the same body filtering that we do in recordings so that the diffs don't show things
 		// that we've just removed
-		sentBodyString = vcr.HideRecordingDataWithCustomRedaction(creds.DummyAzureIDs(), string(bodyBytes), w.redactions)
+		sentBodyString = w.redactor.HideRecordingDataWithCustomRedaction(string(bodyBytes))
 	}
 
 	// find all request bodies for the specified method/URL combination

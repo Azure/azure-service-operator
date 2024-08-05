@@ -16,6 +16,18 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
 )
 
+type Redactor struct {
+	azureIDs   creds.AzureIDs
+	redactions map[string]string
+}
+
+func NewRedactor(azureIDs creds.AzureIDs, redactions map[string]string) *Redactor {
+	return &Redactor{
+		azureIDs:   azureIDs,
+		redactions: redactions,
+	}
+}
+
 var nilGuid = uuid.Nil.String()
 
 // requestHeadersToRemove is the list of request headers to remove when recording or replaying.
@@ -27,11 +39,12 @@ var requestHeadersToRemove = []string{
 	"User-Agent",
 }
 
-func RedactRequestHeaders(azureIDs creds.AzureIDs, headers http.Header) {
+func (r *Redactor) RedactRequestHeaders(headers http.Header) {
 	for _, header := range requestHeadersToRemove {
 		delete(headers, header)
 	}
 
+	azureIDs := r.azureIDs
 	// Hide sensitive request headers
 	for _, values := range headers {
 		for i := range values {
@@ -63,11 +76,12 @@ var responseHeadersToRemove = []string{
 	"Date",
 }
 
-func RedactResponseHeaders(azureIDs creds.AzureIDs, headers http.Header) {
+func (r *Redactor) RedactResponseHeaders(headers http.Header) {
 	for _, header := range responseHeadersToRemove {
 		delete(headers, header)
 	}
 
+	azureIDs := r.azureIDs
 	// Hide sensitive response headers
 	for key, values := range headers {
 		for i := range values {
@@ -81,14 +95,15 @@ func RedactResponseHeaders(azureIDs creds.AzureIDs, headers http.Header) {
 		// Hide the base request URL in the AzureOperation and Location headers
 		if key == genericarmclient.AsyncOperationHeader || key == genericarmclient.LocationHeader {
 			for i := range values {
-				values[i] = HideURLData(azureIDs, values[i])
+				values[i] = r.HideURLData(values[i])
 			}
 		}
 	}
 }
 
-func HideRecordingData(azureIDs creds.AzureIDs, s string) string {
+func (r *Redactor) hideRecordingData(s string) string {
 	// Hide the subscription ID
+	azureIDs := r.azureIDs
 	s = strings.ReplaceAll(s, azureIDs.SubscriptionID, nilGuid)
 
 	// Hide the tenant ID
@@ -109,13 +124,13 @@ func HideRecordingData(azureIDs creds.AzureIDs, s string) string {
 	return s
 }
 
-func HideRecordingDataWithCustomRedaction(azureIDs creds.AzureIDs, s string, redactions map[string]string) string {
+func (r *Redactor) HideRecordingDataWithCustomRedaction(s string) string {
 	// Replace and hide all the custom data
-	for k, v := range redactions {
+	for k, v := range r.redactions {
 		s = strings.ReplaceAll(s, k, v)
 	}
 
-	return HideRecordingData(azureIDs, s)
+	return r.hideRecordingData(s)
 }
 
 var dateMatcher = regexp.MustCompile(`\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(.\d+)?Z`)
@@ -171,9 +186,10 @@ func hideCustomKeys(s string) string {
 	})
 }
 
-func HideURLData(azureIDs creds.AzureIDs, s string) string {
+func (r *Redactor) HideURLData(s string) string {
 	s = hideBaseRequestURL(s)
 
+	azureIDs := r.azureIDs
 	s = strings.ReplaceAll(s, azureIDs.SubscriptionID, nilGuid)
 
 	// Hide the tenant ID

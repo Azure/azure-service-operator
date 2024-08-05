@@ -17,7 +17,6 @@ import (
 	"github.com/go-logr/logr"
 	"gopkg.in/dnaeon/go-vcr.v3/cassette"
 
-	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr"
 )
 
@@ -30,11 +29,12 @@ import (
 // This combination should allow additional reconciles - an extra PUT gets returned the same long running operation as
 // the original, which a GET then shows is complete.
 type replayRoundTripper struct {
-	inner   http.RoundTripper
-	gets    map[string]*http.Response
-	puts    map[string]*http.Response
-	log     logr.Logger
-	padlock sync.Mutex
+	inner    http.RoundTripper
+	gets     map[string]*http.Response
+	puts     map[string]*http.Response
+	log      logr.Logger
+	padlock  sync.Mutex
+	redactor *vcr.Redactor
 }
 
 var _ http.RoundTripper = &replayRoundTripper{}
@@ -43,12 +43,14 @@ var _ http.RoundTripper = &replayRoundTripper{}
 func NewReplayRoundTripper(
 	inner http.RoundTripper,
 	log logr.Logger,
+	redactor *vcr.Redactor,
 ) http.RoundTripper {
 	return &replayRoundTripper{
-		inner: inner,
-		gets:  make(map[string]*http.Response),
-		puts:  make(map[string]*http.Response),
-		log:   log,
+		inner:    inner,
+		gets:     make(map[string]*http.Response),
+		puts:     make(map[string]*http.Response),
+		log:      log,
+		redactor: redactor,
 	}
 }
 
@@ -143,7 +145,7 @@ func (replayer *replayRoundTripper) hashOfBody(request *http.Request) string {
 	}
 
 	// Apply the same body filtering that we do in recordings so that the hash is consistent
-	bodyString := vcr.HideRecordingData(creds.DummyAzureIDs(), string(body.Bytes()))
+	bodyString := replayer.redactor.HideRecordingDataWithCustomRedaction(string(body.Bytes()))
 
 	// Calculate a hash based on body string
 	hash := sha256.Sum256([]byte(bodyString))

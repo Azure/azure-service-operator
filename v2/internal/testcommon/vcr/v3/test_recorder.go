@@ -28,7 +28,7 @@ type recorderDetails struct {
 	recorder     *recorder.Recorder
 	cfg          config.Values
 	log          logr.Logger
-	redactions   map[string]string
+	redactor     *vcr.Redactor
 }
 
 func NewTestRecorder(
@@ -110,7 +110,8 @@ func NewTestRecorder(
 		return true
 	})
 
-	r.AddHook(redactRecording(azureIDs, redactions), recorder.BeforeSaveHook)
+	redactor := vcr.NewRedactor(azureIDs, redactions)
+	r.AddHook(redactRecording(redactor), recorder.BeforeSaveHook)
 
 	return &recorderDetails{
 		cassetteName: cassetteName,
@@ -119,7 +120,7 @@ func NewTestRecorder(
 		recorder:     r,
 		cfg:          cfg,
 		log:          log,
-		redactions:   redactions,
+		redactor:     redactor,
 	}, nil
 }
 
@@ -128,16 +129,15 @@ func NewTestRecorder(
 // to make the tests updatable from
 // any subscription, so a contributor can update the tests against their own sub.
 func redactRecording(
-	azureIDs creds.AzureIDs,
-	redactions map[string]string,
+	redactor *vcr.Redactor,
 ) recorder.HookFunc {
 	return func(i *cassette.Interaction) error {
-		i.Request.Body = vcr.HideRecordingDataWithCustomRedaction(azureIDs, i.Request.Body, redactions)
-		i.Response.Body = vcr.HideRecordingDataWithCustomRedaction(azureIDs, i.Response.Body, redactions)
-		i.Request.URL = vcr.HideURLData(azureIDs, i.Request.URL)
+		i.Request.Body = redactor.HideRecordingDataWithCustomRedaction(i.Request.Body)
+		i.Response.Body = redactor.HideRecordingDataWithCustomRedaction(i.Response.Body)
+		i.Request.URL = redactor.HideURLData(i.Request.URL)
 
-		vcr.RedactRequestHeaders(azureIDs, i.Request.Headers)
-		vcr.RedactResponseHeaders(azureIDs, i.Response.Headers)
+		redactor.RedactRequestHeaders(i.Request.Headers)
+		redactor.RedactResponseHeaders(i.Response.Headers)
 
 		return nil
 	}
@@ -171,9 +171,9 @@ func (r *recorderDetails) IsReplaying() bool {
 // CreateClient creates an HTTP client configured to record or replay HTTP requests.
 // t is a reference to the test currently executing.
 func (r *recorderDetails) CreateClient(t *testing.T) *http.Client {
-	withReplay := NewReplayRoundTripper(r.recorder, r.log)
-	withErrorTranslation := translateErrors(withReplay, r.cassetteName, r.redactions, t)
-	withTrackingHeaders := AddTrackingHeaders(r.ids, withErrorTranslation, r.redactions)
+	withReplay := NewReplayRoundTripper(r.recorder, r.log, r.redactor)
+	withErrorTranslation := translateErrors(withReplay, r.cassetteName, r.redactor, t)
+	withTrackingHeaders := AddTrackingHeaders(withErrorTranslation, r.redactor)
 
 	return &http.Client{
 		Transport: withTrackingHeaders,
