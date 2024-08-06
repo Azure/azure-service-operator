@@ -159,6 +159,8 @@ func NewConversionFunctionBuilder(
 			AssignFromOptional,
 			AssignToAliasOfPrimitive,
 			AssignFromAliasOfPrimitive,
+			AssignToAliasOfArray,
+			AssignFromAliasOfArray,
 			IdentityDeepCopyJSON,
 			IdentityAssignTypeName,
 		},
@@ -785,6 +787,138 @@ func AssignFromAliasOfPrimitive(
 				astbuilder.CallFunc(
 					dstPrim.String(),
 					params.GetSource()))),
+		nil
+}
+
+// AssignToAliasOfArray assigns an array of values to an alias of that same type.
+// This function generates code that looks like this:
+//
+// <destination> <assignmentHandler> <destinationType>(<source>)
+func AssignToAliasOfArray(
+	builder *ConversionFunctionBuilder,
+	params ConversionParameters,
+) ([]dst.Stmt, error) {
+	// Source must be an array type
+	srcArray, ok := AsArrayType(params.SourceType)
+	if !ok {
+		return nil, nil
+	}
+
+	// Destination must be an internal type name
+	dstName, ok := params.DestinationType.(InternalTypeName)
+	if !ok {
+		return nil, nil
+	}
+
+	// ... who's definition we know ...
+	dstDef, err := builder.CodeGenerationContext.GetDefinition(dstName)
+	if err != nil {
+		//nolint:nilerr // err is not nil, we defer to a different conversion
+		return nil, nil
+	}
+
+	// ... and it's not optional (hedging against oddities) ...
+	if _, ok = AsOptionalType(dstDef.Type()); ok {
+		return nil, nil
+	}
+
+	// ... and it is an array type ...
+	dstArray, ok := AsArrayType(dstDef.Type())
+	if !ok {
+		//nolint:nilerr // err is not nil, we defer to a different conversion
+		return nil, nil
+	}
+
+	// ... and we can convert between those array types ...
+	conversion, err := builder.BuildConversion(
+		ConversionParameters{
+			Source:            params.Source,
+			SourceType:        srcArray,
+			Destination:       params.Destination,
+			DestinationType:   dstArray,
+			NameHint:          params.NameHint,
+			ConversionContext: append(params.ConversionContext, dstArray),
+			AssignmentHandler: func(lhs dst.Expr, rhs dst.Expr) dst.Stmt {
+				return astbuilder.SimpleAssignment(
+					lhs,
+					astbuilder.CallFunc(
+						dstName.Name(),
+						rhs))
+			},
+			Locals:              params.Locals,
+			SourceProperty:      params.SourceProperty,
+			DestinationProperty: params.DestinationProperty,
+		})
+	if err != nil {
+		return nil, errors.Wrap(err, "unable to build conversion for array element")
+	}
+
+	return astbuilder.Statements(
+			conversion,
+		),
+		nil
+}
+
+// AssignFromAliasOfArray assigns an array of values from an alias of that same type.
+// This function generates code that looks like this:
+//
+// <destination> <assignmentHandler> <destinationType>(<source>)
+func AssignFromAliasOfArray(
+	builder *ConversionFunctionBuilder,
+	params ConversionParameters,
+) ([]dst.Stmt, error) {
+	// Source must be an internal type name
+	srcName, ok := params.SourceType.(InternalTypeName)
+	if !ok {
+		return nil, nil
+	}
+
+	// ... who's definition we know ...
+	srcDef, err := builder.CodeGenerationContext.GetDefinition(srcName)
+	if err != nil {
+		//nolint:nilerr // err is not nil, we defer to a different conversion
+		return nil, nil
+	}
+
+	// ... and it's not optional (hedging against oddities) ...
+	if _, ok = AsOptionalType(srcDef.Type()); ok {
+		return nil, nil
+	}
+
+	// ... and it is an array type ...
+	srcArray, ok := AsArrayType(srcDef.Type())
+	if !ok {
+		//nolint:nilerr // err is not nil, we defer to a different conversion
+		return nil, nil
+	}
+
+	// Destination must be an array type
+	dstArray, ok := AsArrayType(params.DestinationType)
+	if !ok {
+		return nil, nil
+	}
+
+	// ... and we can convert between those array types ...
+	conversion, err := builder.BuildConversion(
+		ConversionParameters{
+			Source:              params.Source,
+			SourceType:          srcArray,
+			Destination:         params.Destination,
+			DestinationType:     dstArray,
+			NameHint:            params.NameHint,
+			ConversionContext:   append(params.ConversionContext, params.DestinationType),
+			AssignmentHandler:   AssignmentHandlerDefine,
+			Locals:              params.Locals,
+			SourceProperty:      params.SourceProperty,
+			DestinationProperty: params.DestinationProperty,
+		})
+	if err != nil {
+		return nil, errors.Wrap(err, "unable to build conversion for array element")
+	}
+
+	return astbuilder.Statements(
+			conversion,
+		),
 		nil
 }
 
