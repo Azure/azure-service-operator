@@ -8,7 +8,6 @@ package vcr
 import (
 	"net/http"
 	"regexp"
-	"strings"
 
 	"github.com/google/uuid"
 
@@ -17,7 +16,6 @@ import (
 )
 
 type Redactor struct {
-	azureIDs   creds.AzureIDs
 	redactions []redaction
 }
 
@@ -27,10 +25,18 @@ type redaction struct {
 }
 
 func NewRedactor(azureIDs creds.AzureIDs) *Redactor {
-	return &Redactor{
-		azureIDs:   azureIDs,
+	redactor := &Redactor{
 		redactions: []redaction{},
 	}
+
+	// Add AzureIDs redaction as default
+	redactor.AddLiteralRedaction(azureIDs.TenantID, nilGuid)
+	redactor.AddLiteralRedaction(azureIDs.SubscriptionID, nilGuid)
+	if azureIDs.BillingInvoiceID != "" {
+		redactor.AddLiteralRedaction(azureIDs.BillingInvoiceID, creds.DummyBillingId)
+	}
+
+	return redactor
 }
 
 func (r *Redactor) AddLiteralRedaction(redactionValue string, replacementValue string) {
@@ -64,15 +70,10 @@ func (r *Redactor) RedactRequestHeaders(headers http.Header) {
 		delete(headers, header)
 	}
 
-	azureIDs := r.azureIDs
 	// Hide sensitive request headers
 	for _, values := range headers {
 		for i := range values {
-			values[i] = strings.ReplaceAll(values[i], azureIDs.SubscriptionID, nilGuid)
-			values[i] = strings.ReplaceAll(values[i], azureIDs.TenantID, nilGuid)
-			if azureIDs.BillingInvoiceID != "" {
-				values[i] = strings.ReplaceAll(values[i], azureIDs.BillingInvoiceID, creds.DummyBillingId)
-			}
+			values[i] = r.hideRecordingDataWithCustomRedaction(values[i])
 		}
 	}
 }
@@ -101,17 +102,10 @@ func (r *Redactor) RedactResponseHeaders(headers http.Header) {
 		delete(headers, header)
 	}
 
-	azureIDs := r.azureIDs
 	// Hide sensitive response headers
 	for key, values := range headers {
 		for i := range values {
 			values[i] = r.hideRecordingDataWithCustomRedaction(values[i])
-			values[i] = strings.ReplaceAll(values[i], azureIDs.SubscriptionID, nilGuid)
-			values[i] = strings.ReplaceAll(values[i], azureIDs.TenantID, nilGuid)
-
-			if azureIDs.BillingInvoiceID != "" {
-				values[i] = strings.ReplaceAll(values[i], azureIDs.BillingInvoiceID, creds.DummyBillingId)
-			}
 		}
 
 		// Hide the base request URL in the AzureOperation and Location headers
@@ -127,19 +121,6 @@ func (r *Redactor) HideRecordingData(s string) string {
 
 	// Hide custom redactions
 	s = r.hideRecordingDataWithCustomRedaction(s)
-
-	azureIDs := r.azureIDs
-
-	// Hide the subscription ID
-	s = strings.ReplaceAll(s, azureIDs.SubscriptionID, nilGuid)
-
-	// Hide the tenant ID
-	s = strings.ReplaceAll(s, azureIDs.TenantID, nilGuid)
-
-	// Hide the billing ID
-	if azureIDs.BillingInvoiceID != "" {
-		s = strings.ReplaceAll(s, azureIDs.BillingInvoiceID, creds.DummyBillingId)
-	}
 
 	s = hideDates(s)
 	s = hideSSHKeys(s)
@@ -217,19 +198,7 @@ func hideCustomKeys(s string) string {
 func (r *Redactor) HideURLData(s string) string {
 
 	s = r.hideRecordingDataWithCustomRedaction(s)
-
 	s = hideBaseRequestURL(s)
-
-	azureIDs := r.azureIDs
-	s = strings.ReplaceAll(s, azureIDs.SubscriptionID, nilGuid)
-
-	// Hide the tenant ID
-	s = strings.ReplaceAll(s, azureIDs.TenantID, nilGuid)
-
-	// Hide the billing ID
-	if azureIDs.BillingInvoiceID != "" {
-		s = strings.ReplaceAll(s, azureIDs.BillingInvoiceID, creds.DummyBillingId)
-	}
 
 	return s
 }
