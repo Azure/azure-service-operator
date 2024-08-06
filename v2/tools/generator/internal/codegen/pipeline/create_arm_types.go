@@ -522,9 +522,12 @@ func (c *armTypeCreator) visitARMTypeName(
 	}
 
 	// If the name is an alias for a primitive type, we look through it to the underlying type,
-	// allowing us define the property using the primitive type directly
+	// allowing us to define the property using the primitive type directly
 	// and avoiding any potential circular dependencies
-	if _, ok := astmodel.AsPrimitiveType(def.Type()); ok {
+	_, isPrimitiveType := astmodel.AsPrimitiveType(def.Type())
+	_, isArrayType := astmodel.AsArrayType(def.Type())
+	_, isMapType := astmodel.AsMapType(def.Type())
+	if isPrimitiveType || isArrayType || isMapType {
 		// We use the visitor to simplify the type
 		var updatedType astmodel.Type
 		updatedType, err = this.Visit(def.Type(), ctx)
@@ -533,18 +536,6 @@ func (c *armTypeCreator) visitARMTypeName(
 		}
 
 		return updatedType, nil
-	}
-
-	// If the name is an alias for a map type, we reuse that alias (for now)
-	// A future PR will change things to use the underlying type directly
-	if _, ok := astmodel.AsMapType(def.Type()); ok {
-		return it, nil
-	}
-
-	// Ditto if the name is an alias for an array type
-	// A future PR will change things to use the underlying type directly
-	if _, ok := astmodel.AsArrayType(def.Type()); ok {
-		return it, nil
 	}
 
 	// We may or may not need to use an updated type name (i.e. if it's an aliased primitive type we can
