@@ -19,6 +19,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
@@ -26,7 +27,18 @@ import (
 
 var _ extensions.PostReconciliationChecker = &BackupVaultsBackupInstanceExtension{}
 
-var protectionError = "ProtectionError"
+var terminalStates = set.Make(
+	"configuringprotectionfailed",
+	"invalid",
+	"notprotected",
+	"protectionconfigured",
+	"softdeleted",
+	"protectionstopped",
+	"backupschedulessuspended",
+	"retentionschedulessuspended",
+)
+
+var protectionError = "protectionerror"
 
 const (
 	BackupInstancePollerResumeTokenAnnotation = "serviceoperator.azure.com/bi-poller-resume-token"
@@ -80,69 +92,73 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 	}
 
 	protectionStatus := *backupInstance.Status.Properties.ProtectionStatus.Status
+	protectionStatus = strings.ToLower(protectionStatus)
 	log.V(Debug).Info(fmt.Sprintf("Protection Status is  %q", protectionStatus))
 
-	// We only want to continue if protectionStatus == ProtectionError.
-	if !strings.EqualFold(protectionStatus, protectionError) {
+	// Return success if the status is in a terminal state
+	if terminalStates.Contains(protectionStatus) {
 		log.V(Debug).Info("Returning PostReconcileCheckResultSuccess")
 		return next(ctx, obj, owner, resolver, armClient, log)
 	}
 
-	// call sync api only when protection status is ProtectionError and error code is usererror
-	var protectionStatusErrorCode string
-	protectionStatusErrorCode = strings.ToLower(*backupInstance.Status.Properties.ProtectionStatus.ErrorDetails.Code)
-	log.V(Debug).Info(fmt.Sprintf("Protection Error code is  %q", protectionStatusErrorCode))
+	if protectionStatus == protectionError {
+		// call sync api only when protection status is ProtectionError and error code is usererror
+		var protectionStatusErrorCode string
+		protectionStatusErrorCode = strings.ToLower(*backupInstance.Status.Properties.ProtectionStatus.ErrorDetails.Code)
+		log.V(Debug).Info(fmt.Sprintf("Protection Error code is  %q", protectionStatusErrorCode))
 
-	if protectionStatusErrorCode != "" && strings.Contains(protectionStatusErrorCode, "usererror") {
-		id, _ := genruntime.GetAndParseResourceID(backupInstance)
-		subscription := id.SubscriptionID
-		rg := id.ResourceGroupName
-		vaultName := id.Parent.Name
+		if protectionStatusErrorCode != "" && strings.Contains(protectionStatusErrorCode, "usererror") {
+			id, _ := genruntime.GetAndParseResourceID(backupInstance)
+			subscription := id.SubscriptionID
+			rg := id.ResourceGroupName
+			vaultName := id.Parent.Name
 
-		clientFactory, err := armdataprotection.NewClientFactory(subscription, armClient.Creds(), armClient.ClientOptions())
-		if err != nil {
-			return extensions.PostReconcileCheckResultFailure("failed to create armdataprotection client"), err
-		}
-
-		var parameters armdataprotection.SyncBackupInstanceRequest
-		parameters.SyncType = to.Ptr(armdataprotection.SyncTypeDefault)
-
-		// get the resume token from the resource
-		pollerResumeToken, _ := GetPollerResumeToken(obj, log)
-
-		// BeginSyncBackupInstance is in-progress - poller resume token is available
-		log.V(Debug).Info("Starting BeginSyncBackupInstance")
-
-		poller, err := clientFactory.NewBackupInstancesClient().BeginSyncBackupInstance(ctx, rg, vaultName, backupInstance.AzureName(), parameters, &armdataprotection.BackupInstancesClientBeginSyncBackupInstanceOptions{
-			ResumeToken: pollerResumeToken,
-		})
-		if err != nil {
-			return extensions.PostReconcileCheckResultFailure("Failed Polling for BeginSyncBackupInstance to get the result"), err
-		}
-
-		if pollerResumeToken == "" {
-			resumeToken, resumeTokenErr := poller.ResumeToken()
-			if resumeTokenErr != nil {
-				return extensions.PostReconcileCheckResultFailure("couldn't create PUT resume token for resource"), resumeTokenErr
-			} else {
-				SetPollerResumeToken(obj, resumeToken, log)
-			}
-		}
-
-		_, pollErr := poller.Poll(ctx)
-		if pollErr != nil {
-			return extensions.PostReconcileCheckResultFailure("couldn't create PUT resume token for resource"), pollErr
-		}
-
-		if poller.Done() {
-			log.V(Debug).Info("Polling is completed")
-			ClearPollerResumeToken(obj, log)
-			_, err := poller.Result(ctx)
+			clientFactory, err := armdataprotection.NewClientFactory(subscription, armClient.Creds(), armClient.ClientOptions())
 			if err != nil {
-				return extensions.PostReconcileCheckResultFailure("couldn't create PUT resume token for resource"), err
+				return extensions.PostReconcileCheckResultFailure("failed to create armdataprotection client"), err
 			}
+
+			var parameters armdataprotection.SyncBackupInstanceRequest
+			parameters.SyncType = to.Ptr(armdataprotection.SyncTypeDefault)
+
+			// get the resume token from the resource
+			pollerResumeToken, _ := GetPollerResumeToken(obj, log)
+
+			// BeginSyncBackupInstance is in-progress - poller resume token is available
+			log.V(Debug).Info("Starting BeginSyncBackupInstance")
+
+			poller, err := clientFactory.NewBackupInstancesClient().BeginSyncBackupInstance(ctx, rg, vaultName, backupInstance.AzureName(), parameters, &armdataprotection.BackupInstancesClientBeginSyncBackupInstanceOptions{
+				ResumeToken: pollerResumeToken,
+			})
+			if err != nil {
+				return extensions.PostReconcileCheckResultFailure("Failed Polling for BeginSyncBackupInstance to get the result"), err
+			}
+
+			if pollerResumeToken == "" {
+				resumeToken, resumeTokenErr := poller.ResumeToken()
+				if resumeTokenErr != nil {
+					return extensions.PostReconcileCheckResultFailure("couldn't create PUT resume token for resource"), resumeTokenErr
+				} else {
+					SetPollerResumeToken(obj, resumeToken, log)
+				}
+			}
+
+			_, pollErr := poller.Poll(ctx)
+			if pollErr != nil {
+				return extensions.PostReconcileCheckResultFailure("couldn't create PUT resume token for resource"), pollErr
+			}
+
+			if poller.Done() {
+				log.V(Debug).Info("Polling is completed")
+				ClearPollerResumeToken(obj, log)
+				_, err := poller.Result(ctx)
+				if err != nil {
+					return extensions.PostReconcileCheckResultFailure("couldn't create PUT resume token for resource"), err
+				}
+			}
+			log.V(Debug).Info("Polling is in-progress")
 		}
-		log.V(Debug).Info("Polling is in-progress")
 	}
+
 	return extensions.PostReconcileCheckResultFailure("Backup Instance is in non terminal state"), nil
 }
