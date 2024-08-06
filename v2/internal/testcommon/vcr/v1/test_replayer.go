@@ -94,7 +94,7 @@ func NewTestPlayer(
 		}
 
 		r.Body = io.NopCloser(&b)
-		return b.String() == "" || redactor.HideRecordingDataWithCustomRedaction(b.String()) == i.Body
+		return b.String() == "" || redactor.HideRecordingData(b.String()) == i.Body
 	})
 
 	return &player{
@@ -122,9 +122,14 @@ func (r *player) IDs() creds.AzureIDs {
 	return r.ids
 }
 
-// Redactor returns the redactor associated with the recorder
-func (r *player) Redactor() *vcr.Redactor {
-	return r.redactor
+// AddLiteralRedaction adds literal redaction value to redactor
+func (r *player) AddLiteralRedaction(redactionValue string, replacementValue string) {
+	r.redactor.AddLiteralRedaction(redactionValue, replacementValue)
+}
+
+// AddRegexpRedaction adds regular expression redaction value to redactor
+func (r *player) AddRegexpRedaction(pattern string, replacementValue string) {
+	r.redactor.AddRegexRedaction(pattern, replacementValue)
 }
 
 // Stop recording

@@ -18,18 +18,34 @@ import (
 
 type Redactor struct {
 	azureIDs   creds.AzureIDs
-	redactions map[string]string
+	redactions []redaction
+}
+
+type redaction struct {
+	pattern          *regexp.Regexp
+	replacementValue string
 }
 
 func NewRedactor(azureIDs creds.AzureIDs) *Redactor {
 	return &Redactor{
 		azureIDs:   azureIDs,
-		redactions: make(map[string]string),
+		redactions: []redaction{},
 	}
 }
 
-func (r *Redactor) AddRedaction(redactionValue string, replacementValue string) {
-	r.redactions[redactionValue] = replacementValue
+func (r *Redactor) AddLiteralRedaction(redactionValue string, replacementValue string) {
+	pattern := regexp.QuoteMeta(redactionValue)
+	r.AddRegexRedaction(pattern, replacementValue)
+}
+
+func (r *Redactor) AddRegexRedaction(regex string, replacementValue string) {
+
+	redact := redaction{
+		pattern:          regexp.MustCompile(regex),
+		replacementValue: replacementValue,
+	}
+
+	r.redactions = append(r.redactions, redact)
 }
 
 var nilGuid = uuid.Nil.String()
@@ -89,8 +105,10 @@ func (r *Redactor) RedactResponseHeaders(headers http.Header) {
 	// Hide sensitive response headers
 	for key, values := range headers {
 		for i := range values {
+			values[i] = r.hideRecordingDataWithCustomRedaction(values[i])
 			values[i] = strings.ReplaceAll(values[i], azureIDs.SubscriptionID, nilGuid)
 			values[i] = strings.ReplaceAll(values[i], azureIDs.TenantID, nilGuid)
+
 			if azureIDs.BillingInvoiceID != "" {
 				values[i] = strings.ReplaceAll(values[i], azureIDs.BillingInvoiceID, creds.DummyBillingId)
 			}
@@ -105,9 +123,14 @@ func (r *Redactor) RedactResponseHeaders(headers http.Header) {
 	}
 }
 
-func (r *Redactor) hideRecordingData(s string) string {
-	// Hide the subscription ID
+func (r *Redactor) HideRecordingData(s string) string {
+
+	// Hide custom redactions
+	s = r.hideRecordingDataWithCustomRedaction(s)
+
 	azureIDs := r.azureIDs
+
+	// Hide the subscription ID
 	s = strings.ReplaceAll(s, azureIDs.SubscriptionID, nilGuid)
 
 	// Hide the tenant ID
@@ -128,13 +151,14 @@ func (r *Redactor) hideRecordingData(s string) string {
 	return s
 }
 
-func (r *Redactor) HideRecordingDataWithCustomRedaction(s string) string {
+func (r *Redactor) hideRecordingDataWithCustomRedaction(s string) string {
+	res := s
 	// Replace and hide all the custom data
-	for k, v := range r.redactions {
-		s = strings.ReplaceAll(s, k, v)
+	for _, obj := range r.redactions {
+		res = obj.pattern.ReplaceAllString(res, obj.replacementValue)
 	}
 
-	return r.hideRecordingData(s)
+	return res
 }
 
 var dateMatcher = regexp.MustCompile(`\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(.\d+)?Z`)
@@ -191,6 +215,9 @@ func hideCustomKeys(s string) string {
 }
 
 func (r *Redactor) HideURLData(s string) string {
+
+	s = r.hideRecordingDataWithCustomRedaction(s)
+
 	s = hideBaseRequestURL(s)
 
 	azureIDs := r.azureIDs

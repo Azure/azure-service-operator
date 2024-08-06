@@ -85,7 +85,7 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 
 		// Apply the same body filtering that we do in recordings so that the diffs don't show things
 		// that we've just removed
-		sentBodyString = w.redactor.HideRecordingDataWithCustomRedaction(string(bodyBytes))
+		sentBodyString = w.redactor.HideRecordingData(string(bodyBytes))
 	}
 
 	// find all request bodies for the specified method/URL combination

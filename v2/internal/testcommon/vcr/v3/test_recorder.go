@@ -131,8 +131,8 @@ func redactRecording(
 	redactor *vcr.Redactor,
 ) recorder.HookFunc {
 	return func(i *cassette.Interaction) error {
-		i.Request.Body = redactor.HideRecordingDataWithCustomRedaction(i.Request.Body)
-		i.Response.Body = redactor.HideRecordingDataWithCustomRedaction(i.Response.Body)
+		i.Request.Body = redactor.HideRecordingData(i.Request.Body)
+		i.Response.Body = redactor.HideRecordingData(i.Response.Body)
 		i.Request.URL = redactor.HideURLData(i.Request.URL)
 
 		redactor.RedactRequestHeaders(i.Request.Headers)
@@ -157,9 +157,14 @@ func (r *recorderDetails) IDs() creds.AzureIDs {
 	return r.ids
 }
 
-// Redactor returns the redactor associated with the recorder
-func (r *recorderDetails) Redactor() *vcr.Redactor {
-	return r.redactor
+// AddLiteralRedaction adds literal redaction value to redactor
+func (r *recorderDetails) AddLiteralRedaction(redactionValue string, replacementValue string) {
+	r.redactor.AddLiteralRedaction(redactionValue, replacementValue)
+}
+
+// AddRegexpRedaction adds regular expression redaction value to redactor
+func (r *recorderDetails) AddRegexpRedaction(pattern string, replacementValue string) {
+	r.redactor.AddRegexRedaction(pattern, replacementValue)
 }
 
 // Stop recording

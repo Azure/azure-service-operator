@@ -163,10 +163,16 @@ func (tc TestContext) ForTest(t *testing.T, cfg config.Values) (PerTestContext, 
 	}, nil
 }
 
-// WithCustomRedaction method is used to add custom redaction values based on the requirements of each test.
+// WithLiteralRedaction method is used to add literal redaction values based on the requirements of each test.
 // The method takes in redactValue to be `redacted` and replacement value to which the value should be `replaced`.
-func (tc PerTestContext) WithCustomRedaction(redactionValue string, replacementValue string) {
-	tc.AzureClientRecorder.Redactor().AddRedaction(redactionValue, replacementValue)
+func (tc PerTestContext) WithLiteralRedaction(redactionValue string, replacementValue string) {
+	tc.AzureClientRecorder.AddLiteralRedaction(redactionValue, replacementValue)
+}
+
+// WithRegexpRedaction method is used to add regexp redaction values based on the requirements of each test.
+// The method takes in regexp pattern to be `redacted` and replacement value to which the value should be `replaced`.
+func (tc PerTestContext) WithRegexpRedaction(pattern string, replacementValue string) {
+	tc.AzureClientRecorder.AddRegexpRedaction(pattern, replacementValue)
 }
 
 var replaceRegex = regexp.MustCompile("[./_]+")

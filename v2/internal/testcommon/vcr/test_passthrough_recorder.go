@@ -61,8 +61,14 @@ func (r *testPassthroughRecorder) IDs() creds.AzureIDs {
 	return r.ids
 }
 
-func (r *testPassthroughRecorder) Redactor() *Redactor {
-	return r.redactor
+// AddLiteralRedaction adds literal redaction value to redactor
+func (r *testPassthroughRecorder) AddLiteralRedaction(redactionValue string, replacementValue string) {
+	r.redactor.AddLiteralRedaction(redactionValue, replacementValue)
+}
+
+// AddRegexpRedaction adds regular expression redaction value to redactor
+func (r *testPassthroughRecorder) AddRegexpRedaction(pattern string, replacementValue string) {
+	r.redactor.AddRegexRedaction(pattern, replacementValue)
 }
 
 // IsReplaying implements testRecorder.

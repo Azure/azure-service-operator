@@ -170,7 +170,8 @@ func Test_ReplayRoundTripper_WhenCombinedWithTrackingRoundTripper_GivesDesiredRe
 	redactor := vcr.NewRedactor(creds.DummyAzureIDs())
 
 	// Act
-	replayer := AddTrackingHeaders(NewReplayRoundTripper(fake, logr.Discard(), redactor), redactor)
+	replayRountTripper := NewReplayRoundTripper(fake, logr.Discard(), redactor)
+	replayer := AddTrackingHeaders(replayRountTripper, redactor)
 
 	// Assert - first PUT to create the resource works
 	assertExpectedResponse(t, replayer, creationRequest, 200, "create resource A")
