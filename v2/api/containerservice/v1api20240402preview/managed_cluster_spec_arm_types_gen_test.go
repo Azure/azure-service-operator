@@ -4158,9 +4158,7 @@ func ManagedClusterSecurityProfile_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedClusterSecurityProfile_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterSecurityProfile_ARM(gens map[string]gopter.Gen) {
-	gens["CustomCATrustCertificates"] = gen.SliceOf(gen.AlphaString()).Map(func(it []string) ManagedClusterSecurityProfileCustomCATrustCertificates {
-		return ManagedClusterSecurityProfileCustomCATrustCertificates(it)
-	})
+	gens["CustomCATrustCertificates"] = gen.SliceOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForManagedClusterSecurityProfile_ARM is a factory method for creating gopter generators
