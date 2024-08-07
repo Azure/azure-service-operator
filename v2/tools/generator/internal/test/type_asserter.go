@@ -46,6 +46,11 @@ func (a *typeAsserter) assert(name string, defs ...astmodel.TypeDefinition) {
 		a.t.Fatalf("Unable to configure goldie output folder %s", err)
 	}
 
+	err = g.WithSubTestNameForDir(true)
+	if err != nil {
+		a.t.Fatalf("Unable to configure goldie output sub folder %s", err)
+	}
+
 	refs := a.findReferenceTypes(defs)
 
 	if a.writeCode {
