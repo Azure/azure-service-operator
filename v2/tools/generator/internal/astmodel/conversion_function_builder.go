@@ -159,8 +159,8 @@ func NewConversionFunctionBuilder(
 			AssignFromOptional,
 			AssignToAliasOfPrimitive,
 			AssignFromAliasOfPrimitive,
-			AssignToAliasOfArray,
-			AssignFromAliasOfArray,
+			AssignToAliasOfCollection,
+			AssignFromAliasOfCollection,
 			IdentityDeepCopyJSON,
 			IdentityAssignTypeName,
 		},
@@ -790,17 +790,18 @@ func AssignFromAliasOfPrimitive(
 		nil
 }
 
-// AssignToAliasOfArray assigns an array of values to an alias of that same type.
+// AssignToAliasOfCollection assigns an array of values to an alias of that same type.
 // This function generates code that looks like this:
 //
 // <destination> <assignmentHandler> <destinationType>(<source>)
-func AssignToAliasOfArray(
+func AssignToAliasOfCollection(
 	builder *ConversionFunctionBuilder,
 	params ConversionParameters,
 ) ([]dst.Stmt, error) {
-	// Source must be an array type
-	srcArray, ok := AsArrayType(params.SourceType)
-	if !ok {
+	// Source must be an array type or a map type
+	_, srcIsArray := AsArrayType(params.SourceType)
+	_, srcIsMap := AsMapType(params.SourceType)
+	if !srcIsArray && !srcIsMap {
 		return nil, nil
 	}
 
@@ -822,24 +823,32 @@ func AssignToAliasOfArray(
 		return nil, nil
 	}
 
-	// ... and it is an array type ...
-	dstArray, ok := AsArrayType(dstDef.Type())
-	if !ok {
-		//nolint:nilerr // err is not nil, we defer to a different conversion
+	// ... and it must also be an array type or a map type (and the same kind as source)
+	dstArray, dstIsArray := AsArrayType(dstDef.Type())
+	dstMap, dstIsMap := AsMapType(dstDef.Type())
+	if dstIsArray != srcIsArray || dstIsMap != srcIsMap {
 		return nil, nil
+	}
+
+	var dstType Type
+	if dstIsArray {
+		dstType = dstArray
+	} else if dstIsMap {
+		dstType = dstMap
 	}
 
 	// ... and we can convert between those array types ...
 	conversion, err := builder.BuildConversion(
 		ConversionParameters{
 			Source:            params.Source,
-			SourceType:        srcArray,
+			SourceType:        params.SourceType,
 			Destination:       params.Destination,
-			DestinationType:   dstArray,
+			DestinationType:   dstDef.Type(),
 			NameHint:          params.NameHint,
-			ConversionContext: append(params.ConversionContext, dstArray),
+			ConversionContext: append(params.ConversionContext, dstType),
 			AssignmentHandler: func(lhs dst.Expr, rhs dst.Expr) dst.Stmt {
-				return astbuilder.SimpleAssignment(
+				// Use the existing assignment handler, but make sure we cast the rhs to the right type
+				return params.AssignmentHandlerOrDefault()(
 					lhs,
 					astbuilder.CallFunc(
 						dstName.Name(),
@@ -863,7 +872,7 @@ func AssignToAliasOfArray(
 // This function generates code that looks like this:
 //
 // <destination> <assignmentHandler> <destinationType>(<source>)
-func AssignFromAliasOfArray(
+func AssignFromAliasOfCollection(
 	builder *ConversionFunctionBuilder,
 	params ConversionParameters,
 ) ([]dst.Stmt, error) {
@@ -885,29 +894,35 @@ func AssignFromAliasOfArray(
 		return nil, nil
 	}
 
-	// ... and it is an array type ...
-	srcArray, ok := AsArrayType(srcDef.Type())
-	if !ok {
-		//nolint:nilerr // err is not nil, we defer to a different conversion
+	// ... and it is an array type or a map type ...
+	_, srcIsArray := AsArrayType(srcDef.Type())
+	_, srcIsMap := AsMapType(srcDef.Type())
+	if !srcIsArray && !srcIsMap {
 		return nil, nil
 	}
 
-	// Destination must be an array type
-	dstArray, ok := AsArrayType(params.DestinationType)
-	if !ok {
+	// Destination must also be an array type or a map type (and the same kind as source)
+	_, dstIsArray := AsArrayType(params.DestinationType)
+	_, dstIsMap := AsMapType(params.DestinationType)
+	if dstIsArray != srcIsArray || dstIsMap != srcIsMap {
 		return nil, nil
 	}
 
-	// ... and we can convert between those array types ...
+	// ... and we can convert between those collection types ...
 	conversion, err := builder.BuildConversion(
 		ConversionParameters{
-			Source:              params.Source,
-			SourceType:          srcArray,
-			Destination:         params.Destination,
-			DestinationType:     dstArray,
-			NameHint:            params.NameHint,
-			ConversionContext:   append(params.ConversionContext, params.DestinationType),
-			AssignmentHandler:   AssignmentHandlerDefine,
+			Source:            params.Source,
+			SourceType:        srcDef.Type(),
+			Destination:       params.Destination,
+			DestinationType:   params.DestinationType,
+			NameHint:          params.NameHint,
+			ConversionContext: append(params.ConversionContext, params.DestinationType),
+			AssignmentHandler: func(lhs dst.Expr, rhs dst.Expr) dst.Stmt {
+				// Use the existing assignment handler if there is one, but make sure we always assign
+				return params.AssignmentHandlerOrDefault()(
+					lhs,
+					rhs)
+			},
 			Locals:              params.Locals,
 			SourceProperty:      params.SourceProperty,
 			DestinationProperty: params.DestinationProperty,
