@@ -353,6 +353,16 @@ func TestCreateARMTypeConversionsWhenSimplifying_CreatesExpectedConversions(t *t
 		aliasDef.Name()).
 		WithDescription("Expect alias on CRD type to become string on ARM type")
 
+	qualificationsDef := astmodel.MakeTypeDefinition(
+		astmodel.MakeInternalTypeName(test.Pkg2020, "Qualifications"),
+		astmodel.NewArrayType(astmodel.StringType))
+
+	qualificationsProperty := astmodel.NewPropertyDefinition(
+		"Qualifications",
+		"qualifications",
+		qualificationsDef.Name()).
+		WithDescription("Expect alias of array on CRD type to become array on ARM type")
+
 	cases := map[string]struct {
 		property    *astmodel.PropertyDefinition
 		propertyDef astmodel.TypeDefinition
@@ -360,6 +370,10 @@ func TestCreateARMTypeConversionsWhenSimplifying_CreatesExpectedConversions(t *t
 		"AliasFlattensToUnderlyingType": {
 			property:    aliasProperty,
 			propertyDef: aliasDef,
+		},
+		"AliasOfArrayFlattensToSimpleArray": {
+			property:    qualificationsProperty,
+			propertyDef: qualificationsDef,
 		},
 	}
 
