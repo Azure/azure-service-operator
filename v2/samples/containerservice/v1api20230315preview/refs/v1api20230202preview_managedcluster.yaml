@@ -1,4 +1,4 @@
-apiVersion: containerservice.azure.com/v1api20230202preview
+apiVersion: containerservice.azure.com/v1api20231001
 kind: ManagedCluster
 metadata:
   name: aks-managedcluster-sample-fleet
@@ -8,6 +8,7 @@ spec:
   owner:
     name: aso-sample-rg
   dnsPrefix: aso
+  kubernetesVersion: 1.29.5
   agentPoolProfiles:
     - name: pool1
       count: 1
