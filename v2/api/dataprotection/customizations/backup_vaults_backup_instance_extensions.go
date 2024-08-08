@@ -107,7 +107,7 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 		protectionStatusErrorCode = strings.ToLower(*backupInstance.Status.Properties.ProtectionStatus.ErrorDetails.Code)
 		log.V(Debug).Info(fmt.Sprintf("Protection Error code is  %q", protectionStatusErrorCode))
 
-		if protectionStatusErrorCode != "" && strings.Contains(protectionStatusErrorCode, "usererror") {
+		if strings.Contains(protectionStatusErrorCode, "usererror") {
 			id, _ := genruntime.GetAndParseResourceID(backupInstance)
 			subscription := id.SubscriptionID
 			rg := id.ResourceGroupName
