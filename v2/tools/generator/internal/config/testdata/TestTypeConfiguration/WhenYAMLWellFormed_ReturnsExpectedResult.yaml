@@ -14,4 +14,11 @@ FirstName:
   $nameInNextVersion: KnownAs
 Nickname:
   $nameInNextVersion: AKA
+$operatorSpecProperties:
+  - name: NamingConvention
+    type: string
+    description: The naming convention to use for any role without an explicit AzureName. One of 'deterministic' or 'random'. Default is 'deterministic'.
+  - name: ShieldType
+    type: string
+    description: The type of energy shield to use when fighting aliens. Currently only 'None' is supported, pending upgrades to the rules of physics.
 ---
