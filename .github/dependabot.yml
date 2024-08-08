@@ -8,7 +8,7 @@ updates:
   # ASO v2 controller 
   - package-ecosystem: "gomod"
     directories:
-      - "/v2/*"
+      - "/v2/**/*"
     schedule:
       interval: "weekly"
     rebase-strategy: "disabled"
