@@ -29,7 +29,8 @@ const samplesPath = "../../samples"
 var skipTests = []string{
 	// TODO: Cache has issues with linked caches being able to delete
 	"cache",
-	"subscription", // Can't easily be run/recorded in our standard subscription
+	"subscription",    // Can't easily be run/recorded in our standard subscription
+	"redhatopenshift", // This requires SP creation
 }
 
 // randomNameExclusions slice contains groups for which we don't want to use random names

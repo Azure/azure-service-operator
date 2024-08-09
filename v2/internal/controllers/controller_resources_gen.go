@@ -163,6 +163,9 @@ import (
 	operationalinsights_customizations "github.com/Azure/azure-service-operator/v2/api/operationalinsights/customizations"
 	operationalinsights_v20210601 "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601"
 	operationalinsights_v20210601s "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601/storage"
+	redhatopenshift_customizations "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/customizations"
+	redhatopenshift_v20231122 "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20231122"
+	redhatopenshift_v20231122s "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20231122/storage"
 	resources_customizations "github.com/Azure/azure-service-operator/v2/api/resources/customizations"
 	resources_v20200601 "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	resources_v20200601s "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601/storage"
@@ -904,6 +907,33 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.PublicIPPrefix)})
 	result = append(result, &registration.StorageType{Obj: new(networkfrontdoor_v20220501s.WebApplicationFirewallPolicy)})
 	result = append(result, &registration.StorageType{Obj: new(operationalinsights_v20210601s.Workspace)})
+	result = append(result, &registration.StorageType{
+		Obj: new(redhatopenshift_v20231122s.OpenShiftCluster),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.servicePrincipalProfile.clientIdFromConfig",
+				Func: indexRedhatopenshiftOpenShiftClusterClientIdFromConfig,
+			},
+			{
+				Key:  ".spec.servicePrincipalProfile.clientSecret",
+				Func: indexRedhatopenshiftOpenShiftClusterClientSecret,
+			},
+			{
+				Key:  ".spec.clusterProfile.pullSecret",
+				Func: indexRedhatopenshiftOpenShiftClusterPullSecret,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.clusterProfile.pullSecret", ".spec.servicePrincipalProfile.clientSecret"}, &redhatopenshift_v20231122s.OpenShiftClusterList{}),
+			},
+			{
+				Type:             &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.servicePrincipalProfile.clientIdFromConfig"}, &redhatopenshift_v20231122s.OpenShiftClusterList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(resources_v20200601s.ResourceGroup)})
 	result = append(result, &registration.StorageType{Obj: new(search_v20220901s.SearchService)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20211101s.Namespace)})
@@ -1756,6 +1786,8 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(networkfrontdoor_v20220501s.WebApplicationFirewallPolicy))
 	result = append(result, new(operationalinsights_v20210601.Workspace))
 	result = append(result, new(operationalinsights_v20210601s.Workspace))
+	result = append(result, new(redhatopenshift_v20231122.OpenShiftCluster))
+	result = append(result, new(redhatopenshift_v20231122s.OpenShiftCluster))
 	result = append(result, new(resources_v20200601.ResourceGroup))
 	result = append(result, new(resources_v20200601s.ResourceGroup))
 	result = append(result, new(search_v20220901.SearchService))
@@ -2077,6 +2109,8 @@ func createScheme() *runtime.Scheme {
 	_ = networkfrontdoor_v20220501s.AddToScheme(scheme)
 	_ = operationalinsights_v20210601.AddToScheme(scheme)
 	_ = operationalinsights_v20210601s.AddToScheme(scheme)
+	_ = redhatopenshift_v20231122.AddToScheme(scheme)
+	_ = redhatopenshift_v20231122s.AddToScheme(scheme)
 	_ = resources_v20200601.AddToScheme(scheme)
 	_ = resources_v20200601s.AddToScheme(scheme)
 	_ = search_v20220901.AddToScheme(scheme)
@@ -2264,6 +2298,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &network_customizations.VirtualNetworksVirtualNetworkPeeringExtension{})
 	result = append(result, &networkfrontdoor_customizations.WebApplicationFirewallPolicyExtension{})
 	result = append(result, &operationalinsights_customizations.WorkspaceExtension{})
+	result = append(result, &redhatopenshift_customizations.OpenShiftClusterExtension{})
 	result = append(result, &resources_customizations.ResourceGroupExtension{})
 	result = append(result, &search_customizations.SearchServiceExtension{})
 	result = append(result, &servicebus_customizations.NamespaceExtension{})
@@ -3389,6 +3424,51 @@ func indexNetworkDnsForwardingRuleSetsForwardingRuleIpAddressFromConfig(rawObj c
 		result = append(result, targetDnsServerItem.IpAddressFromConfig.Index()...)
 	}
 	return result
+}
+
+// indexRedhatopenshiftOpenShiftClusterClientIdFromConfig an index function for redhatopenshift_v20231122s.OpenShiftCluster .spec.servicePrincipalProfile.clientIdFromConfig
+func indexRedhatopenshiftOpenShiftClusterClientIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*redhatopenshift_v20231122s.OpenShiftCluster)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.ServicePrincipalProfile == nil {
+		return nil
+	}
+	if obj.Spec.ServicePrincipalProfile.ClientIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.ServicePrincipalProfile.ClientIdFromConfig.Index()
+}
+
+// indexRedhatopenshiftOpenShiftClusterClientSecret an index function for redhatopenshift_v20231122s.OpenShiftCluster .spec.servicePrincipalProfile.clientSecret
+func indexRedhatopenshiftOpenShiftClusterClientSecret(rawObj client.Object) []string {
+	obj, ok := rawObj.(*redhatopenshift_v20231122s.OpenShiftCluster)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.ServicePrincipalProfile == nil {
+		return nil
+	}
+	if obj.Spec.ServicePrincipalProfile.ClientSecret == nil {
+		return nil
+	}
+	return obj.Spec.ServicePrincipalProfile.ClientSecret.Index()
+}
+
+// indexRedhatopenshiftOpenShiftClusterPullSecret an index function for redhatopenshift_v20231122s.OpenShiftCluster .spec.clusterProfile.pullSecret
+func indexRedhatopenshiftOpenShiftClusterPullSecret(rawObj client.Object) []string {
+	obj, ok := rawObj.(*redhatopenshift_v20231122s.OpenShiftCluster)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.ClusterProfile == nil {
+		return nil
+	}
+	if obj.Spec.ClusterProfile.PullSecret == nil {
+		return nil
+	}
+	return obj.Spec.ClusterProfile.PullSecret.Index()
 }
 
 // indexSqlServerAdministratorLoginPassword an index function for sql_v20211101s.Server .spec.administratorLoginPassword

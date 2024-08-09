@@ -1,0 +1,9 @@
+apiVersion: network.azure.com/v1api20201101
+kind: VirtualNetworksSubnet
+metadata:
+  name: aso-sample-worker-subnet
+  namespace: default
+spec:
+  owner:
+    name: samplevnet
+  addressPrefix: 10.100.70.0/23

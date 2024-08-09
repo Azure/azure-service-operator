@@ -679,8 +679,9 @@ func Subscription_SecretsWrittenToDifferentKubeSecrets(tc *testcommon.KubePerTes
 }
 
 func createAuthorizationProviderSecrets(tc *testcommon.KubePerTestContext, name string) genruntime.SecretMapReference {
-	clientId := tc.Namer.GeneratePasswordOfLength(10)
-	clientSecret := tc.Namer.GeneratePasswordOfLength(10)
+	clientId := tc.Namer.GeneratePasswordOfLength(10) // TODO: update this to GenerateUUID and re-record
+	clientSecret, err := tc.Namer.GenerateSecretOfLength(10)
+	tc.Expect(err).To(BeNil())
 
 	clientIdKey := "clientId"
 	clientSecretKey := "clientSecret"

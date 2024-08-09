@@ -1,0 +1,44 @@
+apiVersion: redhatopenshift.azure.com/v1api20231122
+kind: OpenShiftCluster
+metadata:
+  name: aso-sample-aro-uzditq
+  namespace: default
+spec:
+  apiserverProfile:
+    visibility: Private
+  clusterProfile:
+    domain: aro-example.com
+    fipsValidatedModules: Disabled
+    resourceGroupId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-cluster-kjzmai
+    version: 4.14.16
+  ingressProfiles:
+    - name: default
+      visibility: Private
+  location: westus2
+  masterProfile:
+    encryptionAtHost: Disabled
+    subnetReference:
+      group: network.azure.com
+      kind: VirtualNetworksSubnet
+      name: aso-sample-worker-subnet
+    vmSize: Standard_D8s_v3
+  networkProfile:
+    podCidr: 10.128.0.0/14
+    serviceCidr: 172.30.0.0/16
+  owner:
+    name: aso-sample-rg
+  servicePrincipalProfile:
+    clientId: 00000000-0000-0000-0000-000000000000
+    clientSecret:
+      key: client-secret
+      name: aso-sample-aro-kefaab
+  workerProfiles:
+    - count: 3
+      diskSizeGB: 128
+      encryptionAtHost: Disabled
+      name: worker
+      subnetReference:
+        group: network.azure.com
+        kind: VirtualNetworksSubnet
+        name: aso-sample-master-subnet
+      vmSize: Standard_D4s_v3
