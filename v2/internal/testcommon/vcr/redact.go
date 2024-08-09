@@ -45,7 +45,6 @@ func (r *Redactor) AddLiteralRedaction(redactionValue string, replacementValue s
 }
 
 func (r *Redactor) AddRegexRedaction(regex string, replacementValue string) {
-
 	redact := redaction{
 		pattern:          regexp.MustCompile(regex),
 		replacementValue: replacementValue,
