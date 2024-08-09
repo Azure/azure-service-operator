@@ -27,6 +27,8 @@ import (
 
 var _ extensions.PostReconciliationChecker = &BackupVaultsBackupInstanceExtension{}
 
+// These are the states on which there's no future change possible, hence best to return PostReconcileCheck success on them.
+// Then further we let Operator decide what condition to put on the resource.
 var terminalStates = set.Make(
 	"configuringprotectionfailed",
 	"invalid",
