@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -90,6 +93,26 @@ func (site *Site) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the Site resource
 func (site *Site) defaultImpl() { site.defaultAzureName() }
+
+var _ configmaps.Exporter = &Site{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (site *Site) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if site.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return site.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Site{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (site *Site) SecretDestinationExpressions() []*core.DestinationExpression {
+	if site.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return site.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &Site{}
 
@@ -209,7 +232,7 @@ func (site *Site) ValidateUpdate(old runtime.Object) (admission.Warnings, error)
 
 // createValidations validates the creation of the resource
 func (site *Site) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){site.validateResourceReferences, site.validateOwnerReference}
+	return []func() (admission.Warnings, error){site.validateResourceReferences, site.validateOwnerReference, site.validateSecretDestinations, site.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -227,7 +250,21 @@ func (site *Site) updateValidations() []func(old runtime.Object) (admission.Warn
 		func(old runtime.Object) (admission.Warnings, error) {
 			return site.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return site.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return site.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (site *Site) validateConfigMapDestinations() (admission.Warnings, error) {
+	if site.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(site, nil, site.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -242,6 +279,14 @@ func (site *Site) validateResourceReferences() (admission.Warnings, error) {
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (site *Site) validateSecretDestinations() (admission.Warnings, error) {
+	if site.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(site, nil, site.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -399,6 +444,10 @@ type Site_Spec struct {
 	// +kubebuilder:validation:Required
 	// Location: Resource Location.
 	Location *string `json:"location,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *SiteOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -879,6 +928,8 @@ func (site *Site_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		site.Location = &location
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	site.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
@@ -1197,6 +1248,18 @@ func (site *Site_Spec) AssignProperties_From_Site_Spec(source *storage.Site_Spec
 	// Location
 	site.Location = genruntime.ClonePointerToString(source.Location)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec SiteOperatorSpec
+		err := operatorSpec.AssignProperties_From_SiteOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SiteOperatorSpec() to populate field OperatorSpec")
+		}
+		site.OperatorSpec = &operatorSpec
+	} else {
+		site.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -1458,6 +1521,18 @@ func (site *Site_Spec) AssignProperties_To_Site_Spec(destination *storage.Site_S
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(site.Location)
+
+	// OperatorSpec
+	if site.OperatorSpec != nil {
+		var operatorSpec storage.SiteOperatorSpec
+		err := site.OperatorSpec.AssignProperties_To_SiteOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SiteOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = site.OriginalVersion()
@@ -9149,6 +9224,110 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 
 	// XManagedServiceIdentityId
 	destination.XManagedServiceIdentityId = genruntime.ClonePointerToInt(config.XManagedServiceIdentityId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type SiteOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_SiteOperatorSpec populates our SiteOperatorSpec from the provided source SiteOperatorSpec
+func (operator *SiteOperatorSpec) AssignProperties_From_SiteOperatorSpec(source *storage.SiteOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SiteOperatorSpec populates the provided destination SiteOperatorSpec from our SiteOperatorSpec
+func (operator *SiteOperatorSpec) AssignProperties_To_SiteOperatorSpec(destination *storage.SiteOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

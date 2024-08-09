@@ -367,6 +367,103 @@ func AddRelatedPropertyGeneratorsForNetworkSecurityGroupsSecurityRule(gens map[s
 	gens["Status"] = NetworkSecurityGroupsSecurityRule_STATUSGenerator()
 }
 
+func Test_NetworkSecurityGroupsSecurityRuleOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NetworkSecurityGroupsSecurityRuleOperatorSpec to NetworkSecurityGroupsSecurityRuleOperatorSpec via AssignProperties_To_NetworkSecurityGroupsSecurityRuleOperatorSpec & AssignProperties_From_NetworkSecurityGroupsSecurityRuleOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNetworkSecurityGroupsSecurityRuleOperatorSpec, NetworkSecurityGroupsSecurityRuleOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNetworkSecurityGroupsSecurityRuleOperatorSpec tests if a specific instance of NetworkSecurityGroupsSecurityRuleOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForNetworkSecurityGroupsSecurityRuleOperatorSpec(subject NetworkSecurityGroupsSecurityRuleOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.NetworkSecurityGroupsSecurityRuleOperatorSpec
+	err := copied.AssignProperties_To_NetworkSecurityGroupsSecurityRuleOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NetworkSecurityGroupsSecurityRuleOperatorSpec
+	err = actual.AssignProperties_From_NetworkSecurityGroupsSecurityRuleOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_NetworkSecurityGroupsSecurityRuleOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of NetworkSecurityGroupsSecurityRuleOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNetworkSecurityGroupsSecurityRuleOperatorSpec, NetworkSecurityGroupsSecurityRuleOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForNetworkSecurityGroupsSecurityRuleOperatorSpec runs a test to see if a specific instance of NetworkSecurityGroupsSecurityRuleOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForNetworkSecurityGroupsSecurityRuleOperatorSpec(subject NetworkSecurityGroupsSecurityRuleOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual NetworkSecurityGroupsSecurityRuleOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of NetworkSecurityGroupsSecurityRuleOperatorSpec instances for property testing - lazily instantiated by
+// NetworkSecurityGroupsSecurityRuleOperatorSpecGenerator()
+var networkSecurityGroupsSecurityRuleOperatorSpecGenerator gopter.Gen
+
+// NetworkSecurityGroupsSecurityRuleOperatorSpecGenerator returns a generator of NetworkSecurityGroupsSecurityRuleOperatorSpec instances for property testing.
+func NetworkSecurityGroupsSecurityRuleOperatorSpecGenerator() gopter.Gen {
+	if networkSecurityGroupsSecurityRuleOperatorSpecGenerator != nil {
+		return networkSecurityGroupsSecurityRuleOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	networkSecurityGroupsSecurityRuleOperatorSpecGenerator = gen.Struct(reflect.TypeOf(NetworkSecurityGroupsSecurityRuleOperatorSpec{}), generators)
+
+	return networkSecurityGroupsSecurityRuleOperatorSpecGenerator
+}
+
 func Test_NetworkSecurityGroupsSecurityRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -646,5 +743,6 @@ func AddIndependentPropertyGeneratorsForNetworkSecurityGroupsSecurityRule_Spec(g
 // AddRelatedPropertyGeneratorsForNetworkSecurityGroupsSecurityRule_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNetworkSecurityGroupsSecurityRule_Spec(gens map[string]gopter.Gen) {
 	gens["DestinationApplicationSecurityGroups"] = gen.SliceOf(ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbeddedGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(NetworkSecurityGroupsSecurityRuleOperatorSpecGenerator())
 	gens["SourceApplicationSecurityGroups"] = gen.SliceOf(ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbeddedGenerator())
 }

@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (namespace *Namespace) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (namespace *Namespace) SetConditions(conditions conditions.Conditions) {
 	namespace.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &Namespace{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (namespace *Namespace) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if namespace.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return namespace.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Namespace{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (namespace *Namespace) SecretDestinationExpressions() []*core.DestinationExpression {
+	if namespace.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return namespace.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &Namespace{}
@@ -283,8 +306,10 @@ type Identity_STATUS struct {
 // Storage version of v1api20211101.NamespaceOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type NamespaceOperatorSpec struct {
-	PropertyBag genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
-	Secrets     *NamespaceOperatorSecrets `json:"secrets,omitempty"`
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+	Secrets              *NamespaceOperatorSecrets     `json:"secrets,omitempty"`
 }
 
 // Storage version of v1api20211101.PrivateEndpointConnection_STATUS

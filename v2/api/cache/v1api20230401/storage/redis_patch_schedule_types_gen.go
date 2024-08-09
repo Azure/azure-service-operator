@@ -8,6 +8,9 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -63,6 +66,26 @@ func (schedule *RedisPatchSchedule) ConvertTo(hub conversion.Hub) error {
 	}
 
 	return schedule.AssignProperties_To_RedisPatchSchedule(destination)
+}
+
+var _ configmaps.Exporter = &RedisPatchSchedule{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (schedule *RedisPatchSchedule) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if schedule.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return schedule.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &RedisPatchSchedule{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (schedule *RedisPatchSchedule) SecretDestinationExpressions() []*core.DestinationExpression {
+	if schedule.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return schedule.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &RedisPatchSchedule{}
@@ -233,7 +256,8 @@ type augmentConversionForRedisPatchSchedule interface {
 
 // Storage version of v1api20230401.RedisPatchSchedule_Spec
 type RedisPatchSchedule_Spec struct {
-	OriginalVersion string `json:"originalVersion,omitempty"`
+	OperatorSpec    *RedisPatchScheduleOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                          `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -299,6 +323,18 @@ func (schedule *RedisPatchSchedule_Spec) AssignProperties_From_RedisPatchSchedul
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec RedisPatchScheduleOperatorSpec
+		err := operatorSpec.AssignProperties_From_RedisPatchScheduleOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_RedisPatchScheduleOperatorSpec() to populate field OperatorSpec")
+		}
+		schedule.OperatorSpec = &operatorSpec
+	} else {
+		schedule.OperatorSpec = nil
+	}
+
 	// OriginalVersion
 	schedule.OriginalVersion = source.OriginalVersion
 
@@ -352,6 +388,18 @@ func (schedule *RedisPatchSchedule_Spec) AssignProperties_From_RedisPatchSchedul
 func (schedule *RedisPatchSchedule_Spec) AssignProperties_To_RedisPatchSchedule_Spec(destination *storage.RedisPatchSchedule_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(schedule.PropertyBag)
+
+	// OperatorSpec
+	if schedule.OperatorSpec != nil {
+		var operatorSpec storage.RedisPatchScheduleOperatorSpec
+		err := schedule.OperatorSpec.AssignProperties_To_RedisPatchScheduleOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_RedisPatchScheduleOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = schedule.OriginalVersion
@@ -589,6 +637,136 @@ type augmentConversionForRedisPatchSchedule_STATUS interface {
 	AssignPropertiesTo(dst *storage.RedisPatchSchedule_STATUS) error
 }
 
+// Storage version of v1api20230401.RedisPatchScheduleOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type RedisPatchScheduleOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_RedisPatchScheduleOperatorSpec populates our RedisPatchScheduleOperatorSpec from the provided source RedisPatchScheduleOperatorSpec
+func (operator *RedisPatchScheduleOperatorSpec) AssignProperties_From_RedisPatchScheduleOperatorSpec(source *storage.RedisPatchScheduleOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRedisPatchScheduleOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForRedisPatchScheduleOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RedisPatchScheduleOperatorSpec populates the provided destination RedisPatchScheduleOperatorSpec from our RedisPatchScheduleOperatorSpec
+func (operator *RedisPatchScheduleOperatorSpec) AssignProperties_To_RedisPatchScheduleOperatorSpec(destination *storage.RedisPatchScheduleOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRedisPatchScheduleOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForRedisPatchScheduleOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20230401.ScheduleEntry
 // Patch schedule entry for a Premium Redis Cache.
 type ScheduleEntry struct {
@@ -741,6 +919,11 @@ func (entry *ScheduleEntry_STATUS) AssignProperties_To_ScheduleEntry_STATUS(dest
 
 	// No error
 	return nil
+}
+
+type augmentConversionForRedisPatchScheduleOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.RedisPatchScheduleOperatorSpec) error
+	AssignPropertiesTo(dst *storage.RedisPatchScheduleOperatorSpec) error
 }
 
 type augmentConversionForScheduleEntry interface {

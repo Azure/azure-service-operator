@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -90,6 +93,26 @@ func (gateway *ApplicationGateway) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the ApplicationGateway resource
 func (gateway *ApplicationGateway) defaultImpl() { gateway.defaultAzureName() }
+
+var _ configmaps.Exporter = &ApplicationGateway{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (gateway *ApplicationGateway) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if gateway.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return gateway.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &ApplicationGateway{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (gateway *ApplicationGateway) SecretDestinationExpressions() []*core.DestinationExpression {
+	if gateway.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return gateway.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &ApplicationGateway{}
 
@@ -209,7 +232,7 @@ func (gateway *ApplicationGateway) ValidateUpdate(old runtime.Object) (admission
 
 // createValidations validates the creation of the resource
 func (gateway *ApplicationGateway) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){gateway.validateResourceReferences, gateway.validateOwnerReference}
+	return []func() (admission.Warnings, error){gateway.validateResourceReferences, gateway.validateOwnerReference, gateway.validateSecretDestinations, gateway.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -227,7 +250,21 @@ func (gateway *ApplicationGateway) updateValidations() []func(old runtime.Object
 		func(old runtime.Object) (admission.Warnings, error) {
 			return gateway.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return gateway.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return gateway.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (gateway *ApplicationGateway) validateConfigMapDestinations() (admission.Warnings, error) {
+	if gateway.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(gateway, nil, gateway.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -242,6 +279,14 @@ func (gateway *ApplicationGateway) validateResourceReferences() (admission.Warni
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (gateway *ApplicationGateway) validateSecretDestinations() (admission.Warnings, error) {
+	if gateway.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(gateway, nil, gateway.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -404,6 +449,10 @@ type ApplicationGateway_Spec struct {
 
 	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *ApplicationGatewayOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -1005,6 +1054,8 @@ func (gateway *ApplicationGateway_Spec) PopulateFromARM(owner genruntime.Arbitra
 		gateway.Location = &location
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	gateway.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
@@ -1542,6 +1593,18 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_From_ApplicationGateway
 	// Location
 	gateway.Location = genruntime.ClonePointerToString(source.Location)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ApplicationGatewayOperatorSpec
+		err := operatorSpec.AssignProperties_From_ApplicationGatewayOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewayOperatorSpec() to populate field OperatorSpec")
+		}
+		gateway.OperatorSpec = &operatorSpec
+	} else {
+		gateway.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -2074,6 +2137,18 @@ func (gateway *ApplicationGateway_Spec) AssignProperties_To_ApplicationGateway_S
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(gateway.Location)
+
+	// OperatorSpec
+	if gateway.OperatorSpec != nil {
+		var operatorSpec storage.ApplicationGatewayOperatorSpec
+		err := gateway.OperatorSpec.AssignProperties_To_ApplicationGatewayOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewayOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = gateway.OriginalVersion()
@@ -8698,6 +8773,110 @@ func (policy *ApplicationGatewayLoadDistributionPolicy_STATUS) AssignProperties_
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(policy.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ApplicationGatewayOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_ApplicationGatewayOperatorSpec populates our ApplicationGatewayOperatorSpec from the provided source ApplicationGatewayOperatorSpec
+func (operator *ApplicationGatewayOperatorSpec) AssignProperties_From_ApplicationGatewayOperatorSpec(source *storage.ApplicationGatewayOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ApplicationGatewayOperatorSpec populates the provided destination ApplicationGatewayOperatorSpec from our ApplicationGatewayOperatorSpec
+func (operator *ApplicationGatewayOperatorSpec) AssignProperties_To_ApplicationGatewayOperatorSpec(destination *storage.ApplicationGatewayOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

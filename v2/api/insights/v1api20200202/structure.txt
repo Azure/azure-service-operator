@@ -24,10 +24,12 @@ Component: Resource
 │   │   └── "LogAnalytics"
 │   ├── Kind: *string
 │   ├── Location: *string
-│   ├── OperatorSpec: *Object (1 property)
-│   │   └── ConfigMaps: *Object (2 properties)
-│   │       ├── ConnectionString: *genruntime.ConfigMapDestination
-│   │       └── InstrumentationKey: *genruntime.ConfigMapDestination
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── ConfigMaps: *Object (2 properties)
+│   │   │   ├── ConnectionString: *genruntime.ConfigMapDestination
+│   │   │   └── InstrumentationKey: *genruntime.ConfigMapDestination
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PublicNetworkAccessForIngestion: *Enum (2 values)
 │   │   ├── "Disabled"

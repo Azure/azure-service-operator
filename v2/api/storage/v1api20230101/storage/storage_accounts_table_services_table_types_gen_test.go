@@ -79,6 +79,61 @@ func AddRelatedPropertyGeneratorsForStorageAccountsTableServicesTable(gens map[s
 	gens["Status"] = StorageAccountsTableServicesTable_STATUSGenerator()
 }
 
+func Test_StorageAccountsTableServicesTableOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of StorageAccountsTableServicesTableOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageAccountsTableServicesTableOperatorSpec, StorageAccountsTableServicesTableOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForStorageAccountsTableServicesTableOperatorSpec runs a test to see if a specific instance of StorageAccountsTableServicesTableOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageAccountsTableServicesTableOperatorSpec(subject StorageAccountsTableServicesTableOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual StorageAccountsTableServicesTableOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of StorageAccountsTableServicesTableOperatorSpec instances for property testing - lazily instantiated by
+// StorageAccountsTableServicesTableOperatorSpecGenerator()
+var storageAccountsTableServicesTableOperatorSpecGenerator gopter.Gen
+
+// StorageAccountsTableServicesTableOperatorSpecGenerator returns a generator of StorageAccountsTableServicesTableOperatorSpec instances for property testing.
+func StorageAccountsTableServicesTableOperatorSpecGenerator() gopter.Gen {
+	if storageAccountsTableServicesTableOperatorSpecGenerator != nil {
+		return storageAccountsTableServicesTableOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	storageAccountsTableServicesTableOperatorSpecGenerator = gen.Struct(reflect.TypeOf(StorageAccountsTableServicesTableOperatorSpec{}), generators)
+
+	return storageAccountsTableServicesTableOperatorSpecGenerator
+}
+
 func Test_StorageAccountsTableServicesTable_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -230,6 +285,7 @@ func AddIndependentPropertyGeneratorsForStorageAccountsTableServicesTable_Spec(g
 
 // AddRelatedPropertyGeneratorsForStorageAccountsTableServicesTable_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForStorageAccountsTableServicesTable_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(StorageAccountsTableServicesTableOperatorSpecGenerator())
 	gens["SignedIdentifiers"] = gen.SliceOf(TableSignedIdentifierGenerator())
 }
 

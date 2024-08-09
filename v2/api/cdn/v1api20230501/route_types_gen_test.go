@@ -920,6 +920,102 @@ func AddRelatedPropertyGeneratorsForRoute(gens map[string]gopter.Gen) {
 	gens["Status"] = Route_STATUSGenerator()
 }
 
+func Test_RouteOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RouteOperatorSpec to RouteOperatorSpec via AssignProperties_To_RouteOperatorSpec & AssignProperties_From_RouteOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRouteOperatorSpec, RouteOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRouteOperatorSpec tests if a specific instance of RouteOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRouteOperatorSpec(subject RouteOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RouteOperatorSpec
+	err := copied.AssignProperties_To_RouteOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RouteOperatorSpec
+	err = actual.AssignProperties_From_RouteOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_RouteOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of RouteOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRouteOperatorSpec, RouteOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForRouteOperatorSpec runs a test to see if a specific instance of RouteOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForRouteOperatorSpec(subject RouteOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual RouteOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of RouteOperatorSpec instances for property testing - lazily instantiated by RouteOperatorSpecGenerator()
+var routeOperatorSpecGenerator gopter.Gen
+
+// RouteOperatorSpecGenerator returns a generator of RouteOperatorSpec instances for property testing.
+func RouteOperatorSpecGenerator() gopter.Gen {
+	if routeOperatorSpecGenerator != nil {
+		return routeOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	routeOperatorSpecGenerator = gen.Struct(reflect.TypeOf(RouteOperatorSpec{}), generators)
+
+	return routeOperatorSpecGenerator
+}
+
 func Test_Route_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1183,6 +1279,7 @@ func AddIndependentPropertyGeneratorsForRoute_Spec(gens map[string]gopter.Gen) {
 func AddRelatedPropertyGeneratorsForRoute_Spec(gens map[string]gopter.Gen) {
 	gens["CacheConfiguration"] = gen.PtrOf(AfdRouteCacheConfigurationGenerator())
 	gens["CustomDomains"] = gen.SliceOf(ActivatedResourceReferenceGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(RouteOperatorSpecGenerator())
 	gens["OriginGroup"] = gen.PtrOf(ResourceReferenceGenerator())
 	gens["RuleSets"] = gen.SliceOf(ResourceReferenceGenerator())
 }

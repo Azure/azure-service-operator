@@ -8,6 +8,9 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -63,6 +66,26 @@ func (administrator *FlexibleServersAdministrator) ConvertTo(hub conversion.Hub)
 	}
 
 	return administrator.AssignProperties_To_FlexibleServersAdministrator(destination)
+}
+
+var _ configmaps.Exporter = &FlexibleServersAdministrator{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (administrator *FlexibleServersAdministrator) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if administrator.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return administrator.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &FlexibleServersAdministrator{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (administrator *FlexibleServersAdministrator) SecretDestinationExpressions() []*core.DestinationExpression {
+	if administrator.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return administrator.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &FlexibleServersAdministrator{}
@@ -242,9 +265,10 @@ type FlexibleServersAdministrator_Spec struct {
 	AdministratorType *string `json:"administratorType,omitempty"`
 
 	// IdentityResourceReference: The resource id of the identity used for AAD Authentication.
-	IdentityResourceReference *genruntime.ResourceReference `armReference:"IdentityResourceId" json:"identityResourceReference,omitempty"`
-	Login                     *string                       `json:"login,omitempty"`
-	OriginalVersion           string                        `json:"originalVersion,omitempty"`
+	IdentityResourceReference *genruntime.ResourceReference             `armReference:"IdentityResourceId" json:"identityResourceReference,omitempty"`
+	Login                     *string                                   `json:"login,omitempty"`
+	OperatorSpec              *FlexibleServersAdministratorOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion           string                                    `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -327,6 +351,18 @@ func (administrator *FlexibleServersAdministrator_Spec) AssignProperties_From_Fl
 	// Login
 	administrator.Login = genruntime.ClonePointerToString(source.Login)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec FlexibleServersAdministratorOperatorSpec
+		err := operatorSpec.AssignProperties_From_FlexibleServersAdministratorOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_FlexibleServersAdministratorOperatorSpec() to populate field OperatorSpec")
+		}
+		administrator.OperatorSpec = &operatorSpec
+	} else {
+		administrator.OperatorSpec = nil
+	}
+
 	// OriginalVersion
 	administrator.OriginalVersion = source.OriginalVersion
 
@@ -398,6 +434,18 @@ func (administrator *FlexibleServersAdministrator_Spec) AssignProperties_To_Flex
 
 	// Login
 	destination.Login = genruntime.ClonePointerToString(administrator.Login)
+
+	// OperatorSpec
+	if administrator.OperatorSpec != nil {
+		var operatorSpec storage.FlexibleServersAdministratorOperatorSpec
+		err := administrator.OperatorSpec.AssignProperties_To_FlexibleServersAdministratorOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_FlexibleServersAdministratorOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = administrator.OriginalVersion
@@ -655,6 +703,136 @@ type augmentConversionForFlexibleServersAdministrator_STATUS interface {
 	AssignPropertiesTo(dst *storage.FlexibleServersAdministrator_STATUS) error
 }
 
+// Storage version of v1api20220101.FlexibleServersAdministratorOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type FlexibleServersAdministratorOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_FlexibleServersAdministratorOperatorSpec populates our FlexibleServersAdministratorOperatorSpec from the provided source FlexibleServersAdministratorOperatorSpec
+func (operator *FlexibleServersAdministratorOperatorSpec) AssignProperties_From_FlexibleServersAdministratorOperatorSpec(source *storage.FlexibleServersAdministratorOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForFlexibleServersAdministratorOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForFlexibleServersAdministratorOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_FlexibleServersAdministratorOperatorSpec populates the provided destination FlexibleServersAdministratorOperatorSpec from our FlexibleServersAdministratorOperatorSpec
+func (operator *FlexibleServersAdministratorOperatorSpec) AssignProperties_To_FlexibleServersAdministratorOperatorSpec(destination *storage.FlexibleServersAdministratorOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForFlexibleServersAdministratorOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForFlexibleServersAdministratorOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20220101.SystemData_STATUS
 // Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
@@ -751,6 +929,11 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 
 	// No error
 	return nil
+}
+
+type augmentConversionForFlexibleServersAdministratorOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.FlexibleServersAdministratorOperatorSpec) error
+	AssignPropertiesTo(dst *storage.FlexibleServersAdministratorOperatorSpec) error
 }
 
 type augmentConversionForSystemData_STATUS interface {

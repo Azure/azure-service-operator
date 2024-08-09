@@ -10,6 +10,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -105,6 +107,26 @@ func (redis *Redis) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the Redis resource
 func (redis *Redis) defaultImpl() { redis.defaultAzureName() }
+
+var _ configmaps.Exporter = &Redis{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (redis *Redis) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if redis.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return redis.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Redis{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (redis *Redis) SecretDestinationExpressions() []*core.DestinationExpression {
+	if redis.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return redis.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.KubernetesResource = &Redis{}
 
@@ -213,7 +235,7 @@ func (redis *Redis) ValidateUpdate(old runtime.Object) (admission.Warnings, erro
 
 // createValidations validates the creation of the resource
 func (redis *Redis) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){redis.validateResourceReferences, redis.validateOwnerReference, redis.validateSecretDestinations}
+	return []func() (admission.Warnings, error){redis.validateResourceReferences, redis.validateOwnerReference, redis.validateSecretDestinations, redis.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -234,7 +256,18 @@ func (redis *Redis) updateValidations() []func(old runtime.Object) (admission.Wa
 		func(old runtime.Object) (admission.Warnings, error) {
 			return redis.validateSecretDestinations()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return redis.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (redis *Redis) validateConfigMapDestinations() (admission.Warnings, error) {
+	if redis.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(redis, nil, redis.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -256,17 +289,17 @@ func (redis *Redis) validateSecretDestinations() (admission.Warnings, error) {
 	if redis.Spec.OperatorSpec == nil {
 		return nil, nil
 	}
-	if redis.Spec.OperatorSpec.Secrets == nil {
-		return nil, nil
+	var toValidate []*genruntime.SecretDestination
+	if redis.Spec.OperatorSpec.Secrets != nil {
+		toValidate = []*genruntime.SecretDestination{
+			redis.Spec.OperatorSpec.Secrets.HostName,
+			redis.Spec.OperatorSpec.Secrets.Port,
+			redis.Spec.OperatorSpec.Secrets.PrimaryKey,
+			redis.Spec.OperatorSpec.Secrets.SSLPort,
+			redis.Spec.OperatorSpec.Secrets.SecondaryKey,
+		}
 	}
-	toValidate := []*genruntime.SecretDestination{
-		redis.Spec.OperatorSpec.Secrets.HostName,
-		redis.Spec.OperatorSpec.Secrets.Port,
-		redis.Spec.OperatorSpec.Secrets.PrimaryKey,
-		redis.Spec.OperatorSpec.Secrets.SSLPort,
-		redis.Spec.OperatorSpec.Secrets.SecondaryKey,
-	}
-	return secrets.ValidateDestinations(toValidate)
+	return secrets.ValidateDestinations(redis, toValidate, redis.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -2796,12 +2829,54 @@ func (server *RedisLinkedServer_STATUS) AssignProperties_To_RedisLinkedServer_ST
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type RedisOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+
 	// Secrets: configures where to place Azure generated secrets.
 	Secrets *RedisOperatorSecrets `json:"secrets,omitempty"`
 }
 
 // AssignProperties_From_RedisOperatorSpec populates our RedisOperatorSpec from the provided source RedisOperatorSpec
 func (operator *RedisOperatorSpec) AssignProperties_From_RedisOperatorSpec(source *storage.RedisOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
 
 	// Secrets
 	if source.Secrets != nil {
@@ -2823,6 +2898,42 @@ func (operator *RedisOperatorSpec) AssignProperties_From_RedisOperatorSpec(sourc
 func (operator *RedisOperatorSpec) AssignProperties_To_RedisOperatorSpec(destination *storage.RedisOperatorSpec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Secrets
 	if operator.Secrets != nil {

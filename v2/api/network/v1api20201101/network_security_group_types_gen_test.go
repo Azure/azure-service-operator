@@ -370,6 +370,103 @@ func AddRelatedPropertyGeneratorsForNetworkSecurityGroup(gens map[string]gopter.
 	gens["Status"] = NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbeddedGenerator()
 }
 
+func Test_NetworkSecurityGroupOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NetworkSecurityGroupOperatorSpec to NetworkSecurityGroupOperatorSpec via AssignProperties_To_NetworkSecurityGroupOperatorSpec & AssignProperties_From_NetworkSecurityGroupOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNetworkSecurityGroupOperatorSpec, NetworkSecurityGroupOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNetworkSecurityGroupOperatorSpec tests if a specific instance of NetworkSecurityGroupOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForNetworkSecurityGroupOperatorSpec(subject NetworkSecurityGroupOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.NetworkSecurityGroupOperatorSpec
+	err := copied.AssignProperties_To_NetworkSecurityGroupOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NetworkSecurityGroupOperatorSpec
+	err = actual.AssignProperties_From_NetworkSecurityGroupOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_NetworkSecurityGroupOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of NetworkSecurityGroupOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNetworkSecurityGroupOperatorSpec, NetworkSecurityGroupOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForNetworkSecurityGroupOperatorSpec runs a test to see if a specific instance of NetworkSecurityGroupOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForNetworkSecurityGroupOperatorSpec(subject NetworkSecurityGroupOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual NetworkSecurityGroupOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of NetworkSecurityGroupOperatorSpec instances for property testing - lazily instantiated by
+// NetworkSecurityGroupOperatorSpecGenerator()
+var networkSecurityGroupOperatorSpecGenerator gopter.Gen
+
+// NetworkSecurityGroupOperatorSpecGenerator returns a generator of NetworkSecurityGroupOperatorSpec instances for property testing.
+func NetworkSecurityGroupOperatorSpecGenerator() gopter.Gen {
+	if networkSecurityGroupOperatorSpecGenerator != nil {
+		return networkSecurityGroupOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	networkSecurityGroupOperatorSpecGenerator = gen.Struct(reflect.TypeOf(NetworkSecurityGroupOperatorSpec{}), generators)
+
+	return networkSecurityGroupOperatorSpecGenerator
+}
+
 func Test_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -589,6 +686,9 @@ func RunJSONSerializationTestForNetworkSecurityGroup_Spec(subject NetworkSecurit
 var networkSecurityGroup_SpecGenerator gopter.Gen
 
 // NetworkSecurityGroup_SpecGenerator returns a generator of NetworkSecurityGroup_Spec instances for property testing.
+// We first initialize networkSecurityGroup_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func NetworkSecurityGroup_SpecGenerator() gopter.Gen {
 	if networkSecurityGroup_SpecGenerator != nil {
 		return networkSecurityGroup_SpecGenerator
@@ -596,6 +696,12 @@ func NetworkSecurityGroup_SpecGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForNetworkSecurityGroup_Spec(generators)
+	networkSecurityGroup_SpecGenerator = gen.Struct(reflect.TypeOf(NetworkSecurityGroup_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNetworkSecurityGroup_Spec(generators)
+	AddRelatedPropertyGeneratorsForNetworkSecurityGroup_Spec(generators)
 	networkSecurityGroup_SpecGenerator = gen.Struct(reflect.TypeOf(NetworkSecurityGroup_Spec{}), generators)
 
 	return networkSecurityGroup_SpecGenerator
@@ -608,6 +714,11 @@ func AddIndependentPropertyGeneratorsForNetworkSecurityGroup_Spec(gens map[strin
 	gens["Tags"] = gen.MapOf(
 		gen.AlphaString(),
 		gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForNetworkSecurityGroup_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNetworkSecurityGroup_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(NetworkSecurityGroupOperatorSpecGenerator())
 }
 
 func Test_SecurityRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

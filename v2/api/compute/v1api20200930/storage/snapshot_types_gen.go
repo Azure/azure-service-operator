@@ -11,6 +11,9 @@ import (
 	v20240302s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20240302/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -66,6 +69,26 @@ func (snapshot *Snapshot) ConvertTo(hub conversion.Hub) error {
 	}
 
 	return snapshot.AssignProperties_To_Snapshot(destination)
+}
+
+var _ configmaps.Exporter = &Snapshot{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (snapshot *Snapshot) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if snapshot.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return snapshot.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Snapshot{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (snapshot *Snapshot) SecretDestinationExpressions() []*core.DestinationExpression {
+	if snapshot.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return snapshot.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &Snapshot{}
@@ -252,6 +275,7 @@ type Snapshot_Spec struct {
 	Incremental                  *bool                         `json:"incremental,omitempty"`
 	Location                     *string                       `json:"location,omitempty"`
 	NetworkAccessPolicy          *string                       `json:"networkAccessPolicy,omitempty"`
+	OperatorSpec                 *SnapshotOperatorSpec         `json:"operatorSpec,omitempty"`
 	OriginalVersion              string                        `json:"originalVersion,omitempty"`
 	OsType                       *string                       `json:"osType,omitempty"`
 
@@ -438,6 +462,18 @@ func (snapshot *Snapshot_Spec) AssignProperties_From_Snapshot_Spec(source *v2024
 
 	// NetworkAccessPolicy
 	snapshot.NetworkAccessPolicy = genruntime.ClonePointerToString(source.NetworkAccessPolicy)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec SnapshotOperatorSpec
+		err := operatorSpec.AssignProperties_From_SnapshotOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SnapshotOperatorSpec() to populate field OperatorSpec")
+		}
+		snapshot.OperatorSpec = &operatorSpec
+	} else {
+		snapshot.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	snapshot.OriginalVersion = source.OriginalVersion
@@ -668,6 +704,18 @@ func (snapshot *Snapshot_Spec) AssignProperties_To_Snapshot_Spec(destination *v2
 
 	// NetworkAccessPolicy
 	destination.NetworkAccessPolicy = genruntime.ClonePointerToString(snapshot.NetworkAccessPolicy)
+
+	// OperatorSpec
+	if snapshot.OperatorSpec != nil {
+		var operatorSpec v20240302s.SnapshotOperatorSpec
+		err := snapshot.OperatorSpec.AssignProperties_To_SnapshotOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SnapshotOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = snapshot.OriginalVersion
@@ -1374,6 +1422,136 @@ type augmentConversionForSnapshot_STATUS interface {
 	AssignPropertiesTo(dst *v20240302s.Snapshot_STATUS) error
 }
 
+// Storage version of v1api20200930.SnapshotOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type SnapshotOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_SnapshotOperatorSpec populates our SnapshotOperatorSpec from the provided source SnapshotOperatorSpec
+func (operator *SnapshotOperatorSpec) AssignProperties_From_SnapshotOperatorSpec(source *v20240302s.SnapshotOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSnapshotOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForSnapshotOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SnapshotOperatorSpec populates the provided destination SnapshotOperatorSpec from our SnapshotOperatorSpec
+func (operator *SnapshotOperatorSpec) AssignProperties_To_SnapshotOperatorSpec(destination *v20240302s.SnapshotOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSnapshotOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForSnapshotOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20200930.SnapshotSku
 // The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental
 // snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
@@ -1507,6 +1685,11 @@ func (snapshotSku *SnapshotSku_STATUS) AssignProperties_To_SnapshotSku_STATUS(de
 
 	// No error
 	return nil
+}
+
+type augmentConversionForSnapshotOperatorSpec interface {
+	AssignPropertiesFrom(src *v20240302s.SnapshotOperatorSpec) error
+	AssignPropertiesTo(dst *v20240302s.SnapshotOperatorSpec) error
 }
 
 type augmentConversionForSnapshotSku interface {

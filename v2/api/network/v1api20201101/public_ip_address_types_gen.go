@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -90,6 +93,26 @@ func (address *PublicIPAddress) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the PublicIPAddress resource
 func (address *PublicIPAddress) defaultImpl() { address.defaultAzureName() }
+
+var _ configmaps.Exporter = &PublicIPAddress{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (address *PublicIPAddress) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if address.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return address.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &PublicIPAddress{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (address *PublicIPAddress) SecretDestinationExpressions() []*core.DestinationExpression {
+	if address.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return address.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &PublicIPAddress{}
 
@@ -209,7 +232,7 @@ func (address *PublicIPAddress) ValidateUpdate(old runtime.Object) (admission.Wa
 
 // createValidations validates the creation of the resource
 func (address *PublicIPAddress) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){address.validateResourceReferences, address.validateOwnerReference}
+	return []func() (admission.Warnings, error){address.validateResourceReferences, address.validateOwnerReference, address.validateSecretDestinations, address.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -227,7 +250,21 @@ func (address *PublicIPAddress) updateValidations() []func(old runtime.Object) (
 		func(old runtime.Object) (admission.Warnings, error) {
 			return address.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return address.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return address.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (address *PublicIPAddress) validateConfigMapDestinations() (admission.Warnings, error) {
+	if address.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(address, nil, address.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -242,6 +279,14 @@ func (address *PublicIPAddress) validateResourceReferences() (admission.Warnings
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (address *PublicIPAddress) validateSecretDestinations() (admission.Warnings, error) {
+	if address.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(address, nil, address.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -356,6 +401,10 @@ type PublicIPAddress_Spec struct {
 
 	// NatGateway: The NatGateway for the Public IP address.
 	NatGateway *NatGatewaySpec_PublicIPAddress_SubResourceEmbedded `json:"natGateway,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *PublicIPAddressOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -647,6 +696,8 @@ func (address *PublicIPAddress_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	address.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
@@ -874,6 +925,18 @@ func (address *PublicIPAddress_Spec) AssignProperties_From_PublicIPAddress_Spec(
 		address.NatGateway = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec PublicIPAddressOperatorSpec
+		err := operatorSpec.AssignProperties_From_PublicIPAddressOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_PublicIPAddressOperatorSpec() to populate field OperatorSpec")
+		}
+		address.OperatorSpec = &operatorSpec
+	} else {
+		address.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -1039,6 +1102,18 @@ func (address *PublicIPAddress_Spec) AssignProperties_To_PublicIPAddress_Spec(de
 		destination.NatGateway = &natGateway
 	} else {
 		destination.NatGateway = nil
+	}
+
+	// OperatorSpec
+	if address.OperatorSpec != nil {
+		var operatorSpec storage.PublicIPAddressOperatorSpec
+		err := address.OperatorSpec.AssignProperties_To_PublicIPAddressOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_PublicIPAddressOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -2995,6 +3070,110 @@ func (settings *PublicIPAddressDnsSettings_STATUS) AssignProperties_To_PublicIPA
 
 	// ReverseFqdn
 	destination.ReverseFqdn = genruntime.ClonePointerToString(settings.ReverseFqdn)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type PublicIPAddressOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_PublicIPAddressOperatorSpec populates our PublicIPAddressOperatorSpec from the provided source PublicIPAddressOperatorSpec
+func (operator *PublicIPAddressOperatorSpec) AssignProperties_From_PublicIPAddressOperatorSpec(source *storage.PublicIPAddressOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_PublicIPAddressOperatorSpec populates the provided destination PublicIPAddressOperatorSpec from our PublicIPAddressOperatorSpec
+func (operator *PublicIPAddressOperatorSpec) AssignProperties_To_PublicIPAddressOperatorSpec(destination *storage.PublicIPAddressOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

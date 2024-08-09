@@ -79,6 +79,61 @@ func AddRelatedPropertyGeneratorsForFlexibleServersDatabase(gens map[string]gopt
 	gens["Status"] = FlexibleServersDatabase_STATUSGenerator()
 }
 
+func Test_FlexibleServersDatabaseOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of FlexibleServersDatabaseOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFlexibleServersDatabaseOperatorSpec, FlexibleServersDatabaseOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForFlexibleServersDatabaseOperatorSpec runs a test to see if a specific instance of FlexibleServersDatabaseOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForFlexibleServersDatabaseOperatorSpec(subject FlexibleServersDatabaseOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual FlexibleServersDatabaseOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of FlexibleServersDatabaseOperatorSpec instances for property testing - lazily instantiated by
+// FlexibleServersDatabaseOperatorSpecGenerator()
+var flexibleServersDatabaseOperatorSpecGenerator gopter.Gen
+
+// FlexibleServersDatabaseOperatorSpecGenerator returns a generator of FlexibleServersDatabaseOperatorSpec instances for property testing.
+func FlexibleServersDatabaseOperatorSpecGenerator() gopter.Gen {
+	if flexibleServersDatabaseOperatorSpecGenerator != nil {
+		return flexibleServersDatabaseOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	flexibleServersDatabaseOperatorSpecGenerator = gen.Struct(reflect.TypeOf(FlexibleServersDatabaseOperatorSpec{}), generators)
+
+	return flexibleServersDatabaseOperatorSpecGenerator
+}
+
 func Test_FlexibleServersDatabase_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -202,6 +257,9 @@ func RunJSONSerializationTestForFlexibleServersDatabase_Spec(subject FlexibleSer
 var flexibleServersDatabase_SpecGenerator gopter.Gen
 
 // FlexibleServersDatabase_SpecGenerator returns a generator of FlexibleServersDatabase_Spec instances for property testing.
+// We first initialize flexibleServersDatabase_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func FlexibleServersDatabase_SpecGenerator() gopter.Gen {
 	if flexibleServersDatabase_SpecGenerator != nil {
 		return flexibleServersDatabase_SpecGenerator
@@ -209,6 +267,12 @@ func FlexibleServersDatabase_SpecGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForFlexibleServersDatabase_Spec(generators)
+	flexibleServersDatabase_SpecGenerator = gen.Struct(reflect.TypeOf(FlexibleServersDatabase_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForFlexibleServersDatabase_Spec(generators)
+	AddRelatedPropertyGeneratorsForFlexibleServersDatabase_Spec(generators)
 	flexibleServersDatabase_SpecGenerator = gen.Struct(reflect.TypeOf(FlexibleServersDatabase_Spec{}), generators)
 
 	return flexibleServersDatabase_SpecGenerator
@@ -220,4 +284,9 @@ func AddIndependentPropertyGeneratorsForFlexibleServersDatabase_Spec(gens map[st
 	gens["Charset"] = gen.PtrOf(gen.AlphaString())
 	gens["Collation"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
+}
+
+// AddRelatedPropertyGeneratorsForFlexibleServersDatabase_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForFlexibleServersDatabase_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(FlexibleServersDatabaseOperatorSpecGenerator())
 }

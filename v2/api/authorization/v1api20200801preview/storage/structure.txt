@@ -10,9 +10,11 @@ RoleAssignment: Resource
 │   ├── ConditionVersion: *string
 │   ├── DelegatedManagedIdentityResourceReference: *genruntime.ResourceReference
 │   ├── Description: *string
-│   ├── OperatorSpec: *Object (2 properties)
+│   ├── OperatorSpec: *Object (4 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   ├── NamingConvention: *string
-│   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.ArbitraryOwnerReference
 │   ├── PrincipalId: *string

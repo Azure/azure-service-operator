@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (topic *NamespacesTopic) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (topic *NamespacesTopic) SetConditions(conditions conditions.Conditions) {
 	topic.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &NamespacesTopic{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (topic *NamespacesTopic) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if topic.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return topic.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &NamespacesTopic{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (topic *NamespacesTopic) SecretDestinationExpressions() []*core.DestinationExpression {
+	if topic.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return topic.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &NamespacesTopic{}
@@ -144,15 +167,16 @@ type NamespacesTopic_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                           string  `json:"azureName,omitempty"`
-	DefaultMessageTimeToLive            *string `json:"defaultMessageTimeToLive,omitempty"`
-	DuplicateDetectionHistoryTimeWindow *string `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
-	EnableBatchedOperations             *bool   `json:"enableBatchedOperations,omitempty"`
-	EnableExpress                       *bool   `json:"enableExpress,omitempty"`
-	EnablePartitioning                  *bool   `json:"enablePartitioning,omitempty"`
-	MaxMessageSizeInKilobytes           *int    `json:"maxMessageSizeInKilobytes,omitempty"`
-	MaxSizeInMegabytes                  *int    `json:"maxSizeInMegabytes,omitempty"`
-	OriginalVersion                     string  `json:"originalVersion,omitempty"`
+	AzureName                           string                       `json:"azureName,omitempty"`
+	DefaultMessageTimeToLive            *string                      `json:"defaultMessageTimeToLive,omitempty"`
+	DuplicateDetectionHistoryTimeWindow *string                      `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
+	EnableBatchedOperations             *bool                        `json:"enableBatchedOperations,omitempty"`
+	EnableExpress                       *bool                        `json:"enableExpress,omitempty"`
+	EnablePartitioning                  *bool                        `json:"enablePartitioning,omitempty"`
+	MaxMessageSizeInKilobytes           *int                         `json:"maxMessageSizeInKilobytes,omitempty"`
+	MaxSizeInMegabytes                  *int                         `json:"maxSizeInMegabytes,omitempty"`
+	OperatorSpec                        *NamespacesTopicOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion                     string                       `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -230,6 +254,14 @@ func (topic *NamespacesTopic_STATUS) ConvertStatusTo(destination genruntime.Conv
 	}
 
 	return destination.ConvertStatusFrom(topic)
+}
+
+// Storage version of v1api20211101.NamespacesTopicOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type NamespacesTopicOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 func init() {

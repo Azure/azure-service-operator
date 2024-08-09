@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (network *VirtualNetwork) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (network *VirtualNetwork) SetConditions(conditions conditions.Conditions) {
 	network.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &VirtualNetwork{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (network *VirtualNetwork) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if network.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return network.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &VirtualNetwork{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (network *VirtualNetwork) SecretDestinationExpressions() []*core.DestinationExpression {
+	if network.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return network.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &VirtualNetwork{}
@@ -153,6 +176,7 @@ type VirtualNetwork_Spec struct {
 	ExtendedLocation     *ExtendedLocation             `json:"extendedLocation,omitempty"`
 	IpAllocations        []SubResource                 `json:"ipAllocations,omitempty"`
 	Location             *string                       `json:"location,omitempty"`
+	OperatorSpec         *VirtualNetworkOperatorSpec   `json:"operatorSpec,omitempty"`
 	OriginalVersion      string                        `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -270,6 +294,14 @@ type VirtualNetworkBgpCommunities_STATUS struct {
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	RegionalCommunity       *string                `json:"regionalCommunity,omitempty"`
 	VirtualNetworkCommunity *string                `json:"virtualNetworkCommunity,omitempty"`
+}
+
+// Storage version of v1api20201101.VirtualNetworkOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type VirtualNetworkOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 func init() {

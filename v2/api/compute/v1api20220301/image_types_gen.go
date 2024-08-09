@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -90,6 +93,26 @@ func (image *Image) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the Image resource
 func (image *Image) defaultImpl() { image.defaultAzureName() }
+
+var _ configmaps.Exporter = &Image{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (image *Image) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if image.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return image.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Image{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (image *Image) SecretDestinationExpressions() []*core.DestinationExpression {
+	if image.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return image.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &Image{}
 
@@ -209,7 +232,7 @@ func (image *Image) ValidateUpdate(old runtime.Object) (admission.Warnings, erro
 
 // createValidations validates the creation of the resource
 func (image *Image) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){image.validateResourceReferences, image.validateOwnerReference}
+	return []func() (admission.Warnings, error){image.validateResourceReferences, image.validateOwnerReference, image.validateSecretDestinations, image.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -227,7 +250,21 @@ func (image *Image) updateValidations() []func(old runtime.Object) (admission.Wa
 		func(old runtime.Object) (admission.Warnings, error) {
 			return image.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return image.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return image.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (image *Image) validateConfigMapDestinations() (admission.Warnings, error) {
+	if image.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(image, nil, image.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -242,6 +279,14 @@ func (image *Image) validateResourceReferences() (admission.Warnings, error) {
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (image *Image) validateSecretDestinations() (admission.Warnings, error) {
+	if image.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(image, nil, image.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -347,6 +392,10 @@ type Image_Spec struct {
 	// +kubebuilder:validation:Required
 	// Location: Resource location
 	Location *string `json:"location,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *ImageOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -474,6 +523,8 @@ func (image *Image_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		image.Location = &location
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	image.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
@@ -600,6 +651,18 @@ func (image *Image_Spec) AssignProperties_From_Image_Spec(source *storage.Image_
 	// Location
 	image.Location = genruntime.ClonePointerToString(source.Location)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ImageOperatorSpec
+		err := operatorSpec.AssignProperties_From_ImageOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ImageOperatorSpec() to populate field OperatorSpec")
+		}
+		image.OperatorSpec = &operatorSpec
+	} else {
+		image.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -669,6 +732,18 @@ func (image *Image_Spec) AssignProperties_To_Image_Spec(destination *storage.Ima
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(image.Location)
+
+	// OperatorSpec
+	if image.OperatorSpec != nil {
+		var operatorSpec storage.ImageOperatorSpec
+		err := image.OperatorSpec.AssignProperties_To_ImageOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ImageOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = image.OriginalVersion()
@@ -1381,6 +1456,110 @@ const (
 var hyperVGenerationType_STATUS_Values = map[string]HyperVGenerationType_STATUS{
 	"v1": HyperVGenerationType_STATUS_V1,
 	"v2": HyperVGenerationType_STATUS_V2,
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ImageOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_ImageOperatorSpec populates our ImageOperatorSpec from the provided source ImageOperatorSpec
+func (operator *ImageOperatorSpec) AssignProperties_From_ImageOperatorSpec(source *storage.ImageOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ImageOperatorSpec populates the provided destination ImageOperatorSpec from our ImageOperatorSpec
+func (operator *ImageOperatorSpec) AssignProperties_To_ImageOperatorSpec(destination *storage.ImageOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Describes a storage profile.

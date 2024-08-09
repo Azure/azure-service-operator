@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -104,6 +107,26 @@ func (container *SqlDatabaseContainer) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the SqlDatabaseContainer resource
 func (container *SqlDatabaseContainer) defaultImpl() { container.defaultAzureName() }
+
+var _ configmaps.Exporter = &SqlDatabaseContainer{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (container *SqlDatabaseContainer) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if container.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return container.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &SqlDatabaseContainer{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (container *SqlDatabaseContainer) SecretDestinationExpressions() []*core.DestinationExpression {
+	if container.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return container.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.KubernetesResource = &SqlDatabaseContainer{}
 
@@ -212,7 +235,7 @@ func (container *SqlDatabaseContainer) ValidateUpdate(old runtime.Object) (admis
 
 // createValidations validates the creation of the resource
 func (container *SqlDatabaseContainer) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){container.validateResourceReferences, container.validateOwnerReference}
+	return []func() (admission.Warnings, error){container.validateResourceReferences, container.validateOwnerReference, container.validateSecretDestinations, container.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -230,7 +253,21 @@ func (container *SqlDatabaseContainer) updateValidations() []func(old runtime.Ob
 		func(old runtime.Object) (admission.Warnings, error) {
 			return container.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return container.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return container.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (container *SqlDatabaseContainer) validateConfigMapDestinations() (admission.Warnings, error) {
+	if container.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(container, nil, container.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -245,6 +282,14 @@ func (container *SqlDatabaseContainer) validateResourceReferences() (admission.W
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (container *SqlDatabaseContainer) validateSecretDestinations() (admission.Warnings, error) {
+	if container.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(container, nil, container.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -336,6 +381,10 @@ type SqlDatabaseContainer_Spec struct {
 	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *SqlDatabaseContainerOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
 	// request.
 	Options *CreateUpdateOptions `json:"options,omitempty"`
@@ -421,6 +470,8 @@ func (container *SqlDatabaseContainer_Spec) PopulateFromARM(owner genruntime.Arb
 		location := *typedInput.Location
 		container.Location = &location
 	}
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Options":
 	// copying flattened property:
@@ -527,6 +578,18 @@ func (container *SqlDatabaseContainer_Spec) AssignProperties_From_SqlDatabaseCon
 	// Location
 	container.Location = genruntime.ClonePointerToString(source.Location)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec SqlDatabaseContainerOperatorSpec
+		err := operatorSpec.AssignProperties_From_SqlDatabaseContainerOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SqlDatabaseContainerOperatorSpec() to populate field OperatorSpec")
+		}
+		container.OperatorSpec = &operatorSpec
+	} else {
+		container.OperatorSpec = nil
+	}
+
 	// Options
 	if source.Options != nil {
 		var option CreateUpdateOptions
@@ -576,6 +639,18 @@ func (container *SqlDatabaseContainer_Spec) AssignProperties_To_SqlDatabaseConta
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(container.Location)
+
+	// OperatorSpec
+	if container.OperatorSpec != nil {
+		var operatorSpec storage.SqlDatabaseContainerOperatorSpec
+		err := container.OperatorSpec.AssignProperties_To_SqlDatabaseContainerOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SqlDatabaseContainerOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// Options
 	if container.Options != nil {
@@ -1490,6 +1565,110 @@ func (resource *SqlContainerResource) AssignProperties_To_SqlContainerResource(d
 		destination.UniqueKeyPolicy = &uniqueKeyPolicy
 	} else {
 		destination.UniqueKeyPolicy = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type SqlDatabaseContainerOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_SqlDatabaseContainerOperatorSpec populates our SqlDatabaseContainerOperatorSpec from the provided source SqlDatabaseContainerOperatorSpec
+func (operator *SqlDatabaseContainerOperatorSpec) AssignProperties_From_SqlDatabaseContainerOperatorSpec(source *storage.SqlDatabaseContainerOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SqlDatabaseContainerOperatorSpec populates the provided destination SqlDatabaseContainerOperatorSpec from our SqlDatabaseContainerOperatorSpec
+func (operator *SqlDatabaseContainerOperatorSpec) AssignProperties_To_SqlDatabaseContainerOperatorSpec(destination *storage.SqlDatabaseContainerOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
 	}
 
 	// Update the property bag

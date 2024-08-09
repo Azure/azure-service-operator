@@ -5,7 +5,7 @@ APIVersion: Enum (1 value)
 └── "2022-07-02"
 DiskEncryptionSet: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (10 properties)
+├── Spec: Object (11 properties)
 │   ├── ActiveKey: *Object (3 properties)
 │   │   ├── KeyUrl: *string
 │   │   ├── KeyUrlFromConfig: *genruntime.ConfigMapReference
@@ -27,6 +27,9 @@ DiskEncryptionSet: Resource
 │   │   └── UserAssignedIdentities: Object (1 property)[]
 │   │       └── Reference: genruntime.ResourceReference
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── RotationToLatestKeyVersionEnabled: *bool
 │   └── Tags: map[string]string

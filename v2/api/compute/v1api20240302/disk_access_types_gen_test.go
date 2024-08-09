@@ -164,6 +164,103 @@ func AddRelatedPropertyGeneratorsForDiskAccess(gens map[string]gopter.Gen) {
 	gens["Status"] = DiskAccess_STATUSGenerator()
 }
 
+func Test_DiskAccessOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DiskAccessOperatorSpec to DiskAccessOperatorSpec via AssignProperties_To_DiskAccessOperatorSpec & AssignProperties_From_DiskAccessOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDiskAccessOperatorSpec, DiskAccessOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDiskAccessOperatorSpec tests if a specific instance of DiskAccessOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDiskAccessOperatorSpec(subject DiskAccessOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.DiskAccessOperatorSpec
+	err := copied.AssignProperties_To_DiskAccessOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DiskAccessOperatorSpec
+	err = actual.AssignProperties_From_DiskAccessOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_DiskAccessOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DiskAccessOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDiskAccessOperatorSpec, DiskAccessOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDiskAccessOperatorSpec runs a test to see if a specific instance of DiskAccessOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForDiskAccessOperatorSpec(subject DiskAccessOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DiskAccessOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DiskAccessOperatorSpec instances for property testing - lazily instantiated by
+// DiskAccessOperatorSpecGenerator()
+var diskAccessOperatorSpecGenerator gopter.Gen
+
+// DiskAccessOperatorSpecGenerator returns a generator of DiskAccessOperatorSpec instances for property testing.
+func DiskAccessOperatorSpecGenerator() gopter.Gen {
+	if diskAccessOperatorSpecGenerator != nil {
+		return diskAccessOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	diskAccessOperatorSpecGenerator = gen.Struct(reflect.TypeOf(DiskAccessOperatorSpec{}), generators)
+
+	return diskAccessOperatorSpecGenerator
+}
+
 func Test_DiskAccess_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -407,6 +504,7 @@ func AddIndependentPropertyGeneratorsForDiskAccess_Spec(gens map[string]gopter.G
 // AddRelatedPropertyGeneratorsForDiskAccess_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDiskAccess_Spec(gens map[string]gopter.Gen) {
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(DiskAccessOperatorSpecGenerator())
 }
 
 func Test_PrivateEndpointConnection_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

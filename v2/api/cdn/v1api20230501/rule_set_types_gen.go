@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -90,6 +93,26 @@ func (ruleSet *RuleSet) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the RuleSet resource
 func (ruleSet *RuleSet) defaultImpl() { ruleSet.defaultAzureName() }
+
+var _ configmaps.Exporter = &RuleSet{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (ruleSet *RuleSet) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if ruleSet.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return ruleSet.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &RuleSet{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (ruleSet *RuleSet) SecretDestinationExpressions() []*core.DestinationExpression {
+	if ruleSet.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return ruleSet.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &RuleSet{}
 
@@ -209,7 +232,7 @@ func (ruleSet *RuleSet) ValidateUpdate(old runtime.Object) (admission.Warnings, 
 
 // createValidations validates the creation of the resource
 func (ruleSet *RuleSet) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){ruleSet.validateResourceReferences, ruleSet.validateOwnerReference}
+	return []func() (admission.Warnings, error){ruleSet.validateResourceReferences, ruleSet.validateOwnerReference, ruleSet.validateSecretDestinations, ruleSet.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -227,7 +250,21 @@ func (ruleSet *RuleSet) updateValidations() []func(old runtime.Object) (admissio
 		func(old runtime.Object) (admission.Warnings, error) {
 			return ruleSet.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return ruleSet.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return ruleSet.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (ruleSet *RuleSet) validateConfigMapDestinations() (admission.Warnings, error) {
+	if ruleSet.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(ruleSet, nil, ruleSet.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -242,6 +279,14 @@ func (ruleSet *RuleSet) validateResourceReferences() (admission.Warnings, error)
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (ruleSet *RuleSet) validateSecretDestinations() (admission.Warnings, error) {
+	if ruleSet.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(ruleSet, nil, ruleSet.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -330,6 +375,10 @@ type RuleSet_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *RuleSetOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -365,6 +414,8 @@ func (ruleSet *RuleSet_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 
 	// Set property "AzureName":
 	ruleSet.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	ruleSet.Owner = &genruntime.KnownResourceReference{
@@ -432,6 +483,18 @@ func (ruleSet *RuleSet_Spec) AssignProperties_From_RuleSet_Spec(source *storage.
 	// AzureName
 	ruleSet.AzureName = source.AzureName
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec RuleSetOperatorSpec
+		err := operatorSpec.AssignProperties_From_RuleSetOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_RuleSetOperatorSpec() to populate field OperatorSpec")
+		}
+		ruleSet.OperatorSpec = &operatorSpec
+	} else {
+		ruleSet.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -451,6 +514,18 @@ func (ruleSet *RuleSet_Spec) AssignProperties_To_RuleSet_Spec(destination *stora
 
 	// AzureName
 	destination.AzureName = ruleSet.AzureName
+
+	// OperatorSpec
+	if ruleSet.OperatorSpec != nil {
+		var operatorSpec storage.RuleSetOperatorSpec
+		err := ruleSet.OperatorSpec.AssignProperties_To_RuleSetOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_RuleSetOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = ruleSet.OriginalVersion()
@@ -742,6 +817,110 @@ func (ruleSet *RuleSet_STATUS) AssignProperties_To_RuleSet_STATUS(destination *s
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(ruleSet.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type RuleSetOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_RuleSetOperatorSpec populates our RuleSetOperatorSpec from the provided source RuleSetOperatorSpec
+func (operator *RuleSetOperatorSpec) AssignProperties_From_RuleSetOperatorSpec(source *storage.RuleSetOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RuleSetOperatorSpec populates the provided destination RuleSetOperatorSpec from our RuleSetOperatorSpec
+func (operator *RuleSetOperatorSpec) AssignProperties_To_RuleSetOperatorSpec(destination *storage.RuleSetOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

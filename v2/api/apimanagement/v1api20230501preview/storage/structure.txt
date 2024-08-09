@@ -5,7 +5,7 @@ APIVersion: Enum (1 value)
 └── "2023-05-01-preview"
 Api: Resource
 ├── Owner: apimanagement/v1api20230501preview.Service
-├── Spec: Object (29 properties)
+├── Spec: Object (30 properties)
 │   ├── APIVersion: *string
 │   ├── ApiRevision: *string
 │   ├── ApiRevisionDescription: *string
@@ -52,6 +52,10 @@ Api: Resource
 │   │   ├── Name: *string
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── Url: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── Path: *string
@@ -136,10 +140,14 @@ Api: Resource
     └── Type: *string
 ApiVersionSet: Resource
 ├── Owner: apimanagement/v1api20230501preview.Service
-├── Spec: Object (9 properties)
+├── Spec: Object (10 properties)
 │   ├── AzureName: string
 │   ├── Description: *string
 │   ├── DisplayName: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -159,7 +167,7 @@ ApiVersionSet: Resource
     └── VersioningScheme: *string
 AuthorizationProvider: Resource
 ├── Owner: apimanagement/v1api20230501preview.Service
-├── Spec: Object (7 properties)
+├── Spec: Object (8 properties)
 │   ├── AzureName: string
 │   ├── DisplayName: *string
 │   ├── IdentityProvider: *string
@@ -170,6 +178,10 @@ AuthorizationProvider: Resource
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── RedirectUrl: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── PropertyBag: genruntime.PropertyBag
@@ -190,10 +202,14 @@ AuthorizationProvider: Resource
     └── Type: *string
 AuthorizationProvidersAuthorization: Resource
 ├── Owner: apimanagement/v1api20230501preview.AuthorizationProvider
-├── Spec: Object (7 properties)
+├── Spec: Object (8 properties)
 │   ├── AuthorizationType: *string
 │   ├── AzureName: string
 │   ├── Oauth2GrantType: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── Parameters: *genruntime.SecretMapReference
@@ -214,11 +230,15 @@ AuthorizationProvidersAuthorization: Resource
     └── Type: *string
 AuthorizationProvidersAuthorizationsAccessPolicy: Resource
 ├── Owner: apimanagement/v1api20230501preview.AuthorizationProvidersAuthorization
-├── Spec: Object (9 properties)
+├── Spec: Object (10 properties)
 │   ├── AppIds: string[]
 │   ├── AzureName: string
 │   ├── ObjectId: *string
 │   ├── ObjectIdFromConfig: *genruntime.ConfigMapReference
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -235,7 +255,7 @@ AuthorizationProvidersAuthorizationsAccessPolicy: Resource
     └── Type: *string
 Backend: Resource
 ├── Owner: apimanagement/v1api20230501preview.Service
-├── Spec: Object (16 properties)
+├── Spec: Object (17 properties)
 │   ├── AzureName: string
 │   ├── CircuitBreaker: *Object (2 properties)
 │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -264,6 +284,10 @@ Backend: Resource
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── Query: map[string]string[]
 │   ├── Description: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── Pool: *Object (2 properties)
@@ -365,7 +389,7 @@ Backend: Resource
     └── Url: *string
 NamedValue: Resource
 ├── Owner: apimanagement/v1api20230501preview.Service
-├── Spec: Object (9 properties)
+├── Spec: Object (10 properties)
 │   ├── AzureName: string
 │   ├── DisplayName: *string
 │   ├── KeyVault: *Object (4 properties)
@@ -373,6 +397,10 @@ NamedValue: Resource
 │   │   ├── IdentityClientIdFromConfig: *genruntime.ConfigMapReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── SecretIdentifier: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -401,8 +429,12 @@ NamedValue: Resource
     └── Value: *string
 Policy: Resource
 ├── Owner: apimanagement/v1api20230501preview.Service
-├── Spec: Object (5 properties)
+├── Spec: Object (6 properties)
 │   ├── Format: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -417,10 +449,14 @@ Policy: Resource
     └── Value: *string
 PolicyFragment: Resource
 ├── Owner: apimanagement/v1api20230501preview.Service
-├── Spec: Object (7 properties)
+├── Spec: Object (8 properties)
 │   ├── AzureName: string
 │   ├── Description: *string
 │   ├── Format: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -437,11 +473,15 @@ PolicyFragment: Resource
     └── Value: *string
 Product: Resource
 ├── Owner: apimanagement/v1api20230501preview.Service
-├── Spec: Object (11 properties)
+├── Spec: Object (12 properties)
 │   ├── ApprovalRequired: *bool
 │   ├── AzureName: string
 │   ├── Description: *string
 │   ├── DisplayName: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -464,8 +504,12 @@ Product: Resource
     └── Type: *string
 ProductApi: Resource
 ├── Owner: apimanagement/v1api20230501preview.Product
-├── Spec: Object (4 properties)
+├── Spec: Object (5 properties)
 │   ├── AzureName: string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── PropertyBag: genruntime.PropertyBag
@@ -474,8 +518,12 @@ ProductApi: Resource
     └── PropertyBag: genruntime.PropertyBag
 ProductPolicy: Resource
 ├── Owner: apimanagement/v1api20230501preview.Product
-├── Spec: Object (5 properties)
+├── Spec: Object (6 properties)
 │   ├── Format: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -490,7 +538,7 @@ ProductPolicy: Resource
     └── Value: *string
 Service: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (28 properties)
+├── Spec: Object (29 properties)
 │   ├── AdditionalLocations: Object (8 properties)[]
 │   │   ├── DisableGateway: *bool
 │   │   ├── Location: *string
@@ -560,6 +608,10 @@ Service: Resource
 │   ├── Location: *string
 │   ├── NatGatewayState: *string
 │   ├── NotificationSenderEmail: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -713,8 +765,10 @@ Subscription: Resource
 │   ├── AllowTracing: *bool
 │   ├── AzureName: string
 │   ├── DisplayName: *string
-│   ├── OperatorSpec: *Object (2 properties)
+│   ├── OperatorSpec: *Object (4 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
 │   │   └── Secrets: *Object (3 properties)
 │   │       ├── PrimaryKey: *genruntime.SecretDestination
 │   │       ├── PropertyBag: genruntime.PropertyBag
@@ -756,11 +810,13 @@ augmentConversionForApiManagementServiceIdentity: Interface
 augmentConversionForApiManagementServiceIdentity_STATUS: Interface
 augmentConversionForApiManagementServiceSkuProperties: Interface
 augmentConversionForApiManagementServiceSkuProperties_STATUS: Interface
+augmentConversionForApiOperatorSpec: Interface
 augmentConversionForApiVersionConstraint: Interface
 augmentConversionForApiVersionConstraint_STATUS: Interface
 augmentConversionForApiVersionSet: Interface
 augmentConversionForApiVersionSetContractDetails: Interface
 augmentConversionForApiVersionSetContractDetails_STATUS: Interface
+augmentConversionForApiVersionSetOperatorSpec: Interface
 augmentConversionForApiVersionSet_STATUS: Interface
 augmentConversionForApiVersionSet_Spec: Interface
 augmentConversionForApi_STATUS: Interface
@@ -774,12 +830,15 @@ augmentConversionForAuthorizationProviderOAuth2GrantTypes: Interface
 augmentConversionForAuthorizationProviderOAuth2GrantTypes_STATUS: Interface
 augmentConversionForAuthorizationProviderOAuth2Settings: Interface
 augmentConversionForAuthorizationProviderOAuth2Settings_STATUS: Interface
+augmentConversionForAuthorizationProviderOperatorSpec: Interface
 augmentConversionForAuthorizationProvider_STATUS: Interface
 augmentConversionForAuthorizationProvider_Spec: Interface
 augmentConversionForAuthorizationProvidersAuthorization: Interface
+augmentConversionForAuthorizationProvidersAuthorizationOperatorSpec: Interface
 augmentConversionForAuthorizationProvidersAuthorization_STATUS: Interface
 augmentConversionForAuthorizationProvidersAuthorization_Spec: Interface
 augmentConversionForAuthorizationProvidersAuthorizationsAccessPolicy: Interface
+augmentConversionForAuthorizationProvidersAuthorizationsAccessPolicyOperatorSpec: Interface
 augmentConversionForAuthorizationProvidersAuthorizationsAccessPolicy_STATUS: Interface
 augmentConversionForAuthorizationProvidersAuthorizationsAccessPolicy_Spec: Interface
 augmentConversionForBackend: Interface
@@ -787,6 +846,7 @@ augmentConversionForBackendAuthorizationHeaderCredentials: Interface
 augmentConversionForBackendAuthorizationHeaderCredentials_STATUS: Interface
 augmentConversionForBackendCredentialsContract: Interface
 augmentConversionForBackendCredentialsContract_STATUS: Interface
+augmentConversionForBackendOperatorSpec: Interface
 augmentConversionForBackendProperties: Interface
 augmentConversionForBackendProperties_STATUS: Interface
 augmentConversionForBackendProxyContract: Interface
@@ -807,6 +867,7 @@ augmentConversionForKeyVaultContractCreateProperties: Interface
 augmentConversionForKeyVaultContractProperties_STATUS: Interface
 augmentConversionForKeyVaultLastAccessStatusContractProperties_STATUS: Interface
 augmentConversionForNamedValue: Interface
+augmentConversionForNamedValueOperatorSpec: Interface
 augmentConversionForNamedValue_STATUS: Interface
 augmentConversionForNamedValue_Spec: Interface
 augmentConversionForOAuth2AuthenticationSettingsContract: Interface
@@ -815,22 +876,28 @@ augmentConversionForOpenIdAuthenticationSettingsContract: Interface
 augmentConversionForOpenIdAuthenticationSettingsContract_STATUS: Interface
 augmentConversionForPolicy: Interface
 augmentConversionForPolicyFragment: Interface
+augmentConversionForPolicyFragmentOperatorSpec: Interface
 augmentConversionForPolicyFragment_STATUS: Interface
 augmentConversionForPolicyFragment_Spec: Interface
+augmentConversionForPolicyOperatorSpec: Interface
 augmentConversionForPolicy_STATUS: Interface
 augmentConversionForPolicy_Spec: Interface
 augmentConversionForPrivateLinkServiceConnectionState_STATUS: Interface
 augmentConversionForProduct: Interface
 augmentConversionForProductApi: Interface
+augmentConversionForProductApiOperatorSpec: Interface
 augmentConversionForProductApi_STATUS: Interface
 augmentConversionForProductApi_Spec: Interface
+augmentConversionForProductOperatorSpec: Interface
 augmentConversionForProductPolicy: Interface
+augmentConversionForProductPolicyOperatorSpec: Interface
 augmentConversionForProductPolicy_STATUS: Interface
 augmentConversionForProductPolicy_Spec: Interface
 augmentConversionForProduct_STATUS: Interface
 augmentConversionForProduct_Spec: Interface
 augmentConversionForRemotePrivateEndpointConnectionWrapper_STATUS: Interface
 augmentConversionForService: Interface
+augmentConversionForServiceOperatorSpec: Interface
 augmentConversionForService_STATUS: Interface
 augmentConversionForService_Spec: Interface
 augmentConversionForSubscription: Interface

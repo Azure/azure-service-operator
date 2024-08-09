@@ -78,6 +78,61 @@ func AddRelatedPropertyGeneratorsForFleetsMember(gens map[string]gopter.Gen) {
 	gens["Status"] = FleetsMember_STATUSGenerator()
 }
 
+func Test_FleetsMemberOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of FleetsMemberOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFleetsMemberOperatorSpec, FleetsMemberOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForFleetsMemberOperatorSpec runs a test to see if a specific instance of FleetsMemberOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForFleetsMemberOperatorSpec(subject FleetsMemberOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual FleetsMemberOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of FleetsMemberOperatorSpec instances for property testing - lazily instantiated by
+// FleetsMemberOperatorSpecGenerator()
+var fleetsMemberOperatorSpecGenerator gopter.Gen
+
+// FleetsMemberOperatorSpecGenerator returns a generator of FleetsMemberOperatorSpec instances for property testing.
+func FleetsMemberOperatorSpecGenerator() gopter.Gen {
+	if fleetsMemberOperatorSpecGenerator != nil {
+		return fleetsMemberOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	fleetsMemberOperatorSpecGenerator = gen.Struct(reflect.TypeOf(FleetsMemberOperatorSpec{}), generators)
+
+	return fleetsMemberOperatorSpecGenerator
+}
+
 func Test_FleetsMember_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -202,6 +257,9 @@ func RunJSONSerializationTestForFleetsMember_Spec(subject FleetsMember_Spec) str
 var fleetsMember_SpecGenerator gopter.Gen
 
 // FleetsMember_SpecGenerator returns a generator of FleetsMember_Spec instances for property testing.
+// We first initialize fleetsMember_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func FleetsMember_SpecGenerator() gopter.Gen {
 	if fleetsMember_SpecGenerator != nil {
 		return fleetsMember_SpecGenerator
@@ -209,6 +267,12 @@ func FleetsMember_SpecGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForFleetsMember_Spec(generators)
+	fleetsMember_SpecGenerator = gen.Struct(reflect.TypeOf(FleetsMember_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForFleetsMember_Spec(generators)
+	AddRelatedPropertyGeneratorsForFleetsMember_Spec(generators)
 	fleetsMember_SpecGenerator = gen.Struct(reflect.TypeOf(FleetsMember_Spec{}), generators)
 
 	return fleetsMember_SpecGenerator
@@ -219,4 +283,9 @@ func AddIndependentPropertyGeneratorsForFleetsMember_Spec(gens map[string]gopter
 	gens["AzureName"] = gen.AlphaString()
 	gens["Group"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
+}
+
+// AddRelatedPropertyGeneratorsForFleetsMember_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForFleetsMember_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(FleetsMemberOperatorSpecGenerator())
 }

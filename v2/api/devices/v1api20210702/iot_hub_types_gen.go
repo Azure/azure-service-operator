@@ -10,6 +10,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -91,6 +93,26 @@ func (iotHub *IotHub) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the IotHub resource
 func (iotHub *IotHub) defaultImpl() { iotHub.defaultAzureName() }
+
+var _ configmaps.Exporter = &IotHub{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (iotHub *IotHub) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if iotHub.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return iotHub.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &IotHub{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (iotHub *IotHub) SecretDestinationExpressions() []*core.DestinationExpression {
+	if iotHub.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return iotHub.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &IotHub{}
 
@@ -210,7 +232,7 @@ func (iotHub *IotHub) ValidateUpdate(old runtime.Object) (admission.Warnings, er
 
 // createValidations validates the creation of the resource
 func (iotHub *IotHub) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){iotHub.validateResourceReferences, iotHub.validateOwnerReference, iotHub.validateSecretDestinations}
+	return []func() (admission.Warnings, error){iotHub.validateResourceReferences, iotHub.validateOwnerReference, iotHub.validateSecretDestinations, iotHub.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -231,7 +253,18 @@ func (iotHub *IotHub) updateValidations() []func(old runtime.Object) (admission.
 		func(old runtime.Object) (admission.Warnings, error) {
 			return iotHub.validateSecretDestinations()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return iotHub.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (iotHub *IotHub) validateConfigMapDestinations() (admission.Warnings, error) {
+	if iotHub.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(iotHub, nil, iotHub.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -253,22 +286,22 @@ func (iotHub *IotHub) validateSecretDestinations() (admission.Warnings, error) {
 	if iotHub.Spec.OperatorSpec == nil {
 		return nil, nil
 	}
-	if iotHub.Spec.OperatorSpec.Secrets == nil {
-		return nil, nil
+	var toValidate []*genruntime.SecretDestination
+	if iotHub.Spec.OperatorSpec.Secrets != nil {
+		toValidate = []*genruntime.SecretDestination{
+			iotHub.Spec.OperatorSpec.Secrets.DevicePrimaryKey,
+			iotHub.Spec.OperatorSpec.Secrets.DeviceSecondaryKey,
+			iotHub.Spec.OperatorSpec.Secrets.IotHubOwnerPrimaryKey,
+			iotHub.Spec.OperatorSpec.Secrets.IotHubOwnerSecondaryKey,
+			iotHub.Spec.OperatorSpec.Secrets.RegistryReadPrimaryKey,
+			iotHub.Spec.OperatorSpec.Secrets.RegistryReadSecondaryKey,
+			iotHub.Spec.OperatorSpec.Secrets.RegistryReadWritePrimaryKey,
+			iotHub.Spec.OperatorSpec.Secrets.RegistryReadWriteSecondaryKey,
+			iotHub.Spec.OperatorSpec.Secrets.ServicePrimaryKey,
+			iotHub.Spec.OperatorSpec.Secrets.ServiceSecondaryKey,
+		}
 	}
-	toValidate := []*genruntime.SecretDestination{
-		iotHub.Spec.OperatorSpec.Secrets.DevicePrimaryKey,
-		iotHub.Spec.OperatorSpec.Secrets.DeviceSecondaryKey,
-		iotHub.Spec.OperatorSpec.Secrets.IotHubOwnerPrimaryKey,
-		iotHub.Spec.OperatorSpec.Secrets.IotHubOwnerSecondaryKey,
-		iotHub.Spec.OperatorSpec.Secrets.RegistryReadPrimaryKey,
-		iotHub.Spec.OperatorSpec.Secrets.RegistryReadSecondaryKey,
-		iotHub.Spec.OperatorSpec.Secrets.RegistryReadWritePrimaryKey,
-		iotHub.Spec.OperatorSpec.Secrets.RegistryReadWriteSecondaryKey,
-		iotHub.Spec.OperatorSpec.Secrets.ServicePrimaryKey,
-		iotHub.Spec.OperatorSpec.Secrets.ServiceSecondaryKey,
-	}
-	return secrets.ValidateDestinations(toValidate)
+	return secrets.ValidateDestinations(iotHub, toValidate, iotHub.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -1454,12 +1487,54 @@ func (identity *ArmIdentity_STATUS) AssignProperties_To_ArmIdentity_STATUS(desti
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type IotHubOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+
 	// Secrets: configures where to place Azure generated secrets.
 	Secrets *IotHubOperatorSecrets `json:"secrets,omitempty"`
 }
 
 // AssignProperties_From_IotHubOperatorSpec populates our IotHubOperatorSpec from the provided source IotHubOperatorSpec
 func (operator *IotHubOperatorSpec) AssignProperties_From_IotHubOperatorSpec(source *storage.IotHubOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
 
 	// Secrets
 	if source.Secrets != nil {
@@ -1481,6 +1556,42 @@ func (operator *IotHubOperatorSpec) AssignProperties_From_IotHubOperatorSpec(sou
 func (operator *IotHubOperatorSpec) AssignProperties_To_IotHubOperatorSpec(destination *storage.IotHubOperatorSpec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Secrets
 	if operator.Secrets != nil {

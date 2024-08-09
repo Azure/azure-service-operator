@@ -5,10 +5,14 @@ APIVersion: Enum (1 value)
 └── "2021-03-01"
 RedisEnterprise: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (9 properties)
+├── Spec: Object (10 properties)
 │   ├── AzureName: string
 │   ├── Location: *string
 │   ├── MinimumTlsVersion: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -41,7 +45,7 @@ RedisEnterprise: Resource
     └── Zones: string[]
 RedisEnterpriseDatabase: Resource
 ├── Owner: cache/v1api20210301.RedisEnterprise
-├── Spec: Object (10 properties)
+├── Spec: Object (11 properties)
 │   ├── AzureName: string
 │   ├── ClientProtocol: *string
 │   ├── ClusteringPolicy: *string
@@ -50,6 +54,10 @@ RedisEnterpriseDatabase: Resource
 │   │   ├── Args: *string
 │   │   ├── Name: *string
 │   │   └── PropertyBag: genruntime.PropertyBag
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── Persistence: *Object (5 properties)
@@ -90,8 +98,10 @@ augmentConversionForPersistence_STATUS: Interface
 augmentConversionForPrivateEndpointConnection_STATUS: Interface
 augmentConversionForRedisEnterprise: Interface
 augmentConversionForRedisEnterpriseDatabase: Interface
+augmentConversionForRedisEnterpriseDatabaseOperatorSpec: Interface
 augmentConversionForRedisEnterpriseDatabase_STATUS: Interface
 augmentConversionForRedisEnterpriseDatabase_Spec: Interface
+augmentConversionForRedisEnterpriseOperatorSpec: Interface
 augmentConversionForRedisEnterprise_STATUS: Interface
 augmentConversionForRedisEnterprise_Spec: Interface
 augmentConversionForSku: Interface

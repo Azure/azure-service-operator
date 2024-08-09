@@ -5,9 +5,13 @@ APIVersion: Enum (1 value)
 └── "2021-06-01"
 Profile: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (8 properties)
+├── Spec: Object (9 properties)
 │   ├── AzureName: string
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginResponseTimeoutSeconds: *int
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
@@ -42,7 +46,7 @@ Profile: Resource
     └── Type: *string
 ProfilesEndpoint: Resource
 ├── Owner: cdn/v1api20210601.Profile
-├── Spec: Object (22 properties)
+├── Spec: Object (23 properties)
 │   ├── AzureName: string
 │   ├── ContentTypesToCompress: string[]
 │   ├── DefaultOriginGroup: *Object (2 properties)
@@ -356,6 +360,10 @@ ProfilesEndpoint: Resource
 │   ├── IsHttpAllowed: *bool
 │   ├── IsHttpsAllowed: *bool
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OptimizationType: *string
 │   ├── OriginGroups: Object (6 properties)[]
 │   │   ├── HealthProbeSettings: *Object (5 properties)
@@ -885,6 +893,7 @@ augmentConversionForOriginGroupOverride_STATUS: Interface
 augmentConversionForPostArgsMatchConditionParameters: Interface
 augmentConversionForPostArgsMatchConditionParameters_STATUS: Interface
 augmentConversionForProfile: Interface
+augmentConversionForProfileOperatorSpec: Interface
 augmentConversionForProfile_STATUS: Interface
 augmentConversionForProfile_Spec: Interface
 augmentConversionForQueryStringMatchConditionParameters: Interface

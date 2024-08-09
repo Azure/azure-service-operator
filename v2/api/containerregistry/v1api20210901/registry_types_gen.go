@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -90,6 +93,26 @@ func (registry *Registry) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the Registry resource
 func (registry *Registry) defaultImpl() { registry.defaultAzureName() }
+
+var _ configmaps.Exporter = &Registry{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (registry *Registry) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if registry.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return registry.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Registry{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (registry *Registry) SecretDestinationExpressions() []*core.DestinationExpression {
+	if registry.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return registry.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &Registry{}
 
@@ -209,7 +232,7 @@ func (registry *Registry) ValidateUpdate(old runtime.Object) (admission.Warnings
 
 // createValidations validates the creation of the resource
 func (registry *Registry) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){registry.validateResourceReferences, registry.validateOwnerReference}
+	return []func() (admission.Warnings, error){registry.validateResourceReferences, registry.validateOwnerReference, registry.validateSecretDestinations, registry.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -227,7 +250,21 @@ func (registry *Registry) updateValidations() []func(old runtime.Object) (admiss
 		func(old runtime.Object) (admission.Warnings, error) {
 			return registry.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return registry.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return registry.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (registry *Registry) validateConfigMapDestinations() (admission.Warnings, error) {
+	if registry.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(registry, nil, registry.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -242,6 +279,14 @@ func (registry *Registry) validateResourceReferences() (admission.Warnings, erro
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (registry *Registry) validateSecretDestinations() (admission.Warnings, error) {
+	if registry.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(registry, nil, registry.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -359,6 +404,10 @@ type Registry_Spec struct {
 
 	// NetworkRuleSet: The network rule set for a container registry.
 	NetworkRuleSet *NetworkRuleSet `json:"networkRuleSet,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *RegistryOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -582,6 +631,8 @@ func (registry *Registry_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	registry.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
@@ -767,6 +818,18 @@ func (registry *Registry_Spec) AssignProperties_From_Registry_Spec(source *stora
 		registry.NetworkRuleSet = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec RegistryOperatorSpec
+		err := operatorSpec.AssignProperties_From_RegistryOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_RegistryOperatorSpec() to populate field OperatorSpec")
+		}
+		registry.OperatorSpec = &operatorSpec
+	} else {
+		registry.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -893,6 +956,18 @@ func (registry *Registry_Spec) AssignProperties_To_Registry_Spec(destination *st
 		destination.NetworkRuleSet = &networkRuleSet
 	} else {
 		destination.NetworkRuleSet = nil
+	}
+
+	// OperatorSpec
+	if registry.OperatorSpec != nil {
+		var operatorSpec storage.RegistryOperatorSpec
+		err := registry.OperatorSpec.AssignProperties_To_RegistryOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_RegistryOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -3319,6 +3394,110 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(connection.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type RegistryOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_RegistryOperatorSpec populates our RegistryOperatorSpec from the provided source RegistryOperatorSpec
+func (operator *RegistryOperatorSpec) AssignProperties_From_RegistryOperatorSpec(source *storage.RegistryOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RegistryOperatorSpec populates the provided destination RegistryOperatorSpec from our RegistryOperatorSpec
+func (operator *RegistryOperatorSpec) AssignProperties_To_RegistryOperatorSpec(destination *storage.RegistryOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

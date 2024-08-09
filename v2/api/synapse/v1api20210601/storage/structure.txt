@@ -5,7 +5,7 @@ APIVersion: Enum (1 value)
 └── "2021-06-01"
 Workspace: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (21 properties)
+├── Spec: Object (22 properties)
 │   ├── AzureADOnlyAuthentication: *bool
 │   ├── AzureName: string
 │   ├── CspWorkspaceAdminProperties: *Object (2 properties)
@@ -44,6 +44,10 @@ Workspace: Resource
 │   │   ├── LinkedAccessCheckOnTargetResource: *bool
 │   │   ├── PreventDataExfiltration: *bool
 │   │   └── PropertyBag: genruntime.PropertyBag
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -148,7 +152,7 @@ Workspace: Resource
     └── WorkspaceUID: *string
 WorkspacesBigDataPool: Resource
 ├── Owner: synapse/v1api20210601.Workspace
-├── Spec: Object (23 properties)
+├── Spec: Object (24 properties)
 │   ├── AutoPause: *Object (3 properties)
 │   │   ├── DelayInMinutes: *int
 │   │   ├── Enabled: *bool
@@ -182,6 +186,10 @@ WorkspacesBigDataPool: Resource
 │   ├── NodeCount: *int
 │   ├── NodeSize: *string
 │   ├── NodeSizeFamily: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag

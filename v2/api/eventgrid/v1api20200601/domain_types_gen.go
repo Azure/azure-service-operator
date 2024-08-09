@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -90,6 +93,26 @@ func (domain *Domain) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the Domain resource
 func (domain *Domain) defaultImpl() { domain.defaultAzureName() }
+
+var _ configmaps.Exporter = &Domain{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (domain *Domain) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if domain.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return domain.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Domain{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (domain *Domain) SecretDestinationExpressions() []*core.DestinationExpression {
+	if domain.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return domain.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &Domain{}
 
@@ -209,7 +232,7 @@ func (domain *Domain) ValidateUpdate(old runtime.Object) (admission.Warnings, er
 
 // createValidations validates the creation of the resource
 func (domain *Domain) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){domain.validateResourceReferences, domain.validateOwnerReference}
+	return []func() (admission.Warnings, error){domain.validateResourceReferences, domain.validateOwnerReference, domain.validateSecretDestinations, domain.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -227,7 +250,21 @@ func (domain *Domain) updateValidations() []func(old runtime.Object) (admission.
 		func(old runtime.Object) (admission.Warnings, error) {
 			return domain.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return domain.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return domain.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (domain *Domain) validateConfigMapDestinations() (admission.Warnings, error) {
+	if domain.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(domain, nil, domain.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -242,6 +279,14 @@ func (domain *Domain) validateResourceReferences() (admission.Warnings, error) {
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (domain *Domain) validateSecretDestinations() (admission.Warnings, error) {
+	if domain.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(domain, nil, domain.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -348,6 +393,10 @@ type Domain_Spec struct {
 	// +kubebuilder:validation:Required
 	// Location: Location of the resource.
 	Location *string `json:"location,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *DomainOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -486,6 +535,8 @@ func (domain *Domain_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		domain.Location = &location
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	domain.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
@@ -613,6 +664,18 @@ func (domain *Domain_Spec) AssignProperties_From_Domain_Spec(source *storage.Dom
 	// Location
 	domain.Location = genruntime.ClonePointerToString(source.Location)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec DomainOperatorSpec
+		err := operatorSpec.AssignProperties_From_DomainOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DomainOperatorSpec() to populate field OperatorSpec")
+		}
+		domain.OperatorSpec = &operatorSpec
+	} else {
+		domain.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -685,6 +748,18 @@ func (domain *Domain_Spec) AssignProperties_To_Domain_Spec(destination *storage.
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(domain.Location)
+
+	// OperatorSpec
+	if domain.OperatorSpec != nil {
+		var operatorSpec storage.DomainOperatorSpec
+		err := domain.OperatorSpec.AssignProperties_To_DomainOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DomainOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = domain.OriginalVersion()
@@ -1271,6 +1346,110 @@ func (domain *Domain_STATUS) AssignProperties_To_Domain_STATUS(destination *stor
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(domain.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type DomainOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_DomainOperatorSpec populates our DomainOperatorSpec from the provided source DomainOperatorSpec
+func (operator *DomainOperatorSpec) AssignProperties_From_DomainOperatorSpec(source *storage.DomainOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DomainOperatorSpec populates the provided destination DomainOperatorSpec from our DomainOperatorSpec
+func (operator *DomainOperatorSpec) AssignProperties_To_DomainOperatorSpec(destination *storage.DomainOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

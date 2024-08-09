@@ -164,6 +164,103 @@ func AddRelatedPropertyGeneratorsForRouteTablesRoute(gens map[string]gopter.Gen)
 	gens["Status"] = RouteTablesRoute_STATUSGenerator()
 }
 
+func Test_RouteTablesRouteOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RouteTablesRouteOperatorSpec to RouteTablesRouteOperatorSpec via AssignProperties_To_RouteTablesRouteOperatorSpec & AssignProperties_From_RouteTablesRouteOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRouteTablesRouteOperatorSpec, RouteTablesRouteOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRouteTablesRouteOperatorSpec tests if a specific instance of RouteTablesRouteOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRouteTablesRouteOperatorSpec(subject RouteTablesRouteOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RouteTablesRouteOperatorSpec
+	err := copied.AssignProperties_To_RouteTablesRouteOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RouteTablesRouteOperatorSpec
+	err = actual.AssignProperties_From_RouteTablesRouteOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_RouteTablesRouteOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of RouteTablesRouteOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRouteTablesRouteOperatorSpec, RouteTablesRouteOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForRouteTablesRouteOperatorSpec runs a test to see if a specific instance of RouteTablesRouteOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForRouteTablesRouteOperatorSpec(subject RouteTablesRouteOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual RouteTablesRouteOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of RouteTablesRouteOperatorSpec instances for property testing - lazily instantiated by
+// RouteTablesRouteOperatorSpecGenerator()
+var routeTablesRouteOperatorSpecGenerator gopter.Gen
+
+// RouteTablesRouteOperatorSpecGenerator returns a generator of RouteTablesRouteOperatorSpec instances for property testing.
+func RouteTablesRouteOperatorSpecGenerator() gopter.Gen {
+	if routeTablesRouteOperatorSpecGenerator != nil {
+		return routeTablesRouteOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	routeTablesRouteOperatorSpecGenerator = gen.Struct(reflect.TypeOf(RouteTablesRouteOperatorSpec{}), generators)
+
+	return routeTablesRouteOperatorSpecGenerator
+}
+
 func Test_RouteTablesRoute_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -370,6 +467,9 @@ func RunJSONSerializationTestForRouteTablesRoute_Spec(subject RouteTablesRoute_S
 var routeTablesRoute_SpecGenerator gopter.Gen
 
 // RouteTablesRoute_SpecGenerator returns a generator of RouteTablesRoute_Spec instances for property testing.
+// We first initialize routeTablesRoute_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func RouteTablesRoute_SpecGenerator() gopter.Gen {
 	if routeTablesRoute_SpecGenerator != nil {
 		return routeTablesRoute_SpecGenerator
@@ -377,6 +477,12 @@ func RouteTablesRoute_SpecGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForRouteTablesRoute_Spec(generators)
+	routeTablesRoute_SpecGenerator = gen.Struct(reflect.TypeOf(RouteTablesRoute_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRouteTablesRoute_Spec(generators)
+	AddRelatedPropertyGeneratorsForRouteTablesRoute_Spec(generators)
 	routeTablesRoute_SpecGenerator = gen.Struct(reflect.TypeOf(RouteTablesRoute_Spec{}), generators)
 
 	return routeTablesRoute_SpecGenerator
@@ -393,4 +499,9 @@ func AddIndependentPropertyGeneratorsForRouteTablesRoute_Spec(gens map[string]go
 		RouteNextHopType_VirtualAppliance,
 		RouteNextHopType_VirtualNetworkGateway,
 		RouteNextHopType_VnetLocal))
+}
+
+// AddRelatedPropertyGeneratorsForRouteTablesRoute_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRouteTablesRoute_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(RouteTablesRouteOperatorSpecGenerator())
 }

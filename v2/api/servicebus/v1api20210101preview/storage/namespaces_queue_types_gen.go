@@ -8,6 +8,9 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -63,6 +66,26 @@ func (queue *NamespacesQueue) ConvertTo(hub conversion.Hub) error {
 	}
 
 	return queue.AssignProperties_To_NamespacesQueue(destination)
+}
+
+var _ configmaps.Exporter = &NamespacesQueue{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (queue *NamespacesQueue) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if queue.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return queue.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &NamespacesQueue{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (queue *NamespacesQueue) SecretDestinationExpressions() []*core.DestinationExpression {
+	if queue.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return queue.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &NamespacesQueue{}
@@ -237,19 +260,20 @@ type NamespacesQueue_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                           string  `json:"azureName,omitempty"`
-	DeadLetteringOnMessageExpiration    *bool   `json:"deadLetteringOnMessageExpiration,omitempty"`
-	DefaultMessageTimeToLive            *string `json:"defaultMessageTimeToLive,omitempty"`
-	DuplicateDetectionHistoryTimeWindow *string `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
-	EnableBatchedOperations             *bool   `json:"enableBatchedOperations,omitempty"`
-	EnableExpress                       *bool   `json:"enableExpress,omitempty"`
-	EnablePartitioning                  *bool   `json:"enablePartitioning,omitempty"`
-	ForwardDeadLetteredMessagesTo       *string `json:"forwardDeadLetteredMessagesTo,omitempty"`
-	ForwardTo                           *string `json:"forwardTo,omitempty"`
-	LockDuration                        *string `json:"lockDuration,omitempty"`
-	MaxDeliveryCount                    *int    `json:"maxDeliveryCount,omitempty"`
-	MaxSizeInMegabytes                  *int    `json:"maxSizeInMegabytes,omitempty"`
-	OriginalVersion                     string  `json:"originalVersion,omitempty"`
+	AzureName                           string                       `json:"azureName,omitempty"`
+	DeadLetteringOnMessageExpiration    *bool                        `json:"deadLetteringOnMessageExpiration,omitempty"`
+	DefaultMessageTimeToLive            *string                      `json:"defaultMessageTimeToLive,omitempty"`
+	DuplicateDetectionHistoryTimeWindow *string                      `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
+	EnableBatchedOperations             *bool                        `json:"enableBatchedOperations,omitempty"`
+	EnableExpress                       *bool                        `json:"enableExpress,omitempty"`
+	EnablePartitioning                  *bool                        `json:"enablePartitioning,omitempty"`
+	ForwardDeadLetteredMessagesTo       *string                      `json:"forwardDeadLetteredMessagesTo,omitempty"`
+	ForwardTo                           *string                      `json:"forwardTo,omitempty"`
+	LockDuration                        *string                      `json:"lockDuration,omitempty"`
+	MaxDeliveryCount                    *int                         `json:"maxDeliveryCount,omitempty"`
+	MaxSizeInMegabytes                  *int                         `json:"maxSizeInMegabytes,omitempty"`
+	OperatorSpec                        *NamespacesQueueOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion                     string                       `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -382,6 +406,18 @@ func (queue *NamespacesQueue_Spec) AssignProperties_From_NamespacesQueue_Spec(so
 	// MaxSizeInMegabytes
 	queue.MaxSizeInMegabytes = genruntime.ClonePointerToInt(source.MaxSizeInMegabytes)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec NamespacesQueueOperatorSpec
+		err := operatorSpec.AssignProperties_From_NamespacesQueueOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_NamespacesQueueOperatorSpec() to populate field OperatorSpec")
+		}
+		queue.OperatorSpec = &operatorSpec
+	} else {
+		queue.OperatorSpec = nil
+	}
+
 	// OriginalVersion
 	queue.OriginalVersion = source.OriginalVersion
 
@@ -505,6 +541,18 @@ func (queue *NamespacesQueue_Spec) AssignProperties_To_NamespacesQueue_Spec(dest
 
 	// MaxSizeInMegabytes
 	destination.MaxSizeInMegabytes = genruntime.ClonePointerToInt(queue.MaxSizeInMegabytes)
+
+	// OperatorSpec
+	if queue.OperatorSpec != nil {
+		var operatorSpec storage.NamespacesQueueOperatorSpec
+		err := queue.OperatorSpec.AssignProperties_To_NamespacesQueueOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_NamespacesQueueOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = queue.OriginalVersion
@@ -1077,9 +1125,144 @@ func (details *MessageCountDetails_STATUS) AssignProperties_To_MessageCountDetai
 	return nil
 }
 
+// Storage version of v1api20210101preview.NamespacesQueueOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type NamespacesQueueOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_NamespacesQueueOperatorSpec populates our NamespacesQueueOperatorSpec from the provided source NamespacesQueueOperatorSpec
+func (operator *NamespacesQueueOperatorSpec) AssignProperties_From_NamespacesQueueOperatorSpec(source *storage.NamespacesQueueOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNamespacesQueueOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForNamespacesQueueOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NamespacesQueueOperatorSpec populates the provided destination NamespacesQueueOperatorSpec from our NamespacesQueueOperatorSpec
+func (operator *NamespacesQueueOperatorSpec) AssignProperties_To_NamespacesQueueOperatorSpec(destination *storage.NamespacesQueueOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNamespacesQueueOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForNamespacesQueueOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 type augmentConversionForMessageCountDetails_STATUS interface {
 	AssignPropertiesFrom(src *storage.MessageCountDetails_STATUS) error
 	AssignPropertiesTo(dst *storage.MessageCountDetails_STATUS) error
+}
+
+type augmentConversionForNamespacesQueueOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.NamespacesQueueOperatorSpec) error
+	AssignPropertiesTo(dst *storage.NamespacesQueueOperatorSpec) error
 }
 
 func init() {

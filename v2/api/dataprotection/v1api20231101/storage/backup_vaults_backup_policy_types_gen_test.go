@@ -1454,6 +1454,61 @@ func AddRelatedPropertyGeneratorsForBackupVaultsBackupPolicy(gens map[string]gop
 	gens["Status"] = BackupVaultsBackupPolicy_STATUSGenerator()
 }
 
+func Test_BackupVaultsBackupPolicyOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of BackupVaultsBackupPolicyOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBackupVaultsBackupPolicyOperatorSpec, BackupVaultsBackupPolicyOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForBackupVaultsBackupPolicyOperatorSpec runs a test to see if a specific instance of BackupVaultsBackupPolicyOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForBackupVaultsBackupPolicyOperatorSpec(subject BackupVaultsBackupPolicyOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual BackupVaultsBackupPolicyOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of BackupVaultsBackupPolicyOperatorSpec instances for property testing - lazily instantiated by
+// BackupVaultsBackupPolicyOperatorSpecGenerator()
+var backupVaultsBackupPolicyOperatorSpecGenerator gopter.Gen
+
+// BackupVaultsBackupPolicyOperatorSpecGenerator returns a generator of BackupVaultsBackupPolicyOperatorSpec instances for property testing.
+func BackupVaultsBackupPolicyOperatorSpecGenerator() gopter.Gen {
+	if backupVaultsBackupPolicyOperatorSpecGenerator != nil {
+		return backupVaultsBackupPolicyOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	backupVaultsBackupPolicyOperatorSpecGenerator = gen.Struct(reflect.TypeOf(BackupVaultsBackupPolicyOperatorSpec{}), generators)
+
+	return backupVaultsBackupPolicyOperatorSpecGenerator
+}
+
 func Test_BackupVaultsBackupPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1605,6 +1660,7 @@ func AddIndependentPropertyGeneratorsForBackupVaultsBackupPolicy_Spec(gens map[s
 
 // AddRelatedPropertyGeneratorsForBackupVaultsBackupPolicy_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForBackupVaultsBackupPolicy_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(BackupVaultsBackupPolicyOperatorSpecGenerator())
 	gens["Properties"] = gen.PtrOf(BaseBackupPolicyGenerator())
 }
 

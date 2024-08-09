@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -90,6 +93,26 @@ func (networkInterface *NetworkInterface) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the NetworkInterface resource
 func (networkInterface *NetworkInterface) defaultImpl() { networkInterface.defaultAzureName() }
+
+var _ configmaps.Exporter = &NetworkInterface{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (networkInterface *NetworkInterface) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if networkInterface.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return networkInterface.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &NetworkInterface{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (networkInterface *NetworkInterface) SecretDestinationExpressions() []*core.DestinationExpression {
+	if networkInterface.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return networkInterface.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &NetworkInterface{}
 
@@ -209,7 +232,7 @@ func (networkInterface *NetworkInterface) ValidateUpdate(old runtime.Object) (ad
 
 // createValidations validates the creation of the resource
 func (networkInterface *NetworkInterface) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){networkInterface.validateResourceReferences, networkInterface.validateOwnerReference}
+	return []func() (admission.Warnings, error){networkInterface.validateResourceReferences, networkInterface.validateOwnerReference, networkInterface.validateSecretDestinations, networkInterface.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -227,7 +250,21 @@ func (networkInterface *NetworkInterface) updateValidations() []func(old runtime
 		func(old runtime.Object) (admission.Warnings, error) {
 			return networkInterface.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return networkInterface.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return networkInterface.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (networkInterface *NetworkInterface) validateConfigMapDestinations() (admission.Warnings, error) {
+	if networkInterface.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(networkInterface, nil, networkInterface.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -242,6 +279,14 @@ func (networkInterface *NetworkInterface) validateResourceReferences() (admissio
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (networkInterface *NetworkInterface) validateSecretDestinations() (admission.Warnings, error) {
+	if networkInterface.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(networkInterface, nil, networkInterface.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -353,6 +398,10 @@ type NetworkInterface_Spec struct {
 
 	// NicType: Type of Network Interface resource.
 	NicType *NetworkInterfacePropertiesFormat_NicType `json:"nicType,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *NetworkInterfaceOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -563,6 +612,8 @@ func (networkInterface *NetworkInterface_Spec) PopulateFromARM(owner genruntime.
 		}
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	networkInterface.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
@@ -733,6 +784,18 @@ func (networkInterface *NetworkInterface_Spec) AssignProperties_From_NetworkInte
 		networkInterface.NicType = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec NetworkInterfaceOperatorSpec
+		err := operatorSpec.AssignProperties_From_NetworkInterfaceOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_NetworkInterfaceOperatorSpec() to populate field OperatorSpec")
+		}
+		networkInterface.OperatorSpec = &operatorSpec
+	} else {
+		networkInterface.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -847,6 +910,18 @@ func (networkInterface *NetworkInterface_Spec) AssignProperties_To_NetworkInterf
 		destination.NicType = &nicType
 	} else {
 		destination.NicType = nil
+	}
+
+	// OperatorSpec
+	if networkInterface.OperatorSpec != nil {
+		var operatorSpec storage.NetworkInterfaceOperatorSpec
+		err := networkInterface.OperatorSpec.AssignProperties_To_NetworkInterfaceOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_NetworkInterfaceOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -3418,6 +3493,110 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 		destination.VirtualNetworkTaps = virtualNetworkTapList
 	} else {
 		destination.VirtualNetworkTaps = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type NetworkInterfaceOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_NetworkInterfaceOperatorSpec populates our NetworkInterfaceOperatorSpec from the provided source NetworkInterfaceOperatorSpec
+func (operator *NetworkInterfaceOperatorSpec) AssignProperties_From_NetworkInterfaceOperatorSpec(source *storage.NetworkInterfaceOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NetworkInterfaceOperatorSpec populates the provided destination NetworkInterfaceOperatorSpec from our NetworkInterfaceOperatorSpec
+func (operator *NetworkInterfaceOperatorSpec) AssignProperties_To_NetworkInterfaceOperatorSpec(destination *storage.NetworkInterfaceOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
 	}
 
 	// Update the property bag

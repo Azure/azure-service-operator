@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -90,6 +93,26 @@ func (server *RedisLinkedServer) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the RedisLinkedServer resource
 func (server *RedisLinkedServer) defaultImpl() { server.defaultAzureName() }
+
+var _ configmaps.Exporter = &RedisLinkedServer{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (server *RedisLinkedServer) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if server.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return server.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &RedisLinkedServer{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (server *RedisLinkedServer) SecretDestinationExpressions() []*core.DestinationExpression {
+	if server.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return server.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &RedisLinkedServer{}
 
@@ -209,7 +232,7 @@ func (server *RedisLinkedServer) ValidateUpdate(old runtime.Object) (admission.W
 
 // createValidations validates the creation of the resource
 func (server *RedisLinkedServer) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){server.validateResourceReferences, server.validateOwnerReference}
+	return []func() (admission.Warnings, error){server.validateResourceReferences, server.validateOwnerReference, server.validateSecretDestinations, server.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -227,7 +250,21 @@ func (server *RedisLinkedServer) updateValidations() []func(old runtime.Object) 
 		func(old runtime.Object) (admission.Warnings, error) {
 			return server.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return server.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return server.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (server *RedisLinkedServer) validateConfigMapDestinations() (admission.Warnings, error) {
+	if server.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(server, nil, server.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -242,6 +279,14 @@ func (server *RedisLinkedServer) validateResourceReferences() (admission.Warning
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (server *RedisLinkedServer) validateSecretDestinations() (admission.Warnings, error) {
+	if server.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(server, nil, server.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -611,6 +656,10 @@ type RedisLinkedServer_Spec struct {
 	// LinkedRedisCacheReference: Fully qualified resourceId of the linked redis cache.
 	LinkedRedisCacheReference *genruntime.ResourceReference `armReference:"LinkedRedisCacheId" json:"linkedRedisCacheReference,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *RedisLinkedServerOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -686,6 +735,8 @@ func (server *RedisLinkedServer_Spec) PopulateFromARM(owner genruntime.Arbitrary
 	}
 
 	// no assignment for property "LinkedRedisCacheReference"
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	server.Owner = &genruntime.KnownResourceReference{
@@ -775,6 +826,18 @@ func (server *RedisLinkedServer_Spec) AssignProperties_From_RedisLinkedServer_Sp
 		server.LinkedRedisCacheReference = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec RedisLinkedServerOperatorSpec
+		err := operatorSpec.AssignProperties_From_RedisLinkedServerOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_RedisLinkedServerOperatorSpec() to populate field OperatorSpec")
+		}
+		server.OperatorSpec = &operatorSpec
+	} else {
+		server.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -813,6 +876,18 @@ func (server *RedisLinkedServer_Spec) AssignProperties_To_RedisLinkedServer_Spec
 		destination.LinkedRedisCacheReference = &linkedRedisCacheReference
 	} else {
 		destination.LinkedRedisCacheReference = nil
+	}
+
+	// OperatorSpec
+	if server.OperatorSpec != nil {
+		var operatorSpec storage.RedisLinkedServerOperatorSpec
+		err := server.OperatorSpec.AssignProperties_To_RedisLinkedServerOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_RedisLinkedServerOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -891,6 +966,110 @@ const (
 var redisLinkedServerCreateProperties_ServerRole_Values = map[string]RedisLinkedServerCreateProperties_ServerRole{
 	"primary":   RedisLinkedServerCreateProperties_ServerRole_Primary,
 	"secondary": RedisLinkedServerCreateProperties_ServerRole_Secondary,
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type RedisLinkedServerOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_RedisLinkedServerOperatorSpec populates our RedisLinkedServerOperatorSpec from the provided source RedisLinkedServerOperatorSpec
+func (operator *RedisLinkedServerOperatorSpec) AssignProperties_From_RedisLinkedServerOperatorSpec(source *storage.RedisLinkedServerOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RedisLinkedServerOperatorSpec populates the provided destination RedisLinkedServerOperatorSpec from our RedisLinkedServerOperatorSpec
+func (operator *RedisLinkedServerOperatorSpec) AssignProperties_To_RedisLinkedServerOperatorSpec(destination *storage.RedisLinkedServerOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 type RedisLinkedServerProperties_ServerRole_STATUS string

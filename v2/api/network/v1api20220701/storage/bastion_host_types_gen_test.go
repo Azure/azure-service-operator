@@ -216,6 +216,61 @@ func AddIndependentPropertyGeneratorsForBastionHostIPConfiguration_STATUS(gens m
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_BastionHostOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of BastionHostOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBastionHostOperatorSpec, BastionHostOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForBastionHostOperatorSpec runs a test to see if a specific instance of BastionHostOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForBastionHostOperatorSpec(subject BastionHostOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual BastionHostOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of BastionHostOperatorSpec instances for property testing - lazily instantiated by
+// BastionHostOperatorSpecGenerator()
+var bastionHostOperatorSpecGenerator gopter.Gen
+
+// BastionHostOperatorSpecGenerator returns a generator of BastionHostOperatorSpec instances for property testing.
+func BastionHostOperatorSpecGenerator() gopter.Gen {
+	if bastionHostOperatorSpecGenerator != nil {
+		return bastionHostOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	bastionHostOperatorSpecGenerator = gen.Struct(reflect.TypeOf(BastionHostOperatorSpec{}), generators)
+
+	return bastionHostOperatorSpecGenerator
+}
+
 func Test_BastionHostSubResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -445,6 +500,7 @@ func AddIndependentPropertyGeneratorsForBastionHost_Spec(gens map[string]gopter.
 // AddRelatedPropertyGeneratorsForBastionHost_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForBastionHost_Spec(gens map[string]gopter.Gen) {
 	gens["IpConfigurations"] = gen.SliceOf(BastionHostIPConfigurationGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(BastionHostOperatorSpecGenerator())
 	gens["Sku"] = gen.PtrOf(SkuGenerator())
 }
 

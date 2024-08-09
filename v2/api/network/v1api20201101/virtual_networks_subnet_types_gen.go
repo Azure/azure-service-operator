@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -90,6 +93,26 @@ func (subnet *VirtualNetworksSubnet) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the VirtualNetworksSubnet resource
 func (subnet *VirtualNetworksSubnet) defaultImpl() { subnet.defaultAzureName() }
+
+var _ configmaps.Exporter = &VirtualNetworksSubnet{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (subnet *VirtualNetworksSubnet) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if subnet.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return subnet.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &VirtualNetworksSubnet{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (subnet *VirtualNetworksSubnet) SecretDestinationExpressions() []*core.DestinationExpression {
+	if subnet.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return subnet.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &VirtualNetworksSubnet{}
 
@@ -209,7 +232,7 @@ func (subnet *VirtualNetworksSubnet) ValidateUpdate(old runtime.Object) (admissi
 
 // createValidations validates the creation of the resource
 func (subnet *VirtualNetworksSubnet) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){subnet.validateResourceReferences, subnet.validateOwnerReference}
+	return []func() (admission.Warnings, error){subnet.validateResourceReferences, subnet.validateOwnerReference, subnet.validateSecretDestinations, subnet.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -227,7 +250,21 @@ func (subnet *VirtualNetworksSubnet) updateValidations() []func(old runtime.Obje
 		func(old runtime.Object) (admission.Warnings, error) {
 			return subnet.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return subnet.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return subnet.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (subnet *VirtualNetworksSubnet) validateConfigMapDestinations() (admission.Warnings, error) {
+	if subnet.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(subnet, nil, subnet.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -242,6 +279,14 @@ func (subnet *VirtualNetworksSubnet) validateResourceReferences() (admission.War
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (subnet *VirtualNetworksSubnet) validateSecretDestinations() (admission.Warnings, error) {
+	if subnet.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(subnet, nil, subnet.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -350,6 +395,10 @@ type VirtualNetworksSubnet_Spec struct {
 
 	// NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.
 	NetworkSecurityGroup *NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded `json:"networkSecurityGroup,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *VirtualNetworksSubnetOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -580,6 +629,8 @@ func (subnet *VirtualNetworksSubnet_Spec) PopulateFromARM(owner genruntime.Arbit
 		}
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	subnet.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
@@ -792,6 +843,18 @@ func (subnet *VirtualNetworksSubnet_Spec) AssignProperties_From_VirtualNetworksS
 		subnet.NetworkSecurityGroup = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec VirtualNetworksSubnetOperatorSpec
+		err := operatorSpec.AssignProperties_From_VirtualNetworksSubnetOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualNetworksSubnetOperatorSpec() to populate field OperatorSpec")
+		}
+		subnet.OperatorSpec = &operatorSpec
+	} else {
+		subnet.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -960,6 +1023,18 @@ func (subnet *VirtualNetworksSubnet_Spec) AssignProperties_To_VirtualNetworksSub
 		destination.NetworkSecurityGroup = &networkSecurityGroup
 	} else {
 		destination.NetworkSecurityGroup = nil
+	}
+
+	// OperatorSpec
+	if subnet.OperatorSpec != nil {
+		var operatorSpec storage.VirtualNetworksSubnetOperatorSpec
+		err := subnet.OperatorSpec.AssignProperties_To_VirtualNetworksSubnetOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworksSubnetOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -3637,6 +3712,110 @@ const (
 var subnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS_Values = map[string]SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS{
 	"disabled": SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS_Disabled,
 	"enabled":  SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS_Enabled,
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type VirtualNetworksSubnetOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_VirtualNetworksSubnetOperatorSpec populates our VirtualNetworksSubnetOperatorSpec from the provided source VirtualNetworksSubnetOperatorSpec
+func (operator *VirtualNetworksSubnetOperatorSpec) AssignProperties_From_VirtualNetworksSubnetOperatorSpec(source *storage.VirtualNetworksSubnetOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_VirtualNetworksSubnetOperatorSpec populates the provided destination VirtualNetworksSubnetOperatorSpec from our VirtualNetworksSubnetOperatorSpec
+func (operator *VirtualNetworksSubnetOperatorSpec) AssignProperties_To_VirtualNetworksSubnetOperatorSpec(destination *storage.VirtualNetworksSubnetOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 func init() {

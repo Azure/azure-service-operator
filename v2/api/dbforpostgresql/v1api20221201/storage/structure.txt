@@ -47,11 +47,13 @@ FlexibleServer: Resource
 │   │   ├── DelegatedSubnetResourceReference: *genruntime.ResourceReference
 │   │   ├── PrivateDnsZoneArmResourceReference: *genruntime.ResourceReference
 │   │   └── PropertyBag: genruntime.PropertyBag
-│   ├── OperatorSpec: *Object (3 properties)
+│   ├── OperatorSpec: *Object (5 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   ├── ConfigMaps: *Object (2 properties)
 │   │   │   ├── FullyQualifiedDomainName: *genruntime.ConfigMapDestination
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
 │   │   └── Secrets: *Object (2 properties)
 │   │       ├── FullyQualifiedDomainName: *genruntime.SecretDestination
 │   │       └── PropertyBag: genruntime.PropertyBag
@@ -145,8 +147,12 @@ FlexibleServer: Resource
     └── Version: *string
 FlexibleServersConfiguration: Resource
 ├── Owner: dbforpostgresql/v1api20221201.FlexibleServer
-├── Spec: Object (6 properties)
+├── Spec: Object (7 properties)
 │   ├── AzureName: string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -179,10 +185,14 @@ FlexibleServersConfiguration: Resource
     └── Value: *string
 FlexibleServersDatabase: Resource
 ├── Owner: dbforpostgresql/v1api20221201.FlexibleServer
-├── Spec: Object (6 properties)
+├── Spec: Object (7 properties)
 │   ├── AzureName: string
 │   ├── Charset: *string
 │   ├── Collation: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── PropertyBag: genruntime.PropertyBag
@@ -204,9 +214,13 @@ FlexibleServersDatabase: Resource
     └── Type: *string
 FlexibleServersFirewallRule: Resource
 ├── Owner: dbforpostgresql/v1api20221201.FlexibleServer
-├── Spec: Object (6 properties)
+├── Spec: Object (7 properties)
 │   ├── AzureName: string
 │   ├── EndIpAddress: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag

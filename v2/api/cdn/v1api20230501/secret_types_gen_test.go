@@ -842,6 +842,102 @@ func AddRelatedPropertyGeneratorsForSecret(gens map[string]gopter.Gen) {
 	gens["Status"] = Secret_STATUSGenerator()
 }
 
+func Test_SecretOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SecretOperatorSpec to SecretOperatorSpec via AssignProperties_To_SecretOperatorSpec & AssignProperties_From_SecretOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSecretOperatorSpec, SecretOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSecretOperatorSpec tests if a specific instance of SecretOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSecretOperatorSpec(subject SecretOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SecretOperatorSpec
+	err := copied.AssignProperties_To_SecretOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SecretOperatorSpec
+	err = actual.AssignProperties_From_SecretOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_SecretOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SecretOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSecretOperatorSpec, SecretOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSecretOperatorSpec runs a test to see if a specific instance of SecretOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForSecretOperatorSpec(subject SecretOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SecretOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SecretOperatorSpec instances for property testing - lazily instantiated by SecretOperatorSpecGenerator()
+var secretOperatorSpecGenerator gopter.Gen
+
+// SecretOperatorSpecGenerator returns a generator of SecretOperatorSpec instances for property testing.
+func SecretOperatorSpecGenerator() gopter.Gen {
+	if secretOperatorSpecGenerator != nil {
+		return secretOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	secretOperatorSpecGenerator = gen.Struct(reflect.TypeOf(SecretOperatorSpec{}), generators)
+
+	return secretOperatorSpecGenerator
+}
+
 func Test_SecretParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1325,6 +1421,7 @@ func AddIndependentPropertyGeneratorsForSecret_Spec(gens map[string]gopter.Gen) 
 
 // AddRelatedPropertyGeneratorsForSecret_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSecret_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(SecretOperatorSpecGenerator())
 	gens["Parameters"] = gen.PtrOf(SecretParametersGenerator())
 }
 

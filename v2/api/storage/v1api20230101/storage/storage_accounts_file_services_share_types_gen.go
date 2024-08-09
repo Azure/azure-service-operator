@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (share *StorageAccountsFileServicesShare) GetConditions() conditions.Condit
 // SetConditions sets the conditions on the resource status
 func (share *StorageAccountsFileServicesShare) SetConditions(conditions conditions.Conditions) {
 	share.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &StorageAccountsFileServicesShare{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (share *StorageAccountsFileServicesShare) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if share.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return share.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &StorageAccountsFileServicesShare{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (share *StorageAccountsFileServicesShare) SecretDestinationExpressions() []*core.DestinationExpression {
+	if share.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return share.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &StorageAccountsFileServicesShare{}
@@ -144,10 +167,11 @@ type StorageAccountsFileServicesShare_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName        string            `json:"azureName,omitempty"`
-	EnabledProtocols *string           `json:"enabledProtocols,omitempty"`
-	Metadata         map[string]string `json:"metadata,omitempty"`
-	OriginalVersion  string            `json:"originalVersion,omitempty"`
+	AzureName        string                                        `json:"azureName,omitempty"`
+	EnabledProtocols *string                                       `json:"enabledProtocols,omitempty"`
+	Metadata         map[string]string                             `json:"metadata,omitempty"`
+	OperatorSpec     *StorageAccountsFileServicesShareOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion  string                                        `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -242,6 +266,14 @@ type SignedIdentifier_STATUS struct {
 	AccessPolicy *AccessPolicy_STATUS   `json:"accessPolicy,omitempty"`
 	Id           *string                `json:"id,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1api20230101.StorageAccountsFileServicesShareOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type StorageAccountsFileServicesShareOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20230101.AccessPolicy

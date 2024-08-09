@@ -229,6 +229,61 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsExtension(gens map[st
 	gens["Status"] = VirtualMachineScaleSetsExtension_STATUSGenerator()
 }
 
+func Test_VirtualMachineScaleSetsExtensionOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualMachineScaleSetsExtensionOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetsExtensionOperatorSpec, VirtualMachineScaleSetsExtensionOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualMachineScaleSetsExtensionOperatorSpec runs a test to see if a specific instance of VirtualMachineScaleSetsExtensionOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetsExtensionOperatorSpec(subject VirtualMachineScaleSetsExtensionOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualMachineScaleSetsExtensionOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualMachineScaleSetsExtensionOperatorSpec instances for property testing - lazily instantiated by
+// VirtualMachineScaleSetsExtensionOperatorSpecGenerator()
+var virtualMachineScaleSetsExtensionOperatorSpecGenerator gopter.Gen
+
+// VirtualMachineScaleSetsExtensionOperatorSpecGenerator returns a generator of VirtualMachineScaleSetsExtensionOperatorSpec instances for property testing.
+func VirtualMachineScaleSetsExtensionOperatorSpecGenerator() gopter.Gen {
+	if virtualMachineScaleSetsExtensionOperatorSpecGenerator != nil {
+		return virtualMachineScaleSetsExtensionOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	virtualMachineScaleSetsExtensionOperatorSpecGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetsExtensionOperatorSpec{}), generators)
+
+	return virtualMachineScaleSetsExtensionOperatorSpecGenerator
+}
+
 func Test_VirtualMachineScaleSetsExtension_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -396,5 +451,6 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsExtension_Spec(ge
 
 // AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsExtension_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsExtension_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(VirtualMachineScaleSetsExtensionOperatorSpecGenerator())
 	gens["ProtectedSettingsFromKeyVault"] = gen.PtrOf(KeyVaultSecretReferenceGenerator())
 }

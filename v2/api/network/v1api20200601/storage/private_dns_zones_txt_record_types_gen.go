@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (record *PrivateDnsZonesTXTRecord) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (record *PrivateDnsZonesTXTRecord) SetConditions(conditions conditions.Conditions) {
 	record.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &PrivateDnsZonesTXTRecord{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (record *PrivateDnsZonesTXTRecord) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if record.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return record.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &PrivateDnsZonesTXTRecord{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (record *PrivateDnsZonesTXTRecord) SecretDestinationExpressions() []*core.DestinationExpression {
+	if record.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return record.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &PrivateDnsZonesTXTRecord{}
@@ -145,12 +168,13 @@ type PrivateDnsZonesTXTRecord_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string            `json:"azureName,omitempty"`
-	CnameRecord     *CnameRecord      `json:"cnameRecord,omitempty"`
-	Etag            *string           `json:"etag,omitempty"`
-	Metadata        map[string]string `json:"metadata,omitempty"`
-	MxRecords       []MxRecord        `json:"mxRecords,omitempty"`
-	OriginalVersion string            `json:"originalVersion,omitempty"`
+	AzureName       string                                `json:"azureName,omitempty"`
+	CnameRecord     *CnameRecord                          `json:"cnameRecord,omitempty"`
+	Etag            *string                               `json:"etag,omitempty"`
+	Metadata        map[string]string                     `json:"metadata,omitempty"`
+	MxRecords       []MxRecord                            `json:"mxRecords,omitempty"`
+	OperatorSpec    *PrivateDnsZonesTXTRecordOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                                `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -225,6 +249,14 @@ func (record *PrivateDnsZonesTXTRecord_STATUS) ConvertStatusTo(destination genru
 	}
 
 	return destination.ConvertStatusFrom(record)
+}
+
+// Storage version of v1api20200601.PrivateDnsZonesTXTRecordOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type PrivateDnsZonesTXTRecordOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 func init() {

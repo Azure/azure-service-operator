@@ -79,6 +79,61 @@ func AddRelatedPropertyGeneratorsForStorageAccountsQueueService(gens map[string]
 	gens["Status"] = StorageAccountsQueueService_STATUSGenerator()
 }
 
+func Test_StorageAccountsQueueServiceOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of StorageAccountsQueueServiceOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageAccountsQueueServiceOperatorSpec, StorageAccountsQueueServiceOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForStorageAccountsQueueServiceOperatorSpec runs a test to see if a specific instance of StorageAccountsQueueServiceOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageAccountsQueueServiceOperatorSpec(subject StorageAccountsQueueServiceOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual StorageAccountsQueueServiceOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of StorageAccountsQueueServiceOperatorSpec instances for property testing - lazily instantiated by
+// StorageAccountsQueueServiceOperatorSpecGenerator()
+var storageAccountsQueueServiceOperatorSpecGenerator gopter.Gen
+
+// StorageAccountsQueueServiceOperatorSpecGenerator returns a generator of StorageAccountsQueueServiceOperatorSpec instances for property testing.
+func StorageAccountsQueueServiceOperatorSpecGenerator() gopter.Gen {
+	if storageAccountsQueueServiceOperatorSpecGenerator != nil {
+		return storageAccountsQueueServiceOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	storageAccountsQueueServiceOperatorSpecGenerator = gen.Struct(reflect.TypeOf(StorageAccountsQueueServiceOperatorSpec{}), generators)
+
+	return storageAccountsQueueServiceOperatorSpecGenerator
+}
+
 func Test_StorageAccountsQueueService_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -229,4 +284,5 @@ func AddIndependentPropertyGeneratorsForStorageAccountsQueueService_Spec(gens ma
 // AddRelatedPropertyGeneratorsForStorageAccountsQueueService_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForStorageAccountsQueueService_Spec(gens map[string]gopter.Gen) {
 	gens["Cors"] = gen.PtrOf(CorsRulesGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(StorageAccountsQueueServiceOperatorSpecGenerator())
 }

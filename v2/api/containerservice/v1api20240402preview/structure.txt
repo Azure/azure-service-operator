@@ -443,9 +443,11 @@ ManagedCluster: Resource
 │   │       └── "Unrestricted"
 │   ├── OidcIssuerProfile: *Object (1 property)
 │   │   └── Enabled: *bool
-│   ├── OperatorSpec: *Object (2 properties)
+│   ├── OperatorSpec: *Object (4 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   ├── ConfigMaps: *Object (1 property)
 │   │   │   └── OIDCIssuerProfile: *genruntime.ConfigMapDestination
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
 │   │   └── Secrets: *Object (2 properties)
 │   │       ├── AdminCredentials: *genruntime.SecretDestination
 │   │       └── UserCredentials: *genruntime.SecretDestination
@@ -1163,7 +1165,7 @@ ManagedCluster: Resource
             └── Enabled: *bool
 ManagedClustersAgentPool: Resource
 ├── Owner: ManagedCluster
-├── Spec: Object (53 properties)
+├── Spec: Object (54 properties)
 │   ├── ArtifactStreamingProfile: *Object (1 property)
 │   │   └── Enabled: *bool
 │   ├── AvailabilityZones: string[]
@@ -1276,6 +1278,9 @@ ManagedClustersAgentPool: Resource
 │   ├── NodeLabels: map[string]string
 │   ├── NodePublicIPPrefixReference: *genruntime.ResourceReference
 │   ├── NodeTaints: string[]
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OrchestratorVersion: *string
 │   ├── OsDiskSizeGB: *Validated<int> (2 rules)
 │   │   ├── Rule 0: Maximum: 2048
@@ -1535,11 +1540,14 @@ ManagedClustersAgentPool: Resource
         └── "WasmWasi"
 TrustedAccessRoleBinding: Resource
 ├── Owner: ManagedCluster
-├── Spec: Object (4 properties)
+├── Spec: Object (5 properties)
 │   ├── AzureName: Validated<string> (3 rules)
 │   │   ├── Rule 0: MaxLength: 24
 │   │   ├── Rule 1: MinLength: 1
 │   │   └── Rule 2: Pattern: "^([A-Za-z0-9-])+$"
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── Roles: string[]
 │   └── SourceResourceReference: *genruntime.ResourceReference

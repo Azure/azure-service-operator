@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (definition *RoleDefinition) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (definition *RoleDefinition) SetConditions(conditions conditions.Conditions) {
 	definition.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &RoleDefinition{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (definition *RoleDefinition) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if definition.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return definition.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &RoleDefinition{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (definition *RoleDefinition) SecretDestinationExpressions() []*core.DestinationExpression {
+	if definition.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return definition.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &RoleDefinition{}
@@ -241,8 +264,10 @@ type Permission_STATUS struct {
 // Storage version of v1api20220401.RoleDefinitionOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type RoleDefinitionOperatorSpec struct {
-	NamingConvention *string                `json:"namingConvention,omitempty"`
-	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	NamingConvention     *string                       `json:"namingConvention,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 func init() {

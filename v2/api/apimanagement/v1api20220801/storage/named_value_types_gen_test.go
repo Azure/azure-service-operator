@@ -279,6 +279,61 @@ func AddRelatedPropertyGeneratorsForNamedValue(gens map[string]gopter.Gen) {
 	gens["Status"] = NamedValue_STATUSGenerator()
 }
 
+func Test_NamedValueOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of NamedValueOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamedValueOperatorSpec, NamedValueOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForNamedValueOperatorSpec runs a test to see if a specific instance of NamedValueOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamedValueOperatorSpec(subject NamedValueOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual NamedValueOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of NamedValueOperatorSpec instances for property testing - lazily instantiated by
+// NamedValueOperatorSpecGenerator()
+var namedValueOperatorSpecGenerator gopter.Gen
+
+// NamedValueOperatorSpecGenerator returns a generator of NamedValueOperatorSpec instances for property testing.
+func NamedValueOperatorSpecGenerator() gopter.Gen {
+	if namedValueOperatorSpecGenerator != nil {
+		return namedValueOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	namedValueOperatorSpecGenerator = gen.Struct(reflect.TypeOf(NamedValueOperatorSpec{}), generators)
+
+	return namedValueOperatorSpecGenerator
+}
+
 func Test_NamedValue_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -436,4 +491,5 @@ func AddIndependentPropertyGeneratorsForNamedValue_Spec(gens map[string]gopter.G
 // AddRelatedPropertyGeneratorsForNamedValue_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamedValue_Spec(gens map[string]gopter.Gen) {
 	gens["KeyVault"] = gen.PtrOf(KeyVaultContractCreatePropertiesGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(NamedValueOperatorSpecGenerator())
 }

@@ -7,6 +7,9 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20240101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -43,6 +46,26 @@ func (rule *LoadBalancersInboundNatRule) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (rule *LoadBalancersInboundNatRule) SetConditions(conditions conditions.Conditions) {
 	rule.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &LoadBalancersInboundNatRule{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (rule *LoadBalancersInboundNatRule) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if rule.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return rule.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &LoadBalancersInboundNatRule{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (rule *LoadBalancersInboundNatRule) SecretDestinationExpressions() []*core.DestinationExpression {
+	if rule.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return rule.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &LoadBalancersInboundNatRule{}
@@ -143,14 +166,15 @@ type LoadBalancersInboundNatRuleList struct {
 type LoadBalancersInboundNatRule_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName               string       `json:"azureName,omitempty"`
-	BackendPort             *int         `json:"backendPort,omitempty"`
-	EnableFloatingIP        *bool        `json:"enableFloatingIP,omitempty"`
-	EnableTcpReset          *bool        `json:"enableTcpReset,omitempty"`
-	FrontendIPConfiguration *SubResource `json:"frontendIPConfiguration,omitempty"`
-	FrontendPort            *int         `json:"frontendPort,omitempty"`
-	IdleTimeoutInMinutes    *int         `json:"idleTimeoutInMinutes,omitempty"`
-	OriginalVersion         string       `json:"originalVersion,omitempty"`
+	AzureName               string                                   `json:"azureName,omitempty"`
+	BackendPort             *int                                     `json:"backendPort,omitempty"`
+	EnableFloatingIP        *bool                                    `json:"enableFloatingIP,omitempty"`
+	EnableTcpReset          *bool                                    `json:"enableTcpReset,omitempty"`
+	FrontendIPConfiguration *SubResource                             `json:"frontendIPConfiguration,omitempty"`
+	FrontendPort            *int                                     `json:"frontendPort,omitempty"`
+	IdleTimeoutInMinutes    *int                                     `json:"idleTimeoutInMinutes,omitempty"`
+	OperatorSpec            *LoadBalancersInboundNatRuleOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion         string                                   `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -218,6 +242,14 @@ func (rule *LoadBalancersInboundNatRule_STATUS) ConvertStatusTo(destination genr
 	}
 
 	return destination.ConvertStatusFrom(rule)
+}
+
+// Storage version of v1api20201101.LoadBalancersInboundNatRuleOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type LoadBalancersInboundNatRuleOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20201101.NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded

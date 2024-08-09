@@ -610,6 +610,61 @@ func AddRelatedPropertyGeneratorsForMongodbDatabaseCollection(gens map[string]go
 	gens["Status"] = MongodbDatabaseCollection_STATUSGenerator()
 }
 
+func Test_MongodbDatabaseCollectionOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of MongodbDatabaseCollectionOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMongodbDatabaseCollectionOperatorSpec, MongodbDatabaseCollectionOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForMongodbDatabaseCollectionOperatorSpec runs a test to see if a specific instance of MongodbDatabaseCollectionOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForMongodbDatabaseCollectionOperatorSpec(subject MongodbDatabaseCollectionOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual MongodbDatabaseCollectionOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of MongodbDatabaseCollectionOperatorSpec instances for property testing - lazily instantiated by
+// MongodbDatabaseCollectionOperatorSpecGenerator()
+var mongodbDatabaseCollectionOperatorSpecGenerator gopter.Gen
+
+// MongodbDatabaseCollectionOperatorSpecGenerator returns a generator of MongodbDatabaseCollectionOperatorSpec instances for property testing.
+func MongodbDatabaseCollectionOperatorSpecGenerator() gopter.Gen {
+	if mongodbDatabaseCollectionOperatorSpecGenerator != nil {
+		return mongodbDatabaseCollectionOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	mongodbDatabaseCollectionOperatorSpecGenerator = gen.Struct(reflect.TypeOf(MongodbDatabaseCollectionOperatorSpec{}), generators)
+
+	return mongodbDatabaseCollectionOperatorSpecGenerator
+}
+
 func Test_MongodbDatabaseCollection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -769,6 +824,7 @@ func AddIndependentPropertyGeneratorsForMongodbDatabaseCollection_Spec(gens map[
 
 // AddRelatedPropertyGeneratorsForMongodbDatabaseCollection_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForMongodbDatabaseCollection_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(MongodbDatabaseCollectionOperatorSpecGenerator())
 	gens["Options"] = gen.PtrOf(CreateUpdateOptionsGenerator())
 	gens["Resource"] = gen.PtrOf(MongoDBCollectionResourceGenerator())
 }

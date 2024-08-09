@@ -11475,6 +11475,103 @@ func AddRelatedPropertyGeneratorsForProfilesEndpoint(gens map[string]gopter.Gen)
 	gens["Status"] = ProfilesEndpoint_STATUSGenerator()
 }
 
+func Test_ProfilesEndpointOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ProfilesEndpointOperatorSpec to ProfilesEndpointOperatorSpec via AssignProperties_To_ProfilesEndpointOperatorSpec & AssignProperties_From_ProfilesEndpointOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForProfilesEndpointOperatorSpec, ProfilesEndpointOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForProfilesEndpointOperatorSpec tests if a specific instance of ProfilesEndpointOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForProfilesEndpointOperatorSpec(subject ProfilesEndpointOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ProfilesEndpointOperatorSpec
+	err := copied.AssignProperties_To_ProfilesEndpointOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ProfilesEndpointOperatorSpec
+	err = actual.AssignProperties_From_ProfilesEndpointOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ProfilesEndpointOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ProfilesEndpointOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForProfilesEndpointOperatorSpec, ProfilesEndpointOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForProfilesEndpointOperatorSpec runs a test to see if a specific instance of ProfilesEndpointOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForProfilesEndpointOperatorSpec(subject ProfilesEndpointOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ProfilesEndpointOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ProfilesEndpointOperatorSpec instances for property testing - lazily instantiated by
+// ProfilesEndpointOperatorSpecGenerator()
+var profilesEndpointOperatorSpecGenerator gopter.Gen
+
+// ProfilesEndpointOperatorSpecGenerator returns a generator of ProfilesEndpointOperatorSpec instances for property testing.
+func ProfilesEndpointOperatorSpecGenerator() gopter.Gen {
+	if profilesEndpointOperatorSpecGenerator != nil {
+		return profilesEndpointOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	profilesEndpointOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ProfilesEndpointOperatorSpec{}), generators)
+
+	return profilesEndpointOperatorSpecGenerator
+}
+
 func Test_ProfilesEndpoint_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -11777,6 +11874,7 @@ func AddRelatedPropertyGeneratorsForProfilesEndpoint_Spec(gens map[string]gopter
 	gens["DefaultOriginGroup"] = gen.PtrOf(ResourceReferenceGenerator())
 	gens["DeliveryPolicy"] = gen.PtrOf(EndpointProperties_DeliveryPolicyGenerator())
 	gens["GeoFilters"] = gen.SliceOf(GeoFilterGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(ProfilesEndpointOperatorSpecGenerator())
 	gens["OriginGroups"] = gen.SliceOf(DeepCreatedOriginGroupGenerator())
 	gens["Origins"] = gen.SliceOf(DeepCreatedOriginGenerator())
 	gens["UrlSigningKeys"] = gen.SliceOf(UrlSigningKeyGenerator())

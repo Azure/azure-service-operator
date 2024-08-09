@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -43,6 +46,26 @@ func (compute *WorkspacesCompute) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (compute *WorkspacesCompute) SetConditions(conditions conditions.Conditions) {
 	compute.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &WorkspacesCompute{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (compute *WorkspacesCompute) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if compute.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return compute.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &WorkspacesCompute{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (compute *WorkspacesCompute) SecretDestinationExpressions() []*core.DestinationExpression {
+	if compute.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return compute.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &WorkspacesCompute{}
@@ -143,10 +166,11 @@ type WorkspacesComputeList struct {
 type WorkspacesCompute_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string                  `json:"azureName,omitempty"`
-	Identity        *ManagedServiceIdentity `json:"identity,omitempty"`
-	Location        *string                 `json:"location,omitempty"`
-	OriginalVersion string                  `json:"originalVersion,omitempty"`
+	AzureName       string                         `json:"azureName,omitempty"`
+	Identity        *ManagedServiceIdentity        `json:"identity,omitempty"`
+	Location        *string                        `json:"location,omitempty"`
+	OperatorSpec    *WorkspacesComputeOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                         `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -242,6 +266,14 @@ type Compute_STATUS struct {
 	PropertyBag       genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
 	SynapseSpark      *SynapseSpark_STATUS      `json:"synapseSpark,omitempty"`
 	VirtualMachine    *VirtualMachine_STATUS    `json:"virtualMachine,omitempty"`
+}
+
+// Storage version of v1api20240401.WorkspacesComputeOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type WorkspacesComputeOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20240401.AKS

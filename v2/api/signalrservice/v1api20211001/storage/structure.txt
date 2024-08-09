@@ -37,8 +37,10 @@ SignalR: Resource
 │   │       ├── Allow: string[]
 │   │       ├── Deny: string[]
 │   │       └── PropertyBag: genruntime.PropertyBag
-│   ├── OperatorSpec: *Object (2 properties)
+│   ├── OperatorSpec: *Object (4 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
 │   │   └── Secrets: *Object (5 properties)
 │   │       ├── PrimaryConnectionString: *genruntime.SecretDestination
 │   │       ├── PrimaryKey: *genruntime.SecretDestination

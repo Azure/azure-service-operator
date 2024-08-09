@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (service *StorageAccountsBlobService) GetConditions() conditions.Conditions
 // SetConditions sets the conditions on the resource status
 func (service *StorageAccountsBlobService) SetConditions(conditions conditions.Conditions) {
 	service.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &StorageAccountsBlobService{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (service *StorageAccountsBlobService) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if service.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return service.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &StorageAccountsBlobService{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (service *StorageAccountsBlobService) SecretDestinationExpressions() []*core.DestinationExpression {
+	if service.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return service.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &StorageAccountsBlobService{}
@@ -139,15 +162,16 @@ type StorageAccountsBlobServiceList struct {
 
 // Storage version of v1api20230101.StorageAccountsBlobService_Spec
 type StorageAccountsBlobService_Spec struct {
-	AutomaticSnapshotPolicyEnabled *bool                         `json:"automaticSnapshotPolicyEnabled,omitempty"`
-	ChangeFeed                     *ChangeFeed                   `json:"changeFeed,omitempty"`
-	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy        `json:"containerDeleteRetentionPolicy,omitempty"`
-	Cors                           *CorsRules                    `json:"cors,omitempty"`
-	DefaultServiceVersion          *string                       `json:"defaultServiceVersion,omitempty"`
-	DeleteRetentionPolicy          *DeleteRetentionPolicy        `json:"deleteRetentionPolicy,omitempty"`
-	IsVersioningEnabled            *bool                         `json:"isVersioningEnabled,omitempty"`
-	LastAccessTimeTrackingPolicy   *LastAccessTimeTrackingPolicy `json:"lastAccessTimeTrackingPolicy,omitempty"`
-	OriginalVersion                string                        `json:"originalVersion,omitempty"`
+	AutomaticSnapshotPolicyEnabled *bool                                   `json:"automaticSnapshotPolicyEnabled,omitempty"`
+	ChangeFeed                     *ChangeFeed                             `json:"changeFeed,omitempty"`
+	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy                  `json:"containerDeleteRetentionPolicy,omitempty"`
+	Cors                           *CorsRules                              `json:"cors,omitempty"`
+	DefaultServiceVersion          *string                                 `json:"defaultServiceVersion,omitempty"`
+	DeleteRetentionPolicy          *DeleteRetentionPolicy                  `json:"deleteRetentionPolicy,omitempty"`
+	IsVersioningEnabled            *bool                                   `json:"isVersioningEnabled,omitempty"`
+	LastAccessTimeTrackingPolicy   *LastAccessTimeTrackingPolicy           `json:"lastAccessTimeTrackingPolicy,omitempty"`
+	OperatorSpec                   *StorageAccountsBlobServiceOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion                string                                  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -301,6 +325,14 @@ type RestorePolicyProperties_STATUS struct {
 	LastEnabledTime *string                `json:"lastEnabledTime,omitempty"`
 	MinRestoreTime  *string                `json:"minRestoreTime,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1api20230101.StorageAccountsBlobServiceOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type StorageAccountsBlobServiceOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20230101.CorsRule

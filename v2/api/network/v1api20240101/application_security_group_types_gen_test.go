@@ -165,6 +165,103 @@ func AddRelatedPropertyGeneratorsForApplicationSecurityGroup(gens map[string]gop
 	gens["Status"] = ApplicationSecurityGroup_STATUSGenerator()
 }
 
+func Test_ApplicationSecurityGroupOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApplicationSecurityGroupOperatorSpec to ApplicationSecurityGroupOperatorSpec via AssignProperties_To_ApplicationSecurityGroupOperatorSpec & AssignProperties_From_ApplicationSecurityGroupOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApplicationSecurityGroupOperatorSpec, ApplicationSecurityGroupOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApplicationSecurityGroupOperatorSpec tests if a specific instance of ApplicationSecurityGroupOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForApplicationSecurityGroupOperatorSpec(subject ApplicationSecurityGroupOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ApplicationSecurityGroupOperatorSpec
+	err := copied.AssignProperties_To_ApplicationSecurityGroupOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApplicationSecurityGroupOperatorSpec
+	err = actual.AssignProperties_From_ApplicationSecurityGroupOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ApplicationSecurityGroupOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApplicationSecurityGroupOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApplicationSecurityGroupOperatorSpec, ApplicationSecurityGroupOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApplicationSecurityGroupOperatorSpec runs a test to see if a specific instance of ApplicationSecurityGroupOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationSecurityGroupOperatorSpec(subject ApplicationSecurityGroupOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApplicationSecurityGroupOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApplicationSecurityGroupOperatorSpec instances for property testing - lazily instantiated by
+// ApplicationSecurityGroupOperatorSpecGenerator()
+var applicationSecurityGroupOperatorSpecGenerator gopter.Gen
+
+// ApplicationSecurityGroupOperatorSpecGenerator returns a generator of ApplicationSecurityGroupOperatorSpec instances for property testing.
+func ApplicationSecurityGroupOperatorSpecGenerator() gopter.Gen {
+	if applicationSecurityGroupOperatorSpecGenerator != nil {
+		return applicationSecurityGroupOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	applicationSecurityGroupOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ApplicationSecurityGroupOperatorSpec{}), generators)
+
+	return applicationSecurityGroupOperatorSpecGenerator
+}
+
 func Test_ApplicationSecurityGroup_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -367,6 +464,9 @@ func RunJSONSerializationTestForApplicationSecurityGroup_Spec(subject Applicatio
 var applicationSecurityGroup_SpecGenerator gopter.Gen
 
 // ApplicationSecurityGroup_SpecGenerator returns a generator of ApplicationSecurityGroup_Spec instances for property testing.
+// We first initialize applicationSecurityGroup_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func ApplicationSecurityGroup_SpecGenerator() gopter.Gen {
 	if applicationSecurityGroup_SpecGenerator != nil {
 		return applicationSecurityGroup_SpecGenerator
@@ -374,6 +474,12 @@ func ApplicationSecurityGroup_SpecGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForApplicationSecurityGroup_Spec(generators)
+	applicationSecurityGroup_SpecGenerator = gen.Struct(reflect.TypeOf(ApplicationSecurityGroup_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationSecurityGroup_Spec(generators)
+	AddRelatedPropertyGeneratorsForApplicationSecurityGroup_Spec(generators)
 	applicationSecurityGroup_SpecGenerator = gen.Struct(reflect.TypeOf(ApplicationSecurityGroup_Spec{}), generators)
 
 	return applicationSecurityGroup_SpecGenerator
@@ -386,4 +492,9 @@ func AddIndependentPropertyGeneratorsForApplicationSecurityGroup_Spec(gens map[s
 	gens["Tags"] = gen.MapOf(
 		gen.AlphaString(),
 		gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForApplicationSecurityGroup_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForApplicationSecurityGroup_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(ApplicationSecurityGroupOperatorSpecGenerator())
 }

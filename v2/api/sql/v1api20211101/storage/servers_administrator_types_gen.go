@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (administrator *ServersAdministrator) GetConditions() conditions.Conditions
 // SetConditions sets the conditions on the resource status
 func (administrator *ServersAdministrator) SetConditions(conditions conditions.Conditions) {
 	administrator.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &ServersAdministrator{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (administrator *ServersAdministrator) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if administrator.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return administrator.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &ServersAdministrator{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (administrator *ServersAdministrator) SecretDestinationExpressions() []*core.DestinationExpression {
+	if administrator.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return administrator.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &ServersAdministrator{}
@@ -140,9 +163,10 @@ type ServersAdministratorList struct {
 
 // Storage version of v1api20211101.ServersAdministrator_Spec
 type ServersAdministrator_Spec struct {
-	AdministratorType *string `json:"administratorType,omitempty"`
-	Login             *string `json:"login,omitempty"`
-	OriginalVersion   string  `json:"originalVersion,omitempty"`
+	AdministratorType *string                           `json:"administratorType,omitempty"`
+	Login             *string                           `json:"login,omitempty"`
+	OperatorSpec      *ServersAdministratorOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion   string                            `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -208,6 +232,14 @@ func (administrator *ServersAdministrator_STATUS) ConvertStatusTo(destination ge
 	}
 
 	return destination.ConvertStatusFrom(administrator)
+}
+
+// Storage version of v1api20211101.ServersAdministratorOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ServersAdministratorOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 func init() {

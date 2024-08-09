@@ -3945,6 +3945,103 @@ func ApplicationGatewayLoadDistributionTargetGenerator() gopter.Gen {
 	return applicationGatewayLoadDistributionTargetGenerator
 }
 
+func Test_ApplicationGatewayOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApplicationGatewayOperatorSpec to ApplicationGatewayOperatorSpec via AssignProperties_To_ApplicationGatewayOperatorSpec & AssignProperties_From_ApplicationGatewayOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayOperatorSpec, ApplicationGatewayOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApplicationGatewayOperatorSpec tests if a specific instance of ApplicationGatewayOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForApplicationGatewayOperatorSpec(subject ApplicationGatewayOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ApplicationGatewayOperatorSpec
+	err := copied.AssignProperties_To_ApplicationGatewayOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApplicationGatewayOperatorSpec
+	err = actual.AssignProperties_From_ApplicationGatewayOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ApplicationGatewayOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApplicationGatewayOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApplicationGatewayOperatorSpec, ApplicationGatewayOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApplicationGatewayOperatorSpec runs a test to see if a specific instance of ApplicationGatewayOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationGatewayOperatorSpec(subject ApplicationGatewayOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApplicationGatewayOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApplicationGatewayOperatorSpec instances for property testing - lazily instantiated by
+// ApplicationGatewayOperatorSpecGenerator()
+var applicationGatewayOperatorSpecGenerator gopter.Gen
+
+// ApplicationGatewayOperatorSpecGenerator returns a generator of ApplicationGatewayOperatorSpec instances for property testing.
+func ApplicationGatewayOperatorSpecGenerator() gopter.Gen {
+	if applicationGatewayOperatorSpecGenerator != nil {
+		return applicationGatewayOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	applicationGatewayOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayOperatorSpec{}), generators)
+
+	return applicationGatewayOperatorSpecGenerator
+}
+
 func Test_ApplicationGatewayPathRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -8488,6 +8585,7 @@ func AddRelatedPropertyGeneratorsForApplicationGateway_Spec(gens map[string]gopt
 	gens["Identity"] = gen.PtrOf(ManagedServiceIdentityGenerator())
 	gens["Listeners"] = gen.SliceOf(ApplicationGatewayListenerGenerator())
 	gens["LoadDistributionPolicies"] = gen.SliceOf(ApplicationGatewayLoadDistributionPolicyGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(ApplicationGatewayOperatorSpecGenerator())
 	gens["PrivateLinkConfigurations"] = gen.SliceOf(ApplicationGatewayPrivateLinkConfigurationGenerator())
 	gens["Probes"] = gen.SliceOf(ApplicationGatewayProbeGenerator())
 	gens["RedirectConfigurations"] = gen.SliceOf(ApplicationGatewayRedirectConfigurationGenerator())

@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -83,6 +86,26 @@ func (authentication *ServersAzureADOnlyAuthentication) Default() {
 
 // defaultImpl applies the code generated defaults to the ServersAzureADOnlyAuthentication resource
 func (authentication *ServersAzureADOnlyAuthentication) defaultImpl() {}
+
+var _ configmaps.Exporter = &ServersAzureADOnlyAuthentication{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (authentication *ServersAzureADOnlyAuthentication) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if authentication.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return authentication.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &ServersAzureADOnlyAuthentication{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (authentication *ServersAzureADOnlyAuthentication) SecretDestinationExpressions() []*core.DestinationExpression {
+	if authentication.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return authentication.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &ServersAzureADOnlyAuthentication{}
 
@@ -202,7 +225,7 @@ func (authentication *ServersAzureADOnlyAuthentication) ValidateUpdate(old runti
 
 // createValidations validates the creation of the resource
 func (authentication *ServersAzureADOnlyAuthentication) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){authentication.validateResourceReferences, authentication.validateOwnerReference}
+	return []func() (admission.Warnings, error){authentication.validateResourceReferences, authentication.validateOwnerReference, authentication.validateSecretDestinations, authentication.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -220,7 +243,21 @@ func (authentication *ServersAzureADOnlyAuthentication) updateValidations() []fu
 		func(old runtime.Object) (admission.Warnings, error) {
 			return authentication.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return authentication.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return authentication.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (authentication *ServersAzureADOnlyAuthentication) validateConfigMapDestinations() (admission.Warnings, error) {
+	if authentication.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(authentication, nil, authentication.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -235,6 +272,14 @@ func (authentication *ServersAzureADOnlyAuthentication) validateResourceReferenc
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (authentication *ServersAzureADOnlyAuthentication) validateSecretDestinations() (admission.Warnings, error) {
+	if authentication.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(authentication, nil, authentication.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -323,6 +368,10 @@ type ServersAzureADOnlyAuthentication_Spec struct {
 	// AzureADOnlyAuthentication: Azure Active Directory only Authentication enabled.
 	AzureADOnlyAuthentication *bool `json:"azureADOnlyAuthentication,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *ServersAzureADOnlyAuthenticationOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -373,6 +422,8 @@ func (authentication *ServersAzureADOnlyAuthentication_Spec) PopulateFromARM(own
 			authentication.AzureADOnlyAuthentication = &azureADOnlyAuthentication
 		}
 	}
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	authentication.Owner = &genruntime.KnownResourceReference{
@@ -445,6 +496,18 @@ func (authentication *ServersAzureADOnlyAuthentication_Spec) AssignProperties_Fr
 		authentication.AzureADOnlyAuthentication = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ServersAzureADOnlyAuthenticationOperatorSpec
+		err := operatorSpec.AssignProperties_From_ServersAzureADOnlyAuthenticationOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ServersAzureADOnlyAuthenticationOperatorSpec() to populate field OperatorSpec")
+		}
+		authentication.OperatorSpec = &operatorSpec
+	} else {
+		authentication.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -468,6 +531,18 @@ func (authentication *ServersAzureADOnlyAuthentication_Spec) AssignProperties_To
 		destination.AzureADOnlyAuthentication = &azureADOnlyAuthentication
 	} else {
 		destination.AzureADOnlyAuthentication = nil
+	}
+
+	// OperatorSpec
+	if authentication.OperatorSpec != nil {
+		var operatorSpec storage.ServersAzureADOnlyAuthenticationOperatorSpec
+		err := authentication.OperatorSpec.AssignProperties_To_ServersAzureADOnlyAuthenticationOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ServersAzureADOnlyAuthenticationOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -677,6 +752,110 @@ func (authentication *ServersAzureADOnlyAuthentication_STATUS) AssignProperties_
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(authentication.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ServersAzureADOnlyAuthenticationOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_ServersAzureADOnlyAuthenticationOperatorSpec populates our ServersAzureADOnlyAuthenticationOperatorSpec from the provided source ServersAzureADOnlyAuthenticationOperatorSpec
+func (operator *ServersAzureADOnlyAuthenticationOperatorSpec) AssignProperties_From_ServersAzureADOnlyAuthenticationOperatorSpec(source *storage.ServersAzureADOnlyAuthenticationOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersAzureADOnlyAuthenticationOperatorSpec populates the provided destination ServersAzureADOnlyAuthenticationOperatorSpec from our ServersAzureADOnlyAuthenticationOperatorSpec
+func (operator *ServersAzureADOnlyAuthenticationOperatorSpec) AssignProperties_To_ServersAzureADOnlyAuthenticationOperatorSpec(destination *storage.ServersAzureADOnlyAuthenticationOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

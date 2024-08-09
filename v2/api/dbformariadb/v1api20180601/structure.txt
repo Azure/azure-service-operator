@@ -5,8 +5,11 @@ APIVersion: Enum (1 value)
 └── "2018-06-01"
 Configuration: Resource
 ├── Owner: Server
-├── Spec: Object (4 properties)
+├── Spec: Object (5 properties)
 │   ├── AzureName: string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── Source: *string
 │   └── Value: *string
@@ -23,10 +26,13 @@ Configuration: Resource
     └── Value: *string
 Database: Resource
 ├── Owner: Server
-├── Spec: Object (4 properties)
+├── Spec: Object (5 properties)
 │   ├── AzureName: string
 │   ├── Charset: *string
 │   ├── Collation: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   └── Owner: *genruntime.KnownResourceReference
 └── Status: Object (6 properties)
     ├── Charset: *string
@@ -40,7 +46,9 @@ Server: Resource
 ├── Spec: Object (7 properties)
 │   ├── AzureName: string
 │   ├── Location: *string
-│   ├── OperatorSpec: *Object (1 property)
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
 │   │   └── Secrets: *Object (1 property)
 │   │       └── FullyQualifiedDomainName: *genruntime.SecretDestination
 │   ├── Owner: *genruntime.KnownResourceReference

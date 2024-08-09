@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (resolver *DnsResolver) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (resolver *DnsResolver) SetConditions(conditions conditions.Conditions) {
 	resolver.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &DnsResolver{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (resolver *DnsResolver) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if resolver.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return resolver.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &DnsResolver{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (resolver *DnsResolver) SecretDestinationExpressions() []*core.DestinationExpression {
+	if resolver.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return resolver.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &DnsResolver{}
@@ -142,9 +165,10 @@ type DnsResolverList struct {
 type DnsResolver_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string  `json:"azureName,omitempty"`
-	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
+	AzureName       string                   `json:"azureName,omitempty"`
+	Location        *string                  `json:"location,omitempty"`
+	OperatorSpec    *DnsResolverOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                   `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -212,6 +236,14 @@ func (resolver *DnsResolver_STATUS) ConvertStatusTo(destination genruntime.Conve
 	}
 
 	return destination.ConvertStatusFrom(resolver)
+}
+
+// Storage version of v1api20220701.DnsResolverOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type DnsResolverOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 func init() {

@@ -164,6 +164,103 @@ func AddRelatedPropertyGeneratorsForApiVersionSet(gens map[string]gopter.Gen) {
 	gens["Status"] = ApiVersionSet_STATUSGenerator()
 }
 
+func Test_ApiVersionSetOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApiVersionSetOperatorSpec to ApiVersionSetOperatorSpec via AssignProperties_To_ApiVersionSetOperatorSpec & AssignProperties_From_ApiVersionSetOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApiVersionSetOperatorSpec, ApiVersionSetOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApiVersionSetOperatorSpec tests if a specific instance of ApiVersionSetOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForApiVersionSetOperatorSpec(subject ApiVersionSetOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ApiVersionSetOperatorSpec
+	err := copied.AssignProperties_To_ApiVersionSetOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApiVersionSetOperatorSpec
+	err = actual.AssignProperties_From_ApiVersionSetOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ApiVersionSetOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApiVersionSetOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApiVersionSetOperatorSpec, ApiVersionSetOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApiVersionSetOperatorSpec runs a test to see if a specific instance of ApiVersionSetOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForApiVersionSetOperatorSpec(subject ApiVersionSetOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApiVersionSetOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApiVersionSetOperatorSpec instances for property testing - lazily instantiated by
+// ApiVersionSetOperatorSpecGenerator()
+var apiVersionSetOperatorSpecGenerator gopter.Gen
+
+// ApiVersionSetOperatorSpecGenerator returns a generator of ApiVersionSetOperatorSpec instances for property testing.
+func ApiVersionSetOperatorSpecGenerator() gopter.Gen {
+	if apiVersionSetOperatorSpecGenerator != nil {
+		return apiVersionSetOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	apiVersionSetOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ApiVersionSetOperatorSpec{}), generators)
+
+	return apiVersionSetOperatorSpecGenerator
+}
+
 func Test_ApiVersionSet_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -359,6 +456,9 @@ func RunJSONSerializationTestForApiVersionSet_Spec(subject ApiVersionSet_Spec) s
 var apiVersionSet_SpecGenerator gopter.Gen
 
 // ApiVersionSet_SpecGenerator returns a generator of ApiVersionSet_Spec instances for property testing.
+// We first initialize apiVersionSet_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func ApiVersionSet_SpecGenerator() gopter.Gen {
 	if apiVersionSet_SpecGenerator != nil {
 		return apiVersionSet_SpecGenerator
@@ -366,6 +466,12 @@ func ApiVersionSet_SpecGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForApiVersionSet_Spec(generators)
+	apiVersionSet_SpecGenerator = gen.Struct(reflect.TypeOf(ApiVersionSet_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApiVersionSet_Spec(generators)
+	AddRelatedPropertyGeneratorsForApiVersionSet_Spec(generators)
 	apiVersionSet_SpecGenerator = gen.Struct(reflect.TypeOf(ApiVersionSet_Spec{}), generators)
 
 	return apiVersionSet_SpecGenerator
@@ -380,4 +486,9 @@ func AddIndependentPropertyGeneratorsForApiVersionSet_Spec(gens map[string]gopte
 	gens["VersionHeaderName"] = gen.PtrOf(gen.AlphaString())
 	gens["VersionQueryName"] = gen.PtrOf(gen.AlphaString())
 	gens["VersioningScheme"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForApiVersionSet_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForApiVersionSet_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(ApiVersionSetOperatorSpecGenerator())
 }

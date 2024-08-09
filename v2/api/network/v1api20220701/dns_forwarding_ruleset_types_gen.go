@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -90,6 +93,26 @@ func (ruleset *DnsForwardingRuleset) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the DnsForwardingRuleset resource
 func (ruleset *DnsForwardingRuleset) defaultImpl() { ruleset.defaultAzureName() }
+
+var _ configmaps.Exporter = &DnsForwardingRuleset{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (ruleset *DnsForwardingRuleset) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if ruleset.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return ruleset.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &DnsForwardingRuleset{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (ruleset *DnsForwardingRuleset) SecretDestinationExpressions() []*core.DestinationExpression {
+	if ruleset.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return ruleset.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &DnsForwardingRuleset{}
 
@@ -209,7 +232,7 @@ func (ruleset *DnsForwardingRuleset) ValidateUpdate(old runtime.Object) (admissi
 
 // createValidations validates the creation of the resource
 func (ruleset *DnsForwardingRuleset) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){ruleset.validateResourceReferences, ruleset.validateOwnerReference}
+	return []func() (admission.Warnings, error){ruleset.validateResourceReferences, ruleset.validateOwnerReference, ruleset.validateSecretDestinations, ruleset.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -227,7 +250,21 @@ func (ruleset *DnsForwardingRuleset) updateValidations() []func(old runtime.Obje
 		func(old runtime.Object) (admission.Warnings, error) {
 			return ruleset.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return ruleset.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return ruleset.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (ruleset *DnsForwardingRuleset) validateConfigMapDestinations() (admission.Warnings, error) {
+	if ruleset.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(ruleset, nil, ruleset.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -242,6 +279,14 @@ func (ruleset *DnsForwardingRuleset) validateResourceReferences() (admission.War
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (ruleset *DnsForwardingRuleset) validateSecretDestinations() (admission.Warnings, error) {
+	if ruleset.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(ruleset, nil, ruleset.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -339,6 +384,10 @@ type DnsForwardingRuleset_Spec struct {
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *DnsForwardingRulesetOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -422,6 +471,8 @@ func (ruleset *DnsForwardingRuleset_Spec) PopulateFromARM(owner genruntime.Arbit
 		location := *typedInput.Location
 		ruleset.Location = &location
 	}
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	ruleset.Owner = &genruntime.KnownResourceReference{
@@ -518,6 +569,18 @@ func (ruleset *DnsForwardingRuleset_Spec) AssignProperties_From_DnsForwardingRul
 	// Location
 	ruleset.Location = genruntime.ClonePointerToString(source.Location)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec DnsForwardingRulesetOperatorSpec
+		err := operatorSpec.AssignProperties_From_DnsForwardingRulesetOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DnsForwardingRulesetOperatorSpec() to populate field OperatorSpec")
+		}
+		ruleset.OperatorSpec = &operatorSpec
+	} else {
+		ruleset.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -561,6 +624,18 @@ func (ruleset *DnsForwardingRuleset_Spec) AssignProperties_To_DnsForwardingRules
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(ruleset.Location)
+
+	// OperatorSpec
+	if ruleset.OperatorSpec != nil {
+		var operatorSpec storage.DnsForwardingRulesetOperatorSpec
+		err := ruleset.OperatorSpec.AssignProperties_To_DnsForwardingRulesetOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DnsForwardingRulesetOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = ruleset.OriginalVersion()
@@ -955,6 +1030,110 @@ func (ruleset *DnsForwardingRuleset_STATUS) AssignProperties_To_DnsForwardingRul
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(ruleset.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type DnsForwardingRulesetOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_DnsForwardingRulesetOperatorSpec populates our DnsForwardingRulesetOperatorSpec from the provided source DnsForwardingRulesetOperatorSpec
+func (operator *DnsForwardingRulesetOperatorSpec) AssignProperties_From_DnsForwardingRulesetOperatorSpec(source *storage.DnsForwardingRulesetOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DnsForwardingRulesetOperatorSpec populates the provided destination DnsForwardingRulesetOperatorSpec from our DnsForwardingRulesetOperatorSpec
+func (operator *DnsForwardingRulesetOperatorSpec) AssignProperties_To_DnsForwardingRulesetOperatorSpec(destination *storage.DnsForwardingRulesetOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

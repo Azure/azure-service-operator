@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (setting *ServersAdvancedThreatProtectionSetting) GetConditions() condition
 // SetConditions sets the conditions on the resource status
 func (setting *ServersAdvancedThreatProtectionSetting) SetConditions(conditions conditions.Conditions) {
 	setting.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &ServersAdvancedThreatProtectionSetting{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (setting *ServersAdvancedThreatProtectionSetting) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if setting.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return setting.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &ServersAdvancedThreatProtectionSetting{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (setting *ServersAdvancedThreatProtectionSetting) SecretDestinationExpressions() []*core.DestinationExpression {
+	if setting.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return setting.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &ServersAdvancedThreatProtectionSetting{}
@@ -139,7 +162,8 @@ type ServersAdvancedThreatProtectionSettingList struct {
 
 // Storage version of v1api20211101.ServersAdvancedThreatProtectionSetting_Spec
 type ServersAdvancedThreatProtectionSetting_Spec struct {
-	OriginalVersion string `json:"originalVersion,omitempty"`
+	OperatorSpec    *ServersAdvancedThreatProtectionSettingOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                                              `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -200,6 +224,14 @@ func (setting *ServersAdvancedThreatProtectionSetting_STATUS) ConvertStatusTo(de
 	}
 
 	return destination.ConvertStatusFrom(setting)
+}
+
+// Storage version of v1api20211101.ServersAdvancedThreatProtectionSettingOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ServersAdvancedThreatProtectionSettingOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20211101.SystemData_STATUS

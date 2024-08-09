@@ -78,6 +78,61 @@ func AddRelatedPropertyGeneratorsForDnsZonesCAARecord(gens map[string]gopter.Gen
 	gens["Status"] = DnsZonesCAARecord_STATUSGenerator()
 }
 
+func Test_DnsZonesCAARecordOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DnsZonesCAARecordOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDnsZonesCAARecordOperatorSpec, DnsZonesCAARecordOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDnsZonesCAARecordOperatorSpec runs a test to see if a specific instance of DnsZonesCAARecordOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForDnsZonesCAARecordOperatorSpec(subject DnsZonesCAARecordOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DnsZonesCAARecordOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DnsZonesCAARecordOperatorSpec instances for property testing - lazily instantiated by
+// DnsZonesCAARecordOperatorSpecGenerator()
+var dnsZonesCAARecordOperatorSpecGenerator gopter.Gen
+
+// DnsZonesCAARecordOperatorSpecGenerator returns a generator of DnsZonesCAARecordOperatorSpec instances for property testing.
+func DnsZonesCAARecordOperatorSpecGenerator() gopter.Gen {
+	if dnsZonesCAARecordOperatorSpecGenerator != nil {
+		return dnsZonesCAARecordOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	dnsZonesCAARecordOperatorSpecGenerator = gen.Struct(reflect.TypeOf(DnsZonesCAARecordOperatorSpec{}), generators)
+
+	return dnsZonesCAARecordOperatorSpecGenerator
+}
+
 func Test_DnsZonesCAARecord_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -255,6 +310,7 @@ func AddRelatedPropertyGeneratorsForDnsZonesCAARecord_Spec(gens map[string]gopte
 	gens["CaaRecords"] = gen.SliceOf(CaaRecordGenerator())
 	gens["MXRecords"] = gen.SliceOf(MxRecordGenerator())
 	gens["NSRecords"] = gen.SliceOf(NsRecordGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(DnsZonesCAARecordOperatorSpecGenerator())
 	gens["PTRRecords"] = gen.SliceOf(PtrRecordGenerator())
 	gens["SOARecord"] = gen.PtrOf(SoaRecordGenerator())
 	gens["SRVRecords"] = gen.SliceOf(SrvRecordGenerator())

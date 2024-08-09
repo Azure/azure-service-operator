@@ -164,6 +164,103 @@ func AddRelatedPropertyGeneratorsForRedisLinkedServer(gens map[string]gopter.Gen
 	gens["Status"] = Redis_LinkedServer_STATUSGenerator()
 }
 
+func Test_RedisLinkedServerOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RedisLinkedServerOperatorSpec to RedisLinkedServerOperatorSpec via AssignProperties_To_RedisLinkedServerOperatorSpec & AssignProperties_From_RedisLinkedServerOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedisLinkedServerOperatorSpec, RedisLinkedServerOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRedisLinkedServerOperatorSpec tests if a specific instance of RedisLinkedServerOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRedisLinkedServerOperatorSpec(subject RedisLinkedServerOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RedisLinkedServerOperatorSpec
+	err := copied.AssignProperties_To_RedisLinkedServerOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RedisLinkedServerOperatorSpec
+	err = actual.AssignProperties_From_RedisLinkedServerOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_RedisLinkedServerOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of RedisLinkedServerOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRedisLinkedServerOperatorSpec, RedisLinkedServerOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForRedisLinkedServerOperatorSpec runs a test to see if a specific instance of RedisLinkedServerOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForRedisLinkedServerOperatorSpec(subject RedisLinkedServerOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual RedisLinkedServerOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of RedisLinkedServerOperatorSpec instances for property testing - lazily instantiated by
+// RedisLinkedServerOperatorSpecGenerator()
+var redisLinkedServerOperatorSpecGenerator gopter.Gen
+
+// RedisLinkedServerOperatorSpecGenerator returns a generator of RedisLinkedServerOperatorSpec instances for property testing.
+func RedisLinkedServerOperatorSpecGenerator() gopter.Gen {
+	if redisLinkedServerOperatorSpecGenerator != nil {
+		return redisLinkedServerOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	redisLinkedServerOperatorSpecGenerator = gen.Struct(reflect.TypeOf(RedisLinkedServerOperatorSpec{}), generators)
+
+	return redisLinkedServerOperatorSpecGenerator
+}
+
 func Test_RedisLinkedServer_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -250,6 +347,9 @@ func RunJSONSerializationTestForRedisLinkedServer_Spec(subject RedisLinkedServer
 var redisLinkedServer_SpecGenerator gopter.Gen
 
 // RedisLinkedServer_SpecGenerator returns a generator of RedisLinkedServer_Spec instances for property testing.
+// We first initialize redisLinkedServer_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func RedisLinkedServer_SpecGenerator() gopter.Gen {
 	if redisLinkedServer_SpecGenerator != nil {
 		return redisLinkedServer_SpecGenerator
@@ -257,6 +357,12 @@ func RedisLinkedServer_SpecGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForRedisLinkedServer_Spec(generators)
+	redisLinkedServer_SpecGenerator = gen.Struct(reflect.TypeOf(RedisLinkedServer_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRedisLinkedServer_Spec(generators)
+	AddRelatedPropertyGeneratorsForRedisLinkedServer_Spec(generators)
 	redisLinkedServer_SpecGenerator = gen.Struct(reflect.TypeOf(RedisLinkedServer_Spec{}), generators)
 
 	return redisLinkedServer_SpecGenerator
@@ -267,6 +373,11 @@ func AddIndependentPropertyGeneratorsForRedisLinkedServer_Spec(gens map[string]g
 	gens["AzureName"] = gen.AlphaString()
 	gens["LinkedRedisCacheLocation"] = gen.PtrOf(gen.AlphaString())
 	gens["ServerRole"] = gen.PtrOf(gen.OneConstOf(RedisLinkedServerCreateProperties_ServerRole_Primary, RedisLinkedServerCreateProperties_ServerRole_Secondary))
+}
+
+// AddRelatedPropertyGeneratorsForRedisLinkedServer_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRedisLinkedServer_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(RedisLinkedServerOperatorSpecGenerator())
 }
 
 func Test_Redis_LinkedServer_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

@@ -8,6 +8,9 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -63,6 +66,26 @@ func (trigger *SqlDatabaseContainerTrigger) ConvertTo(hub conversion.Hub) error 
 	}
 
 	return trigger.AssignProperties_To_SqlDatabaseContainerTrigger(destination)
+}
+
+var _ configmaps.Exporter = &SqlDatabaseContainerTrigger{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (trigger *SqlDatabaseContainerTrigger) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if trigger.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return trigger.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &SqlDatabaseContainerTrigger{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (trigger *SqlDatabaseContainerTrigger) SecretDestinationExpressions() []*core.DestinationExpression {
+	if trigger.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return trigger.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &SqlDatabaseContainerTrigger{}
@@ -235,10 +258,11 @@ type augmentConversionForSqlDatabaseContainerTrigger interface {
 type SqlDatabaseContainerTrigger_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string               `json:"azureName,omitempty"`
-	Location        *string              `json:"location,omitempty"`
-	Options         *CreateUpdateOptions `json:"options,omitempty"`
-	OriginalVersion string               `json:"originalVersion,omitempty"`
+	AzureName       string                                   `json:"azureName,omitempty"`
+	Location        *string                                  `json:"location,omitempty"`
+	OperatorSpec    *SqlDatabaseContainerTriggerOperatorSpec `json:"operatorSpec,omitempty"`
+	Options         *CreateUpdateOptions                     `json:"options,omitempty"`
+	OriginalVersion string                                   `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -311,6 +335,18 @@ func (trigger *SqlDatabaseContainerTrigger_Spec) AssignProperties_From_SqlDataba
 	// Location
 	trigger.Location = genruntime.ClonePointerToString(source.Location)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec SqlDatabaseContainerTriggerOperatorSpec
+		err := operatorSpec.AssignProperties_From_SqlDatabaseContainerTriggerOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SqlDatabaseContainerTriggerOperatorSpec() to populate field OperatorSpec")
+		}
+		trigger.OperatorSpec = &operatorSpec
+	} else {
+		trigger.OperatorSpec = nil
+	}
+
 	// Options
 	if source.Options != nil {
 		var option CreateUpdateOptions
@@ -379,6 +415,18 @@ func (trigger *SqlDatabaseContainerTrigger_Spec) AssignProperties_To_SqlDatabase
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(trigger.Location)
+
+	// OperatorSpec
+	if trigger.OperatorSpec != nil {
+		var operatorSpec storage.SqlDatabaseContainerTriggerOperatorSpec
+		err := trigger.OperatorSpec.AssignProperties_To_SqlDatabaseContainerTriggerOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SqlDatabaseContainerTriggerOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// Options
 	if trigger.Options != nil {
@@ -620,6 +668,136 @@ type augmentConversionForSqlDatabaseContainerTrigger_STATUS interface {
 	AssignPropertiesTo(dst *storage.SqlDatabaseContainerTrigger_STATUS) error
 }
 
+// Storage version of v1api20210515.SqlDatabaseContainerTriggerOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type SqlDatabaseContainerTriggerOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_SqlDatabaseContainerTriggerOperatorSpec populates our SqlDatabaseContainerTriggerOperatorSpec from the provided source SqlDatabaseContainerTriggerOperatorSpec
+func (operator *SqlDatabaseContainerTriggerOperatorSpec) AssignProperties_From_SqlDatabaseContainerTriggerOperatorSpec(source *storage.SqlDatabaseContainerTriggerOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSqlDatabaseContainerTriggerOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForSqlDatabaseContainerTriggerOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SqlDatabaseContainerTriggerOperatorSpec populates the provided destination SqlDatabaseContainerTriggerOperatorSpec from our SqlDatabaseContainerTriggerOperatorSpec
+func (operator *SqlDatabaseContainerTriggerOperatorSpec) AssignProperties_To_SqlDatabaseContainerTriggerOperatorSpec(destination *storage.SqlDatabaseContainerTriggerOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSqlDatabaseContainerTriggerOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForSqlDatabaseContainerTriggerOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20210515.SqlTriggerGetProperties_Resource_STATUS
 type SqlTriggerGetProperties_Resource_STATUS struct {
 	Body             *string                `json:"body,omitempty"`
@@ -816,6 +994,11 @@ func (resource *SqlTriggerResource) AssignProperties_To_SqlTriggerResource(desti
 
 	// No error
 	return nil
+}
+
+type augmentConversionForSqlDatabaseContainerTriggerOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.SqlDatabaseContainerTriggerOperatorSpec) error
+	AssignPropertiesTo(dst *storage.SqlDatabaseContainerTriggerOperatorSpec) error
 }
 
 type augmentConversionForSqlTriggerGetProperties_Resource_STATUS interface {

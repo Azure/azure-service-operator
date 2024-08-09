@@ -5,9 +5,12 @@ APIVersion: Enum (1 value)
 └── "2023-04-03"
 Account: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (5 properties)
+├── Spec: Object (6 properties)
 │   ├── AzureName: string
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PublicNetworkAccess: *Enum (2 values)
 │   │   ├── "Disabled"

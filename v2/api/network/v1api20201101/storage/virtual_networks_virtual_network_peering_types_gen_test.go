@@ -79,6 +79,61 @@ func AddRelatedPropertyGeneratorsForVirtualNetworksVirtualNetworkPeering(gens ma
 	gens["Status"] = VirtualNetworksVirtualNetworkPeering_STATUSGenerator()
 }
 
+func Test_VirtualNetworksVirtualNetworkPeeringOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualNetworksVirtualNetworkPeeringOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualNetworksVirtualNetworkPeeringOperatorSpec, VirtualNetworksVirtualNetworkPeeringOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualNetworksVirtualNetworkPeeringOperatorSpec runs a test to see if a specific instance of VirtualNetworksVirtualNetworkPeeringOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualNetworksVirtualNetworkPeeringOperatorSpec(subject VirtualNetworksVirtualNetworkPeeringOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualNetworksVirtualNetworkPeeringOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualNetworksVirtualNetworkPeeringOperatorSpec instances for property testing - lazily instantiated by
+// VirtualNetworksVirtualNetworkPeeringOperatorSpecGenerator()
+var virtualNetworksVirtualNetworkPeeringOperatorSpecGenerator gopter.Gen
+
+// VirtualNetworksVirtualNetworkPeeringOperatorSpecGenerator returns a generator of VirtualNetworksVirtualNetworkPeeringOperatorSpec instances for property testing.
+func VirtualNetworksVirtualNetworkPeeringOperatorSpecGenerator() gopter.Gen {
+	if virtualNetworksVirtualNetworkPeeringOperatorSpecGenerator != nil {
+		return virtualNetworksVirtualNetworkPeeringOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	virtualNetworksVirtualNetworkPeeringOperatorSpecGenerator = gen.Struct(reflect.TypeOf(VirtualNetworksVirtualNetworkPeeringOperatorSpec{}), generators)
+
+	return virtualNetworksVirtualNetworkPeeringOperatorSpecGenerator
+}
+
 func Test_VirtualNetworksVirtualNetworkPeering_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -246,6 +301,7 @@ func AddIndependentPropertyGeneratorsForVirtualNetworksVirtualNetworkPeering_Spe
 
 // AddRelatedPropertyGeneratorsForVirtualNetworksVirtualNetworkPeering_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVirtualNetworksVirtualNetworkPeering_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(VirtualNetworksVirtualNetworkPeeringOperatorSpecGenerator())
 	gens["RemoteAddressSpace"] = gen.PtrOf(AddressSpaceGenerator())
 	gens["RemoteBgpCommunities"] = gen.PtrOf(VirtualNetworkBgpCommunitiesGenerator())
 	gens["RemoteVirtualNetwork"] = gen.PtrOf(SubResourceGenerator())

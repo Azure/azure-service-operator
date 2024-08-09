@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (container *StorageAccountsBlobServicesContainer) GetConditions() condition
 // SetConditions sets the conditions on the resource status
 func (container *StorageAccountsBlobServicesContainer) SetConditions(conditions conditions.Conditions) {
 	container.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &StorageAccountsBlobServicesContainer{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (container *StorageAccountsBlobServicesContainer) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if container.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return container.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &StorageAccountsBlobServicesContainer{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (container *StorageAccountsBlobServicesContainer) SecretDestinationExpressions() []*core.DestinationExpression {
+	if container.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return container.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &StorageAccountsBlobServicesContainer{}
@@ -142,14 +165,15 @@ type StorageAccountsBlobServicesContainerList struct {
 type StorageAccountsBlobServicesContainer_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                      string                          `json:"azureName,omitempty"`
-	DefaultEncryptionScope         *string                         `json:"defaultEncryptionScope,omitempty"`
-	DenyEncryptionScopeOverride    *bool                           `json:"denyEncryptionScopeOverride,omitempty"`
-	EnableNfsV3AllSquash           *bool                           `json:"enableNfsV3AllSquash,omitempty"`
-	EnableNfsV3RootSquash          *bool                           `json:"enableNfsV3RootSquash,omitempty"`
-	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning `json:"immutableStorageWithVersioning,omitempty"`
-	Metadata                       map[string]string               `json:"metadata,omitempty"`
-	OriginalVersion                string                          `json:"originalVersion,omitempty"`
+	AzureName                      string                                            `json:"azureName,omitempty"`
+	DefaultEncryptionScope         *string                                           `json:"defaultEncryptionScope,omitempty"`
+	DenyEncryptionScopeOverride    *bool                                             `json:"denyEncryptionScopeOverride,omitempty"`
+	EnableNfsV3AllSquash           *bool                                             `json:"enableNfsV3AllSquash,omitempty"`
+	EnableNfsV3RootSquash          *bool                                             `json:"enableNfsV3RootSquash,omitempty"`
+	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning                   `json:"immutableStorageWithVersioning,omitempty"`
+	Metadata                       map[string]string                                 `json:"metadata,omitempty"`
+	OperatorSpec                   *StorageAccountsBlobServicesContainerOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion                string                                            `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -264,6 +288,14 @@ type LegalHoldProperties_STATUS struct {
 	PropertyBag                  genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
 	ProtectedAppendWritesHistory *ProtectedAppendWritesHistory_STATUS `json:"protectedAppendWritesHistory,omitempty"`
 	Tags                         []TagProperty_STATUS                 `json:"tags,omitempty"`
+}
+
+// Storage version of v1api20230101.StorageAccountsBlobServicesContainerOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type StorageAccountsBlobServicesContainerOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20230101.ProtectedAppendWritesHistory_STATUS

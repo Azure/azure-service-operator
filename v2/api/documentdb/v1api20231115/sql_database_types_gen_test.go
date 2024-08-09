@@ -287,6 +287,103 @@ func AddRelatedPropertyGeneratorsForSqlDatabaseGetProperties_Resource_STATUS(gen
 	gens["RestoreParameters"] = gen.PtrOf(RestoreParametersBase_STATUSGenerator())
 }
 
+func Test_SqlDatabaseOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SqlDatabaseOperatorSpec to SqlDatabaseOperatorSpec via AssignProperties_To_SqlDatabaseOperatorSpec & AssignProperties_From_SqlDatabaseOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSqlDatabaseOperatorSpec, SqlDatabaseOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSqlDatabaseOperatorSpec tests if a specific instance of SqlDatabaseOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSqlDatabaseOperatorSpec(subject SqlDatabaseOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SqlDatabaseOperatorSpec
+	err := copied.AssignProperties_To_SqlDatabaseOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SqlDatabaseOperatorSpec
+	err = actual.AssignProperties_From_SqlDatabaseOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_SqlDatabaseOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SqlDatabaseOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSqlDatabaseOperatorSpec, SqlDatabaseOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSqlDatabaseOperatorSpec runs a test to see if a specific instance of SqlDatabaseOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlDatabaseOperatorSpec(subject SqlDatabaseOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SqlDatabaseOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SqlDatabaseOperatorSpec instances for property testing - lazily instantiated by
+// SqlDatabaseOperatorSpecGenerator()
+var sqlDatabaseOperatorSpecGenerator gopter.Gen
+
+// SqlDatabaseOperatorSpecGenerator returns a generator of SqlDatabaseOperatorSpec instances for property testing.
+func SqlDatabaseOperatorSpecGenerator() gopter.Gen {
+	if sqlDatabaseOperatorSpecGenerator != nil {
+		return sqlDatabaseOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	sqlDatabaseOperatorSpecGenerator = gen.Struct(reflect.TypeOf(SqlDatabaseOperatorSpec{}), generators)
+
+	return sqlDatabaseOperatorSpecGenerator
+}
+
 func Test_SqlDatabaseResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -645,6 +742,7 @@ func AddIndependentPropertyGeneratorsForSqlDatabase_Spec(gens map[string]gopter.
 
 // AddRelatedPropertyGeneratorsForSqlDatabase_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSqlDatabase_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(SqlDatabaseOperatorSpecGenerator())
 	gens["Options"] = gen.PtrOf(CreateUpdateOptionsGenerator())
 	gens["Resource"] = gen.PtrOf(SqlDatabaseResourceGenerator())
 }

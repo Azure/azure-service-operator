@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -90,6 +93,26 @@ func (origin *AfdOrigin) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the AfdOrigin resource
 func (origin *AfdOrigin) defaultImpl() { origin.defaultAzureName() }
+
+var _ configmaps.Exporter = &AfdOrigin{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (origin *AfdOrigin) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if origin.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return origin.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &AfdOrigin{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (origin *AfdOrigin) SecretDestinationExpressions() []*core.DestinationExpression {
+	if origin.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return origin.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &AfdOrigin{}
 
@@ -209,7 +232,7 @@ func (origin *AfdOrigin) ValidateUpdate(old runtime.Object) (admission.Warnings,
 
 // createValidations validates the creation of the resource
 func (origin *AfdOrigin) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){origin.validateResourceReferences, origin.validateOwnerReference}
+	return []func() (admission.Warnings, error){origin.validateResourceReferences, origin.validateOwnerReference, origin.validateSecretDestinations, origin.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -227,7 +250,21 @@ func (origin *AfdOrigin) updateValidations() []func(old runtime.Object) (admissi
 		func(old runtime.Object) (admission.Warnings, error) {
 			return origin.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return origin.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return origin.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (origin *AfdOrigin) validateConfigMapDestinations() (admission.Warnings, error) {
+	if origin.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(origin, nil, origin.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -242,6 +279,14 @@ func (origin *AfdOrigin) validateResourceReferences() (admission.Warnings, error
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (origin *AfdOrigin) validateSecretDestinations() (admission.Warnings, error) {
+	if origin.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(origin, nil, origin.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -353,6 +398,10 @@ type AfdOrigin_Spec struct {
 	// +kubebuilder:validation:Minimum=1
 	// HttpsPort: The value of the HTTPS port. Must be between 1 and 65535.
 	HttpsPort *int `json:"httpsPort,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *AfdOriginOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// OriginHostHeader: The host header value sent to the origin with each request. If you leave this blank, the request
 	// hostname determines this value. Azure Front Door origins, such as Web Apps, Blob Storage, and Cloud Services require
@@ -534,6 +583,8 @@ func (origin *AfdOrigin_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		}
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "OriginHostHeader":
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -689,6 +740,18 @@ func (origin *AfdOrigin_Spec) AssignProperties_From_AfdOrigin_Spec(source *stora
 		origin.HttpsPort = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec AfdOriginOperatorSpec
+		err := operatorSpec.AssignProperties_From_AfdOriginOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_AfdOriginOperatorSpec() to populate field OperatorSpec")
+		}
+		origin.OperatorSpec = &operatorSpec
+	} else {
+		origin.OperatorSpec = nil
+	}
+
 	// OriginHostHeader
 	origin.OriginHostHeader = genruntime.ClonePointerToString(source.OriginHostHeader)
 
@@ -785,6 +848,18 @@ func (origin *AfdOrigin_Spec) AssignProperties_To_AfdOrigin_Spec(destination *st
 		destination.HttpsPort = &httpsPort
 	} else {
 		destination.HttpsPort = nil
+	}
+
+	// OperatorSpec
+	if origin.OperatorSpec != nil {
+		var operatorSpec storage.AfdOriginOperatorSpec
+		err := origin.OperatorSpec.AssignProperties_To_AfdOriginOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_AfdOriginOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginHostHeader
@@ -1440,6 +1515,110 @@ func (origin *AfdOrigin_STATUS) AssignProperties_To_AfdOrigin_STATUS(destination
 
 	// Weight
 	destination.Weight = genruntime.ClonePointerToInt(origin.Weight)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type AfdOriginOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_AfdOriginOperatorSpec populates our AfdOriginOperatorSpec from the provided source AfdOriginOperatorSpec
+func (operator *AfdOriginOperatorSpec) AssignProperties_From_AfdOriginOperatorSpec(source *storage.AfdOriginOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AfdOriginOperatorSpec populates the provided destination AfdOriginOperatorSpec from our AfdOriginOperatorSpec
+func (operator *AfdOriginOperatorSpec) AssignProperties_To_AfdOriginOperatorSpec(destination *storage.AfdOriginOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

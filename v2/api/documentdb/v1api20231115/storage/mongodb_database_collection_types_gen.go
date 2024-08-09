@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (collection *MongodbDatabaseCollection) GetConditions() conditions.Conditio
 // SetConditions sets the conditions on the resource status
 func (collection *MongodbDatabaseCollection) SetConditions(conditions conditions.Conditions) {
 	collection.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &MongodbDatabaseCollection{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (collection *MongodbDatabaseCollection) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if collection.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return collection.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &MongodbDatabaseCollection{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (collection *MongodbDatabaseCollection) SecretDestinationExpressions() []*core.DestinationExpression {
+	if collection.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return collection.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &MongodbDatabaseCollection{}
@@ -142,10 +165,11 @@ type MongodbDatabaseCollectionList struct {
 type MongodbDatabaseCollection_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string               `json:"azureName,omitempty"`
-	Location        *string              `json:"location,omitempty"`
-	Options         *CreateUpdateOptions `json:"options,omitempty"`
-	OriginalVersion string               `json:"originalVersion,omitempty"`
+	AzureName       string                                 `json:"azureName,omitempty"`
+	Location        *string                                `json:"location,omitempty"`
+	OperatorSpec    *MongodbDatabaseCollectionOperatorSpec `json:"operatorSpec,omitempty"`
+	Options         *CreateUpdateOptions                   `json:"options,omitempty"`
+	OriginalVersion string                                 `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -234,6 +258,14 @@ type MongoDBCollectionResource struct {
 	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	RestoreParameters    *RestoreParametersBase `json:"restoreParameters,omitempty"`
 	ShardKey             map[string]string      `json:"shardKey,omitempty"`
+}
+
+// Storage version of v1api20231115.MongodbDatabaseCollectionOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type MongodbDatabaseCollectionOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20231115.MongoIndex

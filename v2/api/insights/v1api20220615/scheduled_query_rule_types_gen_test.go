@@ -1260,6 +1260,103 @@ func AddRelatedPropertyGeneratorsForScheduledQueryRuleCriteria_STATUS(gens map[s
 	gens["AllOf"] = gen.SliceOf(Condition_STATUSGenerator())
 }
 
+func Test_ScheduledQueryRuleOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ScheduledQueryRuleOperatorSpec to ScheduledQueryRuleOperatorSpec via AssignProperties_To_ScheduledQueryRuleOperatorSpec & AssignProperties_From_ScheduledQueryRuleOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForScheduledQueryRuleOperatorSpec, ScheduledQueryRuleOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForScheduledQueryRuleOperatorSpec tests if a specific instance of ScheduledQueryRuleOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForScheduledQueryRuleOperatorSpec(subject ScheduledQueryRuleOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ScheduledQueryRuleOperatorSpec
+	err := copied.AssignProperties_To_ScheduledQueryRuleOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ScheduledQueryRuleOperatorSpec
+	err = actual.AssignProperties_From_ScheduledQueryRuleOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ScheduledQueryRuleOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ScheduledQueryRuleOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForScheduledQueryRuleOperatorSpec, ScheduledQueryRuleOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForScheduledQueryRuleOperatorSpec runs a test to see if a specific instance of ScheduledQueryRuleOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForScheduledQueryRuleOperatorSpec(subject ScheduledQueryRuleOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ScheduledQueryRuleOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ScheduledQueryRuleOperatorSpec instances for property testing - lazily instantiated by
+// ScheduledQueryRuleOperatorSpecGenerator()
+var scheduledQueryRuleOperatorSpecGenerator gopter.Gen
+
+// ScheduledQueryRuleOperatorSpecGenerator returns a generator of ScheduledQueryRuleOperatorSpec instances for property testing.
+func ScheduledQueryRuleOperatorSpecGenerator() gopter.Gen {
+	if scheduledQueryRuleOperatorSpecGenerator != nil {
+		return scheduledQueryRuleOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	scheduledQueryRuleOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ScheduledQueryRuleOperatorSpec{}), generators)
+
+	return scheduledQueryRuleOperatorSpecGenerator
+}
+
 func Test_ScheduledQueryRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1546,6 +1643,7 @@ func AddIndependentPropertyGeneratorsForScheduledQueryRule_Spec(gens map[string]
 func AddRelatedPropertyGeneratorsForScheduledQueryRule_Spec(gens map[string]gopter.Gen) {
 	gens["Actions"] = gen.PtrOf(ActionsGenerator())
 	gens["Criteria"] = gen.PtrOf(ScheduledQueryRuleCriteriaGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(ScheduledQueryRuleOperatorSpecGenerator())
 }
 
 func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

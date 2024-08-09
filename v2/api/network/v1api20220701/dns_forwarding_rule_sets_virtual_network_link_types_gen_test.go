@@ -165,6 +165,103 @@ func AddRelatedPropertyGeneratorsForDnsForwardingRuleSetsVirtualNetworkLink(gens
 	gens["Status"] = DnsForwardingRuleSetsVirtualNetworkLink_STATUSGenerator()
 }
 
+func Test_DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec to DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec via AssignProperties_To_DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec & AssignProperties_From_DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec, DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec tests if a specific instance of DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec(subject DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec
+	err := copied.AssignProperties_To_DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec
+	err = actual.AssignProperties_From_DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec, DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec runs a test to see if a specific instance of DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForDnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec(subject DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec instances for property testing - lazily instantiated
+// by DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpecGenerator()
+var dnsForwardingRuleSetsVirtualNetworkLinkOperatorSpecGenerator gopter.Gen
+
+// DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpecGenerator returns a generator of DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec instances for property testing.
+func DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpecGenerator() gopter.Gen {
+	if dnsForwardingRuleSetsVirtualNetworkLinkOperatorSpecGenerator != nil {
+		return dnsForwardingRuleSetsVirtualNetworkLinkOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	dnsForwardingRuleSetsVirtualNetworkLinkOperatorSpecGenerator = gen.Struct(reflect.TypeOf(DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec{}), generators)
+
+	return dnsForwardingRuleSetsVirtualNetworkLinkOperatorSpecGenerator
+}
+
 func Test_DnsForwardingRuleSetsVirtualNetworkLink_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -413,6 +510,7 @@ func AddIndependentPropertyGeneratorsForDnsForwardingRuleSetsVirtualNetworkLink_
 
 // AddRelatedPropertyGeneratorsForDnsForwardingRuleSetsVirtualNetworkLink_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDnsForwardingRuleSetsVirtualNetworkLink_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpecGenerator())
 	gens["VirtualNetwork"] = gen.PtrOf(DnsresolverSubResourceGenerator())
 }
 

@@ -1633,6 +1633,61 @@ func AddRelatedPropertyGeneratorsForWebApplicationFirewallPolicy(gens map[string
 	gens["Status"] = WebApplicationFirewallPolicy_STATUSGenerator()
 }
 
+func Test_WebApplicationFirewallPolicyOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of WebApplicationFirewallPolicyOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWebApplicationFirewallPolicyOperatorSpec, WebApplicationFirewallPolicyOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForWebApplicationFirewallPolicyOperatorSpec runs a test to see if a specific instance of WebApplicationFirewallPolicyOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForWebApplicationFirewallPolicyOperatorSpec(subject WebApplicationFirewallPolicyOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual WebApplicationFirewallPolicyOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of WebApplicationFirewallPolicyOperatorSpec instances for property testing - lazily instantiated by
+// WebApplicationFirewallPolicyOperatorSpecGenerator()
+var webApplicationFirewallPolicyOperatorSpecGenerator gopter.Gen
+
+// WebApplicationFirewallPolicyOperatorSpecGenerator returns a generator of WebApplicationFirewallPolicyOperatorSpec instances for property testing.
+func WebApplicationFirewallPolicyOperatorSpecGenerator() gopter.Gen {
+	if webApplicationFirewallPolicyOperatorSpecGenerator != nil {
+		return webApplicationFirewallPolicyOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	webApplicationFirewallPolicyOperatorSpecGenerator = gen.Struct(reflect.TypeOf(WebApplicationFirewallPolicyOperatorSpec{}), generators)
+
+	return webApplicationFirewallPolicyOperatorSpecGenerator
+}
+
 func Test_WebApplicationFirewallPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1803,6 +1858,7 @@ func AddIndependentPropertyGeneratorsForWebApplicationFirewallPolicy_Spec(gens m
 func AddRelatedPropertyGeneratorsForWebApplicationFirewallPolicy_Spec(gens map[string]gopter.Gen) {
 	gens["CustomRules"] = gen.PtrOf(CustomRuleListGenerator())
 	gens["ManagedRules"] = gen.PtrOf(ManagedRuleSetListGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(WebApplicationFirewallPolicyOperatorSpecGenerator())
 	gens["PolicySettings"] = gen.PtrOf(PolicySettingsGenerator())
 	gens["Sku"] = gen.PtrOf(SkuGenerator())
 }

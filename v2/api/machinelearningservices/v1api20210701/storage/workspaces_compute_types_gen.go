@@ -8,6 +8,9 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20240401/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -64,6 +67,26 @@ func (compute *WorkspacesCompute) ConvertTo(hub conversion.Hub) error {
 	}
 
 	return compute.AssignProperties_To_WorkspacesCompute(destination)
+}
+
+var _ configmaps.Exporter = &WorkspacesCompute{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (compute *WorkspacesCompute) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if compute.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return compute.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &WorkspacesCompute{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (compute *WorkspacesCompute) SecretDestinationExpressions() []*core.DestinationExpression {
+	if compute.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return compute.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &WorkspacesCompute{}
@@ -236,10 +259,11 @@ type augmentConversionForWorkspacesCompute interface {
 type WorkspacesCompute_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string    `json:"azureName,omitempty"`
-	Identity        *Identity `json:"identity,omitempty"`
-	Location        *string   `json:"location,omitempty"`
-	OriginalVersion string    `json:"originalVersion,omitempty"`
+	AzureName       string                         `json:"azureName,omitempty"`
+	Identity        *Identity                      `json:"identity,omitempty"`
+	Location        *string                        `json:"location,omitempty"`
+	OperatorSpec    *WorkspacesComputeOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                         `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -325,6 +349,18 @@ func (compute *WorkspacesCompute_Spec) AssignProperties_From_WorkspacesCompute_S
 
 	// Location
 	compute.Location = genruntime.ClonePointerToString(source.Location)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec WorkspacesComputeOperatorSpec
+		err := operatorSpec.AssignProperties_From_WorkspacesComputeOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_WorkspacesComputeOperatorSpec() to populate field OperatorSpec")
+		}
+		compute.OperatorSpec = &operatorSpec
+	} else {
+		compute.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	compute.OriginalVersion = source.OriginalVersion
@@ -419,6 +455,18 @@ func (compute *WorkspacesCompute_Spec) AssignProperties_To_WorkspacesCompute_Spe
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(compute.Location)
+
+	// OperatorSpec
+	if compute.OperatorSpec != nil {
+		var operatorSpec storage.WorkspacesComputeOperatorSpec
+		err := compute.OperatorSpec.AssignProperties_To_WorkspacesComputeOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_WorkspacesComputeOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = compute.OriginalVersion
@@ -1352,6 +1400,136 @@ func (compute *Compute_STATUS) AssignProperties_To_Compute_STATUS(destination *s
 	return nil
 }
 
+// Storage version of v1api20210701.WorkspacesComputeOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type WorkspacesComputeOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_WorkspacesComputeOperatorSpec populates our WorkspacesComputeOperatorSpec from the provided source WorkspacesComputeOperatorSpec
+func (operator *WorkspacesComputeOperatorSpec) AssignProperties_From_WorkspacesComputeOperatorSpec(source *storage.WorkspacesComputeOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForWorkspacesComputeOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForWorkspacesComputeOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_WorkspacesComputeOperatorSpec populates the provided destination WorkspacesComputeOperatorSpec from our WorkspacesComputeOperatorSpec
+func (operator *WorkspacesComputeOperatorSpec) AssignProperties_To_WorkspacesComputeOperatorSpec(destination *storage.WorkspacesComputeOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForWorkspacesComputeOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForWorkspacesComputeOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20210701.AKS
 type AKS struct {
 	ComputeLocation  *string                `json:"computeLocation,omitempty"`
@@ -2034,6 +2212,11 @@ type augmentConversionForCompute interface {
 type augmentConversionForCompute_STATUS interface {
 	AssignPropertiesFrom(src *storage.Compute_STATUS) error
 	AssignPropertiesTo(dst *storage.Compute_STATUS) error
+}
+
+type augmentConversionForWorkspacesComputeOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.WorkspacesComputeOperatorSpec) error
+	AssignPropertiesTo(dst *storage.WorkspacesComputeOperatorSpec) error
 }
 
 // Storage version of v1api20210701.ComputeInstance

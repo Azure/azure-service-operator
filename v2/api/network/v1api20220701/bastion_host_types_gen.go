@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -90,6 +93,26 @@ func (host *BastionHost) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the BastionHost resource
 func (host *BastionHost) defaultImpl() { host.defaultAzureName() }
+
+var _ configmaps.Exporter = &BastionHost{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (host *BastionHost) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if host.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return host.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &BastionHost{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (host *BastionHost) SecretDestinationExpressions() []*core.DestinationExpression {
+	if host.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return host.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &BastionHost{}
 
@@ -209,7 +232,7 @@ func (host *BastionHost) ValidateUpdate(old runtime.Object) (admission.Warnings,
 
 // createValidations validates the creation of the resource
 func (host *BastionHost) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){host.validateResourceReferences, host.validateOwnerReference}
+	return []func() (admission.Warnings, error){host.validateResourceReferences, host.validateOwnerReference, host.validateSecretDestinations, host.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -227,7 +250,21 @@ func (host *BastionHost) updateValidations() []func(old runtime.Object) (admissi
 		func(old runtime.Object) (admission.Warnings, error) {
 			return host.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return host.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return host.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (host *BastionHost) validateConfigMapDestinations() (admission.Warnings, error) {
+	if host.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(host, nil, host.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -242,6 +279,14 @@ func (host *BastionHost) validateResourceReferences() (admission.Warnings, error
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (host *BastionHost) validateSecretDestinations() (admission.Warnings, error) {
+	if host.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(host, nil, host.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -353,6 +398,10 @@ type BastionHost_Spec struct {
 
 	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *BastionHostOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -545,6 +594,8 @@ func (host *BastionHost_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		host.Location = &location
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	host.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
@@ -703,6 +754,18 @@ func (host *BastionHost_Spec) AssignProperties_From_BastionHost_Spec(source *sto
 	// Location
 	host.Location = genruntime.ClonePointerToString(source.Location)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec BastionHostOperatorSpec
+		err := operatorSpec.AssignProperties_From_BastionHostOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_BastionHostOperatorSpec() to populate field OperatorSpec")
+		}
+		host.OperatorSpec = &operatorSpec
+	} else {
+		host.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -809,6 +872,18 @@ func (host *BastionHost_Spec) AssignProperties_To_BastionHost_Spec(destination *
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(host.Location)
+
+	// OperatorSpec
+	if host.OperatorSpec != nil {
+		var operatorSpec storage.BastionHostOperatorSpec
+		err := host.OperatorSpec.AssignProperties_To_BastionHostOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_BastionHostOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = host.OriginalVersion()
@@ -1723,6 +1798,110 @@ func (configuration *BastionHostIPConfiguration_STATUS) AssignProperties_To_Bast
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(configuration.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type BastionHostOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_BastionHostOperatorSpec populates our BastionHostOperatorSpec from the provided source BastionHostOperatorSpec
+func (operator *BastionHostOperatorSpec) AssignProperties_From_BastionHostOperatorSpec(source *storage.BastionHostOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_BastionHostOperatorSpec populates the provided destination BastionHostOperatorSpec from our BastionHostOperatorSpec
+func (operator *BastionHostOperatorSpec) AssignProperties_To_BastionHostOperatorSpec(destination *storage.BastionHostOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

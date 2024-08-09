@@ -5,7 +5,7 @@ APIVersion: Enum (1 value)
 └── "2020-12-01"
 VirtualMachine: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (28 properties)
+├── Spec: Object (29 properties)
 │   ├── AdditionalCapabilities: *Object (2 properties)
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── UltraSSDEnabled: *bool
@@ -51,6 +51,10 @@ VirtualMachine: Resource
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   └── PropertyBag: genruntime.PropertyBag
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── OsProfile: *Object (10 properties)
 │   │   ├── AdminPassword: *genruntime.SecretReference
@@ -610,7 +614,7 @@ VirtualMachine: Resource
     └── Zones: string[]
 VirtualMachineScaleSet: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (24 properties)
+├── Spec: Object (25 properties)
 │   ├── AdditionalCapabilities: *Object (2 properties)
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── UltraSSDEnabled: *bool
@@ -634,6 +638,10 @@ VirtualMachineScaleSet: Resource
 │   │       ├── PropertyBag: genruntime.PropertyBag
 │   │       └── Reference: genruntime.ResourceReference
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OrchestrationMode: *string
 │   ├── OriginalVersion: string
 │   ├── Overprovision: *bool
@@ -1140,11 +1148,15 @@ VirtualMachineScaleSet: Resource
     └── Zones: string[]
 VirtualMachineScaleSetsExtension: Resource
 ├── Owner: compute/v1api20201201.VirtualMachineScaleSet
-├── Spec: Object (13 properties)
+├── Spec: Object (14 properties)
 │   ├── AutoUpgradeMinorVersion: *bool
 │   ├── AzureName: string
 │   ├── EnableAutomaticUpgrade: *bool
 │   ├── ForceUpdateTag: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -1171,7 +1183,7 @@ VirtualMachineScaleSetsExtension: Resource
     └── TypeHandlerVersion: *string
 VirtualMachinesExtension: Resource
 ├── Owner: compute/v1api20201201.VirtualMachine
-├── Spec: Object (15 properties)
+├── Spec: Object (16 properties)
 │   ├── AutoUpgradeMinorVersion: *bool
 │   ├── AzureName: string
 │   ├── EnableAutomaticUpgrade: *bool
@@ -1196,6 +1208,10 @@ VirtualMachinesExtension: Resource
 │   │   ├── Type: *string
 │   │   └── TypeHandlerVersion: *string
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -1342,6 +1358,7 @@ augmentConversionForVirtualMachineIdentity: Interface
 augmentConversionForVirtualMachineIdentity_STATUS: Interface
 augmentConversionForVirtualMachineIdentity_UserAssignedIdentities_STATUS: Interface
 augmentConversionForVirtualMachineInstanceView_STATUS: Interface
+augmentConversionForVirtualMachineOperatorSpec: Interface
 augmentConversionForVirtualMachinePatchStatus_STATUS: Interface
 augmentConversionForVirtualMachineScaleSet: Interface
 augmentConversionForVirtualMachineScaleSetDataDisk: Interface
@@ -1369,6 +1386,7 @@ augmentConversionForVirtualMachineScaleSetOSDisk: Interface
 augmentConversionForVirtualMachineScaleSetOSDisk_STATUS: Interface
 augmentConversionForVirtualMachineScaleSetOSProfile: Interface
 augmentConversionForVirtualMachineScaleSetOSProfile_STATUS: Interface
+augmentConversionForVirtualMachineScaleSetOperatorSpec: Interface
 augmentConversionForVirtualMachineScaleSetPublicIPAddressConfiguration: Interface
 augmentConversionForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings: Interface
 augmentConversionForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS: Interface
@@ -1380,11 +1398,13 @@ augmentConversionForVirtualMachineScaleSetVMProfile_STATUS: Interface
 augmentConversionForVirtualMachineScaleSet_STATUS: Interface
 augmentConversionForVirtualMachineScaleSet_Spec: Interface
 augmentConversionForVirtualMachineScaleSetsExtension: Interface
+augmentConversionForVirtualMachineScaleSetsExtensionOperatorSpec: Interface
 augmentConversionForVirtualMachineScaleSetsExtension_STATUS: Interface
 augmentConversionForVirtualMachineScaleSetsExtension_Spec: Interface
 augmentConversionForVirtualMachine_STATUS: Interface
 augmentConversionForVirtualMachine_Spec: Interface
 augmentConversionForVirtualMachinesExtension: Interface
+augmentConversionForVirtualMachinesExtensionOperatorSpec: Interface
 augmentConversionForVirtualMachinesExtension_STATUS: Interface
 augmentConversionForVirtualMachinesExtension_Spec: Interface
 augmentConversionForWinRMConfiguration: Interface

@@ -79,6 +79,61 @@ func AddRelatedPropertyGeneratorsForTrafficManagerProfilesExternalEndpoint(gens 
 	gens["Status"] = TrafficManagerProfilesExternalEndpoint_STATUSGenerator()
 }
 
+func Test_TrafficManagerProfilesExternalEndpointOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of TrafficManagerProfilesExternalEndpointOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForTrafficManagerProfilesExternalEndpointOperatorSpec, TrafficManagerProfilesExternalEndpointOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForTrafficManagerProfilesExternalEndpointOperatorSpec runs a test to see if a specific instance of TrafficManagerProfilesExternalEndpointOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForTrafficManagerProfilesExternalEndpointOperatorSpec(subject TrafficManagerProfilesExternalEndpointOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual TrafficManagerProfilesExternalEndpointOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of TrafficManagerProfilesExternalEndpointOperatorSpec instances for property testing - lazily instantiated
+// by TrafficManagerProfilesExternalEndpointOperatorSpecGenerator()
+var trafficManagerProfilesExternalEndpointOperatorSpecGenerator gopter.Gen
+
+// TrafficManagerProfilesExternalEndpointOperatorSpecGenerator returns a generator of TrafficManagerProfilesExternalEndpointOperatorSpec instances for property testing.
+func TrafficManagerProfilesExternalEndpointOperatorSpecGenerator() gopter.Gen {
+	if trafficManagerProfilesExternalEndpointOperatorSpecGenerator != nil {
+		return trafficManagerProfilesExternalEndpointOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	trafficManagerProfilesExternalEndpointOperatorSpecGenerator = gen.Struct(reflect.TypeOf(TrafficManagerProfilesExternalEndpointOperatorSpec{}), generators)
+
+	return trafficManagerProfilesExternalEndpointOperatorSpecGenerator
+}
+
 func Test_TrafficManagerProfilesExternalEndpoint_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -255,5 +310,6 @@ func AddIndependentPropertyGeneratorsForTrafficManagerProfilesExternalEndpoint_S
 // AddRelatedPropertyGeneratorsForTrafficManagerProfilesExternalEndpoint_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForTrafficManagerProfilesExternalEndpoint_Spec(gens map[string]gopter.Gen) {
 	gens["CustomHeaders"] = gen.SliceOf(EndpointProperties_CustomHeadersGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(TrafficManagerProfilesExternalEndpointOperatorSpecGenerator())
 	gens["Subnets"] = gen.SliceOf(EndpointProperties_SubnetsGenerator())
 }

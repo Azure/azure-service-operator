@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (cluster *OpenShiftCluster) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (cluster *OpenShiftCluster) SetConditions(conditions conditions.Conditions) {
 	cluster.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &OpenShiftCluster{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (cluster *OpenShiftCluster) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if cluster.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return cluster.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &OpenShiftCluster{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (cluster *OpenShiftCluster) SecretDestinationExpressions() []*core.DestinationExpression {
+	if cluster.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return cluster.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &OpenShiftCluster{}
@@ -150,13 +173,14 @@ type OpenShiftCluster_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string           `json:"azureName,omitempty"`
-	ClusterProfile  *ClusterProfile  `json:"clusterProfile,omitempty"`
-	IngressProfiles []IngressProfile `json:"ingressProfiles,omitempty"`
-	Location        *string          `json:"location,omitempty"`
-	MasterProfile   *MasterProfile   `json:"masterProfile,omitempty"`
-	NetworkProfile  *NetworkProfile  `json:"networkProfile,omitempty"`
-	OriginalVersion string           `json:"originalVersion,omitempty"`
+	AzureName       string                        `json:"azureName,omitempty"`
+	ClusterProfile  *ClusterProfile               `json:"clusterProfile,omitempty"`
+	IngressProfiles []IngressProfile              `json:"ingressProfiles,omitempty"`
+	Location        *string                       `json:"location,omitempty"`
+	MasterProfile   *MasterProfile                `json:"masterProfile,omitempty"`
+	NetworkProfile  *NetworkProfile               `json:"networkProfile,omitempty"`
+	OperatorSpec    *OpenShiftClusterOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                        `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -336,6 +360,14 @@ type NetworkProfile_STATUS struct {
 	PreconfiguredNSG    *string                     `json:"preconfiguredNSG,omitempty"`
 	PropertyBag         genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 	ServiceCidr         *string                     `json:"serviceCidr,omitempty"`
+}
+
+// Storage version of v1api20231122.OpenShiftClusterOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type OpenShiftClusterOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20231122.ServicePrincipalProfile

@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -104,6 +107,26 @@ func (webtest *Webtest) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the Webtest resource
 func (webtest *Webtest) defaultImpl() { webtest.defaultAzureName() }
+
+var _ configmaps.Exporter = &Webtest{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (webtest *Webtest) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if webtest.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return webtest.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Webtest{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (webtest *Webtest) SecretDestinationExpressions() []*core.DestinationExpression {
+	if webtest.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return webtest.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.KubernetesResource = &Webtest{}
 
@@ -212,7 +235,7 @@ func (webtest *Webtest) ValidateUpdate(old runtime.Object) (admission.Warnings, 
 
 // createValidations validates the creation of the resource
 func (webtest *Webtest) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){webtest.validateResourceReferences, webtest.validateOwnerReference}
+	return []func() (admission.Warnings, error){webtest.validateResourceReferences, webtest.validateOwnerReference, webtest.validateSecretDestinations, webtest.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -230,7 +253,21 @@ func (webtest *Webtest) updateValidations() []func(old runtime.Object) (admissio
 		func(old runtime.Object) (admission.Warnings, error) {
 			return webtest.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return webtest.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return webtest.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (webtest *Webtest) validateConfigMapDestinations() (admission.Warnings, error) {
+	if webtest.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(webtest, nil, webtest.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -245,6 +282,14 @@ func (webtest *Webtest) validateResourceReferences() (admission.Warnings, error)
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (webtest *Webtest) validateSecretDestinations() (admission.Warnings, error) {
+	if webtest.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(webtest, nil, webtest.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -366,6 +411,10 @@ type Webtest_Spec struct {
 	// +kubebuilder:validation:Required
 	// Name: User defined name if this WebTest.
 	Name *string `json:"Name,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *WebtestOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -597,6 +646,8 @@ func (webtest *Webtest_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	webtest.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
@@ -785,6 +836,18 @@ func (webtest *Webtest_Spec) AssignProperties_From_Webtest_Spec(source *storage.
 	// Name
 	webtest.Name = genruntime.ClonePointerToString(source.Name)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec WebtestOperatorSpec
+		err := operatorSpec.AssignProperties_From_WebtestOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_WebtestOperatorSpec() to populate field OperatorSpec")
+		}
+		webtest.OperatorSpec = &operatorSpec
+	} else {
+		webtest.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -903,6 +966,18 @@ func (webtest *Webtest_Spec) AssignProperties_To_Webtest_Spec(destination *stora
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(webtest.Name)
+
+	// OperatorSpec
+	if webtest.OperatorSpec != nil {
+		var operatorSpec storage.WebtestOperatorSpec
+		err := webtest.OperatorSpec.AssignProperties_To_WebtestOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_WebtestOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = webtest.OriginalVersion()
@@ -1650,6 +1725,110 @@ func (geolocation *WebTestGeolocation_STATUS) AssignProperties_To_WebTestGeoloca
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(geolocation.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type WebtestOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_WebtestOperatorSpec populates our WebtestOperatorSpec from the provided source WebtestOperatorSpec
+func (operator *WebtestOperatorSpec) AssignProperties_From_WebtestOperatorSpec(source *storage.WebtestOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_WebtestOperatorSpec populates the provided destination WebtestOperatorSpec from our WebtestOperatorSpec
+func (operator *WebtestOperatorSpec) AssignProperties_To_WebtestOperatorSpec(destination *storage.WebtestOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

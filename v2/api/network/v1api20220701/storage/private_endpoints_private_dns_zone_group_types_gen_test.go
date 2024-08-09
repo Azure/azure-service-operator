@@ -216,6 +216,61 @@ func AddRelatedPropertyGeneratorsForPrivateEndpointsPrivateDnsZoneGroup(gens map
 	gens["Status"] = PrivateEndpointsPrivateDnsZoneGroup_STATUSGenerator()
 }
 
+func Test_PrivateEndpointsPrivateDnsZoneGroupOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PrivateEndpointsPrivateDnsZoneGroupOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateEndpointsPrivateDnsZoneGroupOperatorSpec, PrivateEndpointsPrivateDnsZoneGroupOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPrivateEndpointsPrivateDnsZoneGroupOperatorSpec runs a test to see if a specific instance of PrivateEndpointsPrivateDnsZoneGroupOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateEndpointsPrivateDnsZoneGroupOperatorSpec(subject PrivateEndpointsPrivateDnsZoneGroupOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PrivateEndpointsPrivateDnsZoneGroupOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PrivateEndpointsPrivateDnsZoneGroupOperatorSpec instances for property testing - lazily instantiated by
+// PrivateEndpointsPrivateDnsZoneGroupOperatorSpecGenerator()
+var privateEndpointsPrivateDnsZoneGroupOperatorSpecGenerator gopter.Gen
+
+// PrivateEndpointsPrivateDnsZoneGroupOperatorSpecGenerator returns a generator of PrivateEndpointsPrivateDnsZoneGroupOperatorSpec instances for property testing.
+func PrivateEndpointsPrivateDnsZoneGroupOperatorSpecGenerator() gopter.Gen {
+	if privateEndpointsPrivateDnsZoneGroupOperatorSpecGenerator != nil {
+		return privateEndpointsPrivateDnsZoneGroupOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	privateEndpointsPrivateDnsZoneGroupOperatorSpecGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointsPrivateDnsZoneGroupOperatorSpec{}), generators)
+
+	return privateEndpointsPrivateDnsZoneGroupOperatorSpecGenerator
+}
+
 func Test_PrivateEndpointsPrivateDnsZoneGroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -367,6 +422,7 @@ func AddIndependentPropertyGeneratorsForPrivateEndpointsPrivateDnsZoneGroup_Spec
 
 // AddRelatedPropertyGeneratorsForPrivateEndpointsPrivateDnsZoneGroup_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForPrivateEndpointsPrivateDnsZoneGroup_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(PrivateEndpointsPrivateDnsZoneGroupOperatorSpecGenerator())
 	gens["PrivateDnsZoneConfigs"] = gen.SliceOf(PrivateDnsZoneConfigGenerator())
 }
 

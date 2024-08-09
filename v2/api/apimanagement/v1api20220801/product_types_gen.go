@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -90,6 +93,26 @@ func (product *Product) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the Product resource
 func (product *Product) defaultImpl() { product.defaultAzureName() }
+
+var _ configmaps.Exporter = &Product{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (product *Product) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if product.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return product.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Product{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (product *Product) SecretDestinationExpressions() []*core.DestinationExpression {
+	if product.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return product.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &Product{}
 
@@ -210,7 +233,7 @@ func (product *Product) ValidateUpdate(old runtime.Object) (admission.Warnings, 
 
 // createValidations validates the creation of the resource
 func (product *Product) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){product.validateResourceReferences, product.validateOwnerReference}
+	return []func() (admission.Warnings, error){product.validateResourceReferences, product.validateOwnerReference, product.validateSecretDestinations, product.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -228,7 +251,21 @@ func (product *Product) updateValidations() []func(old runtime.Object) (admissio
 		func(old runtime.Object) (admission.Warnings, error) {
 			return product.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return product.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return product.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (product *Product) validateConfigMapDestinations() (admission.Warnings, error) {
+	if product.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(product, nil, product.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -243,6 +280,14 @@ func (product *Product) validateResourceReferences() (admission.Warnings, error)
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (product *Product) validateSecretDestinations() (admission.Warnings, error) {
+	if product.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(product, nil, product.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -349,6 +394,10 @@ type Product_Spec struct {
 	// +kubebuilder:validation:MinLength=1
 	// DisplayName: Product name.
 	DisplayName *string `json:"displayName,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *ProductOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -473,6 +522,8 @@ func (product *Product_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 			product.DisplayName = &displayName
 		}
 	}
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	product.Owner = &genruntime.KnownResourceReference{
@@ -602,6 +653,18 @@ func (product *Product_Spec) AssignProperties_From_Product_Spec(source *storage.
 		product.DisplayName = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ProductOperatorSpec
+		err := operatorSpec.AssignProperties_From_ProductOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ProductOperatorSpec() to populate field OperatorSpec")
+		}
+		product.OperatorSpec = &operatorSpec
+	} else {
+		product.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -667,6 +730,18 @@ func (product *Product_Spec) AssignProperties_To_Product_Spec(destination *stora
 		destination.DisplayName = &displayName
 	} else {
 		destination.DisplayName = nil
+	}
+
+	// OperatorSpec
+	if product.OperatorSpec != nil {
+		var operatorSpec storage.ProductOperatorSpec
+		err := product.OperatorSpec.AssignProperties_To_ProductOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ProductOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -1119,6 +1194,110 @@ const (
 var productContractProperties_State_STATUS_Values = map[string]ProductContractProperties_State_STATUS{
 	"notpublished": ProductContractProperties_State_STATUS_NotPublished,
 	"published":    ProductContractProperties_State_STATUS_Published,
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ProductOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_ProductOperatorSpec populates our ProductOperatorSpec from the provided source ProductOperatorSpec
+func (operator *ProductOperatorSpec) AssignProperties_From_ProductOperatorSpec(source *storage.ProductOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ProductOperatorSpec populates the provided destination ProductOperatorSpec from our ProductOperatorSpec
+func (operator *ProductOperatorSpec) AssignProperties_To_ProductOperatorSpec(destination *storage.ProductOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 func init() {

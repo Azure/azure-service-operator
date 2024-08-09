@@ -78,6 +78,61 @@ func AddRelatedPropertyGeneratorsForNatGateway(gens map[string]gopter.Gen) {
 	gens["Status"] = NatGateway_STATUSGenerator()
 }
 
+func Test_NatGatewayOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of NatGatewayOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNatGatewayOperatorSpec, NatGatewayOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForNatGatewayOperatorSpec runs a test to see if a specific instance of NatGatewayOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForNatGatewayOperatorSpec(subject NatGatewayOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual NatGatewayOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of NatGatewayOperatorSpec instances for property testing - lazily instantiated by
+// NatGatewayOperatorSpecGenerator()
+var natGatewayOperatorSpecGenerator gopter.Gen
+
+// NatGatewayOperatorSpecGenerator returns a generator of NatGatewayOperatorSpec instances for property testing.
+func NatGatewayOperatorSpecGenerator() gopter.Gen {
+	if natGatewayOperatorSpecGenerator != nil {
+		return natGatewayOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	natGatewayOperatorSpecGenerator = gen.Struct(reflect.TypeOf(NatGatewayOperatorSpec{}), generators)
+
+	return natGatewayOperatorSpecGenerator
+}
+
 func Test_NatGatewaySku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -365,6 +420,7 @@ func AddIndependentPropertyGeneratorsForNatGateway_Spec(gens map[string]gopter.G
 
 // AddRelatedPropertyGeneratorsForNatGateway_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNatGateway_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(NatGatewayOperatorSpecGenerator())
 	gens["PublicIpAddresses"] = gen.SliceOf(ApplicationGatewaySubResourceGenerator())
 	gens["PublicIpPrefixes"] = gen.SliceOf(ApplicationGatewaySubResourceGenerator())
 	gens["Sku"] = gen.PtrOf(NatGatewaySkuGenerator())

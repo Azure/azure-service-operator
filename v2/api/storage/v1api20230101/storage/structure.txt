@@ -109,7 +109,8 @@ StorageAccount: Resource
 │   │       ├── PropertyBag: genruntime.PropertyBag
 │   │       ├── Reference: *genruntime.ResourceReference
 │   │       └── State: *string
-│   ├── OperatorSpec: *Object (3 properties)
+│   ├── OperatorSpec: *Object (5 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   ├── ConfigMaps: *Object (7 properties)
 │   │   │   ├── BlobEndpoint: *genruntime.ConfigMapDestination
 │   │   │   ├── DfsEndpoint: *genruntime.ConfigMapDestination
@@ -119,6 +120,7 @@ StorageAccount: Resource
 │   │   │   ├── TableEndpoint: *genruntime.ConfigMapDestination
 │   │   │   └── WebEndpoint: *genruntime.ConfigMapDestination
 │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
 │   │   └── Secrets: *Object (9 properties)
 │   │       ├── BlobEndpoint: *genruntime.SecretDestination
 │   │       ├── DfsEndpoint: *genruntime.SecretDestination
@@ -371,7 +373,7 @@ StorageAccount: Resource
     └── Type: *string
 StorageAccountsBlobService: Resource
 ├── Owner: storage/v1api20230101.StorageAccount
-├── Spec: Object (12 properties)
+├── Spec: Object (13 properties)
 │   ├── AutomaticSnapshotPolicyEnabled: *bool
 │   ├── ChangeFeed: *Object (3 properties)
 │   │   ├── Enabled: *bool
@@ -404,6 +406,10 @@ StorageAccountsBlobService: Resource
 │   │   ├── Name: *string
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── TrackingGranularityInDays: *int
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -461,7 +467,7 @@ StorageAccountsBlobService: Resource
     └── Type: *string
 StorageAccountsBlobServicesContainer: Resource
 ├── Owner: storage/v1api20230101.StorageAccountsBlobService
-├── Spec: Object (11 properties)
+├── Spec: Object (12 properties)
 │   ├── AzureName: string
 │   ├── DefaultEncryptionScope: *string
 │   ├── DenyEncryptionScopeOverride: *bool
@@ -471,6 +477,10 @@ StorageAccountsBlobServicesContainer: Resource
 │   │   ├── Enabled: *bool
 │   │   └── PropertyBag: genruntime.PropertyBag
 │   ├── Metadata: map[string]string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -536,7 +546,7 @@ StorageAccountsBlobServicesContainer: Resource
     └── Version: *string
 StorageAccountsFileService: Resource
 ├── Owner: storage/v1api20230101.StorageAccount
-├── Spec: Object (6 properties)
+├── Spec: Object (7 properties)
 │   ├── Cors: *Object (2 properties)
 │   │   ├── CorsRules: Object (6 properties)[]
 │   │   │   ├── AllowedHeaders: string[]
@@ -546,6 +556,10 @@ StorageAccountsFileService: Resource
 │   │   │   ├── MaxAgeInSeconds: *int
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   └── PropertyBag: genruntime.PropertyBag
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -602,11 +616,15 @@ StorageAccountsFileService: Resource
     └── Type: *string
 StorageAccountsFileServicesShare: Resource
 ├── Owner: storage/v1api20230101.StorageAccountsFileService
-├── Spec: Object (10 properties)
+├── Spec: Object (11 properties)
 │   ├── AccessTier: *string
 │   ├── AzureName: string
 │   ├── EnabledProtocols: *string
 │   ├── Metadata: map[string]string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -654,7 +672,11 @@ StorageAccountsFileServicesShare: Resource
     └── Version: *string
 StorageAccountsManagementPolicy: Resource
 ├── Owner: storage/v1api20230101.StorageAccount
-├── Spec: Object (4 properties)
+├── Spec: Object (5 properties)
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── Policy: *Object (2 properties)
@@ -861,7 +883,7 @@ StorageAccountsManagementPolicy: Resource
     └── Type: *string
 StorageAccountsQueueService: Resource
 ├── Owner: storage/v1api20230101.StorageAccount
-├── Spec: Object (4 properties)
+├── Spec: Object (5 properties)
 │   ├── Cors: *Object (2 properties)
 │   │   ├── CorsRules: Object (6 properties)[]
 │   │   │   ├── AllowedHeaders: string[]
@@ -871,6 +893,10 @@ StorageAccountsQueueService: Resource
 │   │   │   ├── MaxAgeInSeconds: *int
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   └── PropertyBag: genruntime.PropertyBag
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── PropertyBag: genruntime.PropertyBag
@@ -891,9 +917,13 @@ StorageAccountsQueueService: Resource
     └── Type: *string
 StorageAccountsQueueServicesQueue: Resource
 ├── Owner: storage/v1api20230101.StorageAccountsQueueService
-├── Spec: Object (5 properties)
+├── Spec: Object (6 properties)
 │   ├── AzureName: string
 │   ├── Metadata: map[string]string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── PropertyBag: genruntime.PropertyBag
@@ -907,7 +937,7 @@ StorageAccountsQueueServicesQueue: Resource
     └── Type: *string
 StorageAccountsTableService: Resource
 ├── Owner: storage/v1api20230101.StorageAccount
-├── Spec: Object (4 properties)
+├── Spec: Object (5 properties)
 │   ├── Cors: *Object (2 properties)
 │   │   ├── CorsRules: Object (6 properties)[]
 │   │   │   ├── AllowedHeaders: string[]
@@ -917,6 +947,10 @@ StorageAccountsTableService: Resource
 │   │   │   ├── MaxAgeInSeconds: *int
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   └── PropertyBag: genruntime.PropertyBag
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── PropertyBag: genruntime.PropertyBag
@@ -937,8 +971,12 @@ StorageAccountsTableService: Resource
     └── Type: *string
 StorageAccountsTableServicesTable: Resource
 ├── Owner: storage/v1api20230101.StorageAccountsTableService
-├── Spec: Object (5 properties)
+├── Spec: Object (6 properties)
 │   ├── AzureName: string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag

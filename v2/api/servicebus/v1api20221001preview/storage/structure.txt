@@ -29,8 +29,10 @@ Namespace: Resource
 │   │       └── Reference: genruntime.ResourceReference
 │   ├── Location: *string
 │   ├── MinimumTlsVersion: *string
-│   ├── OperatorSpec: *Object (2 properties)
+│   ├── OperatorSpec: *Object (4 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
 │   │   └── Secrets: *Object (6 properties)
 │   │       ├── Endpoint: *genruntime.SecretDestination
 │   │       ├── PrimaryConnectionString: *genruntime.SecretDestination
@@ -111,8 +113,10 @@ NamespacesAuthorizationRule: Resource
 ├── Owner: servicebus/v1api20221001preview.Namespace
 ├── Spec: Object (6 properties)
 │   ├── AzureName: string
-│   ├── OperatorSpec: *Object (2 properties)
+│   ├── OperatorSpec: *Object (4 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
 │   │   └── Secrets: *Object (5 properties)
 │   │       ├── PrimaryConnectionString: *genruntime.SecretDestination
 │   │       ├── PrimaryKey: *genruntime.SecretDestination
@@ -141,7 +145,7 @@ NamespacesAuthorizationRule: Resource
     └── Type: *string
 NamespacesQueue: Resource
 ├── Owner: servicebus/v1api20221001preview.Namespace
-├── Spec: Object (19 properties)
+├── Spec: Object (20 properties)
 │   ├── AutoDeleteOnIdle: *string
 │   ├── AzureName: string
 │   ├── DeadLetteringOnMessageExpiration: *bool
@@ -156,6 +160,10 @@ NamespacesQueue: Resource
 │   ├── MaxDeliveryCount: *int
 │   ├── MaxMessageSizeInKilobytes: *int
 │   ├── MaxSizeInMegabytes: *int
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -206,7 +214,7 @@ NamespacesQueue: Resource
     └── UpdatedAt: *string
 NamespacesTopic: Resource
 ├── Owner: servicebus/v1api20221001preview.Namespace
-├── Spec: Object (14 properties)
+├── Spec: Object (15 properties)
 │   ├── AutoDeleteOnIdle: *string
 │   ├── AzureName: string
 │   ├── DefaultMessageTimeToLive: *string
@@ -216,6 +224,10 @@ NamespacesTopic: Resource
 │   ├── EnablePartitioning: *bool
 │   ├── MaxMessageSizeInKilobytes: *int
 │   ├── MaxSizeInMegabytes: *int
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -261,7 +273,7 @@ NamespacesTopic: Resource
     └── UpdatedAt: *string
 NamespacesTopicsSubscription: Resource
 ├── Owner: servicebus/v1api20221001preview.NamespacesTopic
-├── Spec: Object (17 properties)
+├── Spec: Object (18 properties)
 │   ├── AutoDeleteOnIdle: *string
 │   ├── AzureName: string
 │   ├── ClientAffineProperties: *Object (4 properties)
@@ -279,6 +291,10 @@ NamespacesTopicsSubscription: Resource
 │   ├── IsClientAffine: *bool
 │   ├── LockDuration: *string
 │   ├── MaxDeliveryCount: *int
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -329,7 +345,7 @@ NamespacesTopicsSubscription: Resource
     └── UpdatedAt: *string
 NamespacesTopicsSubscriptionsRule: Resource
 ├── Owner: servicebus/v1api20221001preview.NamespacesTopicsSubscription
-├── Spec: Object (8 properties)
+├── Spec: Object (9 properties)
 │   ├── Action: *Object (4 properties)
 │   │   ├── CompatibilityLevel: *int
 │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -349,6 +365,10 @@ NamespacesTopicsSubscriptionsRule: Resource
 │   │   ├── SessionId: *string
 │   │   └── To: *string
 │   ├── FilterType: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -417,15 +437,19 @@ augmentConversionForNamespacesAuthorizationRuleOperatorSpec: Interface
 augmentConversionForNamespacesAuthorizationRule_STATUS: Interface
 augmentConversionForNamespacesAuthorizationRule_Spec: Interface
 augmentConversionForNamespacesQueue: Interface
+augmentConversionForNamespacesQueueOperatorSpec: Interface
 augmentConversionForNamespacesQueue_STATUS: Interface
 augmentConversionForNamespacesQueue_Spec: Interface
 augmentConversionForNamespacesTopic: Interface
+augmentConversionForNamespacesTopicOperatorSpec: Interface
 augmentConversionForNamespacesTopic_STATUS: Interface
 augmentConversionForNamespacesTopic_Spec: Interface
 augmentConversionForNamespacesTopicsSubscription: Interface
+augmentConversionForNamespacesTopicsSubscriptionOperatorSpec: Interface
 augmentConversionForNamespacesTopicsSubscription_STATUS: Interface
 augmentConversionForNamespacesTopicsSubscription_Spec: Interface
 augmentConversionForNamespacesTopicsSubscriptionsRule: Interface
+augmentConversionForNamespacesTopicsSubscriptionsRuleOperatorSpec: Interface
 augmentConversionForNamespacesTopicsSubscriptionsRule_STATUS: Interface
 augmentConversionForNamespacesTopicsSubscriptionsRule_Spec: Interface
 augmentConversionForPrivateEndpointConnection_STATUS: Interface

@@ -165,6 +165,103 @@ func AddRelatedPropertyGeneratorsForNamespacesTopic(gens map[string]gopter.Gen) 
 	gens["Status"] = NamespacesTopic_STATUSGenerator()
 }
 
+func Test_NamespacesTopicOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NamespacesTopicOperatorSpec to NamespacesTopicOperatorSpec via AssignProperties_To_NamespacesTopicOperatorSpec & AssignProperties_From_NamespacesTopicOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamespacesTopicOperatorSpec, NamespacesTopicOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNamespacesTopicOperatorSpec tests if a specific instance of NamespacesTopicOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForNamespacesTopicOperatorSpec(subject NamespacesTopicOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20221001ps.NamespacesTopicOperatorSpec
+	err := copied.AssignProperties_To_NamespacesTopicOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NamespacesTopicOperatorSpec
+	err = actual.AssignProperties_From_NamespacesTopicOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_NamespacesTopicOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of NamespacesTopicOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespacesTopicOperatorSpec, NamespacesTopicOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForNamespacesTopicOperatorSpec runs a test to see if a specific instance of NamespacesTopicOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespacesTopicOperatorSpec(subject NamespacesTopicOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual NamespacesTopicOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of NamespacesTopicOperatorSpec instances for property testing - lazily instantiated by
+// NamespacesTopicOperatorSpecGenerator()
+var namespacesTopicOperatorSpecGenerator gopter.Gen
+
+// NamespacesTopicOperatorSpecGenerator returns a generator of NamespacesTopicOperatorSpec instances for property testing.
+func NamespacesTopicOperatorSpecGenerator() gopter.Gen {
+	if namespacesTopicOperatorSpecGenerator != nil {
+		return namespacesTopicOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	namespacesTopicOperatorSpecGenerator = gen.Struct(reflect.TypeOf(NamespacesTopicOperatorSpec{}), generators)
+
+	return namespacesTopicOperatorSpecGenerator
+}
+
 func Test_NamespacesTopic_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -397,6 +494,9 @@ func RunJSONSerializationTestForNamespacesTopic_Spec(subject NamespacesTopic_Spe
 var namespacesTopic_SpecGenerator gopter.Gen
 
 // NamespacesTopic_SpecGenerator returns a generator of NamespacesTopic_Spec instances for property testing.
+// We first initialize namespacesTopic_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func NamespacesTopic_SpecGenerator() gopter.Gen {
 	if namespacesTopic_SpecGenerator != nil {
 		return namespacesTopic_SpecGenerator
@@ -404,6 +504,12 @@ func NamespacesTopic_SpecGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForNamespacesTopic_Spec(generators)
+	namespacesTopic_SpecGenerator = gen.Struct(reflect.TypeOf(NamespacesTopic_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNamespacesTopic_Spec(generators)
+	AddRelatedPropertyGeneratorsForNamespacesTopic_Spec(generators)
 	namespacesTopic_SpecGenerator = gen.Struct(reflect.TypeOf(NamespacesTopic_Spec{}), generators)
 
 	return namespacesTopic_SpecGenerator
@@ -422,4 +528,9 @@ func AddIndependentPropertyGeneratorsForNamespacesTopic_Spec(gens map[string]gop
 	gens["MaxSizeInMegabytes"] = gen.PtrOf(gen.Int())
 	gens["RequiresDuplicateDetection"] = gen.PtrOf(gen.Bool())
 	gens["SupportOrdering"] = gen.PtrOf(gen.Bool())
+}
+
+// AddRelatedPropertyGeneratorsForNamespacesTopic_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNamespacesTopic_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(NamespacesTopicOperatorSpecGenerator())
 }

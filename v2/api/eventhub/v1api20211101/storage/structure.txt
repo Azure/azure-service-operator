@@ -32,8 +32,10 @@ Namespace: Resource
 │   ├── KafkaEnabled: *bool
 │   ├── Location: *string
 │   ├── MaximumThroughputUnits: *int
-│   ├── OperatorSpec: *Object (2 properties)
+│   ├── OperatorSpec: *Object (4 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
 │   │   └── Secrets: *Object (5 properties)
 │   │       ├── PrimaryConnectionString: *genruntime.SecretDestination
 │   │       ├── PrimaryKey: *genruntime.SecretDestination
@@ -112,8 +114,10 @@ NamespacesAuthorizationRule: Resource
 ├── Owner: eventhub/v1api20211101.Namespace
 ├── Spec: Object (6 properties)
 │   ├── AzureName: string
-│   ├── OperatorSpec: *Object (2 properties)
+│   ├── OperatorSpec: *Object (4 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
 │   │   └── Secrets: *Object (5 properties)
 │   │       ├── PrimaryConnectionString: *genruntime.SecretDestination
 │   │       ├── PrimaryKey: *genruntime.SecretDestination
@@ -142,7 +146,7 @@ NamespacesAuthorizationRule: Resource
     └── Type: *string
 NamespacesEventhub: Resource
 ├── Owner: eventhub/v1api20211101.Namespace
-├── Spec: Object (7 properties)
+├── Spec: Object (8 properties)
 │   ├── AzureName: string
 │   ├── CaptureDescription: *Object (7 properties)
 │   │   ├── Destination: *Object (8 properties)
@@ -161,6 +165,10 @@ NamespacesEventhub: Resource
 │   │   ├── SizeLimitInBytes: *int
 │   │   └── SkipEmptyArchives: *bool
 │   ├── MessageRetentionInDays: *int
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PartitionCount: *int
@@ -206,8 +214,10 @@ NamespacesEventhubsAuthorizationRule: Resource
 ├── Owner: eventhub/v1api20211101.NamespacesEventhub
 ├── Spec: Object (6 properties)
 │   ├── AzureName: string
-│   ├── OperatorSpec: *Object (2 properties)
+│   ├── OperatorSpec: *Object (4 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
 │   │   └── Secrets: *Object (5 properties)
 │   │       ├── PrimaryConnectionString: *genruntime.SecretDestination
 │   │       ├── PrimaryKey: *genruntime.SecretDestination
@@ -236,8 +246,12 @@ NamespacesEventhubsAuthorizationRule: Resource
     └── Type: *string
 NamespacesEventhubsConsumerGroup: Resource
 ├── Owner: eventhub/v1api20211101.NamespacesEventhub
-├── Spec: Object (5 properties)
+├── Spec: Object (6 properties)
 │   ├── AzureName: string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag

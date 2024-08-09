@@ -10,6 +10,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -91,6 +93,26 @@ func (fleet *Fleet) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the Fleet resource
 func (fleet *Fleet) defaultImpl() { fleet.defaultAzureName() }
+
+var _ configmaps.Exporter = &Fleet{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (fleet *Fleet) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if fleet.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return fleet.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Fleet{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (fleet *Fleet) SecretDestinationExpressions() []*core.DestinationExpression {
+	if fleet.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return fleet.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &Fleet{}
 
@@ -210,7 +232,7 @@ func (fleet *Fleet) ValidateUpdate(old runtime.Object) (admission.Warnings, erro
 
 // createValidations validates the creation of the resource
 func (fleet *Fleet) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){fleet.validateResourceReferences, fleet.validateOwnerReference, fleet.validateSecretDestinations}
+	return []func() (admission.Warnings, error){fleet.validateResourceReferences, fleet.validateOwnerReference, fleet.validateSecretDestinations, fleet.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -231,7 +253,18 @@ func (fleet *Fleet) updateValidations() []func(old runtime.Object) (admission.Wa
 		func(old runtime.Object) (admission.Warnings, error) {
 			return fleet.validateSecretDestinations()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return fleet.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (fleet *Fleet) validateConfigMapDestinations() (admission.Warnings, error) {
+	if fleet.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(fleet, nil, fleet.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -253,13 +286,13 @@ func (fleet *Fleet) validateSecretDestinations() (admission.Warnings, error) {
 	if fleet.Spec.OperatorSpec == nil {
 		return nil, nil
 	}
-	if fleet.Spec.OperatorSpec.Secrets == nil {
-		return nil, nil
+	var toValidate []*genruntime.SecretDestination
+	if fleet.Spec.OperatorSpec.Secrets != nil {
+		toValidate = []*genruntime.SecretDestination{
+			fleet.Spec.OperatorSpec.Secrets.UserCredentials,
+		}
 	}
-	toValidate := []*genruntime.SecretDestination{
-		fleet.Spec.OperatorSpec.Secrets.UserCredentials,
-	}
-	return secrets.ValidateDestinations(toValidate)
+	return secrets.ValidateDestinations(fleet, toValidate, fleet.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -1168,12 +1201,54 @@ func (profile *FleetHubProfile_STATUS) AssignProperties_To_FleetHubProfile_STATU
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type FleetOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+
 	// Secrets: configures where to place Azure generated secrets.
 	Secrets *FleetOperatorSecrets `json:"secrets,omitempty"`
 }
 
 // AssignProperties_From_FleetOperatorSpec populates our FleetOperatorSpec from the provided source FleetOperatorSpec
 func (operator *FleetOperatorSpec) AssignProperties_From_FleetOperatorSpec(source *storage.FleetOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
 
 	// Secrets
 	if source.Secrets != nil {
@@ -1195,6 +1270,42 @@ func (operator *FleetOperatorSpec) AssignProperties_From_FleetOperatorSpec(sourc
 func (operator *FleetOperatorSpec) AssignProperties_To_FleetOperatorSpec(destination *storage.FleetOperatorSpec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Secrets
 	if operator.Secrets != nil {

@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (group *ResourceGroup) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (group *ResourceGroup) SetConditions(conditions conditions.Conditions) {
 	group.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &ResourceGroup{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (group *ResourceGroup) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if group.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return group.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &ResourceGroup{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (group *ResourceGroup) SecretDestinationExpressions() []*core.DestinationExpression {
+	if group.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return group.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &ResourceGroup{}
@@ -158,12 +181,13 @@ const APIVersion_Value = APIVersion("2020-06-01")
 type ResourceGroup_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string                 `json:"azureName,omitempty"`
-	Location        *string                `json:"location,omitempty"`
-	ManagedBy       *string                `json:"managedBy,omitempty"`
-	OriginalVersion string                 `json:"originalVersion,omitempty"`
-	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Tags            map[string]string      `json:"tags,omitempty"`
+	AzureName       string                     `json:"azureName,omitempty"`
+	Location        *string                    `json:"location,omitempty"`
+	ManagedBy       *string                    `json:"managedBy,omitempty"`
+	OperatorSpec    *ResourceGroupOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                     `json:"originalVersion,omitempty"`
+	PropertyBag     genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
+	Tags            map[string]string          `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &ResourceGroup_Spec{}
@@ -218,6 +242,14 @@ func (group *ResourceGroup_STATUS) ConvertStatusTo(destination genruntime.Conver
 	}
 
 	return destination.ConvertStatusFrom(group)
+}
+
+// Storage version of v1api20200601.ResourceGroupOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ResourceGroupOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20200601.ResourceGroupProperties_STATUS

@@ -739,6 +739,61 @@ func AddIndependentPropertyGeneratorsForPublicIPAddressDnsSettings_STATUS(gens m
 	gens["ReverseFqdn"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_PublicIPAddressOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PublicIPAddressOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPublicIPAddressOperatorSpec, PublicIPAddressOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPublicIPAddressOperatorSpec runs a test to see if a specific instance of PublicIPAddressOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForPublicIPAddressOperatorSpec(subject PublicIPAddressOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PublicIPAddressOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PublicIPAddressOperatorSpec instances for property testing - lazily instantiated by
+// PublicIPAddressOperatorSpecGenerator()
+var publicIPAddressOperatorSpecGenerator gopter.Gen
+
+// PublicIPAddressOperatorSpecGenerator returns a generator of PublicIPAddressOperatorSpec instances for property testing.
+func PublicIPAddressOperatorSpecGenerator() gopter.Gen {
+	if publicIPAddressOperatorSpecGenerator != nil {
+		return publicIPAddressOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	publicIPAddressOperatorSpecGenerator = gen.Struct(reflect.TypeOf(PublicIPAddressOperatorSpec{}), generators)
+
+	return publicIPAddressOperatorSpecGenerator
+}
+
 func Test_PublicIPAddressSku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1102,6 +1157,7 @@ func AddRelatedPropertyGeneratorsForPublicIPAddress_Spec(gens map[string]gopter.
 	gens["IpTags"] = gen.SliceOf(IpTagGenerator())
 	gens["LinkedPublicIPAddress"] = gen.PtrOf(PublicIPAddressSpec_PublicIPAddress_SubResourceEmbeddedGenerator())
 	gens["NatGateway"] = gen.PtrOf(NatGatewaySpec_PublicIPAddress_SubResourceEmbeddedGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(PublicIPAddressOperatorSpecGenerator())
 	gens["PublicIPPrefix"] = gen.PtrOf(SubResourceGenerator())
 	gens["ServicePublicIPAddress"] = gen.PtrOf(PublicIPAddressSpec_PublicIPAddress_SubResourceEmbeddedGenerator())
 	gens["Sku"] = gen.PtrOf(PublicIPAddressSkuGenerator())

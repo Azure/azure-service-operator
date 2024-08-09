@@ -35,7 +35,9 @@ Namespace: Resource
 │   ├── KafkaEnabled: *bool
 │   ├── Location: *string
 │   ├── MaximumThroughputUnits: *int
-│   ├── OperatorSpec: *Object (1 property)
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
 │   │   └── Secrets: *Object (4 properties)
 │   │       ├── PrimaryConnectionString: *genruntime.SecretDestination
 │   │       ├── PrimaryKey: *genruntime.SecretDestination
@@ -235,7 +237,9 @@ NamespacesAuthorizationRule: Resource
 ├── Spec: Object (4 properties)
 │   ├── AzureName: Validated<string> (1 rule)
 │   │   └── Rule 0: MinLength: 1
-│   ├── OperatorSpec: *Object (1 property)
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
 │   │   └── Secrets: *Object (4 properties)
 │   │       ├── PrimaryConnectionString: *genruntime.SecretDestination
 │   │       ├── PrimaryKey: *genruntime.SecretDestination
@@ -305,7 +309,7 @@ NamespacesAuthorizationRule_Spec_ARM: Object (2 properties)
         └── "Send"
 NamespacesEventhub: Resource
 ├── Owner: Namespace
-├── Spec: Object (5 properties)
+├── Spec: Object (6 properties)
 │   ├── AzureName: Validated<string> (2 rules)
 │   │   ├── Rule 0: MaxLength: 256
 │   │   └── Rule 1: MinLength: 1
@@ -328,6 +332,9 @@ NamespacesEventhub: Resource
 │   │   └── SkipEmptyArchives: *bool
 │   ├── MessageRetentionInDays: Validated<*int> (1 rule)
 │   │   └── Rule 0: Minimum: 1
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── PartitionCount: Validated<*int> (1 rule)
 │       └── Rule 0: Minimum: 1
@@ -463,7 +470,9 @@ NamespacesEventhubsAuthorizationRule: Resource
 ├── Spec: Object (4 properties)
 │   ├── AzureName: Validated<string> (1 rule)
 │   │   └── Rule 0: MinLength: 1
-│   ├── OperatorSpec: *Object (1 property)
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
 │   │   └── Secrets: *Object (4 properties)
 │   │       ├── PrimaryConnectionString: *genruntime.SecretDestination
 │   │       ├── PrimaryKey: *genruntime.SecretDestination
@@ -533,10 +542,13 @@ NamespacesEventhubsAuthorizationRule_Spec_ARM: Object (2 properties)
         └── "Send"
 NamespacesEventhubsConsumerGroup: Resource
 ├── Owner: NamespacesEventhub
-├── Spec: Object (3 properties)
+├── Spec: Object (4 properties)
 │   ├── AzureName: Validated<string> (2 rules)
 │   │   ├── Rule 0: MaxLength: 50
 │   │   └── Rule 1: MinLength: 1
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── UserMetadata: *string
 └── Status: Object (9 properties)

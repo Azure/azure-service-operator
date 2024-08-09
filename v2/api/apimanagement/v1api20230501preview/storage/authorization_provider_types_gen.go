@@ -8,6 +8,9 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -63,6 +66,26 @@ func (provider *AuthorizationProvider) ConvertTo(hub conversion.Hub) error {
 	}
 
 	return provider.AssignProperties_To_AuthorizationProvider(destination)
+}
+
+var _ configmaps.Exporter = &AuthorizationProvider{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (provider *AuthorizationProvider) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if provider.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return provider.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &AuthorizationProvider{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (provider *AuthorizationProvider) SecretDestinationExpressions() []*core.DestinationExpression {
+	if provider.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return provider.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &AuthorizationProvider{}
@@ -239,6 +262,7 @@ type AuthorizationProvider_Spec struct {
 	DisplayName      *string                              `json:"displayName,omitempty"`
 	IdentityProvider *string                              `json:"identityProvider,omitempty"`
 	Oauth2           *AuthorizationProviderOAuth2Settings `json:"oauth2,omitempty"`
+	OperatorSpec     *AuthorizationProviderOperatorSpec   `json:"operatorSpec,omitempty"`
 	OriginalVersion  string                               `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -325,6 +349,18 @@ func (provider *AuthorizationProvider_Spec) AssignProperties_From_AuthorizationP
 		provider.Oauth2 = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec AuthorizationProviderOperatorSpec
+		err := operatorSpec.AssignProperties_From_AuthorizationProviderOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_AuthorizationProviderOperatorSpec() to populate field OperatorSpec")
+		}
+		provider.OperatorSpec = &operatorSpec
+	} else {
+		provider.OperatorSpec = nil
+	}
+
 	// OriginalVersion
 	provider.OriginalVersion = source.OriginalVersion
 
@@ -380,6 +416,18 @@ func (provider *AuthorizationProvider_Spec) AssignProperties_To_AuthorizationPro
 		destination.Oauth2 = &oauth2
 	} else {
 		destination.Oauth2 = nil
+	}
+
+	// OperatorSpec
+	if provider.OperatorSpec != nil {
+		var operatorSpec storage.AuthorizationProviderOperatorSpec
+		err := provider.OperatorSpec.AssignProperties_To_AuthorizationProviderOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_AuthorizationProviderOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -771,6 +819,136 @@ func (settings *AuthorizationProviderOAuth2Settings_STATUS) AssignProperties_To_
 	return nil
 }
 
+// Storage version of v1api20230501preview.AuthorizationProviderOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type AuthorizationProviderOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_AuthorizationProviderOperatorSpec populates our AuthorizationProviderOperatorSpec from the provided source AuthorizationProviderOperatorSpec
+func (operator *AuthorizationProviderOperatorSpec) AssignProperties_From_AuthorizationProviderOperatorSpec(source *storage.AuthorizationProviderOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAuthorizationProviderOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForAuthorizationProviderOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AuthorizationProviderOperatorSpec populates the provided destination AuthorizationProviderOperatorSpec from our AuthorizationProviderOperatorSpec
+func (operator *AuthorizationProviderOperatorSpec) AssignProperties_To_AuthorizationProviderOperatorSpec(destination *storage.AuthorizationProviderOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAuthorizationProviderOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForAuthorizationProviderOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 type augmentConversionForAuthorizationProviderOAuth2Settings interface {
 	AssignPropertiesFrom(src *storage.AuthorizationProviderOAuth2Settings) error
 	AssignPropertiesTo(dst *storage.AuthorizationProviderOAuth2Settings) error
@@ -779,6 +957,11 @@ type augmentConversionForAuthorizationProviderOAuth2Settings interface {
 type augmentConversionForAuthorizationProviderOAuth2Settings_STATUS interface {
 	AssignPropertiesFrom(src *storage.AuthorizationProviderOAuth2Settings_STATUS) error
 	AssignPropertiesTo(dst *storage.AuthorizationProviderOAuth2Settings_STATUS) error
+}
+
+type augmentConversionForAuthorizationProviderOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.AuthorizationProviderOperatorSpec) error
+	AssignPropertiesTo(dst *storage.AuthorizationProviderOperatorSpec) error
 }
 
 // Storage version of v1api20230501preview.AuthorizationProviderOAuth2GrantTypes

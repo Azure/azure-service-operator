@@ -9,6 +9,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -89,6 +92,26 @@ func (eventhub *NamespacesEventhub) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the NamespacesEventhub resource
 func (eventhub *NamespacesEventhub) defaultImpl() { eventhub.defaultAzureName() }
+
+var _ configmaps.Exporter = &NamespacesEventhub{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (eventhub *NamespacesEventhub) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if eventhub.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return eventhub.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &NamespacesEventhub{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (eventhub *NamespacesEventhub) SecretDestinationExpressions() []*core.DestinationExpression {
+	if eventhub.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return eventhub.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &NamespacesEventhub{}
 
@@ -208,7 +231,7 @@ func (eventhub *NamespacesEventhub) ValidateUpdate(old runtime.Object) (admissio
 
 // createValidations validates the creation of the resource
 func (eventhub *NamespacesEventhub) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){eventhub.validateResourceReferences, eventhub.validateOwnerReference}
+	return []func() (admission.Warnings, error){eventhub.validateResourceReferences, eventhub.validateOwnerReference, eventhub.validateSecretDestinations, eventhub.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -226,7 +249,21 @@ func (eventhub *NamespacesEventhub) updateValidations() []func(old runtime.Objec
 		func(old runtime.Object) (admission.Warnings, error) {
 			return eventhub.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return eventhub.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return eventhub.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (eventhub *NamespacesEventhub) validateConfigMapDestinations() (admission.Warnings, error) {
+	if eventhub.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(eventhub, nil, eventhub.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -241,6 +278,14 @@ func (eventhub *NamespacesEventhub) validateResourceReferences() (admission.Warn
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (eventhub *NamespacesEventhub) validateSecretDestinations() (admission.Warnings, error) {
+	if eventhub.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(eventhub, nil, eventhub.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -338,6 +383,10 @@ type NamespacesEventhub_Spec struct {
 	// MessageRetentionInDays: Number of days to retain the events for this Event Hub, value should be 1 to 7 days
 	MessageRetentionInDays *int `json:"messageRetentionInDays,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *NamespacesEventhubOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -423,6 +472,8 @@ func (eventhub *NamespacesEventhub_Spec) PopulateFromARM(owner genruntime.Arbitr
 			eventhub.MessageRetentionInDays = &messageRetentionInDays
 		}
 	}
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	eventhub.Owner = &genruntime.KnownResourceReference{
@@ -519,6 +570,18 @@ func (eventhub *NamespacesEventhub_Spec) AssignProperties_From_NamespacesEventhu
 		eventhub.MessageRetentionInDays = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec NamespacesEventhubOperatorSpec
+		err := operatorSpec.AssignProperties_From_NamespacesEventhubOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_NamespacesEventhubOperatorSpec() to populate field OperatorSpec")
+		}
+		eventhub.OperatorSpec = &operatorSpec
+	} else {
+		eventhub.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -565,6 +628,18 @@ func (eventhub *NamespacesEventhub_Spec) AssignProperties_To_NamespacesEventhub_
 		destination.MessageRetentionInDays = &messageRetentionInDay
 	} else {
 		destination.MessageRetentionInDays = nil
+	}
+
+	// OperatorSpec
+	if eventhub.OperatorSpec != nil {
+		var operatorSpec storage.NamespacesEventhubOperatorSpec
+		err := eventhub.OperatorSpec.AssignProperties_To_NamespacesEventhubOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_NamespacesEventhubOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -1517,6 +1592,110 @@ var namespaces_Eventhub_Properties_Status_STATUS_Values = map[string]Namespaces_
 	"restoring":       Namespaces_Eventhub_Properties_Status_STATUS_Restoring,
 	"senddisabled":    Namespaces_Eventhub_Properties_Status_STATUS_SendDisabled,
 	"unknown":         Namespaces_Eventhub_Properties_Status_STATUS_Unknown,
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type NamespacesEventhubOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_NamespacesEventhubOperatorSpec populates our NamespacesEventhubOperatorSpec from the provided source NamespacesEventhubOperatorSpec
+func (operator *NamespacesEventhubOperatorSpec) AssignProperties_From_NamespacesEventhubOperatorSpec(source *storage.NamespacesEventhubOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NamespacesEventhubOperatorSpec populates the provided destination NamespacesEventhubOperatorSpec from our NamespacesEventhubOperatorSpec
+func (operator *NamespacesEventhubOperatorSpec) AssignProperties_To_NamespacesEventhubOperatorSpec(destination *storage.NamespacesEventhubOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // +kubebuilder:validation:Enum={"Avro","AvroDeflate"}

@@ -11,6 +11,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -105,6 +107,26 @@ func (encryptionSet *DiskEncryptionSet) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the DiskEncryptionSet resource
 func (encryptionSet *DiskEncryptionSet) defaultImpl() { encryptionSet.defaultAzureName() }
+
+var _ configmaps.Exporter = &DiskEncryptionSet{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (encryptionSet *DiskEncryptionSet) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if encryptionSet.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return encryptionSet.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &DiskEncryptionSet{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (encryptionSet *DiskEncryptionSet) SecretDestinationExpressions() []*core.DestinationExpression {
+	if encryptionSet.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return encryptionSet.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.KubernetesResource = &DiskEncryptionSet{}
 
@@ -213,7 +235,7 @@ func (encryptionSet *DiskEncryptionSet) ValidateUpdate(old runtime.Object) (admi
 
 // createValidations validates the creation of the resource
 func (encryptionSet *DiskEncryptionSet) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){encryptionSet.validateResourceReferences, encryptionSet.validateOwnerReference, encryptionSet.validateOptionalConfigMapReferences}
+	return []func() (admission.Warnings, error){encryptionSet.validateResourceReferences, encryptionSet.validateOwnerReference, encryptionSet.validateSecretDestinations, encryptionSet.validateConfigMapDestinations, encryptionSet.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -232,9 +254,23 @@ func (encryptionSet *DiskEncryptionSet) updateValidations() []func(old runtime.O
 			return encryptionSet.validateOwnerReference()
 		},
 		func(old runtime.Object) (admission.Warnings, error) {
+			return encryptionSet.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return encryptionSet.validateConfigMapDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return encryptionSet.validateOptionalConfigMapReferences()
 		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (encryptionSet *DiskEncryptionSet) validateConfigMapDestinations() (admission.Warnings, error) {
+	if encryptionSet.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(encryptionSet, nil, encryptionSet.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
@@ -258,6 +294,14 @@ func (encryptionSet *DiskEncryptionSet) validateResourceReferences() (admission.
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (encryptionSet *DiskEncryptionSet) validateSecretDestinations() (admission.Warnings, error) {
+	if encryptionSet.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(encryptionSet, nil, encryptionSet.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -372,6 +416,10 @@ type DiskEncryptionSet_Spec struct {
 	// +kubebuilder:validation:Required
 	// Location: Resource location
 	Location *string `json:"location,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *DiskEncryptionSetOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -532,6 +580,8 @@ func (encryptionSet *DiskEncryptionSet_Spec) PopulateFromARM(owner genruntime.Ar
 		encryptionSet.Location = &location
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	encryptionSet.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
@@ -662,6 +712,18 @@ func (encryptionSet *DiskEncryptionSet_Spec) AssignProperties_From_DiskEncryptio
 	// Location
 	encryptionSet.Location = genruntime.ClonePointerToString(source.Location)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec DiskEncryptionSetOperatorSpec
+		err := operatorSpec.AssignProperties_From_DiskEncryptionSetOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DiskEncryptionSetOperatorSpec() to populate field OperatorSpec")
+		}
+		encryptionSet.OperatorSpec = &operatorSpec
+	} else {
+		encryptionSet.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -738,6 +800,18 @@ func (encryptionSet *DiskEncryptionSet_Spec) AssignProperties_To_DiskEncryptionS
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(encryptionSet.Location)
+
+	// OperatorSpec
+	if encryptionSet.OperatorSpec != nil {
+		var operatorSpec storage.DiskEncryptionSetOperatorSpec
+		err := encryptionSet.OperatorSpec.AssignProperties_To_DiskEncryptionSetOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DiskEncryptionSetOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = encryptionSet.OriginalVersion()
@@ -1418,6 +1492,110 @@ func (error *ApiError_STATUS) AssignProperties_To_ApiError_STATUS(destination *s
 
 	// Target
 	destination.Target = genruntime.ClonePointerToString(error.Target)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type DiskEncryptionSetOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_DiskEncryptionSetOperatorSpec populates our DiskEncryptionSetOperatorSpec from the provided source DiskEncryptionSetOperatorSpec
+func (operator *DiskEncryptionSetOperatorSpec) AssignProperties_From_DiskEncryptionSetOperatorSpec(source *storage.DiskEncryptionSetOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DiskEncryptionSetOperatorSpec populates the provided destination DiskEncryptionSetOperatorSpec from our DiskEncryptionSetOperatorSpec
+func (operator *DiskEncryptionSetOperatorSpec) AssignProperties_To_DiskEncryptionSetOperatorSpec(destination *storage.DiskEncryptionSetOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

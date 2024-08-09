@@ -39,9 +39,11 @@ TrafficManagerProfile: Resource
 │   │   │   └── "TCP"
 │   │   ├── TimeoutInSeconds: *int
 │   │   └── ToleratedNumberOfFailures: *int
-│   ├── OperatorSpec: *Object (1 property)
-│   │   └── ConfigMaps: *Object (1 property)
-│   │       └── DnsConfigFqdn: *genruntime.ConfigMapDestination
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── ConfigMaps: *Object (1 property)
+│   │   │   └── DnsConfigFqdn: *genruntime.ConfigMapDestination
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── ProfileStatus: *Enum (2 values)
 │   │   ├── "Disabled"
@@ -114,7 +116,7 @@ TrafficManagerProfile: Resource
     └── Type: *string
 TrafficManagerProfilesAzureEndpoint: Resource
 ├── Owner: TrafficManagerProfile
-├── Spec: Object (17 properties)
+├── Spec: Object (18 properties)
 │   ├── AlwaysServe: *Enum (2 values)
 │   │   ├── "Disabled"
 │   │   └── "Enabled"
@@ -138,6 +140,9 @@ TrafficManagerProfilesAzureEndpoint: Resource
 │   ├── MinChildEndpoints: *int
 │   ├── MinChildEndpointsIPv4: *int
 │   ├── MinChildEndpointsIPv6: *int
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── Priority: *int
 │   ├── Subnets: Object (3 properties)[]
@@ -185,7 +190,7 @@ TrafficManagerProfilesAzureEndpoint: Resource
     └── Weight: *int
 TrafficManagerProfilesExternalEndpoint: Resource
 ├── Owner: TrafficManagerProfile
-├── Spec: Object (17 properties)
+├── Spec: Object (18 properties)
 │   ├── AlwaysServe: *Enum (2 values)
 │   │   ├── "Disabled"
 │   │   └── "Enabled"
@@ -209,6 +214,9 @@ TrafficManagerProfilesExternalEndpoint: Resource
 │   ├── MinChildEndpoints: *int
 │   ├── MinChildEndpointsIPv4: *int
 │   ├── MinChildEndpointsIPv6: *int
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── Priority: *int
 │   ├── Subnets: Object (3 properties)[]
@@ -256,7 +264,7 @@ TrafficManagerProfilesExternalEndpoint: Resource
     └── Weight: *int
 TrafficManagerProfilesNestedEndpoint: Resource
 ├── Owner: TrafficManagerProfile
-├── Spec: Object (17 properties)
+├── Spec: Object (18 properties)
 │   ├── AlwaysServe: *Enum (2 values)
 │   │   ├── "Disabled"
 │   │   └── "Enabled"
@@ -280,6 +288,9 @@ TrafficManagerProfilesNestedEndpoint: Resource
 │   ├── MinChildEndpoints: *int
 │   ├── MinChildEndpointsIPv4: *int
 │   ├── MinChildEndpointsIPv6: *int
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── Priority: *int
 │   ├── Subnets: Object (3 properties)[]

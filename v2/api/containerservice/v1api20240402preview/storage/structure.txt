@@ -374,11 +374,13 @@ ManagedCluster: Resource
 │   ├── OidcIssuerProfile: *Object (2 properties)
 │   │   ├── Enabled: *bool
 │   │   └── PropertyBag: genruntime.PropertyBag
-│   ├── OperatorSpec: *Object (3 properties)
+│   ├── OperatorSpec: *Object (5 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   ├── ConfigMaps: *Object (2 properties)
 │   │   │   ├── OIDCIssuerProfile: *genruntime.ConfigMapDestination
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
 │   │   └── Secrets: *Object (3 properties)
 │   │       ├── AdminCredentials: *genruntime.SecretDestination
 │   │       ├── PropertyBag: genruntime.PropertyBag
@@ -1084,7 +1086,7 @@ ManagedCluster: Resource
             └── PropertyBag: genruntime.PropertyBag
 ManagedClustersAgentPool: Resource
 ├── Owner: containerservice/v1api20240402preview.ManagedCluster
-├── Spec: Object (55 properties)
+├── Spec: Object (56 properties)
 │   ├── ArtifactStreamingProfile: *Object (2 properties)
 │   │   ├── Enabled: *bool
 │   │   └── PropertyBag: genruntime.PropertyBag
@@ -1179,6 +1181,10 @@ ManagedClustersAgentPool: Resource
 │   ├── NodeLabels: map[string]string
 │   ├── NodePublicIPPrefixReference: *genruntime.ResourceReference
 │   ├── NodeTaints: string[]
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OrchestratorVersion: *string
 │   ├── OriginalVersion: string
 │   ├── OsDiskSizeGB: *int
@@ -1389,8 +1395,12 @@ ManagedClustersAgentPool: Resource
     └── WorkloadRuntime: *string
 TrustedAccessRoleBinding: Resource
 ├── Owner: containerservice/v1api20240402preview.ManagedCluster
-├── Spec: Object (6 properties)
+├── Spec: Object (7 properties)
 │   ├── AzureName: string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -1579,6 +1589,7 @@ augmentConversionForManagedClusterWorkloadAutoScalerProfile_STATUS: Interface
 augmentConversionForManagedCluster_STATUS: Interface
 augmentConversionForManagedCluster_Spec: Interface
 augmentConversionForManagedClustersAgentPool: Interface
+augmentConversionForManagedClustersAgentPoolOperatorSpec: Interface
 augmentConversionForManagedClustersAgentPool_STATUS: Interface
 augmentConversionForManagedClustersAgentPool_Spec: Interface
 augmentConversionForManualScaleProfile: Interface
@@ -1601,6 +1612,7 @@ augmentConversionForSysctlConfig: Interface
 augmentConversionForSysctlConfig_STATUS: Interface
 augmentConversionForSystemData_STATUS: Interface
 augmentConversionForTrustedAccessRoleBinding: Interface
+augmentConversionForTrustedAccessRoleBindingOperatorSpec: Interface
 augmentConversionForTrustedAccessRoleBinding_STATUS: Interface
 augmentConversionForTrustedAccessRoleBinding_Spec: Interface
 augmentConversionForUpgradeOverrideSettings: Interface

@@ -93,7 +93,8 @@ StorageAccount: Resource
 │   │       ├── PropertyBag: genruntime.PropertyBag
 │   │       ├── Reference: *genruntime.ResourceReference
 │   │       └── State: *string
-│   ├── OperatorSpec: *Object (3 properties)
+│   ├── OperatorSpec: *Object (5 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   ├── ConfigMaps: *Object (7 properties)
 │   │   │   ├── BlobEndpoint: *genruntime.ConfigMapDestination
 │   │   │   ├── DfsEndpoint: *genruntime.ConfigMapDestination
@@ -103,6 +104,7 @@ StorageAccount: Resource
 │   │   │   ├── TableEndpoint: *genruntime.ConfigMapDestination
 │   │   │   └── WebEndpoint: *genruntime.ConfigMapDestination
 │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
 │   │   └── Secrets: *Object (9 properties)
 │   │       ├── BlobEndpoint: *genruntime.SecretDestination
 │   │       ├── DfsEndpoint: *genruntime.SecretDestination
@@ -325,7 +327,7 @@ StorageAccount: Resource
     └── Type: *string
 StorageAccountsBlobService: Resource
 ├── Owner: storage/v1api20210401.StorageAccount
-├── Spec: Object (12 properties)
+├── Spec: Object (13 properties)
 │   ├── AutomaticSnapshotPolicyEnabled: *bool
 │   ├── ChangeFeed: *Object (3 properties)
 │   │   ├── Enabled: *bool
@@ -356,6 +358,10 @@ StorageAccountsBlobService: Resource
 │   │   ├── Name: *string
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── TrackingGranularityInDays: *int
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -411,7 +417,7 @@ StorageAccountsBlobService: Resource
     └── Type: *string
 StorageAccountsBlobServicesContainer: Resource
 ├── Owner: storage/v1api20210401.StorageAccountsBlobService
-├── Spec: Object (9 properties)
+├── Spec: Object (10 properties)
 │   ├── AzureName: string
 │   ├── DefaultEncryptionScope: *string
 │   ├── DenyEncryptionScopeOverride: *bool
@@ -419,6 +425,10 @@ StorageAccountsBlobServicesContainer: Resource
 │   │   ├── Enabled: *bool
 │   │   └── PropertyBag: genruntime.PropertyBag
 │   ├── Metadata: map[string]string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -475,7 +485,11 @@ StorageAccountsBlobServicesContainer: Resource
     └── Version: *string
 StorageAccountsManagementPolicy: Resource
 ├── Owner: storage/v1api20210401.StorageAccount
-├── Spec: Object (4 properties)
+├── Spec: Object (5 properties)
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── Policy: *Object (2 properties)
@@ -602,7 +616,7 @@ StorageAccountsManagementPolicy: Resource
     └── Type: *string
 StorageAccountsQueueService: Resource
 ├── Owner: storage/v1api20210401.StorageAccount
-├── Spec: Object (4 properties)
+├── Spec: Object (5 properties)
 │   ├── Cors: *Object (2 properties)
 │   │   ├── CorsRules: Object (6 properties)[]
 │   │   │   ├── AllowedHeaders: string[]
@@ -612,6 +626,10 @@ StorageAccountsQueueService: Resource
 │   │   │   ├── MaxAgeInSeconds: *int
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   └── PropertyBag: genruntime.PropertyBag
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── PropertyBag: genruntime.PropertyBag
@@ -632,9 +650,13 @@ StorageAccountsQueueService: Resource
     └── Type: *string
 StorageAccountsQueueServicesQueue: Resource
 ├── Owner: storage/v1api20210401.StorageAccountsQueueService
-├── Spec: Object (5 properties)
+├── Spec: Object (6 properties)
 │   ├── AzureName: string
 │   ├── Metadata: map[string]string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── PropertyBag: genruntime.PropertyBag
@@ -732,18 +754,23 @@ augmentConversionForStorageAccountOperatorSpec: Interface
 augmentConversionForStorageAccount_STATUS: Interface
 augmentConversionForStorageAccount_Spec: Interface
 augmentConversionForStorageAccountsBlobService: Interface
+augmentConversionForStorageAccountsBlobServiceOperatorSpec: Interface
 augmentConversionForStorageAccountsBlobService_STATUS: Interface
 augmentConversionForStorageAccountsBlobService_Spec: Interface
 augmentConversionForStorageAccountsBlobServicesContainer: Interface
+augmentConversionForStorageAccountsBlobServicesContainerOperatorSpec: Interface
 augmentConversionForStorageAccountsBlobServicesContainer_STATUS: Interface
 augmentConversionForStorageAccountsBlobServicesContainer_Spec: Interface
 augmentConversionForStorageAccountsManagementPolicy: Interface
+augmentConversionForStorageAccountsManagementPolicyOperatorSpec: Interface
 augmentConversionForStorageAccountsManagementPolicy_STATUS: Interface
 augmentConversionForStorageAccountsManagementPolicy_Spec: Interface
 augmentConversionForStorageAccountsQueueService: Interface
+augmentConversionForStorageAccountsQueueServiceOperatorSpec: Interface
 augmentConversionForStorageAccountsQueueService_STATUS: Interface
 augmentConversionForStorageAccountsQueueService_Spec: Interface
 augmentConversionForStorageAccountsQueueServicesQueue: Interface
+augmentConversionForStorageAccountsQueueServicesQueueOperatorSpec: Interface
 augmentConversionForStorageAccountsQueueServicesQueue_STATUS: Interface
 augmentConversionForStorageAccountsQueueServicesQueue_Spec: Interface
 augmentConversionForTagFilter: Interface

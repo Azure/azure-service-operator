@@ -5,7 +5,7 @@ APIVersion: Enum (1 value)
 └── "2020-12-01"
 VirtualMachine: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (26 properties)
+├── Spec: Object (27 properties)
 │   ├── AdditionalCapabilities: *Object (1 property)
 │   │   └── UltraSSDEnabled: *bool
 │   ├── AvailabilitySet: *Object (1 property)
@@ -45,6 +45,9 @@ VirtualMachine: Resource
 │   │   └── NetworkInterfaces: Object (2 properties)[]
 │   │       ├── Primary: *bool
 │   │       └── Reference: *genruntime.ResourceReference
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OsProfile: *Object (9 properties)
 │   │   ├── AdminPassword: *genruntime.SecretReference
 │   │   ├── AdminUsername: *string
@@ -793,7 +796,7 @@ VirtualMachine: Resource
     └── Zones: string[]
 VirtualMachineScaleSet: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (22 properties)
+├── Spec: Object (23 properties)
 │   ├── AdditionalCapabilities: *Object (1 property)
 │   │   └── UltraSSDEnabled: *bool
 │   ├── AutomaticRepairsPolicy: *Object (2 properties)
@@ -816,6 +819,9 @@ VirtualMachineScaleSet: Resource
 │   │   └── UserAssignedIdentities: Object (1 property)[]
 │   │       └── Reference: genruntime.ResourceReference
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OrchestrationMode: *Enum (2 values)
 │   │   ├── "Flexible"
 │   │   └── "Uniform"
@@ -1330,11 +1336,14 @@ VirtualMachineScaleSet: Resource
     └── Zones: string[]
 VirtualMachineScaleSetsExtension: Resource
 ├── Owner: VirtualMachineScaleSet
-├── Spec: Object (11 properties)
+├── Spec: Object (12 properties)
 │   ├── AutoUpgradeMinorVersion: *bool
 │   ├── AzureName: string
 │   ├── EnableAutomaticUpgrade: *bool
 │   ├── ForceUpdateTag: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── ProtectedSettings: *genruntime.SecretMapReference
 │   ├── ProvisionAfterExtensions: string[]
@@ -1358,7 +1367,7 @@ VirtualMachineScaleSetsExtension: Resource
     └── TypeHandlerVersion: *string
 VirtualMachinesExtension: Resource
 ├── Owner: VirtualMachine
-├── Spec: Object (13 properties)
+├── Spec: Object (14 properties)
 │   ├── AutoUpgradeMinorVersion: *bool
 │   ├── AzureName: string
 │   ├── EnableAutomaticUpgrade: *bool
@@ -1386,6 +1395,9 @@ VirtualMachinesExtension: Resource
 │   │   ├── Type: *string
 │   │   └── TypeHandlerVersion: *string
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── ProtectedSettings: *genruntime.SecretMapReference
 │   ├── Publisher: *string

@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -43,6 +46,26 @@ func (updateRun *FleetsUpdateRun) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (updateRun *FleetsUpdateRun) SetConditions(conditions conditions.Conditions) {
 	updateRun.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &FleetsUpdateRun{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (updateRun *FleetsUpdateRun) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if updateRun.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return updateRun.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &FleetsUpdateRun{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (updateRun *FleetsUpdateRun) SecretDestinationExpressions() []*core.DestinationExpression {
+	if updateRun.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return updateRun.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &FleetsUpdateRun{}
@@ -143,9 +166,10 @@ type FleetsUpdateRunList struct {
 type FleetsUpdateRun_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName            string                `json:"azureName,omitempty"`
-	ManagedClusterUpdate *ManagedClusterUpdate `json:"managedClusterUpdate,omitempty"`
-	OriginalVersion      string                `json:"originalVersion,omitempty"`
+	AzureName            string                       `json:"azureName,omitempty"`
+	ManagedClusterUpdate *ManagedClusterUpdate        `json:"managedClusterUpdate,omitempty"`
+	OperatorSpec         *FleetsUpdateRunOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion      string                       `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -209,6 +233,14 @@ func (updateRun *FleetsUpdateRun_STATUS) ConvertStatusTo(destination genruntime.
 	}
 
 	return destination.ConvertStatusFrom(updateRun)
+}
+
+// Storage version of v1api20230315preview.FleetsUpdateRunOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type FleetsUpdateRunOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20230315preview.ManagedClusterUpdate

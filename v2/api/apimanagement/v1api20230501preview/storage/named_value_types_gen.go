@@ -8,6 +8,9 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -63,6 +66,26 @@ func (value *NamedValue) ConvertTo(hub conversion.Hub) error {
 	}
 
 	return value.AssignProperties_To_NamedValue(destination)
+}
+
+var _ configmaps.Exporter = &NamedValue{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (value *NamedValue) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if value.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return value.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &NamedValue{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (value *NamedValue) SecretDestinationExpressions() []*core.DestinationExpression {
+	if value.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return value.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &NamedValue{}
@@ -239,6 +262,7 @@ type NamedValue_Spec struct {
 	AzureName       string                            `json:"azureName,omitempty"`
 	DisplayName     *string                           `json:"displayName,omitempty"`
 	KeyVault        *KeyVaultContractCreateProperties `json:"keyVault,omitempty"`
+	OperatorSpec    *NamedValueOperatorSpec           `json:"operatorSpec,omitempty"`
 	OriginalVersion string                            `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -325,6 +349,18 @@ func (value *NamedValue_Spec) AssignProperties_From_NamedValue_Spec(source *stor
 		value.KeyVault = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec NamedValueOperatorSpec
+		err := operatorSpec.AssignProperties_From_NamedValueOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_NamedValueOperatorSpec() to populate field OperatorSpec")
+		}
+		value.OperatorSpec = &operatorSpec
+	} else {
+		value.OperatorSpec = nil
+	}
+
 	// OriginalVersion
 	value.OriginalVersion = source.OriginalVersion
 
@@ -391,6 +427,18 @@ func (value *NamedValue_Spec) AssignProperties_To_NamedValue_Spec(destination *s
 		destination.KeyVault = &keyVault
 	} else {
 		destination.KeyVault = nil
+	}
+
+	// OperatorSpec
+	if value.OperatorSpec != nil {
+		var operatorSpec storage.NamedValueOperatorSpec
+		err := value.OperatorSpec.AssignProperties_To_NamedValueOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_NamedValueOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -847,6 +895,136 @@ func (properties *KeyVaultContractProperties_STATUS) AssignProperties_To_KeyVaul
 	return nil
 }
 
+// Storage version of v1api20230501preview.NamedValueOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type NamedValueOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_NamedValueOperatorSpec populates our NamedValueOperatorSpec from the provided source NamedValueOperatorSpec
+func (operator *NamedValueOperatorSpec) AssignProperties_From_NamedValueOperatorSpec(source *storage.NamedValueOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNamedValueOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForNamedValueOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NamedValueOperatorSpec populates the provided destination NamedValueOperatorSpec from our NamedValueOperatorSpec
+func (operator *NamedValueOperatorSpec) AssignProperties_To_NamedValueOperatorSpec(destination *storage.NamedValueOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNamedValueOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForNamedValueOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 type augmentConversionForKeyVaultContractCreateProperties interface {
 	AssignPropertiesFrom(src *storage.KeyVaultContractCreateProperties) error
 	AssignPropertiesTo(dst *storage.KeyVaultContractCreateProperties) error
@@ -855,6 +1033,11 @@ type augmentConversionForKeyVaultContractCreateProperties interface {
 type augmentConversionForKeyVaultContractProperties_STATUS interface {
 	AssignPropertiesFrom(src *storage.KeyVaultContractProperties_STATUS) error
 	AssignPropertiesTo(dst *storage.KeyVaultContractProperties_STATUS) error
+}
+
+type augmentConversionForNamedValueOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.NamedValueOperatorSpec) error
+	AssignPropertiesTo(dst *storage.NamedValueOperatorSpec) error
 }
 
 // Storage version of v1api20230501preview.KeyVaultLastAccessStatusContractProperties_STATUS

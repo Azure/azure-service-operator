@@ -420,6 +420,61 @@ func AddRelatedPropertyGeneratorsForStorageAccountsBlobServicesContainer(gens ma
 	gens["Status"] = StorageAccountsBlobServicesContainer_STATUSGenerator()
 }
 
+func Test_StorageAccountsBlobServicesContainerOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of StorageAccountsBlobServicesContainerOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageAccountsBlobServicesContainerOperatorSpec, StorageAccountsBlobServicesContainerOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForStorageAccountsBlobServicesContainerOperatorSpec runs a test to see if a specific instance of StorageAccountsBlobServicesContainerOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageAccountsBlobServicesContainerOperatorSpec(subject StorageAccountsBlobServicesContainerOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual StorageAccountsBlobServicesContainerOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of StorageAccountsBlobServicesContainerOperatorSpec instances for property testing - lazily instantiated by
+// StorageAccountsBlobServicesContainerOperatorSpecGenerator()
+var storageAccountsBlobServicesContainerOperatorSpecGenerator gopter.Gen
+
+// StorageAccountsBlobServicesContainerOperatorSpecGenerator returns a generator of StorageAccountsBlobServicesContainerOperatorSpec instances for property testing.
+func StorageAccountsBlobServicesContainerOperatorSpecGenerator() gopter.Gen {
+	if storageAccountsBlobServicesContainerOperatorSpecGenerator != nil {
+		return storageAccountsBlobServicesContainerOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	storageAccountsBlobServicesContainerOperatorSpecGenerator = gen.Struct(reflect.TypeOf(StorageAccountsBlobServicesContainerOperatorSpec{}), generators)
+
+	return storageAccountsBlobServicesContainerOperatorSpecGenerator
+}
+
 func Test_StorageAccountsBlobServicesContainer_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -600,6 +655,7 @@ func AddIndependentPropertyGeneratorsForStorageAccountsBlobServicesContainer_Spe
 // AddRelatedPropertyGeneratorsForStorageAccountsBlobServicesContainer_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForStorageAccountsBlobServicesContainer_Spec(gens map[string]gopter.Gen) {
 	gens["ImmutableStorageWithVersioning"] = gen.PtrOf(ImmutableStorageWithVersioningGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(StorageAccountsBlobServicesContainerOperatorSpecGenerator())
 }
 
 func Test_TagProperty_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

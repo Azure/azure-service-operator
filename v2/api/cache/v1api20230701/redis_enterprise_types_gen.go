@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -90,6 +93,26 @@ func (enterprise *RedisEnterprise) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the RedisEnterprise resource
 func (enterprise *RedisEnterprise) defaultImpl() { enterprise.defaultAzureName() }
+
+var _ configmaps.Exporter = &RedisEnterprise{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (enterprise *RedisEnterprise) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if enterprise.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return enterprise.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &RedisEnterprise{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (enterprise *RedisEnterprise) SecretDestinationExpressions() []*core.DestinationExpression {
+	if enterprise.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return enterprise.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &RedisEnterprise{}
 
@@ -209,7 +232,7 @@ func (enterprise *RedisEnterprise) ValidateUpdate(old runtime.Object) (admission
 
 // createValidations validates the creation of the resource
 func (enterprise *RedisEnterprise) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){enterprise.validateResourceReferences, enterprise.validateOwnerReference}
+	return []func() (admission.Warnings, error){enterprise.validateResourceReferences, enterprise.validateOwnerReference, enterprise.validateSecretDestinations, enterprise.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -227,7 +250,21 @@ func (enterprise *RedisEnterprise) updateValidations() []func(old runtime.Object
 		func(old runtime.Object) (admission.Warnings, error) {
 			return enterprise.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return enterprise.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return enterprise.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (enterprise *RedisEnterprise) validateConfigMapDestinations() (admission.Warnings, error) {
+	if enterprise.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(enterprise, nil, enterprise.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -242,6 +279,14 @@ func (enterprise *RedisEnterprise) validateResourceReferences() (admission.Warni
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (enterprise *RedisEnterprise) validateSecretDestinations() (admission.Warnings, error) {
+	if enterprise.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(enterprise, nil, enterprise.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -341,6 +386,10 @@ type RedisEnterprise_Spec struct {
 
 	// MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. '1.2'
 	MinimumTlsVersion *ClusterProperties_MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *RedisEnterpriseOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -445,6 +494,8 @@ func (enterprise *RedisEnterprise_Spec) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	enterprise.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
@@ -547,6 +598,18 @@ func (enterprise *RedisEnterprise_Spec) AssignProperties_From_RedisEnterprise_Sp
 		enterprise.MinimumTlsVersion = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec RedisEnterpriseOperatorSpec
+		err := operatorSpec.AssignProperties_From_RedisEnterpriseOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_RedisEnterpriseOperatorSpec() to populate field OperatorSpec")
+		}
+		enterprise.OperatorSpec = &operatorSpec
+	} else {
+		enterprise.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -594,6 +657,18 @@ func (enterprise *RedisEnterprise_Spec) AssignProperties_To_RedisEnterprise_Spec
 		destination.MinimumTlsVersion = &minimumTlsVersion
 	} else {
 		destination.MinimumTlsVersion = nil
+	}
+
+	// OperatorSpec
+	if enterprise.OperatorSpec != nil {
+		var operatorSpec storage.RedisEnterpriseOperatorSpec
+		err := enterprise.OperatorSpec.AssignProperties_To_RedisEnterpriseOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_RedisEnterpriseOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -1208,6 +1283,110 @@ var provisioningState_STATUS_Values = map[string]ProvisioningState_STATUS{
 	"failed":    ProvisioningState_STATUS_Failed,
 	"succeeded": ProvisioningState_STATUS_Succeeded,
 	"updating":  ProvisioningState_STATUS_Updating,
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type RedisEnterpriseOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_RedisEnterpriseOperatorSpec populates our RedisEnterpriseOperatorSpec from the provided source RedisEnterpriseOperatorSpec
+func (operator *RedisEnterpriseOperatorSpec) AssignProperties_From_RedisEnterpriseOperatorSpec(source *storage.RedisEnterpriseOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RedisEnterpriseOperatorSpec populates the provided destination RedisEnterpriseOperatorSpec from our RedisEnterpriseOperatorSpec
+func (operator *RedisEnterpriseOperatorSpec) AssignProperties_To_RedisEnterpriseOperatorSpec(destination *storage.RedisEnterpriseOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Current resource status

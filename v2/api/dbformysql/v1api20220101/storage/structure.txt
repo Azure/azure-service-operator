@@ -5,10 +5,14 @@ APIVersion: Enum (1 value)
 └── "2022-01-01"
 FlexibleServersAdministrator: Resource
 ├── Owner: dbformysql/v1api20220101.FlexibleServer
-├── Spec: Object (10 properties)
+├── Spec: Object (11 properties)
 │   ├── AdministratorType: *string
 │   ├── IdentityResourceReference: *genruntime.ResourceReference
 │   ├── Login: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -37,9 +41,13 @@ FlexibleServersAdministrator: Resource
     └── Type: *string
 FlexibleServersConfiguration: Resource
 ├── Owner: dbformysql/v1api20220101.FlexibleServer
-├── Spec: Object (7 properties)
+├── Spec: Object (8 properties)
 │   ├── AzureName: string
 │   ├── CurrentValue: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -71,9 +79,11 @@ FlexibleServersConfiguration: Resource
     ├── Type: *string
     └── Value: *string
 augmentConversionForFlexibleServersAdministrator: Interface
+augmentConversionForFlexibleServersAdministratorOperatorSpec: Interface
 augmentConversionForFlexibleServersAdministrator_STATUS: Interface
 augmentConversionForFlexibleServersAdministrator_Spec: Interface
 augmentConversionForFlexibleServersConfiguration: Interface
+augmentConversionForFlexibleServersConfigurationOperatorSpec: Interface
 augmentConversionForFlexibleServersConfiguration_STATUS: Interface
 augmentConversionForFlexibleServersConfiguration_Spec: Interface
 augmentConversionForSystemData_STATUS: Interface

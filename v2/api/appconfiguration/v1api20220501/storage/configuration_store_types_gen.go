@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (store *ConfigurationStore) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (store *ConfigurationStore) SetConditions(conditions conditions.Conditions) {
 	store.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &ConfigurationStore{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (store *ConfigurationStore) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if store.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return store.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &ConfigurationStore{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (store *ConfigurationStore) SecretDestinationExpressions() []*core.DestinationExpression {
+	if store.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return store.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &ConfigurationStore{}
@@ -240,8 +263,10 @@ func (store *ConfigurationStore_STATUS) ConvertStatusTo(destination genruntime.C
 // Storage version of v1api20220501.ConfigurationStoreOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type ConfigurationStoreOperatorSpec struct {
-	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Secrets     *ConfigurationStoreOperatorSecrets `json:"secrets,omitempty"`
+	ConfigMapExpressions []*core.DestinationExpression      `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression      `json:"secretExpressions,omitempty"`
+	Secrets              *ConfigurationStoreOperatorSecrets `json:"secrets,omitempty"`
 }
 
 // Storage version of v1api20220501.EncryptionProperties

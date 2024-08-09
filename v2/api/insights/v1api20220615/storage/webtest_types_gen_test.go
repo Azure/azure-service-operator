@@ -883,6 +883,61 @@ func AddRelatedPropertyGeneratorsForWebtest(gens map[string]gopter.Gen) {
 	gens["Status"] = Webtest_STATUSGenerator()
 }
 
+func Test_WebtestOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of WebtestOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWebtestOperatorSpec, WebtestOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForWebtestOperatorSpec runs a test to see if a specific instance of WebtestOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForWebtestOperatorSpec(subject WebtestOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual WebtestOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of WebtestOperatorSpec instances for property testing - lazily instantiated by
+// WebtestOperatorSpecGenerator()
+var webtestOperatorSpecGenerator gopter.Gen
+
+// WebtestOperatorSpecGenerator returns a generator of WebtestOperatorSpec instances for property testing.
+func WebtestOperatorSpecGenerator() gopter.Gen {
+	if webtestOperatorSpecGenerator != nil {
+		return webtestOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	webtestOperatorSpecGenerator = gen.Struct(reflect.TypeOf(WebtestOperatorSpec{}), generators)
+
+	return webtestOperatorSpecGenerator
+}
+
 func Test_Webtest_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1061,6 +1116,7 @@ func AddIndependentPropertyGeneratorsForWebtest_Spec(gens map[string]gopter.Gen)
 func AddRelatedPropertyGeneratorsForWebtest_Spec(gens map[string]gopter.Gen) {
 	gens["Configuration"] = gen.PtrOf(WebTestProperties_ConfigurationGenerator())
 	gens["Locations"] = gen.SliceOf(WebTestGeolocationGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(WebtestOperatorSpecGenerator())
 	gens["Request"] = gen.PtrOf(WebTestProperties_RequestGenerator())
 	gens["ValidationRules"] = gen.PtrOf(WebTestProperties_ValidationRulesGenerator())
 }

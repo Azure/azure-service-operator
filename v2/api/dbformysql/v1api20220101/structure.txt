@@ -5,11 +5,14 @@ APIVersion: Enum (1 value)
 └── "2022-01-01"
 FlexibleServersAdministrator: Resource
 ├── Owner: FlexibleServer
-├── Spec: Object (8 properties)
+├── Spec: Object (9 properties)
 │   ├── AdministratorType: *Enum (1 value)
 │   │   └── "ActiveDirectory"
 │   ├── IdentityResourceReference: *genruntime.ResourceReference
 │   ├── Login: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── Sid: *string
 │   ├── SidFromConfig: *genruntime.ConfigMapReference
@@ -43,10 +46,13 @@ FlexibleServersAdministrator: Resource
     └── Type: *string
 FlexibleServersConfiguration: Resource
 ├── Owner: FlexibleServer
-├── Spec: Object (5 properties)
+├── Spec: Object (6 properties)
 │   ├── AzureName: Validated<string> (1 rule)
 │   │   └── Rule 0: Pattern: "^[a-zA-Z0-9_.-]+$"
 │   ├── CurrentValue: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── Source: *Enum (2 values)
 │   │   ├── "system-default"

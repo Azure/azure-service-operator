@@ -346,6 +346,61 @@ func AddRelatedPropertyGeneratorsForNamespacesTopicsSubscriptionsRule(gens map[s
 	gens["Status"] = NamespacesTopicsSubscriptionsRule_STATUSGenerator()
 }
 
+func Test_NamespacesTopicsSubscriptionsRuleOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of NamespacesTopicsSubscriptionsRuleOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespacesTopicsSubscriptionsRuleOperatorSpec, NamespacesTopicsSubscriptionsRuleOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForNamespacesTopicsSubscriptionsRuleOperatorSpec runs a test to see if a specific instance of NamespacesTopicsSubscriptionsRuleOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespacesTopicsSubscriptionsRuleOperatorSpec(subject NamespacesTopicsSubscriptionsRuleOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual NamespacesTopicsSubscriptionsRuleOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of NamespacesTopicsSubscriptionsRuleOperatorSpec instances for property testing - lazily instantiated by
+// NamespacesTopicsSubscriptionsRuleOperatorSpecGenerator()
+var namespacesTopicsSubscriptionsRuleOperatorSpecGenerator gopter.Gen
+
+// NamespacesTopicsSubscriptionsRuleOperatorSpecGenerator returns a generator of NamespacesTopicsSubscriptionsRuleOperatorSpec instances for property testing.
+func NamespacesTopicsSubscriptionsRuleOperatorSpecGenerator() gopter.Gen {
+	if namespacesTopicsSubscriptionsRuleOperatorSpecGenerator != nil {
+		return namespacesTopicsSubscriptionsRuleOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	namespacesTopicsSubscriptionsRuleOperatorSpecGenerator = gen.Struct(reflect.TypeOf(NamespacesTopicsSubscriptionsRuleOperatorSpec{}), generators)
+
+	return namespacesTopicsSubscriptionsRuleOperatorSpecGenerator
+}
+
 func Test_NamespacesTopicsSubscriptionsRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -504,6 +559,7 @@ func AddIndependentPropertyGeneratorsForNamespacesTopicsSubscriptionsRule_Spec(g
 func AddRelatedPropertyGeneratorsForNamespacesTopicsSubscriptionsRule_Spec(gens map[string]gopter.Gen) {
 	gens["Action"] = gen.PtrOf(ActionGenerator())
 	gens["CorrelationFilter"] = gen.PtrOf(CorrelationFilterGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(NamespacesTopicsSubscriptionsRuleOperatorSpecGenerator())
 	gens["SqlFilter"] = gen.PtrOf(SqlFilterGenerator())
 }
 

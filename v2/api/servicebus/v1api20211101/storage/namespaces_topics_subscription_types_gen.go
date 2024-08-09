@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (subscription *NamespacesTopicsSubscription) GetConditions() conditions.Con
 // SetConditions sets the conditions on the resource status
 func (subscription *NamespacesTopicsSubscription) SetConditions(conditions conditions.Conditions) {
 	subscription.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &NamespacesTopicsSubscription{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (subscription *NamespacesTopicsSubscription) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if subscription.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return subscription.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &NamespacesTopicsSubscription{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (subscription *NamespacesTopicsSubscription) SecretDestinationExpressions() []*core.DestinationExpression {
+	if subscription.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return subscription.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &NamespacesTopicsSubscription{}
@@ -144,19 +167,20 @@ type NamespacesTopicsSubscription_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                                 string                    `json:"azureName,omitempty"`
-	ClientAffineProperties                    *SBClientAffineProperties `json:"clientAffineProperties,omitempty"`
-	DeadLetteringOnFilterEvaluationExceptions *bool                     `json:"deadLetteringOnFilterEvaluationExceptions,omitempty"`
-	DeadLetteringOnMessageExpiration          *bool                     `json:"deadLetteringOnMessageExpiration,omitempty"`
-	DefaultMessageTimeToLive                  *string                   `json:"defaultMessageTimeToLive,omitempty"`
-	DuplicateDetectionHistoryTimeWindow       *string                   `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
-	EnableBatchedOperations                   *bool                     `json:"enableBatchedOperations,omitempty"`
-	ForwardDeadLetteredMessagesTo             *string                   `json:"forwardDeadLetteredMessagesTo,omitempty"`
-	ForwardTo                                 *string                   `json:"forwardTo,omitempty"`
-	IsClientAffine                            *bool                     `json:"isClientAffine,omitempty"`
-	LockDuration                              *string                   `json:"lockDuration,omitempty"`
-	MaxDeliveryCount                          *int                      `json:"maxDeliveryCount,omitempty"`
-	OriginalVersion                           string                    `json:"originalVersion,omitempty"`
+	AzureName                                 string                                    `json:"azureName,omitempty"`
+	ClientAffineProperties                    *SBClientAffineProperties                 `json:"clientAffineProperties,omitempty"`
+	DeadLetteringOnFilterEvaluationExceptions *bool                                     `json:"deadLetteringOnFilterEvaluationExceptions,omitempty"`
+	DeadLetteringOnMessageExpiration          *bool                                     `json:"deadLetteringOnMessageExpiration,omitempty"`
+	DefaultMessageTimeToLive                  *string                                   `json:"defaultMessageTimeToLive,omitempty"`
+	DuplicateDetectionHistoryTimeWindow       *string                                   `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
+	EnableBatchedOperations                   *bool                                     `json:"enableBatchedOperations,omitempty"`
+	ForwardDeadLetteredMessagesTo             *string                                   `json:"forwardDeadLetteredMessagesTo,omitempty"`
+	ForwardTo                                 *string                                   `json:"forwardTo,omitempty"`
+	IsClientAffine                            *bool                                     `json:"isClientAffine,omitempty"`
+	LockDuration                              *string                                   `json:"lockDuration,omitempty"`
+	MaxDeliveryCount                          *int                                      `json:"maxDeliveryCount,omitempty"`
+	OperatorSpec                              *NamespacesTopicsSubscriptionOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion                           string                                    `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -235,6 +259,14 @@ func (subscription *NamespacesTopicsSubscription_STATUS) ConvertStatusTo(destina
 	}
 
 	return destination.ConvertStatusFrom(subscription)
+}
+
+// Storage version of v1api20211101.NamespacesTopicsSubscriptionOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type NamespacesTopicsSubscriptionOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20211101.SBClientAffineProperties

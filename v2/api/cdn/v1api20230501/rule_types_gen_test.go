@@ -11298,6 +11298,102 @@ func AddRelatedPropertyGeneratorsForRule(gens map[string]gopter.Gen) {
 	gens["Status"] = Rule_STATUSGenerator()
 }
 
+func Test_RuleOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RuleOperatorSpec to RuleOperatorSpec via AssignProperties_To_RuleOperatorSpec & AssignProperties_From_RuleOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRuleOperatorSpec, RuleOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRuleOperatorSpec tests if a specific instance of RuleOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRuleOperatorSpec(subject RuleOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RuleOperatorSpec
+	err := copied.AssignProperties_To_RuleOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RuleOperatorSpec
+	err = actual.AssignProperties_From_RuleOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_RuleOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of RuleOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRuleOperatorSpec, RuleOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForRuleOperatorSpec runs a test to see if a specific instance of RuleOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForRuleOperatorSpec(subject RuleOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual RuleOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of RuleOperatorSpec instances for property testing - lazily instantiated by RuleOperatorSpecGenerator()
+var ruleOperatorSpecGenerator gopter.Gen
+
+// RuleOperatorSpecGenerator returns a generator of RuleOperatorSpec instances for property testing.
+func RuleOperatorSpecGenerator() gopter.Gen {
+	if ruleOperatorSpecGenerator != nil {
+		return ruleOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	ruleOperatorSpecGenerator = gen.Struct(reflect.TypeOf(RuleOperatorSpec{}), generators)
+
+	return ruleOperatorSpecGenerator
+}
+
 func Test_Rule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -11548,6 +11644,7 @@ func AddIndependentPropertyGeneratorsForRule_Spec(gens map[string]gopter.Gen) {
 // AddRelatedPropertyGeneratorsForRule_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRule_Spec(gens map[string]gopter.Gen) {
 	gens["Actions"] = gen.SliceOf(DeliveryRuleActionGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(RuleOperatorSpecGenerator())
 	gens["RuleConditions"] = gen.SliceOf(DeliveryRuleConditionGenerator())
 }
 

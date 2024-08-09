@@ -78,6 +78,60 @@ func AddRelatedPropertyGeneratorsForAlias(gens map[string]gopter.Gen) {
 	gens["Status"] = Alias_STATUSGenerator()
 }
 
+func Test_AliasOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of AliasOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAliasOperatorSpec, AliasOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForAliasOperatorSpec runs a test to see if a specific instance of AliasOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForAliasOperatorSpec(subject AliasOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual AliasOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of AliasOperatorSpec instances for property testing - lazily instantiated by AliasOperatorSpecGenerator()
+var aliasOperatorSpecGenerator gopter.Gen
+
+// AliasOperatorSpecGenerator returns a generator of AliasOperatorSpec instances for property testing.
+func AliasOperatorSpecGenerator() gopter.Gen {
+	if aliasOperatorSpecGenerator != nil {
+		return aliasOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	aliasOperatorSpecGenerator = gen.Struct(reflect.TypeOf(AliasOperatorSpec{}), generators)
+
+	return aliasOperatorSpecGenerator
+}
+
 func Test_Alias_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -227,6 +281,7 @@ func AddIndependentPropertyGeneratorsForAlias_Spec(gens map[string]gopter.Gen) {
 
 // AddRelatedPropertyGeneratorsForAlias_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForAlias_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(AliasOperatorSpecGenerator())
 	gens["Properties"] = gen.PtrOf(PutAliasRequestPropertiesGenerator())
 }
 

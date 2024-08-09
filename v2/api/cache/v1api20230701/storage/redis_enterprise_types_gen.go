@@ -7,6 +7,9 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -43,6 +46,26 @@ func (enterprise *RedisEnterprise) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (enterprise *RedisEnterprise) SetConditions(conditions conditions.Conditions) {
 	enterprise.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &RedisEnterprise{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (enterprise *RedisEnterprise) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if enterprise.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return enterprise.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &RedisEnterprise{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (enterprise *RedisEnterprise) SecretDestinationExpressions() []*core.DestinationExpression {
+	if enterprise.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return enterprise.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &RedisEnterprise{}
@@ -149,10 +172,11 @@ const APIVersion_Value = APIVersion("2023-07-01")
 type RedisEnterprise_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName         string  `json:"azureName,omitempty"`
-	Location          *string `json:"location,omitempty"`
-	MinimumTlsVersion *string `json:"minimumTlsVersion,omitempty"`
-	OriginalVersion   string  `json:"originalVersion,omitempty"`
+	AzureName         string                       `json:"azureName,omitempty"`
+	Location          *string                      `json:"location,omitempty"`
+	MinimumTlsVersion *string                      `json:"minimumTlsVersion,omitempty"`
+	OperatorSpec      *RedisEnterpriseOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion   string                       `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -285,6 +309,14 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 
 	// No error
 	return nil
+}
+
+// Storage version of v1api20230701.RedisEnterpriseOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type RedisEnterpriseOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20230701.Sku

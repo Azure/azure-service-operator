@@ -5,7 +5,7 @@ APIVersion: Enum (1 value)
 └── "2021-06-01"
 Workspace: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (19 properties)
+├── Spec: Object (20 properties)
 │   ├── AzureADOnlyAuthentication: *bool
 │   ├── AzureName: string
 │   ├── CspWorkspaceAdminProperties: *Object (1 property)
@@ -38,6 +38,9 @@ Workspace: Resource
 │   │   ├── AllowedAadTenantIdsForLinking: string[]
 │   │   ├── LinkedAccessCheckOnTargetResource: *bool
 │   │   └── PreventDataExfiltration: *bool
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PublicNetworkAccess: *Enum (2 values)
 │   │   ├── "Disabled"
@@ -131,7 +134,7 @@ Workspace: Resource
     └── WorkspaceUID: *string
 WorkspacesBigDataPool: Resource
 ├── Owner: Workspace
-├── Spec: Object (21 properties)
+├── Spec: Object (22 properties)
 │   ├── AutoPause: *Object (2 properties)
 │   │   ├── DelayInMinutes: *int
 │   │   └── Enabled: *bool
@@ -171,6 +174,9 @@ WorkspacesBigDataPool: Resource
 │   │   ├── "HardwareAcceleratedGPU"
 │   │   ├── "MemoryOptimized"
 │   │   └── "None"
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── ProvisioningState: *string
 │   ├── SessionLevelPackagesEnabled: *bool

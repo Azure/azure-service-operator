@@ -218,6 +218,61 @@ func AddRelatedPropertyGeneratorsForDiskEncryptionSet(gens map[string]gopter.Gen
 	gens["Status"] = DiskEncryptionSet_STATUSGenerator()
 }
 
+func Test_DiskEncryptionSetOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DiskEncryptionSetOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDiskEncryptionSetOperatorSpec, DiskEncryptionSetOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDiskEncryptionSetOperatorSpec runs a test to see if a specific instance of DiskEncryptionSetOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForDiskEncryptionSetOperatorSpec(subject DiskEncryptionSetOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DiskEncryptionSetOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DiskEncryptionSetOperatorSpec instances for property testing - lazily instantiated by
+// DiskEncryptionSetOperatorSpecGenerator()
+var diskEncryptionSetOperatorSpecGenerator gopter.Gen
+
+// DiskEncryptionSetOperatorSpecGenerator returns a generator of DiskEncryptionSetOperatorSpec instances for property testing.
+func DiskEncryptionSetOperatorSpecGenerator() gopter.Gen {
+	if diskEncryptionSetOperatorSpecGenerator != nil {
+		return diskEncryptionSetOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	diskEncryptionSetOperatorSpecGenerator = gen.Struct(reflect.TypeOf(DiskEncryptionSetOperatorSpec{}), generators)
+
+	return diskEncryptionSetOperatorSpecGenerator
+}
+
 func Test_DiskEncryptionSet_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -389,6 +444,7 @@ func AddIndependentPropertyGeneratorsForDiskEncryptionSet_Spec(gens map[string]g
 func AddRelatedPropertyGeneratorsForDiskEncryptionSet_Spec(gens map[string]gopter.Gen) {
 	gens["ActiveKey"] = gen.PtrOf(KeyForDiskEncryptionSetGenerator())
 	gens["Identity"] = gen.PtrOf(EncryptionSetIdentityGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(DiskEncryptionSetOperatorSpecGenerator())
 }
 
 func Test_EncryptionSetIdentity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -90,6 +93,26 @@ func (snapshot *Snapshot) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the Snapshot resource
 func (snapshot *Snapshot) defaultImpl() { snapshot.defaultAzureName() }
+
+var _ configmaps.Exporter = &Snapshot{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (snapshot *Snapshot) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if snapshot.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return snapshot.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Snapshot{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (snapshot *Snapshot) SecretDestinationExpressions() []*core.DestinationExpression {
+	if snapshot.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return snapshot.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &Snapshot{}
 
@@ -209,7 +232,7 @@ func (snapshot *Snapshot) ValidateUpdate(old runtime.Object) (admission.Warnings
 
 // createValidations validates the creation of the resource
 func (snapshot *Snapshot) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){snapshot.validateResourceReferences, snapshot.validateOwnerReference}
+	return []func() (admission.Warnings, error){snapshot.validateResourceReferences, snapshot.validateOwnerReference, snapshot.validateSecretDestinations, snapshot.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -227,7 +250,21 @@ func (snapshot *Snapshot) updateValidations() []func(old runtime.Object) (admiss
 		func(old runtime.Object) (admission.Warnings, error) {
 			return snapshot.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return snapshot.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return snapshot.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (snapshot *Snapshot) validateConfigMapDestinations() (admission.Warnings, error) {
+	if snapshot.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(snapshot, nil, snapshot.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -242,6 +279,14 @@ func (snapshot *Snapshot) validateResourceReferences() (admission.Warnings, erro
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (snapshot *Snapshot) validateSecretDestinations() (admission.Warnings, error) {
+	if snapshot.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(snapshot, nil, snapshot.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -378,6 +423,10 @@ type Snapshot_Spec struct {
 
 	// NetworkAccessPolicy: Policy for accessing the disk via network.
 	NetworkAccessPolicy *NetworkAccessPolicy `json:"networkAccessPolicy,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *SnapshotOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// OsType: The Operating System type.
 	OsType *SnapshotProperties_OsType `json:"osType,omitempty"`
@@ -759,6 +808,8 @@ func (snapshot *Snapshot_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "OsType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1043,6 +1094,18 @@ func (snapshot *Snapshot_Spec) AssignProperties_From_Snapshot_Spec(source *stora
 		snapshot.NetworkAccessPolicy = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec SnapshotOperatorSpec
+		err := operatorSpec.AssignProperties_From_SnapshotOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SnapshotOperatorSpec() to populate field OperatorSpec")
+		}
+		snapshot.OperatorSpec = &operatorSpec
+	} else {
+		snapshot.OperatorSpec = nil
+	}
+
 	// OsType
 	if source.OsType != nil {
 		osType := *source.OsType
@@ -1260,6 +1323,18 @@ func (snapshot *Snapshot_Spec) AssignProperties_To_Snapshot_Spec(destination *st
 		destination.NetworkAccessPolicy = &networkAccessPolicy
 	} else {
 		destination.NetworkAccessPolicy = nil
+	}
+
+	// OperatorSpec
+	if snapshot.OperatorSpec != nil {
+		var operatorSpec storage.SnapshotOperatorSpec
+		err := snapshot.OperatorSpec.AssignProperties_To_SnapshotOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SnapshotOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -2777,6 +2852,110 @@ var diskState_Values = map[string]DiskState{
 	"readytoupload":   DiskState_ReadyToUpload,
 	"reserved":        DiskState_Reserved,
 	"unattached":      DiskState_Unattached,
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type SnapshotOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_SnapshotOperatorSpec populates our SnapshotOperatorSpec from the provided source SnapshotOperatorSpec
+func (operator *SnapshotOperatorSpec) AssignProperties_From_SnapshotOperatorSpec(source *storage.SnapshotOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SnapshotOperatorSpec populates the provided destination SnapshotOperatorSpec from our SnapshotOperatorSpec
+func (operator *SnapshotOperatorSpec) AssignProperties_To_SnapshotOperatorSpec(destination *storage.SnapshotOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // +kubebuilder:validation:Enum={"V1","V2"}

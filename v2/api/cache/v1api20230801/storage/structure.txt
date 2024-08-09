@@ -16,8 +16,10 @@ Redis: Resource
 │   │       └── Reference: genruntime.ResourceReference
 │   ├── Location: *string
 │   ├── MinimumTlsVersion: *string
-│   ├── OperatorSpec: *Object (2 properties)
+│   ├── OperatorSpec: *Object (4 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
 │   │   └── Secrets: *Object (6 properties)
 │   │       ├── HostName: *genruntime.SecretDestination
 │   │       ├── Port: *genruntime.SecretDestination
@@ -137,9 +139,13 @@ Redis: Resource
     └── Zones: string[]
 RedisFirewallRule: Resource
 ├── Owner: cache/v1api20230801.Redis
-├── Spec: Object (6 properties)
+├── Spec: Object (7 properties)
 │   ├── AzureName: string
 │   ├── EndIP: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -154,10 +160,14 @@ RedisFirewallRule: Resource
     └── Type: *string
 RedisLinkedServer: Resource
 ├── Owner: cache/v1api20230801.Redis
-├── Spec: Object (7 properties)
+├── Spec: Object (8 properties)
 │   ├── AzureName: string
 │   ├── LinkedRedisCacheLocation: *string
 │   ├── LinkedRedisCacheReference: *genruntime.ResourceReference
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -176,7 +186,11 @@ RedisLinkedServer: Resource
     └── Type: *string
 RedisPatchSchedule: Resource
 ├── Owner: cache/v1api20230801.Redis
-├── Spec: Object (4 properties)
+├── Spec: Object (5 properties)
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag

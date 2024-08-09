@@ -5,7 +5,7 @@ APIVersion: Enum (1 value)
 └── "2023-01-01"
 ActionGroup: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (17 properties)
+├── Spec: Object (18 properties)
 │   ├── ArmRoleReceivers: Object (3 properties)[]
 │   │   ├── Name: *string
 │   │   ├── RoleId: *string
@@ -54,6 +54,9 @@ ActionGroup: Resource
 │   │   ├── Name: *string
 │   │   ├── ResourceReference: *genruntime.ResourceReference
 │   │   └── UseCommonAlertSchema: *bool
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── SmsReceivers: Object (3 properties)[]
 │   │   ├── CountryCode: *string

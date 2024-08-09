@@ -5,9 +5,12 @@ APIVersion: Enum (1 value)
 └── "2024-01-01"
 ApplicationSecurityGroup: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (4 properties)
+├── Spec: Object (5 properties)
 │   ├── AzureName: string
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── Tags: map[string]string
 └── Status: Object (9 properties)
@@ -26,7 +29,7 @@ ApplicationSecurityGroup: Resource
     └── Type: *string
 WebApplicationFirewallPolicy: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (7 properties)
+├── Spec: Object (8 properties)
 │   ├── AzureName: Validated<string> (1 rule)
 │   │   └── Rule 0: MaxLength: 128
 │   ├── CustomRules: Object (9 properties)[]
@@ -133,6 +136,9 @@ WebApplicationFirewallPolicy: Resource
 │   │       │           └── "Enabled"
 │   │       ├── RuleSetType: *string
 │   │       └── RuleSetVersion: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PolicySettings: *Object (12 properties)
 │   │   ├── CustomBlockResponseBody: Validated<*string> (2 rules)

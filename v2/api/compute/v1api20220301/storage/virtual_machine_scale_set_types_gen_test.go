@@ -3130,6 +3130,61 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetOSProfile_STATUS(gens 
 	gens["WindowsConfiguration"] = gen.PtrOf(WindowsConfiguration_STATUSGenerator())
 }
 
+func Test_VirtualMachineScaleSetOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualMachineScaleSetOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetOperatorSpec, VirtualMachineScaleSetOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualMachineScaleSetOperatorSpec runs a test to see if a specific instance of VirtualMachineScaleSetOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetOperatorSpec(subject VirtualMachineScaleSetOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualMachineScaleSetOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualMachineScaleSetOperatorSpec instances for property testing - lazily instantiated by
+// VirtualMachineScaleSetOperatorSpecGenerator()
+var virtualMachineScaleSetOperatorSpecGenerator gopter.Gen
+
+// VirtualMachineScaleSetOperatorSpecGenerator returns a generator of VirtualMachineScaleSetOperatorSpec instances for property testing.
+func VirtualMachineScaleSetOperatorSpecGenerator() gopter.Gen {
+	if virtualMachineScaleSetOperatorSpecGenerator != nil {
+		return virtualMachineScaleSetOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	virtualMachineScaleSetOperatorSpecGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetOperatorSpec{}), generators)
+
+	return virtualMachineScaleSetOperatorSpecGenerator
+}
+
 func Test_VirtualMachineScaleSetPublicIPAddressConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -3907,6 +3962,7 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSet_Spec(gens map[string]
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
 	gens["HostGroup"] = gen.PtrOf(SubResourceGenerator())
 	gens["Identity"] = gen.PtrOf(VirtualMachineScaleSetIdentityGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(VirtualMachineScaleSetOperatorSpecGenerator())
 	gens["Plan"] = gen.PtrOf(PlanGenerator())
 	gens["ProximityPlacementGroup"] = gen.PtrOf(SubResourceGenerator())
 	gens["ScaleInPolicy"] = gen.PtrOf(ScaleInPolicyGenerator())

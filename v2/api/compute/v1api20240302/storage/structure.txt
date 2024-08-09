@@ -5,7 +5,7 @@ APIVersion: Enum (1 value)
 └── "2024-03-02"
 Disk: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (32 properties)
+├── Spec: Object (33 properties)
 │   ├── AzureName: string
 │   ├── BurstingEnabled: *bool
 │   ├── CompletionPercent: *float64
@@ -70,6 +70,10 @@ Disk: Resource
 │   ├── Location: *string
 │   ├── MaxShares: *int
 │   ├── NetworkAccessPolicy: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OptimizedForFrequentAttach: *bool
 │   ├── OriginalVersion: string
 │   ├── OsType: *string
@@ -211,13 +215,17 @@ Disk: Resource
     └── Zones: string[]
 DiskAccess: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (7 properties)
+├── Spec: Object (8 properties)
 │   ├── AzureName: string
 │   ├── ExtendedLocation: *Object (3 properties)
 │   │   ├── Name: *string
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── Type: *string
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -241,7 +249,7 @@ DiskAccess: Resource
     └── Type: *string
 DiskEncryptionSet: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (12 properties)
+├── Spec: Object (13 properties)
 │   ├── ActiveKey: *Object (4 properties)
 │   │   ├── KeyUrl: *string
 │   │   ├── KeyUrlFromConfig: *genruntime.ConfigMapReference
@@ -260,6 +268,10 @@ DiskEncryptionSet: Resource
 │   │       ├── PropertyBag: genruntime.PropertyBag
 │   │       └── Reference: genruntime.ResourceReference
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -315,7 +327,7 @@ DiskEncryptionSet: Resource
     └── Type: *string
 Snapshot: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (26 properties)
+├── Spec: Object (27 properties)
 │   ├── AzureName: string
 │   ├── CompletionPercent: *float64
 │   ├── CopyCompletionError: *Object (3 properties)
@@ -380,6 +392,10 @@ Snapshot: Resource
 │   ├── Incremental: *bool
 │   ├── Location: *string
 │   ├── NetworkAccessPolicy: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── OsType: *string
 │   ├── Owner: *genruntime.KnownResourceReference

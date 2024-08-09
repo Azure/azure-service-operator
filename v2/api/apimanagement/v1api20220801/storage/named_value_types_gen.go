@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (value *NamedValue) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (value *NamedValue) SetConditions(conditions conditions.Conditions) {
 	value.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &NamedValue{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (value *NamedValue) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if value.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return value.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &NamedValue{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (value *NamedValue) SecretDestinationExpressions() []*core.DestinationExpression {
+	if value.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return value.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &NamedValue{}
@@ -146,6 +169,7 @@ type NamedValue_Spec struct {
 	AzureName       string                            `json:"azureName,omitempty"`
 	DisplayName     *string                           `json:"displayName,omitempty"`
 	KeyVault        *KeyVaultContractCreateProperties `json:"keyVault,omitempty"`
+	OperatorSpec    *NamedValueOperatorSpec           `json:"operatorSpec,omitempty"`
 	OriginalVersion string                            `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -229,6 +253,14 @@ type KeyVaultContractProperties_STATUS struct {
 	LastStatus       *KeyVaultLastAccessStatusContractProperties_STATUS `json:"lastStatus,omitempty"`
 	PropertyBag      genruntime.PropertyBag                             `json:"$propertyBag,omitempty"`
 	SecretIdentifier *string                                            `json:"secretIdentifier,omitempty"`
+}
+
+// Storage version of v1api20220801.NamedValueOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type NamedValueOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20220801.KeyVaultLastAccessStatusContractProperties_STATUS

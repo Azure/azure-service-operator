@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -104,6 +107,26 @@ func (fragment *PolicyFragment) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the PolicyFragment resource
 func (fragment *PolicyFragment) defaultImpl() { fragment.defaultAzureName() }
+
+var _ configmaps.Exporter = &PolicyFragment{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (fragment *PolicyFragment) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if fragment.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return fragment.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &PolicyFragment{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (fragment *PolicyFragment) SecretDestinationExpressions() []*core.DestinationExpression {
+	if fragment.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return fragment.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.KubernetesResource = &PolicyFragment{}
 
@@ -213,7 +236,7 @@ func (fragment *PolicyFragment) ValidateUpdate(old runtime.Object) (admission.Wa
 
 // createValidations validates the creation of the resource
 func (fragment *PolicyFragment) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){fragment.validateResourceReferences, fragment.validateOwnerReference}
+	return []func() (admission.Warnings, error){fragment.validateResourceReferences, fragment.validateOwnerReference, fragment.validateSecretDestinations, fragment.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -231,7 +254,21 @@ func (fragment *PolicyFragment) updateValidations() []func(old runtime.Object) (
 		func(old runtime.Object) (admission.Warnings, error) {
 			return fragment.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return fragment.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return fragment.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (fragment *PolicyFragment) validateConfigMapDestinations() (admission.Warnings, error) {
+	if fragment.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(fragment, nil, fragment.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -246,6 +283,14 @@ func (fragment *PolicyFragment) validateResourceReferences() (admission.Warnings
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (fragment *PolicyFragment) validateSecretDestinations() (admission.Warnings, error) {
+	if fragment.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(fragment, nil, fragment.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -345,6 +390,10 @@ type PolicyFragment_Spec struct {
 	// Format: Format of the policy fragment content.
 	Format *PolicyFragmentContractProperties_Format `json:"format,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *PolicyFragmentOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -425,6 +474,8 @@ func (fragment *PolicyFragment_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 			fragment.Format = &format
 		}
 	}
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	fragment.Owner = &genruntime.KnownResourceReference{
@@ -518,6 +569,18 @@ func (fragment *PolicyFragment_Spec) AssignProperties_From_PolicyFragment_Spec(s
 		fragment.Format = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec PolicyFragmentOperatorSpec
+		err := operatorSpec.AssignProperties_From_PolicyFragmentOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_PolicyFragmentOperatorSpec() to populate field OperatorSpec")
+		}
+		fragment.OperatorSpec = &operatorSpec
+	} else {
+		fragment.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -555,6 +618,18 @@ func (fragment *PolicyFragment_Spec) AssignProperties_To_PolicyFragment_Spec(des
 		destination.Format = &format
 	} else {
 		destination.Format = nil
+	}
+
+	// OperatorSpec
+	if fragment.OperatorSpec != nil {
+		var operatorSpec storage.PolicyFragmentOperatorSpec
+		err := fragment.OperatorSpec.AssignProperties_To_PolicyFragmentOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_PolicyFragmentOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -850,6 +925,110 @@ const (
 var policyFragmentContractProperties_Format_STATUS_Values = map[string]PolicyFragmentContractProperties_Format_STATUS{
 	"rawxml": PolicyFragmentContractProperties_Format_STATUS_Rawxml,
 	"xml":    PolicyFragmentContractProperties_Format_STATUS_Xml,
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type PolicyFragmentOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_PolicyFragmentOperatorSpec populates our PolicyFragmentOperatorSpec from the provided source PolicyFragmentOperatorSpec
+func (operator *PolicyFragmentOperatorSpec) AssignProperties_From_PolicyFragmentOperatorSpec(source *storage.PolicyFragmentOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_PolicyFragmentOperatorSpec populates the provided destination PolicyFragmentOperatorSpec from our PolicyFragmentOperatorSpec
+func (operator *PolicyFragmentOperatorSpec) AssignProperties_To_PolicyFragmentOperatorSpec(destination *storage.PolicyFragmentOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 func init() {

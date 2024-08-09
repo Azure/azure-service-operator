@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (configuration *MaintenanceConfiguration) GetConditions() conditions.Condit
 // SetConditions sets the conditions on the resource status
 func (configuration *MaintenanceConfiguration) SetConditions(conditions conditions.Conditions) {
 	configuration.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &MaintenanceConfiguration{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (configuration *MaintenanceConfiguration) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if configuration.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return configuration.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &MaintenanceConfiguration{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (configuration *MaintenanceConfiguration) SecretDestinationExpressions() []*core.DestinationExpression {
+	if configuration.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return configuration.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &MaintenanceConfiguration{}
@@ -148,10 +171,11 @@ const APIVersion_Value = APIVersion("2024-09-01")
 type MaintenanceConfiguration_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName         string             `json:"azureName,omitempty"`
-	MaintenanceWindow *MaintenanceWindow `json:"maintenanceWindow,omitempty"`
-	NotAllowedTime    []TimeSpan         `json:"notAllowedTime,omitempty"`
-	OriginalVersion   string             `json:"originalVersion,omitempty"`
+	AzureName         string                                `json:"azureName,omitempty"`
+	MaintenanceWindow *MaintenanceWindow                    `json:"maintenanceWindow,omitempty"`
+	NotAllowedTime    []TimeSpan                            `json:"notAllowedTime,omitempty"`
+	OperatorSpec      *MaintenanceConfigurationOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion   string                                `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -213,6 +237,14 @@ func (configuration *MaintenanceConfiguration_STATUS) ConvertStatusTo(destinatio
 	}
 
 	return destination.ConvertStatusFrom(configuration)
+}
+
+// Storage version of v1api20240901.MaintenanceConfigurationOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type MaintenanceConfigurationOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20240901.MaintenanceWindow

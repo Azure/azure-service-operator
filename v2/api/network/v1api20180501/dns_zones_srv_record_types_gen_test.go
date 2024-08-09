@@ -164,6 +164,103 @@ func AddRelatedPropertyGeneratorsForDnsZonesSRVRecord(gens map[string]gopter.Gen
 	gens["Status"] = DnsZonesSRVRecord_STATUSGenerator()
 }
 
+func Test_DnsZonesSRVRecordOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DnsZonesSRVRecordOperatorSpec to DnsZonesSRVRecordOperatorSpec via AssignProperties_To_DnsZonesSRVRecordOperatorSpec & AssignProperties_From_DnsZonesSRVRecordOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDnsZonesSRVRecordOperatorSpec, DnsZonesSRVRecordOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDnsZonesSRVRecordOperatorSpec tests if a specific instance of DnsZonesSRVRecordOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDnsZonesSRVRecordOperatorSpec(subject DnsZonesSRVRecordOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.DnsZonesSRVRecordOperatorSpec
+	err := copied.AssignProperties_To_DnsZonesSRVRecordOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DnsZonesSRVRecordOperatorSpec
+	err = actual.AssignProperties_From_DnsZonesSRVRecordOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_DnsZonesSRVRecordOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DnsZonesSRVRecordOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDnsZonesSRVRecordOperatorSpec, DnsZonesSRVRecordOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDnsZonesSRVRecordOperatorSpec runs a test to see if a specific instance of DnsZonesSRVRecordOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForDnsZonesSRVRecordOperatorSpec(subject DnsZonesSRVRecordOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DnsZonesSRVRecordOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DnsZonesSRVRecordOperatorSpec instances for property testing - lazily instantiated by
+// DnsZonesSRVRecordOperatorSpecGenerator()
+var dnsZonesSRVRecordOperatorSpecGenerator gopter.Gen
+
+// DnsZonesSRVRecordOperatorSpecGenerator returns a generator of DnsZonesSRVRecordOperatorSpec instances for property testing.
+func DnsZonesSRVRecordOperatorSpecGenerator() gopter.Gen {
+	if dnsZonesSRVRecordOperatorSpecGenerator != nil {
+		return dnsZonesSRVRecordOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	dnsZonesSRVRecordOperatorSpecGenerator = gen.Struct(reflect.TypeOf(DnsZonesSRVRecordOperatorSpec{}), generators)
+
+	return dnsZonesSRVRecordOperatorSpecGenerator
+}
+
 func Test_DnsZonesSRVRecord_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -424,6 +521,7 @@ func AddRelatedPropertyGeneratorsForDnsZonesSRVRecord_Spec(gens map[string]gopte
 	gens["CaaRecords"] = gen.SliceOf(CaaRecordGenerator())
 	gens["MXRecords"] = gen.SliceOf(MxRecordGenerator())
 	gens["NSRecords"] = gen.SliceOf(NsRecordGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(DnsZonesSRVRecordOperatorSpecGenerator())
 	gens["PTRRecords"] = gen.SliceOf(PtrRecordGenerator())
 	gens["SOARecord"] = gen.PtrOf(SoaRecordGenerator())
 	gens["SRVRecords"] = gen.SliceOf(SrvRecordGenerator())

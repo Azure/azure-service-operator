@@ -1626,6 +1626,103 @@ func AddRelatedPropertyGeneratorsForLoadBalancerBackendAddress_STATUS(gens map[s
 	gens["VirtualNetwork"] = gen.PtrOf(SubResource_STATUSGenerator())
 }
 
+func Test_LoadBalancerOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from LoadBalancerOperatorSpec to LoadBalancerOperatorSpec via AssignProperties_To_LoadBalancerOperatorSpec & AssignProperties_From_LoadBalancerOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLoadBalancerOperatorSpec, LoadBalancerOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForLoadBalancerOperatorSpec tests if a specific instance of LoadBalancerOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForLoadBalancerOperatorSpec(subject LoadBalancerOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.LoadBalancerOperatorSpec
+	err := copied.AssignProperties_To_LoadBalancerOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual LoadBalancerOperatorSpec
+	err = actual.AssignProperties_From_LoadBalancerOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_LoadBalancerOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of LoadBalancerOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForLoadBalancerOperatorSpec, LoadBalancerOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForLoadBalancerOperatorSpec runs a test to see if a specific instance of LoadBalancerOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForLoadBalancerOperatorSpec(subject LoadBalancerOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual LoadBalancerOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of LoadBalancerOperatorSpec instances for property testing - lazily instantiated by
+// LoadBalancerOperatorSpecGenerator()
+var loadBalancerOperatorSpecGenerator gopter.Gen
+
+// LoadBalancerOperatorSpecGenerator returns a generator of LoadBalancerOperatorSpec instances for property testing.
+func LoadBalancerOperatorSpecGenerator() gopter.Gen {
+	if loadBalancerOperatorSpecGenerator != nil {
+		return loadBalancerOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	loadBalancerOperatorSpecGenerator = gen.Struct(reflect.TypeOf(LoadBalancerOperatorSpec{}), generators)
+
+	return loadBalancerOperatorSpecGenerator
+}
+
 func Test_LoadBalancerSku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -2094,6 +2191,7 @@ func AddRelatedPropertyGeneratorsForLoadBalancer_Spec(gens map[string]gopter.Gen
 	gens["InboundNatPools"] = gen.SliceOf(InboundNatPoolGenerator())
 	gens["InboundNatRules"] = gen.SliceOf(InboundNatRule_LoadBalancer_SubResourceEmbeddedGenerator())
 	gens["LoadBalancingRules"] = gen.SliceOf(LoadBalancingRuleGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(LoadBalancerOperatorSpecGenerator())
 	gens["OutboundRules"] = gen.SliceOf(OutboundRuleGenerator())
 	gens["Probes"] = gen.SliceOf(ProbeGenerator())
 	gens["Sku"] = gen.PtrOf(LoadBalancerSkuGenerator())

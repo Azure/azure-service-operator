@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -90,6 +93,26 @@ func (link *PrivateDnsZonesVirtualNetworkLink) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the PrivateDnsZonesVirtualNetworkLink resource
 func (link *PrivateDnsZonesVirtualNetworkLink) defaultImpl() { link.defaultAzureName() }
+
+var _ configmaps.Exporter = &PrivateDnsZonesVirtualNetworkLink{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (link *PrivateDnsZonesVirtualNetworkLink) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if link.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return link.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &PrivateDnsZonesVirtualNetworkLink{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (link *PrivateDnsZonesVirtualNetworkLink) SecretDestinationExpressions() []*core.DestinationExpression {
+	if link.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return link.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &PrivateDnsZonesVirtualNetworkLink{}
 
@@ -209,7 +232,7 @@ func (link *PrivateDnsZonesVirtualNetworkLink) ValidateUpdate(old runtime.Object
 
 // createValidations validates the creation of the resource
 func (link *PrivateDnsZonesVirtualNetworkLink) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){link.validateResourceReferences, link.validateOwnerReference}
+	return []func() (admission.Warnings, error){link.validateResourceReferences, link.validateOwnerReference, link.validateSecretDestinations, link.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -227,7 +250,21 @@ func (link *PrivateDnsZonesVirtualNetworkLink) updateValidations() []func(old ru
 		func(old runtime.Object) (admission.Warnings, error) {
 			return link.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return link.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return link.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (link *PrivateDnsZonesVirtualNetworkLink) validateConfigMapDestinations() (admission.Warnings, error) {
+	if link.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(link, nil, link.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -242,6 +279,14 @@ func (link *PrivateDnsZonesVirtualNetworkLink) validateResourceReferences() (adm
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (link *PrivateDnsZonesVirtualNetworkLink) validateSecretDestinations() (admission.Warnings, error) {
+	if link.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(link, nil, link.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -335,6 +380,10 @@ type PrivateDnsZonesVirtualNetworkLink_Spec struct {
 
 	// Location: The Azure Region where the resource lives
 	Location *string `json:"location,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *PrivateDnsZonesVirtualNetworkLinkOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -430,6 +479,8 @@ func (link *PrivateDnsZonesVirtualNetworkLink_Spec) PopulateFromARM(owner genrun
 		location := *typedInput.Location
 		link.Location = &location
 	}
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	link.Owner = &genruntime.KnownResourceReference{
@@ -534,6 +585,18 @@ func (link *PrivateDnsZonesVirtualNetworkLink_Spec) AssignProperties_From_Privat
 	// Location
 	link.Location = genruntime.ClonePointerToString(source.Location)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec PrivateDnsZonesVirtualNetworkLinkOperatorSpec
+		err := operatorSpec.AssignProperties_From_PrivateDnsZonesVirtualNetworkLinkOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_PrivateDnsZonesVirtualNetworkLinkOperatorSpec() to populate field OperatorSpec")
+		}
+		link.OperatorSpec = &operatorSpec
+	} else {
+		link.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -582,6 +645,18 @@ func (link *PrivateDnsZonesVirtualNetworkLink_Spec) AssignProperties_To_PrivateD
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(link.Location)
+
+	// OperatorSpec
+	if link.OperatorSpec != nil {
+		var operatorSpec storage.PrivateDnsZonesVirtualNetworkLinkOperatorSpec
+		err := link.OperatorSpec.AssignProperties_To_PrivateDnsZonesVirtualNetworkLinkOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_PrivateDnsZonesVirtualNetworkLinkOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = link.OriginalVersion()
@@ -992,6 +1067,110 @@ func (link *PrivateDnsZonesVirtualNetworkLink_STATUS) AssignProperties_To_Privat
 		destination.VirtualNetworkLinkState = &virtualNetworkLinkState
 	} else {
 		destination.VirtualNetworkLinkState = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type PrivateDnsZonesVirtualNetworkLinkOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_PrivateDnsZonesVirtualNetworkLinkOperatorSpec populates our PrivateDnsZonesVirtualNetworkLinkOperatorSpec from the provided source PrivateDnsZonesVirtualNetworkLinkOperatorSpec
+func (operator *PrivateDnsZonesVirtualNetworkLinkOperatorSpec) AssignProperties_From_PrivateDnsZonesVirtualNetworkLinkOperatorSpec(source *storage.PrivateDnsZonesVirtualNetworkLinkOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_PrivateDnsZonesVirtualNetworkLinkOperatorSpec populates the provided destination PrivateDnsZonesVirtualNetworkLinkOperatorSpec from our PrivateDnsZonesVirtualNetworkLinkOperatorSpec
+func (operator *PrivateDnsZonesVirtualNetworkLinkOperatorSpec) AssignProperties_To_PrivateDnsZonesVirtualNetworkLinkOperatorSpec(destination *storage.PrivateDnsZonesVirtualNetworkLinkOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
 	}
 
 	// Update the property bag

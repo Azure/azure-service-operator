@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -90,6 +93,26 @@ func (domain *AfdCustomDomain) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the AfdCustomDomain resource
 func (domain *AfdCustomDomain) defaultImpl() { domain.defaultAzureName() }
+
+var _ configmaps.Exporter = &AfdCustomDomain{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (domain *AfdCustomDomain) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if domain.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return domain.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &AfdCustomDomain{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (domain *AfdCustomDomain) SecretDestinationExpressions() []*core.DestinationExpression {
+	if domain.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return domain.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &AfdCustomDomain{}
 
@@ -209,7 +232,7 @@ func (domain *AfdCustomDomain) ValidateUpdate(old runtime.Object) (admission.War
 
 // createValidations validates the creation of the resource
 func (domain *AfdCustomDomain) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){domain.validateResourceReferences, domain.validateOwnerReference}
+	return []func() (admission.Warnings, error){domain.validateResourceReferences, domain.validateOwnerReference, domain.validateSecretDestinations, domain.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -227,7 +250,21 @@ func (domain *AfdCustomDomain) updateValidations() []func(old runtime.Object) (a
 		func(old runtime.Object) (admission.Warnings, error) {
 			return domain.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return domain.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return domain.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (domain *AfdCustomDomain) validateConfigMapDestinations() (admission.Warnings, error) {
+	if domain.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(domain, nil, domain.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -242,6 +279,14 @@ func (domain *AfdCustomDomain) validateResourceReferences() (admission.Warnings,
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (domain *AfdCustomDomain) validateSecretDestinations() (admission.Warnings, error) {
+	if domain.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(domain, nil, domain.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -339,6 +384,10 @@ type AfdCustomDomain_Spec struct {
 	// +kubebuilder:validation:Required
 	// HostName: The host name of the domain. Must be a domain name.
 	HostName *string `json:"hostName,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *AfdCustomDomainOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -461,6 +510,8 @@ func (domain *AfdCustomDomain_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	domain.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
@@ -573,6 +624,18 @@ func (domain *AfdCustomDomain_Spec) AssignProperties_From_AfdCustomDomain_Spec(s
 	// HostName
 	domain.HostName = genruntime.ClonePointerToString(source.HostName)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec AfdCustomDomainOperatorSpec
+		err := operatorSpec.AssignProperties_From_AfdCustomDomainOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_AfdCustomDomainOperatorSpec() to populate field OperatorSpec")
+		}
+		domain.OperatorSpec = &operatorSpec
+	} else {
+		domain.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -634,6 +697,18 @@ func (domain *AfdCustomDomain_Spec) AssignProperties_To_AfdCustomDomain_Spec(des
 
 	// HostName
 	destination.HostName = genruntime.ClonePointerToString(domain.HostName)
+
+	// OperatorSpec
+	if domain.OperatorSpec != nil {
+		var operatorSpec storage.AfdCustomDomainOperatorSpec
+		err := domain.OperatorSpec.AssignProperties_To_AfdCustomDomainOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_AfdCustomDomainOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = domain.OriginalVersion()
@@ -1243,6 +1318,110 @@ func (domain *AfdCustomDomain_STATUS) AssignProperties_To_AfdCustomDomain_STATUS
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2023-05-01")
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type AfdCustomDomainOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_AfdCustomDomainOperatorSpec populates our AfdCustomDomainOperatorSpec from the provided source AfdCustomDomainOperatorSpec
+func (operator *AfdCustomDomainOperatorSpec) AssignProperties_From_AfdCustomDomainOperatorSpec(source *storage.AfdCustomDomainOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AfdCustomDomainOperatorSpec populates the provided destination AfdCustomDomainOperatorSpec from our AfdCustomDomainOperatorSpec
+func (operator *AfdCustomDomainOperatorSpec) AssignProperties_To_AfdCustomDomainOperatorSpec(destination *storage.AfdCustomDomainOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
 
 // The JSON object that contains the properties to secure a domain.
 type AFDDomainHttpsParameters struct {

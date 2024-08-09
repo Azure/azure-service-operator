@@ -13,7 +13,9 @@ Redis: Resource
 │   │   ├── "1.0"
 │   │   ├── "1.1"
 │   │   └── "1.2"
-│   ├── OperatorSpec: *Object (1 property)
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
 │   │   └── Secrets: *Object (5 properties)
 │   │       ├── HostName: *genruntime.SecretDestination
 │   │       ├── Port: *genruntime.SecretDestination
@@ -134,9 +136,12 @@ Redis: Resource
     └── Zones: string[]
 RedisFirewallRule: Resource
 ├── Owner: Redis
-├── Spec: Object (4 properties)
+├── Spec: Object (5 properties)
 │   ├── AzureName: string
 │   ├── EndIP: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── StartIP: *string
 └── Status: Object (6 properties)
@@ -148,10 +153,13 @@ RedisFirewallRule: Resource
     └── Type: *string
 RedisLinkedServer: Resource
 ├── Owner: Redis
-├── Spec: Object (5 properties)
+├── Spec: Object (6 properties)
 │   ├── AzureName: string
 │   ├── LinkedRedisCacheLocation: *string
 │   ├── LinkedRedisCacheReference: *genruntime.ResourceReference
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── ServerRole: *Enum (2 values)
 │       ├── "Primary"
@@ -169,7 +177,10 @@ RedisLinkedServer: Resource
     └── Type: *string
 RedisPatchSchedule: Resource
 ├── Owner: Redis
-├── Spec: Object (2 properties)
+├── Spec: Object (3 properties)
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── ScheduleEntries: Object (3 properties)[]
 │       ├── DayOfWeek: *Enum (9 values)

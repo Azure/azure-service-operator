@@ -166,6 +166,103 @@ func AddRelatedPropertyGeneratorsForNamespacesTopicsSubscription(gens map[string
 	gens["Status"] = NamespacesTopicsSubscription_STATUSGenerator()
 }
 
+func Test_NamespacesTopicsSubscriptionOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NamespacesTopicsSubscriptionOperatorSpec to NamespacesTopicsSubscriptionOperatorSpec via AssignProperties_To_NamespacesTopicsSubscriptionOperatorSpec & AssignProperties_From_NamespacesTopicsSubscriptionOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamespacesTopicsSubscriptionOperatorSpec, NamespacesTopicsSubscriptionOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNamespacesTopicsSubscriptionOperatorSpec tests if a specific instance of NamespacesTopicsSubscriptionOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForNamespacesTopicsSubscriptionOperatorSpec(subject NamespacesTopicsSubscriptionOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20221001ps.NamespacesTopicsSubscriptionOperatorSpec
+	err := copied.AssignProperties_To_NamespacesTopicsSubscriptionOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NamespacesTopicsSubscriptionOperatorSpec
+	err = actual.AssignProperties_From_NamespacesTopicsSubscriptionOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_NamespacesTopicsSubscriptionOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of NamespacesTopicsSubscriptionOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespacesTopicsSubscriptionOperatorSpec, NamespacesTopicsSubscriptionOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForNamespacesTopicsSubscriptionOperatorSpec runs a test to see if a specific instance of NamespacesTopicsSubscriptionOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespacesTopicsSubscriptionOperatorSpec(subject NamespacesTopicsSubscriptionOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual NamespacesTopicsSubscriptionOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of NamespacesTopicsSubscriptionOperatorSpec instances for property testing - lazily instantiated by
+// NamespacesTopicsSubscriptionOperatorSpecGenerator()
+var namespacesTopicsSubscriptionOperatorSpecGenerator gopter.Gen
+
+// NamespacesTopicsSubscriptionOperatorSpecGenerator returns a generator of NamespacesTopicsSubscriptionOperatorSpec instances for property testing.
+func NamespacesTopicsSubscriptionOperatorSpecGenerator() gopter.Gen {
+	if namespacesTopicsSubscriptionOperatorSpecGenerator != nil {
+		return namespacesTopicsSubscriptionOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	namespacesTopicsSubscriptionOperatorSpecGenerator = gen.Struct(reflect.TypeOf(NamespacesTopicsSubscriptionOperatorSpec{}), generators)
+
+	return namespacesTopicsSubscriptionOperatorSpecGenerator
+}
+
 func Test_NamespacesTopicsSubscription_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -441,6 +538,7 @@ func AddIndependentPropertyGeneratorsForNamespacesTopicsSubscription_Spec(gens m
 // AddRelatedPropertyGeneratorsForNamespacesTopicsSubscription_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesTopicsSubscription_Spec(gens map[string]gopter.Gen) {
 	gens["ClientAffineProperties"] = gen.PtrOf(SBClientAffinePropertiesGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(NamespacesTopicsSubscriptionOperatorSpecGenerator())
 }
 
 func Test_SBClientAffineProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

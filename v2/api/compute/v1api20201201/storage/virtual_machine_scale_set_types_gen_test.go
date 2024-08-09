@@ -4949,6 +4949,103 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetOSProfile_STATUS(gens 
 	gens["WindowsConfiguration"] = gen.PtrOf(WindowsConfiguration_STATUSGenerator())
 }
 
+func Test_VirtualMachineScaleSetOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualMachineScaleSetOperatorSpec to VirtualMachineScaleSetOperatorSpec via AssignProperties_To_VirtualMachineScaleSetOperatorSpec & AssignProperties_From_VirtualMachineScaleSetOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetOperatorSpec, VirtualMachineScaleSetOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualMachineScaleSetOperatorSpec tests if a specific instance of VirtualMachineScaleSetOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachineScaleSetOperatorSpec(subject VirtualMachineScaleSetOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.VirtualMachineScaleSetOperatorSpec
+	err := copied.AssignProperties_To_VirtualMachineScaleSetOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualMachineScaleSetOperatorSpec
+	err = actual.AssignProperties_From_VirtualMachineScaleSetOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_VirtualMachineScaleSetOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualMachineScaleSetOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetOperatorSpec, VirtualMachineScaleSetOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualMachineScaleSetOperatorSpec runs a test to see if a specific instance of VirtualMachineScaleSetOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetOperatorSpec(subject VirtualMachineScaleSetOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualMachineScaleSetOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualMachineScaleSetOperatorSpec instances for property testing - lazily instantiated by
+// VirtualMachineScaleSetOperatorSpecGenerator()
+var virtualMachineScaleSetOperatorSpecGenerator gopter.Gen
+
+// VirtualMachineScaleSetOperatorSpecGenerator returns a generator of VirtualMachineScaleSetOperatorSpec instances for property testing.
+func VirtualMachineScaleSetOperatorSpecGenerator() gopter.Gen {
+	if virtualMachineScaleSetOperatorSpecGenerator != nil {
+		return virtualMachineScaleSetOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	virtualMachineScaleSetOperatorSpecGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetOperatorSpec{}), generators)
+
+	return virtualMachineScaleSetOperatorSpecGenerator
+}
+
 func Test_VirtualMachineScaleSetPublicIPAddressConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -6132,6 +6229,7 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSet_Spec(gens map[string]
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
 	gens["HostGroup"] = gen.PtrOf(SubResourceGenerator())
 	gens["Identity"] = gen.PtrOf(VirtualMachineScaleSetIdentityGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(VirtualMachineScaleSetOperatorSpecGenerator())
 	gens["Plan"] = gen.PtrOf(PlanGenerator())
 	gens["ProximityPlacementGroup"] = gen.PtrOf(SubResourceGenerator())
 	gens["ScaleInPolicy"] = gen.PtrOf(ScaleInPolicyGenerator())

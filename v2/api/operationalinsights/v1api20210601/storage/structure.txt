@@ -5,7 +5,7 @@ APIVersion: Enum (1 value)
 └── "2021-06-01"
 Workspace: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (15 properties)
+├── Spec: Object (16 properties)
 │   ├── AzureName: string
 │   ├── Etag: *string
 │   ├── Features: *Object (6 properties)
@@ -17,6 +17,10 @@ Workspace: Resource
 │   │   └── PropertyBag: genruntime.PropertyBag
 │   ├── ForceCmkForQuery: *bool
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
