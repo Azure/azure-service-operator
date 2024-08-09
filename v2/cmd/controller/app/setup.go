@@ -44,6 +44,7 @@ import (
 	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
 	armreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/generic"
+	asocel "github.com/Azure/azure-service-operator/v2/internal/util/cel"
 	"github.com/Azure/azure-service-operator/v2/internal/util/interval"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/lockedrand"
@@ -52,7 +53,22 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
-func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Flags) manager.Manager {
+type Runnable struct {
+	mgr manager.Manager
+
+	// toStart must not block
+	toStart []func()
+}
+
+func (r *Runnable) Start(ctx context.Context) error {
+	for _, f := range r.toStart {
+		f()
+	}
+
+	return r.mgr.Start(ctx)
+}
+
+func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Flags) *Runnable {
 	scheme := controllers.CreateScheme()
 	_ = apiextensions.AddToScheme(scheme) // Used for managing CRDs
 
@@ -212,7 +228,15 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 		setupLog.Error(err, "Failed setting up readyz check")
 		os.Exit(1)
 	}
-	return mgr
+
+	return &Runnable{
+		mgr: mgr,
+		toStart: []func(){
+			// Starts the expression caches. Note that we don't need to stop these we'll
+			// let process teardown stop them
+			clients.expressionEvaluator.Start,
+		},
+	}
 }
 
 func getMetricsOpts(flags *Flags) server.Options {
@@ -301,13 +325,15 @@ type clients struct {
 	armConnectionFactory armreconciler.ARMConnectionFactory
 	credentialProvider   identity.CredentialProvider
 	kubeClient           kubeclient.Client
+	expressionEvaluator  asocel.ExpressionEvaluator
 	log                  logr.Logger
 	options              generic.Options
 }
 
 func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
 	armMetrics := asometrics.NewARMClientMetrics()
-	asometrics.RegisterMetrics(armMetrics)
+	celMetrics := asometrics.NewCEL()
+	asometrics.RegisterMetrics(armMetrics, celMetrics)
 
 	log := ctrl.Log.WithName("controllers")
 
@@ -334,6 +360,16 @@ func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
 
 	positiveConditions := conditions.NewPositiveConditionBuilder(clock.New())
 
+	expressionEvaluator, err := asocel.NewExpressionEvaluator(
+		asocel.Metrics(celMetrics),
+		asocel.Log(log),
+	)
+	if err != nil {
+		return nil, errors.Wrap(err, "error creating expression evaluator")
+	}
+	// Register the evaluator for use by webhooks
+	asocel.RegisterEvaluator(expressionEvaluator)
+
 	options := makeControllerOptions(log, cfg)
 
 	return &clients{
@@ -341,6 +377,7 @@ func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
 		armConnectionFactory: connectionFactory,
 		credentialProvider:   credentialProvider,
 		kubeClient:           kubeClient,
+		expressionEvaluator:  expressionEvaluator,
 		log:                  log,
 		options:              options,
 	}, nil
@@ -355,6 +392,7 @@ func initializeWatchers(readyResources map[string]apiextensions.CustomResourceDe
 		clients.credentialProvider,
 		clients.kubeClient,
 		clients.positiveConditions,
+		clients.expressionEvaluator,
 		clients.options)
 	if err != nil {
 		return errors.Wrap(err, "failed getting storage types and reconcilers")

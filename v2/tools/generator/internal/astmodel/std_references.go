@@ -23,6 +23,7 @@ var (
 
 	// References to our Libraries
 	GenRuntimeReference             = MakeExternalPackageReference(genRuntimePathPrefix)
+	GenRuntimeCoreReference         = MakeExternalPackageReference(genRuntimePathPrefix + "/core")
 	GenRuntimeConditionsReference   = MakeExternalPackageReference(genRuntimePathPrefix + "/conditions")
 	GenRuntimeRegistrationReference = MakeExternalPackageReference(genRuntimePathPrefix + "/registration")
 	ReflectHelpersReference         = MakeExternalPackageReference(reflectHelpersPath)
@@ -88,6 +89,9 @@ var (
 	ImportableResourceType           = MakeExternalTypeName(GenRuntimeReference, "ImportableResource")
 	ResourceOperationType            = MakeExternalTypeName(GenRuntimeReference, "ResourceOperation")
 	ResourceOperationTypeArray       = NewArrayType(ResourceOperationType)
+	DestinationExpressionType        = MakeExternalTypeName(GenRuntimeCoreReference, "DestinationExpression")
+	ConfigMapExporterType            = MakeExternalTypeName(GenRuntimeConfigMapsReference, "Exporter")
+	SecretExporterType               = MakeExternalTypeName(GenRuntimeSecretsReference, "Exporter")
 
 	// Optional types - GenRuntime
 	OptionalConfigMapReferenceType     = NewOptionalType(ConfigMapReferenceType)
@@ -98,6 +102,9 @@ var (
 
 	// Predeclared maps
 	MapOfStringStringType = NewMapType(StringType, StringType)
+
+	// Predeclared slices
+	DestinationExpressionCollectionType = NewArrayType(NewOptionalType(DestinationExpressionType))
 
 	// Type names - Generic ARM client
 	GenericClientType = MakeExternalTypeName(GenericARMClientReference, "GenericClient")

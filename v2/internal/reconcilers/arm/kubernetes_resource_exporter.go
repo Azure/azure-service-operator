@@ -15,6 +15,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	asocel "github.com/Azure/azure-service-operator/v2/internal/util/cel"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
@@ -46,7 +47,8 @@ func (c *configMapExpressionExporter) Export(ctx context.Context) ([]client.Obje
 
 	resources, err := c.parseConfigMaps(cmExpressions)
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to parse configmap expressions for export")
+		err = errors.Wrap(err, "failed to parse configmap expressions for export")
+		return nil, conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityError, conditions.ReasonAdditionalKubernetesObjWriteFailure)
 	}
 	return resources, err
 }
@@ -107,7 +109,8 @@ func (s *secretExpressionExporter) Export(ctx context.Context) ([]client.Object,
 	}
 	resources, err := s.parseSecrets(secretExpressions, s.versionedObj, s.rawSecrets)
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to parse secret expressions for export")
+		err = errors.Wrap(err, "failed to parse secret expressions for export")
+		return nil, conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityError, conditions.ReasonAdditionalKubernetesObjWriteFailure)
 	}
 
 	return resources, nil
@@ -152,9 +155,6 @@ func (s *secretExpressionExporter) parseSecrets(
 	return secrets.SliceToClientObjectSlice(result), nil
 }
 
-// TODO: This will be used in a followup PR
-//
-//nolint:unused
 func findRequiredSecrets(
 	expressionEvaluator asocel.ExpressionEvaluator,
 	obj genruntime.ARMMetaObject,

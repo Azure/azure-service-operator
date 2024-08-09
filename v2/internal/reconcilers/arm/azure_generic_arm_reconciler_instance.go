@@ -668,12 +668,17 @@ func (r *azureDeploymentReconcilerInstance) saveAssociatedKubernetesResources(ct
 
 	var resources []client.Object
 
+	// Special case, because we need to find what secrets the secretExpressionExporter needs and get those secrets
+	additionalSecrets, err := findRequiredSecrets(r.ExpressionEvaluator, r.Obj, originalVersion)
+	if err != nil {
+		return errors.Wrapf(err, "error finding required secrets")
+	}
 	secretExporter := &kubernetesSecretExporter{
 		obj:               r.Obj,
 		connection:        r.ARMConnection,
 		log:               r.Log,
 		extension:         r.Extension,
-		additionalSecrets: nil, // TODO: Will be filled in in a subsequent PR
+		additionalSecrets: additionalSecrets,
 	}
 
 	var additionalResources []client.Object
@@ -695,14 +700,24 @@ func (r *azureDeploymentReconcilerInstance) saveAssociatedKubernetesResources(ct
 			log:        r.Log,
 			connection: r.ARMConnection,
 		},
+		&configMapExpressionExporter{
+			obj:                 r.Obj,
+			versionedObj:        originalVersion,
+			expressionEvaluator: r.ExpressionEvaluator,
+		},
+		&secretExpressionExporter{
+			obj:                 r.Obj,
+			versionedObj:        originalVersion,
+			expressionEvaluator: r.ExpressionEvaluator,
+			rawSecrets:          secretExporter.rawSecrets,
+		},
 	}
 
 	for _, exporter := range exporters {
 		additionalResources, err = exporter.Export(ctx)
 		if err != nil {
-			return errors.Wrap(err, "failed to produce resources for export")
+			return err
 		}
-
 		resources = append(resources, additionalResources...)
 	}
 

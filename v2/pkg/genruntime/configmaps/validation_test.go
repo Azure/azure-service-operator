@@ -19,7 +19,7 @@ func Test_ValidateConfigMapDestination_EmptyListValidates(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	warnings, err := configmaps.ValidateDestinationsExt(nil, nil)
+	warnings, err := configmaps.ValidateDestinations(nil, nil, nil)
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }
@@ -33,7 +33,7 @@ func Test_ValidateConfigMapDestination_ListWithNilElementsValidates(t *testing.T
 		nil,
 	}
 
-	warnings, err := configmaps.ValidateDestinationsExt(destinations, nil)
+	warnings, err := configmaps.ValidateDestinations(nil, destinations, nil)
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }
@@ -47,7 +47,7 @@ func Test_ValidateConfigMapDestinationExpressions_ListWithNilElementsValidates(t
 		nil,
 	}
 
-	warnings, err := configmaps.ValidateDestinationsExt(nil, destinations)
+	warnings, err := configmaps.ValidateDestinations(nil, nil, destinations)
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }
@@ -60,7 +60,7 @@ func Test_ValidateConfigMapDestination_LengthOneListValidates(t *testing.T) {
 		{Name: "n1", Key: "key1"},
 	}
 
-	warnings, err := configmaps.ValidateDestinationsExt(destinations, nil)
+	warnings, err := configmaps.ValidateDestinations(nil, destinations, nil)
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }
@@ -73,7 +73,7 @@ func Test_ValidateConfigMapDestinationExpressions_LengthOneListValidates(t *test
 		{Name: "n1", Key: "key1", Value: "resource.status.id"},
 	}
 
-	warnings, err := configmaps.ValidateDestinationsExt(nil, destinations)
+	warnings, err := configmaps.ValidateDestinations(nil, nil, destinations)
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }
@@ -89,7 +89,7 @@ func Test_ValidateConfigMapDestination_ListWithoutCollisionsValidates(t *testing
 		{Name: "n1", Key: "key4"},
 	}
 
-	warnings, err := configmaps.ValidateDestinationsExt(destinations, nil)
+	warnings, err := configmaps.ValidateDestinations(nil, destinations, nil)
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }
@@ -105,7 +105,7 @@ func Test_ValidateConfigMapDestinationExpressions_ListWithoutCollisionsValidates
 		{Name: "n1", Key: "key4", Value: "resource.status.id"},
 	}
 
-	warnings, err := configmaps.ValidateDestinationsExt(nil, destinations)
+	warnings, err := configmaps.ValidateDestinations(nil, nil, destinations)
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }
@@ -121,7 +121,7 @@ func Test_ValidateConfigMapDestination_ListWithDifferentCasesValidates(t *testin
 		{Name: "n1", Key: "key4"},
 	}
 
-	warnings, err := configmaps.ValidateDestinationsExt(destinations, nil)
+	warnings, err := configmaps.ValidateDestinations(nil, destinations, nil)
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }
@@ -136,7 +136,7 @@ func Test_ValidateConfigMapDestination_ListWithCollisionsFailsValidation(t *test
 		{Name: "n3", Key: "key1"},
 		{Name: "n1", Key: "key1"},
 	}
-	_, err := configmaps.ValidateDestinationsExt(destinations, nil)
+	_, err := configmaps.ValidateDestinations(nil, destinations, nil)
 	g.Expect(err).ToNot(BeNil())
 	g.Expect(err.Error()).To(Equal("cannot write more than one configmap value to destination Name: \"n1\", Key: \"key1\""))
 }
@@ -157,7 +157,7 @@ func Test_ValidateConfigMapDestinationAndExpressions_CollisionBetweenEachFailsVa
 		{Name: "n3", Key: "key1", Value: "resource.status.id"},
 	}
 
-	_, err := configmaps.ValidateDestinationsExt(destinations, destinationExpressions)
+	_, err := configmaps.ValidateDestinations(nil, destinations, destinationExpressions)
 	g.Expect(err).ToNot(BeNil())
 	g.Expect(err.Error()).To(Equal("cannot write more than one configmap value to destination Name: \"n3\", Key: \"key1\", Value: \"resource.status.id\""))
 }
@@ -171,7 +171,7 @@ func Test_ValidateConfigMapDestinationExpressions_EmptyKeyIgnored(t *testing.T) 
 		{Name: "n1", Key: "key1", Value: "resource.status.id"},
 	}
 
-	warnings, err := configmaps.ValidateDestinationsExt(nil, destinations)
+	warnings, err := configmaps.ValidateDestinations(nil, nil, destinations)
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }

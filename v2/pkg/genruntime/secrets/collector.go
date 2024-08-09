@@ -54,11 +54,11 @@ func (c *Collector) get(dest *genruntime.SecretDestination) *v1.Secret {
 
 func (c *Collector) errIfKeyExists(val *v1.Secret, key string) error {
 	if _, ok := val.StringData[key]; ok {
-		return errors.Errorf("key collision, entry exists for key %s in StringData", key)
+		return errors.Errorf("key collision, entry exists for key '%s' in StringData", key)
 	}
 
 	if _, ok := val.Data[key]; ok {
-		return errors.Errorf("key collision, entry exists for key %s in Data", key)
+		return errors.Errorf("key collision, entry exists for key '%s' in Data", key)
 	}
 
 	return nil

@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -84,6 +87,26 @@ func (a *A) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the A resource
 func (a *A) defaultImpl() { a.defaultAzureName() }
+
+var _ configmaps.Exporter = &A{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (a *A) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if a.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return a.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &A{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (a *A) SecretDestinationExpressions() []*core.DestinationExpression {
+	if a.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return a.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.KubernetesResource = &A{}
 
@@ -163,7 +186,7 @@ func (a *A) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 
 // createValidations validates the creation of the resource
 func (a *A) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){a.validateResourceReferences, a.validateOwnerReference}
+	return []func() (admission.Warnings, error){a.validateResourceReferences, a.validateOwnerReference, a.validateSecretDestinations, a.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -181,7 +204,21 @@ func (a *A) updateValidations() []func(old runtime.Object) (admission.Warnings, 
 		func(old runtime.Object) (admission.Warnings, error) {
 			return a.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return a.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return a.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (a *A) validateConfigMapDestinations() (admission.Warnings, error) {
+	if a.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(a, nil, a.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -196,6 +233,14 @@ func (a *A) validateResourceReferences() (admission.Warnings, error) {
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (a *A) validateSecretDestinations() (admission.Warnings, error) {
+	if a.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(a, nil, a.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -328,6 +373,26 @@ func (b *B) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the B resource
 func (b *B) defaultImpl() { b.defaultAzureName() }
 
+var _ configmaps.Exporter = &B{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (b *B) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if b.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return b.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &B{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (b *B) SecretDestinationExpressions() []*core.DestinationExpression {
+	if b.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return b.Spec.OperatorSpec.SecretExpressions
+}
+
 var _ genruntime.KubernetesResource = &B{}
 
 // AzureName returns the Azure name of the resource
@@ -406,7 +471,7 @@ func (b *B) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 
 // createValidations validates the creation of the resource
 func (b *B) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){b.validateResourceReferences, b.validateOwnerReference}
+	return []func() (admission.Warnings, error){b.validateResourceReferences, b.validateOwnerReference, b.validateSecretDestinations, b.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -424,7 +489,21 @@ func (b *B) updateValidations() []func(old runtime.Object) (admission.Warnings, 
 		func(old runtime.Object) (admission.Warnings, error) {
 			return b.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return b.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return b.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (b *B) validateConfigMapDestinations() (admission.Warnings, error) {
+	if b.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(b, nil, b.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -439,6 +518,14 @@ func (b *B) validateResourceReferences() (admission.Warnings, error) {
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (b *B) validateSecretDestinations() (admission.Warnings, error) {
+	if b.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(b, nil, b.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -571,6 +658,26 @@ func (c *C) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the C resource
 func (c *C) defaultImpl() { c.defaultAzureName() }
 
+var _ configmaps.Exporter = &C{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (c *C) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if c.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return c.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &C{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (c *C) SecretDestinationExpressions() []*core.DestinationExpression {
+	if c.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return c.Spec.OperatorSpec.SecretExpressions
+}
+
 var _ genruntime.KubernetesResource = &C{}
 
 // AzureName returns the Azure name of the resource
@@ -649,7 +756,7 @@ func (c *C) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 
 // createValidations validates the creation of the resource
 func (c *C) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){c.validateResourceReferences, c.validateOwnerReference}
+	return []func() (admission.Warnings, error){c.validateResourceReferences, c.validateOwnerReference, c.validateSecretDestinations, c.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -667,7 +774,21 @@ func (c *C) updateValidations() []func(old runtime.Object) (admission.Warnings, 
 		func(old runtime.Object) (admission.Warnings, error) {
 			return c.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return c.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return c.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (c *C) validateConfigMapDestinations() (admission.Warnings, error) {
+	if c.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(c, nil, c.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -682,6 +803,14 @@ func (c *C) validateResourceReferences() (admission.Warnings, error) {
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (c *C) validateSecretDestinations() (admission.Warnings, error) {
+	if c.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(c, nil, c.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -814,6 +943,26 @@ func (d *D) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the D resource
 func (d *D) defaultImpl() { d.defaultAzureName() }
 
+var _ configmaps.Exporter = &D{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (d *D) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if d.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return d.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &D{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (d *D) SecretDestinationExpressions() []*core.DestinationExpression {
+	if d.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return d.Spec.OperatorSpec.SecretExpressions
+}
+
 var _ genruntime.KubernetesResource = &D{}
 
 // AzureName returns the Azure name of the resource
@@ -892,7 +1041,7 @@ func (d *D) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 
 // createValidations validates the creation of the resource
 func (d *D) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){d.validateResourceReferences, d.validateOwnerReference}
+	return []func() (admission.Warnings, error){d.validateResourceReferences, d.validateOwnerReference, d.validateSecretDestinations, d.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -910,7 +1059,21 @@ func (d *D) updateValidations() []func(old runtime.Object) (admission.Warnings, 
 		func(old runtime.Object) (admission.Warnings, error) {
 			return d.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return d.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return d.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (d *D) validateConfigMapDestinations() (admission.Warnings, error) {
+	if d.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(d, nil, d.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -925,6 +1088,14 @@ func (d *D) validateResourceReferences() (admission.Warnings, error) {
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (d *D) validateSecretDestinations() (admission.Warnings, error) {
+	if d.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(d, nil, d.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -998,6 +1169,10 @@ type A_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *AOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -1051,6 +1226,8 @@ func (a *A_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 
 	// Set property "AzureName":
 	a.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	a.Owner = &genruntime.KnownResourceReference{
@@ -1131,6 +1308,18 @@ func (a *A_Spec) AssignProperties_From_A_Spec(source *storage.A_Spec) error {
 	// AzureName
 	a.AzureName = source.AzureName
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec AOperatorSpec
+		err := operatorSpec.AssignProperties_From_AOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_AOperatorSpec() to populate field OperatorSpec")
+		}
+		a.OperatorSpec = &operatorSpec
+	} else {
+		a.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -1162,6 +1351,18 @@ func (a *A_Spec) AssignProperties_To_A_Spec(destination *storage.A_Spec) error {
 
 	// AzureName
 	destination.AzureName = a.AzureName
+
+	// OperatorSpec
+	if a.OperatorSpec != nil {
+		var operatorSpec storage.AOperatorSpec
+		err := a.OperatorSpec.AssignProperties_To_AOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_AOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = a.OriginalVersion()
@@ -1209,6 +1410,10 @@ type B_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *BOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -1263,6 +1468,8 @@ func (b *B_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 
 	// Set property "AzureName":
 	b.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	b.Owner = &genruntime.KnownResourceReference{
@@ -1343,6 +1550,18 @@ func (b *B_Spec) AssignProperties_From_B_Spec(source *storage.B_Spec) error {
 	// AzureName
 	b.AzureName = source.AzureName
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec BOperatorSpec
+		err := operatorSpec.AssignProperties_From_BOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_BOperatorSpec() to populate field OperatorSpec")
+		}
+		b.OperatorSpec = &operatorSpec
+	} else {
+		b.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -1374,6 +1593,18 @@ func (b *B_Spec) AssignProperties_To_B_Spec(destination *storage.B_Spec) error {
 
 	// AzureName
 	destination.AzureName = b.AzureName
+
+	// OperatorSpec
+	if b.OperatorSpec != nil {
+		var operatorSpec storage.BOperatorSpec
+		err := b.OperatorSpec.AssignProperties_To_BOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_BOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = b.OriginalVersion()
@@ -1416,6 +1647,10 @@ type C_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *COperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -1470,6 +1705,8 @@ func (c *C_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 
 	// Set property "AzureName":
 	c.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	c.Owner = &genruntime.KnownResourceReference{
@@ -1550,6 +1787,18 @@ func (c *C_Spec) AssignProperties_From_C_Spec(source *storage.C_Spec) error {
 	// AzureName
 	c.AzureName = source.AzureName
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec COperatorSpec
+		err := operatorSpec.AssignProperties_From_COperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_COperatorSpec() to populate field OperatorSpec")
+		}
+		c.OperatorSpec = &operatorSpec
+	} else {
+		c.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -1581,6 +1830,18 @@ func (c *C_Spec) AssignProperties_To_C_Spec(destination *storage.C_Spec) error {
 
 	// AzureName
 	destination.AzureName = c.AzureName
+
+	// OperatorSpec
+	if c.OperatorSpec != nil {
+		var operatorSpec storage.COperatorSpec
+		err := c.OperatorSpec.AssignProperties_To_COperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_COperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = c.OriginalVersion()
@@ -1623,6 +1884,10 @@ type D_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *DOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -1677,6 +1942,8 @@ func (d *D_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 
 	// Set property "AzureName":
 	d.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	d.Owner = &genruntime.KnownResourceReference{
@@ -1757,6 +2024,18 @@ func (d *D_Spec) AssignProperties_From_D_Spec(source *storage.D_Spec) error {
 	// AzureName
 	d.AzureName = source.AzureName
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec DOperatorSpec
+		err := operatorSpec.AssignProperties_From_DOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DOperatorSpec() to populate field OperatorSpec")
+		}
+		d.OperatorSpec = &operatorSpec
+	} else {
+		d.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -1788,6 +2067,18 @@ func (d *D_Spec) AssignProperties_To_D_Spec(destination *storage.D_Spec) error {
 
 	// AzureName
 	destination.AzureName = d.AzureName
+
+	// OperatorSpec
+	if d.OperatorSpec != nil {
+		var operatorSpec storage.DOperatorSpec
+		err := d.OperatorSpec.AssignProperties_To_DOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = d.OriginalVersion()
@@ -1843,6 +2134,110 @@ var a_Type_Spec_Values = map[string]A_Type_Spec{
 	"microsoft.azure/a": A_Type_Spec_MicrosoftAzureA,
 }
 
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type AOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_AOperatorSpec populates our AOperatorSpec from the provided source AOperatorSpec
+func (operator *AOperatorSpec) AssignProperties_From_AOperatorSpec(source *storage.AOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AOperatorSpec populates the provided destination AOperatorSpec from our AOperatorSpec
+func (operator *AOperatorSpec) AssignProperties_To_AOperatorSpec(destination *storage.AOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type B_APIVersion_Spec string
 
@@ -1861,6 +2256,110 @@ const B_Type_Spec_MicrosoftAzureB = B_Type_Spec("Microsoft.Azure/B")
 // Mapping from string to B_Type_Spec
 var b_Type_Spec_Values = map[string]B_Type_Spec{
 	"microsoft.azure/b": B_Type_Spec_MicrosoftAzureB,
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type BOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_BOperatorSpec populates our BOperatorSpec from the provided source BOperatorSpec
+func (operator *BOperatorSpec) AssignProperties_From_BOperatorSpec(source *storage.BOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_BOperatorSpec populates the provided destination BOperatorSpec from our BOperatorSpec
+func (operator *BOperatorSpec) AssignProperties_To_BOperatorSpec(destination *storage.BOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // +kubebuilder:validation:Enum={"2020-06-01"}
@@ -1883,6 +2382,110 @@ var c_Type_Spec_Values = map[string]C_Type_Spec{
 	"microsoft.azure/c": C_Type_Spec_MicrosoftAzureC,
 }
 
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type COperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_COperatorSpec populates our COperatorSpec from the provided source COperatorSpec
+func (operator *COperatorSpec) AssignProperties_From_COperatorSpec(source *storage.COperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_COperatorSpec populates the provided destination COperatorSpec from our COperatorSpec
+func (operator *COperatorSpec) AssignProperties_To_COperatorSpec(destination *storage.COperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type D_APIVersion_Spec string
 
@@ -1901,6 +2504,110 @@ const D_Type_Spec_MicrosoftAzureD = D_Type_Spec("Microsoft.Azure/D")
 // Mapping from string to D_Type_Spec
 var d_Type_Spec_Values = map[string]D_Type_Spec{
 	"microsoft.azure/d": D_Type_Spec_MicrosoftAzureD,
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type DOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_DOperatorSpec populates our DOperatorSpec from the provided source DOperatorSpec
+func (operator *DOperatorSpec) AssignProperties_From_DOperatorSpec(source *storage.DOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DOperatorSpec populates the provided destination DOperatorSpec from our DOperatorSpec
+func (operator *DOperatorSpec) AssignProperties_To_DOperatorSpec(destination *storage.DOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 func init() {

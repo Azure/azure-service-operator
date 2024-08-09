@@ -8,6 +8,7 @@ package pipeline
 import (
 	"context"
 	"fmt"
+	"go/token"
 
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
@@ -120,31 +121,21 @@ func getValidations(
 			functions.NewValidateOwnerReferenceFunction(resource, idFactory))
 	}
 
-	secrets, err := getOperatorSpecSubType(defs, resource, astmodel.OperatorSpecSecretsProperty)
-	if err != nil {
-		return nil, err
-	}
-	if secrets != nil {
-		validations[functions.ValidationKindCreate] = append(
-			validations[functions.ValidationKindCreate],
-			NewValidateSecretDestinationsFunction(resource, idFactory))
-		validations[functions.ValidationKindUpdate] = append(
-			validations[functions.ValidationKindUpdate],
-			NewValidateSecretDestinationsFunction(resource, idFactory))
-	}
-
-	configMaps, err := getOperatorSpecSubType(defs, resource, astmodel.OperatorSpecConfigMapsProperty)
-	if err != nil {
-		return nil, err
-	}
-	if configMaps != nil {
-		validations[functions.ValidationKindCreate] = append(
-			validations[functions.ValidationKindCreate],
-			NewValidateConfigMapDestinationsFunction(resource, idFactory))
-		validations[functions.ValidationKindUpdate] = append(
-			validations[functions.ValidationKindUpdate],
-			NewValidateConfigMapDestinationsFunction(resource, idFactory))
-	}
+	// The expectation is that every resource has an Spec.OperatorSpec.SecretExpressions and
+	// Spec.OperatorSpec.ConfigMapExpressions field, so we always include their validations.
+	// If this assumption has been violated, generating the validation function will raise an error.
+	validations[functions.ValidationKindCreate] = append(
+		validations[functions.ValidationKindCreate],
+		NewValidateSecretDestinationsFunction(resource, idFactory))
+	validations[functions.ValidationKindUpdate] = append(
+		validations[functions.ValidationKindUpdate],
+		NewValidateSecretDestinationsFunction(resource, idFactory))
+	validations[functions.ValidationKindCreate] = append(
+		validations[functions.ValidationKindCreate],
+		NewValidateConfigMapDestinationsFunction(resource, idFactory))
+	validations[functions.ValidationKindUpdate] = append(
+		validations[functions.ValidationKindUpdate],
+		NewValidateConfigMapDestinationsFunction(resource, idFactory))
 
 	hasConfigMapReferencePairs, err := hasOptionalConfigMapReferencePairs(resourceDef, defs)
 	if err != nil {
@@ -192,6 +183,7 @@ func validateSecretDestinations(
 		k.Resource(),
 		receiverIdent,
 		astmodel.OperatorSpecSecretsProperty,
+		astmodel.OperatorSpecSecretExpressionsProperty,
 		astmodel.NewOptionalType(astmodel.SecretDestinationType),
 		astmodel.GenRuntimeSecretsReference,
 		"ValidateDestinations")
@@ -239,6 +231,7 @@ func validateConfigMapDestinations(
 		k.Resource(),
 		receiverIdent,
 		astmodel.OperatorSpecConfigMapsProperty,
+		astmodel.OperatorSpecConfigMapExpressionsProperty,
 		astmodel.NewOptionalType(astmodel.ConfigMapDestinationType),
 		astmodel.GenRuntimeConfigMapsReference,
 		"ValidateDestinations")
@@ -265,32 +258,46 @@ func validateConfigMapDestinations(
 //
 //	func (account *DatabaseAccount) validateConfigMapDestinations() error {
 //	    if <receiver>.Spec.OperatorSpec == nil {
-//	        return nil
+//		       return nil
+//		}
+//
+//	    var toValidate []<validateType>
+//	    if <receiver>.Spec.OperatorSpec.<property> != nil {
+//	        toValidate = []<validateType>{
+//	            account.Spec.OperatorSpec.Secrets.PrimaryReadonlyMasterKey,
+//	            account.Spec.OperatorSpec.Secrets.SecondaryReadonlyMasterKey,
+//	            ...
 //	    }
-//	    if <receiver>.Spec.OperatorSpec.<operatorSpecProperty> == nil {
-//	        return nil
-//	    }
-//	    toValidate := []*<validateType>{
-//	        account.Spec.OperatorSpec.ConfigMaps.ClientId,
-//	        account.Spec.OperatorSpec.ConfigMaps.PrincipalId,
-//	        ...
-//	    }
-//	    return genruntime.<validateFunctionName>(toValidate)
+//	    return <validatePkg>.<validateFunctionName>(account, toValidate, <receiver>.Spec.OperatorSpec.<expressionsProperty>)
 //	}
 func validateOperatorSpecSliceBody(
 	codeGenerationContext *astmodel.CodeGenerationContext,
 	resource *astmodel.ResourceType,
 	receiverIdent string,
-	operatorSpecProperty string,
+	property string,
+	expressionsProperty string,
 	validateType astmodel.Type,
 	validatePackage astmodel.ExternalPackageReference,
 	validateFunctionName string,
 ) ([]dst.Stmt, error) {
 	pkg := codeGenerationContext.MustGetImportedPackageName(validatePackage)
 
-	operatorSpecPropertyObj, err := getOperatorSpecSubType(codeGenerationContext, resource, operatorSpecProperty)
+	// operatorSpecPropertyObj and expressionsOperatorSpecPropertyObj may be nil. If BOTH are nil this method shouldn't
+	// have ever been called, but one can be nil.
+	operatorSpecPropertyObj, err := getOperatorSpecSubType(codeGenerationContext, resource, property)
 	if err != nil {
-		return nil, errors.Wrapf(err, "getting operator spec sub type for %s", operatorSpecProperty)
+		return nil, errors.Wrapf(err, "getting operator spec sub type for %s", property)
+	}
+	expressionsOperatorSpecPropertySlice, err := getOperatorSpecExpressionType(codeGenerationContext, resource, expressionsProperty)
+	if err != nil {
+		return nil, errors.Wrapf(err, "getting operator spec sub type for %s", expressionsProperty)
+	}
+
+	if operatorSpecPropertyObj == nil && expressionsOperatorSpecPropertySlice == nil {
+		return nil, errors.Errorf(
+			"can't generate method for validating OperatorSpec %s and %s if both fields don't exist",
+			property,
+			expressionsProperty)
 	}
 
 	var body []dst.Stmt
@@ -302,38 +309,65 @@ func validateOperatorSpecSliceBody(
 	operatorSpecSelector := astbuilder.Selector(specSelector, astmodel.OperatorSpecProperty)
 	body = append(body, astbuilder.ReturnIfNil(operatorSpecSelector, astbuilder.Nil(), astbuilder.Nil()))
 
-	// if <receiver>.Spec.OperatorSpec.<operatorSpecProperty> == nil {
-	//     return nil, nil
-	// }
-	specPropertySelector := astbuilder.Selector(operatorSpecSelector, operatorSpecProperty)
-	body = append(body, astbuilder.ReturnIfNil(specPropertySelector, astbuilder.Nil(), astbuilder.Nil()))
+	propertySelector := astbuilder.Selector(operatorSpecSelector, property)
+	expressionsPropertySelector := astbuilder.Selector(operatorSpecSelector, expressionsProperty)
 
-	// secrets := []<validateType>{
-	//     account.Spec.OperatorSpec.Secrets.PrimaryReadonlyMasterKey,
-	//     account.Spec.OperatorSpec.Secrets.SecondaryReadonlyMasterKey,
-	//     ...
-	// }
-	validateTypeExpr, err := validateType.AsTypeExpr(codeGenerationContext)
-	if err != nil {
-		return nil, errors.Wrapf(err, "creating type expression for %s", validateType)
-	}
-
-	sliceBuilder := astbuilder.NewSliceLiteralBuilder(validateTypeExpr, true)
-	for _, prop := range operatorSpecPropertyObj.Properties().AsSlice() {
-		propSelector := astbuilder.Selector(specPropertySelector, prop.PropertyName().String())
-		sliceBuilder.AddElement(propSelector)
-	}
 	toValidateVar := "toValidate"
-	body = append(body, astbuilder.ShortDeclaration(toValidateVar, sliceBuilder.Build()))
+	if operatorSpecPropertyObj != nil {
+		// var toValidate []<validateType>
+		validateTypeExpr, err := validateType.AsTypeExpr(codeGenerationContext)
+		if err != nil {
+			return nil, errors.Wrapf(err, "creating type expression for %s", validateType)
+		}
+		validateVarSliceExpr, err := astmodel.NewArrayType(validateType).AsTypeExpr(codeGenerationContext)
+		if err != nil {
+			return nil, errors.Wrapf(err, "creating type expression for %s", astmodel.NewArrayType(validateType))
+		}
+		body = append(body, astbuilder.LocalVariableDeclaration(toValidateVar, validateVarSliceExpr, ""))
 
-	// return genruntime.<validateFunctionName>(secrets)
+		// if <receiver>.Spec.OperatorSpec.<property> != nil {
+		//     toValidate = []<validateType>{
+		//         account.Spec.OperatorSpec.Secrets.PrimaryReadonlyMasterKey,
+		//         account.Spec.OperatorSpec.Secrets.SecondaryReadonlyMasterKey,
+		//         ...
+		//     }
+		// }
+
+		sliceBuilder := astbuilder.NewSliceLiteralBuilder(validateTypeExpr, true)
+		for _, prop := range operatorSpecPropertyObj.Properties().AsSlice() {
+			propSelector := astbuilder.Selector(propertySelector, prop.PropertyName().String())
+			sliceBuilder.AddElement(propSelector)
+		}
+		body = append(
+			body,
+			astbuilder.IfNotNil(
+				propertySelector,
+				astbuilder.AssignmentStatement(dst.NewIdent(toValidateVar), token.ASSIGN, sliceBuilder.Build())))
+	}
+
+	selfParameter := dst.NewIdent(receiverIdent)
+
+	toValidateParameter := astbuilder.Nil()
+	if operatorSpecPropertyObj != nil {
+		toValidateParameter = dst.NewIdent(toValidateVar)
+	}
+
+	var expressionsToValidateParameter dst.Expr
+	expressionsToValidateParameter = astbuilder.Nil()
+	if expressionsOperatorSpecPropertySlice != nil {
+		expressionsToValidateParameter = expressionsPropertySelector
+	}
+
+	// return <validatePkg>.<validateFunctionName>(self, toValidate, expressionsToValidate)
 	body = append(
 		body,
 		astbuilder.Returns(
 			astbuilder.CallQualifiedFunc(
 				pkg,
 				validateFunctionName,
-				dst.NewIdent(toValidateVar))))
+				selfParameter,
+				toValidateParameter,
+				expressionsToValidateParameter)))
 
 	return body, nil
 }
@@ -377,6 +411,26 @@ func getOperatorSpecType(defs astmodel.ReadonlyTypeDefinitions, resource *astmod
 	return operatorSpecType, nil
 }
 
+func getOperatorSpecExpressionType(defs astmodel.ReadonlyTypeDefinitions, resource *astmodel.ResourceType, name string) (astmodel.Type, error) {
+	operatorSpecType, err := getOperatorSpecType(defs, resource)
+	if err != nil {
+		return nil, err
+	}
+	if operatorSpecType == nil {
+		// Not found, just return
+		return nil, nil
+	}
+
+	prop, ok := operatorSpecType.Property(astmodel.PropertyName(name))
+	if !ok {
+		// No property
+		return nil, nil
+	}
+
+	propType := astmodel.Unwrap(prop.PropertyType())
+	return propType, nil
+}
+
 func getOperatorSpecSubType(defs astmodel.ReadonlyTypeDefinitions, resource *astmodel.ResourceType, name string) (*astmodel.ObjectType, error) {
 	operatorSpecType, err := getOperatorSpecType(defs, resource)
 	if err != nil {
@@ -387,29 +441,29 @@ func getOperatorSpecSubType(defs astmodel.ReadonlyTypeDefinitions, resource *ast
 		return nil, nil
 	}
 
-	secretsProp, ok := operatorSpecType.Property(astmodel.PropertyName(name))
+	prop, ok := operatorSpecType.Property(astmodel.PropertyName(name))
 	if !ok {
-		// No secrets property
+		// No property
 		return nil, nil
 	}
 
-	secretsTypeName, ok := astmodel.AsInternalTypeName(secretsProp.PropertyType())
+	typeName, ok := astmodel.AsInternalTypeName(prop.PropertyType())
 	if !ok {
 		return nil, errors.Errorf(
-			"expected %s to be an astmodel.TypeName, but it was %T",
+			"expected %s to be an astmodel.InternalTypeName, but it was %T",
 			name,
-			secretsProp.PropertyType())
+			prop.PropertyType())
 	}
-	secretsDef, err := defs.GetDefinition(secretsTypeName)
+	def, err := defs.GetDefinition(typeName)
 	if err != nil {
 		return nil, err
 	}
-	secretsType, ok := astmodel.AsObjectType(secretsDef.Type())
+	defType, ok := astmodel.AsObjectType(def.Type())
 	if !ok {
-		panic(fmt.Sprintf("expected %s to be an astmodel.ObjectType but it was %T", secretsTypeName, secretsDef.Type()))
+		panic(fmt.Sprintf("expected %s to be an astmodel.ObjectType but it was %T", typeName, def.Type()))
 	}
 
-	return secretsType, nil
+	return defType, nil
 }
 
 // hasOptionalConfigMapReferencePairs returns true if the type has optional genruntime.ConfigMapReference pairs

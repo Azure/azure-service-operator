@@ -144,7 +144,7 @@ func TestMerge_SameDestinationKey_ReturnsError(t *testing.T) {
 		configMapC2,
 	})
 	g.Expect(err).To(HaveOccurred())
-	g.Expect(err.Error()).To(Equal("failed merging secrets: key collision, entry exists for key key1 in StringData"))
+	g.Expect(err.Error()).To(Equal("failed merging secrets: key collision, entry exists for key 'key1' in StringData"))
 }
 
 func TestMerge_DifferentNamespaces_ReturnsError(t *testing.T) {
@@ -157,5 +157,5 @@ func TestMerge_DifferentNamespaces_ReturnsError(t *testing.T) {
 		configMapC1,
 	})
 	g.Expect(err).To(HaveOccurred())
-	g.Expect(err.Error()).To(Equal("cannot merge objects from different namespaces: testnamespace : othernamespace"))
+	g.Expect(err.Error()).To(Equal("cannot merge objects from different namespaces: 'testnamespace' : 'othernamespace'"))
 }

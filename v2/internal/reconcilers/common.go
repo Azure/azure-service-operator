@@ -17,6 +17,7 @@ import (
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/ownerutil"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
+	asocel "github.com/Azure/azure-service-operator/v2/internal/util/cel"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -158,8 +159,9 @@ func (r *ARMOwnedResourceReconcilerCommon) ClaimResource(ctx context.Context, lo
 }
 
 type ReconcilerCommon struct {
-	KubeClient         kubeclient.Client
-	PositiveConditions *conditions.PositiveConditionBuilder
+	KubeClient          kubeclient.Client
+	PositiveConditions  *conditions.PositiveConditionBuilder
+	ExpressionEvaluator asocel.ExpressionEvaluator
 }
 
 func ClassifyResolverError(err error) error {

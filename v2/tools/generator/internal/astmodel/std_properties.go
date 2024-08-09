@@ -7,19 +7,21 @@ package astmodel
 
 // These are some magical field names which we're going to use or generate
 const (
-	APIVersionProperty               = "APIVersion" // Used by armconversion package
-	AzureNameProperty                = "AzureName"
-	NameProperty                     = "Name" // Used by armconversion package
-	OwnerProperty                    = "Owner"
-	SetAzureNameFunc                 = "SetAzureName"
-	TypeProperty                     = "Type" // Used by armconversion package
-	OperatorSpecProperty             = "OperatorSpec"
-	OperatorSpecSecretsProperty      = "Secrets"
-	OperatorSpecConfigMapsProperty   = "ConfigMaps"
-	ConditionsProperty               = "Conditions"
-	OptionalConfigMapReferenceSuffix = "FromConfig"
-	UserAssignedIdentitiesProperty   = "UserAssignedIdentities"
-	UserAssignedIdentitiesTypeName   = "UserAssignedIdentityDetails"
+	APIVersionProperty                       = "APIVersion" // Used by armconversion package
+	AzureNameProperty                        = "AzureName"
+	NameProperty                             = "Name" // Used by armconversion package
+	OwnerProperty                            = "Owner"
+	SetAzureNameFunc                         = "SetAzureName"
+	TypeProperty                             = "Type" // Used by armconversion package
+	OperatorSpecProperty                     = "OperatorSpec"
+	OperatorSpecSecretsProperty              = "Secrets"
+	OperatorSpecSecretExpressionsProperty    = "SecretExpressions"
+	OperatorSpecConfigMapsProperty           = "ConfigMaps"
+	OperatorSpecConfigMapExpressionsProperty = "ConfigMapExpressions"
+	ConditionsProperty                       = "Conditions"
+	OptionalConfigMapReferenceSuffix         = "FromConfig"
+	UserAssignedIdentitiesProperty           = "UserAssignedIdentities"
+	UserAssignedIdentitiesTypeName           = "UserAssignedIdentityDetails"
 )
 
 // IsKubernetesResourceProperty returns true if the supplied property name is one of the properties required by the
