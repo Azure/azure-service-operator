@@ -3,7 +3,7 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package secrets_test
+package configmaps_test
 
 import (
 	"testing"
@@ -11,34 +11,34 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 )
 
-func Test_ValidateSecretDestination_EmptyListValidates(t *testing.T) {
+func Test_ValidateConfigMapDestination_EmptyListValidates(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	warnings, err := secrets.ValidateDestinationsExt(nil, nil)
+	warnings, err := configmaps.ValidateDestinationsExt(nil, nil)
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }
 
-func Test_ValidateSecretDestination_ListWithNilElementsValidates(t *testing.T) {
+func Test_ValidateConfigMapDestination_ListWithNilElementsValidates(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	destinations := []*genruntime.SecretDestination{
+	destinations := []*genruntime.ConfigMapDestination{
 		nil,
 		nil,
 	}
 
-	warnings, err := secrets.ValidateDestinationsExt(destinations, nil)
+	warnings, err := configmaps.ValidateDestinationsExt(destinations, nil)
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }
 
-func Test_ValidateSecretDestinationExpressions_ListWithNilElementsValidates(t *testing.T) {
+func Test_ValidateConfigMapDestinationExpressions_ListWithNilElementsValidates(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -47,25 +47,25 @@ func Test_ValidateSecretDestinationExpressions_ListWithNilElementsValidates(t *t
 		nil,
 	}
 
-	warnings, err := secrets.ValidateDestinationsExt(nil, destinations)
+	warnings, err := configmaps.ValidateDestinationsExt(nil, destinations)
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }
 
-func Test_ValidateSecretDestination_LengthOneListValidates(t *testing.T) {
+func Test_ValidateConfigMapDestination_LengthOneListValidates(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	destinations := []*genruntime.SecretDestination{
+	destinations := []*genruntime.ConfigMapDestination{
 		{Name: "n1", Key: "key1"},
 	}
 
-	warnings, err := secrets.ValidateDestinationsExt(destinations, nil)
+	warnings, err := configmaps.ValidateDestinationsExt(destinations, nil)
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }
 
-func Test_ValidateSecretDestinationExpressions_LengthOneListValidates(t *testing.T) {
+func Test_ValidateConfigMapDestinationExpressions_LengthOneListValidates(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -73,28 +73,28 @@ func Test_ValidateSecretDestinationExpressions_LengthOneListValidates(t *testing
 		{Name: "n1", Key: "key1", Value: "resource.status.id"},
 	}
 
-	warnings, err := secrets.ValidateDestinationsExt(nil, destinations)
+	warnings, err := configmaps.ValidateDestinationsExt(nil, destinations)
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }
 
-func Test_ValidateSecretDestination_ListWithoutCollisionsValidates(t *testing.T) {
+func Test_ValidateConfigMapDestination_ListWithoutCollisionsValidates(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	destinations := []*genruntime.SecretDestination{
+	destinations := []*genruntime.ConfigMapDestination{
 		{Name: "n1", Key: "key1"},
 		{Name: "n1", Key: "key2"},
 		{Name: "n1", Key: "key3"},
 		{Name: "n1", Key: "key4"},
 	}
 
-	warnings, err := secrets.ValidateDestinationsExt(destinations, nil)
+	warnings, err := configmaps.ValidateDestinationsExt(destinations, nil)
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }
 
-func Test_ValidateSecretDestinationExpressions_ListWithoutCollisionsValidates(t *testing.T) {
+func Test_ValidateConfigMapDestinationExpressions_ListWithoutCollisionsValidates(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -105,48 +105,47 @@ func Test_ValidateSecretDestinationExpressions_ListWithoutCollisionsValidates(t 
 		{Name: "n1", Key: "key4", Value: "resource.status.id"},
 	}
 
-	warnings, err := secrets.ValidateDestinationsExt(nil, destinations)
+	warnings, err := configmaps.ValidateDestinationsExt(nil, destinations)
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }
 
-func Test_ValidateSecretDestination_ListWithDifferentCasesValidates(t *testing.T) {
+func Test_ValidateConfigMapDestination_ListWithDifferentCasesValidates(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	destinations := []*genruntime.SecretDestination{
+	destinations := []*genruntime.ConfigMapDestination{
 		{Name: "n1", Key: "key1"},
 		{Name: "n1", Key: "Key1"},
 		{Name: "n1", Key: "key3"},
 		{Name: "n1", Key: "key4"},
 	}
 
-	warnings, err := secrets.ValidateDestinationsExt(destinations, nil)
+	warnings, err := configmaps.ValidateDestinationsExt(destinations, nil)
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }
 
-func Test_ValidateSecretDestination_ListWithCollisionsFailsValidation(t *testing.T) {
+func Test_ValidateConfigMapDestination_ListWithCollisionsFailsValidation(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	destinations := []*genruntime.SecretDestination{
+	destinations := []*genruntime.ConfigMapDestination{
 		{Name: "n1", Key: "key1"},
 		{Name: "n2", Key: "key1"},
 		{Name: "n3", Key: "key1"},
 		{Name: "n1", Key: "key1"},
 	}
-
-	_, err := secrets.ValidateDestinationsExt(destinations, nil)
+	_, err := configmaps.ValidateDestinationsExt(destinations, nil)
 	g.Expect(err).ToNot(BeNil())
-	g.Expect(err.Error()).To(Equal("cannot write more than one secret to destination Name: \"n1\", Key: \"key1\""))
+	g.Expect(err.Error()).To(Equal("cannot write more than one configmap value to destination Name: \"n1\", Key: \"key1\""))
 }
 
-func Test_ValidateSecretDestinationAndExpressions_CollisionBetweenEachFailsValidation(t *testing.T) {
+func Test_ValidateConfigMapDestinationAndExpressions_CollisionBetweenEachFailsValidation(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	destinations := []*genruntime.SecretDestination{
+	destinations := []*genruntime.ConfigMapDestination{
 		{Name: "n3", Key: "key1"},
 		{Name: "n4", Key: "key1"},
 		{Name: "n5", Key: "key1"},
@@ -158,12 +157,12 @@ func Test_ValidateSecretDestinationAndExpressions_CollisionBetweenEachFailsValid
 		{Name: "n3", Key: "key1", Value: "resource.status.id"},
 	}
 
-	_, err := secrets.ValidateDestinationsExt(destinations, destinationExpressions)
+	_, err := configmaps.ValidateDestinationsExt(destinations, destinationExpressions)
 	g.Expect(err).ToNot(BeNil())
-	g.Expect(err.Error()).To(Equal("cannot write more than one secret to destination Name: \"n3\", Key: \"key1\", Value: \"resource.status.id\""))
+	g.Expect(err.Error()).To(Equal("cannot write more than one configmap value to destination Name: \"n3\", Key: \"key1\", Value: \"resource.status.id\""))
 }
 
-func Test_ValidateSecretDestinationExpressions_EmptyKeyIgnored(t *testing.T) {
+func Test_ValidateConfigMapDestinationExpressions_EmptyKeyIgnored(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -172,7 +171,7 @@ func Test_ValidateSecretDestinationExpressions_EmptyKeyIgnored(t *testing.T) {
 		{Name: "n1", Key: "key1", Value: "resource.status.id"},
 	}
 
-	warnings, err := secrets.ValidateDestinationsExt(nil, destinations)
+	warnings, err := configmaps.ValidateDestinationsExt(nil, destinations)
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }

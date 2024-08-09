@@ -59,19 +59,17 @@ func (s NamespacedConfigMapReference) String() string {
 }
 
 // ConfigMapDestination describes the location to store a single configmap value
-// Note: This is similar to SecretDestination in secrets.go. Changes to one should likely also be made to the other.
+// Note: This is similar to: SecretDestination in secrets.go.
+// Changes to one may need to be made to the others as well.
 type ConfigMapDestination struct {
-	// Note: We could embed ConfigMapReference here, but it makes our life harder because then our reflection based tools will "find" ConfigMapReferences's
-	// inside of ConfigMapDestination and try to resolve them. It also gives a worse experience when using the Go Types (the YAML is the same either way).
-
-	// Name is the name of the Kubernetes ConfigMap being referenced.
-	// The ConfigMap must be in the same namespace as the resource
+	// Name is the name of the Kubernetes ConfigMap to write to.
+	// The ConfigMap will be created in the same namespace as the resource.
 	// +kubebuilder:validation:Required
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	// Key is the key in the ConfigMap being referenced
 	// +kubebuilder:validation:Required
-	Key string `json:"key"`
+	Key string `json:"key,omitempty"`
 
 	// This is a type separate from ConfigMapReference as in the future we may want to support things like
 	// customizable annotations or labels, instructions to not delete the ConfigMap when the resource is
