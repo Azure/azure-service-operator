@@ -8,13 +8,50 @@ package vcr
 import (
 	"net/http"
 	"regexp"
-	"strings"
 
 	"github.com/google/uuid"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
 )
+
+type Redactor struct {
+	redactions []redaction
+}
+
+type redaction struct {
+	pattern          *regexp.Regexp
+	replacementValue string
+}
+
+func NewRedactor(azureIDs creds.AzureIDs) *Redactor {
+	redactor := &Redactor{
+		redactions: []redaction{},
+	}
+
+	// Add AzureIDs redaction as default
+	redactor.AddLiteralRedaction(azureIDs.TenantID, nilGuid)
+	redactor.AddLiteralRedaction(azureIDs.SubscriptionID, nilGuid)
+	if azureIDs.BillingInvoiceID != "" {
+		redactor.AddLiteralRedaction(azureIDs.BillingInvoiceID, creds.DummyBillingId)
+	}
+
+	return redactor
+}
+
+func (r *Redactor) AddLiteralRedaction(redactionValue string, replacementValue string) {
+	pattern := regexp.QuoteMeta(redactionValue)
+	r.AddRegexRedaction(pattern, replacementValue)
+}
+
+func (r *Redactor) AddRegexRedaction(regex string, replacementValue string) {
+	redact := redaction{
+		pattern:          regexp.MustCompile(regex),
+		replacementValue: replacementValue,
+	}
+
+	r.redactions = append(r.redactions, redact)
+}
 
 var nilGuid = uuid.Nil.String()
 
@@ -27,7 +64,7 @@ var requestHeadersToRemove = []string{
 	"User-Agent",
 }
 
-func RedactRequestHeaders(azureIDs creds.AzureIDs, headers http.Header) {
+func (r *Redactor) RedactRequestHeaders(headers http.Header) {
 	for _, header := range requestHeadersToRemove {
 		delete(headers, header)
 	}
@@ -35,11 +72,7 @@ func RedactRequestHeaders(azureIDs creds.AzureIDs, headers http.Header) {
 	// Hide sensitive request headers
 	for _, values := range headers {
 		for i := range values {
-			values[i] = strings.ReplaceAll(values[i], azureIDs.SubscriptionID, nilGuid)
-			values[i] = strings.ReplaceAll(values[i], azureIDs.TenantID, nilGuid)
-			if azureIDs.BillingInvoiceID != "" {
-				values[i] = strings.ReplaceAll(values[i], azureIDs.BillingInvoiceID, creds.DummyBillingId)
-			}
+			values[i] = r.hideRecordingDataWithCustomRedaction(values[i])
 		}
 	}
 }
@@ -63,7 +96,7 @@ var responseHeadersToRemove = []string{
 	"Date",
 }
 
-func RedactResponseHeaders(azureIDs creds.AzureIDs, headers http.Header) {
+func (r *Redactor) RedactResponseHeaders(headers http.Header) {
 	for _, header := range responseHeadersToRemove {
 		delete(headers, header)
 	}
@@ -71,33 +104,22 @@ func RedactResponseHeaders(azureIDs creds.AzureIDs, headers http.Header) {
 	// Hide sensitive response headers
 	for key, values := range headers {
 		for i := range values {
-			values[i] = strings.ReplaceAll(values[i], azureIDs.SubscriptionID, nilGuid)
-			values[i] = strings.ReplaceAll(values[i], azureIDs.TenantID, nilGuid)
-			if azureIDs.BillingInvoiceID != "" {
-				values[i] = strings.ReplaceAll(values[i], azureIDs.BillingInvoiceID, creds.DummyBillingId)
-			}
+			values[i] = r.hideRecordingDataWithCustomRedaction(values[i])
 		}
 
 		// Hide the base request URL in the AzureOperation and Location headers
 		if key == genericarmclient.AsyncOperationHeader || key == genericarmclient.LocationHeader {
 			for i := range values {
-				values[i] = HideURLData(azureIDs, values[i])
+				values[i] = r.HideURLData(values[i])
 			}
 		}
 	}
 }
 
-func HideRecordingData(azureIDs creds.AzureIDs, s string) string {
-	// Hide the subscription ID
-	s = strings.ReplaceAll(s, azureIDs.SubscriptionID, nilGuid)
+func (r *Redactor) HideRecordingData(s string) string {
 
-	// Hide the tenant ID
-	s = strings.ReplaceAll(s, azureIDs.TenantID, nilGuid)
-
-	// Hide the billing ID
-	if azureIDs.BillingInvoiceID != "" {
-		s = strings.ReplaceAll(s, azureIDs.BillingInvoiceID, creds.DummyBillingId)
-	}
+	// Hide custom redactions
+	s = r.hideRecordingDataWithCustomRedaction(s)
 
 	s = hideDates(s)
 	s = hideSSHKeys(s)
@@ -107,6 +129,16 @@ func HideRecordingData(azureIDs creds.AzureIDs, s string) string {
 	s = hideCustomKeys(s)
 
 	return s
+}
+
+func (r *Redactor) hideRecordingDataWithCustomRedaction(s string) string {
+	res := s
+	// Replace and hide all the custom data
+	for _, obj := range r.redactions {
+		res = obj.pattern.ReplaceAllString(res, obj.replacementValue)
+	}
+
+	return res
 }
 
 var dateMatcher = regexp.MustCompile(`\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(.\d+)?Z`)
@@ -162,18 +194,10 @@ func hideCustomKeys(s string) string {
 	})
 }
 
-func HideURLData(azureIDs creds.AzureIDs, s string) string {
+func (r *Redactor) HideURLData(s string) string {
+
+	s = r.hideRecordingDataWithCustomRedaction(s)
 	s = hideBaseRequestURL(s)
-
-	s = strings.ReplaceAll(s, azureIDs.SubscriptionID, nilGuid)
-
-	// Hide the tenant ID
-	s = strings.ReplaceAll(s, azureIDs.TenantID, nilGuid)
-
-	// Hide the billing ID
-	if azureIDs.BillingInvoiceID != "" {
-		s = strings.ReplaceAll(s, azureIDs.BillingInvoiceID, creds.DummyBillingId)
-	}
 
 	return s
 }
