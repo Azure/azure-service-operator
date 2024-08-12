@@ -31,7 +31,7 @@ func (person *Person) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 		for key, value := range person.Codes {
 			codesTemp[key] = value
 		}
-		result.Codes := codesTemp
+		result.Codes = codesTemp
 	}
 
 	// Set property "FullName":
