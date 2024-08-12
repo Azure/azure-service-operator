@@ -89,3 +89,21 @@ var _ AssertionOption = &excludeCodeFiles{}
 func (i *excludeCodeFiles) configure(ta *typeAsserter) {
 	ta.writeCode = false
 }
+
+/*
+ * createFolder
+ */
+
+// CreateFolderForTest creates an AssertionOption to create a separate folder for the test, allowing the test to
+// generate multiple files without collision with other tests.
+func CreateFolderForTest() AssertionOption {
+	return &createFolder{}
+}
+
+type createFolder struct{}
+
+var _ AssertionOption = &createFolder{}
+
+func (c *createFolder) configure(ta *typeAsserter) {
+	ta.createFolder = true
+}

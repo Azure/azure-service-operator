@@ -18,10 +18,11 @@ import (
 )
 
 type typeAsserter struct {
-	t          *testing.T
-	writeCode  bool
-	writeTests bool
-	reference  astmodel.TypeDefinitionSet
+	t            *testing.T
+	writeCode    bool // Should production code be generated?
+	writeTests   bool // Should test code be generated?
+	createFolder bool // Should a separate folder be created for the test?
+	reference    astmodel.TypeDefinitionSet
 }
 
 func newTypeAsserter(t *testing.T) *typeAsserter {
@@ -44,6 +45,13 @@ func (a *typeAsserter) assert(name string, defs ...astmodel.TypeDefinition) {
 	err := g.WithTestNameForDir(true)
 	if err != nil {
 		a.t.Fatalf("Unable to configure goldie output folder %s", err)
+	}
+
+	if a.createFolder {
+		err = g.WithSubTestNameForDir(true)
+		if err != nil {
+			a.t.Fatalf("Unable to configure goldie output folder %s", err)
+		}
 	}
 
 	refs := a.findReferenceTypes(defs)
