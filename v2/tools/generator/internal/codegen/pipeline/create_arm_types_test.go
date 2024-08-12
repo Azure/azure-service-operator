@@ -342,6 +342,7 @@ func TestCreateARMTypeWithSecret_CreatesExpectedConversions(t *testing.T) {
 }
 
 func TestCreateARMTypeConversionsWhenSimplifying_CreatesExpectedConversions(t *testing.T) {
+	t.Parallel()
 
 	aliasDef := astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(test.Pkg2020, "Alias"),
