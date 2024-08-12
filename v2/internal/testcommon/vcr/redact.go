@@ -117,7 +117,6 @@ func (r *Redactor) RedactResponseHeaders(headers http.Header) {
 }
 
 func (r *Redactor) HideRecordingData(s string) string {
-
 	// Hide custom redactions
 	s = r.hideRecordingDataWithCustomRedaction(s)
 
@@ -195,7 +194,6 @@ func hideCustomKeys(s string) string {
 }
 
 func (r *Redactor) HideURLData(s string) string {
-
 	s = r.hideRecordingDataWithCustomRedaction(s)
 	s = hideBaseRequestURL(s)
 

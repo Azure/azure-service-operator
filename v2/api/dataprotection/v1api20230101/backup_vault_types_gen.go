@@ -270,7 +270,7 @@ func (vault *BackupVault) validateConfigMapDestinations() (admission.Warnings, e
 	toValidate := []*genruntime.ConfigMapDestination{
 		vault.Spec.OperatorSpec.ConfigMaps.PrincipalId,
 	}
-	return genruntime.ValidateConfigMapDestinations(toValidate)
+	return configmaps.ValidateDestinations(toValidate)
 }
 
 // validateOwnerReference validates the owner field

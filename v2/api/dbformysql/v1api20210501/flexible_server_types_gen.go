@@ -12,6 +12,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
@@ -278,7 +279,7 @@ func (server *FlexibleServer) validateConfigMapDestinations() (admission.Warning
 		server.Spec.OperatorSpec.ConfigMaps.AdministratorLogin,
 		server.Spec.OperatorSpec.ConfigMaps.FullyQualifiedDomainName,
 	}
-	return genruntime.ValidateConfigMapDestinations(toValidate)
+	return configmaps.ValidateDestinations(toValidate)
 }
 
 // validateOwnerReference validates the owner field
@@ -306,7 +307,7 @@ func (server *FlexibleServer) validateSecretDestinations() (admission.Warnings, 
 	toValidate := []*genruntime.SecretDestination{
 		server.Spec.OperatorSpec.Secrets.FullyQualifiedDomainName,
 	}
-	return genruntime.ValidateSecretDestinations(toValidate)
+	return secrets.ValidateDestinations(toValidate)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties

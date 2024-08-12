@@ -124,7 +124,6 @@ func getValidations(
 	if err != nil {
 		return nil, err
 	}
-
 	if secrets != nil {
 		validations[functions.ValidationKindCreate] = append(
 			validations[functions.ValidationKindCreate],
@@ -173,7 +172,7 @@ func NewValidateSecretDestinationsFunction(resource *astmodel.ResourceType, idFa
 		resource,
 		idFactory,
 		validateSecretDestinations,
-		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference))
+		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeSecretsReference))
 }
 
 func validateSecretDestinations(
@@ -194,7 +193,8 @@ func validateSecretDestinations(
 		receiverIdent,
 		astmodel.OperatorSpecSecretsProperty,
 		astmodel.NewOptionalType(astmodel.SecretDestinationType),
-		"ValidateSecretDestinations")
+		astmodel.GenRuntimeSecretsReference,
+		"ValidateDestinations")
 	if err != nil {
 		return nil, errors.Wrapf(err, "creating body of method %s", methodName)
 	}
@@ -219,7 +219,7 @@ func NewValidateConfigMapDestinationsFunction(resource *astmodel.ResourceType, i
 		resource,
 		idFactory,
 		validateConfigMapDestinations,
-		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference))
+		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeConfigMapsReference))
 }
 
 func validateConfigMapDestinations(
@@ -240,7 +240,8 @@ func validateConfigMapDestinations(
 		receiverIdent,
 		astmodel.OperatorSpecConfigMapsProperty,
 		astmodel.NewOptionalType(astmodel.ConfigMapDestinationType),
-		"ValidateConfigMapDestinations")
+		astmodel.GenRuntimeConfigMapsReference,
+		"ValidateDestinations")
 	if err != nil {
 		return nil, errors.Wrapf(err, "creating body of method %s", methodName)
 	}
@@ -282,9 +283,10 @@ func validateOperatorSpecSliceBody(
 	receiverIdent string,
 	operatorSpecProperty string,
 	validateType astmodel.Type,
+	validatePackage astmodel.ExternalPackageReference,
 	validateFunctionName string,
 ) ([]dst.Stmt, error) {
-	genRuntime := codeGenerationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
+	pkg := codeGenerationContext.MustGetImportedPackageName(validatePackage)
 
 	operatorSpecPropertyObj, err := getOperatorSpecSubType(codeGenerationContext, resource, operatorSpecProperty)
 	if err != nil {
@@ -329,7 +331,7 @@ func validateOperatorSpecSliceBody(
 		body,
 		astbuilder.Returns(
 			astbuilder.CallQualifiedFunc(
-				genRuntime,
+				pkg,
 				validateFunctionName,
 				dst.NewIdent(toValidateVar))))
 

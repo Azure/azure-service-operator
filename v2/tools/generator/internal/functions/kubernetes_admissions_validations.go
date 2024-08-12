@@ -48,7 +48,7 @@ func NewValidateOptionalConfigMapReferenceFunction(resource *astmodel.ResourceTy
 		resource,
 		idFactory,
 		validateOptionalConfigMapReferences,
-		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference, astmodel.ReflectHelpersReference))
+		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeConfigMapsReference, astmodel.ReflectHelpersReference))
 }
 
 func validateResourceReferences(
@@ -263,7 +263,7 @@ func validateOptionalConfigMapReferences(
 //	return genruntime.ValidateOptionalConfigMapReferences(refs)
 func validateOptionalConfigMapReferencesBody(codeGenerationContext *astmodel.CodeGenerationContext, receiverIdent string) []dst.Stmt {
 	reflectHelpers := codeGenerationContext.MustGetImportedPackageName(astmodel.ReflectHelpersReference)
-	genRuntime := codeGenerationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
+	genRuntimeConfigMaps := codeGenerationContext.MustGetImportedPackageName(astmodel.GenRuntimeConfigMapsReference)
 
 	var body []dst.Stmt
 
@@ -281,8 +281,8 @@ func validateOptionalConfigMapReferencesBody(codeGenerationContext *astmodel.Cod
 		body,
 		astbuilder.Returns(
 			astbuilder.CallQualifiedFunc(
-				genRuntime,
-				"ValidateOptionalConfigMapReferences",
+				genRuntimeConfigMaps,
+				"ValidateOptionalReferences",
 				dst.NewIdent("refs"))))
 
 	return body
