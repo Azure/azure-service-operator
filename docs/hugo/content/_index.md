@@ -28,7 +28,7 @@ ASO supports more than 150 different Azure resources, with more added every rele
 If you've got a question, a problem, an issue, or just want to chat, here are two ways to get in touch.
 
 * Log an issue on our [GitHub repository](https://github.com/azure/azure-service-operator).
-* Join us over on the [Kubernetes Slack](kubernetes.slack.com) in the [#azure-service-operator](https://kubernetes.slack.com/archives/C046DEVLAQM) channel. (Don't have an account? [Sign up here](https://slack.k8s.io/).)
+* Join us over on the [Kubernetes Slack](https://kubernetes.slack.com) in the [#azure-service-operator](https://kubernetes.slack.com/archives/C046DEVLAQM) channel. (Don't have an account? [Sign up here](https://slack.k8s.io/).)
 
 ## Getting Started
 
