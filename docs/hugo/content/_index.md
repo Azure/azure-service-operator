@@ -23,6 +23,13 @@ This project is stable. We follow the [Kubernetes definition of stable](https://
 
 ASO supports more than 150 different Azure resources, with more added every release. See the full list of [supported resources](https://azure.github.io/azure-service-operator/reference/).
 
+## Contact us
+
+If you've got a question, a problem, a request, or just want to chat, here are two ways to get in touch:
+
+* Log an issue on our [GitHub repository](https://github.com/azure/azure-service-operator).
+* Join us over on the [Kubernetes Slack](https://kubernetes.slack.com) in the [#azure-service-operator](https://kubernetes.slack.com/archives/C046DEVLAQM) channel. (Don't have an account? [Sign up here](https://slack.k8s.io/).)
+
 ## Getting Started
 
 ### Prerequisites
