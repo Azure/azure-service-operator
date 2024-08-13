@@ -101,7 +101,7 @@ See [best practices]( {{< relref "best-practices" >}}) for ASO best practices.
 {{< /card >}}
 {{< card header="**Get In Touch**">}}
 
-If you've got a question, a problem, an issue, or just want to chat, here are two ways to contact us.
+If you've got a question, a problem, a request, or just want to chat, here are two ways to contact us:
 
 * Log an issue on our [GitHub repository](https://github.com/azure/azure-service-operator).
 * Join us over on the [Kubernetes Slack](https://kubernetes.slack.com) in the [#azure-service-operator](https://kubernetes.slack.com/archives/C046DEVLAQM) channel. (Don't have an account? [Sign up here](https://slack.k8s.io/).)
