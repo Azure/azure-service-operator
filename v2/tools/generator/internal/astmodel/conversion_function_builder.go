@@ -868,7 +868,7 @@ func AssignToAliasOfCollection(
 		nil
 }
 
-// AssignFromAliasOfArray assigns an array of values from an alias of that same type.
+// AssignFromAliasOfCollection assigns an array of values from an alias of that same type.
 // This function generates code that looks like this:
 //
 // <destination> <assignmentHandler> <destinationType>(<source>)
