@@ -15067,7 +15067,11 @@ func (profile *ManagedClusterSecurityProfile) ConvertToARM(resolved genruntime.C
 	}
 
 	// Set property "CustomCATrustCertificates":
-	result.CustomCATrustCertificates = profile.CustomCATrustCertificates
+	var customCATrustCertificatesTemp []string
+	for _, item := range profile.CustomCATrustCertificates {
+		customCATrustCertificatesTemp = append(customCATrustCertificatesTemp, item)
+	}
+	result.CustomCATrustCertificates = customCATrustCertificatesTemp
 
 	// Set property "Defender":
 	if profile.Defender != nil {
@@ -15145,7 +15149,11 @@ func (profile *ManagedClusterSecurityProfile) PopulateFromARM(owner genruntime.A
 	}
 
 	// Set property "CustomCATrustCertificates":
-	profile.CustomCATrustCertificates = typedInput.CustomCATrustCertificates
+	var customCATrustCertificatesTemp []string
+	for _, item := range typedInput.CustomCATrustCertificates {
+		customCATrustCertificatesTemp = append(customCATrustCertificatesTemp, item)
+	}
+	profile.CustomCATrustCertificates = ManagedClusterSecurityProfileCustomCATrustCertificates(customCATrustCertificatesTemp)
 
 	// Set property "Defender":
 	if typedInput.Defender != nil {

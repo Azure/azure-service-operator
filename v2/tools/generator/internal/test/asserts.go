@@ -34,12 +34,15 @@ func AssertPackagesGenerateExpectedCode(
 		groups[ref] = append(groups[ref], def)
 	}
 
+	// We expect to be generating a file for each package, so we force a subfolder
+	opts := append(options, CreateFolderForTest())
+
 	// Write a file for each package
 	for _, defs := range groups {
 		ref := defs[0].Name().InternalPackageReference()
 		fileName := strings.ReplaceAll(ref.FolderPath(), "/", "-")
 
-		AssertTypeDefinitionsGenerateExpectedCode(t, fileName, defs, options...)
+		AssertTypeDefinitionsGenerateExpectedCode(t, fileName, defs, opts...)
 	}
 }
 

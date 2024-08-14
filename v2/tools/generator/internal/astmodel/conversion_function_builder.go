@@ -159,6 +159,8 @@ func NewConversionFunctionBuilder(
 			AssignFromOptional,
 			AssignToAliasOfPrimitive,
 			AssignFromAliasOfPrimitive,
+			AssignToAliasOfCollection,
+			AssignFromAliasOfCollection,
 			IdentityDeepCopyJSON,
 			IdentityAssignTypeName,
 		},
@@ -785,6 +787,153 @@ func AssignFromAliasOfPrimitive(
 				astbuilder.CallFunc(
 					dstPrim.String(),
 					params.GetSource()))),
+		nil
+}
+
+// AssignToAliasOfCollection assigns an array of values to an alias of that same type.
+// This function generates code that looks like this:
+//
+// <destination> <assignmentHandler> <destinationType>(<source>)
+func AssignToAliasOfCollection(
+	builder *ConversionFunctionBuilder,
+	params ConversionParameters,
+) ([]dst.Stmt, error) {
+	// Source must be an array type or a map type
+	_, srcIsArray := AsArrayType(params.SourceType)
+	_, srcIsMap := AsMapType(params.SourceType)
+	if !srcIsArray && !srcIsMap {
+		return nil, nil
+	}
+
+	// Destination must be an internal type name
+	dstName, ok := params.DestinationType.(InternalTypeName)
+	if !ok {
+		return nil, nil
+	}
+
+	// ... who's definition we know ...
+	dstDef, err := builder.CodeGenerationContext.GetDefinition(dstName)
+	if err != nil {
+		//nolint:nilerr // err is not nil, we defer to a different conversion
+		return nil, nil
+	}
+
+	// ... and it's not optional (hedging against oddities) ...
+	if _, ok = AsOptionalType(dstDef.Type()); ok {
+		return nil, nil
+	}
+
+	// ... and it must also be an array type or a map type (and the same kind as source)
+	dstArray, dstIsArray := AsArrayType(dstDef.Type())
+	dstMap, dstIsMap := AsMapType(dstDef.Type())
+	if dstIsArray != srcIsArray || dstIsMap != srcIsMap {
+		return nil, nil
+	}
+
+	var dstType Type
+	if dstIsArray {
+		dstType = dstArray
+	} else if dstIsMap {
+		dstType = dstMap
+	}
+
+	// ... and we can convert between those array types ...
+	conversion, err := builder.BuildConversion(
+		ConversionParameters{
+			Source:            params.Source,
+			SourceType:        params.SourceType,
+			Destination:       params.Destination,
+			DestinationType:   dstDef.Type(),
+			NameHint:          params.NameHint,
+			ConversionContext: append(params.ConversionContext, dstType),
+			AssignmentHandler: func(lhs dst.Expr, rhs dst.Expr) dst.Stmt {
+				// Use the existing assignment handler, but make sure we cast the rhs to the right type
+				return params.AssignmentHandlerOrDefault()(
+					lhs,
+					astbuilder.CallFunc(
+						dstName.Name(),
+						rhs))
+			},
+			Locals:              params.Locals,
+			SourceProperty:      params.SourceProperty,
+			DestinationProperty: params.DestinationProperty,
+		})
+	if err != nil {
+		return nil, errors.Wrap(err, "unable to build conversion for array element")
+	}
+
+	return astbuilder.Statements(
+			conversion,
+		),
+		nil
+}
+
+// AssignFromAliasOfCollection assigns an array of values from an alias of that same type.
+// This function generates code that looks like this:
+//
+// <destination> <assignmentHandler> <destinationType>(<source>)
+func AssignFromAliasOfCollection(
+	builder *ConversionFunctionBuilder,
+	params ConversionParameters,
+) ([]dst.Stmt, error) {
+	// Source must be an internal type name
+	srcName, ok := params.SourceType.(InternalTypeName)
+	if !ok {
+		return nil, nil
+	}
+
+	// ... who's definition we know ...
+	srcDef, err := builder.CodeGenerationContext.GetDefinition(srcName)
+	if err != nil {
+		//nolint:nilerr // err is not nil, we defer to a different conversion
+		return nil, nil
+	}
+
+	// ... and it's not optional (hedging against oddities) ...
+	if _, ok = AsOptionalType(srcDef.Type()); ok {
+		return nil, nil
+	}
+
+	// ... and it is an array type or a map type ...
+	_, srcIsArray := AsArrayType(srcDef.Type())
+	_, srcIsMap := AsMapType(srcDef.Type())
+	if !srcIsArray && !srcIsMap {
+		return nil, nil
+	}
+
+	// Destination must also be an array type or a map type (and the same kind as source)
+	_, dstIsArray := AsArrayType(params.DestinationType)
+	_, dstIsMap := AsMapType(params.DestinationType)
+	if dstIsArray != srcIsArray || dstIsMap != srcIsMap {
+		return nil, nil
+	}
+
+	// ... and we can convert between those collection types ...
+	conversion, err := builder.BuildConversion(
+		ConversionParameters{
+			Source:            params.Source,
+			SourceType:        srcDef.Type(),
+			Destination:       params.Destination,
+			DestinationType:   params.DestinationType,
+			NameHint:          params.NameHint,
+			ConversionContext: append(params.ConversionContext, params.DestinationType),
+			AssignmentHandler: func(lhs dst.Expr, rhs dst.Expr) dst.Stmt {
+				// Use the existing assignment handler if there is one, but make sure we always assign
+				return params.AssignmentHandlerOrDefault()(
+					lhs,
+					rhs)
+			},
+			Locals:              params.Locals,
+			SourceProperty:      params.SourceProperty,
+			DestinationProperty: params.DestinationProperty,
+		})
+	if err != nil {
+		return nil, errors.Wrap(err, "unable to build conversion for array element")
+	}
+
+	return astbuilder.Statements(
+			conversion,
+		),
 		nil
 }
 
