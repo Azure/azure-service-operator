@@ -142,14 +142,7 @@ func (n ResourceNamer) GeneratePassword() string {
 }
 
 func (n ResourceNamer) GeneratePasswordOfLength(length int) string {
-	runes := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789~!@#$%^&*()")
-
-	// A redundant call to makeRandomStringOfLength method here to maintain the consistency of seed
-	// for name generator and making sure the recorded names in existing tests are consistent
-	//_ = n.makeRandomStringOfLength(length, runes)
-	for i := 0; i < length; i++ {
-		_ = runes[n.rand.Intn(len(runes))]
-	}
+	var runes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789~!@#$%^&*()")
 
 	// This pass + <content> + pass pattern is to make it so that matchers can reliably find and prune
 	// generated passwords from the recordings. If you change it make sure to change the passwordMatcher
