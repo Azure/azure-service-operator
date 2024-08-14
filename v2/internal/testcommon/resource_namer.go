@@ -137,6 +137,10 @@ func (n ResourceNamer) GenerateName(prefix string) string {
 	return n.generateName(prefix, n.randomChars)
 }
 
+func (n ResourceNamer) GenerateNameOfLength(length int) string {
+	return n.generateName("", length)
+}
+
 func (n ResourceNamer) GeneratePassword() string {
 	return n.GeneratePasswordOfLength(n.randomChars)
 }
