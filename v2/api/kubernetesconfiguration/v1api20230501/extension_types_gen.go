@@ -264,7 +264,7 @@ func (extension *Extension) validateConfigMapDestinations() (admission.Warnings,
 	toValidate := []*genruntime.ConfigMapDestination{
 		extension.Spec.OperatorSpec.ConfigMaps.PrincipalId,
 	}
-	return genruntime.ValidateConfigMapDestinations(toValidate)
+	return configmaps.ValidateDestinations(toValidate)
 }
 
 // validateResourceReferences validates all resource references

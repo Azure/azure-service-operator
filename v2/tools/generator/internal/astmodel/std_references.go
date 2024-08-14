@@ -27,6 +27,7 @@ var (
 	GenRuntimeRegistrationReference = MakeExternalPackageReference(genRuntimePathPrefix + "/registration")
 	ReflectHelpersReference         = MakeExternalPackageReference(reflectHelpersPath)
 	GenRuntimeConfigMapsReference   = MakeExternalPackageReference(genRuntimePathPrefix + "/configmaps")
+	GenRuntimeSecretsReference      = MakeExternalPackageReference(genRuntimePathPrefix + "/secrets")
 	GenericARMClientReference       = MakeExternalPackageReference(genericARMClientPath)
 
 	// References to other libraries
