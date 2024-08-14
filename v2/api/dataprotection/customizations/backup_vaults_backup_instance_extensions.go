@@ -29,6 +29,8 @@ var _ extensions.PostReconciliationChecker = &BackupVaultsBackupInstanceExtensio
 
 // These are the states on which there's no future change possible, hence best to return PostReconcileCheck success on them.
 // Then further we let Operator decide what condition to put on the resource.
+// These terminal states are determined and confirmed by the dataprotection team from the swagger below:
+// https://github.com/Azure/azure-rest-api-specs/blob/a651ba25cda4eec698a3a4e35f867ecc2681d126/specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/dataprotection.json#L5014
 var terminalStates = set.Make(
 	"configuringprotectionfailed",
 	"invalid",
