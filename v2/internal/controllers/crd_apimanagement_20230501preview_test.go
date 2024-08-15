@@ -38,7 +38,7 @@ func Test_ApiManagement_20230501preview_CRUD(t *testing.T) {
 	// Create an APIM instance. APIM has a soft delete feature; if you find that you
 	// hit this problem add the `restore` back in to resurrect it
 	service := apim.Service{
-		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("apimv2")),
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("apimanagementv2")),
 		Spec: apim.Service_Spec{
 			Location:       to.Ptr("eastus"), // Not supported in West US 2
 			Owner:          testcommon.AsOwner(rg),

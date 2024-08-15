@@ -2,7 +2,7 @@
 version: 1
 interactions:
 - request:
-    body: '{"location":"eastus","name":"asotest-rg-fucqkw","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+    body: '{"location":"eastus","name":"asotest-rg-sknkak","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
     form: {}
     headers:
       Accept:
@@ -13,10 +13,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak?api-version=2020-06-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw","name":"asotest-rg-fucqkw","type":"Microsoft.Resources/resourceGroups","location":"eastus","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak","name":"asotest-rg-sknkak","type":"Microsoft.Resources/resourceGroups","location":"eastus","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -43,10 +43,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw","name":"asotest-rg-fucqkw","type":"Microsoft.Resources/resourceGroups","location":"eastus","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak","name":"asotest-rg-sknkak","type":"Microsoft.Resources/resourceGroups","location":"eastus","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -66,7 +66,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"eastus","name":"asotest-sqlserver-mtsojo","properties":{"administratorLogin":"myadmin","administratorLoginPassword":"{PASSWORD}","version":"12.0"}}'
+    body: '{"location":"eastus","name":"asotest-sqlserver-cruwix","properties":{"administratorLogin":"myadmin","administratorLoginPassword":"{PASSWORD}","version":"12.0"}}'
     form: {}
     headers:
       Accept:
@@ -77,13 +77,13 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix?api-version=2021-11-01
     method: PUT
   response:
     body: '{"operation":"UpsertLogicalServer","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/f47659c0-add0-4573-8646-1396829ca529?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/f47659c0-add0-4573-8646-1396829ca529?api-version=2021-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -93,7 +93,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/serverOperationResults/f47659c0-add0-4573-8646-1396829ca529?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/serverOperationResults/f47659c0-add0-4573-8646-1396829ca529?api-version=2021-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -113,7 +113,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/f47659c0-add0-4573-8646-1396829ca529?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/f47659c0-add0-4573-8646-1396829ca529?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"f47659c0-add0-4573-8646-1396829ca529","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -145,7 +145,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/f47659c0-add0-4573-8646-1396829ca529?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/f47659c0-add0-4573-8646-1396829ca529?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"f47659c0-add0-4573-8646-1396829ca529","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -177,7 +177,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/f47659c0-add0-4573-8646-1396829ca529?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/f47659c0-add0-4573-8646-1396829ca529?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"f47659c0-add0-4573-8646-1396829ca529","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -209,7 +209,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/f47659c0-add0-4573-8646-1396829ca529?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/f47659c0-add0-4573-8646-1396829ca529?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"f47659c0-add0-4573-8646-1396829ca529","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -241,7 +241,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/f47659c0-add0-4573-8646-1396829ca529?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/f47659c0-add0-4573-8646-1396829ca529?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"f47659c0-add0-4573-8646-1396829ca529","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -273,7 +273,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/f47659c0-add0-4573-8646-1396829ca529?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/f47659c0-add0-4573-8646-1396829ca529?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"f47659c0-add0-4573-8646-1396829ca529","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -305,7 +305,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "6"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/f47659c0-add0-4573-8646-1396829ca529?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/f47659c0-add0-4573-8646-1396829ca529?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"f47659c0-add0-4573-8646-1396829ca529","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
@@ -337,10 +337,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix?api-version=2021-11-01
     method: GET
   response:
-    body: '{"kind":"v12.0","properties":{"administratorLogin":"myadmin","version":"12.0","state":"Ready","fullyQualifiedDomainName":"asotest-sqlserver-mtsojo.database.windows.net","privateEndpointConnections":[],"minimalTlsVersion":"None","publicNetworkAccess":"Enabled","restrictOutboundNetworkAccess":"Disabled"},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo","name":"asotest-sqlserver-mtsojo","type":"Microsoft.Sql/servers"}'
+    body: '{"kind":"v12.0","properties":{"administratorLogin":"myadmin","version":"12.0","state":"Ready","fullyQualifiedDomainName":"asotest-sqlserver-cruwix.database.windows.net","privateEndpointConnections":[],"minimalTlsVersion":"None","publicNetworkAccess":"Enabled","restrictOutboundNetworkAccess":"Disabled"},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix","name":"asotest-sqlserver-cruwix","type":"Microsoft.Sql/servers"}'
     headers:
       Cache-Control:
       - no-cache
@@ -369,10 +369,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix?api-version=2021-11-01
     method: GET
   response:
-    body: '{"kind":"v12.0","properties":{"administratorLogin":"myadmin","version":"12.0","state":"Ready","fullyQualifiedDomainName":"asotest-sqlserver-mtsojo.database.windows.net","privateEndpointConnections":[],"minimalTlsVersion":"None","publicNetworkAccess":"Enabled","restrictOutboundNetworkAccess":"Disabled"},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo","name":"asotest-sqlserver-mtsojo","type":"Microsoft.Sql/servers"}'
+    body: '{"kind":"v12.0","properties":{"administratorLogin":"myadmin","version":"12.0","state":"Ready","fullyQualifiedDomainName":"asotest-sqlserver-cruwix.database.windows.net","privateEndpointConnections":[],"minimalTlsVersion":"None","publicNetworkAccess":"Enabled","restrictOutboundNetworkAccess":"Disabled"},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix","name":"asotest-sqlserver-cruwix","type":"Microsoft.Sql/servers"}'
     headers:
       Cache-Control:
       - no-cache
@@ -394,7 +394,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"kind":"StorageV2","location":"eastus","name":"asoteststorvupbxd","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"tags":null}'
+    body: '{"kind":"StorageV2","location":"eastus","name":"asoteststordrufmq","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"tags":null}'
     form: {}
     headers:
       Accept:
@@ -405,7 +405,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Storage/storageAccounts/asoteststorvupbxd?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Storage/storageAccounts/asoteststordrufmq?api-version=2021-04-01
     method: PUT
   response:
     body: ""
@@ -476,7 +476,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/eastus/asyncoperations/48d94367-57b7-4a86-8b3a-341492115f49?monitor=true&api-version=2021-04-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"kind":"StorageV2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Storage/storageAccounts/asoteststorvupbxd","name":"asoteststorvupbxd","type":"Microsoft.Storage/storageAccounts","location":"eastus","tags":{},"properties":{"keyCreationTime":{"key1":"2001-02-03T04:05:06Z","key2":"2001-02-03T04:05:06Z"},"privateEndpointConnections":[],"networkAcls":{"bypass":"AzureServices","virtualNetworkRules":[],"ipRules":[],"defaultAction":"Allow"},"supportsHttpsTrafficOnly":true,"encryption":{"services":{"file":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"},"blob":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"}},"keySource":"Microsoft.Storage"},"accessTier":"Hot","provisioningState":"Succeeded","creationTime":"2001-02-03T04:05:06Z","primaryEndpoints":{"dfs":"https://asoteststorvupbxd.dfs.core.windows.net/","web":"https://asoteststorvupbxd.z13.web.core.windows.net/","blob":"https://asoteststorvupbxd.blob.core.windows.net/","queue":"https://asoteststorvupbxd.queue.core.windows.net/","table":"https://asoteststorvupbxd.table.core.windows.net/","file":"https://asoteststorvupbxd.file.core.windows.net/"},"primaryLocation":"eastus","statusOfPrimary":"available"}}'
+    body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"kind":"StorageV2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Storage/storageAccounts/asoteststordrufmq","name":"asoteststordrufmq","type":"Microsoft.Storage/storageAccounts","location":"eastus","tags":{},"properties":{"keyCreationTime":{"key1":"2001-02-03T04:05:06Z","key2":"2001-02-03T04:05:06Z"},"privateEndpointConnections":[],"networkAcls":{"bypass":"AzureServices","virtualNetworkRules":[],"ipRules":[],"defaultAction":"Allow"},"supportsHttpsTrafficOnly":true,"encryption":{"services":{"file":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"},"blob":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"}},"keySource":"Microsoft.Storage"},"accessTier":"Hot","provisioningState":"Succeeded","creationTime":"2001-02-03T04:05:06Z","primaryEndpoints":{"dfs":"https://asoteststordrufmq.dfs.core.windows.net/","web":"https://asoteststordrufmq.z13.web.core.windows.net/","blob":"https://asoteststordrufmq.blob.core.windows.net/","queue":"https://asoteststordrufmq.queue.core.windows.net/","table":"https://asoteststordrufmq.table.core.windows.net/","file":"https://asoteststordrufmq.file.core.windows.net/"},"primaryLocation":"eastus","statusOfPrimary":"available"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -505,10 +505,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Storage/storageAccounts/asoteststorvupbxd?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Storage/storageAccounts/asoteststordrufmq?api-version=2021-04-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"kind":"StorageV2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Storage/storageAccounts/asoteststorvupbxd","name":"asoteststorvupbxd","type":"Microsoft.Storage/storageAccounts","location":"eastus","tags":{},"properties":{"keyCreationTime":{"key1":"2001-02-03T04:05:06Z","key2":"2001-02-03T04:05:06Z"},"privateEndpointConnections":[],"networkAcls":{"bypass":"AzureServices","virtualNetworkRules":[],"ipRules":[],"defaultAction":"Allow"},"supportsHttpsTrafficOnly":true,"encryption":{"services":{"file":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"},"blob":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"}},"keySource":"Microsoft.Storage"},"accessTier":"Hot","provisioningState":"Succeeded","creationTime":"2001-02-03T04:05:06Z","primaryEndpoints":{"dfs":"https://asoteststorvupbxd.dfs.core.windows.net/","web":"https://asoteststorvupbxd.z13.web.core.windows.net/","blob":"https://asoteststorvupbxd.blob.core.windows.net/","queue":"https://asoteststorvupbxd.queue.core.windows.net/","table":"https://asoteststorvupbxd.table.core.windows.net/","file":"https://asoteststorvupbxd.file.core.windows.net/"},"primaryLocation":"eastus","statusOfPrimary":"available"}}'
+    body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"kind":"StorageV2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Storage/storageAccounts/asoteststordrufmq","name":"asoteststordrufmq","type":"Microsoft.Storage/storageAccounts","location":"eastus","tags":{},"properties":{"keyCreationTime":{"key1":"2001-02-03T04:05:06Z","key2":"2001-02-03T04:05:06Z"},"privateEndpointConnections":[],"networkAcls":{"bypass":"AzureServices","virtualNetworkRules":[],"ipRules":[],"defaultAction":"Allow"},"supportsHttpsTrafficOnly":true,"encryption":{"services":{"file":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"},"blob":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"}},"keySource":"Microsoft.Storage"},"accessTier":"Hot","provisioningState":"Succeeded","creationTime":"2001-02-03T04:05:06Z","primaryEndpoints":{"dfs":"https://asoteststordrufmq.dfs.core.windows.net/","web":"https://asoteststordrufmq.z13.web.core.windows.net/","blob":"https://asoteststordrufmq.blob.core.windows.net/","queue":"https://asoteststordrufmq.queue.core.windows.net/","table":"https://asoteststordrufmq.table.core.windows.net/","file":"https://asoteststordrufmq.file.core.windows.net/"},"primaryLocation":"eastus","statusOfPrimary":"available"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -537,7 +537,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Storage/storageAccounts/asoteststorvupbxd/listKeys?api-version=2023-05-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Storage/storageAccounts/asoteststordrufmq/listKeys?api-version=2023-05-01
     method: POST
   response:
     body: '{"keys":[{"creationTime":"2001-02-03T04:05:06Z","keyName":"key1","value":"{KEY}","permissions":"FULL"},{"creationTime":"2001-02-03T04:05:06Z","keyName":"key2","value":"{KEY}","permissions":"FULL"}]}'
@@ -575,7 +575,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Storage/storageAccounts/asoteststorvupbxd/blobServices/default?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Storage/storageAccounts/asoteststordrufmq/blobServices/default?api-version=2021-04-01
     method: PUT
   response:
     body: '{"name":"default"}'
@@ -607,10 +607,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Storage/storageAccounts/asoteststorvupbxd/blobServices/default?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Storage/storageAccounts/asoteststordrufmq/blobServices/default?api-version=2021-04-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Storage/storageAccounts/asoteststorvupbxd/blobServices/default","name":"default","type":"Microsoft.Storage/storageAccounts/blobServices","properties":{"cors":{"corsRules":[]},"deleteRetentionPolicy":{"allowPermanentDelete":false,"enabled":false}}}'
+    body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Storage/storageAccounts/asoteststordrufmq/blobServices/default","name":"default","type":"Microsoft.Storage/storageAccounts/blobServices","properties":{"cors":{"corsRules":[]},"deleteRetentionPolicy":{"allowPermanentDelete":false,"enabled":false}}}'
     headers:
       Cache-Control:
       - no-cache
@@ -643,10 +643,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Storage/storageAccounts/asoteststorvupbxd/blobServices/default/containers/vulnerabilityassessments?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Storage/storageAccounts/asoteststordrufmq/blobServices/default/containers/vulnerabilityassessments?api-version=2021-04-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Storage/storageAccounts/asoteststorvupbxd/blobServices/default/containers/vulnerabilityassessments","name":"vulnerabilityassessments","type":"Microsoft.Storage/storageAccounts/blobServices/containers"}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Storage/storageAccounts/asoteststordrufmq/blobServices/default/containers/vulnerabilityassessments","name":"vulnerabilityassessments","type":"Microsoft.Storage/storageAccounts/blobServices/containers"}'
     headers:
       Cache-Control:
       - no-cache
@@ -675,10 +675,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Storage/storageAccounts/asoteststorvupbxd/blobServices/default/containers/vulnerabilityassessments?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Storage/storageAccounts/asoteststordrufmq/blobServices/default/containers/vulnerabilityassessments?api-version=2021-04-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Storage/storageAccounts/asoteststorvupbxd/blobServices/default/containers/vulnerabilityassessments","name":"vulnerabilityassessments","type":"Microsoft.Storage/storageAccounts/blobServices/containers","etag":"\"0x8DB7E9194229132\"","properties":{"deleted":false,"remainingRetentionDays":0,"defaultEncryptionScope":"$account-encryption-key","denyEncryptionScopeOverride":false,"publicAccess":"None","leaseStatus":"Unlocked","leaseState":"Available","lastModifiedTime":"2001-02-03T04:05:06Z","legalHold":{"hasLegalHold":false,"tags":[]},"hasImmutabilityPolicy":false,"hasLegalHold":false}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Storage/storageAccounts/asoteststordrufmq/blobServices/default/containers/vulnerabilityassessments","name":"vulnerabilityassessments","type":"Microsoft.Storage/storageAccounts/blobServices/containers","etag":"\"0x8DB7E9194229132\"","properties":{"deleted":false,"remainingRetentionDays":0,"defaultEncryptionScope":"$account-encryption-key","denyEncryptionScopeOverride":false,"publicAccess":"None","leaseStatus":"Unlocked","leaseState":"Available","lastModifiedTime":"2001-02-03T04:05:06Z","legalHold":{"hasLegalHold":false,"tags":[]},"hasImmutabilityPolicy":false,"hasLegalHold":false}}'
     headers:
       Cache-Control:
       - no-cache
@@ -709,10 +709,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Storage/storageAccounts/asoteststorvupbxd/blobServices/default/containers/vulnerabilityassessments?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Storage/storageAccounts/asoteststordrufmq/blobServices/default/containers/vulnerabilityassessments?api-version=2021-04-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Storage/storageAccounts/asoteststorvupbxd/blobServices/default/containers/vulnerabilityassessments","name":"vulnerabilityassessments","type":"Microsoft.Storage/storageAccounts/blobServices/containers","etag":"\"0x8DB7E9194229132\"","properties":{"deleted":false,"remainingRetentionDays":0,"defaultEncryptionScope":"$account-encryption-key","denyEncryptionScopeOverride":false,"publicAccess":"None","leaseStatus":"Unlocked","leaseState":"Available","lastModifiedTime":"2001-02-03T04:05:06Z","legalHold":{"hasLegalHold":false,"tags":[]},"hasImmutabilityPolicy":false,"hasLegalHold":false}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Storage/storageAccounts/asoteststordrufmq/blobServices/default/containers/vulnerabilityassessments","name":"vulnerabilityassessments","type":"Microsoft.Storage/storageAccounts/blobServices/containers","etag":"\"0x8DB7E9194229132\"","properties":{"deleted":false,"remainingRetentionDays":0,"defaultEncryptionScope":"$account-encryption-key","denyEncryptionScopeOverride":false,"publicAccess":"None","leaseStatus":"Unlocked","leaseState":"Available","lastModifiedTime":"2001-02-03T04:05:06Z","legalHold":{"hasLegalHold":false,"tags":[]},"hasImmutabilityPolicy":false,"hasLegalHold":false}}'
     headers:
       Cache-Control:
       - no-cache
@@ -743,11 +743,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis?api-version=2020-11-01
     method: GET
   response:
     body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Network/virtualNetworks/asotest-vn-gsaxis''
-      under resource group ''asotest-rg-fucqkw'' was not found. For more details please
+      under resource group ''asotest-rg-sknkak'' was not found. For more details please
       go to https://aka.ms/ARMResourceNotFoundFix"}}'
     headers:
       Cache-Control:
@@ -770,7 +770,7 @@ interactions:
     code: 404
     duration: ""
 - request:
-    body: '{"name":"default","properties":{"state":"Enabled","storageAccountAccessKey":"{KEY}","storageAccountSubscriptionId":"00000000-0000-0000-0000-000000000000","storageEndpoint":"https://asoteststorvupbxd.blob.core.windows.net/"}}'
+    body: '{"name":"default","properties":{"state":"Enabled","storageAccountAccessKey":"{KEY}","storageAccountSubscriptionId":"00000000-0000-0000-0000-000000000000","storageEndpoint":"https://asoteststordrufmq.blob.core.windows.net/"}}'
     form: {}
     headers:
       Accept:
@@ -781,7 +781,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/auditingSettings/default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/auditingSettings/default?api-version=2021-11-01
     method: PUT
   response:
     body: '{"operation":"UpsertServerEngineAuditingPolicy","startTime":"2001-02-03T04:05:06Z"}'
@@ -823,7 +823,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/securityAlertPolicies/Default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/securityAlertPolicies/Default?api-version=2021-11-01
     method: PUT
   response:
     body: '{"operation":"UpsertServerThreatDetectionPolicy","startTime":"2001-02-03T04:05:06Z"}'
@@ -865,10 +865,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/ipv6FirewallRules/asotest-firewall-cskfjr?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/ipv6FirewallRules/asotest-firewall-cskfjr?api-version=2021-11-01
     method: PUT
   response:
-    body: '{"properties":{"startIPv6Address":"2001:db8::","endIPv6Address":"2001:db8:0000:0000:0000:0000:00ff:ffff"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/ipv6FirewallRules/asotest-firewall-cskfjr","name":"asotest-firewall-cskfjr","type":"Microsoft.Sql/servers/ipv6FirewallRules"}'
+    body: '{"properties":{"startIPv6Address":"2001:db8::","endIPv6Address":"2001:db8:0000:0000:0000:0000:00ff:ffff"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/ipv6FirewallRules/asotest-firewall-cskfjr","name":"asotest-firewall-cskfjr","type":"Microsoft.Sql/servers/ipv6FirewallRules"}'
     headers:
       Cache-Control:
       - no-cache
@@ -901,13 +901,13 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp?api-version=2021-11-01
     method: PUT
   response:
     body: '{"operation":"CreateLogicalDatabase","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/e367e2bc-a402-4576-b7c0-e649fbe2b8b3?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/e367e2bc-a402-4576-b7c0-e649fbe2b8b3?api-version=2021-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -917,7 +917,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/databaseOperationResults/e367e2bc-a402-4576-b7c0-e649fbe2b8b3?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/databaseOperationResults/e367e2bc-a402-4576-b7c0-e649fbe2b8b3?api-version=2021-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -943,13 +943,13 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/elasticPools/asotest-pool-dqziht?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/elasticPools/asotest-pool-dqziht?api-version=2021-11-01
     method: PUT
   response:
     body: '{"operation":"CreateLogicalElasticPool","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/elasticPoolAzureAsyncOperation/c25f0aa9-2de4-4a25-831f-7b3c690fe735?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/elasticPoolAzureAsyncOperation/c25f0aa9-2de4-4a25-831f-7b3c690fe735?api-version=2021-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -959,7 +959,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/elasticPoolOperationResults/c25f0aa9-2de4-4a25-831f-7b3c690fe735?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/elasticPoolOperationResults/c25f0aa9-2de4-4a25-831f-7b3c690fe735?api-version=2021-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -981,10 +981,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/ipv6FirewallRules/asotest-firewall-cskfjr?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/ipv6FirewallRules/asotest-firewall-cskfjr?api-version=2021-11-01
     method: GET
   response:
-    body: '{"properties":{"startIPv6Address":"2001:db8::","endIPv6Address":"2001:db8:0000:0000:0000:0000:00ff:ffff"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/ipv6FirewallRules/asotest-firewall-cskfjr","name":"asotest-firewall-cskfjr","type":"Microsoft.Sql/servers/ipv6FirewallRules"}'
+    body: '{"properties":{"startIPv6Address":"2001:db8::","endIPv6Address":"2001:db8:0000:0000:0000:0000:00ff:ffff"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/ipv6FirewallRules/asotest-firewall-cskfjr","name":"asotest-firewall-cskfjr","type":"Microsoft.Sql/servers/ipv6FirewallRules"}'
     headers:
       Cache-Control:
       - no-cache
@@ -1017,10 +1017,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis?api-version=2020-11-01
     method: PUT
   response:
-    body: "{\r\n  \"name\": \"asotest-vn-gsaxis\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis\",\r\n
+    body: "{\r\n  \"name\": \"asotest-vn-gsaxis\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis\",\r\n
       \ \"etag\": \"W/\\\"699f47ff-ff93-494a-b870-c0fcb1f464c8\\\"\",\r\n  \"type\":
       \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"eastus\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"69d76c7b-168d-4466-ba62-5174918a72b5\",\r\n
@@ -1120,10 +1120,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/securityAlertPolicies/Default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/securityAlertPolicies/Default?api-version=2021-11-01
     method: GET
   response:
-    body: '{"properties":{"state":"Enabled","disabledAlerts":[""],"emailAddresses":[""],"emailAccountAdmins":false,"storageEndpoint":"","storageAccountAccessKey":"","retentionDays":0,"creationTime":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/securityAlertPolicies/Default","name":"Default","type":"Microsoft.Sql/servers/securityAlertPolicies"}'
+    body: '{"properties":{"state":"Enabled","disabledAlerts":[""],"emailAddresses":[""],"emailAccountAdmins":false,"storageEndpoint":"","storageAccountAccessKey":"","retentionDays":0,"creationTime":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/securityAlertPolicies/Default","name":"Default","type":"Microsoft.Sql/servers/securityAlertPolicies"}'
     headers:
       Cache-Control:
       - no-cache
@@ -1150,7 +1150,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/e367e2bc-a402-4576-b7c0-e649fbe2b8b3?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/e367e2bc-a402-4576-b7c0-e649fbe2b8b3?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"e367e2bc-a402-4576-b7c0-e649fbe2b8b3","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -1182,7 +1182,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/elasticPoolAzureAsyncOperation/c25f0aa9-2de4-4a25-831f-7b3c690fe735?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/elasticPoolAzureAsyncOperation/c25f0aa9-2de4-4a25-831f-7b3c690fe735?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"c25f0aa9-2de4-4a25-831f-7b3c690fe735","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -1216,10 +1216,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/securityAlertPolicies/Default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/securityAlertPolicies/Default?api-version=2021-11-01
     method: GET
   response:
-    body: '{"properties":{"state":"Enabled","disabledAlerts":[""],"emailAddresses":[""],"emailAccountAdmins":false,"storageEndpoint":"","storageAccountAccessKey":"","retentionDays":0,"creationTime":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/securityAlertPolicies/Default","name":"Default","type":"Microsoft.Sql/servers/securityAlertPolicies"}'
+    body: '{"properties":{"state":"Enabled","disabledAlerts":[""],"emailAddresses":[""],"emailAccountAdmins":false,"storageEndpoint":"","storageAccountAccessKey":"","retentionDays":0,"creationTime":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/securityAlertPolicies/Default","name":"Default","type":"Microsoft.Sql/servers/securityAlertPolicies"}'
     headers:
       Cache-Control:
       - no-cache
@@ -1277,10 +1277,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis?api-version=2020-11-01
     method: GET
   response:
-    body: "{\r\n  \"name\": \"asotest-vn-gsaxis\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis\",\r\n
+    body: "{\r\n  \"name\": \"asotest-vn-gsaxis\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis\",\r\n
       \ \"etag\": \"W/\\\"1a4bbe17-f102-4766-9e62-b4e5ada4d863\\\"\",\r\n  \"type\":
       \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"eastus\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"69d76c7b-168d-4466-ba62-5174918a72b5\",\r\n
@@ -1318,10 +1318,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis?api-version=2020-11-01
     method: GET
   response:
-    body: "{\r\n  \"name\": \"asotest-vn-gsaxis\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis\",\r\n
+    body: "{\r\n  \"name\": \"asotest-vn-gsaxis\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis\",\r\n
       \ \"etag\": \"W/\\\"1a4bbe17-f102-4766-9e62-b4e5ada4d863\\\"\",\r\n  \"type\":
       \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"eastus\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"69d76c7b-168d-4466-ba62-5174918a72b5\",\r\n
@@ -1387,10 +1387,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/auditingSettings/default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/auditingSettings/default?api-version=2021-11-01
     method: GET
   response:
-    body: '{"properties":{"retentionDays":0,"auditActionsAndGroups":["SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP","FAILED_DATABASE_AUTHENTICATION_GROUP","BATCH_COMPLETED_GROUP"],"isStorageSecondaryKeyInUse":false,"isAzureMonitorTargetEnabled":false,"isManagedIdentityInUse":false,"state":"Enabled","storageEndpoint":"https://asoteststorvupbxd.blob.core.windows.net/","storageAccountSubscriptionId":"00000000-0000-0000-0000-000000000000"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/auditingSettings/Default","name":"Default","type":"Microsoft.Sql/servers/auditingSettings"}'
+    body: '{"properties":{"retentionDays":0,"auditActionsAndGroups":["SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP","FAILED_DATABASE_AUTHENTICATION_GROUP","BATCH_COMPLETED_GROUP"],"isStorageSecondaryKeyInUse":false,"isAzureMonitorTargetEnabled":false,"isManagedIdentityInUse":false,"state":"Enabled","storageEndpoint":"https://asoteststordrufmq.blob.core.windows.net/","storageAccountSubscriptionId":"00000000-0000-0000-0000-000000000000"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/auditingSettings/Default","name":"Default","type":"Microsoft.Sql/servers/auditingSettings"}'
     headers:
       Cache-Control:
       - no-cache
@@ -1419,10 +1419,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/auditingSettings/default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/auditingSettings/default?api-version=2021-11-01
     method: GET
   response:
-    body: '{"properties":{"retentionDays":0,"auditActionsAndGroups":["SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP","FAILED_DATABASE_AUTHENTICATION_GROUP","BATCH_COMPLETED_GROUP"],"isStorageSecondaryKeyInUse":false,"isAzureMonitorTargetEnabled":false,"isManagedIdentityInUse":false,"state":"Enabled","storageEndpoint":"https://asoteststorvupbxd.blob.core.windows.net/","storageAccountSubscriptionId":"00000000-0000-0000-0000-000000000000"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/auditingSettings/Default","name":"Default","type":"Microsoft.Sql/servers/auditingSettings"}'
+    body: '{"properties":{"retentionDays":0,"auditActionsAndGroups":["SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP","FAILED_DATABASE_AUTHENTICATION_GROUP","BATCH_COMPLETED_GROUP"],"isStorageSecondaryKeyInUse":false,"isAzureMonitorTargetEnabled":false,"isManagedIdentityInUse":false,"state":"Enabled","storageEndpoint":"https://asoteststordrufmq.blob.core.windows.net/","storageAccountSubscriptionId":"00000000-0000-0000-0000-000000000000"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/auditingSettings/Default","name":"Default","type":"Microsoft.Sql/servers/auditingSettings"}'
     headers:
       Cache-Control:
       - no-cache
@@ -1444,7 +1444,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"default","properties":{"recurringScans":{"isEnabled":false},"storageAccountAccessKey":"{KEY}","storageContainerPath":"https://asoteststorvupbxd.blob.core.windows.net/vulnerabilityassessments"}}'
+    body: '{"name":"default","properties":{"recurringScans":{"isEnabled":false},"storageAccountAccessKey":"{KEY}","storageContainerPath":"https://asoteststordrufmq.blob.core.windows.net/vulnerabilityassessments"}}'
     form: {}
     headers:
       Accept:
@@ -1455,10 +1455,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/vulnerabilityAssessments/default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/vulnerabilityAssessments/default?api-version=2021-11-01
     method: PUT
   response:
-    body: '{"properties":{"storageContainerPath":"https://asoteststorvupbxd.blob.core.windows.net/vulnerabilityassessments/","recurringScans":{"isEnabled":false,"emailSubscriptionAdmins":true}},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/vulnerabilityAssessments/Default","name":"Default","type":"Microsoft.Sql/servers/vulnerabilityAssessments"}'
+    body: '{"properties":{"storageContainerPath":"https://asoteststordrufmq.blob.core.windows.net/vulnerabilityassessments/","recurringScans":{"isEnabled":false,"emailSubscriptionAdmins":true}},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/vulnerabilityAssessments/Default","name":"Default","type":"Microsoft.Sql/servers/vulnerabilityAssessments"}'
     headers:
       Cache-Control:
       - no-cache
@@ -1487,7 +1487,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/ipv6FirewallRules/asotest-firewall-cskfjr?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/ipv6FirewallRules/asotest-firewall-cskfjr?api-version=2021-11-01
     method: DELETE
   response:
     body: ""
@@ -1515,10 +1515,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/vulnerabilityAssessments/default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/vulnerabilityAssessments/default?api-version=2021-11-01
     method: GET
   response:
-    body: '{"properties":{"storageContainerPath":"https://asoteststorvupbxd.blob.core.windows.net/vulnerabilityassessments/","recurringScans":{"isEnabled":false,"emailSubscriptionAdmins":true,"emails":[]}},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/vulnerabilityAssessments/Default","name":"Default","type":"Microsoft.Sql/servers/vulnerabilityAssessments"}'
+    body: '{"properties":{"storageContainerPath":"https://asoteststordrufmq.blob.core.windows.net/vulnerabilityassessments/","recurringScans":{"isEnabled":false,"emailSubscriptionAdmins":true,"emails":[]}},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/vulnerabilityAssessments/Default","name":"Default","type":"Microsoft.Sql/servers/vulnerabilityAssessments"}'
     headers:
       Cache-Control:
       - no-cache
@@ -1547,10 +1547,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/vulnerabilityAssessments/default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/vulnerabilityAssessments/default?api-version=2021-11-01
     method: GET
   response:
-    body: '{"properties":{"storageContainerPath":"https://asoteststorvupbxd.blob.core.windows.net/vulnerabilityassessments/","recurringScans":{"isEnabled":false,"emailSubscriptionAdmins":true,"emails":[]}},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/vulnerabilityAssessments/Default","name":"Default","type":"Microsoft.Sql/servers/vulnerabilityAssessments"}'
+    body: '{"properties":{"storageContainerPath":"https://asoteststordrufmq.blob.core.windows.net/vulnerabilityassessments/","recurringScans":{"isEnabled":false,"emailSubscriptionAdmins":true,"emails":[]}},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/vulnerabilityAssessments/Default","name":"Default","type":"Microsoft.Sql/servers/vulnerabilityAssessments"}'
     headers:
       Cache-Control:
       - no-cache
@@ -1583,10 +1583,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis/subnets/asotest-subnet-qmdxpo?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis/subnets/asotest-subnet-qmdxpo?api-version=2020-11-01
     method: PUT
   response:
-    body: "{\r\n  \"name\": \"asotest-subnet-qmdxpo\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis/subnets/asotest-subnet-qmdxpo\",\r\n
+    body: "{\r\n  \"name\": \"asotest-subnet-qmdxpo\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis/subnets/asotest-subnet-qmdxpo\",\r\n
       \ \"etag\": \"W/\\\"a545a3a6-7056-450a-bb4a-96b2823edb56\\\"\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Updating\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
       \   \"serviceEndpoints\": [\r\n      {\r\n        \"provisioningState\": \"Updating\",\r\n
@@ -1662,7 +1662,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/ipv6FirewallRules/asotest-firewall-cskfjr?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/ipv6FirewallRules/asotest-firewall-cskfjr?api-version=2021-11-01
     method: GET
   response:
     body: '{"error":{"code":"ResourceNotFound","message":"The requested resource of
@@ -1696,7 +1696,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/vulnerabilityAssessments/default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/vulnerabilityAssessments/default?api-version=2021-11-01
     method: DELETE
   response:
     body: ""
@@ -1730,13 +1730,13 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/outboundFirewallRules/server.database.windows.net?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/outboundFirewallRules/server.database.windows.net?api-version=2021-11-01
     method: PUT
   response:
     body: '{"operation":"CreateLogicalServerOutboundFirewallRule","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/b930158d-843c-49a5-88ac-ab5d126dc8e1?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/b930158d-843c-49a5-88ac-ab5d126dc8e1?api-version=2021-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -1746,7 +1746,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesOperationResults/b930158d-843c-49a5-88ac-ab5d126dc8e1?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesOperationResults/b930158d-843c-49a5-88ac-ab5d126dc8e1?api-version=2021-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -1766,7 +1766,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/b930158d-843c-49a5-88ac-ab5d126dc8e1?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/b930158d-843c-49a5-88ac-ab5d126dc8e1?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"b930158d-843c-49a5-88ac-ab5d126dc8e1","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -1798,7 +1798,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/elasticPoolAzureAsyncOperation/c25f0aa9-2de4-4a25-831f-7b3c690fe735?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/elasticPoolAzureAsyncOperation/c25f0aa9-2de4-4a25-831f-7b3c690fe735?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"c25f0aa9-2de4-4a25-831f-7b3c690fe735","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -1830,7 +1830,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/b930158d-843c-49a5-88ac-ab5d126dc8e1?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/b930158d-843c-49a5-88ac-ab5d126dc8e1?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"b930158d-843c-49a5-88ac-ab5d126dc8e1","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -1893,10 +1893,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis/subnets/asotest-subnet-qmdxpo?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis/subnets/asotest-subnet-qmdxpo?api-version=2020-11-01
     method: GET
   response:
-    body: "{\r\n  \"name\": \"asotest-subnet-qmdxpo\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis/subnets/asotest-subnet-qmdxpo\",\r\n
+    body: "{\r\n  \"name\": \"asotest-subnet-qmdxpo\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis/subnets/asotest-subnet-qmdxpo\",\r\n
       \ \"etag\": \"W/\\\"70f49e6a-6efe-420c-93b2-bd3fbfc19b9b\\\"\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
       \   \"serviceEndpoints\": [\r\n      {\r\n        \"provisioningState\": \"Succeeded\",\r\n
@@ -1933,7 +1933,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/e367e2bc-a402-4576-b7c0-e649fbe2b8b3?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/e367e2bc-a402-4576-b7c0-e649fbe2b8b3?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"e367e2bc-a402-4576-b7c0-e649fbe2b8b3","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -1967,10 +1967,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis/subnets/asotest-subnet-qmdxpo?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis/subnets/asotest-subnet-qmdxpo?api-version=2020-11-01
     method: GET
   response:
-    body: "{\r\n  \"name\": \"asotest-subnet-qmdxpo\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis/subnets/asotest-subnet-qmdxpo\",\r\n
+    body: "{\r\n  \"name\": \"asotest-subnet-qmdxpo\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis/subnets/asotest-subnet-qmdxpo\",\r\n
       \ \"etag\": \"W/\\\"70f49e6a-6efe-420c-93b2-bd3fbfc19b9b\\\"\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
       \   \"serviceEndpoints\": [\r\n      {\r\n        \"provisioningState\": \"Succeeded\",\r\n
@@ -2002,7 +2002,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"asotest-pool-zxajlu","properties":{"virtualNetworkSubnetId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis/subnets/asotest-subnet-qmdxpo"}}'
+    body: '{"name":"asotest-pool-zxajlu","properties":{"virtualNetworkSubnetId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis/subnets/asotest-subnet-qmdxpo"}}'
     form: {}
     headers:
       Accept:
@@ -2013,13 +2013,13 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/virtualNetworkRules/asotest-pool-zxajlu?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/virtualNetworkRules/asotest-pool-zxajlu?api-version=2021-11-01
     method: PUT
   response:
     body: '{"operation":"UpsertVnetFirewallRule","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/virtualNetworkRulesAzureAsyncOperation/e8b7fa06-f776-47e5-be15-995b0e14ffa9?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/virtualNetworkRulesAzureAsyncOperation/e8b7fa06-f776-47e5-be15-995b0e14ffa9?api-version=2021-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -2029,7 +2029,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/virtualNetworkRulesOperationResults/e8b7fa06-f776-47e5-be15-995b0e14ffa9?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/virtualNetworkRulesOperationResults/e8b7fa06-f776-47e5-be15-995b0e14ffa9?api-version=2021-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -2049,7 +2049,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/virtualNetworkRulesAzureAsyncOperation/e8b7fa06-f776-47e5-be15-995b0e14ffa9?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/virtualNetworkRulesAzureAsyncOperation/e8b7fa06-f776-47e5-be15-995b0e14ffa9?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"e8b7fa06-f776-47e5-be15-995b0e14ffa9","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
@@ -2081,7 +2081,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/b930158d-843c-49a5-88ac-ab5d126dc8e1?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/b930158d-843c-49a5-88ac-ab5d126dc8e1?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"b930158d-843c-49a5-88ac-ab5d126dc8e1","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -2113,10 +2113,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/virtualNetworkRules/asotest-pool-zxajlu?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/virtualNetworkRules/asotest-pool-zxajlu?api-version=2021-11-01
     method: GET
   response:
-    body: '{"properties":{"virtualNetworkSubnetId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis/subnets/asotest-subnet-qmdxpo","ignoreMissingVnetServiceEndpoint":false,"state":"Ready"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/virtualNetworkRules/asotest-pool-zxajlu","name":"asotest-pool-zxajlu","type":"Microsoft.Sql/servers/virtualNetworkRules"}'
+    body: '{"properties":{"virtualNetworkSubnetId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis/subnets/asotest-subnet-qmdxpo","ignoreMissingVnetServiceEndpoint":false,"state":"Ready"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/virtualNetworkRules/asotest-pool-zxajlu","name":"asotest-pool-zxajlu","type":"Microsoft.Sql/servers/virtualNetworkRules"}'
     headers:
       Cache-Control:
       - no-cache
@@ -2145,10 +2145,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/virtualNetworkRules/asotest-pool-zxajlu?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/virtualNetworkRules/asotest-pool-zxajlu?api-version=2021-11-01
     method: GET
   response:
-    body: '{"properties":{"virtualNetworkSubnetId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis/subnets/asotest-subnet-qmdxpo","ignoreMissingVnetServiceEndpoint":false,"state":"Ready"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/virtualNetworkRules/asotest-pool-zxajlu","name":"asotest-pool-zxajlu","type":"Microsoft.Sql/servers/virtualNetworkRules"}'
+    body: '{"properties":{"virtualNetworkSubnetId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis/subnets/asotest-subnet-qmdxpo","ignoreMissingVnetServiceEndpoint":false,"state":"Ready"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/virtualNetworkRules/asotest-pool-zxajlu","name":"asotest-pool-zxajlu","type":"Microsoft.Sql/servers/virtualNetworkRules"}'
     headers:
       Cache-Control:
       - no-cache
@@ -2177,13 +2177,13 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/virtualNetworkRules/asotest-pool-zxajlu?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/virtualNetworkRules/asotest-pool-zxajlu?api-version=2021-11-01
     method: DELETE
   response:
     body: '{"operation":"DropVnetFirewallRule","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/virtualNetworkRulesAzureAsyncOperation/289c110d-6d0f-435b-ae8d-472a20a47fc5?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/virtualNetworkRulesAzureAsyncOperation/289c110d-6d0f-435b-ae8d-472a20a47fc5?api-version=2021-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -2193,7 +2193,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/virtualNetworkRulesOperationResults/289c110d-6d0f-435b-ae8d-472a20a47fc5?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/virtualNetworkRulesOperationResults/289c110d-6d0f-435b-ae8d-472a20a47fc5?api-version=2021-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -2213,7 +2213,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/b930158d-843c-49a5-88ac-ab5d126dc8e1?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/b930158d-843c-49a5-88ac-ab5d126dc8e1?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"b930158d-843c-49a5-88ac-ab5d126dc8e1","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -2245,7 +2245,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/elasticPoolAzureAsyncOperation/c25f0aa9-2de4-4a25-831f-7b3c690fe735?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/elasticPoolAzureAsyncOperation/c25f0aa9-2de4-4a25-831f-7b3c690fe735?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"c25f0aa9-2de4-4a25-831f-7b3c690fe735","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -2277,7 +2277,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/b930158d-843c-49a5-88ac-ab5d126dc8e1?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/b930158d-843c-49a5-88ac-ab5d126dc8e1?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"b930158d-843c-49a5-88ac-ab5d126dc8e1","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -2309,7 +2309,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/e367e2bc-a402-4576-b7c0-e649fbe2b8b3?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/e367e2bc-a402-4576-b7c0-e649fbe2b8b3?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"e367e2bc-a402-4576-b7c0-e649fbe2b8b3","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -2341,7 +2341,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/b930158d-843c-49a5-88ac-ab5d126dc8e1?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/b930158d-843c-49a5-88ac-ab5d126dc8e1?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"b930158d-843c-49a5-88ac-ab5d126dc8e1","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -2373,7 +2373,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/virtualNetworkRulesAzureAsyncOperation/289c110d-6d0f-435b-ae8d-472a20a47fc5?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/virtualNetworkRulesAzureAsyncOperation/289c110d-6d0f-435b-ae8d-472a20a47fc5?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"289c110d-6d0f-435b-ae8d-472a20a47fc5","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
@@ -2405,7 +2405,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "6"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/b930158d-843c-49a5-88ac-ab5d126dc8e1?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/b930158d-843c-49a5-88ac-ab5d126dc8e1?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"b930158d-843c-49a5-88ac-ab5d126dc8e1","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -2439,7 +2439,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/virtualNetworkRules/asotest-pool-zxajlu?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/virtualNetworkRules/asotest-pool-zxajlu?api-version=2021-11-01
     method: GET
   response:
     body: '{"error":{"code":"ResourceNotFound","message":"The requested resource of
@@ -2477,13 +2477,13 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/advancedThreatProtectionSettings/Default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/advancedThreatProtectionSettings/Default?api-version=2021-11-01
     method: PUT
   response:
     body: '{"operation":"UpsertServerThreatDetectionPolicy","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/advancedThreatProtectionAzureAsyncOperation/3a2edd1a-5b6c-4bb7-8b16-1072b71d8da2?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/advancedThreatProtectionAzureAsyncOperation/3a2edd1a-5b6c-4bb7-8b16-1072b71d8da2?api-version=2021-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -2493,7 +2493,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/advancedThreatProtectionOperationResults/3a2edd1a-5b6c-4bb7-8b16-1072b71d8da2?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/advancedThreatProtectionOperationResults/3a2edd1a-5b6c-4bb7-8b16-1072b71d8da2?api-version=2021-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -2513,7 +2513,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/advancedThreatProtectionAzureAsyncOperation/3a2edd1a-5b6c-4bb7-8b16-1072b71d8da2?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/advancedThreatProtectionAzureAsyncOperation/3a2edd1a-5b6c-4bb7-8b16-1072b71d8da2?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"3a2edd1a-5b6c-4bb7-8b16-1072b71d8da2","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -2543,7 +2543,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/elasticPoolAzureAsyncOperation/c25f0aa9-2de4-4a25-831f-7b3c690fe735?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/elasticPoolAzureAsyncOperation/c25f0aa9-2de4-4a25-831f-7b3c690fe735?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"c25f0aa9-2de4-4a25-831f-7b3c690fe735","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -2575,7 +2575,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/advancedThreatProtectionAzureAsyncOperation/3a2edd1a-5b6c-4bb7-8b16-1072b71d8da2?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/advancedThreatProtectionAzureAsyncOperation/3a2edd1a-5b6c-4bb7-8b16-1072b71d8da2?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"3a2edd1a-5b6c-4bb7-8b16-1072b71d8da2","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -2605,7 +2605,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "7"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/b930158d-843c-49a5-88ac-ab5d126dc8e1?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/b930158d-843c-49a5-88ac-ab5d126dc8e1?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"b930158d-843c-49a5-88ac-ab5d126dc8e1","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -2637,7 +2637,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/e367e2bc-a402-4576-b7c0-e649fbe2b8b3?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/e367e2bc-a402-4576-b7c0-e649fbe2b8b3?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"e367e2bc-a402-4576-b7c0-e649fbe2b8b3","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
@@ -2669,10 +2669,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp?api-version=2021-11-01
     method: GET
   response:
-    body: '{"sku":{"name":"GP_Gen5","tier":"GeneralPurpose","family":"Gen5","capacity":2},"kind":"v12.0,user,vcore","properties":{"collation":"SQL_Latin1_General_CP1_CI_AS","maxSizeBytes":34359738368,"status":"Online","databaseId":"c90fe7c6-4f73-4a13-b70e-e1e8e47d3e07","creationDate":"2001-02-03T04:05:06Z","currentServiceObjectiveName":"GP_Gen5_2","requestedServiceObjectiveName":"GP_Gen5_2","defaultSecondaryLocation":"westus","catalogCollation":"SQL_Latin1_General_CP1_CI_AS","zoneRedundant":false,"licenseType":"LicenseIncluded","maxLogSizeBytes":193273528320,"readScale":"Disabled","currentSku":{"name":"GP_Gen5","tier":"GeneralPurpose","family":"Gen5","capacity":2},"currentBackupStorageRedundancy":"Geo","requestedBackupStorageRedundancy":"Geo","maintenanceConfigurationId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default","isLedgerOn":false,"isInfraEncryptionEnabled":false},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp","name":"asotest-db-hnbpdp","type":"Microsoft.Sql/servers/databases"}'
+    body: '{"sku":{"name":"GP_Gen5","tier":"GeneralPurpose","family":"Gen5","capacity":2},"kind":"v12.0,user,vcore","properties":{"collation":"SQL_Latin1_General_CP1_CI_AS","maxSizeBytes":34359738368,"status":"Online","databaseId":"c90fe7c6-4f73-4a13-b70e-e1e8e47d3e07","creationDate":"2001-02-03T04:05:06Z","currentServiceObjectiveName":"GP_Gen5_2","requestedServiceObjectiveName":"GP_Gen5_2","defaultSecondaryLocation":"westus","catalogCollation":"SQL_Latin1_General_CP1_CI_AS","zoneRedundant":false,"licenseType":"LicenseIncluded","maxLogSizeBytes":193273528320,"readScale":"Disabled","currentSku":{"name":"GP_Gen5","tier":"GeneralPurpose","family":"Gen5","capacity":2},"currentBackupStorageRedundancy":"Geo","requestedBackupStorageRedundancy":"Geo","maintenanceConfigurationId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default","isLedgerOn":false,"isInfraEncryptionEnabled":false},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp","name":"asotest-db-hnbpdp","type":"Microsoft.Sql/servers/databases"}'
     headers:
       Cache-Control:
       - no-cache
@@ -2701,10 +2701,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp?api-version=2021-11-01
     method: GET
   response:
-    body: '{"sku":{"name":"GP_Gen5","tier":"GeneralPurpose","family":"Gen5","capacity":2},"kind":"v12.0,user,vcore","properties":{"collation":"SQL_Latin1_General_CP1_CI_AS","maxSizeBytes":34359738368,"status":"Online","databaseId":"c90fe7c6-4f73-4a13-b70e-e1e8e47d3e07","creationDate":"2001-02-03T04:05:06Z","currentServiceObjectiveName":"GP_Gen5_2","requestedServiceObjectiveName":"GP_Gen5_2","defaultSecondaryLocation":"westus","catalogCollation":"SQL_Latin1_General_CP1_CI_AS","zoneRedundant":false,"licenseType":"LicenseIncluded","maxLogSizeBytes":193273528320,"readScale":"Disabled","currentSku":{"name":"GP_Gen5","tier":"GeneralPurpose","family":"Gen5","capacity":2},"currentBackupStorageRedundancy":"Geo","requestedBackupStorageRedundancy":"Geo","maintenanceConfigurationId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default","isLedgerOn":false,"isInfraEncryptionEnabled":false},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp","name":"asotest-db-hnbpdp","type":"Microsoft.Sql/servers/databases"}'
+    body: '{"sku":{"name":"GP_Gen5","tier":"GeneralPurpose","family":"Gen5","capacity":2},"kind":"v12.0,user,vcore","properties":{"collation":"SQL_Latin1_General_CP1_CI_AS","maxSizeBytes":34359738368,"status":"Online","databaseId":"c90fe7c6-4f73-4a13-b70e-e1e8e47d3e07","creationDate":"2001-02-03T04:05:06Z","currentServiceObjectiveName":"GP_Gen5_2","requestedServiceObjectiveName":"GP_Gen5_2","defaultSecondaryLocation":"westus","catalogCollation":"SQL_Latin1_General_CP1_CI_AS","zoneRedundant":false,"licenseType":"LicenseIncluded","maxLogSizeBytes":193273528320,"readScale":"Disabled","currentSku":{"name":"GP_Gen5","tier":"GeneralPurpose","family":"Gen5","capacity":2},"currentBackupStorageRedundancy":"Geo","requestedBackupStorageRedundancy":"Geo","maintenanceConfigurationId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default","isLedgerOn":false,"isInfraEncryptionEnabled":false},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp","name":"asotest-db-hnbpdp","type":"Microsoft.Sql/servers/databases"}'
     headers:
       Cache-Control:
       - no-cache
@@ -2731,7 +2731,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/advancedThreatProtectionAzureAsyncOperation/3a2edd1a-5b6c-4bb7-8b16-1072b71d8da2?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/advancedThreatProtectionAzureAsyncOperation/3a2edd1a-5b6c-4bb7-8b16-1072b71d8da2?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"3a2edd1a-5b6c-4bb7-8b16-1072b71d8da2","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -2761,7 +2761,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "8"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/b930158d-843c-49a5-88ac-ab5d126dc8e1?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/b930158d-843c-49a5-88ac-ab5d126dc8e1?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"b930158d-843c-49a5-88ac-ab5d126dc8e1","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -2799,13 +2799,13 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp/backupLongTermRetentionPolicies/default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp/backupLongTermRetentionPolicies/default?api-version=2021-11-01
     method: PUT
   response:
     body: '{"operation":"UpsertDatabaseBackupArchivalPolicyV2","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/longTermRetentionPolicyAzureAsyncOperation/927de90d-ed1e-48ee-a7db-62792d203f0e?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/longTermRetentionPolicyAzureAsyncOperation/927de90d-ed1e-48ee-a7db-62792d203f0e?api-version=2021-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -2815,7 +2815,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/longTermRetentionPolicyOperationResults/927de90d-ed1e-48ee-a7db-62792d203f0e?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/longTermRetentionPolicyOperationResults/927de90d-ed1e-48ee-a7db-62792d203f0e?api-version=2021-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -2835,7 +2835,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/longTermRetentionPolicyAzureAsyncOperation/927de90d-ed1e-48ee-a7db-62792d203f0e?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/longTermRetentionPolicyAzureAsyncOperation/927de90d-ed1e-48ee-a7db-62792d203f0e?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"927de90d-ed1e-48ee-a7db-62792d203f0e","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -2867,7 +2867,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "9"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/b930158d-843c-49a5-88ac-ab5d126dc8e1?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/b930158d-843c-49a5-88ac-ab5d126dc8e1?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"b930158d-843c-49a5-88ac-ab5d126dc8e1","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -2899,7 +2899,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/advancedThreatProtectionAzureAsyncOperation/3a2edd1a-5b6c-4bb7-8b16-1072b71d8da2?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/advancedThreatProtectionAzureAsyncOperation/3a2edd1a-5b6c-4bb7-8b16-1072b71d8da2?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"3a2edd1a-5b6c-4bb7-8b16-1072b71d8da2","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
@@ -2929,10 +2929,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/advancedThreatProtectionSettings/Default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/advancedThreatProtectionSettings/Default?api-version=2021-11-01
     method: GET
   response:
-    body: '{"properties":{"state":"Enabled","creationTime":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/advancedThreatProtectionSettings/Default","name":"Default","type":"Microsoft.Sql/servers/advancedThreatProtectionSettings"}'
+    body: '{"properties":{"state":"Enabled","creationTime":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/advancedThreatProtectionSettings/Default","name":"Default","type":"Microsoft.Sql/servers/advancedThreatProtectionSettings"}'
     headers:
       Cache-Control:
       - no-cache
@@ -2961,10 +2961,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/advancedThreatProtectionSettings/Default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/advancedThreatProtectionSettings/Default?api-version=2021-11-01
     method: GET
   response:
-    body: '{"properties":{"state":"Enabled","creationTime":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/advancedThreatProtectionSettings/Default","name":"Default","type":"Microsoft.Sql/servers/advancedThreatProtectionSettings"}'
+    body: '{"properties":{"state":"Enabled","creationTime":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/advancedThreatProtectionSettings/Default","name":"Default","type":"Microsoft.Sql/servers/advancedThreatProtectionSettings"}'
     headers:
       Cache-Control:
       - no-cache
@@ -2991,7 +2991,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/elasticPoolAzureAsyncOperation/c25f0aa9-2de4-4a25-831f-7b3c690fe735?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/elasticPoolAzureAsyncOperation/c25f0aa9-2de4-4a25-831f-7b3c690fe735?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"c25f0aa9-2de4-4a25-831f-7b3c690fe735","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
@@ -3023,10 +3023,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/elasticPools/asotest-pool-dqziht?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/elasticPools/asotest-pool-dqziht?api-version=2021-11-01
     method: GET
   response:
-    body: '{"sku":{"name":"StandardPool","tier":"Standard","capacity":100},"kind":"pool","properties":{"state":"Ready","creationDate":"2001-02-03T04:05:06Z","maxSizeBytes":107374182400,"perDatabaseSettings":{"minCapacity":0.0,"maxCapacity":100.0},"zoneRedundant":false,"maintenanceConfigurationId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default"},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/elasticPools/asotest-pool-dqziht","name":"asotest-pool-dqziht","type":"Microsoft.Sql/servers/elasticPools"}'
+    body: '{"sku":{"name":"StandardPool","tier":"Standard","capacity":100},"kind":"pool","properties":{"state":"Ready","creationDate":"2001-02-03T04:05:06Z","maxSizeBytes":107374182400,"perDatabaseSettings":{"minCapacity":0.0,"maxCapacity":100.0},"zoneRedundant":false,"maintenanceConfigurationId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default"},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/elasticPools/asotest-pool-dqziht","name":"asotest-pool-dqziht","type":"Microsoft.Sql/servers/elasticPools"}'
     headers:
       Cache-Control:
       - no-cache
@@ -3055,10 +3055,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/elasticPools/asotest-pool-dqziht?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/elasticPools/asotest-pool-dqziht?api-version=2021-11-01
     method: GET
   response:
-    body: '{"sku":{"name":"StandardPool","tier":"Standard","capacity":100},"kind":"pool","properties":{"state":"Ready","creationDate":"2001-02-03T04:05:06Z","maxSizeBytes":107374182400,"perDatabaseSettings":{"minCapacity":0.0,"maxCapacity":100.0},"zoneRedundant":false,"maintenanceConfigurationId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default"},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/elasticPools/asotest-pool-dqziht","name":"asotest-pool-dqziht","type":"Microsoft.Sql/servers/elasticPools"}'
+    body: '{"sku":{"name":"StandardPool","tier":"Standard","capacity":100},"kind":"pool","properties":{"state":"Ready","creationDate":"2001-02-03T04:05:06Z","maxSizeBytes":107374182400,"perDatabaseSettings":{"minCapacity":0.0,"maxCapacity":100.0},"zoneRedundant":false,"maintenanceConfigurationId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default"},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/elasticPools/asotest-pool-dqziht","name":"asotest-pool-dqziht","type":"Microsoft.Sql/servers/elasticPools"}'
     headers:
       Cache-Control:
       - no-cache
@@ -3085,7 +3085,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "10"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/b930158d-843c-49a5-88ac-ab5d126dc8e1?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/b930158d-843c-49a5-88ac-ab5d126dc8e1?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"b930158d-843c-49a5-88ac-ab5d126dc8e1","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -3123,13 +3123,13 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp/transparentDataEncryption/current?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp/transparentDataEncryption/current?api-version=2021-11-01
     method: PUT
   response:
     body: '{"operation":"UpdateLogicalDatabase","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/transparentDataEncryptionAzureAsyncOperation/a2f72c0a-3665-4b99-9c7d-f3ebde2219a4?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/transparentDataEncryptionAzureAsyncOperation/a2f72c0a-3665-4b99-9c7d-f3ebde2219a4?api-version=2021-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -3139,7 +3139,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/transparentDataEncryptionOperationResults/a2f72c0a-3665-4b99-9c7d-f3ebde2219a4?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/transparentDataEncryptionOperationResults/a2f72c0a-3665-4b99-9c7d-f3ebde2219a4?api-version=2021-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -3159,7 +3159,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/transparentDataEncryptionAzureAsyncOperation/a2f72c0a-3665-4b99-9c7d-f3ebde2219a4?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/transparentDataEncryptionAzureAsyncOperation/a2f72c0a-3665-4b99-9c7d-f3ebde2219a4?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"a2f72c0a-3665-4b99-9c7d-f3ebde2219a4","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -3189,7 +3189,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/transparentDataEncryptionAzureAsyncOperation/a2f72c0a-3665-4b99-9c7d-f3ebde2219a4?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/transparentDataEncryptionAzureAsyncOperation/a2f72c0a-3665-4b99-9c7d-f3ebde2219a4?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"a2f72c0a-3665-4b99-9c7d-f3ebde2219a4","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
@@ -3219,10 +3219,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp/transparentDataEncryption/current?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp/transparentDataEncryption/current?api-version=2021-11-01
     method: GET
   response:
-    body: '{"properties":{"state":"Enabled"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp/transparentDataEncryption/Current","name":"Current","type":"Microsoft.Sql/servers/databases/transparentDataEncryption"}'
+    body: '{"properties":{"state":"Enabled"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp/transparentDataEncryption/Current","name":"Current","type":"Microsoft.Sql/servers/databases/transparentDataEncryption"}'
     headers:
       Cache-Control:
       - no-cache
@@ -3251,10 +3251,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp/transparentDataEncryption/current?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp/transparentDataEncryption/current?api-version=2021-11-01
     method: GET
   response:
-    body: '{"properties":{"state":"Enabled"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp/transparentDataEncryption/Current","name":"Current","type":"Microsoft.Sql/servers/databases/transparentDataEncryption"}'
+    body: '{"properties":{"state":"Enabled"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp/transparentDataEncryption/Current","name":"Current","type":"Microsoft.Sql/servers/databases/transparentDataEncryption"}'
     headers:
       Cache-Control:
       - no-cache
@@ -3287,7 +3287,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/firewallRules/asotest-firewall-hpmpki?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/firewallRules/asotest-firewall-hpmpki?api-version=2021-11-01
     method: PUT
   response:
     body: '{"error":{"code":"GatewayTimeout","message":"The gateway did not receive
@@ -3318,7 +3318,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "11"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/b930158d-843c-49a5-88ac-ab5d126dc8e1?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/b930158d-843c-49a5-88ac-ab5d126dc8e1?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"b930158d-843c-49a5-88ac-ab5d126dc8e1","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -3350,7 +3350,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/longTermRetentionPolicyAzureAsyncOperation/927de90d-ed1e-48ee-a7db-62792d203f0e?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/longTermRetentionPolicyAzureAsyncOperation/927de90d-ed1e-48ee-a7db-62792d203f0e?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"927de90d-ed1e-48ee-a7db-62792d203f0e","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
@@ -3382,10 +3382,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp/backupLongTermRetentionPolicies/default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp/backupLongTermRetentionPolicies/default?api-version=2021-11-01
     method: GET
   response:
-    body: '{"properties":{"weeklyRetention":"P30D","monthlyRetention":"PT0S","yearlyRetention":"PT0S","weekOfYear":0},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp/backupLongTermRetentionPolicies/default","name":"default","type":"Microsoft.Sql/servers/databases/backupLongTermRetentionPolicies"}'
+    body: '{"properties":{"weeklyRetention":"P30D","monthlyRetention":"PT0S","yearlyRetention":"PT0S","weekOfYear":0},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp/backupLongTermRetentionPolicies/default","name":"default","type":"Microsoft.Sql/servers/databases/backupLongTermRetentionPolicies"}'
     headers:
       Cache-Control:
       - no-cache
@@ -3414,10 +3414,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp/backupLongTermRetentionPolicies/default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp/backupLongTermRetentionPolicies/default?api-version=2021-11-01
     method: GET
   response:
-    body: '{"properties":{"weeklyRetention":"P30D","monthlyRetention":"PT0S","yearlyRetention":"PT0S","weekOfYear":0},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp/backupLongTermRetentionPolicies/default","name":"default","type":"Microsoft.Sql/servers/databases/backupLongTermRetentionPolicies"}'
+    body: '{"properties":{"weeklyRetention":"P30D","monthlyRetention":"PT0S","yearlyRetention":"PT0S","weekOfYear":0},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp/backupLongTermRetentionPolicies/default","name":"default","type":"Microsoft.Sql/servers/databases/backupLongTermRetentionPolicies"}'
     headers:
       Cache-Control:
       - no-cache
@@ -3446,7 +3446,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/elasticPools/asotest-pool-dqziht?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/elasticPools/asotest-pool-dqziht?api-version=2021-11-01
     method: DELETE
   response:
     body: ""
@@ -3474,11 +3474,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/elasticPools/asotest-pool-dqziht?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/elasticPools/asotest-pool-dqziht?api-version=2021-11-01
     method: GET
   response:
-    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Sql/servers/asotest-sqlserver-mtsojo/elasticpools/asotest-pool-dqziht''
-      under resource group ''asotest-rg-fucqkw'' was not found. For more details please
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Sql/servers/asotest-sqlserver-cruwix/elasticpools/asotest-pool-dqziht''
+      under resource group ''asotest-rg-sknkak'' was not found. For more details please
       go to https://aka.ms/ARMResourceNotFoundFix"}}'
     headers:
       Cache-Control:
@@ -3512,7 +3512,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/connectionPolicies/default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/connectionPolicies/default?api-version=2021-11-01
     method: PUT
   response:
     body: '{"error":{"code":"GatewayTimeout","message":"The gateway did not receive
@@ -3543,7 +3543,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "12"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/b930158d-843c-49a5-88ac-ab5d126dc8e1?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/b930158d-843c-49a5-88ac-ab5d126dc8e1?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"b930158d-843c-49a5-88ac-ab5d126dc8e1","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -3570,7 +3570,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"default","properties":{"state":"Enabled","storageAccountAccessKey":"{KEY}","storageAccountSubscriptionId":"00000000-0000-0000-0000-000000000000","storageEndpoint":"https://asoteststorvupbxd.blob.core.windows.net/"}}'
+    body: '{"name":"default","properties":{"state":"Enabled","storageAccountAccessKey":"{KEY}","storageAccountSubscriptionId":"00000000-0000-0000-0000-000000000000","storageEndpoint":"https://asoteststordrufmq.blob.core.windows.net/"}}'
     form: {}
     headers:
       Accept:
@@ -3581,10 +3581,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp/auditingSettings/default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp/auditingSettings/default?api-version=2021-11-01
     method: PUT
   response:
-    body: '{"properties":{"retentionDays":0,"auditActionsAndGroups":["SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP","FAILED_DATABASE_AUTHENTICATION_GROUP","BATCH_COMPLETED_GROUP"],"isAzureMonitorTargetEnabled":false,"isManagedIdentityInUse":false,"state":"Enabled","storageEndpoint":"https://asoteststorvupbxd.blob.core.windows.net/","storageAccountSubscriptionId":"00000000-0000-0000-0000-000000000000"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp/auditingSettings/Default","name":"Default","type":"Microsoft.Sql/servers/databases/auditingSettings"}'
+    body: '{"properties":{"retentionDays":0,"auditActionsAndGroups":["SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP","FAILED_DATABASE_AUTHENTICATION_GROUP","BATCH_COMPLETED_GROUP"],"isAzureMonitorTargetEnabled":false,"isManagedIdentityInUse":false,"state":"Enabled","storageEndpoint":"https://asoteststordrufmq.blob.core.windows.net/","storageAccountSubscriptionId":"00000000-0000-0000-0000-000000000000"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp/auditingSettings/Default","name":"Default","type":"Microsoft.Sql/servers/databases/auditingSettings"}'
     headers:
       Cache-Control:
       - no-cache
@@ -3611,10 +3611,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp/auditingSettings/default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp/auditingSettings/default?api-version=2021-11-01
     method: GET
   response:
-    body: '{"properties":{"retentionDays":0,"auditActionsAndGroups":["SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP","FAILED_DATABASE_AUTHENTICATION_GROUP","BATCH_COMPLETED_GROUP"],"isStorageSecondaryKeyInUse":false,"isAzureMonitorTargetEnabled":false,"isManagedIdentityInUse":false,"state":"Enabled","storageEndpoint":"https://asoteststorvupbxd.blob.core.windows.net/","storageAccountSubscriptionId":"00000000-0000-0000-0000-000000000000"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp/auditingSettings/Default","name":"Default","type":"Microsoft.Sql/servers/databases/auditingSettings"}'
+    body: '{"properties":{"retentionDays":0,"auditActionsAndGroups":["SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP","FAILED_DATABASE_AUTHENTICATION_GROUP","BATCH_COMPLETED_GROUP"],"isStorageSecondaryKeyInUse":false,"isAzureMonitorTargetEnabled":false,"isManagedIdentityInUse":false,"state":"Enabled","storageEndpoint":"https://asoteststordrufmq.blob.core.windows.net/","storageAccountSubscriptionId":"00000000-0000-0000-0000-000000000000"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp/auditingSettings/Default","name":"Default","type":"Microsoft.Sql/servers/databases/auditingSettings"}'
     headers:
       Cache-Control:
       - no-cache
@@ -3643,10 +3643,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp/auditingSettings/default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp/auditingSettings/default?api-version=2021-11-01
     method: GET
   response:
-    body: '{"properties":{"retentionDays":0,"auditActionsAndGroups":["SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP","FAILED_DATABASE_AUTHENTICATION_GROUP","BATCH_COMPLETED_GROUP"],"isStorageSecondaryKeyInUse":false,"isAzureMonitorTargetEnabled":false,"isManagedIdentityInUse":false,"state":"Enabled","storageEndpoint":"https://asoteststorvupbxd.blob.core.windows.net/","storageAccountSubscriptionId":"00000000-0000-0000-0000-000000000000"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp/auditingSettings/Default","name":"Default","type":"Microsoft.Sql/servers/databases/auditingSettings"}'
+    body: '{"properties":{"retentionDays":0,"auditActionsAndGroups":["SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP","FAILED_DATABASE_AUTHENTICATION_GROUP","BATCH_COMPLETED_GROUP"],"isStorageSecondaryKeyInUse":false,"isAzureMonitorTargetEnabled":false,"isManagedIdentityInUse":false,"state":"Enabled","storageEndpoint":"https://asoteststordrufmq.blob.core.windows.net/","storageAccountSubscriptionId":"00000000-0000-0000-0000-000000000000"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp/auditingSettings/Default","name":"Default","type":"Microsoft.Sql/servers/databases/auditingSettings"}'
     headers:
       Cache-Control:
       - no-cache
@@ -3679,10 +3679,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp/advancedThreatProtectionSettings/Default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp/advancedThreatProtectionSettings/Default?api-version=2021-11-01
     method: PUT
   response:
-    body: '{"properties":{"state":"Enabled","creationTime":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp/advancedThreatProtectionSettings/Default","name":"Default","type":"Microsoft.Sql/servers/databases/advancedThreatProtectionSettings"}'
+    body: '{"properties":{"state":"Enabled","creationTime":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp/advancedThreatProtectionSettings/Default","name":"Default","type":"Microsoft.Sql/servers/databases/advancedThreatProtectionSettings"}'
     headers:
       Cache-Control:
       - no-cache
@@ -3711,10 +3711,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp/advancedThreatProtectionSettings/Default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp/advancedThreatProtectionSettings/Default?api-version=2021-11-01
     method: GET
   response:
-    body: '{"properties":{"state":"Enabled","creationTime":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp/advancedThreatProtectionSettings/Default","name":"Default","type":"Microsoft.Sql/servers/databases/advancedThreatProtectionSettings"}'
+    body: '{"properties":{"state":"Enabled","creationTime":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp/advancedThreatProtectionSettings/Default","name":"Default","type":"Microsoft.Sql/servers/databases/advancedThreatProtectionSettings"}'
     headers:
       Cache-Control:
       - no-cache
@@ -3741,7 +3741,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "13"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/b930158d-843c-49a5-88ac-ab5d126dc8e1?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/b930158d-843c-49a5-88ac-ab5d126dc8e1?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"b930158d-843c-49a5-88ac-ab5d126dc8e1","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -3779,10 +3779,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/firewallRules/asotest-firewall-hpmpki?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/firewallRules/asotest-firewall-hpmpki?api-version=2021-11-01
     method: PUT
   response:
-    body: '{"properties":{"startIpAddress":"0.0.0.0","endIpAddress":"0.0.0.0"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/firewallRules/asotest-firewall-hpmpki","name":"asotest-firewall-hpmpki","type":"Microsoft.Sql/servers/firewallRules"}'
+    body: '{"properties":{"startIpAddress":"0.0.0.0","endIpAddress":"0.0.0.0"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/firewallRules/asotest-firewall-hpmpki","name":"asotest-firewall-hpmpki","type":"Microsoft.Sql/servers/firewallRules"}'
     headers:
       Cache-Control:
       - no-cache
@@ -3811,10 +3811,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/firewallRules/asotest-firewall-hpmpki?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/firewallRules/asotest-firewall-hpmpki?api-version=2021-11-01
     method: GET
   response:
-    body: '{"properties":{"startIpAddress":"0.0.0.0","endIpAddress":"0.0.0.0"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/firewallRules/asotest-firewall-hpmpki","name":"asotest-firewall-hpmpki","type":"Microsoft.Sql/servers/firewallRules"}'
+    body: '{"properties":{"startIpAddress":"0.0.0.0","endIpAddress":"0.0.0.0"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/firewallRules/asotest-firewall-hpmpki","name":"asotest-firewall-hpmpki","type":"Microsoft.Sql/servers/firewallRules"}'
     headers:
       Cache-Control:
       - no-cache
@@ -3843,7 +3843,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/firewallRules/asotest-firewall-hpmpki?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/firewallRules/asotest-firewall-hpmpki?api-version=2021-11-01
     method: DELETE
   response:
     body: ""
@@ -3871,7 +3871,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "14"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/b930158d-843c-49a5-88ac-ab5d126dc8e1?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/b930158d-843c-49a5-88ac-ab5d126dc8e1?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"b930158d-843c-49a5-88ac-ab5d126dc8e1","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
@@ -3903,10 +3903,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/outboundFirewallRules/server.database.windows.net?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/outboundFirewallRules/server.database.windows.net?api-version=2021-11-01
     method: GET
   response:
-    body: '{"properties":{"provisioningState":"Ready"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/outboundFirewallRules/server.database.windows.net","name":"server.database.windows.net","type":"Microsoft.Sql/servers/outboundFirewallRules"}'
+    body: '{"properties":{"provisioningState":"Ready"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/outboundFirewallRules/server.database.windows.net","name":"server.database.windows.net","type":"Microsoft.Sql/servers/outboundFirewallRules"}'
     headers:
       Cache-Control:
       - no-cache
@@ -3935,10 +3935,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/outboundFirewallRules/server.database.windows.net?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/outboundFirewallRules/server.database.windows.net?api-version=2021-11-01
     method: GET
   response:
-    body: '{"properties":{"provisioningState":"Ready"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/outboundFirewallRules/server.database.windows.net","name":"server.database.windows.net","type":"Microsoft.Sql/servers/outboundFirewallRules"}'
+    body: '{"properties":{"provisioningState":"Ready"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/outboundFirewallRules/server.database.windows.net","name":"server.database.windows.net","type":"Microsoft.Sql/servers/outboundFirewallRules"}'
     headers:
       Cache-Control:
       - no-cache
@@ -3971,10 +3971,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp/securityAlertPolicies/default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp/securityAlertPolicies/default?api-version=2021-11-01
     method: PUT
   response:
-    body: '{"properties":{"state":"Enabled","disabledAlerts":[],"emailAddresses":[],"emailAccountAdmins":false,"storageAccountAccessKey":"","retentionDays":0,"creationTime":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp/securityAlertPolicies/Default","name":"Default","type":"Microsoft.Sql/servers/databases/securityAlertPolicies"}'
+    body: '{"properties":{"state":"Enabled","disabledAlerts":[],"emailAddresses":[],"emailAccountAdmins":false,"storageAccountAccessKey":"","retentionDays":0,"creationTime":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp/securityAlertPolicies/Default","name":"Default","type":"Microsoft.Sql/servers/databases/securityAlertPolicies"}'
     headers:
       Cache-Control:
       - no-cache
@@ -4003,10 +4003,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp/securityAlertPolicies/default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp/securityAlertPolicies/default?api-version=2021-11-01
     method: GET
   response:
-    body: '{"properties":{"state":"Enabled","disabledAlerts":[""],"emailAddresses":[""],"emailAccountAdmins":false,"storageEndpoint":"","storageAccountAccessKey":"","retentionDays":0,"creationTime":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp/securityAlertPolicies/Default","name":"Default","type":"Microsoft.Sql/servers/databases/securityAlertPolicies"}'
+    body: '{"properties":{"state":"Enabled","disabledAlerts":[""],"emailAddresses":[""],"emailAccountAdmins":false,"storageEndpoint":"","storageAccountAccessKey":"","retentionDays":0,"creationTime":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp/securityAlertPolicies/Default","name":"Default","type":"Microsoft.Sql/servers/databases/securityAlertPolicies"}'
     headers:
       Cache-Control:
       - no-cache
@@ -4039,13 +4039,13 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/connectionPolicies/default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/connectionPolicies/default?api-version=2021-11-01
     method: PUT
   response:
     body: '{"operation":"UpdateServerConnectionPolicy","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/connectionPoliciesAzureAsyncOperation/24f31f2e-2264-45db-b71e-97a8db73e4b5?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/connectionPoliciesAzureAsyncOperation/24f31f2e-2264-45db-b71e-97a8db73e4b5?api-version=2021-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -4055,7 +4055,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/connectionPoliciesOperationResults/24f31f2e-2264-45db-b71e-97a8db73e4b5?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/connectionPoliciesOperationResults/24f31f2e-2264-45db-b71e-97a8db73e4b5?api-version=2021-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -4075,7 +4075,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/connectionPoliciesAzureAsyncOperation/24f31f2e-2264-45db-b71e-97a8db73e4b5?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/connectionPoliciesAzureAsyncOperation/24f31f2e-2264-45db-b71e-97a8db73e4b5?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"24f31f2e-2264-45db-b71e-97a8db73e4b5","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
@@ -4107,10 +4107,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/connectionPolicies/default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/connectionPolicies/default?api-version=2021-11-01
     method: GET
   response:
-    body: '{"location":"eastus","properties":{"connectionType":"Default"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/connectionPolicies/default","name":"default","type":"Microsoft.Sql/servers/connectionPolicies"}'
+    body: '{"location":"eastus","properties":{"connectionType":"Default"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/connectionPolicies/default","name":"default","type":"Microsoft.Sql/servers/connectionPolicies"}'
     headers:
       Cache-Control:
       - no-cache
@@ -4139,10 +4139,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/connectionPolicies/default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/connectionPolicies/default?api-version=2021-11-01
     method: GET
   response:
-    body: '{"location":"eastus","properties":{"connectionType":"Default"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/connectionPolicies/default","name":"default","type":"Microsoft.Sql/servers/connectionPolicies"}'
+    body: '{"location":"eastus","properties":{"connectionType":"Default"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/connectionPolicies/default","name":"default","type":"Microsoft.Sql/servers/connectionPolicies"}'
     headers:
       Cache-Control:
       - no-cache
@@ -4171,7 +4171,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/firewallRules/asotest-firewall-hpmpki?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/firewallRules/asotest-firewall-hpmpki?api-version=2021-11-01
     method: GET
   response:
     body: '{"error":{"code":"ResourceNotFound","message":"The requested resource of
@@ -4198,7 +4198,7 @@ interactions:
     code: 404
     duration: ""
 - request:
-    body: '{"name":"default","properties":{"recurringScans":{"isEnabled":false},"storageAccountAccessKey":"{KEY}","storageContainerPath":"https://asoteststorvupbxd.blob.core.windows.net/vulnerabilityassessments"}}'
+    body: '{"name":"default","properties":{"recurringScans":{"isEnabled":false},"storageAccountAccessKey":"{KEY}","storageContainerPath":"https://asoteststordrufmq.blob.core.windows.net/vulnerabilityassessments"}}'
     form: {}
     headers:
       Accept:
@@ -4209,10 +4209,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp/vulnerabilityAssessments/default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp/vulnerabilityAssessments/default?api-version=2021-11-01
     method: PUT
   response:
-    body: '{"properties":{"storageContainerPath":"https://asoteststorvupbxd.blob.core.windows.net/vulnerabilityassessments/","recurringScans":{"isEnabled":false,"emailSubscriptionAdmins":true}},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp/vulnerabilityAssessments/Default","name":"Default","type":"Microsoft.Sql/servers/databases/vulnerabilityAssessments"}'
+    body: '{"properties":{"storageContainerPath":"https://asoteststordrufmq.blob.core.windows.net/vulnerabilityassessments/","recurringScans":{"isEnabled":false,"emailSubscriptionAdmins":true}},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp/vulnerabilityAssessments/Default","name":"Default","type":"Microsoft.Sql/servers/databases/vulnerabilityAssessments"}'
     headers:
       Cache-Control:
       - no-cache
@@ -4241,10 +4241,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp/vulnerabilityAssessments/default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp/vulnerabilityAssessments/default?api-version=2021-11-01
     method: GET
   response:
-    body: '{"properties":{"storageContainerPath":"https://asoteststorvupbxd.blob.core.windows.net/vulnerabilityassessments/","recurringScans":{"isEnabled":false,"emailSubscriptionAdmins":true,"emails":[]}},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp/vulnerabilityAssessments/Default","name":"Default","type":"Microsoft.Sql/servers/databases/vulnerabilityAssessments"}'
+    body: '{"properties":{"storageContainerPath":"https://asoteststordrufmq.blob.core.windows.net/vulnerabilityassessments/","recurringScans":{"isEnabled":false,"emailSubscriptionAdmins":true,"emails":[]}},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp/vulnerabilityAssessments/Default","name":"Default","type":"Microsoft.Sql/servers/databases/vulnerabilityAssessments"}'
     headers:
       Cache-Control:
       - no-cache
@@ -4273,13 +4273,13 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/outboundFirewallRules/server.database.windows.net?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/outboundFirewallRules/server.database.windows.net?api-version=2021-11-01
     method: DELETE
   response:
     body: '{"operation":"DropLogicalServerOutboundFirewallRule","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/e7a3c519-bb80-4f89-8483-5a53b0573cf1?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/e7a3c519-bb80-4f89-8483-5a53b0573cf1?api-version=2021-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -4289,7 +4289,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesOperationResults/e7a3c519-bb80-4f89-8483-5a53b0573cf1?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesOperationResults/e7a3c519-bb80-4f89-8483-5a53b0573cf1?api-version=2021-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -4309,7 +4309,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/e7a3c519-bb80-4f89-8483-5a53b0573cf1?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/e7a3c519-bb80-4f89-8483-5a53b0573cf1?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"e7a3c519-bb80-4f89-8483-5a53b0573cf1","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
@@ -4343,7 +4343,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp/vulnerabilityAssessments/default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp/vulnerabilityAssessments/default?api-version=2021-11-01
     method: DELETE
   response:
     body: ""
@@ -4373,7 +4373,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/outboundFirewallRules/server.database.windows.net?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/outboundFirewallRules/server.database.windows.net?api-version=2021-11-01
     method: GET
   response:
     body: ""
@@ -4403,13 +4403,13 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp?api-version=2021-11-01
     method: DELETE
   response:
     body: '{"operation":"DropLogicalDatabase","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/cbf8d401-4e92-46a1-a18c-4408d50fcdeb?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/cbf8d401-4e92-46a1-a18c-4408d50fcdeb?api-version=2021-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -4419,7 +4419,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/databaseOperationResults/cbf8d401-4e92-46a1-a18c-4408d50fcdeb?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/databaseOperationResults/cbf8d401-4e92-46a1-a18c-4408d50fcdeb?api-version=2021-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -4439,7 +4439,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/cbf8d401-4e92-46a1-a18c-4408d50fcdeb?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/cbf8d401-4e92-46a1-a18c-4408d50fcdeb?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"cbf8d401-4e92-46a1-a18c-4408d50fcdeb","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
@@ -4473,11 +4473,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp?api-version=2021-11-01
     method: GET
   response:
-    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp''
-      under resource group ''asotest-rg-fucqkw'' was not found. For more details please
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp''
+      under resource group ''asotest-rg-sknkak'' was not found. For more details please
       go to https://aka.ms/ARMResourceNotFoundFix"}}'
     headers:
       Cache-Control:
@@ -4507,13 +4507,13 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix?api-version=2021-11-01
     method: DELETE
   response:
     body: '{"operation":"DropLogicalServer","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/7c258e07-7db0-47b7-9ff3-736031c5132c?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/7c258e07-7db0-47b7-9ff3-736031c5132c?api-version=2021-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -4523,7 +4523,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/serverOperationResults/7c258e07-7db0-47b7-9ff3-736031c5132c?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/serverOperationResults/7c258e07-7db0-47b7-9ff3-736031c5132c?api-version=2021-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -4543,7 +4543,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/7c258e07-7db0-47b7-9ff3-736031c5132c?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/7c258e07-7db0-47b7-9ff3-736031c5132c?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"7c258e07-7db0-47b7-9ff3-736031c5132c","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
@@ -4577,11 +4577,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix?api-version=2021-11-01
     method: GET
   response:
-    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Sql/servers/asotest-sqlserver-mtsojo''
-      under resource group ''asotest-rg-fucqkw'' was not found. For more details please
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Sql/servers/asotest-sqlserver-cruwix''
+      under resource group ''asotest-rg-sknkak'' was not found. For more details please
       go to https://aka.ms/ARMResourceNotFoundFix"}}'
     headers:
       Cache-Control:
@@ -4611,7 +4611,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak?api-version=2020-06-01
     method: DELETE
   response:
     body: ""
@@ -4789,10 +4789,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis?api-version=2020-11-01
     method: DELETE
   response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-fucqkw''
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-sknkak''
       could not be found."}}'
     headers:
       Cache-Control:
@@ -4822,10 +4822,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Storage/storageAccounts/asoteststorvupbxd?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Storage/storageAccounts/asoteststordrufmq?api-version=2021-04-01
     method: DELETE
   response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-fucqkw''
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-sknkak''
       could not be found."}}'
     headers:
       Cache-Control:
@@ -4855,12 +4855,12 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/securityAlertPolicies/Default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/securityAlertPolicies/Default?api-version=2021-11-01
     method: DELETE
   response:
     body: '{"error":{"code":"ParentResourceNotFound","message":"Failed to perform
       ''delete'' on resource(s) of type ''servers/securityAlertPolicies'', because
-      the parent resource ''/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo''
+      the parent resource ''/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix''
       could not be found."}}'
     headers:
       Cache-Control:
@@ -4890,12 +4890,12 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/auditingSettings/default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/auditingSettings/default?api-version=2021-11-01
     method: DELETE
   response:
     body: '{"error":{"code":"ParentResourceNotFound","message":"Failed to perform
       ''delete'' on resource(s) of type ''servers/auditingSettings'', because the
-      parent resource ''/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo''
+      parent resource ''/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix''
       could not be found."}}'
     headers:
       Cache-Control:
@@ -4925,12 +4925,12 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Storage/storageAccounts/asoteststorvupbxd/blobServices/default?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Storage/storageAccounts/asoteststordrufmq/blobServices/default?api-version=2021-04-01
     method: DELETE
   response:
     body: '{"error":{"code":"ParentResourceNotFound","message":"Failed to perform
       ''delete'' on resource(s) of type ''storageAccounts/blobServices'', because
-      the parent resource ''/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Storage/storageAccounts/asoteststorvupbxd''
+      the parent resource ''/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Storage/storageAccounts/asoteststordrufmq''
       could not be found."}}'
     headers:
       Cache-Control:
@@ -4960,12 +4960,12 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/advancedThreatProtectionSettings/Default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/advancedThreatProtectionSettings/Default?api-version=2021-11-01
     method: DELETE
   response:
     body: '{"error":{"code":"ParentResourceNotFound","message":"Failed to perform
       ''delete'' on resource(s) of type ''servers/advancedThreatProtectionSettings'',
-      because the parent resource ''/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo''
+      because the parent resource ''/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix''
       could not be found."}}'
     headers:
       Cache-Control:
@@ -4995,12 +4995,12 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/connectionPolicies/default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/connectionPolicies/default?api-version=2021-11-01
     method: DELETE
   response:
     body: '{"error":{"code":"ParentResourceNotFound","message":"Failed to perform
       ''delete'' on resource(s) of type ''servers/connectionPolicies'', because the
-      parent resource ''/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo''
+      parent resource ''/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix''
       could not be found."}}'
     headers:
       Cache-Control:
@@ -5030,11 +5030,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis/subnets/asotest-subnet-qmdxpo?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Network/virtualNetworks/asotest-vn-gsaxis/subnets/asotest-subnet-qmdxpo?api-version=2020-11-01
     method: DELETE
   response:
     body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Network/virtualNetworks/asotest-vn-gsaxis''
-      under resource group ''asotest-rg-fucqkw'' was not found. For more details please
+      under resource group ''asotest-rg-sknkak'' was not found. For more details please
       go to https://aka.ms/ARMResourceNotFoundFix"}}'
     headers:
       Cache-Control:
@@ -5064,12 +5064,12 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp/transparentDataEncryption/current?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp/transparentDataEncryption/current?api-version=2021-11-01
     method: DELETE
   response:
     body: '{"error":{"code":"ParentResourceNotFound","message":"Failed to perform
       ''delete'' on resource(s) of type ''servers/databases/transparentDataEncryption'',
-      because the parent resource ''/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp''
+      because the parent resource ''/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp''
       could not be found."}}'
     headers:
       Cache-Control:
@@ -5099,12 +5099,12 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp/auditingSettings/default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp/auditingSettings/default?api-version=2021-11-01
     method: DELETE
   response:
     body: '{"error":{"code":"ParentResourceNotFound","message":"Failed to perform
       ''delete'' on resource(s) of type ''servers/databases/auditingSettings'', because
-      the parent resource ''/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp''
+      the parent resource ''/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp''
       could not be found."}}'
     headers:
       Cache-Control:
@@ -5134,12 +5134,12 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp/advancedThreatProtectionSettings/Default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp/advancedThreatProtectionSettings/Default?api-version=2021-11-01
     method: DELETE
   response:
     body: '{"error":{"code":"ParentResourceNotFound","message":"Failed to perform
       ''delete'' on resource(s) of type ''servers/databases/advancedThreatProtectionSettings'',
-      because the parent resource ''/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp''
+      because the parent resource ''/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp''
       could not be found."}}'
     headers:
       Cache-Control:
@@ -5169,12 +5169,12 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Storage/storageAccounts/asoteststorvupbxd/blobServices/default/containers/vulnerabilityassessments?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Storage/storageAccounts/asoteststordrufmq/blobServices/default/containers/vulnerabilityassessments?api-version=2021-04-01
     method: DELETE
   response:
     body: '{"error":{"code":"ParentResourceNotFound","message":"Failed to perform
       ''delete'' on resource(s) of type ''storageAccounts/blobServices'', because
-      the parent resource ''/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Storage/storageAccounts/asoteststorvupbxd''
+      the parent resource ''/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Storage/storageAccounts/asoteststordrufmq''
       could not be found."}}'
     headers:
       Cache-Control:
@@ -5204,12 +5204,12 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp/securityAlertPolicies/default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp/securityAlertPolicies/default?api-version=2021-11-01
     method: DELETE
   response:
     body: '{"error":{"code":"ParentResourceNotFound","message":"Failed to perform
       ''delete'' on resource(s) of type ''servers/databases/securityAlertPolicies'',
-      because the parent resource ''/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp''
+      because the parent resource ''/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp''
       could not be found."}}'
     headers:
       Cache-Control:
@@ -5239,12 +5239,12 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp/backupLongTermRetentionPolicies/default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp/backupLongTermRetentionPolicies/default?api-version=2021-11-01
     method: DELETE
   response:
     body: '{"error":{"code":"ParentResourceNotFound","message":"Failed to perform
       ''delete'' on resource(s) of type ''servers/databases/backupLongTermRetentionPolicies'',
-      because the parent resource ''/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fucqkw/providers/Microsoft.Sql/servers/asotest-sqlserver-mtsojo/databases/asotest-db-hnbpdp''
+      because the parent resource ''/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sknkak/providers/Microsoft.Sql/servers/asotest-sqlserver-cruwix/databases/asotest-db-hnbpdp''
       could not be found."}}'
     headers:
       Cache-Control:

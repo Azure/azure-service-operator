@@ -80,7 +80,7 @@ func Test_MissingSecretKey_ReturnsError(t *testing.T) {
 	// https://github.com/Azure/azure-service-operator/issues/1944
 	tc.CreateResourceAndWait(vnet)
 	tc.CreateResourcesAndWait(subnet, networkInterface)
-	secret := createVMPasswordSecretAndRef(tc)
+	secret := createPasswordSecret("vmsecret", "password", tc)
 	secret.Key = "doesnotexist" // Change the key to a key that doesn't actually exist
 	vm := newVirtualMachine20201201(tc, rg, networkInterface, secret)
 

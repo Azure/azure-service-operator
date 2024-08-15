@@ -550,7 +550,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"westeurope","name":"asotest-vm-guihjc","properties":{"hardwareProfile":{"vmSize":"Standard_D1_v2"},"networkProfile":{"networkInterfaces":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Network/networkInterfaces/asotest-nic-tzylhp"}]},"osProfile":{"adminPassword":"{PASSWORD}","adminUsername":"bloom","computerName":"poppy"},"storageProfile":{"imageReference":{"offer":"UbuntuServer","publisher":"Canonical","sku":"18.04-LTS","version":"latest"}}}}'
+    body: '{"location":"westeurope","name":"asotest-vm-daqgdp","properties":{"hardwareProfile":{"vmSize":"Standard_D1_v2"},"networkProfile":{"networkInterfaces":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Network/networkInterfaces/asotest-nic-tzylhp"}]},"osProfile":{"adminPassword":"{PASSWORD}","adminUsername":"bloom","computerName":"poppy"},"storageProfile":{"imageReference":{"offer":"UbuntuServer","publisher":"Canonical","sku":"18.04-LTS","version":"latest"}}}}'
     form: {}
     headers:
       Accept:
@@ -561,10 +561,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-guihjc?api-version=2020-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-daqgdp?api-version=2020-12-01
     method: PUT
   response:
-    body: "{\r\n  \"name\": \"asotest-vm-guihjc\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-guihjc\",\r\n
+    body: "{\r\n  \"name\": \"asotest-vm-daqgdp\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-daqgdp\",\r\n
       \ \"type\": \"Microsoft.Compute/virtualMachines\",\r\n  \"location\": \"westeurope\",\r\n
       \ \"properties\": {\r\n    \"hardwareProfile\": {\r\n      \"vmSize\": \"Standard_D1_v2\"\r\n
       \   },\r\n    \"provisioningState\": \"Creating\",\r\n    \"vmId\": \"0da9faa1-121f-4d77-9eba-43a52064ff07\",\r\n
@@ -728,10 +728,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-guihjc?api-version=2020-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-daqgdp?api-version=2020-12-01
     method: GET
   response:
-    body: "{\r\n  \"name\": \"asotest-vm-guihjc\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-guihjc\",\r\n
+    body: "{\r\n  \"name\": \"asotest-vm-daqgdp\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-daqgdp\",\r\n
       \ \"type\": \"Microsoft.Compute/virtualMachines\",\r\n  \"location\": \"westeurope\",\r\n
       \ \"properties\": {\r\n    \"hardwareProfile\": {\r\n      \"vmSize\": \"Standard_D1_v2\"\r\n
       \   },\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"vmId\": \"0da9faa1-121f-4d77-9eba-43a52064ff07\",\r\n
@@ -739,10 +739,10 @@ interactions:
       \"Canonical\",\r\n        \"offer\": \"UbuntuServer\",\r\n        \"sku\": \"18.04-LTS\",\r\n
       \       \"version\": \"latest\",\r\n        \"exactVersion\": \"18.04.202401161\"\r\n
       \     },\r\n      \"osDisk\": {\r\n        \"osType\": \"Linux\",\r\n        \"name\":
-      \"asotest-vm-guihjc_OsDisk_1_57db35104e6e4316aebf2535ed4058b2\",\r\n        \"createOption\":
+      \"asotest-vm-daqgdp_OsDisk_1_57db35104e6e4316aebf2535ed4058b2\",\r\n        \"createOption\":
       \"FromImage\",\r\n        \"caching\": \"ReadWrite\",\r\n        \"managedDisk\":
       {\r\n          \"storageAccountType\": \"Standard_LRS\",\r\n          \"id\":
-      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/disks/asotest-vm-guihjc_OsDisk_1_57db35104e6e4316aebf2535ed4058b2\"\r\n
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/disks/asotest-vm-daqgdp_OsDisk_1_57db35104e6e4316aebf2535ed4058b2\"\r\n
       \       },\r\n        \"diskSizeGB\": 30\r\n      },\r\n      \"dataDisks\":
       []\r\n    },\r\n    \"osProfile\": {\r\n      \"computerName\": \"poppy\",\r\n
       \     \"adminUsername\": \"bloom\",\r\n      \"linuxConfiguration\": {\r\n        \"disablePasswordAuthentication\":
@@ -783,10 +783,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-guihjc?api-version=2020-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-daqgdp?api-version=2020-12-01
     method: GET
   response:
-    body: "{\r\n  \"name\": \"asotest-vm-guihjc\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-guihjc\",\r\n
+    body: "{\r\n  \"name\": \"asotest-vm-daqgdp\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-daqgdp\",\r\n
       \ \"type\": \"Microsoft.Compute/virtualMachines\",\r\n  \"location\": \"westeurope\",\r\n
       \ \"properties\": {\r\n    \"hardwareProfile\": {\r\n      \"vmSize\": \"Standard_D1_v2\"\r\n
       \   },\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"vmId\": \"0da9faa1-121f-4d77-9eba-43a52064ff07\",\r\n
@@ -794,10 +794,10 @@ interactions:
       \"Canonical\",\r\n        \"offer\": \"UbuntuServer\",\r\n        \"sku\": \"18.04-LTS\",\r\n
       \       \"version\": \"latest\",\r\n        \"exactVersion\": \"18.04.202401161\"\r\n
       \     },\r\n      \"osDisk\": {\r\n        \"osType\": \"Linux\",\r\n        \"name\":
-      \"asotest-vm-guihjc_OsDisk_1_57db35104e6e4316aebf2535ed4058b2\",\r\n        \"createOption\":
+      \"asotest-vm-daqgdp_OsDisk_1_57db35104e6e4316aebf2535ed4058b2\",\r\n        \"createOption\":
       \"FromImage\",\r\n        \"caching\": \"ReadWrite\",\r\n        \"managedDisk\":
       {\r\n          \"storageAccountType\": \"Standard_LRS\",\r\n          \"id\":
-      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/disks/asotest-vm-guihjc_OsDisk_1_57db35104e6e4316aebf2535ed4058b2\"\r\n
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/disks/asotest-vm-daqgdp_OsDisk_1_57db35104e6e4316aebf2535ed4058b2\"\r\n
       \       },\r\n        \"diskSizeGB\": 30\r\n      },\r\n      \"dataDisks\":
       []\r\n    },\r\n    \"osProfile\": {\r\n      \"computerName\": \"poppy\",\r\n
       \     \"adminUsername\": \"bloom\",\r\n      \"linuxConfiguration\": {\r\n        \"disablePasswordAuthentication\":
@@ -831,7 +831,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"westeurope","name":"asotest-vm-guihjc","properties":{"diagnosticsProfile":{"bootDiagnostics":{"enabled":true}},"hardwareProfile":{"vmSize":"Standard_D1_v2"},"networkProfile":{"networkInterfaces":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Network/networkInterfaces/asotest-nic-tzylhp"}]},"osProfile":{"adminPassword":"{PASSWORD}","adminUsername":"bloom","computerName":"poppy"},"storageProfile":{"imageReference":{"offer":"UbuntuServer","publisher":"Canonical","sku":"18.04-LTS","version":"latest"}}}}'
+    body: '{"location":"westeurope","name":"asotest-vm-daqgdp","properties":{"diagnosticsProfile":{"bootDiagnostics":{"enabled":true}},"hardwareProfile":{"vmSize":"Standard_D1_v2"},"networkProfile":{"networkInterfaces":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Network/networkInterfaces/asotest-nic-tzylhp"}]},"osProfile":{"adminPassword":"{PASSWORD}","adminUsername":"bloom","computerName":"poppy"},"storageProfile":{"imageReference":{"offer":"UbuntuServer","publisher":"Canonical","sku":"18.04-LTS","version":"latest"}}}}'
     form: {}
     headers:
       Accept:
@@ -842,10 +842,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-guihjc?api-version=2020-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-daqgdp?api-version=2020-12-01
     method: PUT
   response:
-    body: "{\r\n  \"name\": \"asotest-vm-guihjc\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-guihjc\",\r\n
+    body: "{\r\n  \"name\": \"asotest-vm-daqgdp\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-daqgdp\",\r\n
       \ \"type\": \"Microsoft.Compute/virtualMachines\",\r\n  \"location\": \"westeurope\",\r\n
       \ \"properties\": {\r\n    \"hardwareProfile\": {\r\n      \"vmSize\": \"Standard_D1_v2\"\r\n
       \   },\r\n    \"provisioningState\": \"Updating\",\r\n    \"vmId\": \"0da9faa1-121f-4d77-9eba-43a52064ff07\",\r\n
@@ -853,10 +853,10 @@ interactions:
       \"Canonical\",\r\n        \"offer\": \"UbuntuServer\",\r\n        \"sku\": \"18.04-LTS\",\r\n
       \       \"version\": \"latest\",\r\n        \"exactVersion\": \"18.04.202401161\"\r\n
       \     },\r\n      \"osDisk\": {\r\n        \"osType\": \"Linux\",\r\n        \"name\":
-      \"asotest-vm-guihjc_OsDisk_1_57db35104e6e4316aebf2535ed4058b2\",\r\n        \"createOption\":
+      \"asotest-vm-daqgdp_OsDisk_1_57db35104e6e4316aebf2535ed4058b2\",\r\n        \"createOption\":
       \"FromImage\",\r\n        \"caching\": \"ReadWrite\",\r\n        \"managedDisk\":
       {\r\n          \"storageAccountType\": \"Standard_LRS\",\r\n          \"id\":
-      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/disks/asotest-vm-guihjc_OsDisk_1_57db35104e6e4316aebf2535ed4058b2\"\r\n
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/disks/asotest-vm-daqgdp_OsDisk_1_57db35104e6e4316aebf2535ed4058b2\"\r\n
       \       },\r\n        \"diskSizeGB\": 30\r\n      },\r\n      \"dataDisks\":
       []\r\n    },\r\n    \"osProfile\": {\r\n      \"computerName\": \"poppy\",\r\n
       \     \"adminUsername\": \"bloom\",\r\n      \"linuxConfiguration\": {\r\n        \"disablePasswordAuthentication\":
@@ -1041,10 +1041,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-guihjc?api-version=2020-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-daqgdp?api-version=2020-12-01
     method: GET
   response:
-    body: "{\r\n  \"name\": \"asotest-vm-guihjc\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-guihjc\",\r\n
+    body: "{\r\n  \"name\": \"asotest-vm-daqgdp\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-daqgdp\",\r\n
       \ \"type\": \"Microsoft.Compute/virtualMachines\",\r\n  \"location\": \"westeurope\",\r\n
       \ \"properties\": {\r\n    \"hardwareProfile\": {\r\n      \"vmSize\": \"Standard_D1_v2\"\r\n
       \   },\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"vmId\": \"0da9faa1-121f-4d77-9eba-43a52064ff07\",\r\n
@@ -1052,10 +1052,10 @@ interactions:
       \"Canonical\",\r\n        \"offer\": \"UbuntuServer\",\r\n        \"sku\": \"18.04-LTS\",\r\n
       \       \"version\": \"latest\",\r\n        \"exactVersion\": \"18.04.202401161\"\r\n
       \     },\r\n      \"osDisk\": {\r\n        \"osType\": \"Linux\",\r\n        \"name\":
-      \"asotest-vm-guihjc_OsDisk_1_57db35104e6e4316aebf2535ed4058b2\",\r\n        \"createOption\":
+      \"asotest-vm-daqgdp_OsDisk_1_57db35104e6e4316aebf2535ed4058b2\",\r\n        \"createOption\":
       \"FromImage\",\r\n        \"caching\": \"ReadWrite\",\r\n        \"managedDisk\":
       {\r\n          \"storageAccountType\": \"Standard_LRS\",\r\n          \"id\":
-      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/disks/asotest-vm-guihjc_OsDisk_1_57db35104e6e4316aebf2535ed4058b2\"\r\n
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/disks/asotest-vm-daqgdp_OsDisk_1_57db35104e6e4316aebf2535ed4058b2\"\r\n
       \       },\r\n        \"diskSizeGB\": 30\r\n      },\r\n      \"dataDisks\":
       []\r\n    },\r\n    \"osProfile\": {\r\n      \"computerName\": \"poppy\",\r\n
       \     \"adminUsername\": \"bloom\",\r\n      \"linuxConfiguration\": {\r\n        \"disablePasswordAuthentication\":
@@ -1097,10 +1097,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-guihjc?api-version=2020-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-daqgdp?api-version=2020-12-01
     method: GET
   response:
-    body: "{\r\n  \"name\": \"asotest-vm-guihjc\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-guihjc\",\r\n
+    body: "{\r\n  \"name\": \"asotest-vm-daqgdp\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-daqgdp\",\r\n
       \ \"type\": \"Microsoft.Compute/virtualMachines\",\r\n  \"location\": \"westeurope\",\r\n
       \ \"properties\": {\r\n    \"hardwareProfile\": {\r\n      \"vmSize\": \"Standard_D1_v2\"\r\n
       \   },\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"vmId\": \"0da9faa1-121f-4d77-9eba-43a52064ff07\",\r\n
@@ -1108,10 +1108,10 @@ interactions:
       \"Canonical\",\r\n        \"offer\": \"UbuntuServer\",\r\n        \"sku\": \"18.04-LTS\",\r\n
       \       \"version\": \"latest\",\r\n        \"exactVersion\": \"18.04.202401161\"\r\n
       \     },\r\n      \"osDisk\": {\r\n        \"osType\": \"Linux\",\r\n        \"name\":
-      \"asotest-vm-guihjc_OsDisk_1_57db35104e6e4316aebf2535ed4058b2\",\r\n        \"createOption\":
+      \"asotest-vm-daqgdp_OsDisk_1_57db35104e6e4316aebf2535ed4058b2\",\r\n        \"createOption\":
       \"FromImage\",\r\n        \"caching\": \"ReadWrite\",\r\n        \"managedDisk\":
       {\r\n          \"storageAccountType\": \"Standard_LRS\",\r\n          \"id\":
-      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/disks/asotest-vm-guihjc_OsDisk_1_57db35104e6e4316aebf2535ed4058b2\"\r\n
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/disks/asotest-vm-daqgdp_OsDisk_1_57db35104e6e4316aebf2535ed4058b2\"\r\n
       \       },\r\n        \"diskSizeGB\": 30\r\n      },\r\n      \"dataDisks\":
       []\r\n    },\r\n    \"osProfile\": {\r\n      \"computerName\": \"poppy\",\r\n
       \     \"adminUsername\": \"bloom\",\r\n      \"linuxConfiguration\": {\r\n        \"disablePasswordAuthentication\":
@@ -1157,10 +1157,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-guihjc/extensions/mycustomextension?api-version=2020-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-daqgdp/extensions/mycustomextension?api-version=2020-12-01
     method: PUT
   response:
-    body: "{\r\n  \"name\": \"mycustomextension\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-guihjc/extensions/mycustomextension\",\r\n
+    body: "{\r\n  \"name\": \"mycustomextension\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-daqgdp/extensions/mycustomextension\",\r\n
       \ \"type\": \"Microsoft.Compute/virtualMachines/extensions\",\r\n  \"location\":
       \"westeurope\",\r\n  \"properties\": {\r\n    \"autoUpgradeMinorVersion\": false,\r\n
       \   \"provisioningState\": \"Creating\",\r\n    \"publisher\": \"Microsoft.ManagedServices\",\r\n
@@ -1341,10 +1341,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-guihjc/extensions/mycustomextension?api-version=2020-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-daqgdp/extensions/mycustomextension?api-version=2020-12-01
     method: GET
   response:
-    body: "{\r\n  \"name\": \"mycustomextension\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-guihjc/extensions/mycustomextension\",\r\n
+    body: "{\r\n  \"name\": \"mycustomextension\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-daqgdp/extensions/mycustomextension\",\r\n
       \ \"type\": \"Microsoft.Compute/virtualMachines/extensions\",\r\n  \"location\":
       \"westeurope\",\r\n  \"properties\": {\r\n    \"autoUpgradeMinorVersion\": false,\r\n
       \   \"provisioningState\": \"Succeeded\",\r\n    \"publisher\": \"Microsoft.ManagedServices\",\r\n
@@ -1382,10 +1382,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-guihjc/extensions/mycustomextension?api-version=2020-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-daqgdp/extensions/mycustomextension?api-version=2020-12-01
     method: GET
   response:
-    body: "{\r\n  \"name\": \"mycustomextension\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-guihjc/extensions/mycustomextension\",\r\n
+    body: "{\r\n  \"name\": \"mycustomextension\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-daqgdp/extensions/mycustomextension\",\r\n
       \ \"type\": \"Microsoft.Compute/virtualMachines/extensions\",\r\n  \"location\":
       \"westeurope\",\r\n  \"properties\": {\r\n    \"autoUpgradeMinorVersion\": false,\r\n
       \   \"provisioningState\": \"Succeeded\",\r\n    \"publisher\": \"Microsoft.ManagedServices\",\r\n
@@ -1423,7 +1423,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-guihjc/extensions/mycustomextension?api-version=2020-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-daqgdp/extensions/mycustomextension?api-version=2020-12-01
     method: DELETE
   response:
     body: ""
@@ -1639,10 +1639,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-guihjc/extensions/mycustomextension?api-version=2020-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-daqgdp/extensions/mycustomextension?api-version=2020-12-01
     method: GET
   response:
-    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Compute/virtualMachines/asotest-vm-guihjc/extensions/mycustomextension''
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Compute/virtualMachines/asotest-vm-daqgdp/extensions/mycustomextension''
       under resource group ''asotest-rg-ibybct'' was not found. For more details please
       go to https://aka.ms/ARMResourceNotFoundFix"}}'
     headers:
@@ -1677,7 +1677,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-guihjc?api-version=2020-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-daqgdp?api-version=2020-12-01
     method: DELETE
   response:
     body: ""
@@ -1792,10 +1792,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-guihjc?api-version=2020-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-daqgdp?api-version=2020-12-01
     method: GET
   response:
-    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Compute/virtualMachines/asotest-vm-guihjc''
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Compute/virtualMachines/asotest-vm-daqgdp''
       under resource group ''asotest-rg-ibybct'' was not found. For more details please
       go to https://aka.ms/ARMResourceNotFoundFix"}}'
     headers:

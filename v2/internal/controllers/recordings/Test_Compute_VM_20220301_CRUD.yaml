@@ -547,7 +547,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"westus2","name":"asotest-vm-ljhvpw","properties":{"hardwareProfile":{"vmSize":"Standard_D1_v2"},"networkProfile":{"networkInterfaces":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Network/networkInterfaces/asotest-nic-dajxvb"}]},"osProfile":{"adminPassword":"{PASSWORD}","adminUsername":"bloom","computerName":"poppy"},"storageProfile":{"imageReference":{"offer":"UbuntuServer","publisher":"Canonical","sku":"18.04-LTS","version":"latest"}}}}'
+    body: '{"location":"westus2","name":"asotest-vm-kpauzd","properties":{"hardwareProfile":{"vmSize":"Standard_D1_v2"},"networkProfile":{"networkInterfaces":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Network/networkInterfaces/asotest-nic-dajxvb"}]},"osProfile":{"adminPassword":"{PASSWORD}","adminUsername":"bloom","computerName":"poppy"},"storageProfile":{"imageReference":{"offer":"UbuntuServer","publisher":"Canonical","sku":"18.04-LTS","version":"latest"}}}}'
     form: {}
     headers:
       Accept:
@@ -558,10 +558,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-ljhvpw?api-version=2022-03-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-kpauzd?api-version=2022-03-01
     method: PUT
   response:
-    body: "{\r\n  \"name\": \"asotest-vm-ljhvpw\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-ljhvpw\",\r\n
+    body: "{\r\n  \"name\": \"asotest-vm-kpauzd\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-kpauzd\",\r\n
       \ \"type\": \"Microsoft.Compute/virtualMachines\",\r\n  \"location\": \"westus2\",\r\n
       \ \"properties\": {\r\n    \"hardwareProfile\": {\r\n      \"vmSize\": \"Standard_D1_v2\"\r\n
       \   },\r\n    \"provisioningState\": \"Creating\",\r\n    \"vmId\": \"29c04082-b430-4efd-bd29-6526227080f1\",\r\n
@@ -690,10 +690,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-ljhvpw?api-version=2022-03-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-kpauzd?api-version=2022-03-01
     method: GET
   response:
-    body: "{\r\n  \"name\": \"asotest-vm-ljhvpw\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-ljhvpw\",\r\n
+    body: "{\r\n  \"name\": \"asotest-vm-kpauzd\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-kpauzd\",\r\n
       \ \"type\": \"Microsoft.Compute/virtualMachines\",\r\n  \"location\": \"westus2\",\r\n
       \ \"properties\": {\r\n    \"hardwareProfile\": {\r\n      \"vmSize\": \"Standard_D1_v2\"\r\n
       \   },\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"vmId\": \"29c04082-b430-4efd-bd29-6526227080f1\",\r\n
@@ -701,10 +701,10 @@ interactions:
       \"Canonical\",\r\n        \"offer\": \"UbuntuServer\",\r\n        \"sku\": \"18.04-LTS\",\r\n
       \       \"version\": \"latest\",\r\n        \"exactVersion\": \"18.04.202401161\"\r\n
       \     },\r\n      \"osDisk\": {\r\n        \"osType\": \"Linux\",\r\n        \"name\":
-      \"asotest-vm-ljhvpw_OsDisk_1_b63879908e6e4ccc9c8b503d0fba7bd1\",\r\n        \"createOption\":
+      \"asotest-vm-kpauzd_OsDisk_1_b63879908e6e4ccc9c8b503d0fba7bd1\",\r\n        \"createOption\":
       \"FromImage\",\r\n        \"caching\": \"ReadWrite\",\r\n        \"managedDisk\":
       {\r\n          \"storageAccountType\": \"Standard_LRS\",\r\n          \"id\":
-      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/disks/asotest-vm-ljhvpw_OsDisk_1_b63879908e6e4ccc9c8b503d0fba7bd1\"\r\n
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/disks/asotest-vm-kpauzd_OsDisk_1_b63879908e6e4ccc9c8b503d0fba7bd1\"\r\n
       \       },\r\n        \"deleteOption\": \"Detach\",\r\n        \"diskSizeGB\":
       30\r\n      },\r\n      \"dataDisks\": []\r\n    },\r\n    \"osProfile\": {\r\n
       \     \"computerName\": \"poppy\",\r\n      \"adminUsername\": \"bloom\",\r\n
@@ -748,10 +748,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-ljhvpw?api-version=2022-03-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-kpauzd?api-version=2022-03-01
     method: GET
   response:
-    body: "{\r\n  \"name\": \"asotest-vm-ljhvpw\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-ljhvpw\",\r\n
+    body: "{\r\n  \"name\": \"asotest-vm-kpauzd\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-kpauzd\",\r\n
       \ \"type\": \"Microsoft.Compute/virtualMachines\",\r\n  \"location\": \"westus2\",\r\n
       \ \"properties\": {\r\n    \"hardwareProfile\": {\r\n      \"vmSize\": \"Standard_D1_v2\"\r\n
       \   },\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"vmId\": \"29c04082-b430-4efd-bd29-6526227080f1\",\r\n
@@ -759,10 +759,10 @@ interactions:
       \"Canonical\",\r\n        \"offer\": \"UbuntuServer\",\r\n        \"sku\": \"18.04-LTS\",\r\n
       \       \"version\": \"latest\",\r\n        \"exactVersion\": \"18.04.202401161\"\r\n
       \     },\r\n      \"osDisk\": {\r\n        \"osType\": \"Linux\",\r\n        \"name\":
-      \"asotest-vm-ljhvpw_OsDisk_1_b63879908e6e4ccc9c8b503d0fba7bd1\",\r\n        \"createOption\":
+      \"asotest-vm-kpauzd_OsDisk_1_b63879908e6e4ccc9c8b503d0fba7bd1\",\r\n        \"createOption\":
       \"FromImage\",\r\n        \"caching\": \"ReadWrite\",\r\n        \"managedDisk\":
       {\r\n          \"storageAccountType\": \"Standard_LRS\",\r\n          \"id\":
-      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/disks/asotest-vm-ljhvpw_OsDisk_1_b63879908e6e4ccc9c8b503d0fba7bd1\"\r\n
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/disks/asotest-vm-kpauzd_OsDisk_1_b63879908e6e4ccc9c8b503d0fba7bd1\"\r\n
       \       },\r\n        \"deleteOption\": \"Detach\",\r\n        \"diskSizeGB\":
       30\r\n      },\r\n      \"dataDisks\": []\r\n    },\r\n    \"osProfile\": {\r\n
       \     \"computerName\": \"poppy\",\r\n      \"adminUsername\": \"bloom\",\r\n
@@ -799,7 +799,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"westus2","name":"asotest-vm-ljhvpw","properties":{"diagnosticsProfile":{"bootDiagnostics":{"enabled":true}},"hardwareProfile":{"vmSize":"Standard_D1_v2"},"networkProfile":{"networkInterfaces":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Network/networkInterfaces/asotest-nic-dajxvb"}]},"osProfile":{"adminPassword":"{PASSWORD}","adminUsername":"bloom","computerName":"poppy"},"storageProfile":{"imageReference":{"offer":"UbuntuServer","publisher":"Canonical","sku":"18.04-LTS","version":"latest"}}}}'
+    body: '{"location":"westus2","name":"asotest-vm-kpauzd","properties":{"diagnosticsProfile":{"bootDiagnostics":{"enabled":true}},"hardwareProfile":{"vmSize":"Standard_D1_v2"},"networkProfile":{"networkInterfaces":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Network/networkInterfaces/asotest-nic-dajxvb"}]},"osProfile":{"adminPassword":"{PASSWORD}","adminUsername":"bloom","computerName":"poppy"},"storageProfile":{"imageReference":{"offer":"UbuntuServer","publisher":"Canonical","sku":"18.04-LTS","version":"latest"}}}}'
     form: {}
     headers:
       Accept:
@@ -810,10 +810,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-ljhvpw?api-version=2022-03-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-kpauzd?api-version=2022-03-01
     method: PUT
   response:
-    body: "{\r\n  \"name\": \"asotest-vm-ljhvpw\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-ljhvpw\",\r\n
+    body: "{\r\n  \"name\": \"asotest-vm-kpauzd\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-kpauzd\",\r\n
       \ \"type\": \"Microsoft.Compute/virtualMachines\",\r\n  \"location\": \"westus2\",\r\n
       \ \"properties\": {\r\n    \"hardwareProfile\": {\r\n      \"vmSize\": \"Standard_D1_v2\"\r\n
       \   },\r\n    \"provisioningState\": \"Updating\",\r\n    \"vmId\": \"29c04082-b430-4efd-bd29-6526227080f1\",\r\n
@@ -821,10 +821,10 @@ interactions:
       \"Canonical\",\r\n        \"offer\": \"UbuntuServer\",\r\n        \"sku\": \"18.04-LTS\",\r\n
       \       \"version\": \"latest\",\r\n        \"exactVersion\": \"18.04.202401161\"\r\n
       \     },\r\n      \"osDisk\": {\r\n        \"osType\": \"Linux\",\r\n        \"name\":
-      \"asotest-vm-ljhvpw_OsDisk_1_b63879908e6e4ccc9c8b503d0fba7bd1\",\r\n        \"createOption\":
+      \"asotest-vm-kpauzd_OsDisk_1_b63879908e6e4ccc9c8b503d0fba7bd1\",\r\n        \"createOption\":
       \"FromImage\",\r\n        \"caching\": \"ReadWrite\",\r\n        \"managedDisk\":
       {\r\n          \"storageAccountType\": \"Standard_LRS\",\r\n          \"id\":
-      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/disks/asotest-vm-ljhvpw_OsDisk_1_b63879908e6e4ccc9c8b503d0fba7bd1\"\r\n
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/disks/asotest-vm-kpauzd_OsDisk_1_b63879908e6e4ccc9c8b503d0fba7bd1\"\r\n
       \       },\r\n        \"deleteOption\": \"Detach\",\r\n        \"diskSizeGB\":
       30\r\n      },\r\n      \"dataDisks\": []\r\n    },\r\n    \"osProfile\": {\r\n
       \     \"computerName\": \"poppy\",\r\n      \"adminUsername\": \"bloom\",\r\n
@@ -978,10 +978,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-ljhvpw?api-version=2022-03-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-kpauzd?api-version=2022-03-01
     method: GET
   response:
-    body: "{\r\n  \"name\": \"asotest-vm-ljhvpw\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-ljhvpw\",\r\n
+    body: "{\r\n  \"name\": \"asotest-vm-kpauzd\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-kpauzd\",\r\n
       \ \"type\": \"Microsoft.Compute/virtualMachines\",\r\n  \"location\": \"westus2\",\r\n
       \ \"properties\": {\r\n    \"hardwareProfile\": {\r\n      \"vmSize\": \"Standard_D1_v2\"\r\n
       \   },\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"vmId\": \"29c04082-b430-4efd-bd29-6526227080f1\",\r\n
@@ -989,10 +989,10 @@ interactions:
       \"Canonical\",\r\n        \"offer\": \"UbuntuServer\",\r\n        \"sku\": \"18.04-LTS\",\r\n
       \       \"version\": \"latest\",\r\n        \"exactVersion\": \"18.04.202401161\"\r\n
       \     },\r\n      \"osDisk\": {\r\n        \"osType\": \"Linux\",\r\n        \"name\":
-      \"asotest-vm-ljhvpw_OsDisk_1_b63879908e6e4ccc9c8b503d0fba7bd1\",\r\n        \"createOption\":
+      \"asotest-vm-kpauzd_OsDisk_1_b63879908e6e4ccc9c8b503d0fba7bd1\",\r\n        \"createOption\":
       \"FromImage\",\r\n        \"caching\": \"ReadWrite\",\r\n        \"managedDisk\":
       {\r\n          \"storageAccountType\": \"Standard_LRS\",\r\n          \"id\":
-      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/disks/asotest-vm-ljhvpw_OsDisk_1_b63879908e6e4ccc9c8b503d0fba7bd1\"\r\n
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/disks/asotest-vm-kpauzd_OsDisk_1_b63879908e6e4ccc9c8b503d0fba7bd1\"\r\n
       \       },\r\n        \"deleteOption\": \"Detach\",\r\n        \"diskSizeGB\":
       30\r\n      },\r\n      \"dataDisks\": []\r\n    },\r\n    \"osProfile\": {\r\n
       \     \"computerName\": \"poppy\",\r\n      \"adminUsername\": \"bloom\",\r\n
@@ -1038,10 +1038,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-ljhvpw?api-version=2022-03-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-kpauzd?api-version=2022-03-01
     method: GET
   response:
-    body: "{\r\n  \"name\": \"asotest-vm-ljhvpw\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-ljhvpw\",\r\n
+    body: "{\r\n  \"name\": \"asotest-vm-kpauzd\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-kpauzd\",\r\n
       \ \"type\": \"Microsoft.Compute/virtualMachines\",\r\n  \"location\": \"westus2\",\r\n
       \ \"properties\": {\r\n    \"hardwareProfile\": {\r\n      \"vmSize\": \"Standard_D1_v2\"\r\n
       \   },\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"vmId\": \"29c04082-b430-4efd-bd29-6526227080f1\",\r\n
@@ -1049,10 +1049,10 @@ interactions:
       \"Canonical\",\r\n        \"offer\": \"UbuntuServer\",\r\n        \"sku\": \"18.04-LTS\",\r\n
       \       \"version\": \"latest\",\r\n        \"exactVersion\": \"18.04.202401161\"\r\n
       \     },\r\n      \"osDisk\": {\r\n        \"osType\": \"Linux\",\r\n        \"name\":
-      \"asotest-vm-ljhvpw_OsDisk_1_b63879908e6e4ccc9c8b503d0fba7bd1\",\r\n        \"createOption\":
+      \"asotest-vm-kpauzd_OsDisk_1_b63879908e6e4ccc9c8b503d0fba7bd1\",\r\n        \"createOption\":
       \"FromImage\",\r\n        \"caching\": \"ReadWrite\",\r\n        \"managedDisk\":
       {\r\n          \"storageAccountType\": \"Standard_LRS\",\r\n          \"id\":
-      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/disks/asotest-vm-ljhvpw_OsDisk_1_b63879908e6e4ccc9c8b503d0fba7bd1\"\r\n
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/disks/asotest-vm-kpauzd_OsDisk_1_b63879908e6e4ccc9c8b503d0fba7bd1\"\r\n
       \       },\r\n        \"deleteOption\": \"Detach\",\r\n        \"diskSizeGB\":
       30\r\n      },\r\n      \"dataDisks\": []\r\n    },\r\n    \"osProfile\": {\r\n
       \     \"computerName\": \"poppy\",\r\n      \"adminUsername\": \"bloom\",\r\n
@@ -1102,10 +1102,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-ljhvpw/extensions/mycustomextension?api-version=2022-03-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-kpauzd/extensions/mycustomextension?api-version=2022-03-01
     method: PUT
   response:
-    body: "{\r\n  \"name\": \"mycustomextension\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-ljhvpw/extensions/mycustomextension\",\r\n
+    body: "{\r\n  \"name\": \"mycustomextension\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-kpauzd/extensions/mycustomextension\",\r\n
       \ \"type\": \"Microsoft.Compute/virtualMachines/extensions\",\r\n  \"location\":
       \"westus2\",\r\n  \"properties\": {\r\n    \"autoUpgradeMinorVersion\": false,\r\n
       \   \"provisioningState\": \"Creating\",\r\n    \"publisher\": \"Microsoft.ManagedServices\",\r\n
@@ -1286,10 +1286,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-ljhvpw/extensions/mycustomextension?api-version=2022-03-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-kpauzd/extensions/mycustomextension?api-version=2022-03-01
     method: GET
   response:
-    body: "{\r\n  \"name\": \"mycustomextension\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-ljhvpw/extensions/mycustomextension\",\r\n
+    body: "{\r\n  \"name\": \"mycustomextension\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-kpauzd/extensions/mycustomextension\",\r\n
       \ \"type\": \"Microsoft.Compute/virtualMachines/extensions\",\r\n  \"location\":
       \"westus2\",\r\n  \"properties\": {\r\n    \"autoUpgradeMinorVersion\": false,\r\n
       \   \"provisioningState\": \"Succeeded\",\r\n    \"publisher\": \"Microsoft.ManagedServices\",\r\n
@@ -1327,10 +1327,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-ljhvpw/extensions/mycustomextension?api-version=2022-03-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-kpauzd/extensions/mycustomextension?api-version=2022-03-01
     method: GET
   response:
-    body: "{\r\n  \"name\": \"mycustomextension\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-ljhvpw/extensions/mycustomextension\",\r\n
+    body: "{\r\n  \"name\": \"mycustomextension\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-kpauzd/extensions/mycustomextension\",\r\n
       \ \"type\": \"Microsoft.Compute/virtualMachines/extensions\",\r\n  \"location\":
       \"westus2\",\r\n  \"properties\": {\r\n    \"autoUpgradeMinorVersion\": false,\r\n
       \   \"provisioningState\": \"Succeeded\",\r\n    \"publisher\": \"Microsoft.ManagedServices\",\r\n
@@ -1368,7 +1368,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-ljhvpw/extensions/mycustomextension?api-version=2022-03-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-kpauzd/extensions/mycustomextension?api-version=2022-03-01
     method: DELETE
   response:
     body: ""
@@ -1549,10 +1549,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-ljhvpw/extensions/mycustomextension?api-version=2022-03-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-kpauzd/extensions/mycustomextension?api-version=2022-03-01
     method: GET
   response:
-    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Compute/virtualMachines/asotest-vm-ljhvpw/extensions/mycustomextension''
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Compute/virtualMachines/asotest-vm-kpauzd/extensions/mycustomextension''
       under resource group ''asotest-rg-zlljte'' was not found. For more details please
       go to https://aka.ms/ARMResourceNotFoundFix"}}'
     headers:
@@ -1587,7 +1587,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-ljhvpw?api-version=2022-03-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-kpauzd?api-version=2022-03-01
     method: DELETE
   response:
     body: ""
@@ -1702,7 +1702,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-ljhvpw?api-version=2022-03-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zlljte/providers/Microsoft.Compute/virtualMachines/asotest-vm-kpauzd?api-version=2022-03-01
     method: GET
   response:
     body: "{\r\n  \"error\": {\r\n    \"code\": \"NotFound\",\r\n    \"message\":

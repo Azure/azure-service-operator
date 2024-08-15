@@ -28,6 +28,9 @@ func Test_DBForMySQL_FlexibleServer_20230630_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 	secretName := "mysqlsecret"
 	adminPasswordKey := "adminPassword"
+	// Hack here to maintain the consistency of the seed for name generation.
+	// TODO: We need to remove this redundant call to `GenerateNameOfLength` and re-record the test
+	_ = tc.Namer.GenerateNameOfLength(40)
 	adminPasswordSecretRef := createPasswordSecret(secretName, adminPasswordKey, tc)
 
 	flexibleServer, fqdnSecret := newFlexibleServer20230630(tc, rg, adminPasswordSecretRef)

@@ -72,7 +72,7 @@ func Test_Compute_VM_20220301_CRUD(t *testing.T) {
 	// https://github.com/Azure/azure-service-operator/issues/1944
 	tc.CreateResourceAndWait(vnet)
 	tc.CreateResourcesAndWait(subnet, networkInterface)
-	secret := createVMPasswordSecretAndRef(tc)
+	secret := createPasswordSecret("vmsecret", "password", tc)
 	vm := newVirtualMachine20220301(tc, rg, networkInterface, secret)
 
 	tc.CreateResourceAndWait(vm)
