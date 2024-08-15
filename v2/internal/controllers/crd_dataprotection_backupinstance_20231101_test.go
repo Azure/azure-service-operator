@@ -31,7 +31,7 @@ func Test_DataProtection_BackupInstance_20231101_CRUD(t *testing.T) {
 	// Create a test resource group and wait until the operation is completed, where the globalTestContext is a global object that provides the necessary context and utilities for testing.
 	tc := globalTestContext.ForTest(t)
 	rg := tc.CreateTestResourceGroupAndWait()
-	contributorRoleId := fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/17d1049b-9a84-46fb-8f53-869881c3d3ab", tc.AzureSubscription)
+	contributorRoleId := fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c", tc.AzureSubscription)
 	readerRoleId := fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7", tc.AzureSubscription)
 	saContributorRoleId := fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/17d1049b-9a84-46fb-8f53-869881c3d3ab", tc.AzureSubscription)
 
@@ -55,11 +55,13 @@ func Test_DataProtection_BackupInstance_20231101_CRUD(t *testing.T) {
 		},
 	}
 
-	backupPolicy := newBackupPolicy20231101(tc, backupVault, "asotestbackuppolicy")
+	backupPolicy := newBackupPolicy20231101(tc, backupVault, "asotestbp")
 
 	// create storage account and blob container
 
 	acct := newStorageAccount(tc, rg)
+	// Not allowed by the policy anymore. Will need to update the storage account and respective tests
+	acct.Spec.AllowBlobPublicAccess = to.Ptr(false)
 
 	blobService := &storage.StorageAccountsBlobService{
 		ObjectMeta: tc.MakeObjectMeta("blobservice"),
