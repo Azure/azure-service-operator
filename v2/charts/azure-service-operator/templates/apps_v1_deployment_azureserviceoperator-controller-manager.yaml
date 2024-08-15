@@ -140,6 +140,30 @@ spec:
               key: AZURE_USER_AGENT_SUFFIX
               name: aso-controller-settings
               optional: true
+        - name: MAX_CONCURRENT_RECONCILES
+          valueFrom:
+            secretKeyRef:
+              key: MAX_CONCURRENT_RECONCILES
+              name: aso-controller-settings
+              optional: true
+        - name: RATE_LIMIT_MODE
+          valueFrom:
+            secretKeyRef:
+              key: RATE_LIMIT_MODE
+              name: aso-controller-settings
+              optional: true
+        - name: RATE_LIMIT_QPS
+          valueFrom:
+            secretKeyRef:
+              key: RATE_LIMIT_QPS
+              name: aso-controller-settings
+              optional: true
+        - name: RATE_LIMIT_BUCKET_SIZE
+          valueFrom:
+            secretKeyRef:
+              key: RATE_LIMIT_BUCKET_SIZE
+              name: aso-controller-settings
+              optional: true
         - name: POD_NAMESPACE
           valueFrom:
             fieldRef:

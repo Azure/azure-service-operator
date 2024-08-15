@@ -1875,9 +1875,7 @@ ManagedCluster_Spec_ARM: Object (8 properties)
 │   │   ├── NodePublicIPPrefixID: *string
 │   │   ├── NodeTaints: string[]
 │   │   ├── OrchestratorVersion: *string
-│   │   ├── OsDiskSizeGB: *Validated<int> (2 rules)
-│   │   │   ├── Rule 0: Maximum: 2048
-│   │   │   └── Rule 1: Minimum: 0
+│   │   ├── OsDiskSizeGB: *int
 │   │   ├── OsDiskType: *Enum (2 values)
 │   │   │   ├── "Ephemeral"
 │   │   │   └── "Managed"
@@ -2186,9 +2184,7 @@ ManagedCluster_Spec_ARM: Object (8 properties)
 │   │   │   │   ├── "Private"
 │   │   │   │   └── "Public"
 │   │   │   └── KeyVaultResourceId: *string
-│   │   ├── CustomCATrustCertificates: Validated<string[]> (2 rules)
-│   │   │   ├── Rule 0: MaxItems: 10
-│   │   │   └── Rule 1: MinItems: 0
+│   │   ├── CustomCATrustCertificates: string[]
 │   │   ├── Defender: *Object (2 properties)
 │   │   │   ├── LogAnalyticsWorkspaceResourceId: *string
 │   │   │   └── SecurityMonitoring: *Object (1 property)
@@ -2919,9 +2915,7 @@ ManagedClusters_AgentPool_Spec_ARM: Object (2 properties)
     ├── NodePublicIPPrefixID: *string
     ├── NodeTaints: string[]
     ├── OrchestratorVersion: *string
-    ├── OsDiskSizeGB: *Validated<int> (2 rules)
-    │   ├── Rule 0: Maximum: 2048
-    │   └── Rule 1: Minimum: 0
+    ├── OsDiskSizeGB: *int
     ├── OsDiskType: *Enum (2 values)
     │   ├── "Ephemeral"
     │   └── "Managed"

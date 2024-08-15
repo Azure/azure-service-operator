@@ -4753,7 +4753,7 @@ func (in *ManagedClusterAgentPoolProfileProperties_ARM) DeepCopyInto(out *Manage
 	}
 	if in.OsDiskSizeGB != nil {
 		in, out := &in.OsDiskSizeGB, &out.OsDiskSizeGB
-		*out = new(ContainerServiceOSDisk)
+		*out = new(int)
 		**out = **in
 	}
 	if in.OsDiskType != nil {
@@ -5330,7 +5330,7 @@ func (in *ManagedClusterAgentPoolProfile_ARM) DeepCopyInto(out *ManagedClusterAg
 	}
 	if in.OsDiskSizeGB != nil {
 		in, out := &in.OsDiskSizeGB, &out.OsDiskSizeGB
-		*out = new(ContainerServiceOSDisk)
+		*out = new(int)
 		**out = **in
 	}
 	if in.OsDiskType != nil {
@@ -11227,7 +11227,7 @@ func (in *ManagedClusterSecurityProfile_ARM) DeepCopyInto(out *ManagedClusterSec
 	}
 	if in.CustomCATrustCertificates != nil {
 		in, out := &in.CustomCATrustCertificates, &out.CustomCATrustCertificates
-		*out = make(ManagedClusterSecurityProfileCustomCATrustCertificates, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 	if in.Defender != nil {

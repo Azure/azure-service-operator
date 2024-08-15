@@ -9,6 +9,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -261,7 +262,7 @@ func (account *DatabaseAccount) validateSecretDestinations() (admission.Warnings
 		account.Spec.OperatorSpec.Secrets.SecondaryMasterKey,
 		account.Spec.OperatorSpec.Secrets.SecondaryReadonlyMasterKey,
 	}
-	return genruntime.ValidateSecretDestinations(toValidate)
+	return secrets.ValidateDestinations(toValidate)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -412,7 +413,7 @@ type DatabaseAccount_Spec struct {
 	// failover priorities configured for the account.
 	EnableAutomaticFailover *bool `json:"enableAutomaticFailover,omitempty"`
 
-	// EnableBurstCapacity: Flag to indicate enabling/disabling of Burst Capacity Preview feature on the account
+	// EnableBurstCapacity: Flag to indicate enabling/disabling of Burst Capacity feature on the account
 	EnableBurstCapacity *bool `json:"enableBurstCapacity,omitempty"`
 
 	// EnableCassandraConnector: Enables the cassandra connector on the Cosmos DB C* account
@@ -2311,7 +2312,7 @@ type DatabaseAccount_STATUS struct {
 	// failover priorities configured for the account.
 	EnableAutomaticFailover *bool `json:"enableAutomaticFailover,omitempty"`
 
-	// EnableBurstCapacity: Flag to indicate enabling/disabling of Burst Capacity Preview feature on the account
+	// EnableBurstCapacity: Flag to indicate enabling/disabling of Burst Capacity feature on the account
 	EnableBurstCapacity *bool `json:"enableBurstCapacity,omitempty"`
 
 	// EnableCassandraConnector: Enables the cassandra connector on the Cosmos DB C* account

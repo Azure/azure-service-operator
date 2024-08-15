@@ -9,6 +9,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -238,7 +239,7 @@ func (rule *DnsForwardingRuleSetsForwardingRule) validateOptionalConfigMapRefere
 	if err != nil {
 		return nil, err
 	}
-	return genruntime.ValidateOptionalConfigMapReferences(refs)
+	return configmaps.ValidateOptionalReferences(refs)
 }
 
 // validateOwnerReference validates the owner field

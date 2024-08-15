@@ -1509,9 +1509,7 @@ func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfile_ARM(gens 
 	gens["NodePublicIPPrefixID"] = gen.PtrOf(gen.AlphaString())
 	gens["NodeTaints"] = gen.SliceOf(gen.AlphaString())
 	gens["OrchestratorVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["OsDiskSizeGB"] = gen.PtrOf(gen.Int().Map(func(it int) ContainerServiceOSDisk {
-		return ContainerServiceOSDisk(it)
-	}))
+	gens["OsDiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["OsDiskType"] = gen.PtrOf(gen.OneConstOf(OSDiskType_Ephemeral, OSDiskType_Managed))
 	gens["OsSKU"] = gen.PtrOf(gen.OneConstOf(
 		OSSKU_AzureLinux,
@@ -4048,9 +4046,7 @@ func ManagedClusterSecurityProfile_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedClusterSecurityProfile_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterSecurityProfile_ARM(gens map[string]gopter.Gen) {
-	gens["CustomCATrustCertificates"] = gen.SliceOf(gen.AlphaString()).Map(func(it []string) ManagedClusterSecurityProfileCustomCATrustCertificates {
-		return ManagedClusterSecurityProfileCustomCATrustCertificates(it)
-	})
+	gens["CustomCATrustCertificates"] = gen.SliceOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForManagedClusterSecurityProfile_ARM is a factory method for creating gopter generators

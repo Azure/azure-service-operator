@@ -48,6 +48,8 @@ import (
 	compute_v20220301s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301/storage"
 	compute_v20220702 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702"
 	compute_v20220702s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702/storage"
+	compute_v20240302 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20240302"
+	compute_v20240302s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20240302/storage"
 	containerinstance_customizations "github.com/Azure/azure-service-operator/v2/api/containerinstance/customizations"
 	containerinstance_v20211001 "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1api20211001"
 	containerinstance_v20211001s "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1api20211001/storage"
@@ -59,8 +61,6 @@ import (
 	containerservice_v20210501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20210501/storage"
 	containerservice_v20230201 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201"
 	containerservice_v20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201/storage"
-	containerservice_v20230202p "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202preview"
-	containerservice_v20230202ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202preview/storage"
 	containerservice_v20230315p "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230315preview"
 	containerservice_v20230315ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230315preview/storage"
 	containerservice_v20231001 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001"
@@ -408,8 +408,6 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.RuleSet)})
 	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.Secret)})
 	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.SecurityPolicy)})
-	result = append(result, &registration.StorageType{Obj: new(compute_v20200930s.Disk)})
-	result = append(result, &registration.StorageType{Obj: new(compute_v20200930s.Snapshot)})
 	result = append(result, &registration.StorageType{Obj: new(compute_v20220301s.Image)})
 	result = append(result, &registration.StorageType{
 		Obj: new(compute_v20220301s.VirtualMachine),
@@ -475,8 +473,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(compute_v20240302s.Disk)})
+	result = append(result, &registration.StorageType{Obj: new(compute_v20240302s.DiskAccess)})
 	result = append(result, &registration.StorageType{
-		Obj: new(compute_v20220702s.DiskEncryptionSet),
+		Obj: new(compute_v20240302s.DiskEncryptionSet),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.federatedClientIdFromConfig",
@@ -490,10 +490,11 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{
 			{
 				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.activeKey.keyUrlFromConfig", ".spec.federatedClientIdFromConfig"}, &compute_v20220702s.DiskEncryptionSetList{}),
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.activeKey.keyUrlFromConfig", ".spec.federatedClientIdFromConfig"}, &compute_v20240302s.DiskEncryptionSetList{}),
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(compute_v20240302s.Snapshot)})
 	result = append(result, &registration.StorageType{
 		Obj: new(containerinstance_v20211001s.ContainerGroup),
 		Indexes: []registration.Index{
@@ -1351,6 +1352,18 @@ func getKnownTypes() []client.Object {
 		new(compute_v20220301s.VirtualMachinesExtension))
 	result = append(result, new(compute_v20220702.DiskEncryptionSet))
 	result = append(result, new(compute_v20220702s.DiskEncryptionSet))
+	result = append(
+		result,
+		new(compute_v20240302.Disk),
+		new(compute_v20240302.DiskAccess),
+		new(compute_v20240302.DiskEncryptionSet),
+		new(compute_v20240302.Snapshot))
+	result = append(
+		result,
+		new(compute_v20240302s.Disk),
+		new(compute_v20240302s.DiskAccess),
+		new(compute_v20240302s.DiskEncryptionSet),
+		new(compute_v20240302s.Snapshot))
 	result = append(result, new(containerinstance_v20211001.ContainerGroup))
 	result = append(result, new(containerinstance_v20211001s.ContainerGroup))
 	result = append(result, new(containerregistry_v20210901.Registry))
@@ -1371,16 +1384,6 @@ func getKnownTypes() []client.Object {
 		result,
 		new(containerservice_v20230201s.ManagedCluster),
 		new(containerservice_v20230201s.ManagedClustersAgentPool))
-	result = append(
-		result,
-		new(containerservice_v20230202p.ManagedCluster),
-		new(containerservice_v20230202p.ManagedClustersAgentPool),
-		new(containerservice_v20230202p.TrustedAccessRoleBinding))
-	result = append(
-		result,
-		new(containerservice_v20230202ps.ManagedCluster),
-		new(containerservice_v20230202ps.ManagedClustersAgentPool),
-		new(containerservice_v20230202ps.TrustedAccessRoleBinding))
 	result = append(
 		result,
 		new(containerservice_v20230315p.Fleet),
@@ -2012,6 +2015,8 @@ func createScheme() *runtime.Scheme {
 	_ = compute_v20220301s.AddToScheme(scheme)
 	_ = compute_v20220702.AddToScheme(scheme)
 	_ = compute_v20220702s.AddToScheme(scheme)
+	_ = compute_v20240302.AddToScheme(scheme)
+	_ = compute_v20240302s.AddToScheme(scheme)
 	_ = containerinstance_v20211001.AddToScheme(scheme)
 	_ = containerinstance_v20211001s.AddToScheme(scheme)
 	_ = containerregistry_v20210901.AddToScheme(scheme)
@@ -2020,8 +2025,6 @@ func createScheme() *runtime.Scheme {
 	_ = containerservice_v20210501s.AddToScheme(scheme)
 	_ = containerservice_v20230201.AddToScheme(scheme)
 	_ = containerservice_v20230201s.AddToScheme(scheme)
-	_ = containerservice_v20230202p.AddToScheme(scheme)
-	_ = containerservice_v20230202ps.AddToScheme(scheme)
 	_ = containerservice_v20230315p.AddToScheme(scheme)
 	_ = containerservice_v20230315ps.AddToScheme(scheme)
 	_ = containerservice_v20231001.AddToScheme(scheme)
@@ -2176,6 +2179,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &cdn_customizations.RuleSetExtension{})
 	result = append(result, &cdn_customizations.SecretExtension{})
 	result = append(result, &cdn_customizations.SecurityPolicyExtension{})
+	result = append(result, &compute_customizations.DiskAccessExtension{})
 	result = append(result, &compute_customizations.DiskEncryptionSetExtension{})
 	result = append(result, &compute_customizations.DiskExtension{})
 	result = append(result, &compute_customizations.ImageExtension{})
@@ -2644,9 +2648,9 @@ func indexAuthorizationRoleAssignmentPrincipalIdFromConfig(rawObj client.Object)
 	return obj.Spec.PrincipalIdFromConfig.Index()
 }
 
-// indexComputeDiskEncryptionSetFederatedClientIdFromConfig an index function for compute_v20220702s.DiskEncryptionSet .spec.federatedClientIdFromConfig
+// indexComputeDiskEncryptionSetFederatedClientIdFromConfig an index function for compute_v20240302s.DiskEncryptionSet .spec.federatedClientIdFromConfig
 func indexComputeDiskEncryptionSetFederatedClientIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*compute_v20220702s.DiskEncryptionSet)
+	obj, ok := rawObj.(*compute_v20240302s.DiskEncryptionSet)
 	if !ok {
 		return nil
 	}
@@ -2656,9 +2660,9 @@ func indexComputeDiskEncryptionSetFederatedClientIdFromConfig(rawObj client.Obje
 	return obj.Spec.FederatedClientIdFromConfig.Index()
 }
 
-// indexComputeDiskEncryptionSetKeyUrlFromConfig an index function for compute_v20220702s.DiskEncryptionSet .spec.activeKey.keyUrlFromConfig
+// indexComputeDiskEncryptionSetKeyUrlFromConfig an index function for compute_v20240302s.DiskEncryptionSet .spec.activeKey.keyUrlFromConfig
 func indexComputeDiskEncryptionSetKeyUrlFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*compute_v20220702s.DiskEncryptionSet)
+	obj, ok := rawObj.(*compute_v20240302s.DiskEncryptionSet)
 	if !ok {
 		return nil
 	}

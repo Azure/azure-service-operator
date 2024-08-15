@@ -9,6 +9,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -243,7 +244,7 @@ func (endpoint *PrivateEndpoint) validateConfigMapDestinations() (admission.Warn
 	toValidate := []*genruntime.ConfigMapDestination{
 		endpoint.Spec.OperatorSpec.ConfigMaps.PrimaryNicPrivateIpAddress,
 	}
-	return genruntime.ValidateConfigMapDestinations(toValidate)
+	return configmaps.ValidateDestinations(toValidate)
 }
 
 // validateOwnerReference validates the owner field

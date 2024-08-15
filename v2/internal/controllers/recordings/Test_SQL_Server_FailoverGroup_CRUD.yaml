@@ -2,7 +2,7 @@
 version: 1
 interactions:
 - request:
-    body: '{"location":"eastus","name":"asotest-rg-azqkky","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+    body: '{"location":"eastus","name":"asotest-rg-sdcgzl","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
     form: {}
     headers:
       Accept:
@@ -13,10 +13,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl?api-version=2020-06-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky","name":"asotest-rg-azqkky","type":"Microsoft.Resources/resourceGroups","location":"eastus","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl","name":"asotest-rg-sdcgzl","type":"Microsoft.Resources/resourceGroups","location":"eastus","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -43,10 +43,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky","name":"asotest-rg-azqkky","type":"Microsoft.Resources/resourceGroups","location":"eastus","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl","name":"asotest-rg-sdcgzl","type":"Microsoft.Resources/resourceGroups","location":"eastus","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -66,7 +66,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"eastus","name":"asotest-sqlserverprimary-aetshk","properties":{"administratorLogin":"myadmin","administratorLoginPassword":"{PASSWORD}","version":"12.0"}}'
+    body: '{"location":"eastus","name":"asotest-sqlserverprimary-ytkbsp","properties":{"administratorLogin":"myadmin","administratorLoginPassword":"{PASSWORD}","version":"12.0"}}'
     form: {}
     headers:
       Accept:
@@ -77,13 +77,13 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-aetshk?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-ytkbsp?api-version=2021-11-01
     method: PUT
   response:
     body: '{"operation":"UpsertLogicalServer","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -93,7 +93,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/locations/eastus/serverOperationResults/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/locations/eastus/serverOperationResults/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -113,7 +113,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"83580ef0-437d-41be-85a7-ff9c35833652","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -145,7 +145,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"83580ef0-437d-41be-85a7-ff9c35833652","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -172,7 +172,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"eastus2","name":"asotest-sqlserversecondary-bhvpcy","properties":{"administratorLogin":"myadmin","administratorLoginPassword":"{PASSWORD}","version":"12.0"}}'
+    body: '{"location":"eastus2","name":"asotest-sqlserversecondary-rhzabj","properties":{"administratorLogin":"myadmin","administratorLoginPassword":"{PASSWORD}","version":"12.0"}}'
     form: {}
     headers:
       Accept:
@@ -183,13 +183,13 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/servers/asotest-sqlserversecondary-bhvpcy?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/servers/asotest-sqlserversecondary-rhzabj?api-version=2021-11-01
     method: PUT
   response:
     body: '{"operation":"UpsertLogicalServer","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/locations/eastus2/serverAzureAsyncOperation/91155539-f4fd-41e7-af4b-1809710afa13?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/locations/eastus2/serverAzureAsyncOperation/91155539-f4fd-41e7-af4b-1809710afa13?api-version=2021-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -199,7 +199,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/locations/eastus2/serverOperationResults/91155539-f4fd-41e7-af4b-1809710afa13?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/locations/eastus2/serverOperationResults/91155539-f4fd-41e7-af4b-1809710afa13?api-version=2021-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -219,7 +219,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"83580ef0-437d-41be-85a7-ff9c35833652","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -251,7 +251,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/locations/eastus2/serverAzureAsyncOperation/91155539-f4fd-41e7-af4b-1809710afa13?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/locations/eastus2/serverAzureAsyncOperation/91155539-f4fd-41e7-af4b-1809710afa13?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"91155539-f4fd-41e7-af4b-1809710afa13","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -283,7 +283,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"83580ef0-437d-41be-85a7-ff9c35833652","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -315,7 +315,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/locations/eastus2/serverAzureAsyncOperation/91155539-f4fd-41e7-af4b-1809710afa13?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/locations/eastus2/serverAzureAsyncOperation/91155539-f4fd-41e7-af4b-1809710afa13?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"91155539-f4fd-41e7-af4b-1809710afa13","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -347,7 +347,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/locations/eastus2/serverAzureAsyncOperation/91155539-f4fd-41e7-af4b-1809710afa13?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/locations/eastus2/serverAzureAsyncOperation/91155539-f4fd-41e7-af4b-1809710afa13?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"91155539-f4fd-41e7-af4b-1809710afa13","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -379,7 +379,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/locations/eastus2/serverAzureAsyncOperation/91155539-f4fd-41e7-af4b-1809710afa13?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/locations/eastus2/serverAzureAsyncOperation/91155539-f4fd-41e7-af4b-1809710afa13?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"91155539-f4fd-41e7-af4b-1809710afa13","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -411,7 +411,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"83580ef0-437d-41be-85a7-ff9c35833652","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -443,7 +443,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/locations/eastus2/serverAzureAsyncOperation/91155539-f4fd-41e7-af4b-1809710afa13?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/locations/eastus2/serverAzureAsyncOperation/91155539-f4fd-41e7-af4b-1809710afa13?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"91155539-f4fd-41e7-af4b-1809710afa13","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -475,7 +475,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"83580ef0-437d-41be-85a7-ff9c35833652","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -507,7 +507,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/locations/eastus2/serverAzureAsyncOperation/91155539-f4fd-41e7-af4b-1809710afa13?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/locations/eastus2/serverAzureAsyncOperation/91155539-f4fd-41e7-af4b-1809710afa13?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"91155539-f4fd-41e7-af4b-1809710afa13","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -539,7 +539,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "6"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"83580ef0-437d-41be-85a7-ff9c35833652","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -571,7 +571,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "6"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/locations/eastus2/serverAzureAsyncOperation/91155539-f4fd-41e7-af4b-1809710afa13?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/locations/eastus2/serverAzureAsyncOperation/91155539-f4fd-41e7-af4b-1809710afa13?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"91155539-f4fd-41e7-af4b-1809710afa13","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
@@ -603,10 +603,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/servers/asotest-sqlserversecondary-bhvpcy?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/servers/asotest-sqlserversecondary-rhzabj?api-version=2021-11-01
     method: GET
   response:
-    body: '{"kind":"v12.0","properties":{"administratorLogin":"myadmin","version":"12.0","state":"Ready","fullyQualifiedDomainName":"asotest-sqlserversecondary-bhvpcy.database.windows.net","privateEndpointConnections":[],"publicNetworkAccess":"Enabled","restrictOutboundNetworkAccess":"Disabled"},"location":"eastus2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/servers/asotest-sqlserversecondary-bhvpcy","name":"asotest-sqlserversecondary-bhvpcy","type":"Microsoft.Sql/servers"}'
+    body: '{"kind":"v12.0","properties":{"administratorLogin":"myadmin","version":"12.0","state":"Ready","fullyQualifiedDomainName":"asotest-sqlserversecondary-rhzabj.database.windows.net","privateEndpointConnections":[],"publicNetworkAccess":"Enabled","restrictOutboundNetworkAccess":"Disabled"},"location":"eastus2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/servers/asotest-sqlserversecondary-rhzabj","name":"asotest-sqlserversecondary-rhzabj","type":"Microsoft.Sql/servers"}'
     headers:
       Cache-Control:
       - no-cache
@@ -635,10 +635,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/servers/asotest-sqlserversecondary-bhvpcy?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/servers/asotest-sqlserversecondary-rhzabj?api-version=2021-11-01
     method: GET
   response:
-    body: '{"kind":"v12.0","properties":{"administratorLogin":"myadmin","version":"12.0","state":"Ready","fullyQualifiedDomainName":"asotest-sqlserversecondary-bhvpcy.database.windows.net","privateEndpointConnections":[],"publicNetworkAccess":"Enabled","restrictOutboundNetworkAccess":"Disabled"},"location":"eastus2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/servers/asotest-sqlserversecondary-bhvpcy","name":"asotest-sqlserversecondary-bhvpcy","type":"Microsoft.Sql/servers"}'
+    body: '{"kind":"v12.0","properties":{"administratorLogin":"myadmin","version":"12.0","state":"Ready","fullyQualifiedDomainName":"asotest-sqlserversecondary-rhzabj.database.windows.net","privateEndpointConnections":[],"publicNetworkAccess":"Enabled","restrictOutboundNetworkAccess":"Disabled"},"location":"eastus2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/servers/asotest-sqlserversecondary-rhzabj","name":"asotest-sqlserversecondary-rhzabj","type":"Microsoft.Sql/servers"}'
     headers:
       Cache-Control:
       - no-cache
@@ -665,7 +665,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "7"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"83580ef0-437d-41be-85a7-ff9c35833652","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -697,7 +697,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "8"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"83580ef0-437d-41be-85a7-ff9c35833652","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -729,7 +729,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "9"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"83580ef0-437d-41be-85a7-ff9c35833652","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -761,7 +761,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "10"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"83580ef0-437d-41be-85a7-ff9c35833652","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -793,7 +793,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "11"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"83580ef0-437d-41be-85a7-ff9c35833652","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -825,7 +825,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "12"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"83580ef0-437d-41be-85a7-ff9c35833652","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -857,7 +857,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "13"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"83580ef0-437d-41be-85a7-ff9c35833652","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -889,7 +889,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "14"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"83580ef0-437d-41be-85a7-ff9c35833652","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -921,7 +921,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "15"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/83580ef0-437d-41be-85a7-ff9c35833652?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"83580ef0-437d-41be-85a7-ff9c35833652","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
@@ -953,10 +953,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-aetshk?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-ytkbsp?api-version=2021-11-01
     method: GET
   response:
-    body: '{"kind":"v12.0","properties":{"administratorLogin":"myadmin","version":"12.0","state":"Ready","fullyQualifiedDomainName":"asotest-sqlserverprimary-aetshk.database.windows.net","privateEndpointConnections":[],"publicNetworkAccess":"Enabled","restrictOutboundNetworkAccess":"Disabled"},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-aetshk","name":"asotest-sqlserverprimary-aetshk","type":"Microsoft.Sql/servers"}'
+    body: '{"kind":"v12.0","properties":{"administratorLogin":"myadmin","version":"12.0","state":"Ready","fullyQualifiedDomainName":"asotest-sqlserverprimary-ytkbsp.database.windows.net","privateEndpointConnections":[],"publicNetworkAccess":"Enabled","restrictOutboundNetworkAccess":"Disabled"},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-ytkbsp","name":"asotest-sqlserverprimary-ytkbsp","type":"Microsoft.Sql/servers"}'
     headers:
       Cache-Control:
       - no-cache
@@ -985,10 +985,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-aetshk?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-ytkbsp?api-version=2021-11-01
     method: GET
   response:
-    body: '{"kind":"v12.0","properties":{"administratorLogin":"myadmin","version":"12.0","state":"Ready","fullyQualifiedDomainName":"asotest-sqlserverprimary-aetshk.database.windows.net","privateEndpointConnections":[],"publicNetworkAccess":"Enabled","restrictOutboundNetworkAccess":"Disabled"},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-aetshk","name":"asotest-sqlserverprimary-aetshk","type":"Microsoft.Sql/servers"}'
+    body: '{"kind":"v12.0","properties":{"administratorLogin":"myadmin","version":"12.0","state":"Ready","fullyQualifiedDomainName":"asotest-sqlserverprimary-ytkbsp.database.windows.net","privateEndpointConnections":[],"publicNetworkAccess":"Enabled","restrictOutboundNetworkAccess":"Disabled"},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-ytkbsp","name":"asotest-sqlserverprimary-ytkbsp","type":"Microsoft.Sql/servers"}'
     headers:
       Cache-Control:
       - no-cache
@@ -1010,7 +1010,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"eastus","name":"asotest-db-xvdcal","properties":{"collation":"SQL_Latin1_General_CP1_CI_AS"}}'
+    body: '{"location":"eastus","name":"asotest-db-tojrwh","properties":{"collation":"SQL_Latin1_General_CP1_CI_AS"}}'
     form: {}
     headers:
       Accept:
@@ -1021,13 +1021,13 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-aetshk/databases/asotest-db-xvdcal?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-ytkbsp/databases/asotest-db-tojrwh?api-version=2021-11-01
     method: PUT
   response:
     body: '{"operation":"CreateLogicalDatabase","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/cb536335-3803-4c8f-ad6d-42e7607f530d?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/cb536335-3803-4c8f-ad6d-42e7607f530d?api-version=2021-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -1037,7 +1037,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/locations/eastus/databaseOperationResults/cb536335-3803-4c8f-ad6d-42e7607f530d?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/locations/eastus/databaseOperationResults/cb536335-3803-4c8f-ad6d-42e7607f530d?api-version=2021-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -1057,7 +1057,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/cb536335-3803-4c8f-ad6d-42e7607f530d?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/cb536335-3803-4c8f-ad6d-42e7607f530d?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"cb536335-3803-4c8f-ad6d-42e7607f530d","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -1089,7 +1089,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/cb536335-3803-4c8f-ad6d-42e7607f530d?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/cb536335-3803-4c8f-ad6d-42e7607f530d?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"cb536335-3803-4c8f-ad6d-42e7607f530d","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -1121,7 +1121,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/cb536335-3803-4c8f-ad6d-42e7607f530d?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/cb536335-3803-4c8f-ad6d-42e7607f530d?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"cb536335-3803-4c8f-ad6d-42e7607f530d","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -1153,7 +1153,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/cb536335-3803-4c8f-ad6d-42e7607f530d?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/cb536335-3803-4c8f-ad6d-42e7607f530d?api-version=2021-11-01
     method: GET
   response:
     body: '{"name":"cb536335-3803-4c8f-ad6d-42e7607f530d","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
@@ -1185,10 +1185,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-aetshk/databases/asotest-db-xvdcal?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-ytkbsp/databases/asotest-db-tojrwh?api-version=2021-11-01
     method: GET
   response:
-    body: '{"sku":{"name":"GP_Gen5","tier":"GeneralPurpose","family":"Gen5","capacity":2},"kind":"v12.0,user,vcore","properties":{"collation":"SQL_Latin1_General_CP1_CI_AS","maxSizeBytes":34359738368,"status":"Online","databaseId":"264645c3-f5b5-4c8a-bd69-3fec782dc9cf","creationDate":"2001-02-03T04:05:06Z","currentServiceObjectiveName":"GP_Gen5_2","requestedServiceObjectiveName":"GP_Gen5_2","defaultSecondaryLocation":"westus","catalogCollation":"SQL_Latin1_General_CP1_CI_AS","zoneRedundant":false,"licenseType":"LicenseIncluded","maxLogSizeBytes":193273528320,"readScale":"Disabled","currentSku":{"name":"GP_Gen5","tier":"GeneralPurpose","family":"Gen5","capacity":2},"currentBackupStorageRedundancy":"Geo","requestedBackupStorageRedundancy":"Geo","maintenanceConfigurationId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default","isLedgerOn":false,"isInfraEncryptionEnabled":false},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-aetshk/databases/asotest-db-xvdcal","name":"asotest-db-xvdcal","type":"Microsoft.Sql/servers/databases"}'
+    body: '{"sku":{"name":"GP_Gen5","tier":"GeneralPurpose","family":"Gen5","capacity":2},"kind":"v12.0,user,vcore","properties":{"collation":"SQL_Latin1_General_CP1_CI_AS","maxSizeBytes":34359738368,"status":"Online","databaseId":"264645c3-f5b5-4c8a-bd69-3fec782dc9cf","creationDate":"2001-02-03T04:05:06Z","currentServiceObjectiveName":"GP_Gen5_2","requestedServiceObjectiveName":"GP_Gen5_2","defaultSecondaryLocation":"westus","catalogCollation":"SQL_Latin1_General_CP1_CI_AS","zoneRedundant":false,"licenseType":"LicenseIncluded","maxLogSizeBytes":193273528320,"readScale":"Disabled","currentSku":{"name":"GP_Gen5","tier":"GeneralPurpose","family":"Gen5","capacity":2},"currentBackupStorageRedundancy":"Geo","requestedBackupStorageRedundancy":"Geo","maintenanceConfigurationId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default","isLedgerOn":false,"isInfraEncryptionEnabled":false},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-ytkbsp/databases/asotest-db-tojrwh","name":"asotest-db-tojrwh","type":"Microsoft.Sql/servers/databases"}'
     headers:
       Cache-Control:
       - no-cache
@@ -1217,10 +1217,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-aetshk/databases/asotest-db-xvdcal?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-ytkbsp/databases/asotest-db-tojrwh?api-version=2021-11-01
     method: GET
   response:
-    body: '{"sku":{"name":"GP_Gen5","tier":"GeneralPurpose","family":"Gen5","capacity":2},"kind":"v12.0,user,vcore","properties":{"collation":"SQL_Latin1_General_CP1_CI_AS","maxSizeBytes":34359738368,"status":"Online","databaseId":"264645c3-f5b5-4c8a-bd69-3fec782dc9cf","creationDate":"2001-02-03T04:05:06Z","currentServiceObjectiveName":"GP_Gen5_2","requestedServiceObjectiveName":"GP_Gen5_2","defaultSecondaryLocation":"westus","catalogCollation":"SQL_Latin1_General_CP1_CI_AS","zoneRedundant":false,"licenseType":"LicenseIncluded","maxLogSizeBytes":193273528320,"readScale":"Disabled","currentSku":{"name":"GP_Gen5","tier":"GeneralPurpose","family":"Gen5","capacity":2},"currentBackupStorageRedundancy":"Geo","requestedBackupStorageRedundancy":"Geo","maintenanceConfigurationId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default","isLedgerOn":false,"isInfraEncryptionEnabled":false},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-aetshk/databases/asotest-db-xvdcal","name":"asotest-db-xvdcal","type":"Microsoft.Sql/servers/databases"}'
+    body: '{"sku":{"name":"GP_Gen5","tier":"GeneralPurpose","family":"Gen5","capacity":2},"kind":"v12.0,user,vcore","properties":{"collation":"SQL_Latin1_General_CP1_CI_AS","maxSizeBytes":34359738368,"status":"Online","databaseId":"264645c3-f5b5-4c8a-bd69-3fec782dc9cf","creationDate":"2001-02-03T04:05:06Z","currentServiceObjectiveName":"GP_Gen5_2","requestedServiceObjectiveName":"GP_Gen5_2","defaultSecondaryLocation":"westus","catalogCollation":"SQL_Latin1_General_CP1_CI_AS","zoneRedundant":false,"licenseType":"LicenseIncluded","maxLogSizeBytes":193273528320,"readScale":"Disabled","currentSku":{"name":"GP_Gen5","tier":"GeneralPurpose","family":"Gen5","capacity":2},"currentBackupStorageRedundancy":"Geo","requestedBackupStorageRedundancy":"Geo","maintenanceConfigurationId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default","isLedgerOn":false,"isInfraEncryptionEnabled":false},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-ytkbsp/databases/asotest-db-tojrwh","name":"asotest-db-tojrwh","type":"Microsoft.Sql/servers/databases"}'
     headers:
       Cache-Control:
       - no-cache
@@ -1242,7 +1242,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"asotest-failovergroup-qtvone","properties":{"databases":["/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-aetshk/databases/asotest-db-xvdcal"],"partnerServers":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/servers/asotest-sqlserversecondary-bhvpcy"}],"readWriteEndpoint":{"failoverPolicy":"Automatic","failoverWithDataLossGracePeriodMinutes":60}}}'
+    body: '{"name":"asotest-failovergroup-szgfyc","properties":{"databases":["/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-ytkbsp/databases/asotest-db-tojrwh"],"partnerServers":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/servers/asotest-sqlserversecondary-rhzabj"}],"readWriteEndpoint":{"failoverPolicy":"Automatic","failoverWithDataLossGracePeriodMinutes":60}}}'
     form: {}
     headers:
       Accept:
@@ -1253,7 +1253,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-aetshk/failoverGroups/asotest-failovergroup-qtvone?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-ytkbsp/failoverGroups/asotest-failovergroup-szgfyc?api-version=2021-11-01
     method: PUT
   response:
     body: '{"operation":"CreateFailoverGroup","startTime":"2001-02-03T04:05:06Z"}'
@@ -1609,11 +1609,11 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-aetshk/failoverGroups/asotest-failovergroup-qtvone?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-ytkbsp/failoverGroups/asotest-failovergroup-szgfyc?api-version=2021-11-01
     method: GET
   response:
-    body: '{"location":"East US","properties":{"readWriteEndpoint":{"failoverPolicy":"Automatic","failoverWithDataLossGracePeriodMinutes":60},"readOnlyEndpoint":{"failoverPolicy":"Disabled"},"replicationRole":"Primary","replicationState":"CATCH_UP","partnerServers":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/servers/asotest-sqlserversecondary-bhvpcy","location":"East
-      US 2","replicationRole":"Secondary"}],"databases":["/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-aetshk/databases/asotest-db-xvdcal"]},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-aetshk/failoverGroups/asotest-failovergroup-qtvone","name":"asotest-failovergroup-qtvone","type":"Microsoft.Sql/servers/failoverGroups"}'
+    body: '{"location":"East US","properties":{"readWriteEndpoint":{"failoverPolicy":"Automatic","failoverWithDataLossGracePeriodMinutes":60},"readOnlyEndpoint":{"failoverPolicy":"Disabled"},"replicationRole":"Primary","replicationState":"CATCH_UP","partnerServers":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/servers/asotest-sqlserversecondary-rhzabj","location":"East
+      US 2","replicationRole":"Secondary"}],"databases":["/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-ytkbsp/databases/asotest-db-tojrwh"]},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-ytkbsp/failoverGroups/asotest-failovergroup-szgfyc","name":"asotest-failovergroup-szgfyc","type":"Microsoft.Sql/servers/failoverGroups"}'
     headers:
       Cache-Control:
       - no-cache
@@ -1642,11 +1642,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-aetshk/failoverGroups/asotest-failovergroup-qtvone?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-ytkbsp/failoverGroups/asotest-failovergroup-szgfyc?api-version=2021-11-01
     method: GET
   response:
-    body: '{"location":"East US","properties":{"readWriteEndpoint":{"failoverPolicy":"Automatic","failoverWithDataLossGracePeriodMinutes":60},"readOnlyEndpoint":{"failoverPolicy":"Disabled"},"replicationRole":"Primary","replicationState":"CATCH_UP","partnerServers":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/servers/asotest-sqlserversecondary-bhvpcy","location":"East
-      US 2","replicationRole":"Secondary"}],"databases":["/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-aetshk/databases/asotest-db-xvdcal"]},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-aetshk/failoverGroups/asotest-failovergroup-qtvone","name":"asotest-failovergroup-qtvone","type":"Microsoft.Sql/servers/failoverGroups"}'
+    body: '{"location":"East US","properties":{"readWriteEndpoint":{"failoverPolicy":"Automatic","failoverWithDataLossGracePeriodMinutes":60},"readOnlyEndpoint":{"failoverPolicy":"Disabled"},"replicationRole":"Primary","replicationState":"CATCH_UP","partnerServers":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/servers/asotest-sqlserversecondary-rhzabj","location":"East
+      US 2","replicationRole":"Secondary"}],"databases":["/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-ytkbsp/databases/asotest-db-tojrwh"]},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-ytkbsp/failoverGroups/asotest-failovergroup-szgfyc","name":"asotest-failovergroup-szgfyc","type":"Microsoft.Sql/servers/failoverGroups"}'
     headers:
       Cache-Control:
       - no-cache
@@ -1675,7 +1675,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-aetshk/failoverGroups/asotest-failovergroup-qtvone?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-ytkbsp/failoverGroups/asotest-failovergroup-szgfyc?api-version=2021-11-01
     method: DELETE
   response:
     body: '{"operation":"DropFailoverGroup","startTime":"2001-02-03T04:05:06Z"}'
@@ -1777,11 +1777,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-aetshk/failoverGroups/asotest-failovergroup-qtvone?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-ytkbsp/failoverGroups/asotest-failovergroup-szgfyc?api-version=2021-11-01
     method: GET
   response:
     body: '{"error":{"code":"ResourceNotFound","message":"The requested resource of
-      type ''Microsoft.Sql/servers/failoverGroups'' with name ''asotest-failovergroup-qtvone''
+      type ''Microsoft.Sql/servers/failoverGroups'' with name ''asotest-failovergroup-szgfyc''
       was not found."}}'
     headers:
       Cache-Control:
@@ -1811,7 +1811,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl?api-version=2020-06-01
     method: DELETE
   response:
     body: ""
@@ -1989,10 +1989,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/servers/asotest-sqlserversecondary-bhvpcy?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/servers/asotest-sqlserversecondary-rhzabj?api-version=2021-11-01
     method: DELETE
   response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-azqkky''
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-sdcgzl''
       could not be found."}}'
     headers:
       Cache-Control:
@@ -2022,10 +2022,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-aetshk?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-ytkbsp?api-version=2021-11-01
     method: DELETE
   response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-azqkky''
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-sdcgzl''
       could not be found."}}'
     headers:
       Cache-Control:
@@ -2055,10 +2055,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-azqkky/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-aetshk/databases/asotest-db-xvdcal?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sdcgzl/providers/Microsoft.Sql/servers/asotest-sqlserverprimary-ytkbsp/databases/asotest-db-tojrwh?api-version=2021-11-01
     method: DELETE
   response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-azqkky''
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-sdcgzl''
       could not be found."}}'
     headers:
       Cache-Control:

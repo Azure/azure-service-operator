@@ -472,8 +472,8 @@ type ManagedClusterAgentPoolProfile_ARM struct {
 	// must have the same major version as the control plane. The node pool minor version must be within two minor versions of
 	// the control plane version. The node pool version cannot be greater than the control plane version. For more information
 	// see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool).
-	OrchestratorVersion *string                 `json:"orchestratorVersion,omitempty"`
-	OsDiskSizeGB        *ContainerServiceOSDisk `json:"osDiskSizeGB,omitempty"`
+	OrchestratorVersion *string `json:"orchestratorVersion,omitempty"`
+	OsDiskSizeGB        *int    `json:"osDiskSizeGB,omitempty"`
 
 	// OsDiskType: The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested
 	// OSDiskSizeGB. Otherwise,  defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral
@@ -776,7 +776,7 @@ type ManagedClusterSecurityProfile_ARM struct {
 	// CustomCATrustCertificates: A list of up to 10 base64 encoded CAs that will be added to the trust store on nodes with the
 	// Custom CA Trust feature enabled. For more information see [Custom CA Trust
 	// Certificates](https://learn.microsoft.com/en-us/azure/aks/custom-certificate-authority)
-	CustomCATrustCertificates ManagedClusterSecurityProfileCustomCATrustCertificates `json:"customCATrustCertificates,omitempty"`
+	CustomCATrustCertificates []string `json:"customCATrustCertificates"`
 
 	// Defender: Microsoft Defender settings for the security profile.
 	Defender *ManagedClusterSecurityProfileDefender_ARM `json:"defender,omitempty"`

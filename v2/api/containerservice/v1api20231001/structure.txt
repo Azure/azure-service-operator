@@ -1453,9 +1453,7 @@ ManagedCluster_Spec_ARM: Object (7 properties)
 │   │   ├── NodePublicIPPrefixID: *string
 │   │   ├── NodeTaints: string[]
 │   │   ├── OrchestratorVersion: *string
-│   │   ├── OsDiskSizeGB: *Validated<int> (2 rules)
-│   │   │   ├── Rule 0: Maximum: 2048
-│   │   │   └── Rule 1: Minimum: 0
+│   │   ├── OsDiskSizeGB: *int
 │   │   ├── OsDiskType: *Enum (2 values)
 │   │   │   ├── "Ephemeral"
 │   │   │   └── "Managed"
@@ -2237,9 +2235,7 @@ ManagedClusters_AgentPool_Spec_ARM: Object (2 properties)
     ├── NodePublicIPPrefixID: *string
     ├── NodeTaints: string[]
     ├── OrchestratorVersion: *string
-    ├── OsDiskSizeGB: *Validated<int> (2 rules)
-    │   ├── Rule 0: Maximum: 2048
-    │   └── Rule 1: Minimum: 0
+    ├── OsDiskSizeGB: *int
     ├── OsDiskType: *Enum (2 values)
     │   ├── "Ephemeral"
     │   └── "Managed"

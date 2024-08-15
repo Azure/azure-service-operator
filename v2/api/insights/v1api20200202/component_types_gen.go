@@ -271,7 +271,7 @@ func (component *Component) validateConfigMapDestinations() (admission.Warnings,
 		component.Spec.OperatorSpec.ConfigMaps.ConnectionString,
 		component.Spec.OperatorSpec.ConfigMaps.InstrumentationKey,
 	}
-	return genruntime.ValidateConfigMapDestinations(toValidate)
+	return configmaps.ValidateDestinations(toValidate)
 }
 
 // validateOwnerReference validates the owner field

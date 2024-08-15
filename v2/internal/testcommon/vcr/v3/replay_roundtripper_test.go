@@ -41,8 +41,10 @@ func TestReplayRoundTripperRoundTrip_GivenSingleGET_ReturnsMultipleTimes(t *test
 	fake := vcr.NewFakeRoundTripper()
 	fake.AddResponse(req, resp)
 
+	redactor := vcr.NewRedactor(creds.DummyAzureIDs())
+
 	// Act
-	replayer := NewReplayRoundTripper(fake, logr.Discard())
+	replayer := NewReplayRoundTripper(fake, logr.Discard(), redactor)
 
 	// Assert - first request works
 	assertExpectedResponse(t, replayer, req, 200, "GET response goes here")
@@ -73,8 +75,10 @@ func TestReplayRoundTripperRoundTrip_GivenSinglePut_ReturnsOnceExtra(t *testing.
 	fake := vcr.NewFakeRoundTripper()
 	fake.AddResponse(req, resp)
 
+	redactor := vcr.NewRedactor(creds.DummyAzureIDs())
+
 	// Act
-	replayer := NewReplayRoundTripper(fake, logr.Discard())
+	replayer := NewReplayRoundTripper(fake, logr.Discard(), redactor)
 
 	// Assert - first request works
 	assertExpectedResponse(t, replayer, req, 200, "PUT response goes here")
@@ -115,8 +119,10 @@ func TestReplayRoundTripperRoundTrip_GivenMultiplePUTsToSameURL_ReturnsExpectedB
 	fake.AddResponse(betaRequest, betaResponse)
 	fake.AddResponse(gammaRequest, gammaResponse)
 
+	redactor := vcr.NewRedactor(creds.DummyAzureIDs())
+
 	// Act
-	replayer := NewReplayRoundTripper(fake, logr.Discard())
+	replayer := NewReplayRoundTripper(fake, logr.Discard(), redactor)
 
 	// Assert - first alpha request works
 	assertExpectedResponse(t, replayer, alphaRequest, 200, "Alpha goes here")
@@ -161,10 +167,11 @@ func Test_ReplayRoundTripper_WhenCombinedWithTrackingRoundTripper_GivesDesiredRe
 	fake.AddResponse(updateRequest, updateResponse)
 	fake.AddError(updateRequest, cassette.ErrInteractionNotFound)
 
+	redactor := vcr.NewRedactor(creds.DummyAzureIDs())
+
 	// Act
-	replayer := AddTrackingHeaders(
-		creds.DummyAzureIDs(),
-		NewReplayRoundTripper(fake, logr.Discard()))
+	replayRountTripper := NewReplayRoundTripper(fake, logr.Discard(), redactor)
+	replayer := AddTrackingHeaders(replayRountTripper, redactor)
 
 	// Assert - first PUT to create the resource works
 	assertExpectedResponse(t, replayer, creationRequest, 200, "create resource A")

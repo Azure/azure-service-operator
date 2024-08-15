@@ -280,7 +280,7 @@ func (identity *UserAssignedIdentity) validateConfigMapDestinations() (admission
 		identity.Spec.OperatorSpec.ConfigMaps.PrincipalId,
 		identity.Spec.OperatorSpec.ConfigMaps.TenantId,
 	}
-	return genruntime.ValidateConfigMapDestinations(toValidate)
+	return configmaps.ValidateDestinations(toValidate)
 }
 
 // validateOwnerReference validates the owner field

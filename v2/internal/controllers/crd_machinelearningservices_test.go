@@ -145,7 +145,7 @@ func WorkspaceCompute_CRUD(tc *testcommon.KubePerTestContext, owner *genruntime.
 	networkInterface := newVMNetworkInterfaceWithPublicIP(tc, testcommon.AsOwner(rg), subnet, publicIP, nsg)
 	tc.CreateResourcesAndWait(subnet, publicIP, networkInterface)
 
-	secret := createVMPasswordSecretAndRef(tc)
+	secret := createPasswordSecret("vmsecret", "password", tc)
 
 	vm := newVirtualMachine20201201(tc, rg, networkInterface, secret)
 	tc.CreateResourceAndWait(vm)

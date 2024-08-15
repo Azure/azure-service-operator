@@ -29,7 +29,7 @@ func Test_MissingCrossResourceReference_ReturnsError(t *testing.T) {
 	networkInterface := newVMNetworkInterface(tc, testcommon.AsOwner(rg), subnet)
 	// Don't actually create any of the networking resources.
 	// We're testing to make sure we get the right error when they're missing
-	secret := createVMPasswordSecretAndRef(tc)
+	secret := createPasswordSecret("vmsecret", "password", tc)
 	vm := newVirtualMachine20201201(tc, rg, networkInterface, secret)
 
 	tc.CreateResourceAndWaitForState(vm, metav1.ConditionFalse, conditions.ConditionSeverityWarning)

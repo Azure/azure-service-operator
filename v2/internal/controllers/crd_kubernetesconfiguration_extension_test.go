@@ -13,9 +13,8 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	kubernetesconfiguration "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 func Test_KubernetesConfiguration_Extension_CRUD(t *testing.T) {
@@ -28,7 +27,7 @@ func Test_KubernetesConfiguration_Extension_CRUD(t *testing.T) {
 	sshPublicKey, err := tc.GenerateSSHKey(2048)
 	tc.Expect(err).ToNot(HaveOccurred())
 
-	cluster := NewManagedCluster20230202preview(tc, rg, adminUsername, sshPublicKey)
+	cluster := NewManagedCluster20240402preview(tc, rg, adminUsername, sshPublicKey)
 
 	tc.CreateResourceAndWait(cluster)
 
@@ -73,7 +72,7 @@ func Test_KubernetesConfiguration_Extension_ProtectedSettings(t *testing.T) {
 	sshPublicKey, err := tc.GenerateSSHKey(2048)
 	tc.Expect(err).ToNot(HaveOccurred())
 
-	cluster := NewManagedCluster20230202preview(tc, rg, adminUsername, sshPublicKey)
+	cluster := NewManagedCluster20240402preview(tc, rg, adminUsername, sshPublicKey)
 
 	tc.CreateResourceAndWait(cluster)
 

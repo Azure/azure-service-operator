@@ -9,7 +9,6 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
-	v1 "k8s.io/api/core/v1"
 
 	compute2020 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201"
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
@@ -18,26 +17,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
-
-func createVMPasswordSecretAndRef(tc *testcommon.KubePerTestContext) genruntime.SecretReference {
-	password := tc.Namer.GeneratePasswordOfLength(40)
-
-	passwordKey := "password"
-	secret := &v1.Secret{
-		ObjectMeta: tc.MakeObjectMeta("vmsecret"),
-		StringData: map[string]string{
-			passwordKey: password,
-		},
-	}
-
-	tc.CreateResource(secret)
-
-	secretRef := genruntime.SecretReference{
-		Name: secret.Name,
-		Key:  passwordKey,
-	}
-	return secretRef
-}
 
 func newVirtualMachine20201201(
 	tc *testcommon.KubePerTestContext,
@@ -115,7 +94,7 @@ func Test_Compute_VM_20201201_CRUD(t *testing.T) {
 	// https://github.com/Azure/azure-service-operator/issues/1944
 	tc.CreateResourceAndWait(vnet)
 	tc.CreateResourcesAndWait(subnet, networkInterface)
-	secret := createVMPasswordSecretAndRef(tc)
+	secret := createPasswordSecret("vmsecret", "password", tc)
 	vm := newVirtualMachine20201201(tc, rg, networkInterface, secret)
 
 	tc.CreateResourceAndWait(vm)

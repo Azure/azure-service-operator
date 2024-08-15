@@ -1474,6 +1474,50 @@ objectModelConfiguration:
       EncryptionSetProperties:
         FederatedClientId:
           $importConfigMapMode: optional
+    2024-03-02:
+      CreationData:
+        SourceResourceId:
+          $armReference: true
+        ElasticSanResourceId:
+          $armReference: true
+      Disk:
+        $export: true
+        $supportedFrom: v2.9.0
+      DiskProperties:
+        DiskAccessId:
+          $armReference: true
+      Encryption:
+        DiskEncryptionSetId:
+          $armReference: true
+      ImageDiskReference:
+        Id:
+          $armReference: true
+      Snapshot:
+        $export: true
+        $supportedFrom: v2.9.0
+      SnapshotProperties:
+        DiskAccessId:
+          $armReference: true
+      SourceVault:
+        Id:
+          $armReference: true
+      DiskAccess:
+        $export: true
+        $supportedFrom: v2.9.0
+      DiskEncryptionSet:
+        $export: true
+        $supportedFrom: v2.9.0
+      KeyForDiskEncryptionSet:
+        KeyUrl:
+          $importConfigMapMode: optional
+      EncryptionSetProperties:
+        FederatedClientId:
+          $importConfigMapMode: optional
+      # TODO: Reorganize this section
+      # TODO: Confirm that these guys are really ARM IDs
+      DiskSecurityProfile:
+        SecureVMDiskEncryptionSetId:
+          $armReference: true
   containerinstance:
     2021-10-01:
       ContainerGroup:
@@ -1571,51 +1615,6 @@ objectModelConfiguration:
       ManagedClusterWindowsProfile:
         AdminPassword:
           $isSecret: true
-      PrivateLinkResource:
-        Id:
-          $armReference: true
-    2023-02-02-preview:
-      ManagedCluster:
-        $export: true
-        $supportedFrom: v2.0.0
-        $azureGeneratedSecrets:
-          - AdminCredentials
-          - UserCredentials
-        $generatedConfigs:
-          OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
-          PrincipalId: $.Status.Identity.PrincipalId
-      ManagedCluster_Spec:
-        Tags:
-          $payloadType: explicitEmptyCollections
-      ManagedClusterAgentPoolProfile:
-        NodeLabels:
-          $payloadType: explicitEmptyCollections
-        NodeTaints:
-          $payloadType: explicitEmptyCollections
-        Tags:
-          $payloadType: explicitEmptyCollections
-      ManagedClusterAgentPoolProfileProperties:
-        NodeLabels:
-          $payloadType: explicitEmptyCollections
-        NodeTaints:
-          $payloadType: explicitEmptyCollections
-        Tags:
-          $payloadType: explicitEmptyCollections
-      ManagedClusters_AgentPool:
-        $exportAs: ManagedClustersAgentPool
-        $supportedFrom: v2.0.0
-      ManagedClusterServicePrincipalProfile:
-        Secret:
-          $isSecret: true
-      ManagedClusters_TrustedAccessRoleBinding:
-        $exportAs: TrustedAccessRoleBinding
-        $supportedFrom: v2.2.0
-      ManagedClusterWindowsProfile:
-        AdminPassword:
-          $isSecret: true
-      TrustedAccessRoleBindingProperties:
-        SourceResourceId:
-          $armReference: true
       PrivateLinkResource:
         Id:
           $armReference: true

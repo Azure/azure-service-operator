@@ -206,7 +206,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 			MaxConcurrentReconciles: 5,
 
 			// Use appropriate backoff for mode.
-			RateLimiter: generic.NewRateLimiter(minBackoff, maxBackoff, false),
+			RateLimiter: generic.NewRateLimiter(minBackoff, maxBackoff),
 
 			LogConstructor: func(request *reconcile.Request) logr.Logger {
 				return ctrl.Log

@@ -95,6 +95,7 @@ func newARMTypeCreator(
 
 	result.visitor = astmodel.TypeVisitorBuilder[any]{
 		VisitInternalTypeName: result.visitARMTypeName,
+		VisitValidatedType:    result.visitARMValidatedType,
 	}.Build()
 
 	return result
@@ -520,6 +521,23 @@ func (c *armTypeCreator) visitARMTypeName(
 		return astmodel.CreateARMTypeName(def.Name()), nil
 	}
 
+	// If the name is an alias for a primitive type, we look through it to the underlying type,
+	// allowing us to define the property using the primitive type directly
+	// and avoiding any potential circular dependencies
+	_, isPrimitiveType := astmodel.AsPrimitiveType(def.Type())
+	_, isArrayType := astmodel.AsArrayType(def.Type())
+	_, isMapType := astmodel.AsMapType(def.Type())
+	if isPrimitiveType || isArrayType || isMapType {
+		// We use the visitor to simplify the type
+		var updatedType astmodel.Type
+		updatedType, err = this.Visit(def.Type(), ctx)
+		if err != nil {
+			return nil, errors.Wrapf(err, "failed to look through definition %s", def.Name())
+		}
+
+		return updatedType, nil
+	}
+
 	// We may or may not need to use an updated type name (i.e. if it's an aliased primitive type we can
 	// just keep using that alias)
 	updatedType, err := this.Visit(def.Type(), ctx)
@@ -532,6 +550,14 @@ func (c *armTypeCreator) visitARMTypeName(
 	}
 
 	return astmodel.CreateARMTypeName(def.Name()), nil
+}
+
+func (c *armTypeCreator) visitARMValidatedType(
+	this *astmodel.TypeVisitor[any],
+	it *astmodel.ValidatedType,
+	ctx any,
+) (astmodel.Type, error) {
+	return this.Visit(it.ElementType(), ctx)
 }
 
 func (c *armTypeCreator) createSpecConversionContext(name astmodel.InternalTypeName) *armPropertyTypeConversionContext {

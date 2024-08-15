@@ -141,7 +141,7 @@ func Test_Networking_VirtualNetworkAndSubnetAdopted_SubnetsStillExist(t *testing
 	originalSubnet := subnet.DeepCopy()
 
 	networkInterface := newVMNetworkInterface(tc, testcommon.AsOwner(rg), subnet)
-	secret := createVMPasswordSecretAndRef(tc)
+	secret := createPasswordSecret("vmsecret", "password", tc)
 	vm := newVirtualMachine20201201(tc, rg, networkInterface, secret)
 	tc.CreateResourcesAndWait(vm, vnet, subnet, networkInterface)
 

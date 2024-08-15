@@ -28,6 +28,7 @@ type recorderDetails struct {
 	recorder     *recorder.Recorder
 	cfg          config.Values
 	log          logr.Logger
+	redactor     *vcr.Redactor
 }
 
 func NewTestRecorder(
@@ -108,7 +109,8 @@ func NewTestRecorder(
 		return true
 	})
 
-	r.AddHook(redactRecording(azureIDs), recorder.BeforeSaveHook)
+	redactor := vcr.NewRedactor(azureIDs)
+	r.AddHook(redactRecording(redactor), recorder.BeforeSaveHook)
 
 	return &recorderDetails{
 		cassetteName: cassetteName,
@@ -117,6 +119,7 @@ func NewTestRecorder(
 		recorder:     r,
 		cfg:          cfg,
 		log:          log,
+		redactor:     redactor,
 	}, nil
 }
 
@@ -125,15 +128,15 @@ func NewTestRecorder(
 // to make the tests updatable from
 // any subscription, so a contributor can update the tests against their own sub.
 func redactRecording(
-	azureIDs creds.AzureIDs,
+	redactor *vcr.Redactor,
 ) recorder.HookFunc {
 	return func(i *cassette.Interaction) error {
-		i.Request.Body = vcr.HideRecordingData(azureIDs, i.Request.Body)
-		i.Response.Body = vcr.HideRecordingData(azureIDs, i.Response.Body)
-		i.Request.URL = vcr.HideURLData(azureIDs, i.Request.URL)
+		i.Request.Body = redactor.HideRecordingData(i.Request.Body)
+		i.Response.Body = redactor.HideRecordingData(i.Response.Body)
+		i.Request.URL = redactor.HideURLData(i.Request.URL)
 
-		vcr.RedactRequestHeaders(azureIDs, i.Request.Headers)
-		vcr.RedactResponseHeaders(azureIDs, i.Response.Headers)
+		redactor.RedactRequestHeaders(i.Request.Headers)
+		redactor.RedactResponseHeaders(i.Response.Headers)
 
 		return nil
 	}
@@ -154,6 +157,16 @@ func (r *recorderDetails) IDs() creds.AzureIDs {
 	return r.ids
 }
 
+// AddLiteralRedaction adds literal redaction value to redactor
+func (r *recorderDetails) AddLiteralRedaction(redactionValue string, replacementValue string) {
+	r.redactor.AddLiteralRedaction(redactionValue, replacementValue)
+}
+
+// AddRegexpRedaction adds regular expression redaction value to redactor
+func (r *recorderDetails) AddRegexpRedaction(pattern string, replacementValue string) {
+	r.redactor.AddRegexRedaction(pattern, replacementValue)
+}
+
 // Stop recording
 func (r *recorderDetails) Stop() error {
 	return r.recorder.Stop()
@@ -167,9 +180,9 @@ func (r *recorderDetails) IsReplaying() bool {
 // CreateClient creates an HTTP client configured to record or replay HTTP requests.
 // t is a reference to the test currently executing.
 func (r *recorderDetails) CreateClient(t *testing.T) *http.Client {
-	withReplay := NewReplayRoundTripper(r.recorder, r.log)
-	withErrorTranslation := translateErrors(withReplay, r.cassetteName, t)
-	withTrackingHeaders := AddTrackingHeaders(r.ids, withErrorTranslation)
+	withReplay := NewReplayRoundTripper(r.recorder, r.log, r.redactor)
+	withErrorTranslation := translateErrors(withReplay, r.cassetteName, r.redactor, t)
+	withTrackingHeaders := AddTrackingHeaders(withErrorTranslation, r.redactor)
 
 	return &http.Client{
 		Transport: withTrackingHeaders,

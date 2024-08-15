@@ -12,6 +12,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -281,7 +282,7 @@ func (cluster *ManagedCluster) validateConfigMapDestinations() (admission.Warnin
 		cluster.Spec.OperatorSpec.ConfigMaps.OIDCIssuerProfile,
 		cluster.Spec.OperatorSpec.ConfigMaps.PrincipalId,
 	}
-	return genruntime.ValidateConfigMapDestinations(toValidate)
+	return configmaps.ValidateDestinations(toValidate)
 }
 
 // validateOwnerReference validates the owner field
@@ -310,7 +311,7 @@ func (cluster *ManagedCluster) validateSecretDestinations() (admission.Warnings,
 		cluster.Spec.OperatorSpec.Secrets.AdminCredentials,
 		cluster.Spec.OperatorSpec.Secrets.UserCredentials,
 	}
-	return genruntime.ValidateSecretDestinations(toValidate)
+	return secrets.ValidateDestinations(toValidate)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -5981,7 +5982,7 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 
 	// Set property "OsDiskSizeGB":
 	if profile.OsDiskSizeGB != nil {
-		osDiskSizeGB := *profile.OsDiskSizeGB
+		osDiskSizeGB := int(*profile.OsDiskSizeGB)
 		result.OsDiskSizeGB = &osDiskSizeGB
 	}
 
@@ -6261,7 +6262,7 @@ func (profile *ManagedClusterAgentPoolProfile) PopulateFromARM(owner genruntime.
 
 	// Set property "OsDiskSizeGB":
 	if typedInput.OsDiskSizeGB != nil {
-		osDiskSizeGB := *typedInput.OsDiskSizeGB
+		osDiskSizeGB := ContainerServiceOSDisk(*typedInput.OsDiskSizeGB)
 		profile.OsDiskSizeGB = &osDiskSizeGB
 	}
 

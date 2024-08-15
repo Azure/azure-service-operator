@@ -76,6 +76,11 @@ func (i InterfaceImplementer) AsDeclarations(
 	}
 
 	sort.Slice(interfaces, func(i int, j int) bool {
+		// If the names are the same, differentiate based on pkgname
+		if interfaces[i].Name().Name() == interfaces[j].Name().Name() {
+			return interfaces[i].Name().PackageReference().PackageName() < interfaces[j].Name().PackageReference().PackageName()
+		}
+
 		return interfaces[i].Name().Name() < interfaces[j].Name().Name()
 	})
 

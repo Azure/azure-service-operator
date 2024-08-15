@@ -12,6 +12,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -268,7 +269,7 @@ func (topic *Topic) validateConfigMapDestinations() (admission.Warnings, error) 
 	toValidate := []*genruntime.ConfigMapDestination{
 		topic.Spec.OperatorSpec.ConfigMaps.Endpoint,
 	}
-	return genruntime.ValidateConfigMapDestinations(toValidate)
+	return configmaps.ValidateDestinations(toValidate)
 }
 
 // validateOwnerReference validates the owner field
@@ -297,7 +298,7 @@ func (topic *Topic) validateSecretDestinations() (admission.Warnings, error) {
 		topic.Spec.OperatorSpec.Secrets.Key1,
 		topic.Spec.OperatorSpec.Secrets.Key2,
 	}
-	return genruntime.ValidateSecretDestinations(toValidate)
+	return secrets.ValidateDestinations(toValidate)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties

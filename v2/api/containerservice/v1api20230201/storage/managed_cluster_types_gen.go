@@ -6,7 +6,6 @@ package storage
 import (
 	"context"
 	"fmt"
-	compat "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201/storage/compat"
 	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -683,12 +682,7 @@ func (cluster *ManagedCluster_Spec) AssignProperties_From_ManagedCluster_Spec(so
 
 	// ServiceMeshProfile
 	if source.ServiceMeshProfile != nil {
-		var serviceMeshProfile compat.ServiceMeshProfile
-		err := serviceMeshProfile.AssignProperties_From_ServiceMeshProfile(source.ServiceMeshProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServiceMeshProfile() to populate field ServiceMeshProfile")
-		}
-		propertyBag.Add("ServiceMeshProfile", serviceMeshProfile)
+		propertyBag.Add("ServiceMeshProfile", *source.ServiceMeshProfile)
 	} else {
 		propertyBag.Remove("ServiceMeshProfile")
 	}
@@ -741,12 +735,7 @@ func (cluster *ManagedCluster_Spec) AssignProperties_From_ManagedCluster_Spec(so
 
 	// UpgradeSettings
 	if source.UpgradeSettings != nil {
-		var upgradeSetting compat.ClusterUpgradeSettings
-		err := upgradeSetting.AssignProperties_From_ClusterUpgradeSettings(source.UpgradeSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ClusterUpgradeSettings() to populate field UpgradeSettings")
-		}
-		propertyBag.Add("UpgradeSettings", upgradeSetting)
+		propertyBag.Add("UpgradeSettings", *source.UpgradeSettings)
 	} else {
 		propertyBag.Remove("UpgradeSettings")
 	}
@@ -1106,17 +1095,12 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// ServiceMeshProfile
 	if propertyBag.Contains("ServiceMeshProfile") {
-		var serviceMeshProfileFromBag compat.ServiceMeshProfile
-		err := propertyBag.Pull("ServiceMeshProfile", &serviceMeshProfileFromBag)
+		var serviceMeshProfile storage.ServiceMeshProfile
+		err := propertyBag.Pull("ServiceMeshProfile", &serviceMeshProfile)
 		if err != nil {
 			return errors.Wrap(err, "pulling 'ServiceMeshProfile' from propertyBag")
 		}
 
-		var serviceMeshProfile storage.ServiceMeshProfile
-		err = serviceMeshProfileFromBag.AssignProperties_To_ServiceMeshProfile(&serviceMeshProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServiceMeshProfile() to populate field ServiceMeshProfile")
-		}
 		destination.ServiceMeshProfile = &serviceMeshProfile
 	} else {
 		destination.ServiceMeshProfile = nil
@@ -1176,17 +1160,12 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// UpgradeSettings
 	if propertyBag.Contains("UpgradeSettings") {
-		var upgradeSettingFromBag compat.ClusterUpgradeSettings
-		err := propertyBag.Pull("UpgradeSettings", &upgradeSettingFromBag)
+		var upgradeSetting storage.ClusterUpgradeSettings
+		err := propertyBag.Pull("UpgradeSettings", &upgradeSetting)
 		if err != nil {
 			return errors.Wrap(err, "pulling 'UpgradeSettings' from propertyBag")
 		}
 
-		var upgradeSetting storage.ClusterUpgradeSettings
-		err = upgradeSettingFromBag.AssignProperties_To_ClusterUpgradeSettings(&upgradeSetting)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ClusterUpgradeSettings() to populate field UpgradeSettings")
-		}
 		destination.UpgradeSettings = &upgradeSetting
 	} else {
 		destination.UpgradeSettings = nil
@@ -1663,12 +1642,7 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_From_ManagedCluster_STATU
 
 	// ServiceMeshProfile
 	if source.ServiceMeshProfile != nil {
-		var serviceMeshProfile compat.ServiceMeshProfile_STATUS
-		err := serviceMeshProfile.AssignProperties_From_ServiceMeshProfile_STATUS(source.ServiceMeshProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServiceMeshProfile_STATUS() to populate field ServiceMeshProfile")
-		}
-		propertyBag.Add("ServiceMeshProfile", serviceMeshProfile)
+		propertyBag.Add("ServiceMeshProfile", *source.ServiceMeshProfile)
 	} else {
 		propertyBag.Remove("ServiceMeshProfile")
 	}
@@ -1736,12 +1710,7 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_From_ManagedCluster_STATU
 
 	// UpgradeSettings
 	if source.UpgradeSettings != nil {
-		var upgradeSetting compat.ClusterUpgradeSettings_STATUS
-		err := upgradeSetting.AssignProperties_From_ClusterUpgradeSettings_STATUS(source.UpgradeSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ClusterUpgradeSettings_STATUS() to populate field UpgradeSettings")
-		}
-		propertyBag.Add("UpgradeSettings", upgradeSetting)
+		propertyBag.Add("UpgradeSettings", *source.UpgradeSettings)
 	} else {
 		propertyBag.Remove("UpgradeSettings")
 	}
@@ -2122,17 +2091,12 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// ServiceMeshProfile
 	if propertyBag.Contains("ServiceMeshProfile") {
-		var serviceMeshProfileFromBag compat.ServiceMeshProfile_STATUS
-		err := propertyBag.Pull("ServiceMeshProfile", &serviceMeshProfileFromBag)
+		var serviceMeshProfile storage.ServiceMeshProfile_STATUS
+		err := propertyBag.Pull("ServiceMeshProfile", &serviceMeshProfile)
 		if err != nil {
 			return errors.Wrap(err, "pulling 'ServiceMeshProfile' from propertyBag")
 		}
 
-		var serviceMeshProfile storage.ServiceMeshProfile_STATUS
-		err = serviceMeshProfileFromBag.AssignProperties_To_ServiceMeshProfile_STATUS(&serviceMeshProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServiceMeshProfile_STATUS() to populate field ServiceMeshProfile")
-		}
 		destination.ServiceMeshProfile = &serviceMeshProfile
 	} else {
 		destination.ServiceMeshProfile = nil
@@ -2207,17 +2171,12 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// UpgradeSettings
 	if propertyBag.Contains("UpgradeSettings") {
-		var upgradeSettingFromBag compat.ClusterUpgradeSettings_STATUS
-		err := propertyBag.Pull("UpgradeSettings", &upgradeSettingFromBag)
+		var upgradeSetting storage.ClusterUpgradeSettings_STATUS
+		err := propertyBag.Pull("UpgradeSettings", &upgradeSetting)
 		if err != nil {
 			return errors.Wrap(err, "pulling 'UpgradeSettings' from propertyBag")
 		}
 
-		var upgradeSetting storage.ClusterUpgradeSettings_STATUS
-		err = upgradeSettingFromBag.AssignProperties_To_ClusterUpgradeSettings_STATUS(&upgradeSetting)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ClusterUpgradeSettings_STATUS() to populate field UpgradeSettings")
-		}
 		destination.UpgradeSettings = &upgradeSetting
 	} else {
 		destination.UpgradeSettings = nil
@@ -7693,12 +7652,7 @@ func (profile *ManagedClusterWorkloadAutoScalerProfile) AssignProperties_From_Ma
 
 	// VerticalPodAutoscaler
 	if source.VerticalPodAutoscaler != nil {
-		var verticalPodAutoscaler compat.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler
-		err := verticalPodAutoscaler.AssignProperties_From_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler(source.VerticalPodAutoscaler)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler() to populate field VerticalPodAutoscaler")
-		}
-		propertyBag.Add("VerticalPodAutoscaler", verticalPodAutoscaler)
+		propertyBag.Add("VerticalPodAutoscaler", *source.VerticalPodAutoscaler)
 	} else {
 		propertyBag.Remove("VerticalPodAutoscaler")
 	}
@@ -7742,17 +7696,12 @@ func (profile *ManagedClusterWorkloadAutoScalerProfile) AssignProperties_To_Mana
 
 	// VerticalPodAutoscaler
 	if propertyBag.Contains("VerticalPodAutoscaler") {
-		var verticalPodAutoscalerFromBag compat.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler
-		err := propertyBag.Pull("VerticalPodAutoscaler", &verticalPodAutoscalerFromBag)
+		var verticalPodAutoscaler storage.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler
+		err := propertyBag.Pull("VerticalPodAutoscaler", &verticalPodAutoscaler)
 		if err != nil {
 			return errors.Wrap(err, "pulling 'VerticalPodAutoscaler' from propertyBag")
 		}
 
-		var verticalPodAutoscaler storage.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler
-		err = verticalPodAutoscalerFromBag.AssignProperties_To_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler(&verticalPodAutoscaler)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler() to populate field VerticalPodAutoscaler")
-		}
 		destination.VerticalPodAutoscaler = &verticalPodAutoscaler
 	} else {
 		destination.VerticalPodAutoscaler = nil
@@ -7804,12 +7753,7 @@ func (profile *ManagedClusterWorkloadAutoScalerProfile_STATUS) AssignProperties_
 
 	// VerticalPodAutoscaler
 	if source.VerticalPodAutoscaler != nil {
-		var verticalPodAutoscaler compat.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS
-		err := verticalPodAutoscaler.AssignProperties_From_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS(source.VerticalPodAutoscaler)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS() to populate field VerticalPodAutoscaler")
-		}
-		propertyBag.Add("VerticalPodAutoscaler", verticalPodAutoscaler)
+		propertyBag.Add("VerticalPodAutoscaler", *source.VerticalPodAutoscaler)
 	} else {
 		propertyBag.Remove("VerticalPodAutoscaler")
 	}
@@ -7853,17 +7797,12 @@ func (profile *ManagedClusterWorkloadAutoScalerProfile_STATUS) AssignProperties_
 
 	// VerticalPodAutoscaler
 	if propertyBag.Contains("VerticalPodAutoscaler") {
-		var verticalPodAutoscalerFromBag compat.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS
-		err := propertyBag.Pull("VerticalPodAutoscaler", &verticalPodAutoscalerFromBag)
+		var verticalPodAutoscaler storage.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS
+		err := propertyBag.Pull("VerticalPodAutoscaler", &verticalPodAutoscaler)
 		if err != nil {
 			return errors.Wrap(err, "pulling 'VerticalPodAutoscaler' from propertyBag")
 		}
 
-		var verticalPodAutoscaler storage.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS
-		err = verticalPodAutoscalerFromBag.AssignProperties_To_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS(&verticalPodAutoscaler)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS() to populate field VerticalPodAutoscaler")
-		}
 		destination.VerticalPodAutoscaler = &verticalPodAutoscaler
 	} else {
 		destination.VerticalPodAutoscaler = nil

@@ -8,6 +8,8 @@ package pipeline
 import (
 	"context"
 
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
+
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -28,8 +30,12 @@ func ImplementConvertibleInterface(idFactory astmodel.IdentifierFactory) *Stage 
 
 			modifiedTypes, err := astmodel.FindResourceDefinitions(state.Definitions()).Process(
 				func(def astmodel.TypeDefinition) (*astmodel.TypeDefinition, error) {
-					rsrc := astmodel.MustBeResourceType(def.Type())
-					hub, err := state.ConversionGraph().FindHub(def.Name(), state.Definitions())
+					graph, err := GetStateData[*storage.ConversionGraph](state, ConversionGraphInfo)
+					if err != nil {
+						return nil, errors.Wrapf(err, "couldn't find conversion graph")
+					}
+
+					hub, err := graph.FindHub(def.Name(), state.Definitions())
 					if err != nil {
 						return nil, errors.Wrapf(
 							err,
@@ -43,6 +49,7 @@ func ImplementConvertibleInterface(idFactory astmodel.IdentifierFactory) *Stage 
 					}
 
 					// For each PropertyAssignmentFunction, create a conversion function that uses it
+					rsrc := astmodel.MustBeResourceType(def.Type())
 					var conversionFunctions []astmodel.Function
 					for _, fn := range rsrc.Functions() {
 						if propertyAssignmentFn, ok := fn.(*functions.PropertyAssignmentFunction); ok {

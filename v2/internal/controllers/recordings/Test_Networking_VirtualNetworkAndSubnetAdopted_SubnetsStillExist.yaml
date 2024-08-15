@@ -562,7 +562,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"westus2","name":"asotest-vm-xccieh","properties":{"hardwareProfile":{"vmSize":"Standard_D1_v2"},"networkProfile":{"networkInterfaces":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kdebnj/providers/Microsoft.Network/networkInterfaces/asotest-nic-pvpkfk"}]},"osProfile":{"adminPassword":"{PASSWORD}","adminUsername":"bloom","computerName":"poppy"},"storageProfile":{"imageReference":{"offer":"UbuntuServer","publisher":"Canonical","sku":"18.04-LTS","version":"latest"}}}}'
+    body: '{"location":"westus2","name":"asotest-vm-gfpxph","properties":{"hardwareProfile":{"vmSize":"Standard_D1_v2"},"networkProfile":{"networkInterfaces":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kdebnj/providers/Microsoft.Network/networkInterfaces/asotest-nic-pvpkfk"}]},"osProfile":{"adminPassword":"{PASSWORD}","adminUsername":"bloom","computerName":"poppy"},"storageProfile":{"imageReference":{"offer":"UbuntuServer","publisher":"Canonical","sku":"18.04-LTS","version":"latest"}}}}'
     form: {}
     headers:
       Accept:
@@ -573,10 +573,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kdebnj/providers/Microsoft.Compute/virtualMachines/asotest-vm-xccieh?api-version=2020-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kdebnj/providers/Microsoft.Compute/virtualMachines/asotest-vm-gfpxph?api-version=2020-12-01
     method: PUT
   response:
-    body: "{\r\n  \"name\": \"asotest-vm-xccieh\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kdebnj/providers/Microsoft.Compute/virtualMachines/asotest-vm-xccieh\",\r\n
+    body: "{\r\n  \"name\": \"asotest-vm-gfpxph\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kdebnj/providers/Microsoft.Compute/virtualMachines/asotest-vm-gfpxph\",\r\n
       \ \"type\": \"Microsoft.Compute/virtualMachines\",\r\n  \"location\": \"westus2\",\r\n
       \ \"properties\": {\r\n    \"vmId\": \"ad62a504-90e5-45aa-bb4f-8b073f891c61\",\r\n
       \   \"hardwareProfile\": {\r\n      \"vmSize\": \"Standard_D1_v2\"\r\n    },\r\n
@@ -700,10 +700,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kdebnj/providers/Microsoft.Compute/virtualMachines/asotest-vm-xccieh?api-version=2020-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kdebnj/providers/Microsoft.Compute/virtualMachines/asotest-vm-gfpxph?api-version=2020-12-01
     method: GET
   response:
-    body: "{\r\n  \"name\": \"asotest-vm-xccieh\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kdebnj/providers/Microsoft.Compute/virtualMachines/asotest-vm-xccieh\",\r\n
+    body: "{\r\n  \"name\": \"asotest-vm-gfpxph\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kdebnj/providers/Microsoft.Compute/virtualMachines/asotest-vm-gfpxph\",\r\n
       \ \"type\": \"Microsoft.Compute/virtualMachines\",\r\n  \"location\": \"westus2\",\r\n
       \ \"properties\": {\r\n    \"vmId\": \"ad62a504-90e5-45aa-bb4f-8b073f891c61\",\r\n
       \   \"hardwareProfile\": {\r\n      \"vmSize\": \"Standard_D1_v2\"\r\n    },\r\n
@@ -711,10 +711,10 @@ interactions:
       \"Canonical\",\r\n        \"offer\": \"UbuntuServer\",\r\n        \"sku\": \"18.04-LTS\",\r\n
       \       \"version\": \"latest\",\r\n        \"exactVersion\": \"18.04.202306070\"\r\n
       \     },\r\n      \"osDisk\": {\r\n        \"osType\": \"Linux\",\r\n        \"name\":
-      \"asotest-vm-xccieh_OsDisk_1_4db929e95147480b9f10e2e9dcbfbe25\",\r\n        \"createOption\":
+      \"asotest-vm-gfpxph_OsDisk_1_4db929e95147480b9f10e2e9dcbfbe25\",\r\n        \"createOption\":
       \"FromImage\",\r\n        \"caching\": \"ReadWrite\",\r\n        \"managedDisk\":
       {\r\n          \"storageAccountType\": \"Standard_LRS\",\r\n          \"id\":
-      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kdebnj/providers/Microsoft.Compute/disks/asotest-vm-xccieh_OsDisk_1_4db929e95147480b9f10e2e9dcbfbe25\"\r\n
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kdebnj/providers/Microsoft.Compute/disks/asotest-vm-gfpxph_OsDisk_1_4db929e95147480b9f10e2e9dcbfbe25\"\r\n
       \       },\r\n        \"diskSizeGB\": 30\r\n      },\r\n      \"dataDisks\":
       []\r\n    },\r\n    \"osProfile\": {\r\n      \"computerName\": \"poppy\",\r\n
       \     \"adminUsername\": \"bloom\",\r\n      \"linuxConfiguration\": {\r\n        \"disablePasswordAuthentication\":
@@ -754,10 +754,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kdebnj/providers/Microsoft.Compute/virtualMachines/asotest-vm-xccieh?api-version=2020-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kdebnj/providers/Microsoft.Compute/virtualMachines/asotest-vm-gfpxph?api-version=2020-12-01
     method: GET
   response:
-    body: "{\r\n  \"name\": \"asotest-vm-xccieh\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kdebnj/providers/Microsoft.Compute/virtualMachines/asotest-vm-xccieh\",\r\n
+    body: "{\r\n  \"name\": \"asotest-vm-gfpxph\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kdebnj/providers/Microsoft.Compute/virtualMachines/asotest-vm-gfpxph\",\r\n
       \ \"type\": \"Microsoft.Compute/virtualMachines\",\r\n  \"location\": \"westus2\",\r\n
       \ \"properties\": {\r\n    \"vmId\": \"ad62a504-90e5-45aa-bb4f-8b073f891c61\",\r\n
       \   \"hardwareProfile\": {\r\n      \"vmSize\": \"Standard_D1_v2\"\r\n    },\r\n
@@ -765,10 +765,10 @@ interactions:
       \"Canonical\",\r\n        \"offer\": \"UbuntuServer\",\r\n        \"sku\": \"18.04-LTS\",\r\n
       \       \"version\": \"latest\",\r\n        \"exactVersion\": \"18.04.202306070\"\r\n
       \     },\r\n      \"osDisk\": {\r\n        \"osType\": \"Linux\",\r\n        \"name\":
-      \"asotest-vm-xccieh_OsDisk_1_4db929e95147480b9f10e2e9dcbfbe25\",\r\n        \"createOption\":
+      \"asotest-vm-gfpxph_OsDisk_1_4db929e95147480b9f10e2e9dcbfbe25\",\r\n        \"createOption\":
       \"FromImage\",\r\n        \"caching\": \"ReadWrite\",\r\n        \"managedDisk\":
       {\r\n          \"storageAccountType\": \"Standard_LRS\",\r\n          \"id\":
-      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kdebnj/providers/Microsoft.Compute/disks/asotest-vm-xccieh_OsDisk_1_4db929e95147480b9f10e2e9dcbfbe25\"\r\n
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kdebnj/providers/Microsoft.Compute/disks/asotest-vm-gfpxph_OsDisk_1_4db929e95147480b9f10e2e9dcbfbe25\"\r\n
       \       },\r\n        \"diskSizeGB\": 30\r\n      },\r\n      \"dataDisks\":
       []\r\n    },\r\n    \"osProfile\": {\r\n      \"computerName\": \"poppy\",\r\n
       \     \"adminUsername\": \"bloom\",\r\n      \"linuxConfiguration\": {\r\n        \"disablePasswordAuthentication\":
@@ -1441,7 +1441,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kdebnj/providers/Microsoft.Compute/virtualMachines/asotest-vm-xccieh?api-version=2020-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kdebnj/providers/Microsoft.Compute/virtualMachines/asotest-vm-gfpxph?api-version=2020-12-01
     method: DELETE
   response:
     body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-kdebnj''

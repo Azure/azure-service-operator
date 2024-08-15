@@ -340,3 +340,86 @@ func TestCreateARMTypeWithSecret_CreatesExpectedConversions(t *testing.T) {
 
 	test.AssertPackagesGenerateExpectedCode(t, state.Definitions())
 }
+
+func TestCreateARMTypeConversionsWhenSimplifying_CreatesExpectedConversions(t *testing.T) {
+	t.Parallel()
+
+	aliasDef := astmodel.MakeTypeDefinition(
+		astmodel.MakeInternalTypeName(test.Pkg2020, "Alias"),
+		astmodel.StringType)
+
+	aliasProperty := astmodel.NewPropertyDefinition(
+		"Alias",
+		"alias",
+		aliasDef.Name()).
+		WithDescription("Expect alias on CRD type to become string on ARM type")
+
+	qualificationsDef := astmodel.MakeTypeDefinition(
+		astmodel.MakeInternalTypeName(test.Pkg2020, "Qualifications"),
+		astmodel.NewArrayType(astmodel.StringType))
+
+	qualificationsProperty := astmodel.NewPropertyDefinition(
+		"Qualifications",
+		"qualifications",
+		qualificationsDef.Name()).
+		WithDescription("Expect alias of array on CRD type to become array on ARM type")
+
+	codesDef := astmodel.MakeTypeDefinition(
+		astmodel.MakeInternalTypeName(test.Pkg2020, "Codes"),
+		astmodel.NewMapType(astmodel.StringType, astmodel.StringType))
+
+	codesProperty := astmodel.NewPropertyDefinition(
+		"Codes",
+		"codes",
+		codesDef.Name()).
+		WithDescription("Expect alias of map on CRD type to become map on ARM type")
+
+	cases := map[string]struct {
+		property    *astmodel.PropertyDefinition
+		propertyDef astmodel.TypeDefinition
+	}{
+		"AliasFlattensToUnderlyingType": {
+			property:    aliasProperty,
+			propertyDef: aliasDef,
+		},
+		"AliasOfArrayFlattensToSimpleArray": {
+			property:    qualificationsProperty,
+			propertyDef: qualificationsDef,
+		},
+		"AliasOfMapFlattensToSimpleMap": {
+			property:    codesProperty,
+			propertyDef: codesDef,
+		},
+	}
+
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			// Arrange: Create our Person type for ARM conversion
+			person := test.CreateObjectDefinition(
+				test.Pkg2020,
+				"Person",
+				test.FullNameProperty,
+				c.property)
+
+			// Arrange: Create a set of all our definitions
+			defs := astmodel.MakeTypeDefinitionSetFromDefinitions(
+				c.propertyDef,
+				person)
+
+			idFactory := astmodel.NewIdentifierFactory()
+			omc := config.NewObjectModelConfiguration()
+
+			// Act: Run the pipeline
+			state, err := RunTestPipeline(
+				NewState(defs),
+				CreateARMTypes(omc, idFactory, logr.Discard()),
+				ApplyARMConversionInterface(idFactory, omc))
+			g.Expect(err).ToNot(HaveOccurred())
+
+			test.AssertPackagesGenerateExpectedCode(t, state.Definitions())
+		})
+	}
+}

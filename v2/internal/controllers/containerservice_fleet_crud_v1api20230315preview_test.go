@@ -10,7 +10,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202preview"
+	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201"
 	fleet "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230315preview"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
@@ -91,6 +91,7 @@ func Test_AKS_Fleet_20230315_CRUD(t *testing.T) {
 			OidcIssuerProfile: &aks.ManagedClusterOIDCIssuerProfile{
 				Enabled: to.Ptr(true),
 			},
+			KubernetesVersion: to.Ptr("1.29.5"),
 		},
 	}
 	tc.CreateResourceAndWait(cluster)
@@ -151,7 +152,7 @@ func AKS_Fleet_UpdateRun_20230315Preview_CRUD(tc *testcommon.KubePerTestContext,
 			ManagedClusterUpdate: &fleet.ManagedClusterUpdate{
 				Upgrade: &fleet.ManagedClusterUpgradeSpec{
 					Type:              to.Ptr(fleet.ManagedClusterUpgradeType_Full),
-					KubernetesVersion: to.Ptr("1.26.8"),
+					KubernetesVersion: to.Ptr("1.30.0"),
 				},
 			},
 			Owner: testcommon.AsOwner(flt),
@@ -170,6 +171,7 @@ func AKS_Fleet_UpdateRun_20230315Preview_CRUD(tc *testcommon.KubePerTestContext,
 	// Perform a simple patch
 	old := updateRun.DeepCopy()
 	updateRun.Spec.ManagedClusterUpdate.Upgrade.Type = to.Ptr(fleet.ManagedClusterUpgradeType_NodeImageOnly)
+	updateRun.Spec.ManagedClusterUpdate.Upgrade.KubernetesVersion = nil // This must be nil for NodeImageOnly upgrade
 
 	tc.PatchResourceAndWait(old, updateRun)
 

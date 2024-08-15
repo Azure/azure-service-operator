@@ -9,6 +9,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -257,7 +258,7 @@ func (fleet *Fleet) validateSecretDestinations() (admission.Warnings, error) {
 	toValidate := []*genruntime.SecretDestination{
 		fleet.Spec.OperatorSpec.Secrets.UserCredentials,
 	}
-	return genruntime.ValidateSecretDestinations(toValidate)
+	return secrets.ValidateDestinations(toValidate)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties

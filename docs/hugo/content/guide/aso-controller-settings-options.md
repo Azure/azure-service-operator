@@ -63,6 +63,24 @@ credential is specified at the per-resource or per-namespace scope.
 
 **Required**: False
 
+### AZURE_CLIENT_CERTIFICATE
+
+AzureClientCertificate is a PEM or PKCS12 certificate string including the private key for 
+Azure Credential Authentication.
+If the certificate is password protected,  use `AZURE_CLIENT_CERTIFICATE_PASSWORD` for the password.
+
+**Format:** `String`
+
+**Required**: False
+
+### AZURE_CLIENT_CERTIFICATE_PASSWORD
+
+The password used to protect the `AZURE_CLIENT_CERTIFICATE`.
+
+**Format:** `String`
+
+**Required**: False
+
 ### AZURE_SYNC_PERIOD
 
 AZURE_SYNC_PERIOD is the frequency at which resources are re-reconciled with Azure when
@@ -154,5 +172,74 @@ AZURE_USER_AGENT_SUFFIX is appended to the default User-Agent for Azure HTTP cli
 **Format:** `string`
 
 **Example:** `"my-user-agent"`
+
+**Required**: False
+
+### MAX_CONCURRENT_RECONCILES
+
+MAX_CONCURRENT_RECONCILES is the number of threads/goroutines dedicated to reconciling each resource type.
+If not specified, the default is 1.
+
+IMPORTANT: Having MAX_CONCURRENT_RECONCILES set to N does not mean that ASO is limited to N interactions with
+Azure at any given time, because the control loop yields to another resource while it is not actively issuing HTTP
+calls to Azure. Any single resource only blocks the control-loop for its resource-type for as long as it takes to issue
+an HTTP call to Azure, view the result, and make a decision. In most cases the time taken to perform these actions
+(and thus how long the loop is blocked and preventing other resources from being acted upon) is a few hundred
+milliseconds to at most a second or two. In a typical 60s period, many hundreds or even thousands of resources
+can be managed with this set to 1.
+
+MAX_CONCURRENT_RECONCILES applies to every registered resource type being watched/managed by ASO.
+
+**Format:** `int`
+
+**Example:** `2`
+
+**Required**: False
+
+### RATE_LIMIT_MODE
+
+RateLimitMode configures the internal rate-limiting mode.
+
+ * **disabled** (default): No ASO-controlled rate-limiting occurs. ASO will attempt to communicate with Azure and
+   kube-apiserver as much as needed based on load. It will back off based on throttling from
+   either kube-apiserver or Azure, but will not artificially limit its throughput.
+ * **bucket**: Uses a token-bucket algorithm to rate-limit reconciliations. Note that this limits how often
+   the operator performs a reconciliation, but not every reconciliation triggers a call to kube-apiserver
+   or Azure (though many do). Since this controls reconciles it can be used to coarsely control throughput
+   and CPU usage of the operator, as well as the number of requests that the operator issues to Azure.
+   Keep in mind that the Azure throttling limits (defined at
+   https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/request-limits-and-throttling)
+   differentiate between request types. Since a given reconcile for a resource may result in polling (a GET) or
+   modification (a PUT) it's not possible to entirely avoid Azure throttling by tuning these bucket limits.
+   
+   We don't recommend enabling this mode by default.
+
+   If enabling this mode, we strongly recommend doing some experimentation to tune these values to something to
+   works for your specific need.
+
+**Format:** `disabled|bucket`
+
+**Example:** `disabled` or `bucket`
+
+**Required**: False
+
+### RATE_LIMIT_QPS
+
+RATE_LIMIT_QPS is the rate (per second) that the bucket is refilled. 
+This value only has an effect if RATE_LIMIT_MODE is 'bucket'.
+
+**Format:** `float`
+
+**Example:** `5`
+
+**Required**: False
+
+### RATE_LIMIT_BUCKET_SIZE
+
+RATE_LIMIT_BUCKET_SIZE is the size of the bucket. This value only has an effect if RATE_LIMIT_MODE is 'bucket'.
+
+**Format:** `int`
+
+**Example:** `200`
 
 **Required**: False

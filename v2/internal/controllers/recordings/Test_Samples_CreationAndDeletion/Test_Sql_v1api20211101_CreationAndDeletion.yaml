@@ -940,7 +940,7 @@ interactions:
                 - application/json
             Test-Request-Attempt:
                 - "0"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nqaknx/providers/Microsoft.Storage/storageAccounts/asotestsqlstorageref/listKeys?api-version=2023-01-01
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nqaknx/providers/Microsoft.Storage/storageAccounts/asotestsqlstorageref/listKeys?api-version=2023-05-01
         method: POST
       response:
         proto: HTTP/2.0

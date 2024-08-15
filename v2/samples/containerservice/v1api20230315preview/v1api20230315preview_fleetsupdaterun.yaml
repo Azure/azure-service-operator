@@ -9,4 +9,4 @@ spec:
   managedClusterUpdate:
     upgrade:
       type: Full
-      kubernetesVersion: 1.26.8
+      kubernetesVersion: 1.30.0

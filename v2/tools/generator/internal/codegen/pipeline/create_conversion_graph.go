@@ -52,7 +52,7 @@ func CreateConversionGraph(
 				return nil, errors.Wrapf(err, "creating conversion graph")
 			}
 
-			return state.WithConversionGraph(graph), nil
+			return StateWithData(state, ConversionGraphInfo, graph), nil
 		})
 
 	stage.AddDiagnostic(exportConversionGraph)
@@ -62,14 +62,14 @@ func CreateConversionGraph(
 }
 
 func exportConversionGraph(settings *DebugSettings, index int, state *State) error {
-	graph := state.ConversionGraph()
-	if graph == nil {
-		return errors.New("no conversion graph available")
+	graph, err := GetStateData[*storage.ConversionGraph](state, ConversionGraphInfo)
+	if err != nil {
+		return errors.Wrapf(err, "conversion graph not found")
 	}
 
 	// Create our output folder
 	outputFolder := settings.CreateFileName(fmt.Sprintf("conversion-graph-%d", index))
-	err := os.Mkdir(outputFolder, 0o700)
+	err = os.Mkdir(outputFolder, 0o700)
 	if err != nil {
 		return errors.Wrapf(err, "creating output folder for conversion graph diagnostic")
 	}

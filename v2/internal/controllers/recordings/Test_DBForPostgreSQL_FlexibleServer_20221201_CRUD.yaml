@@ -73,10 +73,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr?api-version=2022-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds?api-version=2022-12-01
     method: GET
   response:
-    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr''
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds''
       under resource group ''asotest-rg-qkeqre'' was not found. For more details please
       go to https://aka.ms/ARMResourceNotFoundFix"}}'
     headers:
@@ -100,7 +100,7 @@ interactions:
     code: 404
     duration: ""
 - request:
-    body: '{"location":"eastus","name":"asotest-postgresql-ugvkvr","properties":{"administratorLogin":"myadmin","administratorLoginPassword":"{PASSWORD}","storage":{"storageSizeGB":128},"version":"13"},"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"}}'
+    body: '{"location":"eastus","name":"asotest-postgresql-vedyds","properties":{"administratorLogin":"myadmin","administratorLoginPassword":"{PASSWORD}","storage":{"storageSizeGB":128},"version":"13"},"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"}}'
     form: {}
     headers:
       Accept:
@@ -111,7 +111,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr?api-version=2022-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds?api-version=2022-12-01
     method: PUT
   response:
     body: '{"operation":"UpsertServerManagementOperationV2","startTime":"2001-02-03T04:05:06Z"}'
@@ -275,11 +275,11 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr?api-version=2022-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds?api-version=2022-12-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"dataEncryption":{"type":"SystemManaged"},"fullyQualifiedDomainName":"asotest-postgresql-ugvkvr.postgres.database.azure.com","version":"13","minorVersion":"12","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2023-11-30T20:48:48.9713179+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Disabled","dayOfWeek":0,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"East
-      US","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr","name":"asotest-postgresql-ugvkvr","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
+    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"dataEncryption":{"type":"SystemManaged"},"fullyQualifiedDomainName":"asotest-postgresql-vedyds.postgres.database.azure.com","version":"13","minorVersion":"12","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2023-11-30T20:48:48.9713179+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Disabled","dayOfWeek":0,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"East
+      US","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds","name":"asotest-postgresql-vedyds","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
     headers:
       Cache-Control:
       - no-cache
@@ -308,11 +308,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr?api-version=2022-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds?api-version=2022-12-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"dataEncryption":{"type":"SystemManaged"},"fullyQualifiedDomainName":"asotest-postgresql-ugvkvr.postgres.database.azure.com","version":"13","minorVersion":"12","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2023-11-30T20:48:48.9713179+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Disabled","dayOfWeek":0,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"East
-      US","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr","name":"asotest-postgresql-ugvkvr","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
+    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"dataEncryption":{"type":"SystemManaged"},"fullyQualifiedDomainName":"asotest-postgresql-vedyds.postgres.database.azure.com","version":"13","minorVersion":"12","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2023-11-30T20:48:48.9713179+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Disabled","dayOfWeek":0,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"East
+      US","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds","name":"asotest-postgresql-vedyds","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
     headers:
       Cache-Control:
       - no-cache
@@ -341,11 +341,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr?api-version=2022-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds?api-version=2022-12-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"dataEncryption":{"type":"SystemManaged"},"fullyQualifiedDomainName":"asotest-postgresql-ugvkvr.postgres.database.azure.com","version":"13","minorVersion":"12","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2023-11-30T20:48:48.9713179+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Disabled","dayOfWeek":0,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"East
-      US","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr","name":"asotest-postgresql-ugvkvr","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
+    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"dataEncryption":{"type":"SystemManaged"},"fullyQualifiedDomainName":"asotest-postgresql-vedyds.postgres.database.azure.com","version":"13","minorVersion":"12","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2023-11-30T20:48:48.9713179+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Disabled","dayOfWeek":0,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"East
+      US","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds","name":"asotest-postgresql-vedyds","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
     headers:
       Cache-Control:
       - no-cache
@@ -367,7 +367,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"eastus","name":"asotest-postgresql-ugvkvr","properties":{"administratorLogin":"myadmin","administratorLoginPassword":"{PASSWORD}","maintenanceWindow":{"customWindow":"enabled","dayOfWeek":5},"storage":{"storageSizeGB":128},"version":"13"},"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"}}'
+    body: '{"location":"eastus","name":"asotest-postgresql-vedyds","properties":{"administratorLogin":"myadmin","administratorLoginPassword":"{PASSWORD}","maintenanceWindow":{"customWindow":"enabled","dayOfWeek":5},"storage":{"storageSizeGB":128},"version":"13"},"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"}}'
     form: {}
     headers:
       Accept:
@@ -378,7 +378,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr?api-version=2022-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds?api-version=2022-12-01
     method: PUT
   response:
     body: '{"operation":"UpsertServerManagementOperationV2","startTime":"2001-02-03T04:05:06Z"}'
@@ -446,11 +446,11 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr?api-version=2022-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds?api-version=2022-12-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"dataEncryption":{"type":"SystemManaged"},"fullyQualifiedDomainName":"asotest-postgresql-ugvkvr.postgres.database.azure.com","version":"13","minorVersion":"12","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2023-11-30T20:48:48.9713179+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"East
-      US","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr","name":"asotest-postgresql-ugvkvr","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
+    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"dataEncryption":{"type":"SystemManaged"},"fullyQualifiedDomainName":"asotest-postgresql-vedyds.postgres.database.azure.com","version":"13","minorVersion":"12","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2023-11-30T20:48:48.9713179+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"East
+      US","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds","name":"asotest-postgresql-vedyds","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
     headers:
       Cache-Control:
       - no-cache
@@ -479,11 +479,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr?api-version=2022-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds?api-version=2022-12-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"dataEncryption":{"type":"SystemManaged"},"fullyQualifiedDomainName":"asotest-postgresql-ugvkvr.postgres.database.azure.com","version":"13","minorVersion":"12","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2023-11-30T20:48:48.9713179+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"East
-      US","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr","name":"asotest-postgresql-ugvkvr","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
+    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"authConfig":{"activeDirectoryAuth":"Disabled","passwordAuth":"Enabled"},"dataEncryption":{"type":"SystemManaged"},"fullyQualifiedDomainName":"asotest-postgresql-vedyds.postgres.database.azure.com","version":"13","minorVersion":"12","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2023-11-30T20:48:48.9713179+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0},"replicationRole":"Primary","replicaCapacity":5},"location":"East
+      US","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds","name":"asotest-postgresql-vedyds","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
     headers:
       Cache-Control:
       - no-cache
@@ -512,7 +512,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr/firewallRules/asotest-fwrule-bvjogi?api-version=2022-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds/firewallRules/asotest-fwrule-bvjogi?api-version=2022-12-01
     method: GET
   response:
     body: '{"error":{"code":"ResourceNotFound","message":"The specified resource asotest-fwrule-bvjogi
@@ -549,7 +549,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr/configurations/pgaudit.log?api-version=2022-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds/configurations/pgaudit.log?api-version=2022-12-01
     method: PUT
   response:
     body: '{"operation":"UpdateConfigurationManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
@@ -587,7 +587,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr/databases/asotest-db-jdbshi?api-version=2022-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds/databases/asotest-db-jdbshi?api-version=2022-12-01
     method: GET
   response:
     body: '{"error":{"code":"ResourceNotFound","message":"The requested resource of
@@ -625,7 +625,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr/firewallRules/asotest-fwrule-bvjogi?api-version=2022-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds/firewallRules/asotest-fwrule-bvjogi?api-version=2022-12-01
     method: PUT
   response:
     body: '{"operation":"UpsertServerFirewallRulesManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
@@ -667,7 +667,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr/databases/asotest-db-jdbshi?api-version=2022-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds/databases/asotest-db-jdbshi?api-version=2022-12-01
     method: PUT
   response:
     body: '{"operation":"UpsertServerDatabaseManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
@@ -799,10 +799,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr/databases/asotest-db-jdbshi?api-version=2022-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds/databases/asotest-db-jdbshi?api-version=2022-12-01
     method: GET
   response:
-    body: '{"properties":{"charset":"UTF8","collation":"en_US.utf8"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr/databases/asotest-db-jdbshi","name":"asotest-db-jdbshi","type":"Microsoft.DBforPostgreSQL/flexibleServers/databases"}'
+    body: '{"properties":{"charset":"UTF8","collation":"en_US.utf8"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds/databases/asotest-db-jdbshi","name":"asotest-db-jdbshi","type":"Microsoft.DBforPostgreSQL/flexibleServers/databases"}'
     headers:
       Cache-Control:
       - no-cache
@@ -831,10 +831,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr/databases/asotest-db-jdbshi?api-version=2022-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds/databases/asotest-db-jdbshi?api-version=2022-12-01
     method: GET
   response:
-    body: '{"properties":{"charset":"UTF8","collation":"en_US.utf8"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr/databases/asotest-db-jdbshi","name":"asotest-db-jdbshi","type":"Microsoft.DBforPostgreSQL/flexibleServers/databases"}'
+    body: '{"properties":{"charset":"UTF8","collation":"en_US.utf8"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds/databases/asotest-db-jdbshi","name":"asotest-db-jdbshi","type":"Microsoft.DBforPostgreSQL/flexibleServers/databases"}'
     headers:
       Cache-Control:
       - no-cache
@@ -863,7 +863,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr/databases/asotest-db-jdbshi?api-version=2022-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds/databases/asotest-db-jdbshi?api-version=2022-12-01
     method: DELETE
   response:
     body: '{"operation":"DropServerDatabaseManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
@@ -931,11 +931,11 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr/configurations/pgaudit.log?api-version=2022-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds/configurations/pgaudit.log?api-version=2022-12-01
     method: GET
   response:
     body: '{"properties":{"value":"READ","description":"Specifies which classes of
-      statements will be logged by session audit logging.","defaultValue":"none","dataType":"Set","allowedValues":"none,read,write,function,role,ddl,misc,all","source":"user-override","isDynamicConfig":true,"isReadOnly":false,"isConfigPendingRestart":false,"documentationLink":"https://github.com/pgaudit/pgaudit/blob/master/README.md"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr/configurations/pgaudit.log","name":"pgaudit.log","type":"Microsoft.DBforPostgreSQL/flexibleServers/configurations"}'
+      statements will be logged by session audit logging.","defaultValue":"none","dataType":"Set","allowedValues":"none,read,write,function,role,ddl,misc,all","source":"user-override","isDynamicConfig":true,"isReadOnly":false,"isConfigPendingRestart":false,"documentationLink":"https://github.com/pgaudit/pgaudit/blob/master/README.md"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds/configurations/pgaudit.log","name":"pgaudit.log","type":"Microsoft.DBforPostgreSQL/flexibleServers/configurations"}'
     headers:
       Cache-Control:
       - no-cache
@@ -964,11 +964,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr/configurations/pgaudit.log?api-version=2022-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds/configurations/pgaudit.log?api-version=2022-12-01
     method: GET
   response:
     body: '{"properties":{"value":"READ","description":"Specifies which classes of
-      statements will be logged by session audit logging.","defaultValue":"none","dataType":"Set","allowedValues":"none,read,write,function,role,ddl,misc,all","source":"user-override","isDynamicConfig":true,"isReadOnly":false,"isConfigPendingRestart":false,"documentationLink":"https://github.com/pgaudit/pgaudit/blob/master/README.md"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr/configurations/pgaudit.log","name":"pgaudit.log","type":"Microsoft.DBforPostgreSQL/flexibleServers/configurations"}'
+      statements will be logged by session audit logging.","defaultValue":"none","dataType":"Set","allowedValues":"none,read,write,function,role,ddl,misc,all","source":"user-override","isDynamicConfig":true,"isReadOnly":false,"isConfigPendingRestart":false,"documentationLink":"https://github.com/pgaudit/pgaudit/blob/master/README.md"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds/configurations/pgaudit.log","name":"pgaudit.log","type":"Microsoft.DBforPostgreSQL/flexibleServers/configurations"}'
     headers:
       Cache-Control:
       - no-cache
@@ -1059,10 +1059,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr/firewallRules/asotest-fwrule-bvjogi?api-version=2022-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds/firewallRules/asotest-fwrule-bvjogi?api-version=2022-12-01
     method: GET
   response:
-    body: '{"properties":{"startIpAddress":"1.2.3.4","endIpAddress":"1.2.3.4"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr/firewallRules/asotest-fwrule-bvjogi","name":"asotest-fwrule-bvjogi","type":"Microsoft.DBforPostgreSQL/flexibleServers/firewallRules"}'
+    body: '{"properties":{"startIpAddress":"1.2.3.4","endIpAddress":"1.2.3.4"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds/firewallRules/asotest-fwrule-bvjogi","name":"asotest-fwrule-bvjogi","type":"Microsoft.DBforPostgreSQL/flexibleServers/firewallRules"}'
     headers:
       Cache-Control:
       - no-cache
@@ -1091,10 +1091,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr/firewallRules/asotest-fwrule-bvjogi?api-version=2022-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds/firewallRules/asotest-fwrule-bvjogi?api-version=2022-12-01
     method: GET
   response:
-    body: '{"properties":{"startIpAddress":"1.2.3.4","endIpAddress":"1.2.3.4"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr/firewallRules/asotest-fwrule-bvjogi","name":"asotest-fwrule-bvjogi","type":"Microsoft.DBforPostgreSQL/flexibleServers/firewallRules"}'
+    body: '{"properties":{"startIpAddress":"1.2.3.4","endIpAddress":"1.2.3.4"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds/firewallRules/asotest-fwrule-bvjogi","name":"asotest-fwrule-bvjogi","type":"Microsoft.DBforPostgreSQL/flexibleServers/firewallRules"}'
     headers:
       Cache-Control:
       - no-cache
@@ -1123,7 +1123,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr/firewallRules/asotest-fwrule-bvjogi?api-version=2022-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds/firewallRules/asotest-fwrule-bvjogi?api-version=2022-12-01
     method: DELETE
   response:
     body: '{"operation":"DropServerFirewallRulesManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
@@ -1193,7 +1193,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr?api-version=2022-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds?api-version=2022-12-01
     method: DELETE
   response:
     body: '{"operation":"DropServerManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
@@ -1328,11 +1328,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "6"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr?api-version=2022-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds?api-version=2022-12-01
     method: GET
   response:
     body: '{"error":{"code":"ResourceNotFound","message":"The requested resource of
-      type ''Microsoft.DBforPostgreSQL/flexibleServers'' with name ''asotest-postgresql-ugvkvr''
+      type ''Microsoft.DBforPostgreSQL/flexibleServers'' with name ''asotest-postgresql-vedyds''
       was not found."}}'
     headers:
       Cache-Control:
@@ -1420,10 +1420,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr/configurations/pgaudit.log?api-version=2022-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qkeqre/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds/configurations/pgaudit.log?api-version=2022-12-01
     method: DELETE
   response:
-    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-ugvkvr''
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-vedyds''
       under resource group ''asotest-rg-qkeqre'' was not found. For more details please
       go to https://aka.ms/ARMResourceNotFoundFix"}}'
     headers:

@@ -10,6 +10,7 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
+
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
 )
@@ -17,9 +18,10 @@ import (
 // testPassthroughRecorder is an implementation of testRecorder that does not record or replay HTTP requests,
 // but which instead just passes them through to a real HTTP endpoint.
 type testPassthroughRecorder struct {
-	cfg   config.Values
-	creds azcore.TokenCredential
-	ids   creds.AzureIDs
+	cfg      config.Values
+	creds    azcore.TokenCredential
+	ids      creds.AzureIDs
+	redactor *Redactor
 }
 
 var _ Interface = &testPassthroughRecorder{}
@@ -32,9 +34,10 @@ func NewTestPassthroughRecorder(cfg config.Values) (Interface, error) {
 	}
 
 	return &testPassthroughRecorder{
-		cfg:   cfg,
-		creds: creds,
-		ids:   azureIDs,
+		cfg:      cfg,
+		creds:    creds,
+		ids:      azureIDs,
+		redactor: NewRedactor(azureIDs),
 	}, nil
 }
 
@@ -56,6 +59,16 @@ func (r *testPassthroughRecorder) Creds() azcore.TokenCredential {
 // IDs implements testRecorder.
 func (r *testPassthroughRecorder) IDs() creds.AzureIDs {
 	return r.ids
+}
+
+// AddLiteralRedaction adds literal redaction value to redactor
+func (r *testPassthroughRecorder) AddLiteralRedaction(redactionValue string, replacementValue string) {
+	r.redactor.AddLiteralRedaction(redactionValue, replacementValue)
+}
+
+// AddRegexpRedaction adds regular expression redaction value to redactor
+func (r *testPassthroughRecorder) AddRegexpRedaction(pattern string, replacementValue string) {
+	r.redactor.AddRegexRedaction(pattern, replacementValue)
 }
 
 // IsReplaying implements testRecorder.

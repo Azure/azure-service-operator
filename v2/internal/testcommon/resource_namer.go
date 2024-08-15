@@ -106,6 +106,18 @@ func (n ResourceNamer) makeRandomStringOfLength(num int, runes []rune) string {
 	return string(result)
 }
 
+func (n ResourceNamer) makeSecureStringOfLength(num int, runes []rune) string {
+	result := make([]rune, num)
+	for i := range result {
+		// Ignoring error here since big.NewInt does not return `0 <= x < length`
+		idx, _ := crypto.Int(crypto.Reader, big.NewInt(int64(len(runes))))
+
+		result[i] = runes[idx.Int64()]
+	}
+
+	return string(result)
+}
+
 func (n ResourceNamer) generateName(prefix string, num int) string {
 	result := n.makeRandomStringOfLength(num, n.runes)
 
@@ -126,18 +138,23 @@ func (n ResourceNamer) GenerateName(prefix string) string {
 	return n.generateName(prefix, n.randomChars)
 }
 
+func (n ResourceNamer) GenerateNameOfLength(length int) string {
+	return n.generateName("", length)
+}
+
 func (n ResourceNamer) GeneratePassword() string {
 	return n.GeneratePasswordOfLength(n.randomChars)
 }
 
-var runes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789~!@#$%^&*()")
-
+// GeneratePasswordOfLength generates and returns a non-deterministic password.
+// This method does not use any seed value, so the returned password is never stable.
 func (n ResourceNamer) GeneratePasswordOfLength(length int) string {
+	var runes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789~!@#$%^&*()")
+
 	// This pass + <content> + pass pattern is to make it so that matchers can reliably find and prune
 	// generated passwords from the recordings. If you change it make sure to change the passwordMatcher
 	// in test_context.go as well.
-	// TODO: replace this with n.makeSecureStringOfLength in following PR
-	return "pass" + n.makeRandomStringOfLength(length, runes) + "pass"
+	return "pass" + n.makeSecureStringOfLength(length, runes) + "pass"
 }
 
 func (n ResourceNamer) GenerateSecretOfLength(length int) (string, error) {

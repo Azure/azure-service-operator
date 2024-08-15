@@ -10,6 +10,7 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
+
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
 )
@@ -25,6 +26,12 @@ type Interface interface {
 
 	// IDs returns the available Azure resource IDs for the test
 	IDs() creds.AzureIDs
+
+	// AddLiteralRedaction adds literal redaction value to redactor
+	AddLiteralRedaction(redactionValue, replacementValue string)
+
+	// AddRegexpRedaction adds regular expression redaction value to redactor
+	AddRegexpRedaction(pattern, replacementValue string)
 
 	// Stop recording
 	Stop() error
