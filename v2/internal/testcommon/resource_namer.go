@@ -145,6 +145,8 @@ func (n ResourceNamer) GeneratePassword() string {
 	return n.GeneratePasswordOfLength(n.randomChars)
 }
 
+// GeneratePasswordOfLength generates and returns a non-deterministic password.
+// This method does not use any seed value, so the returned password is never stable.
 func (n ResourceNamer) GeneratePasswordOfLength(length int) string {
 	var runes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789~!@#$%^&*()")
 
