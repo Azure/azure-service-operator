@@ -14,7 +14,6 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/pkg/errors"
 )
 
 type ResourceNameConfig struct {
@@ -146,10 +145,11 @@ func (n ResourceNamer) GeneratePassword() string {
 	return n.GeneratePasswordOfLength(n.randomChars)
 }
 
+var runes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789~!@#$%^&*()")
+
 // GeneratePasswordOfLength generates and returns a non-deterministic password.
 // This method does not use any seed value, so the returned password is never stable.
 func (n ResourceNamer) GeneratePasswordOfLength(length int) string {
-	var runes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789~!@#$%^&*()")
 
 	// This pass + <content> + pass pattern is to make it so that matchers can reliably find and prune
 	// generated passwords from the recordings. If you change it make sure to change the passwordMatcher
@@ -157,25 +157,12 @@ func (n ResourceNamer) GeneratePasswordOfLength(length int) string {
 	return "pass" + n.makeSecureStringOfLength(length, runes) + "pass"
 }
 
-func (n ResourceNamer) GenerateSecretOfLength(length int) (string, error) {
-	str, err := makeSecureStringOfLength(length, runes)
-	return str, err
+// GenerateSecretOfLength generates and returns a non-deterministic secret.
+// This method does not use any seed value, so the returned password is never stable.
+func (n ResourceNamer) GenerateSecretOfLength(length int) string {
+	return n.makeSecureStringOfLength(length, runes)
 }
 
 func (n ResourceNamer) GenerateUUID() (uuid.UUID, error) {
 	return uuid.NewRandomFromReader(n.rand)
-}
-
-func makeSecureStringOfLength(num int, runes []rune) (string, error) {
-	result := make([]rune, num)
-	for i := range result {
-		idx, err := crypto.Int(crypto.Reader, big.NewInt(int64(len(runes))))
-		if err != nil {
-			return "", errors.Wrapf(err, "failed to generate a secure string")
-		}
-
-		result[i] = runes[idx.Int64()]
-	}
-
-	return string(result), nil
 }

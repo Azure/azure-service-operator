@@ -552,7 +552,7 @@ interactions:
         host: management.azure.com
         remote_addr: ""
         request_uri: ""
-        body: '{"name":"c054cb24-28a4-5035-ae62-e5e1325bc96a","properties":{"principalId":"5c6be76c-5fc4-4817-992d-22027b44c402","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
+        body: '{"name":"c054cb24-28a4-5035-ae62-e5e1325bc96a","properties":{"principalId":"00000000-0000-0000-0000-000000000000","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
         form: {}
         headers:
             Accept:
@@ -573,7 +573,7 @@ interactions:
         trailer: {}
         content_length: 1013
         uncompressed: false
-        body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c","principalId":"5c6be76c-5fc4-4817-992d-22027b44c402","principalType":"ServicePrincipal","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nsmdfx/providers/Microsoft.Network/virtualNetworks/asotest-vn-lzvddq","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":null,"updatedBy":"34e81c0e-d5e6-478f-8544-2686be295567","delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nsmdfx/providers/Microsoft.Network/virtualNetworks/asotest-vn-lzvddq/providers/Microsoft.Authorization/roleAssignments/c054cb24-28a4-5035-ae62-e5e1325bc96a","type":"Microsoft.Authorization/roleAssignments","name":"c054cb24-28a4-5035-ae62-e5e1325bc96a"}'
+        body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c","principalId":"00000000-0000-0000-0000-000000000000","principalType":"ServicePrincipal","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nsmdfx/providers/Microsoft.Network/virtualNetworks/asotest-vn-lzvddq","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":null,"updatedBy":"34e81c0e-d5e6-478f-8544-2686be295567","delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nsmdfx/providers/Microsoft.Network/virtualNetworks/asotest-vn-lzvddq/providers/Microsoft.Authorization/roleAssignments/c054cb24-28a4-5035-ae62-e5e1325bc96a","type":"Microsoft.Authorization/roleAssignments","name":"c054cb24-28a4-5035-ae62-e5e1325bc96a"}'
         headers:
             Cache-Control:
                 - no-cache
@@ -681,7 +681,7 @@ interactions:
         trailer: {}
         content_length: 1047
         uncompressed: false
-        body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c","principalId":"5c6be76c-5fc4-4817-992d-22027b44c402","principalType":"ServicePrincipal","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nsmdfx/providers/Microsoft.Network/virtualNetworks/asotest-vn-lzvddq","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"34e81c0e-d5e6-478f-8544-2686be295567","updatedBy":"34e81c0e-d5e6-478f-8544-2686be295567","delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nsmdfx/providers/Microsoft.Network/virtualNetworks/asotest-vn-lzvddq/providers/Microsoft.Authorization/roleAssignments/c054cb24-28a4-5035-ae62-e5e1325bc96a","type":"Microsoft.Authorization/roleAssignments","name":"c054cb24-28a4-5035-ae62-e5e1325bc96a"}'
+        body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c","principalId":"00000000-0000-0000-0000-000000000000","principalType":"ServicePrincipal","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nsmdfx/providers/Microsoft.Network/virtualNetworks/asotest-vn-lzvddq","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"34e81c0e-d5e6-478f-8544-2686be295567","updatedBy":"34e81c0e-d5e6-478f-8544-2686be295567","delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nsmdfx/providers/Microsoft.Network/virtualNetworks/asotest-vn-lzvddq/providers/Microsoft.Authorization/roleAssignments/c054cb24-28a4-5035-ae62-e5e1325bc96a","type":"Microsoft.Authorization/roleAssignments","name":"c054cb24-28a4-5035-ae62-e5e1325bc96a"}'
         headers:
             Cache-Control:
                 - no-cache
@@ -734,7 +734,7 @@ interactions:
         trailer: {}
         content_length: 1047
         uncompressed: false
-        body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c","principalId":"5c6be76c-5fc4-4817-992d-22027b44c402","principalType":"ServicePrincipal","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nsmdfx/providers/Microsoft.Network/virtualNetworks/asotest-vn-lzvddq","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"34e81c0e-d5e6-478f-8544-2686be295567","updatedBy":"34e81c0e-d5e6-478f-8544-2686be295567","delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nsmdfx/providers/Microsoft.Network/virtualNetworks/asotest-vn-lzvddq/providers/Microsoft.Authorization/roleAssignments/c054cb24-28a4-5035-ae62-e5e1325bc96a","type":"Microsoft.Authorization/roleAssignments","name":"c054cb24-28a4-5035-ae62-e5e1325bc96a"}'
+        body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c","principalId":"00000000-0000-0000-0000-000000000000","principalType":"ServicePrincipal","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nsmdfx/providers/Microsoft.Network/virtualNetworks/asotest-vn-lzvddq","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"34e81c0e-d5e6-478f-8544-2686be295567","updatedBy":"34e81c0e-d5e6-478f-8544-2686be295567","delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nsmdfx/providers/Microsoft.Network/virtualNetworks/asotest-vn-lzvddq/providers/Microsoft.Authorization/roleAssignments/c054cb24-28a4-5035-ae62-e5e1325bc96a","type":"Microsoft.Authorization/roleAssignments","name":"c054cb24-28a4-5035-ae62-e5e1325bc96a"}'
         headers:
             Cache-Control:
                 - no-cache
@@ -1292,7 +1292,7 @@ interactions:
         host: management.azure.com
         remote_addr: ""
         request_uri: ""
-        body: '{"location":"westus2","name":"asotest-aro-cluster-uzditq","properties":{"apiserverProfile":{"visibility":"Private"},"clusterProfile":{"domain":"aro-example.com","fipsValidatedModules":"Disabled","resourceGroupId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-cluster-rg-kjzmai","version":"4.14.16"},"ingressProfiles":[{"name":"default","visibility":"Private"}],"masterProfile":{"encryptionAtHost":"Disabled","subnetId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nsmdfx/providers/Microsoft.Network/virtualNetworks/asotest-vn-lzvddq/subnets/asotest-subnet-nhqmss","vmSize":"Standard_D8s_v3"},"networkProfile":{"podCidr":"10.128.0.0/14","serviceCidr":"172.30.0.0/16"},"servicePrincipalProfile":{"clientId":"5b7a18b9-8aec-4456-a4c3-0865cbfa1512","clientSecret":"{SECRET}"}]}}'
+        body: '{"location":"westus2","name":"asotest-aro-cluster-uzditq","properties":{"apiserverProfile":{"visibility":"Private"},"clusterProfile":{"domain":"aro-example.com","fipsValidatedModules":"Disabled","resourceGroupId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-cluster-rg-kjzmai","version":"4.14.16"},"ingressProfiles":[{"name":"default","visibility":"Private"}],"masterProfile":{"encryptionAtHost":"Disabled","subnetId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nsmdfx/providers/Microsoft.Network/virtualNetworks/asotest-vn-lzvddq/subnets/asotest-subnet-nhqmss","vmSize":"Standard_D8s_v3"},"networkProfile":{"podCidr":"10.128.0.0/14","serviceCidr":"172.30.0.0/16"},"servicePrincipalProfile":{"clientId":"00000000-0000-0000-0000-000000000000","clientSecret":"{REDACTED}"},"workerProfiles":[{"count":3,"diskSizeGB":128,"encryptionAtHost":"Disabled","name":"worker","subnetId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nsmdfx/providers/Microsoft.Network/virtualNetworks/asotest-vn-lzvddq/subnets/asotest-subnet-uxsdco","vmSize":"Standard_D4s_v3"}]}}'
         form: {}
         headers:
             Accept:
@@ -1337,7 +1337,7 @@ interactions:
                     },
                     "consoleProfile": {},
                     "servicePrincipalProfile": {
-                        "clientId": "5b7a18b9-8aec-4456-a4c3-0865cbfa1512"
+                        "clientId": "00000000-0000-0000-0000-000000000000"
                     },
                     "networkProfile": {
                         "podCidr": "10.128.0.0/14",
@@ -4478,7 +4478,7 @@ interactions:
                         "url": "https://console-openshift-console.apps.aro-example.com/"
                     },
                     "servicePrincipalProfile": {
-                        "clientId": "5b7a18b9-8aec-4456-a4c3-0865cbfa1512"
+                        "clientId": "00000000-0000-0000-0000-000000000000"
                     },
                     "networkProfile": {
                         "podCidr": "10.128.0.0/14",
@@ -4627,7 +4627,7 @@ interactions:
                         "url": "https://console-openshift-console.apps.aro-example.com/"
                     },
                     "servicePrincipalProfile": {
-                        "clientId": "5b7a18b9-8aec-4456-a4c3-0865cbfa1512"
+                        "clientId": "00000000-0000-0000-0000-000000000000"
                     },
                     "networkProfile": {
                         "podCidr": "10.128.0.0/14",

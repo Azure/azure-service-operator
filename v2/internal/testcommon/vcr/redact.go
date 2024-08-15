@@ -123,7 +123,6 @@ func (r *Redactor) HideRecordingData(s string) string {
 	s = hideDates(s)
 	s = hideSSHKeys(s)
 	s = hidePasswords(s)
-	s = hideSecrets(s)
 	s = hideKubeConfigs(s)
 	s = hideKeys(s)
 	s = hideCustomKeys(s)
@@ -161,21 +160,6 @@ var passwordMatcher = regexp.MustCompile("\"pass[^\"]*?pass\"")
 // hidePasswords hides anything that looks like a generated password
 func hidePasswords(s string) string {
 	return passwordMatcher.ReplaceAllLiteralString(s, "\"{PASSWORD}\"")
-}
-
-var (
-	// secretMatcher matches any field with a [Ss]ecret suffix.
-	// It's only valid for a case where [Ss]ecret contains a prefix or else its ignored.
-	// e.g: clientSecret, adminSecret, etc.
-	secretMatcher  = regexp.MustCompile(`"([A-Za-z]+)[Ss]ecret":".*"`)
-	secretReplacer = regexp.MustCompile(`:".*"`)
-)
-
-// hideSecrets hides anything that looks like a secret
-func hideSecrets(s string) string {
-	return secretMatcher.ReplaceAllStringFunc(s, func(matched string) string {
-		return secretReplacer.ReplaceAllString(matched, `:"{SECRET}"`)
-	})
 }
 
 // kubeConfigMatcher specifically matches base64 data returned by the AKS get keys API

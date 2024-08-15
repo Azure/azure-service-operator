@@ -10,6 +10,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/google/uuid"
 	. "github.com/onsi/gomega"
 
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
@@ -19,10 +20,16 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
+type servicePrincipalDetails struct {
+	clientId     string
+	objectId     string
+	clientSecret string
+}
+
 // TODO: To re-record this test, create a new service principal and save its details into the
-// TODO: ARO_CLIENT_SECRET env variable and replace clientID and principalId below
-// TODO: This is required because the ARO resource requires a service principal for input currently. Hopefully
-// TODO: we can revisit this in the future when they support other options.
+// TODO: ARO_CLIENT_SECRET, ARO_OBJECT_ID, ARO_CLIENT_ID env variables
+// TODO: This is required because the ARO resource requires a service principal for input currently.
+// TODO: Hopefully we can revisit this in the future when they support other options.
 func Test_RedHatOpenShift_OpenShiftCluster_CRUD(t *testing.T) {
 	t.Parallel()
 
@@ -35,20 +42,16 @@ func Test_RedHatOpenShift_OpenShiftCluster_CRUD(t *testing.T) {
 
 	secretName := "aro-secret"
 	secretKey := "client-secret"
-	// TODO: Replace the principalID, clientSecret and clientId vars below with principalId, clientSecret and clientId of your SP
-	principalId := "5c6be76c-5fc4-4817-992d-22027b44c402"
-	clientId := "5b7a18b9-8aec-4456-a4c3-0865cbfa1512"
+	details := getIds(tc)
 	// This is the RP principalId, no need to change this.
 	// This can be fetched by using `az ad sp list --display-name "Azure Red Hat OpenShift RP" --query "[0].id" -o tsv` command
 	azureRedHadOpenshiftRPIdentityPrincipalId := "50c17c64-bc11-4fdd-a339-0ecd396bf911"
 
-	clientSecret := os.Getenv("ARO_CLIENT_SECRET")
-	var err error
-	if clientSecret == "" {
-		clientSecret, err = tc.Namer.GenerateSecretOfLength(40)
-		tc.Expect(err).To(BeNil())
-	}
-	clientSecretRef := tc.CreateSecret(secretName, secretKey, clientSecret)
+	clientSecretRef := tc.CreateSecret(secretName, secretKey, details.clientSecret)
+
+	tc.WithLiteralRedaction(details.objectId, "{REDACTED}")
+	tc.WithLiteralRedaction(details.clientSecret, "{REDACTED}")
+	tc.WithLiteralRedaction(details.clientId, "{REDACTED}")
 
 	serviceEndpoints := []network.ServiceEndpointPropertiesFormat{
 		{
@@ -64,7 +67,7 @@ func Test_RedHatOpenShift_OpenShiftCluster_CRUD(t *testing.T) {
 
 	contributorRoleId := fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c", tc.AzureSubscription)
 	roleAssingmentToVnet := newRoleAssignment(tc, vnet, "roleassingment", contributorRoleId)
-	roleAssingmentToVnet.Spec.PrincipalId = to.Ptr(principalId)
+	roleAssingmentToVnet.Spec.PrincipalId = to.Ptr(details.objectId)
 
 	roleAssingmentFromRPtoVnet := newRoleAssignment(tc, vnet, "rollassginmentrp", contributorRoleId)
 	roleAssingmentFromRPtoVnet.Spec.PrincipalId = to.Ptr(azureRedHadOpenshiftRPIdentityPrincipalId)
@@ -100,7 +103,7 @@ func Test_RedHatOpenShift_OpenShiftCluster_CRUD(t *testing.T) {
 				ServiceCidr: to.Ptr("172.30.0.0/16"),
 			},
 			ServicePrincipalProfile: &aro.ServicePrincipalProfile{
-				ClientId:     to.Ptr(clientId),
+				ClientId:     to.Ptr(details.clientId),
 				ClientSecret: &clientSecretRef,
 			},
 			WorkerProfiles: []aro.WorkerProfile{
@@ -136,4 +139,34 @@ func Test_RedHatOpenShift_OpenShiftCluster_CRUD(t *testing.T) {
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
 
+}
+
+func getIds(tc *testcommon.KubePerTestContext) servicePrincipalDetails {
+	nilUUID := uuid.Nil.String()
+
+	clientId := nilUUID
+	objectId := nilUUID
+	clientSecret := tc.Namer.GenerateSecretOfLength(40)
+
+	if id := os.Getenv("ARO_CLIENT_ID"); id != "" {
+		clientId = id
+	}
+
+	if id := os.Getenv("ARO_OBJECT_ID"); id != "" {
+		objectId = id
+	}
+
+	if secret := os.Getenv("ARO_CLIENT_SECRET"); secret != "" {
+		clientSecret = secret
+	}
+
+	tc.WithLiteralRedaction(clientId, nilUUID)
+	tc.WithLiteralRedaction(objectId, nilUUID)
+	tc.WithLiteralRedaction(clientSecret, "{REDACTED}")
+
+	return servicePrincipalDetails{
+		clientId:     clientId,
+		objectId:     objectId,
+		clientSecret: clientSecret,
+	}
 }
