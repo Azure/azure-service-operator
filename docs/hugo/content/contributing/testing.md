@@ -2,9 +2,12 @@
 title: Testing
 ---
 
-## Running integration tests
+## Running envtest integration tests
 
-Basic use: run `task controller:test-integration-envtest`.
+**Basic use:** `task controller:test-integration-envtest`.
+
+These are sometimes also called `envtest` tests, because they use 
+[envtest](https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/envtest).
 
 ### Required variables
 
@@ -64,3 +67,38 @@ or, with a timeout:
 ```bash
 TIMEOUT=10m TEST_FILTER=<test_name_regex> task controller:test-integration-envtest
 ```
+
+## Running integration tests in a KIND cluster
+
+| Environment Variable         | Value                                                                          |
+|------------------------------|--------------------------------------------------------------------------------|
+| AZURE_SUBSCRIPTION_ID        | The Azure Subscription ID                                                      |
+| AZURE_TENANT_ID              | The Azure Tenant ID                                                            |
+| KIND_OIDC_STORAGE_ACCOUNT_RG | The resource group containing the Azure storage account for OIDC federation    |
+| KIND_OIDC_STORAGE_ACCOUNT    | The Azure storage account name. Storage account names must be globally unique. |
+
+ASO CI uses:
+```
+KIND_OIDC_STORAGE_ACCOUNT_RG=asov2-ci
+KIND_OIDC_STORAGE_ACCOUNT=asowistorage
+```
+
+**Pre-requisite:** Provision a storage account for OIDC federated token exchange with Azure for your KIND clusters.
+This can be done by running `task provision-oidc-storage-acct`, which will create a storage account with a random
+name in the `aso-wi-storage` resource group.
+
+Note: If you want to run the tests in a different subscription than the one containing the OIDC storage account,
+set the `KIND_OIDC_STORAGE_ACCOUNT_SUBSCRIPTION` variable to the subscription ID of the storage account, after
+which you can run tests in a different subscription if you like.
+
+**Basic use (create KIND + run tests):** `task controller:test-integration-kind`
+
+**Basic use (create KIND cluster only):** `task controller:kind-create-helm-workload-identity`
+
+There are a _few_ tests that can't be run in envtest, because envtest doesn't offer a full Kubernetes environment.
+For these tests we have a separate suite of tests that should be run in a real Kubernetes environment, located at
+[v2/test](https://github.com/Azure/azure-service-operator/tree/main/v2/test).
+
+It's easiest, fastest, and cheapest to run these tests in a KIND cluster, although they can also be run in
+a full Kubernetes cluster (such as an AKS cluster). It can sometimes be useful to have a KIND cluster for local
+testing as well.

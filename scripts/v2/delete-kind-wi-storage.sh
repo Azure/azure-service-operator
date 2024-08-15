@@ -28,19 +28,8 @@ if [[ -z "$DIR" ]]; then
   exit 1
 fi
 
-EXISTS=$(kind get clusters -q | grep "^asov2-wi$" || true)
-
-if [ -f "$DIR/azure/rg.txt" ]; then
-  RESOURCE_GROUP=$(cat $DIR/azure/rg.txt)
-else
-  # Nothing to do, no existing rg
-  exit 0
-fi
-
-if [[ -z "$EXISTS" ]]; then
-  # Nothing to do, no match
-  exit 0
-fi
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source ${SCRIPT_DIR}/workloadidentitystorage/vars.sh
 
 if [ -f "$DIR/azure/fic.txt" ]; then
   # Need to manually delete the identity FIC
@@ -57,10 +46,25 @@ if [ -f "$DIR/azure/roleassignmentid.txt" ]; then
   az role assignment delete --ids "${ROLE_ASSIGNMENT_ID}"
 fi
 
-if [ $(az group exists --name ${RESOURCE_GROUP}) = true ]; then
-  echo "Deleting resourceGroup: ${RESOURCE_GROUP}"
-  az group delete --name ${RESOURCE_GROUP} -y
-  echo "Done deleting resourceGroup: ${RESOURCE_GROUP}"
+if [ -f "$DIR/azure/oidcid.txt" ]; then
+  OIDC_IDENTIFIER=$(cat $DIR/azure/oidcid.txt)
+  echo "Deleting blobs associated with OIDC ID: ${OIDC_IDENTIFIER}"
+  az storage blob delete-batch \
+    --account-name "${KIND_OIDC_STORAGE_ACCOUNT}" \
+    --source "${KIND_OIDC_STORAGE_CONTAINER}" \
+    --pattern "${OIDC_IDENTIFIER}/*" \
+    --auth-mode login
+  echo "Done deleting blobs associated with OIDC ID: ${OIDC_IDENTIFIER}"
+fi
+
+if [ -f "$DIR/azure/rg.txt" ]; then
+  RESOURCE_GROUP=$(cat $DIR/azure/rg.txt)
+
+  if [ $(az group exists --name ${RESOURCE_GROUP}) = true ]; then
+    echo "Deleting resourceGroup: ${RESOURCE_GROUP}"
+    az group delete --name ${RESOURCE_GROUP} -y
+    echo "Done deleting resourceGroup: ${RESOURCE_GROUP}"
+  fi
 fi
 
 echo "Deleting directory ${DIR}"
