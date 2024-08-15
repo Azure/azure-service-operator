@@ -267,7 +267,7 @@ func (profile *TrafficManagerProfile) validateConfigMapDestinations() (admission
 	toValidate := []*genruntime.ConfigMapDestination{
 		profile.Spec.OperatorSpec.ConfigMaps.DnsConfigFqdn,
 	}
-	return genruntime.ValidateConfigMapDestinations(toValidate)
+	return configmaps.ValidateDestinations(toValidate)
 }
 
 // validateOwnerReference validates the owner field

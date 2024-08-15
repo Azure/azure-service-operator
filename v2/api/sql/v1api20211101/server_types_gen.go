@@ -265,7 +265,7 @@ func (server *Server) validateConfigMapDestinations() (admission.Warnings, error
 	toValidate := []*genruntime.ConfigMapDestination{
 		server.Spec.OperatorSpec.ConfigMaps.FullyQualifiedDomainName,
 	}
-	return genruntime.ValidateConfigMapDestinations(toValidate)
+	return configmaps.ValidateDestinations(toValidate)
 }
 
 // validateOwnerReference validates the owner field

@@ -12,6 +12,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -313,7 +314,7 @@ func (account *StorageAccount) validateConfigMapDestinations() (admission.Warnin
 		account.Spec.OperatorSpec.ConfigMaps.TableEndpoint,
 		account.Spec.OperatorSpec.ConfigMaps.WebEndpoint,
 	}
-	return genruntime.ValidateConfigMapDestinations(toValidate)
+	return configmaps.ValidateDestinations(toValidate)
 }
 
 // validateOwnerReference validates the owner field
@@ -348,7 +349,7 @@ func (account *StorageAccount) validateSecretDestinations() (admission.Warnings,
 		account.Spec.OperatorSpec.Secrets.TableEndpoint,
 		account.Spec.OperatorSpec.Secrets.WebEndpoint,
 	}
-	return genruntime.ValidateSecretDestinations(toValidate)
+	return secrets.ValidateDestinations(toValidate)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties

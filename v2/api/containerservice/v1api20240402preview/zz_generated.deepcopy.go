@@ -11227,7 +11227,7 @@ func (in *ManagedClusterSecurityProfile_ARM) DeepCopyInto(out *ManagedClusterSec
 	}
 	if in.CustomCATrustCertificates != nil {
 		in, out := &in.CustomCATrustCertificates, &out.CustomCATrustCertificates
-		*out = make(ManagedClusterSecurityProfileCustomCATrustCertificates, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 	if in.Defender != nil {

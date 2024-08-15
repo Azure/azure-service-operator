@@ -3,7 +3,7 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package genruntime_test
+package secrets_test
 
 import (
 	"testing"
@@ -11,13 +11,14 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 )
 
 func Test_ValidateSecretDestination_EmptyListValidates(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	warnings, err := genruntime.ValidateSecretDestinations(nil)
+	warnings, err := secrets.ValidateDestinations(nil)
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }
@@ -31,7 +32,7 @@ func Test_ValidateSecretDestination_ListWithNilElementsValidates(t *testing.T) {
 		nil,
 	}
 
-	warnings, err := genruntime.ValidateSecretDestinations(destinations)
+	warnings, err := secrets.ValidateDestinations(destinations)
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }
@@ -44,7 +45,7 @@ func Test_ValidateSecretDestination_LengthOneListValidates(t *testing.T) {
 		{Name: "n1", Key: "key1"},
 	}
 
-	warnings, err := genruntime.ValidateSecretDestinations(destinations)
+	warnings, err := secrets.ValidateDestinations(destinations)
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }
@@ -60,7 +61,7 @@ func Test_ValidateSecretDestination_ListWithoutCollisionsValidates(t *testing.T)
 		{Name: "n1", Key: "key4"},
 	}
 
-	warnings, err := genruntime.ValidateSecretDestinations(destinations)
+	warnings, err := secrets.ValidateDestinations(destinations)
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }
@@ -76,7 +77,7 @@ func Test_ValidateSecretDestination_ListWithDifferentCasesValidates(t *testing.T
 		{Name: "n1", Key: "key4"},
 	}
 
-	warnings, err := genruntime.ValidateSecretDestinations(destinations)
+	warnings, err := secrets.ValidateDestinations(destinations)
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }
@@ -91,7 +92,7 @@ func Test_ValidateSecretDestination_ListWithCollisionsFailsValidation(t *testing
 		{Name: "n3", Key: "key1"},
 		{Name: "n1", Key: "key1"},
 	}
-	_, err := genruntime.ValidateSecretDestinations(destinations)
+	_, err := secrets.ValidateDestinations(destinations)
 	g.Expect(err).ToNot(BeNil())
 	g.Expect(err.Error()).To(Equal("cannot write more than one secret to destination Name: \"n1\", Key: \"key1\""))
 }

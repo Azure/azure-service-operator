@@ -265,7 +265,7 @@ func (service *PrivateLinkService) validateConfigMapDestinations() (admission.Wa
 	toValidate := []*genruntime.ConfigMapDestination{
 		service.Spec.OperatorSpec.ConfigMaps.Alias,
 	}
-	return genruntime.ValidateConfigMapDestinations(toValidate)
+	return configmaps.ValidateDestinations(toValidate)
 }
 
 // validateOwnerReference validates the owner field

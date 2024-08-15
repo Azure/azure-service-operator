@@ -16,7 +16,6 @@ import (
 	"github.com/google/go-cmp/cmp"
 	"github.com/pkg/errors"
 
-	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
@@ -36,11 +35,13 @@ import (
 func translateErrors(
 	r http.RoundTripper,
 	cassetteName string,
+	redactor *vcr.Redactor,
 	t *testing.T,
 ) http.RoundTripper {
 	return errorTranslation{
 		recorder:     r,
 		cassetteName: cassetteName,
+		redactor:     redactor,
 		t:            t,
 	}
 }
@@ -48,6 +49,7 @@ func translateErrors(
 type errorTranslation struct {
 	recorder     http.RoundTripper
 	cassetteName string
+	redactor     *vcr.Redactor
 	cassette     *cassettev1.Cassette
 	t            *testing.T
 }
@@ -82,7 +84,7 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 
 		// Apply the same body filtering that we do in recordings so that the diffs don't show things
 		// that we've just removed
-		sentBodyString = vcr.HideRecordingData(creds.DummyAzureIDs(), string(bodyBytes))
+		sentBodyString = w.redactor.HideRecordingData(string(bodyBytes))
 	}
 
 	// find all request bodies for the specified method/URL combination

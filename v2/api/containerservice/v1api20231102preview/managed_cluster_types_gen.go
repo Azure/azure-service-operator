@@ -12,6 +12,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -273,7 +274,7 @@ func (cluster *ManagedCluster) validateConfigMapDestinations() (admission.Warnin
 	toValidate := []*genruntime.ConfigMapDestination{
 		cluster.Spec.OperatorSpec.ConfigMaps.OIDCIssuerProfile,
 	}
-	return genruntime.ValidateConfigMapDestinations(toValidate)
+	return configmaps.ValidateDestinations(toValidate)
 }
 
 // validateOwnerReference validates the owner field
@@ -302,7 +303,7 @@ func (cluster *ManagedCluster) validateSecretDestinations() (admission.Warnings,
 		cluster.Spec.OperatorSpec.Secrets.AdminCredentials,
 		cluster.Spec.OperatorSpec.Secrets.UserCredentials,
 	}
-	return genruntime.ValidateSecretDestinations(toValidate)
+	return secrets.ValidateDestinations(toValidate)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -14317,7 +14318,11 @@ func (profile *ManagedClusterSecurityProfile) ConvertToARM(resolved genruntime.C
 	}
 
 	// Set property "CustomCATrustCertificates":
-	result.CustomCATrustCertificates = profile.CustomCATrustCertificates
+	var customCATrustCertificatesTemp []string
+	for _, item := range profile.CustomCATrustCertificates {
+		customCATrustCertificatesTemp = append(customCATrustCertificatesTemp, item)
+	}
+	result.CustomCATrustCertificates = customCATrustCertificatesTemp
 
 	// Set property "Defender":
 	if profile.Defender != nil {
@@ -14395,7 +14400,11 @@ func (profile *ManagedClusterSecurityProfile) PopulateFromARM(owner genruntime.A
 	}
 
 	// Set property "CustomCATrustCertificates":
-	profile.CustomCATrustCertificates = typedInput.CustomCATrustCertificates
+	var customCATrustCertificatesTemp []string
+	for _, item := range typedInput.CustomCATrustCertificates {
+		customCATrustCertificatesTemp = append(customCATrustCertificatesTemp, item)
+	}
+	profile.CustomCATrustCertificates = ManagedClusterSecurityProfileCustomCATrustCertificates(customCATrustCertificatesTemp)
 
 	// Set property "Defender":
 	if typedInput.Defender != nil {

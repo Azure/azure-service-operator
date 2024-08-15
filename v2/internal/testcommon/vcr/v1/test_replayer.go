@@ -30,6 +30,7 @@ type player struct {
 	ids          creds.AzureIDs
 	recorder     *recorder.Recorder
 	cfg          config.Values
+	redactor     *vcr.Redactor
 }
 
 // Verify we implement testRecorder
@@ -70,6 +71,8 @@ func NewTestPlayer(
 	cfg.ResourceManagerAudience = config.DefaultAudience
 	cfg.AzureAuthorityHost = config.DefaultAADAuthorityHost
 
+	redactor := vcr.NewRedactor(azureIDs)
+
 	// check body as well as URL/Method (copied from go-vcr documentation)
 	r.SetMatcher(func(r *http.Request, i cassette.Request) bool {
 		if !cassette.DefaultMatcher(r, i) {
@@ -91,7 +94,7 @@ func NewTestPlayer(
 		}
 
 		r.Body = io.NopCloser(&b)
-		return b.String() == "" || vcr.HideRecordingData(creds.DummyAzureIDs(), b.String()) == i.Body
+		return b.String() == "" || redactor.HideRecordingData(b.String()) == i.Body
 	})
 
 	return &player{
@@ -100,6 +103,7 @@ func NewTestPlayer(
 		ids:          azureIDs,
 		recorder:     r,
 		cfg:          cfg,
+		redactor:     redactor,
 	}, nil
 }
 
@@ -118,6 +122,16 @@ func (r *player) IDs() creds.AzureIDs {
 	return r.ids
 }
 
+// AddLiteralRedaction adds literal redaction value to redactor
+func (r *player) AddLiteralRedaction(redactionValue string, replacementValue string) {
+	r.redactor.AddLiteralRedaction(redactionValue, replacementValue)
+}
+
+// AddRegexpRedaction adds regular expression redaction value to redactor
+func (r *player) AddRegexpRedaction(pattern string, replacementValue string) {
+	r.redactor.AddRegexRedaction(pattern, replacementValue)
+}
+
 // Stop recording
 func (r *player) Stop() error {
 	return r.recorder.Stop()
@@ -132,7 +146,7 @@ func (r *player) IsReplaying() bool {
 // t is a reference to the test currently executing.
 // TODO: Remove the reference to t to reduce coupling
 func (r *player) CreateClient(t *testing.T) *http.Client {
-	withErrorTranslation := translateErrors(r.recorder, r.cassetteName, t)
+	withErrorTranslation := translateErrors(r.recorder, r.cassetteName, r.redactor, t)
 	withCountHeader := AddCountHeader(withErrorTranslation)
 
 	return &http.Client{

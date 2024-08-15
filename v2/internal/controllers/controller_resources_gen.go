@@ -61,8 +61,6 @@ import (
 	containerservice_v20210501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20210501/storage"
 	containerservice_v20230201 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201"
 	containerservice_v20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201/storage"
-	containerservice_v20230202p "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202preview"
-	containerservice_v20230202ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202preview/storage"
 	containerservice_v20230315p "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230315preview"
 	containerservice_v20230315ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230315preview/storage"
 	containerservice_v20231001 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001"
@@ -1358,16 +1356,6 @@ func getKnownTypes() []client.Object {
 		new(containerservice_v20230201s.ManagedClustersAgentPool))
 	result = append(
 		result,
-		new(containerservice_v20230202p.ManagedCluster),
-		new(containerservice_v20230202p.ManagedClustersAgentPool),
-		new(containerservice_v20230202p.TrustedAccessRoleBinding))
-	result = append(
-		result,
-		new(containerservice_v20230202ps.ManagedCluster),
-		new(containerservice_v20230202ps.ManagedClustersAgentPool),
-		new(containerservice_v20230202ps.TrustedAccessRoleBinding))
-	result = append(
-		result,
 		new(containerservice_v20230315p.Fleet),
 		new(containerservice_v20230315p.FleetsMember),
 		new(containerservice_v20230315p.FleetsUpdateRun))
@@ -2005,8 +1993,6 @@ func createScheme() *runtime.Scheme {
 	_ = containerservice_v20210501s.AddToScheme(scheme)
 	_ = containerservice_v20230201.AddToScheme(scheme)
 	_ = containerservice_v20230201s.AddToScheme(scheme)
-	_ = containerservice_v20230202p.AddToScheme(scheme)
-	_ = containerservice_v20230202ps.AddToScheme(scheme)
 	_ = containerservice_v20230315p.AddToScheme(scheme)
 	_ = containerservice_v20230315ps.AddToScheme(scheme)
 	_ = containerservice_v20231001.AddToScheme(scheme)
