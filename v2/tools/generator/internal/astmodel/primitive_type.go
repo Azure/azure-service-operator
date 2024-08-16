@@ -60,6 +60,8 @@ var cachedPrimitives = map[string]*PrimitiveType{
 	"error":       ErrorType,
 }
 
+// LookupPrimitiveType allows finding a primitive type by name in contexts where direct access to variables like
+// IntType is not possible; typically this occurs when handling a type name during YAML deserialization.
 func LookupPrimitiveType(name string) (*PrimitiveType, bool) {
 	result, ok := cachedPrimitives[strings.ToLower(name)]
 	return result, ok

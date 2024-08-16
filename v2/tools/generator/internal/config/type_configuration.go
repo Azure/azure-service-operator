@@ -62,9 +62,9 @@ const (
 )
 
 type OperatorSpecPropertyConfiguration struct {
-	Name        string `yaml:"name"`        // Name of the new property
-	Type        string `yaml:"type"`        // Primitive type of the new property  (e.g. string, int, etc.)
-	Description string `yaml:"description"` // Description to include on the property
+	Name        string `yaml:"name",omitempty`        // Name of the new property
+	Type        string `yaml:"type",omitempty`        // Primitive type of the new property  (e.g. string, int, etc.)
+	Description string `yaml:"description",omitempty` // Description to include on the property
 }
 
 func NewTypeConfiguration(name string) *TypeConfiguration {
