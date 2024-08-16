@@ -1122,7 +1122,7 @@ objectModelConfiguration:
         $defaultAzureName: false
       RoleAssignmentProperties:
         DelegatedManagedIdentityResourceId:
-          $armReference: false # Actually, this *IS* a resource id, but we want to avoid breaking changes so we're fibbing here
+          $armReference: true 
         RoleDefinitionId:
           $armReference: true
         PrincipalId:
@@ -1134,7 +1134,7 @@ objectModelConfiguration:
         $defaultAzureName: false
       RoleAssignmentProperties:
         DelegatedManagedIdentityResourceId:
-          $armReference: false # Actually, this *IS* a resource id, but we want to avoid breaking changes so we're fibbing here
+          $armReference: true
         RoleDefinitionId:
           $armReference: true
         PrincipalId:

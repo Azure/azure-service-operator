@@ -339,8 +339,8 @@ type RoleAssignment_Spec struct {
 	// ConditionVersion: Version of the condition. Currently the only accepted value is '2.0'
 	ConditionVersion *string `json:"conditionVersion,omitempty"`
 
-	// DelegatedManagedIdentityResourceId: Id of the delegated managed identity resource
-	DelegatedManagedIdentityResourceId *string `json:"delegatedManagedIdentityResourceId,omitempty"`
+	// DelegatedManagedIdentityResourceReference: Id of the delegated managed identity resource
+	DelegatedManagedIdentityResourceReference *genruntime.ResourceReference `armReference:"DelegatedManagedIdentityResourceId" json:"delegatedManagedIdentityResourceReference,omitempty"`
 
 	// Description: Description of role assignment
 	Description *string `json:"description,omitempty"`
@@ -380,7 +380,7 @@ func (assignment *RoleAssignment_Spec) ConvertToARM(resolved genruntime.ConvertT
 	// Set property "Properties":
 	if assignment.Condition != nil ||
 		assignment.ConditionVersion != nil ||
-		assignment.DelegatedManagedIdentityResourceId != nil ||
+		assignment.DelegatedManagedIdentityResourceReference != nil ||
 		assignment.Description != nil ||
 		assignment.PrincipalId != nil ||
 		assignment.PrincipalIdFromConfig != nil ||
@@ -396,8 +396,12 @@ func (assignment *RoleAssignment_Spec) ConvertToARM(resolved genruntime.ConvertT
 		conditionVersion := *assignment.ConditionVersion
 		result.Properties.ConditionVersion = &conditionVersion
 	}
-	if assignment.DelegatedManagedIdentityResourceId != nil {
-		delegatedManagedIdentityResourceId := *assignment.DelegatedManagedIdentityResourceId
+	if assignment.DelegatedManagedIdentityResourceReference != nil {
+		delegatedManagedIdentityResourceIdARMID, err := resolved.ResolvedReferences.Lookup(*assignment.DelegatedManagedIdentityResourceReference)
+		if err != nil {
+			return nil, err
+		}
+		delegatedManagedIdentityResourceId := delegatedManagedIdentityResourceIdARMID
 		result.Properties.DelegatedManagedIdentityResourceId = &delegatedManagedIdentityResourceId
 	}
 	if assignment.Description != nil {
@@ -464,14 +468,7 @@ func (assignment *RoleAssignment_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property "DelegatedManagedIdentityResourceId":
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DelegatedManagedIdentityResourceId != nil {
-			delegatedManagedIdentityResourceId := *typedInput.Properties.DelegatedManagedIdentityResourceId
-			assignment.DelegatedManagedIdentityResourceId = &delegatedManagedIdentityResourceId
-		}
-	}
+	// no assignment for property "DelegatedManagedIdentityResourceReference"
 
 	// Set property "Description":
 	// copying flattened property:
@@ -573,8 +570,13 @@ func (assignment *RoleAssignment_Spec) AssignProperties_From_RoleAssignment_Spec
 	// ConditionVersion
 	assignment.ConditionVersion = genruntime.ClonePointerToString(source.ConditionVersion)
 
-	// DelegatedManagedIdentityResourceId
-	assignment.DelegatedManagedIdentityResourceId = genruntime.ClonePointerToString(source.DelegatedManagedIdentityResourceId)
+	// DelegatedManagedIdentityResourceReference
+	if source.DelegatedManagedIdentityResourceReference != nil {
+		delegatedManagedIdentityResourceReference := source.DelegatedManagedIdentityResourceReference.Copy()
+		assignment.DelegatedManagedIdentityResourceReference = &delegatedManagedIdentityResourceReference
+	} else {
+		assignment.DelegatedManagedIdentityResourceReference = nil
+	}
 
 	// Description
 	assignment.Description = genruntime.ClonePointerToString(source.Description)
@@ -633,8 +635,13 @@ func (assignment *RoleAssignment_Spec) AssignProperties_To_RoleAssignment_Spec(d
 	// ConditionVersion
 	destination.ConditionVersion = genruntime.ClonePointerToString(assignment.ConditionVersion)
 
-	// DelegatedManagedIdentityResourceId
-	destination.DelegatedManagedIdentityResourceId = genruntime.ClonePointerToString(assignment.DelegatedManagedIdentityResourceId)
+	// DelegatedManagedIdentityResourceReference
+	if assignment.DelegatedManagedIdentityResourceReference != nil {
+		delegatedManagedIdentityResourceReference := assignment.DelegatedManagedIdentityResourceReference.Copy()
+		destination.DelegatedManagedIdentityResourceReference = &delegatedManagedIdentityResourceReference
+	} else {
+		destination.DelegatedManagedIdentityResourceReference = nil
+	}
 
 	// Description
 	destination.Description = genruntime.ClonePointerToString(assignment.Description)
@@ -697,8 +704,13 @@ func (assignment *RoleAssignment_Spec) Initialize_From_RoleAssignment_STATUS(sou
 	// ConditionVersion
 	assignment.ConditionVersion = genruntime.ClonePointerToString(source.ConditionVersion)
 
-	// DelegatedManagedIdentityResourceId
-	assignment.DelegatedManagedIdentityResourceId = genruntime.ClonePointerToString(source.DelegatedManagedIdentityResourceId)
+	// DelegatedManagedIdentityResourceReference
+	if source.DelegatedManagedIdentityResourceId != nil {
+		delegatedManagedIdentityResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.DelegatedManagedIdentityResourceId)
+		assignment.DelegatedManagedIdentityResourceReference = &delegatedManagedIdentityResourceReference
+	} else {
+		assignment.DelegatedManagedIdentityResourceReference = nil
+	}
 
 	// Description
 	assignment.Description = genruntime.ClonePointerToString(source.Description)

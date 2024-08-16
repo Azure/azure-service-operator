@@ -37,9 +37,7 @@ type RoleAssignmentProperties_ARM struct {
 	Condition *string `json:"condition,omitempty"`
 
 	// ConditionVersion: Version of the condition. Currently the only accepted value is '2.0'
-	ConditionVersion *string `json:"conditionVersion,omitempty"`
-
-	// DelegatedManagedIdentityResourceId: Id of the delegated managed identity resource
+	ConditionVersion                   *string `json:"conditionVersion,omitempty"`
 	DelegatedManagedIdentityResourceId *string `json:"delegatedManagedIdentityResourceId,omitempty"`
 
 	// Description: Description of role assignment

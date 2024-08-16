@@ -384,7 +384,6 @@ func AddIndependentPropertyGeneratorsForRoleAssignment_Spec(gens map[string]gopt
 	gens["AzureName"] = gen.AlphaString()
 	gens["Condition"] = gen.PtrOf(gen.AlphaString())
 	gens["ConditionVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["DelegatedManagedIdentityResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())

@@ -344,9 +344,9 @@ func (in *RoleAssignment_Spec) DeepCopyInto(out *RoleAssignment_Spec) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.DelegatedManagedIdentityResourceId != nil {
-		in, out := &in.DelegatedManagedIdentityResourceId, &out.DelegatedManagedIdentityResourceId
-		*out = new(string)
+	if in.DelegatedManagedIdentityResourceReference != nil {
+		in, out := &in.DelegatedManagedIdentityResourceReference, &out.DelegatedManagedIdentityResourceReference
+		*out = new(genruntime.ResourceReference)
 		**out = **in
 	}
 	if in.Description != nil {
