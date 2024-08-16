@@ -8,7 +8,7 @@ RoleAssignment: Resource
 │   ├── AzureName: string
 │   ├── Condition: *string
 │   ├── ConditionVersion: *string
-│   ├── DelegatedManagedIdentityResourceId: *string
+│   ├── DelegatedManagedIdentityResourceReference: *genruntime.ResourceReference
 │   ├── Description: *string
 │   ├── Owner: *genruntime.ArbitraryOwnerReference
 │   ├── PrincipalId: *string
