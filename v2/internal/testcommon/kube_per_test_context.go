@@ -495,15 +495,11 @@ func (tc *KubePerTestContext) PatchResourceAndWaitForState(
 	tc.Eventually(new).Should(tc.Match.BeInState(status, severity, gen))
 }
 
-func (tc *KubePerTestContext) CreateSecret(
+func (tc *KubePerTestContext) CreateSimpleSecret(
 	name string,
 	key string,
 	secretData string,
 ) genruntime.SecretReference {
-
-	if secretData == "" {
-		secretData = tc.Namer.GeneratePasswordOfLength(40)
-	}
 
 	secret := &corev1.Secret{
 		ObjectMeta: tc.MakeObjectMeta(name),

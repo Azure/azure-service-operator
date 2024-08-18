@@ -42,16 +42,12 @@ func Test_RedHatOpenShift_OpenShiftCluster_CRUD(t *testing.T) {
 
 	secretName := "aro-secret"
 	secretKey := "client-secret"
-	details := getIds(tc)
+	details := getIDs(tc)
 	// This is the RP principalId, no need to change this.
 	// This can be fetched by using `az ad sp list --display-name "Azure Red Hat OpenShift RP" --query "[0].id" -o tsv` command
 	azureRedHadOpenshiftRPIdentityPrincipalId := "50c17c64-bc11-4fdd-a339-0ecd396bf911"
 
-	clientSecretRef := tc.CreateSecret(secretName, secretKey, details.clientSecret)
-
-	tc.WithLiteralRedaction(details.objectId, "{REDACTED}")
-	tc.WithLiteralRedaction(details.clientSecret, "{REDACTED}")
-	tc.WithLiteralRedaction(details.clientId, "{REDACTED}")
+	clientSecretRef := tc.CreateSimpleSecret(secretName, secretKey, details.clientSecret)
 
 	serviceEndpoints := []network.ServiceEndpointPropertiesFormat{
 		{
@@ -138,10 +134,9 @@ func Test_RedHatOpenShift_OpenShiftCluster_CRUD(t *testing.T) {
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
-
 }
 
-func getIds(tc *testcommon.KubePerTestContext) servicePrincipalDetails {
+func getIDs(tc *testcommon.KubePerTestContext) servicePrincipalDetails {
 	nilUUID := uuid.Nil.String()
 
 	clientId := nilUUID
@@ -150,18 +145,19 @@ func getIds(tc *testcommon.KubePerTestContext) servicePrincipalDetails {
 
 	if id := os.Getenv("ARO_CLIENT_ID"); id != "" {
 		clientId = id
+		tc.WithLiteralRedaction(clientId, nilUUID)
 	}
 
 	if id := os.Getenv("ARO_OBJECT_ID"); id != "" {
 		objectId = id
+		tc.WithLiteralRedaction(objectId, nilUUID)
 	}
 
 	if secret := os.Getenv("ARO_CLIENT_SECRET"); secret != "" {
 		clientSecret = secret
 	}
 
-	tc.WithLiteralRedaction(clientId, nilUUID)
-	tc.WithLiteralRedaction(objectId, nilUUID)
+	// We redact the secret anyway since the value is non-deterministic in recording mode
 	tc.WithLiteralRedaction(clientSecret, "{REDACTED}")
 
 	return servicePrincipalDetails{
