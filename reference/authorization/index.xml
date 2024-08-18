@@ -124,13 +124,15 @@ string
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
-&lt;code&gt;delegatedManagedIdentityResourceId&lt;/code&gt;&lt;br/&gt;
+&lt;code&gt;delegatedManagedIdentityResourceReference&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-string
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference&#34;&gt;
+genruntime.ResourceReference
+&lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;DelegatedManagedIdentityResourceId: Id of the delegated managed identity resource&lt;/p&gt;
+&lt;p&gt;DelegatedManagedIdentityResourceReference: Id of the delegated managed identity resource&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -274,7 +276,6 @@ string
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;DelegatedManagedIdentityResourceId: Id of the delegated managed identity resource&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -840,13 +841,15 @@ string
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
-&lt;code&gt;delegatedManagedIdentityResourceId&lt;/code&gt;&lt;br/&gt;
+&lt;code&gt;delegatedManagedIdentityResourceReference&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-string
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference&#34;&gt;
+genruntime.ResourceReference
+&lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;DelegatedManagedIdentityResourceId: Id of the delegated managed identity resource&lt;/p&gt;
+&lt;p&gt;DelegatedManagedIdentityResourceReference: Id of the delegated managed identity resource&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1327,13 +1330,15 @@ string
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
-&lt;code&gt;delegatedManagedIdentityResourceId&lt;/code&gt;&lt;br/&gt;
+&lt;code&gt;delegatedManagedIdentityResourceReference&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-string
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference&#34;&gt;
+genruntime.ResourceReference
+&lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;DelegatedManagedIdentityResourceId: Id of the delegated managed identity resource&lt;/p&gt;
+&lt;p&gt;DelegatedManagedIdentityResourceReference: Id of the delegated managed identity resource&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1477,7 +1482,6 @@ string
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;DelegatedManagedIdentityResourceId: Id of the delegated managed identity resource&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2047,13 +2051,15 @@ string
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
-&lt;code&gt;delegatedManagedIdentityResourceId&lt;/code&gt;&lt;br/&gt;
+&lt;code&gt;delegatedManagedIdentityResourceReference&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-string
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference&#34;&gt;
+genruntime.ResourceReference
+&lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;DelegatedManagedIdentityResourceId: Id of the delegated managed identity resource&lt;/p&gt;
+&lt;p&gt;DelegatedManagedIdentityResourceReference: Id of the delegated managed identity resource&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
