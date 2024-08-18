@@ -701,6 +701,7 @@
     <li><a href="#context">Context</a>
       <ul>
         <li><a href="#option-1-per-property-configuration">Option 1: Per-property configuration</a></li>
+        <li><a href="#option-2-per-resource-configuration">Option 2: Per-resource configuration</a></li>
         <li><a href="#option-3-add-new-properties-via-a-type-transformation">Option 3: Add new properties via a Type Transformation</a></li>
       </ul>
     </li>
@@ -783,18 +784,14 @@
           <span style="color:#f92672">$operatorSpecProperty</span>:
               <span style="color:#f92672">name</span>: <span style="color:#ae81ff">generationType</span>
               <span style="color:#f92672">type</span>: <span style="color:#ae81ff">string</span>
-    <span style="color:#ae81ff">```</span>
-
-<span style="color:#f92672">* PRO</span>: <span style="color:#ae81ff">Makes it clear the relationship between the new operator property and the resource property it configures.</span>
-<span style="color:#f92672">* CON</span>: <span style="color:#ae81ff">Only allows one operator spec property per resource property.</span>
-<span style="color:#f92672">* CON</span>: <span style="color:#ae81ff">Not a great fit when there are multiple properties influenced by a single operatorSpec property.</span>
-
-<span style="color:#75715e">### Option 2: Per-resource configuration</span>
-
-<span style="color:#ae81ff">Extend our configuration to allow the need for a new operator spec property to be declared against a specific resource.</span>
-
-<span style="color:#ae81ff">``` yaml</span>
-  <span style="color:#f92672">authorization</span>:
+</code></pre></div><ul>
+<li>PRO: Makes it clear the relationship between the new operator property and the resource property it configures.</li>
+<li>CON: Only allows one operator spec property per resource property.</li>
+<li>CON: Not a great fit when there are multiple properties influenced by a single operatorSpec property.</li>
+</ul>
+<h3 id="option-2-per-resource-configuration">Option 2: Per-resource configuration</h3>
+<p>Extend our configuration to allow the need for a new operator spec property to be declared against a specific resource.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">  <span style="color:#f92672">authorization</span>:
     <span style="color:#f92672">2020-08-01-preview</span>:
       <span style="color:#f92672">RoleAssignment</span>:
         <span style="color:#f92672">$operatorSpecProperties</span>:
@@ -803,7 +800,7 @@
 </code></pre></div><ul>
 <li>PRO: Allows multiple operator spec properties to be declared against a single resource.</li>
 <li>PRO: Allows for operator spec properties that aren&rsquo;t specific to a single property or group of properties</li>
-<li>CON: Doesn&rsquo;t make it clear which resource properties are influenced by the operator spec property.</li>
+<li>CON: Doesn&rsquo;t make it clear which resource properties are influenced by the operator spec property (but we can provide documentation to clarify this).</li>
 </ul>
 <h3 id="option-3-add-new-properties-via-a-type-transformation">Option 3: Add new properties via a Type Transformation</h3>
 <p>Modify our type transformation system to allow new properties to be added to the operator spec.</p>
