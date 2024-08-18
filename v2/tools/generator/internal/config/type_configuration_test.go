@@ -42,6 +42,15 @@ func TestTypeConfiguration_WhenYAMLWellFormed_ReturnsExpectedResult(t *testing.T
 	supportedFrom, ok := typeConfig.SupportedFrom.read()
 	g.Expect(supportedFrom).To(Equal("beta.3"))
 	g.Expect(ok).To(BeTrue())
+
+	operatorSpecProperties, ok := typeConfig.OperatorSpecProperties.read()
+	g.Expect(operatorSpecProperties).To(HaveLen(2))
+	g.Expect(ok).To(BeTrue())
+
+	namingConvention := operatorSpecProperties[0]
+	g.Expect(namingConvention.Name).To(Equal("NamingConvention"))
+	g.Expect(namingConvention.Type).To(Equal("string"))
+	g.Expect(namingConvention.Description).NotTo(BeEmpty())
 }
 
 func TestTypeConfiguration_WhenYAMLBadlyFormed_ReturnsError(t *testing.T) {

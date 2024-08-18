@@ -47,6 +47,26 @@ var ErrorType = &PrimitiveType{"error", "nil"}
 // assert that we implemented Type correctly
 var _ Type = (*PrimitiveType)(nil)
 
+var cachedPrimitives = map[string]*PrimitiveType{
+	"int":         IntType,
+	"uint64":      UInt64Type,
+	"uint32":      UInt32Type,
+	"string":      StringType,
+	"armid":       ARMIDType,
+	"float64":     FloatType,
+	"bool":        BoolType,
+	"interface{}": AnyType,
+	"any":         AnyType,
+	"error":       ErrorType,
+}
+
+// LookupPrimitiveType allows finding a primitive type by name in contexts where direct access to variables like
+// IntType is not possible; typically this occurs when handling a type name during YAML deserialization.
+func LookupPrimitiveType(name string) (*PrimitiveType, bool) {
+	result, ok := cachedPrimitives[strings.ToLower(name)]
+	return result, ok
+}
+
 // AsType implements Type for PrimitiveType returning an abstract syntax tree
 func (prim *PrimitiveType) AsTypeExpr(codeGenerationContext *CodeGenerationContext) (dst.Expr, error) {
 	return dst.NewIdent(prim.name), nil
