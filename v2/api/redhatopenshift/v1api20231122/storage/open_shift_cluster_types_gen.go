@@ -164,7 +164,6 @@ type OpenShiftCluster_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                   *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag             genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ProvisioningState       *string                            `json:"provisioningState,omitempty"`
 	ServicePrincipalProfile *ServicePrincipalProfile           `json:"servicePrincipalProfile,omitempty"`
 	Tags                    map[string]string                  `json:"tags,omitempty"`
 	WorkerProfiles          []WorkerProfile                    `json:"workerProfiles,omitempty"`

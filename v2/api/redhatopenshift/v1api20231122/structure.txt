@@ -5,7 +5,7 @@ APIVersion: Enum (1 value)
 └── "2023-11-22"
 OpenShiftCluster: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (12 properties)
+├── Spec: Object (11 properties)
 │   ├── ApiserverProfile: *Object (1 property)
 │   │   └── Visibility: *Enum (2 values)
 │   │       ├── "Private"
@@ -45,14 +45,6 @@ OpenShiftCluster: Resource
 │   │   │   └── "Enabled"
 │   │   └── ServiceCidr: *string
 │   ├── Owner: *genruntime.KnownResourceReference
-│   ├── ProvisioningState: *Enum (7 values)
-│   │   ├── "AdminUpdating"
-│   │   ├── "Canceled"
-│   │   ├── "Creating"
-│   │   ├── "Deleting"
-│   │   ├── "Failed"
-│   │   ├── "Succeeded"
-│   │   └── "Updating"
 │   ├── ServicePrincipalProfile: *Object (3 properties)
 │   │   ├── ClientId: *string
 │   │   ├── ClientIdFromConfig: *genruntime.ConfigMapReference
@@ -259,7 +251,7 @@ OpenShiftCluster_STATUS_ARM: Object (7 properties)
 OpenShiftCluster_Spec_ARM: Object (4 properties)
 ├── Location: *string
 ├── Name: string
-├── Properties: *Object (8 properties)
+├── Properties: *Object (7 properties)
 │   ├── ApiserverProfile: *Object (1 property)
 │   │   └── Visibility: *Enum (2 values)
 │   │       ├── "Private"
@@ -296,14 +288,6 @@ OpenShiftCluster_Spec_ARM: Object (4 properties)
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
 │   │   └── ServiceCidr: *string
-│   ├── ProvisioningState: *Enum (7 values)
-│   │   ├── "AdminUpdating"
-│   │   ├── "Canceled"
-│   │   ├── "Creating"
-│   │   ├── "Deleting"
-│   │   ├── "Failed"
-│   │   ├── "Succeeded"
-│   │   └── "Updating"
 │   ├── ServicePrincipalProfile: *Object (2 properties)
 │   │   ├── ClientId: *string
 │   │   └── ClientSecret: *string

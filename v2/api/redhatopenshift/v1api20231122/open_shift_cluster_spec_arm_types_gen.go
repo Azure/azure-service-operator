@@ -51,9 +51,6 @@ type OpenShiftClusterProperties_ARM struct {
 	// NetworkProfile: The cluster network profile.
 	NetworkProfile *NetworkProfile_ARM `json:"networkProfile,omitempty"`
 
-	// ProvisioningState: The cluster provisioning state.
-	ProvisioningState *ProvisioningState `json:"provisioningState,omitempty"`
-
 	// ServicePrincipalProfile: The cluster service principal profile.
 	ServicePrincipalProfile *ServicePrincipalProfile_ARM `json:"servicePrincipalProfile,omitempty"`
 

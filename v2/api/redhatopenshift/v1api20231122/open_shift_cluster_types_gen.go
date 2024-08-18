@@ -372,9 +372,6 @@ type OpenShiftCluster_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
-	// ProvisioningState: The cluster provisioning state.
-	ProvisioningState *ProvisioningState `json:"provisioningState,omitempty"`
-
 	// ServicePrincipalProfile: The cluster service principal profile.
 	ServicePrincipalProfile *ServicePrincipalProfile `json:"servicePrincipalProfile,omitempty"`
 
@@ -409,7 +406,6 @@ func (cluster *OpenShiftCluster_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		cluster.IngressProfiles != nil ||
 		cluster.MasterProfile != nil ||
 		cluster.NetworkProfile != nil ||
-		cluster.ProvisioningState != nil ||
 		cluster.ServicePrincipalProfile != nil ||
 		cluster.WorkerProfiles != nil {
 		result.Properties = &OpenShiftClusterProperties_ARM{}
@@ -452,10 +448,6 @@ func (cluster *OpenShiftCluster_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		}
 		networkProfile := *networkProfile_ARM.(*NetworkProfile_ARM)
 		result.Properties.NetworkProfile = &networkProfile
-	}
-	if cluster.ProvisioningState != nil {
-		provisioningState := *cluster.ProvisioningState
-		result.Properties.ProvisioningState = &provisioningState
 	}
 	if cluster.ServicePrincipalProfile != nil {
 		servicePrincipalProfile_ARM, err := (*cluster.ServicePrincipalProfile).ConvertToARM(resolved)
@@ -577,15 +569,6 @@ func (cluster *OpenShiftCluster_Spec) PopulateFromARM(owner genruntime.Arbitrary
 	cluster.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
 		ARMID: owner.ARMID,
-	}
-
-	// Set property "ProvisioningState":
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
-			cluster.ProvisioningState = &provisioningState
-		}
 	}
 
 	// Set property "ServicePrincipalProfile":
@@ -760,15 +743,6 @@ func (cluster *OpenShiftCluster_Spec) AssignProperties_From_OpenShiftCluster_Spe
 		cluster.Owner = nil
 	}
 
-	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := *source.ProvisioningState
-		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_Values)
-		cluster.ProvisioningState = &provisioningStateTemp
-	} else {
-		cluster.ProvisioningState = nil
-	}
-
 	// ServicePrincipalProfile
 	if source.ServicePrincipalProfile != nil {
 		var servicePrincipalProfile ServicePrincipalProfile
@@ -894,14 +868,6 @@ func (cluster *OpenShiftCluster_Spec) AssignProperties_To_OpenShiftCluster_Spec(
 		destination.Owner = nil
 	}
 
-	// ProvisioningState
-	if cluster.ProvisioningState != nil {
-		provisioningState := string(*cluster.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
-
 	// ServicePrincipalProfile
 	if cluster.ServicePrincipalProfile != nil {
 		var servicePrincipalProfile storage.ServicePrincipalProfile
@@ -1016,14 +982,6 @@ func (cluster *OpenShiftCluster_Spec) Initialize_From_OpenShiftCluster_STATUS(so
 		cluster.NetworkProfile = &networkProfile
 	} else {
 		cluster.NetworkProfile = nil
-	}
-
-	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := genruntime.ToEnum(string(*source.ProvisioningState), provisioningState_Values)
-		cluster.ProvisioningState = &provisioningState
-	} else {
-		cluster.ProvisioningState = nil
 	}
 
 	// ServicePrincipalProfile
@@ -3251,31 +3209,6 @@ func (profile *NetworkProfile_STATUS) AssignProperties_To_NetworkProfile_STATUS(
 
 	// No error
 	return nil
-}
-
-// ProvisioningState represents a provisioning state.
-// +kubebuilder:validation:Enum={"AdminUpdating","Canceled","Creating","Deleting","Failed","Succeeded","Updating"}
-type ProvisioningState string
-
-const (
-	ProvisioningState_AdminUpdating = ProvisioningState("AdminUpdating")
-	ProvisioningState_Canceled      = ProvisioningState("Canceled")
-	ProvisioningState_Creating      = ProvisioningState("Creating")
-	ProvisioningState_Deleting      = ProvisioningState("Deleting")
-	ProvisioningState_Failed        = ProvisioningState("Failed")
-	ProvisioningState_Succeeded     = ProvisioningState("Succeeded")
-	ProvisioningState_Updating      = ProvisioningState("Updating")
-)
-
-// Mapping from string to ProvisioningState
-var provisioningState_Values = map[string]ProvisioningState{
-	"adminupdating": ProvisioningState_AdminUpdating,
-	"canceled":      ProvisioningState_Canceled,
-	"creating":      ProvisioningState_Creating,
-	"deleting":      ProvisioningState_Deleting,
-	"failed":        ProvisioningState_Failed,
-	"succeeded":     ProvisioningState_Succeeded,
-	"updating":      ProvisioningState_Updating,
 }
 
 // ProvisioningState represents a provisioning state.

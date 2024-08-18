@@ -30,7 +30,6 @@
 | OutboundType_STATUS                           | v1api20231122 |
 | PreconfiguredNSG                              | v1api20231122 |
 | PreconfiguredNSG_STATUS                       | v1api20231122 |
-| ProvisioningState                             | v1api20231122 |
 | ProvisioningState_STATUS                      | v1api20231122 |
 | ServicePrincipalProfile                       | v1api20231122 |
 | ServicePrincipalProfile_STATUS                | v1api20231122 |

@@ -5,7 +5,7 @@ APIVersion: Enum (1 value)
 └── "2023-11-22"
 OpenShiftCluster: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (14 properties)
+├── Spec: Object (13 properties)
 │   ├── ApiserverProfile: *Object (2 properties)
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── Visibility: *string
@@ -42,7 +42,6 @@ OpenShiftCluster: Resource
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
-│   ├── ProvisioningState: *string
 │   ├── ServicePrincipalProfile: *Object (4 properties)
 │   │   ├── ClientId: *string
 │   │   ├── ClientIdFromConfig: *genruntime.ConfigMapReference

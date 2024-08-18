@@ -509,37 +509,16 @@ func RunJSONSerializationTestForOpenShiftClusterProperties_ARM(subject OpenShift
 var openShiftClusterProperties_ARMGenerator gopter.Gen
 
 // OpenShiftClusterProperties_ARMGenerator returns a generator of OpenShiftClusterProperties_ARM instances for property testing.
-// We first initialize openShiftClusterProperties_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func OpenShiftClusterProperties_ARMGenerator() gopter.Gen {
 	if openShiftClusterProperties_ARMGenerator != nil {
 		return openShiftClusterProperties_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOpenShiftClusterProperties_ARM(generators)
-	openShiftClusterProperties_ARMGenerator = gen.Struct(reflect.TypeOf(OpenShiftClusterProperties_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOpenShiftClusterProperties_ARM(generators)
 	AddRelatedPropertyGeneratorsForOpenShiftClusterProperties_ARM(generators)
 	openShiftClusterProperties_ARMGenerator = gen.Struct(reflect.TypeOf(OpenShiftClusterProperties_ARM{}), generators)
 
 	return openShiftClusterProperties_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForOpenShiftClusterProperties_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForOpenShiftClusterProperties_ARM(gens map[string]gopter.Gen) {
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_AdminUpdating,
-		ProvisioningState_Canceled,
-		ProvisioningState_Creating,
-		ProvisioningState_Deleting,
-		ProvisioningState_Failed,
-		ProvisioningState_Succeeded,
-		ProvisioningState_Updating))
 }
 
 // AddRelatedPropertyGeneratorsForOpenShiftClusterProperties_ARM is a factory method for creating gopter generators
