@@ -22489,7 +22489,7 @@ to access Azure cloud resources securely with Azure AD. See <a href="https://aka
 <h3 id="containerservice.azure.com/v1api20240402preview.ManagedClusterSecurityProfileCustomCATrustCertificates">ManagedClusterSecurityProfileCustomCATrustCertificates
 (<code>[]string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterSecurityProfile">ManagedClusterSecurityProfile</a>, <a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterSecurityProfile_ARM">ManagedClusterSecurityProfile_ARM</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterSecurityProfile">ManagedClusterSecurityProfile</a>)
 </p>
 <div>
 </div>
@@ -23330,9 +23330,7 @@ service</a> settings for the security profile.</p>
 <td>
 <code>customCATrustCertificates</code><br/>
 <em>
-<a href="#containerservice.azure.com/v1api20240402preview.ManagedClusterSecurityProfileCustomCATrustCertificates">
-ManagedClusterSecurityProfileCustomCATrustCertificates
-</a>
+[]string
 </em>
 </td>
 <td>
