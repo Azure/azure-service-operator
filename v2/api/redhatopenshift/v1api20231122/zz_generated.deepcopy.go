@@ -1018,11 +1018,6 @@ func (in *OpenShiftClusterProperties_ARM) DeepCopyInto(out *OpenShiftClusterProp
 		*out = new(NetworkProfile_ARM)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.ProvisioningState != nil {
-		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState)
-		**out = **in
-	}
 	if in.ServicePrincipalProfile != nil {
 		in, out := &in.ServicePrincipalProfile, &out.ServicePrincipalProfile
 		*out = new(ServicePrincipalProfile_ARM)
@@ -1318,11 +1313,6 @@ func (in *OpenShiftCluster_Spec) DeepCopyInto(out *OpenShiftCluster_Spec) {
 	if in.Owner != nil {
 		in, out := &in.Owner, &out.Owner
 		*out = new(genruntime.KnownResourceReference)
-		**out = **in
-	}
-	if in.ProvisioningState != nil {
-		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState)
 		**out = **in
 	}
 	if in.ServicePrincipalProfile != nil {

@@ -807,11 +807,6 @@ func (in *OpenShiftCluster_Spec) DeepCopyInto(out *OpenShiftCluster_Spec) {
 			(*out)[key] = val
 		}
 	}
-	if in.ProvisioningState != nil {
-		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(string)
-		**out = **in
-	}
 	if in.ServicePrincipalProfile != nil {
 		in, out := &in.ServicePrincipalProfile, &out.ServicePrincipalProfile
 		*out = new(ServicePrincipalProfile)
