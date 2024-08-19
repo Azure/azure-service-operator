@@ -1120,6 +1120,10 @@ objectModelConfiguration:
         $export: true
         $supportedFrom: v2.0.0-alpha.2
         $defaultAzureName: false
+        $operatorSpecProperties:
+          - name: UUIDGeneration
+            type: string
+            description: The uuid generation technique to use for any role without an explicit AzureName. One of 'default' or 'random'. <br> +kubebuilder:validation:Enum={"random","default"}
       RoleAssignmentProperties:
         DelegatedManagedIdentityResourceId:
           $armReference: true 
@@ -1135,7 +1139,7 @@ objectModelConfiguration:
         $operatorSpecProperties:
           - name: UUIDGeneration
             type: string
-            description: The uuid generation technique to use for any role without an explicit AzureName. One of 'deterministic' or 'random'. Default is 'deterministic'. <br> +kubebuilder:validation:Enum={"random","deterministic"}
+            description: The uuid generation technique to use for any role without an explicit AzureName. One of 'default' or 'random'. <br> +kubebuilder:validation:Enum={"random","default"}
       RoleAssignmentProperties:
         DelegatedManagedIdentityResourceId:
           $armReference: true
@@ -1150,7 +1154,7 @@ objectModelConfiguration:
         $operatorSpecProperties:
           - name: UUIDGeneration
             type: string
-            description: The uuid generation technique to use for any role without an explicit AzureName. One of 'deterministic' or 'random'. Default is 'deterministic'. <br> +kubebuilder:validation:Enum={"random","deterministic"}
+            description: The uuid generation technique to use for any role without an explicit AzureName. One of 'default' or 'random'. <br> +kubebuilder:validation:Enum={"random","default"}
       RoleDefinitionProperties:
         AssignableScopes:
           $armReference: true

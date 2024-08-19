@@ -1294,9 +1294,9 @@ func (permission *Permission_STATUS) AssignProperties_To_Permission_STATUS(desti
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type RoleDefinitionOperatorSpec struct {
-	// UUIDGeneration: The uuid generation technique to use for any role without an explicit AzureName. One of 'deterministic'
-	// or 'random'. Default is 'deterministic'.
-	// +kubebuilder:validation:Enum={"random","deterministic"}
+	// UUIDGeneration: The uuid generation technique to use for any role without an explicit AzureName. One of 'default' or
+	// 'random'.
+	// +kubebuilder:validation:Enum={"random","default"}
 	UUIDGeneration *string `json:"uuidGeneration,omitempty"`
 }
 

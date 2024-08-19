@@ -18,9 +18,12 @@ func (definition *RoleDefinition) CustomDefault() {
 	definition.defaultAzureName()
 }
 
-// defaultAzureName performs special AzureName defaulting for RoleDefinition by generating a stable GUID
+// defaultAzureName performs special AzureName defaulting for RoleDefinition by generating a GUID
 // based on the Role name.
-// We generate the UUID using UUIDv5 with a seed string based on the group+kind of the RoleDefinition and the
+// The GUID generation technique is picked by the user using OperatorSpec.UUIDGeneration property if they want
+// the GUID to be a stable or random string. Stable being the default.
+// Stable GUID algorithm:
+// We generate stable the UUID using UUIDv5 with a seed string based on the group+kind of the RoleDefinition and the
 // namespace+name it's deployed into.
 // We include the namespace and name to ensure no two RoleDefinitions in the same cluster can end up
 // with the same UUID.
@@ -38,16 +41,18 @@ func (definition *RoleDefinition) defaultAzureName() {
 
 	if definition.AzureName() == "" {
 		if definition.Spec.OperatorSpec != nil &&
-			strings.ToLower(*definition.Spec.OperatorSpec.UUIDGeneration) == "random" {
+			strings.EqualFold(*definition.Spec.OperatorSpec.UUIDGeneration, "random") {
 			definition.Spec.AzureName = randextensions.MakeRandomUUID()
+		} else {
+			gk := definition.GroupVersionKind().GroupKind()
+			definition.Spec.AzureName = randextensions.MakeUUIDName(
+				definition.Name,
+				randextensions.MakeUniqueOwnerScopedString(
+					definition.Owner(),
+					gk,
+					definition.Namespace,
+					definition.Name))
 		}
-		gk := definition.GroupVersionKind().GroupKind()
-		definition.Spec.AzureName = randextensions.MakeUUIDName(
-			definition.Name,
-			randextensions.MakeUniqueOwnerScopedString(
-				definition.Owner(),
-				gk,
-				definition.Namespace,
-				definition.Name))
+
 	}
 }

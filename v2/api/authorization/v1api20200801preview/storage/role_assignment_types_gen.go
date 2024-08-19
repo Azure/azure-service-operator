@@ -247,6 +247,7 @@ type RoleAssignment_Spec struct {
 	// DelegatedManagedIdentityResourceReference: Id of the delegated managed identity resource
 	DelegatedManagedIdentityResourceReference *genruntime.ResourceReference `armReference:"DelegatedManagedIdentityResourceId" json:"delegatedManagedIdentityResourceReference,omitempty"`
 	Description                               *string                       `json:"description,omitempty"`
+	OperatorSpec                              *RoleAssignmentOperatorSpec   `json:"operatorSpec,omitempty"`
 	OriginalVersion                           string                        `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -341,9 +342,14 @@ func (assignment *RoleAssignment_Spec) AssignProperties_From_RoleAssignment_Spec
 
 	// OperatorSpec
 	if source.OperatorSpec != nil {
-		propertyBag.Add("OperatorSpec", *source.OperatorSpec)
+		var operatorSpec RoleAssignmentOperatorSpec
+		err := operatorSpec.AssignProperties_From_RoleAssignmentOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_RoleAssignmentOperatorSpec() to populate field OperatorSpec")
+		}
+		assignment.OperatorSpec = &operatorSpec
 	} else {
-		propertyBag.Remove("OperatorSpec")
+		assignment.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -425,13 +431,12 @@ func (assignment *RoleAssignment_Spec) AssignProperties_To_RoleAssignment_Spec(d
 	destination.Description = genruntime.ClonePointerToString(assignment.Description)
 
 	// OperatorSpec
-	if propertyBag.Contains("OperatorSpec") {
+	if assignment.OperatorSpec != nil {
 		var operatorSpec storage.RoleAssignmentOperatorSpec
-		err := propertyBag.Pull("OperatorSpec", &operatorSpec)
+		err := assignment.OperatorSpec.AssignProperties_To_RoleAssignmentOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "pulling 'OperatorSpec' from propertyBag")
+			return errors.Wrap(err, "calling AssignProperties_To_RoleAssignmentOperatorSpec() to populate field OperatorSpec")
 		}
-
 		destination.OperatorSpec = &operatorSpec
 	} else {
 		destination.OperatorSpec = nil
@@ -716,6 +721,74 @@ type augmentConversionForRoleAssignment_Spec interface {
 type augmentConversionForRoleAssignment_STATUS interface {
 	AssignPropertiesFrom(src *storage.RoleAssignment_STATUS) error
 	AssignPropertiesTo(dst *storage.RoleAssignment_STATUS) error
+}
+
+// Storage version of v1api20200801preview.RoleAssignmentOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type RoleAssignmentOperatorSpec struct {
+	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	UUIDGeneration *string                `json:"uuidGeneration,omitempty"`
+}
+
+// AssignProperties_From_RoleAssignmentOperatorSpec populates our RoleAssignmentOperatorSpec from the provided source RoleAssignmentOperatorSpec
+func (operator *RoleAssignmentOperatorSpec) AssignProperties_From_RoleAssignmentOperatorSpec(source *storage.RoleAssignmentOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// UUIDGeneration
+	operator.UUIDGeneration = genruntime.ClonePointerToString(source.UUIDGeneration)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRoleAssignmentOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForRoleAssignmentOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RoleAssignmentOperatorSpec populates the provided destination RoleAssignmentOperatorSpec from our RoleAssignmentOperatorSpec
+func (operator *RoleAssignmentOperatorSpec) AssignProperties_To_RoleAssignmentOperatorSpec(destination *storage.RoleAssignmentOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// UUIDGeneration
+	destination.UUIDGeneration = genruntime.ClonePointerToString(operator.UUIDGeneration)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRoleAssignmentOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForRoleAssignmentOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForRoleAssignmentOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.RoleAssignmentOperatorSpec) error
+	AssignPropertiesTo(dst *storage.RoleAssignmentOperatorSpec) error
 }
 
 func init() {
