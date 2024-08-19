@@ -448,6 +448,12 @@ typeTransformers:
     remove: true
     because: These properties should be marked readonly
 
+  - group: redhatopenshift
+    name: OpenShiftClusterProperties
+    property: ProvisioningState
+    remove: true
+    because: This property should be marked readonly in Swagger
+
   - group: search
     name: DataPlaneAuthOptions
     property: ApiKeyOnly
@@ -2838,6 +2844,29 @@ objectModelConfiguration:
       ResourceGroup:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
+  redhatopenshift:
+    2023-11-22:
+      OpenShiftCluster:
+        $export: true
+        $supportedFrom: v2.9.0
+      WorkerProfile:
+        SubnetId:
+          $armReference: true
+        DiskEncryptionSetId:
+          $armReference: true
+      MasterProfile:
+        SubnetId:
+          $armReference: true
+        DiskEncryptionSetId:
+          $armReference: true
+      ClusterProfile:
+        PullSecret:
+          $isSecret: true
+      ServicePrincipalProfile:
+        ClientSecret:
+          $isSecret: true
+        ClientId:
+          $importConfigMapMode: optional
   search:
     2022-09-01:
       SearchService:

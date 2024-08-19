@@ -145,15 +145,22 @@ func (n ResourceNamer) GeneratePassword() string {
 	return n.GeneratePasswordOfLength(n.randomChars)
 }
 
+var runes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789~!@#$%^&*()")
+
 // GeneratePasswordOfLength generates and returns a non-deterministic password.
 // This method does not use any seed value, so the returned password is never stable.
 func (n ResourceNamer) GeneratePasswordOfLength(length int) string {
-	var runes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789~!@#$%^&*()")
 
 	// This pass + <content> + pass pattern is to make it so that matchers can reliably find and prune
 	// generated passwords from the recordings. If you change it make sure to change the passwordMatcher
 	// in test_context.go as well.
 	return "pass" + n.makeSecureStringOfLength(length, runes) + "pass"
+}
+
+// GenerateSecretOfLength generates and returns a non-deterministic secret.
+// This method does not use any seed value, so the returned password is never stable.
+func (n ResourceNamer) GenerateSecretOfLength(length int) string {
+	return n.makeSecureStringOfLength(length, runes)
 }
 
 func (n ResourceNamer) GenerateUUID() (uuid.UUID, error) {

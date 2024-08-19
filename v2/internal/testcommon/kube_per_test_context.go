@@ -495,6 +495,29 @@ func (tc *KubePerTestContext) PatchResourceAndWaitForState(
 	tc.Eventually(new).Should(tc.Match.BeInState(status, severity, gen))
 }
 
+func (tc *KubePerTestContext) CreateSimpleSecret(
+	name string,
+	key string,
+	secretData string,
+) genruntime.SecretReference {
+
+	secret := &corev1.Secret{
+		ObjectMeta: tc.MakeObjectMeta(name),
+		StringData: map[string]string{
+			key: secretData,
+		},
+	}
+
+	tc.CreateResource(secret)
+
+	secretRef := genruntime.SecretReference{
+		Name: secret.Name,
+		Key:  key,
+	}
+
+	return secretRef
+}
+
 // GetResource retrieves the current state of the resource from K8s (not from Azure).
 func (tc *KubePerTestContext) GetResource(key types.NamespacedName, obj client.Object) {
 	tc.T.Helper()

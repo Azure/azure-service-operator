@@ -89,27 +89,27 @@ func Test_DataProtection_BackupInstance_20231101_CRUD(t *testing.T) {
 
 	trustedAccessRoleBinding := newBackupInstanceTrustedAccessRoleinding(tc, cluster, backupVault)
 	// give permission to extension msi over SA
-	extensionRoleAssignment := newBackupInstanceRoleAssignment(tc, acct, "extensionroleassignment", saContributorRoleId)
+	extensionRoleAssignment := newRoleAssignment(tc, acct, "extensionroleassignment", saContributorRoleId)
 	extensionRoleAssignment.Spec.PrincipalIdFromConfig = &genruntime.ConfigMapReference{
 		Name: extConfigMapName,
 		Key:  extPrincipalIdKey,
 	}
 
 	// give read permission to vault msi over cluster
-	clusterRoleAssignment := newBackupInstanceRoleAssignment(tc, cluster, "clusterroleassignment", readerRoleId)
+	clusterRoleAssignment := newRoleAssignment(tc, cluster, "clusterroleassignment", readerRoleId)
 	clusterRoleAssignment.Spec.PrincipalIdFromConfig = &genruntime.ConfigMapReference{
 		Name: backupVaultConfigMapName,
 		Key:  backupVaultPrincipalIdKey,
 	}
 
 	// give cluster msi access over snapshot rg for pv creation
-	clusterMSIRoleAssignment := newBackupInstanceRoleAssignment(tc, rg, "clustermsiroleassignment", contributorRoleId)
+	clusterMSIRoleAssignment := newRoleAssignment(tc, rg, "clustermsiroleassignment", contributorRoleId)
 	clusterMSIRoleAssignment.Spec.PrincipalIdFromConfig = &genruntime.ConfigMapReference{
 		Name: clusterConfigMapName,
 		Key:  clusterPrincipalIdKey,
 	}
 	// give read permission to vault msi over SRG
-	snapshotRGRoleAssignment := newBackupInstanceRoleAssignment(tc, rg, "snapshotrgroleassignment", readerRoleId)
+	snapshotRGRoleAssignment := newRoleAssignment(tc, rg, "snapshotrgroleassignment", readerRoleId)
 	snapshotRGRoleAssignment.Spec.PrincipalIdFromConfig = &genruntime.ConfigMapReference{
 		Name: backupVaultConfigMapName,
 		Key:  backupVaultPrincipalIdKey,
@@ -221,7 +221,7 @@ func checkProtectionSuccess(updated dataprotection.BackupVaultsBackupInstance) b
 		status == dataprotection.ProtectionStatusDetails_Status_STATUS_ConfiguringProtection
 }
 
-func newBackupInstanceRoleAssignment(tc *testcommon.KubePerTestContext, owner client.Object, name, role string) *authorization.RoleAssignment {
+func newRoleAssignment(tc *testcommon.KubePerTestContext, owner client.Object, name, role string) *authorization.RoleAssignment {
 	roleAssignment := &authorization.RoleAssignment{
 		ObjectMeta: tc.MakeObjectMeta(name),
 		Spec: authorization.RoleAssignment_Spec{
