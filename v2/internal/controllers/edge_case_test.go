@@ -218,7 +218,42 @@ func Test_Owner_IsImmutableOnceSuccessfullyCreated(t *testing.T) {
 	acct.Spec.Owner = testcommon.AsOwner(rg2)
 	err := tc.PatchAndExpectError(old, acct)
 
-	tc.Expect(err).ToNot(BeNil())
+	tc.Expect(err).To(MatchError(ContainSubstring("updating 'spec.owner.name' is not allowed")))
+	tc.Expect(old.Owner().Name).ToNot(BeIdenticalTo(rg2.Name))
+
+	// Delete the account
+	tc.DeleteResourceAndWait(acct)
+}
+
+func Test_OwnerARMID_IsImmutableOnceSuccessfullyCreated(t *testing.T) {
+	t.Parallel()
+
+	tc := globalTestContext.ForTest(t)
+
+	rg := tc.CreateTestResourceGroupAndWait()
+
+	// Ensure that the RG has an ARM ID set
+	tc.Expect(rg.Status.Id).ToNot(BeNil())
+	tc.Expect(to.Value(rg.Status.Id)).ToNot(BeEmpty())
+
+	acct := newStorageAccount(tc, rg)
+	// Manually set the ARM ID of the owner:
+	acct.Spec.Owner.Name = ""
+	acct.Spec.Owner.ARMID = to.Value(rg.Status.Id)
+	tc.CreateResourcesAndWait(acct)
+
+	rg2 := tc.CreateTestResourceGroupAndWait()
+
+	// Ensure that the RG has an ARM ID set
+	tc.Expect(rg2.Status.Id).ToNot(BeNil())
+	tc.Expect(to.Value(rg2.Status.Id)).ToNot(BeEmpty())
+
+	// Patch the account to change Owner
+	old := acct.DeepCopy()
+	acct.Spec.Owner.ARMID = to.Value(rg2.Status.Id)
+	err := tc.PatchAndExpectError(old, acct)
+
+	tc.Expect(err).To(MatchError(ContainSubstring("updating 'spec.owner.armId' is not allowed")))
 	tc.Expect(old.Owner().Name).ToNot(BeIdenticalTo(rg2.Name))
 
 	// Delete the account
@@ -242,7 +277,7 @@ func Test_AzureName_IsImmutable_IfAzureHasBeenCommunicatedWith(t *testing.T) {
 	acct.Spec.AzureName = tc.NoSpaceNamer.GenerateName("stor")
 	err := tc.PatchAndExpectError(old, acct)
 	tc.Expect(err).To(HaveOccurred())
-	tc.Expect(err.Error()).To(ContainSubstring("updating 'AzureName' is not allowed"))
+	tc.Expect(err.Error()).To(ContainSubstring("updating 'spec.azureName' is not allowed"))
 
 	// Delete the account
 	tc.DeleteResourceAndWait(acct)
