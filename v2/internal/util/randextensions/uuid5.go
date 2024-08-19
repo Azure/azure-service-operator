@@ -83,3 +83,9 @@ func MakeUUIDName(name string, uniqueString string) string {
 
 	return uuid.NewSHA1(Namespace, []byte(uniqueString)).String()
 }
+
+func MakeRandomUUID() string {
+	// Error is always nil
+	newUUID, _ := uuid.NewUUID()
+	return newUUID.String()
+}

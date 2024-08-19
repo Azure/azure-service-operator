@@ -339,6 +339,13 @@ func (assignment *RoleAssignment_Spec) AssignProperties_From_RoleAssignment_Spec
 	// Description
 	assignment.Description = genruntime.ClonePointerToString(source.Description)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		propertyBag.Add("OperatorSpec", *source.OperatorSpec)
+	} else {
+		propertyBag.Remove("OperatorSpec")
+	}
+
 	// OriginalVersion
 	assignment.OriginalVersion = source.OriginalVersion
 
@@ -416,6 +423,19 @@ func (assignment *RoleAssignment_Spec) AssignProperties_To_RoleAssignment_Spec(d
 
 	// Description
 	destination.Description = genruntime.ClonePointerToString(assignment.Description)
+
+	// OperatorSpec
+	if propertyBag.Contains("OperatorSpec") {
+		var operatorSpec storage.RoleAssignmentOperatorSpec
+		err := propertyBag.Pull("OperatorSpec", &operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'OperatorSpec' from propertyBag")
+		}
+
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = assignment.OriginalVersion

@@ -6,6 +6,8 @@ Licensed under the MIT license.
 package v1api20220401
 
 import (
+	"strings"
+
 	"github.com/Azure/azure-service-operator/v2/internal/util/randextensions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
@@ -35,6 +37,10 @@ func (definition *RoleDefinition) defaultAzureName() {
 	}
 
 	if definition.AzureName() == "" {
+		if definition.Spec.OperatorSpec != nil &&
+			strings.ToLower(*definition.Spec.OperatorSpec.UUIDGeneration) == "random" {
+			definition.Spec.AzureName = randextensions.MakeRandomUUID()
+		}
 		gk := definition.GroupVersionKind().GroupKind()
 		definition.Spec.AzureName = randextensions.MakeUUIDName(
 			definition.Name,
