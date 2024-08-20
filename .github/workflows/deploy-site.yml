@@ -13,6 +13,14 @@ jobs:
       packages: read
 
     steps:
+      - name: Create token
+        uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          # required
+          app-id: ${{ secrets.AUTOMATION_ID }}
+          private-key: ${{ secrets.AUTOMATION_KEY }}
+          
       - name: Checkout code
         uses: actions/checkout@v3
         with:
@@ -62,5 +70,5 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4.4.1 # pinned version
         with:
           branch: gh-pages
-          token: ${{ secrets.GH_PAT }}
+          token: ${{ steps.app-token.outputs.token }}
           folder: docs/hugo/public

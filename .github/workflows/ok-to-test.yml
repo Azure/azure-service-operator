@@ -14,10 +14,18 @@ jobs:
     # Only run for PRs, not issue comments
     if: ${{ github.event.issue.pull_request }}
     steps:
+      - name: Create token
+        uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          # required
+          app-id: ${{ secrets.AUTOMATION_ID }}
+          private-key: ${{ secrets.AUTOMATION_KEY }}
+          
       - name: Slash Command Dispatch
         uses: peter-evans/slash-command-dispatch@v4
         with:
-          token: ${{ secrets.GH_PAT }}
+          token: ${{ steps.app-token.outputs.token }}
           reaction-token: ${{ secrets.GITHUB_TOKEN }}
           issue-type: pull-request
           commands: ok-to-test
