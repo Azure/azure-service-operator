@@ -1159,17 +1159,17 @@ func (assignment *RoleAssignment_STATUS) AssignProperties_To_RoleAssignment_STAT
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type RoleAssignmentOperatorSpec struct {
-	// UUIDGeneration: The uuid generation technique to use for any role without an explicit AzureName. One of 'default' or
+	// NamingConvention: The uuid generation technique to use for any role without an explicit AzureName. One of 'stable' or
 	// 'random'.
-	// +kubebuilder:validation:Enum={"random","default"}
-	UUIDGeneration *string `json:"uuidGeneration,omitempty"`
+	// +kubebuilder:validation:Enum={"random","stable"}
+	NamingConvention *string `json:"namingConvention,omitempty"`
 }
 
 // AssignProperties_From_RoleAssignmentOperatorSpec populates our RoleAssignmentOperatorSpec from the provided source RoleAssignmentOperatorSpec
 func (operator *RoleAssignmentOperatorSpec) AssignProperties_From_RoleAssignmentOperatorSpec(source *storage.RoleAssignmentOperatorSpec) error {
 
-	// UUIDGeneration
-	operator.UUIDGeneration = genruntime.ClonePointerToString(source.UUIDGeneration)
+	// NamingConvention
+	operator.NamingConvention = genruntime.ClonePointerToString(source.NamingConvention)
 
 	// No error
 	return nil
@@ -1180,8 +1180,8 @@ func (operator *RoleAssignmentOperatorSpec) AssignProperties_To_RoleAssignmentOp
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// UUIDGeneration
-	destination.UUIDGeneration = genruntime.ClonePointerToString(operator.UUIDGeneration)
+	// NamingConvention
+	destination.NamingConvention = genruntime.ClonePointerToString(operator.NamingConvention)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

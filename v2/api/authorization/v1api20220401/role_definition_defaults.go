@@ -41,9 +41,10 @@ func (definition *RoleDefinition) defaultAzureName() {
 
 	if definition.AzureName() == "" {
 		if definition.Spec.OperatorSpec != nil &&
-			strings.EqualFold(*definition.Spec.OperatorSpec.UUIDGeneration, "random") {
+			strings.EqualFold(*definition.Spec.OperatorSpec.NamingConvention, "random") {
 			definition.Spec.AzureName = randextensions.MakeRandomUUID()
-		} else {
+		} else if definition.Spec.OperatorSpec == nil ||
+			definition.Spec.OperatorSpec != nil && strings.EqualFold(*definition.Spec.OperatorSpec.NamingConvention, "stable") {
 			gk := definition.GroupVersionKind().GroupKind()
 			definition.Spec.AzureName = randextensions.MakeUUIDName(
 				definition.Name,
@@ -53,6 +54,5 @@ func (definition *RoleDefinition) defaultAzureName() {
 					definition.Namespace,
 					definition.Name))
 		}
-
 	}
 }

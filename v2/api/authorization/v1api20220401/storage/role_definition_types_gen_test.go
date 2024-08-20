@@ -262,7 +262,7 @@ func RoleDefinitionOperatorSpecGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRoleDefinitionOperatorSpec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRoleDefinitionOperatorSpec(gens map[string]gopter.Gen) {
-	gens["UUIDGeneration"] = gen.PtrOf(gen.AlphaString())
+	gens["NamingConvention"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_RoleDefinition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

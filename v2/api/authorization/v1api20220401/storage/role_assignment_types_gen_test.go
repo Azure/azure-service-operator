@@ -136,7 +136,7 @@ func RoleAssignmentOperatorSpecGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRoleAssignmentOperatorSpec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRoleAssignmentOperatorSpec(gens map[string]gopter.Gen) {
-	gens["UUIDGeneration"] = gen.PtrOf(gen.AlphaString())
+	gens["NamingConvention"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_RoleAssignment_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

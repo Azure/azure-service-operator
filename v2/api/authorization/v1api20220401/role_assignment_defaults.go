@@ -49,9 +49,10 @@ func (assignment *RoleAssignment) defaultAzureName() {
 
 	if assignment.AzureName() == "" {
 		if assignment.Spec.OperatorSpec != nil &&
-			strings.EqualFold(*assignment.Spec.OperatorSpec.UUIDGeneration, "random") {
+			strings.EqualFold(*assignment.Spec.OperatorSpec.NamingConvention, "random") {
 			assignment.Spec.AzureName = randextensions.MakeRandomUUID()
-		} else {
+		} else if assignment.Spec.OperatorSpec == nil ||
+			assignment.Spec.OperatorSpec != nil && strings.EqualFold(*assignment.Spec.OperatorSpec.NamingConvention, "stable") {
 			gk := assignment.GroupVersionKind().GroupKind()
 			assignment.Spec.AzureName = randextensions.MakeUUIDName(
 				assignment.Name,

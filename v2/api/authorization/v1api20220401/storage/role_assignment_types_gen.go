@@ -237,8 +237,8 @@ func (assignment *RoleAssignment_STATUS) ConvertStatusTo(destination genruntime.
 // Storage version of v1api20220401.RoleAssignmentOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type RoleAssignmentOperatorSpec struct {
-	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	UUIDGeneration *string                `json:"uuidGeneration,omitempty"`
+	NamingConvention *string                `json:"namingConvention,omitempty"`
+	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 func init() {

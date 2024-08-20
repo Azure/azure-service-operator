@@ -11,8 +11,8 @@ RoleAssignment: Resource
 │   ├── DelegatedManagedIdentityResourceReference: *genruntime.ResourceReference
 │   ├── Description: *string
 │   ├── OperatorSpec: *Object (2 properties)
-│   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   └── UUIDGeneration: *string
+│   │   ├── NamingConvention: *string
+│   │   └── PropertyBag: genruntime.PropertyBag
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.ArbitraryOwnerReference
 │   ├── PrincipalId: *string

@@ -726,8 +726,8 @@ type augmentConversionForRoleAssignment_STATUS interface {
 // Storage version of v1api20200801preview.RoleAssignmentOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type RoleAssignmentOperatorSpec struct {
-	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	UUIDGeneration *string                `json:"uuidGeneration,omitempty"`
+	NamingConvention *string                `json:"namingConvention,omitempty"`
+	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // AssignProperties_From_RoleAssignmentOperatorSpec populates our RoleAssignmentOperatorSpec from the provided source RoleAssignmentOperatorSpec
@@ -735,8 +735,8 @@ func (operator *RoleAssignmentOperatorSpec) AssignProperties_From_RoleAssignment
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// UUIDGeneration
-	operator.UUIDGeneration = genruntime.ClonePointerToString(source.UUIDGeneration)
+	// NamingConvention
+	operator.NamingConvention = genruntime.ClonePointerToString(source.NamingConvention)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -763,8 +763,8 @@ func (operator *RoleAssignmentOperatorSpec) AssignProperties_To_RoleAssignmentOp
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
 
-	// UUIDGeneration
-	destination.UUIDGeneration = genruntime.ClonePointerToString(operator.UUIDGeneration)
+	// NamingConvention
+	destination.NamingConvention = genruntime.ClonePointerToString(operator.NamingConvention)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
