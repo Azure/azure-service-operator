@@ -83,3 +83,10 @@ func MakeUUIDName(name string, uniqueString string) string {
 
 	return uuid.NewSHA1(Namespace, []byte(uniqueString)).String()
 }
+
+// MakeRandomUUID creates a random UUID string. The uuid generated will always be distinct.
+func MakeRandomUUID() string {
+	// Error is always nil
+	newUUID, _ := uuid.NewUUID()
+	return newUUID.String()
+}

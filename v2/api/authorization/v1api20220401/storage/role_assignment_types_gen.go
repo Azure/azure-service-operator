@@ -154,6 +154,7 @@ type RoleAssignment_Spec struct {
 	// DelegatedManagedIdentityResourceReference: Id of the delegated managed identity resource
 	DelegatedManagedIdentityResourceReference *genruntime.ResourceReference `armReference:"DelegatedManagedIdentityResourceId" json:"delegatedManagedIdentityResourceReference,omitempty"`
 	Description                               *string                       `json:"description,omitempty"`
+	OperatorSpec                              *RoleAssignmentOperatorSpec   `json:"operatorSpec,omitempty"`
 	OriginalVersion                           string                        `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -231,6 +232,13 @@ func (assignment *RoleAssignment_STATUS) ConvertStatusTo(destination genruntime.
 	}
 
 	return destination.ConvertStatusFrom(assignment)
+}
+
+// Storage version of v1api20220401.RoleAssignmentOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type RoleAssignmentOperatorSpec struct {
+	NamingConvention *string                `json:"namingConvention,omitempty"`
+	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 func init() {

@@ -164,6 +164,109 @@ func AddRelatedPropertyGeneratorsForRoleAssignment(gens map[string]gopter.Gen) {
 	gens["Status"] = RoleAssignment_STATUSGenerator()
 }
 
+func Test_RoleAssignmentOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RoleAssignmentOperatorSpec to RoleAssignmentOperatorSpec via AssignProperties_To_RoleAssignmentOperatorSpec & AssignProperties_From_RoleAssignmentOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRoleAssignmentOperatorSpec, RoleAssignmentOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRoleAssignmentOperatorSpec tests if a specific instance of RoleAssignmentOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRoleAssignmentOperatorSpec(subject RoleAssignmentOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RoleAssignmentOperatorSpec
+	err := copied.AssignProperties_To_RoleAssignmentOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RoleAssignmentOperatorSpec
+	err = actual.AssignProperties_From_RoleAssignmentOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_RoleAssignmentOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of RoleAssignmentOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRoleAssignmentOperatorSpec, RoleAssignmentOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForRoleAssignmentOperatorSpec runs a test to see if a specific instance of RoleAssignmentOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForRoleAssignmentOperatorSpec(subject RoleAssignmentOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual RoleAssignmentOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of RoleAssignmentOperatorSpec instances for property testing - lazily instantiated by
+// RoleAssignmentOperatorSpecGenerator()
+var roleAssignmentOperatorSpecGenerator gopter.Gen
+
+// RoleAssignmentOperatorSpecGenerator returns a generator of RoleAssignmentOperatorSpec instances for property testing.
+func RoleAssignmentOperatorSpecGenerator() gopter.Gen {
+	if roleAssignmentOperatorSpecGenerator != nil {
+		return roleAssignmentOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRoleAssignmentOperatorSpec(generators)
+	roleAssignmentOperatorSpecGenerator = gen.Struct(reflect.TypeOf(RoleAssignmentOperatorSpec{}), generators)
+
+	return roleAssignmentOperatorSpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForRoleAssignmentOperatorSpec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRoleAssignmentOperatorSpec(gens map[string]gopter.Gen) {
+	gens["NamingConvention"] = gen.PtrOf(gen.AlphaString())
+}
+
 func Test_RoleAssignment_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -367,6 +470,9 @@ func RunJSONSerializationTestForRoleAssignment_Spec(subject RoleAssignment_Spec)
 var roleAssignment_SpecGenerator gopter.Gen
 
 // RoleAssignment_SpecGenerator returns a generator of RoleAssignment_Spec instances for property testing.
+// We first initialize roleAssignment_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func RoleAssignment_SpecGenerator() gopter.Gen {
 	if roleAssignment_SpecGenerator != nil {
 		return roleAssignment_SpecGenerator
@@ -374,6 +480,12 @@ func RoleAssignment_SpecGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForRoleAssignment_Spec(generators)
+	roleAssignment_SpecGenerator = gen.Struct(reflect.TypeOf(RoleAssignment_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRoleAssignment_Spec(generators)
+	AddRelatedPropertyGeneratorsForRoleAssignment_Spec(generators)
 	roleAssignment_SpecGenerator = gen.Struct(reflect.TypeOf(RoleAssignment_Spec{}), generators)
 
 	return roleAssignment_SpecGenerator
@@ -388,4 +500,9 @@ func AddIndependentPropertyGeneratorsForRoleAssignment_Spec(gens map[string]gopt
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalType"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForRoleAssignment_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRoleAssignment_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(RoleAssignmentOperatorSpecGenerator())
 }

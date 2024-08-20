@@ -318,6 +318,10 @@ type RoleDefinition_Spec struct {
 	// Description: The role definition description.
 	Description *string `json:"description,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *RoleDefinitionOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
@@ -408,6 +412,8 @@ func (definition *RoleDefinition_Spec) PopulateFromARM(owner genruntime.Arbitrar
 			definition.Description = &description
 		}
 	}
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	definition.Owner = &owner
@@ -519,6 +525,18 @@ func (definition *RoleDefinition_Spec) AssignProperties_From_RoleDefinition_Spec
 	// Description
 	definition.Description = genruntime.ClonePointerToString(source.Description)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec RoleDefinitionOperatorSpec
+		err := operatorSpec.AssignProperties_From_RoleDefinitionOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_RoleDefinitionOperatorSpec() to populate field OperatorSpec")
+		}
+		definition.OperatorSpec = &operatorSpec
+	} else {
+		definition.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -578,6 +596,18 @@ func (definition *RoleDefinition_Spec) AssignProperties_To_RoleDefinition_Spec(d
 
 	// Description
 	destination.Description = genruntime.ClonePointerToString(definition.Description)
+
+	// OperatorSpec
+	if definition.OperatorSpec != nil {
+		var operatorSpec storage.RoleDefinitionOperatorSpec
+		err := definition.OperatorSpec.AssignProperties_To_RoleDefinitionOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_RoleDefinitionOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = definition.OriginalVersion()
@@ -1250,6 +1280,43 @@ func (permission *Permission_STATUS) AssignProperties_To_Permission_STATUS(desti
 
 	// NotDataActions
 	destination.NotDataActions = genruntime.CloneSliceOfString(permission.NotDataActions)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type RoleDefinitionOperatorSpec struct {
+	// NamingConvention: The uuid generation technique to use for any role without an explicit AzureName. One of 'stable' or
+	// 'random'.
+	// +kubebuilder:validation:Enum={"random","stable"}
+	NamingConvention *string `json:"namingConvention,omitempty"`
+}
+
+// AssignProperties_From_RoleDefinitionOperatorSpec populates our RoleDefinitionOperatorSpec from the provided source RoleDefinitionOperatorSpec
+func (operator *RoleDefinitionOperatorSpec) AssignProperties_From_RoleDefinitionOperatorSpec(source *storage.RoleDefinitionOperatorSpec) error {
+
+	// NamingConvention
+	operator.NamingConvention = genruntime.ClonePointerToString(source.NamingConvention)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RoleDefinitionOperatorSpec populates the provided destination RoleDefinitionOperatorSpec from our RoleDefinitionOperatorSpec
+func (operator *RoleDefinitionOperatorSpec) AssignProperties_To_RoleDefinitionOperatorSpec(destination *storage.RoleDefinitionOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// NamingConvention
+	destination.NamingConvention = genruntime.ClonePointerToString(operator.NamingConvention)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

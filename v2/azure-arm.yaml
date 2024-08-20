@@ -1126,6 +1126,10 @@ objectModelConfiguration:
         $export: true
         $supportedFrom: v2.0.0-alpha.2
         $defaultAzureName: false
+        $operatorSpecProperties:
+          - name: NamingConvention
+            type: string
+            description: The uuid generation technique to use for any role without an explicit AzureName. One of 'stable' or 'random'. <br> +kubebuilder:validation:Enum={"random","stable"}
       RoleAssignmentProperties:
         DelegatedManagedIdentityResourceId:
           $armReference: true 
@@ -1138,6 +1142,10 @@ objectModelConfiguration:
         $export: true
         $supportedFrom: v2.4.0
         $defaultAzureName: false
+        $operatorSpecProperties:
+          - name: NamingConvention
+            type: string
+            description: The uuid generation technique to use for any role without an explicit AzureName. One of 'stable' or 'random'. <br> +kubebuilder:validation:Enum={"random","stable"}
       RoleAssignmentProperties:
         DelegatedManagedIdentityResourceId:
           $armReference: true
@@ -1149,6 +1157,10 @@ objectModelConfiguration:
         $export: true
         $supportedFrom: v2.8.0
         $defaultAzureName: false
+        $operatorSpecProperties:
+          - name: NamingConvention
+            type: string
+            description: The uuid generation technique to use for any role without an explicit AzureName. One of 'stable' or 'random'. <br> +kubebuilder:validation:Enum={"random","stable"}
       RoleDefinitionProperties:
         AssignableScopes:
           $armReference: true

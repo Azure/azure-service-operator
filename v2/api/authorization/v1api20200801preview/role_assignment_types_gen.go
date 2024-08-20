@@ -348,6 +348,10 @@ type RoleAssignment_Spec struct {
 	// Description: Description of role assignment
 	Description *string `json:"description,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *RoleAssignmentOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
@@ -482,6 +486,8 @@ func (assignment *RoleAssignment_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	assignment.Owner = &owner
 
@@ -584,6 +590,18 @@ func (assignment *RoleAssignment_Spec) AssignProperties_From_RoleAssignment_Spec
 	// Description
 	assignment.Description = genruntime.ClonePointerToString(source.Description)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec RoleAssignmentOperatorSpec
+		err := operatorSpec.AssignProperties_From_RoleAssignmentOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_RoleAssignmentOperatorSpec() to populate field OperatorSpec")
+		}
+		assignment.OperatorSpec = &operatorSpec
+	} else {
+		assignment.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -648,6 +666,18 @@ func (assignment *RoleAssignment_Spec) AssignProperties_To_RoleAssignment_Spec(d
 
 	// Description
 	destination.Description = genruntime.ClonePointerToString(assignment.Description)
+
+	// OperatorSpec
+	if assignment.OperatorSpec != nil {
+		var operatorSpec storage.RoleAssignmentOperatorSpec
+		err := assignment.OperatorSpec.AssignProperties_To_RoleAssignmentOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_RoleAssignmentOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = assignment.OriginalVersion()
@@ -1075,6 +1105,43 @@ func (assignment *RoleAssignment_STATUS) AssignProperties_To_RoleAssignment_STAT
 
 	// UpdatedOn
 	destination.UpdatedOn = genruntime.ClonePointerToString(assignment.UpdatedOn)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type RoleAssignmentOperatorSpec struct {
+	// NamingConvention: The uuid generation technique to use for any role without an explicit AzureName. One of 'stable' or
+	// 'random'.
+	// +kubebuilder:validation:Enum={"random","stable"}
+	NamingConvention *string `json:"namingConvention,omitempty"`
+}
+
+// AssignProperties_From_RoleAssignmentOperatorSpec populates our RoleAssignmentOperatorSpec from the provided source RoleAssignmentOperatorSpec
+func (operator *RoleAssignmentOperatorSpec) AssignProperties_From_RoleAssignmentOperatorSpec(source *storage.RoleAssignmentOperatorSpec) error {
+
+	// NamingConvention
+	operator.NamingConvention = genruntime.ClonePointerToString(source.NamingConvention)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RoleAssignmentOperatorSpec populates the provided destination RoleAssignmentOperatorSpec from our RoleAssignmentOperatorSpec
+func (operator *RoleAssignmentOperatorSpec) AssignProperties_To_RoleAssignmentOperatorSpec(destination *storage.RoleAssignmentOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// NamingConvention
+	destination.NamingConvention = genruntime.ClonePointerToString(operator.NamingConvention)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

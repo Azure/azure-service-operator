@@ -4,12 +4,15 @@ github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801previe
 APIVersion: Enum (1 value)
 └── "2020-08-01-preview"
 RoleAssignment: Resource
-├── Spec: Object (12 properties)
+├── Spec: Object (13 properties)
 │   ├── AzureName: string
 │   ├── Condition: *string
 │   ├── ConditionVersion: *string
 │   ├── DelegatedManagedIdentityResourceReference: *genruntime.ResourceReference
 │   ├── Description: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── NamingConvention: *string
+│   │   └── PropertyBag: genruntime.PropertyBag
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.ArbitraryOwnerReference
 │   ├── PrincipalId: *string
@@ -36,5 +39,6 @@ RoleAssignment: Resource
     ├── UpdatedBy: *string
     └── UpdatedOn: *string
 augmentConversionForRoleAssignment: Interface
+augmentConversionForRoleAssignmentOperatorSpec: Interface
 augmentConversionForRoleAssignment_STATUS: Interface
 augmentConversionForRoleAssignment_Spec: Interface

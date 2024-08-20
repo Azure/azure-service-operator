@@ -4,12 +4,15 @@ github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/stora
 APIVersion: Enum (1 value)
 └── "2022-04-01"
 RoleAssignment: Resource
-├── Spec: Object (12 properties)
+├── Spec: Object (13 properties)
 │   ├── AzureName: string
 │   ├── Condition: *string
 │   ├── ConditionVersion: *string
 │   ├── DelegatedManagedIdentityResourceReference: *genruntime.ResourceReference
 │   ├── Description: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── NamingConvention: *string
+│   │   └── PropertyBag: genruntime.PropertyBag
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.ArbitraryOwnerReference
 │   ├── PrincipalId: *string
@@ -36,10 +39,13 @@ RoleAssignment: Resource
     ├── UpdatedBy: *string
     └── UpdatedOn: *string
 RoleDefinition: Resource
-├── Spec: Object (9 properties)
+├── Spec: Object (10 properties)
 │   ├── AssignableScopesReferences: genruntime.ResourceReference[]
 │   ├── AzureName: string
 │   ├── Description: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── NamingConvention: *string
+│   │   └── PropertyBag: genruntime.PropertyBag
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.ArbitraryOwnerReference
 │   ├── Permissions: Object (5 properties)[]
