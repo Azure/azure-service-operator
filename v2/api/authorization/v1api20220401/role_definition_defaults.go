@@ -20,7 +20,7 @@ func (definition *RoleDefinition) CustomDefault() {
 
 // defaultAzureName performs special AzureName defaulting for RoleDefinition by generating a GUID
 // based on the Role name.
-// The GUID generation technique is picked by the user using OperatorSpec.UUIDGeneration property if they want
+// The GUID generation technique is picked by the user using OperatorSpec.NamingConvention property if they want
 // the GUID to be a stable or random string. Stable being the default.
 // Stable GUID algorithm:
 // We generate stable the UUID using UUIDv5 with a seed string based on the group+kind of the RoleDefinition and the
