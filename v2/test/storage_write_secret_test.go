@@ -13,6 +13,7 @@ import (
 
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -37,6 +38,7 @@ func Test_StorageAccount_Secret_CRUD(t *testing.T) {
 			Sku: &storage.Sku{
 				Name: &sku,
 			},
+			AllowBlobPublicAccess: to.Ptr(false),
 			// TODO: They mark this property as optional but actually it is required
 			AccessTier: &accessTier,
 			OperatorSpec: &storage.StorageAccountOperatorSpec{

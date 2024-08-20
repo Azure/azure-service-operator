@@ -37,7 +37,8 @@ func Test_OwnerIsARMIDThatDoesntExist_ResourceFailsWithWarning(t *testing.T) {
 			Sku: &storage.Sku{
 				Name: to.Ptr(storage.SkuName_Standard_LRS),
 			},
-			AccessTier: to.Ptr(storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot),
+			AllowBlobPublicAccess: to.Ptr(false),
+			AccessTier:            to.Ptr(storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot),
 		},
 	}
 
@@ -71,7 +72,8 @@ func Test_OwnerIsARMID_OwnerDeleted_ResourceFailsWithWarning(t *testing.T) {
 			Sku: &storage.Sku{
 				Name: to.Ptr(storage.SkuName_Standard_LRS),
 			},
-			AccessTier: to.Ptr(storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot),
+			AllowBlobPublicAccess: to.Ptr(false),
+			AccessTier:            to.Ptr(storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot),
 		},
 	}
 

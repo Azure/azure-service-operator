@@ -245,6 +245,7 @@ func newStorageAccount(tc *testcommon.KubePerTestContext, rg *resources.Resource
 			Sku: &storage.Sku{
 				Name: &sku,
 			},
+			AllowBlobPublicAccess: to.Ptr(false),
 			// TODO: They mark this property as optional but actually it is required
 			AccessTier: &accessTier,
 		},
