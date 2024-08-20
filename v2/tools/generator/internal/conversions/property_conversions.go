@@ -306,7 +306,7 @@ func writeToBagItem(
 			addToBag := astbuilder.CallQualifiedFuncAsStmt(
 				conversionContext.PropertyBagName(),
 				"Add",
-				astbuilder.StringLiteralf(destinationEndpoint.Name()),
+				astbuilder.StringLiteral(destinationEndpoint.Name()),
 				expr)
 
 			return astbuilder.Statements(addToBag)
@@ -316,7 +316,7 @@ func writeToBagItem(
 		removeFromBag := astbuilder.CallQualifiedFuncAsStmt(
 			conversionContext.PropertyBagName(),
 			"Remove",
-			astbuilder.StringLiteralf(destinationEndpoint.Name()))
+			astbuilder.StringLiteral(destinationEndpoint.Name()))
 
 		// condition is a test to use to see whether we have a value to write to the property bag
 		// If we unilaterally write to the bag, this will be nil

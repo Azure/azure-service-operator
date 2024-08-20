@@ -139,7 +139,7 @@ func errorIfSpecStatusOverlap(statusDefinitions astmodel.TypeDefinitionSet, defi
 			}
 		}
 
-		return errors.Errorf(result.String())
+		return errors.New(result.String())
 	}
 
 	return nil
