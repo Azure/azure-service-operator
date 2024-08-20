@@ -12,7 +12,7 @@ import (
 	. "github.com/onsi/gomega"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -37,8 +37,7 @@ func Test_OwnerIsARMIDThatDoesntExist_ResourceFailsWithWarning(t *testing.T) {
 			Sku: &storage.Sku{
 				Name: to.Ptr(storage.SkuName_Standard_LRS),
 			},
-			AllowBlobPublicAccess: to.Ptr(false),
-			AccessTier:            to.Ptr(storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot),
+			AccessTier: to.Ptr(storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot),
 		},
 	}
 
@@ -72,8 +71,7 @@ func Test_OwnerIsARMID_OwnerDeleted_ResourceFailsWithWarning(t *testing.T) {
 			Sku: &storage.Sku{
 				Name: to.Ptr(storage.SkuName_Standard_LRS),
 			},
-			AllowBlobPublicAccess: to.Ptr(false),
-			AccessTier:            to.Ptr(storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot),
+			AccessTier: to.Ptr(storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot),
 		},
 	}
 
