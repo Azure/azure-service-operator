@@ -172,6 +172,31 @@ env:
         name: identity-details
 ```
 
+### How can I feed the output of one resource into a parameter for the next?
+
+The answer changes a bit depending on the nature of the parameter.
+
+For resource ownership: Set the `spec.owner.name` field of the dependent resource to be "owned by" the owning resource.
+This will inform ASO that the owning resource needs to be deployed first.
+
+For cross-resource-relationships: A resource referring to another resource will have a field like 
+[diskEncryptionSetReference](https://azure.github.io/azure-service-operator/reference/containerservice/v1api20231001/#containerservice.azure.com/v1api20231001.ManagedCluster_Spec).
+Set the reference to point to the resource you want:
+```yaml
+diskEncryptionSetReference:
+  group: compute.azure.com
+  kind: DiskEncryptionSet
+  name: my-disk-encryption-set
+```
+
+For other fields: Not every field can be exported/imported. ASO does not have general purpose DAG support, nor does it have a
+general-purpose templating language to describe such relationships. Instead, important properties can be imported/exported
+from `ConfigMaps` or `Secrets`. See [setting UMI details on pods](#when-using-workload-identity-how-can-i-easily-inject-the-aso-created-user-managed-identity-details-onto-the-service-account)
+above for one example of this. Another example can be found in 
+[the authorization samples](https://github.com/Azure/azure-service-operator/blob/fe248787385af1b7b813e7bc2c8dbc595b8b4006/v2/samples/authorization/v1api20220401/v1api20220401_roleassignment.yaml#L12-L15), 
+which reads the `principalId` from the `ConfigMap` written by 
+[the associated identity](https://github.com/Azure/azure-service-operator/blob/main/v2/samples/authorization/v1api20220401/refs/v1api20181130_userassignedidentity.yaml).
+
 ### What should I know about RoleAssignment naming in ASO?
 
 The `RoleAssignment` resource is required to have a name in Azure which is a UUID. Since it's difficult to make a 

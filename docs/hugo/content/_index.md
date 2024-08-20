@@ -105,7 +105,11 @@ recommended on AKS Free-tier clusters.
 See [CRD management](https://azure.github.io/azure-service-operator/guide/crd-management/) for more details.
 {{% /alert %}}
 
-   Alternatively you can install from the [release YAML directly](https://azure.github.io/azure-service-operator/guide/installing-from-yaml/).
+{{% alert title="Note" %}}
+When installing ASO in an AKS cluster, see [AKS Best Practices]({{< relref "best-practices#aks-best-practices" >}}).
+{{% /alert %}}
+
+Alternatively you can install from the [release YAML directly](https://azure.github.io/azure-service-operator/guide/installing-from-yaml/).
 
 #### Create a Managed Identity or Service Principal
 
