@@ -13,7 +13,7 @@ import (
 
 	networkvnet "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701"
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
