@@ -33,7 +33,7 @@ const (
 )
 
 // Regex to match '/00000000-0000-0000-0000-000000000000' strings, to replace with the subscriptionID
-var subRegex = regexp.MustCompile("\\/([0]+-?)+")
+var subRegex = regexp.MustCompile(`/([0]+-?)+`)
 
 // An empty GUID, used to replace the subscriptionID and tenantID in the sample files
 var emptyGuid = uuid.Nil.String()
@@ -210,7 +210,7 @@ func (t *SamplesTester) getObjectFromFile(path string) (client.Object, error) {
 		return nil, errors.Wrapf(err, "while decoding %s", path)
 	}
 
-	return obj.(client.Object), nil
+	return obj, nil
 }
 
 func (t *SamplesTester) setSamplesOwnershipAndReferences(samples map[string]client.Object, refs map[string]client.Object) error {
@@ -232,11 +232,12 @@ func (t *SamplesTester) setSamplesOwnershipAndReferences(samples map[string]clie
 			ownersName = t.rgName
 		} else if t.useRandomName {
 			// Check if the owner exists in refs, then continue. We don't use random names for refs so its correct anyway.
-			owner, found := refs[asoType.Owner().Kind]
+			_, found := refs[asoType.Owner().Kind]
 			if found {
 				continue
 			}
 
+			var owner client.Object
 			owner, found = samples[asoType.Owner().Kind]
 			if !found {
 				return fmt.Errorf("owner: %s, does not exist for resource '%s'", asoType.Owner().Kind, gk)

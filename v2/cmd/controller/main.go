@@ -17,7 +17,7 @@ import (
 
 func main() {
 	setupLog := ctrl.Log.WithName("setup")
-	ctrl.SetLogger(klogr.New())
+	ctrl.SetLogger(klogr.New()) //nolint: staticcheck
 	ctx := ctrl.SetupSignalHandler()
 
 	flgs, err := app.ParseFlags(os.Args)

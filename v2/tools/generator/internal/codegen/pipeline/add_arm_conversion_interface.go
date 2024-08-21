@@ -11,7 +11,6 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/armconversion"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -219,11 +218,6 @@ func (c *armConversionApplier) transformSpec(resourceType *astmodel.ResourceType
 	}
 
 	return kubernetesDef, nil
-}
-
-type PayloadTypeDetails struct {
-	payloadType                       config.PayloadType
-	explicitEmptyCollectionProperties set.Set[astmodel.PropertyReference]
 }
 
 func (c *armConversionApplier) addARMConversionInterface(

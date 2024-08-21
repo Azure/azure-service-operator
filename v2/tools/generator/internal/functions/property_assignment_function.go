@@ -10,9 +10,8 @@ import (
 	"go/token"
 	"sort"
 
-	"github.com/pkg/errors"
-
 	"github.com/dave/dst"
+	"github.com/pkg/errors"
 	"golang.org/x/exp/maps"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
@@ -384,20 +383,4 @@ func (fn *PropertyAssignmentFunction) generateAssignments(
 	}
 
 	return result, nil
-}
-
-// sourceType returns the type we are reading information from
-// When converting FROM, otherDefinition.Type() is our source
-// When converting TO, receiverDefinition.Type() is our source
-// Our inverse is destinationType()
-func (fn *PropertyAssignmentFunction) sourceType() astmodel.Type {
-	return fn.direction.SelectType(fn.otherDefinition.Type(), fn.receiverDefinition.Type())
-}
-
-// destinationType returns the type we are writing information from
-// When converting FROM, receiverDefinition.Type() is our source
-// When converting TO, otherDefinition.Type() is our source
-// Our inverse is sourceType()
-func (fn *PropertyAssignmentFunction) destinationType() astmodel.Type {
-	return fn.direction.SelectType(fn.receiverDefinition.Type(), fn.otherDefinition.Type())
 }

@@ -11,16 +11,14 @@ import (
 	"os"
 	"sort"
 
-	"github.com/Azure/azure-service-operator/v2/internal/set"
+	"github.com/pkg/errors"
 	"golang.org/x/exp/slices"
 
-	"github.com/pkg/errors"
-
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
 type TypeCatalogReport struct {
-	title                  string
 	defs                   astmodel.TypeDefinitionSet
 	inlinedTypes           astmodel.TypeNameSet // Set of types that we inline when generating the report
 	optionIncludeFunctions bool

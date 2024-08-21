@@ -61,11 +61,7 @@ func secretsSpecified(obj *mysql.FlexibleServer) bool {
 	}
 
 	secrets := obj.Spec.OperatorSpec.Secrets
-	if secrets.FullyQualifiedDomainName != nil {
-		return true
-	}
-
-	return false
+	return secrets.FullyQualifiedDomainName != nil
 }
 
 func secretsToWrite(obj *mysql.FlexibleServer) ([]*v1.Secret, error) {

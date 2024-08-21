@@ -95,11 +95,7 @@ func (s SubPackageReference) Parent() PackageReference {
 }
 
 func (s SubPackageReference) LocalPathPrefix() string {
-	if lpr, ok := s.parent.(InternalPackageReference); ok {
-		return lpr.LocalPathPrefix()
-	}
-
-	panic("SubPackageReference parent is not a InternalPackageReference")
+	return s.parent.LocalPathPrefix()
 }
 
 func (s SubPackageReference) Version() string {

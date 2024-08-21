@@ -380,14 +380,3 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 	return nil
 }
-
-// configuredProperties returns a sorted slice containing all the properties configured on this type
-func (tc *TypeConfiguration) configuredProperties() []string {
-	result := make([]string, 0, len(tc.properties))
-	for _, c := range tc.properties {
-		// Use the actual names of the properties, not the lower-cased keys of the map
-		result = append(result, c.name)
-	}
-
-	return result
-}

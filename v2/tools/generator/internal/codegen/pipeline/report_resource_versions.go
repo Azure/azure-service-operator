@@ -136,6 +136,11 @@ func (report *ResourceVersionsReport) loadFragments() error {
 	err := filepath.WalkDir(
 		fragmentsPath,
 		func(path string, info fs.DirEntry, err error) error {
+			if err != nil {
+				// Failed to walk into path, abort early and propagate error
+				return err
+			}
+
 			// Skip subdirectories
 			if info.IsDir() {
 				return nil
@@ -549,6 +554,11 @@ func (report *ResourceVersionsReport) FindSampleLinks(group string) (map[string]
 		}
 
 		err = filepath.WalkDir(basePath, func(filePath string, d fs.DirEntry, err error) error {
+			if err != nil {
+				// Failed to walk into path, abort early and propagate error
+				return err
+			}
+
 			// We don't include 'refs' directory here, as it contains dependency references for the group and is purely for
 			// samples testing.
 			if !d.IsDir() && filepath.Base(filepath.Dir(filePath)) != "refs" {

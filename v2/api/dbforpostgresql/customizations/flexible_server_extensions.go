@@ -67,11 +67,7 @@ func secretsSpecified(obj *postgresql.FlexibleServer) bool {
 	}
 
 	operatorSecrets := obj.Spec.OperatorSpec.Secrets
-	if operatorSecrets.FullyQualifiedDomainName != nil {
-		return true
-	}
-
-	return false
+	return operatorSecrets.FullyQualifiedDomainName != nil
 }
 
 func secretsToWrite(obj *postgresql.FlexibleServer) ([]*v1.Secret, error) {

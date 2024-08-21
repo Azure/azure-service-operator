@@ -9,6 +9,7 @@ import (
 	"context"
 	"os"
 	"os/signal"
+	"syscall"
 )
 
 // MakeInterruptibleContext returns a context that will be cancelled when an interrupt signal is received.
@@ -18,7 +19,7 @@ func MakeInterruptibleContext(ctx context.Context) context.Context {
 
 	// Wait for a signal to quit
 	signalChan := make(chan os.Signal, 1)
-	signal.Notify(signalChan, os.Interrupt, os.Kill)
+	signal.Notify(signalChan, os.Interrupt, syscall.SIGTERM)
 
 	go func() {
 		<-signalChan

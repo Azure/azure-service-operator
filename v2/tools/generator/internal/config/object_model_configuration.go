@@ -314,17 +314,6 @@ func (omc *ObjectModelConfiguration) UnmarshalYAML(value *yaml.Node) error {
 	return nil
 }
 
-// configuredGroups returns a sorted slice containing all the groups configured in this group
-func (omc *ObjectModelConfiguration) configuredGroups() []string {
-	result := make([]string, 0, len(omc.groups))
-	for _, g := range omc.groups {
-		// Use the actual names of the groups, not the lower-cased keys of the map
-		result = append(result, g.name)
-	}
-
-	return result
-}
-
 // ModifyGroup allows the configuration of a specific group to be modified.
 // If configuration for that group doesn't exist, it will be created.
 // While intended for test use, this isn't in a _test.go file as we want to use it from tests in multiple packages.

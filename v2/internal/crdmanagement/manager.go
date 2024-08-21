@@ -125,7 +125,7 @@ func (m *Manager) FindMatchingCRDs(
 
 		equal := true
 		for _, c := range comparators {
-			if c(existingCRD, goalCRD) == false {
+			if c(existingCRD, goalCRD) == false { //nolint: gosimple
 				equal = false
 				break
 			}

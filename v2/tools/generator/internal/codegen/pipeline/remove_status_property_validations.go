@@ -43,12 +43,10 @@ func RemoveStatusValidations() *Stage {
 				return nil, err
 			}
 
-			/* TODO(donotmerge)
 			err = errorIfSpecStatusOverlap(result, state.Definitions())
 			if err != nil {
 				return nil, err
 			}
-			*/
 
 			return state.WithOverlaidDefinitions(result), nil
 		})
@@ -94,8 +92,7 @@ type overlapError struct {
 	statusRefs []astmodel.TypeName
 }
 
-// TODO: Remove nolint below
-func errorIfSpecStatusOverlap(statusDefinitions astmodel.TypeDefinitionSet, definitions astmodel.TypeDefinitionSet) error { // nolint:deadcode
+func errorIfSpecStatusOverlap(statusDefinitions astmodel.TypeDefinitionSet, definitions astmodel.TypeDefinitionSet) error {
 	allSpecTypes, err := astmodel.FindSpecConnectedDefinitions(definitions)
 	if err != nil {
 		return errors.Wrap(err, "couldn't find all spec definitions")

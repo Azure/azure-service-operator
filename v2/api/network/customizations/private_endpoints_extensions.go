@@ -90,7 +90,7 @@ func (extension *PrivateEndpointExtension) ExportKubernetesResources(
 		return nil, nil
 	}
 
-	if endpoint.Status.NetworkInterfaces == nil || len(endpoint.Status.NetworkInterfaces) == 0 {
+	if len(endpoint.Status.NetworkInterfaces) == 0 {
 		log.V(Debug).Info("no configmap retrieval to perform as there are no NetworkInterfaces attached")
 		return nil, nil
 	}

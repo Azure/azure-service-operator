@@ -17,6 +17,7 @@ import (
 	"github.com/go-openapi/spec"
 	"github.com/pkg/errors"
 	"golang.org/x/exp/slices"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -266,7 +267,7 @@ func (extractor *SwaggerTypeExtractor) extractOneResourceType(
 				astmodel.DiffTypes(existingResource.SpecType, resourceSpec))
 		}
 	} else {
-		if resourceSpec != nil && resourceStatus == nil {
+		if resourceStatus == nil {
 			fmt.Printf("generated nil resourceStatus for %s\n", resourceName)
 			return nil
 		}
@@ -332,7 +333,8 @@ func (extractor *SwaggerTypeExtractor) ExtractOneOfTypes(
 		result.OtherDefinitions[typeName] = astmodel.MakeTypeDefinition(typeName, t)
 	}
 
-	return nil
+	err := kerrors.NewAggregate(errs)
+	return err
 }
 
 // Look at the responses of the PUT to determine if this represents an ARM resource,

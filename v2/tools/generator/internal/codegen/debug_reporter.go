@@ -32,11 +32,7 @@ func (dr *debugReporter) ReportStage(stage int, description string, state *pipel
 	included := state.Definitions().Where(
 		func(def astmodel.TypeDefinition) bool {
 			// Allow matching just the group (e.g. network)
-			if dr.settings.MatchesGroup(def.Name().InternalPackageReference()) {
-				return true
-			}
-
-			return false
+			return dr.settings.MatchesGroup(def.Name().InternalPackageReference())
 		})
 
 	tcr := reporting.NewTypeCatalogReport(included, reporting.IncludeFunctions)

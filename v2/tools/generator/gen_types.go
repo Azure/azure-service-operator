@@ -78,33 +78,6 @@ func NewGenTypesCommand() (*cobra.Command, error) {
 	return cmd, nil
 }
 
-type stackTracer interface {
-	StackTrace() errors.StackTrace
-}
-
-// findDeepestTrace returns the stack trace from the furthest error
-// down the chain that has one. We can't just use errors.Cause(err)
-// here because the innermost error may not have been created by
-// pkg/errors (gasp).
-func findDeepestTrace(err error) (errors.StackTrace, bool) {
-	nested := errors.Unwrap(err)
-	if nested != nil {
-		if tr, ok := findDeepestTrace(nested); ok {
-			// We've found the deepest trace, ,return it
-			return tr, true
-		}
-	}
-
-	// No stack trace found (yet), see if we have it at this level
-	//nolint:errorlint // We're walking wrapped errors ourselves
-	if tracer, ok := err.(stackTracer); ok {
-		return tracer.StackTrace(), true
-	}
-
-	// No stack found at this, or any deeper, level
-	return nil, false
-}
-
 func createDebugPrefix(debugMode string) string {
 	var builder strings.Builder
 	builder.WriteString("aso-gen-debug-")

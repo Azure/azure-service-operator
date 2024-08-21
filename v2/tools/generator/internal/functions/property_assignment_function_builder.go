@@ -8,10 +8,11 @@ package functions
 import (
 	"strings"
 
-	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
 	"golang.org/x/exp/slices"
+
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/conversions"
@@ -29,10 +30,6 @@ type PropertyAssignmentFunctionBuilder struct {
 	conversions map[string]StoragePropertyConversion
 	// direction indicates the kind of conversion we are generating
 	direction conversions.Direction
-	// identifier to use for our receiver in generated code
-	receiverName string
-	// identifier to use for our parameter in generated code
-	parameterName string
 	// readsFromPropertyBag keeps track of whether we will be reading property values from a property bag
 	readsFromPropertyBag bool
 	// writesToPropertyBag keeps track of whether we will be writing property values into a property bag

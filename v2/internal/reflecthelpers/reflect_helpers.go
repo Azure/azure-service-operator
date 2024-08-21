@@ -199,9 +199,7 @@ func FindOptionalConfigMapReferences(obj interface{}) ([]*configmaps.OptionalRef
 	// Translate our collector into a simple list
 	var result []*configmaps.OptionalReferencePair
 	for _, values := range collector {
-		for _, val := range values {
-			result = append(result, val)
-		}
+		result = append(result, values...)
 	}
 
 	return result, nil

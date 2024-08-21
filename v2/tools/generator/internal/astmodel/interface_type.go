@@ -173,11 +173,8 @@ func (i *InterfaceType) Equals(t Type, overrides EqualityOverrides) bool {
 	equalityFunc := func(l, r Function) bool {
 		return l.Equals(r, overrides)
 	}
-	if !i.functions.Equals(other.functions, equalityFunc) {
-		return false
-	}
 
-	return true
+	return i.functions.Equals(other.functions, equalityFunc)
 }
 
 // String implements fmt.Stringer

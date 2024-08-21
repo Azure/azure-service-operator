@@ -8,21 +8,21 @@ package config
 import (
 	"fmt"
 
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/pkg/errors"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
+
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
 // TransformResult is used to specify the result of a transformation
 type TransformResult struct {
-	Group        FieldMatcher           `yaml:",omitempty"`
-	Version      FieldMatcher           `yaml:"version,omitempty"`
-	Name         FieldMatcher           `yaml:",omitempty"`
-	Optional     bool                   `yaml:",omitempty"`
-	Map          *MapResult             `yaml:",omitempty"`
-	Enum         *EnumResult            `yaml:",omitempty"`
-	appliesCache map[astmodel.Type]bool // cache for the results of AppliesToType()
+	Group    FieldMatcher `yaml:",omitempty"`
+	Version  FieldMatcher `yaml:"version,omitempty"`
+	Name     FieldMatcher `yaml:",omitempty"`
+	Optional bool         `yaml:",omitempty"`
+	Map      *MapResult   `yaml:",omitempty"`
+	Enum     *EnumResult  `yaml:",omitempty"`
 }
 
 type MapResult struct {
