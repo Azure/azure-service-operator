@@ -150,7 +150,7 @@ func (r *azureDeploymentReconcilerInstance) MakeReadyConditionImpactingErrorFrom
 	}
 
 	// Stick errorDetails.Message into an error so that it will be displayed as the message on the condition
-	err = errors.Wrapf(cloudError, details.Message)
+	err = errors.Wrap(cloudError, details.Message)
 	reason := conditions.MakeReason(details.Code)
 	result := conditions.NewReadyConditionImpactingError(err, severity, reason)
 

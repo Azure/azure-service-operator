@@ -126,7 +126,7 @@ func addRoles(ctx context.Context, db *sql.DB, user SQLUser, roles set.Set[strin
 		errorStrings = append(errorStrings, err.Error())
 	}
 	if len(errorStrings) != 0 {
-		return fmt.Errorf(strings.Join(errorStrings, "\n"))
+		return errors.New(strings.Join(errorStrings, "\n"))
 	}
 	return err
 }
