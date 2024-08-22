@@ -33,10 +33,6 @@ type servicePrincipalDetails struct {
 func Test_RedHatOpenShift_OpenShiftCluster_CRUD(t *testing.T) {
 	t.Parallel()
 
-	if *isLive {
-		t.Skip("ARO cluster test requires ServicePrincipal creation and referenced in the cluster object.")
-	}
-
 	tc := globalTestContext.ForTest(t)
 	rg := tc.CreateTestResourceGroupAndWait()
 
