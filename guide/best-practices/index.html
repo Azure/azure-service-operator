@@ -712,6 +712,12 @@
         <li><a href="#namespace-per-environment">Namespace per environment</a></li>
       </ul>
     </li>
+    <li><a href="#aks-best-practices">AKS Best Practices</a>
+      <ul>
+        <li><a href="#crdpattern">CRDPattern</a></li>
+        <li><a href="#affinity">Affinity</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
       </div>
@@ -815,7 +821,24 @@ has an <code>aso-credential</code> with permissions to manage the environment in
 <p>A variant on this is <strong>namespace per developer</strong>, where each developer gets their own <code>dev-alice</code> or <code>dev-bob</code> namespace,
 rather than the whole team sharing a single <code>dev</code> namespace. Each <code>dev</code> namespace can point to a separate dev
 subscription or share the same dev subscription.</p>
-
+<h2 id="aks-best-practices">AKS Best Practices</h2>
+<h3 id="crdpattern">CRDPattern</h3>
+<p>As described in the <a href="/azure-service-operator/guide/crd-management/">CRD Management</a> section, avoid installing a large number of CRDs
+into a Free tier AKS cluster.</p>
+<h3 id="affinity">Affinity</h3>
+<p>If ASO is critical to your cluster/service operation, consider forcing the ASO pods to the <code>System</code> node pool which can
+often be less CPU/memory loaded than the <code>User</code> pools. This can be done with the following modification to the Helm
+<code>values.yaml</code> prior to installation:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">affinity</span>:
+  <span style="color:#f92672">nodeAffinity</span>:
+    <span style="color:#f92672">requiredDuringSchedulingIgnoredDuringExecution</span>:
+      <span style="color:#f92672">nodeSelectorTerms</span>:
+        - <span style="color:#f92672">matchExpressions</span>:
+          - <span style="color:#f92672">key</span>: <span style="color:#ae81ff">kubernetes.azure.com/mode</span>
+            <span style="color:#f92672">operator</span>: <span style="color:#ae81ff">In</span>
+            <span style="color:#f92672">values</span>:
+              - <span style="color:#ae81ff">system</span>
+</code></pre></div>
         <div class="section-index">
     
     

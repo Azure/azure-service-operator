@@ -33,7 +33,7 @@ How are CVEs dealt with?" />
 <meta itemprop="description" content="Frequently Asked Questions What is the release cadence? We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen more quickly than that. If there haven&rsquo;t been any major changes (or there are ongoing major changes that are taking a long time) a release may happen more slowly. For an up-to-date plan check the milestone tracker.
 How are CVEs dealt with?">
 
-<meta itemprop="wordCount" content="1829">
+<meta itemprop="wordCount" content="1990">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="FAQ"/>
 <meta name="twitter:description" content="Frequently Asked Questions What is the release cadence? We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen more quickly than that. If there haven&rsquo;t been any major changes (or there are ongoing major changes that are taking a long time) a release may happen more slowly. For an up-to-date plan check the milestone tracker.
@@ -725,6 +725,7 @@ How are CVEs dealt with?"/>
         <li><a href="#why-doesnt-aso-have-built-in-templating">Why doesn&rsquo;t ASO have built-in templating?</a></li>
         <li><a href="#should-i-use-user-assigned-or-system-assigned-identity">Should I use user-assigned or system-assigned identity?</a></li>
         <li><a href="#when-using-workload-identity-how-can-i-easily-inject-the-aso-created-user-managed-identity-details-onto-the-service-account">When using Workload Identity, how can I easily inject the ASO created User Managed Identity details onto the service account?</a></li>
+        <li><a href="#how-can-i-feed-the-output-of-one-resource-into-a-parameter-for-the-next">How can I feed the output of one resource into a parameter for the next?</a></li>
         <li><a href="#what-should-i-know-about-roleassignment-naming-in-aso">What should I know about RoleAssignment naming in ASO?</a></li>
         <li><a href="#how-can-i-import-existing-azure-resources-into-aso">How can I import existing Azure resources into ASO?</a></li>
       </ul>
@@ -930,7 +931,25 @@ environment variable into the pods on which the ServiceAccount is used.</p>
       <span style="color:#f92672">configMapKeyRef</span>:
         <span style="color:#f92672">key</span>: <span style="color:#ae81ff">clientId</span>
         <span style="color:#f92672">name</span>: <span style="color:#ae81ff">identity-details</span>
-</code></pre></div><h3 id="what-should-i-know-about-roleassignment-naming-in-aso">What should I know about RoleAssignment naming in ASO?</h3>
+</code></pre></div><h3 id="how-can-i-feed-the-output-of-one-resource-into-a-parameter-for-the-next">How can I feed the output of one resource into a parameter for the next?</h3>
+<p>The answer changes a bit depending on the nature of the parameter.</p>
+<p>For resource ownership: Set the <code>spec.owner.name</code> field of the dependent resource to be &ldquo;owned by&rdquo; the owning resource.
+This will inform ASO that the owning resource needs to be deployed first.</p>
+<p>For cross-resource-relationships: A resource referring to another resource will have a field like
+<a href="https://azure.github.io/azure-service-operator/reference/containerservice/v1api20231001/#containerservice.azure.com/v1api20231001.ManagedCluster_Spec">diskEncryptionSetReference</a>.
+Set the reference to point to the resource you want:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">diskEncryptionSetReference</span>:
+  <span style="color:#f92672">group</span>: <span style="color:#ae81ff">compute.azure.com</span>
+  <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">DiskEncryptionSet</span>
+  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">my-disk-encryption-set</span>
+</code></pre></div><p>For other fields: Not every field can be exported/imported. ASO does not have general purpose DAG support, nor does it have a
+general-purpose templating language to describe such relationships. Instead, important properties can be imported/exported
+from <code>ConfigMaps</code> or <code>Secrets</code>. See <a href="#when-using-workload-identity-how-can-i-easily-inject-the-aso-created-user-managed-identity-details-onto-the-service-account">setting UMI details on pods</a>
+above for one example of this. Another example can be found in
+<a href="https://github.com/Azure/azure-service-operator/blob/fe248787385af1b7b813e7bc2c8dbc595b8b4006/v2/samples/authorization/v1api20220401/v1api20220401_roleassignment.yaml#L12-L15">the authorization samples</a>,
+which reads the <code>principalId</code> from the <code>ConfigMap</code> written by
+<a href="https://github.com/Azure/azure-service-operator/blob/main/v2/samples/authorization/v1api20220401/refs/v1api20181130_userassignedidentity.yaml">the associated identity</a>.</p>
+<h3 id="what-should-i-know-about-roleassignment-naming-in-aso">What should I know about RoleAssignment naming in ASO?</h3>
 <p>The <code>RoleAssignment</code> resource is required to have a name in Azure which is a UUID. Since it&rsquo;s difficult to make a
 UUID for each assignment, ASO attempts to generate a unique UUID automatically if one isn&rsquo;t specified. ASO does this
 by generating a UUID (v5) from a seed string with the following fields and setting it as the AzureName if one
