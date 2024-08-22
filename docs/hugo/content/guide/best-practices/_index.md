@@ -54,3 +54,27 @@ has an `aso-credential` with permissions to manage the environment in question.
 A variant on this is **namespace per developer**, where each developer gets their own `dev-alice` or `dev-bob` namespace,
 rather than the whole team sharing a single `dev` namespace. Each `dev` namespace can point to a separate dev
 subscription or share the same dev subscription. 
+
+## AKS Best Practices
+
+### CRDPattern
+
+As described in the [CRD Management]({{< relref "crd-management" >}}) section, avoid installing a large number of CRDs 
+into a Free tier AKS cluster.
+
+### Affinity
+
+If ASO is critical to your cluster/service operation, consider forcing the ASO pods to the `System` node pool which can
+often be less CPU/memory loaded than the `User` pools. This can be done with the following modification to the Helm
+`values.yaml` prior to installation:
+```yaml
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.azure.com/mode
+            operator: In
+            values:
+              - system
+```

@@ -164,6 +164,7 @@ tolerations: []
 # Node affinity functions like the nodeSelector field but is more expressive and allows you to specify soft rules.
 # Inter-pod affinity/anti-affinity allows you to constrain Pods against labels on other Pods.
 # For more information, see https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity
+# For specific affinity best practices on AKS clusters, see https://azure.github.io/azure-service-operator/guide/best-practices/#affinity
 affinity: {}
 
 # MaxConcurrentReconciles is the number of threads/goroutines dedicated to reconciling each resource type.
