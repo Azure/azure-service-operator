@@ -71,6 +71,9 @@ azureTargetNamespaces: []
 # watchers, webhooks or both.
 azureOperatorMode: ""
 
+# Opt-out for upgrade block
+disablePreUpgradeCheck: false
+
 webhook:
   # webhook.port determines the port the webhook endpoint binds to.
   port: 9443

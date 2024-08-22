@@ -1,3 +1,4 @@
+{{- if not .Values.disablePreUpgradeCheck }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -25,3 +26,4 @@ spec:
           requests:
             cpu: 200m
             memory: 256Mi
+{{- end }}
