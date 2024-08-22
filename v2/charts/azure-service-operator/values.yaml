@@ -200,3 +200,11 @@ rateLimit:
   qps: 5
   # The size of the bucket. This value only has an effect if mode is 'bucket'.
   bucketSize: 100
+
+serviceAccount:
+  # Specifies whether a ServiceAccount should be created
+  create: true
+  # The name of the ServiceAccount to use.
+  # If not set and create is true, `azureserviceoperator-default` would be used as a name
+  name: ""
+  annotations: {}

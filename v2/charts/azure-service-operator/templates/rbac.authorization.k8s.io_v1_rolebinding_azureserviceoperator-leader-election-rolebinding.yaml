@@ -9,5 +9,5 @@ roleRef:
   name: azureserviceoperator-leader-election-role
 subjects:
 - kind: ServiceAccount
-  name: azureserviceoperator-default
+  name: {{ include "azure-service-operator.serviceAccountName" . }}
   namespace: {{ .Release.Namespace }}

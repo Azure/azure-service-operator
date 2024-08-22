@@ -212,7 +212,7 @@ spec:
         {{- end }}
       nodeSelector:
         kubernetes.io/os: linux
-      serviceAccountName: azureserviceoperator-default
+      serviceAccountName: {{ include "azure-service-operator.serviceAccountName" . }}
       terminationGracePeriodSeconds: 10
       volumes:
       {{- if or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode "webhooks") }}
