@@ -132,10 +132,10 @@ installCRDs: true
 # together to enable other scenarios, such as dbformysql.azure.com/FlexibleServersFirewallRules, and it's generally
 # easier to just include the whole group.
 # See https://azure.github.io/azure-service-operator/guide/crd-management for more details.
-crdPattern: ''
+crdPattern: ""
 
-# podAnnotations contain the pod annotations for Azure Service Operator
-podAnnotations: {}
+# deploymentAnnotations contain the deployment annotations for Azure Service Operator
+deploymentAnnotations: {}
 
 # multitenant contains the value to enable multi-tenant mode for ASOv2. If multitenant.enable is true + azureOperatorMode set to "webhooks", chart will
 # install a cluster and if multitenant.enable is true + azureOperatorMode set to "watchers", chart will install a tenant.
@@ -154,6 +154,44 @@ networkPolicies:
   mysqlCIDR: 0.0.0.0/0
   # Destination CIDR for talking to PostgreSQL servers
   postgresqlCIDR: 0.0.0.0/0
+
+# Node labels for pod assignment
+# Ref: https://kubernetes.io/docs/user-guide/node-selection/
+nodeSelector:
+  kubernetes.io/os: linux
+
+# podAnnotations contain the pod annotations for Azure Service Operator
+podAnnotations: {}
+
+# Labels to be added to the pod
+podLabels: {}
+
+# The securityContext of the pod
+# See https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
+podSecurityContext: {}
+
+# Assign a PriorityClassName to pods if set
+priorityClassName: ""
+
+# Recomended initial values for resources
+# adjust them as necessary
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 200m
+    memory: 256Mi
+
+# Number of old history to retain to allow rollback
+# Default Kubernetes value is set to 10
+revisionHistoryLimit: 10
+
+# Specify security settings for a Container
+# Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
 
 # Tolerations are applied to pods. Tolerations allow the scheduler to schedule pods with matching taints. Tolerations allow scheduling but don't guarantee scheduling
 # For more information, see https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration.
