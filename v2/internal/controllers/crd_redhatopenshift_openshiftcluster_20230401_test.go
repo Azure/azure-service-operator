@@ -34,10 +34,6 @@ func Test_RedHatOpenShift_OpenShiftCluster_CRUD(t *testing.T) {
 	t.Parallel()
 	t.Skip("flaky right now")
 
-	if *isLive {
-		t.Skip("ARO cluster test requires ServicePrincipal creation and referenced in the cluster object.")
-	}
-
 	tc := globalTestContext.ForTest(t)
 	rg := tc.CreateTestResourceGroupAndWait()
 
